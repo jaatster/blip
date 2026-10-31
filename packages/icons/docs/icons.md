@@ -98,7 +98,7 @@ only for focus, coins and stars.
 
 **Actions** (33): `plus`, `minus`, `close`, `check`, `edit`, `trash`, `copy`, `paste`, `save`, `download`, `upload`, `share`, `link`, `unlink`, `search`, `filter`, `sort`, `undo`, `redo`, `settings`, `sliders`, `drag-handle`, `pin`, `lock`, `unlock`, `eye`, `eye-off`, `zoom-in`, `zoom-out`, `maximize`, `minimize`, `logout`, `login`.
 
-**Status** (18): `info`, `success`, `warning`, `error`, `alert`, `help`, `bell`, `bell-off`, `flag`, `bookmark`, `star`, `star-filled`, `heart`, `heart-filled`, `bolt`, `clock`, `hourglass`, `loader`.
+**Status** (19): `info`, `success`, `warning`, `error`, `alert`, `help`, `bell`, `bell-off`, `flag`, `bookmark`, `bookmark-outline`, `star`, `star-outline`, `heart`, `heart-outline`, `bolt`, `clock`, `hourglass`, `loader`.
 
 **Media** (17): `play`, `pause`, `stop`, `skip-next`, `skip-previous`, `fast-forward`, `rewind`, `volume`, `volume-low`, `mute`, `mic`, `mic-off`, `camera`, `image`, `video`, `music`, `headphones`.
 
@@ -114,7 +114,7 @@ only for focus, coins and stars.
 
 **Game** (17): `sword`, `shield`, `potion`, `key`, `chest`, `trophy`, `crown`, `gem`, `skull`, `map`, `compass`, `dice`, `target`, `rocket`, `critter`, `coin`, `bomb`.
 
-**Miscellaneous** (12): `globe`, `rss`, `code-brackets`, `terminal`, `bug`, `palette`, `brush`, `sparkle`, `lightbulb`, `puzzle`, `location-pin`, `ticket`.
+**Miscellaneous** (14): `globe`, `rss`, `code-brackets`, `terminal`, `bug`, `palette`, `brush`, `sparkle`, `lightbulb`, `puzzle`, `location-pin`, `ticket`, `grid`, `chart`.
 <!-- icons:end -->
 
 ## Drawing a new icon
@@ -122,66 +122,72 @@ only for focus, coins and stars.
 Icons are pixel maps in `src/<category>.icons`, one file per category. A block is a header and exactly 12 rows:
 
 ```text
-@ heart tags: love, like, favourite, health
+@ heart tags: love, like, liked, favourite, health, life
 ............
 ............
 ..XXX..XXX..
-.X...XX...X.
-.X........X.
-.X........X.
-..X......X..
-...X....X...
-....X..X....
+.XXXXXXXXXX.
+.XXXXXXXXXX.
+.XXXXXXXXXX.
+..XXXXXXXX..
+...XXXXXX...
+....XXXX....
 .....XX.....
 ............
 ............
 ```
 
 `X` is a pixel and `.` is empty. Names are kebab-case and unique across all files; name what the icon shows
-(`trash`) and put what it is used for in the tags (`delete, remove`). Variants end in `-filled`, `-off` or `-plus`.
+(`trash`) and put what it is used for in the tags (`delete, remove`). Variants end in `-outline`, `-off` or `-plus`.
 A new file is a new category, listed last until it is given a title in `scripts/build.mjs`.
 
 ### The rules
 
+The set is drawn like the item icons of a 16-bit game: bold silhouettes that read at 24 px, not thin line icons.
+A one-pixel line at this size is two CSS px, and a one-pixel diagonal is squares touching at their corners, which
+reads as dots.
+
 1. **Grid.** Draw inside the middle 10 x 10 and leave the outer ring empty. The build warns when an icon touches it.
-2. **Weight.** Outlines and details are one pixel. A mark that stands alone (plus, minus, close, check, chevrons,
-   straight arrows) is two pixels, so it weighs as much as an outlined object. A diagonal needs more pixels per row to
-   look as heavy: chevrons use two per row; close and check use three, to match the plus.
-3. **Diagonals step evenly.** Only 1:1, 2:1 or 1:2, and the same step all along a line: never 1-2-1-3.
-4. **Curves come from the set's circles.** Use these, not a new curve each time:
+2. **Solid first.** An object is a filled silhouette. Its details are cut out of it, as empty pixels, not drawn on
+   it: the slots of the bin, the flap of the envelope, the keyhole of the lock. Two cut-outs at most; a third is
+   noise. A one-pixel gap is fine; a one-pixel line is not.
+3. **Two pixels thick.** Every line is at least two pixels thick, diagonals too: the thinnest diagonal steps one
+   column per row with two pixels in each row, like the chevrons. Every pixel touches another one above or below it
+   and another one beside it, except at the very tip of a point.
+4. **The build checks 3.** It stops at a one-pixel line of three or more pixels (flat, steep or diagonal) and at a
+   lone pixel that touches nothing on a side, and names the row and column. An icon that truly needs a thin line
+   says so in its header, `@ name thin tags: …`; none of the set does.
+5. **Diagonals step evenly.** Only 1:1, 2:1 or 1:2, and the same step all along a line: never 1-2-1-3.
+6. **Hollow only where it means something.** The `-outline` variants are the "off" half of a toggle (`heart-outline`
+   to `heart`, `star-outline`, `bookmark-outline`); things that *are* frames (maximize, minimize, the brackets) stay
+   frames. Their walls are two pixels.
+7. **The circle.** Round status icons share one solid circle, ten across, with their symbol cut out of it: info,
+   success, error, alert, help and the clock. The alarm's face is eight across, to leave room for its bells and feet.
 
    ```text
-   ....XXXX....   ..XXXX..   .XXXX.   .XX.
-   ..XX....XX..   .X....X.   X....X   X..X
-   ..X......X..   X......X   X....X   X..X
-   .X........X.   X......X   X....X   .XX.
-   .X........X.   X......X   X....X
-   .X........X.   X......X   .XXXX.
-   .X........X.   .X....X.
-   ..X......X..   ..XXXX..
-   ..XX....XX..
+   ....XXXX....
+   ..XXXXXXXX..
+   .XXXXXXXXXX.
+   .XXXXXXXXXX.
+   .XXXXXXXXXX.
+   .XXXXXXXXXX.
+   .XXXXXXXXXX.
+   .XXXXXXXXXX.
+   ..XXXXXXXX..
    ....XXXX....
    ```
 
-   Ten across for status icons, the clock, globe and power; eight for the search lens and the alarm clock; six for
-   the user's head, the sun and the link rings; four for small heads, nodes and dots.
-
-5. **Corners.** A closed shape drops its corner pixel, like the candy box. Paper (file, document, receipt) keeps
-   square corners.
-6. **Gaps.** Parts that should read apart keep a one-pixel gap, diagonals included: pixels that touch at a corner
-   look joined.
-7. **Outline first.** Fill a shape only when its silhouette is the meaning or it is too small to outline: media
-   controls, carets, bolt, the phone handset, the gear, game sprites, and the `-filled` variants.
-8. **Arrowheads.** Straight arrows end in a chevron. Curved arrows (back, forward, undo, redo, refresh) are one-pixel
-   lines with solid triangular heads: a two-pixel curve turns to mush at this size.
-9. **Slashes.** An `-off` icon is its icon with a slash from the top-left pixel (1, 1) to (10, 10) and a one-pixel
-   gap cut around it.
-10. **Centre.** Centre the shape. A part with an odd width cannot centre exactly, so it leans half a pixel left or
+8. **Corners.** Round objects drop their corner pixels, like the candy box; paper and screens keep square corners.
+9. **Slashes.** An `-off` icon is its icon with a two-pixel slash from the top-left pixel (1, 1) to (10, 10) and a
+   one-pixel gap cut along its lower-left side.
+10. **Squint.** Filled in solid, the silhouette alone still says what it is, and differs from its neighbours: file,
+    document and clipboard; cloud and cloud-upload; the three battery levels.
+11. **Centre.** Centre the shape. A part with an odd width cannot centre exactly, so it leans half a pixel left or
     up. The optical centre wins: `play` sits a pixel right; a family keeps its shared part still (`volume`,
     `volume-low` and `mute` keep the speaker where it is, so they swap without a jump).
-11. **Families share geometry.** Arrow heads are the chevrons; carets are filled chevrons; status icons share the
-    10-pixel circle; the `-off` slash is always the same.
-12. **No brands and no words.** Generic glyphs only (`globe`, `rss`, `code`, `share`); no logos, including
+12. **Families share geometry.** Arrow heads are the chevrons; carets are filled chevrons; status icons share the
+    circle; one cloud serves the devices and the weather; the `-off` slash is always the same.
+13. **No brands and no words.** Generic glyphs only (`globe`, `rss`, `code`, `share`); no logos, including
     trademarked symbols such as Bluetooth's. Letters appear only in the text-format icons (bold, italic, underline).
 
 ### Check it
@@ -195,7 +201,7 @@ node scripts/shoot.mjs .tools/shots/icons "/specimen/gallery.html?only=icons=zoo
 ```
 
 The build stops on a broken map and names the file, the line and the fix: a row that is 11 wide, a stray character,
-a name used twice, a block without tags. It traces each icon into one path (outlines clockwise, holes anticlockwise,
+a name used twice, a block without tags, a one-pixel line or a lone pixel. It traces each icon into one path (outlines clockwise, holes anticlockwise,
 straight runs merged, whole numbers only) and draws the path back onto the grid to prove it covers exactly the
 pixels you drew.
 
@@ -205,7 +211,7 @@ and read without its name?
 ## Do and don't
 
 - **Do** pair icons with words in navigation, forms and status messages.
-- **Do** use `-filled` for the "on" state of a toggle (`heart` to `heart-filled`).
+- **Do** use `-outline` for the "off" state of a toggle (`heart-outline` to `heart`).
 - **Don't** scale an icon by a fraction, rotate it, or draw it at a size that is not a multiple of 12 px.
 - **Don't** colour part of an icon: it is one colour. Multi-colour candy glyphs and sprites belong to the game kit.
 - **Don't** redraw an icon inside a component's CSS: components mask their own small glyphs; content icons come

@@ -2,11 +2,11 @@
 <div style="display:flex;flex-wrap:wrap;gap:calc(16*var(--pp-pixel));align-items:start">
 
   <div class="pp-menu" inert aria-hidden="true" style="display:grid;justify-items:start;gap:calc(2*var(--pp-pixel))">
-    <button class="pp-box pp-button" data-variant="soft" aria-expanded="true">Level<svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4h1v1h1v1h1v1h2V6h1V5h1V4h1v2H9v1H8v1H7v1H5V8H4V7H3V6H2z"/></svg></button>
+    <button class="pp-box pp-button" data-variant="soft" aria-expanded="true">Level<svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4h2v1h1v1h2V5h1V4h2v1H9v1H8v1H7v1H5V7H4V6H3V5H2z"/></svg></button>
     <div class="pp-box pp-menu-list" role="menu" aria-label="Level">
       <button class="pp-box pp-menu-item" role="menuitem" aria-keyshortcuts="Control+N"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg><span class="pp-menu-label">New level</span><span class="pp-menu-shortcut" aria-hidden="true"><kbd class="pp-box pp-keycap" data-size="sm">Ctrl</kbd><kbd class="pp-box pp-keycap" data-size="sm">N</kbd></span></button>
-      <button class="pp-box pp-menu-item" role="menuitem" aria-keyshortcuts="Control+D" data-pp-state="focus"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h7v7H4zM5 2v5h5V2zM1 4h2v1H2v5h5V9h1v2H1z"/></svg><span class="pp-menu-label">Duplicate</span><span class="pp-menu-shortcut" aria-hidden="true"><kbd class="pp-box pp-keycap" data-size="sm">Ctrl</kbd><kbd class="pp-box pp-keycap" data-size="sm">D</kbd></span></button>
-      <button class="pp-box pp-menu-item" role="menuitem" aria-haspopup="menu" aria-expanded="false"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v5h2v1H8v1H7v1H5V8H4V7H3V6h2zM1 9h1v1h8V9h1v2H1z"/></svg><span class="pp-menu-label">Export</span></button>
+      <button class="pp-box pp-menu-item" role="menuitem" aria-keyshortcuts="Control+D" data-pp-state="focus"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h7v7H9V3H4zM1 4h7v7H1z"/></svg><span class="pp-menu-label">Duplicate</span><span class="pp-menu-shortcut" aria-hidden="true"><kbd class="pp-box pp-keycap" data-size="sm">Ctrl</kbd><kbd class="pp-box pp-keycap" data-size="sm">D</kbd></span></button>
+      <button class="pp-box pp-menu-item" role="menuitem" aria-haspopup="menu" aria-expanded="false"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v4h1V4h2v1H9v1H8v1H7v1H5V7H4V6H3V5H2V4h2v1h1zM1 8h2v1h6V8h2v3H1z"/></svg><span class="pp-menu-label">Export</span></button>
       <div class="pp-menu-separator" role="separator"></div>
       <div role="group" aria-labelledby="menu-static-show">
         <div class="pp-menu-heading" id="menu-static-show">Show</div>
@@ -20,8 +20,8 @@
         <button class="pp-box pp-menu-item" role="menuitemradio" aria-checked="false"><span class="pp-menu-label">Last used</span></button>
       </div>
       <div class="pp-menu-separator" role="separator"></div>
-      <button class="pp-box pp-menu-item" role="menuitem" aria-disabled="true"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3h1v6H2V5h1V2h1zM4 3v2h4V3z"/></svg><span class="pp-menu-label">Publish (finish the level first)</span></button>
-      <button class="pp-box pp-menu-item" role="menuitem" data-tone="danger" aria-keyshortcuts="Delete"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h3v2H1V2h3zM2 5h8v6H2zM4 6v4h1V6zM7 6v4h1V6z"/></svg><span class="pp-menu-label">Delete level</span><span class="pp-menu-shortcut" aria-hidden="true"><kbd class="pp-box pp-keycap" data-size="sm">Del</kbd></span></button>
+      <button class="pp-box pp-menu-item" role="menuitem" aria-disabled="true"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3h1v6H2V5h1V2h1zm1 2v2h2V3zm0 4v2h2V7z"/></svg><span class="pp-menu-label">Publish (finish the level first)</span></button>
+      <button class="pp-box pp-menu-item" role="menuitem" data-tone="danger" aria-keyshortcuts="Delete"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h3v2H1V2h3zM2 5h8v5H9v1H3v-1H2zm2 1v3h1V6zm3 0v3h1V6z"/></svg><span class="pp-menu-label">Delete level</span><span class="pp-menu-shortcut" aria-hidden="true"><kbd class="pp-box pp-keycap" data-size="sm">Del</kbd></span></button>
     </div>
   </div>
 
@@ -42,12 +42,12 @@
 <!-- Live: Enter, Space or ArrowDown opens; arrows, Home, End and letters move; Escape or Tab closes. -->
 <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--pp-pixel));align-items:center;margin-block-start:calc(12*var(--pp-pixel))">
   <pp-menu class="pp-menu">
-    <button class="pp-box pp-button" data-variant="soft">Level<svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4h1v1h1v1h1v1h2V6h1V5h1V4h1v2H9v1H8v1H7v1H5V8H4V7H3V6H2z"/></svg></button>
+    <button class="pp-box pp-button" data-variant="soft">Level<svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4h2v1h1v1h2V5h1V4h2v1H9v1H8v1H7v1H5V7H4V6H3V5H2z"/></svg></button>
     <div class="pp-box pp-menu-list pp-pop-in" role="menu" aria-label="Level" popover>
       <button class="pp-box pp-menu-item" role="menuitem" aria-keyshortcuts="Control+N" data-value="new"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg><span class="pp-menu-label">New level</span><span class="pp-menu-shortcut" aria-hidden="true"><kbd class="pp-box pp-keycap" data-size="sm">Ctrl</kbd><kbd class="pp-box pp-keycap" data-size="sm">N</kbd></span></button>
-      <button class="pp-box pp-menu-item" role="menuitem" aria-keyshortcuts="Control+D" data-value="duplicate"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h7v7H4zM5 2v5h5V2zM1 4h2v1H2v5h5V9h1v2H1z"/></svg><span class="pp-menu-label">Duplicate</span><span class="pp-menu-shortcut" aria-hidden="true"><kbd class="pp-box pp-keycap" data-size="sm">Ctrl</kbd><kbd class="pp-box pp-keycap" data-size="sm">D</kbd></span></button>
+      <button class="pp-box pp-menu-item" role="menuitem" aria-keyshortcuts="Control+D" data-value="duplicate"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h7v7H9V3H4zM1 4h7v7H1z"/></svg><span class="pp-menu-label">Duplicate</span><span class="pp-menu-shortcut" aria-hidden="true"><kbd class="pp-box pp-keycap" data-size="sm">Ctrl</kbd><kbd class="pp-box pp-keycap" data-size="sm">D</kbd></span></button>
       <pp-menu class="pp-menu">
-        <button class="pp-box pp-menu-item" role="menuitem"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v5h2v1H8v1H7v1H5V8H4V7H3V6h2zM1 9h1v1h8V9h1v2H1z"/></svg><span class="pp-menu-label">Export</span></button>
+        <button class="pp-box pp-menu-item" role="menuitem"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v4h1V4h2v1H9v1H8v1H7v1H5V7H4V6H3V5H2V4h2v1h1zM1 8h2v1h6V8h2v3H1z"/></svg><span class="pp-menu-label">Export</span></button>
         <div class="pp-box pp-menu-list pp-pop-in" role="menu" aria-label="Export" popover>
           <button class="pp-box pp-menu-item" role="menuitem" data-value="export-png"><span class="pp-menu-label">PNG picture</span></button>
           <button class="pp-box pp-menu-item" role="menuitem" data-value="export-json"><span class="pp-menu-label">Tile map (JSON)</span></button>
@@ -67,13 +67,13 @@
         <button class="pp-box pp-menu-item" role="menuitemradio" aria-checked="false" data-value="recent"><span class="pp-menu-label">Last used</span></button>
       </div>
       <div class="pp-menu-separator" role="separator"></div>
-      <button class="pp-box pp-menu-item" role="menuitem" aria-disabled="true"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3h1v6H2V5h1V2h1zM4 3v2h4V3z"/></svg><span class="pp-menu-label">Publish (finish the level first)</span></button>
-      <button class="pp-box pp-menu-item" role="menuitem" data-tone="danger" aria-keyshortcuts="Delete" data-value="delete"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h3v2H1V2h3zM2 5h8v6H2zM4 6v4h1V6zM7 6v4h1V6z"/></svg><span class="pp-menu-label">Delete level</span><span class="pp-menu-shortcut" aria-hidden="true"><kbd class="pp-box pp-keycap" data-size="sm">Del</kbd></span></button>
+      <button class="pp-box pp-menu-item" role="menuitem" aria-disabled="true"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3h1v6H2V5h1V2h1zm1 2v2h2V3zm0 4v2h2V7z"/></svg><span class="pp-menu-label">Publish (finish the level first)</span></button>
+      <button class="pp-box pp-menu-item" role="menuitem" data-tone="danger" aria-keyshortcuts="Delete" data-value="delete"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h3v2H1V2h3zM2 5h8v5H9v1H3v-1H2zm2 1v3h1V6zm3 0v3h1V6z"/></svg><span class="pp-menu-label">Delete level</span><span class="pp-menu-shortcut" aria-hidden="true"><kbd class="pp-box pp-keycap" data-size="sm">Del</kbd></span></button>
     </div>
   </pp-menu>
 
   <pp-menu class="pp-menu" data-align="end">
-    <button class="pp-box pp-button" data-variant="ghost" data-icon-only aria-label="More for World 2"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 5h2v2H1zM5 5h2v2H5zM9 5h2v2H9z"/></svg></button>
+    <button class="pp-box pp-button" data-variant="ghost" data-icon-only aria-label="More for World 2"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 5h2v2H1zm4 0h2v2H5zm4 0h2v2H9z"/></svg></button>
     <div class="pp-box pp-menu-list pp-pop-in" role="menu" aria-label="World 2" popover>
       <a class="pp-box pp-menu-item" role="menuitem" href="#world-2"><span class="pp-menu-label">Open World 2</span></a>
       <button class="pp-box pp-menu-item" role="menuitem"><span class="pp-menu-label">Rename</span></button>

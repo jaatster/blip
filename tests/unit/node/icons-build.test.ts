@@ -86,13 +86,40 @@ describe("icons build: pixel map errors", () => {
     const run = buildWith({ "shapes.icons": `${BLANK}\n..XX........\n\n@\n` });
     expect(run.status).toBe(1);
     expect(run.stderr).toContain(`src/shapes.icons:2: expected an icon header ('@ <name> tags: word, word') or a '#' comment, found "..XX........".`);
-    expect(run.stderr).toContain(`src/shapes.icons:4: a header is '@ <kebab-name> tags: word, word', e.g. '@ heart tags: love, like, favourite'.`);
+    expect(run.stderr).toContain(`src/shapes.icons:4: a header is '@ <kebab-name> tags: word, word' (or '@ <kebab-name> thin tags: …' for an icon allowed one-pixel lines), e.g. '@ heart tags: love, like, favourite'.`);
   });
 
   it("a category file that is not kebab-case", () => {
     const run = buildWith({ "Game_Items.icons": icon("@ coin tags: money", ...DOT) });
     expect(run.status).toBe(1);
     expect(run.stderr).toContain(`src/Game_Items.icons: a category file is named in kebab-case, e.g. "game-items.icons".`);
+  });
+
+  it("a one-pixel line: names the line, the column and the two ways out", () => {
+    const run = buildWith({ "shapes.icons": icon("@ stick tags: test", BLANK, BLANK, "..XXXXXX....") });
+    expect(run.status).toBe(1);
+    expect(run.stderr).toContain(`src/shapes.icons:4:3: "stick" has a one-pixel flat line, 6 pixels long, from row 3, column 3. Every line is two pixels thick: thicken it, or cut it out of a solid shape. If it has to stay thin, say so in the header: '@ stick thin tags: …'.`);
+  });
+
+  it("a staircase of single pixels is one diagonal line, reported once", () => {
+    const run = buildWith({ "shapes.icons": icon("@ stairs tags: test", BLANK, ".X..........", "..X.........", "...X........") });
+    expect(run.status).toBe(1);
+    expect(run.stderr.match(/"stairs"/g)).toHaveLength(1);
+    expect(run.stderr).toContain(`src/shapes.icons:3:2: "stairs" has a one-pixel diagonal line, 3 pixels long, from row 2, column 2.`);
+  });
+
+  it("a lone pixel", () => {
+    const run = buildWith({ "shapes.icons": icon("@ dust tags: test", BLANK, "....XX......", "....XX......", BLANK, "........X...") });
+    expect(run.status).toBe(1);
+    expect(run.stderr).toContain(`src/shapes.icons:6:9: "dust" has a lone pixel at row 5, column 9: it touches no other pixel on a side, so it reads as dust. Join it to a neighbour or remove it.`);
+  });
+
+  it("two-pixel lines, two-pixel diagonals and one-pixel gaps pass; 'thin' lets a one-pixel line through", () => {
+    const chevron = icon("@ chevron tags: test", BLANK, BLANK, BLANK, ".XX......XX.", "..XX....XX..", "...XX..XX...", "....XXXX....", ".....XX.....");
+    const slotted = icon("@ slotted tags: test", BLANK, "..XXXXXXXX..", "..XX.XX.XX..", "..XX.XX.XX..", "..XXXXXXXX..");
+    const stick = icon("@ stick thin tags: test", BLANK, BLANK, "..XXXXXX....");
+    // Only the pixel-map checks: the build goes on to draw its examples page, which needs the real set.
+    expect(buildWith({ "shapes.icons": [chevron, slotted, stick].join("\n") }).stderr).not.toMatch(/in the pixel maps/);
   });
 
   it("lists every problem at once, in file order, and exits 1 without writing anything", () => {
@@ -115,8 +142,8 @@ describe("icons build: a clean build of the real set plus two test icons", () =>
     copy = iconsCopy({
       extra: {
         "zz-test.icons": [
-          icon("@ test-ring tags: circle, hole", BLANK, BLANK, "...XXXXXX...", "..XX....XX..", "..X......X..", "..X......X..", "..X......X..", "..X......X..", "..XX....XX..", "...XXXXXX..."),
-          icon("@ test-steps tags: diagonal, corner", BLANK, ".X..........", "..X.........", "...X........", "....X.......", ".....X......", "......X.....", ".......X....", "........X...", ".........X..", "..........X."),
+          icon("@ test-ring thin tags: circle, hole", BLANK, BLANK, "...XXXXXX...", "..XX....XX..", "..X......X..", "..X......X..", "..X......X..", "..X......X..", "..XX....XX..", "...XXXXXX..."),
+          icon("@ test-steps thin tags: diagonal, corner", BLANK, ".X..........", "..X.........", "...X........", "....X.......", ".....X......", "......X.....", ".......X....", "........X...", ".........X..", "..........X."),
         ].join("\n"),
       },
     });

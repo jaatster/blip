@@ -5,7 +5,9 @@
  *   pnpm --filter @jaatster/blip-icons build        (or, in packages/icons: node scripts/build.mjs)
  *
  * 1. Validates every map: a header '@ <kebab-name> tags: word, word', then exactly 12 rows of 12 'X' or '.'.
- *    Names are unique across all files. Errors name the file, the line and the fix; all of them are listed at once.
+ *    Names are unique across all files. Every map keeps the chunky rules: no line one pixel thick and no lone
+ *    pixel, unless its header says 'thin' ('@ <name> thin tags: …'). Errors name the file, the line (and column)
+ *    and the fix; all of them are listed at once.
  * 2. Traces each icon into one SVG path: closed contours around the union of its pixels, outlines clockwise and
  *    holes anticlockwise (so it fills the same with nonzero or evenodd), collinear points merged, whole numbers
  *    only. Each path is drawn back onto the grid and must cover exactly the pixels in the map.
@@ -75,9 +77,9 @@ for (const file of files) {
     const raw = text.trimEnd();
     if (raw.startsWith("@")) {
       close(line);
-      const m = /^@\s+(\S+)(?:\s+tags:(.*))?$/.exec(raw);
-      if (!m) return fail(file, line, `a header is '@ <kebab-name> tags: word, word', e.g. '@ heart tags: love, like, favourite'.`);
-      const [, name, tagText] = m;
+      const m = /^@\s+(\S+)(\s+thin)?(?:\s+tags:(.*))?$/.exec(raw);
+      if (!m) return fail(file, line, `a header is '@ <kebab-name> tags: word, word' (or '@ <kebab-name> thin tags: …' for an icon allowed one-pixel lines), e.g. '@ heart tags: love, like, favourite'.`);
+      const [, name, thin, tagText] = m;
       if (!/^[a-z][a-z0-9]*(-[a-z0-9]+)*$/.test(name)) fail(file, line, `"${name}" is not a kebab-case name (lower-case letters and digits, single hyphens). Try "${kebab(name)}".`);
       if (tagText === undefined || !tagText.trim()) fail(file, line, `"${name}" has no tags. Add a few words people would search for: '@ ${name} tags: word, word'.`);
       const tags = (tagText ?? "").split(",").map((t) => t.trim()).filter(Boolean);
@@ -86,7 +88,7 @@ for (const file of files) {
       if (dupes.length) fail(file, line, `"${name}" lists the tag "${dupes[0]}" twice. Remove one.`);
       if (seen.has(name)) fail(file, line, `"${name}" is already drawn at ${seen.get(name)}. Names are unique across all files: rename one.`);
       else seen.set(name, `src/${file}:${line}`);
-      icon = { name, category, tags, rows: [], line, file };
+      icon = { name, category, tags, rows: [], line, file, thin: Boolean(thin) };
       return;
     }
     if (raw === "" || raw.startsWith("#")) return close(line);
@@ -108,6 +110,43 @@ for (const file of files) {
     icon.rows.push(raw);
   });
   close(lines.length + 1);
+}
+
+// The chunky rules (docs/icons.md), so every icon reads at 24 px: every line is at least two pixels thick and no pixel
+// stands alone. A one-pixel line is three or more pixels, side by side or corner to corner, that each have no pixel
+// above and below them (a flat line) or none left and right (a steep one); a staircase of single pixels is both, and
+// is reported once, as a diagonal. A lone pixel touches nothing on a side. A header that says 'thin' opts out.
+for (const icon of icons) {
+  if (icon.thin) continue;
+  const ink = (y, x) => y >= 0 && y < N && x >= 0 && x < N && icon.rows[y][x] === "X";
+  const flat = (y, x) => !ink(y - 1, x) && !ink(y + 1, x);
+  const steep = (y, x) => !ink(y, x - 1) && !ink(y, x + 1);
+  const reported = new Set();
+  for (const [isThin, kind] of [[flat, "flat"], [steep, "steep"]]) {
+    const seen = new Set();
+    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+      if (!ink(y, x) || !isThin(y, x) || seen.has(y * N + x)) continue;
+      const group = [], todo = [[y, x]];
+      seen.add(y * N + x);
+      while (todo.length) {
+        const [cy, cx] = todo.pop();
+        group.push([cy, cx]);
+        for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+          const ny = cy + dy, nx = cx + dx;
+          if (ink(ny, nx) && isThin(ny, nx) && !seen.has(ny * N + nx)) { seen.add(ny * N + nx); todo.push([ny, nx]); }
+        }
+      }
+      if (group.length < 3 || group.every(([gy, gx]) => reported.has(gy * N + gx))) continue;
+      for (const [gy, gx] of group) reported.add(gy * N + gx);
+      const [fy, fx] = group.sort((a, b) => a[0] - b[0] || a[1] - b[1])[0];
+      const what = group.every(([gy, gx]) => flat(gy, gx) && steep(gy, gx)) ? "diagonal" : kind;
+      fail(icon.file, icon.line + fy + 1, `"${icon.name}" has a one-pixel ${what} line, ${group.length} pixels long, from row ${fy + 1}, column ${fx + 1}. Every line is two pixels thick: thicken it, or cut it out of a solid shape. If it has to stay thin, say so in the header: '@ ${icon.name} thin tags: …'.`, fx + 1);
+    }
+  }
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    if (ink(y, x) && flat(y, x) && steep(y, x) && !reported.has(y * N + x))
+      fail(icon.file, icon.line + y + 1, `"${icon.name}" has a lone pixel at row ${y + 1}, column ${x + 1}: it touches no other pixel on a side, so it reads as dust. Join it to a neighbour or remove it.`, x + 1);
+  }
 }
 
 if (!icons.length && !errors.length) errors.push({ order: 0, text: `src: no icons found. Add a category file such as src/actions.icons.` });
@@ -415,7 +454,7 @@ ${row([
   `<a class="pp-example-icons-text pp-small" href="#icons">Read the docs${svg("external")}</a>`,
 ], "In text")}
 
-${row(["coin", "gem", "heart-filled", "star-filled", "key", "potion", "sword", "shield", "trophy", "rocket"].map((n) => svg(n, { size: "lg" })), "Large")}
+${row(["coin", "gem", "heart", "star", "key", "potion", "sword", "shield", "trophy", "rocket"].map((n) => svg(n, { size: "lg" })), "Large")}
 
 ${row([
   `<pp-icon name="heart" label="Liked"></pp-icon>`,

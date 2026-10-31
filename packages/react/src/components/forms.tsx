@@ -352,10 +352,8 @@ export interface SearchOwnProps {
 }
 export type SearchProps = SearchOwnProps & Omit<NativeProps<"input", SearchOwnProps>, "type" | "children">;
 
-/** The magnifier in front of a search field, as the docs draw it (12 x 12). */
-const magnifier =
-  "M2 1h4v1H2zM1 2h1v1H1zM6 2h1v1H6zM0 3h1v4H0zM7 3h1v4H7zM1 7h1v1H1zM6 7h1v1H6zM2 8h4v1H2zM7 8h1v1H7zM7 9h2v1H7z" +
-  "M8 10h2v1H8zM9 11h2v1H9z";
+/** The magnifier in front of a search field: the `search` icon of @jaatster/blip-icons (12 x 12). */
+const magnifier = "M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z";
 
 /**
  * A search field: an input of type search with a pixel magnifier in front and a pixel cross that clears it (the

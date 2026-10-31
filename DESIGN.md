@@ -608,8 +608,9 @@ how the radio button is round.
 Title bars are the box's own top band grown tall, so they follow the corners: a window's bar is 16 pixels, a
 dialog's sits in the tone's light. Popovers and tooltips point at their trigger with a pixel nub. Glyphs inside
 components (checks, chevrons, crosses, radio dots) are drawn on whole pixels and coloured with the text. Icons are
-drawn on a 12 x 12 grid with one-pixel strokes (two for a mark that stands alone, such as a plus or a check), and a
-closed shape drops its corner pixel, like the candy box. Pictures in cards sit in a one-pixel ink frame and are
+drawn on a 12 x 12 grid like the item icons of a 16-bit game: solid silhouettes with their details cut out, every line
+at least two pixels thick, diagonals too, and no lone pixels, so they read at 24 px; round objects drop their corner
+pixels, like the candy box. Pictures in cards sit in a one-pixel ink frame and are
 never smoothed.
 
 ### Named Rules

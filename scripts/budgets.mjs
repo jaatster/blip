@@ -25,7 +25,7 @@
  *   clear of the text over it, found by measuring the page, which a picture cannot do. Other growth still fails.
  * - Sound: sound.bundle.js, the whole kit as a page loads it.
  * - Pixel Bop: the WOFF2 file.
- * - Icons index.js: all the icon path data (about 185 icons).
+ * - Icons index.js: all the icon path data (about 190 icons).
  */
 import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
 import { gzipSync } from "node:zlib";

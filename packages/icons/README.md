@@ -1,6 +1,6 @@
 # @jaatster/blip-icons
 
-185 original icons drawn on a 12 x 12 pixel grid with one-pixel strokes, in one colour (`currentColor`): arrows,
+Original icons drawn on a 12 x 12 pixel grid as bold, solid shapes with two-pixel lines, in one colour (`currentColor`): arrows,
 actions, status, media, files, communication and people, commerce, devices, weather and time, and a game set. As SVG files, a
 sprite, JS path data, `iconSvg()` and the `<pp-icon>` element.
 
