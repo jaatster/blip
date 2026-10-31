@@ -1,0 +1,26 @@
+{
+  "version": "0.1.0",
+  "license": "OFL-1.1",
+  "type": "module",
+  "name": "@jaatster/blip-font",
+  "description": "Pixel Bop, Blip's pixel display font, and a Latin subset of Pixelify Sans. SIL OFL 1.1.",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    "./font.css": "./font.css",
+    "./pixel-bop.woff2": "./dist/pixel-bop.woff2",
+    "./pixel-bop.ttf": "./dist/pixel-bop.ttf",
+    "./pixelify-sans.woff2": "./dist/pixelify-sans.woff2"
+  },
+  "files": [
+    "dist",
+    "src",
+    "font.css",
+    "OFL.txt",
+    "OFL-PixelifySans.txt"
+  ],
+  "scripts": {
+    "build": "../../.tools/venv/bin/python -I scripts/build.py"
+  }
+}

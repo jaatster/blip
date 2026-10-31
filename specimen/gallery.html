@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blip gallery</title>
+  <link rel="stylesheet" href="/packages/font/font.css">
+  <link rel="stylesheet" href="/packages/tokens/dist/css/tokens.css">
+  <link rel="stylesheet" href="/packages/core/dist/core.css">
+  <style>
+    @layer gallery {
+      body { padding: calc(12 * var(--pp-pixel)); }
+      .pp-gallery-item { margin-block-end: calc(20 * var(--pp-pixel)); }
+      .pp-gallery-item > h2 { margin-block-end: calc(6 * var(--pp-pixel)); display: flex; gap: calc(4 * var(--pp-pixel)); align-items: baseline; }
+      .pp-gallery-item > h2 small { color: var(--pp-text-muted); font-size: var(--pp-size-caption); font-weight: 400; }
+    }
+  </style>
+</head>
+<body>
+  <main id="gallery"></main>
+  <script type="module">
+    // ?only=button,tabs  ?scheme=night  ?pixel=3  ?pkg=game
+    const q = new URLSearchParams(location.search);
+    const root = document.documentElement;
+    if (q.get("scheme")) root.dataset.ppScheme = q.get("scheme");
+    if (q.get("pixel")) root.dataset.ppPixel = q.get("pixel");
+    const only = q.get("only")?.split(",");
+    const pkg = q.get("pkg");
+    const manifest = await (await fetch("/specimen/gallery.json", { cache: "no-store" })).json();
+    for (const href of manifest.css) document.head.append(Object.assign(document.createElement("link"), { rel: "stylesheet", href }));
+    const items = manifest.examples.filter((e) => (!only || only.includes(e.name)) && (!pkg || e.pkg === pkg));
+    const main = document.getElementById("gallery");
+    for (const e of items) {
+      const html = await (await fetch(e.url, { cache: "no-store" })).text();
+      const section = document.createElement("section");
+      section.className = "pp-gallery-item";
+      section.innerHTML = `<h2 class="pp-title">${e.name} <small>@jaatster/blip-${e.pkg}</small></h2>${html}`;
+      main.append(section);
+    }
+    for (const src of manifest.js) await import(src);
+    document.body.dataset.ready = "";
+  </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+/*
+ * Motion snaps. Every move goes through a few even steps, a whole pixel at a time, never along an easing curve.
+ * Use steps(n, jump-end) where n is the number of pixels moved (at most 6), or a token's step count.
+ * With prefers-reduced-motion the duration tokens are 0ms, and these animations are switched off.
+ */
+
+@layer pp.core {
+  :root {
+    --pp-ease-2: steps(2, jump-end);
+    --pp-ease-4: steps(4, jump-end);
+    --pp-ease-6: steps(6, jump-end);
+  }
+
+  /* Pops in: one pixel low for a frame, then in place. Menus, popovers, toasts, bubbles. */
+  .pp-pop-in { animation: pp-pop-in calc(2 * var(--pp-duration-frame)) steps(1, jump-end) both; }
+  /* Drops in: two pixels high for a frame, then lands. Letters of a title, one after another (--pp-delay). */
+  .pp-drop-in { animation: pp-drop-in calc(2 * var(--pp-duration-frame)) steps(1, jump-end) both; animation-delay: var(--pp-delay, 0ms); }
+  /* Bumps: up 6, 3, then down. A coin block, a success. */
+  .pp-bump { animation: pp-bump calc(3 * var(--pp-duration-frame)) steps(1, jump-end); }
+  /* Shakes: a pixel each way. A wrong answer, an edge. */
+  .pp-shake { animation: pp-shake calc(5 * var(--pp-duration-frame)) steps(1, jump-end); }
+  /* Blinks: on and off on the beat. A caret, a "press start". */
+  .pp-blink { animation: pp-blink calc(2 * var(--pp-duration-beat)) steps(1, jump-end) infinite; }
+  /* Bobs: up a pixel and back on the beat. An arrow, a pointer. */
+  .pp-bob { animation: pp-bob calc(2 * var(--pp-duration-beat)) steps(1, jump-end) infinite; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pp-pop-in, .pp-drop-in, .pp-bump, .pp-shake, .pp-bob { animation: none; }
+    .pp-blink { animation: none; }
+  }
+}
+
+@keyframes pp-pop-in { 0% { translate: 0 var(--pp-pixel); } 50%, 100% { translate: 0 0; } }
+@keyframes pp-drop-in { 0% { translate: 0 calc(-2 * var(--pp-pixel)); } 50%, 100% { translate: 0 0; } }
+@keyframes pp-bump { 0% { translate: 0 calc(-6 * var(--pp-pixel)); } 33% { translate: 0 calc(-3 * var(--pp-pixel)); } 66%, 100% { translate: 0 0; } }
+@keyframes pp-shake {
+  0% { translate: calc(2 * var(--pp-pixel)) 0; } 20% { translate: calc(-2 * var(--pp-pixel)) 0; }
+  40% { translate: var(--pp-pixel) 0; } 60% { translate: calc(-1 * var(--pp-pixel)) 0; } 80%, 100% { translate: 0 0; }
+}
+@keyframes pp-blink { 0% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes pp-bob { 0% { translate: 0 0; } 50%, 100% { translate: 0 calc(-1 * var(--pp-pixel)); } }

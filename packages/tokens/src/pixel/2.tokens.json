@@ -1,0 +1,11 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "pixel": {
+    "$type": "dimension",
+    "$value": {
+      "value": 2,
+      "unit": "px"
+    },
+    "$description": "The Blip pixel: every outline, icon pixel, letter pixel, corner step and movement is a whole number of these."
+  }
+}

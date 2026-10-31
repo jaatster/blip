@@ -1,0 +1,23 @@
+{
+  "name": "blip-monorepo",
+  "private": true,
+  "type": "module",
+  "description": "Blip: a 16-bit pixel-art design system. Candy on pastel, ink outlines, one pixel size, motion that snaps.",
+  "license": "MIT",
+  "packageManager": "pnpm@10.11.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "pnpm --filter \"./packages/**\" run build",
+    "build:tokens": "pnpm --filter @jaatster/blip-tokens run build",
+    "test": "vitest run",
+    "specimen": "node scripts/serve.mjs specimen"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "playwright": "^1.64.1",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  }
+}

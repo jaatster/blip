@@ -1,0 +1,125 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "$description": "Two faces. Pixel Bop, Blip's own pixel font, for big text: always on the grid, always capitals. Pixelify Sans for UI and body text: the one thing allowed off the grid, because a 7-pixel font is too small to read at body sizes.",
+  "font": {
+    "$type": "fontFamily",
+    "display": {
+      "$value": [
+        "Pixel Bop",
+        "Pixelify Sans",
+        "system-ui",
+        "sans-serif"
+      ],
+      "$description": "Pixel Bop. Sized in whole scales: 1 em is 10 pixels, caps are 7 pixels tall."
+    },
+    "ui": {
+      "$value": [
+        "Pixelify Sans",
+        "system-ui",
+        "sans-serif"
+      ],
+      "$description": "Pixelify Sans, a variable font from 400 to 700. Its grid is 11 pixels to the em, so at 22 px its pixels are Blip pixels."
+    },
+    "mono": {
+      "$value": [
+        "ui-monospace",
+        "SFMono-Regular",
+        "Menlo",
+        "Consolas",
+        "monospace"
+      ],
+      "$description": "Code only."
+    }
+  },
+  "weight": {
+    "$type": "fontWeight",
+    "regular": {
+      "$value": 400
+    },
+    "medium": {
+      "$value": 500
+    },
+    "bold": {
+      "$value": 700
+    }
+  },
+  "display-scale": {
+    "1": {
+      "$value": 1
+    },
+    "2": {
+      "$value": 2
+    },
+    "3": {
+      "$value": 3
+    },
+    "4": {
+      "$value": 4
+    },
+    "$type": "number",
+    "$description": "Pixel Bop sizes, as whole scales of the pixel. Font size = 10 x pixel x scale; cap height = 7 x pixel x scale."
+  },
+  "size": {
+    "$type": "dimension",
+    "$description": "Pixelify Sans sizes in CSS px. Fixed, not tied to the pixel size, so text stays readable when the pixel grows.",
+    "caption": {
+      "$value": {
+        "value": 12,
+        "unit": "px"
+      }
+    },
+    "small": {
+      "$value": {
+        "value": 14,
+        "unit": "px"
+      }
+    },
+    "body": {
+      "$value": {
+        "value": 16,
+        "unit": "px"
+      }
+    },
+    "lead": {
+      "$value": {
+        "value": 18,
+        "unit": "px"
+      }
+    },
+    "title": {
+      "$value": {
+        "value": 22,
+        "unit": "px"
+      },
+      "$description": "Pixelify's pixels land on the 2 px grid."
+    }
+  },
+  "leading": {
+    "$type": "number",
+    "tight": {
+      "$value": 1.15
+    },
+    "normal": {
+      "$value": 1.5
+    },
+    "display": {
+      "$value": 1.2
+    }
+  },
+  "tracking": {
+    "$type": "dimension",
+    "none": {
+      "$value": {
+        "value": 0,
+        "unit": "px"
+      }
+    },
+    "label": {
+      "$value": {
+        "value": 0.5,
+        "unit": "px"
+      },
+      "$description": "Upper-case labels: a little air."
+    }
+  }
+}

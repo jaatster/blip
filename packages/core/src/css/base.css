@@ -1,0 +1,79 @@
+/* A small reset, and the page itself: the browser surfaces (selection, caret, scrollbars, focus, links) belong to
+   Blip too. */
+
+@layer pp.reset {
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { margin: 0; }
+  img, svg, video, canvas { display: block; max-inline-size: 100%; }
+  button, input, select, textarea { font: inherit; color: inherit; letter-spacing: inherit; }
+  :where(h1, h2, h3, h4, h5, h6, p, figure, blockquote, dl, dd) { margin: 0; }
+  :where(ul[role="list"], ol[role="list"]) { list-style: none; margin: 0; padding: 0; }
+}
+
+@layer pp.base {
+  :where(html) {
+    color-scheme: light;
+    background: var(--pp-bg);
+    color: var(--pp-text);
+    font-family: var(--pp-font-ui);
+    font-size: var(--pp-size-body);
+    line-height: var(--pp-leading-normal);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    caret-color: var(--pp-accent-text);
+    accent-color: var(--pp-accent);
+    scrollbar-color: var(--pp-line) var(--pp-surface-sunken);
+  }
+  :where([data-pp-scheme]) {
+    background: var(--pp-bg);
+    color: var(--pp-text);
+  }
+  ::selection { background: var(--pp-selection-bg); color: var(--pp-selection-text); }
+
+  /* When Auto changes the time of day, the palette steps from one to the next over a minute, as on the TV. */
+  :where([data-pp-scheme-fade]) {
+    transition-property: --pp-bg, --pp-surface, --pp-surface-raised, --pp-surface-sunken, --pp-surface-panel, --pp-text, --pp-text-muted, --pp-line, --pp-line-soft, --pp-accent, --pp-accent-light, --pp-accent-shade, --pp-accent-text;
+    transition-duration: calc(var(--pp-steps-scheme) * var(--pp-duration-scheme-step));
+    transition-timing-function: steps(6, jump-end);
+  }
+
+  :where(a) {
+    color: var(--pp-accent-text);
+    text-decoration-line: underline;
+    text-decoration-thickness: var(--pp-pixel);
+    text-underline-offset: calc(2 * var(--pp-pixel));
+  }
+  :where(a):hover { text-decoration-thickness: calc(2 * var(--pp-pixel)); }
+
+  /* Focus for anything that is not a candy box: a yellow ring with an ink edge, squared off. */
+  :where(a, [tabindex], summary, input, select, textarea, button):focus-visible {
+    outline: var(--pp-pixel) solid var(--pp-focus);
+    outline-offset: 0;
+    box-shadow: 0 0 0 calc(2 * var(--pp-pixel)) var(--pp-focus-edge);
+  }
+
+  :where(code, kbd, samp, pre) { font-family: var(--pp-font-mono); font-size: 0.9em; }
+  :where(hr) { border: 0; block-size: var(--pp-pixel); background: var(--pp-line-soft); margin: var(--pp-space-8) 0; }
+  :where(h1, h2, h3, h4) { font-weight: var(--pp-weight-bold); line-height: var(--pp-leading-tight); text-wrap: balance; }
+  :where(p, li, dd) { text-wrap: pretty; }
+
+  /* Pixel art is never smoothed. */
+  :where(img, canvas, svg)[data-pixelated], .pp-pixelated { image-rendering: pixelated; shape-rendering: crispEdges; }
+}
+
+@layer pp.utilities {
+  .pp-sr-only {
+    position: absolute !important;
+    inline-size: 1px; block-size: 1px;
+    margin: -1px; padding: 0; overflow: hidden;
+    clip-path: inset(50%); white-space: nowrap; border: 0;
+  }
+  /* A dithered ink scrim: Blip never uses a translucent wash. */
+  .pp-scrim {
+    background: repeating-conic-gradient(var(--pp-scrim) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel));
+  }
+  .pp-dither {
+    background: repeating-conic-gradient(currentColor 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel));
+  }
+}

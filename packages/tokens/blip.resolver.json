@@ -1,0 +1,80 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/resolver.json",
+  "name": "Blip",
+  "version": "2025.10",
+  "description": "Blip's tokens. Three independent switches: scheme (time of day), pixel size and, later, palette and contrast. Adding a context is adding a file.",
+  "sets": {
+    "foundation": {
+      "description": "Colour, size, motion and type primitives.",
+      "sources": [
+        {
+          "$ref": "src/primitives/color.tokens.json"
+        },
+        {
+          "$ref": "src/primitives/size.tokens.json"
+        },
+        {
+          "$ref": "src/primitives/motion.tokens.json"
+        },
+        {
+          "$ref": "src/primitives/type.tokens.json"
+        }
+      ]
+    }
+  },
+  "modifiers": {
+    "scheme": {
+      "description": "The time of day. Auto picks one by the clock at runtime.",
+      "contexts": {
+        "day": [
+          {
+            "$ref": "src/schemes/day.tokens.json"
+          }
+        ],
+        "sunset": [
+          {
+            "$ref": "src/schemes/sunset.tokens.json"
+          }
+        ],
+        "night": [
+          {
+            "$ref": "src/schemes/night.tokens.json"
+          }
+        ]
+      },
+      "default": "day"
+    },
+    "pixel": {
+      "description": "The size of one pixel in CSS px.",
+      "contexts": {
+        "2": [
+          {
+            "$ref": "src/pixel/2.tokens.json"
+          }
+        ],
+        "3": [
+          {
+            "$ref": "src/pixel/3.tokens.json"
+          }
+        ],
+        "4": [
+          {
+            "$ref": "src/pixel/4.tokens.json"
+          }
+        ]
+      },
+      "default": "2"
+    }
+  },
+  "resolutionOrder": [
+    {
+      "$ref": "#/sets/foundation"
+    },
+    {
+      "$ref": "#/modifiers/pixel"
+    },
+    {
+      "$ref": "#/modifiers/scheme"
+    }
+  ]
+}

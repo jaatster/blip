@@ -1,0 +1,117 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "$description": "Motion snaps. Nothing eases: everything moves through a few even steps, a whole pixel at a time. With prefers-reduced-motion every duration becomes instant.",
+  "duration": {
+    "$type": "duration",
+    "frame": {
+      "$value": {
+        "value": 40,
+        "unit": "ms"
+      },
+      "$description": "One sprite frame."
+    },
+    "nudge": {
+      "$value": {
+        "value": 80,
+        "unit": "ms"
+      },
+      "$description": "A focus move, a lift, a press."
+    },
+    "slide": {
+      "$value": {
+        "value": 100,
+        "unit": "ms"
+      },
+      "$description": "A row scrolling, layers sliding."
+    },
+    "glide": {
+      "$value": {
+        "value": 160,
+        "unit": "ms"
+      },
+      "$description": "Something travelling to a new place."
+    },
+    "fade": {
+      "$value": {
+        "value": 160,
+        "unit": "ms"
+      },
+      "$description": "A stepped fade, out or in."
+    },
+    "pop": {
+      "$value": {
+        "value": 120,
+        "unit": "ms"
+      },
+      "$description": "A popover, menu or dialog arriving."
+    },
+    "blink": {
+      "$value": {
+        "value": 140,
+        "unit": "ms"
+      },
+      "$description": "A blink."
+    },
+    "beat": {
+      "$value": {
+        "value": 400,
+        "unit": "ms"
+      },
+      "$description": "The idle beat: a bob, a pulse."
+    },
+    "dissolve-frame": {
+      "$value": {
+        "value": 30,
+        "unit": "ms"
+      },
+      "$description": "One frame of the ink dissolve."
+    },
+    "letter": {
+      "$value": {
+        "value": 50,
+        "unit": "ms"
+      },
+      "$description": "Typewriter text: one letter."
+    },
+    "stop": {
+      "$value": {
+        "value": 260,
+        "unit": "ms"
+      },
+      "$description": "Typewriter text: the pause after . ! or ?"
+    },
+    "comma": {
+      "$value": {
+        "value": 130,
+        "unit": "ms"
+      },
+      "$description": "Typewriter text: the pause after a comma."
+    },
+    "scheme-step": {
+      "$value": {
+        "value": 10000,
+        "unit": "ms"
+      },
+      "$description": "One step of the palette fade when Auto changes the time of day."
+    }
+  },
+  "steps": {
+    "2": {
+      "$value": 2
+    },
+    "4": {
+      "$value": 4
+    },
+    "6": {
+      "$value": 6
+    },
+    "$type": "number",
+    "$description": "How many even steps a move takes. CSS: steps(n, jump-end).",
+    "dissolve": {
+      "$value": 9
+    },
+    "scheme": {
+      "$value": 6
+    }
+  }
+}

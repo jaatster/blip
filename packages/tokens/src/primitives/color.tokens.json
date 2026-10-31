@@ -1,0 +1,1722 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "$description": "Blip colour primitives. Components never use these directly: they use the scheme roles.",
+  "$type": "color",
+  "ink": {
+    "$description": "The darkest colour in Blip. Every outline, shadow and piece of dark text. Never pure black.",
+    "base": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.102,
+          0.0824,
+          0.1882
+        ],
+        "hex": "#1A1530"
+      }
+    },
+    "soft": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.2902,
+          0.2667,
+          0.4392
+        ],
+        "hex": "#4A4470"
+      },
+      "$description": "Muted text on the light schemes."
+    }
+  },
+  "white": {
+    "$value": {
+      "colorSpace": "srgb",
+      "components": [
+        1,
+        1,
+        1
+      ],
+      "hex": "#FFFFFF"
+    },
+    "$description": "Glints, POP letters, text on slate and on the night sky."
+  },
+  "candy": {
+    "$description": "Three tones per candy: base, light (top band) and shade (bottom band). Saturated and outlined: only what you can act on wears candy.",
+    "red": {
+      "$description": "Danger.",
+      "base": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.2392,
+            0.3098
+          ],
+          "hex": "#FF3D4F"
+        }
+      },
+      "light": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.4784,
+            0.5216
+          ],
+          "hex": "#FF7A85"
+        },
+        "$description": "Top band: the base at about 0.65 saturation, full brightness."
+      },
+      "shade": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8196,
+            0.1216,
+            0.2078
+          ],
+          "hex": "#D11F35"
+        },
+        "$description": "Bottom band: the base at about 0.84 brightness."
+      }
+    },
+    "orange": {
+      "$description": "Warning. Yellow is reserved for focus.",
+      "base": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.4784,
+            0.102
+          ],
+          "hex": "#FF7A1A"
+        }
+      },
+      "light": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.6667,
+            0.4196
+          ],
+          "hex": "#FFAA6B"
+        },
+        "$description": "Top band: the base at about 0.65 saturation, full brightness."
+      },
+      "shade": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.851,
+            0.3529,
+            0.0392
+          ],
+          "hex": "#D95A0A"
+        },
+        "$description": "Bottom band: the base at about 0.84 brightness."
+      }
+    },
+    "yellow": {
+      "$description": "Focus, and only focus (plus coins and stars).",
+      "base": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.8,
+            0.2
+          ],
+          "hex": "#FFCC33"
+        }
+      },
+      "light": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.902,
+            0.502
+          ],
+          "hex": "#FFE680"
+        },
+        "$description": "Top band: the base at about 0.65 saturation, full brightness."
+      },
+      "shade": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.902,
+            0.6314,
+            0
+          ],
+          "hex": "#E6A100"
+        },
+        "$description": "Bottom band: the base at about 0.84 brightness."
+      }
+    },
+    "green": {
+      "$description": "Success.",
+      "base": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.298,
+            0.851,
+            0.3922
+          ],
+          "hex": "#4CD964"
+        }
+      },
+      "light": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.549,
+            0.9412,
+            0.6039
+          ],
+          "hex": "#8CF09A"
+        },
+        "$description": "Top band: the base at about 0.65 saturation, full brightness."
+      },
+      "shade": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1843,
+            0.6824,
+            0.2745
+          ],
+          "hex": "#2FAE46"
+        },
+        "$description": "Bottom band: the base at about 0.84 brightness."
+      }
+    },
+    "teal": {
+      "$description": "An accent.",
+      "base": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1843,
+            0.8275,
+            0.7725
+          ],
+          "hex": "#2FD3C5"
+        }
+      },
+      "light": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4824,
+            0.9098,
+            0.8706
+          ],
+          "hex": "#7BE8DE"
+        },
+        "$description": "Top band: the base at about 0.65 saturation, full brightness."
+      },
+      "shade": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0863,
+            0.6627,
+            0.6118
+          ],
+          "hex": "#16A99C"
+        },
+        "$description": "Bottom band: the base at about 0.84 brightness."
+      }
+    },
+    "blue": {
+      "$description": "Info, and the Day accent.",
+      "base": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.2,
+            0.6392,
+            1
+          ],
+          "hex": "#33A3FF"
+        }
+      },
+      "light": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.498,
+            0.7843,
+            1
+          ],
+          "hex": "#7FC8FF"
+        },
+        "$description": "Top band: the base at about 0.65 saturation, full brightness."
+      },
+      "shade": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.0784,
+            0.4706,
+            0.8392
+          ],
+          "hex": "#1478D6"
+        },
+        "$description": "Bottom band: the base at about 0.84 brightness."
+      }
+    },
+    "purple": {
+      "$description": "The Night accent. Lifted from the TV's #8F5CFF so ink labels pass WCAG AA.",
+      "base": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5686,
+            0.4,
+            1
+          ],
+          "hex": "#9166FF"
+        }
+      },
+      "light": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7059,
+            0.549,
+            1
+          ],
+          "hex": "#B48CFF"
+        },
+        "$description": "Top band: the base at about 0.65 saturation, full brightness."
+      },
+      "shade": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4157,
+            0.2275,
+            0.8392
+          ],
+          "hex": "#6A3AD6"
+        },
+        "$description": "Bottom band: the base at about 0.84 brightness."
+      }
+    },
+    "pink": {
+      "$description": "The Sunset accent.",
+      "base": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.3725,
+            0.6353
+          ],
+          "hex": "#FF5FA2"
+        }
+      },
+      "light": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.6118,
+            0.7765
+          ],
+          "hex": "#FF9CC6"
+        },
+        "$description": "Top band: the base at about 0.65 saturation, full brightness."
+      },
+      "shade": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8784,
+            0.2275,
+            0.5098
+          ],
+          "hex": "#E03A82"
+        },
+        "$description": "Bottom band: the base at about 0.84 brightness."
+      }
+    },
+    "slate": {
+      "$description": "A dark candy for things whose own colour is black. Takes white labels. Not an accent.",
+      "base": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.2902,
+            0.2706,
+            0.3843
+          ],
+          "hex": "#4A4562"
+        }
+      },
+      "light": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4471,
+            0.4235,
+            0.5569
+          ],
+          "hex": "#726C8E"
+        },
+        "$description": "Top band: the base at about 0.65 saturation, full brightness."
+      },
+      "shade": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.2,
+            0.1843,
+            0.2824
+          ],
+          "hex": "#332F48"
+        },
+        "$description": "Bottom band: the base at about 0.84 brightness."
+      }
+    },
+    "cream": {
+      "$description": "Panels that hold text. Not an accent.",
+      "base": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.9725,
+            0.9333
+          ],
+          "hex": "#FFF8EE"
+        }
+      },
+      "light": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            1,
+            1
+          ],
+          "hex": "#FFFFFF"
+        },
+        "$description": "Top band: the base at about 0.65 saturation, full brightness."
+      },
+      "shade": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9373,
+            0.8902,
+            0.8235
+          ],
+          "hex": "#EFE3D2"
+        },
+        "$description": "Bottom band: the base at about 0.84 brightness."
+      }
+    }
+  },
+  "deep": {
+    "1": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0667,
+          0.0706,
+          0.1647
+        ],
+        "hex": "#11122A"
+      }
+    },
+    "2": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1059,
+          0.1098,
+          0.251
+        ],
+        "hex": "#1B1C40"
+      }
+    },
+    "3": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1333,
+          0.1412,
+          0.3098
+        ],
+        "hex": "#22244F"
+      }
+    },
+    "4": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1725,
+          0.1843,
+          0.4
+        ],
+        "hex": "#2C2F66"
+      }
+    },
+    "5": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.2118,
+          0.2275,
+          0.4706
+        ],
+        "hex": "#363A78"
+      }
+    },
+    "$description": "Night surfaces: deeper than the night sky so candy and text stand in front."
+  },
+  "tone": {
+    "$description": "Fixed text colours that are not candy.",
+    "accent-day": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.0863,
+          0.3765,
+          0.7216
+        ],
+        "hex": "#1660B8"
+      },
+      "$description": "Blue, dark enough for text on the Day surfaces."
+    },
+    "accent-sunset": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.6902,
+          0.1412,
+          0.3725
+        ],
+        "hex": "#B0245F"
+      },
+      "$description": "Pink, dark enough for text on the Sunset surfaces."
+    },
+    "danger-light": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.702,
+          0.0824,
+          0.1608
+        ],
+        "hex": "#B31529"
+      }
+    },
+    "success-light": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.1176,
+          0.4784,
+          0.2
+        ],
+        "hex": "#1E7A33"
+      }
+    },
+    "warning-light": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.6588,
+          0.2745,
+          0.0392
+        ],
+        "hex": "#A8460A"
+      }
+    },
+    "star": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.9529,
+          0.9373,
+          1
+        ],
+        "hex": "#F3EFFF"
+      },
+      "$description": "Text on the Night surfaces."
+    },
+    "accent-night": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          0.7882,
+          0.702,
+          1.0
+        ],
+        "hex": "#C9B3FF"
+      },
+      "$description": "Purple, light enough for text on every Night surface."
+    },
+    "danger-night": {
+      "$value": {
+        "colorSpace": "srgb",
+        "components": [
+          1.0,
+          0.6196,
+          0.651
+        ],
+        "hex": "#FF9EA6"
+      },
+      "$description": "Red, light enough for text on every Night surface."
+    }
+  },
+  "world": {
+    "day": {
+      "$description": "The day palette of the world backdrop. The world never uses candy and never has outlines.",
+      "sky": {
+        "1": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6235,
+              0.7608,
+              1
+            ],
+            "hex": "#9FC2FF"
+          }
+        },
+        "2": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.698,
+              0.8078,
+              1
+            ],
+            "hex": "#B2CEFF"
+          }
+        },
+        "3": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7843,
+              0.8588,
+              1
+            ],
+            "hex": "#C8DBFF"
+          }
+        },
+        "4": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.8745,
+              0.8902,
+              0.9843
+            ],
+            "hex": "#DFE3FB"
+          }
+        },
+        "5": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9529,
+              0.8784,
+              0.9333
+            ],
+            "hex": "#F3E0EE"
+          }
+        },
+        "6": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              1,
+              0.898,
+              0.8392
+            ],
+            "hex": "#FFE5D6"
+          }
+        }
+      },
+      "cloud": {
+        "light": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              1,
+              1,
+              1
+            ],
+            "hex": "#FFFFFF"
+          }
+        },
+        "body": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9569,
+              0.9686,
+              1
+            ],
+            "hex": "#F4F7FF"
+          }
+        },
+        "shade": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.8784,
+              0.9098,
+              1
+            ],
+            "hex": "#E0E8FF"
+          }
+        }
+      },
+      "mountain": {
+        "lit": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7255,
+              0.7137,
+              0.9176
+            ],
+            "hex": "#B9B6EA"
+          }
+        },
+        "shadow": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6588,
+              0.6431,
+              0.8706
+            ],
+            "hex": "#A8A4DE"
+          }
+        },
+        "edge": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.8118,
+              0.8039,
+              0.9608
+            ],
+            "hex": "#CFCDF5"
+          }
+        }
+      },
+      "snow": {
+        "lit": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9686,
+              0.9647,
+              1
+            ],
+            "hex": "#F7F6FF"
+          }
+        },
+        "shadow": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.8627,
+              0.851,
+              0.9608
+            ],
+            "hex": "#DCD9F5"
+          }
+        }
+      },
+      "tree": {
+        "lit": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5961,
+              0.8275,
+              0.7216
+            ],
+            "hex": "#98D3B8"
+          }
+        },
+        "shadow": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5098,
+              0.7529,
+              0.6471
+            ],
+            "hex": "#82C0A5"
+          }
+        }
+      },
+      "hill": {
+        "mid": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6627,
+              0.851,
+              0.7608
+            ],
+            "hex": "#A9D9C2"
+          }
+        },
+        "mid-edge": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7647,
+              0.9176,
+              0.8588
+            ],
+            "hex": "#C3EADB"
+          }
+        },
+        "near": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5765,
+              0.8196,
+              0.6627
+            ],
+            "hex": "#93D1A9"
+          }
+        },
+        "near-edge": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6941,
+              0.8941,
+              0.7608
+            ],
+            "hex": "#B1E4C2"
+          }
+        },
+        "bush": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5098,
+              0.7765,
+              0.6078
+            ],
+            "hex": "#82C69B"
+          }
+        }
+      },
+      "grass": {
+        "base": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4863,
+              0.7882,
+              0.5451
+            ],
+            "hex": "#7CC98B"
+          }
+        },
+        "top": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6588,
+              0.902,
+              0.6627
+            ],
+            "hex": "#A8E6A9"
+          }
+        },
+        "lip": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4,
+              0.7098,
+              0.4667
+            ],
+            "hex": "#66B577"
+          }
+        }
+      },
+      "dirt": {
+        "base": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.8471,
+              0.6667,
+              0.5098
+            ],
+            "hex": "#D8AA82"
+          }
+        },
+        "shadow": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7686,
+              0.5765,
+              0.4235
+            ],
+            "hex": "#C4936C"
+          }
+        },
+        "pebble": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9216,
+              0.7804,
+              0.6353
+            ],
+            "hex": "#EBC7A2"
+          }
+        }
+      },
+      "bird": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4235,
+            0.4157,
+            0.6196
+          ],
+          "hex": "#6C6A9E"
+        }
+      }
+    },
+    "sunset": {
+      "$description": "The sunset palette of the world backdrop. The world never uses candy and never has outlines.",
+      "sky": {
+        "1": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5569,
+              0.5608,
+              0.8471
+            ],
+            "hex": "#8E8FD8"
+          }
+        },
+        "2": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6549,
+              0.5961,
+              0.8627
+            ],
+            "hex": "#A798DC"
+          }
+        },
+        "3": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7882,
+              0.6275,
+              0.8235
+            ],
+            "hex": "#C9A0D2"
+          }
+        },
+        "4": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9176,
+              0.6588,
+              0.749
+            ],
+            "hex": "#EAA8BF"
+          }
+        },
+        "5": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9765,
+              0.7255,
+              0.6588
+            ],
+            "hex": "#F9B9A8"
+          }
+        },
+        "6": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              1,
+              0.8275,
+              0.6588
+            ],
+            "hex": "#FFD3A8"
+          }
+        }
+      },
+      "cloud": {
+        "light": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              1,
+              0.9647,
+              0.9725
+            ],
+            "hex": "#FFF6F8"
+          }
+        },
+        "body": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              1,
+              0.9059,
+              0.9373
+            ],
+            "hex": "#FFE7EF"
+          }
+        },
+        "shade": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.949,
+              0.7686,
+              0.8471
+            ],
+            "hex": "#F2C4D8"
+          }
+        }
+      },
+      "mountain": {
+        "lit": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6627,
+              0.5882,
+              0.8196
+            ],
+            "hex": "#A996D1"
+          }
+        },
+        "shadow": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5922,
+              0.5176,
+              0.7608
+            ],
+            "hex": "#9784C2"
+          }
+        },
+        "edge": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7373,
+              0.6667,
+              0.8745
+            ],
+            "hex": "#BCAADF"
+          }
+        }
+      },
+      "snow": {
+        "lit": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              1,
+              0.9451,
+              0.9608
+            ],
+            "hex": "#FFF1F5"
+          }
+        },
+        "shadow": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.8863,
+              0.8039,
+              0.9059
+            ],
+            "hex": "#E2CDE7"
+          }
+        }
+      },
+      "tree": {
+        "lit": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7059,
+              0.6157,
+              0.7529
+            ],
+            "hex": "#B49DC0"
+          }
+        },
+        "shadow": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6196,
+              0.5333,
+              0.6902
+            ],
+            "hex": "#9E88B0"
+          }
+        }
+      },
+      "hill": {
+        "mid": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7647,
+              0.6549,
+              0.7882
+            ],
+            "hex": "#C3A7C9"
+          }
+        },
+        "mid-edge": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.8314,
+              0.7294,
+              0.8392
+            ],
+            "hex": "#D4BAD6"
+          }
+        },
+        "near": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6549,
+              0.749,
+              0.6431
+            ],
+            "hex": "#A7BFA4"
+          }
+        },
+        "near-edge": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.749,
+              0.8314,
+              0.7137
+            ],
+            "hex": "#BFD4B6"
+          }
+        },
+        "bush": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5961,
+              0.7059,
+              0.5843
+            ],
+            "hex": "#98B495"
+          }
+        }
+      },
+      "grass": {
+        "base": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5608,
+              0.7529,
+              0.5412
+            ],
+            "hex": "#8FC08A"
+          }
+        },
+        "top": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.702,
+              0.8588,
+              0.651
+            ],
+            "hex": "#B3DBA6"
+          }
+        },
+        "lip": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4824,
+              0.6784,
+              0.4667
+            ],
+            "hex": "#7BAD77"
+          }
+        }
+      },
+      "dirt": {
+        "base": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.8275,
+              0.6235,
+              0.5255
+            ],
+            "hex": "#D39F86"
+          }
+        },
+        "shadow": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7412,
+              0.5412,
+              0.4549
+            ],
+            "hex": "#BD8A74"
+          }
+        },
+        "pebble": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.902,
+              0.7333,
+              0.6392
+            ],
+            "hex": "#E6BBA3"
+          }
+        }
+      },
+      "bird": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4314,
+            0.3569,
+            0.5569
+          ],
+          "hex": "#6E5B8E"
+        }
+      }
+    },
+    "night": {
+      "$description": "The night palette of the world backdrop. The world never uses candy and never has outlines.",
+      "sky": {
+        "1": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2275,
+              0.2431,
+              0.4863
+            ],
+            "hex": "#3A3E7C"
+          }
+        },
+        "2": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2706,
+              0.2784,
+              0.5412
+            ],
+            "hex": "#45478A"
+          }
+        },
+        "3": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3294,
+              0.3098,
+              0.5922
+            ],
+            "hex": "#544F97"
+          }
+        },
+        "4": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4078,
+              0.3529,
+              0.6353
+            ],
+            "hex": "#685AA2"
+          }
+        },
+        "5": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4941,
+              0.3922,
+              0.6588
+            ],
+            "hex": "#7E64A8"
+          }
+        },
+        "6": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5882,
+              0.4392,
+              0.6745
+            ],
+            "hex": "#9670AC"
+          }
+        }
+      },
+      "cloud": {
+        "light": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5608,
+              0.5373,
+              0.7843
+            ],
+            "hex": "#8F89C8"
+          }
+        },
+        "body": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4824,
+              0.4588,
+              0.7216
+            ],
+            "hex": "#7B75B8"
+          }
+        },
+        "shade": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4157,
+              0.3922,
+              0.6588
+            ],
+            "hex": "#6A64A8"
+          }
+        }
+      },
+      "mountain": {
+        "lit": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3569,
+              0.3529,
+              0.6196
+            ],
+            "hex": "#5B5A9E"
+          }
+        },
+        "shadow": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3059,
+              0.302,
+              0.5608
+            ],
+            "hex": "#4E4D8F"
+          }
+        },
+        "edge": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4314,
+              0.4235,
+              0.6902
+            ],
+            "hex": "#6E6CB0"
+          }
+        }
+      },
+      "snow": {
+        "lit": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7647,
+              0.7451,
+              0.9176
+            ],
+            "hex": "#C3BEEA"
+          }
+        },
+        "shadow": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5961,
+              0.5765,
+              0.8118
+            ],
+            "hex": "#9893CF"
+          }
+        }
+      },
+      "tree": {
+        "lit": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3059,
+              0.4314,
+              0.5725
+            ],
+            "hex": "#4E6E92"
+          }
+        },
+        "shadow": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2588,
+              0.3765,
+              0.498
+            ],
+            "hex": "#42607F"
+          }
+        }
+      },
+      "hill": {
+        "mid": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3451,
+              0.4667,
+              0.6039
+            ],
+            "hex": "#58779A"
+          }
+        },
+        "mid-edge": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4039,
+              0.5412,
+              0.6627
+            ],
+            "hex": "#678AA9"
+          }
+        },
+        "near": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3098,
+              0.4706,
+              0.5294
+            ],
+            "hex": "#4F7887"
+          }
+        },
+        "near-edge": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3725,
+              0.5451,
+              0.5961
+            ],
+            "hex": "#5F8B98"
+          }
+        },
+        "bush": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2745,
+              0.4235,
+              0.4784
+            ],
+            "hex": "#466C7A"
+          }
+        }
+      },
+      "grass": {
+        "base": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3098,
+              0.5451,
+              0.4471
+            ],
+            "hex": "#4F8B72"
+          }
+        },
+        "top": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4,
+              0.6392,
+              0.5294
+            ],
+            "hex": "#66A387"
+          }
+        },
+        "lip": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2549,
+              0.4784,
+              0.3843
+            ],
+            "hex": "#417A62"
+          }
+        }
+      },
+      "dirt": {
+        "base": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4902,
+              0.3804,
+              0.4588
+            ],
+            "hex": "#7D6175"
+          }
+        },
+        "shadow": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4275,
+              0.3255,
+              0.4039
+            ],
+            "hex": "#6D5367"
+          }
+        },
+        "pebble": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5647,
+              0.451,
+              0.5333
+            ],
+            "hex": "#907388"
+          }
+        }
+      },
+      "bird": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.4235,
+            0.4157,
+            0.6196
+          ],
+          "hex": "#6C6A9E"
+        }
+      }
+    },
+    "sky": {
+      "$description": "Things in the sky, shared by every time of day.",
+      "sun": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.9412,
+            0.7608
+          ],
+          "hex": "#FFF0C2"
+        }
+      },
+      "moon": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.9569,
+            0.8392
+          ],
+          "hex": "#FFF4D6"
+        }
+      },
+      "crater": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9373,
+            0.8863,
+            0.7412
+          ],
+          "hex": "#EFE2BD"
+        }
+      },
+      "moon-glow": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5451,
+            0.4706,
+            0.7216
+          ],
+          "hex": "#8B78B8"
+        }
+      },
+      "star": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9529,
+            0.9373,
+            1
+          ],
+          "hex": "#F3EFFF"
+        }
+      },
+      "star-warm": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.9137,
+            0.7216
+          ],
+          "hex": "#FFE9B8"
+        }
+      },
+      "trail-1": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.9529,
+            0.7843
+          ],
+          "hex": "#FFF3C8"
+        }
+      },
+      "trail-2": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8941,
+            0.8706,
+            0.9882
+          ],
+          "hex": "#E4DEFC"
+        }
+      },
+      "trail-3": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.7255,
+            0.6902,
+            0.9098
+          ],
+          "hex": "#B9B0E8"
+        }
+      },
+      "trail-4": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.5608,
+            0.5255,
+            0.7882
+          ],
+          "hex": "#8F86C9"
+        }
+      }
+    },
+    "flower": {
+      "1": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.8392,
+            0.902
+          ],
+          "hex": "#FFD6E6"
+        }
+      },
+      "2": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.949,
+            0.6588
+          ],
+          "hex": "#FFF2A8"
+        }
+      },
+      "3": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            1,
+            1
+          ],
+          "hex": "#FFFFFF"
+        }
+      },
+      "4": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            1,
+            0.7608,
+            0.851
+          ],
+          "hex": "#FFC2D9"
+        }
+      }
+    }
+  }
+}

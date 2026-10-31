@@ -1,0 +1,17 @@
+/* @jaatster/blip-font: Pixel Bop (display, capitals) and Pixelify Sans (UI and body, 400 to 700). Both SIL OFL 1.1. */
+
+@font-face {
+  font-family: "Pixel Bop";
+  src: url("./dist/pixel-bop.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Pixelify Sans";
+  src: url("./dist/pixelify-sans.woff2") format("woff2-variations"), url("./dist/pixelify-sans.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}

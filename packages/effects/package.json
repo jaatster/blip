@@ -1,0 +1,36 @@
+{
+  "version": "0.1.0",
+  "license": "MIT",
+  "type": "module",
+  "name": "@jaatster/blip-effects",
+  "description": "Blip effects: dithered world backdrops, transitions, text effects, bursts, CRT filter, time of day. All opt-in, all honour reduced motion.",
+  "sideEffects": [
+    "*.css",
+    "./dist/*.js"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./effects.css": "./dist/effects.css",
+    "./*.css": "./dist/*.css",
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "docs",
+    "examples"
+  ],
+  "scripts": {
+    "build": "node ../../scripts/build-css-package.mjs effects && node ../../scripts/build-ts-package.mjs effects"
+  },
+  "dependencies": {
+    "@jaatster/blip-core": "workspace:*",
+    "@jaatster/blip-tokens": "workspace:*"
+  }
+}

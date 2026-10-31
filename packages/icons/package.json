@@ -1,0 +1,18 @@
+{
+  "version": "0.1.0",
+  "license": "MIT",
+  "type": "module",
+  "name": "@jaatster/blip-icons",
+  "description": "Blip icons: about 150 original icons on a 12 x 12 pixel grid, as SVG files, a sprite, JS path data and an element.",
+  "sideEffects": [
+    "./dist/element.js"
+  ],
+  "files": [
+    "dist",
+    "src",
+    "docs"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  }
+}

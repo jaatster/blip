@@ -1,0 +1,28 @@
+{
+  "version": "0.1.0",
+  "license": "MIT",
+  "type": "module",
+  "name": "@jaatster/blip-components",
+  "description": "Blip's core components as layered CSS: one file, or one per component.",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    "./components.css": "./dist/components.css",
+    "./components.min.css": "./dist/components.min.css",
+    "./*.css": "./dist/*.css"
+  },
+  "files": [
+    "dist",
+    "src",
+    "docs",
+    "examples"
+  ],
+  "scripts": {
+    "build": "node ../../scripts/build-css-package.mjs components"
+  },
+  "dependencies": {
+    "@jaatster/blip-core": "workspace:*",
+    "@jaatster/blip-tokens": "workspace:*"
+  }
+}

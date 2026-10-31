@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Blip specimen</title>
+  <link rel="stylesheet" href="/packages/font/font.css">
+  <link rel="stylesheet" href="/packages/tokens/dist/css/tokens.css">
+  <link rel="stylesheet" href="/packages/core/dist/core.css">
+  <link rel="stylesheet" href="/packages/components/dist/button.css">
+  <style>
+    @layer specimen {
+      body { padding: calc(16 * var(--pp-pixel)) calc(16 * var(--pp-pixel)) calc(32 * var(--pp-pixel)); }
+      header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: calc(8 * var(--pp-pixel)); margin-block-end: calc(16 * var(--pp-pixel)); }
+      section { margin-block: calc(16 * var(--pp-pixel)); }
+      h2 { margin-block-end: calc(6 * var(--pp-pixel)); }
+      .row { display: flex; flex-wrap: wrap; align-items: center; gap: calc(4 * var(--pp-pixel)); margin-block: calc(4 * var(--pp-pixel)); }
+      .grid { display: grid; grid-template-columns: max-content repeat(4, max-content); gap: calc(4 * var(--pp-pixel)) calc(8 * var(--pp-pixel)); align-items: center; }
+      .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(calc(48 * var(--pp-pixel)), 1fr)); gap: calc(6 * var(--pp-pixel)); }
+      .swatch { padding: calc(4 * var(--pp-pixel)); }
+      .chip { display: flex; block-size: calc(16 * var(--pp-pixel)); }
+      .chip span { flex: 1; }
+      .roles { display: grid; grid-template-columns: repeat(auto-fill, minmax(calc(64 * var(--pp-pixel)), 1fr)); gap: calc(3 * var(--pp-pixel)); }
+      .role { display: flex; align-items: center; gap: calc(3 * var(--pp-pixel)); font-size: var(--pp-size-caption); }
+      .role i { inline-size: calc(10 * var(--pp-pixel)); block-size: calc(10 * var(--pp-pixel)); outline: var(--pp-pixel) solid var(--pp-line-soft); flex: none; }
+      .panel { padding: calc(8 * var(--pp-pixel)); }
+      .label { color: var(--pp-text-muted); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1 class="pp-display pp-pop" data-scale="3" data-pop="Blip">Blip</h1>
+      <p class="pp-lead pp-muted">The specimen. Every part below is drawn by the system's own CSS.</p>
+    </div>
+    <div>
+      <div class="row" role="group" aria-label="Scheme">
+        <span class="pp-label label">Scheme</span>
+        <button class="pp-box pp-button" data-size="sm" data-variant="outline" data-set-scheme="day" aria-pressed="true">Day</button>
+        <button class="pp-box pp-button" data-size="sm" data-variant="outline" data-set-scheme="sunset">Sunset</button>
+        <button class="pp-box pp-button" data-size="sm" data-variant="outline" data-set-scheme="night">Night</button>
+      </div>
+      <div class="row" role="group" aria-label="Pixel size">
+        <span class="pp-label label">Pixel</span>
+        <button class="pp-box pp-button" data-size="sm" data-variant="outline" data-set-pixel="2" aria-pressed="true">2 px</button>
+        <button class="pp-box pp-button" data-size="sm" data-variant="outline" data-set-pixel="3">3 px</button>
+        <button class="pp-box pp-button" data-size="sm" data-variant="outline" data-set-pixel="4">4 px</button>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <h2 class="pp-title">Pixel Bop</h2>
+    <div class="row"><span class="pp-display pp-pop" data-scale="4" data-tone="pink" data-pop="Bop!">Bop!</span><span class="pp-display pp-pop" data-scale="2" data-tone="teal">0123456789</span></div>
+    <p class="pp-display" data-scale="1">The quick brown fox jumps over the lazy dog: 12:34 &amp; (5/6)?</p>
+    <p class="pp-body">Pixelify Sans carries UI and body text: the one thing allowed off the grid, because a 7-pixel font is too small to read at body sizes.</p>
+  </section>
+
+  <section>
+    <h2 class="pp-title">Candy</h2>
+    <div class="swatches" id="candy"></div>
+  </section>
+
+  <section>
+    <h2 class="pp-title">Scheme roles</h2>
+    <div class="roles" id="roles"></div>
+  </section>
+
+  <section>
+    <h2 class="pp-title">Buttons: tiers and tones</h2>
+    <div class="grid" id="tiers"></div>
+  </section>
+
+  <section>
+    <h2 class="pp-title">Sizes</h2>
+    <div class="row">
+      <button class="pp-box pp-button" data-size="sm">Small</button>
+      <button class="pp-box pp-button">Medium</button>
+      <button class="pp-box pp-button" data-size="lg">Large</button>
+      <button class="pp-box pp-button" data-icon-only data-size="sm" aria-label="Add"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg></button>
+      <button class="pp-box pp-button" data-icon-only aria-label="Add"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg></button>
+      <button class="pp-box pp-button" data-icon-only data-size="lg" aria-label="Like" data-tone="pink"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></button>
+      <button class="pp-box pp-button" data-tone="success"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M9 3h2v2h-1v1H9v1H8v1H7v1H6v1H4V9H3V8H2V7H1V5h2v1h1v1h1V6h1V5h1V4h1V3h1z"/></svg>Saved</button>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="pp-title">States</h2>
+    <div class="grid" id="states"></div>
+  </section>
+
+  <section>
+    <h2 class="pp-title">Panels</h2>
+    <div class="row">
+      <div class="pp-box panel" data-variant="panel" data-pp-r="4"><strong>A panel</strong><br><span class="pp-small pp-muted">Surface, ink outline, a drop.</span></div>
+      <div class="pp-box panel" data-variant="soft" data-tone="teal" data-pp-r="6"><strong>Soft teal, radius 6</strong></div>
+      <div class="pp-box panel" data-tone="neutral" data-pp-r="2"><strong>Neutral candy, radius 2</strong></div>
+    </div>
+  </section>
+
+  <script type="module">
+    const root = document.documentElement;
+    const press = (attr, value) => document.querySelectorAll(`[${attr}]`).forEach((b) => b.setAttribute("aria-pressed", String(b.getAttribute(attr) === value)));
+    document.addEventListener("click", (e) => {
+      const b = e.target.closest("[data-set-scheme], [data-set-pixel]");
+      if (!b) return;
+      if (b.dataset.setScheme) { root.dataset.ppScheme = b.dataset.setScheme; press("data-set-scheme", b.dataset.setScheme); }
+      if (b.dataset.setPixel) { root.dataset.ppPixel = b.dataset.setPixel; press("data-set-pixel", b.dataset.setPixel); }
+    });
+    const q = new URLSearchParams(location.search);
+    if (q.get("scheme")) { root.dataset.ppScheme = q.get("scheme"); press("data-set-scheme", q.get("scheme")); }
+    if (q.get("pixel")) { root.dataset.ppPixel = q.get("pixel"); press("data-set-pixel", q.get("pixel")); }
+
+    const candies = ["red", "orange", "yellow", "green", "teal", "blue", "purple", "pink", "slate", "cream"];
+    document.getElementById("candy").innerHTML = candies.map((c) => `
+      <div class="pp-box swatch" data-variant="panel" data-pp-r="3">
+        <div class="chip"><span style="background:var(--pp-candy-${c}-light)"></span><span style="background:var(--pp-candy-${c})"></span><span style="background:var(--pp-candy-${c}-shade)"></span></div>
+        <div class="pp-label" style="margin-top:calc(3*var(--pp-pixel))">${c}</div>
+      </div>`).join("");
+
+    const roles = ["bg", "surface", "surface-raised", "surface-sunken", "surface-panel", "text", "text-muted", "line", "line-soft", "outline", "focus", "accent", "accent-text", "info-text", "success-text", "warning-text", "danger-text", "selection-bg"];
+    document.getElementById("roles").innerHTML = roles.map((r) => `<div class="role"><i style="background:var(--pp-${r})"></i>${r}</div>`).join("");
+
+    const tones = ["accent", "neutral", "info", "success", "warning", "danger", "slate"];
+    const tiers = ["candy", "soft", "outline", "ghost"];
+    document.getElementById("tiers").innerHTML = `<span></span>${tiers.map((t) => `<span class="pp-label label">${t}</span>`).join("")}` +
+      tones.map((tone) => `<span class="pp-label label">${tone}</span>` + tiers.map((tier) => `<span><button class="pp-box pp-button" data-variant="${tier}" data-tone="${tone}">${tone === "danger" ? "Delete" : "Continue"}</button></span>`).join("")).join("");
+
+    const states = [["Rest", ""], ["Hover", 'data-pp-state="hover"'], ["Focus", 'data-pp-state="focus"'], ["Pressed", 'data-pp-state="active"'], ["Toggled on", 'aria-pressed="true"'], ["Disabled", "disabled"], ["Busy", 'aria-busy="true"']];
+    document.getElementById("states").innerHTML = `<span></span>${tiers.map((t) => `<span class="pp-label label">${t}</span>`).join("")}` +
+      states.map(([name, attr]) => `<span class="pp-label label">${name}</span>` + tiers.map((tier) => `<span><button class="pp-box pp-button" data-variant="${tier}" ${attr}>Play</button></span>`).join("")).join("");
+  </script>
+</body>
+</html>

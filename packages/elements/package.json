@@ -1,0 +1,35 @@
+{
+  "version": "0.1.0",
+  "license": "MIT",
+  "type": "module",
+  "name": "@jaatster/blip-elements",
+  "description": "Blip Web Components: light-DOM custom elements that add behaviour to the components' markup.",
+  "sideEffects": [
+    "./dist/*.js"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./*": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    },
+    "./custom-elements.json": "./custom-elements.json"
+  },
+  "customElements": "custom-elements.json",
+  "files": [
+    "dist",
+    "src",
+    "docs",
+    "custom-elements.json"
+  ],
+  "scripts": {
+    "build": "node ../../scripts/build-ts-package.mjs elements"
+  },
+  "dependencies": {
+    "@jaatster/blip-core": "workspace:*",
+    "@jaatster/blip-tokens": "workspace:*"
+  }
+}

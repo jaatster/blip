@@ -1,0 +1,183 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "$description": "Sunset: warm pinks and lilacs. Pink is the accent.",
+  "$extensions": {
+    "blip": {
+      "scheme": "sunset",
+      "colorScheme": "light"
+    }
+  },
+  "$type": "color",
+  "bg": {
+    "$value": "{world.sunset.cloud.body}",
+    "$description": "The page behind everything."
+  },
+  "surface": {
+    "base": {
+      "$value": "{world.sunset.cloud.light}",
+      "$description": "Cards, inputs, panels."
+    },
+    "raised": {
+      "$value": "{world.sunset.cloud.light}",
+      "$description": "Things above the page: menus, dialogs, windows."
+    },
+    "sunken": {
+      "$value": "{world.sunset.cloud.shade}",
+      "$description": "Wells, tracks, table stripes."
+    },
+    "panel": {
+      "$value": "{candy.cream.base}",
+      "$description": "Text-heavy panels (cream on the light schemes)."
+    }
+  },
+  "text": {
+    "base": {
+      "$value": "{ink.base}",
+      "$description": "Body text."
+    },
+    "muted": {
+      "$value": "{ink.soft}",
+      "$description": "Secondary text."
+    },
+    "inverse": {
+      "$value": "{white}",
+      "$description": "Text on an inverted surface."
+    }
+  },
+  "line": {
+    "base": {
+      "$value": "{ink.base}",
+      "$description": "Outlines of non-candy controls; 3:1 against the page."
+    },
+    "soft": {
+      "$value": "{world.sunset.mountain.edge}",
+      "$description": "Dividers and decoration only."
+    }
+  },
+  "outline": {
+    "$value": "{ink.base}",
+    "$description": "The outline of every candy box, in every scheme. Ink, never black."
+  },
+  "drop": {
+    "$value": "{ink.base}",
+    "$description": "The one-pixel drop shadow down and to the right."
+  },
+  "focus": {
+    "base": {
+      "$value": "{candy.yellow.base}",
+      "$description": "The focus ring: always yellow."
+    },
+    "edge": {
+      "$value": "{ink.base}",
+      "$description": "The ink line outside the yellow, so focus reads on light and dark."
+    }
+  },
+  "accent": {
+    "base": {
+      "$value": "{candy.pink.base}"
+    },
+    "light": {
+      "$value": "{candy.pink.light}"
+    },
+    "shade": {
+      "$value": "{candy.pink.shade}"
+    },
+    "text": {
+      "$value": "{tone.accent-sunset}",
+      "$description": "This intent as text on the scheme's surfaces (AA)."
+    },
+    "on": {
+      "$value": "{ink.base}",
+      "$description": "Labels and icons on this intent's candy (AA)."
+    }
+  },
+  "info": {
+    "base": {
+      "$value": "{candy.blue.base}"
+    },
+    "light": {
+      "$value": "{candy.blue.light}"
+    },
+    "shade": {
+      "$value": "{candy.blue.shade}"
+    },
+    "text": {
+      "$value": "{tone.accent-day}",
+      "$description": "This intent as text on the scheme's surfaces (AA)."
+    },
+    "on": {
+      "$value": "{ink.base}",
+      "$description": "Labels and icons on this intent's candy (AA)."
+    }
+  },
+  "success": {
+    "base": {
+      "$value": "{candy.green.base}"
+    },
+    "light": {
+      "$value": "{candy.green.light}"
+    },
+    "shade": {
+      "$value": "{candy.green.shade}"
+    },
+    "text": {
+      "$value": "{tone.success-light}",
+      "$description": "This intent as text on the scheme's surfaces (AA)."
+    },
+    "on": {
+      "$value": "{ink.base}",
+      "$description": "Labels and icons on this intent's candy (AA)."
+    }
+  },
+  "warning": {
+    "base": {
+      "$value": "{candy.orange.base}"
+    },
+    "light": {
+      "$value": "{candy.orange.light}"
+    },
+    "shade": {
+      "$value": "{candy.orange.shade}"
+    },
+    "text": {
+      "$value": "{tone.warning-light}",
+      "$description": "This intent as text on the scheme's surfaces (AA)."
+    },
+    "on": {
+      "$value": "{ink.base}",
+      "$description": "Labels and icons on this intent's candy (AA)."
+    }
+  },
+  "danger": {
+    "base": {
+      "$value": "{candy.red.base}"
+    },
+    "light": {
+      "$value": "{candy.red.light}"
+    },
+    "shade": {
+      "$value": "{candy.red.shade}"
+    },
+    "text": {
+      "$value": "{tone.danger-light}",
+      "$description": "This intent as text on the scheme's surfaces (AA)."
+    },
+    "on": {
+      "$value": "{ink.base}",
+      "$description": "Labels and icons on this intent's candy (AA)."
+    }
+  },
+  "selection": {
+    "bg": {
+      "$value": "{candy.pink.light}",
+      "$description": "Selected text background."
+    },
+    "text": {
+      "$value": "{ink.base}"
+    }
+  },
+  "scrim": {
+    "$value": "{ink.base}",
+    "$description": "Behind dialogs: drawn as a dither, never a translucent wash."
+  }
+}

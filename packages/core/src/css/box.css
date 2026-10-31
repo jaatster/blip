@@ -1,0 +1,321 @@
+/*
+ * The candy box: Blip's one building block for everything you can act on.
+ *
+ *   ink outline   one pixel, stepped corners (::before, which also draws the drop)
+ *   light band    the top of the fill
+ *   base          the middle
+ *   shade band    the bottom of the fill
+ *   glints        three white pixels at the top left, one at the top right
+ *   drop          the outline's shape again, one pixel down and to the right
+ *
+ * Every edge is snapped to whole pixels from the box's own top-left corner, so a box of any size has crisp corners.
+ * Put `pp-box` on the element (components add it for you), then set the tier with data-variant and the colour
+ * with data-tone. States follow one rule each, for every component:
+ *
+ *   hover      lifts one pixel                 pressed    sits in its drop
+ *   focus      yellow ring with an ink edge    selected   sits in, bands swap (light below, shade above)
+ *   disabled   dithered with the page colour   busy       three stepped dots replace the label
+ *
+ * data-pp-state="hover focus active" forces those looks without the pointer or keyboard: for docs, tests and
+ * screenshots. Never use it to show real state.
+ */
+
+@property --_pp-dot-1 { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --_pp-dot-2 { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --_pp-dot-3 { syntax: "<length>"; inherits: false; initial-value: 0px; }
+
+@layer pp.core {
+  .pp-box {
+    /* Public: shape. Set --pp-r and the two matching shapes together (or use .pp-r-N / data-pp-r). */
+    --pp-r: 3;
+    --pp-shape: var(--pp-shape-3);
+    --pp-shape-inner: var(--pp-shape-3-inner);
+    /* Public: bands and drop, in pixels. */
+    --pp-band-top: 2;
+    --pp-band-bottom: 2;
+    --pp-drop-size: 1;
+    /* Public: tone. data-tone sets these four. */
+    --pp-tone: var(--pp-accent);
+    --pp-tone-light: var(--pp-accent-light);
+    --pp-tone-shade: var(--pp-accent-shade);
+    --pp-tone-on: var(--pp-accent-on);
+    --pp-tone-text: var(--pp-accent-text);
+    /* Public: what the tier paints. data-variant sets these. */
+    --pp-box-outline: var(--pp-outline);
+    --pp-box-top: var(--pp-tone-light);
+    --pp-box-fill: var(--pp-tone);
+    --pp-box-bottom: var(--pp-tone-shade);
+    --pp-box-text: var(--pp-tone-on);
+    --pp-box-glint: var(--pp-white);
+    --pp-box-dither: transparent;
+
+    /* Private. */
+    --_p: var(--pp-pixel);
+    --_t: calc((var(--pp-r) + 1) * var(--_p));
+    --_d: calc(var(--pp-drop-size) * var(--_p));
+    --_s: max(2, round(up, var(--pp-r) * 0.7, 1));
+
+    position: relative;
+    isolation: isolate;
+    color: var(--pp-box-text);
+    background: none;
+    border: 0;
+  }
+
+  /* Ink: the outline, and its copy one drop down and right. Both shapes are snapped to whole pixels. */
+  .pp-box::before {
+    content: "";
+    position: absolute;
+    inset: 0 calc(-1 * var(--_d)) calc(-1 * var(--_d)) 0;
+    z-index: -1;
+    pointer-events: none;
+    background: var(--pp-box-outline);
+    mask-image: var(--pp-shape), var(--pp-shape);
+    mask-repeat: no-repeat;
+    mask-size:
+      var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t),
+      calc(round(down, 100% - var(--_d), var(--_p)) - 2 * var(--_t)) round(down, 100% - var(--_d), var(--_p)),
+      round(down, 100% - var(--_d), var(--_p)) calc(round(down, 100% - var(--_d), var(--_p)) - 2 * var(--_t)),
+      var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t),
+      calc(round(down, 100% - var(--_d), var(--_p)) - 2 * var(--_t)) round(down, 100% - var(--_d), var(--_p)),
+      round(down, 100% - var(--_d), var(--_p)) calc(round(down, 100% - var(--_d), var(--_p)) - 2 * var(--_t));
+    mask-position:
+      left 0 top 0,
+      left calc(round(down, 100% + var(--_t) - var(--_d), var(--_p)) - var(--_t)) top 0,
+      left 0 top calc(round(down, 100% + var(--_t) - var(--_d), var(--_p)) - var(--_t)),
+      left calc(round(down, 100% + var(--_t) - var(--_d), var(--_p)) - var(--_t)) top calc(round(down, 100% + var(--_t) - var(--_d), var(--_p)) - var(--_t)),
+      left var(--_t) top 0,
+      left 0 top var(--_t),
+      left var(--_d) top var(--_d),
+      left calc(round(down, 100% + var(--_t) - var(--_d), var(--_p)) - var(--_t) + var(--_d)) top var(--_d),
+      left var(--_d) top calc(round(down, 100% + var(--_t) - var(--_d), var(--_p)) - var(--_t) + var(--_d)),
+      left calc(round(down, 100% + var(--_t) - var(--_d), var(--_p)) - var(--_t) + var(--_d)) top calc(round(down, 100% + var(--_t) - var(--_d), var(--_p)) - var(--_t) + var(--_d)),
+      left calc(var(--_t) + var(--_d)) top var(--_d),
+      left var(--_d) top calc(var(--_t) + var(--_d));
+  }
+
+  /* Fill: bands, glints, the disabled dither and the busy dots, inside the outline. */
+  .pp-box::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--pp-box-text) 0 0) left calc(round(down, 50%, var(--_p)) - 4 * var(--_p)) top round(down, 50%, var(--_p)) / var(--_pp-dot-1) var(--_pp-dot-1) no-repeat,
+      linear-gradient(var(--pp-box-text) 0 0) left round(down, 50%, var(--_p)) top round(down, 50%, var(--_p)) / var(--_pp-dot-2) var(--_pp-dot-2) no-repeat,
+      linear-gradient(var(--pp-box-text) 0 0) left calc(round(down, 50%, var(--_p)) + 4 * var(--_p)) top round(down, 50%, var(--_p)) / var(--_pp-dot-3) var(--_pp-dot-3) no-repeat,
+      repeating-conic-gradient(var(--pp-box-dither) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--_p)) calc(2 * var(--_p)),
+      linear-gradient(var(--pp-box-glint) 0 0) left calc(var(--_s) * var(--_p)) top calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--pp-box-glint) 0 0) left calc((var(--_s) + 1) * var(--_p)) top calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--pp-box-glint) 0 0) left calc((var(--_s) - 1) * var(--_p)) top calc(3 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--pp-box-glint) 0 0) left calc(round(down, 100% + var(--_p), var(--_p)) - (var(--_s) + 1) * var(--_p)) top calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(to bottom,
+        var(--pp-box-top) 0 calc((var(--pp-band-top) + 1) * var(--_p)),
+        var(--pp-box-fill) 0 calc(round(down, 100%, var(--_p)) - (var(--pp-band-bottom) + 1) * var(--_p)),
+        var(--pp-box-bottom) 0);
+    mask-image: var(--pp-shape-inner);
+    mask-repeat: no-repeat;
+    mask-size:
+      var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t),
+      calc(round(down, 100%, var(--_p)) - 2 * var(--_t)) calc(round(down, 100%, var(--_p)) - 2 * var(--_p)),
+      calc(round(down, 100%, var(--_p)) - 2 * var(--_p)) calc(round(down, 100%, var(--_p)) - 2 * var(--_t));
+    mask-position:
+      left 0 top 0,
+      left calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)) top 0,
+      left 0 top calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)),
+      left calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)) top calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)),
+      left var(--_t) top var(--_p),
+      left var(--_p) top var(--_t);
+  }
+
+  /* ------------------------------------------------------------ tiers */
+
+  .pp-box[data-variant="soft"] {
+    --pp-box-top: var(--pp-tone-light);
+    --pp-box-fill: var(--pp-tone-light);
+    --pp-box-bottom: var(--pp-tone);
+    --pp-box-glint: transparent;
+  }
+  .pp-box[data-variant="outline"] {
+    --pp-box-outline: var(--pp-line);
+    --pp-box-top: var(--pp-surface);
+    --pp-box-fill: var(--pp-surface);
+    --pp-box-bottom: var(--pp-surface);
+    --pp-box-text: var(--pp-text);
+    --pp-box-glint: transparent;
+    --pp-drop-size: 0;
+  }
+  .pp-box[data-variant="ghost"] {
+    --pp-box-outline: transparent;
+    --pp-box-top: transparent;
+    --pp-box-fill: transparent;
+    --pp-box-bottom: transparent;
+    --pp-box-text: var(--pp-text);
+    --pp-box-glint: transparent;
+    --pp-drop-size: 0;
+  }
+  /* A flat panel: surface fill, ink outline, no bands (cards, windows, menus). */
+  .pp-box[data-variant="panel"] {
+    --pp-box-top: var(--pp-surface);
+    --pp-box-fill: var(--pp-surface);
+    --pp-box-bottom: var(--pp-surface);
+    --pp-box-text: var(--pp-text);
+    --pp-box-glint: transparent;
+  }
+
+  /* ------------------------------------------------------------ tones */
+
+  .pp-box[data-tone="info"], .pp-box[data-tone="success"], .pp-box[data-tone="warning"], .pp-box[data-tone="danger"] {
+    --pp-tone: var(--_pp-i);
+    --pp-tone-light: var(--_pp-il);
+    --pp-tone-shade: var(--_pp-is);
+    --pp-tone-on: var(--_pp-io);
+    --pp-tone-text: var(--_pp-it);
+  }
+  .pp-box[data-tone="info"] { --_pp-i: var(--pp-info); --_pp-il: var(--pp-info-light); --_pp-is: var(--pp-info-shade); --_pp-io: var(--pp-info-on); --_pp-it: var(--pp-info-text); }
+  .pp-box[data-tone="success"] { --_pp-i: var(--pp-success); --_pp-il: var(--pp-success-light); --_pp-is: var(--pp-success-shade); --_pp-io: var(--pp-success-on); --_pp-it: var(--pp-success-text); }
+  .pp-box[data-tone="warning"] { --_pp-i: var(--pp-warning); --_pp-il: var(--pp-warning-light); --_pp-is: var(--pp-warning-shade); --_pp-io: var(--pp-warning-on); --_pp-it: var(--pp-warning-text); }
+  .pp-box[data-tone="danger"] { --_pp-i: var(--pp-danger); --_pp-il: var(--pp-danger-light); --_pp-is: var(--pp-danger-shade); --_pp-io: var(--pp-danger-on); --_pp-it: var(--pp-danger-text); }
+
+  /* Raw candies: ink labels on every one but slate, which takes white. */
+  .pp-box:is([data-tone="red"], [data-tone="orange"], [data-tone="yellow"], [data-tone="green"], [data-tone="teal"], [data-tone="blue"], [data-tone="purple"], [data-tone="pink"], [data-tone="slate"], [data-tone="neutral"]) {
+    --pp-tone-on: var(--pp-ink);
+    --pp-tone-text: var(--pp-text);
+  }
+  .pp-box[data-tone="red"] { --pp-tone: var(--pp-candy-red); --pp-tone-light: var(--pp-candy-red-light); --pp-tone-shade: var(--pp-candy-red-shade); }
+  .pp-box[data-tone="orange"] { --pp-tone: var(--pp-candy-orange); --pp-tone-light: var(--pp-candy-orange-light); --pp-tone-shade: var(--pp-candy-orange-shade); }
+  .pp-box[data-tone="yellow"] { --pp-tone: var(--pp-candy-yellow); --pp-tone-light: var(--pp-candy-yellow-light); --pp-tone-shade: var(--pp-candy-yellow-shade); }
+  .pp-box[data-tone="green"] { --pp-tone: var(--pp-candy-green); --pp-tone-light: var(--pp-candy-green-light); --pp-tone-shade: var(--pp-candy-green-shade); }
+  .pp-box[data-tone="teal"] { --pp-tone: var(--pp-candy-teal); --pp-tone-light: var(--pp-candy-teal-light); --pp-tone-shade: var(--pp-candy-teal-shade); }
+  .pp-box[data-tone="blue"] { --pp-tone: var(--pp-candy-blue); --pp-tone-light: var(--pp-candy-blue-light); --pp-tone-shade: var(--pp-candy-blue-shade); }
+  .pp-box[data-tone="purple"] { --pp-tone: var(--pp-candy-purple); --pp-tone-light: var(--pp-candy-purple-light); --pp-tone-shade: var(--pp-candy-purple-shade); }
+  .pp-box[data-tone="pink"] { --pp-tone: var(--pp-candy-pink); --pp-tone-light: var(--pp-candy-pink-light); --pp-tone-shade: var(--pp-candy-pink-shade); }
+  .pp-box[data-tone="slate"] { --pp-tone: var(--pp-candy-slate); --pp-tone-light: var(--pp-candy-slate-light); --pp-tone-shade: var(--pp-candy-slate-shade); --pp-tone-on: var(--pp-white); }
+  .pp-box[data-tone="neutral"] { --pp-tone: var(--pp-candy-cream); --pp-tone-light: var(--pp-candy-cream-light); --pp-tone-shade: var(--pp-candy-cream-shade); }
+
+  /* ------------------------------------------------------------ radius */
+
+  .pp-r-0, [data-pp-r="0"] { --pp-r: 0; --pp-shape: var(--pp-shape-0); --pp-shape-inner: var(--pp-shape-0-inner); }
+  .pp-r-1, [data-pp-r="1"] { --pp-r: 1; --pp-shape: var(--pp-shape-1); --pp-shape-inner: var(--pp-shape-1-inner); }
+  .pp-r-2, [data-pp-r="2"] { --pp-r: 2; --pp-shape: var(--pp-shape-2); --pp-shape-inner: var(--pp-shape-2-inner); }
+  .pp-r-3, [data-pp-r="3"] { --pp-r: 3; --pp-shape: var(--pp-shape-3); --pp-shape-inner: var(--pp-shape-3-inner); }
+  .pp-r-4, [data-pp-r="4"] { --pp-r: 4; --pp-shape: var(--pp-shape-4); --pp-shape-inner: var(--pp-shape-4-inner); }
+  .pp-r-5, [data-pp-r="5"] { --pp-r: 5; --pp-shape: var(--pp-shape-5); --pp-shape-inner: var(--pp-shape-5-inner); }
+  .pp-r-6, [data-pp-r="6"] { --pp-r: 6; --pp-shape: var(--pp-shape-6); --pp-shape-inner: var(--pp-shape-6-inner); }
+  .pp-r-7, [data-pp-r="7"] { --pp-r: 7; --pp-shape: var(--pp-shape-7); --pp-shape-inner: var(--pp-shape-7-inner); }
+  .pp-r-8, [data-pp-r="8"] { --pp-r: 8; --pp-shape: var(--pp-shape-8); --pp-shape-inner: var(--pp-shape-8-inner); }
+
+  /* ------------------------------------------------------------ states */
+
+  /* Something you can act on. */
+  .pp-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive]) {
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Hover: lifts a pixel; its drop grows by one so the shadow stays where it was. */
+  @media (hover: hover) {
+    .pp-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive]):not(:disabled, [aria-disabled="true"], [aria-busy="true"]):hover,
+    .pp-box[data-pp-state~="hover"] {
+      translate: 0 calc(-1 * var(--_p));
+      --pp-drop-size: 2;
+    }
+    .pp-box:is([data-variant="outline"], [data-variant="ghost"]):is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive]):not(:disabled, [aria-disabled="true"]):hover,
+    .pp-box:is([data-variant="outline"], [data-variant="ghost"])[data-pp-state~="hover"] {
+      translate: none;
+      --pp-drop-size: 0;
+      --pp-box-outline: var(--pp-line);
+      --pp-box-top: var(--pp-surface-sunken);
+      --pp-box-fill: var(--pp-surface-sunken);
+      --pp-box-bottom: var(--pp-surface-sunken);
+    }
+  }
+
+  /* Pressed, and selected: sits in its drop. Selected also swaps its bands, the 16-bit pushed-in look. */
+  .pp-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive]):not(:disabled, [aria-disabled="true"], [aria-busy="true"]):active,
+  .pp-box[data-pp-state~="active"],
+  .pp-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [data-pp-pressed]) {
+    translate: calc(var(--pp-drop-size) * var(--_p)) calc(var(--pp-drop-size) * var(--_p));
+    --pp-drop-size: 0;
+  }
+  .pp-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"])):not([data-variant="ghost"], [data-variant="outline"]) {
+    --pp-box-top: var(--pp-tone-shade);
+    --pp-box-bottom: var(--pp-tone-light);
+    --pp-box-glint: transparent;
+  }
+  .pp-box:is([data-variant="ghost"], [data-variant="outline"]):is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"])) {
+    --pp-box-outline: var(--pp-outline);
+    --pp-box-top: var(--pp-tone-light);
+    --pp-box-fill: var(--pp-tone-light);
+    --pp-box-bottom: var(--pp-tone-light);
+    --pp-box-text: var(--pp-tone-on);
+  }
+
+  /* Focus: yellow one pixel out, ink one pixel beyond. Drawn by dilating the box's own shape, so it follows the
+     stepped corners exactly. */
+  .pp-box:focus-visible,
+  .pp-box[data-pp-state~="focus"],
+  .pp-box:has(> :is(input, select, textarea):focus-visible) {
+    outline: none;
+    filter:
+      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--pp-focus)) drop-shadow(0 var(--_p) 0 var(--pp-focus))
+      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--pp-focus)) drop-shadow(var(--_p) 0 0 var(--pp-focus))
+      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--pp-focus-edge)) drop-shadow(0 var(--_p) 0 var(--pp-focus-edge))
+      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--pp-focus-edge)) drop-shadow(var(--_p) 0 0 var(--pp-focus-edge));
+  }
+
+  /* Ghost and outline boxes show their outline and well when focused, so the ring has a shape to follow. */
+  .pp-box[data-variant="ghost"]:is(:focus-visible, [data-pp-state~="focus"]) {
+    --pp-box-outline: var(--pp-line);
+    --pp-box-top: var(--pp-surface-sunken);
+    --pp-box-fill: var(--pp-surface-sunken);
+    --pp-box-bottom: var(--pp-surface-sunken);
+  }
+
+  /* Disabled: dithered with the page, no lift, no drop. Disabled is dithered, never greyed. */
+  .pp-box:is(:disabled, [aria-disabled="true"]) {
+    --pp-box-dither: var(--pp-bg);
+    --pp-drop-size: 0;
+    cursor: not-allowed;
+  }
+  .pp-box:is([data-variant="outline"], [data-variant="ghost"]):is(:disabled, [aria-disabled="true"]) {
+    --pp-box-text: var(--pp-text-muted);
+    --pp-box-outline: var(--pp-line-soft);
+    --pp-box-dither: var(--pp-surface-sunken);
+  }
+
+  /* Busy: the label hides (keeping its size) and three dots step in, one, two, three. */
+  .pp-box[aria-busy="true"] {
+    color: transparent;
+    cursor: progress;
+  }
+  .pp-box[aria-busy="true"]::after {
+    animation: pp-box-dots calc(3 * var(--pp-duration-beat, 400ms)) steps(1, jump-end) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pp-box[aria-busy="true"]::after {
+      animation: none;
+      --_pp-dot-1: calc(2 * var(--pp-pixel));
+      --_pp-dot-2: calc(2 * var(--pp-pixel));
+      --_pp-dot-3: calc(2 * var(--pp-pixel));
+    }
+  }
+
+  /* Windows high contrast: the system's colours and a real border. */
+  @media (forced-colors: active) {
+    .pp-box { border: 1px solid CanvasText; translate: none !important; filter: none !important; }
+    .pp-box::before, .pp-box::after { display: none; }
+    .pp-box:is(button, a[href], [role="button"]) { border-color: ButtonText; }
+    .pp-box:focus-visible { outline: 2px solid Highlight; outline-offset: 2px; }
+    .pp-box:is(:disabled, [aria-disabled="true"]) { border-color: GrayText; color: GrayText; }
+  }
+}
+
+@keyframes pp-box-dots {
+  0% { --_pp-dot-1: calc(2 * var(--pp-pixel)); --_pp-dot-2: 0px; --_pp-dot-3: 0px; }
+  33.333% { --_pp-dot-1: calc(2 * var(--pp-pixel)); --_pp-dot-2: calc(2 * var(--pp-pixel)); --_pp-dot-3: 0px; }
+  66.667%, 100% { --_pp-dot-1: calc(2 * var(--pp-pixel)); --_pp-dot-2: calc(2 * var(--pp-pixel)); --_pp-dot-3: calc(2 * var(--pp-pixel)); }
+}

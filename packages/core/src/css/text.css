@@ -1,0 +1,99 @@
+/*
+ * Type. Big text is Pixel Bop, always on the grid and always capitals: font-size is 10 x pixel x scale, so every
+ * letter pixel is a Blip pixel. Small text is Pixelify Sans at fixed sizes: the one thing allowed off the grid.
+ *
+ *   .pp-display   Pixel Bop at a whole scale (--pp-scale: 1 to 4, or data-scale)
+ *   .pp-pop       POP: white letters, ink outline, a tinted lower band and a drop in the tone's shade
+ *   .pp-outline   one colour with an ink outline, no drop: small text over pictures
+ *   .pp-label     upper-case UI labels
+ *   .pp-title, .pp-lead, .pp-body, .pp-small, .pp-caption
+ */
+
+@layer pp.core {
+  .pp-display {
+    --pp-scale: 2;
+    font-family: var(--pp-font-display);
+    font-size: calc(10 * var(--pp-pixel) * var(--pp-scale));
+    font-weight: 400;
+    line-height: var(--pp-leading-display);
+    letter-spacing: 0;
+    text-transform: uppercase;
+    font-synthesis: none;
+    font-variant-numeric: tabular-nums;
+    -webkit-font-smoothing: none;
+    font-smooth: never;
+  }
+  .pp-display[data-scale="1"] { --pp-scale: 1; }
+  .pp-display[data-scale="2"] { --pp-scale: 2; }
+  .pp-display[data-scale="3"] { --pp-scale: 3; }
+  .pp-display[data-scale="4"] { --pp-scale: 4; }
+
+  /*
+   * POP. White letters with an ink outline one pixel all round, and a drop one pixel down and right hugging the
+   * outline, in the tone's shade. Add data-pop="<the same text>" and the bottom two rows of every letter (rows 7
+   * and 8 of the 12-row line) take a light tint of the tone, as on the TV.
+   */
+  .pp-pop {
+    --pp-pop-tint: var(--pp-accent-light);
+    --pp-pop-drop: var(--pp-accent-shade);
+    --_p: var(--pp-pixel);
+    position: relative;
+    color: var(--pp-white);
+    text-shadow:
+      calc(-1 * var(--_p)) calc(-1 * var(--_p)) 0 var(--pp-ink), 0 calc(-1 * var(--_p)) 0 var(--pp-ink),
+      var(--_p) calc(-1 * var(--_p)) 0 var(--pp-ink), calc(-1 * var(--_p)) 0 0 var(--pp-ink),
+      var(--_p) 0 0 var(--pp-ink), calc(-1 * var(--_p)) var(--_p) 0 var(--pp-ink),
+      0 var(--_p) 0 var(--pp-ink), var(--_p) var(--_p) 0 var(--pp-ink),
+      calc(2 * var(--_p)) 0 0 var(--pp-pop-drop), calc(2 * var(--_p)) var(--_p) 0 var(--pp-pop-drop),
+      calc(2 * var(--_p)) calc(2 * var(--_p)) 0 var(--pp-pop-drop), var(--_p) calc(2 * var(--_p)) 0 var(--pp-pop-drop),
+      0 calc(2 * var(--_p)) 0 var(--pp-pop-drop);
+    padding: var(--_p) calc(2 * var(--_p)) calc(2 * var(--_p)) var(--_p);
+  }
+  .pp-pop[data-pop]::after {
+    content: attr(data-pop) / "";
+    position: absolute;
+    inset: 0;
+    padding: inherit;
+    color: transparent;
+    text-shadow: none;
+    background: linear-gradient(to bottom, transparent 0 calc(var(--_p) + 0.58333 * (100% - 3 * var(--_p))), var(--pp-pop-tint) 0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    pointer-events: none;
+  }
+  .pp-pop:is([data-tone="red"], [data-tone="danger"]) { --pp-pop-tint: var(--pp-candy-red-light); --pp-pop-drop: var(--pp-candy-red-shade); }
+  .pp-pop[data-tone="orange"], .pp-pop[data-tone="warning"] { --pp-pop-tint: var(--pp-candy-orange-light); --pp-pop-drop: var(--pp-candy-orange-shade); }
+  .pp-pop[data-tone="yellow"] { --pp-pop-tint: var(--pp-candy-yellow-light); --pp-pop-drop: var(--pp-candy-yellow-shade); }
+  .pp-pop:is([data-tone="green"], [data-tone="success"]) { --pp-pop-tint: var(--pp-candy-green-light); --pp-pop-drop: var(--pp-candy-green-shade); }
+  .pp-pop[data-tone="teal"] { --pp-pop-tint: var(--pp-candy-teal-light); --pp-pop-drop: var(--pp-candy-teal-shade); }
+  .pp-pop:is([data-tone="blue"], [data-tone="info"]) { --pp-pop-tint: var(--pp-candy-blue-light); --pp-pop-drop: var(--pp-candy-blue-shade); }
+  .pp-pop[data-tone="purple"] { --pp-pop-tint: var(--pp-candy-purple-light); --pp-pop-drop: var(--pp-candy-purple-shade); }
+  .pp-pop[data-tone="pink"] { --pp-pop-tint: var(--pp-candy-pink-light); --pp-pop-drop: var(--pp-candy-pink-shade); }
+
+  /* OUTLINE: one colour, an ink outline, no drop. For small text that can land on any part of a picture. */
+  .pp-outline {
+    --_p: max(0.5px, calc(var(--pp-pixel) / 2));
+    color: var(--pp-white);
+    text-shadow:
+      calc(-1 * var(--_p)) calc(-1 * var(--_p)) 0 var(--pp-ink), 0 calc(-1 * var(--_p)) 0 var(--pp-ink),
+      var(--_p) calc(-1 * var(--_p)) 0 var(--pp-ink), calc(-1 * var(--_p)) 0 0 var(--pp-ink),
+      var(--_p) 0 0 var(--pp-ink), calc(-1 * var(--_p)) var(--_p) 0 var(--pp-ink),
+      0 var(--_p) 0 var(--pp-ink), var(--_p) var(--_p) 0 var(--pp-ink);
+  }
+
+  .pp-label {
+    font-family: var(--pp-font-ui);
+    font-size: var(--pp-size-small);
+    font-weight: var(--pp-weight-bold);
+    line-height: 1;
+    letter-spacing: var(--pp-tracking-label);
+    text-transform: uppercase;
+  }
+  .pp-title { font-family: var(--pp-font-ui); font-size: var(--pp-size-title); font-weight: var(--pp-weight-bold); line-height: var(--pp-leading-tight); text-wrap: balance; }
+  .pp-lead { font-size: var(--pp-size-lead); line-height: var(--pp-leading-normal); }
+  .pp-body { font-size: var(--pp-size-body); line-height: var(--pp-leading-normal); }
+  .pp-small { font-size: var(--pp-size-small); line-height: var(--pp-leading-normal); }
+  .pp-caption { font-size: var(--pp-size-caption); line-height: var(--pp-leading-normal); color: var(--pp-text-muted); }
+  .pp-muted { color: var(--pp-text-muted); }
+  .pp-numeric { font-variant-numeric: tabular-nums; }
+}

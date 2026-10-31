@@ -1,0 +1,11 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "pixel": {
+    "$type": "dimension",
+    "$value": {
+      "value": 4,
+      "unit": "px"
+    },
+    "$description": "A chunkier pixel (4 CSS px), for games, kiosks and TVs."
+  }
+}

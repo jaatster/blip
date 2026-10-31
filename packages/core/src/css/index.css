@@ -1,0 +1,7 @@
+/* @jaatster/blip-core: the building blocks. Import after @jaatster/blip-tokens/tokens.css. */
+@import "./generated/shapes.css";
+@import "./base.css";
+@import "./box.css";
+@import "./text.css";
+@import "./icon.css";
+@import "./motion.css";

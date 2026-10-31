@@ -1,0 +1,28 @@
+{
+  "name": "@jaatster/blip-core",
+  "version": "0.1.0",
+  "description": "Blip's building blocks: the pixel unit, the candy box, the focus ring, dither, stepped motion, type styles, and shared behaviours.",
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/js/index.d.ts",
+      "default": "./dist/js/index.js"
+    },
+    "./core.css": "./dist/core.css",
+    "./core.min.css": "./dist/core.min.css"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "node scripts/shapes.mjs && node ../../scripts/bundle-css.mjs src/css/index.css dist/core.css && tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@jaatster/blip-tokens": "workspace:*"
+  }
+}

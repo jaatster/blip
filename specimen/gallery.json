@@ -1,0 +1,13 @@
+{
+  "css": [
+    "/packages/components/src/button.css"
+  ],
+  "js": [],
+  "examples": [
+    {
+      "pkg": "components",
+      "name": "button",
+      "url": "/packages/components/examples/button.html"
+    }
+  ]
+}

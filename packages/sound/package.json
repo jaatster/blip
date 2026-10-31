@@ -1,0 +1,25 @@
+{
+  "version": "0.1.0",
+  "license": "MIT",
+  "type": "module",
+  "name": "@jaatster/blip-sound",
+  "description": "Blip chip sounds, synthesised in the browser with Web Audio: no audio files. Off until enabled.",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "docs"
+  ],
+  "scripts": {
+    "build": "node ../../scripts/build-ts-package.mjs sound"
+  },
+  "dependencies": {
+    "@jaatster/blip-core": "workspace:*"
+  }
+}

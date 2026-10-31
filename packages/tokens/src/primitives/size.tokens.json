@@ -1,0 +1,314 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "$description": "Sizes in Blip pixels. A number token with the pixel unit is multiplied by the pixel size (2 CSS px by default), so everything scales together and stays on the grid.",
+  "space": {
+    "0": {
+      "$type": "number",
+      "$value": 0,
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "1": {
+      "$type": "number",
+      "$value": 1,
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "2": {
+      "$type": "number",
+      "$value": 2,
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "3": {
+      "$type": "number",
+      "$value": 3,
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "4": {
+      "$type": "number",
+      "$value": 4,
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "6": {
+      "$type": "number",
+      "$value": 6,
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "8": {
+      "$type": "number",
+      "$value": 8,
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "12": {
+      "$type": "number",
+      "$value": 12,
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "16": {
+      "$type": "number",
+      "$value": 16,
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "24": {
+      "$type": "number",
+      "$value": 24,
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "32": {
+      "$type": "number",
+      "$value": 32,
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "$description": "Spacing, named by its size in pixels."
+  },
+  "radius": {
+    "0": {
+      "$type": "number",
+      "$value": 0,
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "1": {
+      "$type": "number",
+      "$value": 1,
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "2": {
+      "$type": "number",
+      "$value": 2,
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "3": {
+      "$type": "number",
+      "$value": 3,
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "4": {
+      "$type": "number",
+      "$value": 4,
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "5": {
+      "$type": "number",
+      "$value": 5,
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "6": {
+      "$type": "number",
+      "$value": 6,
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "$description": "Corner radius in pixels. Corners are stepped, never smooth."
+  },
+  "control": {
+    "$description": "Heights of buttons, inputs and other controls, in pixels.",
+    "sm": {
+      "$type": "number",
+      "$value": 16,
+      "$description": "32 CSS px at the default pixel size.",
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "md": {
+      "$type": "number",
+      "$value": 20,
+      "$description": "40 CSS px.",
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "lg": {
+      "$type": "number",
+      "$value": 24,
+      "$description": "48 CSS px.",
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    }
+  },
+  "icon": {
+    "$description": "Icons are drawn on a 12 x 12 grid.",
+    "md": {
+      "$type": "number",
+      "$value": 12,
+      "$description": "The icon grid: 24 CSS px.",
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "lg": {
+      "$type": "number",
+      "$value": 24,
+      "$description": "Icons doubled: 48 CSS px.",
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    }
+  },
+  "line": {
+    "$description": "Line weights in pixels.",
+    "outline": {
+      "$type": "number",
+      "$value": 1,
+      "$description": "The ink outline of every candy box.",
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "focus": {
+      "$type": "number",
+      "$value": 1,
+      "$description": "Each of the two lines of the focus ring: yellow inside, ink outside.",
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    },
+    "drop": {
+      "$type": "number",
+      "$value": 1,
+      "$description": "The drop shadow down and to the right.",
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    }
+  },
+  "target": {
+    "min": {
+      "$type": "number",
+      "$value": 12,
+      "$description": "The smallest click or touch target: 24 CSS px (WCAG 2.2, 2.5.8).",
+      "$extensions": {
+        "blip": {
+          "unit": "pixel"
+        }
+      }
+    }
+  },
+  "breakpoint": {
+    "$type": "dimension",
+    "$description": "Layout breakpoints in CSS px. Prefer container queries; these are for page shells.",
+    "medium": {
+      "$value": {
+        "value": 600,
+        "unit": "px"
+      }
+    },
+    "wide": {
+      "$value": {
+        "value": 1024,
+        "unit": "px"
+      }
+    }
+  },
+  "layer": {
+    "$type": "number",
+    "$description": "Stacking order.",
+    "raised": {
+      "$value": 1
+    },
+    "sticky": {
+      "$value": 100
+    },
+    "dropdown": {
+      "$value": 200
+    },
+    "overlay": {
+      "$value": 300
+    },
+    "modal": {
+      "$value": 400
+    },
+    "toast": {
+      "$value": 500
+    },
+    "tooltip": {
+      "$value": 600
+    }
+  }
+}

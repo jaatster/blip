@@ -1,0 +1,85 @@
+/*
+ * Button. A candy box you press. The reference component: every other component follows its conventions.
+ *
+ *   <button class="pp-box pp-button">Save</button>
+ *   <button class="pp-box pp-button" data-variant="soft" data-tone="danger" data-size="sm">Delete</button>
+ *   <button class="pp-box pp-button" data-icon-only aria-label="Close"><svg class="pp-icon">…</svg></button>
+ *
+ *   data-variant  candy (default) | soft | outline | ghost        the tier: loud to quiet
+ *   data-tone     accent (default) | info | success | warning | danger | a candy name | neutral
+ *   data-size     sm | md (default) | lg                           16, 20 or 24 pixels high
+ *   data-icon-only                                                 square, for one icon (needs aria-label)
+ *   data-width="full"                                              fills its container
+ *   aria-busy="true"                                               loading: dots replace the label
+ *   aria-pressed="true"                                            a toggle that is on: sits in
+ *
+ * States come from the candy box: hover lifts, pressed sits in its drop, focus is the yellow ring, disabled is
+ * dithered. Sizes are whole pixels: radius 3, 4, 5 and bands from the TV's rule (about 20% light, 18% shade).
+ */
+
+@layer pp.components {
+  .pp-button {
+    --pp-r: 4;
+    --pp-shape: var(--pp-shape-4);
+    --pp-shape-inner: var(--pp-shape-4-inner);
+    --pp-band-top: 4;
+    --pp-band-bottom: 4;
+    --_h: var(--pp-control-md);
+    --_pad: calc(8 * var(--pp-pixel));
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(3 * var(--pp-pixel));
+    block-size: var(--_h);
+    min-inline-size: var(--_h);
+    padding: 0 var(--_pad);
+    /* Leave room for the drop, so neighbours never touch it. */
+    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+    font-family: var(--pp-font-ui);
+    font-size: var(--pp-size-small);
+    font-weight: var(--pp-weight-bold);
+    line-height: 1;
+    letter-spacing: var(--pp-tracking-label);
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  .pp-button[data-size="sm"] {
+    --pp-r: 3;
+    --pp-shape: var(--pp-shape-3);
+    --pp-shape-inner: var(--pp-shape-3-inner);
+    --pp-band-top: 3;
+    --pp-band-bottom: 3;
+    --_h: var(--pp-control-sm);
+    --_pad: calc(6 * var(--pp-pixel));
+    gap: calc(2 * var(--pp-pixel));
+    font-size: var(--pp-size-caption);
+  }
+
+  .pp-button[data-size="lg"] {
+    --pp-r: 5;
+    --pp-shape: var(--pp-shape-5);
+    --pp-shape-inner: var(--pp-shape-5-inner);
+    --pp-band-top: 5;
+    --pp-band-bottom: 4;
+    --_h: var(--pp-control-lg);
+    --_pad: calc(10 * var(--pp-pixel));
+    font-size: var(--pp-size-body);
+  }
+
+  .pp-button[data-icon-only] {
+    padding: 0;
+    inline-size: var(--_h);
+  }
+  .pp-button[data-width="full"] {
+    display: flex;
+    inline-size: calc(100% - var(--pp-pixel));
+  }
+
+  /* An icon nudged to sit optically centred with capitals. */
+  .pp-button > .pp-icon:first-child:not(:only-child) { margin-inline-start: calc(-2 * var(--pp-pixel)); }
+  .pp-button > .pp-icon:last-child:not(:only-child) { margin-inline-end: calc(-2 * var(--pp-pixel)); }
+}
