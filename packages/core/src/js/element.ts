@@ -25,7 +25,12 @@ export abstract class PixelElement extends HTMLElement {
     const ctor = this.constructor as typeof PixelElement;
     if (ctor.box) this.classList.add("pp-box");
     if (ctor.classes.length) this.classList.add(...ctor.classes);
-    this.connected();
+    // Defined by a classic script while the page is still parsing, an element upgrades before its children exist:
+    // wait for them.
+    if (document.readyState === "loading") {
+      const signal = this.#controller.signal;
+      document.addEventListener("DOMContentLoaded", () => { if (!signal.aborted) this.connected(); }, { once: true, signal });
+    } else this.connected();
   }
 
   disconnectedCallback(): void {

@@ -1,0 +1,60 @@
+<!-- Progress steps: a checkout wizard (done steps are links back, the arrow over the current step), the same in a
+     narrow box, a first-run checklist down the side, and a wizard just started. -->
+<div style="display:grid;gap:calc(12*var(--pp-pixel));max-inline-size:calc(360*var(--pp-pixel))">
+
+  <div class="pp-progress-steps" data-arrow>
+    <ol class="pp-progress-steps-list" aria-label="Checkout">
+      <li class="pp-progress-steps-item" data-state="done">
+        <a href="#basket"><span class="pp-box pp-progress-steps-marker">1</span><span class="pp-progress-steps-label">Basket<span class="pp-sr-only">, done</span></span><span class="pp-progress-steps-hint">3 items</span></a>
+      </li>
+      <li class="pp-progress-steps-item" data-state="done">
+        <a href="#delivery"><span class="pp-box pp-progress-steps-marker">2</span><span class="pp-progress-steps-label">Delivery<span class="pp-sr-only">, done</span></span><span class="pp-progress-steps-hint">Next-day</span></a>
+      </li>
+      <li class="pp-progress-steps-item" aria-current="step">
+        <span class="pp-box pp-progress-steps-marker">3</span><span class="pp-progress-steps-label">Payment</span><span class="pp-progress-steps-hint">Card or coins</span>
+      </li>
+      <li class="pp-progress-steps-item">
+        <span class="pp-box pp-progress-steps-marker">4</span><span class="pp-progress-steps-label">Review</span><span class="pp-progress-steps-hint">Check and pay</span>
+      </li>
+    </ol>
+  </div>
+
+  <div style="inline-size:calc(140*var(--pp-pixel))">
+    <div class="pp-progress-steps">
+      <ol class="pp-progress-steps-list" aria-label="Checkout">
+        <li class="pp-progress-steps-item" data-state="done"><span class="pp-box pp-progress-steps-marker">1</span><span class="pp-progress-steps-label">Basket<span class="pp-sr-only">, done</span></span></li>
+        <li class="pp-progress-steps-item" aria-current="step"><span class="pp-box pp-progress-steps-marker">2</span><span class="pp-progress-steps-label">Delivery</span></li>
+        <li class="pp-progress-steps-item"><span class="pp-box pp-progress-steps-marker">3</span><span class="pp-progress-steps-label">Payment</span></li>
+        <li class="pp-progress-steps-item"><span class="pp-box pp-progress-steps-marker">4</span><span class="pp-progress-steps-label">Review</span></li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="pp-box" data-variant="panel" style="padding:calc(8*var(--pp-pixel))">
+    <h3 class="pp-title" style="margin-block-end:calc(6*var(--pp-pixel))">Set up your studio</h3>
+    <div class="pp-progress-steps" data-orientation="vertical" data-arrow>
+      <ol class="pp-progress-steps-list" aria-label="Studio setup">
+        <li class="pp-progress-steps-item" data-state="done">
+          <span class="pp-box pp-progress-steps-marker">1</span><span class="pp-progress-steps-label">Create your account<span class="pp-sr-only">, done</span></span><span class="pp-progress-steps-hint">Signed in as mika@example.com</span>
+        </li>
+        <li class="pp-progress-steps-item" aria-current="step">
+          <span class="pp-box pp-progress-steps-marker">2</span><span class="pp-progress-steps-label">Name your game</span><span class="pp-progress-steps-hint">You can change it later.</span>
+        </li>
+        <li class="pp-progress-steps-item">
+          <span class="pp-box pp-progress-steps-marker">3</span><span class="pp-progress-steps-label">Build your first level</span><span class="pp-progress-steps-hint">Start from a template or a blank map.</span>
+        </li>
+        <li class="pp-progress-steps-item">
+          <span class="pp-box pp-progress-steps-marker">4</span><span class="pp-progress-steps-label">Invite testers</span>
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="pp-progress-steps">
+    <ol class="pp-progress-steps-list" aria-label="New world">
+      <li class="pp-progress-steps-item" aria-current="step"><span class="pp-box pp-progress-steps-marker" data-tone="pink">1</span><span class="pp-progress-steps-label">Theme</span></li>
+      <li class="pp-progress-steps-item"><span class="pp-box pp-progress-steps-marker">2</span><span class="pp-progress-steps-label">Size</span></li>
+      <li class="pp-progress-steps-item"><span class="pp-box pp-progress-steps-marker">3</span><span class="pp-progress-steps-label">Music</span></li>
+    </ol>
+  </div>
+</div>

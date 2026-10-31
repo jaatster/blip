@@ -1,0 +1,81 @@
+/*
+ * Stat. One number that matters: a label, the value big in Pixel Bop POP, and how it moved, with a pixel arrow in
+ * the colour of what the move means. Put several in a <dl>; each stat is a <div> of <dt> and <dd>.
+ *
+ *   <dl class="pp-grid" data-min="80">
+ *     <div class="pp-stat">
+ *       <dt class="pp-stat-label">High score</dt>
+ *       <dd class="pp-stat-value pp-display pp-pop" data-pop="98,120">98,120</dd>
+ *       <dd class="pp-stat-delta" data-trend="up">+12% this week</dd>
+ *     </div>
+ *   </dl>
+ *
+ *   data-trend   up | down | flat (on .pp-stat-delta)       the arrow; up reads green, down red, flat muted
+ *   data-tone    success | danger | neutral (on the delta)  when down is good news (lag, deaths), say so
+ *   data-scale   1 | 2 (default) | 3 | 4 (on the value)      Pixel Bop's whole scales
+ *   .pp-box      on .pp-stat: the stat in its own panel (add data-variant="panel")
+ *
+ * The arrow and colour repeat the sign; the text carries it ("+12%", "-3"), so colour is never the only cue.
+ */
+
+@layer pp.components {
+  .pp-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--pp-space-2);
+    min-inline-size: 0;
+    margin: 0;
+  }
+  .pp-stat.pp-box { padding: calc(6 * var(--pp-pixel)) calc(8 * var(--pp-pixel)); margin: 0 var(--pp-pixel) var(--pp-pixel) 0; }
+  /* On soft and candy tiers, text inside takes the box's ink: the scheme's muted text is too light on pastel at night. */
+  .pp-stat.pp-box:not([data-variant="panel"], [data-variant="outline"], [data-variant="ghost"]) { --pp-text: var(--pp-box-text); --pp-text-muted: var(--pp-box-text); --pp-success-text: var(--pp-box-text); --pp-danger-text: var(--pp-box-text); }
+
+  .pp-stat-label {
+    font-family: var(--pp-font-ui);
+    font-size: var(--pp-size-caption);
+    font-weight: var(--pp-weight-bold);
+    line-height: var(--pp-leading-tight);
+    letter-spacing: var(--pp-tracking-label);
+    text-transform: uppercase;
+    color: var(--pp-text-muted);
+  }
+
+  .pp-stat-value {
+    max-inline-size: 100%;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .pp-stat-value:not(.pp-pop) { color: var(--pp-text); }
+
+  .pp-stat-delta {
+    --_c: var(--pp-text-muted);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pp-space-2);
+    font-family: var(--pp-font-ui);
+    font-size: var(--pp-size-small);
+    font-weight: var(--pp-weight-bold);
+    line-height: var(--pp-leading-tight);
+    font-variant-numeric: tabular-nums;
+    color: var(--_c);
+  }
+  .pp-stat-delta[data-trend="up"] { --_c: var(--pp-success-text); --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h1v1H3zM2 1h3v1H2zM1 2h5v1H1zM0 3h7v1H0zM2 4h3v2H2z'/%3E%3C/svg%3E"); }
+  .pp-stat-delta[data-trend="down"] { --_c: var(--pp-danger-text); --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath d='M2 0h3v2H2zM0 2h7v1H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z'/%3E%3C/svg%3E"); }
+  .pp-stat-delta[data-trend="flat"] { --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath d='M0 2h7v2H0z'/%3E%3C/svg%3E"); }
+  .pp-stat-delta[data-tone="success"] { --_c: var(--pp-success-text); }
+  .pp-stat-delta[data-tone="danger"] { --_c: var(--pp-danger-text); }
+  .pp-stat-delta[data-tone="neutral"] { --_c: var(--pp-text-muted); }
+  .pp-stat-delta[data-trend]::before {
+    content: "";
+    flex: none;
+    inline-size: calc(7 * var(--pp-pixel));
+    block-size: calc(6 * var(--pp-pixel));
+    background: currentColor;
+    mask: var(--_g) 0 0 / 100% 100% no-repeat;
+  }
+
+  @media (forced-colors: active) {
+    .pp-stat-delta[data-trend]::before { background: CanvasText; }
+  }
+}

@@ -1,0 +1,60 @@
+/*
+ * CRT: scanlines and a dithered vignette over whatever is inside, with no blur. Wrap the thing to filter (it can be
+ * a candy box, a game screen, a picture); the effect sits over it and lets pointers through.
+ *
+ *   <div class="pp-crt"> ... </div>
+ *   <div class="pp-crt" data-flicker> ... </div>      the scanlines flicker a little, in steps
+ *
+ *   --pp-crt-strength   how strong the scanline ink is (default 16%)
+ *
+ * Scanlines darken every other pixel row with ink. The vignette is ink dithered round the edge: half the pixels in
+ * the outer two, a quarter in the four inside them. No flicker with reduced motion; none of it in forced colours.
+ */
+
+@layer pp.kits {
+  .pp-crt {
+    position: relative;
+    isolation: isolate;
+  }
+  .pp-crt::before, .pp-crt::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .pp-crt::after {
+    background: repeating-linear-gradient(to bottom, transparent 0 var(--pp-pixel), color-mix(in srgb, var(--pp-ink) var(--pp-crt-strength, 16%), transparent) 0 calc(2 * var(--pp-pixel)));
+  }
+  /* The vignette: ink through a mask of two dither patterns and three boxes. From the bottom layer up: the inner box;
+     a quarter of the pixels inside the middle box but not the inner one; then everything in the middle box flipped,
+     so subtracting it from the half pattern leaves the half in the outer frame and keeps the quarter. */
+  .pp-crt::before {
+    --_c: calc(2 * var(--pp-pixel));
+    border: calc(2 * var(--pp-pixel)) solid transparent;
+    padding: calc(4 * var(--pp-pixel));
+    background: var(--pp-ink) border-box;
+    mask:
+      repeating-conic-gradient(from 90deg, #000 0 25%, transparent 0 50%) 0 0 / var(--_c) var(--_c) border-box border-box subtract,
+      linear-gradient(#000 0 0) border-box padding-box exclude,
+      conic-gradient(from 270deg at 50% 50%, #000 25%, transparent 0) 0 0 / var(--_c) var(--_c) border-box padding-box subtract,
+      linear-gradient(#000 0 0) border-box content-box;
+  }
+  .pp-crt[data-flicker]::after {
+    animation: pp-crt-flicker calc(9 * var(--pp-duration-frame)) steps(1, jump-end) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pp-crt[data-flicker]::after { animation: none; }
+  }
+  @media (forced-colors: active) {
+    .pp-crt::before, .pp-crt::after { display: none; }
+  }
+}
+
+@keyframes pp-crt-flicker {
+  0%, 44% { opacity: 1; }
+  55% { opacity: 0.6; }
+  66% { opacity: 1; }
+  77% { opacity: 0.8; }
+}

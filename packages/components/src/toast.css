@@ -1,0 +1,159 @@
+/*
+ * Toast. A short message that floats in a corner and leaves on its own: a sign, a title, a few words, an
+ * action, a dismiss button, and a stepped pixel bar that counts down until it goes. <pp-toaster> (from
+ * @jaatster/blip-elements) makes them, stacks them, announces them and pauses them while you point at or focus one.
+ *
+ *   <pp-toaster data-placement="bottom-end"></pp-toaster>
+ *   toast({ title: "Achievement unlocked", body: "First Flight", tone: "success", action: { label: "View" } })
+ *
+ * The markup it makes, also usable on its own:
+ *
+ *   <div class="pp-box pp-toast" data-tone="success">
+ *     <span class="pp-toast-icon" aria-hidden="true"></span>
+ *     <div class="pp-toast-body">
+ *       <p class="pp-toast-title">Achievement unlocked</p>
+ *       <p>First Flight: clear World 1 without a hit.</p>
+ *       <div class="pp-toast-actions"><button class="pp-box pp-button" data-size="sm" data-variant="outline">View</button></div>
+ *     </div>
+ *     <button class="pp-box pp-button pp-toast-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button>
+ *     <span class="pp-toast-timer" aria-hidden="true"></span>
+ *   </div>
+ *
+ *   data-tone        none: a raised panel | info | success | warning | danger      soft fill in the tone
+ *   data-variant     soft (default with a tone) | candy                             candy is louder
+ *   .pp-toaster      data-placement: bottom-end (default) | bottom-center | top-end | top-center
+ *   data-pp-static   on .pp-toaster: in the page flow, for docs and screenshots
+ *
+ * The timer bar steps down in eight whole-pixel steps over --pp-toast-duration and stops while the toaster has
+ * data-paused; --pp-toast-timer (on a toast or the toaster) recolours it. Toasts come up from their edge (six
+ * pixels, two, then in place) and drop back out the same way.
+ */
+@import "./_feedback.css";
+
+@property --_pp-toast-left { syntax: "<number>"; inherits: false; initial-value: 8; }
+
+@layer pp.components {
+  .pp-toaster {
+    --_pp-dir: 1;
+    position: fixed;
+    z-index: var(--pp-layer-toast);
+    inset-block-end: calc(8 * var(--pp-pixel));
+    inset-inline-end: calc(8 * var(--pp-pixel));
+    display: flex;
+    flex-direction: column;
+    gap: calc(3 * var(--pp-pixel));
+    inline-size: round(down, min(calc(170 * var(--pp-pixel)), 100% - 16 * var(--pp-pixel)), var(--pp-pixel));
+    pointer-events: none;
+  }
+  .pp-toaster[data-placement="bottom-center"] { inset-inline: 0; margin-inline: auto; }
+  .pp-toaster:is([data-placement="top-end"], [data-placement="top-center"]) {
+    --_pp-dir: -1;
+    inset-block: calc(8 * var(--pp-pixel)) auto;
+    flex-direction: column-reverse;
+  }
+  .pp-toaster[data-placement="top-center"] { inset-inline: 0; margin-inline: auto; }
+  .pp-toaster[data-pp-static] { position: relative; inset: auto; z-index: auto; margin: 0; }
+
+  .pp-toast {
+    --_pp-glyph: var(--_pp-g-info);
+    --pp-drop-size: 2;
+    display: flex;
+    align-items: flex-start;
+    gap: calc(3 * var(--pp-pixel));
+    padding: calc(4 * var(--pp-pixel)) calc(4 * var(--pp-pixel)) calc(6 * var(--pp-pixel)) calc(5 * var(--pp-pixel));
+    margin: 0 calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel)) 0;
+    font-size: var(--pp-size-small);
+    line-height: var(--pp-leading-normal);
+    text-align: start;
+    pointer-events: auto;
+  }
+  .pp-toast[hidden] { display: none; }
+  .pp-toast[data-tone="success"] { --_pp-glyph: var(--_pp-g-success); }
+  .pp-toast[data-tone="warning"] { --_pp-glyph: var(--_pp-g-warning); }
+  .pp-toast[data-tone="danger"] { --_pp-glyph: var(--_pp-g-danger); }
+
+  /* No tone: a raised panel in the scheme's colours. A tone: its soft fill. */
+  .pp-toast:not([data-tone]):not([data-variant]) {
+    --pp-box-top: var(--pp-surface-raised);
+    --pp-box-fill: var(--pp-surface-raised);
+    --pp-box-bottom: var(--pp-surface-raised);
+    --pp-box-text: var(--pp-text);
+    --pp-box-glint: transparent;
+  }
+  .pp-toast[data-tone]:not([data-variant]) {
+    --pp-box-top: var(--pp-tone-light);
+    --pp-box-fill: var(--pp-tone-light);
+    --pp-box-bottom: var(--pp-tone);
+    --pp-box-glint: transparent;
+  }
+  /* Toned toasts are light in every scheme: what sits on them takes the light roles. */
+  .pp-toast[data-tone]:not([data-variant="outline"], [data-variant="panel"], [data-variant="ghost"]) {
+    --pp-text: var(--pp-ink);
+    --pp-text-muted: var(--pp-ink);
+    --pp-line: var(--pp-ink);
+    --pp-surface: var(--pp-white);
+    --pp-surface-sunken: var(--pp-tone);
+    --pp-accent-text: var(--pp-ink);
+    --pp-bg: var(--pp-tone-light);
+  }
+  .pp-toast[data-variant="candy"] { --pp-surface-sunken: var(--pp-tone-shade); --pp-bg: var(--pp-tone); }
+
+  .pp-toast-icon { flex: none; inline-size: calc(12 * var(--pp-pixel)); block-size: calc(12 * var(--pp-pixel)); }
+  .pp-toast-icon:empty { background-color: currentColor; mask: var(--_pp-glyph) 0 0 / 100% 100% no-repeat; }
+  .pp-toast:not([data-tone]) .pp-toast-icon { color: var(--pp-accent-text); }
+
+  .pp-toast-body { flex: 1; min-inline-size: 0; overflow-wrap: break-word; }
+  .pp-toast-title { font-weight: var(--pp-weight-bold); line-height: calc(12 * var(--pp-pixel)); }
+  .pp-toast-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(3 * var(--pp-pixel));
+    margin-block-start: calc(3 * var(--pp-pixel));
+  }
+  .pp-toast-close { flex: none; margin: calc(-2 * var(--pp-pixel)) calc(-1 * var(--pp-pixel)) 0 0; }
+
+  /* The countdown: a strip over the bottom band, inside the corners, eight steps from full to empty. */
+  .pp-toast-timer {
+    --_pp-in: calc((var(--pp-r) + 1) * var(--pp-pixel));
+    position: absolute;
+    inset-block-end: var(--pp-pixel);
+    inset-inline-start: var(--_pp-in);
+    block-size: calc(2 * var(--pp-pixel));
+    inline-size: round(down, (100% - 2 * var(--_pp-in)) * var(--_pp-toast-left) / 8, var(--pp-pixel));
+    background: var(--pp-toast-timer, var(--_pp-timer));
+    pointer-events: none;
+  }
+  .pp-toast { --_pp-timer: var(--pp-tone-shade); }
+  .pp-toast:not([data-tone]) { --_pp-timer: var(--pp-accent); }
+  .pp-toast[data-variant="candy"] { --_pp-timer: var(--pp-tone-light); }
+  .pp-toaster:not([data-pp-static]) .pp-toast-timer {
+    animation: pp-toast-timer var(--pp-toast-duration, 0ms) steps(8, jump-end) forwards;
+  }
+  .pp-toaster[data-paused] .pp-toast-timer { animation-play-state: paused; }
+
+  /* Arriving and leaving: up from the toaster's edge, back out the same way. */
+  .pp-toaster:not([data-pp-static]) > .pp-toast { animation: pp-toast-in var(--pp-duration-pop) steps(1, jump-end); }
+  .pp-toaster > .pp-toast[data-pp-leaving] { animation: pp-toast-out var(--pp-duration-pop) steps(1, jump-end) forwards; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pp-toaster:not([data-pp-static]) > .pp-toast, .pp-toaster > .pp-toast[data-pp-leaving] { animation: none; }
+  }
+
+  @media (forced-colors: active) {
+    .pp-toaster > .pp-toast { background: Canvas; }
+    .pp-toast-icon:empty { forced-color-adjust: none; background-color: CanvasText; }
+    .pp-toast-timer { forced-color-adjust: none; background: Highlight; }
+  }
+}
+
+@keyframes pp-toast-timer { from { --_pp-toast-left: 8; } to { --_pp-toast-left: 0; } }
+@keyframes pp-toast-in {
+  0% { translate: 0 calc(var(--_pp-dir) * 6 * var(--pp-pixel)); }
+  33.333% { translate: 0 calc(var(--_pp-dir) * 2 * var(--pp-pixel)); }
+  66.667%, 100% { translate: 0 0; }
+}
+@keyframes pp-toast-out {
+  0% { translate: 0 calc(var(--_pp-dir) * 2 * var(--pp-pixel)); }
+  33.333% { translate: 0 calc(var(--_pp-dir) * 6 * var(--pp-pixel)); }
+  66.667%, 100% { translate: 0 calc(var(--_pp-dir) * 6 * var(--pp-pixel)); visibility: hidden; }
+}

@@ -1,0 +1,139 @@
+/*
+ * Pricing. Plans side by side: panels, one candy plan marked best value, prices in Pixel Bop, what each includes
+ * with pixel checks, and a button at the foot of each.
+ *
+ *   <div class="pp-pricing">
+ *     <article class="pp-box pp-plan" data-variant="panel" aria-labelledby="plan-standard">
+ *       <h3 class="pp-plan-name" id="plan-standard">Standard</h3>
+ *       <p class="pp-plan-price"><span class="pp-plan-currency">$</span><span class="pp-plan-amount">14.99</span></p>
+ *       <ul class="pp-plan-features" role="list"><li>The full game</li><li>Couch co-op</li></ul>
+ *       <a class="pp-box pp-button" data-variant="soft" data-width="full" href="#">Buy Standard</a>
+ *     </article>
+ *     <article class="pp-box pp-plan" data-featured data-tone="pink" aria-labelledby="plan-deluxe">
+ *       <p class="pp-box pp-plan-ribbon">Best value</p> …
+ *       <a class="pp-box pp-button" data-variant="outline" data-width="full" href="#">Buy Deluxe</a>
+ *     </article>
+ *   </div>
+ *
+ *   data-featured        the candy plan (its data-tone, the accent by default), with a ribbon. Candy never
+ *                        stands on candy, so its button is outline; the other plans' buttons are soft.
+ *   .pp-plan-amount      Pixel Bop at scale 3 (digits, "." and "," are in the font); the currency is set smaller
+ *   .pp-plan-features    a list with pixel checks; li[data-off] for what a plan leaves out (a dash, muted)
+ *
+ * Plans sit three across where there is room and stack on a phone. Put the price and period in words a screen reader
+ * says well: "$14.99, one time".
+ */
+
+@layer pp.kits {
+  .pp-pricing {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(116 * var(--pp-pixel))), 1fr));
+    align-items: stretch;
+    gap: calc(8 * var(--pp-pixel));
+    padding-block-start: calc(10 * var(--pp-pixel));
+  }
+
+  .pp-plan {
+    --pp-r: 5;
+    --pp-shape: var(--pp-shape-5);
+    --pp-shape-inner: var(--pp-shape-5-inner);
+    --pp-band-top: 3;
+    --pp-band-bottom: 4;
+    --_check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' shape-rendering='crispEdges'%3E%3Cpath d='M9 3h2v2h-1v1H9v1H8v1H7v1H6v1H4V9H3V8H2V7H1V5h2v1h1v1h1V6h1V5h1V4h1V3h1z'/%3E%3C/svg%3E");
+    --_dash: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' shape-rendering='crispEdges'%3E%3Cpath d='M3 5h6v2H3z'/%3E%3C/svg%3E");
+    display: grid;
+    grid-template-rows: auto auto auto 1fr auto;
+    align-content: start;
+    gap: calc(5 * var(--pp-pixel));
+    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+    padding: calc(11 * var(--pp-pixel)) calc(10 * var(--pp-pixel)) calc(10 * var(--pp-pixel));
+  }
+  .pp-plan > :is(h2, h3, h4, p, ul) { margin: 0; }
+
+  .pp-plan-ribbon {
+    --pp-r: 2;
+    --pp-shape: var(--pp-shape-2);
+    --pp-shape-inner: var(--pp-shape-2-inner);
+    --pp-band-top: 2;
+    --pp-band-bottom: 2;
+    position: absolute;
+    inset-block-start: calc(-8 * var(--pp-pixel));
+    inset-inline-start: calc(9 * var(--pp-pixel));
+    margin: 0;
+    padding: calc(2 * var(--pp-pixel)) calc(5 * var(--pp-pixel)) var(--pp-pixel);
+    font-family: var(--pp-font-display);
+    font-size: calc(10 * var(--pp-pixel));
+    line-height: 1.2;
+    text-transform: uppercase;
+    white-space: nowrap;
+    font-synthesis: none;
+    -webkit-font-smoothing: none;
+  }
+  .pp-plan-ribbon:not([data-tone]) {
+    --pp-tone: var(--pp-candy-cream);
+    --pp-tone-light: var(--pp-candy-cream-light);
+    --pp-tone-shade: var(--pp-candy-cream-shade);
+    --pp-tone-on: var(--pp-ink);
+  }
+
+  .pp-plan-name {
+    font-size: var(--pp-size-lead);
+    font-weight: var(--pp-weight-bold);
+    line-height: var(--pp-leading-tight);
+  }
+  .pp-plan-text { font-size: var(--pp-size-small); line-height: var(--pp-leading-normal); }
+
+  .pp-plan-price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 calc(2 * var(--pp-pixel));
+  }
+  .pp-plan-amount {
+    font-family: var(--pp-font-display);
+    font-size: calc(30 * var(--pp-pixel));
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+    font-synthesis: none;
+    -webkit-font-smoothing: none;
+  }
+  .pp-plan-currency {
+    align-self: flex-start;
+    margin-block-start: calc(5 * var(--pp-pixel));
+    font-size: var(--pp-size-title);
+    font-weight: var(--pp-weight-bold);
+  }
+  .pp-plan-period { font-size: var(--pp-size-small); font-weight: var(--pp-weight-bold); }
+
+  .pp-plan-features {
+    display: grid;
+    align-content: start;
+    gap: calc(2 * var(--pp-pixel));
+    padding: 0;
+    list-style: none;
+    font-size: var(--pp-size-body);
+    line-height: var(--pp-leading-normal);
+  }
+  .pp-plan-features > li {
+    display: grid;
+    grid-template-columns: calc(12 * var(--pp-pixel)) 1fr;
+    gap: calc(3 * var(--pp-pixel));
+  }
+  .pp-plan-features > li::before {
+    content: "";
+    block-size: calc(12 * var(--pp-pixel));
+    margin-block-start: round(down, (1lh - 12 * var(--pp-pixel)) / 2, var(--pp-pixel));
+    background: var(--pp-plan-check, var(--pp-success-text));
+    mask: var(--_check) 0 0 / 100% 100% no-repeat;
+  }
+  .pp-plan-features > li[data-off] { color: var(--pp-text-muted); }
+  .pp-plan-features > li[data-off]::before { mask-image: var(--_dash); background: currentColor; }
+  .pp-plan[data-featured] .pp-plan-features { --pp-plan-check: currentColor; }
+  .pp-plan[data-featured] .pp-plan-features > li[data-off] { color: inherit; }
+
+  .pp-plan > .pp-button { align-self: end; margin-block-start: calc(2 * var(--pp-pixel)); }
+
+  @media (forced-colors: active) {
+    .pp-plan-features > li::before { background: CanvasText; }
+  }
+}

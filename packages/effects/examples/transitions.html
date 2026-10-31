@@ -1,0 +1,14 @@
+<!-- Transitions: each button moves the scene on to the next time of day behind a full-screen transition. With
+     reduced motion the scene changes at once. Between pages, add data-pp-transition to <html> and
+     @view-transition { navigation: auto; } to the CSS of both pages. -->
+<div style="display:grid;grid-template-columns:minmax(0,calc(160*var(--pp-pixel))) auto;gap:calc(8*var(--pp-pixel));align-items:center">
+  <div style="position:relative;aspect-ratio:16/9;display:grid;place-content:center">
+    <pp-world id="pp-transition-demo" scheme="day"></pp-world>
+    <p class="pp-display pp-pop" data-scale="2" data-pop="Level 1">Level 1</p>
+  </div>
+  <div style="display:flex;flex-direction:column;align-items:start;gap:calc(4*var(--pp-pixel))">
+    <button class="pp-box pp-button" type="button" onclick="const w = document.getElementById('pp-transition-demo'), t = w.nextElementSibling, next = { day: 'sunset', sunset: 'night', night: 'day' }; import('@jaatster/blip-effects').then(({ transition }) => transition(() => { w.scheme = next[w.scheme]; const n = String(Number(t.textContent.replace(/\D/g, '')) % 9 + 1); t.textContent = t.dataset.pop = 'Level ' + n; }, { kind: 'dissolve' }))">Ink dissolve</button>
+    <button class="pp-box pp-button" type="button" data-tone="teal" onclick="const w = document.getElementById('pp-transition-demo'), t = w.nextElementSibling, next = { day: 'sunset', sunset: 'night', night: 'day' }; import('@jaatster/blip-effects').then(({ transition }) => transition(() => { w.scheme = next[w.scheme]; const n = String(Number(t.textContent.replace(/\D/g, '')) % 9 + 1); t.textContent = t.dataset.pop = 'Level ' + n; }, { kind: 'dither' }))">Dither</button>
+    <button class="pp-box pp-button" type="button" data-tone="purple" onclick="const w = document.getElementById('pp-transition-demo'), t = w.nextElementSibling, next = { day: 'sunset', sunset: 'night', night: 'day' }; import('@jaatster/blip-effects').then(({ transition }) => transition(() => { w.scheme = next[w.scheme]; const n = String(Number(t.textContent.replace(/\D/g, '')) % 9 + 1); t.textContent = t.dataset.pop = 'Level ' + n; }, { kind: 'mosaic' }))">Mosaic</button>
+  </div>
+</div>

@@ -1,4 +1,14 @@
-/* @jaatster/blip-font: Pixel Bop (display, capitals) and Pixelify Sans (UI and body, 400 to 700). Both SIL OFL 1.1. */
+/*
+ * @jaatster/blip-font: the two faces of Blip. Both SIL Open Font License 1.1 (OFL.txt, OFL-PixelifySans.txt).
+ *
+ * Pixel Bop: the display face. Bold capitals on a 7-pixel grid; lower case draws as capitals. Set it at
+ * font-size = 10 x pixel x scale (the .pp-display class of @jaatster/blip-core does this), and turn on its rounded
+ * enlargements at big sizes: "ss02" (Rounded 2x, EPX) at scales 2 and 4, "ss03" (Rounded 3x, AdvMAME3x) at scale 3.
+ *
+ * Pixelify Sans: UI and body text. A variable font, weights 400 to 700, subset to Latin, Latin-1, Latin Extended-A,
+ * General Punctuation, the euro and the trademark sign. Every browser Blip supports reads variable WOFF2, so
+ * one plain source is enough.
+ */
 
 @font-face {
   font-family: "Pixel Bop";
@@ -10,7 +20,7 @@
 
 @font-face {
   font-family: "Pixelify Sans";
-  src: url("./dist/pixelify-sans.woff2") format("woff2-variations"), url("./dist/pixelify-sans.woff2") format("woff2");
+  src: url("./dist/pixelify-sans.woff2") format("woff2");
   font-weight: 400 700;
   font-style: normal;
   font-display: swap;

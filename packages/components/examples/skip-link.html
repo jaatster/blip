@@ -1,0 +1,22 @@
+<!-- Skip link: two small pages (each frame is a layout container, so the fixed link sits in its corner rather than the
+     window's). Left: the link as a keyboard user sees it after the first Tab (forced with data-pp-state). Right: live;
+     Tab into the frame to make it appear. -->
+<div style="display:flex;flex-wrap:wrap;gap:calc(12*var(--pp-pixel))">
+  <div class="pp-box" data-variant="panel" style="contain:layout;inline-size:calc(180*var(--pp-pixel));padding:calc(20*var(--pp-pixel)) calc(8*var(--pp-pixel)) calc(8*var(--pp-pixel))">
+    <a class="pp-box pp-skip-link" href="#skip-demo-main" data-pp-state="focus">Skip to content</a>
+    <p class="pp-label pp-muted">Questboard · Live ops · Studio · Community</p>
+    <div id="skip-demo-main" tabindex="-1" style="margin-block-start:calc(6*var(--pp-pixel))">
+      <h3 class="pp-title">Overview</h3>
+      <p class="pp-small pp-muted">The first Tab lands on the skip link; Enter jumps past the navigation to here.</p>
+    </div>
+  </div>
+
+  <div class="pp-box" data-variant="panel" style="contain:layout;inline-size:calc(180*var(--pp-pixel));padding:calc(20*var(--pp-pixel)) calc(8*var(--pp-pixel)) calc(8*var(--pp-pixel))">
+    <a class="pp-box pp-skip-link" href="#skip-live-main" data-tone="pink">Skip to content</a>
+    <p class="pp-label pp-muted"><a href="#skip-live-nav">Live ops</a> · <a href="#skip-live-nav">Studio</a> · <a href="#skip-live-nav">Community</a></p>
+    <div id="skip-live-main" tabindex="-1" style="margin-block-start:calc(6*var(--pp-pixel))">
+      <h3 class="pp-title">Live</h3>
+      <p class="pp-small pp-muted">Tab here: the link pops in at the corner.</p>
+    </div>
+  </div>
+</div>

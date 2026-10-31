@@ -19,10 +19,11 @@
   .pp-bump { animation: pp-bump calc(3 * var(--pp-duration-frame)) steps(1, jump-end); }
   /* Shakes: a pixel each way. A wrong answer, an edge. */
   .pp-shake { animation: pp-shake calc(5 * var(--pp-duration-frame)) steps(1, jump-end); }
-  /* Blinks: on and off on the beat. A caret, a "press start". */
-  .pp-blink { animation: pp-blink calc(2 * var(--pp-duration-beat)) steps(1, jump-end) infinite; }
-  /* Bobs: up a pixel and back on the beat. An arrow, a pointer. */
-  .pp-bob { animation: pp-bob calc(2 * var(--pp-duration-beat)) steps(1, jump-end) infinite; }
+  /* Blinks: on and off on the beat. A caret, a "press start". Stops after six beats (under five seconds,
+     WCAG 2.2.2); set --pp-blink-count: infinite only where the person can pause it. */
+  .pp-blink { animation: pp-blink calc(2 * var(--pp-duration-beat)) steps(1, jump-end) var(--pp-blink-count, 6); }
+  /* Bobs: up a pixel and back on the beat. An arrow, a pointer. Stops after six beats. */
+  .pp-bob { animation: pp-bob calc(2 * var(--pp-duration-beat)) steps(1, jump-end) var(--pp-bob-count, 6); }
 
   @media (prefers-reduced-motion: reduce) {
     .pp-pop-in, .pp-drop-in, .pp-bump, .pp-shake, .pp-bob { animation: none; }

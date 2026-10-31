@@ -1,0 +1,39 @@
+<!-- Inventory: a backpack of slots beside the item it has selected. Slot 4 shows the focus ring (data-pp-state, for
+     the docs); the moon key is selected. -->
+<div style="display:flex;flex-wrap:wrap;gap:calc(10*var(--pp-pixel));align-items:flex-start">
+  <section class="pp-box" data-variant="panel" data-pp-r="4" aria-labelledby="bag-title" style="display:grid;gap:calc(6*var(--pp-pixel));padding:calc(8*var(--pp-pixel)) calc(9*var(--pp-pixel)) calc(9*var(--pp-pixel))">
+    <h3 id="bag-title" class="pp-label">Backpack <span class="pp-muted">11 / 15</span></h3>
+    <pp-inventory class="pp-inventory" aria-labelledby="bag-title" style="--pp-inventory-columns:5">
+      <button type="button" class="pp-box pp-slot" data-variant="soft" aria-label="Red potion, 3"><pp-sprite name="potion"></pp-sprite><span class="pp-slot-count pp-display pp-pop" data-scale="1" aria-hidden="true">3</span></button>
+      <button type="button" class="pp-box pp-slot" data-variant="soft" data-rarity="uncommon" aria-label="Blue potion, uncommon"><pp-sprite name="potion" data-tone="blue"></pp-sprite></button>
+      <button type="button" class="pp-box pp-slot" data-variant="soft" data-rarity="rare" aria-selected="true" aria-label="Moon key, rare"><pp-sprite name="key" data-tone="blue"></pp-sprite></button>
+      <button type="button" class="pp-box pp-slot" data-variant="soft" data-rarity="epic" data-pp-state="focus" aria-label="Dusk gem, epic, 2"><pp-sprite name="gem"></pp-sprite><span class="pp-slot-count pp-display pp-pop" data-scale="1" aria-hidden="true">2</span></button>
+      <button type="button" class="pp-box pp-slot" data-variant="soft" aria-label="Coins, 99"><pp-sprite name="coin"></pp-sprite><span class="pp-slot-count pp-display pp-pop" data-scale="1" aria-hidden="true">99</span></button>
+      <button type="button" class="pp-box pp-slot" data-variant="soft" data-rarity="uncommon" aria-label="Reed sword, uncommon, equipped"><pp-sprite name="sword" data-tone="green"></pp-sprite><span class="pp-box pp-slot-tag" data-tone="neutral" aria-hidden="true">E</span></button>
+      <button type="button" class="pp-box pp-slot" data-variant="soft" data-rarity="rare" aria-label="Lily shield, rare, equipped"><pp-sprite name="shield"></pp-sprite><span class="pp-box pp-slot-tag" data-tone="neutral" aria-hidden="true">E</span></button>
+      <button type="button" class="pp-box pp-slot" data-variant="soft" data-rarity="legendary" aria-label="Fallen star, legendary, new"><pp-sprite name="star"></pp-sprite><span class="pp-box pp-slot-tag" data-tone="pink" aria-hidden="true">New</span></button>
+      <button type="button" class="pp-box pp-slot" data-variant="soft" data-rarity="epic" aria-label="Heart container, epic"><pp-sprite name="heart"></pp-sprite></button>
+      <button type="button" class="pp-box pp-slot" data-variant="soft" data-rarity="uncommon" aria-label="Green potion, uncommon, 5"><pp-sprite name="potion" data-tone="green"></pp-sprite><span class="pp-slot-count pp-display pp-pop" data-scale="1" aria-hidden="true">5</span></button>
+      <button type="button" class="pp-box pp-slot" data-variant="soft" aria-label="Old chest"><pp-sprite name="chest"></pp-sprite></button>
+      <button type="button" class="pp-box pp-slot" data-variant="outline" aria-label="Empty"></button>
+      <button type="button" class="pp-box pp-slot" data-variant="outline" aria-label="Empty"></button>
+      <button type="button" class="pp-box pp-slot" data-variant="outline" aria-label="Empty"></button>
+      <button type="button" class="pp-box pp-slot" data-variant="outline" aria-label="Empty"></button>
+    </pp-inventory>
+  </section>
+
+  <section class="pp-box" data-variant="panel" data-pp-r="4" aria-label="Selected item" style="display:grid;gap:calc(4*var(--pp-pixel));inline-size:calc(132*var(--pp-pixel));padding:calc(8*var(--pp-pixel)) calc(9*var(--pp-pixel)) calc(9*var(--pp-pixel))">
+    <div style="display:flex;gap:calc(6*var(--pp-pixel));align-items:center">
+      <span class="pp-box pp-slot" data-variant="soft" data-rarity="rare" style="flex:none"><pp-sprite name="key" data-tone="blue"></pp-sprite></span>
+      <div>
+        <h3 class="pp-title" style="font-size:var(--pp-size-lead)">Moon key</h3>
+        <p class="pp-label" style="color:var(--pp-info-text)">Rare</p>
+      </div>
+    </div>
+    <p class="pp-small">Opens the gate at the end of Puddle Path. It hums quietly when the moon is out.</p>
+    <div style="display:flex;gap:calc(3*var(--pp-pixel));margin-block-start:calc(2*var(--pp-pixel))">
+      <button type="button" class="pp-box pp-button" data-size="sm">Use</button>
+      <button type="button" class="pp-box pp-button" data-size="sm" data-variant="ghost">Drop</button>
+    </div>
+  </section>
+</div>

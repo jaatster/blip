@@ -74,3 +74,9 @@ pnpm --filter @jaatster/blip-<pkg> build         # builds and reports sizes
 
 Open the PNGs and look: crisp stepped corners, ink outlines, no blurry edges, every state distinct, nothing
 overflowing, Day, Sunset and Night all readable.
+
+## Names the box reserves
+
+On a `.pp-box`, `--_p` (one pixel) and `--_t` (the corner tile) are set by the box: read them, never redefine them.
+Every other private name of the box starts with `--_pp-`. Your own private names should be specific
+(`--_pp-<component>-x`) so they never collide with another component on the same element.

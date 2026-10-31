@@ -1,0 +1,95 @@
+<!-- Drawer: each side drawn statically (data-pp-static) inside a small "screen" with the scrim, then live ones in
+     <pp-drawer>. The static screens clip the sheet's off-screen pixel like a real screen edge does. -->
+<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--pp-pixel));align-items:flex-start">
+  <div class="pp-scrim" style="display:flex;justify-content:flex-end;inline-size:calc(200*var(--pp-pixel));block-size:calc(150*var(--pp-pixel));overflow:clip;outline:var(--pp-pixel) solid var(--pp-line-soft)">
+    <dialog class="pp-box pp-drawer" data-side="right" data-size="sm" open data-pp-static aria-labelledby="ex-settings-title" style="margin-block:calc(-1*var(--pp-pixel));margin-inline-end:calc(-1*var(--pp-pixel))">
+      <header class="pp-dialog-header">
+        <h2 class="pp-dialog-title" id="ex-settings-title">Settings</h2>
+        <button class="pp-box pp-button pp-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button>
+      </header>
+      <div class="pp-dialog-body">
+        <label class="pp-check" data-layout="split">Music<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box" checked></span></label>
+        <label class="pp-check" data-layout="split">Sound effects<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box" checked></span></label>
+        <label class="pp-check" data-layout="split">Screen shake<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box"></span></label>
+      </div>
+    </dialog>
+  </div>
+
+  <div class="pp-scrim" style="display:flex;inline-size:calc(200*var(--pp-pixel));block-size:calc(150*var(--pp-pixel));overflow:clip;outline:var(--pp-pixel) solid var(--pp-line-soft)">
+    <dialog class="pp-box pp-drawer" data-side="left" data-size="sm" data-tone="teal" open data-pp-static aria-labelledby="ex-map-title" style="margin-block:calc(-1*var(--pp-pixel));margin-inline-start:calc(-1*var(--pp-pixel))">
+      <header class="pp-dialog-header">
+        <h2 class="pp-dialog-title" id="ex-map-title">World map</h2>
+        <button class="pp-box pp-button pp-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button>
+      </header>
+      <div class="pp-dialog-body">
+        <p class="pp-small">1 Meadow: 24 of 24 stars</p>
+        <p class="pp-small">2 Dunes: 18 of 24 stars</p>
+        <p class="pp-small">3 Crystal Caves: 2 of 24 stars</p>
+      </div>
+    </dialog>
+  </div>
+
+  <div class="pp-scrim" style="display:flex;flex-direction:column;justify-content:flex-end;inline-size:calc(200*var(--pp-pixel));block-size:calc(150*var(--pp-pixel));overflow:clip;outline:var(--pp-pixel) solid var(--pp-line-soft)">
+    <dialog class="pp-box pp-drawer" data-side="bottom" open data-pp-static aria-labelledby="ex-share-title" style="inline-size:auto;margin-inline:calc(-1*var(--pp-pixel));margin-block-end:calc(-1*var(--pp-pixel))">
+      <header class="pp-dialog-header">
+        <h2 class="pp-dialog-title" id="ex-share-title">Share replay</h2>
+        <button class="pp-box pp-button pp-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button>
+      </header>
+      <footer class="pp-dialog-footer" style="justify-content:flex-start;padding-block-start:calc(6*var(--pp-pixel))">
+        <button class="pp-box pp-button" type="button" data-size="sm">Copy link</button>
+        <button class="pp-box pp-button" type="button" data-size="sm" data-variant="soft">Save video</button>
+      </footer>
+    </dialog>
+  </div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--pp-pixel));align-items:center;margin-block-start:calc(8*var(--pp-pixel))">
+  <span class="pp-label pp-muted">Live</span>
+  <button class="pp-box pp-button" type="button" commandfor="settings-drawer" command="show-modal">Settings</button>
+  <button class="pp-box pp-button" type="button" data-variant="soft" commandfor="map-drawer" command="show-modal">World map</button>
+  <button class="pp-box pp-button" type="button" data-variant="soft" commandfor="share-drawer" command="show-modal">Share replay</button>
+</div>
+
+<pp-drawer light-dismiss>
+  <dialog class="pp-box pp-drawer" id="settings-drawer" data-side="right" aria-labelledby="settings-drawer-title">
+    <header class="pp-dialog-header">
+      <h2 class="pp-dialog-title" id="settings-drawer-title">Settings</h2>
+      <form method="dialog"><button class="pp-box pp-button pp-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button></form>
+    </header>
+    <div class="pp-dialog-body">
+      <label class="pp-check" data-layout="split">Music<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box" checked></span></label>
+      <label class="pp-check" data-layout="split">Sound effects<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box" checked></span></label>
+      <label class="pp-check" data-layout="split">Screen shake<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box"></span></label>
+    </div>
+    <footer class="pp-dialog-footer"><form method="dialog"><button class="pp-box pp-button">Done</button></form></footer>
+  </dialog>
+</pp-drawer>
+
+<pp-drawer light-dismiss>
+  <dialog class="pp-box pp-drawer" id="map-drawer" data-side="left" data-tone="teal" aria-labelledby="map-drawer-title">
+    <header class="pp-dialog-header">
+      <h2 class="pp-dialog-title" id="map-drawer-title">World map</h2>
+      <form method="dialog"><button class="pp-box pp-button pp-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button></form>
+    </header>
+    <div class="pp-dialog-body">
+      <p>1 Meadow: 24 of 24 stars</p>
+      <p>2 Dunes: 18 of 24 stars</p>
+      <p>3 Crystal Caves: 2 of 24 stars</p>
+    </div>
+  </dialog>
+</pp-drawer>
+
+<pp-drawer light-dismiss>
+  <dialog class="pp-box pp-drawer" id="share-drawer" data-side="bottom" aria-labelledby="share-drawer-title">
+    <form method="dialog">
+      <header class="pp-dialog-header">
+        <h2 class="pp-dialog-title" id="share-drawer-title">Share replay</h2>
+        <button class="pp-box pp-button pp-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button>
+      </header>
+      <footer class="pp-dialog-footer" style="justify-content:flex-start;padding-block-start:calc(6*var(--pp-pixel))">
+        <button class="pp-box pp-button" value="link">Copy link</button>
+        <button class="pp-box pp-button" data-variant="soft" value="video">Save video</button>
+      </footer>
+    </form>
+  </dialog>
+</pp-drawer>

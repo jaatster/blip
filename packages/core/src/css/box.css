@@ -52,8 +52,22 @@
     /* Private. */
     --_p: var(--pp-pixel);
     --_t: calc((var(--pp-r) + 1) * var(--_p));
-    --_d: calc(var(--pp-drop-size) * var(--_p));
-    --_s: max(2, round(up, var(--pp-r) * 0.7, 1));
+    --_pp-drop: calc((var(--pp-drop-size) + var(--_pp-lift, 0)) * var(--_pp-drop-on, 1) * var(--_p));
+    --_pp-glint: max(2, round(up, var(--pp-r) * 0.7, 1));
+
+    /* Public, read-only: the fill's mask (inside the outline). A child with inset: 0 can use these with
+       mask-image: var(--pp-shape-inner) to stay inside the box (glints, pictures). */
+    --pp-box-mask-size:
+      var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t),
+      calc(round(down, 100%, var(--_p)) - 2 * var(--_t)) calc(round(down, 100%, var(--_p)) - 2 * var(--_p)),
+      calc(round(down, 100%, var(--_p)) - 2 * var(--_p)) calc(round(down, 100%, var(--_p)) - 2 * var(--_t));
+    --pp-box-mask-position:
+      left 0 top 0,
+      left calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)) top 0,
+      left 0 top calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)),
+      left calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)) top calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)),
+      left var(--_t) top var(--_p),
+      left var(--_p) top var(--_t);
 
     position: relative;
     isolation: isolate;
@@ -66,7 +80,7 @@
   .pp-box::before {
     content: "";
     position: absolute;
-    inset: 0 calc(-1 * var(--_d)) calc(-1 * var(--_d)) 0;
+    inset: 0 calc(-1 * var(--_pp-drop)) calc(-1 * var(--_pp-drop)) 0;
     z-index: -1;
     pointer-events: none;
     background: var(--pp-box-outline);
@@ -74,24 +88,24 @@
     mask-repeat: no-repeat;
     mask-size:
       var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t),
-      calc(round(down, 100% - var(--_d), var(--_p)) - 2 * var(--_t)) round(down, 100% - var(--_d), var(--_p)),
-      round(down, 100% - var(--_d), var(--_p)) calc(round(down, 100% - var(--_d), var(--_p)) - 2 * var(--_t)),
+      calc(round(down, 100% - var(--_pp-drop), var(--_p)) - 2 * var(--_t)) round(down, 100% - var(--_pp-drop), var(--_p)),
+      round(down, 100% - var(--_pp-drop), var(--_p)) calc(round(down, 100% - var(--_pp-drop), var(--_p)) - 2 * var(--_t)),
       var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t),
-      calc(round(down, 100% - var(--_d), var(--_p)) - 2 * var(--_t)) round(down, 100% - var(--_d), var(--_p)),
-      round(down, 100% - var(--_d), var(--_p)) calc(round(down, 100% - var(--_d), var(--_p)) - 2 * var(--_t));
+      calc(round(down, 100% - var(--_pp-drop), var(--_p)) - 2 * var(--_t)) round(down, 100% - var(--_pp-drop), var(--_p)),
+      round(down, 100% - var(--_pp-drop), var(--_p)) calc(round(down, 100% - var(--_pp-drop), var(--_p)) - 2 * var(--_t));
     mask-position:
       left 0 top 0,
-      left calc(round(down, 100% + var(--_t) - var(--_d), var(--_p)) - var(--_t)) top 0,
-      left 0 top calc(round(down, 100% + var(--_t) - var(--_d), var(--_p)) - var(--_t)),
-      left calc(round(down, 100% + var(--_t) - var(--_d), var(--_p)) - var(--_t)) top calc(round(down, 100% + var(--_t) - var(--_d), var(--_p)) - var(--_t)),
+      left calc(round(down, 100% + var(--_t) - var(--_pp-drop), var(--_p)) - var(--_t)) top 0,
+      left 0 top calc(round(down, 100% + var(--_t) - var(--_pp-drop), var(--_p)) - var(--_t)),
+      left calc(round(down, 100% + var(--_t) - var(--_pp-drop), var(--_p)) - var(--_t)) top calc(round(down, 100% + var(--_t) - var(--_pp-drop), var(--_p)) - var(--_t)),
       left var(--_t) top 0,
       left 0 top var(--_t),
-      left var(--_d) top var(--_d),
-      left calc(round(down, 100% + var(--_t) - var(--_d), var(--_p)) - var(--_t) + var(--_d)) top var(--_d),
-      left var(--_d) top calc(round(down, 100% + var(--_t) - var(--_d), var(--_p)) - var(--_t) + var(--_d)),
-      left calc(round(down, 100% + var(--_t) - var(--_d), var(--_p)) - var(--_t) + var(--_d)) top calc(round(down, 100% + var(--_t) - var(--_d), var(--_p)) - var(--_t) + var(--_d)),
-      left calc(var(--_t) + var(--_d)) top var(--_d),
-      left var(--_d) top calc(var(--_t) + var(--_d));
+      left var(--_pp-drop) top var(--_pp-drop),
+      left calc(round(down, 100% + var(--_t) - var(--_pp-drop), var(--_p)) - var(--_t) + var(--_pp-drop)) top var(--_pp-drop),
+      left var(--_pp-drop) top calc(round(down, 100% + var(--_t) - var(--_pp-drop), var(--_p)) - var(--_t) + var(--_pp-drop)),
+      left calc(round(down, 100% + var(--_t) - var(--_pp-drop), var(--_p)) - var(--_t) + var(--_pp-drop)) top calc(round(down, 100% + var(--_t) - var(--_pp-drop), var(--_p)) - var(--_t) + var(--_pp-drop)),
+      left calc(var(--_t) + var(--_pp-drop)) top var(--_pp-drop),
+      left var(--_pp-drop) top calc(var(--_t) + var(--_pp-drop));
   }
 
   /* Fill: bands, glints, the disabled dither and the busy dots, inside the outline. */
@@ -106,27 +120,18 @@
       linear-gradient(var(--pp-box-text) 0 0) left round(down, 50%, var(--_p)) top round(down, 50%, var(--_p)) / var(--_pp-dot-2) var(--_pp-dot-2) no-repeat,
       linear-gradient(var(--pp-box-text) 0 0) left calc(round(down, 50%, var(--_p)) + 4 * var(--_p)) top round(down, 50%, var(--_p)) / var(--_pp-dot-3) var(--_pp-dot-3) no-repeat,
       repeating-conic-gradient(var(--pp-box-dither) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--_p)) calc(2 * var(--_p)),
-      linear-gradient(var(--pp-box-glint) 0 0) left calc(var(--_s) * var(--_p)) top calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
-      linear-gradient(var(--pp-box-glint) 0 0) left calc((var(--_s) + 1) * var(--_p)) top calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
-      linear-gradient(var(--pp-box-glint) 0 0) left calc((var(--_s) - 1) * var(--_p)) top calc(3 * var(--_p)) / var(--_p) var(--_p) no-repeat,
-      linear-gradient(var(--pp-box-glint) 0 0) left calc(round(down, 100% + var(--_p), var(--_p)) - (var(--_s) + 1) * var(--_p)) top calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--pp-box-glint) 0 0) left calc(var(--_pp-glint) * var(--_p)) top calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--pp-box-glint) 0 0) left calc((var(--_pp-glint) + 1) * var(--_p)) top calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--pp-box-glint) 0 0) left calc((var(--_pp-glint) - 1) * var(--_p)) top calc(3 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--pp-box-glint) 0 0) left calc(round(down, 100% + var(--_p), var(--_p)) - (var(--_pp-glint) + 1) * var(--_p)) top calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
       linear-gradient(to bottom,
         var(--pp-box-top) 0 calc((var(--pp-band-top) + 1) * var(--_p)),
         var(--pp-box-fill) 0 calc(round(down, 100%, var(--_p)) - (var(--pp-band-bottom) + 1) * var(--_p)),
         var(--pp-box-bottom) 0);
     mask-image: var(--pp-shape-inner);
     mask-repeat: no-repeat;
-    mask-size:
-      var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t),
-      calc(round(down, 100%, var(--_p)) - 2 * var(--_t)) calc(round(down, 100%, var(--_p)) - 2 * var(--_p)),
-      calc(round(down, 100%, var(--_p)) - 2 * var(--_p)) calc(round(down, 100%, var(--_p)) - 2 * var(--_t));
-    mask-position:
-      left 0 top 0,
-      left calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)) top 0,
-      left 0 top calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)),
-      left calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)) top calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)),
-      left var(--_t) top var(--_p),
-      left var(--_p) top var(--_t);
+    mask-size: var(--pp-box-mask-size);
+    mask-position: var(--pp-box-mask-position);
   }
 
   /* ------------------------------------------------------------ tiers */
@@ -194,18 +199,6 @@
   .pp-box[data-tone="slate"] { --pp-tone: var(--pp-candy-slate); --pp-tone-light: var(--pp-candy-slate-light); --pp-tone-shade: var(--pp-candy-slate-shade); --pp-tone-on: var(--pp-white); }
   .pp-box[data-tone="neutral"] { --pp-tone: var(--pp-candy-cream); --pp-tone-light: var(--pp-candy-cream-light); --pp-tone-shade: var(--pp-candy-cream-shade); }
 
-  /* ------------------------------------------------------------ radius */
-
-  .pp-r-0, [data-pp-r="0"] { --pp-r: 0; --pp-shape: var(--pp-shape-0); --pp-shape-inner: var(--pp-shape-0-inner); }
-  .pp-r-1, [data-pp-r="1"] { --pp-r: 1; --pp-shape: var(--pp-shape-1); --pp-shape-inner: var(--pp-shape-1-inner); }
-  .pp-r-2, [data-pp-r="2"] { --pp-r: 2; --pp-shape: var(--pp-shape-2); --pp-shape-inner: var(--pp-shape-2-inner); }
-  .pp-r-3, [data-pp-r="3"] { --pp-r: 3; --pp-shape: var(--pp-shape-3); --pp-shape-inner: var(--pp-shape-3-inner); }
-  .pp-r-4, [data-pp-r="4"] { --pp-r: 4; --pp-shape: var(--pp-shape-4); --pp-shape-inner: var(--pp-shape-4-inner); }
-  .pp-r-5, [data-pp-r="5"] { --pp-r: 5; --pp-shape: var(--pp-shape-5); --pp-shape-inner: var(--pp-shape-5-inner); }
-  .pp-r-6, [data-pp-r="6"] { --pp-r: 6; --pp-shape: var(--pp-shape-6); --pp-shape-inner: var(--pp-shape-6-inner); }
-  .pp-r-7, [data-pp-r="7"] { --pp-r: 7; --pp-shape: var(--pp-shape-7); --pp-shape-inner: var(--pp-shape-7-inner); }
-  .pp-r-8, [data-pp-r="8"] { --pp-r: 8; --pp-shape: var(--pp-shape-8); --pp-shape-inner: var(--pp-shape-8-inner); }
-
   /* ------------------------------------------------------------ states */
 
   /* Something you can act on. */
@@ -217,15 +210,15 @@
 
   /* Hover: lifts a pixel; its drop grows by one so the shadow stays where it was. */
   @media (hover: hover) {
-    .pp-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive]):not(:disabled, [aria-disabled="true"], [aria-busy="true"]):hover,
+    .pp-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive]):not(:disabled, [aria-disabled="true"], [aria-busy="true"], [aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):hover,
     .pp-box[data-pp-state~="hover"] {
       translate: 0 calc(-1 * var(--_p));
-      --pp-drop-size: 2;
+      --_pp-lift: 1;
     }
     .pp-box:is([data-variant="outline"], [data-variant="ghost"]):is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive]):not(:disabled, [aria-disabled="true"]):hover,
     .pp-box:is([data-variant="outline"], [data-variant="ghost"])[data-pp-state~="hover"] {
       translate: none;
-      --pp-drop-size: 0;
+      --_pp-lift: 0;
       --pp-box-outline: var(--pp-line);
       --pp-box-top: var(--pp-surface-sunken);
       --pp-box-fill: var(--pp-surface-sunken);
@@ -236,16 +229,16 @@
   /* Pressed, and selected: sits in its drop. Selected also swaps its bands, the 16-bit pushed-in look. */
   .pp-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive]):not(:disabled, [aria-disabled="true"], [aria-busy="true"]):active,
   .pp-box[data-pp-state~="active"],
-  .pp-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [data-pp-pressed]) {
+  .pp-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], [data-pp-pressed], :has(> input:checked)) {
     translate: calc(var(--pp-drop-size) * var(--_p)) calc(var(--pp-drop-size) * var(--_p));
-    --pp-drop-size: 0;
+    --_pp-drop-on: 0;
   }
-  .pp-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"])):not([data-variant="ghost"], [data-variant="outline"]) {
+  .pp-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):not([data-variant="ghost"], [data-variant="outline"]) {
     --pp-box-top: var(--pp-tone-shade);
     --pp-box-bottom: var(--pp-tone-light);
     --pp-box-glint: transparent;
   }
-  .pp-box:is([data-variant="ghost"], [data-variant="outline"]):is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"])) {
+  .pp-box:is([data-variant="ghost"], [data-variant="outline"]):is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)) {
     --pp-box-outline: var(--pp-outline);
     --pp-box-top: var(--pp-tone-light);
     --pp-box-fill: var(--pp-tone-light);
@@ -259,11 +252,12 @@
   .pp-box[data-pp-state~="focus"],
   .pp-box:has(> :is(input, select, textarea):focus-visible) {
     outline: none;
+    box-shadow: none;
     filter:
-      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--pp-focus)) drop-shadow(0 var(--_p) 0 var(--pp-focus))
-      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--pp-focus)) drop-shadow(var(--_p) 0 0 var(--pp-focus))
-      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--pp-focus-edge)) drop-shadow(0 var(--_p) 0 var(--pp-focus-edge))
-      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--pp-focus-edge)) drop-shadow(var(--_p) 0 0 var(--pp-focus-edge));
+      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--pp-box-ring, var(--pp-focus))) drop-shadow(0 var(--_p) 0 var(--pp-box-ring, var(--pp-focus)))
+      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--pp-box-ring, var(--pp-focus))) drop-shadow(var(--_p) 0 0 var(--pp-box-ring, var(--pp-focus)))
+      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--pp-box-ring-edge, var(--pp-focus-edge))) drop-shadow(0 var(--_p) 0 var(--pp-box-ring-edge, var(--pp-focus-edge)))
+      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--pp-box-ring-edge, var(--pp-focus-edge))) drop-shadow(var(--_p) 0 0 var(--pp-box-ring-edge, var(--pp-focus-edge)));
   }
 
   /* Ghost and outline boxes show their outline and well when focused, so the ring has a shape to follow. */
@@ -280,6 +274,7 @@
     --pp-drop-size: 0;
     cursor: not-allowed;
   }
+  .pp-box[data-tone="neutral"]:is(:disabled, [aria-disabled="true"]) { --pp-box-dither: var(--pp-line-soft); }
   .pp-box:is([data-variant="outline"], [data-variant="ghost"]):is(:disabled, [aria-disabled="true"]) {
     --pp-box-text: var(--pp-text-muted);
     --pp-box-outline: var(--pp-line-soft);
@@ -287,16 +282,16 @@
   }
 
   /* Busy: the label hides (keeping its size) and three dots step in, one, two, three. */
-  .pp-box[aria-busy="true"] {
+  .pp-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive])[aria-busy="true"] {
     color: transparent;
     cursor: progress;
   }
-  .pp-box[aria-busy="true"]::after {
+  .pp-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive])[aria-busy="true"]::after {
     animation: pp-box-dots calc(3 * var(--pp-duration-beat, 400ms)) steps(1, jump-end) infinite;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .pp-box[aria-busy="true"]::after {
+    .pp-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive])[aria-busy="true"]::after {
       animation: none;
       --_pp-dot-1: calc(2 * var(--pp-pixel));
       --_pp-dot-2: calc(2 * var(--pp-pixel));
@@ -309,7 +304,7 @@
     .pp-box { border: 1px solid CanvasText; translate: none !important; filter: none !important; }
     .pp-box::before, .pp-box::after { display: none; }
     .pp-box:is(button, a[href], [role="button"]) { border-color: ButtonText; }
-    .pp-box:focus-visible { outline: 2px solid Highlight; outline-offset: 2px; }
+    .pp-box:focus-visible, .pp-box:has(> :is(input, select, textarea):focus-visible) { outline: 2px solid Highlight; outline-offset: 2px; }
     .pp-box:is(:disabled, [aria-disabled="true"]) { border-color: GrayText; color: GrayText; }
   }
 }
@@ -318,4 +313,17 @@
   0% { --_pp-dot-1: calc(2 * var(--pp-pixel)); --_pp-dot-2: 0px; --_pp-dot-3: 0px; }
   33.333% { --_pp-dot-1: calc(2 * var(--pp-pixel)); --_pp-dot-2: calc(2 * var(--pp-pixel)); --_pp-dot-3: 0px; }
   66.667%, 100% { --_pp-dot-1: calc(2 * var(--pp-pixel)); --_pp-dot-2: calc(2 * var(--pp-pixel)); --_pp-dot-3: calc(2 * var(--pp-pixel)); }
+}
+
+/* Radius: in utilities, so a class or data-pp-r beats any component's default. */
+@layer pp.utilities {
+  .pp-r-0, [data-pp-r="0"] { --pp-r: 0; --pp-shape: var(--pp-shape-0); --pp-shape-inner: var(--pp-shape-0-inner); }
+  .pp-r-1, [data-pp-r="1"] { --pp-r: 1; --pp-shape: var(--pp-shape-1); --pp-shape-inner: var(--pp-shape-1-inner); }
+  .pp-r-2, [data-pp-r="2"] { --pp-r: 2; --pp-shape: var(--pp-shape-2); --pp-shape-inner: var(--pp-shape-2-inner); }
+  .pp-r-3, [data-pp-r="3"] { --pp-r: 3; --pp-shape: var(--pp-shape-3); --pp-shape-inner: var(--pp-shape-3-inner); }
+  .pp-r-4, [data-pp-r="4"] { --pp-r: 4; --pp-shape: var(--pp-shape-4); --pp-shape-inner: var(--pp-shape-4-inner); }
+  .pp-r-5, [data-pp-r="5"] { --pp-r: 5; --pp-shape: var(--pp-shape-5); --pp-shape-inner: var(--pp-shape-5-inner); }
+  .pp-r-6, [data-pp-r="6"] { --pp-r: 6; --pp-shape: var(--pp-shape-6); --pp-shape-inner: var(--pp-shape-6-inner); }
+  .pp-r-7, [data-pp-r="7"] { --pp-r: 7; --pp-shape: var(--pp-shape-7); --pp-shape-inner: var(--pp-shape-7-inner); }
+  .pp-r-8, [data-pp-r="8"] { --pp-r: 8; --pp-shape: var(--pp-shape-8); --pp-shape-inner: var(--pp-shape-8-inner); }
 }

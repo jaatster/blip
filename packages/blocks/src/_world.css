@@ -1,0 +1,34 @@
+/*
+ * The world's palette for the blocks that show it (hero, CTA, footer): the nearest scheme's sky, grass and dirt. Set
+ * where each scheme is set, so the closest scheme wins by inheritance. A partial, imported by hero.css, cta.css and
+ * footer.css; not a component on its own.
+ */
+
+@layer pp.kits {
+  :root, [data-pp-scheme="day"] {
+    --pp-blocks-sky-1: var(--pp-world-day-sky-1); --pp-blocks-sky-2: var(--pp-world-day-sky-2); --pp-blocks-sky-3: var(--pp-world-day-sky-3);
+    --pp-blocks-sky-4: var(--pp-world-day-sky-4); --pp-blocks-sky-5: var(--pp-world-day-sky-5); --pp-blocks-sky-6: var(--pp-world-day-sky-6);
+    --pp-blocks-grass-top: var(--pp-world-day-grass-top); --pp-blocks-grass: var(--pp-world-day-grass); --pp-blocks-grass-lip: var(--pp-world-day-grass-lip);
+    --pp-blocks-dirt: var(--pp-world-day-dirt); --pp-blocks-dirt-shadow: var(--pp-world-day-dirt-shadow); --pp-blocks-pebble: var(--pp-world-day-dirt-pebble);
+  }
+  [data-pp-scheme="sunset"] {
+    --pp-blocks-sky-1: var(--pp-world-sunset-sky-1); --pp-blocks-sky-2: var(--pp-world-sunset-sky-2); --pp-blocks-sky-3: var(--pp-world-sunset-sky-3);
+    --pp-blocks-sky-4: var(--pp-world-sunset-sky-4); --pp-blocks-sky-5: var(--pp-world-sunset-sky-5); --pp-blocks-sky-6: var(--pp-world-sunset-sky-6);
+    --pp-blocks-grass-top: var(--pp-world-sunset-grass-top); --pp-blocks-grass: var(--pp-world-sunset-grass); --pp-blocks-grass-lip: var(--pp-world-sunset-grass-lip);
+    --pp-blocks-dirt: var(--pp-world-sunset-dirt); --pp-blocks-dirt-shadow: var(--pp-world-sunset-dirt-shadow); --pp-blocks-pebble: var(--pp-world-sunset-dirt-pebble);
+  }
+  [data-pp-scheme="night"] {
+    --pp-blocks-sky-1: var(--pp-world-night-sky-1); --pp-blocks-sky-2: var(--pp-world-night-sky-2); --pp-blocks-sky-3: var(--pp-world-night-sky-3);
+    --pp-blocks-sky-4: var(--pp-world-night-sky-4); --pp-blocks-sky-5: var(--pp-world-night-sky-5); --pp-blocks-sky-6: var(--pp-world-night-sky-6);
+    --pp-blocks-grass-top: var(--pp-world-night-grass-top); --pp-blocks-grass: var(--pp-world-night-grass); --pp-blocks-grass-lip: var(--pp-world-night-grass-lip);
+    --pp-blocks-dirt: var(--pp-world-night-dirt); --pp-blocks-dirt-shadow: var(--pp-world-night-dirt-shadow); --pp-blocks-pebble: var(--pp-world-night-dirt-pebble);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-pp-scheme]) {
+      --pp-blocks-sky-1: var(--pp-world-night-sky-1); --pp-blocks-sky-2: var(--pp-world-night-sky-2); --pp-blocks-sky-3: var(--pp-world-night-sky-3);
+      --pp-blocks-sky-4: var(--pp-world-night-sky-4); --pp-blocks-sky-5: var(--pp-world-night-sky-5); --pp-blocks-sky-6: var(--pp-world-night-sky-6);
+      --pp-blocks-grass-top: var(--pp-world-night-grass-top); --pp-blocks-grass: var(--pp-world-night-grass); --pp-blocks-grass-lip: var(--pp-world-night-grass-lip);
+      --pp-blocks-dirt: var(--pp-world-night-dirt); --pp-blocks-dirt-shadow: var(--pp-world-night-dirt-shadow); --pp-blocks-pebble: var(--pp-world-night-dirt-pebble);
+    }
+  }
+}

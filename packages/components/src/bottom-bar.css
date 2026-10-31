@@ -1,0 +1,121 @@
+/*
+ * Bottom bar. The phone's way round an app: three to five destinations, an icon over a label, the current one
+ * sitting in. A panel that sticks to the bottom of the screen, clear of the home indicator. In a wide shell it steps
+ * aside for the sidebar and the app bar.
+ *
+ *   <nav class="pp-box pp-bottom-bar" aria-label="Main" data-collapse="auto">
+ *     <ul class="pp-bottom-bar-list" role="list">
+ *       <li><a class="pp-box pp-bottom-bar-item" data-variant="ghost" href="/" aria-current="page">
+ *         <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+ *         <span class="pp-bottom-bar-label">Home</span></a></li>
+ *       <li><a class="pp-box pp-bottom-bar-item" data-variant="ghost" href="/inbox">
+ *         <svg class="pp-icon" …></svg><span class="pp-bottom-bar-label">Inbox</span>
+ *         <span class="pp-box pp-bottom-bar-badge" data-tone="danger">3<span class="pp-sr-only"> new</span></span></a></li>
+ *     </ul>
+ *   </nav>
+ *
+ *   aria-current="page"   the destination you are on: sits in, ink label
+ *   .pp-bottom-bar-badge  a count on an item's icon; empty or data-dot: a dot. data-tone colours it.
+ *   data-collapse="auto"  hidden when the pp-shell container (container: pp-shell / inline-size) is 600 px or wider
+ */
+
+@layer pp.components {
+  .pp-bottom-bar {
+    --pp-r: 5;
+    --pp-shape: var(--pp-shape-5);
+    --pp-shape-inner: var(--pp-shape-5-inner);
+    --pp-box-top: var(--pp-surface);
+    --pp-box-fill: var(--pp-surface);
+    --pp-box-bottom: var(--pp-surface);
+    --pp-box-text: var(--pp-text);
+    --pp-box-glint: transparent;
+
+    position: sticky;
+    inset-block-end: calc(var(--pp-space-3) + env(safe-area-inset-bottom, 0px));
+    z-index: var(--pp-layer-sticky);
+    display: block;
+    margin: var(--pp-space-3);
+    margin-inline-end: calc(var(--pp-space-3) + var(--pp-pixel));
+    padding: var(--pp-space-2);
+    font-family: var(--pp-font-ui);
+  }
+
+  .pp-bottom-bar-list {
+    display: flex;
+    gap: var(--pp-space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .pp-bottom-bar-list > li {
+    display: flex;
+    flex: 1 1 0;
+    min-inline-size: 0;
+  }
+
+  .pp-bottom-bar-item {
+    --pp-r: 4;
+    --pp-shape: var(--pp-shape-4);
+    --pp-shape-inner: var(--pp-shape-4-inner);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--pp-space-1);
+    inline-size: 100%;
+    min-block-size: calc(26 * var(--pp-pixel));
+    padding: var(--pp-space-2) var(--pp-space-1);
+    font-size: var(--pp-size-caption);
+    font-weight: var(--pp-weight-bold);
+    line-height: 1;
+    letter-spacing: var(--pp-tracking-label);
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .pp-bottom-bar-item:not([aria-current="page"]) { --pp-box-text: var(--pp-text-muted); }
+  .pp-bottom-bar-label {
+    max-inline-size: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .pp-bottom-bar-badge {
+    --pp-r: 2;
+    --pp-shape: var(--pp-shape-2);
+    --pp-shape-inner: var(--pp-shape-2-inner);
+    --pp-band-top: 1;
+    --pp-band-bottom: 1;
+    --pp-drop-size: 0;
+
+    position: absolute;
+    inset-block-start: var(--pp-space-1);
+    inset-inline-start: calc(50% + var(--pp-space-3));
+    display: grid;
+    place-items: center;
+    min-inline-size: calc(10 * var(--pp-pixel));
+    block-size: calc(10 * var(--pp-pixel));
+    padding: 0 var(--pp-space-2);
+    letter-spacing: 0;
+    font-variant-numeric: tabular-nums;
+  }
+  .pp-bottom-bar-badge:is(:empty, [data-dot]) {
+    --pp-r: 1;
+    --pp-shape: var(--pp-shape-1);
+    --pp-shape-inner: var(--pp-shape-1-inner);
+    min-inline-size: 0;
+    inline-size: calc(6 * var(--pp-pixel));
+    block-size: calc(6 * var(--pp-pixel));
+    padding: 0;
+  }
+
+  @container pp-shell (width >= 600px) {
+    .pp-bottom-bar[data-collapse="auto"] { display: none; }
+  }
+
+  @media (forced-colors: active) {
+    .pp-bottom-bar-item { border-color: Canvas; }
+    .pp-bottom-bar-item[aria-current="page"] { border-color: CanvasText; }
+  }
+}

@@ -1,0 +1,63 @@
+<!-- Sidebar: a live-ops dashboard's navigation (sections, icons, counts, a group open on the current page, the arrow),
+     the item states forced with data-pp-state, and the same navigation folded to a rail, one item's name showing. -->
+<div style="display:flex;flex-wrap:wrap;gap:calc(16*var(--pp-pixel));align-items:start">
+
+  <nav class="pp-box pp-sidebar" data-variant="panel" aria-label="Main" data-arrow>
+    <h2 class="pp-sidebar-heading" id="sb-live">Live ops</h2>
+    <ul class="pp-sidebar-list" role="list" aria-labelledby="sb-live">
+      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#overview"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zM7 1h4v4H7zM1 7h4v4H1zM7 7h4v4H7z"/></svg><span class="pp-sidebar-label">Overview</span></a></li>
+      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#players"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM3 7h6v1h1v1h1v2H1V9h1V8h1z"/></svg><span class="pp-sidebar-label">Players</span><span class="pp-box pp-sidebar-badge">128</span></a></li>
+      <li>
+        <details class="pp-sidebar-group" open>
+          <summary class="pp-box pp-sidebar-item" data-variant="ghost"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1h1v10H2zM3 1h7v1H9v1H8v1h1v1h1v1H3z"/></svg><span class="pp-sidebar-label">Levels</span></summary>
+          <ul class="pp-sidebar-list" role="list">
+            <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#world-1"><span class="pp-sidebar-label">World 1: Grass Land</span></a></li>
+            <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#world-2" aria-current="page"><span class="pp-sidebar-label">World 2: Desert Hill</span></a></li>
+            <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#world-3"><span class="pp-sidebar-label">World 3: Ocean Side</span><span class="pp-box pp-sidebar-badge" data-tone="warning">2</span></a></li>
+          </ul>
+        </details>
+      </li>
+      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#events"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h10v9H1zM2 5v5h8V5zM3 0h1v3H3zM8 0h1v3H8z"/></svg><span class="pp-sidebar-label">Events</span></a></li>
+    </ul>
+    <h2 class="pp-sidebar-heading" id="sb-shop">Shop</h2>
+    <ul class="pp-sidebar-list" role="list" aria-labelledby="sb-shop">
+      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#store"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4h8v7H2zM4 1h4v3H7V2H5v2H4z"/></svg><span class="pp-sidebar-label">Store</span></a></li>
+      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#reports"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 10h10v1H1zM2 6h2v4H2zM5 3h2v7H5zM8 5h2v5H8z"/></svg><span class="pp-sidebar-label">Sales</span><span class="pp-box pp-sidebar-badge" data-tone="danger">5<span class="pp-sr-only"> refunds to check</span></span></a></li>
+      <li>
+        <details class="pp-sidebar-group">
+          <summary class="pp-box pp-sidebar-item" data-variant="ghost"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h10v1H1zM1 6h10v1H1zM1 10h10v1H1zM3 1h2v3H3zM7 5h2v3H7zM4 9h2v3H4z"/></svg><span class="pp-sidebar-label">Settings</span></summary>
+          <ul class="pp-sidebar-list" role="list">
+            <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#prices"><span class="pp-sidebar-label">Prices</span></a></li>
+            <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#payouts"><span class="pp-sidebar-label">Payouts</span></a></li>
+          </ul>
+        </details>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- States, forced. -->
+  <nav class="pp-sidebar" aria-label="Sidebar item states" style="--pp-sidebar-width:calc(90*var(--pp-pixel))">
+    <ul class="pp-sidebar-list" role="list">
+      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#rest"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg><span class="pp-sidebar-label">Rest</span></a></li>
+      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#hover" data-pp-state="hover"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg><span class="pp-sidebar-label">Hover</span></a></li>
+      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#focus" data-pp-state="focus"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg><span class="pp-sidebar-label">Focus</span></a></li>
+      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#current" aria-current="page"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg><span class="pp-sidebar-label">Current</span></a></li>
+      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" role="link" aria-disabled="true"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg><span class="pp-sidebar-label">Disabled</span></a></li>
+    </ul>
+  </nav>
+
+  <nav class="pp-box pp-sidebar" data-variant="panel" aria-label="Main, folded" data-collapsed>
+    <h2 class="pp-sidebar-heading" id="sb-rail-live">Live ops</h2>
+    <ul class="pp-sidebar-list" role="list" aria-labelledby="sb-rail-live">
+      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#overview" aria-current="page"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zM7 1h4v4H7zM1 7h4v4H1zM7 7h4v4H7z"/></svg><span class="pp-sidebar-label">Overview</span></a></li>
+      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#players" data-pp-state="focus"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM3 7h6v1h1v1h1v2H1V9h1V8h1z"/></svg><span class="pp-sidebar-label">Players</span><span class="pp-box pp-sidebar-badge">128</span></a></li>
+      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#levels"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1h1v10H2zM3 1h7v1H9v1H8v1h1v1h1v1H3z"/></svg><span class="pp-sidebar-label">Levels</span></a></li>
+      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#events"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h10v9H1zM2 5v5h8V5zM3 0h1v3H3zM8 0h1v3H8z"/></svg><span class="pp-sidebar-label">Events</span></a></li>
+    </ul>
+    <h2 class="pp-sidebar-heading" id="sb-rail-shop">Shop</h2>
+    <ul class="pp-sidebar-list" role="list" aria-labelledby="sb-rail-shop">
+      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#store"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4h8v7H2zM4 1h4v3H7V2H5v2H4z"/></svg><span class="pp-sidebar-label">Store</span></a></li>
+      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#reports"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 10h10v1H1zM2 6h2v4H2zM5 3h2v7H5zM8 5h2v5H8z"/></svg><span class="pp-sidebar-label">Sales</span><span class="pp-box pp-sidebar-badge" data-tone="danger">5</span></a></li>
+    </ul>
+  </nav>
+</div>

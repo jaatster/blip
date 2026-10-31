@@ -1,0 +1,9 @@
+<!-- Bursts: little sprites pop out of the button and fall, a frame at a time, then go. data-pp-burst="<kind>" does it
+     on click with no script of your own; burst(el, { kind, count }) does it from code. Nothing with reduced motion. -->
+<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--pp-pixel));align-items:center;padding-block:calc(16*var(--pp-pixel))">
+  <button class="pp-box pp-button" type="button" data-pp-burst="sparkle">Sparkle</button>
+  <button class="pp-box pp-button" type="button" data-tone="orange" data-pp-burst="coin">Coin</button>
+  <button class="pp-box pp-button" type="button" data-tone="purple" data-pp-burst="star">Stars</button>
+  <button class="pp-box pp-button" type="button" data-tone="pink" data-pp-burst="confetti" data-pp-burst-count="24">Confetti</button>
+  <button class="pp-box pp-button" type="button" data-tone="success" onclick="import('@jaatster/blip-effects').then(({ burst }) => { burst(this, { kind: 'coin', count: 5 }); burst(this, { kind: 'sparkle' }); })">Claim reward</button>
+</div>

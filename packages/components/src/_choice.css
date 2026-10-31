@@ -1,0 +1,125 @@
+/*
+ * Private: what checkbox, radio and switch share. Each of those files imports this one. Not part of the public
+ * contract.
+ *
+ *   <label class="pp-check"><span class="pp-box pp-checkbox"><input type="checkbox" name="music"></span>Music</label>
+ *
+ * Help for one option goes after its row as <p class="pp-check-help" id="…">, linked from the input with
+ * aria-describedby, so it describes the option instead of becoming part of its name.
+ *
+ * The box is a wrapper; the native input sits inside it, invisible but real (it takes the click, the keys, the
+ * focus and the form value) and paints the glyph through a mask. Unchecked is the calm well; checked is candy that
+ * sits in (bands swapped), with an ink glyph.
+ *
+ * Every selector here is wrapped in :where(), so it weighs nothing: each control's own rules win whatever order
+ * the files load in (each of them carries a copy of this one).
+ */
+
+@layer pp.components {
+  /* The row: the box, then its label. data-layout="split" puts the label first and the control at the far end. */
+  :where(.pp-check) {
+    display: flex;
+    align-items: flex-start;
+    gap: calc(4 * var(--pp-pixel));
+    inline-size: fit-content;
+    font-size: var(--pp-size-body);
+    line-height: calc(11 * var(--pp-pixel));
+    cursor: pointer;
+  }
+  :where(.pp-check[data-size="sm"]) { gap: calc(3 * var(--pp-pixel)); font-size: var(--pp-size-small); line-height: calc(9 * var(--pp-pixel)); }
+  :where(.pp-check[data-size="lg"]) { font-size: var(--pp-size-lead); line-height: calc(13 * var(--pp-pixel)); }
+  :where(.pp-check[data-layout="split"]) { inline-size: auto; justify-content: space-between; }
+  :where(.pp-check-help) { display: block; margin: 0; font-size: var(--pp-size-small); line-height: var(--pp-leading-normal); color: var(--pp-text-muted); }
+  /* Help after the row (linked with aria-describedby, so it describes rather than names): under the words. */
+  :where(.pp-check) + :where(.pp-check-help) { padding-inline-start: calc(15 * var(--pp-pixel)); }
+  :where(.pp-check[data-size="sm"]) + :where(.pp-check-help) { padding-inline-start: calc(12 * var(--pp-pixel)); }
+  :where(.pp-check[data-size="lg"]) + :where(.pp-check-help) { padding-inline-start: calc(17 * var(--pp-pixel)); }
+  :where(.pp-check[data-layout="split"]) + :where(.pp-check-help) { padding-inline-start: 0; }
+  :where(.pp-check:has(:disabled)) { color: var(--pp-text-muted); cursor: not-allowed; }
+
+  /* The box at rest: the calm well. */
+  :where(.pp-checkbox, .pp-radio, .pp-switch) {
+    --_n: 11;
+    --pp-band-top: 1;
+    --pp-band-bottom: 0;
+    --pp-drop-size: 0;
+    --pp-box-outline: var(--pp-line);
+    --pp-box-top: var(--pp-surface-sunken);
+    --pp-box-fill: var(--pp-surface);
+    --pp-box-bottom: var(--pp-surface);
+    --pp-box-text: var(--pp-text);
+    --pp-box-glint: transparent;
+    display: inline-block;
+    flex: none;
+    inline-size: calc(var(--_n) * var(--pp-pixel));
+    block-size: calc(var(--_n) * var(--pp-pixel));
+    vertical-align: middle;
+  }
+  :where(.pp-checkbox, .pp-radio, .pp-switch):where([data-size="sm"], [data-size="sm"] > *) { --_n: 9; }
+  :where(.pp-checkbox, .pp-radio, .pp-switch):where([data-size="lg"], [data-size="lg"] > *) { --_n: 13; }
+
+  /* Hover (the box, or anywhere on its label row): the well darkens, as the calm tiers do. */
+  @media (hover: hover) {
+    :where(.pp-checkbox, .pp-radio):where(:hover, .pp-check:hover > *):where(:not(:has(> :disabled))) {
+      --pp-box-fill: var(--pp-surface-sunken);
+      --pp-box-bottom: var(--pp-surface-sunken);
+    }
+  }
+  :where(.pp-checkbox, .pp-radio):where([data-pp-state~="hover"]) {
+    --pp-box-fill: var(--pp-surface-sunken);
+    --pp-box-bottom: var(--pp-surface-sunken);
+  }
+
+  /* The input fills the box and one pixel more all round (a 26 px target), and draws the glyph. */
+  :where(.pp-checkbox, .pp-radio) > :where(input) {
+    position: absolute;
+    inset: calc(-1 * var(--pp-pixel));
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    outline: 0;
+    box-shadow: none;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    appearance: none;
+    mask: var(--_g) center / var(--_gs) no-repeat;
+  }
+  :where(.pp-checkbox, .pp-radio) > :where(:checked) { background-color: currentColor; }
+  :where(.pp-checkbox, .pp-radio, .pp-switch) > :where(:disabled) { cursor: not-allowed; }
+
+  /* Checked: candy that sits in (shade on top, light below), ink glyph. data-tone picks the candy. */
+  :where(.pp-checkbox, .pp-radio, .pp-switch):where(:has(> :checked)) {
+    --pp-band-bottom: 1;
+    --pp-box-outline: var(--pp-outline);
+    --pp-box-top: var(--pp-tone-shade);
+    --pp-box-fill: var(--pp-tone);
+    --pp-box-bottom: var(--pp-tone-light);
+    --pp-box-text: var(--pp-tone-on);
+  }
+
+  /* Invalid: the danger tone's outline (with a message from the field). */
+  :where(.pp-checkbox, .pp-radio, .pp-switch):where(:has(> :is([aria-invalid="true"], :user-invalid))) {
+    --pp-box-outline: var(--pp-danger-text);
+  }
+
+  /* Disabled: dithered. Unchecked goes soft like the calm tiers; checked keeps its candy under the page's dither. */
+  :where(.pp-checkbox, .pp-radio, .pp-switch):where(:has(> :disabled)) {
+    --pp-box-outline: var(--pp-line-soft);
+    --pp-box-text: var(--pp-text-muted);
+    --pp-box-dither: var(--pp-surface-sunken);
+  }
+  :where(.pp-checkbox, .pp-radio, .pp-switch):where(:has(> :checked:disabled)) {
+    --pp-box-outline: var(--pp-outline);
+    --pp-box-text: var(--pp-tone-on);
+    --pp-box-dither: var(--pp-bg);
+  }
+
+  /* Windows high contrast: the system draws the real control; the box shows where the focus is. */
+  @media (forced-colors: active) {
+    :where(.pp-checkbox, .pp-radio, .pp-switch):where(:has(> input:focus-visible)) { outline: 2px solid Highlight; outline-offset: 2px; }
+    :where(.pp-checkbox, .pp-radio) { border: 0; }
+    :where(.pp-checkbox, .pp-radio) > :where(input) { inset: 0; appearance: auto; mask: none; }
+  }
+}

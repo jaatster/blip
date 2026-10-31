@@ -1,0 +1,64 @@
+<!-- List: a settings list (icons, descriptions, controls at the end), a menu of rows you press (the one you are on,
+     hover, focus), and a compact party list with avatars and meta text. Forced states use data-pp-state. -->
+<div class="pp-grid" data-min="160" style="align-items:start">
+  <ul class="pp-box pp-list" role="list" data-dividers aria-label="Settings">
+    <li class="pp-list-item">
+      <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 0h8v2H3zM3 2h2v5H3zM9 2h2v4H9zM7 6h4v1H7zM1 7h4v1H1zM6 7h5v2H6zM0 8h5v2H0zM7 9h3v1H7zM1 10h3v1H1z"/></svg>
+      <div class="pp-list-content"><span class="pp-list-title" id="set-music">Music</span><span class="pp-list-description">Chip tunes on the title screen</span></div>
+      <div class="pp-list-end"><span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box" aria-labelledby="set-music" checked></span></div>
+    </li>
+    <li class="pp-list-item">
+      <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0h2v1H6zM5 1h3v1H5zM10 1h1v1H10zM4 2h4v1H4zM11 2h1v2H11zM0 3h7v5H0zM9 3h1v1H9zM10 4h2v3H10zM9 7h1v1H9zM11 7h1v2H11zM4 8h4v1H4zM5 9h3v1H5zM10 9h1v1H10zM6 10h2v1H6z"/></svg>
+      <div class="pp-list-content"><span class="pp-list-title">Sound effects</span><span class="pp-list-description">Coins, jumps and menus</span></div>
+      <div class="pp-list-end">60%</div>
+    </li>
+    <li class="pp-list-item">
+      <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h8v1H2zM1 3h10v1H1zM0 4h2v1H0zM3 4h5v1H3zM9 4h3v1H9zM0 5h1v1H0zM4 5h3v1H4zM8 5h1v1H8zM10 5h2v1H10zM0 6h2v1H0zM3 6h5v1H3zM9 6h3v1H9zM0 7h12v1H0zM0 8h4v1H0zM8 8h4v1H8zM0 9h3v1H0zM9 9h3v1H9zM1 10h1v1H1zM10 10h1v1H10z"/></svg>
+      <div class="pp-list-content"><span class="pp-list-title">Pause</span><span class="pp-list-description">Any time, from any screen</span></div>
+      <div class="pp-list-end"><kbd class="pp-box pp-keycap">Esc</kbd></div>
+    </li>
+    <li class="pp-list-item">
+      <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 2h6v1H3zM1 3h2v1H1zM9 3h2v1H9zM0 4h1v4H0zM5 4h2v1H5zM11 4h1v4H11zM4 5h4v2H4zM5 7h2v1H5zM1 8h2v1H1zM9 8h2v1H9zM3 9h6v1H3z"/></svg>
+      <div class="pp-list-content"><span class="pp-list-title" id="set-motion">Reduce motion</span><span class="pp-list-description">No bobbing, no glints</span></div>
+      <div class="pp-list-end"><span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box" aria-labelledby="set-motion"></span></div>
+    </li>
+    <li class="pp-list-item">
+      <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h3v1H4zM3 3h5v1H3zM2 4h7v1H2zM10 4h1v1H10zM1 5h10v1H1zM0 6h12v3H0zM1 9h10v1H1z"/></svg>
+      <div class="pp-list-content"><span class="pp-list-title">Cloud save</span><span class="pp-list-description">Last synced 2 minutes ago</span></div>
+      <div class="pp-list-end"><span class="pp-box pp-tag" data-tone="success">On</span></div>
+    </li>
+  </ul>
+
+  <nav aria-label="Settings sections">
+    <ul class="pp-box pp-list" role="list">
+      <li><a class="pp-box pp-list-item" data-variant="ghost" href="#general" aria-current="page"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 0h2v1H5zM2 1h1v1H2zM4 1h4v1H4zM9 1h1v1H9zM1 2h10v1H1zM2 3h3v1H2zM7 3h3v1H7zM1 4h3v1H1zM8 4h3v1H8zM0 5h4v2H0zM8 5h4v2H8zM1 7h3v1H1zM8 7h3v1H8zM2 8h3v1H2zM7 8h3v1H7zM1 9h10v1H1zM2 10h1v1H2zM4 10h4v1H4zM9 10h1v1H9zM5 11h2v1H5z"/></svg><span class="pp-list-content"><span class="pp-list-title">General</span><span class="pp-list-description">Language, saves</span></span><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 2h2v1H3zM4 3h2v1H4zM5 4h2v1H5zM6 5h2v1H6zM5 6h2v1H5zM4 7h2v1H4zM3 8h2v1H3z"/></svg></a></li>
+      <li><a class="pp-box pp-list-item" data-variant="ghost" href="#sound" data-pp-state="hover"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0h2v1H6zM5 1h3v1H5zM10 1h1v1H10zM4 2h4v1H4zM11 2h1v2H11zM0 3h7v5H0zM9 3h1v1H9zM10 4h2v3H10zM9 7h1v1H9zM11 7h1v2H11zM4 8h4v1H4zM5 9h3v1H5zM10 9h1v1H10zM6 10h2v1H6z"/></svg><span class="pp-list-content"><span class="pp-list-title">Sound</span><span class="pp-list-description">Music, effects</span></span><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 2h2v1H3zM4 3h2v1H4zM5 4h2v1H5zM6 5h2v1H6zM5 6h2v1H5zM4 7h2v1H4zM3 8h2v1H3z"/></svg></a></li>
+      <li><a class="pp-box pp-list-item" data-variant="ghost" href="#controls" data-pp-state="focus"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h8v1H2zM1 3h10v1H1zM0 4h2v1H0zM3 4h5v1H3zM9 4h3v1H9zM0 5h1v1H0zM4 5h3v1H4zM8 5h1v1H8zM10 5h2v1H10zM0 6h2v1H0zM3 6h5v1H3zM9 6h3v1H9zM0 7h12v1H0zM0 8h4v1H0zM8 8h4v1H8zM0 9h3v1H0zM9 9h3v1H9zM1 10h1v1H1zM10 10h1v1H10z"/></svg><span class="pp-list-content"><span class="pp-list-title">Controls</span><span class="pp-list-description">Keys and gamepads</span></span><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 2h2v1H3zM4 3h2v1H4zM5 4h2v1H5zM6 5h2v1H6zM5 6h2v1H5zM4 7h2v1H4zM3 8h2v1H3z"/></svg></a></li>
+      <li><a class="pp-box pp-list-item" data-variant="ghost" href="#notifications"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 0h2v1H5zM4 1h4v1H4zM3 2h6v1H3zM2 3h8v4H2zM1 7h10v1H1zM0 8h12v1H0zM4 10h4v1H4zM5 11h2v1H5z"/></svg><span class="pp-list-content"><span class="pp-list-title">Notifications</span><span class="pp-list-description">Friends, events</span></span><span class="pp-list-end"><span class="pp-box pp-tag" data-size="sm" data-tone="danger">3<span class="pp-sr-only"> new</span></span><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 2h2v1H3zM4 3h2v1H4zM5 4h2v1H5zM6 5h2v1H6zM5 6h2v1H5zM4 7h2v1H4zM3 8h2v1H3z"/></svg></span></a></li>
+      <li><button class="pp-box pp-list-item" data-variant="ghost" type="button" aria-disabled="true"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 0h6v1H3zM2 1h2v1H2zM5 1h2v1H5zM8 1h2v1H8zM1 2h1v1H1zM4 2h1v1H4zM7 2h1v1H7zM10 2h1v1H10zM0 3h12v1H0zM0 4h1v3H0zM4 4h1v3H4zM7 4h1v3H7zM11 4h1v3H11zM0 7h12v1H0zM1 8h1v1H1zM4 8h1v1H4zM7 8h1v1H7zM10 8h1v1H10zM2 9h2v1H2zM5 9h2v1H5zM8 9h2v1H8zM3 10h6v1H3z"/></svg><span class="pp-list-content"><span class="pp-list-title">Online play</span><span class="pp-list-description">Not available offline</span></span></button></li>
+    </ul>
+  </nav>
+
+  <ol class="pp-box pp-list" role="list" data-density="compact" data-dividers aria-label="Party">
+    <li class="pp-list-item">
+      <span class="pp-box pp-avatar" data-size="sm" data-tone="pink"><svg viewBox="0 0 8 8" role="img" aria-label="Pip Bloom"><path style="fill:var(--pp-candy-pink-light)" d="M0 0h8v8H0z"/><path style="fill:var(--pp-candy-purple)" d="M1 0h6v1H1zM0 1h8v1H0zM0 2h1v2H0zM7 2h1v2H7z"/><path style="fill:var(--pp-world-day-dirt-pebble)" d="M1 2h6v1H1zM1 3h1v1H1zM3 3h2v1H3zM6 3h1v1H6zM1 4h6v1H1zM1 5h2v1H1zM5 5h2v1H5z"/><path style="fill:var(--pp-ink)" d="M2 3h1v1H2zM5 3h1v1H5z"/><path style="fill:var(--pp-candy-red-light)" d="M3 5h2v1H3z"/><path style="fill:var(--pp-candy-teal)" d="M1 6h6v1H1zM0 7h8v1H0z"/></svg></span>
+      <div class="pp-list-content"><span class="pp-list-title">Pip Bloom</span><span class="pp-list-description">Leader · Level 42</span></div>
+      <div class="pp-list-end">98,120</div>
+    </li>
+    <li class="pp-list-item">
+      <span class="pp-box pp-avatar" data-size="sm" data-tone="blue"><svg viewBox="0 0 8 8" role="img" aria-label="Juno Reed"><path style="fill:var(--pp-candy-blue-light)" d="M0 0h8v8H0z"/><path style="fill:var(--pp-candy-orange-shade)" d="M1 0h6v1H1zM0 1h8v1H0zM0 2h1v2H0zM7 2h1v2H7z"/><path style="fill:var(--pp-world-day-dirt)" d="M1 2h6v1H1zM1 3h1v1H1zM3 3h2v1H3zM6 3h1v1H6zM1 4h6v1H1zM1 5h2v1H1zM5 5h2v1H5z"/><path style="fill:var(--pp-ink)" d="M2 3h1v1H2zM5 3h1v1H5z"/><path style="fill:var(--pp-candy-red-light)" d="M3 5h2v1H3z"/><path style="fill:var(--pp-candy-blue)" d="M1 6h6v1H1zM0 7h8v1H0z"/></svg></span>
+      <div class="pp-list-content"><span class="pp-list-title">Juno Reed</span><span class="pp-list-description">Level 39</span></div>
+      <div class="pp-list-end">87,455</div>
+    </li>
+    <li class="pp-list-item">
+      <span class="pp-box pp-avatar" data-size="sm" data-tone="teal" role="img" aria-label="Kit Moss">K</span>
+      <div class="pp-list-content"><span class="pp-list-title">Kit Moss</span><span class="pp-list-description">Level 37</span></div>
+      <div class="pp-list-end">80,010</div>
+    </li>
+    <li class="pp-list-item">
+      <span class="pp-box pp-avatar" data-size="sm" data-tone="green"><svg viewBox="0 0 8 8" role="img" aria-label="Rory Fen"><path style="fill:var(--pp-candy-green-light)" d="M0 0h8v8H0z"/><path style="fill:var(--pp-candy-slate)" d="M1 0h6v1H1zM0 1h8v1H0zM0 2h1v2H0zM7 2h1v2H7z"/><path style="fill:var(--pp-world-night-dirt-pebble)" d="M1 2h6v1H1zM1 3h1v1H1zM3 3h2v1H3zM6 3h1v1H6zM1 4h6v1H1zM1 5h2v1H1zM5 5h2v1H5z"/><path style="fill:var(--pp-ink)" d="M2 3h1v1H2zM5 3h1v1H5z"/><path style="fill:var(--pp-candy-red-light)" d="M3 5h2v1H3z"/><path style="fill:var(--pp-candy-red)" d="M1 6h6v1H1zM0 7h8v1H0z"/></svg></span>
+      <div class="pp-list-content"><span class="pp-list-title">Rory Fen</span><span class="pp-list-description">Away</span></div>
+      <div class="pp-list-end">61,300</div>
+    </li>
+  </ol>
+</div>

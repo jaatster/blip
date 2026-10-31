@@ -2,6 +2,7 @@
 
 @layer pp.core {
   .pp-icon {
+    display: inline-block;
     inline-size: calc(12 * var(--pp-pixel));
     block-size: calc(12 * var(--pp-pixel));
     flex: none;
@@ -9,5 +10,6 @@
     shape-rendering: crispEdges;
     vertical-align: middle;
   }
+  pp-icon { display: inline-flex; vertical-align: middle; }
   .pp-icon[data-size="lg"] { inline-size: calc(24 * var(--pp-pixel)); block-size: calc(24 * var(--pp-pixel)); }
 }

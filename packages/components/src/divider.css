@@ -1,0 +1,88 @@
+/*
+ * Divider. A line drawn in whole pixels: solid, dashed or dithered, across or upright, with or without a label in
+ * the middle. Quiet by default (line-soft); data-strong draws it in the line colour.
+ *
+ *   <hr class="pp-divider">
+ *   <hr class="pp-divider" data-variant="dither">
+ *   <hr class="pp-divider" aria-orientation="vertical">                 upright, in a row (cluster, toolbar)
+ *   <div class="pp-divider" data-variant="dashed">Today</div>           a label in the middle
+ *
+ *   data-variant       solid (default) | dashed | dither          a pixel line; three on, two off; a checkerboard
+ *   data-strong                                                   the line colour (ink by day) instead of line-soft
+ *   data-align         center (default) | start | end             where the label sits (labelled dividers)
+ *   aria-orientation="vertical"                                   upright, as tall as its row (on <hr>)
+ *
+ * <hr> is a separator for assistive technology; a labelled divider is a <div> whose text is read as text.
+ */
+
+@layer pp.components {
+  .pp-divider {
+    --_c: var(--pp-line-soft);
+    --_w: var(--pp-pixel);
+    --_line: linear-gradient(var(--_c) 0 0);
+    --_size: auto;
+    --_repeat: repeat;
+    flex: none;
+    border: 0;
+    margin: var(--pp-divider-space, var(--pp-space-6)) 0;
+    color: var(--pp-text-muted);
+  }
+  .pp-divider[data-strong] { --_c: var(--pp-line); }
+  /* Three pixels on, two off. */
+  .pp-divider[data-variant="dashed"] {
+    --_line: linear-gradient(to right, var(--_c) 0 calc(3 * var(--pp-pixel)), transparent 0);
+    --_size: calc(5 * var(--pp-pixel)) 100%;
+    --_repeat: repeat-x;
+  }
+  /* A two-pixel checkerboard, the dither of the world. */
+  .pp-divider[data-variant="dither"] {
+    --_w: calc(2 * var(--pp-pixel));
+    --_line: repeating-conic-gradient(var(--_c) 0 25%, transparent 0 50%);
+    --_size: calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel));
+  }
+
+  hr.pp-divider {
+    block-size: var(--_w);
+    background: var(--_line) 0 0 / var(--_size) var(--_repeat);
+  }
+
+  hr.pp-divider[aria-orientation="vertical"] {
+    align-self: stretch;
+    inline-size: var(--_w);
+    block-size: auto;
+    min-block-size: var(--pp-space-8);
+    margin: 0 var(--pp-divider-space, var(--pp-space-4));
+  }
+  hr.pp-divider[aria-orientation="vertical"][data-variant="dashed"] {
+    --_line: linear-gradient(var(--_c) 0 calc(3 * var(--pp-pixel)), transparent 0);
+    --_size: 100% calc(5 * var(--pp-pixel));
+    --_repeat: repeat-y;
+  }
+
+  /* Labelled: a line, the label, a line. */
+  .pp-divider:not(hr) {
+    display: flex;
+    align-items: center;
+    gap: var(--pp-space-4);
+    font-family: var(--pp-font-ui);
+    font-size: var(--pp-size-caption);
+    font-weight: var(--pp-weight-bold);
+    line-height: 1;
+    letter-spacing: var(--pp-tracking-label);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .pp-divider:not(hr)::before,
+  .pp-divider:not(hr)::after {
+    content: "";
+    flex: 1;
+    block-size: var(--_w);
+    background: var(--_line) 0 0 / var(--_size) var(--_repeat);
+  }
+  .pp-divider:not(hr)[data-align="start"]::before,
+  .pp-divider:not(hr)[data-align="end"]::after { flex: 0 0 var(--pp-space-8); }
+
+  @media (forced-colors: active) {
+    .pp-divider, .pp-divider[data-strong] { --_c: CanvasText; color: CanvasText; forced-color-adjust: none; }
+  }
+}

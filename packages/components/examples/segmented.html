@@ -1,0 +1,59 @@
+<!-- Segmented control: <pp-segmented> with buttons, icons, sizes, full width, a disabled segment; and the same
+     look from native radios with no script. Forced states use data-pp-state (docs and tests only). -->
+<div style="display:grid;gap:calc(8*var(--pp-pixel));justify-items:start">
+  <pp-segmented class="pp-box pp-segmented" name="sg-view" value="grid" aria-label="View">
+    <button class="pp-box" type="button" value="list">List</button>
+    <button class="pp-box" type="button" value="grid" aria-checked="true">Grid</button>
+    <button class="pp-box" type="button" value="map">Map</button>
+  </pp-segmented>
+
+  <pp-segmented class="pp-box pp-segmented" name="sg-layout" value="tiles" aria-label="Layout">
+    <button class="pp-box" type="button" value="rows" data-icon-only aria-label="Rows"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h2v2H1zM4 2h7v2H4zM1 5h2v2H1zM4 5h7v2H4zM1 8h2v2H1zM4 8h7v2H4z"/></svg></button>
+    <button class="pp-box" type="button" value="tiles" data-icon-only aria-label="Tiles" aria-checked="true"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zM7 1h4v4H7zM1 7h4v4H1zM7 7h4v4H7z"/></svg></button>
+  </pp-segmented>
+
+  <div style="display:flex;flex-wrap:wrap;gap:calc(6*var(--pp-pixel));align-items:center">
+    <pp-segmented class="pp-box pp-segmented" data-size="sm" value="day" aria-label="Time of day, small">
+      <button class="pp-box" type="button" value="day" aria-checked="true">Day</button>
+      <button class="pp-box" type="button" value="sunset">Sunset</button>
+      <button class="pp-box" type="button" value="night">Night</button>
+    </pp-segmented>
+    <pp-segmented class="pp-box pp-segmented" data-size="lg" value="2p" aria-label="Players, large">
+      <button class="pp-box" type="button" value="1p">1P</button>
+      <button class="pp-box" type="button" value="2p" aria-checked="true">2P</button>
+      <button class="pp-box" type="button" value="4p" disabled>4P</button>
+    </pp-segmented>
+    <pp-segmented class="pp-box pp-segmented" value="pink" data-tone="pink" aria-label="Team colour">
+      <button class="pp-box" type="button" value="pink" aria-checked="true" data-tone="pink">Pink</button>
+      <button class="pp-box" type="button" value="teal" data-tone="teal">Teal</button>
+    </pp-segmented>
+  </div>
+
+  <pp-segmented class="pp-box pp-segmented" data-width="full" value="weekly" aria-label="Leaderboard" style="inline-size:min(100%,calc(200*var(--pp-pixel)))">
+    <button class="pp-box" type="button" value="daily">Today</button>
+    <button class="pp-box" type="button" value="weekly" aria-checked="true">This week</button>
+    <button class="pp-box" type="button" value="ever">All time</button>
+  </pp-segmented>
+
+  <div style="display:flex;flex-wrap:wrap;gap:calc(6*var(--pp-pixel));align-items:center">
+    <span class="pp-label pp-muted">Hover, focus</span>
+    <div class="pp-box pp-segmented" role="radiogroup" aria-label="Forced states">
+      <button class="pp-box" type="button" role="radio" aria-checked="false" tabindex="-1" data-pp-state="hover">Hover</button>
+      <button class="pp-box" type="button" role="radio" aria-checked="true" tabindex="-1">Chosen</button>
+      <button class="pp-box" type="button" role="radio" aria-checked="false" tabindex="-1" data-pp-state="focus">Focus</button>
+    </div>
+    <span class="pp-label pp-muted">Disabled</span>
+    <pp-segmented class="pp-box pp-segmented" value="on" disabled aria-label="Disabled">
+      <button class="pp-box" type="button" value="off">Off</button>
+      <button class="pp-box" type="button" value="on" aria-checked="true">On</button>
+    </pp-segmented>
+  </div>
+
+  <!-- No script: native radios do the work. -->
+  <fieldset class="pp-box pp-segmented">
+    <legend class="pp-sr-only">Difficulty</legend>
+    <label class="pp-box"><input type="radio" name="sg-difficulty" value="easy">Easy</label>
+    <label class="pp-box"><input type="radio" name="sg-difficulty" value="normal" checked>Normal</label>
+    <label class="pp-box"><input type="radio" name="sg-difficulty" value="hard">Hard</label>
+  </fieldset>
+</div>

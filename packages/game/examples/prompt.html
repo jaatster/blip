@@ -1,0 +1,55 @@
+<!-- Prompts: a title screen's PRESS START, the lines a game shows, then every glyph. -->
+<section class="pp-stage" data-frame aria-label="Title screen" style="display:grid;place-content:center;justify-items:center;gap:calc(8*var(--pp-pixel));block-size:calc(100*var(--pp-pixel));max-inline-size:calc(420*var(--pp-pixel));padding-block-end:calc(16*var(--pp-pixel))">
+  <p class="pp-prompt-start pp-display pp-pop" data-scale="2" data-pop="Press start">Press start</p>
+  <p class="pp-prompt">or press <kbd class="pp-box pp-prompt-key">Enter</kbd></p>
+  <div class="pp-stage-ground"></div>
+</section>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(calc(150*var(--pp-pixel)),1fr));gap:calc(10*var(--pp-pixel)) calc(16*var(--pp-pixel));margin-block-start:calc(14*var(--pp-pixel))">
+  <div style="display:grid;gap:calc(5*var(--pp-pixel));justify-items:start;align-content:start">
+    <span class="pp-label pp-muted">Lines</span>
+    <p class="pp-prompt">Press <kbd class="pp-box pp-prompt-button" data-button="a">A</kbd> to jump</p>
+    <p class="pp-prompt">Hold <kbd class="pp-box pp-prompt-shoulder" data-button="rb">RB</kbd> to dash</p>
+    <p class="pp-prompt"><span class="pp-prompt-dpad" data-dir="left" role="img" aria-label="D-pad left"></span><span class="pp-prompt-dpad" data-dir="right" role="img" aria-label="D-pad right"></span> Move</p>
+    <p class="pp-prompt"><kbd class="pp-box pp-prompt-key">Esc</kbd> Pause <kbd class="pp-box pp-prompt-button" data-button="b">B</kbd> Back</p>
+  </div>
+
+  <div style="display:grid;gap:calc(5*var(--pp-pixel));justify-items:start;align-content:start">
+    <span class="pp-label pp-muted">Keyboard</span>
+    <div style="display:flex;flex-wrap:wrap;gap:calc(2*var(--pp-pixel));align-items:center">
+      <kbd class="pp-box pp-prompt-key">Esc</kbd><kbd class="pp-box pp-prompt-key">Enter</kbd><kbd class="pp-box pp-prompt-key">Shift</kbd><kbd class="pp-box pp-prompt-key" style="min-inline-size:calc(40*var(--pp-pixel))">Space</kbd>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,max-content);gap:calc(2*var(--pp-pixel))" aria-label="W, A, S, D keys" role="group">
+      <span></span><kbd class="pp-box pp-prompt-key">W</kbd><span></span>
+      <kbd class="pp-box pp-prompt-key">A</kbd><kbd class="pp-box pp-prompt-key">S</kbd><kbd class="pp-box pp-prompt-key">D</kbd>
+    </div>
+    <div style="display:flex;gap:calc(2*var(--pp-pixel))">
+      <kbd class="pp-box pp-prompt-key" aria-label="Left arrow"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path transform="rotate(-90 6 6)" d="M5 2h2v1h1v1h1v1h1v1H7v4H5V6H2V5h1V4h1V3h1z"/></svg></kbd>
+      <kbd class="pp-box pp-prompt-key" aria-label="Up arrow"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v1h1v1h1v1h1v1H7v4H5V6H2V5h1V4h1V3h1z"/></svg></kbd>
+      <kbd class="pp-box pp-prompt-key" aria-label="Down arrow"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path transform="rotate(180 6 6)" d="M5 2h2v1h1v1h1v1h1v1H7v4H5V6H2V5h1V4h1V3h1z"/></svg></kbd>
+      <kbd class="pp-box pp-prompt-key" aria-label="Right arrow"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path transform="rotate(90 6 6)" d="M5 2h2v1h1v1h1v1h1v1H7v4H5V6H2V5h1V4h1V3h1z"/></svg></kbd>
+    </div>
+  </div>
+
+  <div style="display:grid;gap:calc(5*var(--pp-pixel));justify-items:start;align-content:start">
+    <span class="pp-label pp-muted">Gamepad</span>
+    <div style="display:flex;gap:calc(14*var(--pp-pixel));align-items:center">
+      <div style="display:grid;grid-template-columns:repeat(3,max-content);gap:calc(1*var(--pp-pixel))" role="group" aria-label="Face buttons">
+        <span></span><kbd class="pp-box pp-prompt-button" data-button="y">Y</kbd><span></span>
+        <kbd class="pp-box pp-prompt-button" data-button="x">X</kbd><span></span><kbd class="pp-box pp-prompt-button" data-button="b">B</kbd>
+        <span></span><kbd class="pp-box pp-prompt-button" data-button="a">A</kbd><span></span>
+      </div>
+      <div style="display:grid;gap:calc(3*var(--pp-pixel))">
+        <div style="display:flex;gap:calc(3*var(--pp-pixel));align-items:end"><kbd class="pp-box pp-prompt-shoulder" data-button="lt">LT</kbd><kbd class="pp-box pp-prompt-shoulder" data-button="rt">RT</kbd></div>
+        <div style="display:flex;gap:calc(3*var(--pp-pixel))"><kbd class="pp-box pp-prompt-shoulder" data-button="lb">LB</kbd><kbd class="pp-box pp-prompt-shoulder" data-button="rb">RB</kbd></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:calc(4*var(--pp-pixel));align-items:center">
+      <span class="pp-prompt-dpad" role="img" aria-label="D-pad"></span>
+      <span class="pp-prompt-dpad" data-dir="up" role="img" aria-label="D-pad up"></span>
+      <span class="pp-prompt-dpad" data-dir="right" role="img" aria-label="D-pad right"></span>
+      <span class="pp-prompt-dpad" data-dir="down" role="img" aria-label="D-pad down"></span>
+      <span class="pp-prompt-dpad" data-dir="left" role="img" aria-label="D-pad left"></span>
+    </div>
+  </div>
+</div>

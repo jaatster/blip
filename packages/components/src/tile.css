@@ -1,0 +1,221 @@
+/*
+ * Tile. The TV's app block: a square candy box with a white glyph in an ink outline, its label below. Selected, it
+ * lifts two pixels inside a ring (white, with an ink edge) and an arrow bobs above it; a glint can sweep across it.
+ * Tiles live in a .pp-tile-grid of .pp-tile-item cells: a launcher, an inventory, a level select.
+ *
+ *   <ul class="pp-tile-grid" role="list">
+ *     <li class="pp-tile-item">
+ *       <button class="pp-box pp-tile" data-tone="red" aria-pressed="true" aria-labelledby="t-sword">
+ *         <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+ *         <span class="pp-tile-glint"></span>
+ *       </button>
+ *       <span class="pp-tile-label" id="t-sword" aria-hidden="true">Sword</span>
+ *     </li>
+ *   </ul>
+ *
+ *   data-tone        accent (default) | info | success | warning | danger | a candy name | neutral
+ *   data-variant     candy (default) | soft | outline | ghost          outline makes an empty slot
+ *   data-size        sm | md (default) | lg       20, 28 (the TV's block) or 36 pixels; on the tile or the grid
+ *   selected         aria-pressed, aria-selected or aria-checked "true", aria-current, or data-selected (looks only)
+ *   .pp-tile-glint   an empty span in the tile: a white glint sweeps across it while selected, every 4.5 s
+ *   data-label="tooltip"   on the item: its label shows only while its tile is hovered, focused or selected
+ *
+ * Hover lifts a pixel and pressed sits in its drop, from the box. Selected lifts two pixels, as on the TV, and the
+ * ring is drawn round the box's own shape. With keyboard focus the ring and the arrow turn focus yellow: the TV's
+ * look, where the selected block is the focused one. <pp-tile-grid> adds arrow keys and selection.
+ */
+
+@property --_pp-glint { syntax: "<number>"; inherits: true; initial-value: 0; }
+
+@layer pp.components {
+  .pp-tile {
+    --pp-r: 3;
+    --pp-shape: var(--pp-shape-3);
+    --pp-shape-inner: var(--pp-shape-3-inner);
+    --pp-band-top: 6;
+    --pp-band-bottom: 5;
+    --_n: 28;
+    --_ring: var(--pp-tile-ring, var(--pp-white));
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    box-sizing: border-box;
+    inline-size: calc(var(--_n) * var(--pp-pixel));
+    block-size: calc(var(--_n) * var(--pp-pixel));
+    /* The glyph sits one pixel above the middle, as on the TV. */
+    padding: 0 0 calc(2 * var(--pp-pixel));
+    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+    vertical-align: middle;
+  }
+  .pp-tile[data-size="sm"], .pp-tile-grid[data-size="sm"] .pp-tile {
+    --pp-r: 2;
+    --pp-shape: var(--pp-shape-2);
+    --pp-shape-inner: var(--pp-shape-2-inner);
+    --pp-band-top: 4;
+    --pp-band-bottom: 4;
+    --_n: 20;
+  }
+  .pp-tile[data-size="lg"], .pp-tile-grid[data-size="lg"] .pp-tile {
+    --pp-r: 4;
+    --pp-shape: var(--pp-shape-4);
+    --pp-shape-inner: var(--pp-shape-4-inner);
+    --_n: 36;
+  }
+
+  /* The glyph: white, with a one-pixel ink outline that takes in the diagonals. */
+  .pp-tile > :is(.pp-icon, svg, img) {
+    grid-area: 1 / 1;
+    color: var(--pp-tile-glyph, var(--pp-white));
+    filter:
+      drop-shadow(var(--pp-pixel) 0 0 var(--pp-outline)) drop-shadow(calc(-1 * var(--pp-pixel)) 0 0 var(--pp-outline))
+      drop-shadow(0 var(--pp-pixel) 0 var(--pp-outline)) drop-shadow(0 calc(-1 * var(--pp-pixel)) 0 var(--pp-outline));
+  }
+  .pp-tile > img { inline-size: calc(12 * var(--pp-pixel)); image-rendering: pixelated; }
+
+  /* Selected: up two pixels, its own bands kept (it is lifted, not pushed in), a ring round the box. */
+  .pp-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) {
+    translate: 0 calc(-2 * var(--pp-pixel));
+    filter:
+      drop-shadow(0 calc(-1 * var(--pp-pixel)) 0 var(--_ring)) drop-shadow(0 var(--pp-pixel) 0 var(--_ring))
+      drop-shadow(calc(-1 * var(--pp-pixel)) 0 0 var(--_ring)) drop-shadow(var(--pp-pixel) 0 0 var(--_ring))
+      drop-shadow(0 calc(-1 * var(--pp-pixel)) 0 var(--pp-focus-edge)) drop-shadow(0 var(--pp-pixel) 0 var(--pp-focus-edge))
+      drop-shadow(calc(-1 * var(--pp-pixel)) 0 0 var(--pp-focus-edge)) drop-shadow(var(--pp-pixel) 0 0 var(--pp-focus-edge));
+  }
+  .pp-tile:not([data-variant]):is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) {
+    --pp-drop-size: 1;
+    --pp-box-top: var(--pp-tone-light);
+    --pp-box-bottom: var(--pp-tone-shade);
+    --pp-box-glint: var(--pp-white);
+  }
+  .pp-tile[data-variant="soft"]:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) {
+    --pp-drop-size: 1;
+    --pp-box-top: var(--pp-tone-light);
+    --pp-box-bottom: var(--pp-tone);
+  }
+  .pp-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]):is(:active, [data-pp-state~="active"]):not(:disabled, [aria-disabled="true"]) { translate: 0 calc(-1 * var(--pp-pixel)); }
+  .pp-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]):is(:focus-visible, [data-pp-state~="focus"]) { --_ring: var(--pp-focus); }
+
+  /* The glint: a white band two pixels wide with light edges, five frames corner to corner, then a rest. It stays
+     a pixel inside the fill, clear of the outline's stepped corners. */
+  .pp-tile-glint { position: absolute; inset: calc(2 * var(--pp-pixel)); overflow: hidden; pointer-events: none; }
+  @media (prefers-reduced-motion: no-preference) {
+    .pp-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) > .pp-tile-glint {
+      /* Five positions across the glint's square, the first and last just catching the corners. */
+      --_step: calc((var(--_n) - 8) / 2 * var(--pp-pixel));
+      --_x: calc(4 * var(--pp-pixel) + var(--_pp-glint) * var(--_step));
+      animation: pp-tile-glint calc(11.25 * var(--pp-duration-beat)) steps(1, jump-end) infinite;
+    }
+    .pp-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) > .pp-tile-glint::before,
+    .pp-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) > .pp-tile-glint::after {
+      --_band: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1H0zM63 0h1v2h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-2v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1z'/%3E%3C/svg%3E");
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--pp-white);
+      mask: var(--_band) var(--_x) 0 / calc(64 * var(--pp-pixel)) calc(64 * var(--pp-pixel));
+    }
+    .pp-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) > .pp-tile-glint::before {
+      background: var(--pp-tone-light);
+      mask: var(--_band) calc(var(--_x) - var(--pp-pixel)) 0 / calc(64 * var(--pp-pixel)) calc(64 * var(--pp-pixel)),
+            var(--_band) calc(var(--_x) + var(--pp-pixel)) 0 / calc(64 * var(--pp-pixel)) calc(64 * var(--pp-pixel));
+    }
+  }
+
+  /* An item: the tile, room above it for the arrow, its label below. Cells are whole pixels wide and the tile
+     sits a whole number of pixels in, so the arrow centres on it exactly. */
+  .pp-tile-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--pp-space-3);
+    inline-size: var(--pp-tile-cell, calc(40 * var(--pp-pixel)));
+    padding-block-start: calc(13 * var(--pp-pixel));
+    margin: 0;
+  }
+  .pp-tile-grid[data-size="sm"], .pp-tile-item:has(> .pp-tile[data-size="sm"]) { --pp-tile-cell: calc(32 * var(--pp-pixel)); }
+  .pp-tile-grid[data-size="lg"], .pp-tile-item:has(> .pp-tile[data-size="lg"]) { --pp-tile-cell: calc(48 * var(--pp-pixel)); }
+  .pp-tile-item > .pp-tile { margin: 0; }
+
+  .pp-tile-label {
+    max-inline-size: 100%;
+    font-family: var(--pp-font-ui);
+    font-size: var(--pp-size-caption);
+    font-weight: var(--pp-weight-bold);
+    line-height: var(--pp-leading-tight);
+    letter-spacing: var(--pp-tracking-label);
+    text-align: center;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+    color: var(--pp-text);
+  }
+  /* Tooltip: only the hovered, focused or selected tile shows its name, in its own space (it covers nothing). */
+  .pp-tile-item[data-label="tooltip"] > .pp-tile-label { visibility: hidden; max-inline-size: none; white-space: nowrap; }
+  .pp-tile-item[data-label="tooltip"]:has(> .pp-tile:is(:hover, :focus-visible, [data-pp-state~="hover"], [data-pp-state~="focus"])) > .pp-tile-label,
+  .pp-tile-item[data-label="tooltip"]:has(> .pp-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected])) > .pp-tile-label { visibility: visible; }
+  .pp-tile-label.pp-box {
+    --pp-r: 2;
+    --pp-shape: var(--pp-shape-2);
+    --pp-shape-inner: var(--pp-shape-2-inner);
+    padding: calc(2 * var(--pp-pixel)) calc(4 * var(--pp-pixel));
+  }
+  .pp-tile-label.pp-box:not([data-variant]) {
+    --pp-box-top: var(--pp-surface-panel);
+    --pp-box-fill: var(--pp-surface-panel);
+    --pp-box-bottom: var(--pp-surface-panel);
+    --pp-box-text: var(--pp-text);
+    --pp-box-glint: transparent;
+  }
+
+  /* The arrow over the selected tile: ten pixels wide, the TV's, white with a glint pixel, focus yellow with focus. */
+  .pp-tile-item:has(> .pp-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]))::before {
+    --_fill: var(--pp-tile-ring, var(--pp-white));
+    content: "";
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: calc(50% - 5 * var(--pp-pixel));
+    inline-size: calc(10 * var(--pp-pixel));
+    block-size: calc(6 * var(--pp-pixel));
+    background:
+      linear-gradient(var(--pp-white) 0 0) var(--pp-pixel) var(--pp-pixel) / var(--pp-pixel) var(--pp-pixel),
+      linear-gradient(var(--_fill) 0 0) calc(2 * var(--pp-pixel)) var(--pp-pixel) / calc(7 * var(--pp-pixel)) var(--pp-pixel),
+      linear-gradient(var(--_fill) 0 0) calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel)) / calc(6 * var(--pp-pixel)) var(--pp-pixel),
+      linear-gradient(var(--_fill) 0 0) calc(3 * var(--pp-pixel)) calc(3 * var(--pp-pixel)) / calc(4 * var(--pp-pixel)) var(--pp-pixel),
+      linear-gradient(var(--_fill) 0 0) calc(4 * var(--pp-pixel)) calc(4 * var(--pp-pixel)) / calc(2 * var(--pp-pixel)) var(--pp-pixel),
+      var(--pp-outline);
+    background-repeat: no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h10v2H0zM1 2h8v1H1zM2 3h6v1H2zM3 4h4v1H3zM4 5h2v1H4z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+    animation: pp-bob calc(2 * var(--pp-duration-beat)) steps(1, jump-end) infinite;
+  }
+  .pp-tile-item:has(> .pp-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]):is(:focus-visible, [data-pp-state~="focus"]))::before { --_fill: var(--pp-focus); }
+
+  /* A grid of tiles: fixed cells, as many as fit. */
+  .pp-tile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, var(--pp-tile-cell, calc(40 * var(--pp-pixel))));
+    gap: var(--pp-space-2) 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  pp-tile-grid { display: block; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pp-tile-item::before { animation: none; }
+  }
+  @media (forced-colors: active) {
+    .pp-tile > :is(.pp-icon, svg, img) { filter: none; color: ButtonText; }
+    .pp-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]):not(:focus-visible) { outline: var(--pp-pixel) dashed ButtonText; outline-offset: calc(2 * var(--pp-pixel)); }
+    .pp-tile-item::before { background: CanvasText; forced-color-adjust: none; }
+  }
+}
+
+/* Five frames 80 ms apart (the TV's glint), then nothing until the next sweep. */
+@keyframes pp-tile-glint {
+  0% { --_pp-glint: 0; visibility: visible; }
+  1.7777% { --_pp-glint: 1; }
+  3.5555% { --_pp-glint: 2; }
+  5.3333% { --_pp-glint: 3; }
+  7.1111% { --_pp-glint: 4; }
+  8.8888%, 100% { --_pp-glint: 4; visibility: hidden; }
+}

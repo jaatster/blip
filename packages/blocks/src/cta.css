@@ -1,0 +1,118 @@
+@import "./_world.css";
+/*
+ * CTA band. One call to action across the page, on a strip of the world or on a candy band.
+ *
+ *   <section class="pp-cta" aria-labelledby="cta-title">                         the world: sky bands, ground
+ *     <pp-world></pp-world>
+ *     <h2 class="pp-cta-title pp-display pp-pop" data-scale="2" data-pop="…" id="cta-title">…</h2>
+ *     <p class="pp-cta-text">…</p>
+ *     <div class="pp-cta-actions"><a class="pp-box pp-button" data-size="lg" href="#">Wishlist now</a></div>
+ *     <div class="pp-cta-ground"></div>
+ *   </section>
+ *
+ *   <section class="pp-box pp-cta" data-tone="purple" aria-labelledby="…">      a candy band
+ *     … <a class="pp-box pp-button" data-variant="outline" href="#">…</a>
+ *   </section>
+ *
+ *   .pp-cta-note         a small line under the actions (what happens next, what it costs)
+ *   On the world, the primary button is candy: candy on pastel. On a candy band it is outline: candy never stands
+ *   on candy.
+ */
+
+@layer pp.kits {
+  .pp-cta {
+    --_p: var(--pp-pixel);
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: calc(5 * var(--_p));
+    padding: calc(18 * var(--_p)) calc(12 * var(--_p));
+    text-align: center;
+  }
+  .pp-cta > :is(h2, h3, p) { margin: 0; }
+
+  /* On the world: the sky in bands from the horizon up, over the ground strip. */
+  .pp-cta:not(.pp-box) {
+    --_b: var(--pp-cta-band, 8);
+    --_g: 14;
+    --_row: calc(2 * var(--_p)) var(--_p) repeat-x;
+    isolation: isolate;
+    overflow: hidden;
+    padding-block-end: calc((var(--_g) + 18) * var(--_p));
+    color: var(--pp-text);
+    background:
+      linear-gradient(to right, var(--pp-blocks-sky-6) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + var(--_b)) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--pp-blocks-sky-5) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + var(--_b) - 1) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--pp-blocks-sky-5) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 2 * var(--_b)) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--pp-blocks-sky-4) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 2 * var(--_b) - 1) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--pp-blocks-sky-4) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 3 * var(--_b)) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--pp-blocks-sky-3) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 3 * var(--_b) - 1) * var(--_p)) / var(--_row),
+      linear-gradient(to top,
+        var(--pp-blocks-sky-6) 0 calc((var(--_g) + var(--_b)) * var(--_p)),
+        var(--pp-blocks-sky-5) 0 calc((var(--_g) + 2 * var(--_b)) * var(--_p)),
+        var(--pp-blocks-sky-4) 0 calc((var(--_g) + 3 * var(--_b)) * var(--_p)),
+        var(--pp-blocks-sky-3) 0);
+  }
+  .pp-cta > pp-world { position: absolute; inset: 0; z-index: -2; }
+  .pp-cta > pp-world:not(:defined) { visibility: hidden; }
+
+  /* On candy: a band with the box's outline, bands and drop. */
+  .pp-cta.pp-box {
+    --pp-r: 5;
+    --pp-shape: var(--pp-shape-5);
+    --pp-shape-inner: var(--pp-shape-5-inner);
+    --pp-band-top: 4;
+    --pp-band-bottom: 5;
+    margin: 0 var(--_p) var(--_p) 0;
+  }
+
+  .pp-cta-title { text-wrap: balance; }
+  .pp-cta-text {
+    max-inline-size: 52ch;
+    font-size: var(--pp-size-lead);
+    line-height: var(--pp-leading-normal);
+    text-wrap: pretty;
+  }
+  .pp-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: calc(4 * var(--_p));
+    margin-block-start: calc(2 * var(--_p));
+  }
+  .pp-cta-note { font-size: var(--pp-size-small); font-weight: var(--pp-weight-bold); }
+
+  .pp-cta-ground {
+    --_p: var(--pp-pixel);
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: -1;
+    block-size: calc(14 * var(--_p));
+    pointer-events: none;
+    background:
+      linear-gradient(to right, transparent 0 calc(5 * var(--_p)), var(--pp-blocks-pebble) 0 calc(7 * var(--_p)), transparent 0 calc(19 * var(--_p)), var(--pp-blocks-pebble) 0 calc(20 * var(--_p)), transparent 0) 0 calc(8 * var(--_p)) / calc(29 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(13 * var(--_p)), var(--pp-blocks-dirt-shadow) 0 calc(15 * var(--_p)), transparent 0) 0 calc(10 * var(--_p)) / calc(23 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to bottom,
+        var(--pp-blocks-grass-top) 0 var(--_p),
+        var(--pp-blocks-grass) 0 calc(4 * var(--_p)),
+        var(--pp-blocks-grass-lip) 0 calc(5 * var(--_p)),
+        var(--pp-blocks-dirt) 0 calc(100% - 2 * var(--_p)),
+        var(--pp-blocks-dirt-shadow) 0);
+  }
+  .pp-cta-ground::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 100%;
+    block-size: calc(2 * var(--_p));
+    background:
+      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--pp-blocks-grass-top) 0 calc(4 * var(--_p)), transparent 0 calc(17 * var(--_p)), var(--pp-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 0 / calc(23 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--pp-blocks-grass-top) 0 calc(5 * var(--_p)), transparent 0 calc(12 * var(--_p)), var(--pp-blocks-grass-top) 0 calc(13 * var(--_p)), transparent 0 calc(16 * var(--_p)), var(--pp-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 var(--_p) / calc(23 * var(--_p)) var(--_p) repeat-x;
+  }
+
+  @media (forced-colors: active) {
+    .pp-cta:not(.pp-box) { background: Canvas; border-block: 1px solid CanvasText; }
+    .pp-cta-ground { display: none; }
+  }
+}

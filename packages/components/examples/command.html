@@ -1,0 +1,78 @@
+<!-- Command palette: drawn open for the picture (static copies, inert): a search with results, and nothing found.
+     Then the live palette: the button, or Ctrl+K (Cmd+K on a Mac), opens it. -->
+<div inert aria-hidden="true" style="display:flex;flex-wrap:wrap;gap:calc(12*var(--pp-pixel));align-items:start">
+  <div class="pp-box pp-command" style="inline-size:calc(240*var(--pp-pixel))">
+    <div class="pp-command-search">
+      <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v4H8v1H7v1H3V8H2V7H1V3h1V2h1zM3 2v1H2v4h1v1h4V7h1V3H7V2zM8 8h2v1h1v1h1v2h-2v-1H9v-1H8z"/></svg>
+      <input class="pp-command-input" type="text" value="level" aria-label="Search pages and actions">
+    </div>
+    <div class="pp-command-results" role="listbox" aria-label="Results">
+      <div class="pp-command-group" role="group" aria-labelledby="cmd-static-pages">
+        <div class="pp-command-heading" id="cmd-static-pages">Pages</div>
+        <div class="pp-box pp-command-item" role="option" aria-selected="true"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1h1v10H2zM3 1h7v1H9v1H8v1h1v1h1v1H3z"/></svg><span class="pp-command-label">Levels</span><span class="pp-command-hint">Page</span><span class="pp-command-shortcut"><kbd class="pp-box pp-keycap" data-size="sm">G</kbd><kbd class="pp-box pp-keycap" data-size="sm">L</kbd></span></div>
+        <div class="pp-box pp-command-item" role="option" aria-selected="false"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zM7 1h4v4H7zM1 7h4v4H1zM7 7h4v4H7z"/></svg><span class="pp-command-label">Level editor</span><span class="pp-command-hint">Page</span></div>
+      </div>
+      <div class="pp-command-group" role="group" aria-labelledby="cmd-static-actions">
+        <div class="pp-command-heading" id="cmd-static-actions">Actions</div>
+        <div class="pp-box pp-command-item" role="option" aria-selected="false"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg><span class="pp-command-label">New level</span><span class="pp-command-shortcut"><kbd class="pp-box pp-keycap" data-size="sm">Ctrl</kbd><kbd class="pp-box pp-keycap" data-size="sm">N</kbd></span></div>
+        <div class="pp-box pp-command-item" role="option" aria-selected="false"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h7v7H4zM5 2v5h5V2zM1 4h2v1H2v5h5V9h1v2H1z"/></svg><span class="pp-command-label">Duplicate this level</span></div>
+        <div class="pp-box pp-command-item" role="option" aria-selected="false" aria-disabled="true"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3h1v6H2V5h1V2h1zM4 3v2h4V3z"/></svg><span class="pp-command-label">Publish level</span><span class="pp-command-hint">Finish it first</span></div>
+      </div>
+    </div>
+    <div class="pp-command-footer">
+      <span><kbd class="pp-box pp-keycap" data-size="sm">Up</kbd><kbd class="pp-box pp-keycap" data-size="sm">Down</kbd> Move</span>
+      <span><kbd class="pp-box pp-keycap" data-size="sm">Enter</kbd> Open</span>
+      <span><kbd class="pp-box pp-keycap" data-size="sm">Esc</kbd> Close</span>
+    </div>
+  </div>
+
+  <div class="pp-box pp-command" style="inline-size:calc(200*var(--pp-pixel))">
+    <div class="pp-command-search">
+      <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v4H8v1H7v1H3V8H2V7H1V3h1V2h1zM3 2v1H2v4h1v1h4V7h1V3H7V2zM8 8h2v1h1v1h1v2h-2v-1H9v-1H8z"/></svg>
+      <input class="pp-command-input" type="text" value="warp zone" aria-label="Search pages and actions">
+    </div>
+    <p class="pp-command-empty">Nothing matches “warp zone”.<br>Try a page or an action.</p>
+  </div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:calc(6*var(--pp-pixel));align-items:center;margin-block-start:calc(12*var(--pp-pixel))">
+  <button class="pp-box pp-button" data-variant="outline" commandfor="cmd-live" command="show-modal" aria-keyshortcuts="Control+K Meta+K">
+    <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v4H8v1H7v1H3V8H2V7H1V3h1V2h1zM3 2v1H2v4h1v1h4V7h1V3H7V2zM8 8h2v1h1v1h1v2h-2v-1H9v-1H8z"/></svg>Search
+    <span class="pp-keys" aria-hidden="true"><kbd class="pp-box pp-keycap" data-size="sm">Ctrl</kbd><kbd class="pp-box pp-keycap" data-size="sm">K</kbd></span>
+  </button>
+  <span class="pp-small pp-muted">Opens the palette; so does Ctrl+K (Cmd+K on a Mac).</span>
+
+  <pp-command shortcut="mod+k">
+    <dialog id="cmd-live" class="pp-box pp-command pp-pop-in" aria-label="Command palette" closedby="any">
+      <div class="pp-command-search">
+        <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v4H8v1H7v1H3V8H2V7H1V3h1V2h1zM3 2v1H2v4h1v1h4V7h1V3H7V2zM8 8h2v1h1v1h1v2h-2v-1H9v-1H8z"/></svg>
+        <input class="pp-command-input" type="text" aria-label="Search pages and actions" placeholder="Search pages and actions…">
+      </div>
+      <div class="pp-command-results" role="listbox" aria-label="Results">
+        <div class="pp-command-group" role="group" aria-labelledby="cmd-live-pages">
+          <div class="pp-command-heading" id="cmd-live-pages">Pages</div>
+          <div class="pp-box pp-command-item" role="option" data-value="/overview" data-keywords="home dashboard"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zM7 1h4v4H7zM1 7h4v4H1zM7 7h4v4H7z"/></svg><span class="pp-command-label">Overview</span><span class="pp-command-hint">Page</span></div>
+          <div class="pp-box pp-command-item" role="option" data-value="/players" data-keywords="users people"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM3 7h6v1h1v1h1v2H1V9h1V8h1z"/></svg><span class="pp-command-label">Players</span><span class="pp-command-hint">Page</span></div>
+          <div class="pp-box pp-command-item" role="option" data-value="/levels" data-keywords="worlds maps"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1h1v10H2zM3 1h7v1H9v1H8v1h1v1h1v1H3z"/></svg><span class="pp-command-label">Levels</span><span class="pp-command-hint">Page</span><span class="pp-command-shortcut" aria-hidden="true"><kbd class="pp-box pp-keycap" data-size="sm">G</kbd><kbd class="pp-box pp-keycap" data-size="sm">L</kbd></span></div>
+          <div class="pp-box pp-command-item" role="option" data-value="/events" data-keywords="calendar season"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h10v9H1zM2 5v5h8V5zM3 0h1v3H3zM8 0h1v3H8z"/></svg><span class="pp-command-label">Events</span><span class="pp-command-hint">Page</span></div>
+          <div class="pp-box pp-command-item" role="option" data-value="/store" data-keywords="shop coins"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4h8v7H2zM4 1h4v3H7V2H5v2H4z"/></svg><span class="pp-command-label">Store</span><span class="pp-command-hint">Page</span></div>
+        </div>
+        <div class="pp-command-group" role="group" aria-labelledby="cmd-live-actions">
+          <div class="pp-command-heading" id="cmd-live-actions">Actions</div>
+          <div class="pp-box pp-command-item" role="option" data-value="new-level" data-keywords="create add"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg><span class="pp-command-label">New level</span><span class="pp-command-shortcut" aria-hidden="true"><kbd class="pp-box pp-keycap" data-size="sm">Ctrl</kbd><kbd class="pp-box pp-keycap" data-size="sm">N</kbd></span></div>
+          <div class="pp-box pp-command-item" role="option" data-value="invite" data-keywords="friend share"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg><span class="pp-command-label">Invite a player</span></div>
+          <div class="pp-box pp-command-item" role="option" data-value="night" data-keywords="dark scheme theme"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 0h2v2h1v1h1v1h1v1h2v2h-2v1H9v1H8v1H7v2H5v-2H4V9H3V8H2V7H0V5h2V4h1V3h1V2h1z"/></svg><span class="pp-command-label">Switch to Night</span><span class="pp-command-hint">Scheme</span></div>
+          <div class="pp-box pp-command-item" role="option" data-value="publish" aria-disabled="true"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3h1v6H2V5h1V2h1zM4 3v2h4V3z"/></svg><span class="pp-command-label">Publish level</span><span class="pp-command-hint">Finish it first</span></div>
+          <div class="pp-box pp-command-item" role="option" data-value="sign-out" data-keywords="log out leave"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h6v3H6V2H2v8h4V8h1v3H1zM4 5h5V4h1v1h1v2h-1v1H9V7H4z"/></svg><span class="pp-command-label">Sign out</span></div>
+        </div>
+      </div>
+      <p class="pp-command-empty" hidden>Nothing matches. Try a page or an action.</p>
+      <p class="pp-sr-only" role="status"></p>
+      <div class="pp-command-footer" aria-hidden="true">
+        <span><kbd class="pp-box pp-keycap" data-size="sm">Up</kbd><kbd class="pp-box pp-keycap" data-size="sm">Down</kbd> Move</span>
+        <span><kbd class="pp-box pp-keycap" data-size="sm">Enter</kbd> Open</span>
+        <span><kbd class="pp-box pp-keycap" data-size="sm">Esc</kbd> Close</span>
+      </div>
+    </dialog>
+  </pp-command>
+</div>

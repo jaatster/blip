@@ -1,0 +1,109 @@
+/*
+ * List. Rows of things: a leading icon or avatar, a title with a line of description, and trailing meta text or
+ * controls. Calm by design: a white panel, line-soft dividers drawn as whole pixels, and ghost boxes for rows you
+ * can press, so candy stays for the actions inside them.
+ *
+ *   <ul class="pp-box pp-list" role="list" data-dividers>
+ *     <li class="pp-list-item">
+ *       <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+ *       <div class="pp-list-content">
+ *         <span class="pp-list-title">Music</span>
+ *         <span class="pp-list-description">Chip tunes on the title screen</span>
+ *       </div>
+ *       <div class="pp-list-end"><button class="pp-box pp-button" data-size="sm" aria-pressed="true">On</button></div>
+ *     </li>
+ *     <li><a class="pp-box pp-list-item" data-variant="ghost" href="/settings/controls">…</a></li>
+ *   </ul>
+ *
+ *   .pp-box                             the list in a white panel (data-variant: panel by default, or soft, outline)
+ *   data-dividers                       a line-soft pixel line between rows
+ *   data-density   compact                  tighter rows, for long lists and side panels
+ *   a row that is a link or button      class="pp-box pp-list-item" data-variant="ghost" on the <a>/<button>, inside
+ *                                       the <li>: hover fills it, focus rings it, aria-current marks the one you're on
+ *
+ * A row is either pressable as a whole or holds its own controls, never both: a button inside a link is invalid.
+ */
+
+@layer pp.components {
+  .pp-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pp-pixel);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    min-inline-size: 0;
+  }
+  /* In a box: a white panel unless told otherwise, the rows clear of the outline and the stepped corners. */
+  .pp-list.pp-box { padding: calc(2 * var(--pp-pixel)); margin: 0 var(--pp-pixel) var(--pp-pixel) 0; }
+  .pp-list.pp-box:not([data-variant]) {
+    --pp-box-top: var(--pp-surface);
+    --pp-box-fill: var(--pp-surface);
+    --pp-box-bottom: var(--pp-surface);
+    --pp-box-text: var(--pp-text);
+    --pp-box-glint: transparent;
+  }
+  /* On soft and candy tiers, text inside takes the box's ink: the scheme's muted text is too light on pastel at night. */
+  .pp-list.pp-box:is([data-variant="soft"], [data-variant="candy"]) { --pp-text: var(--pp-box-text); --pp-text-muted: var(--pp-box-text); }
+  .pp-list > li { min-inline-size: 0; }
+  .pp-list[data-dividers] > li + li {
+    padding-block-start: var(--pp-pixel);
+    border-block-start: var(--pp-pixel) solid var(--pp-line-soft);
+  }
+
+  .pp-list-item {
+    --pp-r: 3;
+    --pp-shape: var(--pp-shape-3);
+    --pp-shape-inner: var(--pp-shape-3-inner);
+    --_pad: calc(4 * var(--pp-pixel));
+    display: flex;
+    align-items: center;
+    gap: var(--pp-space-6);
+    box-sizing: border-box;
+    inline-size: 100%;
+    min-block-size: calc(20 * var(--pp-pixel));
+    padding: var(--_pad) calc(6 * var(--pp-pixel));
+    font-family: var(--pp-font-ui);
+    font-size: var(--pp-size-body);
+    line-height: var(--pp-leading-tight);
+    text-align: start;
+    text-decoration: none;
+    color: inherit;
+  }
+  :is(a, button, label).pp-list-item { color: var(--pp-box-text); }
+  .pp-list[data-density="compact"] .pp-list-item {
+    --_pad: calc(2 * var(--pp-pixel));
+    gap: var(--pp-space-4);
+    min-block-size: calc(14 * var(--pp-pixel));
+    font-size: var(--pp-size-small);
+  }
+
+  .pp-list-item > :is(.pp-icon, .pp-avatar, img, svg) { flex: none; }
+  .pp-list-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pp-space-1);
+    flex: 1;
+    min-inline-size: 0;
+  }
+  .pp-list-title { font-weight: var(--pp-weight-bold); overflow-wrap: anywhere; }
+  .pp-list-description {
+    font-size: var(--pp-size-small);
+    line-height: var(--pp-leading-tight);
+    color: var(--pp-text-muted);
+  }
+  .pp-list[data-density="compact"] .pp-list-description { font-size: var(--pp-size-caption); }
+  .pp-list-end {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--pp-space-4);
+    margin-inline-start: auto;
+    font-size: var(--pp-size-small);
+    font-variant-numeric: tabular-nums;
+    color: var(--pp-text-muted);
+  }
+
+  /* The row you are on, or a pressed row: ink text on the tone's light fill, so muted text goes ink too. */
+  .pp-list-item:is([aria-current]:not([aria-current="false"]), [aria-selected="true"], [aria-pressed="true"]) :is(.pp-list-description, .pp-list-end) { color: inherit; }
+}

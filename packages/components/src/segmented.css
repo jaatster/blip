@@ -1,0 +1,126 @@
+/*
+ * Segmented control. One choice from a few, side by side on a sunken rail: the chosen segment is candy that sits in
+ * (bands swapped), the others are quiet until you point at them. Two ways to build it:
+ *
+ *   With <pp-segmented> (buttons, a value, pp-change, form-associated):
+ *   <pp-segmented class="pp-box pp-segmented" name="view" value="grid" aria-label="View">
+ *     <button class="pp-box" type="button" value="list">List</button>
+ *     <button class="pp-box" type="button" value="grid">Grid</button>
+ *   </pp-segmented>
+ *
+ *   With no JavaScript at all (native radios, which the browser groups and steers with the arrow keys):
+ *   <fieldset class="pp-box pp-segmented">
+ *     <legend class="pp-sr-only">View</legend>
+ *     <label class="pp-box"><input type="radio" name="view" value="list">List</label>
+ *     <label class="pp-box"><input type="radio" name="view" value="grid" checked>Grid</label>
+ *   </fieldset>
+ *
+ *   data-size               sm | md (default) | lg       16, 20 or 24 pixels high, like buttons
+ *   data-width="full"       fills its container; the segments share the width
+ *   data-tone               the chosen segment's candy
+ *   Segments: [aria-checked="true"] or a checked radio is chosen; disabled (or a disabled radio) is dithered;
+ *   data-icon-only for one icon (needs aria-label).
+ *
+ * Focus is the box's yellow ring on the segment that has the keyboard.
+ */
+
+@layer pp.components {
+  .pp-segmented {
+    --pp-r: 4;
+    --pp-shape: var(--pp-shape-4);
+    --pp-shape-inner: var(--pp-shape-4-inner);
+    --pp-band-top: 1;
+    --pp-band-bottom: 0;
+    --pp-drop-size: 0;
+    --pp-box-outline: var(--pp-line);
+    --pp-box-top: var(--pp-surface-sunken);
+    --pp-box-fill: var(--pp-surface-sunken);
+    --pp-box-bottom: var(--pp-surface-sunken);
+    --pp-box-text: var(--pp-text);
+    --pp-box-glint: transparent;
+    --_h: var(--pp-control-md);
+    display: inline-flex;
+    gap: var(--pp-pixel);
+    block-size: var(--_h);
+    min-inline-size: 0;
+    margin: 0;
+    padding: calc(2 * var(--pp-pixel));
+    border: 0;
+    vertical-align: middle;
+  }
+  .pp-segmented[data-size="sm"] { --pp-r: 3; --pp-shape: var(--pp-shape-3); --pp-shape-inner: var(--pp-shape-3-inner); --_h: var(--pp-control-sm); }
+  .pp-segmented[data-size="lg"] { --pp-r: 5; --pp-shape: var(--pp-shape-5); --pp-shape-inner: var(--pp-shape-5-inner); --_h: var(--pp-control-lg); }
+  .pp-segmented[data-width="full"] { display: flex; }
+  .pp-segmented[data-width="full"] > .pp-box { flex: 1 1 0; }
+
+  /* A segment: quiet at rest, a calm raised well on hover, candy that sits in when chosen. */
+  .pp-segmented > .pp-box {
+    --pp-r: 3;
+    --pp-shape: var(--pp-shape-3);
+    --pp-shape-inner: var(--pp-shape-3-inner);
+    --pp-band-top: 2;
+    --pp-band-bottom: 2;
+    --pp-drop-size: 0;
+    --pp-box-outline: transparent;
+    --pp-box-top: transparent;
+    --pp-box-fill: transparent;
+    --pp-box-bottom: transparent;
+    --pp-box-text: var(--pp-text);
+    --pp-box-glint: transparent;
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    gap: calc(2 * var(--pp-pixel));
+    min-inline-size: calc(var(--_h) - 4 * var(--pp-pixel));
+    padding: 0 calc(6 * var(--pp-pixel));
+    font-family: var(--pp-font-ui);
+    font-size: var(--pp-size-small);
+    font-weight: var(--pp-weight-bold);
+    line-height: 1;
+    letter-spacing: var(--pp-tracking-label);
+    text-transform: uppercase;
+    white-space: nowrap;
+    translate: none;
+  }
+  .pp-segmented[data-size="sm"] > .pp-box { --pp-r: 2; --pp-shape: var(--pp-shape-2); --pp-shape-inner: var(--pp-shape-2-inner); --pp-band-top: 1; --pp-band-bottom: 1; padding-inline: calc(4 * var(--pp-pixel)); font-size: var(--pp-size-caption); }
+  .pp-segmented[data-size="lg"] > .pp-box { --pp-r: 4; --pp-shape: var(--pp-shape-4); --pp-shape-inner: var(--pp-shape-4-inner); padding-inline: calc(8 * var(--pp-pixel)); font-size: var(--pp-size-body); }
+  .pp-segmented > .pp-box[data-icon-only] { padding: 0; }
+  /* A native radio stays real (focus, keys, form value) but invisible: the label is the segment. */
+  .pp-segmented > label > input { position: absolute; inset: 0; margin: 0; opacity: 0; pointer-events: none; }
+
+  @media (hover: hover) {
+    .pp-segmented > .pp-box:not([aria-checked="true"], :has(> input:checked), :disabled, [aria-disabled="true"], :has(> input:disabled)):hover {
+      --pp-box-outline: var(--pp-line);
+      --pp-box-top: var(--pp-surface);
+      --pp-box-fill: var(--pp-surface);
+      --pp-box-bottom: var(--pp-surface);
+    }
+  }
+  .pp-segmented > .pp-box:is(:focus-visible, [data-pp-state~="focus"], :has(> input:focus-visible)),
+  .pp-segmented > .pp-box[data-pp-state~="hover"] {
+    --pp-box-outline: var(--pp-line);
+    --pp-box-top: var(--pp-surface);
+    --pp-box-fill: var(--pp-surface);
+    --pp-box-bottom: var(--pp-surface);
+  }
+
+  .pp-segmented > .pp-box:is([aria-checked="true"], :has(> input:checked)) {
+    --pp-box-outline: var(--pp-outline);
+    --pp-box-top: var(--pp-tone-shade);
+    --pp-box-fill: var(--pp-tone);
+    --pp-box-bottom: var(--pp-tone-light);
+    --pp-box-text: var(--pp-tone-on);
+  }
+
+  .pp-segmented > .pp-box:has(> input:disabled) { --pp-box-dither: var(--pp-bg); cursor: not-allowed; }
+  .pp-segmented > .pp-box:is(:disabled, [aria-disabled="true"], :has(> input:disabled)):not([aria-checked="true"], :has(> input:checked)) {
+    --pp-box-text: var(--pp-text-muted);
+    --pp-box-dither: var(--pp-surface-sunken);
+  }
+
+  @media (forced-colors: active) {
+    .pp-segmented > .pp-box:is([aria-checked="true"], :has(> input:checked)) { forced-color-adjust: none; border-color: CanvasText; background: Highlight; color: HighlightText; }
+    .pp-segmented > label:has(> input:focus-visible) { outline: 2px solid Highlight; outline-offset: 2px; }
+  }
+}

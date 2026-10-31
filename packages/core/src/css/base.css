@@ -13,7 +13,6 @@
 
 @layer pp.base {
   :where(html) {
-    color-scheme: light;
     background: var(--pp-bg);
     color: var(--pp-text);
     font-family: var(--pp-font-ui);
@@ -44,6 +43,7 @@
     text-decoration-thickness: var(--pp-pixel);
     text-underline-offset: calc(2 * var(--pp-pixel));
   }
+  :where(a):visited { color: var(--pp-link-visited); }
   :where(a):hover { text-decoration-thickness: calc(2 * var(--pp-pixel)); }
 
   /* Focus for anything that is not a candy box: a yellow ring with an ink edge, squared off. */

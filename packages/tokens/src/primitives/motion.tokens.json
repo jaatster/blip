@@ -93,6 +93,20 @@
         "unit": "ms"
       },
       "$description": "One step of the palette fade when Auto changes the time of day."
+    },
+    "glint-every": {
+      "$value": {
+        "value": 4500,
+        "unit": "ms"
+      },
+      "$description": "How often a glint sweeps across a selected box."
+    },
+    "stagger": {
+      "$value": {
+        "value": 30,
+        "unit": "ms"
+      },
+      "$description": "Between letters dropping in, one after another."
     }
   },
   "steps": {
@@ -112,6 +126,31 @@
     },
     "scheme": {
       "$value": 6
+    }
+  },
+  "delay": {
+    "$type": "duration",
+    "$description": "Waits, not motion: they stay the same with reduced motion.",
+    "hover": {
+      "$value": {
+        "value": 400,
+        "unit": "ms"
+      },
+      "$description": "Before a tooltip shows on hover."
+    },
+    "leave": {
+      "$value": {
+        "value": 160,
+        "unit": "ms"
+      },
+      "$description": "Before a tooltip or menu closes after the pointer leaves."
+    },
+    "toast": {
+      "$value": {
+        "value": 5000,
+        "unit": "ms"
+      },
+      "$description": "How long a toast stays, unless hovered or focused."
     }
   }
 }

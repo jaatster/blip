@@ -1,0 +1,153 @@
+/*
+ * Card. A cream panel that holds one thing: a picture in a pixel frame, a header, some text, and actions at the
+ * foot. A whole card can be a link that lifts; a tone puts a soft strip of colour along its top. Never put a card
+ * inside a card.
+ *
+ *   <article class="pp-box pp-card">
+ *     <div class="pp-card-media"><img src="meadow.png" alt=""></div>
+ *     <header class="pp-card-header">
+ *       <div><h3 class="pp-card-title">Meadow</h3><p class="pp-card-subtitle">World 1 · 8 levels</p></div>
+ *       <span class="pp-box pp-tag" data-tone="success">New</span>
+ *     </header>
+ *     <div class="pp-card-body"><p>…</p></div>
+ *     <footer class="pp-card-footer"><button class="pp-box pp-button">Play</button></footer>
+ *   </article>
+ *
+ *   <a class="pp-box pp-card" href="/worlds/meadow">…</a>                  the whole card is the link: it lifts
+ *   <article class="pp-box pp-card" data-pp-interactive>                   a card with one main link and other
+ *     … <h3 class="pp-card-title"><a class="pp-card-link" href="…">Meadow</a></h3> …   actions: the link covers the
+ *   </article>                                                             card, the actions sit above it
+ *
+ *   data-variant   panel, cream (default) | soft | candy | outline        soft and candy tint the whole card
+ *   data-tone      a tone or candy: a soft strip of it along the top of a cream card
+ *   data-size      sm | md (default) | lg                                  padding and type: 6, 8 or 12 pixels
+ *   data-layout    horizontal                                              picture beside the text while there is
+ *                                                                          room, above it when narrow (wrap the
+ *                                                                          header, body and footer in
+ *                                                                          .pp-card-content)
+ *
+ * The picture is any <img>, <svg>, <canvas> or <video>, framed by a one-pixel ink line and never smoothed.
+ */
+
+@layer pp.components {
+  .pp-card {
+    --pp-r: 4;
+    --pp-shape: var(--pp-shape-4);
+    --pp-shape-inner: var(--pp-shape-4-inner);
+    --_pad: calc(8 * var(--pp-pixel));
+    display: flex;
+    flex-direction: column;
+    gap: var(--pp-space-6);
+    box-sizing: border-box;
+    min-inline-size: 0;
+    padding: var(--_pad);
+    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+    font-family: var(--pp-font-ui);
+    font-size: var(--pp-size-body);
+    line-height: var(--pp-leading-normal);
+    text-align: start;
+    text-decoration: none;
+  }
+  /* A cream panel: the TV's panel for text. */
+  .pp-card:not([data-variant]) {
+    --pp-box-top: var(--pp-surface-panel);
+    --pp-box-fill: var(--pp-surface-panel);
+    --pp-box-bottom: var(--pp-surface-panel);
+    --pp-box-text: var(--pp-text);
+    --pp-box-glint: transparent;
+  }
+  /* A tone on a cream card: a three-pixel strip of its light colour along the top, following the corners. */
+  .pp-card[data-tone]:not([data-variant]) {
+    --pp-box-top: var(--pp-tone-light);
+    --pp-band-top: 3;
+  }
+  /* On soft and candy tiers, text inside takes the box's ink: the scheme's muted text is too light on pastel at night. */
+  .pp-card:is([data-variant="soft"], [data-variant="candy"]) { --pp-text: var(--pp-box-text); --pp-text-muted: var(--pp-box-text); }
+  .pp-card[data-size="sm"] {
+    --pp-r: 3;
+    --pp-shape: var(--pp-shape-3);
+    --pp-shape-inner: var(--pp-shape-3-inner);
+    --_pad: calc(6 * var(--pp-pixel));
+    gap: var(--pp-space-4);
+    font-size: var(--pp-size-small);
+  }
+  .pp-card[data-size="lg"] {
+    --pp-r: 5;
+    --pp-shape: var(--pp-shape-5);
+    --pp-shape-inner: var(--pp-shape-5-inner);
+    --_pad: calc(12 * var(--pp-pixel));
+    gap: var(--pp-space-8);
+  }
+  :is(a, button).pp-card { color: var(--pp-box-text); inline-size: auto; }
+
+  /* The picture: in a one-pixel ink frame, never smoothed. It sits closer to the edge than the text. */
+  .pp-card-media {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: var(--pp-card-media-ratio, 16 / 9);
+    margin: calc(-0.5 * var(--_pad)) calc(-0.5 * var(--_pad)) 0;
+    border: var(--pp-pixel) solid var(--pp-outline);
+    background: var(--pp-surface-sunken);
+  }
+  .pp-card-media > :is(img, svg, canvas, video) {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    max-inline-size: none;
+    object-fit: cover;
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+  }
+  img.pp-card-media, svg.pp-card-media { display: block; inline-size: auto; object-fit: cover; image-rendering: pixelated; shape-rendering: crispEdges; }
+
+  .pp-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--pp-space-4);
+  }
+  .pp-card-header > :first-child { min-inline-size: 0; }
+  .pp-card-title {
+    margin: 0;
+    font-size: var(--pp-size-lead);
+    font-weight: var(--pp-weight-bold);
+    line-height: var(--pp-leading-tight);
+    text-wrap: balance;
+  }
+  .pp-card[data-size="sm"] .pp-card-title { font-size: var(--pp-size-body); }
+  .pp-card[data-size="lg"] .pp-card-title { font-size: var(--pp-size-title); }
+  .pp-card-subtitle {
+    margin: var(--pp-space-1) 0 0;
+    font-size: var(--pp-size-small);
+    line-height: var(--pp-leading-tight);
+    color: var(--pp-text-muted);
+  }
+  .pp-card-body { min-inline-size: 0; }
+  .pp-card-body > * + * { margin-block-start: var(--pp-space-4); }
+  .pp-card-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--pp-space-4);
+    margin-block-start: auto;
+  }
+
+  /* One main link that covers the card; other actions stay clickable above it. */
+  .pp-card-link { color: inherit; text-decoration: none; }
+  .pp-card-link::after { content: ""; position: absolute; inset: 0; }
+  .pp-card-link:hover { text-decoration: underline; text-decoration-thickness: var(--pp-pixel); }
+  .pp-card:has(.pp-card-link) :is(a, button, input, select, textarea, summary, label):not(.pp-card-link) { position: relative; z-index: 1; }
+
+  /* Picture beside the text while both fit, above it when they don't: no breakpoint, it follows its container. */
+  .pp-card[data-layout="horizontal"] { flex-flow: row wrap; align-items: flex-start; }
+  .pp-card[data-layout="horizontal"] > .pp-card-media { flex: 1 1 calc(112 * var(--pp-pixel)); margin: 0; }
+  .pp-card-content {
+    display: flex;
+    flex-direction: column;
+    gap: inherit;
+    flex: 999 1 calc(96 * var(--pp-pixel));
+    align-self: stretch;
+    min-inline-size: 0;
+  }
+}

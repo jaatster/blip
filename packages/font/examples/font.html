@@ -1,0 +1,116 @@
+<!-- Font: Pixel Bop for display text, at whole scales only (data-scale 1 to 4), and Pixelify Sans for UI and body
+     text, on the --pp-size-* steps. POP samples stay on one line (its tint band is drawn for one line); accented lines
+     that may wrap get 14 pixels per line, so marks stay clear of the line above. The glyph table is written by
+     packages/font/scripts/build.py from the font itself. -->
+<div style="display:grid;gap:calc(16*var(--pp-pixel))">
+
+<div>
+  <h3 class="pp-label pp-muted" style="margin-block-end:calc(6*var(--pp-pixel))">Pixel Bop, at every scale</h3>
+  <div style="display:grid;grid-template-columns:max-content minmax(0,1fr);gap:calc(8*var(--pp-pixel)) calc(8*var(--pp-pixel));align-items:start">
+    <p class="pp-label pp-muted">Scale 1<br>cap 7 px</p>
+    <div style="display:grid;gap:calc(4*var(--pp-pixel))">
+      <p class="pp-display pp-pop" data-scale="1" data-pop="The quick brown fox jumps over the lazy dog!">The quick brown fox jumps over the lazy dog!</p>
+      <p class="pp-display" data-scale="1" style="line-height:calc(14*var(--pp-pixel)*var(--pp-scale))">ÀÉÎÕÜ ÇÑ ÆØÅẞ ŁĄĘŻŹŚĆŃÓ ČŠŽĐ ŐŰ ĞŞİ ȘȚĂÂÎ ŮĚŘĎŤŇ ĀĒĪŪĻĶĢŅ ĦŦŊŒÞĲĽŀ</p>
+    </div>
+    <p class="pp-label pp-muted">Scale 2<br>rounded 2x</p>
+    <div style="display:grid;gap:calc(4*var(--pp-pixel))">
+      <p class="pp-display pp-pop" data-scale="2" data-tone="pink" data-pop="Sphinx of black quartz,">Sphinx of black quartz,</p>
+      <p class="pp-display" data-scale="2">judge my vow.</p>
+      <p class="pp-display" data-scale="2" style="line-height:calc(14*var(--pp-pixel)*var(--pp-scale))">Été à París · žluťoučký kůň · æblegrød</p>
+    </div>
+    <p class="pp-label pp-muted">Scale 3<br>rounded 3x</p>
+    <div style="display:grid;gap:calc(4*var(--pp-pixel))">
+      <p class="pp-display pp-pop" data-scale="3" data-tone="teal" data-pop="Pack my box">Pack my box</p>
+      <p class="pp-display" data-scale="3">with five dozen liquor jugs</p>
+      <p class="pp-display" data-scale="3" style="line-height:calc(14*var(--pp-pixel)*var(--pp-scale))">Żółw · Ğüşİ · Ångström</p>
+    </div>
+    <p class="pp-label pp-muted">Scale 4<br>rounded 2x</p>
+    <div style="display:grid;gap:calc(4*var(--pp-pixel))">
+      <p class="pp-display pp-pop" data-scale="4" data-tone="purple" data-pop="Bop! Ça va?">Bop! Ça va?</p>
+      <p class="pp-display" data-scale="4">Mr Jock, TV quiz PhD, bags few lynx</p>
+      <p class="pp-display" data-scale="4" style="line-height:calc(14*var(--pp-pixel)*var(--pp-scale))">Știință · Øl</p>
+    </div>
+  </div>
+</div>
+
+<div>
+  <h3 class="pp-label pp-muted" style="margin-block-end:calc(6*var(--pp-pixel))">Square and rounded: the stylistic sets</h3>
+  <div style="display:grid;grid-template-columns:repeat(2,max-content);gap:calc(4*var(--pp-pixel)) calc(16*var(--pp-pixel));align-items:end">
+    <p class="pp-label pp-muted">Scale 2, square (normal)</p>
+    <p class="pp-label pp-muted">Scale 2, Rounded 2x (ss02, the default)</p>
+    <p class="pp-display" data-scale="2" style="font-feature-settings:normal">GO! ÅØ@%&amp;?</p>
+    <p class="pp-display" data-scale="2">GO! ÅØ@%&amp;?</p>
+    <p class="pp-label pp-muted">Scale 3, square (normal)</p>
+    <p class="pp-label pp-muted">Scale 3, Rounded 3x (ss03, the default)</p>
+    <p class="pp-display" data-scale="3" style="font-feature-settings:normal">WOW ★♥</p>
+    <p class="pp-display" data-scale="3">WOW ★♥</p>
+  </div>
+</div>
+
+<div>
+  <h3 class="pp-label pp-muted" style="margin-block-end:calc(6*var(--pp-pixel))">Figures: tabular, so a clock never shifts</h3>
+  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--pp-pixel)) calc(16*var(--pp-pixel));align-items:end">
+    <p class="pp-display pp-pop" data-scale="3" data-pop="12:34">12:34</p>
+    <div>
+      <p class="pp-display" data-scale="2">09:41</p>
+      <p class="pp-display" data-scale="2">11:11</p>
+      <p class="pp-display" data-scale="2">88:88</p>
+    </div>
+    <div style="display:grid;gap:calc(3*var(--pp-pixel))">
+      <p class="pp-display" data-scale="1">Score 004250 · Hi 999999</p>
+      <p class="pp-display" data-scale="1">♥♥♥ ★ 12 · ×3 combo · +1up</p>
+      <p class="pp-display" data-scale="1">$1,299.00 · €9,99 · £5 · ¥500 · ¢50</p>
+      <p class="pp-display" data-scale="1">45% · ½ ¼ ¾ · 2³ · 21 °C · ±0.5</p>
+      <p class="pp-display" data-scale="1">← Back · Press ▶ to play · ▲▼ scroll · Next →</p>
+    </div>
+  </div>
+</div>
+
+<div>
+  <h3 class="pp-label pp-muted" style="margin-block-end:calc(6*var(--pp-pixel))">Every glyph, at scale 1 (hover for its code point)</h3>
+<!-- glyph-table: written by scripts/build.py -->
+<dl style="display:grid;grid-template-columns:max-content minmax(0,1fr);gap:calc(4*var(--pp-pixel)) calc(8*var(--pp-pixel));align-items:baseline;margin:0">
+  <dt class="pp-label pp-muted">Capitals (26)</dt>
+  <dd class="pp-display" data-scale="1" style="margin:0;text-transform:none;letter-spacing:calc(3*var(--pp-pixel));word-break:break-all"><span title="U+0041 Latin Capital Letter A">A</span><span title="U+0042 Latin Capital Letter B">B</span><span title="U+0043 Latin Capital Letter C">C</span><span title="U+0044 Latin Capital Letter D">D</span><span title="U+0045 Latin Capital Letter E">E</span><span title="U+0046 Latin Capital Letter F">F</span><span title="U+0047 Latin Capital Letter G">G</span><span title="U+0048 Latin Capital Letter H">H</span><span title="U+0049 Latin Capital Letter I">I</span><span title="U+004A Latin Capital Letter J">J</span><span title="U+004B Latin Capital Letter K">K</span><span title="U+004C Latin Capital Letter L">L</span><span title="U+004D Latin Capital Letter M">M</span><span title="U+004E Latin Capital Letter N">N</span><span title="U+004F Latin Capital Letter O">O</span><span title="U+0050 Latin Capital Letter P">P</span><span title="U+0051 Latin Capital Letter Q">Q</span><span title="U+0052 Latin Capital Letter R">R</span><span title="U+0053 Latin Capital Letter S">S</span><span title="U+0054 Latin Capital Letter T">T</span><span title="U+0055 Latin Capital Letter U">U</span><span title="U+0056 Latin Capital Letter V">V</span><span title="U+0057 Latin Capital Letter W">W</span><span title="U+0058 Latin Capital Letter X">X</span><span title="U+0059 Latin Capital Letter Y">Y</span><span title="U+005A Latin Capital Letter Z">Z</span></dd>
+  <dt class="pp-label pp-muted">Accented and other letters (97)</dt>
+  <dd class="pp-display" data-scale="1" style="margin:0;text-transform:none;letter-spacing:calc(3*var(--pp-pixel));word-break:break-all"><span title="U+00C0 Latin Capital Letter A With Grave">À</span><span title="U+00C1 Latin Capital Letter A With Acute">Á</span><span title="U+00C2 Latin Capital Letter A With Circumflex">Â</span><span title="U+00C3 Latin Capital Letter A With Tilde">Ã</span><span title="U+00C4 Latin Capital Letter A With Diaeresis">Ä</span><span title="U+00C5 Latin Capital Letter A With Ring Above">Å</span><span title="U+00C6 Latin Capital Letter Ae">Æ</span><span title="U+00C7 Latin Capital Letter C With Cedilla">Ç</span><span title="U+00C8 Latin Capital Letter E With Grave">È</span><span title="U+00C9 Latin Capital Letter E With Acute">É</span><span title="U+00CA Latin Capital Letter E With Circumflex">Ê</span><span title="U+00CB Latin Capital Letter E With Diaeresis">Ë</span><span title="U+00CC Latin Capital Letter I With Grave">Ì</span><span title="U+00CD Latin Capital Letter I With Acute">Í</span><span title="U+00CE Latin Capital Letter I With Circumflex">Î</span><span title="U+00CF Latin Capital Letter I With Diaeresis">Ï</span><span title="U+00D0 Latin Capital Letter Eth">Ð</span><span title="U+00D1 Latin Capital Letter N With Tilde">Ñ</span><span title="U+00D2 Latin Capital Letter O With Grave">Ò</span><span title="U+00D3 Latin Capital Letter O With Acute">Ó</span><span title="U+00D4 Latin Capital Letter O With Circumflex">Ô</span><span title="U+00D5 Latin Capital Letter O With Tilde">Õ</span><span title="U+00D6 Latin Capital Letter O With Diaeresis">Ö</span><span title="U+00D8 Latin Capital Letter O With Stroke">Ø</span><span title="U+00D9 Latin Capital Letter U With Grave">Ù</span><span title="U+00DA Latin Capital Letter U With Acute">Ú</span><span title="U+00DB Latin Capital Letter U With Circumflex">Û</span><span title="U+00DC Latin Capital Letter U With Diaeresis">Ü</span><span title="U+00DD Latin Capital Letter Y With Acute">Ý</span><span title="U+00DE Latin Capital Letter Thorn">Þ</span><span title="U+0100 Latin Capital Letter A With Macron">Ā</span><span title="U+0102 Latin Capital Letter A With Breve">Ă</span><span title="U+0104 Latin Capital Letter A With Ogonek">Ą</span><span title="U+0106 Latin Capital Letter C With Acute">Ć</span><span title="U+0108 Latin Capital Letter C With Circumflex">Ĉ</span><span title="U+010A Latin Capital Letter C With Dot Above">Ċ</span><span title="U+010C Latin Capital Letter C With Caron">Č</span><span title="U+010E Latin Capital Letter D With Caron">Ď</span><span title="U+0110 Latin Capital Letter D With Stroke">Đ</span><span title="U+0112 Latin Capital Letter E With Macron">Ē</span><span title="U+0114 Latin Capital Letter E With Breve">Ĕ</span><span title="U+0116 Latin Capital Letter E With Dot Above">Ė</span><span title="U+0118 Latin Capital Letter E With Ogonek">Ę</span><span title="U+011A Latin Capital Letter E With Caron">Ě</span><span title="U+011C Latin Capital Letter G With Circumflex">Ĝ</span><span title="U+011E Latin Capital Letter G With Breve">Ğ</span><span title="U+0120 Latin Capital Letter G With Dot Above">Ġ</span><span title="U+0122 Latin Capital Letter G With Cedilla">Ģ</span><span title="U+0124 Latin Capital Letter H With Circumflex">Ĥ</span><span title="U+0126 Latin Capital Letter H With Stroke">Ħ</span><span title="U+0128 Latin Capital Letter I With Tilde">Ĩ</span><span title="U+012A Latin Capital Letter I With Macron">Ī</span><span title="U+012C Latin Capital Letter I With Breve">Ĭ</span><span title="U+012E Latin Capital Letter I With Ogonek">Į</span><span title="U+0130 Latin Capital Letter I With Dot Above">İ</span><span title="U+0132 Latin Capital Ligature Ij">Ĳ</span><span title="U+0134 Latin Capital Letter J With Circumflex">Ĵ</span><span title="U+0136 Latin Capital Letter K With Cedilla">Ķ</span><span title="U+0139 Latin Capital Letter L With Acute">Ĺ</span><span title="U+013B Latin Capital Letter L With Cedilla">Ļ</span><span title="U+013D Latin Capital Letter L With Caron">Ľ</span><span title="U+013F Latin Capital Letter L With Middle Dot">Ŀ</span><span title="U+0141 Latin Capital Letter L With Stroke">Ł</span><span title="U+0143 Latin Capital Letter N With Acute">Ń</span><span title="U+0145 Latin Capital Letter N With Cedilla">Ņ</span><span title="U+0147 Latin Capital Letter N With Caron">Ň</span><span title="U+0149 Latin Small Letter N Preceded By Apostrophe">ŉ</span><span title="U+014A Latin Capital Letter Eng">Ŋ</span><span title="U+014C Latin Capital Letter O With Macron">Ō</span><span title="U+014E Latin Capital Letter O With Breve">Ŏ</span><span title="U+0150 Latin Capital Letter O With Double Acute">Ő</span><span title="U+0152 Latin Capital Ligature Oe">Œ</span><span title="U+0154 Latin Capital Letter R With Acute">Ŕ</span><span title="U+0156 Latin Capital Letter R With Cedilla">Ŗ</span><span title="U+0158 Latin Capital Letter R With Caron">Ř</span><span title="U+015A Latin Capital Letter S With Acute">Ś</span><span title="U+015C Latin Capital Letter S With Circumflex">Ŝ</span><span title="U+015E Latin Capital Letter S With Cedilla">Ş</span><span title="U+0160 Latin Capital Letter S With Caron">Š</span><span title="U+0162 Latin Capital Letter T With Cedilla">Ţ</span><span title="U+0164 Latin Capital Letter T With Caron">Ť</span><span title="U+0166 Latin Capital Letter T With Stroke">Ŧ</span><span title="U+0168 Latin Capital Letter U With Tilde">Ũ</span><span title="U+016A Latin Capital Letter U With Macron">Ū</span><span title="U+016C Latin Capital Letter U With Breve">Ŭ</span><span title="U+016E Latin Capital Letter U With Ring Above">Ů</span><span title="U+0170 Latin Capital Letter U With Double Acute">Ű</span><span title="U+0172 Latin Capital Letter U With Ogonek">Ų</span><span title="U+0174 Latin Capital Letter W With Circumflex">Ŵ</span><span title="U+0176 Latin Capital Letter Y With Circumflex">Ŷ</span><span title="U+0178 Latin Capital Letter Y With Diaeresis">Ÿ</span><span title="U+0179 Latin Capital Letter Z With Acute">Ź</span><span title="U+017B Latin Capital Letter Z With Dot Above">Ż</span><span title="U+017D Latin Capital Letter Z With Caron">Ž</span><span title="U+0218 Latin Capital Letter S With Comma Below">Ș</span><span title="U+021A Latin Capital Letter T With Comma Below">Ț</span><span title="U+1E9E Latin Capital Letter Sharp S">ẞ</span></dd>
+  <dt class="pp-label pp-muted">Figures (17)</dt>
+  <dd class="pp-display" data-scale="1" style="margin:0;text-transform:none;letter-spacing:calc(3*var(--pp-pixel));word-break:break-all"><span title="U+0030 Digit Zero">0</span><span title="U+0031 Digit One">1</span><span title="U+0032 Digit Two">2</span><span title="U+0033 Digit Three">3</span><span title="U+0034 Digit Four">4</span><span title="U+0035 Digit Five">5</span><span title="U+0036 Digit Six">6</span><span title="U+0037 Digit Seven">7</span><span title="U+0038 Digit Eight">8</span><span title="U+0039 Digit Nine">9</span><span title="U+00B2 Superscript Two">²</span><span title="U+00B3 Superscript Three">³</span><span title="U+00B9 Superscript One">¹</span><span title="U+00BC Vulgar Fraction One Quarter">¼</span><span title="U+00BD Vulgar Fraction One Half">½</span><span title="U+00BE Vulgar Fraction Three Quarters">¾</span><span title="U+2074 Superscript Four">⁴</span></dd>
+  <dt class="pp-label pp-muted">Punctuation (42)</dt>
+  <dd class="pp-display" data-scale="1" style="margin:0;text-transform:none;letter-spacing:calc(3*var(--pp-pixel));word-break:break-all"><span title="U+0021 Exclamation Mark">!</span><span title="U+0022 Quotation Mark">&quot;</span><span title="U+0023 Number Sign">#</span><span title="U+0025 Percent Sign">%</span><span title="U+0026 Ampersand">&amp;</span><span title="U+0027 Apostrophe">&#x27;</span><span title="U+0028 Left Parenthesis">(</span><span title="U+0029 Right Parenthesis">)</span><span title="U+002A Asterisk">*</span><span title="U+002C Comma">,</span><span title="U+002D Hyphen-Minus">-</span><span title="U+002E Full Stop">.</span><span title="U+002F Solidus">/</span><span title="U+003A Colon">:</span><span title="U+003B Semicolon">;</span><span title="U+003F Question Mark">?</span><span title="U+0040 Commercial At">@</span><span title="U+005B Left Square Bracket">[</span><span title="U+005C Reverse Solidus">\</span><span title="U+005D Right Square Bracket">]</span><span title="U+005F Low Line">_</span><span title="U+007B Left Curly Bracket">{</span><span title="U+007D Right Curly Bracket">}</span><span title="U+00A1 Inverted Exclamation Mark">¡</span><span title="U+00A7 Section Sign">§</span><span title="U+00AB Left-Pointing Double Angle Quotation Mark">«</span><span title="U+00B6 Pilcrow Sign">¶</span><span title="U+00B7 Middle Dot">·</span><span title="U+00BB Right-Pointing Double Angle Quotation Mark">»</span><span title="U+00BF Inverted Question Mark">¿</span><span title="U+2013 En Dash">–</span><span title="U+2014 Em Dash">—</span><span title="U+2018 Left Single Quotation Mark">‘</span><span title="U+2019 Right Single Quotation Mark">’</span><span title="U+201A Single Low-9 Quotation Mark">‚</span><span title="U+201C Left Double Quotation Mark">“</span><span title="U+201D Right Double Quotation Mark">”</span><span title="U+201E Double Low-9 Quotation Mark">„</span><span title="U+2022 Bullet">•</span><span title="U+2026 Horizontal Ellipsis">…</span><span title="U+2039 Single Left-Pointing Angle Quotation Mark">‹</span><span title="U+203A Single Right-Pointing Angle Quotation Mark">›</span></dd>
+  <dt class="pp-label pp-muted">Symbols (38)</dt>
+  <dd class="pp-display" data-scale="1" style="margin:0;text-transform:none;letter-spacing:calc(3*var(--pp-pixel));word-break:break-all"><span title="U+0024 Dollar Sign">$</span><span title="U+002B Plus Sign">+</span><span title="U+003C Less-Than Sign">&lt;</span><span title="U+003D Equals Sign">=</span><span title="U+003E Greater-Than Sign">&gt;</span><span title="U+007C Vertical Line">|</span><span title="U+007E Tilde">~</span><span title="U+00A2 Cent Sign">¢</span><span title="U+00A3 Pound Sign">£</span><span title="U+00A4 Currency Sign">¤</span><span title="U+00A5 Yen Sign">¥</span><span title="U+00A6 Broken Bar">¦</span><span title="U+00A9 Copyright Sign">©</span><span title="U+00AA Feminine Ordinal Indicator">ª</span><span title="U+00AC Not Sign">¬</span><span title="U+00AE Registered Sign">®</span><span title="U+00B0 Degree Sign">°</span><span title="U+00B1 Plus-Minus Sign">±</span><span title="U+00B5 Micro Sign">µ</span><span title="U+00BA Masculine Ordinal Indicator">º</span><span title="U+00D7 Multiplication Sign">×</span><span title="U+00F7 Division Sign">÷</span><span title="U+2044 Fraction Slash">⁄</span><span title="U+20AC Euro Sign">€</span><span title="U+2122 Trade Mark Sign">™</span><span title="U+2190 Leftwards Arrow">←</span><span title="U+2191 Upwards Arrow">↑</span><span title="U+2192 Rightwards Arrow">→</span><span title="U+2193 Downwards Arrow">↓</span><span title="U+2212 Minus Sign">−</span><span title="U+25A0 Black Square">■</span><span title="U+25B2 Black Up-Pointing Triangle">▲</span><span title="U+25B6 Black Right-Pointing Triangle">▶</span><span title="U+25BC Black Down-Pointing Triangle">▼</span><span title="U+25C0 Black Left-Pointing Triangle">◀</span><span title="U+25CF Black Circle">●</span><span title="U+2605 Black Star">★</span><span title="U+2665 Black Heart Suit">♥</span></dd>
+  <dt class="pp-label pp-muted">Spacing accents (14)</dt>
+  <dd class="pp-display" data-scale="1" style="margin:0;text-transform:none;letter-spacing:calc(3*var(--pp-pixel));word-break:break-all"><span title="U+005E Circumflex Accent">^</span><span title="U+0060 Grave Accent">`</span><span title="U+00A8 Diaeresis">¨</span><span title="U+00AF Macron">¯</span><span title="U+00B4 Acute Accent">´</span><span title="U+00B8 Cedilla">¸</span><span title="U+02C6 Modifier Letter Circumflex Accent">ˆ</span><span title="U+02C7 Caron">ˇ</span><span title="U+02D8 Breve">˘</span><span title="U+02D9 Dot Above">˙</span><span title="U+02DA Ring Above">˚</span><span title="U+02DB Ogonek">˛</span><span title="U+02DC Small Tilde">˜</span><span title="U+02DD Double Acute Accent">˝</span></dd>
+</dl>
+<!-- /glyph-table -->
+</div>
+
+<div>
+  <h3 class="pp-label pp-muted" style="margin-block-end:calc(6*var(--pp-pixel))">Pixelify Sans, for UI and body text</h3>
+  <div style="display:grid;grid-template-columns:max-content repeat(3,minmax(0,1fr));gap:calc(4*var(--pp-pixel)) calc(8*var(--pp-pixel));align-items:baseline">
+    <span></span><span class="pp-label pp-muted">400 regular</span><span class="pp-label pp-muted">500 medium</span><span class="pp-label pp-muted">700 bold</span>
+    <span class="pp-label pp-muted">Title 22</span>
+    <span style="font-size:var(--pp-size-title);font-weight:var(--pp-weight-regular)">Level complete</span>
+    <span style="font-size:var(--pp-size-title);font-weight:var(--pp-weight-medium)">Level complete</span>
+    <span style="font-size:var(--pp-size-title);font-weight:var(--pp-weight-bold)">Level complete</span>
+    <span class="pp-label pp-muted">Lead 18</span>
+    <span style="font-size:var(--pp-size-lead);font-weight:var(--pp-weight-regular)">Save your game before you go.</span>
+    <span style="font-size:var(--pp-size-lead);font-weight:var(--pp-weight-medium)">Save your game before you go.</span>
+    <span style="font-size:var(--pp-size-lead);font-weight:var(--pp-weight-bold)">Save your game before you go.</span>
+    <span class="pp-label pp-muted">Body 16</span>
+    <span style="font-size:var(--pp-size-body);font-weight:var(--pp-weight-regular)">Pixelify Sans carries UI and body text: Ça, Ğ, Ł, Ő, Ș.</span>
+    <span style="font-size:var(--pp-size-body);font-weight:var(--pp-weight-medium)">Pixelify Sans carries UI and body text: Ça, Ğ, Ł, Ő, Ș.</span>
+    <span style="font-size:var(--pp-size-body);font-weight:var(--pp-weight-bold)">Pixelify Sans carries UI and body text: Ça, Ğ, Ł, Ő, Ș.</span>
+    <span class="pp-label pp-muted">Small 14</span>
+    <span style="font-size:var(--pp-size-small);font-weight:var(--pp-weight-regular)">Last saved 2 minutes ago · 3 of 12</span>
+    <span style="font-size:var(--pp-size-small);font-weight:var(--pp-weight-medium)">Last saved 2 minutes ago · 3 of 12</span>
+    <span style="font-size:var(--pp-size-small);font-weight:var(--pp-weight-bold)">Last saved 2 minutes ago · 3 of 12</span>
+    <span class="pp-label pp-muted">Caption 12</span>
+    <span style="font-size:var(--pp-size-caption);font-weight:var(--pp-weight-regular)">Version 0.2.0 · SIL Open Font License</span>
+    <span style="font-size:var(--pp-size-caption);font-weight:var(--pp-weight-medium)">Version 0.2.0 · SIL Open Font License</span>
+    <span style="font-size:var(--pp-size-caption);font-weight:var(--pp-weight-bold)">Version 0.2.0 · SIL Open Font License</span>
+  </div>
+</div>
+
+</div>

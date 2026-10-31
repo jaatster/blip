@@ -1,0 +1,88 @@
+/*
+ * Pause menu. A cream panel over a dithered ink scrim: the title in POP, a menu with the pixel pointer, a hint line.
+ * It is a native <dialog>: showModal() puts focus in, Escape closes it, and the game behind goes inert.
+ *
+ *   <dialog class="pp-box pp-pause" aria-labelledby="pause-title">
+ *     <h2 class="pp-pause-title pp-display pp-pop" data-scale="3" data-pop="Paused" id="pause-title">Paused</h2>
+ *     <pp-choices>
+ *       <ul class="pp-choices" role="list" data-font="display">
+ *         <li><button class="pp-box pp-choice" data-variant="ghost" value="resume" autofocus>Resume</button></li>
+ *         <li><button class="pp-box pp-choice" data-variant="ghost" value="quit">Quit to map</button></li>
+ *       </ul>
+ *     </pp-choices>
+ *     <p class="pp-pause-hint pp-prompt"><kbd class="pp-box pp-prompt-key">Esc</kbd> Resume</p>
+ *   </dialog>
+ *
+ *   dialog.showModal();                       the ::backdrop is the dithered scrim: no translucent wash
+ *   .pp-pause-stats                           a row of small facts (time, coins, stars) under the title
+ *   .pp-stage > .pp-pause[open]               shown inside a stage without the modal (docs, attract screens)
+ *
+ * It pops in: a pixel low for a frame, then in place.
+ */
+
+@layer pp.kits {
+  .pp-pause {
+    --pp-r: 5;
+    --pp-shape: var(--pp-shape-5);
+    --pp-shape-inner: var(--pp-shape-5-inner);
+    --pp-band-top: 4;
+    --pp-band-bottom: 4;
+    inline-size: max-content;
+    max-inline-size: calc(100% - 16 * var(--pp-pixel));
+    max-block-size: calc(100% - 16 * var(--pp-pixel));
+    padding: calc(10 * var(--pp-pixel)) calc(16 * var(--pp-pixel)) calc(10 * var(--pp-pixel));
+    overflow: visible;
+    text-align: center;
+  }
+  .pp-pause:not([data-tone]) {
+    /* A cream panel is a light island in every scheme: text, lines and wells inside take their light values. */
+    --pp-text: var(--pp-ink);
+    --pp-text-muted: var(--pp-ink-soft);
+    --pp-line: var(--pp-ink);
+    --pp-line-soft: var(--pp-candy-cream-shade);
+    --pp-surface: var(--pp-white);
+    --pp-surface-sunken: var(--pp-candy-cream-shade);
+    --pp-bg: var(--pp-candy-cream);
+    color-scheme: light;
+    --pp-tone: var(--pp-candy-cream);
+    --pp-tone-light: var(--pp-candy-cream-light);
+    --pp-tone-shade: var(--pp-candy-cream-shade);
+    --pp-tone-on: var(--pp-ink);
+  }
+  .pp-pause[open] {
+    display: grid;
+    justify-items: center;
+    gap: calc(6 * var(--pp-pixel));
+    animation: pp-pop-in calc(2 * var(--pp-duration-frame)) steps(1, jump-end) both;
+  }
+  .pp-pause:modal { position: fixed; }
+  .pp-pause::backdrop {
+    background: repeating-conic-gradient(var(--pp-scrim) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel));
+  }
+  .pp-stage > .pp-pause[open] {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    block-size: fit-content;
+  }
+
+  .pp-pause-title { margin: 0 0 calc(2 * var(--pp-pixel)); }
+  .pp-pause .pp-choices { justify-self: center; }
+  .pp-pause-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: calc(2 * var(--pp-pixel)) calc(10 * var(--pp-pixel));
+    margin: 0;
+    font-size: var(--pp-size-small);
+  }
+  .pp-pause-stats > * { display: inline-flex; align-items: center; gap: calc(3 * var(--pp-pixel)); }
+  .pp-pause-hint { color: var(--pp-ink-soft); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pp-pause[open] { animation: none; }
+  }
+  @media (forced-colors: active) {
+    .pp-pause::backdrop { background: Canvas; opacity: 0.8; }
+  }
+}

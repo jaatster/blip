@@ -1,0 +1,27 @@
+<!-- Pause menu: the game behind a dithered scrim, the menu on top. In a game it is a modal: dialog.showModal(). Here
+     it is shown open inside the stage, with Resume under the pointer (data-pp-state, for the docs). -->
+<section class="pp-stage" data-frame aria-label="Puddle Path, paused" style="block-size:calc(196*var(--pp-pixel));max-inline-size:calc(420*var(--pp-pixel))">
+  <div class="pp-hud" aria-hidden="true">
+    <pp-hearts value="3.5" max="5" label="Health"></pp-hearts>
+    <pp-counter value="42" pad="3" label="Coins" quiet><pp-sprite name="coin"></pp-sprite></pp-counter>
+  </div>
+  <div class="pp-stage-ground"></div>
+  <div class="pp-scrim"></div>
+  <dialog class="pp-box pp-pause" open aria-labelledby="pause-title">
+    <h2 id="pause-title" class="pp-pause-title pp-display pp-pop" data-scale="3" data-pop="Paused">Paused</h2>
+    <p class="pp-pause-stats">
+      <span><pp-sprite name="coin"></pp-sprite>42 coins</span>
+      <span><pp-sprite name="star"></pp-sprite>5 of 18</span>
+      <span><pp-sprite name="clock"></pp-sprite>12:40</span>
+    </p>
+    <pp-choices>
+      <ul class="pp-choices" role="list" data-font="display">
+        <li><button type="button" class="pp-box pp-choice" data-variant="ghost" value="resume" data-pp-state="focus">Resume</button></li>
+        <li><button type="button" class="pp-box pp-choice" data-variant="ghost" value="options">Options</button></li>
+        <li><button type="button" class="pp-box pp-choice" data-variant="ghost" value="controls">Controls</button></li>
+        <li><button type="button" class="pp-box pp-choice" data-variant="ghost" value="quit">Quit to map</button></li>
+      </ul>
+    </pp-choices>
+    <p class="pp-pause-hint pp-prompt"><kbd class="pp-box pp-prompt-key">Esc</kbd> Resume</p>
+  </dialog>
+</section>

@@ -1,0 +1,128 @@
+/*
+ * Text effects and the glint.
+ *
+ *   <pp-drop-text class="pp-display pp-pop" data-pop="Blip">Blip</pp-drop-text>
+ *     Letters drop in one after another: hidden until their turn (--pp-drop-text-stagger, 30 ms apart), two pixels
+ *     high for a frame, then landed. Put pp-pop and data-pop on the element itself so each letter keeps its tint.
+ *
+ *   <pp-typewriter caret>Ready, player one?</pp-typewriter>
+ *     The untyped rest is laid out but hidden, so nothing moves. caret adds a blinking block after the typed text.
+ *
+ *   <button class="pp-box pp-button">Play<span class="pp-glint" aria-hidden="true"></span></button>
+ *     The TV's glint: a band two pixels white with a light edge each side sweeps down and right across the box in
+ *     five frames, 80 ms apart, every 4.5 s, inside the outline. data-frame="0" to "4" holds one frame (docs, tests,
+ *     reduced motion); --pp-glint-delay staggers several. None with reduced motion otherwise.
+ */
+
+@layer pp.kits {
+  .pp-drop-text-word { white-space: nowrap; }
+  .pp-drop-text-letter {
+    /* 30 ms apart: the TV's DROP_STAGGER, which is its dissolve frame too. */
+    --_d: calc(var(--_i, 0) * var(--pp-drop-text-stagger, var(--pp-duration-dissolve-frame)));
+    display: inline-block;
+    animation:
+      pp-drop-text-wait var(--_d) step-end,
+      pp-drop-text-lift var(--pp-duration-frame) step-end var(--_d);
+  }
+  /* POP: each letter carries its own tint, so the tint drops with it. */
+  pp-drop-text:defined.pp-pop[data-pop]::after { content: none; }
+  .pp-pop[data-pop] .pp-drop-text-letter { position: relative; }
+  .pp-pop[data-pop] .pp-drop-text-letter::after {
+    content: attr(data-pop) / "";
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    text-shadow: none;
+    background: linear-gradient(to bottom, transparent 0 58.333%, var(--pp-pop-tint) 0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    pointer-events: none;
+  }
+
+  .pp-typewriter-rest { visibility: hidden; }
+  /* The caret is an empty box with an end border, given back by a negative margin: it takes no room and never breaks
+     a word, so the text never reflows as it types; it blinks by opacity. */
+  pp-typewriter[caret] .pp-typewriter-typed::after {
+    content: "";
+    border-inline-end: calc(2 * var(--pp-pixel)) solid;
+    margin-inline-end: calc(-2 * var(--pp-pixel));
+    animation: pp-blink calc(2 * var(--pp-duration-beat)) steps(1, jump-end) infinite;
+  }
+
+  .pp-glint {
+    --pp-glint-color: var(--pp-white);
+    --pp-glint-edge: var(--pp-candy-yellow-light);
+    position: absolute;
+    inset: 0;
+    overflow: clip;
+    pointer-events: none;
+    container-type: size;
+    /* The box's inner shape, exactly as the fill inside its outline. */
+    mask-image: var(--pp-shape-inner);
+    mask-repeat: no-repeat;
+    mask-size:
+      var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t),
+      calc(round(down, 100%, var(--_p)) - 2 * var(--_t)) calc(round(down, 100%, var(--_p)) - 2 * var(--_p)),
+      calc(round(down, 100%, var(--_p)) - 2 * var(--_p)) calc(round(down, 100%, var(--_p)) - 2 * var(--_t));
+    mask-position:
+      left 0 top 0,
+      left calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)) top 0,
+      left 0 top calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)),
+      left calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)) top calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)),
+      left var(--_t) top var(--_p),
+      left var(--_p) top var(--_t);
+  }
+  /* The band: the pixels where x + y runs from 2 to 5, light edge pixels under, two white ones over, each a 256-row
+     staircase polygon ("v1h-1" down one side, "v-1h1" back up the other), 4 and 2 pixels wide. It moves right in
+     whole-pixel steps, a quarter of (width + height - 8) a frame (12 on the TV's 28-pixel block), so x + y steps
+     from the top-left corner to the bottom-right: a stepped translate and opacity, which the compositor runs. */
+  .pp-glint::before, .pp-glint::after {
+    --_step: round(down, (100cqw + 100cqh - 8 * var(--_p)) / 4, var(--_p));
+    /* Reaching left by the box's width plus height, so the whole band is there for every frame to slide in. */
+    --_reach: round(down, 100cqw + 100cqh, var(--_p));
+    content: "";
+    position: absolute;
+    inset: 0 0 0 calc(-1 * var(--_reach));
+    opacity: 0;
+    mask-repeat: no-repeat;
+    mask-size: calc(260 * var(--_p)) calc(256 * var(--_p));
+    /* Every 4.5 s, the TV's GLINT_EVERY: 112.5 frames. */
+    animation:
+      pp-glint-move calc(112.5 * var(--pp-duration-frame)) var(--pp-glint-delay, 0s) infinite,
+      pp-glint-show calc(112.5 * var(--pp-duration-frame)) var(--pp-glint-delay, 0s) infinite;
+  }
+  .pp-glint::before {
+    background: var(--pp-glint-edge);
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 256' shape-rendering='crispEdges'%3E%3Cpath d='M259 0v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1h-3v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1z'/%3E%3C/svg%3E");
+    mask-position: calc(var(--_reach) - 253 * var(--_p)) 0;
+  }
+  .pp-glint::after {
+    background: var(--pp-glint-color);
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 256' shape-rendering='crispEdges'%3E%3Cpath d='M257 0v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1h-1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1z'/%3E%3C/svg%3E");
+    mask-position: calc(var(--_reach) - 252 * var(--_p)) 0;
+  }
+  .pp-glint[data-frame]::before, .pp-glint[data-frame]::after { animation: none; opacity: 1; translate: calc(var(--_f, 0) * var(--_step)) 0; }
+  .pp-glint[data-frame="1"] { --_f: 1; }
+  .pp-glint[data-frame="2"] { --_f: 2; }
+  .pp-glint[data-frame="3"] { --_f: 3; }
+  .pp-glint[data-frame="4"] { --_f: 4; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pp-drop-text-letter, pp-typewriter[caret] .pp-typewriter-typed::after, .pp-glint:not([data-frame])::before, .pp-glint:not([data-frame])::after { animation: none; }
+  }
+  @media (forced-colors: active) {
+    .pp-glint { display: none; }
+  }
+}
+
+@keyframes pp-drop-text-wait { 0%, 100% { visibility: hidden; } }
+@keyframes pp-drop-text-lift { 0%, 100% { translate: 0 calc(-2 * var(--pp-pixel)); } }
+/* Five frames, two sprite frames apart (10 of the 112.5 frames), then gone until the next sweep. */
+@keyframes pp-glint-move {
+  0% { translate: 0 0; animation-timing-function: steps(5, jump-end); }
+  8.889%, 100% { translate: calc(5 * var(--_step)) 0; }
+}
+@keyframes pp-glint-show {
+  0% { opacity: 1; animation-timing-function: step-end; }
+  8.889%, 100% { opacity: 0; }
+}

@@ -179,5 +179,89 @@
   "scrim": {
     "$value": "{ink.base}",
     "$description": "Behind dialogs: drawn as a dither, never a translucent wash."
+  },
+  "link": {
+    "visited": {
+      "$value": "{tone.visited-light}",
+      "$description": "Visited links (AA on the scheme's surfaces)."
+    }
+  },
+  "scene": {
+    "$description": "The world's colours for this time of day, for scenes drawn in CSS (game stages, hero strips).",
+    "sky": {
+      "1": {
+        "$value": "{world.sunset.sky.1}"
+      },
+      "2": {
+        "$value": "{world.sunset.sky.2}"
+      },
+      "3": {
+        "$value": "{world.sunset.sky.3}"
+      },
+      "4": {
+        "$value": "{world.sunset.sky.4}"
+      },
+      "5": {
+        "$value": "{world.sunset.sky.5}"
+      },
+      "6": {
+        "$value": "{world.sunset.sky.6}"
+      }
+    },
+    "cloud": {
+      "light": {
+        "$value": "{world.sunset.cloud.light}"
+      },
+      "body": {
+        "$value": "{world.sunset.cloud.body}"
+      },
+      "shade": {
+        "$value": "{world.sunset.cloud.shade}"
+      }
+    },
+    "mountain": {
+      "lit": {
+        "$value": "{world.sunset.mountain.lit}"
+      },
+      "shadow": {
+        "$value": "{world.sunset.mountain.shadow}"
+      },
+      "edge": {
+        "$value": "{world.sunset.mountain.edge}"
+      }
+    },
+    "hill": {
+      "mid": {
+        "$value": "{world.sunset.hill.mid}"
+      },
+      "near": {
+        "$value": "{world.sunset.hill.near}"
+      },
+      "bush": {
+        "$value": "{world.sunset.hill.bush}"
+      }
+    },
+    "grass": {
+      "base": {
+        "$value": "{world.sunset.grass.base}"
+      },
+      "top": {
+        "$value": "{world.sunset.grass.top}"
+      },
+      "lip": {
+        "$value": "{world.sunset.grass.lip}"
+      }
+    },
+    "dirt": {
+      "base": {
+        "$value": "{world.sunset.dirt.base}"
+      },
+      "shadow": {
+        "$value": "{world.sunset.dirt.shadow}"
+      },
+      "pebble": {
+        "$value": "{world.sunset.dirt.pebble}"
+      }
+    }
   }
 }

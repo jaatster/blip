@@ -1,0 +1,63 @@
+/*
+ * The world: <pp-world> is a backdrop that fills its positioned container. Its container becomes its own stacking
+ * context, so the world sits behind the container's content and in front of the container's background.
+ *
+ *   <section style="position: relative">
+ *     <pp-world scheme="day" parallax></pp-world>
+ *     ...content...
+ *   </section>
+ *
+ * Attributes: scheme="day|sunset|night|auto" (left out: the page's scheme), parallax, clouds (drift, or "none"),
+ * stars (they flare at night), events (birds by day, a shooting star at night), zoom (world pixel = zoom x pixel).
+ * Until the script runs, and around the drawn picture, the world shows its sky's top colour.
+ */
+
+@layer pp.kits {
+  pp-world {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    display: block;
+    overflow: hidden;
+    contain: strict;
+    pointer-events: none;
+    user-select: none;
+    background-color: var(--_pp-world-sky);
+  }
+
+  /* The time of day a world without a scheme follows: the page's, inherited like the tokens. */
+  :root, [data-pp-scheme="day"] { --_pp-world-scheme: day; --_pp-world-sky: var(--pp-world-day-sky-1); }
+  [data-pp-scheme="sunset"] { --_pp-world-scheme: sunset; --_pp-world-sky: var(--pp-world-sunset-sky-1); }
+  [data-pp-scheme="night"] { --_pp-world-scheme: night; --_pp-world-sky: var(--pp-world-night-sky-1); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-pp-scheme]) { --_pp-world-scheme: night; --_pp-world-sky: var(--pp-world-night-sky-1); }
+  }
+  pp-world[scheme="day"] { --_pp-world-sky: var(--pp-world-day-sky-1); }
+  pp-world[scheme="sunset"] { --_pp-world-sky: var(--pp-world-sunset-sky-1); }
+  pp-world[scheme="night"] { --_pp-world-sky: var(--pp-world-night-sky-1); }
+
+  :where(:has(> pp-world)) { isolation: isolate; }
+
+  .pp-world-stage {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
+  .pp-world-things { position: absolute; inset: 0; }
+  .pp-world-stage canvas { position: absolute; image-rendering: pixelated; }
+  .pp-world-things canvas { left: 0; top: 0; }
+  .pp-world-things canvas[hidden] { display: none; }
+
+  /* Parallax: a layer slides to its next whole-pixel place in two steps, as on the TV. */
+  .pp-world-stage > :is(canvas, .pp-world-things) {
+    transition: translate var(--pp-duration-slide) var(--pp-ease-2);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pp-world-stage > :is(canvas, .pp-world-things) { transition: none; }
+  }
+
+  @media (forced-colors: active) {
+    pp-world { display: none; }
+  }
+}

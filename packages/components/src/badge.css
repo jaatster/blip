@@ -1,0 +1,82 @@
+/*
+ * Badge. A small candy box with a count, a word or nothing at all (a dot), in a tone; on its own in a line of
+ * text, or pinned to the corner of a button, an avatar or an icon.
+ *
+ *   <span class="pp-box pp-badge" data-tone="danger">3</span>
+ *   <span class="pp-box pp-badge" data-tone="success">New</span>
+ *   <button class="pp-box pp-button" data-icon-only aria-label="Inbox, 120 unread">
+ *     <svg class="pp-icon" …></svg>
+ *     <span class="pp-box pp-badge" data-tone="danger" data-position="top-end" aria-hidden="true">99+</span>
+ *   </button>
+ *   <span class="pp-box pp-badge" data-dot data-tone="success" data-position="bottom-end" role="img" aria-label="Online"></span>
+ *
+ *   data-tone       accent (default) | info | success | warning | danger | neutral | a candy name
+ *   data-variant    candy (default) | soft | outline
+ *   data-size       sm | md (default)              8 or 10 pixels high
+ *   data-dot        no text: a 6-pixel candy dot (status, "something new")
+ *   data-position   top-end | top-start | bottom-end | bottom-start      pinned over the parent's corner
+ *
+ * Counts over 99 read "99+"; the real number goes in the parent's accessible name. A pinned badge is a picture
+ * of what the name says: aria-hidden="true", or role="img" with a label when it stands alone.
+ */
+
+@layer pp.components {
+  .pp-badge {
+    --pp-r: 2;
+    --pp-shape: var(--pp-shape-2);
+    --pp-shape-inner: var(--pp-shape-2-inner);
+    --pp-band-top: 1;
+    --pp-band-bottom: 1;
+    --_pp-h: 10;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-inline-size: calc(var(--_pp-h) * var(--pp-pixel));
+    block-size: calc(var(--_pp-h) * var(--pp-pixel));
+    padding: 0 calc(3 * var(--pp-pixel));
+    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+    font-family: var(--pp-font-ui);
+    font-size: var(--pp-size-caption);
+    font-weight: var(--pp-weight-bold);
+    line-height: 1;
+    letter-spacing: var(--pp-tracking-label);
+    font-variant-numeric: tabular-nums;
+    text-transform: uppercase;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+  .pp-badge[data-variant="outline"] { --pp-box-text: var(--pp-tone-text); --pp-box-outline: var(--pp-tone-text); }
+  .pp-badge[data-size="sm"] { --_pp-h: 8; --pp-band-top: 0; --pp-band-bottom: 1; padding: 0 calc(2 * var(--pp-pixel)); }
+  .pp-badge[data-dot] {
+    --_pp-h: 6;
+    --pp-r: 1;
+    --pp-shape: var(--pp-shape-1);
+    --pp-shape-inner: var(--pp-shape-1-inner);
+    --pp-band-top: 0;
+    --pp-band-bottom: 1;
+    --pp-box-glint: transparent;
+    inline-size: calc(6 * var(--pp-pixel));
+    min-inline-size: 0;
+    padding: 0;
+    font-size: 0;
+  }
+
+  /* Pinned over a corner of its parent (any positioned box: a button, an avatar, a .pp-badge-anchor). */
+  .pp-badge[data-position] { position: absolute; z-index: 1; margin: 0; }
+  .pp-badge[data-position^="top"] { inset-block-start: calc(-4 * var(--pp-pixel)); }
+  .pp-badge[data-position^="bottom"] { inset-block-end: calc(-3 * var(--pp-pixel)); }
+  .pp-badge[data-position$="end"] { inset-inline-end: calc(-4 * var(--pp-pixel)); }
+  .pp-badge[data-position$="start"] { inset-inline-start: calc(-4 * var(--pp-pixel)); }
+  .pp-badge[data-dot][data-position^="top"] { inset-block-start: calc(-2 * var(--pp-pixel)); }
+  .pp-badge[data-dot][data-position^="bottom"] { inset-block-end: calc(-1 * var(--pp-pixel)); }
+  .pp-badge[data-dot][data-position$="end"] { inset-inline-end: calc(-2 * var(--pp-pixel)); }
+  .pp-badge[data-dot][data-position$="start"] { inset-inline-start: calc(-2 * var(--pp-pixel)); }
+
+  /* A wrapper that lets a badge sit on something that is not a box, such as an icon. */
+  .pp-badge-anchor { position: relative; display: inline-flex; vertical-align: middle; }
+
+  @media (forced-colors: active) {
+    .pp-badge[data-dot] { forced-color-adjust: none; background: CanvasText; }
+  }
+}

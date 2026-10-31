@@ -1,0 +1,125 @@
+/*
+ * Popover. A panel anchored to the button that opens it, with a pixel nub pointing back at that button. Built on
+ * the native popover attribute: the browser opens and closes it, closes it on Escape or a press outside, and puts
+ * it in the tab order right after its button. CSS anchor positioning places it; it flips to the other side when
+ * there is no room, and its nub flips with it.
+ *
+ *   <button class="pp-box pp-button" popovertarget="profile">Player 1</button>
+ *   <div class="pp-box pp-popover" id="profile" popover>
+ *     <span class="pp-popover-nub" aria-hidden="true"></span>
+ *     …
+ *   </div>
+ *
+ *   data-side        bottom (default) | top | left | right          which side of the button it opens on
+ *   data-align       center (default) | start | end                  for bottom and top; the nub follows
+ *   .pp-popover-title   an optional bold first line
+ *   .pp-popover-close   an optional close button (popovertarget="profile" popovertargetaction="hide")
+ *   data-pp-static   drawn in the page flow, for docs, tests and screenshots
+ *
+ * The button needs nothing else in browsers where the popover's opener is its anchor. Elsewhere give the button
+ * style="anchor-name: --profile" and the popover style="position-anchor: --profile". Without anchor positioning
+ * the popover opens in the middle of the screen and hides its nub. Arrives one pixel low for a frame (the pop-in).
+ */
+@import "./_feedback.css";
+
+@layer pp.components {
+  .pp-popover {
+    --pp-drop-size: 2;
+    --_pp-gap: calc(5 * var(--pp-pixel));
+    position: fixed;
+    inset: auto;
+    margin: 0;
+    margin-block-start: var(--_pp-gap);
+    padding: calc(6 * var(--pp-pixel)) calc(7 * var(--pp-pixel)) calc(7 * var(--pp-pixel));
+    max-inline-size: round(down, min(calc(160 * var(--pp-pixel)), 100vw - 16 * var(--pp-pixel)), var(--pp-pixel));
+    overflow: visible;
+    color: var(--pp-box-text);
+    font-size: var(--pp-size-small);
+    line-height: var(--pp-leading-normal);
+    text-align: start;
+    position-area: block-end;
+    position-try-fallbacks: flip-block;
+    container-type: anchored;
+  }
+  .pp-popover:not([data-variant]) {
+    --pp-box-top: var(--pp-surface-raised);
+    --pp-box-fill: var(--pp-surface-raised);
+    --pp-box-bottom: var(--pp-surface-raised);
+    --pp-box-text: var(--pp-text);
+    --pp-box-glint: transparent;
+  }
+  .pp-popover[data-align="start"] { position-area: block-end span-inline-end; }
+  .pp-popover[data-align="end"] { position-area: block-end span-inline-start; }
+  .pp-popover[data-side="top"] { margin-block: 0 var(--_pp-gap); position-area: block-start; }
+  .pp-popover[data-side="top"][data-align="start"] { position-area: block-start span-inline-end; }
+  .pp-popover[data-side="top"][data-align="end"] { position-area: block-start span-inline-start; }
+  .pp-popover:is([data-side="left"], [data-side="right"]) { margin: 0; position-try-fallbacks: flip-inline; }
+  .pp-popover[data-side="left"] { margin-right: var(--_pp-gap); position-area: left; }
+  .pp-popover[data-side="right"] { margin-left: var(--_pp-gap); position-area: right; }
+
+  .pp-popover:popover-open { animation: pp-popover-in calc(2 * var(--pp-duration-frame)) steps(1, jump-end); }
+  .pp-popover[data-pp-static] { display: block; position: relative; animation: none; }
+
+  /* The nub: an ink outline and the panel's fill, its base lying on the panel's outline. It is drawn pointing
+     down in the top of a 7 x 7 pixel square and turned in quarter turns, which keep every pixel on the grid. */
+  .pp-popover-nub {
+    position: absolute;
+    inset-block-start: calc(-6 * var(--pp-pixel));
+    inset-inline-start: calc(round(down, 50%, var(--pp-pixel)) - 3 * var(--pp-pixel));
+    inline-size: calc(7 * var(--pp-pixel));
+    block-size: calc(7 * var(--pp-pixel));
+    rotate: 180deg;
+    background: var(--pp-box-outline);
+    mask: var(--_pp-g-nub) 0 0 / 100% calc(4 * var(--pp-pixel)) no-repeat;
+    pointer-events: none;
+  }
+  .pp-popover-nub::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--pp-box-fill);
+    mask: var(--_pp-g-nub-fill) 0 0 / 100% calc(4 * var(--pp-pixel)) no-repeat;
+  }
+  .pp-popover[data-align="start"] .pp-popover-nub { inset-inline-start: calc(5 * var(--pp-pixel)); }
+  .pp-popover[data-align="end"] .pp-popover-nub { inset-inline-start: calc(round(down, 100%, var(--pp-pixel)) - 12 * var(--pp-pixel)); }
+  .pp-popover[data-side="top"] .pp-popover-nub { inset-block-start: calc(round(down, 100%, var(--pp-pixel)) - var(--pp-pixel)); rotate: none; }
+  .pp-popover:is([data-side="left"], [data-side="right"]) .pp-popover-nub {
+    inset-block-start: calc(round(down, 50%, var(--pp-pixel)) - 3 * var(--pp-pixel));
+    inset-inline-start: auto;
+  }
+  .pp-popover[data-side="left"] .pp-popover-nub { left: calc(round(down, 100%, var(--pp-pixel)) - var(--pp-pixel)); rotate: -90deg; }
+  .pp-popover[data-side="right"] .pp-popover-nub { left: calc(-6 * var(--pp-pixel)); rotate: 90deg; }
+
+  /* Flipped for lack of room: the nub flips too. */
+  @container anchored(fallback: flip-block) {
+    .pp-popover-nub { inset-block-start: calc(round(down, 100%, var(--pp-pixel)) - var(--pp-pixel)); rotate: none; }
+    .pp-popover[data-side="top"] .pp-popover-nub { inset-block-start: calc(-6 * var(--pp-pixel)); rotate: 180deg; }
+  }
+  @container anchored(fallback: flip-inline) {
+    .pp-popover[data-side="left"] .pp-popover-nub { left: calc(-6 * var(--pp-pixel)); rotate: 90deg; }
+    .pp-popover[data-side="right"] .pp-popover-nub { left: calc(round(down, 100%, var(--pp-pixel)) - var(--pp-pixel)); rotate: -90deg; }
+  }
+  /* No anchor positioning, or no way to know which side it took: no nub, rather than a wrong one. Without anchor
+     positioning at all, it opens in the middle of the screen. */
+  @supports not (container-type: anchored) {
+    .pp-popover:not([data-pp-static]) .pp-popover-nub { display: none; }
+  }
+  @supports not (position-area: top) {
+    .pp-popover:not([data-pp-static]) { inset: 0; margin: auto; }
+  }
+
+  .pp-popover-title { font-size: var(--pp-size-body); font-weight: var(--pp-weight-bold); line-height: calc(10 * var(--pp-pixel)); }
+  .pp-popover > :where(p + p) { margin-block-start: calc(2 * var(--pp-pixel)); }
+
+  .pp-popover-close { float: inline-end; margin: calc(-3 * var(--pp-pixel)) calc(-4 * var(--pp-pixel)) 0 calc(2 * var(--pp-pixel)); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pp-popover:popover-open { animation: none; }
+  }
+  @media (forced-colors: active) {
+    .pp-popover { background: Canvas; }
+    .pp-popover-nub { display: none; }
+  }
+}
+
+@keyframes pp-popover-in { 0% { translate: 0 var(--pp-pixel); } 50%, 100% { translate: 0 0; } }

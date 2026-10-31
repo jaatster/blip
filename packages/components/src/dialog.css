@@ -1,0 +1,168 @@
+/*
+ * Dialog. A native <dialog> drawn as a raised panel: a title bar in the tone's light colour with an ink rule under
+ * it, a body, and a footer of actions. Opened with showModal(), it stands over a dithered ink scrim (never a
+ * see-through wash) and pops in: one pixel low for a frame while the scrim dithers in, then in place. Wrap it in
+ * <pp-dialog> (from @jaatster/blip-elements) for the stepped exit, a cancelable pp-before-close and light dismiss.
+ *
+ *   <dialog class="pp-box pp-dialog" id="save" aria-labelledby="save-title">
+ *     <form method="dialog">
+ *       <header class="pp-dialog-header">
+ *         <h2 class="pp-dialog-title" id="save-title">Save game</h2>
+ *         <button class="pp-box pp-button pp-dialog-close" type="button" commandfor="save" command="close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button>
+ *       </header>
+ *       <div class="pp-dialog-body">…</div>
+ *       <footer class="pp-dialog-footer">
+ *         <button class="pp-box pp-button" type="button" commandfor="save" command="close" data-variant="soft" data-tone="neutral">Cancel</button>
+ *         <button class="pp-box pp-button" value="save">Save</button>
+ *       </footer>
+ *     </form>
+ *   </dialog>
+ *
+ *   data-size            sm | md (default) | lg      160, 224 or 320 pixels wide; never wider than the screen
+ *   data-tone            accent (default) | info | success | warning | danger            the title bar
+ *   role="alertdialog"   a confirmation that interrupts: add .pp-dialog-icon (the tone's sign) to the header
+ *   data-pp-static       drawn in the page flow, without the top layer: for docs, tests and screenshots
+ *
+ * The body scrolls when the dialog is taller than the screen; the title bar and footer stay put. The drawer
+ * (drawer.css) uses these same parts.
+ */
+@import "./_feedback.css";
+
+@layer pp.components {
+  pp-dialog { display: contents; }
+
+  .pp-dialog {
+    --_pp-glyph: var(--_pp-g-info);
+    --_pp-w: 224;
+    --pp-drop-size: 2;
+    /* The box makes things position: relative; in the top layer that would become absolute and scroll away. */
+    position: fixed;
+    inline-size: round(down, min(calc(var(--_pp-w) * var(--pp-pixel)), 100% - 16 * var(--pp-pixel)), var(--pp-pixel));
+    max-inline-size: none;
+    max-block-size: round(down, 100% - 16 * var(--pp-pixel), var(--pp-pixel));
+    /* The corners' rows stay clear of content; the title bar reaches up into them. */
+    padding: calc((var(--pp-r) + 1) * var(--pp-pixel)) 0;
+    overflow: visible;
+    color: var(--pp-box-text);
+    font-size: var(--pp-size-body);
+    line-height: var(--pp-leading-normal);
+  }
+  .pp-dialog[open] { display: flex; flex-direction: column; }
+  .pp-dialog > form { display: contents; }
+  .pp-dialog[data-size="sm"] { --_pp-w: 160; }
+  .pp-dialog[data-size="lg"] { --_pp-w: 320; }
+  .pp-dialog[data-tone="success"] { --_pp-glyph: var(--_pp-g-success); }
+  .pp-dialog[data-tone="warning"] { --_pp-glyph: var(--_pp-g-warning); }
+  .pp-dialog[data-tone="danger"] { --_pp-glyph: var(--_pp-g-danger); }
+  .pp-dialog:not([data-pp-r]) { --pp-r: 4; --pp-shape: var(--pp-shape-4); --pp-shape-inner: var(--pp-shape-4-inner); }
+
+  /* A raised panel; with a header, the top band becomes the title bar's corners. */
+  :is(.pp-dialog, .pp-drawer):not([data-variant]) {
+    --pp-box-top: var(--pp-surface-raised);
+    --pp-box-fill: var(--pp-surface-raised);
+    --pp-box-bottom: var(--pp-surface-raised);
+    --pp-box-text: var(--pp-text);
+    --pp-box-glint: transparent;
+  }
+  :is(.pp-dialog, .pp-drawer):has(> .pp-dialog-header, > form > .pp-dialog-header) {
+    --pp-band-top: var(--pp-r);
+    --pp-box-top: var(--pp-tone-light);
+  }
+
+  .pp-dialog-header {
+    display: flex;
+    align-items: center;
+    gap: calc(3 * var(--pp-pixel));
+    /* Starts at the outline row: three pixels of bar, a small button's height, three pixels, the rule. */
+    min-block-size: calc(24 * var(--pp-pixel));
+    margin: calc(-1 * (var(--pp-r) + 1) * var(--pp-pixel)) var(--pp-pixel) 0;
+    padding: calc(4 * var(--pp-pixel)) calc(3 * var(--pp-pixel)) calc(3 * var(--pp-pixel)) calc(7 * var(--pp-pixel));
+    /* The bar's colour below the corners; the box's top band paints the corners themselves. */
+    background: linear-gradient(var(--pp-tone-light) 0 0) 0 calc((var(--pp-r) + 1) * var(--pp-pixel)) / 100% 100% no-repeat;
+    border-block-end: var(--pp-pixel) solid var(--pp-outline);
+    color: var(--pp-tone-on);
+    /* What sits on the bar is light in every scheme. */
+    --pp-text: var(--pp-ink);
+    --pp-line: var(--pp-ink);
+    --pp-surface: var(--pp-white);
+    --pp-surface-sunken: var(--pp-tone);
+    --pp-bg: var(--pp-tone-light);
+  }
+  .pp-dialog-title {
+    flex: 1;
+    min-inline-size: 0;
+    font-family: var(--pp-font-display);
+    font-size: calc(10 * var(--pp-pixel));
+    font-weight: 400;
+    line-height: var(--pp-leading-display);
+    letter-spacing: 0;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+    -webkit-font-smoothing: none;
+    font-smooth: never;
+  }
+  .pp-dialog-icon {
+    flex: none;
+    inline-size: calc(12 * var(--pp-pixel));
+    block-size: calc(12 * var(--pp-pixel));
+    margin-inline-start: calc(-2 * var(--pp-pixel));
+  }
+  .pp-dialog-icon:empty { background-color: currentColor; mask: var(--_pp-glyph) 0 0 / 100% 100% no-repeat; }
+  .pp-dialog-close { flex: none; margin-inline-start: auto; }
+
+  .pp-dialog-body {
+    flex: 1 1 auto;
+    min-block-size: 0;
+    margin-inline: var(--pp-pixel);
+    padding: calc(6 * var(--pp-pixel)) calc(7 * var(--pp-pixel));
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+  .pp-dialog-body > :where(* + *) { margin-block-start: calc(4 * var(--pp-pixel)); }
+  .pp-dialog-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: calc(4 * var(--pp-pixel));
+    margin-inline: var(--pp-pixel);
+    padding: calc(2 * var(--pp-pixel)) calc(7 * var(--pp-pixel)) calc(2 * var(--pp-pixel));
+  }
+  .pp-dialog-footer > .pp-button { margin-inline-end: 0; }
+
+  /* The scrim: an ink checkerboard, one pixel per square. */
+  :is(.pp-dialog, .pp-drawer)::backdrop {
+    background: repeating-conic-gradient(var(--pp-scrim) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel));
+  }
+
+  /* In: the scrim is a quarter dither for a frame, then half; the panel is one pixel low, then in place.
+     Out (with <pp-dialog>): the same two frames backwards. */
+  .pp-dialog[open] { animation: pp-dialog-in calc(2 * var(--pp-duration-frame)) steps(1, jump-end); }
+  :is(.pp-dialog, .pp-drawer)[open]::backdrop { animation: pp-scrim-in calc(2 * var(--pp-duration-frame)) steps(1, jump-end); }
+  .pp-dialog[data-pp-closing] { animation: pp-dialog-out calc(2 * var(--pp-duration-frame)) steps(1, jump-end) forwards; }
+  :is(.pp-dialog, .pp-drawer)[data-pp-closing]::backdrop { animation: pp-scrim-out calc(2 * var(--pp-duration-frame)) steps(1, jump-end) forwards; }
+
+  .pp-dialog[data-pp-static] { position: relative; inset: auto; margin: 0; z-index: auto; animation: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pp-dialog:is([open], [data-pp-closing]),
+    :is(.pp-dialog, .pp-drawer):is([open], [data-pp-closing])::backdrop { animation: none; }
+  }
+
+  @media (forced-colors: active) {
+    :is(.pp-dialog, .pp-drawer) { background: Canvas; }
+    .pp-dialog-header { background: Canvas; border-color: CanvasText; }
+    .pp-dialog-icon:empty { forced-color-adjust: none; background-color: CanvasText; }
+  }
+}
+
+@keyframes pp-dialog-in { 0% { translate: 0 var(--pp-pixel); } 50%, 100% { translate: 0 0; } }
+@keyframes pp-dialog-out { 0% { translate: 0 var(--pp-pixel); } 50%, 100% { translate: 0 var(--pp-pixel); visibility: hidden; } }
+@keyframes pp-scrim-in {
+  0% { background-image: conic-gradient(var(--pp-scrim) 0 25%, transparent 0); }
+  50%, 100% { background-image: repeating-conic-gradient(var(--pp-scrim) 0 25%, transparent 0 50%); }
+}
+@keyframes pp-scrim-out {
+  0% { background-image: conic-gradient(var(--pp-scrim) 0 25%, transparent 0); }
+  50%, 100% { background-image: none; }
+}

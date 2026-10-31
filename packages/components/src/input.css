@@ -1,0 +1,50 @@
+/*
+ * Input. A text field: a native <input> inside a candy box drawn in its calm tier (an outline, the surface, a
+ * sunken row along the top), because inputs can't have pseudo-elements of their own. Text, email, password,
+ * number, url, tel, date, time and search all fit.
+ *
+ *   <span class="pp-box pp-input"><input id="email" type="email" autocomplete="email"></span>
+ *   <span class="pp-box pp-input">
+ *     <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+ *     <input id="site" type="url" placeholder="example.com">
+ *     <span class="pp-input-affix" aria-hidden="true">.pixel</span>
+ *   </span>
+ *
+ *   data-size               sm | md (default) | lg       16, 20 or 24 pixels high, like buttons
+ *   data-tone               success (or any tone): a valid field's outline and inset
+ *   .pp-input-affix         text before or after the value (https://, kg, $); .pp-icon for an icon
+ *
+ * States, from the native input inside: focus draws the box's yellow ring round the whole field;
+ * aria-invalid="true" (or :user-invalid, after the person has tried) is the danger outline; [readonly] is flat,
+ * with no outline or bands; disabled is dithered. Placeholders are muted text. The date picker's calendar is a
+ * pixel glyph. Pair it with a .pp-field for the label, help and error.
+ */
+@import "./_control.css";
+
+@layer pp.components {
+  /* Date and time: the browser's picker button becomes a pixel calendar. */
+  .pp-input > input::-webkit-calendar-picker-indicator {
+    inline-size: calc(9 * var(--pp-pixel));
+    block-size: calc(9 * var(--pp-pixel));
+    margin: 0;
+    padding: 0;
+    background: currentColor;
+    opacity: 1;
+    cursor: pointer;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h1v1H1zM7 0h1v1H7zM0 1h9v2H0zM0 3h1v5H0zM8 3h1v5H8zM2 4h1v1H2zM4 4h1v1H4zM6 4h1v1H6zM2 6h1v1H2zM4 6h1v1H4zM6 6h1v1H6zM0 8h9v1H0z'/%3E%3C/svg%3E") 0 0 / 100% 100%;
+  }
+  .pp-input > input[type="time"]::-webkit-calendar-picker-indicator {
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9' shape-rendering='crispEdges'%3E%3Cpath d='M2 0h5v1H2zM1 1h1v1H1zM7 1h1v1H7zM0 2h1v5H0zM8 2h1v5H8zM4 2h1v3H4zM5 4h2v1H5zM1 7h1v1H1zM7 7h1v1H7zM2 8h5v1H2z'/%3E%3C/svg%3E");
+  }
+  .pp-input > input::-webkit-datetime-edit { padding: 0; }
+  .pp-input > input::-webkit-datetime-edit-text { color: var(--pp-text-muted); }
+  .pp-input > input::-webkit-datetime-edit-fields-wrapper { padding: 0; }
+  .pp-input > input:is([type="date"], [type="time"], [type="datetime-local"], [type="month"], [type="week"]) { font-variant-numeric: tabular-nums; }
+
+  @media (forced-colors: active) {
+    .pp-input > input::-webkit-calendar-picker-indicator { forced-color-adjust: none; background: CanvasText; }
+  }
+
+  /* Leading icons sit a pixel closer to the edge, so they look centred in the rounded end. */
+  .pp-input > .pp-icon:first-child { margin-inline-start: calc(-1 * var(--pp-pixel)); }
+}

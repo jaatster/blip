@@ -1,0 +1,77 @@
+/*
+ * Keycap. A <kbd> drawn as a little key: a cream candy box whose shade band is thicker, so it stands up off the
+ * page. Nest keycaps in an outer <kbd class="pp-keys"> for a combination.
+ *
+ *   <kbd class="pp-box pp-keycap">Esc</kbd>
+ *   <kbd class="pp-keys"><kbd class="pp-box pp-keycap">Ctrl</kbd>+<kbd class="pp-box pp-keycap">K</kbd></kbd>
+ *   <kbd class="pp-box pp-keycap" data-size="lg" data-tone="green">A</kbd>
+ *
+ *   data-size      sm | md (default) | lg               10, 12 or 16 pixels high
+ *   data-tone      neutral, cream (default) | any tone   a coloured key: a game's A, B, X, Y prompts
+ *   data-pp-pressed                                      shows the key held down (a tutorial, a key-test screen)
+ *
+ * A keycap is a picture of a key, not a control: it never takes focus. Labels are upper case; write them as the
+ * key reads ("Ctrl", "Shift", "Esc").
+ */
+
+@layer pp.components {
+  .pp-keycap {
+    --pp-r: 2;
+    --pp-shape: var(--pp-shape-2);
+    --pp-shape-inner: var(--pp-shape-2-inner);
+    --pp-band-top: 1;
+    --pp-band-bottom: 3;
+    --_h: calc(12 * var(--pp-pixel));
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    min-inline-size: var(--_h);
+    block-size: var(--_h);
+    /* The label sits on the key's face, above the thick shade band. */
+    padding: var(--pp-pixel) calc(3 * var(--pp-pixel)) calc(3 * var(--pp-pixel));
+    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+    font-family: var(--pp-font-ui);
+    font-size: var(--pp-size-caption);
+    font-weight: var(--pp-weight-bold);
+    line-height: 1;
+    letter-spacing: var(--pp-tracking-label);
+    text-transform: uppercase;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+  /* A key is cream unless it is given a tone. */
+  .pp-keycap:not([data-tone]) {
+    --pp-tone: var(--pp-candy-cream);
+    --pp-tone-light: var(--pp-candy-cream-light);
+    --pp-tone-shade: var(--pp-candy-cream-shade);
+    --pp-tone-on: var(--pp-ink);
+  }
+  .pp-keycap[data-size="sm"] {
+    --_h: calc(10 * var(--pp-pixel));
+    --pp-band-bottom: 2;
+    padding: 0 calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel));
+  }
+  .pp-keycap[data-size="lg"] {
+    --pp-r: 3;
+    --pp-shape: var(--pp-shape-3);
+    --pp-shape-inner: var(--pp-shape-3-inner);
+    --pp-band-top: 2;
+    --pp-band-bottom: 4;
+    --_h: calc(16 * var(--pp-pixel));
+    padding: calc(2 * var(--pp-pixel)) calc(5 * var(--pp-pixel)) calc(4 * var(--pp-pixel));
+    font-size: var(--pp-size-small);
+  }
+
+  /* A combination: keys with a quiet "+" between them. */
+  .pp-keys {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--pp-space-2);
+    font-family: var(--pp-font-ui);
+    font-size: var(--pp-size-caption);
+    font-weight: var(--pp-weight-bold);
+    color: var(--pp-text-muted);
+    vertical-align: middle;
+  }
+}

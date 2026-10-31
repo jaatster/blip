@@ -80,6 +80,6 @@
   }
 
   /* An icon nudged to sit optically centred with capitals. */
-  .pp-button > .pp-icon:first-child:not(:only-child) { margin-inline-start: calc(-2 * var(--pp-pixel)); }
-  .pp-button > .pp-icon:last-child:not(:only-child) { margin-inline-end: calc(-2 * var(--pp-pixel)); }
+  .pp-button > :is(.pp-icon, pp-icon):first-child:not(:only-child) { margin-inline-start: calc(-2 * var(--pp-pixel)); }
+  .pp-button > :is(.pp-icon, pp-icon):last-child:not(:only-child) { margin-inline-end: calc(-2 * var(--pp-pixel)); }
 }

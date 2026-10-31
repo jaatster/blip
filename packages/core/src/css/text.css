@@ -20,13 +20,25 @@
     text-transform: uppercase;
     font-synthesis: none;
     font-variant-numeric: tabular-nums;
+    font-feature-settings: "ss02";
     -webkit-font-smoothing: none;
     font-smooth: never;
   }
-  .pp-display[data-scale="1"] { --pp-scale: 1; }
-  .pp-display[data-scale="2"] { --pp-scale: 2; }
-  .pp-display[data-scale="3"] { --pp-scale: 3; }
-  .pp-display[data-scale="4"] { --pp-scale: 4; }
+  /*
+   * Rounded corners at big sizes, as on the TV: each letter enlarged with EPX (ss02, "Rounded 2x") at scales 2 and 4
+   * and AdvMAME3x (ss03, "Rounded 3x") at scale 3, so every rounding step is a whole Blip pixel. Scale 1 is
+   * square. A --pp-scale set in CSS picks its set too, where the browser can compute feature values.
+   */
+  .pp-display[data-scale="1"] { --pp-scale: 1; font-feature-settings: normal; }
+  .pp-display[data-scale="2"] { --pp-scale: 2; font-feature-settings: "ss02"; }
+  .pp-display[data-scale="3"] { --pp-scale: 3; font-feature-settings: "ss03"; }
+  .pp-display[data-scale="4"] { --pp-scale: 4; font-feature-settings: "ss02"; }
+  @supports (font-feature-settings: "ss02" calc(1)) {
+    .pp-display:not([data-scale]) {
+      --_pp-ss03: clamp(0, 1 - (var(--pp-scale) - 3) * (var(--pp-scale) - 3), 1);
+      font-feature-settings: "ss02" calc(clamp(0, var(--pp-scale) - 1, 1) - var(--_pp-ss03)), "ss03" var(--_pp-ss03);
+    }
+  }
 
   /*
    * POP. White letters with an ink outline one pixel all round, and a drop one pixel down and right hugging the
@@ -56,7 +68,10 @@
     padding: inherit;
     color: transparent;
     text-shadow: none;
-    background: linear-gradient(to bottom, transparent 0 calc(var(--_p) + 0.58333 * (100% - 3 * var(--_p))), var(--pp-pop-tint) 0);
+    /* Rows 7 to 11 of every 12-row line take the tint, so wrapped lines are tinted too. */
+    --_pp-line: calc(12 * var(--pp-pixel) * var(--pp-scale, 2));
+    background: repeating-linear-gradient(to bottom, transparent 0 calc(var(--_pp-line) * 7 / 12), var(--pp-pop-tint) 0 var(--_pp-line));
+    background-origin: content-box;
     -webkit-background-clip: text;
     background-clip: text;
     pointer-events: none;

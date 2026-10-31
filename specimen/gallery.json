@@ -1,13 +1,501 @@
 {
   "css": [
-    "/packages/components/src/button.css"
+    "/packages/components/src/accordion.css",
+    "/packages/components/src/alert.css",
+    "/packages/components/src/app-bar.css",
+    "/packages/components/src/avatar.css",
+    "/packages/components/src/badge.css",
+    "/packages/components/src/bottom-bar.css",
+    "/packages/components/src/breadcrumbs.css",
+    "/packages/components/src/button-group.css",
+    "/packages/components/src/button.css",
+    "/packages/components/src/card.css",
+    "/packages/components/src/checkbox.css",
+    "/packages/components/src/cluster.css",
+    "/packages/components/src/combobox.css",
+    "/packages/components/src/command.css",
+    "/packages/components/src/dialog.css",
+    "/packages/components/src/divider.css",
+    "/packages/components/src/drawer.css",
+    "/packages/components/src/empty-state.css",
+    "/packages/components/src/field.css",
+    "/packages/components/src/file-drop.css",
+    "/packages/components/src/grid.css",
+    "/packages/components/src/input.css",
+    "/packages/components/src/keycap.css",
+    "/packages/components/src/link.css",
+    "/packages/components/src/list.css",
+    "/packages/components/src/loader.css",
+    "/packages/components/src/menu.css",
+    "/packages/components/src/number.css",
+    "/packages/components/src/pagination.css",
+    "/packages/components/src/popover.css",
+    "/packages/components/src/progress-steps.css",
+    "/packages/components/src/progress.css",
+    "/packages/components/src/radio.css",
+    "/packages/components/src/rating.css",
+    "/packages/components/src/search.css",
+    "/packages/components/src/segmented.css",
+    "/packages/components/src/select.css",
+    "/packages/components/src/sidebar.css",
+    "/packages/components/src/skeleton.css",
+    "/packages/components/src/skip-link.css",
+    "/packages/components/src/slider.css",
+    "/packages/components/src/stack.css",
+    "/packages/components/src/stat.css",
+    "/packages/components/src/switch.css",
+    "/packages/components/src/table.css",
+    "/packages/components/src/tabs.css",
+    "/packages/components/src/tag.css",
+    "/packages/components/src/textarea.css",
+    "/packages/components/src/tile.css",
+    "/packages/components/src/toast.css",
+    "/packages/components/src/tooltip.css",
+    "/packages/components/src/window.css",
+    "/packages/game/src/achievement.css",
+    "/packages/game/src/choices.css",
+    "/packages/game/src/dialogue.css",
+    "/packages/game/src/hud.css",
+    "/packages/game/src/inventory.css",
+    "/packages/game/src/level.css",
+    "/packages/game/src/pause.css",
+    "/packages/game/src/prompt.css",
+    "/packages/game/src/sprites.css",
+    "/packages/game/src/stage.css",
+    "/packages/blocks/src/cta.css",
+    "/packages/blocks/src/features.css",
+    "/packages/blocks/src/footer.css",
+    "/packages/blocks/src/hero.css",
+    "/packages/blocks/src/pricing.css",
+    "/packages/effects/src/crt.css",
+    "/packages/effects/src/text.css",
+    "/packages/effects/src/transitions.css",
+    "/packages/effects/src/world.css"
   ],
-  "js": [],
+  "js": [
+    "/packages/game/dist/choices.js",
+    "/packages/game/dist/dialogue.js",
+    "/packages/game/dist/hud.js",
+    "/packages/game/dist/inventory.js",
+    "/packages/game/dist/sprites.js",
+    "/packages/effects/dist/burst.js",
+    "/packages/effects/dist/text.js",
+    "/packages/effects/dist/transitions.js",
+    "/packages/effects/dist/world.js",
+    "/packages/sound/dist/sound.js",
+    "/packages/sound/dist/voice.js",
+    "/packages/elements/dist/combobox.js",
+    "/packages/elements/dist/command.js",
+    "/packages/elements/dist/dialog.js",
+    "/packages/elements/dist/drawer.js",
+    "/packages/elements/dist/field.js",
+    "/packages/elements/dist/file-drop.js",
+    "/packages/elements/dist/menu.js",
+    "/packages/elements/dist/number.js",
+    "/packages/elements/dist/rating.js",
+    "/packages/elements/dist/segmented.js",
+    "/packages/elements/dist/table.js",
+    "/packages/elements/dist/tabs.js",
+    "/packages/elements/dist/tile-grid.js",
+    "/packages/elements/dist/toast.js",
+    "/packages/elements/dist/tooltip.js",
+    "/packages/icons/dist/element.js"
+  ],
   "examples": [
+    {
+      "pkg": "components",
+      "name": "accordion",
+      "url": "/packages/components/examples/accordion.html"
+    },
+    {
+      "pkg": "components",
+      "name": "alert",
+      "url": "/packages/components/examples/alert.html"
+    },
+    {
+      "pkg": "components",
+      "name": "app-bar",
+      "url": "/packages/components/examples/app-bar.html"
+    },
+    {
+      "pkg": "components",
+      "name": "avatar",
+      "url": "/packages/components/examples/avatar.html"
+    },
+    {
+      "pkg": "components",
+      "name": "badge",
+      "url": "/packages/components/examples/badge.html"
+    },
+    {
+      "pkg": "components",
+      "name": "bottom-bar",
+      "url": "/packages/components/examples/bottom-bar.html"
+    },
+    {
+      "pkg": "components",
+      "name": "breadcrumbs",
+      "url": "/packages/components/examples/breadcrumbs.html"
+    },
+    {
+      "pkg": "components",
+      "name": "button-group",
+      "url": "/packages/components/examples/button-group.html"
+    },
     {
       "pkg": "components",
       "name": "button",
       "url": "/packages/components/examples/button.html"
+    },
+    {
+      "pkg": "components",
+      "name": "card",
+      "url": "/packages/components/examples/card.html"
+    },
+    {
+      "pkg": "components",
+      "name": "checkbox",
+      "url": "/packages/components/examples/checkbox.html"
+    },
+    {
+      "pkg": "components",
+      "name": "cluster",
+      "url": "/packages/components/examples/cluster.html"
+    },
+    {
+      "pkg": "components",
+      "name": "combobox",
+      "url": "/packages/components/examples/combobox.html"
+    },
+    {
+      "pkg": "components",
+      "name": "command",
+      "url": "/packages/components/examples/command.html"
+    },
+    {
+      "pkg": "components",
+      "name": "dialog",
+      "url": "/packages/components/examples/dialog.html"
+    },
+    {
+      "pkg": "components",
+      "name": "divider",
+      "url": "/packages/components/examples/divider.html"
+    },
+    {
+      "pkg": "components",
+      "name": "drawer",
+      "url": "/packages/components/examples/drawer.html"
+    },
+    {
+      "pkg": "components",
+      "name": "empty-state",
+      "url": "/packages/components/examples/empty-state.html"
+    },
+    {
+      "pkg": "components",
+      "name": "field",
+      "url": "/packages/components/examples/field.html"
+    },
+    {
+      "pkg": "components",
+      "name": "file-drop",
+      "url": "/packages/components/examples/file-drop.html"
+    },
+    {
+      "pkg": "components",
+      "name": "grid",
+      "url": "/packages/components/examples/grid.html"
+    },
+    {
+      "pkg": "components",
+      "name": "input",
+      "url": "/packages/components/examples/input.html"
+    },
+    {
+      "pkg": "components",
+      "name": "keycap",
+      "url": "/packages/components/examples/keycap.html"
+    },
+    {
+      "pkg": "components",
+      "name": "link",
+      "url": "/packages/components/examples/link.html"
+    },
+    {
+      "pkg": "components",
+      "name": "list",
+      "url": "/packages/components/examples/list.html"
+    },
+    {
+      "pkg": "components",
+      "name": "loader",
+      "url": "/packages/components/examples/loader.html"
+    },
+    {
+      "pkg": "components",
+      "name": "menu",
+      "url": "/packages/components/examples/menu.html"
+    },
+    {
+      "pkg": "components",
+      "name": "number",
+      "url": "/packages/components/examples/number.html"
+    },
+    {
+      "pkg": "components",
+      "name": "pagination",
+      "url": "/packages/components/examples/pagination.html"
+    },
+    {
+      "pkg": "components",
+      "name": "popover",
+      "url": "/packages/components/examples/popover.html"
+    },
+    {
+      "pkg": "components",
+      "name": "progress-steps",
+      "url": "/packages/components/examples/progress-steps.html"
+    },
+    {
+      "pkg": "components",
+      "name": "progress",
+      "url": "/packages/components/examples/progress.html"
+    },
+    {
+      "pkg": "components",
+      "name": "radio",
+      "url": "/packages/components/examples/radio.html"
+    },
+    {
+      "pkg": "components",
+      "name": "rating",
+      "url": "/packages/components/examples/rating.html"
+    },
+    {
+      "pkg": "components",
+      "name": "search",
+      "url": "/packages/components/examples/search.html"
+    },
+    {
+      "pkg": "components",
+      "name": "segmented",
+      "url": "/packages/components/examples/segmented.html"
+    },
+    {
+      "pkg": "components",
+      "name": "select",
+      "url": "/packages/components/examples/select.html"
+    },
+    {
+      "pkg": "components",
+      "name": "sidebar",
+      "url": "/packages/components/examples/sidebar.html"
+    },
+    {
+      "pkg": "components",
+      "name": "skeleton",
+      "url": "/packages/components/examples/skeleton.html"
+    },
+    {
+      "pkg": "components",
+      "name": "skip-link",
+      "url": "/packages/components/examples/skip-link.html"
+    },
+    {
+      "pkg": "components",
+      "name": "slider",
+      "url": "/packages/components/examples/slider.html"
+    },
+    {
+      "pkg": "components",
+      "name": "stack",
+      "url": "/packages/components/examples/stack.html"
+    },
+    {
+      "pkg": "components",
+      "name": "stat",
+      "url": "/packages/components/examples/stat.html"
+    },
+    {
+      "pkg": "components",
+      "name": "switch",
+      "url": "/packages/components/examples/switch.html"
+    },
+    {
+      "pkg": "components",
+      "name": "table",
+      "url": "/packages/components/examples/table.html"
+    },
+    {
+      "pkg": "components",
+      "name": "tabs",
+      "url": "/packages/components/examples/tabs.html"
+    },
+    {
+      "pkg": "components",
+      "name": "tag",
+      "url": "/packages/components/examples/tag.html"
+    },
+    {
+      "pkg": "components",
+      "name": "textarea",
+      "url": "/packages/components/examples/textarea.html"
+    },
+    {
+      "pkg": "components",
+      "name": "tile",
+      "url": "/packages/components/examples/tile.html"
+    },
+    {
+      "pkg": "components",
+      "name": "toast",
+      "url": "/packages/components/examples/toast.html"
+    },
+    {
+      "pkg": "components",
+      "name": "toggle",
+      "url": "/packages/components/examples/toggle.html"
+    },
+    {
+      "pkg": "components",
+      "name": "tooltip",
+      "url": "/packages/components/examples/tooltip.html"
+    },
+    {
+      "pkg": "components",
+      "name": "window",
+      "url": "/packages/components/examples/window.html"
+    },
+    {
+      "pkg": "game",
+      "name": "achievement",
+      "url": "/packages/game/examples/achievement.html"
+    },
+    {
+      "pkg": "game",
+      "name": "choices",
+      "url": "/packages/game/examples/choices.html"
+    },
+    {
+      "pkg": "game",
+      "name": "dialogue",
+      "url": "/packages/game/examples/dialogue.html"
+    },
+    {
+      "pkg": "game",
+      "name": "hud",
+      "url": "/packages/game/examples/hud.html"
+    },
+    {
+      "pkg": "game",
+      "name": "inventory",
+      "url": "/packages/game/examples/inventory.html"
+    },
+    {
+      "pkg": "game",
+      "name": "level",
+      "url": "/packages/game/examples/level.html"
+    },
+    {
+      "pkg": "game",
+      "name": "pause",
+      "url": "/packages/game/examples/pause.html"
+    },
+    {
+      "pkg": "game",
+      "name": "prompt",
+      "url": "/packages/game/examples/prompt.html"
+    },
+    {
+      "pkg": "game",
+      "name": "sprites",
+      "url": "/packages/game/examples/sprites.html"
+    },
+    {
+      "pkg": "game",
+      "name": "stage",
+      "url": "/packages/game/examples/stage.html"
+    },
+    {
+      "pkg": "blocks",
+      "name": "cta",
+      "url": "/packages/blocks/examples/cta.html"
+    },
+    {
+      "pkg": "blocks",
+      "name": "features",
+      "url": "/packages/blocks/examples/features.html"
+    },
+    {
+      "pkg": "blocks",
+      "name": "footer",
+      "url": "/packages/blocks/examples/footer.html"
+    },
+    {
+      "pkg": "blocks",
+      "name": "hero",
+      "url": "/packages/blocks/examples/hero.html"
+    },
+    {
+      "pkg": "blocks",
+      "name": "landing",
+      "url": "/packages/blocks/examples/landing.html"
+    },
+    {
+      "pkg": "blocks",
+      "name": "pricing",
+      "url": "/packages/blocks/examples/pricing.html"
+    },
+    {
+      "pkg": "effects",
+      "name": "burst",
+      "url": "/packages/effects/examples/burst.html"
+    },
+    {
+      "pkg": "effects",
+      "name": "crt",
+      "url": "/packages/effects/examples/crt.html"
+    },
+    {
+      "pkg": "effects",
+      "name": "drop-text",
+      "url": "/packages/effects/examples/drop-text.html"
+    },
+    {
+      "pkg": "effects",
+      "name": "glint",
+      "url": "/packages/effects/examples/glint.html"
+    },
+    {
+      "pkg": "effects",
+      "name": "sound",
+      "url": "/packages/effects/examples/sound.html"
+    },
+    {
+      "pkg": "effects",
+      "name": "transitions",
+      "url": "/packages/effects/examples/transitions.html"
+    },
+    {
+      "pkg": "effects",
+      "name": "typewriter",
+      "url": "/packages/effects/examples/typewriter.html"
+    },
+    {
+      "pkg": "effects",
+      "name": "world",
+      "url": "/packages/effects/examples/world.html"
+    },
+    {
+      "pkg": "font",
+      "name": "font",
+      "url": "/packages/font/examples/font.html"
+    },
+    {
+      "pkg": "icons",
+      "name": "icons",
+      "url": "/packages/icons/examples/icons.html"
     }
   ]
 }

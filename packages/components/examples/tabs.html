@@ -1,0 +1,126 @@
+<!-- Tabs: a settings page (outline), a game inventory (candy, with the arrow), dense underline tabs, soft tabs down the
+     side, a row too long for its box, and every state forced with data-pp-state. -->
+<div style="display:grid;gap:calc(12*var(--pp-pixel));max-inline-size:calc(400*var(--pp-pixel))">
+
+  <pp-tabs class="pp-tabs" data-variant="outline">
+    <div class="pp-tabs-list" role="tablist" aria-label="Settings">
+      <button class="pp-box pp-tab" data-variant="outline" role="tab" aria-selected="true">General</button>
+      <button class="pp-box pp-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Sound</button>
+      <button class="pp-box pp-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Display</button>
+      <button class="pp-box pp-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Controls</button>
+      <button class="pp-box pp-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1" aria-disabled="true">Online</button>
+    </div>
+    <section class="pp-box pp-tabs-panel" data-variant="panel" role="tabpanel" style="padding:calc(8*var(--pp-pixel))">
+      <h3 class="pp-title">General</h3>
+      <p class="pp-body pp-muted">Language, save slots and what happens when you start the game.</p>
+    </section>
+    <section class="pp-box pp-tabs-panel" data-variant="panel" role="tabpanel" hidden style="padding:calc(8*var(--pp-pixel))">
+      <h3 class="pp-title">Sound</h3>
+      <p class="pp-body pp-muted">Music at 60%, chip sounds on, voices off.</p>
+    </section>
+    <section class="pp-box pp-tabs-panel" data-variant="panel" role="tabpanel" hidden style="padding:calc(8*var(--pp-pixel))">
+      <h3 class="pp-title">Display</h3>
+      <p class="pp-body pp-muted">Pixel size 2, the Auto scheme, scanlines off.</p>
+    </section>
+    <section class="pp-box pp-tabs-panel" data-variant="panel" role="tabpanel" hidden style="padding:calc(8*var(--pp-pixel))">
+      <h3 class="pp-title">Controls</h3>
+      <p class="pp-body pp-muted">Arrow keys move, Z jumps, X opens the map.</p>
+    </section>
+    <section class="pp-box pp-tabs-panel" data-variant="panel" role="tabpanel" hidden style="padding:calc(8*var(--pp-pixel))">
+      <h3 class="pp-title">Online</h3>
+    </section>
+  </pp-tabs>
+
+  <pp-tabs class="pp-tabs" data-arrow>
+    <div class="pp-tabs-list" role="tablist" aria-label="Inventory">
+      <button class="pp-box pp-tab" role="tab" aria-selected="false" tabindex="-1">Items</button>
+      <button class="pp-box pp-tab" role="tab" aria-selected="true">Weapons</button>
+      <button class="pp-box pp-tab" role="tab" aria-selected="false" tabindex="-1" data-tone="teal">Armour</button>
+      <button class="pp-box pp-tab" role="tab" aria-selected="false" tabindex="-1" data-tone="pink">Key items</button>
+    </div>
+    <div class="pp-tabs-panel" role="tabpanel" hidden><p class="pp-body">Potion x3, Ether x1, Phoenix feather x1.</p></div>
+    <div class="pp-tabs-panel" role="tabpanel"><p class="pp-body">Wooden sword (equipped), Slingshot, Boomerang.</p></div>
+    <div class="pp-tabs-panel" role="tabpanel" hidden><p class="pp-body">Leather cap, Travel cloak.</p></div>
+    <div class="pp-tabs-panel" role="tabpanel" hidden><p class="pp-body">Castle key, Old map.</p></div>
+  </pp-tabs>
+
+  <pp-tabs class="pp-tabs" data-variant="underline" data-size="sm">
+    <div class="pp-tabs-list" role="tablist" aria-label="Players">
+      <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="true">Online <span class="pp-muted">128</span></button>
+      <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false" tabindex="-1">Banned <span class="pp-muted">3</span></button>
+      <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false" tabindex="-1">Reports <span class="pp-muted">12</span></button>
+      <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false" tabindex="-1">Invites</button>
+    </div>
+    <div class="pp-tabs-panel" role="tabpanel"><p class="pp-small pp-muted">128 players online in 9 worlds.</p></div>
+    <div class="pp-tabs-panel" role="tabpanel" hidden><p class="pp-small pp-muted">3 accounts banned this week.</p></div>
+    <div class="pp-tabs-panel" role="tabpanel" hidden><p class="pp-small pp-muted">12 reports waiting for review.</p></div>
+    <div class="pp-tabs-panel" role="tabpanel" hidden><p class="pp-small pp-muted">No invites sent yet.</p></div>
+  </pp-tabs>
+
+  <pp-tabs class="pp-tabs" data-variant="soft" activation="manual">
+    <div class="pp-tabs-list" role="tablist" aria-label="Account" aria-orientation="vertical">
+      <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="true"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM3 7h6v1h1v1h1v2H1V9h1V8h1z"/></svg>Profile</button>
+      <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3h1v6H2V5h1V2h1zM4 3v2h4V3z"/></svg>Security</button>
+      <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v1h1v1h1v4h1v2H2V7h1V3h1V2h1zM5 10h2v1H5z"/></svg>Alerts</button>
+    </div>
+    <div class="pp-tabs-panel" role="tabpanel"><p class="pp-body">Name, avatar and the world you start in. Arrow keys move here; Enter or Space opens a tab (manual activation).</p></div>
+    <div class="pp-tabs-panel" role="tabpanel" hidden><p class="pp-body">Password and two-step sign-in.</p></div>
+    <div class="pp-tabs-panel" role="tabpanel" hidden><p class="pp-body">Tell me when a friend comes online.</p></div>
+  </pp-tabs>
+
+  <div style="max-inline-size:calc(180*var(--pp-pixel))">
+    <pp-tabs class="pp-tabs" data-variant="soft" data-size="sm">
+      <div class="pp-tabs-list" role="tablist" aria-label="Worlds">
+        <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="true">World 1</button>
+        <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 2</button>
+        <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 3</button>
+        <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 4</button>
+        <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 5</button>
+        <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 6</button>
+        <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 7</button>
+        <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 8</button>
+      </div>
+      <div class="pp-tabs-panel" role="tabpanel"><p class="pp-small pp-muted">Grass Land: 8 levels, 3 secrets.</p></div>
+      <div class="pp-tabs-panel" role="tabpanel" hidden><p class="pp-small pp-muted">Desert Hill.</p></div>
+      <div class="pp-tabs-panel" role="tabpanel" hidden><p class="pp-small pp-muted">Ocean Side.</p></div>
+      <div class="pp-tabs-panel" role="tabpanel" hidden><p class="pp-small pp-muted">Big Island.</p></div>
+      <div class="pp-tabs-panel" role="tabpanel" hidden><p class="pp-small pp-muted">The Sky.</p></div>
+      <div class="pp-tabs-panel" role="tabpanel" hidden><p class="pp-small pp-muted">Ice Land.</p></div>
+      <div class="pp-tabs-panel" role="tabpanel" hidden><p class="pp-small pp-muted">Pipe Maze.</p></div>
+      <div class="pp-tabs-panel" role="tabpanel" hidden><p class="pp-small pp-muted">Dark Land.</p></div>
+    </pp-tabs>
+  </div>
+</div>
+
+<!-- States, forced with data-pp-state: one row per variant. A picture of each look, not wired to panels. -->
+<div style="display:grid;gap:calc(4*var(--pp-pixel));margin-block-start:calc(12*var(--pp-pixel));max-inline-size:calc(400*var(--pp-pixel))">
+  <div class="pp-tabs"><div class="pp-tabs-list" role="tablist" aria-label="Candy tab states">
+    <button class="pp-box pp-tab" role="tab" aria-selected="false">Rest</button>
+    <button class="pp-box pp-tab" role="tab" aria-selected="false" data-pp-state="hover">Hover</button>
+    <button class="pp-box pp-tab" role="tab" aria-selected="false" data-pp-state="focus">Focus</button>
+    <button class="pp-box pp-tab" role="tab" aria-selected="true">Selected</button>
+    <button class="pp-box pp-tab" role="tab" aria-selected="false" aria-disabled="true">Disabled</button>
+  </div></div>
+  <div class="pp-tabs" data-variant="soft"><div class="pp-tabs-list" role="tablist" aria-label="Soft tab states">
+    <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="false">Rest</button>
+    <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="false" data-pp-state="hover">Hover</button>
+    <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="false" data-pp-state="focus">Focus</button>
+    <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="true">Selected</button>
+    <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="false" aria-disabled="true">Disabled</button>
+  </div></div>
+  <div class="pp-tabs" data-variant="outline"><div class="pp-tabs-list" role="tablist" aria-label="Outline tab states">
+    <button class="pp-box pp-tab" data-variant="outline" role="tab" aria-selected="false">Rest</button>
+    <button class="pp-box pp-tab" data-variant="outline" role="tab" aria-selected="false" data-pp-state="hover">Hover</button>
+    <button class="pp-box pp-tab" data-variant="outline" role="tab" aria-selected="false" data-pp-state="focus">Focus</button>
+    <button class="pp-box pp-tab" data-variant="outline" role="tab" aria-selected="true">Selected</button>
+    <button class="pp-box pp-tab" data-variant="outline" role="tab" aria-selected="false" aria-disabled="true">Disabled</button>
+  </div></div>
+  <div class="pp-tabs" data-variant="underline"><div class="pp-tabs-list" role="tablist" aria-label="Underline tab states">
+    <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false">Rest</button>
+    <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false" data-pp-state="hover">Hover</button>
+    <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false" data-pp-state="focus">Focus</button>
+    <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="true">Selected</button>
+    <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="true" data-pp-state="focus">Sel + focus</button>
+    <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false" aria-disabled="true">Disabled</button>
+  </div></div>
+</div>

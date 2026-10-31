@@ -1,0 +1,62 @@
+<!-- Progress and meter: labelled bars in every tone and size, indeterminate, health meters, and a level loading
+     with a progress bar, a loader and skeleton cards together. -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(calc(120*var(--pp-pixel)),1fr));gap:calc(8*var(--pp-pixel)) calc(12*var(--pp-pixel));max-inline-size:calc(300*var(--pp-pixel))">
+  <div>
+    <div class="pp-progress-label"><label for="ex-dl">Downloading World 2</label><span>60%</span></div>
+    <div class="pp-box pp-progress"><progress id="ex-dl" max="100" value="60">60%</progress></div>
+  </div>
+  <div>
+    <div class="pp-progress-label"><label for="ex-up">Uploading replay</label><span>3 of 8 files</span></div>
+    <div class="pp-box pp-progress" data-tone="info"><progress id="ex-up" max="8" value="3" aria-valuetext="3 of 8 files">3 of 8</progress></div>
+  </div>
+  <div>
+    <div class="pp-progress-label"><label for="ex-done">Backup</label><span>Done</span></div>
+    <div class="pp-box pp-progress" data-tone="success"><progress id="ex-done" max="100" value="100">100%</progress></div>
+  </div>
+  <div>
+    <div class="pp-progress-label"><label for="ex-disk">Storage used</label><span>91%</span></div>
+    <div class="pp-box pp-progress" data-tone="warning"><progress id="ex-disk" max="100" value="91">91%</progress></div>
+  </div>
+  <div>
+    <div class="pp-progress-label"><label for="ex-boss">Boss</label><span>18%</span></div>
+    <div class="pp-box pp-progress" data-tone="danger"><progress id="ex-boss" max="100" value="18">18%</progress></div>
+  </div>
+  <div>
+    <div class="pp-progress-label"><label for="ex-wait">Finding a match</label><span>Searching</span></div>
+    <div class="pp-box pp-progress" data-tone="purple"><progress id="ex-wait">Searching</progress></div>
+  </div>
+</div>
+
+<div style="display:grid;gap:calc(4*var(--pp-pixel));max-inline-size:calc(140*var(--pp-pixel));margin-block:calc(10*var(--pp-pixel))">
+  <span class="pp-label pp-muted">Sizes: sm, md, lg</span>
+  <div class="pp-box pp-progress" data-size="sm"><progress max="100" value="40" aria-label="Small, 40%"></progress></div>
+  <div class="pp-box pp-progress"><progress max="100" value="40" aria-label="Medium, 40%"></progress></div>
+  <div class="pp-box pp-progress" data-size="lg" data-tone="pink"><progress max="100" value="40" aria-label="Large, 40%"></progress></div>
+</div>
+
+<div style="display:grid;grid-template-columns:max-content auto;gap:calc(4*var(--pp-pixel)) calc(6*var(--pp-pixel));align-items:center;max-inline-size:calc(160*var(--pp-pixel))">
+  <span class="pp-label pp-muted" id="ex-hp-1">Health 8/10</span>
+  <div class="pp-box pp-meter"><meter min="0" max="10" low="4" high="7" optimum="10" value="8" aria-labelledby="ex-hp-1">8 of 10</meter></div>
+  <span class="pp-label pp-muted" id="ex-hp-2">Health 5/10</span>
+  <div class="pp-box pp-meter"><meter min="0" max="10" low="4" high="7" optimum="10" value="5" aria-labelledby="ex-hp-2">5 of 10</meter></div>
+  <span class="pp-label pp-muted" id="ex-hp-3">Health 2/10</span>
+  <div class="pp-box pp-meter"><meter min="0" max="10" low="4" high="7" optimum="10" value="2" aria-labelledby="ex-hp-3">2 of 10</meter></div>
+  <span class="pp-label pp-muted" id="ex-mp">Magic 7/12</span>
+  <div class="pp-box pp-meter" data-tone="blue" data-size="lg"><meter min="0" max="12" value="7" aria-labelledby="ex-mp">7 of 12</meter></div>
+</div>
+
+<section class="pp-box pp-card" aria-labelledby="ex-level-title" style="max-inline-size:calc(300*var(--pp-pixel));margin-block-start:calc(12*var(--pp-pixel))">
+  <header class="pp-card-header">
+    <div><h3 class="pp-card-title" id="ex-level-title">World 3: Crystal Caves</h3><p class="pp-card-subtitle">8 levels</p></div>
+    <span class="pp-loader" data-size="sm" role="status">Loading</span>
+  </header>
+  <div>
+    <div class="pp-progress-label"><label for="ex-level">Loading level 3-2</label><span>72%</span></div>
+    <div class="pp-box pp-progress" data-tone="teal"><progress id="ex-level" max="100" value="72">72%</progress></div>
+  </div>
+  <div aria-hidden="true" style="display:grid;grid-template-columns:repeat(3,1fr);gap:calc(4*var(--pp-pixel))">
+    <div style="display:grid;gap:calc(2*var(--pp-pixel))"><span class="pp-skeleton" style="--pp-skeleton-size:calc(28*var(--pp-pixel))"></span><span class="pp-skeleton" data-shape="text"></span><span class="pp-skeleton" data-shape="text" style="inline-size:60%"></span></div>
+    <div style="display:grid;gap:calc(2*var(--pp-pixel))"><span class="pp-skeleton" style="--pp-skeleton-size:calc(28*var(--pp-pixel))"></span><span class="pp-skeleton" data-shape="text"></span><span class="pp-skeleton" data-shape="text" style="inline-size:70%"></span></div>
+    <div style="display:grid;gap:calc(2*var(--pp-pixel))"><span class="pp-skeleton" style="--pp-skeleton-size:calc(28*var(--pp-pixel))"></span><span class="pp-skeleton" data-shape="text"></span><span class="pp-skeleton" data-shape="text" style="inline-size:45%"></span></div>
+  </div>
+</section>

@@ -1,0 +1,76 @@
+/*
+ * Skeleton. A dithered placeholder in the shape of what is loading: lines of text, a block, a pixel disc. A band
+ * where the dither fills in sweeps across it in six steps every four beats; with reduced motion it holds still.
+ * Never a blurred or see-through shimmer: the sweep only changes which pixels are lit.
+ *
+ *   <div class="pp-box pp-card" aria-busy="true" aria-describedby="loading-note">
+ *     <span class="pp-skeleton" data-shape="circle" aria-hidden="true"></span>
+ *     <span class="pp-skeleton" data-shape="text" aria-hidden="true"></span>
+ *     <span class="pp-skeleton" data-shape="text" style="inline-size: 60%" aria-hidden="true"></span>
+ *   </div>
+ *
+ *   data-shape             block (default) | text | circle
+ *   --pp-skeleton-size     a block's height, a circle's width (default 24 pixels)
+ *
+ * Skeletons are pictures of nothing: hide them from assistive technology, mark the region aria-busy="true", and
+ * say what is loading in words (a loader with role="status", or text).
+ */
+
+@property --_pp-sweep { syntax: "<number>"; inherits: false; initial-value: 0; }
+
+@layer pp.components {
+  .pp-skeleton {
+    /* A checkerboard of a soft line colour and the surface; the sweep fills the gaps in with the line colour, which
+       reads in every scheme (darker by day, lighter at night). */
+    --_pp-a: var(--pp-line-soft);
+    --_pp-b: var(--pp-surface);
+    --_pp-tile: calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel));
+    display: block;
+    position: relative;
+    inline-size: 100%;
+    block-size: var(--pp-skeleton-size, calc(24 * var(--pp-pixel)));
+    background: repeating-conic-gradient(var(--_pp-a) 0 25%, var(--_pp-b) 0 50%) 0 0 / var(--_pp-tile);
+    /* One pixel off each corner: the smallest stepped corner. */
+    clip-path: polygon(
+      var(--pp-pixel) 0, calc(100% - var(--pp-pixel)) 0, calc(100% - var(--pp-pixel)) var(--pp-pixel), 100% var(--pp-pixel),
+      100% calc(100% - var(--pp-pixel)), calc(100% - var(--pp-pixel)) calc(100% - var(--pp-pixel)), calc(100% - var(--pp-pixel)) 100%, var(--pp-pixel) 100%,
+      var(--pp-pixel) calc(100% - var(--pp-pixel)), 0 calc(100% - var(--pp-pixel)), 0 var(--pp-pixel), var(--pp-pixel) var(--pp-pixel));
+  }
+  .pp-skeleton[data-shape="text"] {
+    block-size: calc(6 * var(--pp-pixel));
+    margin-block: calc(3 * var(--pp-pixel));
+  }
+  .pp-skeleton[data-shape="circle"] {
+    inline-size: var(--pp-skeleton-size, calc(24 * var(--pp-pixel)));
+    block-size: auto;
+    aspect-ratio: 1;
+    flex: none;
+    clip-path: none;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' shape-rendering='crispEdges'%3E%3Cpath d='M4 0h4v1H4zM2 1h8v1H2zM1 2h10v2H1zM0 4h12v4H0zM1 8h10v2H1zM2 10h8v1H2zM4 11h4v1H4z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+  }
+
+  /* The sweep: a band a third as wide where the dither is filled in, masked in and moved a step at a time. */
+  .pp-skeleton::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--_pp-a);
+    mask: linear-gradient(var(--pp-ink) 0 0) no-repeat;
+    mask-size: 30% 100%;
+    mask-position: round(nearest, var(--_pp-sweep) * 30.952% - 42.857%, var(--pp-pixel)) 0;
+    animation: pp-skeleton-sweep calc(4 * var(--pp-duration-beat)) steps(6, jump-end) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pp-skeleton::after { animation: none; display: none; }
+  }
+  @media (forced-colors: active) {
+    .pp-skeleton { forced-color-adjust: none; --_pp-a: GrayText; --_pp-b: Canvas; }
+    .pp-skeleton::after { display: none; }
+  }
+}
+
+@keyframes pp-skeleton-sweep {
+  0% { --_pp-sweep: 0; }
+  40%, 100% { --_pp-sweep: 6; }
+}

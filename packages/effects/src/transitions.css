@@ -1,0 +1,78 @@
+/*
+ * Transitions: the stage for transition() (dissolve, dither, mosaic), and a dither for view transitions in CSS alone.
+ *
+ * transition() marks <html data-pp-transition-run> while it runs and steps the masks or filters of the old and new
+ * snapshots itself; ink shows wherever neither is shown. Its dither is the one below.
+ *
+ * Between pages (cross-document view transitions), opt in on both pages:
+ *
+ *   @view-transition { navigation: auto; }          (in your CSS)
+ *   <html data-pp-transition>                       (on both pages)
+ *
+ * The old page then fills with ink through the 4 x 4 Bayer matrix and the new one clears out of it, eight steps
+ * each, a dissolve frame apart, with no script. data-pp-transition also gives same-page view transitions that
+ * other code starts the same dither.
+ */
+
+@layer pp.kits {
+  :root:is([data-pp-transition], [data-pp-transition-run])::view-transition-image-pair(root) { background: var(--pp-ink); }
+
+  /* Run by transition(). */
+  :root[data-pp-transition-run]::view-transition-group(root),
+  :root[data-pp-transition-run]::view-transition-old(root),
+  :root[data-pp-transition-run]::view-transition-new(root) {
+    animation: none;
+  }
+  :root[data-pp-transition-run]::view-transition-old(root),
+  :root[data-pp-transition-run]::view-transition-new(root) {
+    mix-blend-mode: normal;
+    image-rendering: pixelated;
+    mask-repeat: no-repeat;
+    mask-position: 0 0;
+  }
+
+  /* In CSS alone: the dither. A cell is two pixels; the masks are the Bayer matrix's levels, built from one cell in a
+     tile of two (every other cell) or four. */
+  :root[data-pp-transition]:not([data-pp-transition-run])::view-transition-group(root) { animation: none; }
+  :root[data-pp-transition]:not([data-pp-transition-run])::view-transition-old(root),
+  :root[data-pp-transition]:not([data-pp-transition-run])::view-transition-new(root) {
+    --_c: calc(2 * var(--pp-pixel));
+    --_h: calc(4 * var(--pp-pixel));
+    --_q: calc(8 * var(--pp-pixel));
+    --_s: conic-gradient(from 270deg at var(--_c) var(--_c), #000 25%, transparent 0);
+    --_e: var(--_s) 0 0 / var(--_h) var(--_h);
+    --_o: var(--_s) var(--_c) var(--_c) / var(--_h) var(--_h);
+    --_x: var(--_s) var(--_c) 0 / var(--_h) var(--_h);
+    --_2: var(--_s) 0 0 / var(--_q) var(--_q), var(--_s) var(--_h) var(--_h) / var(--_q) var(--_q);
+    --_6: var(--_e), var(--_s) var(--_c) var(--_c) / var(--_q) var(--_q), var(--_s) calc(3 * var(--_c)) calc(3 * var(--_c)) / var(--_q) var(--_q);
+    --_10: var(--_e), var(--_o), var(--_s) var(--_c) 0 / var(--_q) var(--_q), var(--_s) calc(3 * var(--_c)) var(--_h) / var(--_q) var(--_q);
+    --_14: var(--_e), var(--_o), var(--_x), var(--_s) 0 var(--_c) / var(--_q) var(--_q), var(--_s) var(--_h) calc(3 * var(--_c)) / var(--_q) var(--_q);
+    mix-blend-mode: normal;
+    animation: calc(16 * var(--pp-duration-dissolve-frame)) step-end both;
+  }
+  :root[data-pp-transition]:not([data-pp-transition-run])::view-transition-old(root) { animation-name: pp-transition-cover; }
+  :root[data-pp-transition]:not([data-pp-transition-run])::view-transition-new(root) { animation-name: pp-transition-clear; }
+}
+
+/* The old page shows where the ink has not reached (each level XOR a solid layer); the new one where it has cleared. */
+@keyframes pp-transition-cover {
+  0% { mask: var(--_2), linear-gradient(#000 0 0); mask-composite: exclude; }
+  6.25% { mask: var(--_e), linear-gradient(#000 0 0); mask-composite: exclude; }
+  12.5% { mask: var(--_6), linear-gradient(#000 0 0); mask-composite: exclude; }
+  18.75% { mask: var(--_e), var(--_o), linear-gradient(#000 0 0); mask-composite: exclude; }
+  25% { mask: var(--_10), linear-gradient(#000 0 0); mask-composite: exclude; }
+  31.25% { mask: var(--_e), var(--_o), var(--_x), linear-gradient(#000 0 0); mask-composite: exclude; }
+  37.5% { mask: var(--_14), linear-gradient(#000 0 0); mask-composite: exclude; }
+  43.75%, 100% { mask: linear-gradient(transparent 0 0); }
+}
+@keyframes pp-transition-clear {
+  0%, 43.75% { mask: linear-gradient(transparent 0 0); }
+  50% { mask: var(--_2); }
+  56.25% { mask: var(--_e); }
+  62.5% { mask: var(--_6); }
+  68.75% { mask: var(--_e), var(--_o); }
+  75% { mask: var(--_10); }
+  81.25% { mask: var(--_e), var(--_o), var(--_x); }
+  87.5% { mask: var(--_14); }
+  93.75%, 100% { mask: none; }
+}

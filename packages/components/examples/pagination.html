@@ -1,0 +1,88 @@
+<!-- Pagination: a game's world select (candy), a table's pages (outline, small, icon-only arrows), the first page with
+     nowhere to go back to, the compact "3 / 12", the same nav squeezed into a narrow box, and the states forced. -->
+<div style="display:grid;gap:calc(10*var(--pp-pixel))">
+
+  <div class="pp-box" data-variant="panel" style="padding:calc(8*var(--pp-pixel));display:grid;gap:calc(6*var(--pp-pixel));max-inline-size:calc(300*var(--pp-pixel))">
+    <h3 class="pp-display pp-pop" data-scale="1" data-pop="World select">World select</h3>
+    <p class="pp-body pp-muted">World 3: Ocean Side. 6 of 8 levels cleared.</p>
+    <nav class="pp-pagination" aria-label="Worlds">
+      <ul class="pp-pagination-list" role="list">
+        <li><a class="pp-box pp-pagination-prev" href="#world-2" rel="prev" data-tone="neutral"><span>Prev</span></a></li>
+        <li><a class="pp-box pp-pagination-page" href="#world-1" aria-label="World 1">1</a></li>
+        <li><a class="pp-box pp-pagination-page" href="#world-2" aria-label="World 2">2</a></li>
+        <li><a class="pp-box pp-pagination-page" href="#world-3" aria-label="World 3" aria-current="page">3</a></li>
+        <li><a class="pp-box pp-pagination-page" href="#world-4" aria-label="World 4">4</a></li>
+        <li class="pp-pagination-gap" aria-hidden="true"></li>
+        <li><a class="pp-box pp-pagination-page" href="#world-8" aria-label="World 8">8</a></li>
+        <li class="pp-pagination-status"><span class="pp-sr-only">World</span> 3 <span aria-hidden="true">/</span><span class="pp-sr-only">of</span> 8</li>
+        <li><a class="pp-box pp-pagination-next" href="#world-4" rel="next" data-tone="neutral"><span>Next</span></a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:calc(4*var(--pp-pixel));max-inline-size:calc(300*var(--pp-pixel))">
+    <span class="pp-small pp-muted">Players 81 to 100 of 312</span>
+    <nav class="pp-pagination" data-size="sm" aria-label="Player pages" style="flex:1 1 calc(160*var(--pp-pixel))">
+      <ul class="pp-pagination-list" role="list" style="justify-content:flex-end">
+        <li><a class="pp-box pp-pagination-prev" data-variant="ghost" data-icon-only href="#page-4" rel="prev" aria-label="Previous page"><span>Previous</span></a></li>
+        <li><a class="pp-box pp-pagination-page" data-variant="outline" href="#page-1" aria-label="Page 1">1</a></li>
+        <li class="pp-pagination-gap" aria-hidden="true"></li>
+        <li><a class="pp-box pp-pagination-page" data-variant="outline" href="#page-4" aria-label="Page 4">4</a></li>
+        <li><a class="pp-box pp-pagination-page" data-variant="outline" href="#page-5" aria-label="Page 5" aria-current="page">5</a></li>
+        <li><a class="pp-box pp-pagination-page" data-variant="outline" href="#page-6" aria-label="Page 6">6</a></li>
+        <li class="pp-pagination-gap" aria-hidden="true"></li>
+        <li><a class="pp-box pp-pagination-page" data-variant="outline" href="#page-16" aria-label="Page 16">16</a></li>
+        <li class="pp-pagination-status"><span class="pp-sr-only">Page</span> 5 <span aria-hidden="true">/</span><span class="pp-sr-only">of</span> 16</li>
+        <li><a class="pp-box pp-pagination-next" data-variant="ghost" data-icon-only href="#page-6" rel="next" aria-label="Next page"><span>Next</span></a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <nav class="pp-pagination" aria-label="Results pages">
+    <ul class="pp-pagination-list" role="list">
+      <li><a class="pp-box pp-pagination-prev" data-variant="ghost" role="link" aria-disabled="true"><span>Previous</span></a></li>
+      <li><a class="pp-box pp-pagination-page" data-variant="soft" href="#results-1" aria-label="Page 1" aria-current="page">1</a></li>
+      <li><a class="pp-box pp-pagination-page" data-variant="soft" href="#results-2" aria-label="Page 2">2</a></li>
+      <li><a class="pp-box pp-pagination-page" data-variant="soft" href="#results-3" aria-label="Page 3">3</a></li>
+      <li><a class="pp-box pp-pagination-next" data-variant="ghost" href="#results-2" rel="next"><span>Next</span></a></li>
+    </ul>
+  </nav>
+
+  <nav class="pp-pagination" data-compact aria-label="Screenshots">
+    <ul class="pp-pagination-list" role="list">
+      <li><a class="pp-box pp-pagination-prev" data-variant="outline" data-icon-only href="#shot-2" rel="prev" aria-label="Previous screenshot"><span>Previous</span></a></li>
+      <li class="pp-pagination-status"><span class="pp-sr-only">Screenshot</span> 3 <span aria-hidden="true">/</span><span class="pp-sr-only">of</span> 12</li>
+      <li><a class="pp-box pp-pagination-next" data-variant="outline" data-icon-only href="#shot-4" rel="next" aria-label="Next screenshot"><span>Next</span></a></li>
+    </ul>
+  </nav>
+
+  <div style="inline-size:calc(150*var(--pp-pixel))" class="pp-box" data-variant="outline">
+    <nav class="pp-pagination" aria-label="Comments pages" style="padding:calc(3*var(--pp-pixel))">
+      <ul class="pp-pagination-list" role="list" style="justify-content:space-between">
+        <li><a class="pp-box pp-pagination-prev" data-variant="ghost" href="#comments-6" rel="prev"><span>Prev</span></a></li>
+        <li><a class="pp-box pp-pagination-page" data-variant="outline" href="#comments-1" aria-label="Page 1">1</a></li>
+        <li class="pp-pagination-gap" aria-hidden="true"></li>
+        <li><a class="pp-box pp-pagination-page" data-variant="outline" href="#comments-7" aria-label="Page 7" aria-current="page">7</a></li>
+        <li><a class="pp-box pp-pagination-page" data-variant="outline" href="#comments-9" aria-label="Page 9">9</a></li>
+        <li class="pp-pagination-status"><span class="pp-sr-only">Page</span> 7 <span aria-hidden="true">/</span><span class="pp-sr-only">of</span> 9</li>
+        <li><a class="pp-box pp-pagination-next" data-variant="ghost" href="#comments-8" rel="next"><span>Next</span></a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- States, forced. -->
+  <nav class="pp-pagination" aria-label="Page states">
+    <ul class="pp-pagination-list" role="list">
+      <li><a class="pp-box pp-pagination-page" href="#s1" aria-label="Rest">1</a></li>
+      <li><a class="pp-box pp-pagination-page" href="#s2" aria-label="Hover" data-pp-state="hover">2</a></li>
+      <li><a class="pp-box pp-pagination-page" href="#s3" aria-label="Focus" data-pp-state="focus">3</a></li>
+      <li><a class="pp-box pp-pagination-page" href="#s4" aria-label="Pressed" data-pp-state="active">4</a></li>
+      <li><a class="pp-box pp-pagination-page" href="#s5" aria-label="Current" aria-current="page">5</a></li>
+      <li><a class="pp-box pp-pagination-page" data-variant="outline" href="#s6" aria-label="Outline rest">6</a></li>
+      <li><a class="pp-box pp-pagination-page" data-variant="outline" href="#s7" aria-label="Outline hover" data-pp-state="hover">7</a></li>
+      <li><a class="pp-box pp-pagination-page" data-variant="outline" href="#s8" aria-label="Outline focus" data-pp-state="focus">8</a></li>
+      <li><a class="pp-box pp-pagination-page" data-variant="outline" href="#s9" aria-label="Outline current" aria-current="page">9</a></li>
+      <li><a class="pp-box pp-pagination-next" data-variant="outline" role="link" aria-disabled="true"><span>Next</span></a></li>
+    </ul>
+  </nav>
+</div>

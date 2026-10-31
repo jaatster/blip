@@ -1,0 +1,72 @@
+<!-- Button group: spaced and attached, toggles in a bar, a toolbar-like row with separators, a pager, and the
+     button states inside an attached group. Forced states use data-pp-state (docs and tests only). -->
+<div style="display:grid;gap:calc(8*var(--pp-pixel));justify-items:start">
+  <div class="pp-button-group" role="group" aria-label="Save">
+    <button class="pp-box pp-button">Save game</button>
+    <button class="pp-box pp-button" data-variant="soft">Save as…</button>
+    <button class="pp-box pp-button" data-variant="ghost">Cancel</button>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--pp-pixel));align-items:center">
+    <div class="pp-button-group" data-attached role="group" aria-label="Zoom, small">
+      <button class="pp-box pp-button" data-size="sm" data-variant="soft" aria-label="Zoom out">−</button>
+      <button class="pp-box pp-button" data-size="sm" data-variant="soft" aria-label="Reset zoom, 100%">100%</button>
+      <button class="pp-box pp-button" data-size="sm" data-variant="soft" aria-label="Zoom in">+</button>
+    </div>
+    <div class="pp-button-group" data-attached role="group" aria-label="Play">
+      <button class="pp-box pp-button">Play</button>
+      <button class="pp-box pp-button" data-icon-only aria-label="More ways to play"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4h8v1H2zM3 5h6v1H3zM4 6h4v1H4zM5 7h2v1H5z"/></svg></button>
+    </div>
+    <div class="pp-button-group" data-attached role="group" aria-label="Volume, large">
+      <button class="pp-box pp-button" data-size="lg" data-tone="neutral">Quiet</button>
+      <button class="pp-box pp-button" data-size="lg" data-tone="neutral">Loud</button>
+    </div>
+  </div>
+
+  <!-- A formatting bar: toggles that sit in when on (aria-pressed), then a choice of three, then actions. -->
+  <div class="pp-box" data-variant="panel" data-pp-r="4" style="padding:calc(3*var(--pp-pixel))">
+    <div class="pp-button-group" role="group" aria-label="Message style" style="gap:calc(2*var(--pp-pixel))">
+      <div class="pp-button-group" data-attached role="group" aria-label="Text">
+        <button class="pp-box pp-button" data-size="sm" data-variant="outline" aria-pressed="true">Bold</button>
+        <button class="pp-box pp-button" data-size="sm" data-variant="outline" aria-pressed="false">Italic</button>
+        <button class="pp-box pp-button" data-size="sm" data-variant="outline" aria-pressed="false">Wavy</button>
+      </div>
+      <span role="separator" aria-orientation="vertical"></span>
+      <div class="pp-button-group" data-attached role="group" aria-label="Speed">
+        <button class="pp-box pp-button" data-size="sm" data-variant="outline" aria-pressed="false">Slow</button>
+        <button class="pp-box pp-button" data-size="sm" data-variant="outline" aria-pressed="true">Normal</button>
+        <button class="pp-box pp-button" data-size="sm" data-variant="outline" aria-pressed="false">Fast</button>
+      </div>
+      <span role="separator" aria-orientation="vertical"></span>
+      <button class="pp-box pp-button" data-size="sm" data-variant="ghost">Preview</button>
+      <button class="pp-box pp-button" data-size="sm" data-tone="success">Send</button>
+    </div>
+  </div>
+
+  <nav aria-label="Pages of levels">
+    <div class="pp-button-group" data-attached>
+      <a class="pp-box pp-button" data-variant="soft" data-tone="neutral" href="#page-1">Back</a>
+      <a class="pp-box pp-button" data-variant="soft" data-tone="neutral" href="#page-1">1</a>
+      <a class="pp-box pp-button" data-variant="soft" aria-current="page" href="#page-2">2</a>
+      <a class="pp-box pp-button" data-variant="soft" data-tone="neutral" href="#page-3">3</a>
+      <a class="pp-box pp-button" data-variant="soft" data-tone="neutral" href="#page-3">Next</a>
+    </div>
+  </nav>
+
+  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--pp-pixel));align-items:center">
+    <span class="pp-label pp-muted">States</span>
+    <div class="pp-button-group" data-attached role="group" aria-label="States in a group">
+      <button class="pp-box pp-button">Rest</button>
+      <button class="pp-box pp-button" data-pp-state="hover">Hover</button>
+      <button class="pp-box pp-button" data-pp-state="focus">Focus</button>
+      <button class="pp-box pp-button" data-pp-state="active">Pressed</button>
+      <button class="pp-box pp-button" aria-pressed="true">On</button>
+      <button class="pp-box pp-button" disabled>Disabled</button>
+    </div>
+  </div>
+
+  <div class="pp-button-group" data-attached data-width="full" role="group" aria-label="Answer" style="inline-size:min(100%,calc(180*var(--pp-pixel)))">
+    <button class="pp-box pp-button" data-tone="success">Yes</button>
+    <button class="pp-box pp-button" data-tone="danger">No</button>
+  </div>
+</div>

@@ -1,0 +1,141 @@
+/*
+ * Progress and meter. A native <progress> or <meter> inside an ink-outlined well, drawn as a row of candy blocks
+ * with one-pixel gaps: filled blocks in the tone, empty ones dim. Where the browser can read the value in CSS
+ * (typed attr()), the fill moves a whole block at a time; elsewhere it follows the value and the gaps still show.
+ * With no value, a progress bar is indeterminate: two lit blocks in every six march along a block a step.
+ *
+ *   <div class="pp-progress-label"><label for="load">Loading World 2</label><span>60%</span></div>
+ *   <div class="pp-box pp-progress" data-tone="success"><progress id="load" max="100" value="60">60%</progress></div>
+ *
+ *   <div class="pp-box pp-meter"><meter min="0" max="10" low="4" high="7" optimum="10" value="6" aria-label="Health">6 of 10</meter></div>
+ *
+ *   data-tone      accent (default) | info | success | warning | danger | a candy name       progress fill
+ *   data-size      sm | md (default) | lg            wells 7, 8 or 12 pixels high; blocks 3, 4 or 6 wide
+ *   .pp-meter      the fill takes its colour from the value: green when good, orange when low, red when worse
+ *                  (the meter's low, high and optimum). data-tone fixes one colour instead.
+ *
+ * The well is as wide as its container, rounded down to whole blocks. Name every bar: a <label for>, aria-label
+ * or aria-labelledby, and aria-valuetext when a number alone says too little ("3 of 8 files").
+ */
+
+@layer pp.components {
+  :is(.pp-progress, .pp-meter) {
+    --_pp-b: 5;
+    --_pp-h: 4;
+    --_pp-slot: var(--pp-line-soft);
+    --pp-r: 2;
+    --pp-shape: var(--pp-shape-2);
+    --pp-shape-inner: var(--pp-shape-2-inner);
+    --pp-drop-size: 0;
+    --pp-box-top: var(--pp-surface-sunken);
+    --pp-box-fill: var(--pp-surface-sunken);
+    --pp-box-bottom: var(--pp-surface-sunken);
+    --pp-box-text: var(--pp-text);
+    --pp-box-glint: transparent;
+    display: flex;
+    /* One outline pixel and one gap pixel each side, and a whole number of blocks between. */
+    inline-size: calc(round(down, 100% - 3 * var(--pp-pixel), var(--_pp-b) * var(--pp-pixel)) + 3 * var(--pp-pixel));
+    max-inline-size: 100%;
+    padding: calc(2 * var(--pp-pixel));
+  }
+  :is(.pp-progress, .pp-meter)[data-size="sm"] { --_pp-b: 4; --_pp-h: 3; }
+  :is(.pp-progress, .pp-meter)[data-size="lg"] { --_pp-b: 7; --_pp-h: 8; }
+
+  :is(.pp-progress, .pp-meter) > :is(progress, meter) {
+    --_pp-candy: linear-gradient(var(--pp-tone-light) 0 var(--pp-pixel), var(--pp-tone) 0 calc(100% - var(--pp-pixel)), var(--pp-tone-shade) 0);
+    appearance: none;
+    display: block;
+    flex: 1;
+    inline-size: 100%;
+    block-size: calc(var(--_pp-h) * var(--pp-pixel));
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: var(--_pp-slot);
+    color: inherit;
+    /* The gaps between blocks. */
+    mask: repeating-linear-gradient(to right, var(--pp-ink) 0 calc((var(--_pp-b) - 1) * var(--pp-pixel)), transparent 0 calc(var(--_pp-b) * var(--pp-pixel)));
+  }
+
+  /* The fill, through the browser's own parts. */
+  .pp-progress > progress::-webkit-progress-bar { background: transparent; }
+  .pp-progress > progress::-webkit-progress-value { background: var(--_pp-candy); }
+  .pp-progress > progress::-moz-progress-bar { background: var(--_pp-candy); }
+
+  /* Where CSS can read the value: draw the fill here instead, rounded down to whole blocks. */
+  @supports (inline-size: attr(x type(<length>), 0px)) {
+    .pp-progress > progress:not(:indeterminate) {
+      background:
+        var(--_pp-candy) 0 0 / round(down, attr(value type(<number>), 0) / attr(max type(<number>), 1) * 100% + var(--pp-pixel), var(--_pp-b) * var(--pp-pixel)) 100% no-repeat,
+        var(--_pp-slot);
+    }
+    .pp-progress > progress::-webkit-progress-value { background: transparent; }
+    .pp-progress > progress::-moz-progress-bar { background: transparent; }
+  }
+
+  /* Indeterminate: two lit blocks in every six, marching a block a step. */
+  .pp-progress > progress:indeterminate {
+    background:
+      repeating-linear-gradient(to right, transparent 0 calc(2 * var(--_pp-b) * var(--pp-pixel)), var(--_pp-slot) 0 calc(6 * var(--_pp-b) * var(--pp-pixel))) 0 0 / auto no-repeat,
+      var(--_pp-candy);
+    background-size: calc(100% + 6 * var(--_pp-b) * var(--pp-pixel)) 100%, auto;
+    animation: pp-progress-march calc(6 * var(--pp-duration-slide)) steps(6, jump-end) infinite;
+  }
+  .pp-progress > progress:indeterminate::-moz-progress-bar { background: transparent; }
+
+  /* Meter: the level picks the colour. Chrome and Safari show the level only through these parts, so each
+     part paints its own candy. */
+  .pp-meter > meter::-webkit-meter-bar { block-size: calc(var(--_pp-h) * var(--pp-pixel)); background: transparent; border: 0; border-radius: 0; }
+  .pp-meter > meter::-webkit-meter-optimum-value,
+  .pp-meter > meter::-webkit-meter-suboptimum-value,
+  .pp-meter > meter::-webkit-meter-even-less-good-value {
+    block-size: calc(var(--_pp-h) * var(--pp-pixel));
+    background: linear-gradient(var(--pp-tone-light) 0 var(--pp-pixel), var(--pp-tone) 0 calc(100% - var(--pp-pixel)), var(--pp-tone-shade) 0);
+  }
+  .pp-meter:not([data-tone]) > meter::-webkit-meter-optimum-value { --pp-tone: var(--pp-success); --pp-tone-light: var(--pp-success-light); --pp-tone-shade: var(--pp-success-shade); }
+  .pp-meter:not([data-tone]) > meter::-webkit-meter-suboptimum-value { --pp-tone: var(--pp-warning); --pp-tone-light: var(--pp-warning-light); --pp-tone-shade: var(--pp-warning-shade); }
+  .pp-meter:not([data-tone]) > meter::-webkit-meter-even-less-good-value { --pp-tone: var(--pp-danger); --pp-tone-light: var(--pp-danger-light); --pp-tone-shade: var(--pp-danger-shade); }
+  .pp-meter > meter::-moz-meter-bar { background: var(--_pp-candy); }
+  .pp-meter:not([data-tone]) > meter:-moz-meter-optimum { --pp-tone: var(--pp-success); --pp-tone-light: var(--pp-success-light); --pp-tone-shade: var(--pp-success-shade); }
+  .pp-meter:not([data-tone]) > meter:-moz-meter-sub-optimum { --pp-tone: var(--pp-warning); --pp-tone-light: var(--pp-warning-light); --pp-tone-shade: var(--pp-warning-shade); }
+  .pp-meter:not([data-tone]) > meter:-moz-meter-sub-sub-optimum { --pp-tone: var(--pp-danger); --pp-tone-light: var(--pp-danger-light); --pp-tone-shade: var(--pp-danger-shade); }
+  /* One fixed colour: snapped to whole blocks where CSS can read the value. */
+  @supports (inline-size: attr(x type(<length>), 0px)) {
+    .pp-meter[data-tone] > meter {
+      background:
+        var(--_pp-candy) 0 0 / round(down, (attr(value type(<number>), 0) - attr(min type(<number>), 0)) / (attr(max type(<number>), 1) - attr(min type(<number>), 0)) * 100% + var(--pp-pixel), var(--_pp-b) * var(--pp-pixel)) 100% no-repeat,
+        var(--_pp-slot);
+    }
+    .pp-meter[data-tone] > meter::-webkit-meter-optimum-value,
+    .pp-meter[data-tone] > meter::-webkit-meter-suboptimum-value,
+    .pp-meter[data-tone] > meter::-webkit-meter-even-less-good-value { background: transparent; }
+    .pp-meter[data-tone] > meter::-moz-meter-bar { background: transparent; }
+  }
+
+  .pp-progress-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: calc(4 * var(--pp-pixel));
+    margin-block-end: calc(2 * var(--pp-pixel));
+    font-size: var(--pp-size-small);
+    font-weight: var(--pp-weight-bold);
+  }
+  .pp-progress-label > :not(:first-child) { font-weight: var(--pp-weight-regular); color: var(--pp-text-muted); font-variant-numeric: tabular-nums; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pp-progress > progress:indeterminate { animation: none; }
+  }
+  @media (forced-colors: active) {
+    :is(.pp-progress, .pp-meter) > :is(progress, meter) { forced-color-adjust: none; --_pp-slot: GrayText; --_pp-candy: linear-gradient(Highlight 0 0); }
+    .pp-meter > meter::-webkit-meter-optimum-value,
+    .pp-meter > meter::-webkit-meter-suboptimum-value,
+    .pp-meter > meter::-webkit-meter-even-less-good-value { background: Highlight; }
+  }
+}
+
+@keyframes pp-progress-march {
+  from { background-position: calc(-6 * var(--_pp-b) * var(--pp-pixel)) 0, 0 0; }
+  to { background-position: 0 0, 0 0; }
+}

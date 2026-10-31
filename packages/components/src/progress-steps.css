@@ -1,0 +1,247 @@
+/*
+ * Progress steps (a wizard stepper). The steps of a task in order: done steps are green with a check, the current
+ * step sits in, upcoming steps wait in outline, and a line joins them (solid behind you, dashed ahead). Horizontal by
+ * default, or down the side.
+ *
+ *   <div class="pp-progress-steps" data-arrow>
+ *     <ol class="pp-progress-steps-list" aria-label="Checkout">
+ *       <li class="pp-progress-steps-item" data-state="done">
+ *         <a href="#cart"><span class="pp-box pp-progress-steps-marker">1</span>
+ *           <span class="pp-progress-steps-label">Cart<span class="pp-sr-only">, done</span></span></a>
+ *       </li>
+ *       <li class="pp-progress-steps-item" aria-current="step">
+ *         <span class="pp-box pp-progress-steps-marker">2</span>
+ *         <span class="pp-progress-steps-label">Payment</span>
+ *         <span class="pp-progress-steps-hint">Card or voucher</span>
+ *       </li>
+ *       <li class="pp-progress-steps-item"><span class="pp-box pp-progress-steps-marker">3</span>…</li>
+ *     </ol>
+ *   </div>
+ *
+ *   data-state="done"            on a step: finished (say so in its text too: ", done" for screen readers)
+ *   aria-current="step"          on the step you are on (or on its link)
+ *   data-orientation="vertical"  steps down the side, hints beside them
+ *   data-arrow                   the TV's pointer arrow bobs over the current step
+ *
+ * Under 480 px the hints step aside; under 300 px only the current step keeps its label (the others stay readable
+ * to screen readers). Done steps can be links back; the current and upcoming steps are text.
+ */
+
+@layer pp.components {
+  .pp-progress-steps {
+    --_m: calc(14 * var(--pp-pixel));
+    /* A size container: it takes the width it is given (it cannot grow to fit its content). */
+    container-type: inline-size;
+    inline-size: 100%;
+    font-family: var(--pp-font-ui);
+  }
+
+  .pp-progress-steps-list {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .pp-progress-steps[data-arrow] .pp-progress-steps-list { padding-block-start: calc(9 * var(--pp-pixel)); }
+
+  .pp-progress-steps-item {
+    position: relative;
+    flex: 1 1 0;
+    min-inline-size: 0;
+    padding-inline: var(--pp-space-2);
+  }
+  /* A step's own parts, in a column: marker, label, hint. A link takes the layout when the step is one. */
+  .pp-progress-steps-item:not(:has(> a)),
+  .pp-progress-steps-item > a {
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    gap: var(--pp-space-2);
+    text-align: center;
+  }
+  .pp-progress-steps-item > a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .pp-progress-steps-marker {
+    --pp-r: 4;
+    --pp-shape: var(--pp-shape-4);
+    --pp-shape-inner: var(--pp-shape-4-inner);
+    /* Upcoming: an outline box. */
+    --pp-box-outline: var(--pp-line);
+    --pp-box-top: var(--pp-surface);
+    --pp-box-fill: var(--pp-surface);
+    --pp-box-bottom: var(--pp-surface);
+    --pp-box-text: var(--pp-text-muted);
+    --pp-box-glint: transparent;
+    --pp-drop-size: 0;
+
+    display: grid;
+    place-items: center;
+    inline-size: var(--_m);
+    block-size: var(--_m);
+    margin-block-end: var(--pp-space-1);
+    font-size: var(--pp-size-small);
+    font-weight: var(--pp-weight-bold);
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+  }
+  /* Done: green candy with a check in place of the number. */
+  .pp-progress-steps-item[data-state="done"] .pp-progress-steps-marker {
+    --pp-box-outline: var(--pp-outline);
+    --pp-box-top: var(--pp-success-light);
+    --pp-box-fill: var(--pp-success);
+    --pp-box-bottom: var(--pp-success-shade);
+    --pp-box-text: transparent;
+    --pp-box-glint: var(--pp-white);
+    --pp-drop-size: 1;
+  }
+  /* Current: accent candy, sitting in with its bands swapped. */
+  .pp-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"])) .pp-progress-steps-marker {
+    --pp-box-outline: var(--pp-outline);
+    --pp-box-top: var(--pp-tone-shade);
+    --pp-box-fill: var(--pp-tone);
+    --pp-box-bottom: var(--pp-tone-light);
+    --pp-box-text: var(--pp-tone-on);
+  }
+
+  .pp-progress-steps-label {
+    font-size: var(--pp-size-small);
+    font-weight: var(--pp-weight-bold);
+    line-height: var(--pp-leading-tight);
+    letter-spacing: var(--pp-tracking-label);
+    text-transform: uppercase;
+  }
+  .pp-progress-steps-item:not([data-state="done"], [aria-current="step"], :has(> [aria-current="step"])) .pp-progress-steps-label { color: var(--pp-text-muted); }
+  .pp-progress-steps-item > a:hover .pp-progress-steps-label {
+    text-decoration: underline;
+    text-decoration-thickness: var(--pp-pixel);
+    text-underline-offset: var(--pp-space-2);
+  }
+  .pp-progress-steps-hint {
+    font-size: var(--pp-size-caption);
+    line-height: var(--pp-leading-tight);
+    color: var(--pp-text-muted);
+  }
+
+  /* The line to the next step: solid once that step is reached, dashed while it is ahead. */
+  .pp-progress-steps-item:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    inset-block-start: calc(var(--_m) / 2 - var(--pp-pixel));
+    inset-inline: calc(50% + var(--_m) / 2 + var(--pp-space-3)) calc(-50% + var(--_m) / 2 + var(--pp-space-3));
+    block-size: var(--pp-space-2);
+    color: var(--pp-line-soft);
+    background: repeating-linear-gradient(to right, currentColor 0 var(--pp-space-2), transparent 0 var(--pp-space-4));
+  }
+  .pp-progress-steps-item:has(+ [data-state="done"], + [aria-current="step"], + * > [aria-current="step"])::before {
+    color: var(--pp-line);
+    background: linear-gradient(currentColor 0 0);
+  }
+
+  /* The check on a done step: 8 x 5, drawn over its marker. */
+  .pp-progress-steps-item[data-state="done"]::after {
+    content: "";
+    position: absolute;
+    inset-block-start: calc(4 * var(--pp-pixel));
+    inset-inline-start: calc(50% - 4 * var(--pp-pixel));
+    inline-size: calc(8 * var(--pp-pixel));
+    block-size: calc(5 * var(--pp-pixel));
+    background-color: var(--pp-success-on);
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 5' shape-rendering='crispEdges'%3E%3Cpath d='M6 0h2v1H7v1H6v1H5v1H4v1H2V4H1V3H0V2h2v1h2V2h1V1h1z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+    pointer-events: none;
+  }
+
+  /* The TV's pointer arrow over the current step: 10 x 6, ink outline, accent fill, a white glint. It bobs for a few
+     beats, then rests. */
+  .pp-progress-steps[data-arrow] .pp-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"]))::after {
+    --_p: var(--pp-pixel);
+    content: "";
+    position: absolute;
+    inset-block-start: calc(-8 * var(--_p));
+    inset-inline-start: calc(50% - 5 * var(--_p));
+    inline-size: calc(10 * var(--_p));
+    block-size: calc(6 * var(--_p));
+    background:
+      linear-gradient(var(--pp-white) 0 0) calc(2 * var(--_p)) var(--_p) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--pp-accent-light) 0 0) var(--_p) var(--_p) / calc(8 * var(--_p)) var(--_p) no-repeat,
+      linear-gradient(var(--pp-accent) 0 0) calc(2 * var(--_p)) calc(2 * var(--_p)) / calc(6 * var(--_p)) var(--_p) no-repeat,
+      linear-gradient(var(--pp-accent) 0 0) calc(3 * var(--_p)) calc(3 * var(--_p)) / calc(4 * var(--_p)) var(--_p) no-repeat,
+      linear-gradient(var(--pp-accent-shade) 0 0) calc(4 * var(--_p)) calc(4 * var(--_p)) / calc(2 * var(--_p)) var(--_p) no-repeat,
+      var(--pp-outline);
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h10v2H9v1H8v1H7v1H6v1H4V5H3V4H2V3H1V2H0z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+    animation: pp-bob calc(2 * var(--pp-duration-beat)) steps(1, jump-end) 6;
+    pointer-events: none;
+  }
+
+  /* ------------------------------------------------------------ down the side */
+
+  .pp-progress-steps[data-orientation="vertical"] .pp-progress-steps-list { flex-direction: column; }
+  .pp-progress-steps[data-orientation="vertical"][data-arrow] .pp-progress-steps-list {
+    padding-block-start: 0;
+    padding-inline-start: calc(9 * var(--pp-pixel));
+  }
+  .pp-progress-steps[data-orientation="vertical"] .pp-progress-steps-item { padding: 0 0 var(--pp-space-8); }
+  .pp-progress-steps[data-orientation="vertical"] :is(.pp-progress-steps-item:not(:has(> a)), .pp-progress-steps-item > a) {
+    grid-template-columns: var(--_m) minmax(0, 1fr);
+    justify-items: start;
+    align-items: center;
+    gap: var(--pp-space-1) var(--pp-space-6);
+    text-align: start;
+  }
+  .pp-progress-steps[data-orientation="vertical"] .pp-progress-steps-marker { grid-row: span 2; align-self: start; margin: 0; }
+  .pp-progress-steps[data-orientation="vertical"] .pp-progress-steps-label { display: flex; align-items: center; min-block-size: var(--_m); }
+  .pp-progress-steps[data-orientation="vertical"] .pp-progress-steps-item:not(:last-child)::before {
+    inset-block: calc(var(--_m) + var(--pp-space-2)) var(--pp-space-2);
+    inset-inline: calc(var(--_m) / 2 - var(--pp-pixel)) auto;
+    inline-size: var(--pp-space-2);
+    block-size: auto;
+    background: repeating-linear-gradient(to bottom, currentColor 0 var(--pp-space-2), transparent 0 var(--pp-space-4));
+  }
+  .pp-progress-steps[data-orientation="vertical"] .pp-progress-steps-item:has(+ [data-state="done"], + [aria-current="step"], + * > [aria-current="step"])::before { background: linear-gradient(currentColor 0 0); }
+  .pp-progress-steps[data-orientation="vertical"] .pp-progress-steps-item[data-state="done"]::after { inset-inline-start: calc(3 * var(--pp-pixel)); }
+  /* Beside the current step the arrow points across: 6 x 10. */
+  .pp-progress-steps[data-orientation="vertical"][data-arrow] .pp-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"]))::after {
+    inset-block-start: calc(2 * var(--_p));
+    inset-inline-start: calc(-8 * var(--_p));
+    inline-size: calc(6 * var(--_p));
+    block-size: calc(10 * var(--_p));
+    background:
+      linear-gradient(var(--pp-white) 0 0) var(--_p) calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--pp-accent-light) 0 0) var(--_p) var(--_p) / var(--_p) calc(8 * var(--_p)) no-repeat,
+      linear-gradient(var(--pp-accent) 0 0) calc(2 * var(--_p)) calc(2 * var(--_p)) / var(--_p) calc(6 * var(--_p)) no-repeat,
+      linear-gradient(var(--pp-accent) 0 0) calc(3 * var(--_p)) calc(3 * var(--_p)) / var(--_p) calc(4 * var(--_p)) no-repeat,
+      linear-gradient(var(--pp-accent-shade) 0 0) calc(4 * var(--_p)) calc(4 * var(--_p)) / var(--_p) calc(2 * var(--_p)) no-repeat,
+      var(--pp-outline);
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 10' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1h1v1h1v1h1v1h1v2H5v1H4v1H3v1H2v1H0z'/%3E%3C/svg%3E");
+  }
+  .pp-progress-steps[data-orientation="vertical"][data-arrow] .pp-progress-steps-item:dir(rtl)::after { scale: -1 1; }
+
+  /* ------------------------------------------------------------ narrow */
+
+  @container (width < 480px) {
+    .pp-progress-steps:not([data-orientation="vertical"]) .pp-progress-steps-hint { display: none; }
+  }
+  @container (width < 300px) {
+    .pp-progress-steps:not([data-orientation="vertical"]) .pp-progress-steps-item:not([aria-current="step"], :has(> [aria-current="step"])) .pp-progress-steps-label {
+      position: absolute;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    /* The one label left may be wider than its step: it runs over, kept inside the row at the ends. */
+    .pp-progress-steps:not([data-orientation="vertical"]) .pp-progress-steps-label { white-space: nowrap; }
+    .pp-progress-steps:not([data-orientation="vertical"]) .pp-progress-steps-item:first-child .pp-progress-steps-label { justify-self: start; }
+    .pp-progress-steps:not([data-orientation="vertical"]) .pp-progress-steps-item:last-child .pp-progress-steps-label { justify-self: end; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pp-progress-steps-item::after { animation: none; }
+  }
+  @media (forced-colors: active) {
+    .pp-progress-steps-item::before { forced-color-adjust: none; color: CanvasText !important; }
+    .pp-progress-steps-item::after { forced-color-adjust: none; background: CanvasText !important; }
+    .pp-progress-steps-item[data-state="done"] .pp-progress-steps-marker { forced-color-adjust: none; color: transparent; background: Canvas; }
+    .pp-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"])) .pp-progress-steps-marker { border-width: 2px; }
+  }
+}

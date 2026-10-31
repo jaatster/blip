@@ -1,0 +1,95 @@
+/**
+ * <pp-tile-grid>: a grid of tiles as one Tab stop. The arrow keys move between tiles in two dimensions (Up and Down
+ * keep the column), Home and End jump to the first and last; disabled tiles are skipped. Light DOM: without it,
+ * every tile is its own Tab stop and still works.
+ *
+ *   <pp-tile-grid selection="single">
+ *     <ul class="pp-tile-grid" role="list" aria-label="Inventory">…<button class="pp-box pp-tile" aria-pressed="false">…</ul>
+ *   </pp-tile-grid>
+ *
+ *   selection="single"   pressing a tile selects it (aria-pressed="true") and clears the others
+ *   selection="follow"   the tile with focus is the current one (aria-current="true"), as on the TV's Home row
+ *
+ *   pp-select   { tile }: before the selection moves; cancel it to keep the old one.
+ *
+ * Tab lands on the selected (or current) tile, or the first one.
+ */
+import { PixelElement, rovingFocus } from "@jaatster/blip-core";
+
+const SELECTED = '[aria-pressed="true"], [aria-current]:not([aria-current="false"]), [aria-selected="true"]';
+
+export class PixelTileGrid extends PixelElement {
+  /** "single" or "follow"; anything else leaves selection to you. */
+  get selection(): string {
+    return this.getAttribute("selection") ?? "";
+  }
+  set selection(value: string) {
+    this.setAttribute("selection", value);
+  }
+
+  /** The tiles that take focus, in order. */
+  get tiles(): HTMLElement[] {
+    return [...this.querySelectorAll<HTMLElement>(".pp-tile")].filter((t) => t.matches("button, a[href], [tabindex]"));
+  }
+
+  protected override connected(): void {
+    const tiles = this.tiles;
+    const start = tiles.find((t) => t.matches(SELECTED)) ?? tiles[0];
+    for (const t of tiles) t.tabIndex = t === start ? 0 : -1;
+
+    const enabled = () => this.tiles.filter((t) => !t.hasAttribute("disabled") && t.getAttribute("aria-disabled") !== "true");
+    const roving = rovingFocus(this, {
+      items: () => this.tiles,
+      orientation: "horizontal",
+      signal: this.signal,
+      onMove: (tile) => {
+        if (this.selection === "follow") this.select(tile);
+      },
+    });
+
+    // Up and Down: the nearest tile in the next row, by where the cells are (empty slots and gaps don't matter).
+    this.on(this, "keydown", (e: KeyboardEvent) => {
+      if (e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
+      const items = enabled();
+      const i = items.indexOf(document.activeElement as HTMLElement);
+      if (i < 0) return;
+      const box = (t: HTMLElement) => (t.closest(".pp-tile-item") ?? t).getBoundingClientRect();
+      const from = box(items[i]!);
+      const sign = e.key === "ArrowDown" ? 1 : -1;
+      let next = -1, best = Infinity;
+      items.forEach((t, k) => {
+        const r = box(t), dy = (r.top - from.top) * sign;
+        const score = dy * 1e4 + Math.abs(r.left - from.left);
+        if (dy > 1 && score < best) [next, best] = [k, score];
+      });
+      e.preventDefault();
+      if (next >= 0) roving.focus(next);
+    });
+
+    this.on(this, "click", (e) => {
+      const tile = (e.target as Element).closest?.<HTMLElement>(".pp-tile");
+      if (this.selection === "single" && tile && enabled().includes(tile)) this.select(tile);
+    });
+  }
+
+  /** Selects a tile (aria-pressed in "single", aria-current in "follow"). Returns false if refused. */
+  select(tile: HTMLElement): boolean {
+    if (tile.matches(SELECTED)) return true;
+    if (!this.emit("select", { tile }, true)) return false;
+    for (const t of this.tiles) {
+      if (this.selection === "follow") {
+        if (t === tile) t.setAttribute("aria-current", "true");
+        else t.removeAttribute("aria-current");
+      } else t.setAttribute("aria-pressed", String(t === tile));
+    }
+    return true;
+  }
+}
+
+PixelElement.define("pp-tile-grid", PixelTileGrid);
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "pp-tile-grid": PixelTileGrid;
+  }
+}

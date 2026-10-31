@@ -179,5 +179,89 @@
   "scrim": {
     "$value": "{ink.base}",
     "$description": "Behind dialogs: drawn as a dither, never a translucent wash."
+  },
+  "link": {
+    "visited": {
+      "$value": "{candy.pink.light}",
+      "$description": "Visited links (AA on the scheme's surfaces)."
+    }
+  },
+  "scene": {
+    "$description": "The world's colours for this time of day, for scenes drawn in CSS (game stages, hero strips).",
+    "sky": {
+      "1": {
+        "$value": "{world.night.sky.1}"
+      },
+      "2": {
+        "$value": "{world.night.sky.2}"
+      },
+      "3": {
+        "$value": "{world.night.sky.3}"
+      },
+      "4": {
+        "$value": "{world.night.sky.4}"
+      },
+      "5": {
+        "$value": "{world.night.sky.5}"
+      },
+      "6": {
+        "$value": "{world.night.sky.6}"
+      }
+    },
+    "cloud": {
+      "light": {
+        "$value": "{world.night.cloud.light}"
+      },
+      "body": {
+        "$value": "{world.night.cloud.body}"
+      },
+      "shade": {
+        "$value": "{world.night.cloud.shade}"
+      }
+    },
+    "mountain": {
+      "lit": {
+        "$value": "{world.night.mountain.lit}"
+      },
+      "shadow": {
+        "$value": "{world.night.mountain.shadow}"
+      },
+      "edge": {
+        "$value": "{world.night.mountain.edge}"
+      }
+    },
+    "hill": {
+      "mid": {
+        "$value": "{world.night.hill.mid}"
+      },
+      "near": {
+        "$value": "{world.night.hill.near}"
+      },
+      "bush": {
+        "$value": "{world.night.hill.bush}"
+      }
+    },
+    "grass": {
+      "base": {
+        "$value": "{world.night.grass.base}"
+      },
+      "top": {
+        "$value": "{world.night.grass.top}"
+      },
+      "lip": {
+        "$value": "{world.night.grass.lip}"
+      }
+    },
+    "dirt": {
+      "base": {
+        "$value": "{world.night.dirt.base}"
+      },
+      "shadow": {
+        "$value": "{world.night.dirt.shadow}"
+      },
+      "pebble": {
+        "$value": "{world.night.dirt.pebble}"
+      }
+    }
   }
 }

@@ -1,0 +1,162 @@
+@import "./_world.css";
+/*
+ * Footer. The ground the page stands on: a grass edge with blades poking up, then link columns, a newsletter
+ * sign-up and the legal line, on the sunken surface so every text colour is a scheme role.
+ *
+ *   <footer class="pp-footer">
+ *     <div class="pp-footer-inner">
+ *       <div class="pp-footer-brand">…</div>
+ *       <nav class="pp-footer-nav" aria-label="More from Sherbit">
+ *         <div class="pp-footer-col"><h2 class="pp-footer-heading">Studio</h2><ul role="list"><li><a href="#">About</a></li></ul></div>
+ *       </nav>
+ *       <form class="pp-footer-signup" action="/subscribe" method="post">
+ *         <h2 class="pp-footer-heading" id="letter">The Sherbit letter</h2>
+ *         <div class="pp-footer-row">
+ *           <label class="pp-sr-only" for="email">Email address</label>
+ *           <span class="pp-box pp-footer-field" data-variant="outline"><input id="email" type="email" name="email" autocomplete="email" required></span>
+ *           <button class="pp-box pp-button" type="submit">Subscribe</button>
+ *         </div>
+ *       </form>
+ *     </div>
+ *     <div class="pp-footer-legal"><p>© 2026 …</p><ul role="list"><li><a href="#">Privacy</a></li></ul></div>
+ *   </footer>
+ *
+ *   .pp-footer-field   a text field in an outline box: the box draws the focus ring, and the danger outline when
+ *                      the entry is wrong after the person has typed (:user-invalid)
+ *   --pp-footer-edge   how deep the ground edge is, in pixels (14)
+ *
+ * Columns sit side by side from the wide breakpoint (1024 px); below it the brand, the links and the sign-up stack.
+ */
+
+@layer pp.kits {
+  .pp-footer {
+    --_p: var(--pp-pixel);
+    --_e: var(--pp-footer-edge, 14);
+    position: relative;
+    container-type: inline-size;
+    display: grid;
+    gap: calc(14 * var(--_p));
+    margin-block-start: calc(3 * var(--_p));
+    padding: calc((var(--_e) + 14) * var(--_p)) calc(12 * var(--_p)) calc(12 * var(--_p));
+    background: var(--pp-surface-sunken);
+    color: var(--pp-text);
+  }
+  /* The ground's edge: grass, a lip, dirt with pebbles, then a dithered row down into the footer. */
+  .pp-footer::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    inset-block-start: 0;
+    block-size: calc(var(--_e) * var(--_p));
+    background:
+      linear-gradient(to right, var(--pp-blocks-dirt-shadow) 0 var(--_p), transparent 0) 0 100% / calc(2 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(5 * var(--_p)), var(--pp-blocks-pebble) 0 calc(7 * var(--_p)), transparent 0 calc(19 * var(--_p)), var(--pp-blocks-pebble) 0 calc(20 * var(--_p)), transparent 0) 0 calc(7 * var(--_p)) / calc(29 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(13 * var(--_p)), var(--pp-blocks-dirt-shadow) 0 calc(15 * var(--_p)), transparent 0) 0 calc(10 * var(--_p)) / calc(23 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to bottom,
+        var(--pp-blocks-grass-top) 0 var(--_p),
+        var(--pp-blocks-grass) 0 calc(4 * var(--_p)),
+        var(--pp-blocks-grass-lip) 0 calc(5 * var(--_p)),
+        var(--pp-blocks-dirt) 0 calc(100% - 3 * var(--_p)),
+        var(--pp-blocks-dirt-shadow) 0 calc(100% - var(--_p)),
+        transparent 0);
+  }
+  .pp-footer::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    inset-block-end: 100%;
+    block-size: calc(2 * var(--_p));
+    background:
+      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--pp-blocks-grass-top) 0 calc(4 * var(--_p)), transparent 0 calc(17 * var(--_p)), var(--pp-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 0 / calc(23 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--pp-blocks-grass-top) 0 calc(5 * var(--_p)), transparent 0 calc(12 * var(--_p)), var(--pp-blocks-grass-top) 0 calc(13 * var(--_p)), transparent 0 calc(16 * var(--_p)), var(--pp-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 var(--_p) / calc(23 * var(--_p)) var(--_p) repeat-x;
+  }
+
+  .pp-footer-inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: calc(12 * var(--_p));
+  }
+  @container (width >= 1024px) {
+    .pp-footer-inner { grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr) minmax(0, 1.4fr); }
+  }
+
+  .pp-footer-brand { display: grid; align-content: start; gap: calc(3 * var(--_p)); }
+  .pp-footer-brand > p { margin: 0; }
+
+  .pp-footer-nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(calc(64 * var(--_p)), 1fr));
+    gap: calc(8 * var(--_p));
+  }
+  .pp-footer-heading {
+    margin: 0 0 calc(4 * var(--_p));
+    font-size: var(--pp-size-small);
+    font-weight: var(--pp-weight-bold);
+    letter-spacing: var(--pp-tracking-label);
+    text-transform: uppercase;
+  }
+  .pp-footer-col ul, .pp-footer-legal ul {
+    display: grid;
+    gap: calc(2 * var(--_p));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .pp-footer-col a {
+    color: var(--pp-text);
+    text-decoration-line: none;
+  }
+  .pp-footer-col a:hover { color: var(--pp-accent-text); text-decoration-line: underline; }
+
+  .pp-footer-signup { display: grid; align-content: start; gap: calc(3 * var(--_p)); }
+  .pp-footer-signup p { margin: 0; color: var(--pp-text-muted); font-size: var(--pp-size-small); }
+  .pp-footer-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(3 * var(--_p));
+    margin-block-start: calc(2 * var(--_p));
+  }
+
+  .pp-footer-field {
+    --pp-r: 3;
+    --pp-shape: var(--pp-shape-3);
+    --pp-shape-inner: var(--pp-shape-3-inner);
+    display: flex;
+    flex: 1 1 calc(60 * var(--_p));
+    min-inline-size: 0;
+    block-size: var(--pp-control-md);
+  }
+  .pp-footer-field:has(> :user-invalid) { --pp-box-outline: var(--pp-danger); }
+  .pp-footer-field > input {
+    flex: 1;
+    min-inline-size: 0;
+    padding: 0 calc(5 * var(--_p));
+    border: 0;
+    background: none;
+    color: var(--pp-text);
+    font-size: var(--pp-size-body);
+  }
+  .pp-footer-field > input::placeholder { color: var(--pp-text-muted); opacity: 1; }
+  /* The box draws the ring around the field, so the input itself shows none. */
+  .pp-footer-field > input:focus-visible { outline: none; box-shadow: none; }
+
+  .pp-footer-legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: calc(4 * var(--_p)) calc(12 * var(--_p));
+    padding-block-start: calc(8 * var(--_p));
+    border-block-start: var(--_p) solid var(--pp-line-soft);
+    color: var(--pp-text-muted);
+    font-size: var(--pp-size-small);
+  }
+  .pp-footer-legal p { margin: 0; }
+  .pp-footer-legal ul { display: flex; flex-wrap: wrap; gap: calc(8 * var(--_p)); }
+  .pp-footer-legal a { color: var(--pp-text-muted); }
+
+  @media (forced-colors: active) {
+    .pp-footer::before, .pp-footer::after { display: none; }
+    .pp-footer { border-block-start: 1px solid CanvasText; }
+    .pp-footer-field > input:focus-visible { outline: 2px solid Highlight; }
+  }
+}

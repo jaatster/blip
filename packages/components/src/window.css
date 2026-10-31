@@ -1,0 +1,153 @@
+/*
+ * Window. A pixel window for game menus and retro dashboards: a cream panel whose top band is the title bar, a
+ * Pixel Bop title, small candy controls, a body, and an optional sunken status bar. It does not drag.
+ *
+ *   <section class="pp-box pp-window" aria-labelledby="sys-title">
+ *     <header class="pp-window-bar">
+ *       <h2 class="pp-window-title pp-display pp-pop" id="sys-title">System</h2>
+ *       <div class="pp-window-controls">
+ *         <button class="pp-box pp-window-control" data-control="minimize" aria-label="Minimize System"><span></span></button>
+ *         <button class="pp-box pp-window-control" data-control="maximize" aria-label="Maximize System"><span></span></button>
+ *         <button class="pp-box pp-window-control" data-control="close" aria-label="Close System"><span></span></button>
+ *       </div>
+ *     </header>
+ *     <div class="pp-window-body">…</div>
+ *     <footer class="pp-window-status"><span>Saved</span><span>12:30</span></footer>
+ *   </section>
+ *
+ *   data-tone      accent (default) | any tone or candy        the title bar's light colour
+ *   data-control   close | minimize | maximize (on a control)  the glyph; close is red, the others cream
+ *   .pp-window-status                                          the status bar: one line, sunken
+ *
+ * The bar and status bar are the box's own bands, so they follow its stepped corners. The bar is 16 pixels and the
+ * status bar 14, each with a one-pixel rule. Name each control for its window ("Close System").
+ */
+
+@layer pp.components {
+  .pp-window {
+    --pp-r: 4;
+    --pp-shape: var(--pp-shape-4);
+    --pp-shape-inner: var(--pp-shape-4-inner);
+    /* The bar: the outline row plus 14 rows of light band; its rule is the 16th row. */
+    --pp-band-top: 14;
+    --pp-band-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    min-inline-size: 0;
+    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+    font-family: var(--pp-font-ui);
+    font-size: var(--pp-size-body);
+    line-height: var(--pp-leading-normal);
+  }
+  .pp-window:not([data-variant]) {
+    --pp-box-top: var(--pp-tone-light);
+    --pp-box-fill: var(--pp-surface-panel);
+    --pp-box-bottom: var(--pp-surface-panel);
+    --pp-box-text: var(--pp-text);
+  }
+  /* On soft and candy tiers, text inside takes the box's ink: the scheme's muted text is too light on pastel at night. */
+  .pp-window:is([data-variant="soft"], [data-variant="candy"]) { --pp-text: var(--pp-box-text); --pp-text-muted: var(--pp-box-text); }
+  /* With a status bar, the shade band becomes it: sunken, 13 rows including the outline's. */
+  .pp-window:has(> .pp-window-status) { --pp-band-bottom: 12; }
+  .pp-window:not([data-variant]):has(> .pp-window-status) { --pp-box-bottom: var(--pp-surface-sunken); }
+
+  .pp-window-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--pp-space-6);
+    flex: none;
+    box-sizing: border-box;
+    block-size: calc(16 * var(--pp-pixel));
+    margin-inline: var(--pp-pixel);
+    padding: var(--pp-pixel) calc(3 * var(--pp-pixel)) 0 calc(6 * var(--pp-pixel));
+    border-block-end: var(--pp-pixel) solid var(--pp-outline);
+  }
+  .pp-window-title {
+    --pp-scale: 1;
+    --pp-pop-tint: var(--pp-tone-light);
+    --pp-pop-drop: var(--pp-tone-shade);
+    flex: 1;
+    min-inline-size: 0;
+    margin: 0;
+    padding-block: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .pp-window-title:not(.pp-display) {
+    font-size: var(--pp-size-small);
+    font-weight: var(--pp-weight-bold);
+    letter-spacing: var(--pp-tracking-label);
+    text-transform: uppercase;
+  }
+  .pp-window-controls { display: flex; flex: none; gap: var(--pp-space-2); }
+
+  /* Controls: 12-pixel candy buttons (24 CSS px), cream, and red to close. */
+  .pp-window-control {
+    --pp-r: 2;
+    --pp-shape: var(--pp-shape-2);
+    --pp-shape-inner: var(--pp-shape-2-inner);
+    --pp-band-top: 2;
+    --pp-band-bottom: 2;
+    display: grid;
+    place-items: center;
+    flex: none;
+    inline-size: var(--pp-target-min);
+    block-size: var(--pp-target-min);
+    padding: 0;
+    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+  }
+  .pp-window-control:not([data-tone]) {
+    --pp-tone: var(--pp-candy-cream);
+    --pp-tone-light: var(--pp-candy-cream-light);
+    --pp-tone-shade: var(--pp-candy-cream-shade);
+    --pp-tone-on: var(--pp-ink);
+  }
+  .pp-window-control[data-control="close"]:not([data-tone]) {
+    --pp-tone: var(--pp-danger);
+    --pp-tone-light: var(--pp-danger-light);
+    --pp-tone-shade: var(--pp-danger-shade);
+    --pp-tone-on: var(--pp-danger-on);
+  }
+  .pp-window-control > span {
+    inline-size: calc(6 * var(--pp-pixel));
+    block-size: calc(6 * var(--pp-pixel));
+    background: currentColor;
+    mask: var(--_g) 0 0 / 100% 100% no-repeat;
+  }
+  .pp-window-control[data-control="close"] { --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 6' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1H0zM4 0h2v1H4zM1 1h4v1H1zM2 2h2v2H2zM1 4h4v1H1zM0 5h2v1H0zM4 5h2v1H4z'/%3E%3C/svg%3E"); }
+  .pp-window-control[data-control="minimize"] { --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 6' shape-rendering='crispEdges'%3E%3Cpath d='M0 4h6v2H0z'/%3E%3C/svg%3E"); }
+  .pp-window-control[data-control="maximize"] { --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 6' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h6v2H0zM0 2h1v3H0zM5 2h1v3H5zM0 5h6v1H0z'/%3E%3C/svg%3E"); }
+
+  .pp-window-body {
+    flex: 1;
+    min-block-size: 0;
+    padding: calc(8 * var(--pp-pixel));
+    overflow: auto;
+  }
+  .pp-window-body > * + * { margin-block-start: var(--pp-space-6); }
+
+  .pp-window-status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--pp-space-6);
+    flex: none;
+    box-sizing: border-box;
+    block-size: calc(14 * var(--pp-pixel));
+    margin-inline: var(--pp-pixel);
+    padding: 0 calc(6 * var(--pp-pixel)) var(--pp-pixel);
+    border-block-start: var(--pp-pixel) solid var(--pp-outline);
+    font-size: var(--pp-size-caption);
+    line-height: 1;
+    color: var(--pp-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  @media (forced-colors: active) {
+    .pp-window-bar, .pp-window-status { border-color: CanvasText; }
+    .pp-window-control > span { background: ButtonText; }
+  }
+}

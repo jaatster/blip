@@ -1,0 +1,51 @@
+<!-- File drop: a live <pp-file-drop>, then fixed pictures of its states and of a filled list (for docs and tests:
+     data-pp-state forces a look). -->
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(calc(150*var(--pp-pixel)),1fr));gap:calc(10*var(--pp-pixel));align-items:start">
+  <pp-field class="pp-field">
+    <span class="pp-field-label" id="fd-label">Screenshots</span>
+    <pp-file-drop class="pp-file-drop">
+      <label class="pp-box pp-file-drop-zone">
+        <input type="file" name="shots" multiple accept="image/png, image/jpeg" aria-labelledby="fd-label" aria-describedby="fd-help">
+        <svg class="pp-icon" data-size="lg" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 0h2v1H5zM4 1h4v1H4zM3 2h6v1H3zM5 3h2v4H5zM0 8h1v2H0zM11 8h1v2h-1zM0 10h12v1H0z"/></svg>
+        <strong>Drop screenshots here</strong>
+        <span id="fd-help">or click to browse. PNG or JPG, up to 2 MB each.</span>
+      </label>
+    </pp-file-drop>
+  </pp-field>
+
+  <div class="pp-file-drop">
+    <label class="pp-box pp-file-drop-zone" data-pp-state="dragover">
+      <input type="file" aria-label="Files over the tray" hidden>
+      <svg class="pp-icon" data-size="lg" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 0h2v1H5zM4 1h4v1H4zM3 2h6v1H3zM5 3h2v4H5zM0 8h1v2H0zM11 8h1v2h-1zM0 10h12v1H0z"/></svg>
+      <strong>Let go to add them</strong>
+      <span>Files over the tray</span>
+    </label>
+    <ul class="pp-file-drop-list" aria-label="Files">
+      <li class="pp-box pp-file-drop-item"><span class="pp-file-drop-name">castle-sunset.png</span><span class="pp-file-drop-size">184 kB</span><button type="button" class="pp-box pp-file-drop-remove" data-variant="ghost" aria-label="Remove castle-sunset.png"><span aria-hidden="true"></span></button></li>
+      <li class="pp-box pp-file-drop-item"><span class="pp-file-drop-name">boss-fight-world-3-final-phase-before-the-big-jump.jpg</span><span class="pp-file-drop-size">1.2 MB</span><button type="button" class="pp-box pp-file-drop-remove" data-variant="ghost" aria-label="Remove boss-fight-world-3-final-phase-before-the-big-jump.jpg" data-pp-state="hover"><span aria-hidden="true"></span></button></li>
+      <li class="pp-box pp-file-drop-item"><span class="pp-file-drop-name">secret-room.png</span><span class="pp-file-drop-size">96 kB</span><button type="button" class="pp-box pp-file-drop-remove" data-variant="ghost" aria-label="Remove secret-room.png" data-pp-state="focus"><span aria-hidden="true"></span></button></li>
+    </ul>
+  </div>
+
+  <div class="pp-field">
+    <span class="pp-field-label">Focus</span>
+    <div class="pp-file-drop">
+      <label class="pp-box pp-file-drop-zone" data-pp-state="focus"><input type="file" aria-label="Focus" hidden><strong>Drop a save file</strong><span>or click to browse</span></label>
+    </div>
+  </div>
+
+  <div class="pp-field">
+    <span class="pp-field-label">Invalid</span>
+    <div class="pp-file-drop">
+      <label class="pp-box pp-file-drop-zone"><input type="file" aria-label="Invalid" aria-invalid="true" aria-describedby="fd-error" style="display:none"><strong>Drop a save file</strong><span>.pixel files only</span></label>
+    </div>
+    <p class="pp-field-error" id="fd-error">That isn't a save file. Pick a .pixel file.</p>
+  </div>
+
+  <div class="pp-field">
+    <span class="pp-field-label">Disabled</span>
+    <div class="pp-file-drop">
+      <label class="pp-box pp-file-drop-zone"><input type="file" aria-label="Disabled" disabled style="display:none"><strong>Uploads are paused</strong><span>Back after the tournament</span></label>
+    </div>
+  </div>
+</div>

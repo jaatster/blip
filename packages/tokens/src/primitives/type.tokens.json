@@ -104,6 +104,10 @@
     },
     "display": {
       "$value": 1.2
+    },
+    "display-loose": {
+      "$value": 1.4,
+      "$description": "Stacked display lines with accented capitals."
     }
   },
   "tracking": {

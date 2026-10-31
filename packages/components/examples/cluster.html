@@ -1,0 +1,39 @@
+<!-- Cluster: a wrapping row of tags, a toolbar split to both ends, and a row that switches to a column in a narrow
+     container (the two boxes below are the same markup at two widths). -->
+<div class="pp-cluster" data-gap="3">
+  <span class="pp-box pp-tag" data-tone="success">Cleared</span>
+  <span class="pp-box pp-tag" data-tone="purple">Rare</span>
+  <span class="pp-box pp-tag" data-tone="teal">Co-op</span>
+  <span class="pp-box pp-tag" data-tone="pink">Event</span>
+  <span class="pp-box pp-tag" data-tone="orange">Lava zone</span>
+  <span class="pp-box pp-tag" data-tone="neutral">Night</span>
+  <span class="pp-box pp-tag" data-tone="info">Speedrun</span>
+</div>
+
+<div class="pp-cluster" data-justify="between" style="margin-block-start:calc(8*var(--pp-pixel))">
+  <div class="pp-cluster" data-gap="2">
+    <button class="pp-box pp-button" data-variant="ghost" data-size="sm" type="button">Undo</button>
+    <button class="pp-box pp-button" data-variant="ghost" data-size="sm" type="button">Redo</button>
+  </div>
+  <div class="pp-cluster" data-gap="2">
+    <button class="pp-box pp-button" data-variant="soft" data-size="sm" type="button">Preview</button>
+    <button class="pp-box pp-button" data-size="sm" type="button">Publish</button>
+  </div>
+</div>
+
+<div class="pp-cluster" data-gap="8" data-align="start" style="margin-block-start:calc(8*var(--pp-pixel))">
+  <div class="pp-box pp-card" data-size="sm" style="inline-size:calc(220*var(--pp-pixel))">
+    <span class="pp-label pp-muted">data-switch, wide</span>
+    <div class="pp-cluster" data-switch>
+      <button class="pp-box pp-button" data-variant="soft" type="button">Cancel</button>
+      <button class="pp-box pp-button" type="button">Save game</button>
+    </div>
+  </div>
+  <div class="pp-box pp-card" data-size="sm" style="inline-size:calc(110*var(--pp-pixel))">
+    <span class="pp-label pp-muted">Narrow</span>
+    <div class="pp-cluster" data-switch>
+      <button class="pp-box pp-button" data-variant="soft" type="button">Cancel</button>
+      <button class="pp-box pp-button" type="button">Save game</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<!-- World: the TV's backdrop, drawn in the browser at the page's pixel. The first follows the page's scheme, with
+     parallax (move the pointer over the page), drifting clouds, flaring stars and sky events. Then each time of day,
+     and Auto, which follows the clock and steps its palette over a minute when the time of day changes. A short
+     world gives up dirt, then meadow, then sky, so its mountains stay; a tall one stretches its sky. -->
+<div style="position:relative;block-size:calc(150*var(--pp-pixel));display:grid;place-content:center;justify-items:center;gap:calc(4*var(--pp-pixel));padding:calc(8*var(--pp-pixel));margin-block-end:calc(8*var(--pp-pixel))">
+  <pp-world parallax clouds stars events></pp-world>
+  <p class="pp-display pp-pop" data-scale="3" data-pop="Blip">Blip</p>
+  <p class="pp-label pp-outline">Move the pointer: the hills slide</p>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(calc(220*var(--pp-pixel)),1fr));gap:calc(8*var(--pp-pixel))">
+  <figure style="margin:0;display:grid;gap:calc(3*var(--pp-pixel))">
+    <div style="position:relative;aspect-ratio:16/9"><pp-world scheme="day"></pp-world></div>
+    <figcaption class="pp-label pp-muted">Day, 6:00 to 17:00</figcaption>
+  </figure>
+  <figure style="margin:0;display:grid;gap:calc(3*var(--pp-pixel))">
+    <div style="position:relative;aspect-ratio:16/9"><pp-world scheme="sunset"></pp-world></div>
+    <figcaption class="pp-label pp-muted">Sunset, 17:00 to 19:00</figcaption>
+  </figure>
+  <figure style="margin:0;display:grid;gap:calc(3*var(--pp-pixel))">
+    <div style="position:relative;aspect-ratio:16/9"><pp-world scheme="night"></pp-world></div>
+    <figcaption class="pp-label pp-muted">Night</figcaption>
+  </figure>
+  <figure style="margin:0;display:grid;gap:calc(3*var(--pp-pixel))">
+    <div style="position:relative;aspect-ratio:16/9"><pp-world scheme="auto" clouds stars events></pp-world></div>
+    <figcaption class="pp-label pp-muted">Auto: the clock's time of day</figcaption>
+  </figure>
+  <figure style="margin:0;display:grid;gap:calc(3*var(--pp-pixel))">
+    <div style="position:relative;aspect-ratio:16/9"><pp-world scheme="sunset" zoom="2"></pp-world></div>
+    <figcaption class="pp-label pp-muted">zoom="2": two pixels to a world pixel, as on a TV</figcaption>
+  </figure>
+  <figure style="margin:0;display:grid;gap:calc(3*var(--pp-pixel))">
+    <div style="position:relative;aspect-ratio:16/9"><pp-world scheme="night" clouds="none" stars></pp-world></div>
+    <figcaption class="pp-label pp-muted">Night, clouds="none", flaring stars</figcaption>
+  </figure>
+</div>

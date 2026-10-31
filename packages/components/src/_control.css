@@ -1,0 +1,150 @@
+/*
+ * Private: the well that every text control is drawn in (input, textarea, select, search, number stepper,
+ * combobox). Each of those files imports this one, so any of them works on its own. Not part of the public
+ * contract: use the components' classes, never these selectors.
+ *
+ * A native control can't wear the candy box (it has no pseudo-elements), so the box is a wrapper and the control
+ * sits inside it, transparent:
+ *
+ *   <span class="pp-box pp-input"><input …></span>
+ *
+ * The look is the box's calm one: a line outline, the surface, one sunken row along the top (the inset), no drop.
+ * Candy stays for checked things and the main action.
+ *
+ * Every selector here is wrapped in :where(), so it weighs nothing: each control's own rules win whatever order
+ * the files load in (each of them carries a copy of this one).
+ */
+
+@layer pp.components {
+  :where(.pp-input, .pp-textarea, .pp-select) {
+    --pp-r: 4;
+    --pp-shape: var(--pp-shape-4);
+    --pp-shape-inner: var(--pp-shape-4-inner);
+    --pp-band-top: 1;
+    --pp-band-bottom: 0;
+    --pp-drop-size: 0;
+    --pp-box-outline: var(--pp-line);
+    --pp-box-top: var(--pp-surface-sunken);
+    --pp-box-fill: var(--pp-surface);
+    --pp-box-bottom: var(--pp-surface);
+    --pp-box-text: var(--pp-text);
+    --pp-box-glint: transparent;
+    --_h: var(--pp-control-md);
+    --_pad: calc(5 * var(--pp-pixel));
+
+    display: flex;
+    align-items: center;
+    min-inline-size: 0;
+    gap: calc(3 * var(--pp-pixel));
+    min-block-size: var(--_h);
+    padding-inline: var(--_pad);
+    font-family: var(--pp-font-ui);
+    font-size: var(--pp-size-body);
+    line-height: var(--pp-leading-tight);
+    cursor: text;
+  }
+
+  :where(.pp-input, .pp-textarea, .pp-select):where([data-size="sm"]) {
+    --pp-r: 3;
+    --pp-shape: var(--pp-shape-3);
+    --pp-shape-inner: var(--pp-shape-3-inner);
+    --_h: var(--pp-control-sm);
+    --_pad: calc(4 * var(--pp-pixel));
+    gap: calc(2 * var(--pp-pixel));
+  }
+  :where(.pp-input, .pp-textarea, .pp-select):where([data-size="lg"]) {
+    --pp-r: 5;
+    --pp-shape: var(--pp-shape-5);
+    --pp-shape-inner: var(--pp-shape-5-inner);
+    --_h: var(--pp-control-lg);
+    --_pad: calc(6 * var(--pp-pixel));
+    font-size: var(--pp-size-lead);
+  }
+
+  /* The native control: transparent, borderless, filling the well. The box draws the focus ring for it. */
+  :where(.pp-input, .pp-textarea, .pp-select) > :where(input, textarea, select) {
+    flex: 1;
+    align-self: stretch;
+    min-inline-size: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    outline: 0;
+    box-shadow: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-overflow: ellipsis;
+    appearance: none;
+  }
+  :where(.pp-input, .pp-textarea) > :where(input, textarea)::placeholder { color: var(--pp-text-muted); opacity: 1; }
+  :where(.pp-input, .pp-textarea, .pp-select) > :where(input, textarea, select):where(:disabled) { cursor: not-allowed; opacity: 1; -webkit-text-fill-color: currentColor; }
+  /* Autofill keeps the well's own colours (the browser's tint would arrive after a very long wait). */
+  :where(.pp-input, .pp-textarea) > :where(:autofill) { transition: background-color 0s 600000s, color 0s 600000s; }
+  /* Number inputs step with the keyboard; the stepper (pp-number) adds pixel buttons. */
+  :where(.pp-input) > :where(input[type="number"]) { -moz-appearance: textfield; }
+  :where(.pp-input) > :where(input)::-webkit-inner-spin-button, :where(.pp-input) > :where(input)::-webkit-outer-spin-button { appearance: none; margin: 0; }
+
+  /* Prefix and suffix: an icon, or a little text (https://, kg, $). */
+  :where(.pp-input, .pp-select) > :where(.pp-icon, .pp-input-affix) { flex: none; color: var(--pp-text-muted); }
+  :where(.pp-input-affix) { font-size: var(--pp-size-small); white-space: nowrap; }
+
+  /* A button inside the well (a stepper's - and +, a combobox's chevron, a "show password" eye): a ghost box
+     (data-variant="ghost") two pixels in from the edge, square, as tall as the well allows. */
+  :where(.pp-input) > :where(button.pp-box) {
+    --pp-r: 3;
+    --pp-shape: var(--pp-shape-3);
+    --pp-shape-inner: var(--pp-shape-3-inner);
+    display: grid;
+    flex: none;
+    place-items: center;
+    inline-size: calc(var(--_h) - 4 * var(--pp-pixel));
+    block-size: calc(var(--_h) - 4 * var(--pp-pixel));
+    margin: 0;
+    padding: 0;
+    color: var(--pp-text);
+    touch-action: manipulation;
+  }
+  :where(.pp-input) > :where(button.pp-box:first-child) { margin-inline-start: calc(2 * var(--pp-pixel) - var(--_pad)); }
+  :where(.pp-input) > :where(button.pp-box:last-child) { margin-inline-end: calc(2 * var(--pp-pixel) - var(--_pad)); }
+  /* A glyph inside it is a mask in the text colour. */
+  :where(.pp-input) > :where(button.pp-box) > :where(span) { inline-size: calc(8 * var(--pp-pixel)); block-size: calc(8 * var(--pp-pixel)); background: currentColor; mask: var(--_g) center / var(--_gs, 100% 100%) no-repeat; }
+
+  /* Tones: data-tone="success" (or any tone) draws the outline and the inset in it. Invalid is the danger tone. */
+  :where(.pp-input, .pp-textarea, .pp-select):where([data-tone]) {
+    --pp-box-outline: var(--pp-tone-text);
+    --pp-box-top: var(--pp-tone-light);
+  }
+  :where(.pp-input, .pp-textarea, .pp-select):where(:has(> :is([aria-invalid="true"], :user-invalid))) {
+    --pp-box-outline: var(--pp-danger-text);
+    --pp-box-top: var(--pp-danger-light);
+  }
+
+  /* Read-only: flat, no outline, no bands. Still focusable, still selectable. */
+  :where(.pp-input, .pp-textarea):where(:has(> [readonly])) {
+    --pp-box-outline: transparent;
+    --pp-box-top: var(--pp-surface-sunken);
+    --pp-box-fill: var(--pp-surface-sunken);
+    --pp-box-bottom: var(--pp-surface-sunken);
+    cursor: default;
+  }
+
+  /* Disabled: dithered, the outline and text go soft, as the box's calm tiers do. */
+  :where(.pp-input, .pp-textarea, .pp-select):where(:has(> :is(input, textarea, select):disabled)) {
+    --pp-box-outline: var(--pp-line-soft);
+    --pp-box-text: var(--pp-text-muted);
+    --pp-box-dither: var(--pp-surface-sunken);
+    cursor: not-allowed;
+  }
+
+  @media (forced-colors: active) {
+    :where(.pp-input, .pp-textarea, .pp-select):where(:has(> :is(input, textarea, select):focus-visible)) { outline: 2px solid Highlight; outline-offset: 2px; }
+    :where(.pp-input, .pp-textarea, .pp-select):where(:has(> :is([aria-invalid="true"], :user-invalid))) { border-style: dashed; }
+    :where(.pp-input, .pp-textarea, .pp-select):where(:has(> :is(input, textarea, select):disabled)) { border-color: GrayText; color: GrayText; }
+    /* Mask glyphs would be painted in Canvas: paint them in the system's text colours instead. */
+    :where(.pp-input) > :where(button.pp-box) > :where(span) { forced-color-adjust: none; background: ButtonText; }
+    :where(.pp-input) > :where(button.pp-box:disabled) > :where(span) { background: GrayText; }
+  }
+}

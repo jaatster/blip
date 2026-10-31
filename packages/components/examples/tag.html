@@ -1,0 +1,51 @@
+<!-- Tag: tones, tiers and sizes; removable tags; filter chips (aria-pressed) in every state. Forced states use
+     data-pp-state (docs and tests only). -->
+<div class="pp-cluster">
+  <span class="pp-box pp-tag">Accent</span>
+  <span class="pp-box pp-tag" data-tone="info">Info</span>
+  <span class="pp-box pp-tag" data-tone="success">Cleared</span>
+  <span class="pp-box pp-tag" data-tone="warning">2 h left</span>
+  <span class="pp-box pp-tag" data-tone="danger">Out</span>
+  <span class="pp-box pp-tag" data-tone="neutral">Away</span>
+  <span class="pp-box pp-tag" data-tone="purple">Rare</span>
+  <span class="pp-box pp-tag" data-tone="pink">Event</span>
+  <span class="pp-box pp-tag" data-tone="teal">Co-op</span>
+  <span class="pp-box pp-tag" data-tone="slate">Beta</span>
+</div>
+
+<div class="pp-cluster" style="margin-block-start:calc(6*var(--pp-pixel))">
+  <span class="pp-box pp-tag" data-variant="candy" data-tone="pink">Candy</span>
+  <span class="pp-box pp-tag" data-tone="pink">Soft</span>
+  <span class="pp-box pp-tag" data-variant="outline">Outline</span>
+  <span class="pp-box pp-tag" data-variant="ghost">Ghost</span>
+  <span class="pp-box pp-tag" data-size="sm" data-tone="success">Small</span>
+  <span class="pp-box pp-tag" data-tone="success">Medium</span>
+  <span class="pp-box pp-tag" data-size="lg" data-tone="success">Large</span>
+  <span class="pp-box pp-tag" data-size="lg" data-tone="orange"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 0h2v2H5zM4 2h4v1H4zM0 3h12v1H0zM1 4h10v1H1zM2 5h8v1H2zM3 6h6v1H3zM2 7h8v1H2zM2 8h3v1H2zM7 8h3v1H7zM1 9h3v1H1zM8 9h3v1H8zM1 10h2v1H1zM9 10h2v1H9z"/></svg>Level 42</span>
+</div>
+
+<div class="pp-cluster" style="margin-block-start:calc(6*var(--pp-pixel))" role="group" aria-label="Zones">
+  <span class="pp-box pp-tag" data-tone="orange">Lava zone<button class="pp-tag-remove" type="button" aria-label="Remove Lava zone"></button></span>
+  <span class="pp-box pp-tag" data-tone="teal">Co-op<button class="pp-tag-remove" type="button" aria-label="Remove Co-op"></button></span>
+  <span class="pp-box pp-tag" data-variant="outline">Night<button class="pp-tag-remove" type="button" aria-label="Remove Night"></button></span>
+  <span class="pp-box pp-tag" data-size="lg" data-tone="purple">Speedrun<button class="pp-tag-remove" type="button" aria-label="Remove Speedrun"></button></span>
+</div>
+
+<div style="display:grid;grid-template-columns:max-content repeat(2,max-content);gap:calc(4*var(--pp-pixel)) calc(10*var(--pp-pixel));align-items:center;margin-block-start:calc(8*var(--pp-pixel))">
+  <span></span><span class="pp-label pp-muted">Off</span><span class="pp-label pp-muted">On</span>
+  <span class="pp-label pp-muted">Rest</span>
+  <button class="pp-box pp-tag" data-variant="outline" type="button" aria-pressed="false">Swords</button>
+  <button class="pp-box pp-tag" data-variant="outline" type="button" aria-pressed="true">Swords</button>
+  <span class="pp-label pp-muted">Hover</span>
+  <button class="pp-box pp-tag" data-variant="outline" type="button" aria-pressed="false" data-pp-state="hover">Swords</button>
+  <button class="pp-box pp-tag" data-variant="outline" type="button" aria-pressed="true" data-pp-state="hover">Swords</button>
+  <span class="pp-label pp-muted">Focus</span>
+  <button class="pp-box pp-tag" data-variant="outline" type="button" aria-pressed="false" data-pp-state="focus">Swords</button>
+  <button class="pp-box pp-tag" data-variant="outline" type="button" aria-pressed="true" data-pp-state="focus">Swords</button>
+  <span class="pp-label pp-muted">Soft</span>
+  <button class="pp-box pp-tag" type="button" aria-pressed="false">Potions</button>
+  <button class="pp-box pp-tag" type="button" aria-pressed="true">Potions</button>
+  <span class="pp-label pp-muted">Disabled</span>
+  <button class="pp-box pp-tag" data-variant="outline" type="button" aria-pressed="false" disabled>Bows</button>
+  <button class="pp-box pp-tag" data-variant="outline" type="button" aria-pressed="true" disabled>Bows</button>
+</div>

@@ -1,0 +1,149 @@
+/**
+ * The HUD's live values (see hud.css). Each keeps a polite live region and speaks only once its value has settled for
+ * a second, so a run of coins is one announcement, not twenty. `quiet` turns that off (a ticking timer, a busy score).
+ *
+ *   <pp-counter value="42" pad="3" label="Coins" sound="coin"><pp-sprite name="coin"></pp-sprite></pp-counter>
+ *   <pp-counter value="165" format="time" low="30" label="Time" quiet></pp-counter>
+ *   <pp-hearts value="3.5" max="5" label="Health"></pp-hearts>
+ *
+ *   coins.value += 10;   // counts up a whole step a frame, the coin bumps, the coin sound plays
+ *   hearts.value -= 1;   // the row shakes
+ */
+import { PixelElement, duration, frames, run, services } from "@jaatster/blip-core";
+
+const retrigger = (el: Element | null, name: string) => {
+  if (!el) return;
+  el.classList.remove(name);
+  void (el as HTMLElement).offsetWidth;
+  el.classList.add(name);
+};
+
+/** A number shown in the HUD, announced politely once it settles. */
+abstract class HudValue extends PixelElement {
+  static observedAttributes = ["value", "max", "low"];
+  #live?: HTMLElement;
+  #ready = false;
+  #say?: AbortController;
+
+  get value(): number {
+    return Number(this.getAttribute("value")) || 0;
+  }
+  set value(value: number) {
+    this.setAttribute("value", String(value));
+  }
+  /** What the value is, for screen readers: "Coins", "Health". */
+  get label(): string {
+    return this.getAttribute("label") ?? "";
+  }
+
+  protected abstract text(): string;
+  protected abstract draw(from?: number): void;
+
+  protected override connected(): void {
+    this.#live ??= this.appendChild(Object.assign(document.createElement("span"), { className: "pp-sr-only" }));
+    this.#live.setAttribute("aria-live", "polite");
+    this.#live.textContent = this.text();
+    this.#ready = true;
+    this.draw();
+  }
+
+  protected override disconnected(): void {
+    this.#ready = false;
+  }
+
+  attributeChangedCallback(name: string, old: string | null, now: string | null): void {
+    if (!this.#ready || old === now) return;
+    this.draw(name === "value" ? Number(old) || 0 : undefined);
+    if (this.hasAttribute("quiet")) return;
+    this.#say?.abort();
+    this.#say = new AbortController();
+    run([{ at: 1000, do: () => this.#live && (this.#live.textContent = this.text()) }], { signal: AbortSignal.any([this.signal, this.#say.signal]), instant: false });
+  }
+}
+
+/** A coin, score or time counter in Pixel Bop's tabular digits. */
+export class PixelCounter extends HudValue {
+  static override classes = ["pp-counter"];
+  #shown?: number;
+  #count?: AbortController;
+  #out?: HTMLElement;
+
+  /** The value as shown: zero-padded to `pad` digits, or m:ss with format="time". */
+  format(n: number): string {
+    const v = Math.max(0, Math.round(n));
+    if (this.getAttribute("format") === "time") return `${Math.floor(v / 60)}:${String(v % 60).padStart(2, "0")}`;
+    return String(v).padStart(Number(this.getAttribute("pad")) || 0, "0");
+  }
+
+  protected text(): string {
+    return `${this.label} ${this.format(this.value)}`.trim();
+  }
+
+  protected draw(from?: number): void {
+    if (!this.#out) {
+      this.#out = this.querySelector<HTMLElement>(".pp-counter-value") ?? this.appendChild(Object.assign(document.createElement("span"), { className: "pp-counter-value pp-display pp-pop" }));
+      this.#out.setAttribute("aria-hidden", "true");
+    }
+    const to = this.value, low = this.getAttribute("low");
+    this.toggleAttribute("data-low", low !== null && to <= Number(low));
+    this.#count?.abort();
+    const start = this.#shown ?? from ?? to;
+    if (from === undefined || start === to) return this.#render(to);
+    if (to > start) {
+      retrigger(this.querySelector(".pp-counter-icon, pp-sprite, svg"), "pp-bump");
+      const sound = this.getAttribute("sound");
+      if (sound) services.sound().play(sound);
+    }
+    // A whole step a frame, at most fifteen frames, so a big score still lands quickly.
+    const n = Math.min(Math.abs(to - start), 15);
+    this.#count = new AbortController();
+    frames(n, duration("frame", 40, this), (i) => this.#render(i === n - 1 ? to : Math.round(start + ((to - start) * (i + 1)) / n)), { signal: AbortSignal.any([this.signal, this.#count.signal]) });
+  }
+
+  #render(n: number): void {
+    this.#shown = n;
+    const text = this.format(n);
+    this.#out!.textContent = text;
+    this.#out!.dataset.pop = text;
+  }
+}
+
+/** Hearts for health: full, half and empty sprites (sprites.js draws them). */
+export class PixelHearts extends HudValue {
+  static override classes = ["pp-hearts"];
+
+  get max(): number {
+    return Number(this.getAttribute("max")) || 3;
+  }
+  set max(value: number) {
+    this.setAttribute("max", String(value));
+  }
+
+  protected text(): string {
+    return `${this.label} ${this.value}/${this.max}`.trim();
+  }
+
+  protected draw(from?: number): void {
+    const hearts = [...this.querySelectorAll("pp-sprite")];
+    for (let i = 0; i < Math.max(this.max, hearts.length); i++) {
+      if (i >= this.max) {
+        hearts[i]!.remove();
+        continue;
+      }
+      const left = this.value - i;
+      const heart = hearts[i] ?? this.insertBefore(document.createElement("pp-sprite"), this.querySelector(".pp-sr-only"));
+      heart.setAttribute("name", left >= 1 ? "heart" : left >= 0.5 ? "heart-half" : "heart-empty");
+    }
+    if (from !== undefined && this.value < from) retrigger(this, "pp-shake");
+  }
+}
+
+PixelElement.define("pp-counter", PixelCounter);
+PixelElement.define("pp-hearts", PixelHearts);
+
+declare global {
+  interface HTMLElementTagNameMap {
+    "pp-counter": PixelCounter;
+    "pp-hearts": PixelHearts;
+  }
+}

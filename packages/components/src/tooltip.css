@@ -1,0 +1,89 @@
+/*
+ * Tooltip. A small chip that names or explains the thing you point at or focus: the inverse of the page (ink with
+ * white text by day, starlight with ink text at night), with a pixel nub pointing at its trigger. <pp-tooltip>
+ * (from @jaatster/blip-elements) shows it on hover after a beat and on keyboard focus at once, hides it on Escape,
+ * links it with aria-describedby, and places it with CSS anchor positioning (its trigger is the popover's source),
+ * or by script where the browser does not anchor it.
+ *
+ *   <button class="pp-box pp-button" id="save-btn">Save</button>
+ *   <pp-tooltip for="save-btn">Saves to slot 2. Ctrl+S</pp-tooltip>
+ *
+ * The markup it makes, also usable on its own:
+ *
+ *   <span class="pp-box pp-tooltip" role="tooltip" data-side="top">Saves to slot 2<span class="pp-tooltip-nub" aria-hidden="true"></span></span>
+ *
+ *   data-side        top (default) | bottom | left | right        where it sits; the nub points the other way
+ *   --_pp-nub-x      where the nub sits along the top or bottom edge, when the chip was pushed back on screen
+ *   data-pp-static   drawn in the page flow, for docs, tests and screenshots
+ *
+ * Only text: never put links or buttons in a tooltip (use a popover). Never put anything people need only here.
+ */
+@import "./_feedback.css";
+
+@layer pp.components {
+  .pp-tooltip {
+    --pp-r: 2;
+    --pp-shape: var(--pp-shape-2);
+    --pp-shape-inner: var(--pp-shape-2-inner);
+    --pp-drop-size: 1;
+    --pp-box-top: var(--pp-text);
+    --pp-box-fill: var(--pp-text);
+    --pp-box-bottom: var(--pp-text);
+    --pp-box-text: var(--pp-text-inverse);
+    --pp-box-glint: transparent;
+    --_pp-gap: calc(5 * var(--pp-pixel));
+    position: fixed;
+    inset: auto;
+    margin: 0 0 var(--_pp-gap);
+    inline-size: max-content;
+    max-inline-size: round(down, min(calc(110 * var(--pp-pixel)), 100vw - 8 * var(--pp-pixel)), var(--pp-pixel));
+    padding: calc(2 * var(--pp-pixel)) calc(4 * var(--pp-pixel)) calc(3 * var(--pp-pixel));
+    overflow: visible;
+    color: var(--pp-box-text);
+    font-family: var(--pp-font-ui);
+    font-size: var(--pp-size-caption);
+    font-weight: var(--pp-weight-medium);
+    line-height: calc(8 * var(--pp-pixel));
+    text-align: start;
+    text-transform: none;
+    letter-spacing: 0;
+    white-space: normal;
+    position-area: top;
+  }
+  .pp-tooltip[data-side="bottom"] { margin: var(--_pp-gap) 0 0; position-area: bottom; }
+  .pp-tooltip[data-side="left"] { margin: 0 var(--_pp-gap) 0 0; position-area: left; }
+  .pp-tooltip[data-side="right"] { margin: 0 0 0 var(--_pp-gap); position-area: right; }
+  .pp-tooltip:popover-open { animation: pp-pop-in calc(2 * var(--pp-duration-frame)) steps(1, jump-end); }
+  .pp-tooltip[data-pp-static] { display: inline-block; position: relative; vertical-align: top; }
+
+  /* The nub, drawn pointing down in the top of a 7 x 7 pixel square and turned in quarter turns. */
+  .pp-tooltip-nub {
+    position: absolute;
+    top: calc(round(down, 100%, var(--pp-pixel)) - var(--pp-pixel));
+    left: var(--_pp-nub-x, calc(round(down, 50%, var(--pp-pixel)) - 3 * var(--pp-pixel)));
+    inline-size: calc(7 * var(--pp-pixel));
+    block-size: calc(7 * var(--pp-pixel));
+    background: var(--pp-box-outline);
+    mask: var(--_pp-g-nub) 0 0 / 100% calc(4 * var(--pp-pixel)) no-repeat;
+    pointer-events: none;
+  }
+  .pp-tooltip-nub::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--pp-box-fill);
+    mask: var(--_pp-g-nub-fill) 0 0 / 100% calc(4 * var(--pp-pixel)) no-repeat;
+  }
+  .pp-tooltip[data-side="bottom"] .pp-tooltip-nub { top: calc(-6 * var(--pp-pixel)); rotate: 180deg; }
+  .pp-tooltip:is([data-side="left"], [data-side="right"]) .pp-tooltip-nub { top: calc(round(down, 50%, var(--pp-pixel)) - 3 * var(--pp-pixel)); }
+  .pp-tooltip[data-side="left"] .pp-tooltip-nub { left: calc(round(down, 100%, var(--pp-pixel)) - var(--pp-pixel)); rotate: -90deg; }
+  .pp-tooltip[data-side="right"] .pp-tooltip-nub { left: calc(-6 * var(--pp-pixel)); rotate: 90deg; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pp-tooltip:popover-open { animation: none; }
+  }
+  @media (forced-colors: active) {
+    .pp-tooltip { background: Canvas; color: CanvasText; }
+    .pp-tooltip-nub { display: none; }
+  }
+}

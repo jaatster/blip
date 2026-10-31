@@ -1,0 +1,57 @@
+---
+name: Glint
+package: "@jaatster/blip-effects"
+css: text.css
+element: null
+react: null
+status: beta
+---
+
+# Glint
+
+The TV's shine: a band of light sweeps down and right across a candy box in five frames, 80 ms apart, every 4.5
+seconds, always inside the box's outline. CSS only.
+
+## Usage
+
+```html
+<button class="pp-box pp-button">Continue<span class="pp-glint" aria-hidden="true"></span></button>
+<div class="pp-box pp-tile" data-tone="red">…<span class="pp-glint" aria-hidden="true"></span></div>
+```
+
+Put one `.pp-glint` span inside any `.pp-box`. It reads the box's shape, so stepped corners of any radius stay clean.
+
+## Anatomy
+
+A band of pixels where x + y runs from a point to three past it: the outer two in the edge colour (light yellow, as
+on the TV), the middle two white. Its point moves from the top-left corner to the bottom-right in five frames
+(2, 14, 26, 38 and 50 pixels on the TV's 28-pixel block), clipped to the fill inside the outline.
+
+## Variants
+
+| | |
+|---|---|
+| `data-frame="0"` to `"4"` | Holds one frame (docs, tests, screenshots). |
+| `--pp-glint-delay` | Staggers several glints on one screen. |
+| `--pp-glint-color`, `--pp-glint-edge` | The band's colours (white, light yellow). |
+
+## States
+
+| State | Look |
+|---|---|
+| Reduced motion | No glint. |
+| Hidden tab | Nothing runs. |
+| Forced colours | No glint. |
+
+## Accessibility
+
+Decoration only: keep `aria-hidden="true"` on the span. The sweep is short and well apart.
+
+## Do and don't
+
+- **Do** glint the one thing you want noticed: the selected tile, the main call to action.
+- **Don't** glint a whole grid at once.
+
+## API
+
+`.pp-glint` (a child of a `.pp-box`), `data-frame`, `--pp-glint-delay`, `--pp-glint-color`, `--pp-glint-edge`.

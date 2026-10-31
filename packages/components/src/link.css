@@ -1,0 +1,70 @@
+/*
+ * Link. Words that go somewhere: underlined a pixel below the text in the accent's text colour, with a two-pixel
+ * underline on hover. Focus paints the link yellow with ink letters, the TV's focus highlight for text.
+ *
+ *   <a class="pp-link" href="/rules">house rules</a>
+ *   <a class="pp-link" data-variant="standalone" href="/levels">All levels <svg class="pp-icon" …></svg></a>
+ *   <a class="pp-link" href="https://example.com" target="_blank" data-external="opens in a new tab">Wiki</a>
+ *
+ *   data-variant="standalone"   a link on its own (under a card, at the end of a list): bold, underlined on hover
+ *   data-external="…"           a pixel arrow after the text; the attribute's words are read out with it
+ *   .pp-icon                    an icon before or after the words, sitting on the line
+ *   --pp-link-visited           the colour of visited links (the text colour by default)
+ *
+ * data-pp-state="hover focus visited" forces those looks for docs and tests.
+ */
+
+@layer pp.components {
+  .pp-link {
+    --pp-link-visited: var(--pp-text);
+    color: var(--pp-accent-text);
+    text-decoration-line: underline;
+    text-decoration-thickness: var(--pp-pixel);
+    text-underline-offset: calc(2 * var(--pp-pixel));
+    text-decoration-skip-ink: none;
+    border-radius: 0;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .pp-link:visited, .pp-link[data-pp-state~="visited"] { color: var(--pp-link-visited); }
+  .pp-link:hover, .pp-link[data-pp-state~="hover"] { text-decoration-thickness: calc(2 * var(--pp-pixel)); }
+
+  .pp-link:focus-visible, .pp-link[data-pp-state~="focus"] {
+    outline: 0;
+    box-shadow: 0 calc(2 * var(--pp-pixel)) 0 var(--pp-focus-edge);
+    background: var(--pp-focus);
+    color: var(--pp-ink);
+    text-decoration-line: none;
+  }
+
+  .pp-link[data-variant="standalone"] {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(2 * var(--pp-pixel));
+    font-weight: var(--pp-weight-bold);
+    text-decoration-line: none;
+  }
+  .pp-link[data-variant="standalone"]:is(:hover, [data-pp-state~="hover"]) { text-decoration-line: underline; }
+
+  /* Icons sit on the line without making it taller. */
+  .pp-link > .pp-icon { display: inline-block; margin-block: calc(-3 * var(--pp-pixel)); vertical-align: calc(-3 * var(--pp-pixel)); }
+  .pp-link[data-variant="standalone"] > .pp-icon { margin-block: 0; vertical-align: 0; }
+
+  .pp-link[data-external]::after {
+    content: "" / attr(data-external);
+    display: inline-block;
+    inline-size: calc(7 * var(--pp-pixel));
+    block-size: calc(7 * var(--pp-pixel));
+    margin-inline-start: calc(2 * var(--pp-pixel));
+    background: currentColor;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h4v1H3zM5 1h2v1H5zM4 2h1v1H4zM6 2h1v2H6zM3 3h1v1H3zM2 4h1v1H2zM1 5h1v1H1zM0 6h1v1H0z'/%3E%3C/svg%3E") 0 0 / 100% 100%;
+  }
+  .pp-link[data-external]:dir(rtl)::after { scale: -1 1; }
+
+  @media (forced-colors: active) {
+    .pp-link { color: LinkText; }
+    .pp-link:visited { color: VisitedText; }
+    .pp-link:focus-visible { outline: 2px solid Highlight; outline-offset: 2px; background: none; color: LinkText; }
+    .pp-link[data-external]::after { forced-color-adjust: none; background: LinkText; }
+  }
+}

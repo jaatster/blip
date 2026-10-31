@@ -1,0 +1,108 @@
+/*
+ * Accordion. A stack of <details>: each summary is a full-width box button with a pixel chevron that steps round,
+ * one frame at a time, when it opens. Give every <details> in a group the same name and only one stays open (the
+ * native exclusive accordion); leave the name off to let several open.
+ *
+ *   <div class="pp-accordion">
+ *     <details class="pp-accordion-item" name="faq" open>
+ *       <summary class="pp-box pp-accordion-summary">Can I play offline?<span class="pp-accordion-chevron"></span></summary>
+ *       <div class="pp-accordion-panel"><p>Yes. …</p></div>
+ *     </details>
+ *     …
+ *   </div>
+ *
+ *   data-variant   panel, white (default) | soft | candy | outline | ghost   on the summary: the row's tier
+ *   data-tone      any tone, on the summary                                 soft and candy summaries
+ *   .pp-box        on the panel: the answer in a cream box under its question
+ *
+ * The chevron is an empty span: it is drawn, never read. States come from the box: hover lifts, pressed sits in,
+ * focus is the yellow ring. The browser gives summaries their expanded state and Enter and Space.
+ */
+
+@layer pp.components {
+  .pp-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: var(--pp-space-4);
+    min-inline-size: 0;
+  }
+
+  .pp-accordion-summary {
+    --pp-r: 3;
+    --pp-shape: var(--pp-shape-3);
+    --pp-shape-inner: var(--pp-shape-3-inner);
+    --pp-band-top: 2;
+    --pp-band-bottom: 3;
+    display: flex;
+    align-items: center;
+    gap: var(--pp-space-6);
+    box-sizing: border-box;
+    min-block-size: var(--pp-control-md);
+    padding: calc(3 * var(--pp-pixel)) calc(6 * var(--pp-pixel)) calc(4 * var(--pp-pixel)) calc(8 * var(--pp-pixel));
+    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+    font-family: var(--pp-font-ui);
+    font-size: var(--pp-size-body);
+    font-weight: var(--pp-weight-bold);
+    line-height: var(--pp-leading-tight);
+    text-align: start;
+    list-style: none;
+  }
+  .pp-accordion-summary::-webkit-details-marker { display: none; }
+  .pp-accordion-summary:not([data-variant]) {
+    --pp-box-top: var(--pp-surface);
+    --pp-box-fill: var(--pp-surface);
+    --pp-box-bottom: var(--pp-surface-sunken);
+    --pp-box-text: var(--pp-text);
+    --pp-box-glint: transparent;
+  }
+
+  /* The chevron: right when closed, down when open, through one in-between frame. */
+  .pp-accordion-chevron {
+    flex: none;
+    inline-size: calc(7 * var(--pp-pixel));
+    block-size: calc(7 * var(--pp-pixel));
+    margin-inline-start: auto;
+    background: currentColor;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h2v1H1zM2 1h2v1H2zM3 2h2v1H3zM4 3h2v1H4zM3 4h2v1H3zM2 5h2v1H2zM1 6h2v1H1z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+  }
+  .pp-accordion-chevron:dir(rtl) { scale: -1 1; }
+  [open] > .pp-accordion-summary > .pp-accordion-chevron {
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7' shape-rendering='crispEdges'%3E%3Cpath d='M0 1h1v1H0zM6 1h1v1H6zM0 2h2v1H0zM5 2h2v1H5zM1 3h2v1H1zM4 3h2v1H4zM2 4h3v1H2zM3 5h1v1H3z'/%3E%3C/svg%3E");
+    animation: pp-accordion-turn calc(2 * var(--pp-duration-frame)) steps(1, jump-end);
+  }
+
+  .pp-accordion-panel {
+    padding: var(--pp-space-4) calc(8 * var(--pp-pixel)) var(--pp-space-6);
+    font-size: var(--pp-size-body);
+    line-height: var(--pp-leading-normal);
+  }
+  .pp-accordion-panel > * + * { margin-block-start: var(--pp-space-4); }
+  /* The answer in a cream box, tucked under its question. */
+  .pp-accordion-panel.pp-box {
+    --pp-r: 3;
+    --pp-shape: var(--pp-shape-3);
+    --pp-shape-inner: var(--pp-shape-3-inner);
+    margin: var(--pp-space-3) var(--pp-pixel) var(--pp-pixel) calc(6 * var(--pp-pixel));
+    padding: calc(6 * var(--pp-pixel)) calc(8 * var(--pp-pixel));
+  }
+  .pp-accordion-panel.pp-box:not([data-variant]) {
+    --pp-box-top: var(--pp-surface-panel);
+    --pp-box-fill: var(--pp-surface-panel);
+    --pp-box-bottom: var(--pp-surface-panel);
+    --pp-box-text: var(--pp-text);
+    --pp-box-glint: transparent;
+  }
+  [open] > .pp-accordion-panel { animation: pp-pop-in calc(2 * var(--pp-duration-frame)) steps(1, jump-end) both; }
+
+  @media (prefers-reduced-motion: reduce) {
+    [open] > .pp-accordion-summary > .pp-accordion-chevron, [open] > .pp-accordion-panel { animation: none; }
+  }
+  @media (forced-colors: active) {
+    .pp-accordion-chevron { background: ButtonText; }
+  }
+}
+
+/* The in-between frame: the chevron pointing down and right, held for the animation, then the open (down) frame. */
+@keyframes pp-accordion-turn {
+  0%, 100% { mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7' shape-rendering='crispEdges'%3E%3Cpath d='M4 1h2v3H4zM1 4h5v2H1z'/%3E%3C/svg%3E"); }
+}

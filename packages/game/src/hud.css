@@ -1,0 +1,118 @@
+/*
+ * HUD. The heads-up display over a game: hearts, segmented health and mana bars, coin and score counters, a timer.
+ * Numbers are Pixel Bop's tabular digits in POP (white, ink outline, a drop), so they read on any part of the world.
+ *
+ *   <div class="pp-hud">
+ *     <div class="pp-hud-group">
+ *       <pp-hearts value="3.5" max="5" label="Health"></pp-hearts>
+ *       <div class="pp-hud-stat">
+ *         <span class="pp-hud-label pp-display pp-pop" data-scale="1" aria-hidden="true">MP</span>
+ *         <div class="pp-box pp-hud-bar" data-tone="blue" role="meter" aria-label="Magic" aria-valuemin="0"
+ *              aria-valuemax="8" aria-valuenow="5" style="--pp-hud-value: 5; --pp-hud-max: 8; --pp-hud-segments: 8">
+ *           <span class="pp-hud-bar-fill"></span>
+ *         </div>
+ *       </div>
+ *     </div>
+ *     <pp-counter value="42" pad="3" label="Coins" sound="coin"><pp-sprite name="coin"></pp-sprite></pp-counter>
+ *   </div>
+ *
+ *   .pp-hud, .pp-hud-group  rows that wrap; groups keep together
+ *   .pp-hud-stat            a label beside its bar or number
+ *   pp-hearts               full, half and empty hearts (hud.js; sprites.js draws them)
+ *   .pp-hud-bar             a segmented meter: --pp-hud-value of --pp-hud-max, in --pp-hud-segments whole segments
+ *                           (default 10), rounded down; data-tone colours the fill (success by default)
+ *   pp-counter              counts to its value a whole step a frame; data-low (set from `low`) turns it red
+ *
+ * A bar is a meter: keep aria-valuenow equal to --pp-hud-value when you change it.
+ */
+
+@layer pp.kits {
+  .pp-hud {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: calc(4 * var(--pp-pixel)) calc(12 * var(--pp-pixel));
+    padding: calc(6 * var(--pp-pixel)) calc(8 * var(--pp-pixel));
+  }
+  .pp-hud-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: calc(4 * var(--pp-pixel)) calc(10 * var(--pp-pixel));
+  }
+  /* The last group keeps to the far side, even when it wraps onto a row of its own. */
+  .pp-hud-group:last-child:not(:first-child) { margin-inline-start: auto; }
+  .pp-hud-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(3 * var(--pp-pixel));
+  }
+  .pp-hud-label { white-space: nowrap; }
+
+  pp-hearts, .pp-hearts {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: var(--pp-pixel);
+    vertical-align: middle;
+  }
+
+  pp-counter, .pp-counter {
+    display: inline-flex;
+    align-items: center;
+    gap: calc(3 * var(--pp-pixel));
+    vertical-align: middle;
+  }
+  .pp-counter-value { white-space: nowrap; }
+  :is(pp-counter, .pp-counter)[data-low] .pp-counter-value {
+    --pp-pop-tint: var(--pp-candy-red-light);
+    --pp-pop-drop: var(--pp-candy-red-shade);
+  }
+
+  /* The bar: a slate track in a candy box, segments five pixels wide with ink between, filled in whole segments. */
+  .pp-hud-bar {
+    --pp-r: 1;
+    --pp-shape: var(--pp-shape-1);
+    --pp-shape-inner: var(--pp-shape-1-inner);
+    --pp-hud-value: 0;
+    --pp-hud-max: 10;
+    --pp-hud-segments: 10;
+    --pp-box-top: var(--pp-candy-slate-shade);
+    --pp-box-fill: var(--pp-candy-slate-shade);
+    --pp-box-bottom: var(--pp-candy-slate-shade);
+    --pp-box-glint: transparent;
+    display: inline-block;
+    vertical-align: middle;
+    inline-size: calc((var(--pp-hud-segments) * 6 + 1) * var(--pp-pixel));
+    block-size: calc(7 * var(--pp-pixel));
+    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+  }
+  .pp-hud-bar:not([data-tone]) {
+    --pp-tone: var(--pp-success);
+    --pp-tone-light: var(--pp-success-light);
+    --pp-tone-shade: var(--pp-success-shade);
+  }
+  .pp-hud-bar-fill {
+    position: absolute;
+    inset-block: var(--pp-pixel);
+    inset-inline-start: var(--pp-pixel);
+    inline-size: max(0px, calc(clamp(0, round(down, var(--pp-hud-value) / var(--pp-hud-max) * var(--pp-hud-segments), 1), var(--pp-hud-segments)) * 6 * var(--pp-pixel) - var(--pp-pixel)));
+    background:
+      linear-gradient(to right, transparent 0 var(--pp-pixel), var(--pp-white) 0 calc(2 * var(--pp-pixel)), transparent 0) 0 0 / calc(6 * var(--pp-pixel)) var(--pp-pixel) repeat-x,
+      linear-gradient(to bottom, var(--pp-tone-light) 0 var(--pp-pixel), var(--pp-tone) 0 calc(100% - var(--pp-pixel)), var(--pp-tone-shade) 0);
+  }
+  /* The gaps, over full and empty segments alike. */
+  .pp-hud-bar-fill::before {
+    content: "";
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: 0;
+    inline-size: calc((var(--pp-hud-segments) * 6 - 1) * var(--pp-pixel));
+    background: repeating-linear-gradient(to right, transparent 0 calc(5 * var(--pp-pixel)), var(--pp-ink) 0 calc(6 * var(--pp-pixel)));
+  }
+
+  @media (forced-colors: active) {
+    .pp-hud-bar-fill { background: Highlight; forced-color-adjust: none; }
+    .pp-hud-bar-fill::before { background: repeating-linear-gradient(to right, transparent 0 calc(5 * var(--pp-pixel)), Canvas 0 calc(6 * var(--pp-pixel))); }
+  }
+}

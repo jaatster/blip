@@ -1,0 +1,228 @@
+/*
+ * Tabs. Views of one thing, one at a time: a row of tabs over a panel. The selected tab sits in, like every selected
+ * thing; the underline variant marks it with a stepped bar instead. <pp-tabs> adds the keyboard (arrows, Home, End)
+ * and, when the row overflows, two buttons at its ends that scroll it in steps.
+ *
+ *   <pp-tabs class="pp-tabs" data-variant="outline">
+ *     <div class="pp-tabs-list" role="tablist" aria-label="Settings">
+ *       <button class="pp-box pp-tab" data-variant="outline" role="tab" aria-selected="true">General</button>
+ *       <button class="pp-box pp-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Audio</button>
+ *     </div>
+ *     <div class="pp-tabs-panel" role="tabpanel">…</div>
+ *     <div class="pp-tabs-panel" role="tabpanel" hidden>…</div>
+ *   </pp-tabs>
+ *
+ *   data-variant  on .pp-tabs: candy (default) | soft | outline | underline. Each tab carries the matching box tier
+ *                 (none, soft, outline, ghost for underline); <pp-tabs> fills it in when it is missing.
+ *   data-size     on .pp-tabs: sm | md (default)
+ *   data-arrow    on .pp-tabs: the TV's pointer arrow over the selected tab (where anchor positioning is supported)
+ *   aria-orientation="vertical" on the list: tabs down the side, the panel beside them (a row again under 480 px)
+ *   aria-selected="true", or aria-current="page" for tabs that are links: sits in
+ *   aria-disabled="true"  dithered; the arrow keys skip it
+ *
+ * Without the element the markup still shows the selected panel, and a row too long for its box scrolls.
+ */
+
+@layer pp.components {
+  .pp-tabs {
+    --_h: var(--pp-control-md);
+    /* Room inside the scrolling row for the ring, the lift and the drop. */
+    --_pad: var(--pp-space-3);
+
+    /* A size container: it takes the width it is given (it cannot grow to fit its content). */
+    container-type: inline-size;
+    inline-size: 100%;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: start;
+    row-gap: var(--pp-space-4);
+    font-family: var(--pp-font-ui);
+  }
+  .pp-tabs[data-size="sm"] { --_h: var(--pp-control-sm); }
+
+  .pp-tabs-list {
+    position: relative;
+    grid-row: 1;
+    grid-column: 1 / -1;
+    display: flex;
+    gap: var(--pp-space-3);
+    min-inline-size: 0;
+    padding: var(--_pad-top, var(--_pad)) var(--_pad) var(--_pad);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: thin;
+  }
+  .pp-tabs:not([data-overflow]) > .pp-tabs-list:not([aria-orientation="vertical"]) { margin-inline: calc(-1 * var(--_pad)); }
+
+  .pp-tab {
+    --pp-r: 4;
+    --pp-shape: var(--pp-shape-4);
+    --pp-shape-inner: var(--pp-shape-4-inner);
+    --pp-band-top: 4;
+    --pp-band-bottom: 4;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--pp-space-3);
+    flex: none;
+    block-size: var(--_h, var(--pp-control-md));
+    padding: 0 var(--pp-space-8);
+    /* Leave room for the drop. */
+    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+    font-size: var(--pp-size-small);
+    font-weight: var(--pp-weight-bold);
+    line-height: 1;
+    letter-spacing: var(--pp-tracking-label);
+    text-transform: uppercase;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  /* Selected is the accent fill: candy and soft tabs rest in cream and the selected one takes the accent (and sits in).
+     A tab with its own data-tone keeps it. */
+  .pp-tabs:not([data-variant="outline"], [data-variant="underline"]) > .pp-tabs-list > .pp-tab:not([aria-selected="true"], [aria-current="page"], [data-tone]) {
+    --pp-tone: var(--pp-candy-cream);
+    --pp-tone-light: var(--pp-candy-cream-light);
+    --pp-tone-shade: var(--pp-candy-cream-shade);
+    --pp-tone-on: var(--pp-ink);
+  }
+  /* Cream is too close to the page for the usual dither: a disabled cream tab dithers with the soft line. */
+  .pp-tabs:not([data-variant="outline"], [data-variant="underline"]) > .pp-tabs-list > .pp-tab:not([aria-selected="true"], [aria-current="page"], [data-tone]):is(:disabled, [aria-disabled="true"]) { --pp-box-dither: var(--pp-line-soft); }
+  .pp-tabs[data-size="sm"] > .pp-tabs-list > .pp-tab {
+    --pp-r: 3;
+    --pp-shape: var(--pp-shape-3);
+    --pp-shape-inner: var(--pp-shape-3-inner);
+    --pp-band-top: 3;
+    --pp-band-bottom: 3;
+    gap: var(--pp-space-2);
+    padding: 0 var(--pp-space-6);
+    font-size: var(--pp-size-caption);
+  }
+
+  .pp-tabs-panel {
+    grid-column: 1 / -1;
+    min-inline-size: 0;
+  }
+
+  /* ------------------------------------------------------------ underline */
+
+  /* Ghost tabs on a one-pixel rule; the selected tab's shade band becomes a two-pixel bar, its ends stepped by the
+     box's own corners. */
+  .pp-tabs[data-variant="underline"] > .pp-tabs-list:not([aria-orientation="vertical"]) {
+    gap: var(--pp-space-2);
+    background: linear-gradient(var(--pp-line-soft) 0 0) 0 calc(100% - var(--_pad)) / 100% var(--pp-pixel) no-repeat local;
+  }
+  .pp-tabs[data-variant="underline"] > .pp-tabs-list > .pp-tab {
+    --pp-r: 2;
+    --pp-shape: var(--pp-shape-2);
+    --pp-shape-inner: var(--pp-shape-2-inner);
+    --pp-band-bottom: 2;
+    margin: 0;
+    padding: 0 var(--pp-space-6);
+  }
+  .pp-tabs[data-variant="underline"] > .pp-tabs-list > .pp-tab:not([aria-selected="true"], [aria-current="page"]) { --pp-box-text: var(--pp-text-muted); }
+  .pp-tabs[data-variant="underline"] > .pp-tabs-list:not([aria-orientation="vertical"]) > .pp-tab:is([aria-selected="true"], [aria-current="page"]) {
+    --pp-box-bottom: var(--pp-accent-text);
+    --pp-box-text: var(--pp-text);
+  }
+  .pp-tabs[data-variant="underline"] > .pp-tabs-list:not([aria-orientation="vertical"]) > .pp-tab:is([aria-selected="true"], [aria-current="page"]):not(:focus-visible, [data-pp-state~="focus"]) {
+    --pp-box-outline: transparent;
+    --pp-box-top: transparent;
+    --pp-box-fill: transparent;
+  }
+
+  /* ------------------------------------------------------------ the arrow */
+
+  /* The TV's pointer arrow over the selected tab: 10 x 6, ink outline, accent fill, a white glint. It bobs for a few
+     beats, then rests. Anchored to whichever tab is selected. */
+  @supports (position-area: top) {
+    .pp-tabs[data-arrow] { --_pad-top: calc(10 * var(--pp-pixel)); }
+    .pp-tabs[data-arrow] > .pp-tabs-list > .pp-tab:is([aria-selected="true"], [aria-current="page"]) { anchor-name: --pp-tab; }
+    .pp-tabs[data-arrow] > .pp-tabs-list::after {
+      --_p: var(--pp-pixel);
+      content: "";
+      position: absolute;
+      position-anchor: --pp-tab;
+      position-area: top center;
+      margin-block-end: var(--pp-space-2);
+      inline-size: calc(10 * var(--_p));
+      block-size: calc(6 * var(--_p));
+      background:
+        linear-gradient(var(--pp-white) 0 0) calc(2 * var(--_p)) var(--_p) / var(--_p) var(--_p) no-repeat,
+        linear-gradient(var(--pp-accent-light) 0 0) var(--_p) var(--_p) / calc(8 * var(--_p)) var(--_p) no-repeat,
+        linear-gradient(var(--pp-accent) 0 0) calc(2 * var(--_p)) calc(2 * var(--_p)) / calc(6 * var(--_p)) var(--_p) no-repeat,
+        linear-gradient(var(--pp-accent) 0 0) calc(3 * var(--_p)) calc(3 * var(--_p)) / calc(4 * var(--_p)) var(--_p) no-repeat,
+        linear-gradient(var(--pp-accent-shade) 0 0) calc(4 * var(--_p)) calc(4 * var(--_p)) / calc(2 * var(--_p)) var(--_p) no-repeat,
+        var(--pp-outline);
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h10v2H9v1H8v1H7v1H6v1H4V5H3V4H2V3H1V2H0z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+      animation: pp-bob calc(2 * var(--pp-duration-beat)) steps(1, jump-end) 6;
+      pointer-events: none;
+    }
+  }
+
+  /* ------------------------------------------------------------ down the side */
+
+  .pp-tabs:has(> .pp-tabs-list[aria-orientation="vertical"]) { column-gap: var(--pp-space-8); }
+  .pp-tabs-list[aria-orientation="vertical"] {
+    grid-column: 1;
+    flex-direction: column;
+    overflow: visible;
+  }
+  .pp-tabs-list[aria-orientation="vertical"] > .pp-tab { justify-content: flex-start; }
+  .pp-tabs:has(> .pp-tabs-list[aria-orientation="vertical"]) > .pp-tabs-panel {
+    grid-row: 1;
+    grid-column: 2 / -1;
+  }
+  @container (width < 480px) {
+    .pp-tabs-list[aria-orientation="vertical"] {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      overflow-x: auto;
+    }
+    .pp-tabs:has(> .pp-tabs-list[aria-orientation="vertical"]) > .pp-tabs-panel {
+      grid-row: auto;
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* ------------------------------------------------------------ overflow */
+
+  /* <pp-tabs> adds these when the row is too long: they scroll it a few tabs at a time, in steps. */
+  .pp-tabs-scroll {
+    --pp-r: 3;
+    --pp-shape: var(--pp-shape-3);
+    --pp-shape-inner: var(--pp-shape-3-inner);
+
+    display: none;
+    grid-row: 1;
+    place-items: center;
+    inline-size: var(--pp-control-sm);
+    block-size: var(--_h);
+    margin-block-start: var(--_pad-top, var(--_pad));
+  }
+  .pp-tabs-scroll[data-dir="start"] { grid-column: 1; }
+  .pp-tabs-scroll[data-dir="end"] { grid-column: 3; }
+  .pp-tabs[data-overflow] > .pp-tabs-scroll { display: grid; }
+  .pp-tabs[data-overflow] > .pp-tabs-list {
+    grid-column: 2;
+    scrollbar-width: none;
+  }
+  .pp-tabs-scroll > span {
+    inline-size: calc(5 * var(--pp-pixel));
+    block-size: calc(7 * var(--pp-pixel));
+    background-color: currentColor;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5 7' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1h1v1h1v1h1v1H4v1H3v1H2v1H0V6h1V5h1V4h1V3H2V2H1V1H0z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+  }
+  .pp-tabs-scroll[data-dir="start"] > span,
+  .pp-tabs-scroll[data-dir="end"]:dir(rtl) > span { scale: -1 1; }
+  .pp-tabs-scroll[data-dir="start"]:dir(rtl) > span { scale: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pp-tabs-list::after { animation: none; }
+  }
+  @media (forced-colors: active) {
+    .pp-tab:is([aria-selected="true"], [aria-current="page"]) { border-width: 2px; }
+    .pp-tabs-list::after { forced-color-adjust: none; background: CanvasText !important; }
+    .pp-tabs-scroll > span { forced-color-adjust: none; }
+  }
+}

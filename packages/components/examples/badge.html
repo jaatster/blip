@@ -1,0 +1,65 @@
+<!-- Badge: counts, words and dots in every tone and tier, then pinned to buttons, avatars and icons. -->
+<div style="display:grid;grid-template-columns:max-content repeat(6,max-content);gap:calc(5*var(--pp-pixel)) calc(8*var(--pp-pixel));align-items:center">
+  <span></span><span class="pp-label pp-muted">Accent</span><span class="pp-label pp-muted">Info</span><span class="pp-label pp-muted">Success</span><span class="pp-label pp-muted">Warning</span><span class="pp-label pp-muted">Danger</span><span class="pp-label pp-muted">Neutral</span>
+  <span class="pp-label pp-muted">Candy</span>
+  <span class="pp-box pp-badge">7</span>
+  <span class="pp-box pp-badge" data-tone="info">Beta</span>
+  <span class="pp-box pp-badge" data-tone="success">New</span>
+  <span class="pp-box pp-badge" data-tone="warning">Low</span>
+  <span class="pp-box pp-badge" data-tone="danger">99+</span>
+  <span class="pp-box pp-badge" data-tone="neutral">12</span>
+  <span class="pp-label pp-muted">Soft</span>
+  <span class="pp-box pp-badge" data-variant="soft">7</span>
+  <span class="pp-box pp-badge" data-variant="soft" data-tone="info">Beta</span>
+  <span class="pp-box pp-badge" data-variant="soft" data-tone="success">New</span>
+  <span class="pp-box pp-badge" data-variant="soft" data-tone="warning">Low</span>
+  <span class="pp-box pp-badge" data-variant="soft" data-tone="danger">99+</span>
+  <span class="pp-box pp-badge" data-variant="soft" data-tone="neutral">12</span>
+  <span class="pp-label pp-muted">Outline</span>
+  <span class="pp-box pp-badge" data-variant="outline">7</span>
+  <span class="pp-box pp-badge" data-variant="outline" data-tone="info">Beta</span>
+  <span class="pp-box pp-badge" data-variant="outline" data-tone="success">New</span>
+  <span class="pp-box pp-badge" data-variant="outline" data-tone="warning">Low</span>
+  <span class="pp-box pp-badge" data-variant="outline" data-tone="danger">99+</span>
+  <span class="pp-box pp-badge" data-variant="outline" data-tone="neutral">12</span>
+  <span class="pp-label pp-muted">Small</span>
+  <span class="pp-box pp-badge" data-size="sm">7</span>
+  <span class="pp-box pp-badge" data-size="sm" data-tone="info">Beta</span>
+  <span class="pp-box pp-badge" data-size="sm" data-tone="success">New</span>
+  <span class="pp-box pp-badge" data-size="sm" data-tone="warning">Low</span>
+  <span class="pp-box pp-badge" data-size="sm" data-tone="danger">99+</span>
+  <span class="pp-box pp-badge" data-size="sm" data-tone="neutral">12</span>
+  <span class="pp-label pp-muted">Dot</span>
+  <span class="pp-box pp-badge" data-dot role="img" aria-label="Updated"></span>
+  <span class="pp-box pp-badge" data-dot data-tone="info" role="img" aria-label="Info"></span>
+  <span class="pp-box pp-badge" data-dot data-tone="success" role="img" aria-label="Online"></span>
+  <span class="pp-box pp-badge" data-dot data-tone="warning" role="img" aria-label="Away"></span>
+  <span class="pp-box pp-badge" data-dot data-tone="danger" role="img" aria-label="Busy"></span>
+  <span class="pp-box pp-badge" data-dot data-tone="neutral" role="img" aria-label="Offline"></span>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:calc(10*var(--pp-pixel));align-items:center;margin-block-start:calc(12*var(--pp-pixel))">
+  <button class="pp-box pp-button" type="button" data-icon-only data-variant="soft" aria-label="Notifications, 3 new">
+    <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 0h2v1H5zM4 1h4v1H4zM3 2h6v2H3zM2 4h8v3H2zM1 7h10v1H1zM0 8h12v1H0zM4 10h4v1H4z"/></svg>
+    <span class="pp-box pp-badge" data-tone="danger" data-size="sm" data-position="top-end" aria-hidden="true">3</span>
+  </button>
+  <button class="pp-box pp-button" type="button" data-icon-only data-variant="outline" aria-label="Messages, 120 unread">
+    <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M0 2h12v1H0zM0 3h2v1H0zM10 3h2v1H10zM0 4h1v5H0zM2 4h2v1H2zM8 4h2v1H8zM11 4h1v5H11zM4 5h4v1H4zM0 9h12v1H0z"/></svg>
+    <span class="pp-box pp-badge" data-tone="danger" data-size="sm" data-position="top-end" aria-hidden="true">99+</span>
+  </button>
+  <button class="pp-box pp-button" type="button" aria-label="Shop, new items">
+    Shop
+    <span class="pp-box pp-badge" data-dot data-tone="success" data-position="top-end" aria-hidden="true"></span>
+  </button>
+  <span class="pp-box pp-avatar" data-tone="teal" role="img" aria-label="Kit Moss, online">KM
+    <span class="pp-box pp-badge" data-dot data-tone="success" data-position="bottom-end" aria-hidden="true"></span>
+  </span>
+  <span class="pp-box pp-avatar" data-tone="pink" data-size="lg" role="img" aria-label="Pixel Pat, level 12">PP
+    <span class="pp-box pp-badge" data-tone="purple" data-size="sm" data-position="bottom-end" aria-hidden="true">12</span>
+  </span>
+  <span class="pp-badge-anchor" role="img" aria-label="Trophies, 2 new">
+    <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 0h8v1H2zM0 1h2v1H0zM3 1h6v5H3zM10 1h2v1H10zM0 2h1v2H0zM11 2h1v2H11zM1 4h1v1H1zM10 4h1v1H10zM4 6h4v1H4zM5 7h2v2H5zM4 9h4v1H4zM3 10h6v1H3z"/></svg>
+    <span class="pp-box pp-badge" data-tone="success" data-size="sm" data-position="top-end" aria-hidden="true">2</span>
+  </span>
+  <p class="pp-small">Inventory <span class="pp-box pp-badge" data-tone="neutral" data-size="sm">24</span> slots used</p>
+</div>

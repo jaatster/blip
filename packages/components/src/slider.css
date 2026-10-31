@@ -1,0 +1,171 @@
+/*
+ * Slider. A native <input type="range"> as a chunky groove and a cream candy knob, with optional tick marks and a
+ * value readout. The browser keeps the keyboard (arrows, Page Up and Down, Home, End) and the form value.
+ *
+ *   <div class="pp-slider-group">
+ *     <input class="pp-slider" id="music" name="music" type="range" min="0" max="10" value="7" list="music-ticks">
+ *     <output class="pp-box pp-slider-value" data-variant="panel" for="music" aria-hidden="true">7</output>
+ *     <datalist class="pp-slider-ticks" id="music-ticks"><option value="0">0</option>…<option value="10">10</option></datalist>
+ *   </div>
+ *
+ *   .pp-slider-group        lays out the slider, its readout and its ticks
+ *   .pp-slider-value        the value, in a small panel (aria-hidden: the slider already says its value)
+ *   .pp-slider-ticks        one mark per child, spread under the knob's travel; a child's text is its label
+ *   --pp-slider-value       0 to 1: how much of the groove is filled. <pp-field> keeps it (and the readout) in
+ *                           step with the slider; without it the groove stays empty (Firefox fills it natively)
+ *
+ * The knob can't be a .pp-box (it is a pseudo-element of the input), so it is drawn here from the same tokens and
+ * the same rules: a one-pixel ink outline with stepped corners, a light band and a shade band, glints, a drop. It
+ * lifts on hover, sits in while pressed, takes the yellow ring on focus and is dithered when disabled.
+ */
+
+@layer pp.components {
+  .pp-slider {
+    --_p: var(--pp-pixel);
+    --_v: var(--pp-slider-value, 0);
+    --_to: right;
+    --_d: 1;
+    --_y: 0px;
+    --_ink: var(--pp-outline);
+    --_line: var(--pp-line);
+    --_dither: transparent;
+    --_on: var(--pp-accent);
+    --_on2: var(--pp-accent-shade);
+    /* The knob, 8 x 12 pixels with its drop, in a 12 x 16 box: 2 clear pixels all round for the lift and drop. */
+    --_knob:
+      linear-gradient(var(--pp-white) 0 0) calc(4 * var(--_p)) calc(4 * var(--_p)) / calc(2 * var(--_p)) var(--_p) no-repeat,
+      linear-gradient(var(--pp-white) 0 0) calc(3 * var(--_p)) calc(5 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--pp-white) 0 0) calc(8 * var(--_p)) calc(4 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      repeating-conic-gradient(var(--_dither) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--_p)) calc(2 * var(--_p)),
+      linear-gradient(var(--pp-candy-cream-light) 0 calc(2 * var(--_p)), var(--pp-candy-cream) 0 calc(100% - 2 * var(--_p)), var(--pp-candy-cream-shade) 0) calc(3 * var(--_p)) calc(3 * var(--_p)) / calc(6 * var(--_p)) calc(10 * var(--_p)) no-repeat,
+      linear-gradient(var(--_ink) 0 0) calc(3 * var(--_p)) calc(2 * var(--_p)) / calc(6 * var(--_p)) calc(12 * var(--_p)) no-repeat,
+      linear-gradient(var(--_ink) 0 0) calc(2 * var(--_p)) calc(3 * var(--_p)) / calc(8 * var(--_p)) calc(10 * var(--_p)) no-repeat,
+      linear-gradient(var(--_ink) 0 0) calc((3 + var(--_d)) * var(--_p)) calc((2 + var(--_d)) * var(--_p)) / calc(6 * var(--_p)) calc(12 * var(--_p)) no-repeat,
+      linear-gradient(var(--_ink) 0 0) calc((2 + var(--_d)) * var(--_p)) calc((3 + var(--_d)) * var(--_p)) / calc(8 * var(--_p)) calc(10 * var(--_p)) no-repeat;
+    --_clip: border-box, border-box, border-box, content-box, border-box, border-box, border-box, border-box, border-box;
+    /* The groove, 4 pixels high: a line outline with stepped ends, filled with candy up to the knob's middle. */
+    --_track:
+      linear-gradient(to var(--_to), var(--_on2) 0 calc(5 * var(--_p) + var(--_v) * (100% - 10 * var(--_p))), var(--pp-line-soft) 0) var(--_p) var(--_p) / calc(100% - 2 * var(--_p)) var(--_p) no-repeat,
+      linear-gradient(to var(--_to), var(--_on) 0 calc(5 * var(--_p) + var(--_v) * (100% - 10 * var(--_p))), var(--pp-surface-sunken) 0) var(--_p) calc(2 * var(--_p)) / calc(100% - 2 * var(--_p)) var(--_p) no-repeat,
+      linear-gradient(var(--_line) 0 0) var(--_p) 0 / calc(100% - 2 * var(--_p)) 100% no-repeat,
+      linear-gradient(var(--_line) 0 0) 0 var(--_p) / 100% calc(100% - 2 * var(--_p)) no-repeat;
+
+    display: block;
+    inline-size: 100%;
+    block-size: calc(16 * var(--_p));
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    appearance: none;
+  }
+
+  /* Right to left the minimum is on the right, so the groove fills from there. */
+  .pp-slider:dir(rtl) { --_to: left; }
+  .pp-slider::-webkit-slider-runnable-track { block-size: calc(4 * var(--_p)); background: var(--_track); }
+  .pp-slider::-moz-range-track { block-size: calc(4 * var(--_p)); background: var(--_track); }
+  .pp-slider::-moz-range-progress { block-size: calc(2 * var(--_p)); background: linear-gradient(var(--_on2) 0 var(--_p), var(--_on) 0); }
+
+  .pp-slider::-webkit-slider-thumb {
+    box-sizing: border-box;
+    inline-size: calc(12 * var(--_p));
+    block-size: calc(16 * var(--_p));
+    margin-block-start: calc(-6 * var(--_p));
+    padding: calc(3 * var(--_p));
+    border: 0;
+    background: var(--_knob);
+    background-clip: var(--_clip);
+    background-origin: var(--_clip);
+    translate: 0 var(--_y);
+    appearance: none;
+  }
+  .pp-slider::-moz-range-thumb {
+    box-sizing: border-box;
+    inline-size: calc(12 * var(--_p));
+    block-size: calc(16 * var(--_p));
+    padding: calc(3 * var(--_p));
+    border: 0;
+    border-radius: 0;
+    background: var(--_knob);
+    background-clip: var(--_clip);
+    background-origin: var(--_clip);
+    translate: 0 var(--_y);
+  }
+
+  /* Hover lifts the knob a pixel (its drop grows so the shadow stays put); pressing sits it in its drop. */
+  @media (hover: hover) {
+    .pp-slider:not(:disabled):hover { --_d: 2; --_y: calc(-1 * var(--_p)); }
+  }
+  .pp-slider[data-pp-state~="hover"] { --_d: 2; --_y: calc(-1 * var(--_p)); }
+  .pp-slider:not(:disabled):active, .pp-slider[data-pp-state~="active"] { --_d: 0; --_y: 0px; }
+
+  /* Focus: the yellow ring with an ink edge round the knob, as on every box. */
+  .pp-slider:focus-visible { outline: 0; box-shadow: none; }
+  .pp-slider:is(:focus-visible, [data-pp-state~="focus"]) {
+    --_ring:
+      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--pp-focus)) drop-shadow(0 var(--_p) 0 var(--pp-focus))
+      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--pp-focus)) drop-shadow(var(--_p) 0 0 var(--pp-focus))
+      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--pp-focus-edge)) drop-shadow(0 var(--_p) 0 var(--pp-focus-edge))
+      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--pp-focus-edge)) drop-shadow(var(--_p) 0 0 var(--pp-focus-edge));
+  }
+  .pp-slider::-webkit-slider-thumb { filter: var(--_ring, none); }
+  .pp-slider::-moz-range-thumb { filter: var(--_ring, none); }
+
+  /* Disabled: the knob dithered with the page, no lift, no drop; the groove goes soft. */
+  .pp-slider:disabled { --_d: 0; --_dither: var(--pp-line-soft); --_line: var(--pp-line-soft); --_on: var(--pp-line-soft); --_on2: var(--pp-line-soft); cursor: not-allowed; }
+
+  /* The group: slider and readout side by side, ticks under the slider. */
+  .pp-slider-group {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: calc(6 * var(--pp-pixel));
+  }
+  .pp-slider-group > .pp-slider-ticks { grid-column: 1; }
+  .pp-slider-value {
+    --pp-r: 2;
+    --pp-shape: var(--pp-shape-2);
+    --pp-shape-inner: var(--pp-shape-2-inner);
+    min-inline-size: calc(18 * var(--pp-pixel));
+    padding: calc(2 * var(--pp-pixel)) calc(3 * var(--pp-pixel));
+    font-size: var(--pp-size-small);
+    font-weight: var(--pp-weight-bold);
+    line-height: var(--pp-leading-tight);
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Ticks: each child is as wide as the knob, so its mark lines up with the knob's middle at that value. */
+  .pp-slider-ticks {
+    display: flex;
+    justify-content: space-between;
+    margin: calc(-2 * var(--pp-pixel)) 0 0;
+    padding: 0;
+    font-size: var(--pp-size-caption);
+    line-height: var(--pp-leading-tight);
+    color: var(--pp-text-muted);
+  }
+  .pp-slider-ticks > * {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--pp-pixel);
+    inline-size: calc(12 * var(--pp-pixel));
+    min-block-size: 0;
+    padding: 0;
+    white-space: nowrap;
+    color: inherit;
+    font: inherit;
+    background: none;
+  }
+  .pp-slider-ticks > ::before { content: ""; inline-size: var(--pp-pixel); block-size: calc(2 * var(--pp-pixel)); background: currentColor; }
+
+  @media (forced-colors: active) {
+    .pp-slider::-webkit-slider-runnable-track { forced-color-adjust: none; background: CanvasText; }
+    .pp-slider::-webkit-slider-thumb { forced-color-adjust: none; background: ButtonText; border: 1px solid Canvas; }
+    .pp-slider:focus-visible::-webkit-slider-thumb { filter: none; background: Highlight; }
+    .pp-slider::-moz-range-thumb { background: ButtonText; }
+    .pp-slider-ticks > ::before { forced-color-adjust: none; background: CanvasText; }
+  }
+}

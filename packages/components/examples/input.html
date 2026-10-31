@@ -1,0 +1,75 @@
+<!-- Input: types and affixes, every state, sizes beside buttons of the same height. Forced states use
+     data-pp-state (docs and tests only). -->
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(calc(120*var(--pp-pixel)),1fr));gap:calc(8*var(--pp-pixel)) calc(12*var(--pp-pixel));align-items:start">
+  <div class="pp-field">
+    <label class="pp-field-label" for="in-name">Player name</label>
+    <span class="pp-box pp-input"><input id="in-name" type="text" placeholder="Pixel Pal" autocomplete="nickname"></span>
+  </div>
+  <div class="pp-field">
+    <label class="pp-field-label" for="in-email">Email</label>
+    <span class="pp-box pp-input"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M0 2h12v1H0zM0 3h1v6H0zM11 3h1v6h-1zM1 3h1v1H1zM10 3h1v1h-1zM2 4h1v1H2zM9 4h1v1H9zM3 5h1v1H3zM8 5h1v1H8zM4 6h4v1H4zM0 9h12v1H0z"/></svg><input id="in-email" type="email" value="pal@example.com" autocomplete="email"></span>
+  </div>
+  <div class="pp-field">
+    <label class="pp-field-label" for="in-password">Password</label>
+    <span class="pp-box pp-input"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 0h4v1H4zM3 1h1v3H3zM8 1h1v3H8zM2 4h8v1H2zM2 5h1v4H2zM9 5h1v4H9zM5 6h2v2H5zM2 9h8v1H2z"/></svg><input id="in-password" type="password" value="correct horse" autocomplete="new-password"></span>
+  </div>
+  <div class="pp-field">
+    <label class="pp-field-label" for="in-secret">Secret code</label>
+    <span class="pp-box pp-input"><input id="in-secret" type="password" value="up up down down" autocomplete="off"><button class="pp-box" data-variant="ghost" type="button" aria-label="Show code" aria-pressed="false" aria-controls="in-secret"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h4v1H4zM2 3h2v1H2zM8 3h2v1H8zM1 4h1v1H1zM10 4h1v1h-1zM5 4h2v1H5zM0 5h1v1H0zM11 5h1v1h-1zM4 5h4v1H4zM1 6h1v1H1zM10 6h1v1h-1zM5 6h2v1H5zM2 7h2v1H2zM8 7h2v1H8zM4 8h4v1H4z"/></svg></button></span>
+  </div>
+  <div class="pp-field">
+    <label class="pp-field-label" for="in-site">Your site</label>
+    <span class="pp-box pp-input"><span class="pp-input-affix" aria-hidden="true">https://</span><input id="in-site" type="url" placeholder="pixel.example" inputmode="url"></span>
+  </div>
+  <div class="pp-field">
+    <label class="pp-field-label" for="in-weight">Backpack weight</label>
+    <span class="pp-box pp-input"><input id="in-weight" type="number" value="12" min="0" max="99"><span class="pp-input-affix" aria-hidden="true">kg</span></span>
+  </div>
+  <div class="pp-field">
+    <label class="pp-field-label" for="in-phone">Phone</label>
+    <span class="pp-box pp-input"><input id="in-phone" type="tel" placeholder="+44 20 7946 0000" autocomplete="tel"></span>
+  </div>
+  <div class="pp-field">
+    <label class="pp-field-label" for="in-date">Birthday</label>
+    <span class="pp-box pp-input"><input id="in-date" type="date" value="2010-06-21"></span>
+  </div>
+  <div class="pp-field">
+    <label class="pp-field-label" for="in-time">Wake me at</label>
+    <span class="pp-box pp-input"><input id="in-time" type="time" value="07:30"></span>
+  </div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(calc(120*var(--pp-pixel)),1fr));gap:calc(8*var(--pp-pixel)) calc(12*var(--pp-pixel));align-items:start;margin-block:calc(12*var(--pp-pixel))">
+  <div class="pp-field">
+    <label class="pp-field-label" for="in-focus">Focus</label>
+    <span class="pp-box pp-input" data-pp-state="focus"><input id="in-focus" type="text" value="Meadow run"></span>
+  </div>
+  <div class="pp-field">
+    <label class="pp-field-label" for="in-invalid">Invalid</label>
+    <span class="pp-box pp-input"><input id="in-invalid" type="email" value="pal@" aria-invalid="true" aria-describedby="in-invalid-error"></span>
+    <p class="pp-field-error" id="in-invalid-error">Enter an email like pal@example.com.</p>
+  </div>
+  <div class="pp-field">
+    <label class="pp-field-label" for="in-valid">Success</label>
+    <span class="pp-box pp-input" data-tone="success"><input id="in-valid" type="text" value="pixelpal" aria-describedby="in-valid-help"></span>
+    <p class="pp-field-help" id="in-valid-help">That name is free.</p>
+  </div>
+  <div class="pp-field">
+    <label class="pp-field-label" for="in-readonly">Read-only</label>
+    <span class="pp-box pp-input"><input id="in-readonly" type="text" value="PP-7731-QX" readonly></span>
+  </div>
+  <div class="pp-field">
+    <label class="pp-field-label" for="in-disabled">Disabled</label>
+    <span class="pp-box pp-input"><input id="in-disabled" type="text" value="Locked until level 5" disabled></span>
+  </div>
+  <div class="pp-field">
+    <label class="pp-field-label" for="in-empty">Placeholder</label>
+    <span class="pp-box pp-input"><input id="in-empty" type="text" placeholder="Name your save"></span>
+  </div>
+</div>
+
+<div style="display:grid;gap:calc(4*var(--pp-pixel));max-inline-size:calc(200*var(--pp-pixel))">
+  <div style="display:flex;gap:calc(4*var(--pp-pixel));align-items:center"><span class="pp-box pp-input" data-size="sm" style="flex:1"><input type="text" aria-label="Small" placeholder="Small, 16 pixels"></span><button class="pp-box pp-button" data-size="sm">Go</button></div>
+  <div style="display:flex;gap:calc(4*var(--pp-pixel));align-items:center"><span class="pp-box pp-input" style="flex:1"><input type="text" aria-label="Medium" placeholder="Medium, 20 pixels"></span><button class="pp-box pp-button">Go</button></div>
+  <div style="display:flex;gap:calc(4*var(--pp-pixel));align-items:center"><span class="pp-box pp-input" data-size="lg" style="flex:1"><input type="text" aria-label="Large" placeholder="Large, 24 pixels"></span><button class="pp-box pp-button" data-size="lg">Go</button></div>
+</div>

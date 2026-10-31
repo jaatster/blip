@@ -1,0 +1,29 @@
+<!-- Rating: <pp-rating> to set a score (stars or hearts), and plain CSS to show one (any fraction, whole pixels).
+     The preview row is forced with data-preview (docs and tests only). -->
+<div style="display:grid;grid-template-columns:max-content max-content;gap:calc(6*var(--pp-pixel)) calc(12*var(--pp-pixel));align-items:center">
+  <span class="pp-label pp-muted" id="rt-fun">How fun was it?</span>
+  <pp-rating class="pp-rating" name="fun" value="4" aria-labelledby="rt-fun"></pp-rating>
+
+  <span class="pp-label pp-muted" id="rt-hard">How hard?</span>
+  <pp-rating class="pp-rating" name="hard" data-shape="heart" max="3" value="1" aria-labelledby="rt-hard"></pp-rating>
+
+  <span class="pp-label pp-muted" id="rt-none">Not rated yet</span>
+  <pp-rating class="pp-rating" name="music" aria-labelledby="rt-none"></pp-rating>
+
+  <span class="pp-label pp-muted">Preview</span>
+  <span class="pp-rating" data-preview style="--pp-rating-value:5" role="img" aria-label="Preview of 5 out of 5"></span>
+
+  <span class="pp-label pp-muted" id="rt-ro">Read-only</span>
+  <pp-rating class="pp-rating" value="3" readonly aria-labelledby="rt-ro"></pp-rating>
+
+  <span class="pp-label pp-muted" id="rt-off">Disabled</span>
+  <pp-rating class="pp-rating" value="2" disabled aria-labelledby="rt-off"></pp-rating>
+</div>
+
+<!-- Showing a score: no script, any fraction. -->
+<ul role="list" style="display:grid;gap:calc(4*var(--pp-pixel));margin-block-start:calc(12*var(--pp-pixel))">
+  <li style="display:flex;gap:calc(6*var(--pp-pixel));align-items:center"><span class="pp-rating" role="img" aria-label="Rated 4.5 out of 5" style="--pp-rating-value:4.5"></span><span class="pp-small">Cloud castle <span class="pp-muted">· 1,204 reviews</span></span></li>
+  <li style="display:flex;gap:calc(6*var(--pp-pixel));align-items:center"><span class="pp-rating" role="img" aria-label="Rated 3.2 out of 5" style="--pp-rating-value:3.2"></span><span class="pp-small">Coral reef <span class="pp-muted">· 388 reviews</span></span></li>
+  <li style="display:flex;gap:calc(6*var(--pp-pixel));align-items:center"><span class="pp-rating" data-shape="heart" role="img" aria-label="2 of 3 hearts left" style="--pp-rating-value:2;--pp-rating-max:3"></span><span class="pp-small">Lives left</span></li>
+  <li style="display:flex;gap:calc(6*var(--pp-pixel));align-items:center" data-pp-pixel="3"><span class="pp-rating" role="img" aria-label="Rated 5 out of 5" style="--pp-rating-value:5"></span><span class="pp-small">Three-pixel stars</span></li>
+</ul>

@@ -1,0 +1,133 @@
+/*
+ * File drop. A tray to drop files on or click to browse, and the list of what was picked, each with a remove
+ * button. The real control is a native <input type="file"> inside the tray: it opens the picker, takes the focus
+ * and sends the files with the form. <pp-file-drop> (from @jaatster/blip-elements) adds dropping, the list and
+ * removing; without JavaScript the browser's own file button shows in the tray.
+ *
+ *   <pp-file-drop class="pp-file-drop">
+ *     <label class="pp-box pp-file-drop-zone">
+ *       <input type="file" name="shots" multiple accept="image/png, image/jpeg">
+ *       <svg class="pp-icon" data-size="lg" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+ *       <strong>Drop screenshots here</strong>
+ *       <span>or click to browse. PNG or JPG.</span>
+ *     </label>
+ *     <ul class="pp-file-drop-list"></ul>
+ *   </pp-file-drop>
+ *
+ *   .pp-file-drop-zone      the tray: the calm well; hover darkens it; while files are dragged over it
+ *                           ([data-dragover] on the element, or data-pp-state="dragover") it takes the soft accent
+ *   .pp-file-drop-list      the picked files: .pp-file-drop-item rows with .pp-file-drop-name, .pp-file-drop-size
+ *                           and a .pp-file-drop-remove button
+ *
+ * Focus (the tray's yellow ring), invalid and disabled come from the file input inside, as for any field.
+ */
+
+@layer pp.components {
+  .pp-file-drop { display: grid; gap: calc(4 * var(--pp-pixel)); min-inline-size: 0; }
+
+  .pp-file-drop-zone {
+    --pp-r: 4;
+    --pp-shape: var(--pp-shape-4);
+    --pp-shape-inner: var(--pp-shape-4-inner);
+    --pp-band-top: 1;
+    --pp-band-bottom: 0;
+    --pp-drop-size: 0;
+    --pp-box-outline: var(--pp-line);
+    --pp-box-top: var(--pp-surface-sunken);
+    --pp-box-fill: var(--pp-surface);
+    --pp-box-bottom: var(--pp-surface);
+    --pp-box-text: var(--pp-text-muted);
+    --pp-box-glint: transparent;
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: calc(2 * var(--pp-pixel));
+    min-block-size: calc(52 * var(--pp-pixel));
+    padding: calc(8 * var(--pp-pixel));
+    font-size: var(--pp-size-small);
+    line-height: var(--pp-leading-normal);
+    text-align: center;
+    translate: none;
+  }
+  .pp-file-drop-zone > :is(strong, b) { font-size: var(--pp-size-body); color: var(--pp-text); }
+  .pp-file-drop-zone > .pp-icon { color: var(--pp-accent-text); }
+  .pp-file-drop-zone > input[type="file"] { max-inline-size: 100%; font-size: var(--pp-size-small); color: var(--pp-text); }
+  /* With the element, the input is invisible but still real: focus, keys and the form value stay its own. */
+  pp-file-drop:defined .pp-file-drop-zone > input[type="file"] { position: absolute; inset: 0; margin: 0; opacity: 0; pointer-events: none; }
+
+  @media (hover: hover) {
+    .pp-file-drop-zone:not(:has(> input:disabled)):hover { --pp-box-fill: var(--pp-surface-sunken); --pp-box-bottom: var(--pp-surface-sunken); }
+  }
+  .pp-file-drop-zone[data-pp-state~="hover"] { --pp-box-fill: var(--pp-surface-sunken); --pp-box-bottom: var(--pp-surface-sunken); }
+
+  /* Files over the tray: the soft accent, an ink outline, the candy's own text. */
+  .pp-file-drop[data-dragover] > .pp-file-drop-zone,
+  .pp-file-drop-zone[data-pp-state~="dragover"] {
+    --pp-box-outline: var(--pp-outline);
+    --pp-box-top: var(--pp-tone-shade);
+    --pp-box-fill: var(--pp-tone-light);
+    --pp-box-bottom: var(--pp-tone-light);
+    --pp-box-text: var(--pp-tone-on);
+  }
+  :is(.pp-file-drop[data-dragover] > .pp-file-drop-zone, .pp-file-drop-zone[data-pp-state~="dragover"]) > :is(strong, b, .pp-icon) { color: inherit; }
+
+  .pp-file-drop-zone:has(> input:is([aria-invalid="true"], :user-invalid)) { --pp-box-outline: var(--pp-danger-text); }
+  .pp-file-drop-zone:has(> input:disabled) {
+    --pp-box-outline: var(--pp-line-soft);
+    --pp-box-dither: var(--pp-surface-sunken);
+    cursor: not-allowed;
+  }
+
+  /* The list of files. */
+  .pp-file-drop-list { display: grid; gap: calc(2 * var(--pp-pixel)); min-inline-size: 0; margin: 0; padding: 0; list-style: none; }
+  .pp-file-drop-list:empty { display: none; }
+  .pp-file-drop-item {
+    --pp-r: 3;
+    --pp-shape: var(--pp-shape-3);
+    --pp-shape-inner: var(--pp-shape-3-inner);
+    --pp-band-top: 0;
+    --pp-band-bottom: 0;
+    --pp-drop-size: 0;
+    --pp-box-outline: var(--pp-line);
+    --pp-box-top: var(--pp-surface);
+    --pp-box-fill: var(--pp-surface);
+    --pp-box-bottom: var(--pp-surface);
+    --pp-box-text: var(--pp-text);
+    --pp-box-glint: transparent;
+    display: flex;
+    align-items: center;
+    gap: calc(4 * var(--pp-pixel));
+    min-inline-size: 0;
+    min-block-size: var(--pp-control-md);
+    padding-inline: calc(5 * var(--pp-pixel)) calc(2 * var(--pp-pixel));
+    font-size: var(--pp-size-small);
+  }
+  .pp-file-drop-name { flex: 1; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--pp-weight-bold); }
+  .pp-file-drop-size { flex: none; color: var(--pp-text-muted); font-variant-numeric: tabular-nums; }
+  .pp-file-drop-remove {
+    --pp-r: 3;
+    --pp-shape: var(--pp-shape-3);
+    --pp-shape-inner: var(--pp-shape-3-inner);
+    display: grid;
+    flex: none;
+    place-items: center;
+    inline-size: var(--pp-control-sm);
+    block-size: var(--pp-control-sm);
+    margin: 0;
+    padding: 0;
+    color: var(--pp-text);
+  }
+  .pp-file-drop-remove > span {
+    inline-size: calc(8 * var(--pp-pixel));
+    block-size: calc(8 * var(--pp-pixel));
+    background: currentColor;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1H0zM6 0h2v1H6zM0 1h3v1H0zM5 1h3v1H5zM1 2h6v1H1zM2 3h4v2H2zM1 5h6v1H1zM0 6h3v1H0zM5 6h3v1H5zM0 7h2v1H0zM6 7h2v1H6z'/%3E%3C/svg%3E") 0 0 / 100% 100%;
+  }
+
+  @media (forced-colors: active) {
+    .pp-file-drop[data-dragover] > .pp-file-drop-zone { border-style: dashed; }
+    pp-file-drop:defined .pp-file-drop-zone:has(> input:focus-visible) { outline: 2px solid Highlight; outline-offset: 2px; }
+    .pp-file-drop-remove > span { forced-color-adjust: none; background: ButtonText; }
+    .pp-file-drop-remove:disabled > span { background: GrayText; }
+  }
+}
