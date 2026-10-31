@@ -4,6 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Blip gallery</title>
+  <link rel="icon" href="data:,">
+  <script type="importmap">{ "imports": { "@jaatster/blip-core": "/packages/core/dist/js/index.js", "@jaatster/blip-tokens": "/packages/tokens/dist/js/index.js", "@jaatster/blip-icons": "/packages/icons/dist/index.js", "@jaatster/blip-sound": "/packages/sound/dist/index.js", "@jaatster/blip-effects": "/packages/effects/dist/index.js" } }</script>
   <link rel="stylesheet" href="/packages/font/font.css">
   <link rel="stylesheet" href="/packages/tokens/dist/css/tokens.css">
   <link rel="stylesheet" href="/packages/core/dist/core.css">
@@ -37,7 +39,7 @@
       section.innerHTML = `<h2 class="pp-title">${e.name} <small>@jaatster/blip-${e.pkg}</small></h2>${html}`;
       main.append(section);
     }
-    for (const src of manifest.js) await import(src);
+    for (const src of manifest.js) await import(src).catch((e) => console.error(`gallery: ${src} failed to load: ${e.message}`));
     document.body.dataset.ready = "";
   </script>
 </body>
