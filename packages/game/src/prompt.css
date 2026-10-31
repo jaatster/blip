@@ -16,6 +16,9 @@
  *   .pp-prompt-start     blinks on the beat for five seconds, then stays: blinking never runs on (WCAG 2.2.2)
  *
  * Prompts are labels, not controls: <kbd> for keys and buttons, role="img" with a name for the D-pad.
+ *
+ * A prompt line on the world wears OUTLINE (.pp-outline) or sits in a POP line; its keys and buttons never take
+ * that ink outline: they are candy, with their own label colour (ink, or white on slate) and no text shadow.
  */
 
 @layer pp.kits {
@@ -33,13 +36,16 @@
     text-transform: uppercase;
   }
 
-  /* Glyphs share Pixel Bop at scale 1: caps seven pixels tall, on the grid. */
+  /* Glyphs share Pixel Bop at scale 1: caps seven pixels tall, on the grid. A key is candy: its label is the box's
+     own colour and never inherits a POP or OUTLINE text shadow from the line around it. */
   :is(.pp-prompt-key, .pp-prompt-button, .pp-prompt-shoulder) {
     display: inline-flex;
     flex: none;
     align-items: flex-start;
     justify-content: center;
     margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+    color: var(--pp-box-text);
+    text-shadow: none;
     font-family: var(--pp-font-display);
     font-size: calc(10 * var(--pp-pixel));
     font-weight: 400;

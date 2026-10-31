@@ -37,7 +37,8 @@ page is used, a sidebar.
 
 1. **Sheet**: a candy box, raised, square corners. It runs one pixel past the screen on the sides it touches, so
    only its inner edge shows the ink outline. A left sheet casts its two-pixel drop onto the page.
-2. **Title bar, title, close, body, footer**: the dialog's parts (`.pp-dialog-header` and so on). The body scrolls.
+2. **Title bar, title, close, body, footer**: the dialog's parts (`.pp-dialog-header` and so on). The body scrolls,
+   with the dialog's cue while there is more below: an ink rule over the footer and a dithered fade.
 3. **Scrim**: the dialog's one-pixel ink checkerboard.
 
 ## Variants

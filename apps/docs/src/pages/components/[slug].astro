@@ -13,6 +13,7 @@ import { codeBlock, renderMarkdown, type Heading } from "../../lib/markdown";
 import { elementReference } from "../../lib/cem";
 import { code, esc, kitsFor, stripTags } from "../../lib/html";
 import { reactEntryFor } from "../../lib/react";
+import { anatomyFigure } from "../../lib/anatomy";
 
 export function getStaticPaths() {
   return componentDocs().map((doc) => ({ params: { slug: doc.slug }, props: { doc } }));
@@ -22,7 +23,7 @@ interface Props {
 }
 const { doc } = Astro.props;
 const { meta } = doc;
-const r = await renderMarkdown(doc.source, { link: docLink(doc.pkg) });
+const r = await renderMarkdown(doc.source, { link: docLink(doc.pkg), anatomy: anatomyFigure(doc.slug) });
 const ex = doc.example ? example(doc.example) : null;
 const kits = kitsFor(ex?.html ?? "", doc.pkg);
 const elements = (meta.element ?? "").split(",").map((s) => s.trim()).filter(Boolean);

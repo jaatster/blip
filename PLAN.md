@@ -187,7 +187,7 @@ behaviour is needed.
   - all component CSS 30 KB or less;
   - tokens 4 KB or less;
   - each element 3 KB or less;
-  - effects 13 KB or less (JS and CSS, including the core code they pull in);
+  - effects 14 KB or less (JS and CSS, including the core code they pull in; 13 KB until the world learned avoid);
   - the display font 15 KB or less.
 
   No runtime dependencies.

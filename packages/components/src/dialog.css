@@ -23,10 +23,12 @@
  *   role="alertdialog"   a confirmation that interrupts: add .pp-dialog-icon (the tone's sign) to the header
  *   data-pp-static       drawn in the page flow, without the top layer: for docs, tests and screenshots
  *
- * The body scrolls when the dialog is taller than the screen; the title bar and footer stay put. The drawer
- * (drawer.css) uses these same parts.
+ * The body scrolls when the dialog is taller than the screen; the title bar and footer stay put. While there is more
+ * below, an ink rule runs over the footer and the text dithers out above it; scrolled down, its top dithers too; a
+ * pixel scrollbar (_scroll.css). The drawer (drawer.css) uses these same parts.
  */
 @import "./_feedback.css";
+@import "./_scroll.css";
 
 @layer pp.components {
   pp-dialog { display: contents; }
@@ -119,6 +121,10 @@
     overscroll-behavior: contain;
   }
   .pp-dialog-body > :where(* + *) { margin-block-start: calc(4 * var(--pp-pixel)); }
+  /* The overflow cue's rule (_scroll.css) takes its pixel from the padding, so a body that fits moves nothing. */
+  @supports (animation-timeline: scroll()) {
+    .pp-dialog-body { padding-block-end: calc(5 * var(--pp-pixel)); }
+  }
   .pp-dialog-footer {
     display: flex;
     flex-wrap: wrap;

@@ -540,6 +540,12 @@ export interface DataTableOwnProps {
   zebra?: boolean;
   /** Tighter cells, for long tables and side panels. `data-density`. */
   density?: "compact";
+  /**
+   * On a phone, rows stack instead of scrolling across: under 576 px of the {@link TableScroll}, each row becomes a
+   * block of labelled values. Give each cell that is not the row's heading `data-label`, the column's name.
+   * `data-stack`.
+   */
+  stack?: boolean;
   /** Data on its way, with a {@link TableLoading} row. `aria-busy="true"`. */
   busy?: boolean;
 }
@@ -565,7 +571,7 @@ export type DataTableProps = DataTableOwnProps & NativeProps<"table", DataTableO
  *   </Table>
  */
 export const DataTable = forwardRef<HTMLTableElement, DataTableProps>(function DataTable(
-  { zebra, density, busy, className, ...rest },
+  { zebra, density, stack, busy, className, ...rest },
   ref,
 ) {
   return (
@@ -574,6 +580,7 @@ export const DataTable = forwardRef<HTMLTableElement, DataTableProps>(function D
       className={cx("pp-table", className)}
       data-zebra={flag(zebra)}
       data-density={density}
+      data-stack={flag(stack)}
       aria-busy={busy ? true : undefined}
       {...rest}
     />

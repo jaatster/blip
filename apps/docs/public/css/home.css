@@ -23,13 +23,12 @@
     mask-position: var(--pp-box-mask-position);
     mask-repeat: no-repeat;
     min-block-size: min(calc(100svh - var(--docs-top) - var(--pp-space-8)), calc(400 * var(--pp-pixel)));
-    align-content: start;
-    padding: var(--pp-space-24) var(--pp-space-16) calc(48 * var(--pp-pixel));
+    /* The words and the window in the sky, then the launcher seated on the hill line: the near hills' crest is 56
+       world pixels up from the bottom, so the row's labels end 44 pixels up and its tiles stand on the crest. */
+    grid-template-rows: auto minmax(var(--pp-space-12), 1fr) auto;
+    align-content: stretch;
+    padding: var(--pp-space-16) var(--pp-space-16) calc(44 * var(--pp-pixel));
   }
-  .home-scene { position: absolute; inset: 0; z-index: -1; }
-  .home-scene > pp-world { position: absolute; inset: 0; }
-  .home-scene > pp-world:not(:defined) { visibility: hidden; }
-
   .home-hero-grid {
     display: grid;
     gap: var(--pp-space-16) var(--pp-space-24);
@@ -41,13 +40,13 @@
   @container (width >= 860px) {
     .home-hero-grid { grid-template-columns: minmax(0, 1fr) calc(196 * var(--pp-pixel)); }
   }
-  .home-hero-copy { display: grid; justify-items: start; gap: var(--pp-space-6); padding-block-start: var(--pp-space-6); }
+  .home-hero-copy { display: grid; justify-items: start; gap: var(--pp-space-6); }
   .home-hero .pp-hero-title { margin: 0; }
   .home-lead { max-inline-size: 34ch; font-size: var(--pp-size-title); line-height: var(--pp-leading-normal); text-wrap: balance; }
   .home-note { font-weight: var(--pp-weight-medium); }
   /* At night the sky has a moon and stars: light text keeps an ink outline (the system's OUTLINE), so a line
-     that crosses the moon still reads. */
-  [data-pp-scheme="night"] :is(.home-lead, .home-note) {
+     that crosses a cloud still reads. */
+  [data-pp-scheme="night"] :is(.home-lead, .home-note, .home-date) {
     --_o: max(0.5px, calc(var(--pp-pixel) / 2));
     text-shadow:
       calc(-1 * var(--_o)) calc(-1 * var(--_o)) 0 var(--pp-ink), 0 calc(-1 * var(--_o)) 0 var(--pp-ink),
@@ -55,8 +54,42 @@
       var(--_o) 0 0 var(--pp-ink), calc(-1 * var(--_o)) var(--_o) 0 var(--pp-ink),
       0 var(--_o) 0 var(--pp-ink), var(--_o) var(--_o) 0 var(--pp-ink);
   }
+
+  /* The reader's own time, as the TV's Home shows it: POP digits in the sky, the date under them. */
+  .home-clock { display: grid; justify-items: start; gap: var(--pp-space-1); margin: 0; }
+  .home-time { display: flex; align-items: baseline; gap: var(--pp-space-3); }
+  .home-hm { --pp-scale: 2; line-height: 1; }
+  @container (width >= 600px) { .home-hm { --pp-scale: 3; } }
+  .home-period, .home-date { font-weight: var(--pp-weight-bold); }
+  .home-period { font-size: var(--pp-size-lead); text-transform: lowercase; }
+  .home-date { font-size: var(--pp-size-body); color: var(--pp-text-muted); }
+
+  /* The launcher: the site's sections as candy tiles on the hill line, the chosen one's name in POP above. */
+  .home-launch { grid-row: 3; display: grid; justify-items: center; gap: var(--pp-space-2); }
+  .home-pick { --pp-scale: 2; margin: 0; white-space: nowrap; text-align: center; }
+  @container (width >= 600px) { .home-pick { --pp-scale: 3; } }
+  .home-tiles-grid { display: block; }
+  .home-tiles {
+    --pp-tile-cell: calc(40 * var(--pp-pixel));
+    grid-template-columns: repeat(6, var(--pp-tile-cell));
+    justify-content: center;
+    gap: var(--pp-space-4) 0;
+  }
+  @container (width < 760px) {
+    .home-tiles { --pp-tile-cell: calc(36 * var(--pp-pixel)); grid-template-columns: repeat(3, var(--pp-tile-cell)); }
+  }
+  /* Each tile's name under it in OUTLINE (small text on the world): white, with an ink outline of the page's pixel,
+     not the launcher's bigger one. */
+  .home-launch { --_page-pixel: var(--pp-pixel); }
+  .home-tiles .pp-tile-label {
+    --_p: max(0.5px, calc(var(--_page-pixel) / 2));
+    color: var(--pp-white);
+  }
+  .home-scenery > pp-sprite { position: absolute; }
+  @container pp-shell (width < 600px) {
+    .home-hero { padding-inline: var(--pp-space-8); }
+  }
   @container (width < 600px) {
-    .home-hero { padding: var(--pp-space-16) var(--pp-space-8) calc(44 * var(--pp-pixel)); }
     .home-lead { font-size: var(--pp-size-lead); }
   }
 
@@ -85,11 +118,34 @@
     margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
   }
   .home-swatch > input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+  /* Auto: the three times of day's accents side by side, four pixels each, each with its own bands, hard stops. */
+  .home-swatch-split {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, var(--_t1) 0 calc(3 * var(--pp-pixel)), var(--pp-candy-blue) 0 calc(100% - 3 * var(--pp-pixel)), var(--_b1) 0) var(--pp-pixel) 0 / calc(4 * var(--pp-pixel)) 100% no-repeat,
+      linear-gradient(to bottom, var(--_t2) 0 calc(3 * var(--pp-pixel)), var(--pp-candy-pink) 0 calc(100% - 3 * var(--pp-pixel)), var(--_b2) 0) calc(5 * var(--pp-pixel)) 0 / calc(4 * var(--pp-pixel)) 100% no-repeat,
+      linear-gradient(to bottom, var(--_t3) 0 calc(3 * var(--pp-pixel)), var(--pp-candy-purple) 0 calc(100% - 3 * var(--pp-pixel)), var(--_b3) 0) calc(9 * var(--pp-pixel)) 0 / calc(4 * var(--pp-pixel)) 100% no-repeat;
+    mask-image: var(--pp-shape-inner);
+    mask-size: var(--pp-box-mask-size);
+    mask-position: var(--pp-box-mask-position);
+    mask-repeat: no-repeat;
+    --_t1: var(--pp-candy-blue-light); --_b1: var(--pp-candy-blue-shade);
+    --_t2: var(--pp-candy-pink-light); --_b2: var(--pp-candy-pink-shade);
+    --_t3: var(--pp-candy-purple-light); --_b3: var(--pp-candy-purple-shade);
+  }
+  /* Chosen, it sits in like the rest: its bands swap. */
+  .home-swatch:has(> input:checked) > .home-swatch-split {
+    --_t1: var(--pp-candy-blue-shade); --_b1: var(--pp-candy-blue-light);
+    --_t2: var(--pp-candy-pink-shade); --_b2: var(--pp-candy-pink-light);
+    --_t3: var(--pp-candy-purple-shade); --_b3: var(--pp-candy-purple-light);
+  }
+  .home-swatch-auto { --pp-tone-on: var(--pp-ink); }
   /* The chosen accent sits in, with a mark in its label colour. */
-  .home-swatch-mark { display: none; inline-size: calc(4 * var(--pp-pixel)); block-size: calc(4 * var(--pp-pixel)); background: var(--pp-tone-on); }
+  .home-swatch-mark { position: relative; display: none; inline-size: calc(4 * var(--pp-pixel)); block-size: calc(4 * var(--pp-pixel)); background: var(--pp-tone-on); }
   .home-swatch:has(> input:checked) > .home-swatch-mark { display: block; }
   .home-start { margin-block-start: var(--pp-space-2); }
-  .home-clock { font-variant-numeric: tabular-nums; }
+  .home-daytime { font-variant-numeric: tabular-nums; }
 
   /* ------------------------------------------------------------------ the tour */
 

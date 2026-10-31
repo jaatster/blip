@@ -44,12 +44,29 @@ buttons, row actions) and for highlights (selected rows take the accent's light 
 Everything is optional except the `<table>`: drop the frame for a table on a card, the scroll region for a short one,
 `<pp-table>` when you sort on the server.
 
+### On a phone
+
+A wide table scrolls across in its scroll region. One read a row at a time (a leaderboard, a list of options) reads
+better stacked: add `data-stack` to the table and `data-label` to each cell that is not the row's heading. Under
+576 px of the scroll region each row becomes a block of labelled values; the header row stays for screen readers.
+
+```html
+<table class="pp-table" data-zebra data-stack>
+  …
+  <tr>
+    <th scope="row">Pip Bloom</th>
+    <td data-label="World">Meadow</td>
+    <td class="pp-numeric" data-label="Score">98,120</td>
+  </tr>
+```
+
 ## Anatomy
 
 1. **Frame** (optional): `.pp-box.pp-table-frame`, a white panel; the table sits a pixel inside its outline.
 2. **Scroll region** (optional): `.pp-table-scroll`, scrolls across (and down, with `--pp-table-max-height`), with a
    pixel scrollbar: a candy thumb with an ink edge on a dithered track (Chrome and Safari; Firefox gets the colours).
-   Inside it the table keeps each row on one line and scrolls, rather than squeezing its columns.
+   Inside it the table keeps each row on one line and scrolls, rather than squeezing its columns; while there is
+   more to one side, that edge dithers out. With `data-stack` it is also the container the table measures.
 3. **Caption**: the table's name, bold, at the top.
 4. **Header**: upper-case labels over an ink rule; it sticks to the top of the scroll region.
 5. **Sort button**: a ghost box filling the header cell, with a pixel caret beside the label.
@@ -63,6 +80,7 @@ Everything is optional except the `<table>`: drop the frame for a table on a car
 |---|---|---|
 | `data-zebra` | | Every other body row in the sunken surface, instead of row lines. For wide tables. |
 | `data-density` | `compact` | Tighter cells for long tables and side panels. Narrow scroll regions (under 480 px) tighten on their own. |
+| `data-stack` | | On a phone, rows stack instead of scrolling across: under 576 px (36rem) of its scroll region, each row becomes a block, its heading first (the `th scope="row"`, or else the first cell), beside its checkbox, then each other cell as a label and its value. Give every such cell `data-label`, the column's name as the header says it. |
 | `.pp-numeric` | on `td` and `th` | Numbers: tabular digits, aligned to the end. Put it on the column's header too. |
 | `.pp-table-check` | on `td` and `th` | The narrow checkbox column. |
 | `.pp-table-empty`, `.pp-table-loading` | on a `<tr>` with one cell spanning the table | No data, or data on its way (three stepped dots). |
@@ -74,6 +92,8 @@ Everything is optional except the `<table>`: drop the frame for a table on a car
 | Sorted | `aria-sort="ascending"` or `"descending"` on the `<th>` | One caret, in the text colour. Sortable, unsorted columns show both carets, muted. |
 | Row hover | pointer | A one-pixel ink frame round the row, inside its cells: nothing moves. |
 | Row selected | its `.pp-table-check` checkbox is checked, or `aria-selected="true"` (in a grid) | The accent's light fill, ink text. |
+| Stacked | `data-stack`, under 576 px of the scroll region | Each row a block: heading first, then label and value pairs; a one-pixel line, or zebra fill, between rows. The sort buttons step aside with the header. |
+| Scrolled across | more to one side | That edge of the region dithers out in three hard steps, where the browser has scroll-driven animations. |
 | Sort button hover, focus, pressed | | From the ghost box: sunken well, yellow ring, sits in. |
 | Loading | `.pp-table-loading` row, `aria-busy="true"` on the table | Muted text and stepped dots; reduced motion shows all three dots. |
 | Empty | `.pp-table-empty` row | Centred, muted, with room around it. |

@@ -23,4 +23,4 @@ burst(button, { kind: "coin" });
 <div style="position: relative"><pp-world scheme="auto" parallax></pp-world>…</div>
 ```
 
-JS and CSS together are under 13 KB gzipped. [Docs](./docs) · [examples](./examples) · MIT
+JS and CSS together are under 14 KB gzipped. [Docs](./docs) · [examples](./examples) · MIT

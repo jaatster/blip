@@ -255,7 +255,7 @@ export function Landing() {
   return (
     <>
       <Hero>
-        <World scheme="auto" parallax clouds="drift" />
+        <World scheme="auto" parallax clouds="drift" avoid=".pp-hero-title, .pp-hero-lead, .pp-hero-actions" />
         <HeroInner>
           <HeroTitle>Blip</HeroTitle>
           <HeroLead>Candy on pastel.</HeroLead>
@@ -266,8 +266,8 @@ export function Landing() {
           </HeroActions>
         </HeroInner>
       </Hero>
-      <CtaBand candy tone="purple">
-        <CtaTitle candy>Ready?</CtaTitle>
+      <CtaBand variant="soft" tone="purple">
+        <CtaTitle boxed>Ready?</CtaTitle>
         <CtaText>It is free.</CtaText>
         <CtaActions>
           <ButtonLink href="/start" variant="outline">

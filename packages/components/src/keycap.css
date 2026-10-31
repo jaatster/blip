@@ -39,6 +39,8 @@
     text-transform: uppercase;
     white-space: nowrap;
     vertical-align: middle;
+    /* A key keeps its own label colour, never a POP or OUTLINE shadow from the text around it. */
+    text-shadow: none;
   }
   /* A key is cream unless it is given a tone. */
   .pp-keycap:not([data-tone]) {

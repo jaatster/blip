@@ -30,11 +30,17 @@
  *                              carets show, muted
  *   .pp-table-empty, .pp-table-loading   a whole-width row for no data, or while data loads (stepped dots)
  *   .pp-table-scroll           a keyboard-scrollable region with a pixel scrollbar; the header sticks to its top;
- *                              set --pp-table-max-height to make it scroll down as well as across
+ *                              set --pp-table-max-height to make it scroll down as well as across. While there is
+ *                              more to one side, that edge dithers out (_scroll.css)
+ *   data-stack                 under 576 px (36rem) of its scroll region each row stacks: its heading (th[scope=row],
+ *                              or the first cell), then label and value pairs, each label from the cell's data-label:
+ *                              <td data-label="Score" class="pp-numeric">98,120</td>
  *
  * <pp-table> (@jaatster/blip-elements) wires the sort buttons and the select-all checkbox. Without it the markup reads
  * and looks the same; sort on the server instead.
  */
+
+@import "./_scroll.css";
 
 @layer pp.components {
   /* The frame: a white panel; the scroller sits a pixel inside the outline, clear of the stepped corners. */
@@ -61,27 +67,9 @@
     overflow: auto;
     overscroll-behavior-inline: contain;
     container-type: inline-size;
-    scrollbar-color: var(--pp-line) var(--pp-surface-sunken);
   }
   /* In a frame, the focus ring is the yellow pixel just inside the frame's own ink outline. */
   .pp-table-frame > .pp-table-scroll:focus-visible { box-shadow: none; }
-
-  /* A pixel scrollbar where the browser lets us draw one: a candy thumb with an ink edge on a dithered track. */
-  @supports selector(::-webkit-scrollbar) {
-    .pp-table-scroll { scrollbar-color: auto; scrollbar-width: auto; }
-    .pp-table-scroll::-webkit-scrollbar { inline-size: calc(6 * var(--pp-pixel)); block-size: calc(6 * var(--pp-pixel)); }
-    .pp-table-scroll::-webkit-scrollbar-track {
-      background: repeating-conic-gradient(var(--pp-line-soft) 0 25%, var(--pp-surface-sunken) 0 50%) 0 0 / calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel));
-    }
-    .pp-table-scroll::-webkit-scrollbar-thumb {
-      border: var(--pp-pixel) solid var(--pp-outline);
-      border-radius: 0;
-      background: var(--pp-accent-light);
-      box-shadow: inset 0 calc(-1 * var(--pp-pixel)) 0 var(--pp-accent), inset 0 var(--pp-pixel) 0 var(--pp-white);
-    }
-    .pp-table-scroll::-webkit-scrollbar-thumb:hover { background: var(--pp-accent); }
-    .pp-table-scroll::-webkit-scrollbar-corner { background: var(--pp-surface-sunken); }
-  }
 
   .pp-table {
     --_py: calc(4 * var(--pp-pixel));
@@ -195,6 +183,85 @@
   }
   [aria-sort="ascending"] > .pp-table-sort > .pp-table-caret { --_up: currentColor; --_down: transparent; }
   [aria-sort="descending"] > .pp-table-sort > .pp-table-caret { --_up: transparent; --_down: currentColor; }
+
+  /*
+   * Stacked (data-stack): under 576 px (36rem) of its scroll region, a table stops scrolling across and each row
+   * becomes a little block. Its heading (the row's th[scope="row"], or else its first cell) leads, beside the row's
+   * checkbox if it has one; every other cell follows as a label and its value, the label read from the cell's
+   * data-label (the column's name, as the header says it). The header row stays for screen readers, out of sight, so
+   * the cells keep their column headers; the table stays a table.
+   */
+  @container (width < 576px) {
+    .pp-table[data-stack] {
+      --_pp-label: min(40cqi, calc(56 * var(--pp-pixel)));
+      display: block;
+    }
+    .pp-table-scroll > .pp-table[data-stack] { inline-size: 100%; min-inline-size: 0; }
+    .pp-table[data-stack] > caption { display: block; }
+    .pp-table[data-stack] > :is(tbody, tfoot) { display: block; }
+    .pp-table[data-stack] > thead {
+      position: absolute;
+      /* stylelint-disable-next-line blip/whole-pixels -- the visually hidden pattern: a 1px box that is never drawn */
+      inline-size: 1px;
+      /* stylelint-disable-next-line blip/whole-pixels -- the visually hidden pattern: a 1px box that is never drawn */
+      block-size: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+    .pp-table[data-stack] :is(tbody, tfoot) > tr {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: baseline;
+      padding-block: calc(3 * var(--pp-pixel));
+      box-shadow: inset 0 calc(-1 * var(--pp-pixel)) 0 var(--pp-line-soft);
+    }
+    .pp-table[data-stack] tbody > tr:last-child,
+    .pp-table[data-stack][data-zebra] tbody > tr { box-shadow: none; }
+    .pp-table[data-stack] tfoot > tr { box-shadow: inset 0 var(--pp-pixel) 0 var(--pp-line); }
+    .pp-table[data-stack] :is(tbody, tfoot) > tr > :is(td, th) {
+      grid-column: 1 / -1;
+      display: block;
+      padding: var(--pp-pixel) var(--_px) var(--pp-pixel) calc(var(--_px) + var(--_pp-label));
+      text-align: start;
+      box-shadow: none;
+    }
+    /* The label: the column's name, in the header's style, to the start of its value. */
+    .pp-table[data-stack] :is(tbody, tfoot) > tr > [data-label]::before {
+      content: attr(data-label);
+      float: inline-start;
+      box-sizing: border-box;
+      inline-size: var(--_pp-label);
+      margin-inline-start: calc(-1 * var(--_pp-label));
+      padding-inline-end: var(--_px);
+      font-size: var(--pp-size-caption);
+      font-weight: var(--pp-weight-bold);
+      letter-spacing: var(--pp-tracking-label);
+      text-transform: uppercase;
+      color: var(--pp-text-muted);
+      overflow-wrap: anywhere;
+    }
+    .pp-table[data-stack] :is(tbody, tfoot) > tr > :not([data-label]) { padding-inline-start: var(--_px); }
+    .pp-table[data-stack] :is(tbody, tfoot) > tr > [data-label]:empty { display: none; }
+    /* The row's heading leads, a little larger; the row's checkbox sits beside it. */
+    .pp-table[data-stack] :is(tbody, tfoot) > tr:has(> th[scope="row"]) > th[scope="row"],
+    .pp-table[data-stack] :is(tbody, tfoot) > tr:not(:has(> th[scope="row"]), .pp-table-empty, .pp-table-loading) > :is(:first-child:not(.pp-table-check), .pp-table-check:first-child + *) {
+      grid-row: 1;
+      padding-inline-start: var(--_px);
+      font-size: var(--pp-size-body);
+      font-weight: var(--pp-weight-bold);
+    }
+    .pp-table[data-stack] :is(tbody, tfoot) > tr:has(> .pp-table-check) > th[scope="row"],
+    .pp-table[data-stack] :is(tbody, tfoot) > tr:not(:has(> th[scope="row"])) > .pp-table-check:first-child + * { grid-column: 2 / -1; padding-inline-start: 0; }
+    .pp-table[data-stack] :is(tbody, tfoot) > tr:has(> th[scope="row"]) > th[scope="row"]::before,
+    .pp-table[data-stack] :is(tbody, tfoot) > tr:not(:has(> th[scope="row"])) > :is(:first-child, .pp-table-check:first-child + *)::before { content: none; }
+    .pp-table[data-stack] :is(tbody, tfoot) > tr > .pp-table-check { grid-column: 1; grid-row: 1; inline-size: auto; padding-inline: var(--_px) var(--pp-space-4); }
+    .pp-table[data-stack] :is(.pp-table-empty, .pp-table-loading) > td { padding-block: calc(12 * var(--pp-pixel)); text-align: center; }
+    @media (hover: hover) {
+      .pp-table[data-stack] tbody tr:not(.pp-table-empty, .pp-table-loading):hover > * { box-shadow: none; }
+      .pp-table[data-stack] tbody tr:not(.pp-table-empty, .pp-table-loading):hover { box-shadow: inset 0 0 0 var(--pp-pixel) var(--pp-line); }
+    }
+  }
 
   /* Empty and loading: one row across the table, centred and quiet. */
   .pp-table :is(.pp-table-empty, .pp-table-loading) > td {

@@ -36,7 +36,7 @@ export type HeroProps = HeroOwnProps & NativeProps<"section", HeroOwnProps>;
  * world shows, and two actions at most. Name it by its title.
  *
  *   <Hero aria-labelledby="hero-title">
- *     <World parallax />
+ *     <World parallax avoid=".pp-hero-title, .pp-hero-lead, .pp-hero-actions, .pp-hero-note" />
  *     <HeroInner>
  *       <HeroTitle id="hero-title">Starfall Meadow</HeroTitle>
  *       <HeroLead>Catch the stars that fall on the meadow before the sun comes up.</HeroLead>
@@ -529,7 +529,7 @@ export const FeatureChip = forwardRef<HTMLLIElement, FeatureChipProps>(function 
 export type PricingProps = NativeProps<"div">;
 
 /**
- * Plans side by side, three across where there is room, stacked on a phone: panels, and one candy plan marked best
+ * Plans side by side, three across where there is room, stacked on a phone: panels, and one raised plan marked best
  * value. Three plans at most; mark one, and only one. No invented savings or crossed-out prices.
  *
  *   <Pricing>
@@ -548,7 +548,7 @@ export type PricingProps = NativeProps<"div">;
  *     <Plan featured tone="pink" aria-labelledby="plan-deluxe">
  *       <PlanRibbon>Best value</PlanRibbon>
  *       …
- *       <ButtonLink variant="outline" fullWidth href="#deluxe">Buy Deluxe</ButtonLink>
+ *       <ButtonLink tone="pink" fullWidth href="#deluxe">Buy Deluxe</ButtonLink>
  *     </Plan>
  *   </Pricing>
  *
@@ -559,13 +559,17 @@ export const Pricing = forwardRef<HTMLDivElement, PricingProps>(function Pricing
 });
 
 /**
- * Own props of {@link Plan}: a panel, or the featured candy plan in its tone. Only the featured plan takes a tone.
+ * Own props of {@link Plan}: a panel, or the featured plan, raised and banded in its tone. Only the featured plan
+ * takes a tone.
  */
 export type PlanOwnProps =
   | {
-      /** The candy plan, marked best value: its checks are ink and its button outline. `data-featured`. */
+      /**
+       * The plan to pick, marked best value: a raised panel with a band of its tone's light colour along the top, its
+       * {@link PlanRibbon} in its candy, and the one candy button. `data-featured`.
+       */
       featured: true;
-      /** The featured plan's candy; the accent by default. `data-tone`. */
+      /** The featured plan's tone (its band, ribbon and button); the accent by default. `data-tone`. */
       tone?: Tone;
     }
   | { featured?: false; tone?: never };
@@ -573,9 +577,9 @@ export type PlanProps = PlanOwnProps & NativeProps<"article", { featured?: boole
 
 /**
  * One plan: an `<article>` named by its plan name, with rows for the name, price, text, features and a full-width
- * button at the foot, so buttons line up across plans. A panel, or with `featured` the candy plan (one per page),
- * with a {@link PlanRibbon}. Candy never stands on candy: the featured plan's button is outline, the others' soft.
- * Buttons name the plan: "Buy Deluxe".
+ * button at the foot, so buttons line up across plans. A panel, or with `featured` the plan to pick (one per page):
+ * raised, banded in its tone, with a {@link PlanRibbon}. Candy stays on what you press: the featured plan's button is
+ * the candy one, in its tone; the others' are soft. Buttons name the plan: "Buy Deluxe".
  *
  *   <Plan featured tone="pink" aria-labelledby="plan-deluxe">
  *     <PlanRibbon>Best value</PlanRibbon>
@@ -585,7 +589,7 @@ export type PlanProps = PlanOwnProps & NativeProps<"article", { featured?: boole
  *     </PlanPrice>
  *     <PlanText>The game, its music, and how it was made.</PlanText>
  *     <PlanFeatures><PlanFeature>Everything in Standard</PlanFeature></PlanFeatures>
- *     <ButtonLink variant="outline" fullWidth href="#deluxe">Buy Deluxe</ButtonLink>
+ *     <ButtonLink tone="pink" fullWidth href="#deluxe">Buy Deluxe</ButtonLink>
  *   </Plan>
  *
  * Renders `<article class="pp-box pp-plan" data-variant="panel">`, or `<article class="pp-box pp-plan"
@@ -608,7 +612,8 @@ export const Plan = forwardRef<HTMLElement, PlanProps>(function Plan({ featured,
 export type PlanRibbonProps = NativeProps<"p">;
 
 /**
- * The featured plan's cream tab on its top edge, in Pixel Bop capitals: plain text inside the plan ("Best value").
+ * A small candy tab riding a plan's top edge, in Pixel Bop capitals: in the featured plan's candy on that plan, cream
+ * elsewhere. Plain text inside the plan ("Best value").
  *
  *   <PlanRibbon>Best value</PlanRibbon>
  *
@@ -752,7 +757,7 @@ export interface PlanFeatureOwnProps {
 export type PlanFeatureProps = PlanFeatureOwnProps & NativeProps<"li", PlanFeatureOwnProps>;
 
 /**
- * One line of a plan's features, after a pixel check (in the success text colour; ink on the featured plan).
+ * One line of a plan's features, after a pixel check in the success text colour.
  *
  *   <PlanFeature>Free updates and new levels</PlanFeature>
  *   <PlanFeature off>The soundtrack</PlanFeature>
@@ -764,75 +769,90 @@ export const PlanFeature = forwardRef<HTMLLIElement, PlanFeatureProps>(function 
 });
 
 /* ---------------------------------------------------------------------------------------------------------------
- * CTA band (cta.css): one call to action across the page, on the world or on candy.
+ * CTA band (cta.css): one call to action across the page, on the world or on a soft panel.
  * ------------------------------------------------------------------------------------------------------------- */
 
-/** Own props of {@link CtaBand}: on the world (the default), or a candy band in a tone. */
-export type CtaBandOwnProps =
-  | {
-      /** A candy band (a candy box, radius 5) instead of the world: for a secondary ask. Its button is outline. */
-      candy: true;
-      /** The candy band's colour. `data-tone`. */
-      tone?: Tone;
-    }
-  | { candy?: false; tone?: never };
-export type CtaBandProps = CtaBandOwnProps & NativeProps<"section", { candy?: boolean; tone?: Tone }>;
+/** Own props of {@link CtaBand}: on the world (the default), or in a box: a soft panel in a tone, or a plain one. */
+export interface CtaBandOwnProps {
+  /**
+   * A band in a box instead of the world, for a quieter second ask: `soft` (the tone's light fill, its base as a lip
+   * along the bottom) or `panel` (the plain surface). Never a slab of candy: its button is outline. `data-variant`.
+   */
+  variant?: "soft" | "panel";
+  /** A soft band's colour. `data-tone`. */
+  tone?: Tone;
+  /** @deprecated A band is never a slab of candy any more: `candy` now draws the soft panel. Use `variant="soft"`. */
+  candy?: boolean;
+}
+export type CtaBandProps = CtaBandOwnProps & NativeProps<"section", CtaBandOwnProps>;
 
 /**
  * One call to action across the page, on a strip of the world (sky bands of the scheme, a `<World>` if you pass one
- * first, and a {@link CtaGround}) or, with `candy`, on a candy band. On the world the main button is candy: candy
- * stands on pastel. On a candy band it is outline: candy never stands on candy. One or two per page, named by the
- * title.
+ * first, and a {@link CtaGround}) or, with `variant`, on a soft panel. On the world the main button is candy: candy
+ * stands on pastel; give the world `avoid` so the sun and moon stay clear of the words. In a box the button is
+ * outline: candy stays on what you press. One or two per page, named by the title.
  *
  *   <CtaBand aria-labelledby="cta-title">
- *     <World />
+ *     <World avoid=".pp-cta-title, .pp-cta-text, .pp-cta-actions" />
  *     <CtaTitle id="cta-title">Catch the first star</CtaTitle>
  *     <CtaText>Wishlist Starfall Meadow and we'll send one email on launch day.</CtaText>
  *     <CtaActions><ButtonLink size="lg" href="#wishlist">Wishlist now</ButtonLink></CtaActions>
  *     <CtaGround />
  *   </CtaBand>
- *   <CtaBand candy tone="purple" aria-labelledby="press-title">
- *     <CtaTitle candy id="press-title">Writing about the game?</CtaTitle>
+ *   <CtaBand variant="soft" tone="purple" aria-labelledby="press-title">
+ *     <CtaTitle boxed id="press-title">Writing about the game?</CtaTitle>
  *     <CtaText>Screenshots, the trailer, logos and a fact sheet, in one download.</CtaText>
  *     <CtaActions><ButtonLink variant="outline" href="#press">Get the press kit</ButtonLink></CtaActions>
  *   </CtaBand>
  *
- * Renders `<section class="pp-cta">`, or `<section class="pp-box pp-cta">` with `candy`.
+ * Renders `<section class="pp-cta">`, or `<section class="pp-box pp-cta" data-variant="soft">` with `variant`.
  */
 export const CtaBand = forwardRef<HTMLElement, CtaBandProps>(function CtaBand(
-  { candy, tone, className, ...rest },
+  { variant, candy, tone, className, ...rest },
   ref,
 ) {
-  return <section ref={ref} className={cx(candy && "pp-box", "pp-cta", className)} data-tone={tone} {...rest} />;
+  const boxed = variant ?? (candy ? "soft" : undefined);
+  return (
+    <section
+      ref={ref}
+      className={cx(boxed && "pp-box", "pp-cta", className)}
+      data-variant={boxed}
+      data-tone={boxed ? tone : undefined}
+      {...rest}
+    />
+  );
 });
 
 /** Own props of {@link CtaTitle}. */
 export interface CtaTitleOwnProps {
-  /** On a candy band: Pixel Bop at scale 1 in the tone's ink, instead of POP at scale 2 (on the world). */
+  /** In a boxed band: Pixel Bop at scale 1 in the band's text colour, instead of POP at scale 2 (on the world). */
+  boxed?: boolean;
+  /** @deprecated Use `boxed`: the band it sits in is a soft panel now, not candy. */
   candy?: boolean;
 }
 export type CtaTitleProps<T extends ElementType = "h2"> = PolymorphicProps<T, CtaTitleOwnProps>;
 
 /**
- * The band's title: the action's reward in a few words, not the hero's. On the world it is POP at scale 2; on a
- * candy band (`candy`), Pixel Bop at scale 1 in the tone's ink. Give it the id the band is named by.
+ * The band's title: the action's reward in a few words, not the hero's. On the world it is POP at scale 2; in a
+ * boxed band (`boxed`), Pixel Bop at scale 1 in the band's text colour. Give it the id the band is named by.
  *
  *   <CtaTitle id="cta-title">Catch the first star</CtaTitle>
- *   <CtaTitle candy id="press-title">Writing about the game?</CtaTitle>
+ *   <CtaTitle boxed id="press-title">Writing about the game?</CtaTitle>
  *
  * Renders `<h2 class="pp-cta-title pp-display pp-pop" data-scale="2" data-pop="…">` (`data-pop` repeats the text,
- * when the children are text), or `<h2 class="pp-cta-title pp-display" data-scale="1">` with `candy`.
+ * when the children are text), or `<h2 class="pp-cta-title pp-display" data-scale="1">` with `boxed`.
  */
 export const CtaTitle = forwardRef(function CtaTitle(
-  { as: Tag = "h2", candy, className, children, ...rest }: CtaTitleProps<ElementType>,
+  { as: Tag = "h2", boxed, candy, className, children, ...rest }: CtaTitleProps<ElementType>,
   ref,
 ) {
+  const plain = boxed ?? candy;
   return (
     <Tag
       ref={ref}
-      className={cx("pp-cta-title pp-display", !candy && "pp-pop", className)}
-      data-scale={candy ? 1 : 2}
-      data-pop={candy ? undefined : popText(children)}
+      className={cx("pp-cta-title pp-display", !plain && "pp-pop", className)}
+      data-scale={plain ? 1 : 2}
+      data-pop={plain ? undefined : popText(children)}
       {...rest}
     >
       {children}

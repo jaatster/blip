@@ -340,4 +340,8 @@
   .docs-states-rule { min-inline-size: calc(100 * var(--pp-pixel)); line-height: var(--pp-leading-normal); }
   .docs-states tbody th { white-space: nowrap; }
   .docs-states .pp-input { inline-size: calc(56 * var(--pp-pixel)); }
+  @container (width < 576px) {
+    .docs-states-scroll > .docs-states[data-stack] { min-inline-size: 0; }
+    .docs-states[data-stack] td { white-space: normal; }
+  }
 }

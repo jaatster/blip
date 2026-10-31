@@ -6,7 +6,7 @@
  * they meet: never a smooth gradient.
  *
  *   <section class="pp-hero" aria-labelledby="hero-title">
- *     <pp-world parallax></pp-world>
+ *     <pp-world parallax avoid=".pp-hero-title, .pp-hero-lead, .pp-hero-actions, .pp-hero-note"></pp-world>
  *     <div class="pp-hero-inner">
  *       <h1 class="pp-hero-title pp-display" id="hero-title">
  *         <span class="pp-sr-only">Starfall Meadow</span>
@@ -27,6 +27,7 @@
  *   data-align="start"  text to the start side (centred by default)
  *   .pp-hero-ground  grass and dirt (--pp-hero-ground: 24 pixels); .pp-hero-scenery stands things on it
  *   --pp-hero-band   the sky bands' height in pixels (16); --pp-hero-tint, --pp-hero-drop the letters' POP colours
+ *   avoid            on the world, the parts it keeps its sun and moon clear of: the words, never behind them
  *
  * Read the headline from the hidden copy: the letters are aria-hidden so screen readers say the words, not letters.
  */

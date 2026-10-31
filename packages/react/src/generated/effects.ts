@@ -108,7 +108,7 @@ export const Typewriter = createComponent<PixelTypewriter, TypewriterProps>({
 });
 
 /** Props for {@link World}: `<pp-world>`. */
-export type WorldProps = ElementProps<PixelWorld, "scheme" | "parallax" | "clouds" | "stars" | "events" | "zoom" | "children"> & NoChildren & {
+export type WorldProps = ElementProps<PixelWorld, "scheme" | "parallax" | "clouds" | "stars" | "events" | "zoom" | "avoid" | "children"> & NoChildren & {
   /**
    * The time of day; "auto" follows the clock. Left out, the page's scheme.
    * Attribute `scheme`.
@@ -140,6 +140,11 @@ export type WorldProps = ElementProps<PixelWorld, "scheme" | "parallax" | "cloud
    * @default 1
    */
   zoom?: number;
+  /**
+   * A selector list of things the sky keeps clear of (".pp-hero-title, .pp-hero-lead"), matched in the world's container (its parent, or the nearest ancestor that holds a match). The sun, the moon, flaring stars and shooting stars go where they cross none of those boxes: the nearest clear place in their lane of the sky, else the same place across the sky if that is clear, else out of sight. Whole pixels, the same every time, and looked at again when anything resizes.
+   * Attribute `avoid`.
+   */
+  avoid?: string;
 };
 
 /**
@@ -150,7 +155,8 @@ export type WorldProps = ElementProps<PixelWorld, "scheme" | "parallax" | "cloud
  * scaled up crisply, and only redrawn when its size or its time of day changes.
  *
  * Attributes: scheme (day, sunset, night, auto, or left out to follow the page), parallax, clouds (drift; "none"
- * for none), stars (stars flare at night), events (birds by day, a shooting star at night), zoom.
+ * for none), stars (stars flare at night), events (birds by day, a shooting star at night), zoom, avoid (a selector
+ * list of what the sun, moon, flares and shooting stars keep clear of).
  *
  * Renders `<pp-world>` (@jaatster/blip-effects/world, loaded on the client when it first
  * mounts). The ref is the element.
@@ -167,6 +173,7 @@ export const World = createComponent<PixelWorld, WorldProps>({
     stars: ["stars", "stars", true],
     events: ["events", "events", true],
     zoom: ["zoom", "zoom", true],
+    avoid: ["avoid", "avoid", true],
   },
   empty: true,
 });

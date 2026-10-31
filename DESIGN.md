@@ -672,12 +672,16 @@ attributes and ARIA. Because every component is the same box, a new one matches 
 - **Internal Padding:** 16px (8 pixels), with 12px between its parts; 12px when small, 24px when large.
 - Pictures sit in a one-pixel ink frame and are never smoothed. A horizontal card puts its picture beside the text
   while both fit. Never put a card inside a card.
+- A container you read is never a slab of candy, however much it should stand out: the featured pricing plan is a
+  raised panel (a two-pixel drop) with a band of its tone along the top, its ribbon in its candy and the row's one
+  candy button; a call to action in a box is soft. Candy stays on what you press.
 
 ### Data
 
 Calm by design, so candy stays for what you act on. Tables and lists are white panels with soft, whole-pixel row
 lines (or zebra rows in the sunken surface); rows you can press are ghost boxes; a selected row takes the accent's
-light. A stat is a label, a Pixel Bop POP number and a pixel arrow in the colour of what the move means. An avatar is
+light. On a phone a table can stack (`data-stack`): each row becomes a block, its heading first, then each cell as a
+label and its value. A stat is a label, a Pixel Bop POP number and a pixel arrow in the colour of what the move means. An avatar is
 a picture drawn pixelated in a candy box, or initials in Pixel Bop at scale 1. A badge is a small candy box with a
 count, a word or nothing (a dot). A keycap is a cream candy box with a thicker shade band, so it stands up off the
 page. An accordion is a stack of native `<details>` whose chevron steps round a frame at a time. A divider is a
@@ -715,7 +719,9 @@ line of whole pixels: solid, dashed or dithered.
 
 - **Dialog:** a raised panel, radius 4, 448 px wide (320 and 640 for small and large), with a two-pixel drop, a
   title bar in the tone's light under an ink rule, and a Pixel Bop title at scale 1. It stands over the dithered
-  ink scrim and pops in one pixel low for a frame.
+  ink scrim and pops in one pixel low for a frame. Its body scrolls when it must: while more lies below, an ink
+  rule runs over the footer and the text dithers out above it in three hard steps (never a wash), and a pixel
+  scrollbar stands beside it. Any scroller that hides more to one side says so the same way.
 - **Toast:** floats in a corner with a two-pixel drop and a stepped countdown bar; it stays 5 seconds, pauses while
   pointed at or focused, and an error stays until dismissed. **Alert:** soft tone fill, ink outline, the tone's
   colour as a lip along the bottom, and a pixel sign that differs in shape as well as colour.
@@ -759,7 +765,10 @@ is the TV's picture, pixel for pixel; a wider world carries the landscape on to 
 scheme, or the clock on its own. Clouds can drift right a whole pixel at a time, layers slide 0 to 4 pixels
 against the pointer in two steps, stars flare at night, and now and then birds cross or a star shoots. With reduced
 motion it is a still, correct frame. It is decoration: hidden from assistive technology and in high-contrast mode.
-Big text on it is POP, small text OUTLINE; anything else needs a panel.
+Big text on it is POP, small text OUTLINE; anything else needs a panel. The words on it are named in its `avoid`,
+and the sun, the moon and shooting stars keep clear of them: the nearest clear place in their lane of the sky, in
+whole pixels, worked out again whenever the words or the world resize; with no clear sky at all they stay out of
+sight. Nothing in the sky sits behind text.
 
 ### States and motion
 

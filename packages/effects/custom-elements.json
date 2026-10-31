@@ -389,7 +389,7 @@
         },
         {
           "kind": "class",
-          "description": "<pp-world>: the world as a backdrop filling its positioned container. Each world pixel is the page's pixel\n(--pp-pixel) times `zoom`, a whole number of CSS pixels; the canvas is drawn at the world's own resolution and\nscaled up crisply, and only redrawn when its size or its time of day changes.\n\nAttributes: scheme (day, sunset, night, auto, or left out to follow the page), parallax, clouds (drift; \"none\"\nfor none), stars (stars flare at night), events (birds by day, a shooting star at night), zoom.",
+          "description": "<pp-world>: the world as a backdrop filling its positioned container. Each world pixel is the page's pixel\n(--pp-pixel) times `zoom`, a whole number of CSS pixels; the canvas is drawn at the world's own resolution and\nscaled up crisply, and only redrawn when its size or its time of day changes.\n\nAttributes: scheme (day, sunset, night, auto, or left out to follow the page), parallax, clouds (drift; \"none\"\nfor none), stars (stars flare at night), events (birds by day, a shooting star at night), zoom, avoid (a selector\nlist of what the sun, moon, flares and shooting stars keep clear of).",
           "name": "PixelWorld",
           "cssProperties": [
             {
@@ -438,6 +438,15 @@
                 "text": "string | null"
               },
               "attribute": "zoom"
+            },
+            {
+              "kind": "field",
+              "name": "avoid",
+              "type": {
+                "text": "string | null"
+              },
+              "description": "The avoid attribute: a selector list, or null.",
+              "attribute": "avoid"
             },
             {
               "kind": "field",
@@ -498,6 +507,14 @@
               "description": "World pixels per page pixel, a whole number.",
               "default": "1",
               "fieldName": "zoom"
+            },
+            {
+              "name": "avoid",
+              "type": {
+                "text": "string"
+              },
+              "description": "A selector list of things the sky keeps clear of (\".pp-hero-title, .pp-hero-lead\"), matched in the world's container (its parent, or the nearest ancestor that holds a match). The sun, the moon, flaring stars and shooting stars go where they cross none of those boxes: the nearest clear place in their lane of the sky, else the same place across the sky if that is clear, else out of sight. Whole pixels, the same every time, and looked at again when anything resizes.",
+              "fieldName": "avoid"
             }
           ],
           "superclass": {

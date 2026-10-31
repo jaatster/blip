@@ -115,6 +115,11 @@ export interface RenderOptions {
   keepIntro?: boolean;
   /** Shift every heading down by this many levels (an embedded document under the page's own h2). */
   shift?: number;
+  /**
+   * The component's anatomy figure (HTML), put before the list under the "Anatomy" heading, whose numbers it
+   * points at. Without one, that list loses its numerals: numbers pointing at nothing help no one.
+   */
+  anatomy?: string | null;
 }
 
 export function slug(s: string): string {
@@ -140,11 +145,14 @@ function keycapText(value: string): Node[] {
 }
 
 function dressTable(table: Element, label: string, labelId: string | undefined, regionNames: Map<string, number>): Element {
-  table.properties = { ...table.properties, className: ["pp-table", "docs-table"], dataDensity: "compact" };
+  // On a phone the rows stack: each cell is labelled with its column's header (data-label), the first cell leads.
+  table.properties = { ...table.properties, className: ["pp-table", "docs-table"], dataDensity: "compact", dataStack: true };
   const head = table.children.find((c) => isEl(c, "thead")) as Element | undefined;
   const firstHeader = head ? textOf(head).trim().split(/\s{2,}|\n/)[0] : "";
   const headCells = head ? ((head.children.find((c) => isEl(c, "tr")) as Element | undefined)?.children.filter((c) => isEl(c)) as Element[]) : [];
   const isKeys = /^keys?$/i.test(textOf(headCells?.[0] ?? text(firstHeader)).trim());
+  // Each column's name as its header says it: the label a cell shows when the rows stack (none for a blank header).
+  const labels = (headCells ?? []).map((th) => textOf(th).trim());
   if (head) for (const th of headCells ?? []) {
     th.properties = { ...th.properties, scope: "col" };
     // A blank header (a table's last column of notes) still needs a name for screen readers.
@@ -154,6 +162,9 @@ function dressTable(table: Element, label: string, labelId: string | undefined, 
   if (body) {
     for (const row of body.children.filter((c) => isEl(c, "tr")) as Element[]) {
       const cells = row.children.filter((c) => isEl(c)) as Element[];
+      cells.forEach((cell, i) => {
+        if (i > 0 && labels[i]) cell.properties = { ...cell.properties, dataLabel: labels[i] };
+      });
       if (isKeys && cells[0]) cells[0].children = cells[0].children.flatMap((c) => (c.type === "text" ? keycapText((c as { value: string }).value) : [c]));
       // An empty first column (a table of options with no name) reads better without an empty cell's outline.
     }
@@ -195,6 +206,7 @@ export async function renderMarkdown(source: string, options: RenderOptions = {}
   const codes: { node: Element; code: string; lang: string }[] = [];
   const regionNames = new Map<string, number>();
   let lastHeading: { id: string; text: string } | undefined;
+  let anatomyList = false;
 
   const walk = (parent: { children: Node[] }) => {
     for (let i = 0; i < parent.children.length; i++) {
@@ -215,7 +227,19 @@ export async function renderMarkdown(source: string, options: RenderOptions = {}
         if (shift) n.tagName = `h${Math.min(6, depth + shift)}`;
         headings.push({ depth: depth + shift, id, text: t });
         lastHeading = { id, text: t };
+        anatomyList = depth === 2 && /^anatomy$/i.test(t);
         continue;
+      }
+      // The first numbered list under "Anatomy": the figure goes before it, or it becomes a plain list.
+      if (tag === "ol" && anatomyList) {
+        anatomyList = false;
+        if (options.anatomy) {
+          n.properties = { ...n.properties, className: ["docs-anatomy-list"] };
+          parent.children.splice(i++, 0, { type: "raw", value: options.anatomy });
+        } else {
+          n.tagName = "ul";
+          n.properties = { ...n.properties, className: ["docs-anatomy-plain"] };
+        }
       }
       if (tag === "a") {
         const href = String(n.properties?.href ?? "");

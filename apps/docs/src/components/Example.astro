@@ -37,7 +37,7 @@ const code = await codeBlock(source, "html", "HTML", true);
       </div>
     )}
   </div>
-  <div class="pp-box docs-stage" id={`${id}-stage`}><Fragment set:html={html} /></div>
+  <div class="pp-box docs-stage" id={`${id}-stage`}><div class="docs-stage-scroll"><Fragment set:html={html} /></div></div>
   <details class="docs-source">
     <summary class="pp-box pp-button" data-variant="outline" data-size="sm"><span class="docs-when-closed">Show the HTML</span><span class="docs-when-open">Hide the HTML</span></summary>
     <Fragment set:html={code} />

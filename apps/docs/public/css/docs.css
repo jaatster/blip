@@ -44,7 +44,7 @@
   /* Pixel scrollbars: a candy thumb with an ink edge on a dithered track, wherever the browser lets us draw one;
      elsewhere the scheme's colours. */
   @supports selector(::-webkit-scrollbar) {
-    :root, .docs-sidebar, .docs-code pre, .docs-scroll { scrollbar-color: auto; scrollbar-width: auto; }
+    :root, .docs-sidebar, .docs-code pre, .docs-scroll, .docs-stage-scroll { scrollbar-color: auto; scrollbar-width: auto; }
     ::-webkit-scrollbar { inline-size: calc(6 * var(--pp-pixel)); block-size: calc(6 * var(--pp-pixel)); }
     ::-webkit-scrollbar-track {
       background: repeating-conic-gradient(var(--pp-line-soft) 0 25%, var(--pp-surface-sunken) 0 50%) 0 0 / calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel));
@@ -57,6 +57,27 @@
     }
     ::-webkit-scrollbar-thumb:hover { background: var(--pp-accent); }
     ::-webkit-scrollbar-corner { background: var(--pp-surface-sunken); }
+  }
+
+  /* Scrolling across (an example's stage, a code block, a sample screen): while there is more to one side, that
+     edge dithers out in three hard steps (three quarters, a half, a quarter), never a wash. Driven by the scroller's
+     own scroll timeline, so it shows only while there is more; where the browser has none, the scrollbar says so. */
+  @supports (animation-timeline: scroll()) {
+    :is(.docs-stage-scroll, .docs-code pre, .docs-scroll) {
+      --_dx-s: 0;
+      --_dx-e: 0;
+      --_dx-w: calc(12 * var(--pp-pixel));
+      --_dx-end: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 2' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h4v1H0zM4 0h1v1H4zM6 0h1v1H6zM8 0h1v1H8zM10 0h1v1H10zM1 1h1v1H1zM3 1h1v1H3zM5 1h1v1H5zM7 1h1v1H7z'/%3E%3C/svg%3E");
+      --_dx-start: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 2' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h1v1H1zM3 0h1v1H3zM5 0h1v1H5zM7 0h1v1H7zM8 0h4v1H8zM4 1h1v1H4zM6 1h1v1H6zM8 1h1v1H8zM10 1h1v1H10z'/%3E%3C/svg%3E");
+      mask:
+        linear-gradient(#000 0 0) calc(var(--_dx-s) * var(--_dx-w)) 0 / calc(100% - (var(--_dx-s) + var(--_dx-e)) * var(--_dx-w)) 100% no-repeat,
+        var(--_dx-start) 0 0 / calc(var(--_dx-s) * var(--_dx-w)) calc(2 * var(--pp-pixel)) repeat-y,
+        var(--_dx-end) 100% 0 / calc(var(--_dx-e) * var(--_dx-w)) calc(2 * var(--pp-pixel)) repeat-y;
+      animation: docs-scroll-x steps(1, jump-end) both;
+      animation-timeline: scroll(self inline);
+    }
+    /* With keyboard focus the cue steps aside, so the focus ring is never dithered. */
+    :is(.docs-stage-scroll, .docs-code pre, .docs-scroll):focus-visible { mask: none; }
   }
 
   /* Without the script, the parts that need it stay out of the way. */
@@ -123,7 +144,16 @@
   .docs-search-keys .pp-keycap { pointer-events: none; }
   @container pp-app-bar (width < 760px) {
     .docs-search-button { --pp-r: 3; }
-    .docs-search-label, .docs-search-keys { display: none; }
+    .docs-search-keys { display: none; }
+    /* The icon alone shows; the word stays for screen readers, so the link keeps its name. */
+    .docs-search-label {
+      position: absolute;
+      inline-size: var(--pp-pixel);
+      block-size: var(--pp-pixel);
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
     .docs-search-button { padding-inline: var(--pp-space-3); }
   }
   .docs-display-icon { display: none; }
@@ -377,6 +407,93 @@
   .docs-keys td:first-child { white-space: normal; inline-size: 30%; }
   .docs-keys .pp-keycap, .docs-keys .pp-keys { vertical-align: middle; margin-block: var(--pp-pixel); }
   .docs-table .pp-keycap { margin-inline-end: var(--pp-pixel); }
+  /* On a phone the rows stack (data-stack): no minimum width, and the leading cell wraps like any other. */
+  @container (width < 576px) {
+    .docs-table-scroll > .docs-table[data-stack] { min-inline-size: 0; }
+    .docs-table[data-stack] td:first-child { white-space: normal; }
+    .docs-table[data-stack] td:not(:first-child) { min-inline-size: 0; }
+    .docs-keys[data-stack] td:first-child { inline-size: auto; }
+  }
+
+  /* ------------------------------------------------------------------ anatomy figures (src/lib/anatomy.ts) */
+
+  /* The real component at a big pixel: the largest whole number of CSS pixels, 3 to 6, that fits the column. Tags
+     and leader lines keep the page's pixel; each line runs straight from its tag to the centre of the pixel it names. */
+  .docs-fig { container-type: inline-size; margin: var(--pp-space-8) 0 var(--pp-space-8); }
+  .docs-fig-canvas {
+    --docs-fp: clamp(3px, round(down, 100cqi / var(--w), 1px), 6px);
+    --_line: var(--pp-pixel);
+    --_tag: calc(12 * var(--pp-pixel));
+    position: relative;
+    inline-size: calc(var(--w) * var(--docs-fp));
+    block-size: calc(var(--h) * var(--docs-fp));
+    background:
+      repeating-conic-gradient(var(--pp-surface-sunken) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--docs-fp)) calc(2 * var(--docs-fp)),
+      var(--pp-bg);
+    box-shadow: 0 0 0 var(--pp-pixel) var(--pp-line-soft);
+  }
+  .docs-fig-subject {
+    --pp-pixel: var(--docs-fp);
+    /* Its words grow with it, so the figure is the component magnified, not a big box round small text. */
+    --pp-size-caption: calc(6 * var(--pp-pixel));
+    --pp-size-small: calc(7 * var(--pp-pixel));
+    --pp-size-body: calc(8 * var(--pp-pixel));
+    --pp-size-lead: calc(9 * var(--pp-pixel));
+    --pp-size-title: calc(11 * var(--pp-pixel));
+    position: absolute;
+    inset-inline-start: calc(var(--x) * var(--pp-pixel));
+    inset-block-start: calc(var(--y) * var(--pp-pixel));
+  }
+  .docs-fig-subject > .pp-box { margin: 0; }
+  .docs-fig-scrim { padding: calc(10 * var(--pp-pixel)); }
+  /* A leader: one page pixel wide, from the tag's edge to the middle of the figure pixel it points at, with a dot. */
+  .docs-fig-lead {
+    --_cx: calc(var(--ax) * var(--docs-fp) + round(down, (var(--docs-fp) - var(--_line)) / 2, 1px));
+    --_cy: calc(var(--ay) * var(--docs-fp) + round(down, (var(--docs-fp) - var(--_line)) / 2, 1px));
+    --_tx: calc(var(--tx) * var(--docs-fp) + round(down, (var(--docs-fp) - var(--_line)) / 2, 1px));
+    --_ty: calc(var(--ty) * var(--docs-fp) + round(down, (var(--docs-fp) - var(--_line)) / 2, 1px));
+    position: absolute;
+    background: var(--pp-text);
+    /* A pixel of the page's colour along each side, so a line still shows where it crosses the ink scrim. */
+    box-shadow: 0 0 0 var(--pp-pixel) var(--pp-bg);
+    pointer-events: none;
+  }
+  .docs-fig-lead[data-side="top"] { inset-inline-start: var(--_cx); inset-block-start: calc(var(--_ty) + var(--_tag) / 2); inline-size: var(--_line); block-size: calc(var(--_cy) - var(--_ty) - var(--_tag) / 2 + var(--_line)); }
+  .docs-fig-lead[data-side="bottom"] { inset-inline-start: var(--_cx); inset-block-start: var(--_cy); inline-size: var(--_line); block-size: calc(var(--_ty) - var(--_cy) - var(--_tag) / 2); }
+  .docs-fig-lead[data-side="left"] { inset-block-start: var(--_cy); inset-inline-start: calc(var(--_tx) + var(--_tag) / 2); block-size: var(--_line); inline-size: calc(var(--_cx) - var(--_tx) - var(--_tag) / 2 + var(--_line)); }
+  .docs-fig-lead[data-side="right"] { inset-block-start: var(--_cy); inset-inline-start: var(--_cx); block-size: var(--_line); inline-size: calc(var(--_tx) - var(--_cx) - var(--_tag) / 2); }
+  /* The dot on the part: three page pixels, ringed in the page's colour so it shows on any fill. */
+  .docs-fig-lead::after {
+    content: "";
+    position: absolute;
+    inline-size: calc(3 * var(--pp-pixel));
+    block-size: calc(3 * var(--pp-pixel));
+    background: var(--pp-text);
+    box-shadow: 0 0 0 var(--pp-pixel) var(--pp-bg);
+  }
+  .docs-fig-lead[data-side="top"]::after { inset-block-end: calc(-1 * var(--pp-pixel)); inset-inline-start: calc(-1 * var(--pp-pixel)); }
+  .docs-fig-lead[data-side="bottom"]::after { inset-block-start: calc(-1 * var(--pp-pixel)); inset-inline-start: calc(-1 * var(--pp-pixel)); }
+  .docs-fig-lead[data-side="left"]::after { inset-inline-end: calc(-1 * var(--pp-pixel)); inset-block-start: calc(-1 * var(--pp-pixel)); }
+  .docs-fig-lead[data-side="right"]::after { inset-inline-start: calc(-1 * var(--pp-pixel)); inset-block-start: calc(-1 * var(--pp-pixel)); }
+  /* The numbered tag: the system's tag, square, its numeral in Pixel Bop. */
+  .docs-fig-tag {
+    position: absolute;
+    inset-inline-start: calc(var(--tx) * var(--docs-fp) + round(down, var(--docs-fp) / 2, 1px) - var(--_tag) / 2);
+    inset-block-start: calc(var(--ty) * var(--docs-fp) + round(down, var(--docs-fp) / 2, 1px) - var(--_tag) / 2);
+    justify-content: center;
+    inline-size: var(--_tag);
+    min-inline-size: 0;
+    block-size: var(--_tag);
+    margin: 0;
+    padding: 0 0 var(--pp-pixel);
+    font-family: var(--pp-font-display);
+    font-size: calc(10 * var(--pp-pixel));
+    font-weight: 400;
+    letter-spacing: 0;
+    -webkit-font-smoothing: none;
+  }
+  /* The list under a figure: each numeral is a tag too, so they read as one key. Without a figure, no numerals. */
+  .docs-prose ol.docs-anatomy-list > li::before { color: var(--pp-accent-text); }
 
   /* ------------------------------------------------------------------ sections and helpers */
 
@@ -433,10 +550,15 @@
     position: relative;
     display: block;
     min-inline-size: 0;
-    padding: var(--pp-space-12) var(--pp-space-12) var(--pp-space-16);
-    overflow-x: auto;
+    padding: var(--pp-pixel);
     color: var(--pp-text);
     font-size: var(--pp-size-body);
+  }
+  /* The example scrolls inside the stage's outline, so the overflow cue fades the example and never the frame. */
+  .docs-stage-scroll {
+    position: relative;
+    padding: var(--pp-space-12) var(--pp-space-12) var(--pp-space-16);
+    overflow-x: auto;
   }
   /* A stage that has its own scheme paints the scheme's page behind the example. */
   .docs-stage[data-pp-scheme] { background: none; }
@@ -523,6 +645,13 @@
   @media (prefers-reduced-motion: reduce) {
     .docs-sidebar:popover-open { animation: none; }
   }
+}
+
+/* Where a scroller is across: at the start (more at the end), in between (both), at the end (more at the start). */
+@keyframes docs-scroll-x {
+  0% { --_dx-s: 0; --_dx-e: 1; }
+  1%, 98% { --_dx-s: 1; --_dx-e: 1; }
+  99%, 100% { --_dx-s: 1; --_dx-e: 0; }
 }
 
 @keyframes docs-drawer-in {

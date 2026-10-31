@@ -122,7 +122,7 @@ const players = [
       <pp-table class="tpl-board">
         <div class="pp-box pp-table-frame">
           <div class="pp-table-scroll" role="region" aria-labelledby="board-cap" tabindex="0">
-            <table class="pp-table" data-zebra>
+            <table class="pp-table" data-zebra data-stack>
               <caption id="board-cap">Leaderboard, this week</caption>
               <thead>
                 <tr>
@@ -139,12 +139,12 @@ const players = [
                 {players.map(([name, initials, tone, world, score, scoreN, time, secs, status, statusTone], i) => (
                   <tr>
                     <td class="pp-table-check"><span class="pp-box pp-checkbox" data-size="sm" data-pp-r="1"><input type="checkbox" aria-labelledby={`p-${i}`} /></span></td>
-                    <td class="pp-numeric">{i + 1}</td>
+                    <td class="pp-numeric" data-label="Rank">{i + 1}</td>
                     <th scope="row" id={`p-${i}`}><span class="tpl-player"><span class="pp-box pp-avatar" data-size="sm" data-tone={tone} aria-hidden="true">{initials[0]}</span>{name}</span></th>
-                    <td>{world}</td>
-                    <td class="pp-numeric" data-sort-value={scoreN}>{score}</td>
-                    <td class="pp-numeric" data-sort-value={secs}>{time}</td>
-                    <td><span class="pp-box pp-tag" data-size="sm" data-tone={statusTone}>{status}</span></td>
+                    <td data-label="World">{world}</td>
+                    <td class="pp-numeric" data-label="Score" data-sort-value={scoreN}>{score}</td>
+                    <td class="pp-numeric" data-label="Best time" data-sort-value={secs}>{time}</td>
+                    <td data-label="Status"><span class="pp-box pp-tag" data-size="sm" data-tone={statusTone}>{status}</span></td>
                   </tr>
                 ))}
               </tbody>
@@ -152,6 +152,7 @@ const players = [
           </div>
         </div>
       </pp-table>
+      <p class="pp-small pp-muted tpl-dash-note">Questboard and its players are made up for this Blip template.</p>
     </main>
 
     <nav class="pp-box pp-bottom-bar tpl-dash-bottom" aria-label="Live ops" data-collapse="auto">

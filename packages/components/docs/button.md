@@ -22,10 +22,16 @@ wear the same classes when it must look like a button).
 
 ## Anatomy
 
-1. **Box**: the candy box: one-pixel ink outline with stepped corners, light band, base, shade band, glints.
-2. **Drop**: the outline's shape again, one pixel down and to the right.
-3. **Label**: Pixelify Sans, bold, upper case, a little tracking.
-4. **Icon** (optional): a 12 x 12 pixel icon before or after the label.
+The candy box, from the outside in, then what it holds:
+
+1. **Outline**: one ink pixel round the box, with stepped corners (radius 4 at the default size).
+2. **Light band**: the top four pixels of the fill, in the tone's light colour.
+3. **Base**: the tone itself, behind the label.
+4. **Shade band**: the bottom four pixels of the fill, in the tone's shade.
+5. **Glints**: three white pixels at the top left, one at the top right.
+6. **Drop**: the outline's shape again, one pixel down and to the right.
+7. **Label**: Pixelify Sans, bold, upper case, a little tracking.
+8. **Icon** (optional): a 12 x 12 pixel icon before or after the label.
 
 ## Variants
 

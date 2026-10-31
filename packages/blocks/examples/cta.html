@@ -1,8 +1,8 @@
-<!-- CTA bands: on a strip of the world (candy button on pastel), and on a candy band (an outline button, since candy
-     never stands on candy). -->
+<!-- CTA bands: on a strip of the world (a candy button on pastel; the world keeps its sun and moon clear of the
+     words), and a quieter ask on a soft panel (an outline button: candy stays on what you press). -->
 <div style="display:grid;gap:calc(12*var(--pp-pixel))">
   <section class="pp-cta" aria-labelledby="cta-demo-title">
-    <pp-world></pp-world>
+    <pp-world avoid=".pp-cta-title, .pp-cta-text, .pp-cta-actions"></pp-world>
     <h2 class="pp-cta-title pp-display pp-pop" data-scale="2" data-pop="Catch the first star" id="cta-demo-title">Catch the first star</h2>
     <p class="pp-cta-text">Wishlist Starfall Meadow and we'll send one email on launch day, with a free wallpaper pack. Nothing else.</p>
     <div class="pp-cta-actions">
@@ -12,7 +12,7 @@
     <div class="pp-cta-ground"></div>
   </section>
 
-  <section class="pp-box pp-cta" data-tone="purple" aria-labelledby="cta-demo-press">
+  <section class="pp-box pp-cta" data-variant="soft" data-tone="purple" aria-labelledby="cta-demo-press">
     <h2 class="pp-cta-title pp-display" data-scale="1" id="cta-demo-press">Writing about the game?</h2>
     <p class="pp-cta-text">Screenshots at every time of day, the trailer, logos and a fact sheet, in one download.</p>
     <div class="pp-cta-actions">

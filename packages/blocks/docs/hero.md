@@ -18,7 +18,7 @@ hard bands, dithered where they meet.
 
 ```html
 <section class="pp-hero" aria-labelledby="hero-title">
-  <pp-world parallax></pp-world>
+  <pp-world parallax avoid=".pp-hero-title, .pp-hero-lead, .pp-hero-actions, .pp-hero-note"></pp-world>
   <div class="pp-hero-inner">
     <h1 class="pp-hero-title pp-display" id="hero-title">
       <span class="pp-sr-only">Starfall Meadow</span>
@@ -52,8 +52,9 @@ const letters = (text) => text.split(" ").map((w) => { const html = word(w); i++
 1. **Sky**: the hero's background (six bands of the nearest scheme's sky, up from the ground), under `pp-world`.
 2. **Headline** (`.pp-hero-title`): Pixel Bop in POP at the whole scale that fits: 2 below 600 px wide (the medium
    breakpoint), 3 below 1024 px (wide), 4 above. Words never break; lines balance.
-3. **Lead** (`.pp-hero-lead`), **actions** (`.pp-hero-actions`), **note** (`.pp-hero-note`). The lead has a
-   one-pixel halo in the page colour, so it stays readable over the moon or a cloud.
+3. **Lead** (`.pp-hero-lead`), **actions** (`.pp-hero-actions`), **note** (`.pp-hero-note`). The world's `avoid`
+   names these and the headline, so the sun and moon find the sky beside the words, never behind them; the lead also
+   has a one-pixel halo in the page colour, so it stays readable over a cloud.
 4. **Scenery** (`.pp-hero-scenery`): things standing on the ground, behind the text.
 5. **Ground** (`.pp-hero-ground`): blades of grass, grass, a lip, dirt with pebbles, flowers.
 
@@ -62,6 +63,7 @@ const letters = (text) => text.split(" ").map((w) => { const html = word(w); i++
 | Attribute | Values | Use |
 |---|---|---|
 | `data-align` | centred (default), `start` | Start-aligned text for a hero beside a picture. |
+| `avoid` on its `pp-world` | `.pp-hero-title, .pp-hero-lead, .pp-hero-actions, .pp-hero-note` | Keeps the sun, the moon and shooting stars clear of the words (and of anything else you name). Name the parts, not `.pp-hero-inner`: the inner is as wide as the hero, the parts are as wide as their words. |
 | `--pp-hero-band` | 16 | The fallback sky bands' height in pixels. |
 | `--pp-hero-ground` | 24 | The ground's height in pixels. |
 | `--pp-hero-tint`, `--pp-hero-drop` | the accent's light and shade | The headline's POP colours. |
@@ -77,7 +79,7 @@ the TV's app names did. A beat between words. With reduced motion the headline i
   "Starfall Meadow", not a list of letters.
 - One candy button: the main action. The second is soft. Both are links if they go somewhere.
 - Text is the scheme's text colour on the sky (ink by day and at sunset, light at night); keep the lead in the
-  upper part of the hero, above the hills.
+  upper part of the hero, above the hills, and name it in the world's `avoid`, so the moon never sits behind it.
 - Windows high contrast shows a plain canvas, no ground.
 
 ## Content

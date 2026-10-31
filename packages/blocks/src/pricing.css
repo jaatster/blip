@@ -1,6 +1,7 @@
 /*
- * Pricing. Plans side by side: panels, one candy plan marked best value, prices in Pixel Bop, what each includes
- * with pixel checks, and a button at the foot of each.
+ * Pricing. Plans side by side: panels, one raised plan marked best value, prices in Pixel Bop, what each includes
+ * with pixel checks, and a button at the foot of each. Candy stays on what you press: the plans are panels, and the
+ * featured one stands out by its ribbon, its band and its candy button.
  *
  *   <div class="pp-pricing">
  *     <article class="pp-box pp-plan" data-variant="panel" aria-labelledby="plan-standard">
@@ -11,14 +12,16 @@
  *     </article>
  *     <article class="pp-box pp-plan" data-featured data-tone="pink" aria-labelledby="plan-deluxe">
  *       <p class="pp-box pp-plan-ribbon">Best value</p> …
- *       <a class="pp-box pp-button" data-variant="outline" data-width="full" href="#">Buy Deluxe</a>
+ *       <a class="pp-box pp-button" data-tone="pink" data-width="full" href="#">Buy Deluxe</a>
  *     </article>
  *   </div>
  *
- *   data-featured        the candy plan (its data-tone, the accent by default), with a ribbon. Candy never
- *                        stands on candy, so its button is outline; the other plans' buttons are soft.
+ *   data-featured        the plan to pick (its data-tone, the accent by default): a raised panel (the surface, an
+ *                        ink outline, a two-pixel drop) with a five-pixel band of its tone's light colour along the
+ *                        top, its ribbon in its candy, and the one candy button; the other plans' buttons are soft
  *   .pp-plan-amount      Pixel Bop at scale 3 (digits, "." and "," are in the font); the currency is set smaller
  *   .pp-plan-features    a list with pixel checks; li[data-off] for what a plan leaves out (a dash, muted)
+ *   --pp-plan-check      the checks' colour (the success text colour by default)
  *
  * Plans sit three across where there is room and stack on a phone. Put the price and period in words a screen reader
  * says well: "$14.99, one time".
@@ -76,6 +79,30 @@
     --pp-tone-on: var(--pp-ink);
   }
 
+  /* The featured plan: a raised panel, not a slab of candy. It stands out by a band of its tone's light colour along
+     the top (following the corners), its ribbon in its candy, a two-pixel drop, and its candy button. */
+  .pp-plan[data-featured] {
+    --_pp-plan-tone: var(--pp-tone);
+    --_pp-plan-light: var(--pp-tone-light);
+    --_pp-plan-shade: var(--pp-tone-shade);
+    --_pp-plan-on: var(--pp-tone-on);
+    --pp-band-top: 5;
+    --pp-drop-size: 2;
+    --pp-box-top: var(--pp-tone-light);
+    --pp-box-fill: var(--pp-surface);
+    --pp-box-bottom: var(--pp-surface);
+    --pp-box-text: var(--pp-text);
+    --pp-box-glint: transparent;
+    margin: 0 calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel)) 0;
+    padding-block-start: calc(13 * var(--pp-pixel));
+  }
+  .pp-plan[data-featured] > .pp-plan-ribbon:not([data-tone]) {
+    --pp-tone: var(--_pp-plan-tone);
+    --pp-tone-light: var(--_pp-plan-light);
+    --pp-tone-shade: var(--_pp-plan-shade);
+    --pp-tone-on: var(--_pp-plan-on);
+  }
+
   .pp-plan-name {
     font-size: var(--pp-size-lead);
     font-weight: var(--pp-weight-bold);
@@ -128,8 +155,6 @@
   }
   .pp-plan-features > li[data-off] { color: var(--pp-text-muted); }
   .pp-plan-features > li[data-off]::before { mask-image: var(--_dash); background: currentColor; }
-  .pp-plan[data-featured] .pp-plan-features { --pp-plan-check: currentColor; }
-  .pp-plan[data-featured] .pp-plan-features > li[data-off] { color: inherit; }
 
   .pp-plan > .pp-button { align-self: end; margin-block-start: calc(2 * var(--pp-pixel)); }
 

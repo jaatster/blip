@@ -30,17 +30,17 @@ const rows: { state: string; how: string; rule: string; button: string; tab: str
     <p>Each cell is the real component, its state forced with <code class="docs-inline-code">data-pp-state</code> where a pointer or a keyboard would set it. The empty cells are states that component does not have.</p>
     <div class="pp-box pp-table-frame docs-table-frame">
       <div class="pp-table-scroll docs-states-scroll" role="region" tabindex="0" aria-label="Every state, live">
-        <table class="pp-table docs-states">
+        <table class="pp-table docs-states" data-stack>
           <thead><tr><th scope="col">State</th><th scope="col">The rule</th><th scope="col">Button</th><th scope="col">Tab</th><th scope="col">Check</th><th scope="col">Field</th></tr></thead>
           <tbody>
             {rows.map((r) => (
               <tr>
                 <th scope="row">{r.state}{r.how && <span class="pp-muted pp-small"><br />{r.how}</span>}</th>
-                <td class="docs-states-rule">{r.rule}</td>
-                <td set:html={r.button} />
-                <td set:html={r.tab} />
-                <td set:html={r.check} />
-                <td set:html={r.field} />
+                <td class="docs-states-rule" data-label="The rule">{r.rule}</td>
+                <td data-label="Button" set:html={r.button} />
+                <td data-label="Tab" set:html={r.tab} />
+                <td data-label="Check" set:html={r.check} />
+                <td data-label="Field" set:html={r.field} />
               </tr>
             ))}
           </tbody>

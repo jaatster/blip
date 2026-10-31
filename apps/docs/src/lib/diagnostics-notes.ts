@@ -75,4 +75,9 @@ export const NOTES: Record<string, Note> = {
     why: "<pp-world> paints its sky and hills from the world colours in @jaatster/blip-tokens/tokens.css. Without them there is nothing to draw with.",
     fix: 'Load <code class="docs-inline-code">tokens.css</code> before anything that draws.',
   },
+  "PP-W002": {
+    title: "A world's avoid is not a selector list",
+    why: "<pp-world avoid> names what its sun, moon and shooting stars keep clear of, as a CSS selector list. One the browser cannot read matches nothing, so the moon may sit behind your words.",
+    fix: 'Write it as for <code class="docs-inline-code">querySelectorAll</code>: <code class="docs-inline-code">avoid=".pp-hero-title, .pp-hero-lead"</code>.',
+  },
 };

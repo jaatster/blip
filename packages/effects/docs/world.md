@@ -18,7 +18,7 @@ an empty state.
 
 ```html
 <section style="position: relative">
-  <pp-world scheme="day" parallax></pp-world>
+  <pp-world scheme="day" parallax avoid="h1"></pp-world>
   <h1 class="pp-display pp-pop" data-scale="3" data-pop="Blip">Blip</h1>
 </section>
 ```
@@ -31,6 +31,30 @@ drawWorld(canvas.getContext("2d"), "night");               // the TV's 320 x 180
 
 `<pp-world>` fills its positioned container (`position: absolute; inset: 0`). The container becomes its own stacking
 context, so the world sits behind the container's content and in front of its background.
+
+### Keeping the sky clear of the words
+
+The moon, the sun and the stars belong to the sky, not behind a headline. `avoid` takes a selector list of what they
+keep clear of, matched in the world's container (its parent, or the nearest ancestor that holds a match):
+
+```html
+<section class="pp-hero" aria-labelledby="hero-title">
+  <pp-world parallax avoid=".pp-hero-title, .pp-hero-lead, .pp-hero-actions, .pp-hero-note"></pp-world>
+  …
+</section>
+```
+
+Each box gets a margin of five world pixels (more up and down when the world slides with `parallax`). Then:
+
+- the **moon** stays where the TV has it if that is clear; otherwise it takes the nearest clear place in the sky above
+  the peaks, its own row first;
+- the **sun** slides along its lane, the horizon, to the nearest clear place;
+- a **flaring star** is one that is clear, and a **shooting star**'s whole streak is clear;
+- where its part of the sky has no clear place, each goes to the same place across the sky if that is clear, and
+  otherwise stays out of sight: nothing in the sky sits behind the words.
+
+Places are whole world pixels and the same every time for the same layout. They are worked out again whenever the
+world or one of the avoided elements resizes (text wrapping, a font arriving), and on `avoid` changing.
 
 ## Anatomy
 
@@ -60,6 +84,7 @@ mountains stay in view.
 | `stars` | | At night, a real star flares now and then: small, big, small, gone (at most two). |
 | `events` | | A few seconds in, then every one to two minutes: by day and at sunset a flock of three crosses the sky in a loose V, flapping; at night a shooting star streaks down and left in nine frames. |
 | `zoom` | a whole number, default `1` | World pixel = zoom x `--pp-pixel`. `zoom="2"` at full screen is the TV's own scale. |
+| `avoid` | a selector list, default none | What the sun, the moon, flaring stars and shooting stars keep clear of: matched in the world's container, each box with a five-pixel margin. See above. |
 
 ## States
 
@@ -74,13 +99,15 @@ mountains stay in view.
 
 - The world is decoration: it is `aria-hidden` and takes no pointer events. Put any meaning in the content.
 - Text on the world: use POP (`.pp-pop`) for big text and OUTLINE (`.pp-outline`) for small text, which read on every
-  sky. Plain text needs a panel behind it.
+  sky. Plain text needs a panel behind it. Name the text in `avoid`, so the moon never sits behind it.
 - Motion is small, slow and stops with reduced motion.
 
 ## Do and don't
 
 - **Do** use one world per view, behind the main content.
 - **Do** let the world follow the page (leave `scheme` out) when the page has a scheme switcher or Auto.
+- **Do** give a world with words over it `avoid`, naming the words (not a wide wrapper), so the moon finds the sky
+  beside them.
 - **Don't** put candy boxes straight on a busy part of the world without a panel; candy stands on pastel, and the
   ground is busy.
 - **Don't** scale the world with CSS transforms; set `zoom` or the page's pixel.
@@ -89,7 +116,7 @@ mountains stay in view.
 
 | | | |
 |---|---|---|
-| `scheme`, `parallax`, `clouds`, `stars`, `events`, `zoom` | properties | Mirror the attributes (`scheme` reads `inherit` when left out). |
-| `drawWorld(ctx, scheme, w = 320, h = 180, options)` | function | Draws the world into a 2D context at (0, 0). Options: `palette`, `from` (an element whose tokens to read), `features` (which time of day's sun, moon and stars), `clouds` (default `true`), `layer` (`sky`, `peaks`, `hills`, `near`, `ground`). |
+| `scheme`, `parallax`, `clouds`, `stars`, `events`, `zoom`, `avoid` | properties | Mirror the attributes (`scheme` reads `inherit` when left out). |
+| `drawWorld(ctx, scheme, w = 320, h = 180, options)` | function | Draws the world into a 2D context at (0, 0). Options: `palette`, `from` (an element whose tokens to read), `features` (which time of day's sun, moon and stars), `clouds` (default `true`), `layer` (`sky`, `peaks`, `hills`, `near`, `ground`), `avoid` (boxes in world pixels, `[x0, y0, x1, y1]`, the sun and moon keep clear of). |
 | `worldPalette(scheme, from?)` | function | The 44 colours (0xRRGGBB) from the `--pp-world-*` tokens. A palette pack repaints the world by overriding them. |
 | `--pp-pixel` | custom property | The world pixel (times `zoom`). |

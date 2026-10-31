@@ -89,6 +89,8 @@
   .tpl-worlds { display: grid; gap: var(--pp-space-6); }
   .tpl-world .pp-progress-label { display: flex; justify-content: space-between; font-size: var(--pp-size-small); font-weight: var(--pp-weight-bold); margin-block-end: var(--pp-space-2); }
   .tpl-player { display: inline-flex; align-items: center; gap: var(--pp-space-4); white-space: nowrap; }
+  /* The leaderboard and its note keep together: the note says the data is made up. */
+  .tpl-dash-main > .tpl-dash-note { margin-block-start: calc(-1 * var(--pp-space-6)); }
 
   /* ------------------------------------------------------------------ landing */
 

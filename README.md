@@ -146,7 +146,7 @@ runtime dependencies outside `@jaatster/blip-*` (React is a peer of the React pa
 | **Core** | | | |
 | `@jaatster/blip-tokens` | Every colour, size, duration and type value in the W3C DTCG 2025.10 format, with a resolver for the scheme and the pixel; exported as CSS, JS and TypeScript, Kotlin (Compose), Swift, Android XML and Figma variables | `tokens.css` 4 KB | 3.76 KB |
 | `@jaatster/blip-core` | The building blocks: the pixel, the candy box, type, stepped motion and base styles; `PixelElement`, roving focus, typeahead, dismiss, timelines, the scheme clock and swappable services | CSS 6 KB, JS 3 KB | 5.45 KB, 2.60 KB |
-| `@jaatster/blip-components` | The 53 core components as layered CSS: one file, or one per component | 30 KB, all of it | 24.13 KB |
+| `@jaatster/blip-components` | The 53 core components as layered CSS: one file, or one per component | 30 KB, all of it | 25.23 KB |
 | `@jaatster/blip-elements` | 15 light-DOM Web Components for the components that need behaviour, with a Custom Elements Manifest | 3 KB each | 0.82 to 2.48 KB |
 | `@jaatster/blip-icons` | 185 original icons on a 12 x 12 grid: SVG files, a sprite, JS path data and `<pp-icon>` | 6 KB, all the path data | 5.59 KB |
 | `@jaatster/blip-font` | Pixel Bop, the display face (WOFF2 and TTF), and a Latin subset of Pixelify Sans | Pixel Bop 15 KB (file size) | 8.52 KB |
@@ -154,7 +154,7 @@ runtime dependencies outside `@jaatster/blip-*` (React is a peer of the React pa
 | **Kits** | | | |
 | `@jaatster/blip-game` | Game UI: dialogue box, choices, hearts and counters, HUD bars, inventory, button prompts, level tiles, pause menu, achievements, stage and sprites | 3 KB per element | 0.42 to 1.94 KB |
 | `@jaatster/blip-blocks` | Website blocks: hero, features, pricing, call-to-action band, footer | not budgeted yet | 3.67 KB of CSS |
-| `@jaatster/blip-effects` | The world backdrop, page transitions, drop-in and typewriter text, the glint, bursts and a CRT filter; all opt-in | 13 KB, JS and CSS | 12.81 KB |
+| `@jaatster/blip-effects` | The world backdrop, page transitions, drop-in and typewriter text, the glint, bursts and a CRT filter; all opt-in | 14 KB, JS and CSS | 13.71 KB |
 | `@jaatster/blip-sound` | Chip sounds synthesised with Web Audio, off until the person turns them on | 3 KB | 1.60 KB |
 | **Tooling** | | | |
 | `@jaatster/blip-stylelint-config` | Lint rules that keep CSS inside the system: no raw colours, whole pixels, stepped motion, known tokens | | |

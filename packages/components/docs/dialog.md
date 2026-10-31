@@ -54,7 +54,8 @@ reliable return of focus, and invoker buttons in browsers that lack them.
 3. **Title** (`.pp-dialog-title`): Pixel Bop at scale 1, in capitals.
 4. **Sign** (`.pp-dialog-icon`, optional): the tone's glyph, for alert dialogs.
 5. **Close** (`.pp-dialog-close`, optional): a small ghost icon button with the pixel cross.
-6. **Body** (`.pp-dialog-body`): scrolls when the dialog is taller than the screen; bar and footer stay.
+6. **Body** (`.pp-dialog-body`): scrolls when the dialog is taller than the screen; bar and footer stay. While more
+   lies below, an ink rule runs over the footer and the text dithers out above it; a pixel scrollbar beside it.
 7. **Footer** (`.pp-dialog-footer`): actions at the end, the main one last.
 8. **Scrim** (`::backdrop`): a one-pixel ink checkerboard, never a see-through wash.
 
@@ -73,6 +74,7 @@ reliable return of focus, and invoker buttons in browsers that lack them.
 | Opening | `showModal()`, `command="show-modal"`, `open` | The scrim is a quarter dither for a frame, then half; the panel is one pixel low for that frame, then in place. |
 | Closing | with `<pp-dialog>` (`data-pp-closing`) | One frame low with a quarter-dither scrim, then gone. |
 | Static | `data-pp-static` with `open` | Drawn in the page flow, without the top layer: docs, tests, screenshots only. |
+| More to read | the body scrolls, and has not reached its end | A one-pixel ink rule over the footer, and the body's last twelve pixels dither out in three hard steps (three quarters, a half, a quarter): never a see-through wash. Scrolled down, its top dithers too. It follows the scroll position with a scroll-driven animation; where the browser has none, the rule alone shows while there is more below. With keyboard focus on the body the dither steps aside, so the focus ring stays whole. |
 
 With reduced motion it opens and closes at once.
 

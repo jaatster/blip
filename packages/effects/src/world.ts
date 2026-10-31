@@ -6,6 +6,7 @@
  * flowers).
  *
  *   <div style="position: relative"><pp-world scheme="day" parallax></pp-world> ...content... </div>
+ *   <pp-world avoid=".pp-hero-title, .pp-hero-lead"></pp-world>   // the sun and moon keep clear of the words
  *   drawWorld(canvas.getContext("2d"), "night");        // the TV's 320 x 180 picture
  *
  * At 320 x 180 the picture is the TV's, pixel for pixel. Bigger worlds keep the TV's composition in the middle and
@@ -28,7 +29,11 @@ export interface DrawWorldOptions {
   clouds?: boolean;
   /** Draw one layer only, transparent elsewhere. */
   layer?: WorldLayer;
+  /** Boxes the sun and moon keep clear of, in world pixels: [x0, y0, x1, y1], the ends left out. */
+  avoid?: readonly WorldBox[];
 }
+/** A box in world pixels, [x0, y0, x1, y1] with the ends left out: something the sky's things keep clear of. */
+export type WorldBox = readonly [number, number, number, number];
 
 const LAYERS: readonly WorldLayer[] = ["sky", "peaks", "hills", "near", "ground"];
 /** The TV's world, the ground line, and how far the landscape repeats to the sides. */
@@ -49,6 +54,9 @@ const BIRD = [["X...X", ".X.X.", "..X.."], [".....", "XX.XX", "..X.."]];
 const SHOOTING_STAR = ["........dd", "......cc..", "....bb....", "..aa......", "WW........"];
 /** A flock: where each bird flies relative to the leader (mirrored when flying left). */
 const FLOCK = [[0, 0], [-7, -3], [-12, 2]];
+/** How far round itself each sky thing keeps clear of a box: the moon (9 pixels round, its glow to 11), the sun (14),
+    a flaring star (its arms, 2), plus a margin of 5. A shooting star's whole streak is a 42 x 21 box. */
+const MOON_R = 11, SUN_R = 14, CLEAR = 5, STREAK = [32, 0, 42, 21];
 
 // Palette slots: the time of day's 28, then the shared sky things, flowers, and two lights.
 const SLOTS = "sky-1 sky-2 sky-3 sky-4 sky-5 sky-6 cloud-light cloud-body cloud-shade mountain-lit mountain-shadow mountain-edge snow-lit snow-shadow tree-lit tree-shadow hill-mid hill-mid-edge hill-near hill-near-edge hill-bush grass grass-top grass-lip dirt dirt-shadow dirt-pebble bird".split(" ");
@@ -103,6 +111,55 @@ function starsOf(w: number, h: number): number[][] {
   return out;
 }
 
+/**
+ * Where a fw x fh thing whose top-left corner would be at (x, y) can go so that it crosses none of the boxes: that
+ * place if it is clear, else the nearest clear top-left (fewest pixels across plus down) with its top on rows
+ * y0..y1 and the thing inside the world's w columns. Ties go to the higher row, then to the earlier place along it.
+ * Null when there is none.
+ */
+function clearOf(boxes: readonly WorldBox[], x: number, y: number, fw: number, fh: number, w: number, y0: number, y1: number): [number, number] | null {
+  const crosses = (px: number, py: number) => boxes.some(([a, b, c, d]) => px < c && px + fw > a && py < d && py + fh > b);
+  if (!crosses(x, y)) return [x, y];
+  let best: [number, number] | null = null, far = Infinity;
+  for (let py = y0; py <= y1; py++) {
+    const dy = Math.abs(py - y);
+    if (dy >= far) continue;
+    // On this row, the top-lefts each box rules out, as runs [first, last].
+    const runs = boxes.filter(([, b, , d]) => py < d && py + fh > b).map(([a, , c]) => [a - fw + 1, c - 1] as const);
+    for (const px of [x, 0, w - fw, ...runs.flatMap(([a, c]) => [a - 1, c + 1])]) {
+      if (px < 0 || px > w - fw || runs.some(([a, c]) => px >= a && px <= c)) continue;
+      const d = Math.abs(px - x) + dy;
+      if (d < far) [best, far] = [[px, py], d];
+    }
+  }
+  return best;
+}
+
+/** The sun's and moon's centres in a w x h world; null for one kept out of sight. */
+interface SkyPlaces {
+  moon: readonly [number, number] | null;
+  sun: readonly [number, number] | null;
+}
+
+/**
+ * Where the sun and moon go: the TV's places, unless one would cross a box to avoid. Then the moon takes the nearest
+ * clear place in the sky above the peaks (its own row first), and the sun slides along the horizon, its lane, to the
+ * nearest clear place. With none, each goes to the same place across the sky if that is clear, and is otherwise left
+ * out: nothing in the sky sits behind the words.
+ */
+function skyPlaces(w: number, h: number, avoid: readonly WorldBox[] = []): SkyPlaces {
+  const cx = Math.floor((w - W0) / 2), sky = rowsOf(h);
+  const moon = [200 + cx, sky.y(30)] as const, sun = [160 + cx, 84 + sky.dl] as const;
+  if (!avoid.length) return { moon, sun };
+  const top = 66 + sky.dl;
+  const go = ([x, y]: readonly [number, number], r: number, y0: number, y1: number): [number, number] | null => {
+    const d = 2 * r + 1, at = clearOf(avoid, x - r, y - r, d, d, w, y0, y1) ?? clearOf(avoid, w - 1 - x - r, y - r, d, d, w, y - r, y - r - 1);
+    return at && [at[0] + r, at[1] + r];
+  };
+  const m = MOON_R + CLEAR, n = SUN_R + CLEAR;
+  return { moon: go(moon, m, 0, top - 2 * m - 2), sun: go(sun, n, sun[1] - n, sun[1] - n) };
+}
+
 /** The clouds of the periods k0..k1 {x, y (TV sky row), size}: the TV's in the middle, the others moved a little. */
 function cloudsOf(k0: number, k1: number): number[][] {
   const out: number[][] = [];
@@ -136,7 +193,7 @@ function cloud(put: Put, c: Uint32Array, cx: number, cy: number, size: number): 
  * Paints layer l of a w x h world into buf (bw x bh), whose first column is world x -mx and first row world y -my.
  * ext carries a sliding layer's fill a few rows further down, so a slide never opens a gap.
  */
-function paint(buf: Uint32Array, bw: number, bh: number, mx: number, my: number, w: number, h: number, l: number, c: Uint32Array, features: Scheme, clouds: boolean, ext = 0): void {
+function paint(buf: Uint32Array, bw: number, bh: number, mx: number, my: number, w: number, h: number, l: number, c: Uint32Array, features: Scheme, clouds: boolean, ext = 0, at: SkyPlaces = skyPlaces(w, h)): void {
   // TV x 0 sits at world x cx; the land is dy rows down from the TV's (rowsOf).
   const cx = Math.floor((w - W0) / 2), sky = rowsOf(h), dy = l === 4 ? sky.dg : sky.dl;
   const set: Put = (x, y, col) => {
@@ -156,16 +213,18 @@ function paint(buf: Uint32Array, bw: number, bh: number, mx: number, my: number,
     }
     if (features === "night") {
       for (const [x, y, col] of starsOf(w, h)) set(x!, y!, c[col!]!);
-      const ox = 200 + cx, oy = sky.y(30);
-      for (let y = -9; y <= 9; y++) {
-        for (let x = -9; x <= 9; x++) {
-          const d = x * x + y * y;
-          if (d <= 81) set(ox + x, oy + y, c[(x - 2) ** 2 + (y + 2) ** 2 < 5 || (x + 3) ** 2 + (y - 3) ** 2 < 3 ? S.CRATER : S.MOON]!);
-          else if (d <= 130 && BAYER[((y + 16) & 3) * 4 + ((x + 16) & 3)]! < 6) set(ox + x, oy + y, c[S.GLOW]!);
+      const [ox, oy] = at.moon ?? [];
+      if (ox !== undefined && oy !== undefined) {
+        for (let y = -9; y <= 9; y++) {
+          for (let x = -9; x <= 9; x++) {
+            const d = x * x + y * y;
+            if (d <= 81) set(ox + x, oy + y, c[(x - 2) ** 2 + (y + 2) ** 2 < 5 || (x + 3) ** 2 + (y - 3) ** 2 < 3 ? S.CRATER : S.MOON]!);
+            else if (d <= 130 && BAYER[((y + 16) & 3) * 4 + ((x + 16) & 3)]! < 6) set(ox + x, oy + y, c[S.GLOW]!);
+          }
         }
       }
     }
-    if (features === "sunset") for (let y = -14; y <= 14; y++) for (let x = -14; x <= 14; x++) if (x * x + y * y <= 196) land(160 + x, 84 + y, c[S.SUN]!);
+    if (features === "sunset" && at.sun) for (let y = -14; y <= 14; y++) for (let x = -14; x <= 14; x++) if (x * x + y * y <= 196) set(at.sun[0] + x, at.sun[1] + y, c[S.SUN]!);
     if (clouds) for (const [x, y, s] of cloudsOf(k0, k1)) cloud(set, c, x! + cx, sky.y(y!), s!);
   } else if (l === 1) {
     // Each peak has its own steepness, sharp at the top and flaring towards the base, its sides a little ragged; lit
@@ -252,9 +311,9 @@ const pack = (pal: WorldPalette) => Uint32Array.from(pal, abgr);
  */
 export function drawWorld(ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D, scheme: Scheme, w = W0, h = H0, options: DrawWorldOptions = {}): void {
   const img = ctx.createImageData(w, h), buf = new Uint32Array(img.data.buffer);
-  const c = pack(options.palette ?? worldPalette(scheme, options.from));
+  const c = pack(options.palette ?? worldPalette(scheme, options.from)), at = skyPlaces(w, h, options.avoid);
   for (let l = 0; l < LAYERS.length; l++) {
-    if (!options.layer || options.layer === LAYERS[l]) paint(buf, w, h, 0, 0, w, h, l, c, options.features ?? scheme, options.clouds ?? true);
+    if (!options.layer || options.layer === LAYERS[l]) paint(buf, w, h, 0, 0, w, h, l, c, options.features ?? scheme, options.clouds ?? true, 0, at);
   }
   ctx.putImageData(img, 0, 0);
 }
@@ -267,7 +326,8 @@ const isScheme = (s: string | null): s is Scheme => s === "day" || s === "sunset
  * scaled up crisply, and only redrawn when its size or its time of day changes.
  *
  * Attributes: scheme (day, sunset, night, auto, or left out to follow the page), parallax, clouds (drift; "none"
- * for none), stars (stars flare at night), events (birds by day, a shooting star at night), zoom.
+ * for none), stars (stars flare at night), events (birds by day, a shooting star at night), zoom, avoid (a selector
+ * list of what the sun, moon, flares and shooting stars keep clear of).
  *
  * @summary The dithered world backdrop: sky, mountains, hills and meadow, for Day, Sunset and Night.
  * @attr {"day" | "sunset" | "night" | "auto"} scheme - The time of day; "auto" follows the clock. Left out, the
@@ -279,16 +339,23 @@ const isScheme = (s: string | null): s is Scheme => s === "day" || s === "sunset
  * @attr {boolean} stars - Stars flare now and then at night.
  * @attr {boolean} events - Now and then a flock of birds by day, a shooting star at night.
  * @attr {number} [zoom=1] - World pixels per page pixel, a whole number.
+ * @attr {string} avoid - A selector list of things the sky keeps clear of (".pp-hero-title, .pp-hero-lead"), matched in
+ * the world's container (its parent, or the nearest ancestor that holds a match). The sun, the moon, flaring stars and
+ * shooting stars go where they cross none of those boxes: the nearest clear place in their lane of the sky, else the
+ * same place across the sky if that is clear, else out of sight. Whole pixels, the same every time, and looked at
+ * again when anything resizes.
  * @cssprop --pp-pixel - The world pixel (times zoom).
  */
 export class PixelWorld extends PixelElement {
-  static observedAttributes = ["scheme", "parallax", "clouds", "stars", "events", "zoom"];
+  static observedAttributes = ["scheme", "parallax", "clouds", "stars", "events", "zoom", "avoid"];
   declare parallax: boolean;
   declare stars: boolean;
   declare events: boolean;
   /** "drift", "none", or null for still clouds. */
   declare clouds: string | null;
   declare zoom: string | null;
+  /** The avoid attribute: a selector list, or null. */
+  declare avoid: string | null;
 
   #redraw = (): void => {};
   #check = (_fade: boolean): void => {};
@@ -318,6 +385,8 @@ export class PixelWorld extends PixelElement {
     // The world as drawn: its size in world pixels, CSS pixels per world pixel, a sliding layer's margins, its colours.
     let w = 0, h = 0, s = 2, mx = 0, my = 0, visible = true, slide = [0, 0], timer = 0, drawn = "", elapsed = 0;
     let scheme: Scheme | undefined, features: Scheme = "day", pal: WorldPalette | undefined, fading: AbortController | undefined;
+    // What the sky keeps clear of: boxes in world pixels.
+    let avoid: WorldBox[] = [], refit = 0;
     // Drifting clouds keep their place across redraws: each is at base + v x elapsed seconds, wrapping round.
     let clouds: { c: HTMLCanvasElement; base: number; y: number; v: number; at: number }[] = [], sparks: HTMLCanvasElement[] = [], stars: number[][] = [];
     const slid: string[] = [], palettes = new Map<Scheme, WorldPalette>();
@@ -347,6 +416,34 @@ export class PixelWorld extends PixelElement {
       return c;
     };
     const cloudX = (d: (typeof clouds)[number]) => -38 - mx + mod(d.base + d.v * elapsed + 38 + mx, w + 2 * mx + 38);
+
+    /** The elements named by avoid: matched in the world's container (its parent), or the nearest ancestor of it that
+        holds a match. */
+    const avoided = (): Element[] => {
+      const list = el.getAttribute("avoid")?.trim();
+      if (!list) return [];
+      try {
+        for (let scope = el.parentElement; scope; scope = scope.parentElement) {
+          const found = [...scope.querySelectorAll(list)].filter((n) => !el.contains(n));
+          if (found.length) return found;
+        }
+      } catch {
+        warn("PP-W002", `avoid="${list}" is not a selector list.`, el);
+      }
+      return [];
+    };
+    /** Their boxes in world pixels, taller by the sky's lift when it slides with the scroll, so it never slides onto
+        them. The world's picture is anchored at its bottom left. */
+    const boxes = (list = avoided()): WorldBox[] => {
+      if (!list.length || !w) return [];
+      const r = el.getBoundingClientRect(), lift = has("parallax") && !reducedMotion() ? 2 * LIFT[0]! : 0;
+      return list.map((n) => n.getBoundingClientRect()).filter((b) => b.width && b.height).map((b) => [
+        Math.floor((b.left - r.left) / s), Math.floor((b.top - r.bottom) / s) + h - lift,
+        Math.ceil((b.right - r.left) / s), Math.ceil((b.bottom - r.bottom) / s) + h + lift,
+      ] as const).filter(([x0, y0, x1, y1]) => x1 > 0 && x0 < w && y1 > 0 && y0 < h);
+    };
+    /** Whether a point of the sky is within r pixels of a box to avoid. */
+    const near = (x: number, y: number, r: number) => avoid.some(([a, b, c, d]) => x + r >= a && x - r < c && y + r >= b && y - r < d);
 
     /** Slides the layers kx steps sideways and ky steps up or down, each by its drift, in whole pixels. */
     const parallax = (kx: number, ky: number, force = false) => {
@@ -379,10 +476,17 @@ export class PixelWorld extends PixelElement {
       el.style.backgroundColor = `#${p[0]!.toString(16).padStart(6, "0")}`;
       Object.assign(stage.style, { width: `${w * s}px`, height: `${h * s}px` });
 
+      // Keep the sky's things clear of what avoid names, and look again whenever one of those resizes.
+      const list = avoided();
+      watch.disconnect();
+      for (const n of list) watch.observe(n);
+      avoid = boxes(list);
+      const at = skyPlaces(w, h, avoid);
+
       const c = pack(p);
       layers.forEach((canvas, l) => {
         const lx = l ? mx : 0, bw = w + 2 * lx, bh = h + 2 * my, buf = new Uint32Array(bw * bh);
-        paint(buf, bw, bh, lx, my, w, h, l, c, f, cloudy === null || (still && cloudy !== "none"), my);
+        paint(buf, bw, bh, lx, my, w, h, l, c, f, cloudy === null || (still && cloudy !== "none"), my, at);
         // Keep only the rows the layer uses.
         let first = 0, last = bh;
         while (first < bh && !buf.subarray(first * bw, (first + 1) * bw).some(Boolean)) first++;
@@ -411,7 +515,7 @@ export class PixelWorld extends PixelElement {
       if (f !== "night") sparks.splice(0).forEach((x) => x.remove());
       else if (!sparks.length) sparks = [thing(5, 5), thing(5, 5)].map((x) => Object.assign(x, { hidden: true }));
       things.querySelectorAll("canvas").forEach(size);
-      stars = f === "night" ? starsOf(w, h) : [];
+      stars = f === "night" ? starsOf(w, h).filter(([x, y]) => !near(x!, y!, 2 + CLEAR)) : [];
       slid.length = 0;
       parallax(slide[0]!, slide[1]!, true);
     };
@@ -464,7 +568,14 @@ export class PixelWorld extends PixelElement {
       if (!has("events") || !pal) return;
       const skyY = rowsOf(h).y;
       if (features === "night") {
-        const c = thing(10, 5), x0 = Math.round(w * (0.4375 + services.random() * 0.5)), y0 = skyY(6 + services.between(0, 33));
+        let x0 = Math.round(w * (0.4375 + services.random() * 0.5)), y0 = skyY(6 + services.between(0, 33));
+        // Its whole streak keeps clear of what avoid names: the nearest clear start in its part of the sky, else the
+        // same start across the sky if that is clear, else no shooting star this time.
+        const [ox, oy, sw, sh] = STREAK, box = (x: number, y1: number) => clearOf(avoid, x - ox! - CLEAR, y0 - oy! - CLEAR, sw! + 2 * CLEAR, sh! + 2 * CLEAR, w, skyY(6) - CLEAR, y1);
+        const clear = box(x0, skyY(39) - CLEAR) ?? box(w - x0, 0);
+        if (!clear) return;
+        [x0, y0] = [clear[0] + ox! + CLEAR, clear[1] + oy! + CLEAR];
+        const c = thing(10, 5);
         sprite(c, SHOOTING_STAR, "Wabcd", [pal[S.WHITE]!, ...pal.slice(S.TRAIL, S.TRAIL + 4)].map(abgr));
         c.hidden = true;
         run(Array.from({ length: 10 }, (_, f) => ({ at: f * 40, do: () => (f === 9 ? c.remove() : (place(c, x0 - f * 4, y0 + f * 2), (c.hidden = false))) })), { signal, instant: false })
@@ -504,6 +615,12 @@ export class PixelWorld extends PixelElement {
       clearTimeout(timer);
       timer = window.setTimeout(redraw, w ? 60 : 0);
     });
+    // Something the sky avoids has resized (its text wrapped, a font arrived): draw again if its box has moved.
+    function watched(): void {
+      clearTimeout(refit);
+      refit = window.setTimeout(() => w && JSON.stringify(boxes()) !== JSON.stringify(avoid) && redraw(), 60);
+    }
+    const watch = new ResizeObserver(watched);
     const seen = new IntersectionObserver((entries) => void (visible = !!entries.at(-1)?.isIntersecting));
     // Following the page: its scheme switches, Auto's minute ticks (stepped, as the page's palette is), its pixel.
     const page = new MutationObserver((records) => {
@@ -525,9 +642,11 @@ export class PixelWorld extends PixelElement {
     }, { passive: true });
     signal.addEventListener("abort", () => {
       resize.disconnect();
+      watch.disconnect();
       seen.disconnect();
       page.disconnect();
       clearTimeout(timer);
+      clearTimeout(refit);
       this.#redraw = () => {};
       this.#check = () => {};
     }, { once: true });
@@ -537,7 +656,7 @@ export class PixelWorld extends PixelElement {
   }
 }
 
-mirror(PixelWorld, ["parallax", "stars", "events"], ["clouds", "zoom"]);
+mirror(PixelWorld, ["parallax", "stars", "events"], ["clouds", "zoom", "avoid"]);
 PixelElement.define("pp-world", PixelWorld);
 
 declare global {

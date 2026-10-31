@@ -79,6 +79,40 @@ describe("drawWorld", () => {
     expect(await hash(draw("day", 320, 180, { palette: PALETTE, features: "night" }))).toBe(await hash(draw("night")));
   });
 
+  it("keeps the moon and the sun clear of boxes to avoid, the same way every time", async () => {
+    /** How many pixels of palette slot k lie in the box [x0, y0, x1, y1) of a 320 x 180 picture. */
+    const count = (image: ImageData, k: number, [x0, y0, x1, y1] = [0, 0, 320, 180]) => {
+      let n = 0;
+      for (let y = y0; y < y1; y++) {
+        for (let x = x0; x < x1; x++) {
+          const i = (y * image.width + x) * 4, rgb = (image.data[i]! << 16) | (image.data[i + 1]! << 8) | image.data[i + 2]!;
+          if (rgb === PALETTE[k]) n++;
+        }
+      }
+      return n;
+    };
+    const MOON = 29, SUN = 28;
+    // A box over the TV's moon (at 200, 30): the moon goes to the nearest clear place, whole and outside the box.
+    const box = [180, 10, 230, 60] as const;
+    const night = draw("night", 320, 180, { palette: PALETTE, avoid: [box] });
+    expect(count(night, MOON, box)).toBe(0);
+    expect(count(night, MOON)).toBe(count(draw("night"), MOON));
+    expect(await hash(night)).not.toBe(await hash(draw("night")));
+    expect(await hash(night)).toBe(await hash(draw("night", 320, 180, { palette: PALETTE, avoid: [box] })));
+    // A box clear of the moon changes nothing: the TV's picture.
+    expect(await hash(draw("night", 320, 180, { palette: PALETTE, avoid: [[0, 100, 20, 120]] }))).toBe(await hash(draw("night")));
+    // The sun slides along the horizon, out of a box over it (at 160, 84).
+    const low = [140, 66, 182, 100] as const;
+    const sunset = draw("sunset", 320, 180, { palette: PALETTE, avoid: [low] });
+    expect(count(draw("sunset"), SUN, low)).toBeGreaterThan(0);
+    expect(count(sunset, SUN, low)).toBe(0);
+    expect(count(sunset, SUN)).toBeGreaterThan(0);
+    // With no clear place anywhere in the sky above the peaks, not even across it, the moon stays out of sight
+    // rather than sit behind the words.
+    const covered = draw("night", 320, 180, { palette: PALETTE, avoid: [[0, 0, 320, 60]] });
+    expect(count(covered, MOON)).toBe(0);
+  });
+
   it("bakes the clouds in unless told not to", async () => {
     expect(await hash(draw("day", 320, 180, { palette: PALETTE, clouds: false }))).not.toBe(await hash(draw("day")));
   });
