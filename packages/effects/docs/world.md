@@ -44,6 +44,9 @@ keep clear of, matched in the world's container (its parent, or the nearest ance
 </section>
 ```
 
+Clouds that would sit behind an avoided element are left out; a drifting cloud passes behind it out of sight and
+comes back past it.
+
 Each box gets a margin of five world pixels (more up and down when the world slides with `parallax`). Then:
 
 - the **moon** stays where the TV has it if that is clear; otherwise it takes the nearest clear place in the sky above
@@ -84,7 +87,7 @@ mountains stay in view.
 | `stars` | | At night, a real star flares now and then: small, big, small, gone (at most two). |
 | `events` | | A few seconds in, then every one to two minutes: by day and at sunset a flock of three crosses the sky in a loose V, flapping; at night a shooting star streaks down and left in nine frames. |
 | `zoom` | a whole number, default `1` | World pixel = zoom x `--pp-pixel`. `zoom="2"` at full screen is the TV's own scale. |
-| `avoid` | a selector list, default none | What the sun, the moon, flaring stars and shooting stars keep clear of: matched in the world's container, each box with a five-pixel margin. See above. |
+| `avoid` | a selector list, default none | What the sun, the moon, clouds, flaring stars and shooting stars keep clear of: matched in the world's container, each box with a five-pixel margin. See above. |
 
 ## States
 

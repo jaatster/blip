@@ -139,7 +139,13 @@ function clearOf(boxes: readonly WorldBox[], x: number, y: number, fw: number, f
 interface SkyPlaces {
   moon: readonly [number, number] | null;
   sun: readonly [number, number] | null;
+  /** Boxes the clouds keep out of. */
+  avoid?: readonly WorldBox[];
 }
+
+/** Whether a cloud whose sprite's top-left is (x, y) would sit behind a box to avoid (38 x 16, a pixel of margin). */
+const cloudHits = (avoid: readonly WorldBox[] | undefined, x: number, y: number): boolean =>
+  !!avoid?.some(([a, b, c, d]) => x - 1 < c && x + 39 > a && y - 1 < d && y + 17 > b);
 
 /**
  * Where the sun and moon go: the TV's places, unless one would cross a box to avoid. Then the moon takes the nearest
@@ -157,7 +163,7 @@ function skyPlaces(w: number, h: number, avoid: readonly WorldBox[] = []): SkyPl
     return at && [at[0] + r, at[1] + r];
   };
   const m = MOON_R + CLEAR, n = SUN_R + CLEAR;
-  return { moon: go(moon, m, 0, top - 2 * m - 2), sun: go(sun, n, sun[1] - n, sun[1] - n) };
+  return { moon: go(moon, m, 0, top - 2 * m - 2), sun: go(sun, n, sun[1] - n, sun[1] - n), avoid };
 }
 
 /** The clouds of the periods k0..k1 {x, y (TV sky row), size}: the TV's in the middle, the others moved a little. */
@@ -225,7 +231,8 @@ function paint(buf: Uint32Array, bw: number, bh: number, mx: number, my: number,
       }
     }
     if (features === "sunset" && at.sun) for (let y = -14; y <= 14; y++) for (let x = -14; x <= 14; x++) if (x * x + y * y <= 196) set(at.sun[0] + x, at.sun[1] + y, c[S.SUN]!);
-    if (clouds) for (const [x, y, s] of cloudsOf(k0, k1)) cloud(set, c, x! + cx, sky.y(y!), s!);
+    // Clouds that would pass behind the words are left out of the picture.
+    if (clouds) for (const [x, y, s] of cloudsOf(k0, k1)) if (!cloudHits(at.avoid, x! + cx - 11, sky.y(y!) - 10)) cloud(set, c, x! + cx, sky.y(y!), s!);
   } else if (l === 1) {
     // Each peak has its own steepness, sharp at the top and flaring towards the base, its sides a little ragged; lit
     // left of a leaning ridge, with snow on top. Other periods leave out the peak the middle one already has, and
@@ -509,6 +516,7 @@ export class PixelWorld extends PixelElement {
           sp.getContext("2d")!.putImageData(new ImageData(new Uint8ClampedArray(buf.buffer), 38, 16), 0, 0);
           const d = { c: sp, base: x! + cx - 11, y: skyY(y!) - 10, v: k! / 10, at: 0 };
           place(sp, (d.at = Math.round(cloudX(d))), d.y);
+          sp.hidden = cloudHits(avoid, d.at, d.y);
           clouds.push(d);
         }
       }
@@ -605,7 +613,11 @@ export class PixelWorld extends PixelElement {
       elapsed += 0.25;
       for (const d of clouds) {
         const x = Math.round(cloudX(d));
-        if (x !== d.at) place(d.c, (d.at = x), d.y);
+        if (x !== d.at) {
+          place(d.c, (d.at = x), d.y);
+          // A drifting cloud passes behind the words out of sight, and comes back past them.
+          d.c.hidden = cloudHits(avoid, x, d.y);
+        }
       }
     }, signal);
     every(60_000, () => check(true), signal);
