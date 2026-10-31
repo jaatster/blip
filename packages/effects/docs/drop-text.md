@@ -20,7 +20,7 @@ each letter appears 30 ms after the last, two pixels high for one frame, then la
 
 ```js
 const title = document.querySelector("pp-drop-text");
-title.text = "Prime Video";   // the new name drops in
+title.text = "Photo booth";   // the new name drops in
 title.play();                 // drop in again
 ```
 

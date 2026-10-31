@@ -6,8 +6,8 @@
  * enlargements at big sizes: "ss02" (Rounded 2x, EPX) at scales 2 and 4, "ss03" (Rounded 3x, AdvMAME3x) at scale 3.
  *
  * Pixelify Sans: UI and body text. A variable font, weights 400 to 700, subset to Latin, Latin-1, Latin Extended-A,
- * General Punctuation, the euro and the trademark sign. Every browser Blip supports reads variable WOFF2, so
- * one plain source is enough.
+ * General Punctuation, the euro and the trademark sign, with C, G, 5 and c redrawn so they can't be read as O, O, S
+ * and o (see the README). Every browser Blip supports reads variable WOFF2, so one plain source is enough.
  */
 
 @font-face {

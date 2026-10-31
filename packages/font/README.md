@@ -20,4 +20,9 @@ import "@jaatster/blip-font/font.css";     // @font-face for both, with @jaatste
 Pixel Bop is used at whole scales only (`.pp-display` with `data-scale` 1 to 4). The files are
 `pixel-bop.woff2` (about 9 KB), `pixel-bop.ttf` and `pixelify-sans.woff2`. [Font docs](./docs/font.md)
 
+Our Pixelify Sans is modified. The original draws C as an O with a slit narrower than one of its pixels, closed at
+bold, G the same way and 5 like an S, so all-caps labels read CODE as OODE; lower-case c closes at bold too. The build
+redraws those four from the font's own parts (C is E without its middle bar, 5 is S with a square corner and a
+straight stem) at every weight, and says so in the version string. The unmodified source is in `vendor/`.
+
 Licence: SIL Open Font License 1.1 (`OFL.txt`, `OFL-PixelifySans.txt`).

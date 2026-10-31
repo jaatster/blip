@@ -126,7 +126,9 @@ To see the square pixels at any scale, set `font-feature-settings: normal`. Outs
   Bop" (`OFL.txt`). You may use, embed, modify and redistribute it, also in commercial products; you may not sell
   the font on its own, and a modified version must not be called Pixel Bop.
 - **Pixelify Sans**: SIL Open Font License 1.1, Copyright 2021 The Pixelify Sans Project Authors
-  (`OFL-PixelifySans.txt`). The file here is a subset of the original.
+  (`OFL-PixelifySans.txt`). The file here is a modified subset of the original: C, G, 5 and lower-case c are
+  redrawn so they can't be read as O, O, S and o (the original's C and G have a slit narrower than one of their
+  pixels that closes at bold, and its 5 is shaped like an S). The version string says so.
 - The code in this package (`font.css`, the build script) is MIT, like the rest of Blip.
 
 ## Drawing a new glyph

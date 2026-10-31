@@ -2,7 +2,8 @@
 """Builds the two faces of @jaatster/blip-font.
 
 1. Pixel Bop, Blip's pixel display font: src/pixel-bop.glyphs -> dist/pixel-bop.ttf and dist/pixel-bop.woff2.
-2. Pixelify Sans, for UI and body text: a subset of the variable font (weights 400 to 700) -> dist/pixelify-sans.woff2.
+2. Pixelify Sans, for UI and body text: a subset of the variable font (weights 400 to 700) -> dist/pixelify-sans.woff2,
+   with C, G and 5 redrawn so they cannot be read as O, O and S (see patch_pixelify).
 It also writes the glyph table in examples/font.html and the character list in docs/font.md, so they always match.
 
 Pixel Bop's metrics: 1200 units per em and one pixel = 120 units, so 1 em is 10 pixels and capitals are 7 pixels
@@ -25,8 +26,9 @@ Usage:  pnpm --filter @jaatster/blip-font build
    or:  .tools/venv/bin/python -I packages/font/scripts/build.py
 Environment:
   SOURCE_DATE_EPOCH   the timestamp written into both fonts (default 2026-01-01), so builds are reproducible
-  PIXELIFY_SANS       the Pixelify Sans source (default .tools/downloads/pixelify/PixelifySans-wght.ttf)
+  PIXELIFY_SANS       the Pixelify Sans source (default vendor/PixelifySans[wght].ttf, the unmodified Google Fonts file)
 """
+import copy
 import html
 import json
 import os
@@ -42,6 +44,8 @@ from fontTools.misc.timeTools import epoch_diff
 from fontTools.otlLib.maxContextCalc import maxCtxFont
 from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.ttLib import TTFont, newTable
+from fontTools.ttLib.tables._g_l_y_f import GlyphCoordinates
+from fontTools.ttLib.tables.TupleVariation import TupleVariation
 from fontTools.ttLib.woff2 import WOFF2FlavorData
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -65,7 +69,7 @@ MARK_KINDS = ("above", "below", "hook", "ogonek")
 SAMPLE = "PIXEL BOP: THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG. 0123456789"
 NAME_RE = r"[A-Za-z][A-Za-z0-9._]{0,62}"
 
-PIXELIFY_SRC = os.environ.get("PIXELIFY_SANS") or os.path.join(REPO, ".tools", "downloads", "pixelify", "PixelifySans-wght.ttf")
+PIXELIFY_SRC = os.environ.get("PIXELIFY_SANS") or os.path.join(ROOT, "vendor", "PixelifySans[wght].ttf")
 PIXELIFY_UNICODES = [
     (0x20, 0x7E), (0xA0, 0xFF), (0x100, 0x17F),  # Latin, Latin-1, Latin Extended-A
     (0x2000, 0x206F),                            # General Punctuation
@@ -687,6 +691,93 @@ def write_tables(glyphs):
 # Pixelify Sans
 
 
+def _pixelify_masters(font, name):
+    """A simple glyph's points and its full deltas at the heaviest weight (phantom points included, none inferred)."""
+    glyf = font["glyf"]
+    tvs = font["gvar"].variations.get(name, [])
+    if glyf[name].isComposite() or glyf[name].numberOfContours != 1 or len(tvs) != 1:
+        raise GlyphError(f"Pixelify Sans: '{name}' is no longer one outline with one weight master. The C/G/5 patch "
+                         "was written for Pixelify Sans 1.000: check the new outlines and update patch_pixelify.")
+    coords, ctrl = glyf._getCoordinatesAndControls(name, font["hmtx"].metrics, None)
+    tv = copy.deepcopy(tvs[0])
+    tv.calcInferredDeltas(coords, ctrl.endPts)
+    return [tuple(p) for p in coords], [(round(dx), round(dy)) for dx, dy in tv.coordinates], tv.axes
+
+
+def _pixelify_inside(points, x, y):
+    """Even-odd point-in-polygon for one closed outline."""
+    inside = False
+    for (x1, y1), (x2, y2) in zip(points, points[1:] + points[:1]):
+        if (y1 > y) != (y2 > y) and x < x1 + (y - y1) * (x2 - x1) / (y2 - y1):
+            inside = not inside
+    return inside
+
+
+def patch_pixelify(font):
+    """
+    Pixelify Sans draws C as an O with a slit on its right that is narrower than one of its pixels and closes at bold,
+    G the same way, and 5 like an S. In the all-caps labels of Blip, CODE reads as OODE and 500 as S00; at bold,
+    lower-case c closes too (abcde reads as abode). These are redrawn here from the font's own parts, point for point
+    with their weight deltas, so they stay open at every weight: C is E without its middle bar, G takes E's upper
+    terminal, 5 is S with a square top-left corner, no top-right terminal, and the stem running down into a flat
+    middle bar, and c keeps its one-row opening at bold. Accented C, G and c are composites, so they follow. The OFL allows the change (Pixelify Sans reserves no font name); OFL-PixelifySans.txt says what changed.
+    """
+    glyf, gvar = font["glyf"], font["gvar"]
+    E, E_d, axes = _pixelify_masters(font, "E")
+    G, G_d, _ = _pixelify_masters(font, "G")
+    S, S_d, _ = _pixelify_masters(font, "S")
+    c, c_d, _ = _pixelify_masters(font, "c")
+    n = lambda pts: len(pts) - 4  # outline points, without the four phantom points
+    expect = {"E": (E, 24, (161, 359)), "G": (G, 26, (525, 350)), "S": (S, 28, (525, 440)), "c": (c, 20, (525, 260))}
+    for name, (pts, count, probe) in expect.items():
+        if n(pts) != count or probe not in pts:
+            raise GlyphError(f"Pixelify Sans: '{name}' does not have the outline patch_pixelify expects. Check it.")
+
+    # C: E's outline without its middle bar (E's points 13 to 16).
+    keep = [i for i in range(n(E)) if not 13 <= i <= 16]
+    redraw = {"C": ([E[i] for i in keep], [E_d[i] for i in keep] + E_d[n(E):])}
+    # G: its upper terminal ends where E's does, a whole pixel above the spur.
+    g_pts, g_d = list(G), list(G_d)
+    for i, j in ((9, 9), (10, 10)):
+        g_pts[i], g_d[i] = (G[i][0], E[j][1]), (G_d[i][0], E_d[j][1])
+    redraw["G"] = (g_pts[:n(G)], g_d)
+    # 5: from S. Square top-left, no top-right terminal, the stem straight down to the bottom of the middle bar.
+    f_pts, f_d = list(S), list(S_d)
+    for i, point, delta in (
+        (8, (60, 260), (1, -14)),     # the middle bar runs to the left edge
+        (9, (60, 305), (1, -16)),     # on the left edge
+        (11, (60, 631), (1, 7)),      # square top-left corner
+        (12, (100, 631), (0, 7)),     # on the top edge
+        (17, (525, 530), (17, -29)),  # the top bar ends square: no terminal below it
+        (18, (480, 530), (4, -29)),   # on the underside of the top bar
+    ):
+        f_pts[i], f_d[i] = point, delta
+    redraw["five"] = (f_pts[:n(S)], f_d)
+    # c: its terminals no longer grow into the opening at bold (points 9 and 10 end the upper one, 15 and 16 the lower).
+    c_d = list(c_d)
+    for i in (9, 10, 15, 16):
+        c_d[i] = (c_d[i][0], 0)
+    redraw["c"] = (c[:n(c)], c_d)
+
+    for name, (pts, deltas) in redraw.items():
+        g = glyf[name]
+        g.coordinates = GlyphCoordinates(pts)
+        g.endPtsOfContours = [len(pts) - 1]
+        g.flags = bytearray([1] * len(pts))  # all on-curve: pixel outlines are straight lines
+        g.numberOfContours = 1
+        g.recalcBounds(glyf)
+        gvar.variations[name] = [TupleVariation(axes, deltas)]
+
+    # Check the result at both ends of the weight axis: the openings are open, and 5 has its stem.
+    for name, empty, ink in (("C", (474, 300), (110, 300)), ("G", (474, 380), (110, 300)), ("five", (474, 480), (110, 300)),
+                             ("c", (474, 220), (110, 220))):
+        pts, deltas = redraw[name]
+        bold = [(x + dx, y + dy) for (x, y), (dx, dy) in zip(pts, deltas)]
+        for label, outline in (("regular", pts), ("bold", bold)):
+            if _pixelify_inside(outline, *empty) or not _pixelify_inside(outline, *ink):
+                raise GlyphError(f"Pixelify Sans: the patched '{name}' is not right at {label}. Check patch_pixelify.")
+
+
 def build_pixelify():
     out = os.path.join(DIST, "pixelify-sans.woff2")
     if not os.path.exists(PIXELIFY_SRC):
@@ -703,6 +794,13 @@ def build_pixelify():
     opts.notdef_outline = True
     opts.recalc_timestamp = False
     font = subset.load_font(PIXELIFY_SRC, opts)
+    try:
+        patch_pixelify(font)
+    except GlyphError as e:
+        sys.exit(str(e))
+    for record in font["name"].names:
+        if record.nameID == 5:
+            record.string = f"{record.toUnicode()}; Blip: C, G, 5 and c redrawn"
     sub = subset.Subsetter(opts)
     sub.populate(unicodes=[cp for a, b in PIXELIFY_UNICODES for cp in range(a, b + 1)])
     sub.subset(font)
