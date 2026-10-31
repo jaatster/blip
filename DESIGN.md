@@ -768,7 +768,8 @@ motion it is a still, correct frame. It is decoration: hidden from assistive tec
 Big text on it is POP, small text OUTLINE; anything else needs a panel. The words on it are named in its `avoid`,
 and the sun, the moon and shooting stars keep clear of them: the nearest clear place in their lane of the sky, in
 whole pixels, worked out again whenever the words or the world resize; with no clear sky at all they stay out of
-sight. Nothing in the sky sits behind text.
+sight. Clouds that would sit behind the words are left out, and a drifting cloud passes behind them out of sight.
+Nothing in the sky sits behind text.
 
 ### States and motion
 
