@@ -20,6 +20,17 @@ export interface TabsChangeDetail {
 const TIER: Record<string, string> = { soft: "soft", outline: "outline", underline: "ghost" };
 let uid = 0;
 
+/**
+ * WAI-ARIA tabs over the tabs markup: ids and ARIA wired, one tab in the tab order, the arrow keys, Home and End,
+ * the selected panel shown, and stepped scroll buttons for a row that overflows.
+ *
+ * @summary Tabs: one panel at a time.
+ * @attr {number} selected - The selected tab's index. Setting it selects that tab (no pp-change).
+ * @attr {"auto" | "manual"} [activation="auto"] - Select on focus, or only on Enter, Space and click.
+ * @attr {"soft" | "outline" | "underline"} data-variant - The tabs' tier; each tab gets the matching box variant.
+ * @attr {"sm"} data-size - Smaller tabs: 16 pixels high instead of 20.
+ * @fires {CustomEvent<TabsChangeDetail>} pp-change - After the person selects a tab.
+ */
 export class PixelTabs extends PixelElement {
   static override classes = ["pp-tabs"];
   static observedAttributes = ["selected"];
@@ -68,7 +79,7 @@ export class PixelTabs extends PixelElement {
 
   protected override connected(): void {
     const list = this.list;
-    if (!list) return warn("PP-T001", "<pp-tabs> needs a [role=tablist] child.", this);
+    if (!list) return warn("PP-N001", "<pp-tabs> needs a [role=tablist] child.", this);
     const signal = this.signal;
     const id = this.id || `pp-tabs-${++uid}`;
     const panels = [...this.querySelectorAll<HTMLElement>(':scope > [role="tabpanel"]')];

@@ -62,7 +62,7 @@ const enum S {
 export function worldPalette(scheme: Scheme, from: Element = document.documentElement): number[] {
   const style = getComputedStyle(from);
   const names = [...SLOTS.map((s) => `--pp-world-${scheme}-${s}`), ...SHARED.map((s) => `--pp-world-${s}`), "--pp-white", "--pp-candy-yellow-light"];
-  if (!style.getPropertyValue(names[0]!).trim()) warn("PP-E001", "No world colours: load @jaatster/blip-tokens/tokens.css.", from);
+  if (!style.getPropertyValue(names[0]!).trim()) warn("PP-W001", "No world colours: load @jaatster/blip-tokens/tokens.css.", from);
   return names.map((n) => rgb(style.getPropertyValue(n)));
 }
 
@@ -268,6 +268,18 @@ const isScheme = (s: string | null): s is Scheme => s === "day" || s === "sunset
  *
  * Attributes: scheme (day, sunset, night, auto, or left out to follow the page), parallax, clouds (drift; "none"
  * for none), stars (stars flare at night), events (birds by day, a shooting star at night), zoom.
+ *
+ * @summary The dithered world backdrop: sky, mountains, hills and meadow, for Day, Sunset and Night.
+ * @attr {"day" | "sunset" | "night" | "auto"} scheme - The time of day; "auto" follows the clock. Left out, the
+ * page's scheme.
+ * @attr {boolean} parallax - The layers slide against the pointer, a whole pixel at a time, and lift a little as the
+ * world scrolls past.
+ * @attr {"drift" | "none"} clouds - Present (or "drift"): the clouds drift, a whole pixel at a time. "none": no
+ * clouds. Left out: still clouds.
+ * @attr {boolean} stars - Stars flare now and then at night.
+ * @attr {boolean} events - Now and then a flock of birds by day, a shooting star at night.
+ * @attr {number} [zoom=1] - World pixels per page pixel, a whole number.
+ * @cssprop --pp-pixel - The world pixel (times zoom).
  */
 export class PixelWorld extends PixelElement {
   static observedAttributes = ["scheme", "parallax", "clouds", "stars", "events", "zoom"];

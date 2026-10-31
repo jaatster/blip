@@ -1,0 +1,80 @@
+---
+/** Icons: a searchable browser of every icon, from @jaatster/blip-icons' data, with copy; then the package's docs. */
+import Docs from "../../layouts/Docs.astro";
+import Pager from "../../components/Pager.astro";
+import Icon from "../../components/Icon.astro";
+import { docFor, docLink, icons } from "../../lib/data";
+import { renderMarkdown } from "../../lib/markdown";
+
+const data = icons();
+const doc = docFor("icons", "icons")!;
+const ref = await renderMarkdown(doc.source.replace(/<!-- icons:start[\s\S]*?<!-- icons:end -->/, "The browser above lists every icon by category."), { link: docLink("icons"), idPrefix: "icons-" });
+const groups = data.categories.map((c) => ({ ...c, icons: data.icons.filter((i) => i.category === c.id) })).filter((g) => g.icons.length);
+const first = data.icons.find((i) => i.name === "heart") ?? data.icons[0]!;
+const H = (id: string, text: string) => ({ depth: 2, id, text });
+---
+<Docs styles={["foundations"]} scripts={["foundations"]} title="Icons" description={`All ${data.icons.length} Blip icons: drawn on a 12 x 12 pixel grid in one colour, searchable, ready to copy as SVG.`} headings={[H("browse", "Every icon"), H("icons-files", "The icons package"), ...ref.headings.filter((h) => h.depth === 2)]}>
+  <header class="docs-page-head">
+    <h1 class="docs-page-title pp-display" data-scale="2">Icons</h1>
+    <p class="docs-lede">{data.icons.length} original icons, drawn by hand on a {data.grid} x {data.grid} pixel grid in one colour, the same grid as Pixel Bop and the candy box. Search them, then copy one as SVG, as a name, or as an element.</p>
+  </header>
+
+  <section class="docs-section" aria-labelledby="browse">
+    <h2 id="browse">Every icon</h2>
+    <search class="pp-box docs-icon-bar docs-needs-js" data-variant="panel" aria-label="Filter icons">
+      <span class="pp-box pp-input docs-icon-search">
+        <Icon name="search" />
+        <input type="search" aria-label="Search icons by name or tag" placeholder="Search: heart, arrow, save…" enterkeyhint="search" autocomplete="off" />
+      </span>
+      <span class="pp-box pp-select"><select class="docs-icon-category" aria-label="Category">
+        <option class="pp-box" value="">Every category</option>
+        {groups.map((g) => <option class="pp-box" value={g.id}>{g.title} ({g.icons.length})</option>)}
+      </select></span>
+      <p class="docs-icon-count pp-small pp-muted" role="status">{data.icons.length} icons</p>
+    </search>
+
+    <div class="docs-icons">
+      <div class="docs-icon-groups">
+        {groups.map((g) => (
+          <section class="docs-icon-group" data-category={g.id} aria-labelledby={`cat-${g.id}`}>
+            <h3 id={`cat-${g.id}`} class="docs-label">{g.title} <span class="docs-num">{g.icons.length}</span></h3>
+            <ul class="docs-icon-grid" role="list">
+              {g.icons.map((i) => (
+                <li data-name={i.name} data-tags={i.tags.join(" ")}>
+                  <button class="pp-box docs-icon-button" type="button" data-variant="ghost" data-icon={i.name} aria-pressed={i.name === first.name ? "true" : "false"}>
+                    <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d={i.path} /></svg>
+                    <span class="docs-icon-name">{i.name}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+        <p class="pp-box docs-icon-empty" data-variant="panel" hidden>No icon matches. Try a plainer word: "arrow", "save", "game".</p>
+      </div>
+
+      <aside class="pp-box docs-icon-detail" data-variant="panel" aria-labelledby="icon-detail-name">
+        <div class="docs-icon-big" aria-hidden="true">
+          <svg class="pp-icon" viewBox="0 0 12 12" data-size="lg"><path d={first.path} /></svg>
+          <svg class="pp-icon docs-icon-huge" viewBox="0 0 12 12"><path d={first.path} /></svg>
+        </div>
+        <h3 class="docs-icon-detail-name" id="icon-detail-name">{first.name}</h3>
+        <p class="pp-small pp-muted docs-icon-detail-tags">{data.categories.find((c) => c.id === first.category)?.title} · {first.tags.join(", ")}</p>
+        <div class="docs-icon-actions docs-needs-js">
+          <button class="pp-box pp-button docs-copy" type="button" data-size="sm" data-copy-kind="svg" data-copy="">Copy SVG</button>
+          <button class="pp-box pp-button docs-copy" type="button" data-size="sm" data-variant="soft" data-copy-kind="name" data-copy="">Copy name</button>
+          <button class="pp-box pp-button docs-copy" type="button" data-size="sm" data-variant="outline" data-copy-kind="element" data-copy="">Copy element</button>
+        </div>
+        <pre class="docs-icon-snippet docs-scroll" tabindex="0" aria-label="The icon's SVG"><code></code></pre>
+      </aside>
+    </div>
+  </section>
+
+  <section class="docs-section docs-prose docs-reference" aria-labelledby="icons-files">
+    <h2 id="icons-files">The icons package</h2>
+    <p>From <code class="docs-inline-code">@jaatster/blip-icons</code>'s own documentation.</p>
+    <Fragment set:html={ref.html} />
+  </section>
+
+  <Pager />
+</Docs>

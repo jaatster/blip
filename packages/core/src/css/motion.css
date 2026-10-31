@@ -22,7 +22,8 @@
   /* Blinks: on and off on the beat. A caret, a "press start". Stops after six beats (under five seconds,
      WCAG 2.2.2); set --pp-blink-count: infinite only where the person can pause it. */
   .pp-blink { animation: pp-blink calc(2 * var(--pp-duration-beat)) steps(1, jump-end) var(--pp-blink-count, 6); }
-  /* Bobs: up a pixel and back on the beat. An arrow, a pointer. Stops after six beats. */
+  /* Bobs: up a pixel and back on the beat. An arrow, a pointer. Stops after six beats (--pp-bob-count, as
+     --pp-blink-count for blinks). */
   .pp-bob { animation: pp-bob calc(2 * var(--pp-duration-beat)) steps(1, jump-end) var(--pp-bob-count, 6); }
 
   @media (prefers-reduced-motion: reduce) {

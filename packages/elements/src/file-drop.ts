@@ -30,6 +30,15 @@ const size = (n: number): string =>
 
 const key = (f: File) => `${f.name}/${f.size}/${f.lastModified}`;
 
+/**
+ * A tray to drop files on, or click to browse. The files live in the native <input type="file"> inside, so they go
+ * with the form; each picked file gets a row with a remove button.
+ *
+ * @summary Drop files, or click to browse.
+ * @attr {string} [remove-label="Remove"] - Put before each file name on its remove button.
+ * @fires {CustomEvent<{ files: File[] }>} pp-change - The list changed: files picked, dropped or removed.
+ * @fires {CustomEvent<{ files: File[] }>} pp-reject - Dropped files that do not match the input's accept.
+ */
 export class PixelFileDrop extends PixelElement {
   static classes = ["pp-file-drop"];
 

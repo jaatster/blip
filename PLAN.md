@@ -28,7 +28,7 @@ Status: **draft, waiting for approval.**
 
 ## Rules the whole system keeps
 
-1. **One pixel.** Every outline, icon, letter, corner and movement is a whole number of pixels (`--pp-px`, 2 CSS
+1. **One pixel.** Every outline, icon, letter, corner and movement is a whole number of pixels (`--pp-pixel`, 2 CSS
    px by default). Nothing is blurred, rotated or scaled by a fraction.
 2. **Ink, never black.** The darkest colour is ink `#1A1530`, used for every outline, shadow and piece of dark text.
 3. **Candy on pastel.** Saturated, outlined things can be acted on. The world behind them is soft, dithered and
@@ -187,7 +187,7 @@ behaviour is needed.
   - all component CSS 30 KB or less;
   - tokens 4 KB or less;
   - each element 3 KB or less;
-  - effects 12 KB or less;
+  - effects 13 KB or less (JS and CSS, including the core code they pull in);
   - the display font 15 KB or less.
 
   No runtime dependencies.

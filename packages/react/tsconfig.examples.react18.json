@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.examples.json",
+  "compilerOptions": {
+    "paths": {
+      "react": ["./node_modules/@types/react-18/index.d.ts"],
+      "react/jsx-runtime": ["./node_modules/@types/react-18/jsx-runtime.d.ts"]
+    }
+  }
+}

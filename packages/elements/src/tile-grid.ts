@@ -18,6 +18,16 @@ import { PixelElement, rovingFocus } from "@jaatster/blip-core";
 
 const SELECTED = '[aria-pressed="true"], [aria-current]:not([aria-current="false"]), [aria-selected="true"]';
 
+/**
+ * A grid of tiles as one Tab stop: the arrow keys move in two dimensions, Home and End jump to the ends, disabled
+ * tiles are skipped. Optionally it keeps the selection.
+ *
+ * @summary A grid of tiles moved through with the arrow keys.
+ * @attr {"single" | "follow"} selection - "single": pressing a tile selects it (aria-pressed); "follow": the focused
+ * tile is the current one (aria-current). Left out, selection is yours.
+ * @fires {CustomEvent<{ tile: HTMLElement }>} pp-select - Before the selection moves. Cancelable: preventDefault()
+ * keeps the old one.
+ */
 export class PixelTileGrid extends PixelElement {
   /** "single" or "follow"; anything else leaves selection to you. */
   get selection(): string {

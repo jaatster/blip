@@ -193,7 +193,7 @@
 
   @media (forced-colors: active) {
     .pp-command-item { border-color: Canvas; }
-    .pp-command-item:is([aria-selected="true"], [data-pp-state~="focus"]) { outline: 2px solid Highlight; outline-offset: -2px; }
+    .pp-command-item:is([aria-selected="true"], [data-pp-state~="focus"]) { outline: var(--pp-pixel) solid Highlight; outline-offset: calc(-1 * var(--pp-pixel)); }
     .pp-command::backdrop { background: none; }
   }
 }

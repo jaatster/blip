@@ -140,7 +140,7 @@
   }
 
   @media (forced-colors: active) {
-    :where(.pp-input, .pp-textarea, .pp-select):where(:has(> :is(input, textarea, select):focus-visible)) { outline: 2px solid Highlight; outline-offset: 2px; }
+    :where(.pp-input, .pp-textarea, .pp-select):where(:has(> :is(input, textarea, select):focus-visible)) { outline: var(--pp-pixel) solid Highlight; outline-offset: var(--pp-pixel); }
     :where(.pp-input, .pp-textarea, .pp-select):where(:has(> :is([aria-invalid="true"], :user-invalid))) { border-style: dashed; }
     :where(.pp-input, .pp-textarea, .pp-select):where(:has(> :is(input, textarea, select):disabled)) { border-color: GrayText; color: GrayText; }
     /* Mask glyphs would be painted in Canvas: paint them in the system's text colours instead. */

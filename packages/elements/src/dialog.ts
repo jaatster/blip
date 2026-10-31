@@ -15,6 +15,12 @@ import { Overlay } from "./_overlay.js";
 
 export type { CloseDetail, CloseReason } from "./_overlay.js";
 
+/**
+ * A native <dialog> with Blip's manners: opened as a modal, every close through a cancelable pp-before-close
+ * and the stepped exit, focus returned to the opener, and an optional light dismiss.
+ *
+ * @summary A modal dialog around one <dialog class="pp-box pp-dialog">.
+ */
 export class PixelDialog extends Overlay {}
 
 PixelDialog.define("pp-dialog", PixelDialog);

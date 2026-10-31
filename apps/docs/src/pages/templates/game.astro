@@ -1,0 +1,114 @@
+---
+/**
+ * Template: a game's menus, from the game kit and the world. A title screen (press start), a main menu, a level with
+ * its HUD and a frog with something to say, and a pause menu. Without JavaScript the screens simply follow one
+ * another down the page.
+ */
+import Template from "../../layouts/Template.astro";
+import Icon from "../../components/Icon.astro";
+import { frog } from "../../lib/data";
+
+const letters = [..."Starfall"].map((c, i) => ({ c, i }));
+---
+<Template title="Game menu template" description="A Blip game menu: a title screen on the world, press start, a main menu, a level with a HUD and dialogue, and a pause menu." kits={["game", "effects"]} scripts={["tpl-game"]} bodyClass="tpl-game-body" display>
+  <main class="tpl-game" data-screen="title">
+    <pp-world class="tpl-game-world" parallax clouds stars events></pp-world>
+
+    <section class="tpl-screen tpl-title" data-screen-id="title" aria-labelledby="game-title">
+      <h1 class="tpl-game-title pp-display" id="game-title"><span class="pp-sr-only">Starfall</span><span aria-hidden="true">{letters.map(({ c, i }) => <span class="pp-pop pp-drop-in" data-pop={c} style={`--i:${i}`}>{c}</span>)}</span></h1>
+      <p class="tpl-subtitle pp-outline pp-label">A Blip template</p>
+      <button class="tpl-press-start" type="button" data-go="menu">
+        <span class="pp-prompt-start pp-display pp-pop pp-blink" data-scale="2" data-tone="pink" data-pop="Press start">Press start</span>
+      </button>
+      <p class="pp-prompt tpl-hint">or press <kbd class="pp-box pp-prompt-key">Enter</kbd></p>
+    </section>
+
+    <section class="tpl-screen tpl-menu" data-screen-id="menu" aria-labelledby="menu-title">
+      <div class="pp-box tpl-menu-panel" data-variant="panel">
+        <h2 class="pp-display pp-pop" data-scale="2" data-tone="pink" data-pop="Starfall" id="menu-title">Starfall</h2>
+        <pp-choices class="tpl-main-choices">
+          <ul class="pp-choices" role="list" data-font="display">
+            <li><button type="button" class="pp-box pp-choice" data-variant="ghost" value="new">New game</button></li>
+            <li><button type="button" class="pp-box pp-choice" data-variant="ghost" value="continue" aria-disabled="true" aria-describedby="no-save">Continue</button></li>
+            <li><button type="button" class="pp-box pp-choice" data-variant="ghost" value="options">Options</button></li>
+            <li><button type="button" class="pp-box pp-choice" data-variant="ghost" value="docs">Back to the docs</button></li>
+          </ul>
+        </pp-choices>
+        <p class="pp-small pp-muted" id="no-save">No saved game yet.</p>
+      </div>
+      <section class="pp-box pp-window tpl-options" aria-labelledby="options-title" hidden>
+        <header class="pp-window-bar"><h2 class="pp-window-title pp-display pp-pop" id="options-title">Options</h2></header>
+        <div class="pp-window-body tpl-options-body">
+          <label class="pp-check" data-layout="split">Chip sounds<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box tpl-sound" /></span></label>
+          <div class="tpl-options-row">
+            <span class="pp-label" id="tpl-time">Time of day</span>
+            <pp-segmented class="pp-box pp-segmented tpl-time" data-size="sm" aria-labelledby="tpl-time" value="auto">
+              <button class="pp-box" type="button" value="auto" aria-checked="true">Clock</button>
+              <button class="pp-box" type="button" value="day">Day</button>
+              <button class="pp-box" type="button" value="sunset">Sunset</button>
+              <button class="pp-box" type="button" value="night">Night</button>
+            </pp-segmented>
+          </div>
+          <button class="pp-box pp-button tpl-options-done" type="button" data-variant="soft" data-width="full">Done</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="tpl-screen tpl-level" data-screen-id="level" aria-labelledby="level-title">
+      <div class="pp-hud tpl-hud">
+        <div class="pp-hud-group">
+          <pp-hearts class="tpl-hearts" value="3" max="5" label="Health"></pp-hearts>
+          <div class="pp-hud-stat">
+            <span class="pp-hud-label pp-display pp-pop" data-scale="1" aria-hidden="true">MP</span>
+            <div class="pp-box pp-hud-bar" data-tone="blue" role="meter" aria-label="Magic" aria-valuemin="0" aria-valuemax="8" aria-valuenow="5" style="--pp-hud-value:5;--pp-hud-max:8;--pp-hud-segments:8"><span class="pp-hud-bar-fill"></span></div>
+          </div>
+        </div>
+        <div class="pp-hud-group">
+          <pp-counter class="tpl-coins" value="12" pad="3" label="Coins" sound="coin"><pp-sprite name="coin"></pp-sprite></pp-counter>
+          <pp-counter class="tpl-score" value="1200" pad="6" label="Score"><span class="pp-hud-label pp-display pp-pop" data-scale="1" aria-hidden="true">Score</span></pp-counter>
+          <pp-counter class="tpl-clock" value="300" format="time" low="30" label="Time" quiet><pp-sprite name="clock"></pp-sprite></pp-counter>
+          <button class="pp-box pp-button tpl-pause-button" type="button" data-variant="soft" data-tone="neutral" data-size="sm" data-icon-only aria-label="Pause" aria-keyshortcuts="Escape"><Icon name="pause" /></button>
+        </div>
+      </div>
+      <h2 class="tpl-level-name pp-display pp-pop" data-scale="2" data-pop="1-1 Puddle Path" id="level-title">1-1 Puddle Path</h2>
+      <div class="tpl-field">
+        <button class="pp-box pp-button tpl-coin-button" type="button" data-tone="orange" aria-describedby="coin-hint"><pp-sprite name="coin"></pp-sprite>Collect a coin</button>
+        <p class="pp-prompt tpl-keys" id="coin-hint"><kbd class="pp-box pp-prompt-key">Space</kbd> Coin <kbd class="pp-box pp-prompt-key">Esc</kbd> Pause</p>
+      </div>
+      <pp-dialogue class="pp-box pp-dialogue tpl-frog" voice>
+        <span class="pp-box pp-dialogue-name" data-tone="green">Bramble</span>
+        <div class="pp-box pp-dialogue-portrait" data-variant="soft" data-tone="teal" aria-hidden="true"><Fragment set:html={frog()} /></div>
+        <div class="pp-dialogue-body">
+          <div class="pp-dialogue-text">
+            <p>Ah, a traveller! The rope bridge washed out in last night's storm.</p>
+            <p>I could patch it up before sunset, for thirty coins. Fair?</p>
+          </div>
+          <pp-choices class="pp-dialogue-choices">
+            <ul class="pp-choices" role="list">
+              <li><button class="pp-box pp-choice" type="button" data-variant="ghost" value="pay">Pay 30 coins</button></li>
+              <li><button class="pp-box pp-choice" type="button" data-variant="ghost" value="later">Maybe later</button></li>
+            </ul>
+          </pp-choices>
+        </div>
+      </pp-dialogue>
+      <div class="pp-stage-ground tpl-ground"></div>
+    </section>
+
+    <dialog class="pp-box pp-pause tpl-pause" aria-labelledby="pause-title">
+      <h2 id="pause-title" class="pp-pause-title pp-display pp-pop" data-scale="3" data-pop="Paused">Paused</h2>
+      <p class="pp-pause-stats">
+        <span><pp-sprite name="coin"></pp-sprite><span class="tpl-pause-coins">12</span> coins</span>
+        <span><pp-sprite name="star"></pp-sprite>0 of 3</span>
+        <span><pp-sprite name="clock"></pp-sprite><span class="tpl-pause-time">5:00</span></span>
+      </p>
+      <pp-choices class="tpl-pause-choices">
+        <ul class="pp-choices" role="list" data-font="display">
+          <li><button type="button" class="pp-box pp-choice" data-variant="ghost" value="resume" autofocus>Resume</button></li>
+          <li><button type="button" class="pp-box pp-choice" data-variant="ghost" value="title">Quit to title</button></li>
+          <li><button type="button" class="pp-box pp-choice" data-variant="ghost" value="docs">Back to the docs</button></li>
+        </ul>
+      </pp-choices>
+      <p class="pp-pause-hint pp-prompt"><kbd class="pp-box pp-prompt-key">Esc</kbd> Resume</p>
+    </dialog>
+  </main>
+</Template>

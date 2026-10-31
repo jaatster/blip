@@ -264,6 +264,18 @@ for (const scheme of schemes) {
 }
 failIfProblems();
 
+// Plain candies (data-tone="teal" and so on) take ink labels, slate takes white: check them on every band.
+{
+  const hex = (path) => hexOf(base.find((t) => t.path === path).resolved);
+  const candies = Object.keys(readJson(join(ROOT, "src/primitives/color.tokens.json")).candy).filter((k) => !k.startsWith("$"));
+  for (const c of candies) for (const band of ["base", "light"]) {
+    const label = c === "slate" ? "white" : "ink.base";
+    const ratio = contrast(hex(label), hex(`candy.${c}.${band}`));
+    report.push({ scheme: "all", fg: label, bg: `candy.${c}.${band}`, ratio, min: 4.5 });
+    if (ratio < 4.5) problem("PP-T062", "src/primitives/color.tokens.json", `/candy/${c}/${band}`, `${label} on candy ${c} ${band} is ${ratio.toFixed(2)}:1; it needs 4.5:1.`, "Adjust the candy, or give it a different label colour in box.css.");
+  }
+  failIfProblems();
+}
 const weakest = [...report].sort((a, b) => a.ratio / a.min - b.ratio / b.min).slice(0, 5);
 console.log(`Contrast: ${report.length} pairs pass in ${schemes.length} schemes. Closest to the line:`);
 for (const r of weakest) console.log(`  ${r.scheme.padEnd(7)} ${r.fg} on ${r.bg}: ${r.ratio.toFixed(2)}:1 (needs ${r.min})`);
@@ -330,7 +342,7 @@ ${decls(fixed)}
   :root, [data-pp-pixel] {
 ${decls(pixelDerived)}
   }
-${pixels.filter((p) => p !== DEFAULT.pixel).map((p) => `  [data-pp-pixel="${p}"] { --pp-pixel: ${pixelValues[p]}px; }`).join("\n")}
+${pixels.map((p) => `  [data-pp-pixel="${p}"] { --pp-pixel: ${pixelValues[p]}px; }`).join("\n")}
 
   /* Schemes. Day is the default; the device's dark mode picks Night until a scheme is set. */
   :root, [data-pp-scheme="${DEFAULT.scheme}"] {

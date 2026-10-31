@@ -221,7 +221,7 @@
     .pp-tabs-list::after { animation: none; }
   }
   @media (forced-colors: active) {
-    .pp-tab:is([aria-selected="true"], [aria-current="page"]) { border-width: 2px; }
+    .pp-tab:is([aria-selected="true"], [aria-current="page"]) { border-width: var(--pp-pixel); }
     .pp-tabs-list::after { forced-color-adjust: none; background: CanvasText !important; }
     .pp-tabs-scroll > span { forced-color-adjust: none; }
   }

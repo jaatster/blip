@@ -4,7 +4,6 @@
  *
  *   <section class="pp-features" aria-labelledby="features-title">
  *     <header class="pp-features-head">
- *       <p class="pp-features-eyebrow">The game</p>
  *       <h2 class="pp-features-title" id="features-title">A small world that keeps time</h2>
  *     </header>
  *     <div class="pp-features-grid">
@@ -40,14 +39,6 @@
     display: grid;
     gap: calc(3 * var(--pp-pixel));
     max-inline-size: 60ch;
-  }
-  .pp-features-eyebrow {
-    margin: 0;
-    color: var(--pp-accent-text);
-    font-size: var(--pp-size-small);
-    font-weight: var(--pp-weight-bold);
-    letter-spacing: var(--pp-tracking-label);
-    text-transform: uppercase;
   }
   .pp-features-title {
     margin: 0;

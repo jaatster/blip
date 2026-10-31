@@ -35,6 +35,9 @@ abstract class HudValue extends PixelElement {
   get label(): string {
     return this.getAttribute("label") ?? "";
   }
+  set label(value: string) {
+    this.setAttribute("label", value);
+  }
 
   protected abstract text(): string;
   protected abstract draw(from?: number): void;
@@ -61,7 +64,20 @@ abstract class HudValue extends PixelElement {
   }
 }
 
-/** A coin, score or time counter in Pixel Bop's tabular digits. */
+/**
+ * A coin, score or time counter in Pixel Bop's tabular digits. A gain counts up a whole step a frame, bumps the icon
+ * and plays its sound; the value is announced politely once it settles.
+ *
+ * @summary A coin, score or time counter.
+ * @attr {number} value - The count (seconds with format="time").
+ * @attr {string} label - What the value is, for screen readers: "Coins", "Score".
+ * @attr {number} pad - Zero-pads to this many digits: 042.
+ * @attr {"time"} format - Shows the value, in seconds, as m:ss.
+ * @attr {number} low - At or under this value the digits turn red (data-low).
+ * @attr {string} sound - A chip sound to play on a gain: "coin".
+ * @attr {boolean} quiet - Never announced: for a ticking timer or a busy score.
+ * @omit-attr max
+ */
 export class PixelCounter extends HudValue {
   static override classes = ["pp-counter"];
   #shown?: number;
@@ -108,7 +124,17 @@ export class PixelCounter extends HudValue {
   }
 }
 
-/** Hearts for health: full, half and empty sprites (sprites.js draws them). */
+/**
+ * Hearts for health: full, half and empty sprites (sprites.js draws them). A loss shakes the row; the value is
+ * announced politely once it settles.
+ *
+ * @summary A row of hearts for health.
+ * @attr {number} value - The health, in hearts; halves show as half hearts.
+ * @attr {number} [max=3] - How many hearts.
+ * @attr {string} label - What the value is, for screen readers: "Health".
+ * @attr {boolean} quiet - Never announced.
+ * @omit-attr low
+ */
 export class PixelHearts extends HudValue {
   static override classes = ["pp-hearts"];
 

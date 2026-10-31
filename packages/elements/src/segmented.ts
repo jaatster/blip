@@ -13,6 +13,22 @@
  */
 import { PixelElement, rovingFocus, warn } from "@jaatster/blip-core";
 
+/**
+ * One choice from a few buttons, as a radio group: the arrow keys move and choose. Form-associated: the chosen
+ * button's value goes with the form.
+ *
+ * @summary One choice from a row of buttons.
+ * @attr {string} name - The form field name.
+ * @attr {string} value - The chosen button's value. Setting it chooses that button.
+ * @attr {boolean} disabled - Disables every segment (also follows a disabled fieldset).
+ * @attr {boolean} required - Invalid until something is chosen.
+ * @attr {string} [required-message="Choose one."] - The message while required and nothing is chosen.
+ * @attr {"sm" | "lg"} data-size - 16 or 24 pixels high instead of 20, like buttons.
+ * @attr {"full"} data-width - Fills its container; the segments share the width.
+ * @attr {"accent" | "info" | "success" | "warning" | "danger" | "neutral" | "red" | "orange" | "yellow" | "green" | "teal" |
+ * "blue" | "purple" | "pink" | "slate"} data-tone - The chosen segment's candy.
+ * @fires {CustomEvent<{ value: string }>} pp-change - A segment was chosen by click or key (after input and change).
+ */
 export class PixelSegmented extends PixelElement {
   static formAssociated = true;
   static observedAttributes = ["value", "disabled", "required"];

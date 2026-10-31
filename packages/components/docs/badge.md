@@ -18,7 +18,7 @@ button, an avatar or an icon. For labels people act on or remove, use a tag.
 ```html
 <span class="pp-box pp-badge" data-tone="success">New</span>
 
-<button class="pp-box pp-button" data-icon-only aria-label="Messages, 120 unread">
+<button class="pp-box pp-button" data-icon-only aria-label="Messages, 99+ unread">
   <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
   <span class="pp-box pp-badge" data-tone="danger" data-size="sm" data-position="top-end" aria-hidden="true">99+</span>
 </button>
@@ -57,7 +57,11 @@ Badges are not interactive. When the count changes, change the text; at zero, re
 ## Accessibility
 
 - **A pinned badge is a picture of what its parent's name says.** Hide it (`aria-hidden="true"`) and put the
-  information in the parent's name: "Messages, 120 unread" (with the real number, not "99+").
+  information in the parent's name: "Messages, 3 unread".
+- **A capped count's name uses the capped text.** A badge that shows "99+" gives "Messages, 99+ unread", not
+  "Messages, 120 unread": the name has to contain what the badge shows (WCAG 2.5.3, Label in Name), or someone who
+  says "99+" to a speech-input tool gets no match. Where the exact number matters, give it in a description
+  (`aria-describedby`).
 - **A badge in text** is read as text ("Inventory 24 slots used"); make the sentence work when read aloud.
 - **A dot on its own** needs a name: `role="img"` and `aria-label="Online"`, or say it in the parent's name.
 - **Never colour alone.** Status dots differ only in colour, so their meaning must also be in a name or nearby text.

@@ -1,9 +1,25 @@
 {
+  "name": "@jaatster/blip-font",
   "version": "0.2.0",
+  "description": "Pixel Bop, Blip's pixel display font, and a Latin subset of Pixelify Sans. SIL OFL 1.1.",
+  "keywords": [
+    "blip",
+    "pixel-art",
+    "design-system",
+    "font",
+    "pixel-font",
+    "woff2",
+    "ofl"
+  ],
+  "homepage": "https://github.com/jaatster/blip/tree/main/packages/font#readme",
+  "bugs": "https://github.com/jaatster/blip/issues",
+  "repository": {
+    "type": "git",
+    "url": "github:blip/blip",
+    "directory": "packages/font"
+  },
   "license": "OFL-1.1",
   "type": "module",
-  "name": "@jaatster/blip-font",
-  "description": "Pixel Bop, Blip's pixel display font, and a Latin subset of Pixelify Sans. SIL OFL 1.1.",
   "sideEffects": [
     "*.css"
   ],
@@ -11,15 +27,23 @@
     "./font.css": "./font.css",
     "./pixel-bop.woff2": "./dist/pixel-bop.woff2",
     "./pixel-bop.ttf": "./dist/pixel-bop.ttf",
-    "./pixelify-sans.woff2": "./dist/pixelify-sans.woff2"
+    "./pixelify-sans.woff2": "./dist/pixelify-sans.woff2",
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
     "src",
     "font.css",
     "OFL.txt",
-    "OFL-PixelifySans.txt"
+    "OFL-PixelifySans.txt",
+    "CHANGELOG.md"
   ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "../../.tools/venv/bin/python -I scripts/build.py"
   }

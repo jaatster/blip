@@ -64,7 +64,7 @@
   @media (forced-colors: active) {
     .pp-link { color: LinkText; }
     .pp-link:visited { color: VisitedText; }
-    .pp-link:focus-visible { outline: 2px solid Highlight; outline-offset: 2px; background: none; color: LinkText; }
+    .pp-link:focus-visible { outline: var(--pp-pixel) solid Highlight; outline-offset: var(--pp-pixel); background: none; color: LinkText; }
     .pp-link[data-external]::after { forced-color-adjust: none; background: LinkText; }
   }
 }

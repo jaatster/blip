@@ -1,0 +1,8 @@
+/* Storybook-only touches: canvases in the docs pages take the scheme's page colour, as the stories do. */
+.docs-story {
+  background: var(--pp-bg);
+  color: var(--pp-text);
+}
+.docs-story > div:first-child {
+  font-family: var(--pp-font-ui);
+}

@@ -1,0 +1,15 @@
+---
+/** Previous and next, in the site's reading order. */
+import { readingOrder } from "../lib/nav";
+const path = Astro.url.pathname;
+const order = readingOrder();
+const i = order.findIndex((x) => x.url === path);
+const prev = i > 0 ? order[i - 1] : undefined;
+const next = i >= 0 && i < order.length - 1 ? order[i + 1] : undefined;
+---
+{(prev || next) && (
+  <nav class="docs-pager" aria-label="Previous and next">
+    {prev ? <a class="pp-box" data-variant="outline" href={prev.url} rel="prev"><span class="docs-pager-label">Previous</span><span class="docs-pager-title">{prev.title}</span></a> : <span />}
+    {next && <a class="pp-box" data-variant="outline" href={next.url} rel="next"><span class="docs-pager-label">Next</span><span class="docs-pager-title">{next.title}</span></a>}
+  </nav>
+)}

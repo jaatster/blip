@@ -25,6 +25,16 @@ const outside = (el: Element, e: MouseEvent): boolean => {
   return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
 };
 
+/**
+ * The modal behaviour <pp-dialog> and <pp-drawer> share, around the one native <dialog> inside the element.
+ *
+ * @attr {boolean} open - Opens the dialog as a modal, or closes it; reflects whether it is open.
+ * @attr {boolean} light-dismiss - A press that starts and ends on the scrim asks to close (reason "backdrop").
+ * @fires {CustomEvent<void>} pp-open - After it opens (also when opened directly with showModal()).
+ * @fires {CustomEvent<CloseDetail>} pp-before-close - Before any close: Escape, the scrim, a close button, a
+ * method="dialog" submit or requestClose(). Cancelable: preventDefault() keeps it open.
+ * @fires {CustomEvent<CloseDetail>} pp-close - After it has closed and given focus back.
+ */
 export class Overlay extends PixelElement {
   static observedAttributes = ["open"];
   /** Where focus goes back to, and what had focus before it opened (the browser's own choice). */

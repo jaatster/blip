@@ -14,10 +14,13 @@ export interface RovingOptions {
 
 export function rovingFocus(container: HTMLElement, options: RovingOptions): { focus: (i: number) => void; sync: () => void } {
   const { orientation = "horizontal", loop = true } = options;
-  const enabled = () => options.items().filter((el) => !el.hasAttribute("disabled") && el.getAttribute("aria-disabled") !== "true");
+  const usable = (el: HTMLElement) => !el.hasAttribute("disabled") && el.getAttribute("aria-disabled") !== "true";
+  const enabled = () => options.items().filter(usable);
   const sync = (active?: HTMLElement) => {
     const items = options.items();
-    const current = active ?? items.find((el) => el.tabIndex === 0) ?? enabled()[0];
+    // The tab stop is never a disabled item while there is one that can be used: a disabled button can't take focus,
+    // and the arrow keys only move between usable items.
+    const current = active ?? items.find((el) => el.tabIndex === 0 && usable(el)) ?? enabled()[0] ?? items.find((el) => el.tabIndex === 0);
     items.forEach((el) => (el.tabIndex = el === current ? 0 : -1));
   };
   const focus = (i: number) => {
@@ -33,14 +36,19 @@ export function rovingFocus(container: HTMLElement, options: RovingOptions): { f
   if (orientation !== "vertical") Object.assign(keys, { ArrowRight: 1, ArrowLeft: -1 });
   if (orientation !== "horizontal") Object.assign(keys, { ArrowDown: 1, ArrowUp: -1 });
   container.addEventListener("keydown", (e) => {
-    const items = enabled();
-    const i = items.indexOf(document.activeElement as HTMLElement);
-    if (i < 0) return;
+    const all = options.items();
+    const at = all.indexOf(document.activeElement as HTMLElement);
+    if (at < 0) return;
     let next: number | undefined;
     const rtl = getComputedStyle(container).direction === "rtl";
-    if (e.key in keys) next = i + keys[e.key]! * (rtl && e.key.startsWith("Arrow") && orientation !== "vertical" && (e.key === "ArrowLeft" || e.key === "ArrowRight") ? -1 : 1);
-    else if (e.key === "Home") next = 0;
-    else if (e.key === "End") next = items.length - 1;
+    if (e.key in keys) {
+      const step = keys[e.key]! * (rtl && e.key.startsWith("Arrow") && orientation !== "vertical" && (e.key === "ArrowLeft" || e.key === "ArrowRight") ? -1 : 1);
+      // Focus may sit on a disabled item (an aria-disabled one that was clicked): it still has a place in the line,
+      // so step from there to the next usable item in that direction.
+      const here = all.slice(0, at).filter(usable).length;
+      next = usable(all[at]!) ? here + step : step > 0 ? here : here - 1;
+    } else if (e.key === "Home") next = 0;
+    else if (e.key === "End") next = enabled().length - 1;
     if (next === undefined) return;
     e.preventDefault();
     focus(next);

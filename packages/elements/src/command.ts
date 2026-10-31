@@ -23,6 +23,15 @@ const OPTION = '[role="option"]';
 const mac = typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
 let uid = 0;
 
+/**
+ * A command palette over the command markup: a modal <dialog> holding a combobox and a listbox of grouped options.
+ * A shortcut opens it, typing filters, the arrow keys move, Enter or a click runs the active option.
+ *
+ * @summary A command palette: search and run commands from the keyboard.
+ * @attr {string} [shortcut="mod+k"] - The keys that open and close it ("mod+k", "ctrl+shift+p", "/"); "" for none.
+ * @fires {CustomEvent<CommandSelectDetail>} pp-select - An option was chosen (Enter or a click). Cancelable:
+ * preventDefault() keeps the palette open.
+ */
 export class PixelCommand extends PixelElement {
   #active: HTMLElement | null = null;
   #showing = false;

@@ -22,6 +22,15 @@ import { PixelElement } from "@jaatster/blip-core";
 
 export type SortDirection = "ascending" | "descending";
 
+/**
+ * Sorting and row selection for the .pp-table inside it. Light DOM: the table reads and looks the same without it.
+ *
+ * @summary Sorting and row selection for a table.
+ * @fires {CustomEvent<{ column: number; direction: SortDirection; header: HTMLTableCellElement }>} pp-sort - Before
+ * sorting. Cancelable: preventDefault() refuses it (sort on a server, then set aria-sort yourself).
+ * @fires {CustomEvent<{ rows: HTMLTableRowElement[] }>} pp-select - After any row checkbox changes; rows are the
+ * selected <tr>s.
+ */
 export class PixelTable extends PixelElement {
   #live?: HTMLElement;
 

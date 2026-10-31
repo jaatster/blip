@@ -37,7 +37,7 @@ line, and the title screen's blinking PRESS START. Labels, not controls.
 | Face button | `data-button` | `a` green, `b` red, `x` blue, `y` orange. Yellow is kept for focus, so Y is orange. `data-tone` picks any other. |
 | Shoulder | `data-button` | `lb`, `rb`, `l`, `r` (bumpers); `lt`, `rt`, `zl`, `zr` (triggers, taller). |
 | D-pad | `data-dir` | `up`, `down`, `left`, `right`, or none for the pad at rest. |
-| Key | content | A word (`Esc`, `Enter`), a letter, or an icon (`.pp-icon`) with `aria-label`. Wide keys take a `min-inline-size`. |
+| Key | content | A word (`Esc`, `Enter`), a letter, or an `aria-hidden` icon (`.pp-icon`) with its name in a `.pp-sr-only` span. Wide keys take a `min-inline-size`. |
 
 ## States
 
@@ -46,7 +46,9 @@ motion it does not blink. Prompts have no hover, focus or pressed states; they a
 
 ## Accessibility
 
-- Use `<kbd>` for keys and buttons: screen readers read their letters. Name icon keys: `aria-label="Up arrow"`.
+- Use `<kbd>` for keys and buttons: screen readers read their letters. Name an icon key with hidden text, not
+  `aria-label` (it is not a role that takes one, and some screen readers ignore it there):
+  `<kbd class="pp-box pp-prompt-key"><svg class="pp-icon" aria-hidden="true">…</svg><span class="pp-sr-only">Up arrow</span></kbd>`.
 - The D-pad is a picture: `role="img"` with `aria-label`.
 - Write the line so it reads as a sentence: "Press A to jump".
 - Show the prompts for the device in use; let players choose.

@@ -4,7 +4,7 @@
  *
  *   <span class="pp-box pp-badge" data-tone="danger">3</span>
  *   <span class="pp-box pp-badge" data-tone="success">New</span>
- *   <button class="pp-box pp-button" data-icon-only aria-label="Inbox, 120 unread">
+ *   <button class="pp-box pp-button" data-icon-only aria-label="Inbox, 99+ unread">
  *     <svg class="pp-icon" …></svg>
  *     <span class="pp-box pp-badge" data-tone="danger" data-position="top-end" aria-hidden="true">99+</span>
  *   </button>
@@ -16,8 +16,9 @@
  *   data-dot        no text: a 6-pixel candy dot (status, "something new")
  *   data-position   top-end | top-start | bottom-end | bottom-start      pinned over the parent's corner
  *
- * Counts over 99 read "99+"; the real number goes in the parent's accessible name. A pinned badge is a picture
- * of what the name says: aria-hidden="true", or role="img" with a label when it stands alone.
+ * Counts over 99 read "99+", and the parent's accessible name says the same ("Inbox, 99+ unread"): a name has to
+ * contain what the badge shows (WCAG 2.5.3). A pinned badge is a picture of what the name says: aria-hidden="true",
+ * or role="img" with a label when it stands alone.
  */
 
 @layer pp.components {

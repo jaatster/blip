@@ -1,0 +1,45 @@
+---
+/**
+ * A live example: the package's own fragment, rendered in the page as it is, on a stage whose scheme and pixel can be
+ * switched on their own. Then its source, to copy.
+ */
+import { codeBlock } from "../lib/markdown";
+interface Props {
+  id: string;
+  html: string;
+  source: string;
+  note?: string;
+  title?: string;
+  switches?: boolean;
+}
+const { id, html, source, note, title = "Example", switches = true } = Astro.props;
+const code = await codeBlock(source, "html", "HTML", true);
+---
+<section class="docs-example" aria-labelledby={id}>
+  <div class="docs-example-bar">
+    <div class="docs-stack" style="gap:var(--pp-space-2)">
+      <h2 class="docs-example-title" id={id}>{title}</h2>
+      {note && <p class="docs-example-note">{note}</p>}
+    </div>
+    {switches && (
+      <div class="docs-example-switches docs-needs-js">
+        <pp-segmented class="pp-box pp-segmented" data-size="sm" aria-label="Scheme of the example" data-stage={`${id}-stage`} data-attr="scheme" value="page">
+          <button class="pp-box" type="button" value="page" aria-checked="true">Page</button>
+          <button class="pp-box" type="button" value="day">Day</button>
+          <button class="pp-box" type="button" value="sunset">Sunset</button>
+          <button class="pp-box" type="button" value="night">Night</button>
+        </pp-segmented>
+        <pp-segmented class="pp-box pp-segmented" data-size="sm" aria-label="Pixel size of the example" data-stage={`${id}-stage`} data-attr="pixel" value="2">
+          <button class="pp-box" type="button" value="2" aria-checked="true">2 px</button>
+          <button class="pp-box" type="button" value="3">3 px</button>
+          <button class="pp-box" type="button" value="4">4 px</button>
+        </pp-segmented>
+      </div>
+    )}
+  </div>
+  <div class="pp-box docs-stage" id={`${id}-stage`}><Fragment set:html={html} /></div>
+  <details class="docs-source">
+    <summary class="pp-box pp-button" data-variant="outline" data-size="sm"><span class="docs-when-closed">Show the HTML</span><span class="docs-when-open">Hide the HTML</span></summary>
+    <Fragment set:html={code} />
+  </details>
+</section>

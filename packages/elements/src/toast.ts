@@ -84,6 +84,18 @@ const button = (cls: string, variant: string, text = ""): HTMLButtonElement => {
   return b;
 };
 
+/**
+ * The corner where toasts come up: a labelled region with live regions, so every toast is announced. Show toasts
+ * with toast() or add(); they stack, wait their turn past max, and pause while hovered, focused or behind a modal.
+ *
+ * @summary The region that shows toasts.
+ * @attr {"bottom-end" | "bottom-center" | "top-end" | "top-center"} [data-placement="bottom-end"] - Where the
+ * toasts come up.
+ * @attr {number} [max=3] - How many toasts show at once; the rest wait their turn.
+ * @attr {string} [dismiss-label="Dismiss"] - Each toast's close button's accessible name.
+ * @attr {string} [aria-label="Notifications"] - The region's name.
+ * @cssprop --pp-toast-duration - A toast's countdown (set by the element on each toast).
+ */
 export class PixelToaster extends PixelElement {
   static classes = ["pp-toaster"];
   #items: Item[] = [];
@@ -101,6 +113,9 @@ export class PixelToaster extends PixelElement {
   /** How many toasts show at once. */
   get max(): number {
     return Math.max(1, Number(this.getAttribute("max")) || 3);
+  }
+  set max(value: number) {
+    this.setAttribute("max", String(value));
   }
 
   protected connected(): void {

@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/element.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "One Blip icon as inline SVG in light DOM, so it takes the page's colour and the .pp-icon size. Markup that\nalready holds the <svg> (rendered on the server) is adopted, not replaced.",
+          "name": "PixelIcon",
+          "members": [
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "IconName"
+              },
+              "description": "The icon to draw. An unknown name draws nothing.",
+              "attribute": "name"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | null"
+              },
+              "description": "Names the icon for assistive technology. Leave it out when the icon only decorates text that says the same.",
+              "attribute": "label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "IconName"
+              },
+              "description": "The icon to draw. An unknown name draws nothing and warns once (PP-I001).",
+              "fieldName": "name"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Names the icon for assistive technology; without it the icon is aria-hidden.",
+              "fieldName": "label"
+            },
+            {
+              "name": "data-size",
+              "type": {
+                "text": "\"lg\""
+              },
+              "description": "Twice the size: 24 pixels square instead of 12."
+            }
+          ],
+          "superclass": {
+            "name": "HTMLElement"
+          },
+          "summary": "One 12 x 12 pixel icon.",
+          "tagName": "pp-icon",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelIcon",
+          "declaration": {
+            "name": "PixelIcon",
+            "module": "src/element.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-icon",
+          "declaration": {
+            "name": "PixelIcon",
+            "module": "src/element.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

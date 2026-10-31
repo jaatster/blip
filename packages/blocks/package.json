@@ -1,9 +1,25 @@
 {
+  "name": "@jaatster/blip-blocks",
   "version": "0.1.0",
+  "description": "Blip website blocks: hero, feature grid, pricing, CTA band, footer.",
+  "keywords": [
+    "blip",
+    "pixel-art",
+    "design-system",
+    "landing-page",
+    "website",
+    "blocks",
+    "css"
+  ],
+  "homepage": "https://github.com/jaatster/blip/tree/main/packages/blocks#readme",
+  "bugs": "https://github.com/jaatster/blip/issues",
+  "repository": {
+    "type": "git",
+    "url": "github:blip/blip",
+    "directory": "packages/blocks"
+  },
   "license": "MIT",
   "type": "module",
-  "name": "@jaatster/blip-blocks",
-  "description": "Blip website blocks: hero, feature grid, pricing, CTA band, footer.",
   "sideEffects": [
     "*.css",
     "./dist/*.js"
@@ -15,17 +31,29 @@
     },
     "./blocks.css": "./dist/blocks.css",
     "./*.css": "./dist/*.css",
+    "./*.js": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    },
     "./*": {
       "types": "./dist/*.d.ts",
       "default": "./dist/*.js"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
     "src",
     "docs",
-    "examples"
+    "examples",
+    "CHANGELOG.md"
   ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "node ../../scripts/build-css-package.mjs blocks && node ../../scripts/build-ts-package.mjs blocks"
   },

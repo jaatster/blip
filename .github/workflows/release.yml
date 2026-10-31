@@ -1,0 +1,67 @@
+# Versions and publishes with Changesets. On main, pending changesets become a "Version packages" pull request;
+# merging it publishes what is not on npm yet. Publishing happens only when the repository has an NPM_TOKEN
+# secret: without it, version pull requests still work and nothing is published.
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write # npm provenance
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+          cache: pnpm
+          registry-url: https://registry.npmjs.org
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+      - name: Font tools
+        run: |
+          python -m venv .tools/venv
+          .tools/venv/bin/pip install --disable-pip-version-check fonttools==4.68.0 brotli==1.2.1
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Is there an npm token?
+        id: npm
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: echo "token=$([ -n "$NPM_TOKEN" ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
+
+      - name: Version pull request, or publish
+        if: steps.npm.outputs.token == 'yes'
+        uses: changesets/action@v2
+        with:
+          version-script: pnpm version-packages
+          publish-script: pnpm release
+          commit-message: Version packages
+          pr-title: Version packages
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: "true"
+
+      - name: Version pull request only (no NPM_TOKEN, nothing is published)
+        if: steps.npm.outputs.token != 'yes'
+        uses: changesets/action@v2
+        with:
+          version-script: pnpm version-packages
+          commit-message: Version packages
+          pr-title: Version packages

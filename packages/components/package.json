@@ -1,23 +1,46 @@
 {
+  "name": "@jaatster/blip-components",
   "version": "0.1.0",
+  "description": "Blip's core components as layered CSS: one file, or one per component.",
+  "keywords": [
+    "blip",
+    "pixel-art",
+    "design-system",
+    "css",
+    "components",
+    "ui"
+  ],
+  "homepage": "https://github.com/jaatster/blip/tree/main/packages/components#readme",
+  "bugs": "https://github.com/jaatster/blip/issues",
+  "repository": {
+    "type": "git",
+    "url": "github:blip/blip",
+    "directory": "packages/components"
+  },
   "license": "MIT",
   "type": "module",
-  "name": "@jaatster/blip-components",
-  "description": "Blip's core components as layered CSS: one file, or one per component.",
   "sideEffects": [
     "*.css"
   ],
   "exports": {
     "./components.css": "./dist/components.css",
     "./components.min.css": "./dist/components.min.css",
-    "./*.css": "./dist/*.css"
+    "./*.css": "./dist/*.css",
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
     "src",
     "docs",
-    "examples"
+    "examples",
+    "CHANGELOG.md"
   ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "node ../../scripts/build-css-package.mjs components"
   },

@@ -1,0 +1,99 @@
+---
+/** Motion: frame-based durations, even steps, and the choreographies, each one playable. From the tokens and core. */
+import Docs from "../../layouts/Docs.astro";
+import Table from "../../components/Table.astro";
+import Pager from "../../components/Pager.astro";
+import Icon from "../../components/Icon.astro";
+import { manifest, tokens } from "../../lib/data";
+import { codeBlock } from "../../lib/markdown";
+import { code, esc } from "../../lib/html";
+
+const t = tokens();
+const m = manifest();
+const durations = m.filter((e) => e.type === "duration" || e.name.startsWith("steps-")).map((e) => [code(e.cssVar), `<span class="docs-num">${esc(t.shared[e.name])}${e.type === "duration" ? " ms" : ""}</span>`, esc(e.description ?? (e.name.startsWith("steps-") ? "Even steps for a move: steps(n, jump-end)." : ""))]);
+const moves = [
+  ["pp-pop-in", "Pop in", "One pixel low for a frame, then in place: menus, popovers, toasts.", "2 frames"],
+  ["pp-drop-in", "Drop in", "Two pixels high for a frame, then lands: a title's letters, one after another.", "2 frames"],
+  ["pp-bump", "Bump", "Up six, up three, down: a coin block, a success.", "3 frames"],
+  ["pp-shake", "Shake", "A pixel each way, smaller each time: a wrong answer, an edge.", "5 frames"],
+  ["pp-bob", "Bob", "Up a pixel and back on the beat, six times at most: a pointer, an arrow.", "6 beats"],
+  ["pp-blink", "Blink", "On and off on the beat, six times at most: a caret, press start.", "6 beats"],
+];
+const timeline = await codeBlock(`import { run, frames } from "@jaatster/blip-core";
+
+// A choreography is data: steps at times. One definition can drive CSS, JS and native code.
+const press = [
+  { at: 0,  do: () => button.classList.add("down") },   // sits in its drop
+  { at: 80, do: () => button.classList.remove("down") }, // --pp-duration-nudge later, back up
+];
+await run(press, { signal: this.signal });   // stops cleanly when the element goes away; instant with reduced motion`, "js", "JavaScript");
+const css = await codeBlock(`.my-sprite {
+  /* n = the pixels moved, at most 6; or a token's steps */
+  transition: translate var(--pp-duration-glide) var(--pp-ease-4);
+}
+@media (prefers-reduced-motion: reduce) {
+  .my-sprite { transition: none; }   /* the duration tokens are already 0 ms here */
+}`, "css", "CSS");
+const H = (id: string, text: string) => ({ depth: 2, id, text });
+---
+<Docs kits={["game", "effects"]} styles={["foundations"]} scripts={["foundations"]} title="Motion" description="Blip's motion: frame-based durations, two to six even steps, and the choreographies (pop in, drop in, bump, shake, bob, blink and the page dissolves), all instant with reduced motion." headings={[H("steps", "Steps, not curves"), H("moves", "The moves"), H("screens", "Whole screens"), H("durations", "Durations"), H("data", "Motion as data")]}>
+  <header class="docs-page-head">
+    <h1 class="docs-page-title pp-display" data-scale="2">Motion</h1>
+    <p class="docs-lede">Motion snaps. Everything moves through two to six even steps, a whole pixel at a time, on frames of 40 ms, never along an easing curve. With reduced motion every duration is zero and every effect arrives at once.</p>
+  </header>
+
+  <section class="docs-section" aria-labelledby="steps">
+    <h2 id="steps">Steps, not curves</h2>
+    <p>The same move in two, four and six steps: <code class="docs-inline-code">--pp-ease-2</code>, <code class="docs-inline-code">--pp-ease-4</code>, <code class="docs-inline-code">--pp-ease-6</code>. More steps for longer trips; never a smooth slide.</p>
+    <div class="docs-steps" data-run>
+      {[2, 4, 6].map((n) => (
+        <div class="docs-steps-row"><span class="docs-label">steps({n})</span><div class="docs-steps-track"><span class="pp-box docs-steps-dot" data-tone={n === 2 ? "pink" : n === 4 ? "teal" : "purple"} style={`--n:${n}`}></span></div></div>
+      ))}
+    </div>
+    <button class="pp-box pp-button docs-replay" type="button" data-size="sm" data-variant="outline" data-replay=".docs-steps"><Icon name="refresh" />Play again</button>
+  </section>
+
+  <section class="docs-section" aria-labelledby="moves">
+    <h2 id="moves">The moves</h2>
+    <p>Core's motion classes, one per choreography. Add the class to play it; press a move to see it again.</p>
+    <div class="docs-moves">
+      {moves.map(([cls, name, text, length]) => (
+        <figure class="docs-move">
+          <div class="docs-move-stage"><span class={`docs-move-target ${cls}`} data-move={cls}>{cls === "pp-blink" ? <span class="pp-display pp-pop" data-scale="1" data-tone="pink" data-pop="Press start">Press start</span> : <pp-sprite name={cls === "pp-bump" ? "coin" : cls === "pp-bob" ? "pointer" : cls === "pp-shake" ? "heart" : "star"}></pp-sprite>}</span></div>
+          <figcaption>
+            <button class="pp-box pp-button docs-move-play" type="button" data-size="sm" data-variant="soft" data-play={cls}><Icon name="play" />{name}</button>
+            <code class="docs-inline-code">.{cls}</code>
+            <span class="pp-small pp-muted">{text} {length}.</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+    <p class="docs-note">The busy dots, the hover lift, the press and the toasts' arrivals use the same frames; see <a href="/foundations/states/">States</a>.</p>
+  </section>
+
+  <section class="docs-section" aria-labelledby="screens">
+    <h2 id="screens">Whole screens</h2>
+    <p>For the big moments (a new page, a new level) the effects kit fills the screen with ink and clears it again, in whole pixels. Press one to send this page through it.</p>
+    <div class="docs-row docs-needs-js">
+      <button class="pp-box pp-button docs-transition" type="button" data-kind="dissolve">Ink dissolve</button>
+      <button class="pp-box pp-button docs-transition" type="button" data-kind="dither" data-tone="teal">Dither</button>
+      <button class="pp-box pp-button docs-transition" type="button" data-kind="mosaic" data-tone="purple">Mosaic</button>
+    </div>
+    <p class="docs-note">With reduced motion the page changes at once, with no effect. <a href="/components/transitions/">Transitions</a> has the details.</p>
+  </section>
+
+  <section class="docs-section" aria-labelledby="durations">
+    <h2 id="durations">Durations</h2>
+    <p>Counted in frames of 40 ms. Waits (the delays) stay the same with reduced motion; moves become instant.</p>
+    <Table label="Motion tokens" head={["Token", "Value", ""]} numeric={[1]} rows={durations} />
+  </section>
+
+  <section class="docs-section" aria-labelledby="data">
+    <h2 id="data">Motion as data</h2>
+    <p>A choreography is a typed timeline: steps at times. Every animation, timer and sound belongs to its element and stops when it goes away, when the tab is hidden, or when reduced motion is on.</p>
+    <Fragment set:html={timeline} />
+    <Fragment set:html={css} />
+  </section>
+
+  <Pager />
+</Docs>

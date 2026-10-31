@@ -1,0 +1,41 @@
+---
+/** Every page, A to Z: what the search button opens when there is no script, and a filter when there is. */
+import Docs from "../../layouts/Docs.astro";
+import Icon from "../../components/Icon.astro";
+import { searchIndex } from "../../lib/search";
+const groups = searchIndex();
+---
+<Docs title="All pages" description="Every page of the Blip docs, and every token, to search through.">
+  <header class="docs-page-head">
+    <h1 class="docs-page-title pp-display" data-scale="2">All pages</h1>
+    <p class="docs-lede">Every page of these docs, every component and every token. Press <kbd class="pp-box pp-keycap" data-size="sm" data-mod>Ctrl</kbd> <kbd class="pp-box pp-keycap" data-size="sm">K</kbd> anywhere to search from the keyboard.</p>
+  </header>
+  <search class="docs-needs-js docs-filter">
+    <span class="pp-box pp-input"><Icon name="search" /><input type="search" class="docs-filter-input" aria-label="Filter pages" placeholder="Filter: button, colour, --pp-accent…" autocomplete="off" /></span>
+    <p class="pp-small pp-muted docs-filter-count" role="status"></p>
+  </search>
+  {groups.map((g) => (
+    <section class="docs-section docs-az" aria-labelledby={`az-${g.title.toLowerCase()}`}>
+      <h2 id={`az-${g.title.toLowerCase()}`}>{g.title} <span class="docs-count">{g.items.length}</span></h2>
+      <ul class="docs-az-list" role="list">
+        {g.items.map((i) => (
+          <li data-keywords={`${i.title.toLowerCase()} ${i.keywords}`}><a href={i.url}>{i.title}</a> <span class="pp-small pp-muted">{i.hint}</span></li>
+        ))}
+      </ul>
+    </section>
+  ))}
+  <script is:inline type="module">
+    const input = document.querySelector(".docs-filter-input"), count = document.querySelector(".docs-filter-count");
+    const items = [...document.querySelectorAll(".docs-az-list > li")];
+    const run = () => {
+      const words = input.value.toLowerCase().split(/\s+/).filter(Boolean);
+      let n = 0;
+      for (const li of items) { const ok = words.every((w) => li.dataset.keywords.includes(w)); li.hidden = !ok; if (ok) n++; }
+      for (const s of document.querySelectorAll(".docs-az")) s.hidden = !s.querySelector("li:not([hidden])");
+      count.textContent = words.length ? `${n} ${n === 1 ? "match" : "matches"}` : "";
+    };
+    input.addEventListener("input", run);
+    const q = new URLSearchParams(location.search).get("q");
+    if (q) { input.value = q; run(); }
+  </script>
+</Docs>

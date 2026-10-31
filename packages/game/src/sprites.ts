@@ -10,6 +10,19 @@ import { sprite } from "./_pixels.js";
 
 export { sprite, spriteNames, pixels } from "./_pixels.js";
 
+/**
+ * One of the game kit's sprites, drawn in place as whole-pixel SVG in token colours. Named with aria-label it is a
+ * picture (role="img"); without, decoration.
+ *
+ * @summary A game sprite: coin, heart, potion, key…
+ * @attr {string} name - The sprite: coin, heart, potion… (see spriteNames).
+ * @attr {string} aria-label - Names the sprite; without it the sprite is hidden from assistive technology.
+ * @attr {"accent" | "neutral" | "red" | "orange" | "yellow" | "green" | "teal" | "blue" | "purple" | "pink" | "slate"} data-tone -
+ * Recolours the sprite's own candy (potions, gems, keys, hearts, shields).
+ * @cssprop --pp-sprite-light - A custom tone's light, set on the sprite.
+ * @cssprop --pp-sprite-base - A custom tone's base.
+ * @cssprop --pp-sprite-shade - A custom tone's shade.
+ */
 export class PixelSprite extends PixelElement {
   static observedAttributes = ["name", "aria-label"];
   #drawn = "";

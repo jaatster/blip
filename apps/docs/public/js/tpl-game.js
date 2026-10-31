@@ -1,0 +1,137 @@
+// Game menu template: press start, the main menu, options, a level with a HUD, a frog who wants coins, and pause.
+import { transition } from "@jaatster/blip-effects/transitions.js";
+
+const $ = (s, r = document) => r.querySelector(s);
+const game = $(".tpl-game");
+let sound;
+const play = (name) => sound?.soundOn() && sound.play(name);
+const fmt = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+if (localStorage.getItem("blip:sound") === "on") import("@jaatster/blip-sound").then((s) => (sound = s, s.rememberSound(), syncSound()));
+
+async function show(screen, kind = "dither") {
+  if (game.dataset.screen === screen) return;
+  await transition(() => {
+    game.dataset.screen = screen;
+  }, { kind });
+  const focus = { title: ".tpl-press-start", menu: ".tpl-main-choices .pp-choice:not([aria-disabled='true'])", level: ".tpl-frog" }[screen];
+  const el = $(focus);
+  if (screen === "level") startLevel();
+  else stopClock();
+  el?.focus?.();
+}
+
+// ------------------------------------------------------------------ title
+
+$(".tpl-press-start").addEventListener("click", () => {
+  play("open");
+  show("menu");
+});
+document.addEventListener("keydown", (e) => {
+  if (game.dataset.screen === "title" && (e.key === "Enter" || e.key === " ") && !e.repeat) {
+    e.preventDefault();
+    play("open");
+    show("menu");
+  }
+});
+
+// ------------------------------------------------------------------ menu and options
+
+const options = $(".tpl-options"), menuPanel = $(".tpl-menu-panel");
+$(".tpl-main-choices").addEventListener("pp-choice", (e) => {
+  const v = e.detail.value;
+  if (v === "new") {
+    play("success");
+    show("level", "dissolve");
+  } else if (v === "options") {
+    play("open");
+    menuPanel.hidden = true;
+    options.hidden = false;
+    $(".tpl-sound").focus();
+  } else if (v === "docs") location.href = "/templates/";
+});
+$(".tpl-options-done").addEventListener("click", () => {
+  play("back");
+  options.hidden = true;
+  menuPanel.hidden = false;
+  $(".tpl-main-choices .pp-choice[value='options']").focus();
+});
+function syncSound() {
+  const sw = $(".tpl-sound");
+  if (sw) sw.checked = !!sound?.soundOn();
+}
+$(".tpl-sound").addEventListener("change", async (e) => {
+  sound ??= await import("@jaatster/blip-sound");
+  sound.rememberSound();
+  if (e.target.checked) {
+    await sound.enableSound({ volume: 0.7 });
+    play("select");
+  } else sound.disableSound();
+});
+const time = $(".tpl-time");
+customElements.whenDefined("pp-segmented").then(() => (time.value = document.documentElement.dataset.schemeChoice || "auto"));
+time.addEventListener("pp-change", (e) => {
+  window.docs?.setScheme?.(e.detail.value);
+  play("select");
+});
+
+// ------------------------------------------------------------------ the level
+
+const coins = $(".tpl-coins"), score = $(".tpl-score"), clock = $(".tpl-clock"), frog = $(".tpl-frog"), pause = $(".tpl-pause");
+let tick;
+function stopClock() {
+  clearInterval(tick);
+  tick = undefined;
+}
+function startLevel() {
+  stopClock();
+  tick = setInterval(() => {
+    if (document.hidden || pause.open) return;
+    clock.value = Math.max(0, Number(clock.value) - 1);
+  }, 1000);
+}
+function addCoin() {
+  coins.value = Number(coins.value) + 1;
+  score.value = Number(score.value) + 100;
+}
+$(".tpl-coin-button").addEventListener("click", addCoin);
+document.addEventListener("keydown", (e) => {
+  if (game.dataset.screen !== "level") return;
+  if (e.key === "Escape" && !pause.open) {
+    e.preventDefault();
+    openPause();
+  } else if (e.key === " " && !pause.open && !e.target.closest?.("button, input, pp-dialogue")) {
+    e.preventDefault();
+    addCoin();
+  }
+});
+frog.addEventListener("pp-choice", (e) => {
+  const have = Number(coins.value);
+  if (e.detail.value === "pay") {
+    if (have >= 30) {
+      coins.value = have - 30;
+      play("success");
+      frog.say(["Splendid! The bridge will be ready by sunset.", "Mind the puddles on your way."]);
+    } else {
+      play("bump");
+      frog.say([`Thirty coins, traveller. You have ${have}.`, "Collect a few more and come back."]);
+    }
+  } else frog.say("Suit yourself. I'll be here, by the water.");
+});
+frog.addEventListener("pp-done", () => frog.say(["Still here? The coins won't collect themselves.", "I could patch the bridge for thirty. Fair?"]));
+
+// ------------------------------------------------------------------ pause
+
+function openPause() {
+  $(".tpl-pause-coins").textContent = coins.value;
+  $(".tpl-pause-time").textContent = fmt(Number(clock.value));
+  play("open");
+  pause.showModal();
+}
+$(".tpl-pause-button").addEventListener("click", openPause);
+pause.addEventListener("pp-choice", (e) => {
+  const v = e.detail.value;
+  pause.close();
+  if (v === "title") show("title");
+  else if (v === "docs") location.href = "/templates/";
+});
+pause.addEventListener("close", () => play("back"));

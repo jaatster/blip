@@ -148,6 +148,6 @@
     .pp-pagination-prev > span::before,
     .pp-pagination-next > span::after,
     .pp-pagination-gap::before { forced-color-adjust: none; }
-    .pp-pagination-page[aria-current="page"] { border-width: 2px; }
+    .pp-pagination-page[aria-current="page"] { border-width: var(--pp-pixel); }
   }
 }

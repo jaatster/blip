@@ -1,0 +1,548 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/burst.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "burst",
+          "return": {
+            "type": {
+              "text": "Promise<void>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "target",
+              "type": {
+                "text": "Element"
+              }
+            },
+            {
+              "name": "options",
+              "default": "{}",
+              "type": {
+                "text": "BurstOptions"
+              }
+            }
+          ],
+          "description": "Pops sprites out of target. Resolves when the last has gone."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "burst",
+          "declaration": {
+            "name": "burst",
+            "module": "src/burst.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/text.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "<pp-drop-text class=\"pp-display pp-pop\" data-pop=\"Blip\">Blip</pp-drop-text>: the letters drop in when\nit connects, when its text changes, and on play(). With data-pop, each letter keeps the POP tint.",
+          "name": "PixelDropText",
+          "cssProperties": [
+            {
+              "description": "Time between letters.",
+              "name": "--pp-drop-text-stagger",
+              "default": "30ms"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "text",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "play",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Drops the letters in again. Words stay whole when the line wraps."
+            }
+          ],
+          "attributes": [
+            {
+              "type": {
+                "text": "boolean | string"
+              },
+              "description": "With .pp-pop: each letter keeps the POP outline and drop (the element keeps the value in step with the text).",
+              "name": "data-pop"
+            },
+            {
+              "type": {
+                "text": "1 | 2 | 3 | 4"
+              },
+              "description": "With .pp-display: Pixel Bop at this whole scale.",
+              "name": "data-scale"
+            },
+            {
+              "type": {
+                "text": "\"red\" | \"orange\" | \"yellow\" | \"green\" | \"teal\" | \"blue\" | \"purple\" | \"pink\" | \"info\" | \"success\" | \"warning\" |\"danger\""
+              },
+              "description": "With .pp-pop: the tint and the drop's colour.",
+              "name": "data-tone"
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "A Pixel Bop heading whose letters drop in one after another.",
+          "tagName": "pp-drop-text",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "<pp-typewriter mood=\"happy\" blips>Hello there!</pp-typewriter>: types when it connects, when its text changes,\nand on play(); finish() shows it all. Fires pp-typewriter-done when the last letter is in. The untyped rest keeps\nits room, so nothing moves while it types.",
+          "name": "PixelTypewriter",
+          "cssProperties": [
+            {
+              "description": "Time per letter.",
+              "name": "--pp-duration-letter",
+              "default": "50ms"
+            },
+            {
+              "description": "The hold after a full stop that ends a word.",
+              "name": "--pp-duration-stop",
+              "default": "260ms"
+            },
+            {
+              "description": "The hold after a comma that ends a word.",
+              "name": "--pp-duration-comma",
+              "default": "130ms"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "blips",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "blips"
+            },
+            {
+              "kind": "field",
+              "name": "caret",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "caret"
+            },
+            {
+              "kind": "field",
+              "name": "mood",
+              "type": {
+                "text": "string | null"
+              },
+              "description": "\"plain\" (default), \"happy\" or \"sleepy\": pitches the blips.",
+              "attribute": "mood"
+            },
+            {
+              "kind": "field",
+              "name": "text",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "play",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "description": "Types the text from the start."
+            },
+            {
+              "kind": "method",
+              "name": "finish",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Shows the whole text at once."
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<void>"
+              },
+              "description": "Once per play: when the last letter is in, or on finish().",
+              "name": "pp-typewriter-done"
+            }
+          ],
+          "attributes": [
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Voices every other letter with the chip blip (through services.sound()).",
+              "name": "blips",
+              "fieldName": "blips"
+            },
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "A two-pixel block after the typed text that blinks on the beat.",
+              "name": "caret",
+              "fieldName": "caret"
+            },
+            {
+              "type": {
+                "text": "\"plain\" | \"happy\" | \"sleepy\""
+              },
+              "description": "Pitches the blips.",
+              "name": "mood",
+              "default": "\"plain\"",
+              "fieldName": "mood"
+            },
+            {
+              "type": {
+                "text": "1 | 2 | 3 | 4"
+              },
+              "description": "With .pp-display: Pixel Bop at this whole scale.",
+              "name": "data-scale"
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "Text that types itself in, a letter at a time.",
+          "tagName": "pp-typewriter",
+          "customElement": true
+        },
+        {
+          "kind": "variable",
+          "name": "at",
+          "type": {
+            "text": "number"
+          },
+          "default": "0"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelDropText",
+          "declaration": {
+            "name": "PixelDropText",
+            "module": "src/text.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "PixelTypewriter",
+          "declaration": {
+            "name": "PixelTypewriter",
+            "module": "src/text.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-drop-text",
+          "declaration": {
+            "name": "PixelDropText",
+            "module": "src/text.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-typewriter",
+          "declaration": {
+            "name": "PixelTypewriter",
+            "module": "src/text.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/transitions.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "transition",
+          "return": {
+            "type": {
+              "text": "Promise<void>"
+            }
+          },
+          "parameters": [
+            {
+              "name": "update",
+              "type": {
+                "text": "() => void | Promise<void>"
+              }
+            },
+            {
+              "name": "options",
+              "default": "{}",
+              "type": {
+                "text": "TransitionOptions"
+              }
+            }
+          ],
+          "description": "Runs update behind a transition. Resolves when the new screen is fully shown; rejects if update throws."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "transition",
+          "declaration": {
+            "name": "transition",
+            "module": "src/transitions.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/world.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "worldPalette",
+          "return": {
+            "type": {
+              "text": "number[]"
+            }
+          },
+          "parameters": [
+            {
+              "name": "scheme",
+              "type": {
+                "text": "Scheme"
+              }
+            },
+            {
+              "name": "from",
+              "default": "document.documentElement",
+              "type": {
+                "text": "Element"
+              }
+            }
+          ],
+          "description": "The world's colours for a time of day, from the --pp-world-* tokens at an element."
+        },
+        {
+          "kind": "function",
+          "name": "drawWorld",
+          "return": {
+            "type": {
+              "text": "void"
+            }
+          },
+          "parameters": [
+            {
+              "name": "ctx",
+              "type": {
+                "text": "CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D"
+              }
+            },
+            {
+              "name": "scheme",
+              "type": {
+                "text": "Scheme"
+              }
+            },
+            {
+              "name": "w",
+              "default": "W0"
+            },
+            {
+              "name": "h",
+              "default": "H0"
+            },
+            {
+              "name": "options",
+              "default": "{}",
+              "type": {
+                "text": "DrawWorldOptions"
+              }
+            }
+          ],
+          "description": "Draws the world (all five layers, or one) into a 2D context at (0, 0), w x h world pixels: 320 x 180 is the TV's\npicture. Scale the canvas up by whole numbers with `image-rendering: pixelated`."
+        },
+        {
+          "kind": "class",
+          "description": "<pp-world>: the world as a backdrop filling its positioned container. Each world pixel is the page's pixel\n(--pp-pixel) times `zoom`, a whole number of CSS pixels; the canvas is drawn at the world's own resolution and\nscaled up crisply, and only redrawn when its size or its time of day changes.\n\nAttributes: scheme (day, sunset, night, auto, or left out to follow the page), parallax, clouds (drift; \"none\"\nfor none), stars (stars flare at night), events (birds by day, a shooting star at night), zoom.",
+          "name": "PixelWorld",
+          "cssProperties": [
+            {
+              "description": "The world pixel (times zoom).",
+              "name": "--pp-pixel"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "parallax",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "parallax"
+            },
+            {
+              "kind": "field",
+              "name": "stars",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "stars"
+            },
+            {
+              "kind": "field",
+              "name": "events",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "events"
+            },
+            {
+              "kind": "field",
+              "name": "clouds",
+              "type": {
+                "text": "string | null"
+              },
+              "description": "\"drift\", \"none\", or null for still clouds.",
+              "attribute": "clouds"
+            },
+            {
+              "kind": "field",
+              "name": "zoom",
+              "type": {
+                "text": "string | null"
+              },
+              "attribute": "zoom"
+            },
+            {
+              "kind": "field",
+              "name": "scheme",
+              "type": {
+                "text": "string"
+              },
+              "description": "The scheme attribute: day, sunset, night, auto, or inherit (the page's).",
+              "attribute": "scheme"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "scheme",
+              "type": {
+                "text": "\"day\" | \"sunset\" | \"night\" | \"auto\""
+              },
+              "description": "The time of day; \"auto\" follows the clock. Left out, the page's scheme.",
+              "fieldName": "scheme"
+            },
+            {
+              "name": "parallax",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "The layers slide against the pointer, a whole pixel at a time, and lift a little as the world scrolls past.",
+              "fieldName": "parallax"
+            },
+            {
+              "name": "clouds",
+              "type": {
+                "text": "\"drift\" | \"none\""
+              },
+              "description": "Present (or \"drift\"): the clouds drift, a whole pixel at a time. \"none\": no clouds. Left out: still clouds.",
+              "fieldName": "clouds"
+            },
+            {
+              "name": "stars",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Stars flare now and then at night.",
+              "fieldName": "stars"
+            },
+            {
+              "name": "events",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Now and then a flock of birds by day, a shooting star at night.",
+              "fieldName": "events"
+            },
+            {
+              "name": "zoom",
+              "type": {
+                "text": "number"
+              },
+              "description": "World pixels per page pixel, a whole number.",
+              "default": "1",
+              "fieldName": "zoom"
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "The dithered world backdrop: sky, mountains, hills and meadow, for Day, Sunset and Night.",
+          "tagName": "pp-world",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "worldPalette",
+          "declaration": {
+            "name": "worldPalette",
+            "module": "src/world.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "drawWorld",
+          "declaration": {
+            "name": "drawWorld",
+            "module": "src/world.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "PixelWorld",
+          "declaration": {
+            "name": "PixelWorld",
+            "module": "src/world.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-world",
+          "declaration": {
+            "name": "PixelWorld",
+            "module": "src/world.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+---
+/** Every component, by group: names, what each is for, and how settled it is. */
+import Docs from "../../layouts/Docs.astro";
+import Icon from "../../components/Icon.astro";
+import { groupedComponents, summary } from "../../lib/data";
+const groups = groupedComponents();
+const total = groups.reduce((n, g) => n + g.docs.length, 0);
+const headings = groups.map((g) => ({ depth: 2, id: g.group.id, text: g.group.title }));
+---
+<Docs title="Components" description={`All ${total} Blip components, by group.`} headings={headings}>
+  <header class="docs-page-head">
+    <h1 class="docs-page-title pp-display" data-scale="2">Components</h1>
+    <p class="docs-lede">{total} components, built on native HTML first: most are CSS alone, and a Web Component adds behaviour only where a component needs it. Each page shows the component live, in every variant and state.</p>
+  </header>
+  {groups.map(({ group, docs }) => (
+    <section class="docs-section docs-index" aria-labelledby={group.id}>
+      <h2 id={group.id}><Icon name={group.icon} /> {group.title} <span class="docs-count">{docs.length}</span></h2>
+      <p class="docs-note">{group.blurb}</p>
+      <ul class="docs-index-list" role="list">
+        {docs.map((d) => (
+          <li>
+            <a href={d.url}>
+              <span class="docs-index-name">{d.meta.name}</span>
+              {d.meta.element && <code class="docs-index-tag">{d.meta.element.split(",").map((t) => `<${t.trim()}>`).join(" ")}</code>}
+              <span class="docs-index-text">{summary(d.source)}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</Docs>

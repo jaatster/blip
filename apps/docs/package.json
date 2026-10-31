@@ -1,0 +1,32 @@
+{
+  "name": "@jaatster/blip-docs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "The Blip documentation site, built in Blip.",
+  "license": "MIT",
+  "scripts": {
+    "prepare-site": "node scripts/prepare.mjs",
+    "dev": "node scripts/prepare.mjs && astro dev",
+    "build": "node scripts/prepare.mjs && astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@jaatster/blip-blocks": "workspace:*",
+    "@jaatster/blip-components": "workspace:*",
+    "@jaatster/blip-core": "workspace:*",
+    "@jaatster/blip-effects": "workspace:*",
+    "@jaatster/blip-elements": "workspace:*",
+    "@jaatster/blip-font": "workspace:*",
+    "@jaatster/blip-game": "workspace:*",
+    "@jaatster/blip-icons": "workspace:*",
+    "@jaatster/blip-sound": "workspace:*",
+    "@jaatster/blip-tokens": "workspace:*",
+    "astro": "^7.4.4",
+    "satteri": "0.10.5",
+    "shiki": "4.5.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

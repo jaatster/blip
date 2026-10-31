@@ -1,0 +1,1547 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-31T11:02:26.725Z",
+  "title": "Design System: Blip",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Primary: the accent (Blue Raspberry by Day)",
+        "canonical": "#33A3FF",
+        "oklch": "oklch(69.7% 0.167 248.2)",
+        "cssVar": "--pp-accent",
+        "schemes": {
+          "day": "#33A3FF",
+          "sunset": "#FF5FA2",
+          "night": "#9166FF"
+        },
+        "tonalRamp": [
+          "#000C1B",
+          "#002646",
+          "#004475",
+          "#0064A8",
+          "#1478D6",
+          "#33A3FF",
+          "#7FC8FF",
+          "#E2F0FF"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#1A1530",
+        "oklch": "oklch(21.8% 0.052 289.9)",
+        "cssVar": "--pp-ink",
+        "tonalRamp": [
+          "#0C061F",
+          "#1A1530",
+          "#413D5C",
+          "#605C7D",
+          "#817DA0",
+          "#A4A0C4",
+          "#C8C4E9",
+          "#EEECFF"
+        ]
+      },
+      "soft-ink": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "#4A4470",
+        "oklch": "oklch(41.3% 0.073 289.1)",
+        "cssVar": "--pp-ink-soft",
+        "tonalRamp": [
+          "#0C0327",
+          "#251D45",
+          "#4A4470",
+          "#605A88",
+          "#817BAC",
+          "#A39ED0",
+          "#C7C2F6",
+          "#EDECFF"
+        ]
+      },
+      "glint-white": {
+        "role": "neutral",
+        "displayName": "Glint White",
+        "canonical": "#FFFFFF",
+        "oklch": "oklch(100.0% 0.000 0)",
+        "cssVar": "--pp-white",
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#FFFFFF"
+        ]
+      },
+      "gumball-red": {
+        "role": "secondary",
+        "displayName": "Gumball Red",
+        "canonical": "#FF3D4F",
+        "oklch": "oklch(65.9% 0.228 21.6)",
+        "cssVar": "--pp-candy-red",
+        "tonalRamp": [
+          "#1F0002",
+          "#4D000B",
+          "#800019",
+          "#B70029",
+          "#D11F35",
+          "#FF3D4F",
+          "#FF7A85",
+          "#FFE8E7"
+        ]
+      },
+      "gumball-red-light": {
+        "role": "secondary",
+        "displayName": "Gumball Red, light band",
+        "canonical": "#FF7A85",
+        "oklch": "oklch(73.7% 0.162 16.8)",
+        "cssVar": "--pp-candy-red-light",
+        "tonalRamp": [
+          "#1F0002",
+          "#4D000B",
+          "#800019",
+          "#B70029",
+          "#D11F35",
+          "#FF3D4F",
+          "#FF7A85",
+          "#FFE8E7"
+        ]
+      },
+      "gumball-red-shade": {
+        "role": "secondary",
+        "displayName": "Gumball Red, shade band",
+        "canonical": "#D11F35",
+        "oklch": "oklch(55.5% 0.208 22.3)",
+        "cssVar": "--pp-candy-red-shade",
+        "tonalRamp": [
+          "#1F0002",
+          "#4D000B",
+          "#800019",
+          "#B70029",
+          "#D11F35",
+          "#FF3D4F",
+          "#FF7A85",
+          "#FFE8E7"
+        ]
+      },
+      "sherbet-orange": {
+        "role": "secondary",
+        "displayName": "Sherbet Orange",
+        "canonical": "#FF7A1A",
+        "oklch": "oklch(72.4% 0.187 48.9)",
+        "cssVar": "--pp-candy-orange",
+        "tonalRamp": [
+          "#180500",
+          "#3F1800",
+          "#6B2D00",
+          "#9A4400",
+          "#D95A0A",
+          "#FF7A1A",
+          "#FFAA6B",
+          "#FFEADF"
+        ]
+      },
+      "sherbet-orange-light": {
+        "role": "secondary",
+        "displayName": "Sherbet Orange, light band",
+        "canonical": "#FFAA6B",
+        "oklch": "oklch(80.9% 0.128 56.3)",
+        "cssVar": "--pp-candy-orange-light",
+        "tonalRamp": [
+          "#180500",
+          "#3F1800",
+          "#6B2D00",
+          "#9A4400",
+          "#D95A0A",
+          "#FF7A1A",
+          "#FFAA6B",
+          "#FFEADF"
+        ]
+      },
+      "sherbet-orange-shade": {
+        "role": "secondary",
+        "displayName": "Sherbet Orange, shade band",
+        "canonical": "#D95A0A",
+        "oklch": "oklch(62.2% 0.176 44.4)",
+        "cssVar": "--pp-candy-orange-shade",
+        "tonalRamp": [
+          "#180500",
+          "#3F1800",
+          "#6B2D00",
+          "#9A4400",
+          "#D95A0A",
+          "#FF7A1A",
+          "#FFAA6B",
+          "#FFEADF"
+        ]
+      },
+      "lemon-drop": {
+        "role": "tertiary",
+        "displayName": "Lemon Drop",
+        "canonical": "#FFCC33",
+        "oklch": "oklch(86.7% 0.165 88.7)",
+        "cssVar": "--pp-candy-yellow",
+        "tonalRamp": [
+          "#100A00",
+          "#302300",
+          "#533F00",
+          "#785D00",
+          "#A17D00",
+          "#E6A100",
+          "#FFCC33",
+          "#FFE680"
+        ]
+      },
+      "lemon-drop-light": {
+        "role": "tertiary",
+        "displayName": "Lemon Drop, light band",
+        "canonical": "#FFE680",
+        "oklch": "oklch(92.5% 0.125 95.9)",
+        "cssVar": "--pp-candy-yellow-light",
+        "tonalRamp": [
+          "#100A00",
+          "#302300",
+          "#533F00",
+          "#785D00",
+          "#A17D00",
+          "#E6A100",
+          "#FFCC33",
+          "#FFE680"
+        ]
+      },
+      "lemon-drop-shade": {
+        "role": "tertiary",
+        "displayName": "Lemon Drop, shade band",
+        "canonical": "#E6A100",
+        "oklch": "oklch(75.6% 0.158 77.9)",
+        "cssVar": "--pp-candy-yellow-shade",
+        "tonalRamp": [
+          "#100A00",
+          "#302300",
+          "#533F00",
+          "#785D00",
+          "#A17D00",
+          "#E6A100",
+          "#FFCC33",
+          "#FFE680"
+        ]
+      },
+      "sour-apple": {
+        "role": "secondary",
+        "displayName": "Sour Apple",
+        "canonical": "#4CD964",
+        "oklch": "oklch(78.4% 0.200 146.3)",
+        "cssVar": "--pp-candy-green",
+        "tonalRamp": [
+          "#001002",
+          "#002F09",
+          "#005116",
+          "#007625",
+          "#2FAE46",
+          "#31C450",
+          "#4CD964",
+          "#8CF09A"
+        ]
+      },
+      "sour-apple-light": {
+        "role": "secondary",
+        "displayName": "Sour Apple, light band",
+        "canonical": "#8CF09A",
+        "oklch": "oklch(87.3% 0.151 147.4)",
+        "cssVar": "--pp-candy-green-light",
+        "tonalRamp": [
+          "#001002",
+          "#002F09",
+          "#005116",
+          "#007625",
+          "#2FAE46",
+          "#31C450",
+          "#4CD964",
+          "#8CF09A"
+        ]
+      },
+      "sour-apple-shade": {
+        "role": "secondary",
+        "displayName": "Sour Apple, shade band",
+        "canonical": "#2FAE46",
+        "oklch": "oklch(66.1% 0.181 146.0)",
+        "cssVar": "--pp-candy-green-shade",
+        "tonalRamp": [
+          "#001002",
+          "#002F09",
+          "#005116",
+          "#007625",
+          "#2FAE46",
+          "#31C450",
+          "#4CD964",
+          "#8CF09A"
+        ]
+      },
+      "spearmint": {
+        "role": "tertiary",
+        "displayName": "Spearmint",
+        "canonical": "#2FD3C5",
+        "oklch": "oklch(78.4% 0.129 186.0)",
+        "cssVar": "--pp-candy-teal",
+        "tonalRamp": [
+          "#000F0D",
+          "#002C28",
+          "#004D47",
+          "#007169",
+          "#16A99C",
+          "#00BEB1",
+          "#2FD3C5",
+          "#7BE8DE"
+        ]
+      },
+      "spearmint-light": {
+        "role": "tertiary",
+        "displayName": "Spearmint, light band",
+        "canonical": "#7BE8DE",
+        "oklch": "oklch(86.3% 0.102 187.7)",
+        "cssVar": "--pp-candy-teal-light",
+        "tonalRamp": [
+          "#000F0D",
+          "#002C28",
+          "#004D47",
+          "#007169",
+          "#16A99C",
+          "#00BEB1",
+          "#2FD3C5",
+          "#7BE8DE"
+        ]
+      },
+      "spearmint-shade": {
+        "role": "tertiary",
+        "displayName": "Spearmint, shade band",
+        "canonical": "#16A99C",
+        "oklch": "oklch(66.2% 0.113 185.0)",
+        "cssVar": "--pp-candy-teal-shade",
+        "tonalRamp": [
+          "#000F0D",
+          "#002C28",
+          "#004D47",
+          "#007169",
+          "#16A99C",
+          "#00BEB1",
+          "#2FD3C5",
+          "#7BE8DE"
+        ]
+      },
+      "blue-raspberry": {
+        "role": "primary",
+        "displayName": "Blue Raspberry",
+        "canonical": "#33A3FF",
+        "oklch": "oklch(69.7% 0.167 248.2)",
+        "cssVar": "--pp-candy-blue",
+        "tonalRamp": [
+          "#000C1B",
+          "#002646",
+          "#004475",
+          "#0064A8",
+          "#1478D6",
+          "#33A3FF",
+          "#7FC8FF",
+          "#E2F0FF"
+        ]
+      },
+      "blue-raspberry-light": {
+        "role": "primary",
+        "displayName": "Blue Raspberry, light band",
+        "canonical": "#7FC8FF",
+        "oklch": "oklch(80.6% 0.107 242.3)",
+        "cssVar": "--pp-candy-blue-light",
+        "tonalRamp": [
+          "#000C1B",
+          "#002646",
+          "#004475",
+          "#0064A8",
+          "#1478D6",
+          "#33A3FF",
+          "#7FC8FF",
+          "#E2F0FF"
+        ]
+      },
+      "blue-raspberry-shade": {
+        "role": "primary",
+        "displayName": "Blue Raspberry, shade band",
+        "canonical": "#1478D6",
+        "oklch": "oklch(57.1% 0.167 252.9)",
+        "cssVar": "--pp-candy-blue-shade",
+        "tonalRamp": [
+          "#000C1B",
+          "#002646",
+          "#004475",
+          "#0064A8",
+          "#1478D6",
+          "#33A3FF",
+          "#7FC8FF",
+          "#E2F0FF"
+        ]
+      },
+      "grape-soda": {
+        "role": "primary",
+        "displayName": "Grape Soda",
+        "canonical": "#9166FF",
+        "oklch": "oklch(63.2% 0.217 292.0)",
+        "cssVar": "--pp-candy-purple",
+        "tonalRamp": [
+          "#0E002A",
+          "#2C0064",
+          "#4D00A5",
+          "#6A3AD6",
+          "#9166FF",
+          "#B48CFF",
+          "#CABFFF",
+          "#EEECFF"
+        ]
+      },
+      "grape-soda-light": {
+        "role": "primary",
+        "displayName": "Grape Soda, light band",
+        "canonical": "#B48CFF",
+        "oklch": "oklch(72.5% 0.165 298.2)",
+        "cssVar": "--pp-candy-purple-light",
+        "tonalRamp": [
+          "#0E002A",
+          "#2C0064",
+          "#4D00A5",
+          "#6A3AD6",
+          "#9166FF",
+          "#B48CFF",
+          "#CABFFF",
+          "#EEECFF"
+        ]
+      },
+      "grape-soda-shade": {
+        "role": "primary",
+        "displayName": "Grape Soda, shade band",
+        "canonical": "#6A3AD6",
+        "oklch": "oklch(50.3% 0.222 290.1)",
+        "cssVar": "--pp-candy-purple-shade",
+        "tonalRamp": [
+          "#0E002A",
+          "#2C0064",
+          "#4D00A5",
+          "#6A3AD6",
+          "#9166FF",
+          "#B48CFF",
+          "#CABFFF",
+          "#EEECFF"
+        ]
+      },
+      "bubblegum": {
+        "role": "primary",
+        "displayName": "Bubblegum",
+        "canonical": "#FF5FA2",
+        "oklch": "oklch(71.1% 0.203 357.7)",
+        "cssVar": "--pp-candy-pink",
+        "tonalRamp": [
+          "#1D000B",
+          "#490025",
+          "#7B0042",
+          "#B00061",
+          "#E03A82",
+          "#FF5FA2",
+          "#FF9CC6",
+          "#FFE7EE"
+        ]
+      },
+      "bubblegum-light": {
+        "role": "primary",
+        "displayName": "Bubblegum, light band",
+        "canonical": "#FF9CC6",
+        "oklch": "oklch(80.6% 0.127 353.4)",
+        "cssVar": "--pp-candy-pink-light",
+        "tonalRamp": [
+          "#1D000B",
+          "#490025",
+          "#7B0042",
+          "#B00061",
+          "#E03A82",
+          "#FF5FA2",
+          "#FF9CC6",
+          "#FFE7EE"
+        ]
+      },
+      "bubblegum-shade": {
+        "role": "primary",
+        "displayName": "Bubblegum, shade band",
+        "canonical": "#E03A82",
+        "oklch": "oklch(61.7% 0.209 359.2)",
+        "cssVar": "--pp-candy-pink-shade",
+        "tonalRamp": [
+          "#1D000B",
+          "#490025",
+          "#7B0042",
+          "#B00061",
+          "#E03A82",
+          "#FF5FA2",
+          "#FF9CC6",
+          "#FFE7EE"
+        ]
+      },
+      "liquorice": {
+        "role": "tertiary",
+        "displayName": "Liquorice",
+        "canonical": "#4A4562",
+        "oklch": "oklch(40.7% 0.048 292.0)",
+        "cssVar": "--pp-candy-slate",
+        "tonalRamp": [
+          "#0C061D",
+          "#332F48",
+          "#4A4562",
+          "#726C8E",
+          "#827D9E",
+          "#A5A0C2",
+          "#C9C4E7",
+          "#EEECFF"
+        ]
+      },
+      "liquorice-light": {
+        "role": "tertiary",
+        "displayName": "Liquorice, light band",
+        "canonical": "#726C8E",
+        "oklch": "oklch(54.9% 0.053 292.7)",
+        "cssVar": "--pp-candy-slate-light",
+        "tonalRamp": [
+          "#0C061D",
+          "#332F48",
+          "#4A4562",
+          "#726C8E",
+          "#827D9E",
+          "#A5A0C2",
+          "#C9C4E7",
+          "#EEECFF"
+        ]
+      },
+      "liquorice-shade": {
+        "role": "tertiary",
+        "displayName": "Liquorice, shade band",
+        "canonical": "#332F48",
+        "oklch": "oklch(32.1% 0.044 291.0)",
+        "cssVar": "--pp-candy-slate-shade",
+        "tonalRamp": [
+          "#0C061D",
+          "#332F48",
+          "#4A4562",
+          "#726C8E",
+          "#827D9E",
+          "#A5A0C2",
+          "#C9C4E7",
+          "#EEECFF"
+        ]
+      },
+      "marshmallow": {
+        "role": "neutral",
+        "displayName": "Marshmallow",
+        "canonical": "#FFF8EE",
+        "oklch": "oklch(98.2% 0.015 77.1)",
+        "cssVar": "--pp-candy-cream",
+        "tonalRamp": [
+          "#0F0A05",
+          "#29241D",
+          "#474139",
+          "#666058",
+          "#888178",
+          "#EFE3D2",
+          "#FFF8EE",
+          "#FFFFFF"
+        ]
+      },
+      "marshmallow-light": {
+        "role": "neutral",
+        "displayName": "Marshmallow, light band",
+        "canonical": "#FFFFFF",
+        "oklch": "oklch(100.0% 0.000 0)",
+        "cssVar": "--pp-candy-cream-light",
+        "tonalRamp": [
+          "#0F0A05",
+          "#29241D",
+          "#474139",
+          "#666058",
+          "#888178",
+          "#EFE3D2",
+          "#FFF8EE",
+          "#FFFFFF"
+        ]
+      },
+      "marshmallow-shade": {
+        "role": "neutral",
+        "displayName": "Marshmallow, shade band",
+        "canonical": "#EFE3D2",
+        "oklch": "oklch(92.1% 0.026 76.8)",
+        "cssVar": "--pp-candy-cream-shade",
+        "tonalRamp": [
+          "#0F0A05",
+          "#29241D",
+          "#474139",
+          "#666058",
+          "#888178",
+          "#EFE3D2",
+          "#FFF8EE",
+          "#FFFFFF"
+        ]
+      },
+      "bg": {
+        "role": "neutral",
+        "displayName": "Page (Cloud)",
+        "canonical": "#F4F7FF",
+        "oklch": "oklch(97.6% 0.011 269.6)",
+        "cssVar": "--pp-bg",
+        "schemes": {
+          "day": "#F4F7FF",
+          "sunset": "#FFE7EF",
+          "night": "#22244F"
+        },
+        "tonalRamp": [
+          "#090B10",
+          "#23252B",
+          "#3F4248",
+          "#5F6168",
+          "#7F8289",
+          "#A2A5AC",
+          "#C6C9D1",
+          "#F4F7FF"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "canonical": "#FFFFFF",
+        "oklch": "oklch(100.0% 0.000 0)",
+        "cssVar": "--pp-surface",
+        "schemes": {
+          "day": "#FFFFFF",
+          "sunset": "#FFF6F8",
+          "night": "#2C2F66"
+        },
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#FFFFFF"
+        ]
+      },
+      "surface-raised": {
+        "role": "neutral",
+        "displayName": "Raised surface",
+        "canonical": "#FFFFFF",
+        "oklch": "oklch(100.0% 0.000 0)",
+        "cssVar": "--pp-surface-raised",
+        "schemes": {
+          "day": "#FFFFFF",
+          "sunset": "#FFF6F8",
+          "night": "#363A78"
+        },
+        "tonalRamp": [
+          "#0B0B0B",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#A5A5A5",
+          "#C9C9C9",
+          "#FFFFFF"
+        ]
+      },
+      "surface-sunken": {
+        "role": "neutral",
+        "displayName": "Sunken surface (Cloud Shade)",
+        "canonical": "#E0E8FF",
+        "oklch": "oklch(93.2% 0.032 270.5)",
+        "cssVar": "--pp-surface-sunken",
+        "schemes": {
+          "day": "#E0E8FF",
+          "sunset": "#F2C4D8",
+          "night": "#1B1C40"
+        },
+        "tonalRamp": [
+          "#060A19",
+          "#1F2435",
+          "#3B4154",
+          "#5A6174",
+          "#7B8296",
+          "#9DA4BA",
+          "#C1C9DF",
+          "#E0E8FF"
+        ]
+      },
+      "surface-panel": {
+        "role": "neutral",
+        "displayName": "Panel (Marshmallow)",
+        "canonical": "#FFF8EE",
+        "oklch": "oklch(98.2% 0.015 77.1)",
+        "cssVar": "--pp-surface-panel",
+        "schemes": {
+          "day": "#FFF8EE",
+          "sunset": "#FFF8EE",
+          "night": "#2C2F66"
+        },
+        "tonalRamp": [
+          "#0F0A05",
+          "#29241D",
+          "#474139",
+          "#666058",
+          "#888178",
+          "#EFE3D2",
+          "#FFF8EE",
+          "#FFFFFF"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Text (Ink)",
+        "canonical": "#1A1530",
+        "oklch": "oklch(21.8% 0.052 289.9)",
+        "cssVar": "--pp-text",
+        "schemes": {
+          "day": "#1A1530",
+          "sunset": "#1A1530",
+          "night": "#F3EFFF"
+        },
+        "tonalRamp": [
+          "#0C061F",
+          "#1A1530",
+          "#413D5C",
+          "#605C7D",
+          "#817DA0",
+          "#A4A0C4",
+          "#C8C4E9",
+          "#EEECFF"
+        ]
+      },
+      "text-muted": {
+        "role": "neutral",
+        "displayName": "Muted text (Soft Ink)",
+        "canonical": "#4A4470",
+        "oklch": "oklch(41.3% 0.073 289.1)",
+        "cssVar": "--pp-text-muted",
+        "schemes": {
+          "day": "#4A4470",
+          "sunset": "#4A4470",
+          "night": "#C3BEEA"
+        },
+        "tonalRamp": [
+          "#0C0327",
+          "#251D45",
+          "#4A4470",
+          "#605A88",
+          "#817BAC",
+          "#A39ED0",
+          "#C7C2F6",
+          "#EDECFF"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line: outlines of calm controls",
+        "canonical": "#1A1530",
+        "oklch": "oklch(21.8% 0.052 289.9)",
+        "cssVar": "--pp-line",
+        "schemes": {
+          "day": "#1A1530",
+          "sunset": "#1A1530",
+          "night": "#8F89C8"
+        },
+        "tonalRamp": [
+          "#0C061F",
+          "#1A1530",
+          "#413D5C",
+          "#605C7D",
+          "#817DA0",
+          "#A4A0C4",
+          "#C8C4E9",
+          "#EEECFF"
+        ]
+      },
+      "line-soft": {
+        "role": "neutral",
+        "displayName": "Soft line (Lilac Mountain)",
+        "canonical": "#B9B6EA",
+        "oklch": "oklch(79.7% 0.073 287.3)",
+        "cssVar": "--pp-line-soft",
+        "schemes": {
+          "day": "#B9B6EA",
+          "sunset": "#BCAADF",
+          "night": "#45478A"
+        },
+        "tonalRamp": [
+          "#0C0327",
+          "#241E46",
+          "#403B67",
+          "#5E5B89",
+          "#7F7CAC",
+          "#A29ED1",
+          "#B9B6EA",
+          "#EDECFF"
+        ]
+      },
+      "focus": {
+        "role": "tertiary",
+        "displayName": "Focus (Lemon Drop)",
+        "canonical": "#FFCC33",
+        "oklch": "oklch(86.7% 0.165 88.7)",
+        "cssVar": "--pp-focus",
+        "schemes": {
+          "day": "#FFCC33",
+          "sunset": "#FFCC33",
+          "night": "#FFCC33"
+        },
+        "tonalRamp": [
+          "#100A00",
+          "#302300",
+          "#533F00",
+          "#785D00",
+          "#A17D00",
+          "#E6A100",
+          "#FFCC33",
+          "#FFE680"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Accent (Blue Raspberry by Day)",
+        "canonical": "#33A3FF",
+        "oklch": "oklch(69.7% 0.167 248.2)",
+        "cssVar": "--pp-accent",
+        "schemes": {
+          "day": "#33A3FF",
+          "sunset": "#FF5FA2",
+          "night": "#9166FF"
+        },
+        "tonalRamp": [
+          "#000C1B",
+          "#002646",
+          "#004475",
+          "#0064A8",
+          "#1478D6",
+          "#33A3FF",
+          "#7FC8FF",
+          "#E2F0FF"
+        ]
+      },
+      "accent-light": {
+        "role": "primary",
+        "displayName": "Accent, light band",
+        "canonical": "#7FC8FF",
+        "oklch": "oklch(80.6% 0.107 242.3)",
+        "cssVar": "--pp-accent-light",
+        "schemes": {
+          "day": "#7FC8FF",
+          "sunset": "#FF9CC6",
+          "night": "#B48CFF"
+        },
+        "tonalRamp": [
+          "#000C1B",
+          "#002646",
+          "#004475",
+          "#0064A8",
+          "#1478D6",
+          "#33A3FF",
+          "#7FC8FF",
+          "#E2F0FF"
+        ]
+      },
+      "accent-shade": {
+        "role": "primary",
+        "displayName": "Accent, shade band",
+        "canonical": "#1478D6",
+        "oklch": "oklch(57.1% 0.167 252.9)",
+        "cssVar": "--pp-accent-shade",
+        "schemes": {
+          "day": "#1478D6",
+          "sunset": "#E03A82",
+          "night": "#6A3AD6"
+        },
+        "tonalRamp": [
+          "#000C1B",
+          "#002646",
+          "#004475",
+          "#0064A8",
+          "#1478D6",
+          "#33A3FF",
+          "#7FC8FF",
+          "#E2F0FF"
+        ]
+      },
+      "accent-text": {
+        "role": "primary",
+        "displayName": "Accent as text (Deep Raspberry by Day)",
+        "canonical": "#1660B8",
+        "oklch": "oklch(49.7% 0.155 256.2)",
+        "cssVar": "--pp-accent-text",
+        "schemes": {
+          "day": "#1660B8",
+          "sunset": "#B0245F",
+          "night": "#C9B3FF"
+        },
+        "tonalRamp": [
+          "#000A20",
+          "#002350",
+          "#003F85",
+          "#1660B8",
+          "#3C82DD",
+          "#64A6FF",
+          "#A6CCFF",
+          "#E4F0FF"
+        ]
+      },
+      "info": {
+        "role": "secondary",
+        "displayName": "Info (Blue Raspberry)",
+        "canonical": "#33A3FF",
+        "oklch": "oklch(69.7% 0.167 248.2)",
+        "cssVar": "--pp-info",
+        "schemes": {
+          "day": "#33A3FF",
+          "sunset": "#33A3FF",
+          "night": "#33A3FF"
+        },
+        "tonalRamp": [
+          "#000C1B",
+          "#002646",
+          "#004475",
+          "#0064A8",
+          "#1478D6",
+          "#33A3FF",
+          "#7FC8FF",
+          "#E2F0FF"
+        ]
+      },
+      "info-text": {
+        "role": "secondary",
+        "displayName": "Info as text",
+        "canonical": "#1660B8",
+        "oklch": "oklch(49.7% 0.155 256.2)",
+        "cssVar": "--pp-info-text",
+        "schemes": {
+          "day": "#1660B8",
+          "sunset": "#1660B8",
+          "night": "#7FC8FF"
+        },
+        "tonalRamp": [
+          "#000A20",
+          "#002350",
+          "#003F85",
+          "#1660B8",
+          "#3C82DD",
+          "#64A6FF",
+          "#A6CCFF",
+          "#E4F0FF"
+        ]
+      },
+      "success": {
+        "role": "secondary",
+        "displayName": "Success (Sour Apple)",
+        "canonical": "#4CD964",
+        "oklch": "oklch(78.4% 0.200 146.3)",
+        "cssVar": "--pp-success",
+        "schemes": {
+          "day": "#4CD964",
+          "sunset": "#4CD964",
+          "night": "#4CD964"
+        },
+        "tonalRamp": [
+          "#001002",
+          "#002F09",
+          "#005116",
+          "#007625",
+          "#2FAE46",
+          "#31C450",
+          "#4CD964",
+          "#8CF09A"
+        ]
+      },
+      "success-text": {
+        "role": "secondary",
+        "displayName": "Success as text",
+        "canonical": "#1E7A33",
+        "oklch": "oklch(51.0% 0.136 147.0)",
+        "cssVar": "--pp-success-text",
+        "schemes": {
+          "day": "#1E7A33",
+          "sunset": "#1E7A33",
+          "night": "#8CF09A"
+        },
+        "tonalRamp": [
+          "#001002",
+          "#002F0B",
+          "#005119",
+          "#1E7A33",
+          "#41984F",
+          "#66BC71",
+          "#8AE194",
+          "#C9FFCD"
+        ]
+      },
+      "warning": {
+        "role": "secondary",
+        "displayName": "Warning (Sherbet Orange)",
+        "canonical": "#FF7A1A",
+        "oklch": "oklch(72.4% 0.187 48.9)",
+        "cssVar": "--pp-warning",
+        "schemes": {
+          "day": "#FF7A1A",
+          "sunset": "#FF7A1A",
+          "night": "#FF7A1A"
+        },
+        "tonalRamp": [
+          "#180500",
+          "#3F1800",
+          "#6B2D00",
+          "#9A4400",
+          "#D95A0A",
+          "#FF7A1A",
+          "#FFAA6B",
+          "#FFEADF"
+        ]
+      },
+      "warning-text": {
+        "role": "secondary",
+        "displayName": "Warning as text",
+        "canonical": "#A8460A",
+        "oklch": "oklch(51.7% 0.143 44.9)",
+        "cssVar": "--pp-warning-text",
+        "schemes": {
+          "day": "#A8460A",
+          "sunset": "#A8460A",
+          "night": "#FFAA6B"
+        },
+        "tonalRamp": [
+          "#190500",
+          "#411500",
+          "#6E2A00",
+          "#A8460A",
+          "#C6612F",
+          "#EE8554",
+          "#FFB595",
+          "#FFE9E0"
+        ]
+      },
+      "danger": {
+        "role": "secondary",
+        "displayName": "Danger (Gumball Red)",
+        "canonical": "#FF3D4F",
+        "oklch": "oklch(65.9% 0.228 21.6)",
+        "cssVar": "--pp-danger",
+        "schemes": {
+          "day": "#FF3D4F",
+          "sunset": "#FF3D4F",
+          "night": "#FF3D4F"
+        },
+        "tonalRamp": [
+          "#1F0002",
+          "#4D000B",
+          "#800019",
+          "#B70029",
+          "#D11F35",
+          "#FF3D4F",
+          "#FF7A85",
+          "#FFE8E7"
+        ]
+      },
+      "danger-text": {
+        "role": "secondary",
+        "displayName": "Danger as text",
+        "canonical": "#B31529",
+        "oklch": "oklch(49.2% 0.188 22.8)",
+        "cssVar": "--pp-danger-text",
+        "schemes": {
+          "day": "#B31529",
+          "sunset": "#B31529",
+          "night": "#FF9EA6"
+        },
+        "tonalRamp": [
+          "#1F0002",
+          "#4D0009",
+          "#800016",
+          "#B31529",
+          "#DC454A",
+          "#FF7271",
+          "#FFB2AE",
+          "#FFE8E7"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Pixel Bop at scale 4 (font-size 10 x pixel x 4). Hero titles in a container 1024 px or wider, splash words, big scores.",
+        "css": ".pp-display[data-scale=\"4\"]"
+      },
+      "display-sm": {
+        "displayName": "Display small",
+        "purpose": "Pixel Bop at scale 3, with the AdvMAME3x rounding (ss03). Hero titles from 600 px, the pause screen's title, a feature's big number.",
+        "css": ".pp-display[data-scale=\"3\"]"
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Pixel Bop at scale 2, the display style's default (ss02). Page titles and the big numbers of stats.",
+        "css": ".pp-display[data-scale=\"2\"]"
+      },
+      "headline-sm": {
+        "displayName": "Headline small",
+        "purpose": "Pixel Bop at scale 1, square pixels. Dialog and window titles, the dialogue box's name tab, a brand on a narrow bar.",
+        "css": ".pp-display[data-scale=\"1\"]"
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Pixelify Sans bold at 22 px, where its own pixels land on the 2 px grid. Section titles in UI, large cards' titles.",
+        "css": ".pp-title"
+      },
+      "lead": {
+        "displayName": "Lead",
+        "purpose": "An introduction under a title; bold for a card's title; weight 500 in the dialogue box.",
+        "css": ".pp-lead"
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Body text, inputs, cards and dialogs.",
+        "css": ".pp-body"
+      },
+      "body-sm": {
+        "displayName": "Body small",
+        "purpose": "Secondary text, sidebars, table cells; bold for a field's label.",
+        "css": ".pp-small"
+      },
+      "caption": {
+        "displayName": "Caption",
+        "purpose": "Captions and metadata, in the muted text colour.",
+        "css": ".pp-caption"
+      },
+      "label-lg": {
+        "displayName": "Label large",
+        "purpose": "The label of a large (48 px) button. Capitals, set by CSS.",
+        "css": ".pp-button[data-size=\"lg\"]"
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Buttons, tabs, the app bar's links, small headings. Capitals, set by CSS; write the text in sentence case.",
+        "css": ".pp-label"
+      },
+      "label-sm": {
+        "displayName": "Label small",
+        "purpose": "Small (32 px) buttons and tags. Capitals, set by CSS.",
+        "css": ".pp-tag, .pp-button[data-size=\"sm\"]"
+      }
+    },
+    "shadows": [
+      {
+        "name": "drop",
+        "value": "Not a box-shadow: drawn by the candy box's masks. The outline's own stepped shape again, --pp-drop-size pixels (1 = 2 CSS px) down and to the right, in --pp-drop (Ink #1A1530).",
+        "approximation": "drop-shadow(2px 2px 0 #1A1530)",
+        "purpose": "Every control at rest: buttons, tags, cards, tiles, keycaps. Hard-edged, never blurred."
+      },
+      {
+        "name": "drop-hover",
+        "value": "The box rises one pixel (translate: 0 -1 pixel) and its drop grows to 2 pixels, so the shadow stays where it was.",
+        "approximation": "translate: 0 -2px; drop-shadow(4px 4px 0 #1A1530)",
+        "purpose": "Hover on anything you can press (only where the pointer can hover)."
+      },
+      {
+        "name": "pressed",
+        "value": "The box moves by its drop (1 pixel right and down) and the drop disappears; selected or on, it stays there with its light and shade bands swapped.",
+        "approximation": "translate: 2px 2px; no drop",
+        "purpose": ":active, aria-pressed, aria-selected, aria-current, aria-checked, aria-expanded."
+      },
+      {
+        "name": "drop-floating",
+        "value": "The same drop at 2 pixels (--pp-drop-size: 2).",
+        "approximation": "drop-shadow(4px 4px 0 #1A1530)",
+        "purpose": "Dialogs, drawers, popovers and toasts: things that float above the page."
+      },
+      {
+        "name": "focus-ring",
+        "value": "One pixel of --pp-focus (Lemon Drop #FFCC33) outside the box's shape and one pixel of --pp-focus-edge (Ink) beyond it, drawn by dilating the shape with zero-blur drop-shadow() filters, so it follows the stepped corners.",
+        "approximation": "filter: drop-shadow(0 -2px 0 #FFCC33) drop-shadow(0 2px 0 #FFCC33) drop-shadow(-2px 0 0 #FFCC33) drop-shadow(2px 0 0 #FFCC33) drop-shadow(0 -2px 0 #1A1530) drop-shadow(0 2px 0 #1A1530) drop-shadow(-2px 0 0 #1A1530) drop-shadow(2px 0 0 #1A1530)",
+        "purpose": "Keyboard focus on every candy box. --pp-box-ring and --pp-box-ring-edge recolour it where yellow cannot show."
+      },
+      {
+        "name": "focus-ring-square",
+        "value": "outline: var(--pp-pixel) solid var(--pp-focus); outline-offset: 0; box-shadow: 0 0 0 calc(2 * var(--pp-pixel)) var(--pp-focus-edge)",
+        "purpose": "Keyboard focus on anything that is not a candy box: links, plain inputs, summaries."
+      },
+      {
+        "name": "tile-ring",
+        "value": "One pixel of white with one pixel of Ink beyond, round a selected tile lifted two pixels; yellow instead of white with keyboard focus.",
+        "purpose": "The selected tile, as on the TV's app row."
+      },
+      {
+        "name": "scrim",
+        "value": "repeating-conic-gradient(var(--pp-scrim) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel))",
+        "purpose": "Behind modal dialogs and drawers: Ink on every other pixel, never a translucent wash."
+      }
+    ],
+    "motion": [
+      {
+        "name": "--pp-duration-frame",
+        "value": "40",
+        "purpose": "One sprite frame; the unit of every choreography. 0 ms with prefers-reduced-motion."
+      },
+      {
+        "name": "--pp-duration-nudge",
+        "value": "80",
+        "purpose": "A focus move, a lift, a press. 0 ms with prefers-reduced-motion."
+      },
+      {
+        "name": "--pp-duration-slide",
+        "value": "100",
+        "purpose": "A row scrolling; the world's layers sliding. 0 ms with prefers-reduced-motion."
+      },
+      {
+        "name": "--pp-duration-pop",
+        "value": "120",
+        "purpose": "A popover, menu or dialog arriving. 0 ms with prefers-reduced-motion."
+      },
+      {
+        "name": "--pp-duration-blink",
+        "value": "140",
+        "purpose": "A blink. 0 ms with prefers-reduced-motion."
+      },
+      {
+        "name": "--pp-duration-glide",
+        "value": "160",
+        "purpose": "Something travelling to a new place; a drawer sliding in six steps. 0 ms with prefers-reduced-motion."
+      },
+      {
+        "name": "--pp-duration-fade",
+        "value": "160",
+        "purpose": "A stepped fade, out or in. 0 ms with prefers-reduced-motion."
+      },
+      {
+        "name": "--pp-duration-beat",
+        "value": "400",
+        "purpose": "The idle beat: a bob, a pulse, the busy dots. 0 ms with prefers-reduced-motion."
+      },
+      {
+        "name": "--pp-duration-dissolve-frame",
+        "value": "30",
+        "purpose": "One frame of the ink dissolve. 0 ms with prefers-reduced-motion."
+      },
+      {
+        "name": "--pp-duration-stagger",
+        "value": "30",
+        "purpose": "Between letters dropping in. 0 ms with prefers-reduced-motion."
+      },
+      {
+        "name": "--pp-duration-letter",
+        "value": "50",
+        "purpose": "Typewriter text: one letter. 0 ms with prefers-reduced-motion."
+      },
+      {
+        "name": "--pp-duration-comma",
+        "value": "130",
+        "purpose": "Typewriter text: the hold after a comma. 0 ms with prefers-reduced-motion."
+      },
+      {
+        "name": "--pp-duration-stop",
+        "value": "260",
+        "purpose": "Typewriter text: the hold after . ! or ? 0 ms with prefers-reduced-motion."
+      },
+      {
+        "name": "--pp-duration-glint-every",
+        "value": "4500",
+        "purpose": "How often a glint sweeps across a selected box. 0 ms with prefers-reduced-motion."
+      },
+      {
+        "name": "--pp-duration-scheme-step",
+        "value": "10000",
+        "purpose": "One of the six steps of the palette fade when Auto changes the time of day. 0 ms with prefers-reduced-motion."
+      },
+      {
+        "name": "--pp-ease-2",
+        "value": "steps(2, jump-end)",
+        "purpose": "A move in two even steps. Blip has no easing curves."
+      },
+      {
+        "name": "--pp-ease-4",
+        "value": "steps(4, jump-end)",
+        "purpose": "A move in four even steps."
+      },
+      {
+        "name": "--pp-ease-6",
+        "value": "steps(6, jump-end)",
+        "purpose": "A move in six even steps: the most any move takes."
+      },
+      {
+        "name": "--pp-steps-dissolve",
+        "value": "9",
+        "purpose": "Frames of the ink dissolve, to cover the screen and again to clear it."
+      },
+      {
+        "name": "--pp-steps-scheme",
+        "value": "6",
+        "purpose": "Palette mixes when the time of day changes (with --pp-duration-scheme-step: a minute)."
+      },
+      {
+        "name": "--pp-delay-hover",
+        "value": 400,
+        "purpose": "Before a tooltip shows on hover. A wait, not motion: kept with reduced motion."
+      },
+      {
+        "name": "--pp-delay-leave",
+        "value": 160,
+        "purpose": "Before a tooltip or menu closes after the pointer leaves."
+      },
+      {
+        "name": "--pp-delay-toast",
+        "value": 5000,
+        "purpose": "How long a toast stays unless hovered or focused."
+      },
+      {
+        "name": "pop-in",
+        "value": "translate 1 pixel down for 2 frames' first half, then in place; steps(1, jump-end)",
+        "purpose": "Menus, popovers, toasts, dialogs and bubbles arriving (.pp-pop-in)."
+      },
+      {
+        "name": "drop-in",
+        "value": "translate 2 pixels up for a frame, then landed; letters --pp-duration-stagger apart",
+        "purpose": "A title's letters, one after another (.pp-drop-in, <pp-drop-text>)."
+      },
+      {
+        "name": "bump",
+        "value": "up 6 pixels, then 3, then down, a frame each",
+        "purpose": "A coin block, a success (.pp-bump)."
+      },
+      {
+        "name": "shake",
+        "value": "2 pixels right, 2 left, 1 right, 1 left, home, a frame each",
+        "purpose": "A wrong answer, an edge (.pp-shake)."
+      },
+      {
+        "name": "blink-bob",
+        "value": "on the beat, stopping after six beats (under five seconds, WCAG 2.2.2)",
+        "purpose": "A caret, a press-start prompt, a pointer arrow (.pp-blink, .pp-bob)."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact",
+        "value": "0px",
+        "purpose": "Under 600 px of the container: one column, the bottom bar, the hero title at scale 2."
+      },
+      {
+        "name": "medium",
+        "value": 600,
+        "purpose": "--pp-breakpoint-medium. From 600 px: the sidebar returns as a rail, the hero title at scale 3."
+      },
+      {
+        "name": "wide",
+        "value": 1024,
+        "purpose": "--pp-breakpoint-wide. From 1024 px: the full sidebar and app bar, the hero title at scale 4. Components use container queries; these values are for page shells."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Candy Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The main action: a candy box in the accent, with light and shade bands, glints, an ink outline and a one-pixel drop. Hover lifts a pixel, pressing sits it in its drop, focus is the yellow ring. One per view.",
+      "html": "<button class=\"ds-btn\" type=\"button\">Press start</button>",
+      "css": ".ds-btn{--ds-p:var(--pp-pixel,2px);--ds-o:polygon(calc(100% - var(--ds-p)*4) 0,calc(100% - var(--ds-p)*4) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*4),100% calc(var(--ds-p)*4),100% calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*4) 100%,calc(var(--ds-p)*4) 100%,calc(var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*4),0 calc(100% - var(--ds-p)*4),0 calc(var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*1),calc(var(--ds-p)*4) calc(var(--ds-p)*1),calc(var(--ds-p)*4) 0);--ds-i:polygon(calc(100% - var(--ds-p)*4) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*4) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*4) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*4),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*4),calc(var(--ds-p)*2) calc(var(--ds-p)*4),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*4) calc(var(--ds-p)*2),calc(var(--ds-p)*4) calc(var(--ds-p)*1));--ds-d:1;--ds-dither:transparent;--ds-dropf:drop-shadow(calc(var(--ds-p)*var(--ds-d)) calc(var(--ds-p)*var(--ds-d)) 0 var(--pp-drop,#1A1530));--ds-ring:drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus,#FFCC33)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus,#FFCC33)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus-edge,#1A1530)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus-edge,#1A1530));position:relative;isolation:isolate;box-sizing:border-box;border:0;background:none;filter:var(--ds-dropf)} .ds-btn::before,.ds-btn::after{content:\"\";position:absolute;inset:0;z-index:-1;pointer-events:none} .ds-btn::before{background:var(--ds-ink);clip-path:var(--ds-o)} .ds-btn::after{clip-path:var(--ds-i);background:repeating-conic-gradient(var(--ds-dither) 0 25%,transparent 0 50%) 0 0/calc(var(--ds-p)*2) calc(var(--ds-p)*2),linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*3) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*4) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*2) calc(var(--ds-p)*3)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) right calc(var(--ds-p)*2) top calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-top) 0 calc(var(--ds-p)*var(--ds-bt)),var(--ds-fill) 0 calc(100% - var(--ds-p)*var(--ds-bb)),var(--ds-bottom) 0)} .ds-btn{--ds-ink:var(--pp-outline,#1A1530);--ds-top:var(--pp-accent-light,#7FC8FF);--ds-fill:var(--pp-accent,#33A3FF);--ds-bottom:var(--pp-accent-shade,#1478D6);--ds-glint:var(--pp-white,#FFFFFF);color:var(--pp-accent-on,#1A1530);--ds-bt:5;--ds-bb:5;display:inline-flex;align-items:center;justify-content:center;gap:calc(var(--ds-p)*3);height:calc(var(--ds-p)*20);min-width:calc(var(--ds-p)*20);padding:0 calc(var(--ds-p)*8);margin:0 var(--ds-p) var(--ds-p) 0;font-family:var(--pp-font-ui,\"Pixelify Sans\",system-ui,sans-serif);font-size:var(--pp-size-small,14px);font-weight:700;line-height:1;letter-spacing:var(--pp-tracking-label,0.5px);text-transform:uppercase;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent} @media (hover:hover){.ds-btn:not(:disabled,[aria-pressed=\"true\"]):hover{translate:0 calc(var(--ds-p)*-1);--ds-d:2}} .ds-btn:not(:disabled):active,.ds-btn[aria-pressed=\"true\"]{translate:var(--ds-p) var(--ds-p);--ds-d:0} .ds-btn[aria-pressed=\"true\"]{--ds-top:var(--pp-accent-shade,#1478D6);--ds-bottom:var(--pp-accent-light,#7FC8FF);--ds-glint:transparent} .ds-btn:focus-visible{outline:none;filter:var(--ds-dropf) var(--ds-ring)} .ds-btn:disabled{--ds-dither:var(--pp-bg,#F4F7FF);--ds-d:0;cursor:not-allowed}"
+    },
+    {
+      "name": "Soft Button",
+      "kind": "button",
+      "refersTo": "button-soft",
+      "description": "The second action: the accent's light as the fill and its base as the bottom band, no glints. Same states as candy.",
+      "html": "<button class=\"ds-btn-soft\" type=\"button\">Options</button>",
+      "css": ".ds-btn-soft{--ds-p:var(--pp-pixel,2px);--ds-o:polygon(calc(100% - var(--ds-p)*4) 0,calc(100% - var(--ds-p)*4) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*4),100% calc(var(--ds-p)*4),100% calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*4) 100%,calc(var(--ds-p)*4) 100%,calc(var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*4),0 calc(100% - var(--ds-p)*4),0 calc(var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*1),calc(var(--ds-p)*4) calc(var(--ds-p)*1),calc(var(--ds-p)*4) 0);--ds-i:polygon(calc(100% - var(--ds-p)*4) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*4) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*4) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*4),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*4),calc(var(--ds-p)*2) calc(var(--ds-p)*4),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*4) calc(var(--ds-p)*2),calc(var(--ds-p)*4) calc(var(--ds-p)*1));--ds-d:1;--ds-dither:transparent;--ds-dropf:drop-shadow(calc(var(--ds-p)*var(--ds-d)) calc(var(--ds-p)*var(--ds-d)) 0 var(--pp-drop,#1A1530));--ds-ring:drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus,#FFCC33)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus,#FFCC33)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus-edge,#1A1530)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus-edge,#1A1530));position:relative;isolation:isolate;box-sizing:border-box;border:0;background:none;filter:var(--ds-dropf)} .ds-btn-soft::before,.ds-btn-soft::after{content:\"\";position:absolute;inset:0;z-index:-1;pointer-events:none} .ds-btn-soft::before{background:var(--ds-ink);clip-path:var(--ds-o)} .ds-btn-soft::after{clip-path:var(--ds-i);background:repeating-conic-gradient(var(--ds-dither) 0 25%,transparent 0 50%) 0 0/calc(var(--ds-p)*2) calc(var(--ds-p)*2),linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*3) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*4) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*2) calc(var(--ds-p)*3)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) right calc(var(--ds-p)*2) top calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-top) 0 calc(var(--ds-p)*var(--ds-bt)),var(--ds-fill) 0 calc(100% - var(--ds-p)*var(--ds-bb)),var(--ds-bottom) 0)} .ds-btn-soft{--ds-ink:var(--pp-outline,#1A1530);--ds-top:var(--pp-accent-light,#7FC8FF);--ds-fill:var(--pp-accent-light,#7FC8FF);--ds-bottom:var(--pp-accent,#33A3FF);--ds-glint:transparent;color:var(--pp-accent-on,#1A1530);--ds-bt:5;--ds-bb:5;display:inline-flex;align-items:center;justify-content:center;gap:calc(var(--ds-p)*3);height:calc(var(--ds-p)*20);min-width:calc(var(--ds-p)*20);padding:0 calc(var(--ds-p)*8);margin:0 var(--ds-p) var(--ds-p) 0;font-family:var(--pp-font-ui,\"Pixelify Sans\",system-ui,sans-serif);font-size:var(--pp-size-small,14px);font-weight:700;line-height:1;letter-spacing:var(--pp-tracking-label,0.5px);text-transform:uppercase;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent} @media (hover:hover){.ds-btn-soft:not(:disabled,[aria-pressed=\"true\"]):hover{translate:0 calc(var(--ds-p)*-1);--ds-d:2}} .ds-btn-soft:not(:disabled):active,.ds-btn-soft[aria-pressed=\"true\"]{translate:var(--ds-p) var(--ds-p);--ds-d:0} .ds-btn-soft[aria-pressed=\"true\"]{--ds-top:var(--pp-accent-shade,#1478D6);--ds-bottom:var(--pp-accent-light,#7FC8FF);--ds-glint:transparent} .ds-btn-soft:focus-visible{outline:none;filter:var(--ds-dropf) var(--ds-ring)} .ds-btn-soft:disabled{--ds-dither:var(--pp-bg,#F4F7FF);--ds-d:0;cursor:not-allowed}"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "The calm tier for toolbars, tables and forms: a line outline round the surface, no bands, no drop. Hover fills it with the sunken surface; on, it takes the accent's light.",
+      "html": "<button class=\"ds-btn-outline\" type=\"button\" aria-pressed=\"false\">Filters</button>",
+      "css": ".ds-btn-outline{--ds-p:var(--pp-pixel,2px);--ds-o:polygon(calc(100% - var(--ds-p)*4) 0,calc(100% - var(--ds-p)*4) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*4),100% calc(var(--ds-p)*4),100% calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*4) 100%,calc(var(--ds-p)*4) 100%,calc(var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*4),0 calc(100% - var(--ds-p)*4),0 calc(var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*1),calc(var(--ds-p)*4) calc(var(--ds-p)*1),calc(var(--ds-p)*4) 0);--ds-i:polygon(calc(100% - var(--ds-p)*4) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*4) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*4) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*4),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*4),calc(var(--ds-p)*2) calc(var(--ds-p)*4),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*4) calc(var(--ds-p)*2),calc(var(--ds-p)*4) calc(var(--ds-p)*1));--ds-d:1;--ds-dither:transparent;--ds-dropf:drop-shadow(calc(var(--ds-p)*var(--ds-d)) calc(var(--ds-p)*var(--ds-d)) 0 var(--pp-drop,#1A1530));--ds-ring:drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus,#FFCC33)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus,#FFCC33)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus-edge,#1A1530)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus-edge,#1A1530));position:relative;isolation:isolate;box-sizing:border-box;border:0;background:none;filter:var(--ds-dropf)} .ds-btn-outline::before,.ds-btn-outline::after{content:\"\";position:absolute;inset:0;z-index:-1;pointer-events:none} .ds-btn-outline::before{background:var(--ds-ink);clip-path:var(--ds-o)} .ds-btn-outline::after{clip-path:var(--ds-i);background:repeating-conic-gradient(var(--ds-dither) 0 25%,transparent 0 50%) 0 0/calc(var(--ds-p)*2) calc(var(--ds-p)*2),linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*3) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*4) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*2) calc(var(--ds-p)*3)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) right calc(var(--ds-p)*2) top calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-top) 0 calc(var(--ds-p)*var(--ds-bt)),var(--ds-fill) 0 calc(100% - var(--ds-p)*var(--ds-bb)),var(--ds-bottom) 0)} .ds-btn-outline{--ds-ink:var(--pp-line,#1A1530);--ds-top:var(--pp-surface,#FFFFFF);--ds-fill:var(--pp-surface,#FFFFFF);--ds-bottom:var(--pp-surface,#FFFFFF);--ds-glint:transparent;--ds-d:0;color:var(--pp-text,#1A1530);--ds-bt:5;--ds-bb:5;display:inline-flex;align-items:center;justify-content:center;gap:calc(var(--ds-p)*3);height:calc(var(--ds-p)*20);min-width:calc(var(--ds-p)*20);padding:0 calc(var(--ds-p)*8);margin:0 var(--ds-p) var(--ds-p) 0;font-family:var(--pp-font-ui,\"Pixelify Sans\",system-ui,sans-serif);font-size:var(--pp-size-small,14px);font-weight:700;line-height:1;letter-spacing:var(--pp-tracking-label,0.5px);text-transform:uppercase;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent} @media (hover:hover){.ds-btn-outline:not(:disabled,[aria-pressed=\"true\"]):hover{--ds-ink:var(--pp-line,#1A1530);--ds-top:var(--pp-surface-sunken,#E0E8FF);--ds-fill:var(--pp-surface-sunken,#E0E8FF);--ds-bottom:var(--pp-surface-sunken,#E0E8FF)}} .ds-btn-outline[aria-pressed=\"true\"]{--ds-ink:var(--pp-outline,#1A1530);--ds-top:var(--pp-accent-light,#7FC8FF);--ds-fill:var(--pp-accent-light,#7FC8FF);--ds-bottom:var(--pp-accent-light,#7FC8FF);color:var(--pp-accent-on,#1A1530)} .ds-btn-outline:focus-visible{outline:none;filter:var(--ds-dropf) var(--ds-ring)} .ds-btn-outline:disabled{--ds-ink:var(--pp-line-soft,#B9B6EA);--ds-dither:var(--pp-surface-sunken,#E0E8FF);color:var(--pp-text-muted,#4A4470);cursor:not-allowed}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "The quietest tier: bare until hovered or focused, when it shows its outline and the sunken surface, so the ring has a shape to follow.",
+      "html": "<button class=\"ds-btn-ghost\" type=\"button\">Skip</button>",
+      "css": ".ds-btn-ghost{--ds-p:var(--pp-pixel,2px);--ds-o:polygon(calc(100% - var(--ds-p)*4) 0,calc(100% - var(--ds-p)*4) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*4),100% calc(var(--ds-p)*4),100% calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*4) 100%,calc(var(--ds-p)*4) 100%,calc(var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*4),0 calc(100% - var(--ds-p)*4),0 calc(var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*1),calc(var(--ds-p)*4) calc(var(--ds-p)*1),calc(var(--ds-p)*4) 0);--ds-i:polygon(calc(100% - var(--ds-p)*4) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*4) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*4) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*4),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*4),calc(var(--ds-p)*2) calc(var(--ds-p)*4),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*4) calc(var(--ds-p)*2),calc(var(--ds-p)*4) calc(var(--ds-p)*1));--ds-d:1;--ds-dither:transparent;--ds-dropf:drop-shadow(calc(var(--ds-p)*var(--ds-d)) calc(var(--ds-p)*var(--ds-d)) 0 var(--pp-drop,#1A1530));--ds-ring:drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus,#FFCC33)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus,#FFCC33)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus-edge,#1A1530)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus-edge,#1A1530));position:relative;isolation:isolate;box-sizing:border-box;border:0;background:none;filter:var(--ds-dropf)} .ds-btn-ghost::before,.ds-btn-ghost::after{content:\"\";position:absolute;inset:0;z-index:-1;pointer-events:none} .ds-btn-ghost::before{background:var(--ds-ink);clip-path:var(--ds-o)} .ds-btn-ghost::after{clip-path:var(--ds-i);background:repeating-conic-gradient(var(--ds-dither) 0 25%,transparent 0 50%) 0 0/calc(var(--ds-p)*2) calc(var(--ds-p)*2),linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*3) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*4) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*2) calc(var(--ds-p)*3)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) right calc(var(--ds-p)*2) top calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-top) 0 calc(var(--ds-p)*var(--ds-bt)),var(--ds-fill) 0 calc(100% - var(--ds-p)*var(--ds-bb)),var(--ds-bottom) 0)} .ds-btn-ghost{--ds-ink:transparent;--ds-top:transparent;--ds-fill:transparent;--ds-bottom:transparent;--ds-glint:transparent;--ds-d:0;color:var(--pp-text,#1A1530);--ds-bt:5;--ds-bb:5;display:inline-flex;align-items:center;justify-content:center;gap:calc(var(--ds-p)*3);height:calc(var(--ds-p)*20);min-width:calc(var(--ds-p)*20);padding:0 calc(var(--ds-p)*8);margin:0 var(--ds-p) var(--ds-p) 0;font-family:var(--pp-font-ui,\"Pixelify Sans\",system-ui,sans-serif);font-size:var(--pp-size-small,14px);font-weight:700;line-height:1;letter-spacing:var(--pp-tracking-label,0.5px);text-transform:uppercase;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent} @media (hover:hover){.ds-btn-ghost:not(:disabled,[aria-pressed=\"true\"]):hover{--ds-ink:var(--pp-line,#1A1530);--ds-top:var(--pp-surface-sunken,#E0E8FF);--ds-fill:var(--pp-surface-sunken,#E0E8FF);--ds-bottom:var(--pp-surface-sunken,#E0E8FF)}} .ds-btn-ghost[aria-pressed=\"true\"]{--ds-ink:var(--pp-outline,#1A1530);--ds-top:var(--pp-accent-light,#7FC8FF);--ds-fill:var(--pp-accent-light,#7FC8FF);--ds-bottom:var(--pp-accent-light,#7FC8FF);color:var(--pp-accent-on,#1A1530)} .ds-btn-ghost:focus-visible{outline:none;--ds-ink:var(--pp-line,#1A1530);--ds-top:var(--pp-surface-sunken,#E0E8FF);--ds-fill:var(--pp-surface-sunken,#E0E8FF);--ds-bottom:var(--pp-surface-sunken,#E0E8FF);filter:var(--ds-dropf) var(--ds-ring)} .ds-btn-ghost:disabled{--ds-ink:var(--pp-line-soft,#B9B6EA);--ds-dither:var(--pp-surface-sunken,#E0E8FF);color:var(--pp-text-muted,#4A4470);cursor:not-allowed}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "A native input inside the calm box: a line outline, the surface, a one-pixel sunken inset along the top, no drop. The box draws the yellow ring round the whole field; aria-invalid turns the outline and inset to the danger tone.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">Player name</span><span class=\"ds-input\"><input type=\"text\" value=\"Pixel Pal\" autocomplete=\"off\"></span></label>",
+      "css": ".ds-field{display:grid;gap:calc(var(--ds-p)*2);max-width:calc(var(--ds-p)*120);font-family:var(--pp-font-ui,\"Pixelify Sans\",system-ui,sans-serif);color:var(--pp-text,#1A1530)} .ds-field-label{font-size:var(--pp-size-small,14px);font-weight:700;line-height:var(--pp-leading-tight,1.15)} .ds-input{--ds-p:var(--pp-pixel,2px);--ds-o:polygon(calc(100% - var(--ds-p)*4) 0,calc(100% - var(--ds-p)*4) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*4),100% calc(var(--ds-p)*4),100% calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*4) 100%,calc(var(--ds-p)*4) 100%,calc(var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*4),0 calc(100% - var(--ds-p)*4),0 calc(var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*1),calc(var(--ds-p)*4) calc(var(--ds-p)*1),calc(var(--ds-p)*4) 0);--ds-i:polygon(calc(100% - var(--ds-p)*4) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*4) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*4) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*4),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*4),calc(var(--ds-p)*2) calc(var(--ds-p)*4),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*4) calc(var(--ds-p)*2),calc(var(--ds-p)*4) calc(var(--ds-p)*1));--ds-d:1;--ds-dither:transparent;--ds-dropf:drop-shadow(calc(var(--ds-p)*var(--ds-d)) calc(var(--ds-p)*var(--ds-d)) 0 var(--pp-drop,#1A1530));--ds-ring:drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus,#FFCC33)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus,#FFCC33)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus-edge,#1A1530)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus-edge,#1A1530));position:relative;isolation:isolate;box-sizing:border-box;border:0;background:none;filter:var(--ds-dropf)} .ds-input::before,.ds-input::after{content:\"\";position:absolute;inset:0;z-index:-1;pointer-events:none} .ds-input::before{background:var(--ds-ink);clip-path:var(--ds-o)} .ds-input::after{clip-path:var(--ds-i);background:repeating-conic-gradient(var(--ds-dither) 0 25%,transparent 0 50%) 0 0/calc(var(--ds-p)*2) calc(var(--ds-p)*2),linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*3) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*4) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*2) calc(var(--ds-p)*3)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) right calc(var(--ds-p)*2) top calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-top) 0 calc(var(--ds-p)*var(--ds-bt)),var(--ds-fill) 0 calc(100% - var(--ds-p)*var(--ds-bb)),var(--ds-bottom) 0)} .ds-input{--ds-ink:var(--pp-line,#1A1530);--ds-top:var(--pp-surface-sunken,#E0E8FF);--ds-fill:var(--pp-surface,#FFFFFF);--ds-bottom:var(--pp-surface,#FFFFFF);--ds-glint:transparent;--ds-d:0;--ds-bt:2;--ds-bb:1;display:flex;align-items:center;height:calc(var(--ds-p)*20);padding:0 calc(var(--ds-p)*5);font-size:var(--pp-size-body,16px);line-height:var(--pp-leading-tight,1.15);cursor:text;filter:none} .ds-input>input{flex:1;min-width:0;align-self:stretch;margin:0;padding:0;border:0;outline:0;background:transparent;color:inherit;font:inherit;appearance:none} .ds-input>input::placeholder{color:var(--pp-text-muted,#4A4470);opacity:1} .ds-input:has(>input:focus-visible){filter:var(--ds-ring)} .ds-input:has(>input[aria-invalid=\"true\"]){--ds-ink:var(--pp-danger-text,#B31529);--ds-top:var(--pp-danger-light,#FF7A85)} .ds-input:has(>input[readonly]){--ds-ink:transparent;--ds-top:var(--pp-surface-sunken,#E0E8FF);--ds-fill:var(--pp-surface-sunken,#E0E8FF);--ds-bottom:var(--pp-surface-sunken,#E0E8FF);cursor:default} .ds-input:has(>input:disabled){--ds-ink:var(--pp-line-soft,#B9B6EA);--ds-dither:var(--pp-surface-sunken,#E0E8FF);color:var(--pp-text-muted,#4A4470);cursor:not-allowed}"
+    },
+    {
+      "name": "Tag and Filter Chip",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "The TV's pill. A tag labels: soft (the tone's light, its base as a bottom band), an ink outline and a one-pixel drop. A filter chip is a toggle in the outline tier: on, it sits in with the accent's light.",
+      "html": "<div class=\"ds-chips\"><span class=\"ds-tag\">Rare</span><button class=\"ds-chip\" type=\"button\" aria-pressed=\"true\">Swords</button><button class=\"ds-chip\" type=\"button\" aria-pressed=\"false\">Shields</button></div>",
+      "css": ".ds-chips{display:flex;flex-wrap:wrap;align-items:center;gap:calc(var(--ds-p)*4)} .ds-tag,.ds-chip{--ds-p:var(--pp-pixel,2px);--ds-o:polygon(calc(100% - var(--ds-p)*5) 0,calc(100% - var(--ds-p)*5) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*5),100% calc(var(--ds-p)*5),100% calc(100% - var(--ds-p)*5),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*5),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*5) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*5) 100%,calc(var(--ds-p)*5) 100%,calc(var(--ds-p)*5) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*5),0 calc(100% - var(--ds-p)*5),0 calc(var(--ds-p)*5),calc(var(--ds-p)*1) calc(var(--ds-p)*5),calc(var(--ds-p)*1) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*1),calc(var(--ds-p)*5) calc(var(--ds-p)*1),calc(var(--ds-p)*5) 0);--ds-i:polygon(calc(100% - var(--ds-p)*5) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*5) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*5),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*5),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*5),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*5),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*5) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*5) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*5) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*5) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*5),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*5),calc(var(--ds-p)*1) calc(var(--ds-p)*5),calc(var(--ds-p)*2) calc(var(--ds-p)*5),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*5) calc(var(--ds-p)*2),calc(var(--ds-p)*5) calc(var(--ds-p)*1));--ds-d:1;--ds-dither:transparent;--ds-dropf:drop-shadow(calc(var(--ds-p)*var(--ds-d)) calc(var(--ds-p)*var(--ds-d)) 0 var(--pp-drop,#1A1530));--ds-ring:drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus,#FFCC33)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus,#FFCC33)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus-edge,#1A1530)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus-edge,#1A1530));position:relative;isolation:isolate;box-sizing:border-box;border:0;background:none;filter:var(--ds-dropf)} .ds-tag::before,.ds-chip::before,.ds-tag::after,.ds-chip::after{content:\"\";position:absolute;inset:0;z-index:-1;pointer-events:none} .ds-tag::before,.ds-chip::before{background:var(--ds-ink);clip-path:var(--ds-o)} .ds-tag::after,.ds-chip::after{clip-path:var(--ds-i);background:repeating-conic-gradient(var(--ds-dither) 0 25%,transparent 0 50%) 0 0/calc(var(--ds-p)*2) calc(var(--ds-p)*2),linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*4) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*5) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*3) calc(var(--ds-p)*3)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) right calc(var(--ds-p)*3) top calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-top) 0 calc(var(--ds-p)*var(--ds-bt)),var(--ds-fill) 0 calc(100% - var(--ds-p)*var(--ds-bb)),var(--ds-bottom) 0)} .ds-tag,.ds-chip{--ds-bt:3;--ds-bb:3;display:inline-flex;align-items:center;height:calc(var(--ds-p)*14);padding:0 calc(var(--ds-p)*6);margin:0 var(--ds-p) var(--ds-p) 0;font-family:var(--pp-font-ui,\"Pixelify Sans\",system-ui,sans-serif);font-size:var(--pp-size-caption,12px);font-weight:700;line-height:1;letter-spacing:var(--pp-tracking-label,0.5px);text-transform:uppercase;white-space:nowrap} .ds-tag{--ds-ink:var(--pp-outline,#1A1530);--ds-top:var(--pp-accent-light,#7FC8FF);--ds-fill:var(--pp-accent-light,#7FC8FF);--ds-bottom:var(--pp-accent,#33A3FF);--ds-glint:transparent;color:var(--pp-accent-on,#1A1530)} .ds-chip{--ds-ink:var(--pp-line,#1A1530);--ds-top:var(--pp-surface,#FFFFFF);--ds-fill:var(--pp-surface,#FFFFFF);--ds-bottom:var(--pp-surface,#FFFFFF);--ds-glint:transparent;--ds-d:0;color:var(--pp-text,#1A1530);cursor:pointer} @media (hover:hover){.ds-chip:not([aria-pressed=\"true\"]):hover{--ds-top:var(--pp-surface-sunken,#E0E8FF);--ds-fill:var(--pp-surface-sunken,#E0E8FF);--ds-bottom:var(--pp-surface-sunken,#E0E8FF)}} .ds-chip[aria-pressed=\"true\"]{--ds-ink:var(--pp-outline,#1A1530);--ds-top:var(--pp-accent-light,#7FC8FF);--ds-fill:var(--pp-accent-light,#7FC8FF);--ds-bottom:var(--pp-accent-light,#7FC8FF);color:var(--pp-accent-on,#1A1530)} .ds-chip:focus-visible{outline:none;filter:var(--ds-dropf) var(--ds-ring)}"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "A cream panel that holds one thing: an ink outline with stepped corners, a one-pixel drop, 16 px of padding. A card that is a link lifts a pixel on hover and takes the yellow ring on focus.",
+      "html": "<a class=\"ds-card\" href=\"#\"><span class=\"ds-card-head\"><span class=\"ds-card-title\">Meadow</span><span class=\"ds-card-subtitle\">World 1 · 8 levels</span></span><span class=\"ds-card-body\">Sixty short levels on a hillside that keeps time with your clock.</span></a>",
+      "css": ".ds-card{--ds-p:var(--pp-pixel,2px);--ds-o:polygon(calc(100% - var(--ds-p)*4) 0,calc(100% - var(--ds-p)*4) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*4),100% calc(var(--ds-p)*4),100% calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*4) 100%,calc(var(--ds-p)*4) 100%,calc(var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*4),0 calc(100% - var(--ds-p)*4),0 calc(var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*1),calc(var(--ds-p)*4) calc(var(--ds-p)*1),calc(var(--ds-p)*4) 0);--ds-i:polygon(calc(100% - var(--ds-p)*4) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*4) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*4) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*4),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*4),calc(var(--ds-p)*2) calc(var(--ds-p)*4),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*4) calc(var(--ds-p)*2),calc(var(--ds-p)*4) calc(var(--ds-p)*1));--ds-d:1;--ds-dither:transparent;--ds-dropf:drop-shadow(calc(var(--ds-p)*var(--ds-d)) calc(var(--ds-p)*var(--ds-d)) 0 var(--pp-drop,#1A1530));--ds-ring:drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus,#FFCC33)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus,#FFCC33)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus-edge,#1A1530)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus-edge,#1A1530));position:relative;isolation:isolate;box-sizing:border-box;border:0;background:none;filter:var(--ds-dropf)} .ds-card::before,.ds-card::after{content:\"\";position:absolute;inset:0;z-index:-1;pointer-events:none} .ds-card::before{background:var(--ds-ink);clip-path:var(--ds-o)} .ds-card::after{clip-path:var(--ds-i);background:repeating-conic-gradient(var(--ds-dither) 0 25%,transparent 0 50%) 0 0/calc(var(--ds-p)*2) calc(var(--ds-p)*2),linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*3) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*4) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*2) calc(var(--ds-p)*3)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) right calc(var(--ds-p)*2) top calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-top) 0 calc(var(--ds-p)*var(--ds-bt)),var(--ds-fill) 0 calc(100% - var(--ds-p)*var(--ds-bb)),var(--ds-bottom) 0)} .ds-card{--ds-ink:var(--pp-outline,#1A1530);--ds-top:var(--pp-surface-panel,#FFF8EE);--ds-fill:var(--pp-surface-panel,#FFF8EE);--ds-bottom:var(--pp-surface-panel,#FFF8EE);--ds-glint:transparent;--ds-bt:1;--ds-bb:1;display:flex;flex-direction:column;gap:calc(var(--ds-p)*6);max-width:calc(var(--ds-p)*140);padding:calc(var(--ds-p)*8);margin:0 var(--ds-p) var(--ds-p) 0;font-family:var(--pp-font-ui,\"Pixelify Sans\",system-ui,sans-serif);font-size:var(--pp-size-body,16px);line-height:var(--pp-leading-normal,1.5);color:var(--pp-text,#1A1530);text-decoration:none} .ds-card-head{display:flex;flex-direction:column;gap:var(--ds-p)} .ds-card-title{font-size:var(--pp-size-lead,18px);font-weight:700;line-height:var(--pp-leading-tight,1.15)} .ds-card-subtitle{font-size:var(--pp-size-small,14px);line-height:var(--pp-leading-tight,1.15);color:var(--pp-text-muted,#4A4470)} @media (hover:hover){.ds-card:hover{translate:0 calc(var(--ds-p)*-1);--ds-d:2}} .ds-card:active{translate:var(--ds-p) var(--ds-p);--ds-d:0} .ds-card:focus-visible{outline:none;filter:var(--ds-dropf) var(--ds-ring)}"
+    },
+    {
+      "name": "App Bar Navigation",
+      "kind": "nav",
+      "refersTo": "nav-item",
+      "description": "The app bar's links on a white panel: ghost boxes 32 px high in bold capitals. Hover fills a link with the sunken surface and shows its outline; the current page sits in as an accent-light chip with an ink outline.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main\"><a class=\"ds-nav-item\" href=\"#\" aria-current=\"page\">Dashboard</a><a class=\"ds-nav-item\" href=\"#\">Players</a><a class=\"ds-nav-item\" href=\"#\">Levels</a></nav>",
+      "css": ".ds-nav{--ds-p:var(--pp-pixel,2px);--ds-o:polygon(calc(100% - var(--ds-p)*4) 0,calc(100% - var(--ds-p)*4) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*4),100% calc(var(--ds-p)*4),100% calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*4) 100%,calc(var(--ds-p)*4) 100%,calc(var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*4),0 calc(100% - var(--ds-p)*4),0 calc(var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*1),calc(var(--ds-p)*4) calc(var(--ds-p)*1),calc(var(--ds-p)*4) 0);--ds-i:polygon(calc(100% - var(--ds-p)*4) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*4) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*4) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*4),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*4),calc(var(--ds-p)*2) calc(var(--ds-p)*4),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*4) calc(var(--ds-p)*2),calc(var(--ds-p)*4) calc(var(--ds-p)*1));--ds-d:1;--ds-dither:transparent;--ds-dropf:drop-shadow(calc(var(--ds-p)*var(--ds-d)) calc(var(--ds-p)*var(--ds-d)) 0 var(--pp-drop,#1A1530));--ds-ring:drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus,#FFCC33)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus,#FFCC33)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus-edge,#1A1530)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus-edge,#1A1530));position:relative;isolation:isolate;box-sizing:border-box;border:0;background:none;filter:var(--ds-dropf)} .ds-nav::before,.ds-nav::after{content:\"\";position:absolute;inset:0;z-index:-1;pointer-events:none} .ds-nav::before{background:var(--ds-ink);clip-path:var(--ds-o)} .ds-nav::after{clip-path:var(--ds-i);background:repeating-conic-gradient(var(--ds-dither) 0 25%,transparent 0 50%) 0 0/calc(var(--ds-p)*2) calc(var(--ds-p)*2),linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*3) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*4) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*2) calc(var(--ds-p)*3)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) right calc(var(--ds-p)*2) top calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-top) 0 calc(var(--ds-p)*var(--ds-bt)),var(--ds-fill) 0 calc(100% - var(--ds-p)*var(--ds-bb)),var(--ds-bottom) 0)} .ds-nav{--ds-ink:var(--pp-outline,#1A1530);--ds-top:var(--pp-surface,#FFFFFF);--ds-fill:var(--pp-surface,#FFFFFF);--ds-bottom:var(--pp-surface,#FFFFFF);--ds-glint:transparent;--ds-bt:1;--ds-bb:1;display:flex;align-items:center;gap:calc(var(--ds-p)*2);min-height:calc(var(--ds-p)*28);padding:calc(var(--ds-p)*3) calc(var(--ds-p)*6);margin:0 var(--ds-p) var(--ds-p) 0;font-family:var(--pp-font-ui,\"Pixelify Sans\",system-ui,sans-serif)} .ds-nav-item{--ds-p:var(--pp-pixel,2px);--ds-o:polygon(calc(100% - var(--ds-p)*3) 0,calc(100% - var(--ds-p)*3) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*3),100% calc(var(--ds-p)*3),100% calc(100% - var(--ds-p)*3),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*3),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*3) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*3) 100%,calc(var(--ds-p)*3) 100%,calc(var(--ds-p)*3) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*3),0 calc(100% - var(--ds-p)*3),0 calc(var(--ds-p)*3),calc(var(--ds-p)*1) calc(var(--ds-p)*3),calc(var(--ds-p)*1) calc(var(--ds-p)*1),calc(var(--ds-p)*3) calc(var(--ds-p)*1),calc(var(--ds-p)*3) 0);--ds-i:polygon(calc(100% - var(--ds-p)*3) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*3) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*3),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*3),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*3),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*3),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*3) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*3) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*3) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*3) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*3),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*3),calc(var(--ds-p)*1) calc(var(--ds-p)*3),calc(var(--ds-p)*2) calc(var(--ds-p)*3),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*3) calc(var(--ds-p)*2),calc(var(--ds-p)*3) calc(var(--ds-p)*1));--ds-d:1;--ds-dither:transparent;--ds-dropf:drop-shadow(calc(var(--ds-p)*var(--ds-d)) calc(var(--ds-p)*var(--ds-d)) 0 var(--pp-drop,#1A1530));--ds-ring:drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus,#FFCC33)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus,#FFCC33)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus-edge,#1A1530)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus-edge,#1A1530));position:relative;isolation:isolate;box-sizing:border-box;border:0;background:none;filter:var(--ds-dropf)} .ds-nav-item::before,.ds-nav-item::after{content:\"\";position:absolute;inset:0;z-index:-1;pointer-events:none} .ds-nav-item::before{background:var(--ds-ink);clip-path:var(--ds-o)} .ds-nav-item::after{clip-path:var(--ds-i);background:repeating-conic-gradient(var(--ds-dither) 0 25%,transparent 0 50%) 0 0/calc(var(--ds-p)*2) calc(var(--ds-p)*2),linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*3) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*4) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*2) calc(var(--ds-p)*3)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) right calc(var(--ds-p)*2) top calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-top) 0 calc(var(--ds-p)*var(--ds-bt)),var(--ds-fill) 0 calc(100% - var(--ds-p)*var(--ds-bb)),var(--ds-bottom) 0)} .ds-nav-item{--ds-ink:transparent;--ds-top:transparent;--ds-fill:transparent;--ds-bottom:transparent;--ds-glint:transparent;--ds-d:0;--ds-bt:1;--ds-bb:1;display:flex;align-items:center;height:calc(var(--ds-p)*16);padding:0 calc(var(--ds-p)*4);font-family:var(--pp-font-ui,\"Pixelify Sans\",system-ui,sans-serif);font-size:var(--pp-size-small,14px);font-weight:700;line-height:1;letter-spacing:var(--pp-tracking-label,0.5px);text-transform:uppercase;white-space:nowrap;color:var(--pp-text,#1A1530);text-decoration:none;filter:none} @media (hover:hover){.ds-nav-item:not([aria-current=\"page\"]):hover{--ds-ink:var(--pp-line,#1A1530);--ds-top:var(--pp-surface-sunken,#E0E8FF);--ds-fill:var(--pp-surface-sunken,#E0E8FF);--ds-bottom:var(--pp-surface-sunken,#E0E8FF)}} .ds-nav-item[aria-current=\"page\"]{--ds-ink:var(--pp-outline,#1A1530);--ds-top:var(--pp-accent-light,#7FC8FF);--ds-fill:var(--pp-accent-light,#7FC8FF);--ds-bottom:var(--pp-accent-light,#7FC8FF);color:var(--pp-accent-on,#1A1530)} .ds-nav-item:focus-visible{outline:none;filter:var(--ds-ring)}"
+    },
+    {
+      "name": "Tile",
+      "kind": "custom",
+      "refersTo": "tile",
+      "description": "The TV's app block: a 28-pixel candy square with a white glyph in an ink outline and its label below. Selected, it lifts two pixels inside a white ring with an ink edge and an arrow bobs above it; with keyboard focus the ring and the arrow turn yellow.",
+      "html": "<ul class=\"ds-tiles\" role=\"list\"><li class=\"ds-tile-item\"><svg class=\"ds-tile-arrow\" viewBox=\"0 0 10 6\" shape-rendering=\"crispEdges\" aria-hidden=\"true\"><path class=\"ds-tile-arrow-ink\" d=\"M1 0h8v1H1zM0 1h10v1H0zM1 2h8v1H1zM2 3h6v1H2zM3 4h4v1H3zM4 5h2v1H4z\"/><path class=\"ds-tile-arrow-fill\" d=\"M1 1h8v1H1zM2 2h6v1H2zM3 3h4v1H3zM4 4h2v1H4z\"/></svg><button class=\"ds-tile\" type=\"button\" aria-pressed=\"true\" aria-labelledby=\"ds-tile-play\"><svg viewBox=\"0 0 12 12\" shape-rendering=\"crispEdges\" aria-hidden=\"true\"><path d=\"M3 2h2v1h2v1h2v1h2v2H9v1H7v1H5v1H3z\"/></svg></button><span class=\"ds-tile-label\" id=\"ds-tile-play\">Play</span></li><li class=\"ds-tile-item\"><svg class=\"ds-tile-arrow\" viewBox=\"0 0 10 6\" shape-rendering=\"crispEdges\" aria-hidden=\"true\"><path class=\"ds-tile-arrow-ink\" d=\"M1 0h8v1H1zM0 1h10v1H0zM1 2h8v1H1zM2 3h6v1H2zM3 4h4v1H3zM4 5h2v1H4z\"/><path class=\"ds-tile-arrow-fill\" d=\"M1 1h8v1H1zM2 2h6v1H2zM3 3h4v1H3zM4 4h2v1H4z\"/></svg><button class=\"ds-tile\" type=\"button\" data-tone=\"red\" aria-pressed=\"false\" aria-labelledby=\"ds-tile-lives\"><svg viewBox=\"0 0 12 12\" shape-rendering=\"crispEdges\" aria-hidden=\"true\"><path d=\"M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z\"/></svg></button><span class=\"ds-tile-label\" id=\"ds-tile-lives\">Lives</span></li></ul>",
+      "css": ".ds-tiles{display:flex;margin:0;padding:0;list-style:none} .ds-tile-item{--ds-p:var(--pp-pixel,2px);position:relative;display:flex;flex-direction:column;align-items:center;gap:calc(var(--ds-p)*3);width:calc(var(--ds-p)*40);padding-top:calc(var(--ds-p)*13)} .ds-tile{--ds-p:var(--pp-pixel,2px);--ds-o:polygon(calc(100% - var(--ds-p)*3) 0,calc(100% - var(--ds-p)*3) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*3),100% calc(var(--ds-p)*3),100% calc(100% - var(--ds-p)*3),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*3),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*3) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*3) 100%,calc(var(--ds-p)*3) 100%,calc(var(--ds-p)*3) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*3),0 calc(100% - var(--ds-p)*3),0 calc(var(--ds-p)*3),calc(var(--ds-p)*1) calc(var(--ds-p)*3),calc(var(--ds-p)*1) calc(var(--ds-p)*1),calc(var(--ds-p)*3) calc(var(--ds-p)*1),calc(var(--ds-p)*3) 0);--ds-i:polygon(calc(100% - var(--ds-p)*3) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*3) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*3),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*3),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*3),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*3),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*3) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*3) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*3) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*3) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*3),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*3),calc(var(--ds-p)*1) calc(var(--ds-p)*3),calc(var(--ds-p)*2) calc(var(--ds-p)*3),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*3) calc(var(--ds-p)*2),calc(var(--ds-p)*3) calc(var(--ds-p)*1));--ds-d:1;--ds-dither:transparent;--ds-dropf:drop-shadow(calc(var(--ds-p)*var(--ds-d)) calc(var(--ds-p)*var(--ds-d)) 0 var(--pp-drop,#1A1530));--ds-ring:drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus,#FFCC33)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus,#FFCC33)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus-edge,#1A1530)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus-edge,#1A1530));position:relative;isolation:isolate;box-sizing:border-box;border:0;background:none;filter:var(--ds-dropf)} .ds-tile::before,.ds-tile::after{content:\"\";position:absolute;inset:0;z-index:-1;pointer-events:none} .ds-tile::before{background:var(--ds-ink);clip-path:var(--ds-o)} .ds-tile::after{clip-path:var(--ds-i);background:repeating-conic-gradient(var(--ds-dither) 0 25%,transparent 0 50%) 0 0/calc(var(--ds-p)*2) calc(var(--ds-p)*2),linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*3) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*4) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*2) calc(var(--ds-p)*3)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) right calc(var(--ds-p)*2) top calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-top) 0 calc(var(--ds-p)*var(--ds-bt)),var(--ds-fill) 0 calc(100% - var(--ds-p)*var(--ds-bb)),var(--ds-bottom) 0)} .ds-tile{--ds-ink:var(--pp-outline,#1A1530);--ds-top:var(--pp-accent-light,#7FC8FF);--ds-fill:var(--pp-accent,#33A3FF);--ds-bottom:var(--pp-accent-shade,#1478D6);--ds-glint:var(--pp-white,#FFFFFF);--ds-bt:7;--ds-bb:6;--ds-ringc:var(--pp-white,#FFFFFF);display:grid;place-items:center;width:calc(var(--ds-p)*28);height:calc(var(--ds-p)*28);padding:0 0 calc(var(--ds-p)*2);margin:0;color:var(--pp-white,#FFFFFF);cursor:pointer} .ds-tile[data-tone=\"red\"]{--ds-top:var(--pp-candy-red-light,#FF7A85);--ds-fill:var(--pp-candy-red,#FF3D4F);--ds-bottom:var(--pp-candy-red-shade,#D11F35)} .ds-tile>svg{width:calc(var(--ds-p)*12);height:calc(var(--ds-p)*12);fill:currentColor;filter:drop-shadow(var(--ds-p) 0 0 var(--pp-outline,#1A1530)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-outline,#1A1530)) drop-shadow(0 var(--ds-p) 0 var(--pp-outline,#1A1530)) drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-outline,#1A1530))} @media (hover:hover){.ds-tile:not([aria-pressed=\"true\"]):hover{translate:0 calc(var(--ds-p)*-1);--ds-d:2}} .ds-tile:not([aria-pressed=\"true\"]):active{translate:var(--ds-p) var(--ds-p);--ds-d:0} .ds-tile:not([aria-pressed=\"true\"]):focus-visible{outline:none;filter:var(--ds-dropf) var(--ds-ring)} .ds-tile[aria-pressed=\"true\"]{translate:0 calc(var(--ds-p)*-2);filter:var(--ds-dropf) drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--ds-ringc)) drop-shadow(0 var(--ds-p) 0 var(--ds-ringc)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--ds-ringc)) drop-shadow(var(--ds-p) 0 0 var(--ds-ringc)) drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus-edge,#1A1530)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus-edge,#1A1530))} .ds-tile[aria-pressed=\"true\"]:active{translate:0 calc(var(--ds-p)*-1)} .ds-tile[aria-pressed=\"true\"]:focus-visible{outline:none;--ds-ringc:var(--pp-focus,#FFCC33)} .ds-tile-arrow{position:absolute;top:0;left:0;right:0;margin:0 auto;width:calc(var(--ds-p)*10);height:calc(var(--ds-p)*6);visibility:hidden;animation:ds-tile-bob calc(2*var(--pp-duration-beat,400ms)) steps(1,jump-end) 6} .ds-tile-arrow-ink{fill:var(--pp-outline,#1A1530)} .ds-tile-arrow-fill{fill:var(--pp-white,#FFFFFF)} .ds-tile-item:has(>.ds-tile[aria-pressed=\"true\"])>.ds-tile-arrow{visibility:visible} .ds-tile-item:has(>.ds-tile[aria-pressed=\"true\"]:focus-visible) .ds-tile-arrow-fill{fill:var(--pp-focus,#FFCC33)} .ds-tile-label{max-width:100%;font-family:var(--pp-font-ui,\"Pixelify Sans\",system-ui,sans-serif);font-size:var(--pp-size-caption,12px);font-weight:700;line-height:var(--pp-leading-tight,1.15);letter-spacing:var(--pp-tracking-label,0.5px);text-align:center;text-transform:uppercase;color:var(--pp-text,#1A1530)} @keyframes ds-tile-bob{0%{translate:0 0}50%,100%{translate:0 calc(var(--ds-p)*-1)}} @media (prefers-reduced-motion:reduce){.ds-tile-arrow{animation:none}}"
+    },
+    {
+      "name": "Dialogue Box",
+      "kind": "custom",
+      "refersTo": "dialogue-box",
+      "description": "The game kit's RPG text box: a Marshmallow candy panel that stays light in every scheme, the speaker's name on a small candy tab in Pixel Bop, and a blinking arrow that turns the page. The real one types each page in a letter every 50 ms.",
+      "html": "<div class=\"ds-dialogue\"><span class=\"ds-dialogue-name\">Bramble</span><p class=\"ds-dialogue-text\">Ah, a traveller! The rope bridge washed out in last night's storm.</p><button class=\"ds-dialogue-next\" type=\"button\" aria-label=\"Next\"><svg viewBox=\"0 0 10 6\" shape-rendering=\"crispEdges\" aria-hidden=\"true\"><path class=\"ds-next-ink\" d=\"M1 0h8v1H1zM0 1h10v1H0zM1 2h8v1H1zM2 3h6v1H2zM3 4h4v1H3zM4 5h2v1H4z\"/><path class=\"ds-next-light\" d=\"M2 1h7v1H2z\"/><path class=\"ds-next-glint\" d=\"M1 1h1v1H1z\"/><path class=\"ds-next-base\" d=\"M2 2h3v1H2zM3 3h2v1H3zM4 4h1v1H4z\"/><path class=\"ds-next-shade\" d=\"M5 2h3v1H5zM5 3h2v1H5zM5 4h1v1H5z\"/></svg></button></div>",
+      "css": ".ds-dialogue{--ds-p:var(--pp-pixel,2px);--ds-o:polygon(calc(100% - var(--ds-p)*4) 0,calc(100% - var(--ds-p)*4) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*4),100% calc(var(--ds-p)*4),100% calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*4) 100%,calc(var(--ds-p)*4) 100%,calc(var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*4),0 calc(100% - var(--ds-p)*4),0 calc(var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*1),calc(var(--ds-p)*4) calc(var(--ds-p)*1),calc(var(--ds-p)*4) 0);--ds-i:polygon(calc(100% - var(--ds-p)*4) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*4) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*4),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*4),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*4) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*4) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*4),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*4),calc(var(--ds-p)*1) calc(var(--ds-p)*4),calc(var(--ds-p)*2) calc(var(--ds-p)*4),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*4) calc(var(--ds-p)*2),calc(var(--ds-p)*4) calc(var(--ds-p)*1));--ds-d:1;--ds-dither:transparent;--ds-dropf:drop-shadow(calc(var(--ds-p)*var(--ds-d)) calc(var(--ds-p)*var(--ds-d)) 0 var(--pp-drop,#1A1530));--ds-ring:drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus,#FFCC33)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus,#FFCC33)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus-edge,#1A1530)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus-edge,#1A1530));position:relative;isolation:isolate;box-sizing:border-box;border:0;background:none;filter:var(--ds-dropf)} .ds-dialogue::before,.ds-dialogue::after{content:\"\";position:absolute;inset:0;z-index:-1;pointer-events:none} .ds-dialogue::before{background:var(--ds-ink);clip-path:var(--ds-o)} .ds-dialogue::after{clip-path:var(--ds-i);background:repeating-conic-gradient(var(--ds-dither) 0 25%,transparent 0 50%) 0 0/calc(var(--ds-p)*2) calc(var(--ds-p)*2),linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*3) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*4) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*2) calc(var(--ds-p)*3)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) right calc(var(--ds-p)*2) top calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-top) 0 calc(var(--ds-p)*var(--ds-bt)),var(--ds-fill) 0 calc(100% - var(--ds-p)*var(--ds-bb)),var(--ds-bottom) 0)} .ds-dialogue{--ds-ink:var(--pp-outline,#1A1530);--ds-top:var(--pp-candy-cream-light,#FFFFFF);--ds-fill:var(--pp-candy-cream,#FFF8EE);--ds-bottom:var(--pp-candy-cream-shade,#EFE3D2);--ds-glint:var(--pp-white,#FFFFFF);--ds-bt:4;--ds-bb:4;display:block;max-width:calc(var(--ds-p)*200);margin:calc(var(--ds-p)*9) var(--ds-p) var(--ds-p) 0;padding:calc(var(--ds-p)*11) calc(var(--ds-p)*12) calc(var(--ds-p)*12) calc(var(--ds-p)*8);font-family:var(--pp-font-ui,\"Pixelify Sans\",system-ui,sans-serif);font-size:var(--pp-size-lead,18px);font-weight:500;line-height:var(--pp-leading-normal,1.5);color:var(--pp-ink,#1A1530)} .ds-dialogue-name{--ds-p:var(--pp-pixel,2px);--ds-o:polygon(calc(100% - var(--ds-p)*2) 0,calc(100% - var(--ds-p)*2) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*2),100% calc(var(--ds-p)*2),100% calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(100% - var(--ds-p)*2) 100%,calc(var(--ds-p)*2) 100%,calc(var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*2),0 calc(100% - var(--ds-p)*2),0 calc(var(--ds-p)*2),calc(var(--ds-p)*1) calc(var(--ds-p)*2),calc(var(--ds-p)*1) calc(var(--ds-p)*1),calc(var(--ds-p)*2) calc(var(--ds-p)*1),calc(var(--ds-p)*2) 0);--ds-i:polygon(calc(100% - var(--ds-p)*2) calc(var(--ds-p)*1),calc(100% - var(--ds-p)*2) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(var(--ds-p)*2),calc(100% - var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(100% - var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*1),calc(var(--ds-p)*2) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(100% - var(--ds-p)*2),calc(var(--ds-p)*1) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*2),calc(var(--ds-p)*2) calc(var(--ds-p)*1));--ds-d:1;--ds-dither:transparent;--ds-dropf:drop-shadow(calc(var(--ds-p)*var(--ds-d)) calc(var(--ds-p)*var(--ds-d)) 0 var(--pp-drop,#1A1530));--ds-ring:drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus,#FFCC33)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus,#FFCC33)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus,#FFCC33)) drop-shadow(0 calc(var(--ds-p)*-1) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(0 var(--ds-p) 0 var(--pp-focus-edge,#1A1530)) drop-shadow(calc(var(--ds-p)*-1) 0 0 var(--pp-focus-edge,#1A1530)) drop-shadow(var(--ds-p) 0 0 var(--pp-focus-edge,#1A1530));position:relative;isolation:isolate;box-sizing:border-box;border:0;background:none;filter:var(--ds-dropf)} .ds-dialogue-name::before,.ds-dialogue-name::after{content:\"\";position:absolute;inset:0;z-index:-1;pointer-events:none} .ds-dialogue-name::before{background:var(--ds-ink);clip-path:var(--ds-o)} .ds-dialogue-name::after{clip-path:var(--ds-i);background:repeating-conic-gradient(var(--ds-dither) 0 25%,transparent 0 50%) 0 0/calc(var(--ds-p)*2) calc(var(--ds-p)*2),linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*2) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) calc(var(--ds-p)*3) calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) var(--ds-p) calc(var(--ds-p)*3)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-glint) 0 0) right var(--ds-p) top calc(var(--ds-p)*2)/var(--ds-p) var(--ds-p) no-repeat,linear-gradient(var(--ds-top) 0 calc(var(--ds-p)*var(--ds-bt)),var(--ds-fill) 0 calc(100% - var(--ds-p)*var(--ds-bb)),var(--ds-bottom) 0)} .ds-dialogue-name{--ds-ink:var(--pp-outline,#1A1530);--ds-top:var(--pp-candy-green-light,#8CF09A);--ds-fill:var(--pp-candy-green,#4CD964);--ds-bottom:var(--pp-candy-green-shade,#2FAE46);--ds-glint:var(--pp-white,#FFFFFF);--ds-bt:3;--ds-bb:3;position:absolute;top:calc(var(--ds-p)*-9);left:calc(var(--ds-p)*10);padding:calc(var(--ds-p)*2) calc(var(--ds-p)*5) var(--ds-p);font-family:var(--pp-font-display,\"Pixel Bop\",\"Pixelify Sans\",system-ui,sans-serif);font-size:calc(var(--ds-p)*10);font-weight:400;line-height:1.2;letter-spacing:0;text-transform:uppercase;white-space:nowrap;color:var(--pp-ink,#1A1530);-webkit-font-smoothing:none} .ds-dialogue-text{margin:0} .ds-dialogue-next{position:absolute;right:calc(var(--ds-p)*4);bottom:calc(var(--ds-p)*2);width:calc(var(--ds-p)*14);height:calc(var(--ds-p)*12);padding:0;border:0;background:none;cursor:pointer} .ds-dialogue-next>svg{position:absolute;left:calc(var(--ds-p)*2);top:calc(var(--ds-p)*3);width:calc(var(--ds-p)*10);height:calc(var(--ds-p)*6);animation:ds-dialogue-blink calc(2*var(--pp-duration-beat,400ms)) steps(1,jump-end) 6} .ds-next-ink{fill:var(--pp-ink,#1A1530)} .ds-next-light{fill:var(--pp-accent-light,#7FC8FF)} .ds-next-glint{fill:var(--pp-white,#FFFFFF)} .ds-next-base{fill:var(--pp-accent,#33A3FF)} .ds-next-shade{fill:var(--pp-accent-shade,#1478D6)} .ds-dialogue-next:focus-visible{outline:var(--ds-p) solid var(--pp-focus,#FFCC33);outline-offset:0;box-shadow:0 0 0 calc(var(--ds-p)*2) var(--pp-focus-edge,#1A1530)} @keyframes ds-dialogue-blink{0%{opacity:1}50%,100%{opacity:0}} @media (prefers-reduced-motion:reduce){.ds-dialogue-next>svg{animation:none}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Candy Box in a Meadow That Keeps Time",
+    "overview": "Blip is a 16-bit world you can build products in. Everything you can act on is the same candy box: a saturated fill in three flat tones (a light band on top, the base, a shade band below), a one-pixel ink outline with stepped corners, a few white glints, and a one-pixel ink drop. Behind the candy lies the meadow: a soft, dithered, outline-free pastel landscape whose sky follows the clock, from Day through Sunset to Night. The difference between the two is the whole interface. Candy means \"press me\"; pastel means \"this is the world\".\n\nThe look is the SNES and Mega Drive era with modern pastel colours: one square pixel size everywhere (2 CSS px by default), two or three tones per colour, hard ink outlines, dithered gradients, and motion that moves a whole pixel at a time in a few even steps. It is chunky and tactile rather than dense: controls are 32, 40 or 48 px tall, every target is at least 24 px, and big words are a pixel display face over a readable pixel sans. Calmer tiers (soft, outline, ghost) let dashboards and forms stay quiet, so a screen is never a wall of candy.\n\nIt is one coherent world, not a retro costume over a generic kit: no smooth radii, no blur, no glow, no see-through washes, no easing curves, no black, no smooth 32-bit shading, no image files and no mascot. It began as the shipped look of an Android TV launcher, where every rule was tested on a box with 1 GB of memory, and it stays that light.",
+    "keyCharacteristics": [
+      "One square pixel (`--pp-pixel`, 2 CSS px by default; 3 or 4 for games and TVs) measures every outline, corner, gap, icon, letter and move.",
+      "Ink (#1A1530), a deep violet, instead of black, for every outline, drop and piece of dark text.",
+      "Ten three-tone candies for what you can act on; soft, dithered pastels for the world behind it.",
+      "Depth from a one-pixel drop, a one-pixel lift and sitting in when pressed; nothing blurs.",
+      "Yellow is focus and nothing else.",
+      "Pixel Bop at whole scales for big words; Pixelify Sans for UI and body text.",
+      "Motion in two to six even steps, instant with reduced motion.",
+      "Three schemes, Day, Sunset and Night, and Auto, which follows the clock."
+    ],
+    "rules": [
+      {
+        "name": "The Light-by-Construction Rule",
+        "body": "No image files. Components are CSS, art is SVG drawn on the pixel grid, and the world is drawn in the browser a pixel at a time, at its own resolution (the TV's picture is 320 x 180 world pixels). Every byte is earned, and the budgets fail the build when one is not (all component CSS 30 KB gzipped, each element 3 KB).",
+        "section": "overview"
+      },
+      {
+        "name": "The Ink Rule",
+        "body": "Nothing is black. The darkest colour is Ink (#1A1530), a deep violet, and every outline, drop, scrim and piece of dark text uses it, so even the shadows belong to the palette.",
+        "section": "colors"
+      },
+      {
+        "name": "The Candy-on-Pastel Rule",
+        "body": "Saturated, outlined colour means \"you can act on this\". The world behind it is soft, dithered and has no outlines, so what you can press is never in doubt. Candy never sits on candy, and the world never wears candy.",
+        "section": "colors"
+      },
+      {
+        "name": "The Yellow Rule",
+        "body": "Yellow means focus. The focus ring is the only yellow in an interface (coins and stars in a game are the exception), so it can never be mistaken for decoration. Warnings are orange.",
+        "section": "colors"
+      },
+      {
+        "name": "The Whole-Scale Rule",
+        "body": "Pixel Bop is set only at font-size = 10 x pixel x scale, with scale 1 to 4, so every letter pixel is a Blip pixel and capitals are 7 x pixel x scale tall (14, 28, 42 and 56 px at the 2 px pixel). Between whole scales its pixels fall between screen pixels and blur or wobble. Scales 2 and 4 round their corners with `ss02` (EPX), scale 3 with `ss03` (AdvMAME3x), so each rounding step is a whole pixel (two at scale 4).",
+        "section": "typography"
+      },
+      {
+        "name": "The Small-Text Exception",
+        "body": "Pixelify Sans is the one thing allowed off the grid, at five fixed sizes (12, 14, 16, 18 and 22 px), because a 7-pixel capital is too small to read at body sizes. Its sizes do not grow with the pixel, so text stays readable when the pixel is 3 or 4.",
+        "section": "typography"
+      },
+      {
+        "name": "The Natural-Case Rule",
+        "body": "Write labels and headings in sentence case and let the CSS set the capitals. Pixel Bop has no lower case, and screen readers, search and copying need the real one.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Pixel Rule",
+        "body": "Every outline, corner step, gap, icon, letter and movement is a whole number of one square pixel. Nothing is blurred, rotated or scaled by a fraction, and no two pixels on a screen differ in size. The only lengths off the grid are Pixelify Sans text and the 1px system borders of Windows high-contrast mode.",
+        "section": "layout"
+      },
+      {
+        "name": "The Container Rule",
+        "body": "Components answer to their container, not to the window, so the same card, grid or app bar lays itself out in a sidebar, a dialog or a whole page.",
+        "section": "layout"
+      },
+      {
+        "name": "The One Light Rule",
+        "body": "One light, top left. Things cast a one-pixel ink drop down and to the right, raised things lift a pixel off it, and pressed and chosen things sit down into it. Nothing blurs and nothing glows.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Dither Rule",
+        "body": "See-through is a dither, never a wash. The scrim behind a dialog is ink on every other pixel, a disabled control is covered by a checkerboard of the page colour, a skeleton fills in with a dither, and the sky's gradient is ordered by a 4 x 4 Bayer matrix. What is behind stays legible as a shape, and colours never mix.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Candy Box Rule",
+        "body": "Everything you can act on is one shape, the candy box, at a different size, radius, tier and tone. A component never draws its own outline, drop, focus ring or dither: it sets the box's variables, so it matches every other component without trying.",
+        "section": "shapes"
+      },
+      {
+        "name": "The Stepped Corner Rule",
+        "body": "Corners are staircases of whole pixels, never a smooth curve: radius 0 to 6 pixels from the tokens (the box also draws 7 and 8). A CSS `border-radius` anywhere breaks the world.",
+        "section": "shapes"
+      },
+      {
+        "name": "The One-Look Rule",
+        "body": "Every state has one look, drawn by the candy box: hover lifts one pixel, pressed sits in its drop, selected sits in with its bands swapped, focus is the yellow ring, disabled is dithered, busy is three stepped dots, invalid is the danger tone. No component invents its own.",
+        "section": "components"
+      },
+      {
+        "name": "The One Candy Rule",
+        "body": "One candy button per view is the main action. Secondary actions are soft; toolbars, tables and forms use outline and ghost, so the candy keeps its meaning.",
+        "section": "components"
+      },
+      {
+        "name": "The Snap Rule",
+        "body": "Nothing eases. Movement goes through 2 to 6 even steps (`steps(n, jump-end)`), a whole pixel at a time, on 40 ms frames, never along a curve; a one-pixel move is a single step. With reduced motion every duration is 0 ms and every effect arrives at once.",
+        "section": "components"
+      }
+    ],
+    "dos": [
+      "**Do** build every pressable thing from the candy box on native HTML (`<button class=\"pp-box pp-button\">`), choosing its tier with `data-variant` and its colour with `data-tone`.",
+      "**Do** colour with the scheme roles (`--pp-surface`, `--pp-text`, `--pp-accent`, `--pp-danger-text`…), so one screen works in Day, Sunset and Night.",
+      "**Do** keep one candy button per view for the main action; use soft for the second action and outline or ghost in toolbars, tables and forms.",
+      "**Do** measure in whole pixels: `--pp-space-N` (0 to 32), `--pp-radius-N` (0 to 6), `--pp-control-sm|md|lg` (32, 40, 48 px) or `calc(N * var(--pp-pixel))`.",
+      "**Do** set big words in Pixel Bop with `.pp-display` and `data-scale` 1 to 4; use POP for titles over the world and OUTLINE for small text over a picture.",
+      "**Do** write labels and headings in sentence case and let the CSS set the capitals.",
+      "**Do** move in `steps(n, jump-end)` with n of 6 or fewer, time it with the duration tokens (40 ms frame, 80 ms nudge, 160 ms glide), and stop it under `prefers-reduced-motion`.",
+      "**Do** show a disabled control with the dither, keeping its colour, so people can still tell what it would do.",
+      "**Do** keep one pixel of room right of and below every candy box for its drop.",
+      "**Do** name icon-only buttons for their action (\"Delete save\", not \"Trash\")."
+    ],
+    "donts": [
+      "**Don't** use black, grey or translucent `rgba()` shadows: Ink (#1A1530) is the darkest colour, and depth is the one-pixel ink drop.",
+      "**Don't** make anything yellow but the focus ring, coins and stars; warnings are Sherbet Orange (#FF7A1A).",
+      "**Don't** put a candy button on a candy background, or an outline on the world: candy stands on pastel.",
+      "**Don't** use `border-radius`, blur, glows, soft shadows, smooth gradients or see-through washes: corners step, drops are one pixel, gradients are dithered.",
+      "**Don't** use `ease`, `linear` or `cubic-bezier()` timing, or rotate, scale or move anything by a fraction of a pixel.",
+      "**Don't** set Pixel Bop between whole scales, letter-space it except in whole pixels, or use it for body text, inputs or long labels.",
+      "**Don't** draw a component's own outline, drop, focus ring or disabled look; set the box's variables instead.",
+      "**Don't** invent a new look for a state: no greyed-out controls, no coloured glow for focus, no spinner that changes a button's size.",
+      "**Don't** put a card inside a card.",
+      "**Don't** ship image files for UI or art: icons are 12 x 12 SVG, sprites are SVG on the grid, and the world is drawn in the browser.",
+      "**Don't** add a mascot or brand logos: the universal system has neither."
+    ]
+  }
+}

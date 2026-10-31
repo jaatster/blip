@@ -1,0 +1,37 @@
+# Makes Linux baselines for the visual tests (font rasterising differs by platform, so CI needs its own). Run it by
+# hand, download the "linux-baselines" artifact, review the pictures, and commit them under
+# tests/visual/__screenshots__/linux.
+name: Visual baselines
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  baselines:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+          cache: pnpm
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+      - name: Font tools
+        run: |
+          python -m venv .tools/venv
+          .tools/venv/bin/pip install --disable-pip-version-check fonttools==4.68.0 brotli==1.2.1
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - run: pnpm --filter @jaatster/blip-tests exec playwright install --with-deps chromium
+      - run: pnpm --filter @jaatster/blip-tests test:visual:update
+      - uses: actions/upload-artifact@v7
+        with:
+          name: linux-baselines
+          path: tests/visual/__screenshots__/linux/

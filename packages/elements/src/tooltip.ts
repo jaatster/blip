@@ -26,6 +26,15 @@ let anchored: boolean | undefined = typeof CSS !== "undefined" && CSS.supports("
 let current: PixelTooltip | null = null;
 let count = 0;
 
+/**
+ * A tooltip for any trigger, following the WAI-ARIA tooltip pattern and WCAG 1.4.13: it describes its trigger,
+ * shows after a beat on hover and at once on keyboard focus, stays while the pointer moves onto it, and hides on
+ * Escape. It sits in the top layer and takes the other side when there is no room.
+ *
+ * @summary A short description that shows on hover and focus.
+ * @attr {string} for - The trigger's id; left out, the element just before the tooltip.
+ * @attr {"top" | "bottom" | "left" | "right"} [placement="top"] - The side it prefers.
+ */
 export class PixelTooltip extends PixelElement {
   static box = true;
   static classes = ["pp-tooltip"];

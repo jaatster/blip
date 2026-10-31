@@ -24,6 +24,16 @@ let uid = 0;
 const id = (el: Element) => el.id || (el.id = `pp-field-${++uid}`);
 type Control = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
 
+/**
+ * Wires a field's label, help, error and count to its control (aria-describedby, aria-invalid, live messages), so
+ * nothing has to be wired by hand.
+ *
+ * @summary A form field that wires its words to its control.
+ * @attr {string} [count-text="{left} characters left"] - What screen readers hear once typing pauses in a field
+ * with a count; {left} is filled in.
+ * @attr {string} role - "group" describes the whole group (a set of checkboxes or radios), not its first control.
+ * @attr {"inline"} data-layout - The label beside the control (--pp-field-label-width, 64 pixels by default).
+ */
 export class PixelField extends PixelElement {
   static classes = ["pp-field"];
 

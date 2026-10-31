@@ -126,7 +126,7 @@
 
   @media (forced-colors: active) {
     .pp-file-drop[data-dragover] > .pp-file-drop-zone { border-style: dashed; }
-    pp-file-drop:defined .pp-file-drop-zone:has(> input:focus-visible) { outline: 2px solid Highlight; outline-offset: 2px; }
+    pp-file-drop:defined .pp-file-drop-zone:has(> input:focus-visible) { outline: var(--pp-pixel) solid Highlight; outline-offset: var(--pp-pixel); }
     .pp-file-drop-remove > span { forced-color-adjust: none; background: ButtonText; }
     .pp-file-drop-remove:disabled > span { background: GrayText; }
   }

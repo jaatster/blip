@@ -87,6 +87,7 @@
 
   /* OUTLINE: one colour, an ink outline, no drop. For small text that can land on any part of a picture. */
   .pp-outline {
+    /* stylelint-disable-next-line blip/whole-pixels -- small Pixelify Sans text takes a half-pixel outline (text may sit off the grid, AUTHORING rule 1) */
     --_p: max(0.5px, calc(var(--pp-pixel) / 2));
     color: var(--pp-white);
     text-shadow:

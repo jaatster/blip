@@ -1,0 +1,4 @@
+public/pp/
+src/generated/
+.astro/
+dist/

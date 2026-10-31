@@ -1,0 +1,41 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Introduction" />
+
+# Blip
+
+A 16-bit pixel-art design system: candy-coloured, ink-outlined controls on a soft dithered world, one square pixel
+size everywhere, and motion that snaps.
+
+## What is here
+
+- **Foundations**: the tokens drawn out: colour roles, type, space and shape, the candy box, motion.
+- **Components**, by group (Actions, Forms, Navigation, Feedback, Data, Layout), then the kits: **Game**, **Blocks**,
+  **Effects**, **Icons** and **Font**.
+- Each component has a **Docs** page (its markdown from `packages/<pkg>/docs`), a **Gallery** story (its example
+  fragment from `packages/<pkg>/examples`, every variant and state), a story for each section of the example that
+  stands on its own, and, for the elements with behaviour, **interaction** stories that test the keyboard and
+  pointer paths.
+
+The stories are generated from those files (`apps/storybook/scripts/generate.mjs`), so Storybook never drifts from
+the examples and docs.
+
+## The toolbar
+
+| Switch | Values | What it does |
+|---|---|---|
+| Scheme | Day, Sunset, Night, Auto | Sets `data-pp-scheme` on the page. Auto follows the clock, as `autoScheme()` does. |
+| Pixel | 2, 3, 4 | Sets `data-pp-pixel`: every size is counted in pixels, so everything scales by whole numbers. |
+| Motion | Full, Reduced | Turns on what `prefers-reduced-motion: reduce` turns on: zero durations, no animations, instant timelines. |
+
+Random numbers are seeded for every story (`provide({ seed: 42 })` from `@jaatster/blip-core`), so worlds and sparkles
+draw the same each time. In the test run the clock is frozen too.
+
+## Tests
+
+- `pnpm --filter @jaatster/blip-storybook test` runs every story in Chromium with Vitest, twice: in Day with full motion,
+  and in Night with reduced motion. Each story renders, the interaction stories play (with real key presses, so
+  native dialogs and popovers react as they do for people), and axe checks the result against WCAG 2.2 AA.
+- The **Interactions** and **Accessibility** panels show the same checks here, with simulated input.
+- Accessibility problems known to sit in a component are listed, with the fix they need, in
+  `tests/a11y/known-issues.ts`; their stories leave exactly those nodes out of the check.

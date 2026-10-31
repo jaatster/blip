@@ -1,0 +1,63 @@
+---
+/** Depth: a one-pixel ink drop; lifted on hover, sat in when pressed or selected; layers; the dithered scrim. */
+import Docs from "../../layouts/Docs.astro";
+import Pager from "../../components/Pager.astro";
+import { tokens } from "../../lib/data";
+
+const t = tokens();
+const H = (id: string, text: string) => ({ depth: 2, id, text });
+---
+<Docs styles={["foundations"]} scripts={["foundations"]} title="Depth" description="Depth in Blip: a one-pixel ink drop down and to the right, a lift on hover, a sit-in when pressed or selected, and a dithered scrim. Nothing blurs." headings={[H("drop", "The drop"), H("lift", "Lift and sit in"), H("scrim", "The scrim"), H("stack", "Above and below")]}>
+  <header class="docs-page-head">
+    <h1 class="docs-page-title pp-display" data-scale="2">Depth</h1>
+    <p class="docs-lede">One light, top left. Things cast a one-pixel ink drop down and to the right; raised things lift a pixel off it; pressed and chosen things sit down into it. Nothing blurs and nothing glows.</p>
+  </header>
+
+  <section class="docs-section" aria-labelledby="drop">
+    <h2 id="drop">The drop</h2>
+    <p>The drop is the box's own outline again, offset by <code class="docs-inline-code">--pp-drop-size</code> pixels: 1 for controls, 2 for things that float (toasts, the open menu), 0 for flat tiers.</p>
+    <div class="docs-depth-row" data-pp-pixel="4">
+      {[0, 1, 2].map((d) => (
+        <figure><div class="pp-box docs-depth-box" data-variant="soft" data-tone="blue" style={`--pp-drop-size:${d}`}></div><figcaption class="docs-label">{d === 0 ? "0, flat" : d === 1 ? "1, a control" : "2, floating"}</figcaption></figure>
+      ))}
+    </div>
+  </section>
+
+  <section class="docs-section" aria-labelledby="lift">
+    <h2 id="lift">Lift and sit in</h2>
+    <p>Three heights, the same for every component. On hover a box rises a pixel and its drop grows a pixel, so the shadow stays where it was. Pressed, it sits in its drop. Selected or on, it stays sat in, and its bands swap, the 16-bit pushed-in look.</p>
+    <div class="docs-depth-row" data-pp-pixel="3">
+      <figure><span class="pp-box pp-button">Rest</span><figcaption class="docs-label">Rest</figcaption></figure>
+      <figure><span class="pp-box pp-button" data-pp-state="hover">Hover</span><figcaption class="docs-label">Lifted</figcaption></figure>
+      <figure><span class="pp-box pp-button" data-pp-state="active">Pressed</span><figcaption class="docs-label">Sits in</figcaption></figure>
+      <figure><button class="pp-box pp-button" type="button" aria-pressed="true" tabindex="-1">On</button><figcaption class="docs-label">Sits in, bands swap</figcaption></figure>
+    </div>
+    <p class="docs-note">Try them: <button class="pp-box pp-button" type="button" data-size="sm" data-variant="soft">Point at me</button> and <button class="pp-box pp-button docs-toggle-demo" type="button" data-size="sm" aria-pressed="false">Press to toggle</button></p>
+  </section>
+
+  <section class="docs-section" aria-labelledby="scrim">
+    <h2 id="scrim">The scrim</h2>
+    <p>Behind a dialog, the page is covered by a dither of ink, every other pixel, never a translucent wash. What is behind stays legible as a shape, and the colours never mix.</p>
+    <div class="docs-scrim-demo">
+      <div class="docs-scrim-page" aria-hidden="true">
+        <span class="pp-box pp-button" data-size="sm">Play</span>
+        <span class="pp-box pp-button" data-size="sm" data-variant="soft" data-tone="pink">Map</span>
+        <p class="pp-small">The page under a dialog.</p>
+      </div>
+      <div class="pp-scrim docs-scrim-layer" aria-hidden="true"></div>
+      <div class="pp-box docs-scrim-dialog" data-variant="panel"><p class="pp-label">Paused</p></div>
+    </div>
+  </section>
+
+  <section class="docs-section" aria-labelledby="stack">
+    <h2 id="stack">Above and below</h2>
+    <p>Things above the page keep their order through the layer tokens: a sticky bar under a dropdown, under the scrim, under a dialog, under its toasts and tooltips.</p>
+    <ol class="docs-stack-diagram" role="list">
+      {Object.keys(t.shared).filter((k) => k.startsWith("layer-")).sort((a, b) => Number(t.shared[b]) - Number(t.shared[a])).map((k, i) => (
+        <li style={`--i:${i}`}><span class="pp-box docs-stack-card" data-variant="panel"><code class="docs-inline-code">--pp-{k}</code> <span class="pp-muted docs-num">{t.shared[k]}</span></span></li>
+      ))}
+    </ol>
+  </section>
+
+  <Pager />
+</Docs>

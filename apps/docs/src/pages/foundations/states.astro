@@ -1,0 +1,59 @@
+---
+/** States: one look per state, the same in every component. Live: each cell is the real component, the state forced. */
+import Docs from "../../layouts/Docs.astro";
+import Pager from "../../components/Pager.astro";
+
+const H = (id: string, text: string) => ({ depth: 2, id, text });
+// [state, how, the rule, button, tab, check, field]
+const rows: { state: string; how: string; rule: string; button: string; tab: string; check: string; field: string }[] = [
+  { state: "Rest", how: "", rule: "The box as it is: bands, glints, a one-pixel drop.", button: `<button class="pp-box pp-button" type="button">Save</button>`, tab: `<span class="pp-box pp-tab" role="presentation">Items</span>`, check: `<span class="pp-box pp-checkbox"><input type="checkbox" aria-label="Rest"></span>`, field: `<span class="pp-box pp-input"><input aria-label="Rest" value="Pip"></span>` },
+  { state: "Hover", how: "pointer", rule: "Lifts one pixel; the light band brightens; its drop grows so the shadow stays put.", button: `<span class="pp-box pp-button" data-pp-state="hover">Save</span>`, tab: `<span class="pp-box pp-tab" data-pp-state="hover">Items</span>`, check: `<span class="pp-box pp-checkbox" data-pp-state="hover"><input type="checkbox" aria-label="Hover" tabindex="-1"></span>`, field: `<span class="pp-box pp-input" data-pp-state="hover"><input aria-label="Hover" value="Pip" tabindex="-1"></span>` },
+  { state: "Focus", how: "keyboard", rule: "A yellow ring with an ink edge, following the stepped corners. Only focus is yellow.", button: `<span class="pp-box pp-button" data-pp-state="focus">Save</span>`, tab: `<span class="pp-box pp-tab" data-pp-state="focus">Items</span>`, check: `<span class="pp-box pp-checkbox" data-pp-state="focus"><input type="checkbox" aria-label="Focus" tabindex="-1"></span>`, field: `<span class="pp-box pp-input" data-pp-state="focus"><input aria-label="Focus" value="Pip" tabindex="-1"></span>` },
+  { state: "Pressed", how: ":active", rule: "Drops one pixel into its shadow.", button: `<span class="pp-box pp-button" data-pp-state="active">Save</span>`, tab: `<span class="pp-box pp-tab" data-pp-state="active">Items</span>`, check: `<span class="pp-box pp-checkbox" data-pp-state="active"><input type="checkbox" aria-label="Pressed" tabindex="-1"></span>`, field: "" },
+  { state: "Selected", how: "aria-pressed, aria-selected, checked", rule: "Sits in, bands swapped: the shade on top, the light below. Fills or ticks where the control has one.", button: `<button class="pp-box pp-button" type="button" aria-pressed="true" tabindex="-1">On</button>`, tab: `<span class="pp-box pp-tab" aria-current="true">Items</span>`, check: `<span class="pp-box pp-checkbox"><input type="checkbox" checked aria-label="Checked" tabindex="-1"></span> <span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box" checked aria-label="On" tabindex="-1"></span>`, field: "" },
+  { state: "Indeterminate", how: "indeterminate", rule: "Half: a bar where the tick would be.", button: "", tab: "", check: `<span class="pp-box pp-checkbox"><input type="checkbox" data-pp-state="indeterminate" aria-label="Some" tabindex="-1"></span>`, field: "" },
+  { state: "Disabled", how: "disabled, aria-disabled", rule: "A checkerboard of the page colour over it. No lift, no drop. Never a grey wash.", button: `<button class="pp-box pp-button" type="button" disabled>Save</button>`, tab: `<span class="pp-box pp-tab" aria-disabled="true">Items</span>`, check: `<span class="pp-box pp-checkbox"><input type="checkbox" disabled aria-label="Disabled"></span>`, field: `<span class="pp-box pp-input"><input aria-label="Disabled" value="Pip" disabled></span>` },
+  { state: "Busy", how: "aria-busy", rule: "Three dots step in where the label was; the size stays the same.", button: `<span class="pp-box pp-button" aria-busy="true" data-pp-interactive>Save</span>`, tab: "", check: "", field: "" },
+  { state: "Invalid", how: "aria-invalid, :user-invalid", rule: "The danger outline, with an icon and a message that says how to fix it.", button: "", tab: "", check: "", field: `<span class="pp-box pp-input"><input aria-label="Invalid" value="pal@" aria-invalid="true" tabindex="-1"></span>` },
+  { state: "Success", how: "data-tone=\"success\"", rule: "The success outline, and words saying what went right.", button: "", tab: "", check: "", field: `<span class="pp-box pp-input" data-tone="success"><input aria-label="Success" value="pixelpal" tabindex="-1"></span>` },
+  { state: "Read only", how: "readonly", rule: "Flat: no bands, no outline. It can be selected and copied.", button: "", tab: "", check: "", field: `<span class="pp-box pp-input"><input aria-label="Read only" value="Pip" readonly tabindex="-1"></span>` },
+];
+---
+<Docs styles={["foundations"]} scripts={["foundations"]} title="States" description="One look per state, in every Blip component: hover lifts, focus is the yellow ring, pressed sits in, selected swaps its bands, disabled is dithered, busy shows stepped dots." headings={[H("table", "One rule per state"), H("why", "Why one rule")]}>
+  <header class="docs-page-head">
+    <h1 class="docs-page-title pp-display" data-scale="2">States</h1>
+    <p class="docs-lede">Every state has one look, and every component wears it the same way, because the candy box draws them all. Learn them once on a button and you can read them on a tab, a checkbox or a field.</p>
+  </header>
+
+  <section class="docs-section" aria-labelledby="table">
+    <h2 id="table">One rule per state</h2>
+    <p>Each cell is the real component, its state forced with <code class="docs-inline-code">data-pp-state</code> where a pointer or a keyboard would set it. The empty cells are states that component does not have.</p>
+    <div class="pp-box pp-table-frame docs-table-frame">
+      <div class="pp-table-scroll docs-states-scroll" role="region" tabindex="0" aria-label="Every state, live">
+        <table class="pp-table docs-states">
+          <thead><tr><th scope="col">State</th><th scope="col">The rule</th><th scope="col">Button</th><th scope="col">Tab</th><th scope="col">Check</th><th scope="col">Field</th></tr></thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr>
+                <th scope="row">{r.state}{r.how && <span class="pp-muted pp-small"><br />{r.how}</span>}</th>
+                <td class="docs-states-rule">{r.rule}</td>
+                <td set:html={r.button} />
+                <td set:html={r.tab} />
+                <td set:html={r.check} />
+                <td set:html={r.field} />
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="docs-section" aria-labelledby="why">
+    <h2 id="why">Why one rule</h2>
+    <p>A state should mean the same thing wherever it appears: a lifted thing can be pressed, a sat-in thing is chosen, a yellow ring is where the keyboard is, a dither is off. Components never invent their own looks for these; they set the box's variables and its states follow.</p>
+    <p>Selection never rests on colour alone: the box sits in and its bands swap, and outline and ghost tiers fill as well. Focus is always visible and never covered. And in Windows high contrast, every state falls back to the system's colours and a real border.</p>
+  </section>
+
+  <Pager />
+</Docs>

@@ -247,7 +247,8 @@
   }
 
   /* Focus: yellow one pixel out, ink one pixel beyond. Drawn by dilating the box's own shape, so it follows the
-     stepped corners exactly. */
+     stepped corners exactly. Public: --pp-box-ring and --pp-box-ring-edge recolour the ring and its edge (default
+     --pp-focus and --pp-focus-edge), for a box on a background where yellow cannot show. */
   .pp-box:focus-visible,
   .pp-box[data-pp-state~="focus"],
   .pp-box:has(> :is(input, select, textarea):focus-visible) {
@@ -304,7 +305,7 @@
     .pp-box { border: 1px solid CanvasText; translate: none !important; filter: none !important; }
     .pp-box::before, .pp-box::after { display: none; }
     .pp-box:is(button, a[href], [role="button"]) { border-color: ButtonText; }
-    .pp-box:focus-visible, .pp-box:has(> :is(input, select, textarea):focus-visible) { outline: 2px solid Highlight; outline-offset: 2px; }
+    .pp-box:focus-visible, .pp-box:has(> :is(input, select, textarea):focus-visible) { outline: var(--pp-pixel) solid Highlight; outline-offset: var(--pp-pixel); }
     .pp-box:is(:disabled, [aria-disabled="true"]) { border-color: GrayText; color: GrayText; }
   }
 }

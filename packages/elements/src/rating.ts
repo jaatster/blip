@@ -12,6 +12,23 @@
  */
 import { PixelElement, rovingFocus, warn } from "@jaatster/blip-core";
 
+/**
+ * A row of stars (or hearts) to set a score, as a radio group. Form-associated: the score goes with the form.
+ *
+ * @summary Set a score with stars or hearts.
+ * @attr {string} name - The form field name.
+ * @attr {number} value - The score, 0 to max. 0 is "not rated" (nothing is sent).
+ * @attr {number} [max=5] - How many stars.
+ * @attr {boolean} readonly - Shows the score; it cannot be changed (it stays in the tab order).
+ * @attr {boolean} disabled - Switched off (also follows a disabled fieldset).
+ * @attr {boolean} required - Invalid while the score is 0.
+ * @attr {string} [required-message="Choose a rating."] - The message while required and not rated.
+ * @attr {string} [star-label="{n} stars"] - Each star's name; {n} and {max} are filled in.
+ * @attr {"heart"} data-shape - Hearts instead of stars.
+ * @fires {CustomEvent<{ value: number }>} pp-change - A star was set by click or key (after input and change).
+ * @cssprop --pp-rating-value - The score drawn (set by the element).
+ * @cssprop --pp-rating-max - How many stars are drawn (set by the element).
+ */
 export class PixelRating extends PixelElement {
   static formAssociated = true;
   static classes = ["pp-rating"];

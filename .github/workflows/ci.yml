@@ -1,0 +1,90 @@
+# Builds everything and runs every check: manifests, CSS lint, size budgets, the stylelint rules, the React
+# wrappers (types, React 18 and 19), unit and visual tests, Storybook and the docs site.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v6 # the version comes from packageManager in package.json
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 26
+          cache: pnpm
+
+      # The font build (packages/font) runs .tools/venv/bin/python with fontTools and Brotli (for WOFF2).
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+      - name: Font tools
+        run: |
+          python -m venv .tools/venv
+          .tools/venv/bin/pip install --disable-pip-version-check fonttools==4.68.0 brotli==1.2.1
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Custom Elements Manifests are up to date
+        run: pnpm cem:check
+
+      - name: Lint CSS
+        run: pnpm lint:css
+
+      - name: Size budgets
+        run: pnpm budgets
+
+      - name: Stylelint rules
+        run: pnpm --filter @jaatster/blip-stylelint-config test
+
+      - name: React (example typecheck, React 18 and 19)
+        run: |
+          pnpm --filter @jaatster/blip-react typecheck
+          pnpm --filter @jaatster/blip-react test
+
+      - name: Playwright Chromium
+        run: pnpm --filter @jaatster/blip-tests exec playwright install --with-deps chromium
+
+      - name: Unit tests
+        run: pnpm --filter @jaatster/blip-tests test
+
+      # Baselines are per platform: Linux ones live in tests/visual/__screenshots__/linux (see visual-baselines.yml).
+      - name: Visual tests
+        run: pnpm --filter @jaatster/blip-tests test:visual
+
+      - name: Storybook
+        run: pnpm --filter @jaatster/blip-storybook build
+
+      - name: Docs site
+        run: pnpm --filter @jaatster/blip-docs build
+
+      - name: Generated files are committed
+        run: git diff --exit-code
+
+      - name: Test results
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: test-results
+          path: |
+            tests/test-results/
+            tests/playwright-report/
+          if-no-files-found: ignore

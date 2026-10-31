@@ -1,0 +1,18 @@
+---
+/** The phone's way round the docs: the sections, an icon over a label. Hidden in a wide shell. */
+import Icon from "./Icon.astro";
+import { SECTIONS, sectionOf } from "../lib/nav";
+const path = Astro.url.pathname;
+const current = sectionOf(path);
+---
+<nav class="pp-box pp-bottom-bar docs-bottom-bar" aria-label="Sections" data-collapse="auto">
+  <ul class="pp-bottom-bar-list" role="list">
+    {SECTIONS.map((s) => (
+      <li>
+        <a class="pp-box pp-bottom-bar-item" data-variant="ghost" href={s.url} aria-current={path === s.url ? "page" : current?.id === s.id ? "true" : undefined}>
+          <Icon name={s.icon} /><span class="pp-bottom-bar-label">{s.short}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>

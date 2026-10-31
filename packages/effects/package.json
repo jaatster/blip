@@ -1,9 +1,26 @@
 {
+  "name": "@jaatster/blip-effects",
   "version": "0.1.0",
+  "description": "Blip effects: dithered world backdrops, transitions, text effects, bursts, CRT filter, time of day. All opt-in, all honour reduced motion.",
+  "keywords": [
+    "blip",
+    "pixel-art",
+    "design-system",
+    "effects",
+    "dither",
+    "transitions",
+    "canvas",
+    "view-transitions"
+  ],
+  "homepage": "https://github.com/jaatster/blip/tree/main/packages/effects#readme",
+  "bugs": "https://github.com/jaatster/blip/issues",
+  "repository": {
+    "type": "git",
+    "url": "github:blip/blip",
+    "directory": "packages/effects"
+  },
   "license": "MIT",
   "type": "module",
-  "name": "@jaatster/blip-effects",
-  "description": "Blip effects: dithered world backdrops, transitions, text effects, bursts, CRT filter, time of day. All opt-in, all honour reduced motion.",
   "sideEffects": [
     "*.css",
     "./dist/*.js"
@@ -15,17 +32,32 @@
     },
     "./effects.css": "./dist/effects.css",
     "./*.css": "./dist/*.css",
+    "./*.js": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    },
     "./*": {
       "types": "./dist/*.d.ts",
       "default": "./dist/*.js"
-    }
+    },
+    "./custom-elements.json": "./custom-elements.json",
+    "./package.json": "./package.json"
   },
+  "customElements": "custom-elements.json",
   "files": [
     "dist",
     "src",
     "docs",
-    "examples"
+    "examples",
+    "CHANGELOG.md",
+    "custom-elements.json"
   ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "node ../../scripts/build-css-package.mjs effects && node ../../scripts/build-ts-package.mjs effects"
   },

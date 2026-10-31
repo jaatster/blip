@@ -1,0 +1,54 @@
+{
+  "name": "@jaatster/blip-stylelint-config",
+  "version": "0.1.0",
+  "description": "Stylelint rules for Blip: no raw colours, whole pixels only, stepped motion, known tokens.",
+  "keywords": [
+    "blip",
+    "stylelint",
+    "stylelint-config",
+    "stylelint-plugin",
+    "design-tokens"
+  ],
+  "homepage": "https://github.com/jaatster/blip/tree/main/packages/stylelint-config#readme",
+  "bugs": "https://github.com/jaatster/blip/issues",
+  "repository": {
+    "type": "git",
+    "url": "github:blip/blip",
+    "directory": "packages/stylelint-config"
+  },
+  "license": "MIT",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./index.js",
+    "./plugin": "./plugin/index.js",
+    "./public-properties.json": "./public-properties.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "plugin",
+    "public-properties.json",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "node scripts/public-properties.mjs",
+    "test": "node --test \"test/*.test.js\""
+  },
+  "dependencies": {
+    "@jaatster/blip-tokens": "workspace:*",
+    "postcss-value-parser": "^4.2.0"
+  },
+  "peerDependencies": {
+    "stylelint": ">=16.0.0"
+  },
+  "devDependencies": {
+    "stylelint": "^17.16.0"
+  }
+}

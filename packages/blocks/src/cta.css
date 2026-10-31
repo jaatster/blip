@@ -31,7 +31,8 @@
   }
   .pp-cta > :is(h2, h3, p) { margin: 0; }
 
-  /* On the world: the sky in bands from the horizon up, over the ground strip. */
+  /* On the world: the sky in bands from the horizon up, over the ground strip. Public: --pp-cta-band, each sky
+     band's height in pixels (8). */
   .pp-cta:not(.pp-box) {
     --_b: var(--pp-cta-band, 8);
     --_g: 14;

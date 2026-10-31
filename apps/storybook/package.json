@@ -1,0 +1,36 @@
+{
+  "name": "@jaatster/blip-storybook",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Blip's Storybook: every example, its states, docs from the component markdown, interaction and accessibility tests.",
+  "license": "MIT",
+  "scripts": {
+    "generate": "node scripts/generate.mjs",
+    "dev": "node scripts/generate.mjs && storybook dev -p 6006",
+    "build": "node scripts/generate.mjs && storybook build -o storybook-static",
+    "test": "node scripts/generate.mjs && vitest run"
+  },
+  "devDependencies": {
+    "@jaatster/blip-blocks": "workspace:*",
+    "@jaatster/blip-components": "workspace:*",
+    "@jaatster/blip-core": "workspace:*",
+    "@jaatster/blip-effects": "workspace:*",
+    "@jaatster/blip-elements": "workspace:*",
+    "@jaatster/blip-font": "workspace:*",
+    "@jaatster/blip-game": "workspace:*",
+    "@jaatster/blip-icons": "workspace:*",
+    "@jaatster/blip-sound": "workspace:*",
+    "@jaatster/blip-tokens": "workspace:*",
+    "@storybook/addon-a11y": "^10.6.5",
+    "@storybook/addon-docs": "^10.6.5",
+    "@storybook/addon-vitest": "^10.6.5",
+    "@storybook/html-vite": "^10.6.5",
+    "@vitest/browser-playwright": "^5.0.5",
+    "parse5": "^8.0.1",
+    "playwright": "^1.64.1",
+    "storybook": "^10.6.5",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
+  }
+}

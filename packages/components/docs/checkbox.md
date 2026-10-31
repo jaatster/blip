@@ -25,7 +25,7 @@ off, candy with an ink pixel check when on, candy with an ink bar when only some
 
 ## Anatomy
 
-1. **Box**: 11 pixels square (9 small, 13 large), radius 2 (3 large). Off: line outline, surface, a sunken inset row. On: candy
+1. **Box**: 11 pixels square (9 small, 13 large), radius 2 (1 small, 3 large). Off: line outline, surface, a sunken inset row. On: candy
    that sits in (shade row on top, light row below), ink outline.
 2. **Glyph**: a 7 x 7 pixel check (5 x 5 small), or a bar when indeterminate, in ink.
 3. **Input**: the native checkbox, invisible, covering the box and one pixel more (a 26 px target).

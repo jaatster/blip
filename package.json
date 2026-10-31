@@ -6,17 +6,31 @@
   "license": "MIT",
   "packageManager": "pnpm@10.11.0",
   "engines": {
-    "node": ">=20"
+    "node": ">=22.11"
   },
   "scripts": {
-    "build": "pnpm --filter \"./packages/**\" run build",
+    "build": "pnpm -r --filter \"./packages/**\" run build",
     "build:tokens": "pnpm --filter @jaatster/blip-tokens run build",
-    "test": "vitest run",
+    "cem": "node scripts/cem.mjs",
+    "cem:check": "node scripts/cem.mjs --check",
+    "lint:css": "node packages/stylelint-config/scripts/public-properties.mjs && stylelint \"packages/*/src/**/*.css\"",
+    "budgets": "node scripts/budgets.mjs",
+    "test": "pnpm --filter @jaatster/blip-tests test",
+    "test:visual": "pnpm --filter @jaatster/blip-tests test:visual",
+    "test:react": "pnpm --filter @jaatster/blip-react test",
+    "check": "pnpm cem:check && pnpm lint:css && pnpm budgets && pnpm --filter @jaatster/blip-react typecheck",
+    "changeset": "changeset",
+    "version-packages": "changeset version && pnpm install --lockfile-only",
+    "release": "pnpm build && pnpm budgets && changeset publish",
     "specimen": "node scripts/serve.mjs specimen"
   },
   "devDependencies": {
+    "@changesets/cli": "^3.0.3",
+    "@custom-elements-manifest/analyzer": "^0.11.0",
     "esbuild": "^0.28.2",
     "playwright": "^1.64.1",
+    "postcss-value-parser": "^4.2.0",
+    "stylelint": "^17.16.0",
     "typescript": "^7.0.2",
     "vitest": "^5.0.5"
   }

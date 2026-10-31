@@ -223,7 +223,7 @@
 
   @media (forced-colors: active) {
     .pp-menu-item { border-color: Canvas; }
-    .pp-menu-item:is(:focus, [data-pp-state~="focus"]) { outline: 2px solid Highlight; outline-offset: -2px; }
+    .pp-menu-item:is(:focus, [data-pp-state~="focus"]) { outline: var(--pp-pixel) solid Highlight; outline-offset: calc(-1 * var(--pp-pixel)); }
     .pp-menu-label::before,
     .pp-menu-label::after { forced-color-adjust: none; background-color: currentColor; }
     .pp-menu-separator { background: CanvasText; }

@@ -1,0 +1,27 @@
+---
+/**
+ * Search: the system's own command palette. Its results come from /search.json the first time it opens (a small
+ * index of every page, built with the site); with JavaScript off, the search button is a link to the full list.
+ */
+import Icon from "./Icon.astro";
+interface Props {
+  shortcut?: string;
+}
+const { shortcut = "mod+k" } = Astro.props;
+---
+<pp-command class="docs-search" shortcut={shortcut}>
+  <dialog id="docs-search" class="pp-box pp-command pp-pop-in" aria-label="Search the docs" closedby="any">
+    <div class="pp-command-search">
+      <Icon name="search" />
+      <input class="pp-command-input" type="text" aria-label="Search pages and components" placeholder="Search pages and components" />
+    </div>
+    <div class="pp-command-results" role="listbox" aria-label="Results"></div>
+    <p class="pp-command-empty" hidden>Nothing matches. Try a component, a foundation or a token's name.</p>
+    <p class="pp-sr-only" role="status"></p>
+    <div class="pp-command-footer" aria-hidden="true">
+      <span><kbd class="pp-box pp-keycap" data-size="sm">Up</kbd><kbd class="pp-box pp-keycap" data-size="sm">Down</kbd> Move</span>
+      <span><kbd class="pp-box pp-keycap" data-size="sm">Enter</kbd> Open</span>
+      <span><kbd class="pp-box pp-keycap" data-size="sm">Esc</kbd> Close</span>
+    </div>
+  </dialog>
+</pp-command>

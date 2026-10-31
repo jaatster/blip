@@ -1,0 +1,56 @@
+---
+/**
+ * The docs shell, from the system's own navigation: the app bar on top, the section's sidebar at the side (a drawer
+ * on narrower screens), "On this page" on wide ones, and the bottom bar on phones. All of it answers to the
+ * pp-shell container, as the app bar's docs describe.
+ */
+import Base from "./Base.astro";
+import AppBar from "../components/AppBar.astro";
+import Sidebar from "../components/Sidebar.astro";
+import Search from "../components/Search.astro";
+import BottomBar from "../components/BottomBar.astro";
+import Footer from "../components/Footer.astro";
+import Toc from "../components/Toc.astro";
+import Icon from "../components/Icon.astro";
+import { sectionOf } from "../lib/nav";
+import type { Heading } from "../lib/markdown";
+
+interface Props {
+  title: string;
+  description?: string;
+  headings?: Heading[];
+  kits?: ("game" | "blocks" | "effects")[];
+  styles?: string[];
+  scripts?: string[];
+  display?: boolean;
+  /** No sidebar: the page uses the whole width (home, theme builder). */
+  wide?: boolean;
+  /** The search palette's shortcut, when the page's own example already uses Ctrl+K. */
+  searchShortcut?: string;
+  bodyClass?: string;
+}
+const { title, description, headings = [], kits, styles, scripts, display, wide = false, searchShortcut, bodyClass } = Astro.props;
+const section = sectionOf(Astro.url.pathname);
+const groups = section?.groups() ?? [];
+const sidebar = !wide && section && groups.length > 0;
+const toc = headings.filter((h) => h.depth === 2).length > 2;
+---
+<Base title={title} description={description} kits={kits} styles={styles} scripts={scripts} display={display} bodyClass={bodyClass}>
+  <a class="pp-box pp-skip-link" href="#main">Skip to content</a>
+  <div class="docs-shell" data-layout={sidebar ? (toc ? "side toc" : "side") : "wide"}>
+    <div class="docs-top"><AppBar /></div>
+    {sidebar && section && <Sidebar section={section} />}
+    <main id="main" tabindex="-1" class="docs-main">
+      {sidebar && section && (
+        <button class="pp-box pp-button docs-nav-toggle" type="button" data-variant="soft" data-tone="neutral" data-size="sm" popovertarget="docs-nav">
+          <Icon name="list" />{section.id === "components" ? "All components" : `${section.title}: all pages`}
+        </button>
+      )}
+      <slot />
+    </main>
+    {sidebar && toc && <aside class="docs-aside"><Toc headings={headings} /></aside>}
+    <Footer />
+    <BottomBar />
+  </div>
+  <Search shortcut={searchShortcut} />
+</Base>

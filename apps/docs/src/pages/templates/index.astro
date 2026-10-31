@@ -1,0 +1,34 @@
+---
+/** The templates: three whole screens, each shown live here and full screen on its own page. */
+import Docs from "../../layouts/Docs.astro";
+import Icon from "../../components/Icon.astro";
+import Pager from "../../components/Pager.astro";
+import { TEMPLATES } from "../../lib/nav";
+const parts: Record<string, string> = {
+  dashboard: "App bar, sidebar, bottom bar, breadcrumbs, segmented control, stats, progress bars, a sortable table, avatars, tags, a menu and toasts.",
+  landing: "Hero, features, pricing, call to action and footer from @jaatster/blip-blocks, on the world from @jaatster/blip-effects.",
+  game: "The world, POP and drop-in letters, a press-start prompt, choices, a window of options, the HUD, a talking dialogue and the pause menu.",
+};
+---
+<Docs title="Templates" description="Three whole screens built only from Blip: a dashboard, a landing page and a game menu." styles={["templates"]} headings={TEMPLATES.map((t) => ({ depth: 2, id: t.slug, text: t.title }))}>
+  <header class="docs-page-head">
+    <h1 class="docs-page-title pp-display" data-scale="2">Templates</h1>
+    <p class="docs-lede">Three whole screens made of nothing but Blip parts. Each runs live below at its real size; open one to use it full screen. Their markup is the place to start your own.</p>
+  </header>
+  <div class="tpl-index">
+    {TEMPLATES.map((t) => (
+      <section class="tpl-index-item" aria-labelledby={t.slug}>
+        <div class="tpl-index-text">
+          <h2 id={t.slug}><Icon name={t.icon!} /> {t.title}</h2>
+          <p>{t.blurb}</p>
+          <p class="pp-small pp-muted">{parts[t.slug]}</p>
+          <a class="pp-box pp-button" href={t.url} data-size="sm"><Icon name="maximize" />Open full screen</a>
+        </div>
+        <div class="pp-box tpl-preview" data-variant="panel">
+          <iframe src={t.url} title={`${t.title}, a live preview`} loading="lazy" tabindex="-1" inert></iframe>
+        </div>
+      </section>
+    ))}
+  </div>
+  <Pager />
+</Docs>

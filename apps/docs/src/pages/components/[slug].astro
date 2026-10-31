@@ -1,0 +1,98 @@
+---
+/**
+ * One page per component, from the package's own docs/<name>.md and examples/<name>.html: the example rendered live,
+ * its source, the markdown's sections, the element reference (from the Custom Elements Manifest when there is one)
+ * and how to use it from React.
+ */
+import Docs from "../../layouts/Docs.astro";
+import Example from "../../components/Example.astro";
+import Table from "../../components/Table.astro";
+import Pager from "../../components/Pager.astro";
+import { componentDocs, docLink, example, type Doc } from "../../lib/data";
+import { codeBlock, renderMarkdown, type Heading } from "../../lib/markdown";
+import { elementReference } from "../../lib/cem";
+import { code, esc, kitsFor, stripTags } from "../../lib/html";
+import { reactEntryFor } from "../../lib/react";
+
+export function getStaticPaths() {
+  return componentDocs().map((doc) => ({ params: { slug: doc.slug }, props: { doc } }));
+}
+interface Props {
+  doc: Doc;
+}
+const { doc } = Astro.props;
+const { meta } = doc;
+const r = await renderMarkdown(doc.source, { link: docLink(doc.pkg) });
+const ex = doc.example ? example(doc.example) : null;
+const kits = kitsFor(ex?.html ?? "", doc.pkg);
+const elements = (meta.element ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+const refs = elements.map((t) => elementReference(t)).filter((x) => !!x);
+
+const preferred = doc.pkg === "components" || doc.pkg === "elements" ? "@jaatster/blip-react" : `@jaatster/blip-react/${doc.pkg}`;
+// Only what @jaatster/blip-react really exports today, read from its source.
+const reactEntry = meta.react ? reactEntryFor(meta.react, preferred) : undefined;
+const reactCode = meta.react && reactEntry
+  ? await codeBlock(`import { ${meta.react} } from "${reactEntry}";\n\n// Props mirror the attributes: data-variant is variant, data-tone tone, data-size size,\n// data-pp-r radius; the element's pp-* events are on* props (pp-change is onChange).`, "tsx", "TSX")
+  : "";
+
+const headings: Heading[] = [
+  ...(ex ? [{ depth: 2, id: "example", text: "Example" }] : []),
+  ...r.headings,
+  ...(refs.length ? [{ depth: 2, id: "element-reference", text: "Element reference" }] : []),
+  ...(meta.react ? [{ depth: 2, id: "react", text: "React" }] : []),
+];
+const statusTone = meta.status === "stable" ? "success" : meta.status === "beta" ? "info" : "warning";
+// The command palette's own example already answers to Ctrl+K: the site's search steps aside to "/".
+const searchShortcut = ex && /<pp-command[\s>]/.test(ex.html) ? "/" : undefined;
+---
+<Docs title={meta.name} description={stripTags(r.lede)} headings={headings} kits={kits} searchShortcut={searchShortcut} display>
+  <header class="docs-page-head">
+    <h1 class="docs-page-title pp-display" data-scale="2">{meta.name}</h1>
+    <p class="docs-lede" set:html={r.lede} />
+    <ul class="docs-meta" role="list" aria-label="About this component">
+      <li><span class="pp-box pp-tag" data-size="sm" data-tone={statusTone}>{meta.status}</span></li>
+      <li><span class="docs-meta-key">Package</span> <code class="docs-inline-code">{meta.package}</code></li>
+      {meta.css && <li><span class="docs-meta-key">CSS</span> <code class="docs-inline-code">{meta.css}</code></li>}
+      {elements.length > 0 && <li><span class="docs-meta-key">Element</span> {elements.map((t) => <code class="docs-inline-code">{`<${t}>`}</code>)}</li>}
+      {meta.react && <li><span class="docs-meta-key">React</span> <code class="docs-inline-code">{`<${meta.react}>`}</code></li>}
+    </ul>
+  </header>
+
+  {ex && <Example id="example" html={ex.html} source={ex.source} note={ex.note} />}
+
+  <div class="docs-prose docs-section" set:html={r.html} />
+
+  {refs.length > 0 && (
+    <section class="docs-section" aria-labelledby="element-reference">
+      <h2 id="element-reference">Element reference</h2>
+      <p>Generated from the package's Custom Elements Manifest, the same file the React types and Storybook read.</p>
+      {refs.map((ref) => (
+        <div class="docs-stack">
+          <h3 class="docs-ref-title"><code class="docs-inline-code">{`<${ref.tag}>`}</code> <span class="pp-muted pp-small">{ref.module}</span></h3>
+          {ref.summary && <p class="docs-note">{ref.summary}</p>}
+          {ref.attributes.length > 0 && <Table label={`${ref.tag} attributes`} head={["Attribute", "Type", "Default", ""]} rows={ref.attributes.map((a) => [code(a.name), a.type ? code(a.type) : "", a.default ? code(a.default) : "", esc(a.description)])} />}
+          {ref.properties.length > 0 && <Table label={`${ref.tag} properties`} head={["Property", "Type", ""]} rows={ref.properties.map((p) => [code(p.name) + (p.readonly ? ' <span class="pp-muted">read only</span>' : ""), p.type ? code(p.type) : "", esc(p.description)])} />}
+          {ref.methods.length > 0 && <Table label={`${ref.tag} methods`} head={["Method", ""]} rows={ref.methods.map((m) => [code(m.signature), esc(m.description)])} />}
+          {ref.events.length > 0 && <Table label={`${ref.tag} events`} head={["Event", "Detail", ""]} rows={ref.events.map((e) => [code(e.name), e.type ? code(e.type) : "", esc(e.description)])} />}
+        </div>
+      ))}
+    </section>
+  )}
+
+  {meta.react && (
+    <section class="docs-section" aria-labelledby="react">
+      <h2 id="react">React</h2>
+      {reactEntry ? (
+        <p>
+          <code class="docs-inline-code">{`<${meta.react}>`}</code> from <code class="docs-inline-code">{reactEntry}</code> renders the markup above
+          {elements.length > 0 ? " and loads its element" : ""}, with typed props for the attributes. Load the CSS once, as for plain HTML.
+        </p>
+      ) : (
+        <p><code class="docs-inline-code">{`<${meta.react}>`}</code> is planned for <code class="docs-inline-code">{preferred}</code> but is not in the package yet. Until it is, write the markup above in JSX (<code class="docs-inline-code">class</code> becomes <code class="docs-inline-code">className</code>); everything else carries over.</p>
+      )}
+      {reactCode && <Fragment set:html={reactCode} />}
+    </section>
+  )}
+
+  <Pager />
+</Docs>

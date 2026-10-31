@@ -166,7 +166,7 @@
     .pp-app-bar[data-collapse="medium"] .pp-app-bar-links:not(:popover-open) { display: none; }
   }
   @container pp-app-bar (width < 400px) {
-    .pp-app-bar-brand .pp-display { --pp-scale: 1; }
+    .pp-app-bar-brand .pp-display { --pp-scale: 1; font-feature-settings: normal; }
   }
   /* Narrower still, a brand with a mark keeps just the mark; the wordmark stays as the link's name. */
   @container pp-app-bar (width < 360px) {

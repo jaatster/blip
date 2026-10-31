@@ -18,7 +18,6 @@ icon-heading-text cards.
 ```html
 <section class="pp-features" aria-labelledby="features-title">
   <header class="pp-features-head">
-    <p class="pp-features-eyebrow">The game</p>
     <h2 class="pp-features-title" id="features-title">A small world that keeps time</h2>
     <p class="pp-features-lead">Sixty short levels, made to be played a few at a time.</p>
   </header>
@@ -48,7 +47,7 @@ icon-heading-text cards.
 
 ## Anatomy
 
-1. **Head** (`.pp-features-head`): eyebrow, title, lead.
+1. **Head** (`.pp-features-head`): title, lead.
 2. **Grid** (`.pp-features-grid`): one column below 600 px wide (medium), two below 1024 px (wide), then six.
 3. **Feature** (`.pp-feature`): a candy box (panel or soft) with an icon, a title and text.
 4. **Media** (`.pp-feature-media`): the lead's picture slot; it grows to fill the lead's two rows.

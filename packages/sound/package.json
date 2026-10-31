@@ -1,21 +1,44 @@
 {
+  "name": "@jaatster/blip-sound",
   "version": "0.1.0",
+  "description": "Blip chip sounds, synthesised in the browser with Web Audio: no audio files. Off until enabled.",
+  "keywords": [
+    "blip",
+    "pixel-art",
+    "design-system",
+    "chiptune",
+    "web-audio",
+    "sound-effects"
+  ],
+  "homepage": "https://github.com/jaatster/blip/tree/main/packages/sound#readme",
+  "bugs": "https://github.com/jaatster/blip/issues",
+  "repository": {
+    "type": "git",
+    "url": "github:blip/blip",
+    "directory": "packages/sound"
+  },
   "license": "MIT",
   "type": "module",
-  "name": "@jaatster/blip-sound",
-  "description": "Blip chip sounds, synthesised in the browser with Web Audio: no audio files. Off until enabled.",
   "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "dist",
     "src",
-    "docs"
+    "docs",
+    "CHANGELOG.md"
   ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "node ../../scripts/build-ts-package.mjs sound"
   },

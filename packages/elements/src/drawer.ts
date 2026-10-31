@@ -10,6 +10,12 @@
  */
 import { Overlay } from "./_overlay.js";
 
+/**
+ * A side sheet: the same modal behaviour as <pp-dialog> around a <dialog class="pp-box pp-drawer">, which slides in
+ * and out from its data-side in six whole-pixel steps.
+ *
+ * @summary A modal side sheet around one <dialog class="pp-box pp-drawer">.
+ */
 export class PixelDrawer extends Overlay {}
 
 PixelDrawer.define("pp-drawer", PixelDrawer);

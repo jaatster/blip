@@ -1,0 +1,17 @@
+---
+/** "On this page": the page's second-level headings, beside the content on wide screens. */
+import type { Heading } from "../lib/markdown";
+interface Props {
+  headings: Heading[];
+}
+const { headings } = Astro.props;
+const list = headings.filter((h) => h.depth === 2);
+---
+{list.length > 2 && (
+  <nav class="docs-toc" aria-labelledby="docs-toc-title">
+    <p class="docs-toc-title" id="docs-toc-title">On this page</p>
+    <ul role="list">
+      {list.map((h) => <li><a href={`#${h.id}`}>{h.text}</a></li>)}
+    </ul>
+  </nav>
+)}

@@ -13,6 +13,13 @@ export interface ChoiceDetail {
   label: string;
 }
 
+/**
+ * Keyboard and events for a list of choices: Up and Down move between them (they wrap), Home and End jump to the
+ * ends, and only one choice is in the tab order.
+ *
+ * @summary A list of answers to pick from with the keys.
+ * @fires {CustomEvent<ChoiceDetail>} pp-choice - A choice was clicked or pressed.
+ */
 export class PixelChoices extends PixelElement {
   #roving?: { focus: (i: number) => void; sync: () => void };
 

@@ -1,0 +1,16 @@
+---
+/** A template, full screen: the page is the template, with no docs around it. Its own UI holds the way back. */
+import Base from "./Base.astro";
+interface Props {
+  title: string;
+  description: string;
+  kits?: ("game" | "blocks" | "effects")[];
+  scripts?: string[];
+  bodyClass?: string;
+  display?: boolean;
+}
+const { title, description, kits, scripts, bodyClass, display } = Astro.props;
+---
+<Base title={title} description={description} kits={kits} styles={["templates"]} scripts={scripts} bodyClass={bodyClass} display={display}>
+  <slot />
+</Base>

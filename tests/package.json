@@ -1,0 +1,33 @@
+{
+  "name": "@jaatster/blip-tests",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Blip's unit tests (Vitest), visual regression and accessibility scans (Playwright).",
+  "license": "MIT",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:visual": "playwright test --project=visual",
+    "test:visual:update": "playwright test --project=visual --update-snapshots=all",
+    "test:a11y": "playwright test --project=a11y"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@jaatster/blip-blocks": "workspace:*",
+    "@jaatster/blip-components": "workspace:*",
+    "@jaatster/blip-core": "workspace:*",
+    "@jaatster/blip-effects": "workspace:*",
+    "@jaatster/blip-elements": "workspace:*",
+    "@jaatster/blip-font": "workspace:*",
+    "@jaatster/blip-game": "workspace:*",
+    "@jaatster/blip-icons": "workspace:*",
+    "@jaatster/blip-sound": "workspace:*",
+    "@jaatster/blip-tokens": "workspace:*",
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^26.6.6",
+    "@vitest/browser-playwright": "^5.0.5",
+    "playwright": "^1.64.1",
+    "vitest": "^5.0.5"
+  }
+}

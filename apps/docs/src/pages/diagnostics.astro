@@ -1,0 +1,63 @@
+---
+/**
+ * Diagnostics: every PP- code found in the packages' source when the site builds, where it is raised, the message,
+ * and what it means. A code that appears in the source without a note here still shows, with its message.
+ */
+import Docs from "../layouts/Docs.astro";
+import Pager from "../components/Pager.astro";
+import { diagnostics } from "../lib/data";
+import { NOTES } from "../lib/diagnostics-notes";
+
+const codes = [...diagnostics()];
+const runtime = codes.filter(([, occ]) => occ.some((o) => !o.file.includes("/scripts/")));
+const build = codes.filter(([, occ]) => occ.every((o) => o.file.includes("/scripts/")));
+const families: Record<string, string> = { A: "Accessibility", C: "Command palette", E: "Elements", I: "Icons", M: "Menu", N: "Tabs", T: "Tokens", W: "World" };
+const H = (id: string, text: string) => ({ depth: 2, id, text });
+const shared = codes.filter(([c]) => NOTES[c]?.shared);
+---
+<Docs title="Diagnostics" description="Blip's diagnostic codes: what each warning and build error means, where it comes from, and how to fix it." headings={[H("how", "How diagnostics work"), H("runtime", "In the browser"), H("build", "When the tokens build")]}>
+  <header class="docs-page-head">
+    <h1 class="docs-page-title pp-display" data-scale="2">Diagnostics</h1>
+    <p class="docs-lede">Blip explains itself. In development, elements warn in the console with a code and a link here; the token build stops with a code, the file, the exact spot and the fix. These {codes.length} codes were found in the source when this site was built.</p>
+  </header>
+
+  <section class="docs-section" aria-labelledby="how">
+    <h2 id="how">How diagnostics work</h2>
+    <p>Browser warnings are on when the page runs on <code class="docs-inline-code">localhost</code>, or when <code class="docs-inline-code">globalThis.BLIP_DIAGNOSTICS</code> is <code class="docs-inline-code">true</code>; set it to <code class="docs-inline-code">false</code> to silence them. Each warning is shown once per message. Build errors always stop the build.</p>
+    {shared.length > 0 && (
+      <p class="docs-note">One code, more than one meaning: {shared.map(([c], i) => <Fragment>{i > 0 && ", "}<a href={`#${c.toLowerCase()}`}>{c}</a></Fragment>)} {shared.length === 1 ? "is" : "are"} raised for different problems in different packages. Each place is listed under the code.</p>
+    )}
+  </section>
+
+  {[["runtime", "In the browser", runtime], ["build", "When the tokens build", build]].map(([id, title, list]) => (
+    <section class="docs-section" aria-labelledby={id as string}>
+      <h2 id={id as string}>{title as string}</h2>
+      <div class="docs-diags">
+        {(list as typeof codes).map(([code, occ]) => {
+          const note = NOTES[code];
+          return (
+            <article class="pp-box docs-diag" data-variant="panel" id={code.toLowerCase()} aria-labelledby={`${code.toLowerCase()}-title`}>
+              <header class="docs-diag-head">
+                <h3 id={`${code.toLowerCase()}-title`}><code class="docs-diag-code">{code}</code> {note?.title ?? occ[0]!.message}</h3>
+                <span class="pp-box pp-tag" data-size="sm" data-tone={code[3] === "A" ? "warning" : code.startsWith("PP-T0") && occ[0]!.file.includes("scripts") ? "danger" : "info"}>{families[code[3]!] ?? "Blip"}</span>
+              </header>
+              {note?.why && <p>{note.why}</p>}
+              <ul class="docs-diag-where" role="list">
+                {occ.map((o) => (
+                  <li>
+                    <span class="docs-diag-msg">{o.message}</span>
+                    <span class="pp-small pp-muted"><code class="docs-inline-code">{o.file.replace(/^packages\//, "")}:{o.line}</code></span>
+                    {o.fix && <span class="pp-small"><strong>Fix:</strong> {o.fix}</span>}
+                  </li>
+                ))}
+              </ul>
+              {note?.fix && <p class="docs-diag-fix"><strong>Fix:</strong> <Fragment set:html={note.fix} /></p>}
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  ))}
+
+  <Pager />
+</Docs>

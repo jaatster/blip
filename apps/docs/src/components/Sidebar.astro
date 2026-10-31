@@ -1,0 +1,35 @@
+---
+/**
+ * The section's own navigation, down the side. On a wide screen it is part of the page; on a narrower one the same
+ * list opens from a button as a popover (a drawer from the start edge), so there is never a second copy of it.
+ */
+import Icon from "./Icon.astro";
+import type { Section } from "../lib/nav";
+interface Props {
+  section: Section;
+}
+const { section } = Astro.props;
+const path = Astro.url.pathname;
+const groups = section.groups();
+---
+<nav class="pp-sidebar docs-sidebar" id="docs-nav" popover aria-label={section.title} data-arrow>
+  <div class="docs-sidebar-head">
+    <p class="docs-sidebar-title">{section.title}</p>
+    <button class="pp-box pp-button docs-sidebar-close" type="button" data-variant="ghost" data-size="sm" data-icon-only popovertarget="docs-nav" popovertargetaction="hide" aria-label="Close the list"><Icon name="close" /></button>
+  </div>
+  {groups.map((g, i) => (
+    <Fragment>
+      {g.title && <h2 class="pp-sidebar-heading" id={`docs-nav-${i}`}>{g.title}</h2>}
+      <ul class="pp-sidebar-list" role="list" aria-labelledby={g.title ? `docs-nav-${i}` : undefined}>
+        {g.items.map((item) => (
+          <li>
+            <a class="pp-box pp-sidebar-item" data-variant="ghost" href={item.url} aria-current={item.url === path ? "page" : undefined}>
+              {item.icon && <Icon name={item.icon} />}
+              <span class="pp-sidebar-label">{item.title}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </Fragment>
+  ))}
+</nav>

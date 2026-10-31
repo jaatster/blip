@@ -20,7 +20,6 @@ hard bands, dithered where they meet.
 <section class="pp-hero" aria-labelledby="hero-title">
   <pp-world parallax></pp-world>
   <div class="pp-hero-inner">
-    <p class="pp-box pp-hero-eyebrow">Sherbit Games presents</p>
     <h1 class="pp-hero-title pp-display" id="hero-title">
       <span class="pp-sr-only">Starfall Meadow</span>
       <span aria-hidden="true">
@@ -51,12 +50,12 @@ const letters = (text) => text.split(" ").map((w) => { const html = word(w); i++
 ## Anatomy
 
 1. **Sky**: the hero's background (six bands of the nearest scheme's sky, up from the ground), under `pp-world`.
-2. **Eyebrow** (`.pp-hero-eyebrow`): a small cream candy tag.
-3. **Headline** (`.pp-hero-title`): Pixel Bop in POP at the whole scale that fits: 2 below 600 px wide (the medium
+2. **Headline** (`.pp-hero-title`): Pixel Bop in POP at the whole scale that fits: 2 below 600 px wide (the medium
    breakpoint), 3 below 1024 px (wide), 4 above. Words never break; lines balance.
-4. **Lead** (`.pp-hero-lead`), **actions** (`.pp-hero-actions`), **note** (`.pp-hero-note`).
-5. **Scenery** (`.pp-hero-scenery`): things standing on the ground, behind the text.
-6. **Ground** (`.pp-hero-ground`): blades of grass, grass, a lip, dirt with pebbles, flowers.
+3. **Lead** (`.pp-hero-lead`), **actions** (`.pp-hero-actions`), **note** (`.pp-hero-note`). The lead has a
+   one-pixel halo in the page colour, so it stays readable over the moon or a cloud.
+4. **Scenery** (`.pp-hero-scenery`): things standing on the ground, behind the text.
+5. **Ground** (`.pp-hero-ground`): blades of grass, grass, a lip, dirt with pebbles, flowers.
 
 ## Variants
 

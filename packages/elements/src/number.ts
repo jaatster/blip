@@ -25,6 +25,15 @@ const button = (step: string, label: string): HTMLButtonElement => {
   return b;
 };
 
+/**
+ * A number field with a pixel minus and plus. The <input type="number"> inside stays the real control; the buttons
+ * are for pointers and touch, and step faster while held.
+ *
+ * @summary A number field with step buttons.
+ * @attr {string} [decrease-label="Decrease"] - The minus button's accessible name.
+ * @attr {string} [increase-label="Increase"] - The plus button's accessible name.
+ * @fires {CustomEvent<{ value: string }>} pp-change - The value was committed (the input's change).
+ */
 export class PixelNumber extends PixelElement {
   static classes = ["pp-number"];
 

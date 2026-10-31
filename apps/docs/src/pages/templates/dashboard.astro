@@ -1,0 +1,166 @@
+---
+/**
+ * Template: a dashboard. An app shell (app bar, sidebar, bottom bar on phones) round a live-ops overview: stats,
+ * charts drawn as segmented bars, a sortable table and toasts. Every part is a Blip component.
+ */
+import Template from "../../layouts/Template.astro";
+import Icon from "../../components/Icon.astro";
+
+const nav = [
+  { href: "#dash-main", label: "Overview", icon: "home", current: true },
+  { href: "#board-cap", label: "Players", icon: "users", badge: "128" },
+  { href: "#levels-title", label: "Worlds", icon: "map" },
+  { href: "#hours-title", label: "Activity", icon: "clock" },
+  { href: "#board-cap", label: "Reports", icon: "flag", badge: "5", tone: "danger" },
+];
+const hours = [
+  ["0", 3], ["2", 2], ["4", 1], ["6", 2], ["8", 4], ["10", 6], ["12", 8], ["14", 9], ["16", 11], ["18", 14], ["20", 16], ["22", 10],
+] as const;
+const peak = Math.max(...hours.map(([, v]) => v));
+const worlds = [
+  ["Meadow", 92, "success"], ["Crystal Caves", 71, "teal"], ["Night Woods", 48, "purple"], ["Lava Zone", 23, "warning"], ["The Sky", 9, "danger"],
+] as const;
+const players = [
+  ["Pip Bloom", "PB", "pink", "Meadow", "98,120", 98120, "3:41", 221, "Cleared", "success"],
+  ["Juno Reed", "JR", "teal", "Night Woods", "87,402", 87402, "4:14", 254, "Cleared", "success"],
+  ["Kit Moss", "KM", "green", "Meadow", "80,010", 80010, "5:02", 302, "Playing", "info"],
+  ["Rory Fen", "RF", "orange", "Lava Zone", "61,300", 61300, "6:29", 389, "Away", "neutral"],
+  ["Ada Lune", "AL", "purple", "Night Woods", "52,880", 52880, "7:11", 431, "Playing", "info"],
+  ["Bo Wren", "BW", "blue", "Crystal Caves", "41,075", 41075, "8:40", 520, "Reported", "danger"],
+  ["Cy Hale", "CH", "slate", "Lava Zone", "39,800", 39800, "9:05", 545, "Cleared", "success"],
+] as const;
+---
+<Template title="Dashboard template" description="A Blip dashboard: app bar, sidebar, stats, segmented charts, a sortable table and toasts." scripts={["tpl-dashboard"]}>
+  <a class="pp-box pp-skip-link" href="#dash-main">Skip to the overview</a>
+  <div class="tpl-dash">
+    <header class="pp-box pp-app-bar tpl-dash-bar" data-sticky>
+      <a class="pp-app-bar-brand" href="#dash-main"><Icon name="trophy" /><span class="pp-display pp-pop" data-scale="2" data-tone="pink" data-pop="Questboard">Questboard</span></a>
+      <nav class="pp-app-bar-nav" aria-label="Main">
+        <button class="pp-box pp-button pp-app-bar-toggle" type="button" data-variant="ghost" data-icon-only popovertarget="dash-links" aria-label="Menu"><Icon name="menu" /></button>
+        <ul class="pp-box pp-app-bar-links" id="dash-links" popover role="list">
+          <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#dash-main" aria-current="page">Live ops</a></li>
+          <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#levels-title">Studio</a></li>
+          <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#board-cap">Community</a></li>
+          <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="/templates/">Blip docs</a></li>
+        </ul>
+      </nav>
+      <div class="pp-app-bar-actions">
+        <button class="pp-box pp-button tpl-dash-alerts" type="button" data-variant="ghost" data-icon-only aria-label="Alerts, 3 new"><Icon name="bell" /><span class="pp-box pp-badge" data-tone="danger" data-size="sm" data-position="top-end" aria-hidden="true">3</span></button>
+        <pp-menu class="pp-menu" data-align="end">
+          <button class="pp-box pp-button" type="button" data-variant="soft" data-tone="pink" data-icon-only aria-label="Account: Mika"><Icon name="user" /></button>
+          <div class="pp-box pp-menu-list pp-pop-in" role="menu" aria-label="Account" popover>
+            <button class="pp-box pp-menu-item" type="button" role="menuitem" data-toast="Profile: Mika, live-ops lead."><Icon name="user" /><span class="pp-menu-label">Profile</span></button>
+            <button class="pp-box pp-menu-item" type="button" role="menuitem" data-toast="Settings would open here."><Icon name="settings" /><span class="pp-menu-label">Settings</span></button>
+            <div class="pp-menu-separator" role="separator"></div>
+            <a class="pp-box pp-menu-item" role="menuitem" href="/templates/"><Icon name="logout" /><span class="pp-menu-label">Back to the docs</span></a>
+          </div>
+        </pp-menu>
+      </div>
+    </header>
+
+    <nav class="pp-sidebar tpl-dash-side" aria-label="Live ops" data-collapse="auto" data-arrow>
+      <h2 class="pp-sidebar-heading" id="dash-nav-title">Live ops</h2>
+      <ul class="pp-sidebar-list" role="list" aria-labelledby="dash-nav-title">
+        {nav.map((n) => (
+          <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href={n.href} aria-current={n.current ? "page" : undefined}><Icon name={n.icon} /><span class="pp-sidebar-label">{n.label}</span>{n.badge && <span class="pp-box pp-sidebar-badge" data-tone={n.tone}>{n.badge}</span>}</a></li>
+        ))}
+      </ul>
+      <h2 class="pp-sidebar-heading" id="dash-nav-more">Blip</h2>
+      <ul class="pp-sidebar-list" role="list" aria-labelledby="dash-nav-more">
+        <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="/templates/"><Icon name="logout" /><span class="pp-sidebar-label">Back to the docs</span></a></li>
+      </ul>
+    </nav>
+
+    <main class="tpl-dash-main" id="dash-main" tabindex="-1">
+      <nav class="pp-breadcrumbs" data-size="sm" aria-label="Breadcrumb">
+        <ol class="pp-breadcrumbs-list">
+          <li><a class="pp-box pp-breadcrumbs-link" data-variant="ghost" href="#dash-main">Live ops</a></li>
+          <li><a class="pp-box pp-breadcrumbs-link" data-variant="ghost" href="#dash-main" aria-current="page">Overview</a></li>
+        </ol>
+      </nav>
+      <div class="tpl-dash-head">
+        <h1 class="pp-display" data-scale="2">Overview</h1>
+        <div class="tpl-dash-tools">
+          <pp-segmented class="pp-box pp-segmented tpl-range" data-size="sm" aria-label="Period" value="week">
+            <button class="pp-box" type="button" value="day">Today</button>
+            <button class="pp-box" type="button" value="week" aria-checked="true">This week</button>
+            <button class="pp-box" type="button" value="month">This month</button>
+          </pp-segmented>
+          <button class="pp-box pp-button tpl-export" type="button" data-variant="soft" data-size="sm"><Icon name="download" />Export</button>
+        </div>
+      </div>
+
+      <dl class="tpl-stats">
+        <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Players online</dt><dd class="pp-stat-value pp-display pp-pop" data-pop="1,204">1,204</dd><dd class="pp-stat-delta" data-trend="up">+12% on last week</dd></div>
+        <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Levels cleared</dt><dd class="pp-stat-value pp-display pp-pop" data-tone="teal" data-pop="8,812">8,812</dd><dd class="pp-stat-delta" data-trend="up">+4%</dd></div>
+        <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Coins spent</dt><dd class="pp-stat-value pp-display pp-pop" data-tone="orange" data-pop="54K">54K</dd><dd class="pp-stat-delta" data-trend="down">-3%</dd></div>
+        <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Crashes</dt><dd class="pp-stat-value pp-display pp-pop" data-tone="purple" data-pop="7">7</dd><dd class="pp-stat-delta" data-trend="down" data-tone="success">-9: good news</dd></div>
+      </dl>
+
+      <div class="tpl-dash-charts">
+        <section class="pp-box tpl-card" data-variant="panel" aria-labelledby="hours-title">
+          <div class="tpl-card-head"><h2 class="pp-title" id="hours-title">Players by hour</h2><span class="pp-small pp-muted">Today, in hundreds</span></div>
+          <ol class="tpl-bars" role="list">
+            {hours.map(([h, v]) => (
+              <li style={`--v:${v}`} data-peak={v === peak ? "" : undefined}><span class="tpl-bar" aria-hidden="true"></span><span class="tpl-bar-label" aria-hidden="true">{h}</span><span class="pp-sr-only">{h}:00, {v * 100} players</span></li>
+            ))}
+          </ol>
+        </section>
+        <section class="pp-box tpl-card" data-variant="panel" aria-labelledby="levels-title">
+          <div class="tpl-card-head"><h2 class="pp-title" id="levels-title">Cleared by world</h2><span class="pp-small pp-muted">Share of players</span></div>
+          <div class="tpl-worlds">
+            {worlds.map(([w, v, tone], i) => (
+              <div class="tpl-world">
+                <div class="pp-progress-label"><label for={`world-${i}`}>{w}</label><span class="docs-num">{v}%</span></div>
+                <div class="pp-box pp-progress" data-tone={tone}><progress id={`world-${i}`} max="100" value={v}>{v}%</progress></div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <pp-table class="tpl-board">
+        <div class="pp-box pp-table-frame">
+          <div class="pp-table-scroll" role="region" aria-labelledby="board-cap" tabindex="0">
+            <table class="pp-table" data-zebra>
+              <caption id="board-cap">Leaderboard, this week</caption>
+              <thead>
+                <tr>
+                  <th scope="col" class="pp-table-check"><span class="pp-box pp-checkbox" data-size="sm" data-pp-r="1"><input type="checkbox" aria-label="Select all players" data-select-all /></span></th>
+                  <th scope="col" class="pp-numeric"><button class="pp-box pp-table-sort" data-variant="ghost" type="button">Rank<span class="pp-table-caret" aria-hidden="true"></span></button></th>
+                  <th scope="col"><button class="pp-box pp-table-sort" data-variant="ghost" type="button">Player<span class="pp-table-caret" aria-hidden="true"></span></button></th>
+                  <th scope="col"><button class="pp-box pp-table-sort" data-variant="ghost" type="button">World<span class="pp-table-caret" aria-hidden="true"></span></button></th>
+                  <th scope="col" class="pp-numeric" aria-sort="descending"><button class="pp-box pp-table-sort" data-variant="ghost" type="button">Score<span class="pp-table-caret" aria-hidden="true"></span></button></th>
+                  <th scope="col" class="pp-numeric"><button class="pp-box pp-table-sort" data-variant="ghost" type="button">Best time<span class="pp-table-caret" aria-hidden="true"></span></button></th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {players.map(([name, initials, tone, world, score, scoreN, time, secs, status, statusTone], i) => (
+                  <tr>
+                    <td class="pp-table-check"><span class="pp-box pp-checkbox" data-size="sm" data-pp-r="1"><input type="checkbox" aria-labelledby={`p-${i}`} /></span></td>
+                    <td class="pp-numeric">{i + 1}</td>
+                    <th scope="row" id={`p-${i}`}><span class="tpl-player"><span class="pp-box pp-avatar" data-size="sm" data-tone={tone} aria-hidden="true">{initials[0]}</span>{name}</span></th>
+                    <td>{world}</td>
+                    <td class="pp-numeric" data-sort-value={scoreN}>{score}</td>
+                    <td class="pp-numeric" data-sort-value={secs}>{time}</td>
+                    <td><span class="pp-box pp-tag" data-size="sm" data-tone={statusTone}>{status}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </pp-table>
+    </main>
+
+    <nav class="pp-box pp-bottom-bar tpl-dash-bottom" aria-label="Live ops" data-collapse="auto">
+      <ul class="pp-bottom-bar-list" role="list">
+        {nav.map((n) => (
+          <li><a class="pp-box pp-bottom-bar-item" data-variant="ghost" href={n.href} aria-current={n.current ? "page" : undefined}><Icon name={n.icon} /><span class="pp-bottom-bar-label">{n.label}</span>{n.badge && <span class="pp-box pp-bottom-bar-badge" data-tone={n.tone ?? "accent"}>{n.badge}<span class="pp-sr-only"> new</span></span>}</a></li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+  <pp-toaster data-placement="bottom-end"></pp-toaster>
+</Template>

@@ -23,6 +23,15 @@ const ITEM = '[role^="menuitem"]';
 const anchored = typeof CSS !== "undefined" && CSS.supports("position-area", "block-end");
 let uid = 0;
 
+/**
+ * A WAI-ARIA menu button: a button and a [role=menu] popover list, with focus management, arrow keys, typeahead,
+ * checkbox and radio items, and nested submenus.
+ *
+ * @summary A menu button and its list of actions.
+ * @attr {"end"} data-align - Lines the menu up with the end of its button instead of the start.
+ * @fires {CustomEvent<MenuSelectDetail>} pp-select - Before an item runs. Cancelable: preventDefault() keeps the
+ * menu open and the item unchanged.
+ */
 export class PixelMenu extends PixelElement {
   static override classes = ["pp-menu"];
   #last = false;

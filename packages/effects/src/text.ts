@@ -23,6 +23,14 @@ function frame(host: HTMLElement, text: string): HTMLElement {
 /**
  * <pp-drop-text class="pp-display pp-pop" data-pop="Blip">Blip</pp-drop-text>: the letters drop in when
  * it connects, when its text changes, and on play(). With data-pop, each letter keeps the POP tint.
+ *
+ * @summary A Pixel Bop heading whose letters drop in one after another.
+ * @attr {boolean | string} data-pop - With .pp-pop: each letter keeps the POP outline and drop (the element keeps
+ * the value in step with the text).
+ * @attr {1 | 2 | 3 | 4} data-scale - With .pp-display: Pixel Bop at this whole scale.
+ * @attr {"red" | "orange" | "yellow" | "green" | "teal" | "blue" | "purple" | "pink" | "info" | "success" | "warning" |
+ * "danger"} data-tone - With .pp-pop: the tint and the drop's colour.
+ * @cssprop [--pp-drop-text-stagger=30ms] - Time between letters.
  */
 export class PixelDropText extends PixelElement {
   #text = "";
@@ -73,6 +81,16 @@ function voiceRate(char: string, mood: string): number {
  * <pp-typewriter mood="happy" blips>Hello there!</pp-typewriter>: types when it connects, when its text changes,
  * and on play(); finish() shows it all. Fires pp-typewriter-done when the last letter is in. The untyped rest keeps
  * its room, so nothing moves while it types.
+ *
+ * @summary Text that types itself in, a letter at a time.
+ * @attr {boolean} blips - Voices every other letter with the chip blip (through services.sound()).
+ * @attr {boolean} caret - A two-pixel block after the typed text that blinks on the beat.
+ * @attr {"plain" | "happy" | "sleepy"} [mood="plain"] - Pitches the blips.
+ * @attr {1 | 2 | 3 | 4} data-scale - With .pp-display: Pixel Bop at this whole scale.
+ * @fires {CustomEvent<void>} pp-typewriter-done - Once per play: when the last letter is in, or on finish().
+ * @cssprop [--pp-duration-letter=50ms] - Time per letter.
+ * @cssprop [--pp-duration-stop=260ms] - The hold after a full stop that ends a word.
+ * @cssprop [--pp-duration-comma=130ms] - The hold after a comma that ends a word.
  */
 export class PixelTypewriter extends PixelElement {
   declare blips: boolean;

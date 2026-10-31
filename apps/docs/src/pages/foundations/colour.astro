@@ -1,0 +1,161 @@
+---
+/** Colour, generated from the tokens: the candies, ink, the scheme roles with their contrast, and the world palettes. */
+import Docs from "../../layouts/Docs.astro";
+import Table from "../../components/Table.astro";
+import Pager from "../../components/Pager.astro";
+import { manifest, tokens } from "../../lib/data";
+import { checkedPairs, contrast, ratio, SCHEMES } from "../../lib/colour";
+import { code, esc } from "../../lib/html";
+
+const t = tokens();
+const m = manifest();
+const desc = new Map(m.map((e) => [e.name, e.description ?? ""]));
+const CANDIES = [
+  ["red", "Red", "Danger, and fire."],
+  ["orange", "Orange", "Warnings. Never yellow."],
+  ["yellow", "Yellow", "Focus, coins and stars only."],
+  ["green", "Green", "Success, grass, go."],
+  ["teal", "Teal", "Water, maps, calm."],
+  ["blue", "Blue", "Day's accent, and info."],
+  ["purple", "Purple", "Night's accent."],
+  ["pink", "Pink", "Sunset's accent."],
+  ["slate", "Slate", "Quiet candy: white labels."],
+  ["cream", "Cream", "Neutral candy and panels."],
+] as const;
+const hex = (name: string) => String(t.shared[name] ?? "");
+const swatchCopy = (cssVar: string, label: string, value: string) =>
+  `<button class="docs-chip docs-copy" type="button" data-copy="var(${cssVar})" title="Copy var(${cssVar})"><span class="docs-dot" style="background:var(${cssVar})"></span><span>${esc(label)}</span><span class="docs-hex">${esc(value)}</span></button>`;
+
+const neutrals = ["ink", "ink-soft", "white", "deep-1", "deep-2", "deep-3", "deep-4", "deep-5"];
+const roleNames = Object.keys(t.schemes.day).filter((k) => !k.startsWith("scene-"));
+const roleRows = roleNames.map((r) => [
+  code(`--pp-${r}`),
+  ...SCHEMES.map((s) => `<span class="docs-role-cell"><span class="docs-dot" data-pp-scheme="${s.id}" style="background:var(--pp-${r})"></span><span class="docs-hex">${esc(t.schemes[s.id][r])}</span></span>`),
+  esc(desc.get(r) ?? ""),
+]);
+
+const checked = checkedPairs();
+const byLabel = new Map<string, typeof checked>();
+for (const p of checked) byLabel.set(p.label, [...(byLabel.get(p.label) ?? []), p]);
+const pairRows = [...byLabel.entries()].map(([label, list]) => [
+  esc(label) + `<br><span class="pp-muted pp-small">${code(`--pp-${list[0]!.fg}`)} on ${code(`--pp-${list[0]!.bg}`)}</span>`,
+  ...list.map((p) => `<span class="docs-ratio" data-pass="${p.pass}"><span class="docs-aa" data-pp-scheme="${p.scheme}" style="color:var(--pp-${p.fg});background:var(--pp-${p.bg})">Aa</span>${ratio(p.ratio)}</span>`),
+  `${list[0]!.min}:1`,
+]);
+const total = checked.length;
+const passing = checked.filter((p) => p.pass).length;
+const weakest = [...checked].sort((a, b) => a.ratio / a.min - b.ratio / b.min).slice(0, 3);
+
+// The world, sky to dirt: each scheme's palette as the landscape's strata.
+const STRATA = ["sky-1", "sky-2", "sky-3", "sky-4", "sky-5", "sky-6", "cloud-light", "cloud-body", "cloud-shade", "snow-lit", "snow-shadow", "mountain-edge", "mountain-lit", "mountain-shadow", "tree-lit", "tree-shadow", "hill-mid-edge", "hill-mid", "hill-near-edge", "hill-near", "hill-bush", "grass-top", "grass", "grass-lip", "dirt-pebble", "dirt", "dirt-shadow", "bird"];
+const sky = Object.keys(t.shared).filter((k) => k.startsWith("world-sky-") || k.startsWith("world-flower-"));
+
+// The headline pairs, shown big on each scheme.
+const SHOW = [
+  ["text", "bg", "Text"],
+  ["text-muted", "surface", "Muted"],
+  ["accent-text", "bg", "Accent text"],
+  ["accent-on", "accent", "Label on candy"],
+  ["danger-text", "surface", "Danger text"],
+  ["line", "bg", "Outline"],
+] as const;
+const H = (id: string, text: string) => ({ depth: 2, id, text });
+---
+<Docs styles={["foundations"]} scripts={["foundations"]} title="Colour" description="Blip's colour, from its tokens: ten candies with light and shade, ink, the scheme roles with contrast ratios, and the world palettes." headings={[H("candy", "Candy"), H("ink", "Ink and the night"), H("schemes", "Three schemes"), H("contrast", "Every pair, checked"), H("roles", "Scheme roles"), H("world", "World palettes")]}>
+  <header class="docs-page-head">
+    <h1 class="docs-page-title pp-display" data-scale="2">Colour</h1>
+    <p class="docs-lede">Three layers: primitives (ink, ten candies, the world), roles per scheme (page, surfaces, text, intents), and component tokens on top. Components only ever use roles, so a scheme or a theme changes everything at once. Everything on this page is read from <code class="docs-inline-code">@jaatster/blip-tokens</code>.</p>
+  </header>
+
+  <section class="docs-section" aria-labelledby="candy">
+    <h2 id="candy">Candy</h2>
+    <p>Ten candies, each with a light band above and a shade band below, the way the candy box draws them: the light is the base at about 0.65 saturation and full brightness, the shade the base at about 0.84 brightness. Press a value to copy its variable.</p>
+    <div class="docs-candies">
+      {CANDIES.map(([id, name, use]) => (
+        <figure class="docs-candy">
+          <div class="pp-box docs-candy-box" data-tone={id === "cream" ? "neutral" : id} aria-hidden="true"></div>
+          <figcaption>
+            <span class="docs-candy-name">{name}</span>
+            <span class="docs-candy-use">{use}</span>
+            <span class="docs-candy-values" set:html={[
+              swatchCopy(`--pp-candy-${id}-light`, "Light", hex(`candy-${id}-light`)),
+              swatchCopy(`--pp-candy-${id}`, "Base", hex(`candy-${id}`)),
+              swatchCopy(`--pp-candy-${id}-shade`, "Shade", hex(`candy-${id}-shade`)),
+            ].join("")} />
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+
+  <section class="docs-section" aria-labelledby="ink">
+    <h2 id="ink">Ink and the night</h2>
+    <p>Ink is the darkest colour there is: every outline, drop and piece of dark text, in every scheme. Black is never used. The deep blues are the night's surfaces.</p>
+    <div class="docs-neutrals" set:html={neutrals.map((n) => `<div class="docs-neutral"><span class="docs-neutral-swatch" style="background:var(--pp-${n})"></span>${swatchCopy(`--pp-${n}`, n, hex(n))}</div>`).join("")} />
+  </section>
+
+  <section class="docs-section" aria-labelledby="schemes">
+    <h2 id="schemes">Three schemes</h2>
+    <p>Each scheme maps the same roles to its own colours. Every panel below is set with <code class="docs-inline-code">data-pp-scheme</code>, and its ratios are worked out from the tokens when the site builds.</p>
+    <div class="docs-schemes">
+      {SCHEMES.map((s) => (
+        <section class="pp-box docs-scheme" data-variant="panel" data-pp-scheme={s.id} aria-labelledby={`scheme-${s.id}`}>
+          <h3 id={`scheme-${s.id}`}>{s.title} <span class="pp-small pp-muted">{s.hours}</span></h3>
+          <ul class="docs-scheme-pairs" role="list">
+            {SHOW.map(([fg, bg, label]) => {
+              const r = contrast(t.schemes[s.id][fg]!, t.schemes[s.id][bg]!);
+              return (
+                <li>
+                  <span class="docs-scheme-sample" style={`background:var(--pp-${bg});color:var(--pp-${fg});${fg === "line" ? `box-shadow:inset 0 0 0 var(--pp-pixel) var(--pp-${fg})` : ""}`}>{fg === "line" ? "" : "Aa"}</span>
+                  <span class="docs-scheme-label">{label}<span class="pp-muted pp-small">{`--pp-${fg} on --pp-${bg}`}</span></span>
+                  <span class="docs-scheme-ratio docs-num">{ratio(r)}</span>
+                </li>
+              );
+            })}
+          </ul>
+          <div class="docs-scheme-candy">
+            <span class="pp-box pp-button" data-size="sm">Accent</span>
+            <span class="pp-box pp-tag" data-size="sm" data-tone="success">Success</span>
+            <span class="pp-box pp-tag" data-size="sm" data-tone="warning">Warning</span>
+            <span class="pp-box pp-tag" data-size="sm" data-tone="danger">Danger</span>
+          </div>
+        </section>
+      ))}
+    </div>
+  </section>
+
+  <section class="docs-section" aria-labelledby="contrast">
+    <h2 id="contrast">Every pair, checked</h2>
+    <p>{total} text pairs in three schemes, the same list the token build checks against WCAG 2.2 AA: a failing pair fails the build. {passing === total ? "All of them pass." : `${total - passing} fail.`} Closest to the line: {weakest.map((w, i) => <Fragment>{i > 0 && ", "}{w.label.toLowerCase()} at {w.scheme} ({ratio(w.ratio)})</Fragment>)}.</p>
+    <Table label="Contrast of every checked pair" head={["Pair", "Day", "Sunset", "Night", "Needs"]} rows={pairRows} class="docs-contrast" />
+  </section>
+
+  <section class="docs-section" aria-labelledby="roles">
+    <h2 id="roles">Scheme roles</h2>
+    <p>The roles components use, in each scheme. Read them with <code class="docs-inline-code">var(--pp-…)</code>; set <code class="docs-inline-code">data-pp-scheme</code> to switch.</p>
+    <Table label="Scheme roles in each scheme" head={["Role", "Day", "Sunset", "Night", ""]} rows={roleRows} />
+  </section>
+
+  <section class="docs-section" aria-labelledby="world">
+    <h2 id="world">World palettes</h2>
+    <p>The world backdrop's own colours, sky to dirt, for each time of day: the palette <code class="docs-inline-code">&lt;pp-world&gt;</code> draws with, and what a palette pack repaints. Soft, dithered and outline-free, so candy always stands out on it.</p>
+    <div class="docs-strata">
+      {SCHEMES.map((s) => (
+        <figure class="docs-stratum">
+          <div class="docs-stratum-bands" role="img" aria-label={`${s.title}: ${STRATA.length} colours from sky to dirt`}>
+            {STRATA.map((k) => <span title={`--pp-world-${s.id}-${k} ${hex(`world-${s.id}-${k}`)}`} style={`background:var(--pp-world-${s.id}-${k})`}></span>)}
+          </div>
+          <figcaption><strong>{s.title}</strong> <span class="pp-muted pp-small">{STRATA.length} colours</span></figcaption>
+        </figure>
+      ))}
+      <figure class="docs-stratum">
+        <div class="docs-stratum-bands" role="img" aria-label="Shared: sun, moon, stars, trails and flowers">
+          {sky.map((k) => <span title={`--pp-${k} ${hex(k)}`} style={`background:var(--pp-${k})`}></span>)}
+        </div>
+        <figcaption><strong>Every sky</strong> <span class="pp-muted pp-small">sun, moon, stars, flowers</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <Pager />
+</Docs>

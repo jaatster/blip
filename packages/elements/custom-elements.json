@@ -1,0 +1,2072 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/_overlay.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "The modal behaviour <pp-dialog> and <pp-drawer> share, around the one native <dialog> inside the element.",
+          "name": "Overlay",
+          "members": [
+            {
+              "kind": "field",
+              "name": "dialog",
+              "type": {
+                "text": "HTMLDialogElement | null"
+              },
+              "description": "The <dialog> it drives.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "True while open; setting it opens or closes. Mirrors the open attribute.",
+              "attribute": "open"
+            },
+            {
+              "kind": "field",
+              "name": "returnValue",
+              "type": {
+                "text": "string"
+              },
+              "description": "The value of the button that closed it last.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "opener",
+                  "optional": true,
+                  "type": {
+                    "text": "Element | null"
+                  }
+                }
+              ],
+              "description": "Opens the dialog as a modal. `opener` gets focus back when it closes (by default, whatever has focus now)."
+            },
+            {
+              "kind": "method",
+              "name": "requestClose",
+              "return": {
+                "type": {
+                  "text": "Promise<boolean>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "returnValue",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "reason",
+                  "default": "\"api\"",
+                  "type": {
+                    "text": "CloseReason"
+                  }
+                }
+              ],
+              "description": "Asks to close: fires pp-before-close, which a listener may cancel. Resolves true if it closed."
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "returnValue",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "reason",
+                  "default": "\"api\"",
+                  "type": {
+                    "text": "CloseReason"
+                  }
+                }
+              ],
+              "description": "Closes after the stepped exit, without asking."
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<void>"
+              },
+              "description": "After it opens (also when opened directly with showModal()).",
+              "name": "pp-open"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<CloseDetail>"
+              },
+              "description": "Before any close: Escape, the scrim, a close button, a method=\"dialog\" submit or requestClose(). Cancelable: preventDefault() keeps it open.",
+              "name": "pp-before-close"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<CloseDetail>"
+              },
+              "description": "After it has closed and given focus back.",
+              "name": "pp-close"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Opens the dialog as a modal, or closes it; reflects whether it is open.",
+              "fieldName": "open"
+            },
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "A press that starts and ends on the scrim asks to close (reason \"backdrop\").",
+              "name": "light-dismiss"
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          }
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "Overlay",
+          "declaration": {
+            "name": "Overlay",
+            "module": "src/_overlay.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/combobox.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "The WAI-ARIA editable combobox with list and inline autocomplete, over a text input and a <datalist>.\nForm-associated: the form value is the chosen suggestion's value, or the text when it matches none.",
+          "name": "PixelCombobox",
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "The form value: the matching suggestion's value, or the text.",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "open"
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "description": "Validity is the input's (required, pattern…), checked by the browser as usual."
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<{ value: string }>"
+              },
+              "description": "Once per new value: a suggestion taken, the field cleared, or typed text committed.",
+              "name": "pp-change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "The list of suggestions is showing.",
+              "fieldName": "open"
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The form field name; taken from the input when left out.",
+              "name": "name"
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The starting value (a suggestion's value, or text). The value property is the current one.",
+              "name": "value",
+              "fieldName": "value"
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "Shown in the list when nothing matches.",
+              "name": "empty-text",
+              "default": "\"No matches\""
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The toggle button's accessible name.",
+              "name": "toggle-label",
+              "default": "\"Show suggestions\""
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "A text field with a list of suggestions.",
+          "tagName": "pp-combobox",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelCombobox",
+          "declaration": {
+            "name": "PixelCombobox",
+            "module": "src/combobox.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-combobox",
+          "declaration": {
+            "name": "PixelCombobox",
+            "module": "src/combobox.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/command.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A command palette over the command markup: a modal <dialog> holding a combobox and a listbox of grouped options.\nA shortcut opens it, typing filters, the arrow keys move, Enter or a click runs the active option.",
+          "name": "PixelCommand",
+          "members": [
+            {
+              "kind": "field",
+              "name": "dialog",
+              "type": {
+                "text": "HTMLDialogElement | null"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "input",
+              "type": {
+                "text": "HTMLInputElement | null"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "options",
+              "type": {
+                "text": "HTMLElement[]"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Opens the palette with an empty search."
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<CommandSelectDetail>"
+              },
+              "description": "An option was chosen (Enter or a click). Cancelable: preventDefault() keeps the palette open.",
+              "name": "pp-select"
+            }
+          ],
+          "attributes": [
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The keys that open and close it (\"mod+k\", \"ctrl+shift+p\", \"/\"); \"\" for none.",
+              "name": "shortcut",
+              "default": "\"mod+k\""
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "A command palette: search and run commands from the keyboard.",
+          "tagName": "pp-command",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelCommand",
+          "declaration": {
+            "name": "PixelCommand",
+            "module": "src/command.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-command",
+          "declaration": {
+            "name": "PixelCommand",
+            "module": "src/command.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/dialog.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A native <dialog> with Blip's manners: opened as a modal, every close through a cancelable pp-before-close\nand the stepped exit, focus returned to the opener, and an optional light dismiss.",
+          "name": "PixelDialog",
+          "superclass": {
+            "name": "Overlay",
+            "module": "src/_overlay.ts"
+          },
+          "summary": "A modal dialog around one <dialog class=\"pp-box pp-dialog\">.",
+          "tagName": "pp-dialog",
+          "customElement": true,
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Opens the dialog as a modal, or closes it; reflects whether it is open.",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              },
+              "fieldName": "open"
+            },
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "A press that starts and ends on the scrim asks to close (reason \"backdrop\").",
+              "name": "light-dismiss",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "dialog",
+              "type": {
+                "text": "HTMLDialogElement | null"
+              },
+              "description": "The <dialog> it drives.",
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "True while open; setting it opens or closes. Mirrors the open attribute.",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              },
+              "attribute": "open"
+            },
+            {
+              "kind": "field",
+              "name": "returnValue",
+              "type": {
+                "text": "string"
+              },
+              "description": "The value of the button that closed it last.",
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "opener",
+                  "optional": true,
+                  "type": {
+                    "text": "Element | null"
+                  }
+                }
+              ],
+              "description": "Opens the dialog as a modal. `opener` gets focus back when it closes (by default, whatever has focus now).",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "requestClose",
+              "return": {
+                "type": {
+                  "text": "Promise<boolean>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "returnValue",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "reason",
+                  "default": "\"api\"",
+                  "type": {
+                    "text": "CloseReason"
+                  }
+                }
+              ],
+              "description": "Asks to close: fires pp-before-close, which a listener may cancel. Resolves true if it closed.",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "returnValue",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "reason",
+                  "default": "\"api\"",
+                  "type": {
+                    "text": "CloseReason"
+                  }
+                }
+              ],
+              "description": "Closes after the stepped exit, without asking.",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<void>"
+              },
+              "description": "After it opens (also when opened directly with showModal()).",
+              "name": "pp-open",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "type": {
+                "text": "CustomEvent<CloseDetail>"
+              },
+              "description": "Before any close: Escape, the scrim, a close button, a method=\"dialog\" submit or requestClose(). Cancelable: preventDefault() keeps it open.",
+              "name": "pp-before-close",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "type": {
+                "text": "CustomEvent<CloseDetail>"
+              },
+              "description": "After it has closed and given focus back.",
+              "name": "pp-close",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "CloseDetail",
+          "declaration": {
+            "name": "CloseDetail",
+            "module": "./_overlay.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CloseReason",
+          "declaration": {
+            "name": "CloseReason",
+            "module": "./_overlay.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "PixelDialog",
+          "declaration": {
+            "name": "PixelDialog",
+            "module": "src/dialog.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-dialog",
+          "declaration": {
+            "name": "PixelDialog",
+            "module": "src/dialog.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/drawer.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A side sheet: the same modal behaviour as <pp-dialog> around a <dialog class=\"pp-box pp-drawer\">, which slides in\nand out from its data-side in six whole-pixel steps.",
+          "name": "PixelDrawer",
+          "superclass": {
+            "name": "Overlay",
+            "module": "src/_overlay.ts"
+          },
+          "summary": "A modal side sheet around one <dialog class=\"pp-box pp-drawer\">.",
+          "tagName": "pp-drawer",
+          "customElement": true,
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Opens the dialog as a modal, or closes it; reflects whether it is open.",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              },
+              "fieldName": "open"
+            },
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "A press that starts and ends on the scrim asks to close (reason \"backdrop\").",
+              "name": "light-dismiss",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "dialog",
+              "type": {
+                "text": "HTMLDialogElement | null"
+              },
+              "description": "The <dialog> it drives.",
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "True while open; setting it opens or closes. Mirrors the open attribute.",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              },
+              "attribute": "open"
+            },
+            {
+              "kind": "field",
+              "name": "returnValue",
+              "type": {
+                "text": "string"
+              },
+              "description": "The value of the button that closed it last.",
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "opener",
+                  "optional": true,
+                  "type": {
+                    "text": "Element | null"
+                  }
+                }
+              ],
+              "description": "Opens the dialog as a modal. `opener` gets focus back when it closes (by default, whatever has focus now).",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "requestClose",
+              "return": {
+                "type": {
+                  "text": "Promise<boolean>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "returnValue",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "reason",
+                  "default": "\"api\"",
+                  "type": {
+                    "text": "CloseReason"
+                  }
+                }
+              ],
+              "description": "Asks to close: fires pp-before-close, which a listener may cancel. Resolves true if it closed.",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "returnValue",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "reason",
+                  "default": "\"api\"",
+                  "type": {
+                    "text": "CloseReason"
+                  }
+                }
+              ],
+              "description": "Closes after the stepped exit, without asking.",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<void>"
+              },
+              "description": "After it opens (also when opened directly with showModal()).",
+              "name": "pp-open",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "type": {
+                "text": "CustomEvent<CloseDetail>"
+              },
+              "description": "Before any close: Escape, the scrim, a close button, a method=\"dialog\" submit or requestClose(). Cancelable: preventDefault() keeps it open.",
+              "name": "pp-before-close",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "type": {
+                "text": "CustomEvent<CloseDetail>"
+              },
+              "description": "After it has closed and given focus back.",
+              "name": "pp-close",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelDrawer",
+          "declaration": {
+            "name": "PixelDrawer",
+            "module": "src/drawer.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-drawer",
+          "declaration": {
+            "name": "PixelDrawer",
+            "module": "src/drawer.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/field.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Wires a field's label, help, error and count to its control (aria-describedby, aria-invalid, live messages), so\nnothing has to be wired by hand.",
+          "name": "PixelField",
+          "attributes": [
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "What screen readers hear once typing pauses in a field with a count; {left} is filled in.",
+              "name": "count-text",
+              "default": "\"{left} characters left\""
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "\"group\" describes the whole group (a set of checkboxes or radios), not its first control.",
+              "name": "role"
+            },
+            {
+              "type": {
+                "text": "\"inline\""
+              },
+              "description": "The label beside the control (--pp-field-label-width, 64 pixels by default).",
+              "name": "data-layout"
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "A form field that wires its words to its control.",
+          "tagName": "pp-field",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelField",
+          "declaration": {
+            "name": "PixelField",
+            "module": "src/field.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-field",
+          "declaration": {
+            "name": "PixelField",
+            "module": "src/field.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/file-drop.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A tray to drop files on, or click to browse. The files live in the native <input type=\"file\"> inside, so they go\nwith the form; each picked file gets a row with a remove button.",
+          "name": "PixelFileDrop",
+          "members": [
+            {
+              "kind": "field",
+              "name": "input",
+              "type": {
+                "text": "HTMLInputElement | null"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "files",
+              "type": {
+                "text": "File[]"
+              },
+              "description": "The picked files, in order.",
+              "readonly": true
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<{ files: File[] }>"
+              },
+              "description": "The list changed: files picked, dropped or removed.",
+              "name": "pp-change"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<{ files: File[] }>"
+              },
+              "description": "Dropped files that do not match the input's accept.",
+              "name": "pp-reject"
+            }
+          ],
+          "attributes": [
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "Put before each file name on its remove button.",
+              "name": "remove-label",
+              "default": "\"Remove\""
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "Drop files, or click to browse.",
+          "tagName": "pp-file-drop",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelFileDrop",
+          "declaration": {
+            "name": "PixelFileDrop",
+            "module": "src/file-drop.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-file-drop",
+          "declaration": {
+            "name": "PixelFileDrop",
+            "module": "src/file-drop.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/menu.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A WAI-ARIA menu button: a button and a [role=menu] popover list, with focus management, arrow keys, typeahead,\ncheckbox and radio items, and nested submenus.",
+          "name": "PixelMenu",
+          "members": [
+            {
+              "kind": "field",
+              "name": "trigger",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "description": "The button: the first button (or [aria-haspopup]) child.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "menu",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "description": "The list: the [role=menu] child.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "items",
+              "type": {
+                "text": "HTMLElement[]"
+              },
+              "description": "This menu's items (not those of its submenus).",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "last",
+                  "default": "false"
+                }
+              ],
+              "description": "Opens the menu and focuses its first item (or its last)."
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Closes the menu and gives focus back to its button."
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<MenuSelectDetail>"
+              },
+              "description": "Before an item runs. Cancelable: preventDefault() keeps the menu open and the item unchanged.",
+              "name": "pp-select"
+            }
+          ],
+          "attributes": [
+            {
+              "type": {
+                "text": "\"end\""
+              },
+              "description": "Lines the menu up with the end of its button instead of the start.",
+              "name": "data-align"
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "A menu button and its list of actions.",
+          "tagName": "pp-menu",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelMenu",
+          "declaration": {
+            "name": "PixelMenu",
+            "module": "src/menu.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-menu",
+          "declaration": {
+            "name": "PixelMenu",
+            "module": "src/menu.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/number.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A number field with a pixel minus and plus. The <input type=\"number\"> inside stays the real control; the buttons\nare for pointers and touch, and step faster while held.",
+          "name": "PixelNumber",
+          "members": [
+            {
+              "kind": "field",
+              "name": "input",
+              "type": {
+                "text": "HTMLInputElement | null"
+              },
+              "readonly": true
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<{ value: string }>"
+              },
+              "description": "The value was committed (the input's change).",
+              "name": "pp-change"
+            }
+          ],
+          "attributes": [
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The minus button's accessible name.",
+              "name": "decrease-label",
+              "default": "\"Decrease\""
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The plus button's accessible name.",
+              "name": "increase-label",
+              "default": "\"Increase\""
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "A number field with step buttons.",
+          "tagName": "pp-number",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelNumber",
+          "declaration": {
+            "name": "PixelNumber",
+            "module": "src/number.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-number",
+          "declaration": {
+            "name": "PixelNumber",
+            "module": "src/number.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/rating.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A row of stars (or hearts) to set a score, as a radio group. Form-associated: the score goes with the form.",
+          "name": "PixelRating",
+          "cssProperties": [
+            {
+              "description": "The score drawn (set by the element).",
+              "name": "--pp-rating-value"
+            },
+            {
+              "description": "How many stars are drawn (set by the element).",
+              "name": "--pp-rating-max"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "number"
+              },
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "type": {
+                "text": "ValidityState"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<{ value: number }>"
+              },
+              "description": "A star was set by click or key (after input and change).",
+              "name": "pp-change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "type": {
+                "text": "number"
+              },
+              "description": "The score, 0 to max. 0 is \"not rated\" (nothing is sent).",
+              "fieldName": "value"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "description": "How many stars.",
+              "default": "5",
+              "fieldName": "max"
+            },
+            {
+              "name": "readonly",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Shows the score; it cannot be changed (it stays in the tab order)."
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Switched off (also follows a disabled fieldset)."
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Invalid while the score is 0."
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The form field name.",
+              "name": "name"
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The message while required and not rated.",
+              "name": "required-message",
+              "default": "\"Choose a rating.\""
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "Each star's name; {n} and {max} are filled in.",
+              "name": "star-label",
+              "default": "\"{n} stars\""
+            },
+            {
+              "type": {
+                "text": "\"heart\""
+              },
+              "description": "Hearts instead of stars.",
+              "name": "data-shape"
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "Set a score with stars or hearts.",
+          "tagName": "pp-rating",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelRating",
+          "declaration": {
+            "name": "PixelRating",
+            "module": "src/rating.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-rating",
+          "declaration": {
+            "name": "PixelRating",
+            "module": "src/rating.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/segmented.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "One choice from a few buttons, as a radio group: the arrow keys move and choose. Form-associated: the chosen\nbutton's value goes with the form.",
+          "name": "PixelSegmented",
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "attribute": "disabled"
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validity",
+              "type": {
+                "text": "ValidityState"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "validationMessage",
+              "type": {
+                "text": "string"
+              },
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "checkValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "reportValidity",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "items",
+              "type": {
+                "text": "HTMLButtonElement[]"
+              },
+              "description": "The segments: the element's own buttons.",
+              "readonly": true
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<{ value: string }>"
+              },
+              "description": "A segment was chosen by click or key (after input and change).",
+              "name": "pp-change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "The chosen button's value. Setting it chooses that button.",
+              "fieldName": "value"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Disables every segment (also follows a disabled fieldset).",
+              "fieldName": "disabled"
+            },
+            {
+              "name": "required",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Invalid until something is chosen."
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The form field name.",
+              "name": "name"
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The message while required and nothing is chosen.",
+              "name": "required-message",
+              "default": "\"Choose one.\""
+            },
+            {
+              "type": {
+                "text": "\"sm\" | \"lg\""
+              },
+              "description": "16 or 24 pixels high instead of 20, like buttons.",
+              "name": "data-size"
+            },
+            {
+              "type": {
+                "text": "\"full\""
+              },
+              "description": "Fills its container; the segments share the width.",
+              "name": "data-width"
+            },
+            {
+              "type": {
+                "text": "\"accent\" | \"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\" | \"red\" | \"orange\" | \"yellow\" | \"green\" | \"teal\" |\"blue\" | \"purple\" | \"pink\" | \"slate\""
+              },
+              "description": "The chosen segment's candy.",
+              "name": "data-tone"
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "One choice from a row of buttons.",
+          "tagName": "pp-segmented",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelSegmented",
+          "declaration": {
+            "name": "PixelSegmented",
+            "module": "src/segmented.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-segmented",
+          "declaration": {
+            "name": "PixelSegmented",
+            "module": "src/segmented.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/table.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Sorting and row selection for the .pp-table inside it. Light DOM: the table reads and looks the same without it.",
+          "name": "PixelTable",
+          "members": [
+            {
+              "kind": "method",
+              "name": "sort",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "th",
+                  "type": {
+                    "text": "HTMLTableCellElement"
+                  }
+                },
+                {
+                  "name": "direction",
+                  "optional": true,
+                  "type": {
+                    "text": "SortDirection"
+                  }
+                }
+              ],
+              "description": "Sorts by a column header: in the given direction, or the next one in turn. Returns false if refused."
+            },
+            {
+              "kind": "field",
+              "name": "selectedRows",
+              "type": {
+                "text": "HTMLTableRowElement[]"
+              },
+              "description": "The selected rows of every table inside.",
+              "readonly": true
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<{ column: number; direction: SortDirection; header: HTMLTableCellElement }>"
+              },
+              "description": "Before sorting. Cancelable: preventDefault() refuses it (sort on a server, then set aria-sort yourself).",
+              "name": "pp-sort"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<{ rows: HTMLTableRowElement[] }>"
+              },
+              "description": "After any row checkbox changes; rows are the selected <tr>s.",
+              "name": "pp-select"
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "Sorting and row selection for a table.",
+          "tagName": "pp-table",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelTable",
+          "declaration": {
+            "name": "PixelTable",
+            "module": "src/table.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-table",
+          "declaration": {
+            "name": "PixelTable",
+            "module": "src/table.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tabs.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "WAI-ARIA tabs over the tabs markup: ids and ARIA wired, one tab in the tab order, the arrow keys, Home and End,\nthe selected panel shown, and stepped scroll buttons for a row that overflows.",
+          "name": "PixelTabs",
+          "members": [
+            {
+              "kind": "field",
+              "name": "list",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "description": "The tab list: the first [role=tablist] child.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "tabs",
+              "type": {
+                "text": "HTMLElement[]"
+              },
+              "description": "The tabs, in order.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "number"
+              },
+              "description": "The index of the selected tab, or -1. Setting it selects that tab (no pp-change).",
+              "attribute": "selected"
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<TabsChangeDetail>"
+              },
+              "description": "After the person selects a tab.",
+              "name": "pp-change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "selected",
+              "type": {
+                "text": "number"
+              },
+              "description": "The selected tab's index. Setting it selects that tab (no pp-change).",
+              "fieldName": "selected"
+            },
+            {
+              "type": {
+                "text": "\"auto\" | \"manual\""
+              },
+              "description": "Select on focus, or only on Enter, Space and click.",
+              "name": "activation",
+              "default": "\"auto\""
+            },
+            {
+              "type": {
+                "text": "\"soft\" | \"outline\" | \"underline\""
+              },
+              "description": "The tabs' tier; each tab gets the matching box variant.",
+              "name": "data-variant"
+            },
+            {
+              "type": {
+                "text": "\"sm\""
+              },
+              "description": "Smaller tabs: 16 pixels high instead of 20.",
+              "name": "data-size"
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "Tabs: one panel at a time.",
+          "tagName": "pp-tabs",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelTabs",
+          "declaration": {
+            "name": "PixelTabs",
+            "module": "src/tabs.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-tabs",
+          "declaration": {
+            "name": "PixelTabs",
+            "module": "src/tabs.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tile-grid.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A grid of tiles as one Tab stop: the arrow keys move in two dimensions, Home and End jump to the ends, disabled\ntiles are skipped. Optionally it keeps the selection.",
+          "name": "PixelTileGrid",
+          "members": [
+            {
+              "kind": "field",
+              "name": "selection",
+              "type": {
+                "text": "string"
+              },
+              "description": "\"single\" or \"follow\"; anything else leaves selection to you.",
+              "attribute": "selection"
+            },
+            {
+              "kind": "field",
+              "name": "tiles",
+              "type": {
+                "text": "HTMLElement[]"
+              },
+              "description": "The tiles that take focus, in order.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "select",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "tile",
+                  "type": {
+                    "text": "HTMLElement"
+                  }
+                }
+              ],
+              "description": "Selects a tile (aria-pressed in \"single\", aria-current in \"follow\"). Returns false if refused."
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<{ tile: HTMLElement }>"
+              },
+              "description": "Before the selection moves. Cancelable: preventDefault() keeps the old one.",
+              "name": "pp-select"
+            }
+          ],
+          "attributes": [
+            {
+              "type": {
+                "text": "\"single\" | \"follow\""
+              },
+              "description": "\"single\": pressing a tile selects it (aria-pressed); \"follow\": the focused tile is the current one (aria-current). Left out, selection is yours.",
+              "name": "selection",
+              "fieldName": "selection"
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "A grid of tiles moved through with the arrow keys.",
+          "tagName": "pp-tile-grid",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelTileGrid",
+          "declaration": {
+            "name": "PixelTileGrid",
+            "module": "src/tile-grid.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-tile-grid",
+          "declaration": {
+            "name": "PixelTileGrid",
+            "module": "src/tile-grid.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/toast.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "The corner where toasts come up: a labelled region with live regions, so every toast is announced. Show toasts\nwith toast() or add(); they stack, wait their turn past max, and pause while hovered, focused or behind a modal.",
+          "name": "PixelToaster",
+          "cssProperties": [
+            {
+              "description": "A toast's countdown (set by the element on each toast).",
+              "name": "--pp-toast-duration"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "description": "How many toasts show at once.",
+              "attribute": "max"
+            },
+            {
+              "kind": "method",
+              "name": "add",
+              "return": {
+                "type": {
+                  "text": "ToastHandle"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "options",
+                  "type": {
+                    "text": "ToastOptions | string"
+                  }
+                }
+              ],
+              "description": "Shows a toast. A string is just a title."
+            }
+          ],
+          "attributes": [
+            {
+              "type": {
+                "text": "\"bottom-end\" | \"bottom-center\" | \"top-end\" | \"top-center\""
+              },
+              "description": "Where the toasts come up.",
+              "name": "data-placement",
+              "default": "\"bottom-end\""
+            },
+            {
+              "type": {
+                "text": "number"
+              },
+              "description": "How many toasts show at once; the rest wait their turn.",
+              "name": "max",
+              "default": "3",
+              "fieldName": "max"
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "Each toast's close button's accessible name.",
+              "name": "dismiss-label",
+              "default": "\"Dismiss\""
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The region's name.",
+              "name": "aria-label",
+              "default": "\"Notifications\""
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "The region that shows toasts.",
+          "tagName": "pp-toaster",
+          "customElement": true
+        },
+        {
+          "kind": "function",
+          "name": "toast",
+          "return": {
+            "type": {
+              "text": "ToastHandle"
+            }
+          },
+          "parameters": [
+            {
+              "name": "options",
+              "type": {
+                "text": "ToastOptions | string"
+              }
+            }
+          ],
+          "description": "Shows a toast in the page's toaster, adding one to <body> if there is none."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelToaster",
+          "declaration": {
+            "name": "PixelToaster",
+            "module": "src/toast.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-toaster",
+          "declaration": {
+            "name": "PixelToaster",
+            "module": "src/toast.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "toast",
+          "declaration": {
+            "name": "toast",
+            "module": "src/toast.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tooltip.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A tooltip for any trigger, following the WAI-ARIA tooltip pattern and WCAG 1.4.13: it describes its trigger,\nshows after a beat on hover and at once on keyboard focus, stays while the pointer moves onto it, and hides on\nEscape. It sits in the top layer and takes the other side when there is no room.",
+          "name": "PixelTooltip",
+          "members": [
+            {
+              "kind": "field",
+              "name": "htmlFor",
+              "type": {
+                "text": "string"
+              },
+              "description": "The id of the element it describes.",
+              "attribute": "for"
+            },
+            {
+              "kind": "field",
+              "name": "placement",
+              "type": {
+                "text": "Side"
+              },
+              "description": "The side it prefers.",
+              "attribute": "placement"
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Shows it now."
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Hides it now."
+            }
+          ],
+          "attributes": [
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The trigger's id; left out, the element just before the tooltip.",
+              "name": "for",
+              "fieldName": "htmlFor"
+            },
+            {
+              "type": {
+                "text": "\"top\" | \"bottom\" | \"left\" | \"right\""
+              },
+              "description": "The side it prefers.",
+              "name": "placement",
+              "default": "\"top\"",
+              "fieldName": "placement"
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "A short description that shows on hover and focus.",
+          "tagName": "pp-tooltip",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelTooltip",
+          "declaration": {
+            "name": "PixelTooltip",
+            "module": "src/tooltip.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-tooltip",
+          "declaration": {
+            "name": "PixelTooltip",
+            "module": "src/tooltip.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

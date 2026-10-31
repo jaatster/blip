@@ -34,6 +34,19 @@ const make = (tag: string, className: string, attrs: Record<string, string> = {}
 const topLayer =
   typeof HTMLElement !== "undefined" && "popover" in HTMLElement.prototype && typeof CSS !== "undefined" && CSS.supports("position-try-fallbacks: flip-block") && CSS.supports("anchor-scope: all");
 
+/**
+ * The WAI-ARIA editable combobox with list and inline autocomplete, over a text input and a <datalist>.
+ * Form-associated: the form value is the chosen suggestion's value, or the text when it matches none.
+ *
+ * @summary A text field with a list of suggestions.
+ * @attr {string} name - The form field name; taken from the input when left out.
+ * @attr {string} value - The starting value (a suggestion's value, or text). The value property is the current one.
+ * @attr {boolean} open - The list of suggestions is showing.
+ * @attr {string} [empty-text="No matches"] - Shown in the list when nothing matches.
+ * @attr {string} [toggle-label="Show suggestions"] - The toggle button's accessible name.
+ * @fires {CustomEvent<{ value: string }>} pp-change - Once per new value: a suggestion taken, the field cleared, or
+ * typed text committed.
+ */
 export class PixelCombobox extends PixelElement {
   static formAssociated = true;
   static classes = ["pp-combobox"];

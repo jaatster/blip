@@ -1,0 +1,170 @@
+---
+/**
+ * Theme builder: an accent per scheme (a candy, or any colour with its light and shade worked out), a pixel size, a
+ * live preview, contrast checks for every label, and the result as DTCG token files and CSS.
+ */
+import Docs from "../../layouts/Docs.astro";
+import Icon from "../../components/Icon.astro";
+import { tokens } from "../../lib/data";
+import { SCHEMES } from "../../lib/colour";
+
+const t = tokens();
+const CANDIES = ["blue", "teal", "green", "purple", "pink", "red", "orange", "slate"];
+const candies = Object.fromEntries(CANDIES.map((c) => [c, { base: t.shared[`candy-${c}`], light: t.shared[`candy-${c}-light`], shade: t.shared[`candy-${c}-shade`] }]));
+const DEFAULTS: Record<string, string> = { day: "blue", sunset: "pink", night: "purple" };
+const schemes = Object.fromEntries(SCHEMES.map((s) => [s.id, {
+  title: s.title,
+  dark: s.id === "night",
+  bg: t.schemes[s.id].bg, surface: t.schemes[s.id].surface, raised: t.schemes[s.id]["surface-raised"],
+  ink: t.shared.ink, white: t.shared.white,
+  accent: { candy: DEFAULTS[s.id], base: t.schemes[s.id].accent, light: t.schemes[s.id]["accent-light"], shade: t.schemes[s.id]["accent-shade"], text: t.schemes[s.id]["accent-text"], on: t.schemes[s.id]["accent-on"] },
+}]));
+const data = { candies, schemes, ink: t.shared.ink, white: t.shared.white };
+---
+<Docs title="Theme builder" description="Make a Blip theme: an accent for each time of day, a pixel size, a live preview with contrast checks, exported as DTCG tokens and CSS." wide styles={["theme"]} scripts={["theme"]}>
+  <header class="docs-page-head tb-head">
+    <h1 class="docs-page-title pp-display" data-scale="2">Theme builder</h1>
+    <p class="docs-lede">Pick an accent for each time of day, from the candies or any colour you like, and a pixel size. The light and shade bands are worked out the way the candies' were, every label is checked against AA, and the result comes out as token files for the resolver and as CSS.</p>
+  </header>
+
+  <noscript><p class="pp-box pp-alert" data-tone="info"><span class="pp-alert-icon" aria-hidden="true"></span><span class="pp-alert-body">The builder needs JavaScript. The candies and the scheme roles are all on <a href="/foundations/colour/">Colour</a>.</span></p></noscript>
+
+  <div class="tb docs-needs-js">
+    <section class="pp-box tb-controls" data-variant="panel" aria-labelledby="tb-controls-title">
+      <h2 class="tb-h2" id="tb-controls-title">Your theme</h2>
+
+      <div class="tb-field">
+        <span class="pp-label" id="tb-scheme-label">Time of day</span>
+        <pp-segmented class="pp-box pp-segmented tb-scheme" aria-labelledby="tb-scheme-label" value="day" data-width="full">
+          {SCHEMES.map((s, i) => <button class="pp-box" type="button" value={s.id} aria-checked={i === 0 ? "true" : "false"}><Icon name={s.id === "day" ? "sun" : s.id === "sunset" ? "sunset" : "moon"} />{s.title}</button>)}
+        </pp-segmented>
+      </div>
+
+      <fieldset class="tb-field tb-candies">
+        <legend class="pp-label">Accent for <span class="tb-scheme-name">Day</span></legend>
+        <div class="tb-swatches" role="radiogroup" aria-label="Candy">
+          {CANDIES.map((c) => (
+            <label class="pp-box tb-swatch" data-tone={c} title={c}>
+              <input type="radio" name="tb-candy" value={c} />
+              <span class="pp-sr-only">{c}</span>
+              <span class="tb-swatch-mark" aria-hidden="true"></span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <div class="tb-field">
+        <label class="pp-label" for="tb-hex">Or any colour</label>
+        <div class="tb-hex-row">
+          <span class="pp-box pp-input tb-hex"><input id="tb-hex" type="text" inputmode="text" spellcheck="false" autocomplete="off" maxlength="7" value="#33A3FF" aria-describedby="tb-hex-help" /></span>
+          <input class="tb-picker" type="color" value="#33a3ff" aria-label="Pick a colour" />
+        </div>
+        <p class="pp-field-help" id="tb-hex-help">A base colour. Light: 0.65 of its saturation at full brightness. Shade: 0.84 of its brightness.</p>
+      </div>
+
+      <div class="tb-field">
+        <span class="pp-label">The candy, worked out</span>
+        <div class="tb-derived">
+          <span class="pp-box tb-derived-box" aria-hidden="true"></span>
+          <dl class="tb-derived-values">
+            <div><dt>Light</dt><dd><span class="tb-dot" data-k="light"></span><code data-v="light"></code></dd></div>
+            <div><dt>Base</dt><dd><span class="tb-dot" data-k="base"></span><code data-v="base"></code></dd></div>
+            <div><dt>Shade</dt><dd><span class="tb-dot" data-k="shade"></span><code data-v="shade"></code></dd></div>
+            <div><dt>Text</dt><dd><span class="tb-dot" data-k="text"></span><code data-v="text"></code></dd></div>
+            <div><dt>Label</dt><dd><span class="tb-dot" data-k="on"></span><code data-v="on"></code></dd></div>
+          </dl>
+        </div>
+      </div>
+
+      <div class="tb-field">
+        <span class="pp-label" id="tb-checks-title">Contrast</span>
+        <ul class="tb-checks" role="list" aria-labelledby="tb-checks-title" aria-live="polite"></ul>
+      </div>
+
+      <div class="tb-field">
+        <span class="pp-label" id="tb-pixel-label">Pixel</span>
+        <pp-segmented class="pp-box pp-segmented tb-pixel" aria-labelledby="tb-pixel-label" value="2">
+          <button class="pp-box" type="button" value="2" aria-checked="true">2 px</button>
+          <button class="pp-box" type="button" value="3">3 px</button>
+          <button class="pp-box" type="button" value="4">4 px</button>
+        </pp-segmented>
+      </div>
+
+      <button class="pp-box pp-button tb-reset" type="button" data-variant="ghost" data-size="sm"><Icon name="undo" />Back to Blip's own</button>
+    </section>
+
+    <section class="tb-preview-wrap" aria-labelledby="tb-preview-title">
+      <h2 class="tb-h2" id="tb-preview-title">Preview</h2>
+      <div class="tb-strip" aria-hidden="true">
+        {SCHEMES.map((s) => <div class="tb-strip-cell" data-pp-scheme={s.id} data-strip={s.id}><span class="pp-box pp-button" data-size="sm">{s.title}</span><span class="pp-box pp-button" data-size="sm" data-variant="soft">Soft</span></div>)}
+      </div>
+      <div class="tb-preview-scroll docs-scroll">
+        <div class="tb-preview" data-pp-scheme="day">
+          <div class="pp-box tb-sample" data-variant="panel">
+            <div class="tb-sample-head">
+              <p class="pp-display pp-pop" data-scale="2" data-pop="Level 2">Level 2</p>
+              <span class="pp-box pp-badge" data-size="sm">New</span>
+            </div>
+            <div class="pp-tabs" data-variant="soft" data-size="sm">
+              <div class="pp-tabs-list" role="tablist" aria-label="Sample tabs">
+                <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="true" type="button">Play</button>
+                <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="false" type="button" tabindex="-1">Map</button>
+                <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="false" type="button" tabindex="-1">Items</button>
+              </div>
+            </div>
+            <p class="pp-body">Your theme's accent, in the parts that use it: candy and soft buttons, the chosen tab, a switch, a checkbox, the progress fill, POP letters and <a href="#tb-preview-title">a link like this one</a>.</p>
+            <div class="docs-row">
+              <button class="pp-box pp-button" type="button">Continue</button>
+              <button class="pp-box pp-button" type="button" data-variant="soft">Options</button>
+              <button class="pp-box pp-button" type="button" data-variant="outline" aria-pressed="true">Outline, on</button>
+            </div>
+            <div class="tb-sample-row">
+              <label class="pp-check"><span class="pp-box pp-checkbox"><input type="checkbox" checked /></span>Auto-save</label>
+              <label class="pp-check"><span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box" checked /></span>Music</label>
+              <span class="pp-box pp-tag">Rare</span>
+            </div>
+            <div>
+              <div class="pp-progress-label"><label for="tb-progress">World 2</label><span>60%</span></div>
+              <div class="pp-box pp-progress"><progress id="tb-progress" max="100" value="60">60%</progress></div>
+            </div>
+            <pp-segmented class="pp-box pp-segmented" data-size="sm" aria-label="Difficulty" value="normal">
+              <button class="pp-box" type="button" value="easy">Easy</button>
+              <button class="pp-box" type="button" value="normal" aria-checked="true">Normal</button>
+              <button class="pp-box" type="button" value="hard">Hard</button>
+            </pp-segmented>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tb-export" aria-labelledby="tb-export-title">
+      <h2 class="tb-h2" id="tb-export-title">Export</h2>
+      <p class="docs-note">Token files go next to Blip's in the resolver, one per scheme, after its own; the CSS goes after <code class="docs-inline-code">tokens.css</code>.</p>
+      <pp-tabs class="pp-tabs" data-variant="underline" data-size="sm">
+        <div class="pp-tabs-list" role="tablist" aria-label="Export formats">
+          <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="true" type="button">CSS</button>
+          <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false" type="button" tabindex="-1">Day tokens</button>
+          <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false" type="button" tabindex="-1">Sunset tokens</button>
+          <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false" type="button" tabindex="-1">Night tokens</button>
+          <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false" type="button" tabindex="-1">Resolver</button>
+        </div>
+        {[["css", "my-theme.css", "CSS"], ["day", "my-theme.day.tokens.json", "JSON"], ["sunset", "my-theme.sunset.tokens.json", "JSON"], ["night", "my-theme.night.tokens.json", "JSON"], ["resolver", "blip.resolver.json", "JSON"]].map(([id, file, lang], i) => (
+          <div class="pp-tabs-panel" role="tabpanel" hidden={i > 0 ? true : undefined}>
+            <figure class="pp-box docs-code tb-out">
+              <figcaption class="docs-code-bar">
+                <span class="docs-code-lang">{file}</span>
+                <span class="docs-row tb-out-actions">
+                  <button class="pp-box pp-button docs-copy" type="button" data-variant="ghost" data-size="sm" data-copy-from={`#tb-out-${id}`}>Copy</button>
+                  <button class="pp-box pp-button tb-download" type="button" data-variant="soft" data-size="sm" data-file={file} data-from={`#tb-out-${id}`}><Icon name="download" />Download</button>
+                </span>
+              </figcaption>
+              <pre class="tb-code" data-lang={lang} tabindex="0" aria-label={file}><code id={`tb-out-${id}`}></code></pre>
+            </figure>
+          </div>
+        ))}
+      </pp-tabs>
+    </section>
+  </div>
+
+  <script type="application/json" id="tb-data" set:html={JSON.stringify(data)} />
+</Docs>

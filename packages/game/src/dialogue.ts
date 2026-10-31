@@ -29,6 +29,24 @@ export function blipRate(letter: string, mood = "plain", base = 1): number {
   return base * (mood === "happy" ? 1.18 : mood === "sleepy" ? 0.8 : 1) * ("AEIOU".includes(c) ? 1.12 : 1) * (1 + (((c.charCodeAt(0) * 7) % 5) - 2) * 0.03);
 }
 
+/**
+ * The RPG text box: one <p> per page, each typed in a letter at a time with the TV's rhythm and an optional chip
+ * voice. A click, Enter or Space shows the whole page, the next press turns it; after the last page come the
+ * choices, if any, or pp-done. Screen readers get each whole page at once.
+ *
+ * @summary The RPG dialogue box that types its pages in.
+ * @attr {boolean | number} voice - A blip on every other voiced letter. Present, or a base rate such as 1.2 (higher
+ * for smaller characters).
+ * @attr {"plain" | "happy" | "sleepy"} [mood="plain"] - Raises or lowers the voice.
+ * @attr {number} [speed=1] - Typing speed multiplier.
+ * @attr {string} [typing-label="Show all text"] - The ▼ button's name while a page types.
+ * @attr {string} [next-label="Next"] - The ▼ button's name when another page follows.
+ * @attr {string} [done-label="Continue"] - The ▼ button's name on the last page.
+ * @attr {"display"} data-font - The text in Pixel Bop at scale 1, capitals, as on the TV's speech bubble.
+ * @attr {number} data-pp-typed - Freezes the first page at this many letters (docs and screenshots only).
+ * @fires {CustomEvent<{ page: number; pages: number }>} pp-next - A page turned.
+ * @fires {CustomEvent<void>} pp-done - The reader pressed on after the last page (and there were no choices).
+ */
 export class PixelDialogue extends PixelElement {
   static override box = true;
   static override classes = ["pp-dialogue"];

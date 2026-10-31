@@ -14,6 +14,15 @@ import { icons, type IconName } from "./index.js";
 const SVG = "http://www.w3.org/2000/svg";
 const warned = new Set<string>();
 
+/**
+ * One Blip icon as inline SVG in light DOM, so it takes the page's colour and the .pp-icon size. Markup that
+ * already holds the <svg> (rendered on the server) is adopted, not replaced.
+ *
+ * @summary One 12 x 12 pixel icon.
+ * @attr {IconName} name - The icon to draw. An unknown name draws nothing and warns once (PP-I001).
+ * @attr {string} label - Names the icon for assistive technology; without it the icon is aria-hidden.
+ * @attr {"lg"} data-size - Twice the size: 24 pixels square instead of 12.
+ */
 export class PixelIcon extends HTMLElement {
   static observedAttributes = ["name", "label", "data-size"];
 

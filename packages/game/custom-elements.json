@@ -1,0 +1,745 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/choices.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Keyboard and events for a list of choices: Up and Down move between them (they wrap), Home and End jump to the\nends, and only one choice is in the tab order.",
+          "name": "PixelChoices",
+          "members": [
+            {
+              "kind": "field",
+              "name": "choices",
+              "type": {
+                "text": "HTMLButtonElement[]"
+              },
+              "description": "The choices you can take, in order.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions & { index?: number }"
+                  }
+                }
+              ],
+              "description": "Moves focus to a choice (the first by default), skipping ones you can't take."
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<ChoiceDetail>"
+              },
+              "description": "A choice was clicked or pressed.",
+              "name": "pp-choice"
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "A list of answers to pick from with the keys.",
+          "tagName": "pp-choices",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelChoices",
+          "declaration": {
+            "name": "PixelChoices",
+            "module": "src/choices.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-choices",
+          "declaration": {
+            "name": "PixelChoices",
+            "module": "src/choices.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/dialogue.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "blipRate",
+          "return": {
+            "type": {
+              "text": "number"
+            }
+          },
+          "parameters": [
+            {
+              "name": "letter",
+              "type": {
+                "text": "string"
+              }
+            },
+            {
+              "name": "mood",
+              "default": "\"plain\""
+            },
+            {
+              "name": "base",
+              "default": "1"
+            }
+          ],
+          "description": "The blip's playback rate for a letter, as on the TV: a word always sounds the same, vowels a step up."
+        },
+        {
+          "kind": "class",
+          "description": "The RPG text box: one <p> per page, each typed in a letter at a time with the TV's rhythm and an optional chip\nvoice. A click, Enter or Space shows the whole page, the next press turns it; after the last page come the\nchoices, if any, or pp-done. Screen readers get each whole page at once.",
+          "name": "PixelDialogue",
+          "members": [
+            {
+              "kind": "field",
+              "name": "pages",
+              "type": {
+                "text": "HTMLElement[]"
+              },
+              "description": "The pages, in order.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "page",
+              "type": {
+                "text": "number"
+              },
+              "description": "The page showing, from 0.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "typing",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "True while a page is typing itself in.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "say",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "pages",
+                  "type": {
+                    "text": "string | string[]"
+                  }
+                }
+              ],
+              "description": "Replaces the pages and starts again from the first."
+            },
+            {
+              "kind": "method",
+              "name": "advance",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Shows the rest of a typing page; otherwise turns to the next page, or after the last sends pp-done."
+            },
+            {
+              "kind": "method",
+              "name": "focus",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "options",
+                  "optional": true,
+                  "type": {
+                    "text": "FocusOptions"
+                  }
+                }
+              ],
+              "description": "Focuses what the reader acts on next: the choices once they show, else the next arrow."
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<{ page: number; pages: number }>"
+              },
+              "description": "A page turned.",
+              "name": "pp-next"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<void>"
+              },
+              "description": "The reader pressed on after the last page (and there were no choices).",
+              "name": "pp-done"
+            }
+          ],
+          "attributes": [
+            {
+              "type": {
+                "text": "boolean | number"
+              },
+              "description": "A blip on every other voiced letter. Present, or a base rate such as 1.2 (higher for smaller characters).",
+              "name": "voice"
+            },
+            {
+              "type": {
+                "text": "\"plain\" | \"happy\" | \"sleepy\""
+              },
+              "description": "Raises or lowers the voice.",
+              "name": "mood",
+              "default": "\"plain\""
+            },
+            {
+              "type": {
+                "text": "number"
+              },
+              "description": "Typing speed multiplier.",
+              "name": "speed",
+              "default": "1"
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The ▼ button's name while a page types.",
+              "name": "typing-label",
+              "default": "\"Show all text\""
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The ▼ button's name when another page follows.",
+              "name": "next-label",
+              "default": "\"Next\""
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The ▼ button's name on the last page.",
+              "name": "done-label",
+              "default": "\"Continue\""
+            },
+            {
+              "type": {
+                "text": "\"display\""
+              },
+              "description": "The text in Pixel Bop at scale 1, capitals, as on the TV's speech bubble.",
+              "name": "data-font"
+            },
+            {
+              "type": {
+                "text": "number"
+              },
+              "description": "Freezes the first page at this many letters (docs and screenshots only).",
+              "name": "data-pp-typed"
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "The RPG dialogue box that types its pages in.",
+          "tagName": "pp-dialogue",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "blipRate",
+          "declaration": {
+            "name": "blipRate",
+            "module": "src/dialogue.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "PixelDialogue",
+          "declaration": {
+            "name": "PixelDialogue",
+            "module": "src/dialogue.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-dialogue",
+          "declaration": {
+            "name": "PixelDialogue",
+            "module": "src/dialogue.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/hud.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A coin, score or time counter in Pixel Bop's tabular digits. A gain counts up a whole step a frame, bumps the icon\nand plays its sound; the value is announced politely once it settles.",
+          "name": "PixelCounter",
+          "members": [
+            {
+              "kind": "method",
+              "name": "format",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "n",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ],
+              "description": "The value as shown: zero-padded to `pad` digits, or m:ss with format=\"time\"."
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "number"
+              },
+              "inheritedFrom": {
+                "name": "HudValue",
+                "module": "src/hud.ts"
+              },
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "What the value is, for screen readers: \"Coins\", \"Health\".",
+              "inheritedFrom": {
+                "name": "HudValue",
+                "module": "src/hud.ts"
+              },
+              "attribute": "label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "type": {
+                "text": "number"
+              },
+              "description": "The count (seconds with format=\"time\").",
+              "inheritedFrom": {
+                "name": "HudValue",
+                "module": "src/hud.ts"
+              },
+              "fieldName": "value"
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "What the value is, for screen readers: \"Coins\", \"Score\".",
+              "name": "label",
+              "fieldName": "label"
+            },
+            {
+              "type": {
+                "text": "number"
+              },
+              "description": "Zero-pads to this many digits: 042.",
+              "name": "pad"
+            },
+            {
+              "type": {
+                "text": "\"time\""
+              },
+              "description": "Shows the value, in seconds, as m:ss.",
+              "name": "format"
+            },
+            {
+              "name": "low",
+              "type": {
+                "text": "number"
+              },
+              "description": "At or under this value the digits turn red (data-low).",
+              "inheritedFrom": {
+                "name": "HudValue",
+                "module": "src/hud.ts"
+              }
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "A chip sound to play on a gain: \"coin\".",
+              "name": "sound"
+            },
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Never announced: for a ticking timer or a busy score.",
+              "name": "quiet"
+            }
+          ],
+          "superclass": {
+            "name": "HudValue",
+            "module": "src/hud.ts"
+          },
+          "summary": "A coin, score or time counter.",
+          "tagName": "pp-counter",
+          "customElement": true
+        },
+        {
+          "kind": "class",
+          "description": "Hearts for health: full, half and empty sprites (sprites.js draws them). A loss shakes the row; the value is\nannounced politely once it settles.",
+          "name": "PixelHearts",
+          "members": [
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "attribute": "max"
+            },
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "number"
+              },
+              "inheritedFrom": {
+                "name": "HudValue",
+                "module": "src/hud.ts"
+              },
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "What the value is, for screen readers: \"Coins\", \"Health\".",
+              "inheritedFrom": {
+                "name": "HudValue",
+                "module": "src/hud.ts"
+              },
+              "attribute": "label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "type": {
+                "text": "number"
+              },
+              "description": "The health, in hearts; halves show as half hearts.",
+              "inheritedFrom": {
+                "name": "HudValue",
+                "module": "src/hud.ts"
+              },
+              "fieldName": "value"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "description": "How many hearts.",
+              "default": "3",
+              "inheritedFrom": {
+                "name": "HudValue",
+                "module": "src/hud.ts"
+              },
+              "fieldName": "max"
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "What the value is, for screen readers: \"Health\".",
+              "name": "label",
+              "fieldName": "label"
+            },
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Never announced.",
+              "name": "quiet"
+            }
+          ],
+          "superclass": {
+            "name": "HudValue",
+            "module": "src/hud.ts"
+          },
+          "summary": "A row of hearts for health.",
+          "tagName": "pp-hearts",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelCounter",
+          "declaration": {
+            "name": "PixelCounter",
+            "module": "src/hud.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "PixelHearts",
+          "declaration": {
+            "name": "PixelHearts",
+            "module": "src/hud.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-counter",
+          "declaration": {
+            "name": "PixelCounter",
+            "module": "src/hud.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-hearts",
+          "declaration": {
+            "name": "PixelHearts",
+            "module": "src/hud.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/inventory.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A grid of item slots as a single-select listbox: the arrow keys move in two dimensions, Home and End jump to the\nends, a letter jumps to the next item with that name, and Enter, Space or a click selects.",
+          "name": "PixelInventory",
+          "members": [
+            {
+              "kind": "field",
+              "name": "slots",
+              "type": {
+                "text": "HTMLElement[]"
+              },
+              "description": "The slots, in order. Slots added later become options as they are found.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "HTMLElement | undefined"
+              },
+              "description": "The selected slot, if any.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "select",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "slot",
+                  "type": {
+                    "text": "HTMLElement | number"
+                  }
+                }
+              ],
+              "description": "Selects a slot (by element or index) and sends pp-select."
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<SelectDetail>"
+              },
+              "description": "A slot was selected.",
+              "name": "pp-select"
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "An inventory grid of item slots.",
+          "tagName": "pp-inventory",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelInventory",
+          "declaration": {
+            "name": "PixelInventory",
+            "module": "src/inventory.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-inventory",
+          "declaration": {
+            "name": "PixelInventory",
+            "module": "src/inventory.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/sprites.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "One of the game kit's sprites, drawn in place as whole-pixel SVG in token colours. Named with aria-label it is a\npicture (role=\"img\"); without, decoration.",
+          "name": "PixelSprite",
+          "cssProperties": [
+            {
+              "description": "A custom tone's light, set on the sprite.",
+              "name": "--pp-sprite-light"
+            },
+            {
+              "description": "A custom tone's base.",
+              "name": "--pp-sprite-base"
+            },
+            {
+              "description": "A custom tone's shade.",
+              "name": "--pp-sprite-shade"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "The sprite's name: coin, heart, potion… (see spriteNames).",
+              "attribute": "name"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "description": "The sprite: coin, heart, potion… (see spriteNames).",
+              "fieldName": "name"
+            },
+            {
+              "name": "aria-label",
+              "type": {
+                "text": "string"
+              },
+              "description": "Names the sprite; without it the sprite is hidden from assistive technology."
+            },
+            {
+              "type": {
+                "text": "\"accent\" | \"neutral\" | \"red\" | \"orange\" | \"yellow\" | \"green\" | \"teal\" | \"blue\" | \"purple\" | \"pink\" | \"slate\""
+              },
+              "description": "Recolours the sprite's own candy (potions, gems, keys, hearts, shields).",
+              "name": "data-tone"
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "A game sprite: coin, heart, potion, key…",
+          "tagName": "pp-sprite",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "sprite",
+          "declaration": {
+            "name": "sprite",
+            "module": "./_pixels.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "spriteNames",
+          "declaration": {
+            "name": "spriteNames",
+            "module": "./_pixels.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "pixels",
+          "declaration": {
+            "name": "pixels",
+            "module": "./_pixels.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "PixelSprite",
+          "declaration": {
+            "name": "PixelSprite",
+            "module": "src/sprites.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-sprite",
+          "declaration": {
+            "name": "PixelSprite",
+            "module": "src/sprites.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -242,6 +242,6 @@
     .pp-progress-steps-item::before { forced-color-adjust: none; color: CanvasText !important; }
     .pp-progress-steps-item::after { forced-color-adjust: none; background: CanvasText !important; }
     .pp-progress-steps-item[data-state="done"] .pp-progress-steps-marker { forced-color-adjust: none; color: transparent; background: Canvas; }
-    .pp-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"])) .pp-progress-steps-marker { border-width: 2px; }
+    .pp-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"])) .pp-progress-steps-marker { border-width: var(--pp-pixel); }
   }
 }

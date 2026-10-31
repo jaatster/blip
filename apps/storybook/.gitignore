@@ -1,0 +1,3 @@
+# Written by scripts/generate.mjs from the packages' examples and docs.
+src/generated/
+storybook-static/

@@ -1,9 +1,25 @@
 {
+  "name": "@jaatster/blip-game",
   "version": "0.1.0",
+  "description": "The Blip game UI kit: dialogue boxes, HUD bars, inventories, button prompts, pause menus.",
+  "keywords": [
+    "blip",
+    "pixel-art",
+    "design-system",
+    "game-ui",
+    "hud",
+    "rpg",
+    "web-components"
+  ],
+  "homepage": "https://github.com/jaatster/blip/tree/main/packages/game#readme",
+  "bugs": "https://github.com/jaatster/blip/issues",
+  "repository": {
+    "type": "git",
+    "url": "github:blip/blip",
+    "directory": "packages/game"
+  },
   "license": "MIT",
   "type": "module",
-  "name": "@jaatster/blip-game",
-  "description": "The Blip game UI kit: dialogue boxes, HUD bars, inventories, button prompts, pause menus.",
   "sideEffects": [
     "*.css",
     "./dist/*.js"
@@ -15,17 +31,32 @@
     },
     "./game.css": "./dist/game.css",
     "./*.css": "./dist/*.css",
+    "./*.js": {
+      "types": "./dist/*.d.ts",
+      "default": "./dist/*.js"
+    },
     "./*": {
       "types": "./dist/*.d.ts",
       "default": "./dist/*.js"
-    }
+    },
+    "./custom-elements.json": "./custom-elements.json",
+    "./package.json": "./package.json"
   },
+  "customElements": "custom-elements.json",
   "files": [
     "dist",
     "src",
     "docs",
-    "examples"
+    "examples",
+    "CHANGELOG.md",
+    "custom-elements.json"
   ],
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "node ../../scripts/build-css-package.mjs game && node ../../scripts/build-ts-package.mjs game"
   },

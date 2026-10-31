@@ -14,6 +14,13 @@ export interface SelectDetail {
   value: string;
 }
 
+/**
+ * A grid of item slots as a single-select listbox: the arrow keys move in two dimensions, Home and End jump to the
+ * ends, a letter jumps to the next item with that name, and Enter, Space or a click selects.
+ *
+ * @summary An inventory grid of item slots.
+ * @fires {CustomEvent<SelectDetail>} pp-select - A slot was selected.
+ */
 export class PixelInventory extends PixelElement {
   static override classes = ["pp-inventory"];
 

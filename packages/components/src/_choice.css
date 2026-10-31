@@ -86,6 +86,8 @@
     appearance: none;
     mask: var(--_g) center / var(--_gs) no-repeat;
   }
+  /* A small box is 9 pixels: two more all round keeps its target at 26 px too (WCAG 2.5.8). */
+  :where(.pp-checkbox, .pp-radio):where([data-size="sm"], [data-size="sm"] > *) > :where(input) { inset: calc(-2 * var(--pp-pixel)); }
   :where(.pp-checkbox, .pp-radio) > :where(:checked) { background-color: currentColor; }
   :where(.pp-checkbox, .pp-radio, .pp-switch) > :where(:disabled) { cursor: not-allowed; }
 
@@ -118,7 +120,7 @@
 
   /* Windows high contrast: the system draws the real control; the box shows where the focus is. */
   @media (forced-colors: active) {
-    :where(.pp-checkbox, .pp-radio, .pp-switch):where(:has(> input:focus-visible)) { outline: 2px solid Highlight; outline-offset: 2px; }
+    :where(.pp-checkbox, .pp-radio, .pp-switch):where(:has(> input:focus-visible)) { outline: var(--pp-pixel) solid Highlight; outline-offset: var(--pp-pixel); }
     :where(.pp-checkbox, .pp-radio) { border: 0; }
     :where(.pp-checkbox, .pp-radio) > :where(input) { inset: 0; appearance: auto; mask: none; }
   }

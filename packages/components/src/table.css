@@ -159,7 +159,8 @@
   }
   .pp-table :is(th, td).pp-table-check {
     inline-size: var(--pp-target-min);
-    padding-inline: var(--_px) 0;
+    /* Room at the end for the checkbox's target (two pixels past its box), so the next cell never covers it. */
+    padding-inline: var(--_px) calc(2 * var(--pp-pixel));
     text-align: center;
   }
   .pp-table-check input { margin: 0; vertical-align: middle; }

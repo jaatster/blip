@@ -1,0 +1,173 @@
+---
+/**
+ * Template: a landing page made only of @jaatster/blip-blocks (hero, features, pricing, call to action, footer), for a
+ * made-up planner whose sky keeps time with you.
+ */
+import Template from "../../layouts/Template.astro";
+import Icon from "../../components/Icon.astro";
+
+const letters = [..."Daybreak"].map((c, i) => ({ c, i }));
+const plans = [
+  { id: "free", name: "Free", price: "0", period: "for ever", text: "Your day, on one device.", features: ["Today, tomorrow and the week", "The sky that keeps time", "Focus timer", ["Sync", true], ["Shared lists", true]], button: "Start for free", featured: false },
+  { id: "plus", name: "Plus", price: "3", period: "a month", text: "Your day, everywhere you are.", features: ["Everything in Free", "Sync across devices", "Streaks and a yearly map", "Themes for every season"], button: "Try Plus free for 14 days", featured: true },
+  { id: "home", name: "Household", price: "6", period: "a month", text: "Plus for up to five people.", features: ["Everything in Plus", "Shared lists and chores", "A family calendar", "One bill"], button: "Start a household", featured: false },
+] as const;
+---
+<Template title="Landing page template" description="A Blip landing page made from the blocks: a hero on the world, features, pricing, a call to action and a footer." kits={["game", "blocks", "effects"]} scripts={["tpl-landing"]} display>
+  <a class="pp-box pp-skip-link" href="#features-title">Skip to the features</a>
+  <header class="tpl-landing-top">
+    <nav class="pp-box pp-app-bar" aria-label="Daybreak" data-collapse="medium">
+      <a class="pp-app-bar-brand" href="#hero-title"><Icon name="sunrise" /><span class="pp-display pp-pop" data-scale="1" data-tone="orange" data-pop="Daybreak">Daybreak</span></a>
+      <div class="pp-app-bar-nav">
+        <button class="pp-box pp-button pp-app-bar-toggle" type="button" data-variant="ghost" data-icon-only popovertarget="landing-links" aria-label="Menu"><Icon name="menu" /></button>
+        <ul class="pp-box pp-app-bar-links" id="landing-links" popover role="list">
+          <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#features-title">Features</a></li>
+          <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#pricing-title">Pricing</a></li>
+          <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="/templates/">Blip docs</a></li>
+        </ul>
+      </div>
+      <div class="pp-app-bar-actions"><a class="pp-box pp-button" data-size="sm" href="#pricing-title">Get Daybreak</a></div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="pp-hero tpl-hero" aria-labelledby="hero-title">
+      <pp-world parallax clouds stars></pp-world>
+      <div class="pp-hero-inner">
+        <h1 class="pp-hero-title pp-display" id="hero-title"><span class="pp-sr-only">Daybreak</span><span aria-hidden="true"><span class="pp-hero-word">{letters.map(({ c, i }) => <span class="pp-pop pp-drop-in" data-pop={c} style={`--i:${i}`}>{c}</span>)}</span></span></h1>
+        <p class="pp-hero-lead">A planner on a sky that keeps time with you: pastel mornings for the big things, a sunset to wrap up, and a starry night that says stop.</p>
+        <div class="pp-hero-actions">
+          <a class="pp-box pp-button" data-size="lg" href="#pricing-title">Plan tomorrow</a>
+          <a class="pp-box pp-button" data-size="lg" data-variant="soft" data-tone="neutral" href="#features-title">See how it works</a>
+        </div>
+        <p class="pp-hero-note">Free on one device. No account needed.</p>
+      </div>
+      <div class="pp-hero-scenery" aria-hidden="true">
+        <pp-sprite name="star" style="position:absolute;left:calc(round(down,8%,var(--pp-pixel)));bottom:0"></pp-sprite>
+        <pp-sprite name="sparkle" style="position:absolute;left:calc(round(down,14%,var(--pp-pixel)));bottom:calc(14*var(--pp-pixel))"></pp-sprite>
+        <pp-sprite name="clock" style="position:absolute;left:calc(round(down,84%,var(--pp-pixel)));bottom:0"></pp-sprite>
+        <pp-sprite name="star" style="position:absolute;left:calc(round(down,90%,var(--pp-pixel)));bottom:0"></pp-sprite>
+      </div>
+      <div class="pp-hero-ground"></div>
+    </section>
+
+    <div class="tpl-landing-body">
+      <section class="pp-features" aria-labelledby="features-title">
+        <header class="pp-features-head">
+          <h2 class="pp-features-title" id="features-title">A day that has a shape</h2>
+          <p class="pp-features-lead">Lists are endless. Days are not. Daybreak plans to the light you have left.</p>
+        </header>
+        <div class="pp-features-grid">
+          <article class="pp-box pp-feature" data-size="lead" data-variant="panel">
+            <div class="pp-feature-media" aria-hidden="true">
+              <div class="tpl-times">
+                <div class="pp-stage" data-frame data-pp-scheme="day"><p class="pp-display pp-pop" data-scale="1" data-pop="9:00">9:00</p><div class="pp-stage-ground" style="--pp-stage-ground:10"></div></div>
+                <div class="pp-stage" data-frame data-pp-scheme="sunset"><p class="pp-display pp-pop" data-scale="1" data-tone="pink" data-pop="18:00">18:00</p><div class="pp-stage-ground" style="--pp-stage-ground:10"></div></div>
+                <div class="pp-stage" data-frame data-pp-scheme="night"><p class="pp-display pp-pop" data-scale="1" data-tone="purple" data-pop="22:00">22:00</p><div class="pp-stage-ground" style="--pp-stage-ground:10"></div></div>
+              </div>
+            </div>
+            <h3 class="pp-feature-title">Three skies a day</h3>
+            <p class="pp-feature-text">Mornings are for the one thing that matters. At sunset Daybreak gathers what is left; after dark it shows only tomorrow, and the stars.</p>
+          </article>
+          <article class="pp-box pp-feature" data-variant="soft" data-tone="orange">
+            <span class="pp-box pp-feature-icon" data-tone="orange"><Icon name="hourglass" /></span>
+            <h3 class="pp-feature-title">Focus in rounds</h3>
+            <p class="pp-feature-text">Twenty-five minutes, then a short walk. A chime only if you want one.</p>
+          </article>
+          <article class="pp-box pp-feature" data-variant="soft" data-tone="teal">
+            <span class="pp-box pp-feature-icon" data-tone="teal"><Icon name="calendar" /></span>
+            <h3 class="pp-feature-title">A week at a glance</h3>
+            <p class="pp-feature-text">Seven days as seven skies, so a heavy Thursday is easy to see coming.</p>
+          </article>
+          <article class="pp-box pp-feature" data-size="stat" data-variant="soft" data-tone="blue">
+            <p class="pp-feature-stat pp-pop" data-pop="3">3</p>
+            <p class="pp-feature-text">things a day, at most, in the morning list</p>
+          </article>
+          <article class="pp-box pp-feature" data-size="stat" data-variant="soft" data-tone="purple">
+            <p class="pp-feature-stat pp-pop" data-tone="purple" data-pop="0">0</p>
+            <p class="pp-feature-text">notifications after dark</p>
+          </article>
+          <article class="pp-box pp-feature" data-size="stat" data-variant="soft" data-tone="pink">
+            <p class="pp-feature-stat pp-pop" data-tone="pink" data-pop="365">365</p>
+            <p class="pp-feature-text">days in the yearly map of what you did</p>
+          </article>
+          <article class="pp-box pp-feature" data-size="wide" data-variant="panel">
+            <span class="pp-box pp-feature-icon" data-tone="green"><Icon name="eye" /></span>
+            <div class="tpl-stack-2">
+              <h3 class="pp-feature-title">Gentle on purpose</h3>
+              <p class="pp-feature-text">Every setting is one tap from the start: the sky can stay still, the chimes can stay off.</p>
+            </div>
+            <ul class="pp-feature-chips" role="list">
+              <li class="pp-box" data-variant="soft" data-tone="neutral">Reduced motion</li>
+              <li class="pp-box" data-variant="soft" data-tone="neutral">Big text</li>
+              <li class="pp-box" data-variant="soft" data-tone="neutral">Screen readers</li>
+              <li class="pp-box" data-variant="soft" data-tone="neutral">Keyboard only</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="tpl-pricing" aria-labelledby="pricing-title">
+        <h2 class="pp-title" id="pricing-title">Pick a plan</h2>
+        <div class="pp-pricing">
+          {plans.map((p) => (
+            <article class="pp-box pp-plan" data-variant={p.featured ? undefined : "panel"} data-featured={p.featured ? "" : undefined} data-tone={p.featured ? "orange" : undefined} aria-labelledby={`plan-${p.id}`}>
+              {p.featured && <p class="pp-box pp-plan-ribbon">Most loved</p>}
+              <h3 class="pp-plan-name" id={`plan-${p.id}`}>{p.name}</h3>
+              <p class="pp-plan-price"><span class="pp-plan-currency">$</span><span class="pp-plan-amount">{p.price}</span><span class="pp-plan-period">{p.period}</span></p>
+              <p class="pp-plan-text">{p.text}</p>
+              <ul class="pp-plan-features" role="list">
+                {p.features.map((f) => (Array.isArray(f) ? <li data-off>{f[0]}</li> : <li>{f}</li>))}
+              </ul>
+              <button class="pp-box pp-button tpl-plan-button" type="button" data-variant={p.featured ? "outline" : "soft"} data-width="full" data-plan={p.name}>{p.button}</button>
+            </article>
+          ))}
+        </div>
+        <p class="pp-small pp-muted">Prices in US dollars. Cancel whenever you like; your days stay yours.</p>
+      </section>
+
+      <section class="pp-cta" aria-labelledby="cta-title">
+        <pp-world></pp-world>
+        <h2 class="pp-cta-title pp-display pp-pop" data-scale="2" data-pop="Tomorrow starts tonight" id="cta-title">Tomorrow starts tonight</h2>
+        <p class="pp-cta-text">Take two minutes before bed to pick tomorrow's one thing. Daybreak will have the sky ready.</p>
+        <div class="pp-cta-actions">
+          <a class="pp-box pp-button" data-size="lg" href="#pricing-title">Plan tomorrow</a>
+        </div>
+        <div class="pp-cta-ground"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="pp-footer">
+    <div class="pp-footer-inner">
+      <div class="pp-footer-brand">
+        <p class="pp-display pp-pop" data-scale="2" data-tone="orange" data-pop="Daybreak">Daybreak</p>
+        <p class="pp-small">A made-up planner, to show a Blip landing page built from the blocks.</p>
+      </div>
+      <nav class="pp-footer-nav" aria-label="More from Daybreak">
+        <div class="pp-footer-col">
+          <h2 class="pp-footer-heading">Daybreak</h2>
+          <ul role="list"><li><a href="#features-title">Features</a></li><li><a href="#pricing-title">Pricing</a></li><li><a href="#cta-title">Plan tomorrow</a></li></ul>
+        </div>
+        <div class="pp-footer-col">
+          <h2 class="pp-footer-heading">Blip</h2>
+          <ul role="list"><li><a href="/templates/">Templates</a></li><li><a href="/components/hero/">The blocks</a></li><li><a href="/start/">Get started</a></li></ul>
+        </div>
+      </nav>
+      <form class="pp-footer-signup tpl-signup" action="#footer-letter" method="post" aria-labelledby="footer-letter">
+        <h2 class="pp-footer-heading" id="footer-letter">The morning letter</h2>
+        <p>One short email a month, with a sky worth seeing.</p>
+        <div class="pp-footer-row">
+          <label class="pp-sr-only" for="footer-email">Email address</label>
+          <span class="pp-box pp-footer-field" data-variant="outline"><input id="footer-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" required /></span>
+          <button class="pp-box pp-button" type="submit">Subscribe</button>
+        </div>
+      </form>
+    </div>
+    <div class="pp-footer-legal">
+      <p>Daybreak is made up for this Blip template. Blip is MIT; its fonts are SIL OFL.</p>
+      <ul role="list"><li><a href="/templates/">Back to the docs</a></li></ul>
+    </div>
+  </footer>
+  <pp-toaster data-placement="bottom-center"></pp-toaster>
+</Template>

@@ -1,0 +1,95 @@
+---
+/** Accessibility: what Blip does by itself, measured from the tokens and the docs, and what it asks of you. */
+import Docs from "../../layouts/Docs.astro";
+import Table from "../../components/Table.astro";
+import Pager from "../../components/Pager.astro";
+import { componentDocs, tokens } from "../../lib/data";
+import { checkedPairs, contrast, ratio, SCHEMES } from "../../lib/colour";
+import { esc } from "../../lib/html";
+
+const t = tokens();
+const checked = checkedPairs();
+const weakest = [...checked].sort((a, b) => a.ratio / a.min - b.ratio / b.min)[0]!;
+const rings = SCHEMES.map((s) => ({ ...s, r: Math.max(contrast(t.schemes[s.id].focus!, t.schemes[s.id].bg!), contrast(t.schemes[s.id]["focus-edge"]!, t.schemes[s.id].bg!)) }));
+const target = Number(t.shared["target-min"]) * 2;
+
+// Every component whose docs carry a keyboard table, and the keys in it.
+const keyRows = componentDocs()
+  .map((d) => {
+    const m = d.source.match(/\n\| Keys? \|[^\n]*\n\|[-| ]+\n((?:\|[^\n]*\n?)+)/);
+    if (!m) return null;
+    const keys = m[1]!.trim().split("\n").map((l) => l.split("|")[1]!.trim().replace(/`/g, "")).filter(Boolean);
+    const pattern = d.source.match(/WAI-ARIA Authoring Practices ([A-Z][\w\s-]+?) pattern/)?.[1]?.trim();
+    return { d, keys, pattern };
+  })
+  .filter((x): x is NonNullable<typeof x> => !!x);
+const H = (id: string, text: string) => ({ depth: 2, id, text });
+---
+<Docs styles={["foundations"]} scripts={["foundations"]} title="Accessibility" description="What Blip does for accessibility by itself (contrast checked at build, the focus ring, keyboard patterns, reduced motion, high contrast) and what it asks of you." headings={[H("floor", "The floor"), H("contrast", "Contrast"), H("focus", "Focus"), H("keyboard", "Keyboard"), H("motion", "Motion and time"), H("high-contrast", "High contrast"), H("you", "What is still yours")]}>
+  <header class="docs-page-head">
+    <h1 class="docs-page-title pp-display" data-scale="2">Accessibility</h1>
+    <p class="docs-lede">WCAG 2.2 AA is the floor, and most of it is built in: the colours are checked when the tokens build, focus is impossible to miss, every component has a keyboard path, and motion stops when someone asks it to.</p>
+  </header>
+
+  <section class="docs-section" aria-labelledby="floor">
+    <h2 id="floor">The floor</h2>
+    <ul class="docs-list">
+      <li><strong>{checked.length} text pairs</strong> are measured in three schemes every time the tokens build, and one below AA stops the build.</li>
+      <li><strong>{target} CSS px</strong> is the smallest target anything you can press may have (<code class="docs-inline-code">--pp-target-min</code>).</li>
+      <li><strong>{keyRows.length} components</strong> document a keyboard map, each following its WAI-ARIA Authoring Practices pattern.</li>
+      <li><strong>0 ms</strong> is every duration with reduced motion on, so nothing moves that was not asked to.</li>
+    </ul>
+  </section>
+
+  <section class="docs-section" aria-labelledby="contrast">
+    <h2 id="contrast">Contrast</h2>
+    <p>Every text pair a component can show (text, muted text, each intent's text on the page and surfaces, labels on every candy, links, outlines, selection) is measured when the tokens build, and a pair under AA fails the build with the file, the token and the fix. The closest to the line today: {weakest.label.toLowerCase()} at {weakest.scheme}, {ratio(weakest.ratio)} against {weakest.min}:1. See them all on <a href="/foundations/colour/#contrast">Colour</a>.</p>
+    <p>Labels on candy are ink, never white on a light candy; slate, the one dark candy, takes white. Colour never carries meaning alone: warnings and errors differ in shape as well as colour (a triangle, an octagon) and always come with words.</p>
+  </section>
+
+  <section class="docs-section" aria-labelledby="focus">
+    <h2 id="focus">Focus</h2>
+    <p>Focus is the yellow ring with an ink edge, one pixel each, following the stepped corners of whatever has it. Nothing else is yellow, so it is never confused with decoration, and the ink edge keeps it visible on any colour.</p>
+    <div class="docs-row">
+      {rings.map((s) => (
+        <div class="pp-box docs-ring" data-variant="panel" data-pp-scheme={s.id}>
+          <span class="pp-box pp-button" data-size="sm" data-variant="soft" data-pp-state="focus">{s.title}</span>
+          <span class="pp-small docs-num">{ratio(s.r)} against the page</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="docs-section" aria-labelledby="keyboard">
+    <h2 id="keyboard">Keyboard</h2>
+    <p>Components are native HTML first (buttons, inputs, dialogs, details, popovers), so the browser's own keyboard handling comes for free. Where an element adds behaviour it follows the WAI-ARIA Authoring Practices pattern for it, with roving focus, typeahead and dismissal shared from core.</p>
+    <Table label="Components with a keyboard map" head={["Component", "Pattern", "Keys"]} rows={keyRows.map((k) => [`<a href="${k.d.url}#accessibility">${esc(k.d.meta.name)}</a>`, esc(k.pattern ?? ""), esc([...new Set(k.keys)].join(" · "))])} />
+  </section>
+
+  <section class="docs-section" aria-labelledby="motion">
+    <h2 id="motion">Motion and time</h2>
+    <ul class="docs-list">
+      <li>With <code class="docs-inline-code">prefers-reduced-motion</code>, every duration token is 0 ms: no drifting clouds, dropping letters, bursts or page dissolves. Waits, like a tooltip's delay, stay.</li>
+      <li>Anything that blinks or bobs stops after six beats, under five seconds (WCAG 2.2.2).</li>
+      <li>Toasts pause while the pointer or the keyboard is on them, while the tab is hidden and while a dialog is open; errors stay until dismissed (WCAG 2.2.1).</li>
+      <li>Sound is off until someone turns it on, plays only for what they did, and never carries meaning alone.</li>
+    </ul>
+  </section>
+
+  <section class="docs-section" aria-labelledby="high-contrast">
+    <h2 id="high-contrast">High contrast</h2>
+    <p>In Windows high contrast (<code class="docs-inline-code">forced-colors: active</code>) the candy box gives way to the system: a real one-pixel border in the system's text colour, the system's own focus outline, and grey text for anything disabled. The world, a decoration, steps aside.</p>
+  </section>
+
+  <section class="docs-section" aria-labelledby="you">
+    <h2 id="you">What is still yours</h2>
+    <ul class="docs-list">
+      <li>Names: label every field, and name icon-only buttons for their action ("Delete save", not "Trash"). In development, Blip warns when an element has none (<a href="/diagnostics/#pp-a001">PP-A001</a>, <a href="/diagnostics/#pp-a010">PP-A010</a>).</li>
+      <li>Structure: one <code class="docs-inline-code">h1</code>, headings in order, landmarks, and a skip link first.</li>
+      <li>Words: errors that say what went wrong and how to fix it, and buttons named for what they do.</li>
+      <li>Focus after change: move focus to the new screen's heading or main region after a route change or a transition.</li>
+    </ul>
+  </section>
+
+  <Pager />
+</Docs>
