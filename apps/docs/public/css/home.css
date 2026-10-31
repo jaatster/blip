@@ -44,6 +44,18 @@
   .home-hero .pp-hero-title { margin: 0; }
   .home-lead { max-inline-size: 34ch; font-size: var(--pp-size-title); line-height: var(--pp-leading-normal); text-wrap: balance; }
   .home-note { font-weight: var(--pp-weight-medium); }
+  /* By day and at sunset, a one-pixel halo in the page colour keeps text clear of a passing cloud. */
+  :is(.home-lead, .home-note, .home-date) {
+    text-shadow:
+      calc(-1 * var(--pp-pixel)) calc(-1 * var(--pp-pixel)) 0 var(--pp-bg), 0 calc(-1 * var(--pp-pixel)) 0 var(--pp-bg),
+      var(--pp-pixel) calc(-1 * var(--pp-pixel)) 0 var(--pp-bg), calc(-1 * var(--pp-pixel)) 0 0 var(--pp-bg),
+      var(--pp-pixel) 0 0 var(--pp-bg), calc(-1 * var(--pp-pixel)) var(--pp-pixel) 0 var(--pp-bg),
+      0 var(--pp-pixel) 0 var(--pp-bg), var(--pp-pixel) var(--pp-pixel) 0 var(--pp-bg);
+  }
+  /* On phones the launcher tiles sit below the fold, so the hero keeps its own primary action. */
+  .home-cta { display: none; margin: 0; gap: var(--pp-space-4); flex-wrap: wrap; }
+  @container (width < 600px) { .home-cta { display: flex; } }
+
   /* At night the sky has a moon and stars: light text keeps an ink outline (the system's OUTLINE), so a line
      that crosses a cloud still reads. */
   [data-pp-scheme="night"] :is(.home-lead, .home-note, .home-date) {
