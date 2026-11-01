@@ -45,6 +45,64 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/motion.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "<pp-motion-toggle>: a page-wide pause for motion. It wraps a real button (its own, or the one it makes: a soft\nbutton with a pause icon and its label) whose aria-pressed says whether data-pp-motion=\"reduce\" is on <html>.\nPressing it sets or clears the attribute and remembers the choice on this device; every toggle on the page follows\nthe attribute, whoever sets it. Show it on every page whose world drifts, flares or has events.",
+          "name": "PixelMotionToggle",
+          "members": [
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | null"
+              },
+              "description": "The label attribute, or null.",
+              "attribute": "label"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "The label of the button it makes when it holds no button of its own.",
+              "default": "\"Pause motion\"",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "A page-wide pause for motion: a button that sets data-pp-motion=\"reduce\" on <html>, and remembers it.",
+          "tagName": "pp-motion-toggle",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelMotionToggle",
+          "declaration": {
+            "name": "PixelMotionToggle",
+            "module": "src/motion.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-motion-toggle",
+          "declaration": {
+            "name": "PixelMotionToggle",
+            "module": "src/motion.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/text.ts",
       "declarations": [
         {
@@ -389,7 +447,7 @@
         },
         {
           "kind": "class",
-          "description": "<pp-world>: the world as a backdrop filling its positioned container. Each world pixel is the page's pixel\n(--pp-pixel) times `zoom`, made a whole number of device pixels; the canvas is drawn at the world's own resolution\nand scaled up crisply, and only redrawn when its size, its screen or its time of day changes.\n\nAttributes: scheme (day, sunset, night, auto, or left out to follow the page), parallax, clouds (drift; \"none\"\nfor none), stars (stars flare at night), events (birds by day, a shooting star at night), zoom, avoid (a selector\nlist of what the sun, the moon, the stars, the clouds and shooting stars keep clear of).",
+          "description": "<pp-world>: the world as a backdrop filling its positioned container. Each world pixel is the page's pixel\n(--pp-pixel) times `zoom`, made a whole number of device pixels; the canvas is drawn at the world's own resolution\nand scaled up crisply, and only redrawn when its size, its screen or its time of day changes.\n\nAttributes: scheme (day, sunset, night, auto, or left out to follow the page), parallax, clouds (drift; \"none\"\nfor none), stars (stars flare at night), events (birds by day, a shooting star at night), zoom, avoid (a selector\nlist of what the sun, the moon, the stars, the clouds and shooting stars keep clear of).\n\nIts motion pauses at once while the person asks for less, on their device or on the page (data-pp-motion=\"reduce\"\non <html>, which <pp-motion-toggle> sets), and carries on from there when they no longer do.",
           "name": "PixelWorld",
           "cssProperties": [
             {

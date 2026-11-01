@@ -54,6 +54,8 @@ removable tag has a pixel cross; a filter chip is a toggle button that sits in w
 
 ## Content
 
+- A label keeps one line while it fits; when it does not, it wraps between words and the tag grows taller (a word
+  longer than the room breaks as a last resort). A label is never cut short.
 - One or two words. Numbers are fine ("2 h left", "Level 42").
 - Write tags in sentence case; CSS sets upper case.
 

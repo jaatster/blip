@@ -1,11 +1,14 @@
 <!-- World: the TV's backdrop, drawn in the browser at the page's pixel. The first follows the page's scheme, with
-     parallax (move the pointer over the page), drifting clouds, flaring stars and sky events. Then each time of day,
-     and Auto, which follows the clock and steps its palette over a minute when the time of day changes. A short
-     world gives up dirt, then meadow, then sky, so its mountains stay; a tall one stretches its sky. -->
+     parallax (move the pointer over the page), drifting clouds, flaring stars and sky events, and the motion toggle
+     that every page whose world moves shows: pressed, every world on the page stops at once; pressed again, they
+     carry on. Then each time of day, and Auto, which follows the clock and steps its palette over a minute when the
+     time of day changes. A short world gives up dirt, then meadow, then sky, so its mountains stay; a tall one
+     stretches its sky. -->
 <div style="position:relative;block-size:calc(150*var(--pp-pixel));display:grid;place-content:center;justify-items:center;gap:calc(4*var(--pp-pixel));padding:calc(8*var(--pp-pixel));margin-block-end:calc(8*var(--pp-pixel))">
   <pp-world parallax clouds stars events></pp-world>
   <p class="pp-display pp-pop" data-scale="3" data-pop="Blip">Blip</p>
   <p class="pp-label pp-outline">Move the pointer: the hills slide</p>
+  <pp-motion-toggle></pp-motion-toggle>
 </div>
 
 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(calc(220*var(--pp-pixel)),1fr));gap:calc(8*var(--pp-pixel))">

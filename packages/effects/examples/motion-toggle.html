@@ -1,0 +1,16 @@
+<!-- Motion toggle: a page-wide pause for motion that runs on by itself, here a night sky whose clouds drift, whose stars
+     flare and where a star shoots now and then. Pressed, it sets data-pp-motion="reduce" on <html>: the sky stops at
+     once, every toggle on the page shows it pressed, and the choice is remembered on this device. Pressed again, the
+     sky carries on. It makes its own soft button with a pause icon (label="…" changes the words), or wires yours: an
+     icon-only one here. -->
+<div style="position:relative;block-size:calc(100*var(--pp-pixel));display:grid;align-content:end;justify-items:end;padding:calc(6*var(--pp-pixel));margin-block-end:calc(8*var(--pp-pixel))">
+  <pp-world scheme="night" clouds stars events></pp-world>
+  <pp-motion-toggle></pp-motion-toggle>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:calc(6*var(--pp-pixel));align-items:center">
+  <pp-motion-toggle lang="de" label="Bewegung anhalten"></pp-motion-toggle>
+  <pp-motion-toggle>
+    <button class="pp-box pp-button" type="button" data-variant="soft" data-tone="purple" data-icon-only aria-label="Pause motion"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v8H2zm5 0h3v8H7z"/></svg></button>
+  </pp-motion-toggle>
+</div>

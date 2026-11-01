@@ -27,7 +27,8 @@ provide({ random: seeded(42) });        // repeatable effects in tests and scree
 ```
 
 Set `lang` on `<html>`: titles and reading text hyphenate long words in the page's language (words under ten
-letters stay whole), and break them where it has no dictionary rather than let them run out of their box.
+letters stay whole). A word too long for its room anywhere in the UI breaks inside rather than run out of its box
+(`overflow-wrap: anywhere`), so flex and grid items can shrink round it; display type never breaks inside a word.
 
 ## With Tailwind CSS or layered CSS of your own
 
@@ -65,7 +66,8 @@ From a script, import it before any other stylesheet. With layers of your own, w
 
 - **Zoom.** At 100%, 200% and 300% every pixel lands on whole screen pixels. At 125%, 150% and 175% a pixel spans a
   fraction of one, so a box's outer edges can be soft (the browser's limit); its layers overlap, so it never shows
-  seams.
+  seams (not even where a white glint sits under a white band, on cream), and a disabled box's dither is drawn
+  unsmoothed, so its squares stay crisp.
 - **Soft and candy boxes** are light in every scheme, so the text, links, fields and calm buttons on them take the
   light roles.
 - **On** (pressed, selected, current) sits in with its bands swapped and an ink shadow inside its top and left.

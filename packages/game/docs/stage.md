@@ -46,6 +46,12 @@ The stage is scenery: give the section a name if it is a region of the page, and
 it (POP text reads on any sky). Windows high contrast shows a plain canvas. On paper the sky, the ground and the
 world stay off: only what stands on the stage prints.
 
+## Narrow stages
+
+A stage is a size container: it takes the width it is given and cannot grow to fit what is on it. On a narrow one,
+display text on it steps down a whole scale, never breaking inside a word or number: at most scale 2 when its
+content box is under 480 px, and scale 1 under 320 px (a phone).
+
 ## API
 
 | Custom property | Default | |

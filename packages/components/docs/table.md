@@ -115,6 +115,8 @@ better stacked: add `data-stack` to the table and `data-label` to each cell that
 
 ## Content
 
+- Without a scroll region a table fits its container: headings and cells wrap, and a word too long for its column
+  breaks.
 - A caption that says what the rows are: "Leaderboard, this week".
 - Header labels of one or two words. Units in the header ("Time (min)"), not in every cell.
 - Numbers formatted for reading ("98,120"); give `data-sort-value` when the text doesn't sort ("3:41" as 221).

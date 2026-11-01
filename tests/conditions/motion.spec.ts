@@ -9,13 +9,14 @@
  * Every frame: moves land on whole device pixels; scale and rotation are whole (no fractions); no opacity between 0
  * and 1; no blur. Every move goes in at most six steps (the Snap Rule), except a screen transition's frames and the
  * world, which DESIGN.md lets go a whole pixel at a time. Every animation stops within five seconds (six beats), and
- * nothing runs for ever but a loader, a busy control, an indeterminate bar or a skeleton. With reduced motion, nothing
- * animates and nothing moves: every effect arrives at once.
+ * nothing runs for ever but a loader, a busy control, an indeterminate bar or a skeleton, and ambient motion on a page
+ * that shows the motion toggle: pressing it must stop all of that within a frame, and pressing it again bring it
+ * back. With reduced motion, nothing animates and nothing moves: every effect arrives at once.
  */
 import { expect, test, type Page } from "@playwright/test";
 import { examples, id } from "../page/manifest.js";
 import { expectNone, triage } from "./lib/known.js";
-import { act, film, installRecorder, sampleStart, sampleStop, type Filmed } from "./lib/motion.js";
+import { NEVER_STOPS, TOGGLE, act, film, installRecorder, sampleStart, sampleStill, sampleStop, type Filmed } from "./lib/motion.js";
 import { fitViewport, open } from "./lib/open.js";
 
 const CONDITIONS = [
@@ -40,17 +41,23 @@ for (const condition of CONDITIONS) {
         const failures: string[] = [];
         const names = new Set<string>();
         const moving = new Set<string>();
+        /** What runs on (animations and elements that never stop, by where), and where film and judge note it now. */
+        const endless = new Set<string>();
+        let ranOn = endless;
         const tick = (ms: number) => page.clock.runFor(ms);
         const flush = async (label: string) => {
           const f: Filmed = await film(page, `${name} ${label}`, dpr, reduced);
           f.names.forEach((n) => names.add(n));
+          f.endless.forEach((e) => ranOn.add(e));
           failures.push(...f.failures);
         };
         /** Ends a window of the script sampler and keeps what it found. */
-        const judge = async (label: string, endless = false) => {
-          const js = await sampleStop(page, `${name} ${label}`, dpr, reduced, endless);
+        const judge = async (label: string, endlessCheck = false) => {
+          const js = await sampleStop(page, `${name} ${label}`, dpr, reduced, endlessCheck);
           js.moving.forEach((m) => moving.add(m));
+          js.endless.forEach((e) => ranOn.add(e));
           failures.push(...js.failures);
+          return js;
         };
 
         // Loading (the recorder has read the page from its first moment).
@@ -132,6 +139,39 @@ for (const condition of CONDITIONS) {
         }
         await judge("after 12 s", true);
 
+        // Motion that runs on (the world's drifting clouds, flaring stars and passing birds) passes only on a page that
+        // shows the motion toggle. Pressed, it stops all of that within a frame: from a frame after the press, twelve
+        // seconds in which none of it changes by itself. Pressed again, it brings it back.
+        const at = endless.size && !reduced ? await toggleAt(page) : null;
+        if (at) {
+          const broken: string[] = [];
+          await act(page, () => page.mouse.click(at.x, at.y));
+          await tick(17);
+          await flush("motion toggle pressed");
+          await sampleStart(page);
+          for (let s = 0; s < 12; s++) {
+            await tick(1000);
+            await flush(`motion toggle pressed, ${s + 1} s later`);
+          }
+          broken.push(...(await sampleStill(page, `${name} motion toggle pressed`, [...endless])));
+          const back = (ranOn = new Set<string>());
+          await sampleStart(page);
+          await act(page, () => page.mouse.click(at.x, at.y));
+          for (let s = 0; s < 12; s++) {
+            await tick(1000);
+            await flush(`motion toggle pressed again, ${s + 1} s later`);
+          }
+          const again = await judge("motion toggle pressed again");
+          const resumed = [...again.moving, ...back].filter((m) => endless.has(m));
+          if (!resumed.length) broken.push(`[${name} motion toggle pressed again] nothing that ran on before (${[...endless].slice(0, 3).join(", ")}) moves again within 12 s; DESIGN.md, the Pause Rule: it carries on when the toggle is pressed again`);
+          if (broken.length) failures.push(...broken);
+          else {
+            // Paused at a press and back at the next: what runs on passes here.
+            for (let i = failures.length - 1; i >= 0; i--) if (failures[i]!.includes(NEVER_STOPS)) failures.splice(i, 1);
+            info.annotations.push({ type: "motion toggle", description: `What ran on (${[...endless].slice(0, 4).join(", ")}) stopped within a frame of pressing ${TOGGLE}, stayed still for 12 s, and moved again when it was pressed again (${[...new Set(resumed)].slice(0, 4).join(", ")}).` });
+          }
+        }
+
         info.annotations.push({
           type: "filmed",
           description: `${names.size} kinds of animation (${[...names].slice(0, 12).join(", ")}${names.size > 12 ? ", …" : ""}); ${moving.size} elements moved by script${moving.size ? ` (${[...moving].slice(0, 6).join(", ")})` : ""}; ${targets.length} controls under the pointer`,
@@ -144,16 +184,17 @@ for (const condition of CONDITIONS) {
 }
 
 /** One of each kind of interactive element, and every opener (dialogs, popovers, menus, toasts, tooltips, tabs,
-    disclosures, bursts, anything with an onclick). Marks each with data-lanes-t. */
+    disclosures, bursts, anything with an onclick). Marks each with data-lanes-t. Not the motion toggle: pressing it
+    would pause what the rest of the test watches; the toggle check presses it at the end. */
 async function collect(page: Page): Promise<{ i: number; label: string; kind: string }[]> {
-  return page.evaluate(() => {
+  return page.evaluate((toggle) => {
     const root = document.getElementById("example")!;
     const out: { i: number; label: string; kind: string }[] = [];
     const kinds = new Set<string>();
     const name = (e: Element) => `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c.startsWith("pp-") && c !== "pp-box").slice(0, 1).map((c) => `.${c}`).join("")}`;
     const text = (e: Element) => (e.getAttribute("aria-label") ?? e.textContent ?? "").trim().replace(/\s+/g, " ").slice(0, 24);
     const add = (el: Element, kind: string) => {
-      if (out.length >= 40 || el.hasAttribute("data-lanes-t") || !el.checkVisibility() || el.matches(":disabled, [aria-disabled='true']")) return;
+      if (out.length >= 40 || el.hasAttribute("data-lanes-t") || !el.checkVisibility() || el.matches(`:disabled, [aria-disabled='true'], ${toggle}`)) return;
       el.setAttribute("data-lanes-t", String(out.length));
       out.push({ i: out.length, label: `${kind === "control" ? "" : `${kind} `}${name(el)} "${text(el)}"`, kind });
     };
@@ -178,12 +219,21 @@ async function collect(page: Page): Promise<{ i: number; label: string; kind: st
     // One of each other kind of control.
     for (const el of root.querySelectorAll("button, a[href], [role='button'], [role='menuitem'], [role='option'], [role='switch'], input[type='checkbox'], input[type='radio'], input[type='range'], label.pp-box, [data-pp-interactive]")) {
       const kind = `${name(el)}|${el.getAttribute("role") ?? ""}|${(el as HTMLInputElement).type ?? ""}`;
-      if (kinds.has(kind)) continue;
+      if (kinds.has(kind) || el.matches(toggle)) continue;
       kinds.add(kind);
       add(el, "control");
     }
     return out;
-  });
+  }, TOGGLE);
+}
+
+/** The middle of the motion toggle's button, if the page shows one that can be pressed. */
+async function toggleAt(page: Page): Promise<{ x: number; y: number } | null> {
+  return page.evaluate((toggle) => {
+    const b = [...document.querySelectorAll<HTMLButtonElement>(toggle)].find((b) => b.checkVisibility() && !b.disabled && !b.closest("[inert]"));
+    const r = b?.getBoundingClientRect();
+    return r && r.width && r.height ? { x: r.x + r.width / 2, y: r.y + r.height / 2 } : null;
+  }, TOGGLE);
 }
 
 async function force(page: Page, state: string): Promise<void> {

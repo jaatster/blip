@@ -127,8 +127,11 @@
     block-size: var(--pp-control-md);
   }
   .pp-footer-field:has(> :user-invalid) { --pp-box-outline: var(--pp-danger); }
+  /* A percentage width, so the input's own width (twenty characters, more with a bigger text size) never holds the
+     footer wider than a phone. */
   .pp-footer-field > input {
     flex: 1;
+    inline-size: 100%;
     min-inline-size: 0;
     padding: 0 calc(5 * var(--_p));
     border: 0;

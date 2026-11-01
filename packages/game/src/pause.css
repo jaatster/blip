@@ -17,7 +17,8 @@
  *   .pp-pause-stats                           a row of small facts (time, coins, stars) under the title
  *   .pp-stage > .pp-pause[open]               shown inside a stage without the modal (docs, attract screens)
  *
- * It pops in: a pixel low for a frame, then in place.
+ * It pops in: a pixel low for a frame, then in place. On a narrow stage its title steps down a scale (stage.css) and
+ * its sides narrow; when it is taller than the room (a phone, a bigger text size) the menu scrolls.
  */
 
 @layer pp.kits {
@@ -50,10 +51,39 @@
     --pp-tone-on: var(--pp-ink);
   }
   .pp-pause[open] {
-    display: grid;
-    justify-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: calc(6 * var(--pp-pixel));
     animation: pp-pop-in calc(2 * var(--pp-duration-frame)) steps(1, jump-end) both;
+  }
+  /* Every part keeps its height but the menu, which scrolls when the panel is taller than the room, with room inside
+     the scroller for the focus ring. */
+  .pp-pause[open] > * { flex: none; }
+  .pp-pause[open] > pp-choices {
+    flex-shrink: 1;
+    min-block-size: 0;
+    overflow-y: auto;
+    padding: calc(2 * var(--pp-pixel));
+    margin: calc(-2 * var(--pp-pixel));
+  }
+  /* While more of the menu lies past an edge, that edge dithers out over twelve pixels in three hard steps, as every
+     scroller's does (never a wash); with keyboard focus in the menu the cue steps aside, so no ring is dithered. */
+  @supports (animation-timeline: scroll()) {
+    .pp-pause[open] > pp-choices:not(:has(:focus-visible)) {
+      --_s: 0;
+      --_e: 0;
+      --_f: calc(12 * var(--pp-pixel));
+      mask:
+        linear-gradient(#000 0 0) 0 calc(var(--_s) * var(--_f)) / 100% calc(100% - (var(--_s) + var(--_e)) * var(--_f)) no-repeat,
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 12' shape-rendering='crispEdges'%3E%3Cpath d='M0 1h1v1H0zM0 3h1v1H0zM0 5h1v1H0zM0 7h1v1H0zM0 8h1v4H0zM1 4h1v1H1zM1 6h1v1H1zM1 8h1v1H1zM1 10h1v1H1z'/%3E%3C/svg%3E") 0 0 / calc(2 * var(--pp-pixel)) calc(var(--_s) * var(--_f)) repeat-x,
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 12' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v4H0zM0 4h1v1H0zM0 6h1v1H0zM0 8h1v1H0zM0 10h1v1H0zM1 1h1v1H1zM1 3h1v1H1zM1 5h1v1H1zM1 7h1v1H1z'/%3E%3C/svg%3E") 0 100% / calc(2 * var(--pp-pixel)) calc(var(--_e) * var(--_f)) repeat-x;
+      animation: pp-pause-more steps(1, jump-end) both;
+      animation-timeline: scroll(self);
+    }
+  }
+  @container pp-stage (width < 320px) {
+    .pp-pause { padding-inline: calc(8 * var(--pp-pixel)); }
   }
   .pp-pause:modal { position: fixed; }
   .pp-pause::backdrop {
@@ -67,7 +97,6 @@
   }
 
   .pp-pause-title { margin: 0 0 calc(2 * var(--pp-pixel)); }
-  .pp-pause .pp-choices { justify-self: center; }
   .pp-pause-stats {
     display: flex;
     flex-wrap: wrap;
@@ -85,4 +114,12 @@
   @media (forced-colors: active) {
     .pp-pause::backdrop { background: Canvas; opacity: 0.8; }
   }
+}
+
+/* Where the menu is scrolled to: the top (more below), between (more both ways), the bottom (more above). A menu that
+   fits has no timeline, and shows no cue. */
+@keyframes pp-pause-more {
+  0% { --_s: 0; --_e: 1; }
+  1%, 98% { --_s: 1; --_e: 1; }
+  99%, 100% { --_s: 1; --_e: 0; }
 }

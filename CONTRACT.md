@@ -76,6 +76,7 @@ what a role is for) counts as breaking.
 | Attribute or event | Values | |
 |---|---|---|
 | `data-pp-scheme` | `day`, `sunset`, `night` | On `<html>` or any element: the scheme of everything inside. With none set, the page is Day, or Night when the device is in dark mode. |
+| `data-pp-motion` | `reduce` | On `<html>`: the person asked for less motion on this page, beside `prefers-reduced-motion`; `reducedMotion()` is true with either. Set and cleared by `<pp-motion-toggle>`, remembered in localStorage under `blip:motion`. |
 | `data-pp-pixel` | `3`, `4` | On `<html>` or any element: the size of one pixel in CSS px. The default is 2, set on `:root`. |
 | `data-pp-scheme-fade` | present | Set on its target by `autoScheme()` once the time of day has changed (not with `fade: false`). While it is on `<html>`, the world backdrop steps its sky to a new scheme over a minute; every other colour changes in one step (see `data-pp-scheme-dither`). |
 | `data-pp-scheme-dither` | present | Set on `<html>` by `autoScheme()` while a change of time of day dithers in (a view transition of three frames). Read it; do not set it. |
@@ -184,6 +185,7 @@ Conventions, for every element:
 | `<pp-inventory>` | `@jaatster/blip-game/inventory` | | `slots`, `selected` (read-only), `select()` | `pp-select` |
 | `<pp-sprite>` | `@jaatster/blip-game/sprites` | `name`, `aria-label`, `data-tone` | | |
 | `<pp-drop-text>` | `@jaatster/blip-effects/text` | `data-pop`, `data-scale`, `data-tone` | `text`, `play()` | |
+| `<pp-motion-toggle>` | `@jaatster/blip-effects/motion` | `label` | | |
 | `<pp-typewriter>` | `@jaatster/blip-effects/text` | `blips`, `caret`, `mood`, `data-scale` | `text`, `play()`, `finish()` | `pp-typewriter-done` |
 | `<pp-world>` | `@jaatster/blip-effects/world` | `scheme`, `parallax`, `clouds`, `stars`, `events`, `zoom`, `avoid` | | |
 | `<pp-icon>` | `@jaatster/blip-icons/element` | `name`, `label`, `data-size` | | |

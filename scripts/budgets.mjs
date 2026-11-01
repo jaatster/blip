@@ -16,13 +16,15 @@
  *   @jaatster/blip-* left out (the core runtime is the core JS line; the icon data is the icons line). Found by looking
  *   for modules that define a pp-* element. The effects world renderer is exempt here: it is an effect (a landscape
  *   drawn in the browser instead of an image), budgeted with the effects.
- * - Effects JS + CSS, 14 KB: PLAN.md's first estimate was 12 KB, made before the world renderer was finished (five
+ * - Effects JS + CSS, 15 KB: PLAN.md's first estimate was 12 KB, made before the world renderer was finished (five
  *   layers, wide screens, parallax, drifting clouds, birds and shooting stars: about 6.1 KB on its own). The effects
  *   are measured as a page that opts in loads them: effects.bundle.js, which carries the parts of the core runtime
  *   they use (about 0.9 KB), plus effects.min.css. That was 12.8 KB before avoid; without the core runtime it
  *   would be 11.9 KB. 13 KB kept the honest, self-contained measure instead of moving core out of sight. 14 KB
  *   since the world learned avoid (about 0.9 KB): it keeps the sun, the moon, flaring stars and shooting stars
- *   clear of the text over it, found by measuring the page, which a picture cannot do. Other growth still fails.
+ *   clear of the text over it, found by measuring the page, which a picture cannot do. 15 KB since the world learned
+ *   to pause (about 0.55 KB): <pp-motion-toggle>, the page-wide pause WCAG 2.2.2 asks for wherever the world drifts,
+ *   flares or has events, and the world stopping and carrying on at once. Other growth still fails.
  * - Sound: sound.bundle.js, the whole kit as a page loads it.
  * - Pixel Bop: the WOFF2 file.
  * - Icons index.js: all the icon path data (about 190 icons).
@@ -87,7 +89,7 @@ for (const pkg of ["elements", "game", "effects", "icons"]) {
   }
 }
 
-row("effects JS + CSS", "effects/dist/effects.bundle.js + effects.min.css", sum(gzFile(at("effects/dist/effects.bundle.js")), gzFile(at("effects/dist/effects.min.css"))), 14);
+row("effects JS + CSS", "effects/dist/effects.bundle.js + effects.min.css", sum(gzFile(at("effects/dist/effects.bundle.js")), gzFile(at("effects/dist/effects.min.css"))), 15);
 row("sound", "sound/dist/sound.bundle.js", gzFile(at("sound/dist/sound.bundle.js")), 3);
 {
   const woff2 = at("font/dist/pixel-bop.woff2");

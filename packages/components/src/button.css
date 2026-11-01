@@ -15,6 +15,8 @@
  *
  * States come from the candy box: hover lifts, pressed sits in its drop, focus is the yellow ring, disabled is
  * dithered. Sizes are whole pixels: radius 3, 4, 5 and bands from the TV's rule (about 20% light, 18% shade).
+ * The label keeps one line while it fits; then it wraps between words and the button grows taller (its height is a
+ * minimum), and a word longer than the room breaks as a last resort. It is never cut short.
  */
 
 @layer pp.components {
@@ -31,9 +33,10 @@
     align-items: center;
     justify-content: center;
     gap: calc(3 * var(--pp-pixel));
-    block-size: var(--_h);
+    min-block-size: var(--_h);
     min-inline-size: var(--_h);
-    padding: 0 var(--_pad);
+    /* Room above and below for an icon, which keeps a wrapped label on the base, clear of the bands. */
+    padding: calc((var(--_h) - var(--pp-icon-md)) / 2) var(--_pad);
     /* Leave room for the drop, so neighbours never touch it. */
     margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
     font-family: var(--pp-font-ui);
@@ -41,9 +44,9 @@
     font-weight: var(--pp-weight-bold);
     line-height: 1;
     letter-spacing: var(--pp-tracking-label);
+    text-align: center;
     text-transform: uppercase;
     text-decoration: none;
-    white-space: nowrap;
     vertical-align: middle;
   }
 

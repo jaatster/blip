@@ -33,6 +33,20 @@ drawWorld(canvas.getContext("2d"), "night");               // the TV's 320 x 180
 `<pp-world>` fills its positioned container (`position: absolute; inset: 0`). The container becomes its own stacking
 context, so the world sits behind the container's content and in front of its background.
 
+### Where its motion belongs
+
+A still world (no `clouds`, `stars` or `events`) can sit behind any hero, title screen, call to action or empty state.
+Motion that runs on (drifting clouds, flaring stars, passing birds) is for moments where it adds to the look: a hero,
+a title or attract screen, a call to action, a game's stage. It never goes behind reading text, forms or dashboards,
+where it pulls the eye from the work. A page whose world moves shows the [motion toggle](motion-toggle.md), which
+pauses all of it at once and remembers the choice (WCAG 2.2.2, Pause, Stop, Hide):
+
+```html
+<pp-world parallax clouds stars events avoid="h1"></pp-world>
+…
+<pp-motion-toggle></pp-motion-toggle>
+```
+
 ### Keeping the sky clear of the words
 
 The moon, the sun and the stars belong to the sky, not behind a headline or between its words. `avoid` takes a
@@ -90,9 +104,9 @@ mountains stay in view.
 |---|---|---|
 | `scheme` | `day`, `sunset`, `night`, `auto`, or left out | Left out, the world follows the page's scheme (`data-pp-scheme`, or the device's dark mode), stepping its palette over a minute when the page's Auto changes. `auto` follows the clock itself (Day 6:00 to 17:00, Sunset to 19:00, Night after; `services.now()`), and steps through six mixed palettes, ten seconds apart, when the time of day changes; the sun, moon and stars switch halfway. |
 | `parallax` | | The layers slide against the pointer, 0 to 4 pixels a step (the sky stays put), and lift a little as the world scrolls past. Two steps a move, each on a whole pixel, even when a move is cut short by the next. |
-| `clouds` | absent, present (`drift`), `none` | Absent (or `"false"`): still clouds, as on the TV's Home. Present: they drift right at a tenth of their size in pixels a second, a whole pixel at a time, as on the screensaver. `none`: no clouds. |
-| `stars` | | At night, a real star flares now and then: small, big, small, gone (at most two). |
-| `events` | | A few seconds in, then every one to two minutes: by day and at sunset a flock of three crosses the sky in a loose V, flapping; at night a shooting star streaks down and left in nine frames. |
+| `clouds` | absent, present (`drift`), `none` | Absent (or `"false"`): still clouds, as on the TV's Home. Present: they drift right at a tenth of their size in pixels a second, a whole pixel at a time, as on the screensaver, for as long as the page is open: show the motion toggle. `none`: no clouds. |
+| `stars` | | At night, a real star flares now and then: small, big, small, gone (at most two). It runs on: show the motion toggle. |
+| `events` | | A few seconds in, then every one to two minutes: by day and at sunset a flock of three crosses the sky in a loose V, flapping; at night a shooting star streaks down and left in nine frames. It runs on: show the motion toggle. |
 | `zoom` | a whole number, default `1` | World pixel = zoom x `--pp-pixel`, made a whole number of device pixels. `zoom="2"` at full screen is the TV's own scale. |
 | `avoid` | a selector list, default none | What the sun, the moon, the stars, clouds and shooting stars keep clear of: matched in the world's container, each box with a five-pixel margin. See above. |
 
@@ -100,7 +114,8 @@ mountains stay in view.
 
 | State | Look |
 |---|---|
-| Reduced motion | A still, correct frame: no drift (clouds baked in), no flares, no events, no parallax, no fades. |
+| Reduced motion | A still, correct frame: no drift, no flares, no events, no parallax, no fades. |
+| Paused (the motion toggle, or the device's reduced motion turned on) | Stops at once: a flaring star goes out, a flock or a shooting star goes, the layers come back to rest, a fade lands, and the clouds stop where they are. When the pause ends, it carries on from there. |
 | Hidden tab, or scrolled out of view | Nothing moves (clouds, stars, birds, parallax). A change of time of day or of size is still drawn, so the world is right when it comes back. |
 | Loading (before the script) | The sky's top colour. |
 | A 125%, 150% or 175% screen | Every world pixel is the same whole number of device pixels (3, 3 or 4 at the 2 px pixel), so nothing blurs or wobbles. Moving the window to another screen draws it again. |
@@ -112,7 +127,9 @@ mountains stay in view.
 - Text on the world: use POP (`.pp-pop`) for big text and OUTLINE (`.pp-outline`) for small text, which read on every
   sky, or a one-pixel halo in the page colour, as the hero's lead and the call to action's text wear. Plain text
   needs a panel behind it. Name the text in `avoid`, so no moon, star or cloud sits behind it.
-- Motion is small, slow and stops with reduced motion.
+- Motion is small and slow, stops with reduced motion, and pauses at once with `data-pp-motion="reduce"` on `<html>`,
+  which the [motion toggle](motion-toggle.md) sets. With `clouds`, `stars` or `events` the motion runs on, so the
+  page must offer that pause (WCAG 2.2.2): show the toggle.
 
 ## Do and don't
 
@@ -120,6 +137,8 @@ mountains stay in view.
 - **Do** let the world follow the page (leave `scheme` out) when the page has a scheme switcher or Auto.
 - **Do** give a world with words over it `avoid`, naming the words (not a wide wrapper), so the moon finds the sky
   beside them.
+- **Do** show the motion toggle on a page whose world drifts, flares or has events.
+- **Don't** put a moving world behind reading text, forms or dashboards; a still one, or none, belongs there.
 - **Don't** put candy boxes straight on a busy part of the world without a panel; candy stands on pastel, and the
   ground is busy.
 - **Don't** scale the world with CSS transforms; set `zoom` or the page's pixel.

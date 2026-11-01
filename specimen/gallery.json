@@ -80,6 +80,7 @@
     "/packages/game/dist/inventory.js",
     "/packages/game/dist/sprites.js",
     "/packages/effects/dist/burst.js",
+    "/packages/effects/dist/motion.js",
     "/packages/effects/dist/text.js",
     "/packages/effects/dist/transitions.js",
     "/packages/effects/dist/world.js",
@@ -467,6 +468,11 @@
       "pkg": "effects",
       "name": "glint",
       "url": "/packages/effects/examples/glint.html"
+    },
+    {
+      "pkg": "effects",
+      "name": "motion-toggle",
+      "url": "/packages/effects/examples/motion-toggle.html"
     },
     {
       "pkg": "effects",

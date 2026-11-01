@@ -71,6 +71,8 @@ Put it last in the page (or in the app shell), after the content: it sticks to t
 
 ## Content
 
+- When five labels do not fit, the short ones keep their width and the long ones share what is left, cut short with
+  an ellipsis as the last resort.
 - Three to five destinations; one word each, sentence case (CSS sets upper case). Five words of up to eight letters
   fit at 320 px ("Overview", "Activity"); longer words, as in German, fit five across from 360 px, or four at 320.
 - The same icons and names as the sidebar.

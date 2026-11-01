@@ -10,7 +10,8 @@
  * Attributes: scheme="day|sunset|night|auto" (left out: the page's scheme), parallax, clouds (drift, or "none"),
  * stars (they flare at night), events (birds by day, a shooting star at night), zoom (world pixel = zoom x pixel,
  * made a whole number of device pixels), avoid (what the sky keeps clear of). Until the script runs, and around the
- * drawn picture, the world shows its sky's top colour. It is decoration: not in forced colours, not in print.
+ * drawn picture, the world shows its sky's top colour. It is decoration: not in forced colours, not in print. Its
+ * motion pauses with reduced motion and with data-pp-motion="reduce" on <html> (<pp-motion-toggle>).
  */
 
 /* Where a sliding layer is, in world pixels: the script sets whole numbers and the slide steps between them. */
@@ -57,9 +58,12 @@
     transition: --_pp-world-x var(--pp-duration-slide) var(--pp-ease-2), --_pp-world-y var(--pp-duration-slide) var(--pp-ease-2);
   }
 
+  /* Less motion, asked for on the device or on the page (data-pp-motion="reduce", which <pp-motion-toggle> sets):
+     the layers come back to rest at once. */
   @media (prefers-reduced-motion: reduce) {
     .pp-world-stage > :is(canvas, .pp-world-things) { transition: none; }
   }
+  :root[data-pp-motion="reduce"] .pp-world-stage > :is(canvas, .pp-world-things) { transition: none; }
 
   @media (forced-colors: active), print {
     pp-world { display: none; }

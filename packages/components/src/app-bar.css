@@ -55,12 +55,13 @@
     z-index: var(--pp-layer-sticky);
   }
 
-  /* The brand gives way first when space runs out, so the menu button and the actions stay whole. */
+  /* The brand gives way first when space runs out, so the menu button and the actions stay whole: it takes all the
+     shrinking until it has none left, and only then do the actions' labels wrap. */
   .pp-app-bar-brand {
     display: inline-flex;
     align-items: center;
     gap: var(--pp-space-4);
-    flex: 0 1 auto;
+    flex: 0 1000000 auto;
     min-inline-size: 0;
     overflow: hidden;
     color: inherit;

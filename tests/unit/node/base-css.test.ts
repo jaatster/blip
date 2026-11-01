@@ -147,7 +147,8 @@ describe("long words", () => {
       const e = document.querySelector<HTMLElement>(t)!, cs = getComputedStyle(e);
       return [t, cs.hyphens, cs.overflowWrap, e.scrollWidth <= e.clientWidth];
     }), tags);
-    for (const [t, hyphens, wrap, fits] of r) expect([t, hyphens, wrap, fits]).toEqual([t, "auto", "break-word", true]);
+    // Hyphenated where the lang has a dictionary; otherwise broken anywhere (as all text may be), never run out of the box.
+    for (const [t, hyphens, wrap, fits] of r) expect([t, hyphens, wrap, fits]).toEqual([t, "auto", "anywhere", true]);
     await page.context().close();
   });
 });

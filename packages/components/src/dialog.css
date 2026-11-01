@@ -123,8 +123,6 @@
     padding: calc(6 * var(--pp-pixel)) calc(7 * var(--pp-pixel));
     overflow: auto;
     overscroll-behavior: contain;
-    /* A word too long for the line breaks rather than make the body scroll sideways. */
-    overflow-wrap: break-word;
   }
   .pp-dialog-body > :where(* + *) { margin-block-start: calc(4 * var(--pp-pixel)); }
   /* The overflow cue's rule (_scroll.css) takes its pixel from the padding, so a body that fits moves nothing. */
@@ -155,6 +153,13 @@
   :is(.pp-dialog, .pp-drawer)[data-pp-closing]::backdrop { animation: pp-scrim-out calc(2 * var(--pp-duration-frame)) steps(1, jump-end) forwards; }
 
   .pp-dialog[data-pp-static] { position: relative; inset: auto; margin: 0; z-index: auto; animation: none; }
+
+  /* Paper cannot scroll: an open dialog prints its whole body, grown over the page past any height it is held to
+     (an inline max-block-size too). */
+  @media print {
+    .pp-dialog { max-block-size: none !important; }
+    .pp-dialog .pp-dialog-body { overflow: visible; }
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .pp-dialog:is([open], [data-pp-closing]),

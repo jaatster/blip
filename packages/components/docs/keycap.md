@@ -46,6 +46,7 @@ A keycap is a picture of a key, not a control: no hover, no focus.
 
 ## Content
 
+- A label too long for the room wraps between words and the key grows taller; it is never cut short.
 - The key's own name, short: "Esc", "Enter", "Space", "Ctrl". Upper case comes from CSS.
 - Platform keys: say "Ctrl" or "Cmd" as the platform does; show the right one when you can.
 

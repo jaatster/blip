@@ -342,6 +342,9 @@ const isScheme = (s: string | null): s is Scheme => s === "day" || s === "sunset
  * for none), stars (stars flare at night), events (birds by day, a shooting star at night), zoom, avoid (a selector
  * list of what the sun, the moon, the stars, the clouds and shooting stars keep clear of).
  *
+ * Its motion pauses at once while the person asks for less, on their device or on the page (data-pp-motion="reduce"
+ * on <html>, which <pp-motion-toggle> sets), and carries on from there when they no longer do.
+ *
  * @summary The dithered world backdrop: sky, mountains, hills and meadow, for Day, Sunset and Night.
  * @attr {"day" | "sunset" | "night" | "auto"} scheme - The time of day; "auto" follows the clock. Left out, the
  * page's scheme.
@@ -398,6 +401,9 @@ export class PixelWorld extends PixelElement {
     // The world as drawn: its size in world pixels, CSS pixels per world pixel, a sliding layer's margins, its colours.
     let w = 0, h = 0, s = 2, dpr = 1, mx = 0, my = 0, visible = true, slide = [0, 0], timer = 0, drawn = "", elapsed = 0;
     let scheme: Scheme | undefined, features: Scheme = "day", pal: WorldPalette | undefined, fading: AbortController | undefined;
+    // Whether the person has asked for less motion (reducedMotion(): kept up to date by pause() below), and what a
+    // pause aborts: the flare, flock or shooting star on its way (it aborts when the world goes, too).
+    let still = reducedMotion(), motion = new AbortController();
     // What the sky keeps clear of: boxes in world pixels.
     let avoid: WorldBox[] = [], refit = 0;
     // Drifting clouds keep their place across redraws: each is at base + v x elapsed seconds, wrapping round.
@@ -449,7 +455,7 @@ export class PixelWorld extends PixelElement {
         them. The world's picture is anchored at its bottom left. */
     const boxes = (list = avoided()): WorldBox[] => {
       if (!list.length || !w) return [];
-      const r = el.getBoundingClientRect(), lift = has("parallax") && !reducedMotion() ? 2 * LIFT[0]! : 0;
+      const r = el.getBoundingClientRect(), lift = has("parallax") && !still ? 2 * LIFT[0]! : 0;
       return list.map((n) => n.getBoundingClientRect()).filter((b) => b.width && b.height).map((b) => [
         Math.floor((b.left - r.left) / s), Math.floor((b.top - r.bottom) / s) + h - lift,
         Math.ceil((b.right - r.left) / s), Math.ceil((b.bottom - r.bottom) / s) + h + lift,
@@ -458,7 +464,7 @@ export class PixelWorld extends PixelElement {
     /** Slides the layers kx steps sideways and ky steps up or down, each by its drift, in whole pixels: world.css
         steps each layer's place there and rounds it, so a slide cut short still lands on a whole pixel. */
     const parallax = (kx: number, ky: number, force = false) => {
-      if (!has("parallax") || reducedMotion()) kx = ky = 0;
+      if (!has("parallax") || still) kx = ky = 0;
       else if (!visible && !force) return;
       slide = [kx, ky];
       layers.forEach((c, l) => {
@@ -476,7 +482,7 @@ export class PixelWorld extends PixelElement {
       // Hidden (a closed tab panel, a hidden attribute): draw again whenever it shows, whatever its size.
       if (!ww || !hh) return void (drawn = "");
       // clouds="false" (a framework's false) is as if left out: still clouds.
-      const still = reducedMotion(), slides = has("parallax") && !still, cloudy = has("clouds") ? el.getAttribute("clouds") : null;
+      const slides = has("parallax") && !still, cloudy = has("clouds") ? el.getAttribute("clouds") : null;
       s = px;
       dpr = devicePixelRatio;
       w = ww;
@@ -505,7 +511,7 @@ export class PixelWorld extends PixelElement {
       const c = pack(p);
       layers.forEach((canvas, l) => {
         const lx = l ? mx : 0, bw = w + 2 * lx, bh = h + 2 * my, buf = new Uint32Array(bw * bh);
-        paint(buf, bw, bh, lx, my, w, h, l, c, f, cloudy === null || (still && cloudy !== "none"), my, at);
+        paint(buf, bw, bh, lx, my, w, h, l, c, f, cloudy === null, my, at);
         // Keep only the rows the layer uses.
         let first = 0, last = bh;
         while (first < bh && !buf.subarray(first * bw, (first + 1) * bw).some(Boolean)) first++;
@@ -516,17 +522,22 @@ export class PixelWorld extends PixelElement {
         Object.assign(size(canvas).style, { left: `${-lx * s}px`, top: `${(first - my) * s}px` });
       });
 
-      // The sky's moving things. Clouds are drawn again in the new colours where they are; sparkles live at night;
-      // a flock or a shooting star already on its way carries on.
+      // The sky's moving things. Drifting clouds are drawn again in the new colours where they are, while motion is
+      // paused too, so a pause keeps them where it found them; sparkles live at night; a flock or a shooting star
+      // already on its way carries on. The clouds drift round a ring from just left of the world to just right of
+      // it, each starting where the picture has it, so none is there twice and a paused world is the moving one's
+      // first frame.
       clouds.forEach((d) => d.c.remove());
       clouds = [];
-      if (cloudy !== null && cloudy !== "none" && !still) {
+      if (cloudy !== null && cloudy !== "none") {
         const { y: skyY } = rowsOf(h), cx = Math.floor((w - W0) / 2);
         for (const [x, y, k] of cloudsOf(Math.floor((-mx - cx - 40) / PERIOD), Math.floor((w + mx - cx + 40) / PERIOD))) {
+          const base = x! + cx - 11;
+          if (base < -38 - mx || base >= w + mx) continue;
           const sp = thing(38, 16), buf = new Uint32Array(38 * 16);
           cloud((qx, qy, col) => void (qx >= 0 && qy >= 0 && qx < 38 && qy < 16 && (buf[qy * 38 + qx] = col)), c, 11, 10, k!);
           sp.getContext("2d")!.putImageData(new ImageData(new Uint8ClampedArray(buf.buffer), 38, 16), 0, 0);
-          const d = { c: sp, base: x! + cx - 11, y: skyY(y!) - 10, v: k! / 10, at: 0 };
+          const d = { c: sp, base, y: skyY(y!) - 10, v: k! / 10, at: 0 };
           place(sp, (d.at = Math.round(cloudX(d))), d.y);
           sp.hidden = cloudHits(avoid, d.at, d.y);
           clouds.push(d);
@@ -550,11 +561,12 @@ export class PixelWorld extends PixelElement {
     /** Draws again at a new size or with new options, in the colours on screen (mid-fade too). */
     const redraw = () => (fading && pal ? paintAll(pal, features) : draw());
 
-    /** A change of time of day: at once, or stepped through the palettes over a minute, as the page's palette steps. */
+    /** A change of time of day: at once (with less motion too), or stepped through the palettes over a minute, as the
+        page's palette steps. */
     const check = (fade: boolean) => {
       const next = resolve(), from = scheme, step = duration("scheme-step", 10_000, el);
       if (next === from) return;
-      if (!fade || !from || !pal || !step) return draw();
+      if (!fade || !from || !pal || !step || still) return draw();
       scheme = next;
       fading?.abort();
       const a = pal, b = palette(next), mine = (fading = new AbortController());
@@ -562,10 +574,33 @@ export class PixelWorld extends PixelElement {
         { signal: AbortSignal.any([signal, mine.signal]), instant: false }).then(() => fading === mine && (fading = undefined));
     };
 
+    /**
+     * Less motion asked for, on the device or on the page: at once the layers come back to rest, a flaring star goes
+     * out, a flock or a shooting star goes, a fade lands, and the clouds stop where they are. Asked for no longer:
+     * drawn again for moving (the clouds where they stopped), and everything carries on.
+     */
+    const pause = () => {
+      if (still === (still = reducedMotion())) return;
+      if (!still) return redraw();
+      motion.abort();
+      motion = new AbortController();
+      parallax(0, 0);
+      if (fading) draw();
+    };
+
+    /** A flare, a flock or a shooting star on its way: its controller aborts when it lands, or at once when motion
+        pauses or the world goes, and land() puts its sprites away then. */
+    const flight = (land: () => void) => {
+      const f = new AbortController();
+      motion.signal.addEventListener("abort", () => f.abort(), { once: true, signal: f.signal });
+      f.signal.addEventListener("abort", land, { once: true });
+      return f;
+    };
+
     /** Runs fn on an irregular beat while connected, in view, shown and moving. */
     const beat = (first: number, fn: () => void, next: () => number) => {
       const tick = () => {
-        if (visible && !document.hidden && !reducedMotion()) fn();
+        if (visible && !document.hidden && !still) fn();
         later(next(), tick, signal);
       };
       later(first, tick, signal);
@@ -580,7 +615,8 @@ export class PixelWorld extends PixelElement {
       place(c, star[0]! - 2, star[1]! - 2);
       show(0);
       c.hidden = false;
-      run([{ at: 3 * 40, do: () => show(1) }, { at: 9 * 40, do: () => show(0) }, { at: 12 * 40, do: () => (c.hidden = true) }], { signal, instant: false });
+      const f = flight(() => (c.hidden = true));
+      run([{ at: 3 * 40, do: () => show(1) }, { at: 9 * 40, do: () => show(0) }, { at: 12 * 40, do: () => f.abort() }], { signal: f.signal, instant: false });
     }, () => 600 + services.between(0, 899));
 
     // Now and then: by day and at sunset a flock of three crosses the sky; at night a shooting star streaks down.
@@ -595,33 +631,30 @@ export class PixelWorld extends PixelElement {
         const clear = box(x0, skyY(39) - CLEAR) ?? box(w - x0, 0);
         if (!clear) return;
         [x0, y0] = [clear[0] + ox! + CLEAR, clear[1] + oy! + CLEAR];
-        const c = thing(10, 5);
+        const c = thing(10, 5), f = flight(() => c.remove());
         sprite(c, SHOOTING_STAR, "Wabcd", [pal[S.WHITE]!, ...pal.slice(S.TRAIL, S.TRAIL + 4)].map(abgr));
         c.hidden = true;
-        run(Array.from({ length: 10 }, (_, f) => ({ at: f * 40, do: () => (f === 9 ? c.remove() : (place(c, x0 - f * 4, y0 + f * 2), (c.hidden = false))) })), { signal, instant: false })
-          .then(() => c.remove());
+        run(Array.from({ length: 10 }, (_, i) => ({ at: i * 40, do: () => (i === 9 ? f.abort() : (place(c, x0 - i * 4, y0 + i * 2), (c.hidden = false))) })), { signal: f.signal, instant: false });
         return;
       }
       const dir = services.random() < 0.5 ? 1 : -1, y = skyY(18 + services.between(0, 39)), colour = [abgr(pal[S.BIRD]!)];
-      const birds = FLOCK.map(() => thing(5, 3)), flight = new AbortController();
+      const birds = FLOCK.map(() => thing(5, 3)), f = flight(() => birds.forEach((b) => b.remove()));
       let x = dir > 0 ? -20 : w + 20, step = 0;
-      signal.addEventListener("abort", () => flight.abort(), { once: true, signal: flight.signal });
-      flight.signal.addEventListener("abort", () => birds.forEach((b) => b.remove()), { once: true });
       every(80, () => {
         if (!visible) return;
         x += dir;
-        if (dir > 0 ? x > w + 20 : x < -20) return flight.abort();
+        if (dir > 0 ? x > w + 20 : x < -20) return f.abort();
         birds.forEach((b, i) => {
           if (step % 2 === 0) sprite(b, BIRD[(step / 2 + i) % 2]!, "X", colour);
           place(b, x + FLOCK[i]![0]! * dir, y + FLOCK[i]![1]!);
         });
         step++;
-      }, flight.signal);
+      }, f.signal);
     }, () => 60_000 + services.between(0, 60_000));
 
     // Clouds drift right at a tenth of their size in pixels a second, a whole pixel at a time, wrapping round.
     every(250, () => {
-      if (!visible || reducedMotion()) return;
+      if (!visible || still) return;
       elapsed += 0.25;
       for (const d of clouds) {
         const x = Math.round(cloudX(d));
@@ -646,17 +679,20 @@ export class PixelWorld extends PixelElement {
     }
     const watch = new ResizeObserver(watched);
     const seen = new IntersectionObserver((entries) => void (visible = !!entries.at(-1)?.isIntersecting));
-    // Following the page: its scheme switches, Auto's minute ticks (stepped, as the page's palette is), its pixel.
+    // Following the page: its motion setting (data-pp-motion), its scheme switches, Auto's minute ticks (stepped, as
+    // the page's palette is), its pixel.
     const page = new MutationObserver((records) => {
+      pause();
       check(html.hasAttribute("data-pp-scheme-fade"));
       if (records.some((r) => r.attributeName === "data-pp-pixel") && measure().join(" ") !== drawn) redraw();
     });
     resize.observe(el);
     seen.observe(el);
-    page.observe(html, { attributes: true, subtree: true, attributeFilter: ["data-pp-scheme", "data-pp-pixel"] });
-    // Dark mode, reduced motion, and the window moving to a screen with another device pixel ratio (and back): draw
-    // again, in that screen's whole device pixels.
-    for (const q of ["(prefers-color-scheme: dark)", "(prefers-reduced-motion: reduce)", `(resolution: ${devicePixelRatio}dppx)`]) this.on(matchMedia(q), "change", draw);
+    page.observe(html, { attributes: true, subtree: true, attributeFilter: ["data-pp-scheme", "data-pp-pixel", "data-pp-motion"] });
+    // The device's reduced motion, as the page's; dark mode, and the window moving to a screen with another device
+    // pixel ratio (and back): draw again, in that screen's whole device pixels.
+    this.on(matchMedia("(prefers-reduced-motion: reduce)"), "change", pause);
+    for (const q of ["(prefers-color-scheme: dark)", `(resolution: ${devicePixelRatio}dppx)`]) this.on(matchMedia(q), "change", draw);
     // Parallax: the layers slide against the pointer, and lift as the world scrolls by.
     this.on(window, "pointermove", (e: PointerEvent) => {
       const r = el.getBoundingClientRect();
@@ -667,6 +703,7 @@ export class PixelWorld extends PixelElement {
       parallax(slide[0]!, -Math.max(-1, Math.min(1, (r.top + r.height / 2 - innerHeight / 2) / (innerHeight / 2 + r.height / 2 || 1))) * 2);
     }, { passive: true });
     signal.addEventListener("abort", () => {
+      motion.abort();
       resize.disconnect();
       watch.disconnect();
       seen.disconnect();

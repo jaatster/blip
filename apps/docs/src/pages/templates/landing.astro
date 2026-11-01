@@ -32,7 +32,7 @@ const plans = [
 
   <main>
     <section class="pp-hero tpl-hero" aria-labelledby="hero-title">
-      <pp-world parallax clouds stars avoid=".pp-hero-title, .pp-hero-lead, .pp-hero-actions, .pp-hero-note"></pp-world>
+      <pp-world parallax clouds stars avoid=".pp-hero-title, .pp-hero-lead, .pp-hero-actions, .pp-hero-note, pp-motion-toggle"></pp-world>
       <div class="pp-hero-inner">
         <h1 class="pp-hero-title pp-display" id="hero-title"><span class="pp-sr-only">Daybreak</span><span aria-hidden="true"><span class="pp-hero-word">{letters.map(({ c, i }) => <span class="pp-pop pp-drop-in" data-pop={c} style={`--i:${i}`}>{c}</span>)}</span></span></h1>
         <p class="pp-hero-lead">A planner on a sky that keeps time with you: pastel mornings for the big things, a sunset to wrap up, and a starry night that says stop.</p>
@@ -41,6 +41,7 @@ const plans = [
           <a class="pp-box pp-button" data-size="lg" data-variant="soft" data-tone="neutral" href="#features-title">See how it works</a>
         </div>
         <p class="pp-hero-note">Free on one device. No account needed.</p>
+        <pp-motion-toggle></pp-motion-toggle>
       </div>
       <div class="pp-hero-scenery" aria-hidden="true">
         <pp-sprite name="star" style="position:absolute;left:calc(round(down,8%,var(--pp-pixel)));bottom:0"></pp-sprite>

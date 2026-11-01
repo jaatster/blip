@@ -67,6 +67,8 @@ The candy box, from the outside in, then what it holds:
 
 - Name the action: "Save game", "Delete save", not "OK" or "Yes".
 - Two or three words. Upper case is applied by CSS; write labels in sentence case.
+- A label keeps one line while it fits. When it does not, it wraps between words and the button grows taller (its
+  height is a minimum); a word longer than the room breaks as a last resort. A label is never cut short.
 
 ## Do and don't
 

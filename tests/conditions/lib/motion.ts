@@ -11,9 +11,10 @@
  *   waits for its end goes on.
  * - A sampler reads every element the DOM changes, after each change and at the page's (fake) time, for motion driven
  *   by script (a typewriter, the world's clouds and stars, a counter rolling, a toast leaving). It has no frame loop
- *   of its own: a requestAnimationFrame loop would make the fake clock yield a real tick every frame.
+ *   of its own: a requestAnimationFrame loop would make the fake clock yield a real tick every frame. Started a frame
+ *   after the motion toggle is pressed, it judges the stillness that must follow (sampleStill).
  *
- * Both return failures as lines, worded for the report: what moved, the rule it broke and the DESIGN.md rule.
+ * All return failures as lines, worded for the report: what moved, the rule it broke and the DESIGN.md rule.
  */
 import type { Page } from "@playwright/test";
 
@@ -29,17 +30,27 @@ export const ANY_STEPS = "pp-world, .pp-world";
 /** Clocks, which keep stepping with reduced motion because they tell the time (docs/toast.md: "With reduced motion
     they appear and go at once; the timer still steps (it is a clock, not motion)"). */
 export const CLOCKS = ".pp-toast-timer";
+/** The motion toggle's button (docs/motion-toggle.md): motion that runs on (the world's drifting clouds, flaring stars
+    and passing birds) is allowed only on a page that shows it, and pressing it must stop all of that within a frame
+    (DESIGN.md, the Pause Rule: "everything that moves on its own stops within a frame, where it is"). */
+export const TOGGLE = "pp-motion-toggle button";
+/** What every line about motion that never stops says, so the toggle check can find them. */
+export const NEVER_STOPS = ": never stops";
 
 export interface Filmed {
   /** Animations filmed, by name and where. */
   names: string[];
   failures: string[];
+  /** Animations that never stop (not loaders), by where and name. */
+  endless: string[];
 }
 
 export interface Sampled {
   /** Elements that script moved or changed over time. */
   moving: string[];
   failures: string[];
+  /** Elements that script still moved at the end (with `endless`). */
+  endless: string[];
 }
 
 /** Registers the recorder and the sampler. Call before page.clock.install() and before the page loads. */
@@ -65,12 +76,18 @@ export const sampleStart = (page: Page): Promise<void> => page.evaluate(() => (w
 export const sampleStop = (page: Page, label: string, dpr: number, reduced: boolean, endless: boolean): Promise<Sampled> =>
   page.evaluate(([label, dpr, reduced, endless]) => (window as unknown as Lanes).__lanes.sampleStop(label, dpr, reduced, endless), [label, dpr, reduced, endless] as const);
 
+/** Ends a window of the sampler opened a frame after the motion toggle was pressed: what ran on before (`endless`, as
+    film and sampleStop described it) must not change at all, nothing else may move, and no animation may run on. */
+export const sampleStill = (page: Page, label: string, endless: string[]): Promise<string[]> =>
+  page.evaluate(([label, endless]) => (window as unknown as Lanes).__lanes.sampleStill(label, endless), [label, endless] as const);
+
 interface Lanes {
   __lanes: {
     acting: number;
     film(label: string, dpr: number, reduced: boolean): Filmed;
     sampleStart(): void;
     sampleStop(label: string, dpr: number, reduced: boolean, endless: boolean): Sampled;
+    sampleStill(label: string, endless: string[]): string[];
   };
 }
 
@@ -210,6 +227,7 @@ export function recorder({ endless, anySteps, clocks }: { endless: string; anySt
     film(label: string, dpr: number, reduced: boolean) {
       const names: string[] = [];
       const failures: string[] = [];
+      const endlessly: string[] = [];
       // getAnimations() brings styles up to date, so what a change has just started is there too.
       discover();
       for (const a of found) {
@@ -234,7 +252,10 @@ export function recorder({ endless, anySteps, clocks }: { endless: string; anySt
         if (reduced && !scrolled) {
           if (active > 0 && !el.closest(clocks)) lines.add(`animates under reduced motion: ${Math.round(duration)} ms x ${iterations} (${easing}); DESIGN.md: with reduced motion every duration is 0 ms and every effect arrives at once`);
         } else if (!scrolled) {
-          if (iterations === Infinity && duration > 0 && !endlessOK) lines.add(`never stops (${Math.round(duration)} ms, iterations infinite); DESIGN.md: anything that blinks or bobs stops after six beats, under five seconds; only loaders run on`);
+          if (iterations === Infinity && duration > 0 && !endlessOK) {
+            lines.add(`never stops (${Math.round(duration)} ms, iterations infinite); DESIGN.md: anything that blinks or bobs stops after six beats, under five seconds; only loaders, and ambient motion beside the motion toggle, run on`);
+            endlessly.push(who);
+          }
           if (iterations !== Infinity && Number(computed.endTime) > 5001) lines.add(`runs ${Math.round(Number(computed.endTime))} ms; DESIGN.md: anything that blinks or bobs stops after six beats, under five seconds`);
           // The frames: the active phase, one iteration of an endless one, a 60 Hz frame apart.
           const from = Math.max(0, timing.delay ?? 0);
@@ -271,10 +292,10 @@ export function recorder({ endless, anySteps, clocks }: { endless: string; anySt
           else a.finish();
         } catch { /* already gone */ }
       }
-      return { names, failures };
+      return { names, failures, endless: endlessly };
     },
 
-    sampling: null as null | { observer: MutationObserver; take: (r: MutationRecord[]) => void; t0: number | undefined; tracks: Map<Element, { t: number; key: string; look: Look; text: string; own: boolean }[]> },
+    sampling: null as null | { observer: MutationObserver; take: (r: MutationRecord[]) => void; start: number; t0: number | undefined; tracks: Map<Element, { t: number; key: string; look: Look; text: string; own: boolean }[]>; seen: Map<Element, { who: string; anyOK: boolean; endlessOK: boolean }> },
 
     /** Starts reading what the DOM changes: after every change (every fake timer or frame that changes something),
         at the page's own (fake) time. */
@@ -300,10 +321,12 @@ export function recorder({ endless, anySteps, clocks }: { endless: string; anySt
           if (track.at(-1)?.key === key) continue;
           track.push({ t, key, look: l, text, own: L.acting === 0 });
           s.tracks.set(el, track);
+          // Where it is, while it is there: a shooting star is judged after it has gone.
+          if (!s.seen.has(el)) s.seen.set(el, { who: describe(el, null), anyOK: !!el.closest(anySteps), endlessOK: !!el.closest(endless) });
         }
       };
       const observer = new MutationObserver(take);
-      const s: NonNullable<typeof L.sampling> = (L.sampling = { observer, take, t0: undefined, tracks: new Map() });
+      const s: NonNullable<typeof L.sampling> = (L.sampling = { observer, take, start: performance.now(), t0: undefined, tracks: new Map(), seen: new Map() });
       observer.observe(document, { subtree: true, attributes: true, childList: true, characterData: true });
     },
 
@@ -316,6 +339,7 @@ export function recorder({ endless, anySteps, clocks }: { endless: string; anySt
       s.observer.disconnect();
       const end = performance.now() - (s.t0 ?? performance.now());
       const moving: string[] = [];
+      const endlessly = new Set<string>();
       const failures = new Set<string>();
       for (const [el, track] of s.tracks) {
         // Motion: three or more changes of the page's own (not the person's: a click, a key) within a second. A single
@@ -324,9 +348,8 @@ export function recorder({ endless, anySteps, clocks }: { endless: string; anySt
         let busy = false;
         for (let i = 2; i < own.length; i++) if (own[i]!.t - own[i - 2]!.t <= 1000) busy = true;
         if (!busy) continue;
-        const who = describe(el, null);
+        const { who, anyOK, endlessOK } = s.seen.get(el)!;
         moving.push(who);
-        const anyOK = !!el.closest(anySteps), endlessOK = !!el.closest(endless);
         if (reduced) {
           failures.add(`[${label}] ${who}: changes ${own.length} times by itself (script) under reduced motion; DESIGN.md: with reduced motion every effect arrives at once`);
           continue;
@@ -341,10 +364,39 @@ export function recorder({ endless, anySteps, clocks }: { endless: string; anySt
         for (const line of broken.lines()) failures.add(`[${label}] ${who} (script): ${line}`);
         if (moves > 6 && !anyOK) failures.add(`[${label}] ${who} (script): moves in ${moves} steps; DESIGN.md, the Snap Rule: movement goes through 2 to 6 even steps`);
         if (endlessCheck && !endlessOK && track.at(-1)!.t > end - 3000) {
-          failures.add(`[${label}] ${who} (script): never stops: ${track.length} changes in ${Math.round(end / 1000)} s, the last ${Math.round((end - track.at(-1)!.t) / 1000 * 10) / 10} s before the end; DESIGN.md: anything that blinks or bobs stops after six beats, under five seconds`);
+          failures.add(`[${label}] ${who} (script): never stops: ${track.length} changes in ${Math.round(end / 1000)} s, the last ${Math.round((end - track.at(-1)!.t) / 1000 * 10) / 10} s before the end; DESIGN.md: anything that blinks or bobs stops after six beats, under five seconds; only loaders, and ambient motion beside the motion toggle, run on`);
+          endlessly.add(who);
         }
       }
-      return { moving, failures: [...failures] };
+      return { moving, failures: [...failures], endless: [...endlessly] };
+    },
+
+    /** Stops a sampler started a frame after the motion toggle was pressed, and judges the stillness since: an element
+        like one that ran on before (`endless`: the same description) must not change by itself at all, no other may
+        move (three changes within a second), and no animation may still run on but a loader's or a clock's. */
+    sampleStill(label: string, endlessly: string[]) {
+      const s = L.sampling!;
+      s.take(s.observer.takeRecords());
+      L.sampling = null;
+      s.observer.disconnect();
+      const before = new Set(endlessly);
+      const failures = new Set<string>();
+      const why = "DESIGN.md, the Pause Rule: everything that moves on its own stops within a frame, where it is";
+      for (const [el, track] of s.tracks) {
+        const own = track.filter((c) => c.own);
+        if (!own.length) continue;
+        const { who, endlessOK } = s.seen.get(el)!;
+        let busy = false;
+        for (let i = 2; i < own.length; i++) if (own[i]!.t - own[i - 2]!.t <= 1000) busy = true;
+        if (before.has(who) || (busy && !endlessOK)) failures.add(`[${label}] ${who} (script): still moves after the motion toggle was pressed: ${own.length} change${own.length > 1 ? "s" : ""}, the first ${Math.round(own[0]!.t + (s.t0 ?? s.start) - s.start)} ms into the window that starts a frame after the press; ${why}`);
+      }
+      for (const a of document.getAnimations()) {
+        const effect = a.effect as KeyframeEffect | null;
+        const el = effect?.target;
+        if (!effect || !el || el.closest(endless) || el.closest(clocks) || effect.getComputedTiming().iterations !== Infinity) continue;
+        if (a.playState === "running" || a.playState === "paused") failures.add(`[${label}] ${describe(el, effect.pseudoElement ?? null)} ${(a as CSSAnimation).animationName ?? "animate()"}: still animates after the motion toggle was pressed (iterations infinite); ${why}`);
+      }
+      return [...failures];
     },
   };
   (window as unknown as { __lanes: typeof L }).__lanes = L;

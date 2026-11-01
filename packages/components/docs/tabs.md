@@ -32,7 +32,8 @@ its box still scrolls.
 
 ## Anatomy
 
-1. **List**: `.pp-tabs-list`, `role="tablist"`. A row that scrolls sideways when it is too long.
+1. **List**: `.pp-tabs-list`, `role="tablist"`. A row that scrolls sideways when it is too long. Paper cannot
+   scroll: printed, the row wraps, every tab in sight, and the scroll buttons stay off.
 2. **Tab**: a candy box, `role="tab"`, upper-case label; an icon before it or a muted count after it are fine.
 3. **Panel**: `.pp-tabs-panel`, `role="tabpanel"`. Add `pp-box` and `data-variant="panel"` when it wants a frame.
 4. **Arrow** (`data-arrow`): the TV's pointer arrow, ink outline and accent fill, over the selected tab.

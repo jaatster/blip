@@ -61,7 +61,7 @@ With no JavaScript at all (native radios; the browser groups them and steers wit
 | Hover | pointer | A calm raised well: surface fill, line outline. |
 | Focus | keyboard | The segment shows its well, with the yellow ring round it. |
 | Chosen | `aria-checked="true"` (element) or a checked radio | Candy, bands swapped, ink outline. |
-| Disabled | `disabled` on a segment, or on the element | Dithered; skipped by the arrow keys. |
+| Disabled | `disabled` on a segment, or on the element | Dithered: a segment that is not chosen becomes a well of the surface in a soft outline, dithered with the sunken surface (as a disabled outline or ghost button is), so its dither shows on the sunken rail. Skipped by the arrow keys. |
 
 ## Accessibility
 

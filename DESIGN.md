@@ -606,7 +606,9 @@ lift a pixel off it, and pressed and chosen things sit down into it. Nothing blu
 **The Dither Rule.** See-through is a dither, never a wash. The scrim behind a dialog is ink on every other pixel, a
 disabled control is covered by a checkerboard of a light colour (`--pp-disabled-dither`: the page colour by Day and
 Sunset, Starlight at Night) so its label still reads, a skeleton fills in with a dither, and the sky's gradient is
-ordered by a 4 x 4 Bayer matrix. What is behind stays legible as a shape, and colours never mix.
+ordered by a 4 x 4 Bayer matrix. What is behind stays legible as a shape, and colours never mix. A disabled control
+always shows its dither (a segment, bare on its sunken rail, becomes a dithered well in a soft outline), drawn
+unsmoothed, so at 125% to 262.5% its squares stay crisp.
 
 ## Shapes
 
@@ -740,8 +742,9 @@ line of whole pixels: solid, dashed or dithered.
 - **States:** hover fills a link with the sunken surface and shows its outline; the current page
   (`aria-current="page"`) sits in as an accent-light chip with an ink outline; focus is the yellow ring.
 - **Tabs:** candy tabs rest in cream and the selected one takes the accent and sits in; soft and outline tiers for
-  calmer screens; the underline variant marks the selected tab with a stepped bar. A menu is a cream panel whose
-  item under the keyboard gets the yellow focus row.
+  calmer screens; the underline variant marks the selected tab with a stepped bar. A row too long for its box
+  scrolls on screen and prints wrapped, every tab in sight. A menu is a cream panel whose item under the keyboard
+  gets the yellow focus row.
 - **Mobile treatment:** the app bar folds its links behind a menu button into a popover; the sidebar becomes a rail
   and then steps aside under 600 px of the shell, where a bottom bar of three to five destinations (icon over label,
   set tight so five fit across a 320 px phone, the current one sitting in) takes over.
@@ -752,7 +755,8 @@ line of whole pixels: solid, dashed or dithered.
   title bar in the tone's light under an ink rule, and a Pixel Bop title at scale 1. It stands over the dithered
   ink scrim and pops in one pixel low for a frame. Its body scrolls when it must: while more lies below, an ink
   rule runs over the footer and the text dithers out above it in three hard steps (never a wash), and a pixel
-  scrollbar stands beside it. Any scroller that hides more to one side says so the same way.
+  scrollbar stands beside it. Any scroller that hides more to one side says so the same way. Paper cannot scroll,
+  so an open dialog prints its whole body, grown over the page.
 - **Toast:** floats in a corner with a two-pixel drop and a stepped countdown bar; it stays 5 seconds, pauses while
   pointed at or focused, and an error stays until dismissed. **Alert:** soft tone fill, ink outline, the tone's
   colour as a lip along the bottom, and a pixel sign that differs in shape as well as colour.
@@ -798,8 +802,10 @@ browser at the page's pixel and redrawn only when its size, its screen or its ti
 x 180 world pixels it is the TV's picture, pixel for pixel; a wider world carries the landscape on to the sides. It
 follows the page's scheme, or the clock on its own. Clouds can drift right a whole pixel at a time, layers slide 0
 to 4 pixels against the pointer in two steps (each on a whole pixel, even when the next move cuts a slide short),
-stars flare at night, and now and then birds cross or a star shoots. With reduced motion it is a still, correct
-frame. It is decoration: hidden from assistive technology, in high-contrast mode and on paper. Big text on it is
+stars flare at night, and now and then birds cross or a star shoots; that motion runs on, so it keeps to where it adds
+to the look and comes with the motion toggle (the Pause Rule). With reduced motion it is a still, correct frame, and
+when the device or the page asks for less motion it stops at once, where it is. It is decoration: hidden from
+assistive technology, in high-contrast mode and on paper. Big text on it is
 POP, small text OUTLINE or a one-pixel halo in the page colour; anything else needs a panel. The words on it are
 named in its `avoid`, and the sun, the moon and shooting stars keep clear of them: the nearest clear place in their
 lane of the sky, in whole pixels, worked out again whenever the words or the world resize; with no clear sky at all
@@ -813,7 +819,8 @@ or a field. Durations are frame tokens: a frame 40 ms, a nudge 80, a slide 100, 
 the idle beat 400. A menu, popover, toast or bubble pops in (one pixel low for a frame, then in place); a title's
 letters drop in (two pixels high for a frame, then landed, 30 ms apart); a coin block bumps (up 6 pixels, then 3,
 then down); a wrong answer shakes (two pixels each way, then one). Anything that blinks or bobs stops after six
-beats, under five seconds. Screen changes use an ink dissolve (nine frames of 30 ms to cover the screen, nine to
+beats, under five seconds; only loaders, and ambient motion beside the motion toggle, run on. Screen changes use
+an ink dissolve (nine frames of 30 ms to cover the screen, nine to
 clear it), an ordered dither, or a mosaic of 2 to 12 pixel blocks, never a cross-fade. A change of time of day is
 an ordered dither straight from one palette to the next, in three frames.
 
@@ -827,6 +834,13 @@ and forms use outline and ghost, so the candy keeps its meaning.
 **The Snap Rule.** Nothing eases. Movement goes through 2 to 6 even steps (`steps(n, jump-end)`), a whole pixel at a
 time, on 40 ms frames, never along a curve; a one-pixel move is a single step. With reduced motion every duration
 is 0 ms and every effect arrives at once.
+
+**The Pause Rule.** Ambient motion, the world's drifting clouds, flaring stars and passing birds, runs on, so it goes
+only where it adds to the look: a hero, a title or attract screen, a call to action, a game's stage. Never behind
+reading text, forms or dashboards. A page that has it shows the motion toggle (`<pp-motion-toggle>`), which sets
+`data-pp-motion="reduce"` on `<html>`: everything that moves on its own stops within a frame, where it is, and carries
+on when the toggle is pressed again. The choice is remembered, and it adds to the device's reduced motion, never
+overrides it.
 
 ## Do's and Don'ts
 

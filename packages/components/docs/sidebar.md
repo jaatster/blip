@@ -85,6 +85,8 @@ Add `pp-box` and `data-variant="panel"` to the `nav` for a framed panel; leave t
 
 ## Content
 
+- A rail sits at the start edge of the screen: an item's name shows beside it, over the content, never wider than
+  the sidebar (a longer name wraps).
 - Item names are nouns, one or two words, sentence case: "Players", "Sales".
 - Two to four sections, about five items each. Group long lists rather than scrolling them.
 - Counts are numbers; above 999 write "999+".

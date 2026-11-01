@@ -18,8 +18,8 @@
  *   data-size               sm | md (default) | lg       16, 20 or 24 pixels high, like buttons
  *   data-width="full"       fills its container; the segments share the width
  *   data-tone               the chosen segment's candy
- *   Segments: [aria-checked="true"] or a checked radio is chosen; disabled (or a disabled radio) is dithered;
- *   data-icon-only for one icon (needs aria-label).
+ *   Segments: [aria-checked="true"] or a checked radio is chosen; disabled (or a disabled radio) is dithered, in a
+ *   soft outline when not chosen; data-icon-only for one icon (needs aria-label).
  *
  * Focus is the box's yellow ring on the segment that has the keyboard. Segments too long for the container scroll,
  * as a tab row does, and the edge with more beyond it dithers out (_scroll.css).
@@ -82,7 +82,8 @@
     .pp-segmented:has(:focus-visible) { mask: none; }
   }
 
-  /* A segment: quiet at rest, a calm raised well on hover, candy that sits in when chosen. */
+  /* A segment: quiet at rest, a calm raised well on hover, candy that sits in when chosen, a dithered well when
+     disabled. */
   .pp-segmented > .pp-box {
     --pp-r: 3;
     --pp-shape: var(--pp-shape-3);
@@ -143,7 +144,13 @@
   }
 
   .pp-segmented > .pp-box:has(> input:disabled) { --pp-box-dither: var(--pp-disabled-dither); cursor: not-allowed; }
+  /* Disabled, a segment takes the calm tiers' look (box.css): a soft outline round the surface, dithered with the
+     sunken surface. Bare, its dither would match the sunken rail under it and never show. */
   .pp-segmented > .pp-box:is(:disabled, [aria-disabled="true"], :has(> input:disabled)):not([aria-checked="true"], :has(> input:checked)) {
+    --pp-box-outline: var(--pp-line-soft);
+    --pp-box-top: var(--pp-surface);
+    --pp-box-fill: var(--pp-surface);
+    --pp-box-bottom: var(--pp-surface);
     --pp-box-text: var(--pp-text-muted);
     --pp-box-dither: var(--pp-surface-sunken);
   }

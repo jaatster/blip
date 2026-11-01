@@ -32,7 +32,8 @@
     justify-content: center;
     box-sizing: border-box;
     min-inline-size: var(--_pp-keycap-size);
-    block-size: var(--_pp-keycap-size);
+    /* A minimum: a label too long for the room wraps between words and the key grows taller, never cut short. */
+    min-block-size: var(--_pp-keycap-size);
     /* The label sits on the key's face, above the thick shade band. */
     padding: var(--pp-pixel) calc(3 * var(--pp-pixel)) calc(3 * var(--pp-pixel));
     margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
@@ -41,8 +42,8 @@
     font-weight: var(--pp-weight-bold);
     line-height: 1;
     letter-spacing: var(--pp-tracking-label);
+    text-align: center;
     text-transform: uppercase;
-    white-space: nowrap;
     vertical-align: middle;
     /* A key keeps its own label colour, never a POP or OUTLINE shadow from the text around it. */
     text-shadow: none;

@@ -12,6 +12,8 @@
  *   aria-pressed   on a <button>: a filter chip; "true" sits in, like a toggle button
  *
  * The cross is its own button, 12 pixels square (24 CSS px), named for what it removes. States come from the box.
+ * The label keeps one line while it fits; then it wraps between words and the tag grows taller (a word longer than
+ * the room breaks as a last resort), never cut short.
  */
 
 @layer pp.components {
@@ -26,18 +28,18 @@
     align-items: center;
     gap: var(--pp-space-2);
     box-sizing: border-box;
-    block-size: var(--_h);
+    min-block-size: var(--_h);
     max-inline-size: 100%;
-    padding: 0 calc(6 * var(--pp-pixel));
+    padding: var(--pp-pixel) calc(6 * var(--pp-pixel));
     margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
     font-family: var(--pp-font-ui);
     font-size: var(--pp-size-caption);
     font-weight: var(--pp-weight-bold);
     line-height: 1;
     letter-spacing: var(--pp-tracking-label);
+    text-align: center;
     text-transform: uppercase;
     text-decoration: none;
-    white-space: nowrap;
     vertical-align: middle;
   }
   /* Soft unless told otherwise: a tag labels; candy is for what you act on. */
@@ -53,7 +55,7 @@
     --pp-shape-inner: var(--pp-shape-4-inner);
     --pp-band-bottom: 1;
     --_h: calc(12 * var(--pp-pixel));
-    padding: 0 calc(5 * var(--pp-pixel));
+    padding-inline: calc(5 * var(--pp-pixel));
   }
   .pp-tag[data-size="lg"] {
     --pp-r: 6;
@@ -62,7 +64,7 @@
     --pp-band-top: 3;
     --pp-band-bottom: 3;
     --_h: calc(16 * var(--pp-pixel));
-    padding: 0 calc(8 * var(--pp-pixel));
+    padding-inline: calc(8 * var(--pp-pixel));
     font-size: var(--pp-size-small);
   }
   .pp-tag > .pp-icon:first-child { margin-inline-start: calc(-2 * var(--pp-pixel)); }

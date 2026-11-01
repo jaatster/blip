@@ -56,6 +56,8 @@ reliable return of focus, and invoker buttons in browsers that lack them.
 5. **Close** (`.pp-dialog-close`, optional): a small ghost icon button with the pixel cross.
 6. **Body** (`.pp-dialog-body`): scrolls when the dialog is taller than the screen; bar and footer stay. While more
    lies below, an ink rule runs over the footer and the text dithers out above it; a pixel scrollbar beside it.
+   Paper cannot scroll: printed, an open dialog shows its whole body, grown over the page (past a `max-block-size`
+   set on it inline too).
 7. **Footer** (`.pp-dialog-footer`): actions at the end, the main one last.
 8. **Scrim** (`::backdrop`): a one-pixel ink checkerboard, never a see-through wash.
 

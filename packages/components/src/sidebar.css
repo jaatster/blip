@@ -25,6 +25,8 @@
  *   data-collapsed        the rail: icons only
  *   data-collapse="auto"  a rail when the pp-shell container is under 1024 px, hidden under 600 px (pair it with the
  *                         bottom bar or the app bar's menu)
+ *                         A rail sits at the start edge of the screen: an item's name shows beside it, over the
+ *                         content, never wider than the sidebar (a longer name wraps)
  *   data-arrow            the TV's pointer arrow beside the current page
  *   --pp-sidebar-width    120 pixels (240 px). Keep it over 120 px: a content box under 100 px reads as the rail.
  */
@@ -217,7 +219,10 @@
       inset-inline-start: calc(100% + var(--pp-space-4));
       z-index: 1;
       translate: 0 -50%;
+      inline-size: max-content;
+      max-inline-size: var(--pp-sidebar-width);
       padding: var(--pp-space-2) var(--pp-space-4);
+      white-space: normal;
       background: var(--pp-text);
       color: var(--pp-text-inverse);
       font-weight: var(--pp-weight-bold);

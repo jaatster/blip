@@ -77,12 +77,13 @@
   }
 
   .pp-list-item > :is(.pp-icon, .pp-avatar, img, svg) { flex: none; }
+  /* The title and description keep at least half the row; when the end needs more, its words wrap instead. */
   .pp-list-content {
     display: flex;
     flex-direction: column;
     gap: var(--pp-space-1);
     flex: 1;
-    min-inline-size: 0;
+    min-inline-size: 50%;
   }
   .pp-list-title { font-weight: var(--pp-weight-bold); overflow-wrap: anywhere; }
   .pp-list-description {
@@ -93,7 +94,7 @@
   .pp-list[data-density="compact"] .pp-list-description { font-size: var(--pp-size-caption); }
   .pp-list-end {
     display: flex;
-    flex: none;
+    flex: 0 1 auto;
     align-items: center;
     gap: var(--pp-space-4);
     margin-inline-start: auto;

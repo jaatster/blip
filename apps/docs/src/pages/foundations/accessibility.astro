@@ -70,6 +70,7 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     <h2 id="motion">Motion and time</h2>
     <ul class="docs-list">
       <li>With <code class="docs-inline-code">prefers-reduced-motion</code>, every duration token is 0 ms: no drifting clouds, dropping letters, bursts or page dissolves. Waits, like a tooltip's delay, stay.</li>
+      <li>Motion that runs on by itself (the world's drifting clouds, flaring stars and passing birds) only goes where it adds to the look, never behind reading text, and always beside <a href="/components/motion-toggle/"><code class="docs-inline-code">&lt;pp-motion-toggle&gt;</code></a>: pressed, it pauses all of it at once and remembers the choice (WCAG 2.2.2).</li>
       <li>Anything that blinks or bobs stops after six beats, under five seconds (WCAG 2.2.2).</li>
       <li>Toasts pause while the pointer or the keyboard is on them, while the tab is hidden and while a dialog is open; errors stay until dismissed (WCAG 2.2.1).</li>
       <li>Sound is off until someone turns it on, plays only for what they did, and never carries meaning alone.</li>

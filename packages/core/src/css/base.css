@@ -24,6 +24,9 @@
     font-synthesis: none;
     /* Ligatures off, whatever the font: in a pixel font fi and fl merge into one glyph that reads as another letter. */
     font-variant-ligatures: no-common-ligatures;
+    /* A word too long for its room (German, Finnish, a URL) breaks inside rather than run out of its box, and lets
+       the flex and grid items round it shrink. Display type never does (text.css). */
+    overflow-wrap: anywhere;
     text-rendering: optimizeLegibility;
     caret-color: var(--pp-accent-text);
     accent-color: var(--pp-accent);
@@ -56,10 +59,9 @@
   :where(hr) { border: 0; block-size: var(--pp-pixel); background: var(--pp-line-soft); margin: var(--pp-space-8) 0; }
   :where(h1, h2, h3, h4) { font-weight: var(--pp-weight-bold); line-height: var(--pp-leading-tight); text-wrap: balance; }
   :where(p, li, dd) { text-wrap: pretty; }
-  /* In titles and reading text a long word (German, Finnish, a URL) hyphenates where the page's lang has a
-     dictionary, and breaks where it has not rather than run out of its box; words under ten letters stay whole.
-     Set lang on <html>. */
-  :where(h1, h2, h3, h4, h5, h6, p, li, dt, dd, blockquote, figcaption, .pp-title, .pp-lead, .pp-body) { hyphens: auto; hyphenate-limit-chars: 10 4 4; overflow-wrap: break-word; }
+  /* In titles and reading text a long word hyphenates first, where the page's lang has a dictionary; words under
+     ten letters stay whole. Set lang on <html>. */
+  :where(h1, h2, h3, h4, h5, h6, p, li, dt, dd, blockquote, figcaption, .pp-title, .pp-lead, .pp-body) { hyphens: auto; hyphenate-limit-chars: 10 4 4; }
 
   /* Pixel art is never smoothed. */
   :where(img, canvas, svg)[data-pixelated], .pp-pixelated { image-rendering: pixelated; shape-rendering: crispEdges; }

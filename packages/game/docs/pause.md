@@ -59,6 +59,8 @@ It pops in: a pixel low for a frame, then in place. With reduced motion it simpl
 
 ## Content
 
+- On a narrow stage the title steps down a scale and the panel's sides narrow; when the panel is taller than the
+  room (a phone, a bigger text size) the menu scrolls, and the edge with more beyond it dithers out.
 "Paused" or the game's own word. Resume first, the destructive way out ("Quit to map") last; confirm it if progress
 would be lost.
 

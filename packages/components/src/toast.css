@@ -113,7 +113,7 @@
   .pp-toast-icon:empty { background-color: currentColor; mask: var(--_pp-glyph) 0 0 / 100% 100% no-repeat; }
   .pp-toast:not([data-tone]) .pp-toast-icon { color: var(--pp-accent-text); }
 
-  .pp-toast-body { flex: 1; min-inline-size: 0; overflow-wrap: break-word; }
+  .pp-toast-body { flex: 1; min-inline-size: 0; }
   .pp-toast-title { font-weight: var(--pp-weight-bold); line-height: calc(12 * var(--pp-pixel)); }
   .pp-toast-actions {
     display: flex;

@@ -15,6 +15,10 @@
  *   data-scale   1 | 2 (default) | 3 | 4 (on the value)      Pixel Bop's whole scales
  *   .pp-box      on .pp-stat: the stat in its own panel (add data-variant="panel")
  *
+ * In a grid (.pp-grid), a stat is a size container and its value steps down a whole scale while the column is
+ * narrower than five figures at its scale, so the number never breaks or runs out of its column. Give a longer
+ * value a wider column (data-min on the grid) or a smaller data-scale.
+ *
  * Good and bad news differ in shape as well as colour: after the arrow, good news (green) has the success sign's
  * check and bad news (red) the danger sign's exclamation mark. The words must say both, the move and whether it is
  * good ("+12%", "-6, fewer is better"): the arrow, the mark and the colour only repeat them.
@@ -47,6 +51,12 @@
     white-space: nowrap;
   }
   .pp-stat-value:not(.pp-pop) { color: var(--pp-text); }
+  /* A grid gives each stat its width (it cannot grow to fit its number), so there it is a size container: five
+     figures and a POP drop at scale 4, 3 and 2 need 286, 216 and 146 px (at the default pixel). */
+  .pp-grid > .pp-stat { container: pp-stat / inline-size; }
+  @container pp-stat (width < 286px) { .pp-stat-value[data-scale="4"] { --pp-scale: 3; font-feature-settings: "ss03"; } }
+  @container pp-stat (width < 216px) { .pp-stat-value:is([data-scale="3"], [data-scale="4"]) { --pp-scale: 2; font-feature-settings: "ss02"; } }
+  @container pp-stat (width < 146px) { .pp-stat-value:not([data-scale="1"]) { --pp-scale: 1; font-feature-settings: normal; } }
 
   .pp-stat-delta {
     --_c: var(--pp-text-muted);

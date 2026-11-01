@@ -14,6 +14,10 @@
  *   data-frame             an ink edge and a drop, for a screen set into a page
  *   .pp-stage > .pp-scrim  the dithered ink scrim over everything: a pause, a menu
  *   data-pp-scheme         a stage can carry its own scheme, like any element
+ *
+ * A stage is a size container (it takes the width it is given; it cannot grow to fit its content). On a narrow one,
+ * display text on it steps down a whole scale: at most 2 when its content box is under 480 px, and 1 under 320 px
+ * (a phone).
  */
 
 @layer pp.kits {
@@ -50,6 +54,7 @@
     --_b: var(--pp-stage-band, 12);
     --_g: var(--pp-stage-ground, 16);
     --_row: calc(2 * var(--_p)) var(--_p) repeat-x;
+    container: pp-stage / inline-size;
     position: relative;
     isolation: isolate;
     overflow: hidden;
@@ -83,6 +88,10 @@
   /* Until the world can draw, the stage's own banded sky shows, not a flat colour. */
   .pp-stage > pp-world:not(:defined) { visibility: hidden; }
   .pp-stage > .pp-scrim { position: absolute; inset: 0; }
+
+  /* Display text never breaks inside a word or number: on a narrow stage it steps down a whole scale instead. */
+  @container pp-stage (width < 480px) { .pp-display:is([data-scale="3"], [data-scale="4"]) { --pp-scale: 2; font-feature-settings: "ss02"; } }
+  @container pp-stage (width < 320px) { .pp-display:not([data-scale="1"]) { --pp-scale: 1; font-feature-settings: normal; } }
 
   /* The ground: a light top row, grass, a darker lip, then dirt with pebbles; blades of grass poke up above it. */
   .pp-stage-ground {

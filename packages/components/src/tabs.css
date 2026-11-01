@@ -235,6 +235,14 @@
   .pp-tabs-scroll[data-dir="end"]:dir(rtl) > span { scale: -1 1; }
   .pp-tabs-scroll[data-dir="start"]:dir(rtl) > span { scale: none; }
 
+  /* Paper cannot scroll: a row too long for its box prints wrapped, every tab in sight, without the buttons that
+     scroll it (a row that fits is unchanged). */
+  @media print {
+    .pp-tabs > .pp-tabs-list { flex-wrap: wrap; overflow: visible; }
+    .pp-tabs[data-overflow] > .pp-tabs-list { grid-column: 1 / -1; margin-inline: calc(-1 * var(--_pad)); }
+    .pp-tabs[data-overflow] > .pp-tabs-scroll { display: none; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .pp-tabs-list::after { animation: none; }
   }

@@ -126,7 +126,12 @@
   }
 
   /* Fill: bands, glints, the disabled dither and the busy dots, inside the outline. On (--_pp-sunk: 1) it starts a
-     pixel lower and further in, so the ink behind it shows as a shadow along the top and left, round the corners. */
+     pixel lower and further in, so the ink behind it shows as a shadow along the top and left, round the corners.
+     Each glint's layer starts a pixel higher, see-through there: its top is then a stop inside its gradient, which
+     the browser draws where it draws the band's own last row, not a layer's edge that only part covers the screen row
+     it shares with the band (at 150% to 262.5%), so no fill shows between a white band and a white glint (cream).
+     The dither's tiles are drawn unsmoothed: at 175% and 262.5% a tile is not a whole number of screen pixels, and
+     smoothed, their edges let what lies under them through as a faint grid. */
   .pp-box::after {
     content: "";
     position: absolute;
@@ -138,9 +143,9 @@
       linear-gradient(var(--pp-box-text) 0 0) left round(down, 50%, var(--_p)) top round(down, 50%, var(--_p)) / var(--_pp-dot-2) var(--_pp-dot-2) no-repeat,
       linear-gradient(var(--pp-box-text) 0 0) left calc(round(down, 50%, var(--_p)) + 4 * var(--_p)) top round(down, 50%, var(--_p)) / var(--_pp-dot-3) var(--_pp-dot-3) no-repeat,
       repeating-conic-gradient(var(--pp-box-dither) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--_p)) calc(2 * var(--_p)),
-      linear-gradient(var(--pp-box-glint) 0 0) left calc(var(--_pp-glint) * var(--_p)) top calc(2 * var(--_p)) / calc(2 * var(--_p)) var(--_p) no-repeat,
-      linear-gradient(var(--pp-box-glint) 0 0) left calc((var(--_pp-glint) - 1) * var(--_p)) top calc(3 * var(--_p)) / var(--_p) var(--_p) no-repeat,
-      linear-gradient(var(--pp-box-glint) 0 0) left calc(round(down, 100% + var(--_p), var(--_p)) - (var(--_pp-glint) + 1) * var(--_p)) top calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(transparent 50%, var(--pp-box-glint) 0) left calc(var(--_pp-glint) * var(--_p)) top var(--_p) / calc(2 * var(--_p)) calc(2 * var(--_p)) no-repeat,
+      linear-gradient(transparent 50%, var(--pp-box-glint) 0) left calc((var(--_pp-glint) - 1) * var(--_p)) top calc(2 * var(--_p)) / var(--_p) calc(2 * var(--_p)) no-repeat,
+      linear-gradient(transparent 50%, var(--pp-box-glint) 0) left calc(round(down, 100% + var(--_p), var(--_p)) - (var(--_pp-glint) + 1) * var(--_p)) top var(--_p) / var(--_p) calc(2 * var(--_p)) no-repeat,
       linear-gradient(to bottom,
         var(--pp-box-top) 0 calc((var(--pp-band-top) + 1) * var(--_p)),
         var(--pp-box-fill) 0 calc(round(down, 100%, var(--_p)) - (var(--pp-band-bottom) + 1) * var(--_p)),
@@ -149,6 +154,7 @@
     mask-repeat: no-repeat;
     mask-size: var(--pp-box-mask-size);
     mask-position: var(--pp-box-mask-position);
+    image-rendering: pixelated;
   }
 
   /* ------------------------------------------------------------ tiers */

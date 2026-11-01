@@ -60,6 +60,9 @@ panel's ink, in every scheme.
 
 ## Content
 
+- In a grid (`.pp-grid`) a stat is a size container: its value steps down a whole scale while the column is narrower
+  than five figures at its scale (146, 216 and 286 px for scales 2, 3 and 4), so a number never breaks or runs out.
+  Give a longer value a wider column (`data-min`) or a smaller `data-scale`.
 - Labels of one to three words.
 - Values formatted for reading ("98,120"), units short ("412 KB").
 - A delta says what it compares to ("vs last week", "today"), and says good or bad in words when that is not plain
