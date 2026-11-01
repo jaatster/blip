@@ -4,44 +4,41 @@ import Docs from "../../layouts/Docs.astro";
 import Table from "../../components/Table.astro";
 import Pager from "../../components/Pager.astro";
 import Icon from "../../components/Icon.astro";
+import Install from "../../components/Install.astro";
 import { assets, componentDocs, diagnostics, fontSection, pkgVersion, read } from "../../lib/data";
 import { codeBlock } from "../../lib/markdown";
+import { cdnStylesheets, cdnUrl } from "../../lib/install";
 import { code, esc } from "../../lib/html";
 import { booleanAttributes } from "../../lib/cem";
 import { reactEntryFor } from "../../lib/react";
 
 const a = assets();
 const v = pkgVersion("components");
-const fv = pkgVersion("font");
 const H = (id: string, text: string) => ({ depth: 2, id, text });
 const headings = [H("install", "Install"), H("css", "CSS, in order"), H("tailwind", "With Tailwind or your own CSS"), H("elements", "Web Components"), H("react", "React"), H("frameworks", "Frameworks"), H("theming", "Theming: two switches"), H("auto", "Auto: the clock"), H("motion", "Reduced motion"), H("languages", "Right to left and other languages"), H("diagnostics", "Diagnostics")];
 
-const npm = await codeBlock(`npm install @jaatster/blip-font @jaatster/blip-tokens @jaatster/blip-core @jaatster/blip-components
-npm install @jaatster/blip-elements @jaatster/blip-icons          # behaviour and icons, when you need them
-npm install @jaatster/blip-game @jaatster/blip-blocks @jaatster/blip-effects @jaatster/blip-sound   # kits`, "sh", "npm");
-const pnpm = await codeBlock(`pnpm add @jaatster/blip-font @jaatster/blip-tokens @jaatster/blip-core @jaatster/blip-components
-pnpm add @jaatster/blip-elements @jaatster/blip-icons
-pnpm add @jaatster/blip-game @jaatster/blip-blocks @jaatster/blip-effects @jaatster/blip-sound`, "sh", "pnpm");
-const cdnBase = `https://cdn.jsdelivr.net/npm/@blip`;
-const cdn = await codeBlock(`<link rel="stylesheet" href="${cdnBase}/font@${fv}/font.css">
-<link rel="stylesheet" href="${cdnBase}/tokens@${v}/dist/css/tokens.css">
-<link rel="stylesheet" href="${cdnBase}/core@${v}/dist/core.min.css">
-<link rel="stylesheet" href="${cdnBase}/components@${v}/dist/components.min.css">
+// One set of packages for every package manager, and the CDN's files instead (lib/install.ts).
+const installLines = [
+  { packages: ["font", "tokens", "core", "components"] },
+  { packages: ["elements", "icons"], comment: "behaviour and icons, when you need them" },
+  { packages: ["game", "blocks", "effects", "sound"], comment: "kits" },
+];
+const cdn = `${cdnStylesheets()}
 
 <script type="importmap">
 {
   "imports": {
-    "@jaatster/blip-core": "${cdnBase}/core@${v}/dist/js/index.js",
-    "@jaatster/blip-elements/": "${cdnBase}/elements@${v}/dist/",
-    "@jaatster/blip-effects/": "${cdnBase}/effects@${v}/dist/",
-    "@jaatster/blip-sound": "${cdnBase}/sound@${v}/dist/index.js"
+    "@jaatster/blip-core": "${cdnUrl("core", "dist/js/index.js")}",
+    "@jaatster/blip-elements/": "${cdnUrl("elements", "dist/")}",
+    "@jaatster/blip-effects/": "${cdnUrl("effects", "dist/")}",
+    "@jaatster/blip-sound": "${cdnUrl("sound", "dist/index.js")}"
   }
 }
 </script>
 <script type="module">
   import "@jaatster/blip-elements/tabs.js";
   import "@jaatster/blip-elements/menu.js";
-</script>`, "html", "HTML");
+</script>`;
 const cssOrder = await codeBlock(`/* 1. The faces: Pixel Bop and Pixelify Sans */
 @import "@jaatster/blip-font/font.css";
 /* 2. The tokens: every colour, size and duration, three schemes, three pixel sizes */
@@ -183,19 +180,9 @@ const elementRows = Object.entries(a.defines)
   <section class="docs-section" aria-labelledby="install">
     <h2 id="install">Install</h2>
     <p>Start with the four core packages. Elements, icons and the kits are separate, so you install only what a screen uses.</p>
-    <pp-tabs class="pp-tabs docs-tabs" data-variant="underline" data-size="sm">
-      <div class="pp-tabs-list" role="tablist" aria-label="How to install">
-        <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="true">npm</button>
-        <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false" tabindex="-1">pnpm</button>
-        <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false" tabindex="-1">CDN</button>
-      </div>
-      <div class="pp-tabs-panel" role="tabpanel"><Fragment set:html={npm} /></div>
-      <div class="pp-tabs-panel" role="tabpanel" hidden><Fragment set:html={pnpm} /></div>
-      <div class="pp-tabs-panel" role="tabpanel" hidden>
-        <p class="docs-note">No build step: the files as published, and an import map for the modules. Map a package's folder with a trailing slash and import each module with its <code class="docs-inline-code">.js</code>.</p>
-        <Fragment set:html={cdn} />
-      </div>
-    </pp-tabs>
+    <Install lines={installLines} cdn={cdn}>
+      <p slot="cdn" class="docs-note">No build step: the files as published, and an import map for the modules. Map a package's folder with a trailing slash and import each module with its <code class="docs-inline-code">.js</code>.</p>
+    </Install>
   </section>
 
   <section class="docs-section" aria-labelledby="css">

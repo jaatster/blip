@@ -5,6 +5,10 @@ css: progress.css
 element: null
 react: Progress
 status: stable
+equivalents:
+  shadcn: Progress
+  apg: meter
+  html: '<progress>, <meter>'
 ---
 
 # Progress and meter

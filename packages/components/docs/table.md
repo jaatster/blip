@@ -5,6 +5,10 @@ css: table.css
 element: pp-table
 react: Table
 status: stable
+equivalents:
+  shadcn: Table, Data Table
+  apg: table
+  html: '<table>'
 ---
 
 # Table

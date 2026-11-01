@@ -1,0 +1,23 @@
+<!-- A short form in a dialog: Enter in the field saves, because Save is the only submit button. -->
+<button class="pp-box pp-button" type="button" data-variant="outline" commandfor="ds-rename" command="show-modal">Rename save</button>
+
+<pp-dialog light-dismiss>
+  <dialog class="pp-box pp-dialog" id="ds-rename" data-size="sm" aria-labelledby="ds-rename-title">
+    <form method="dialog">
+      <header class="pp-dialog-header">
+        <h2 class="pp-dialog-title" id="ds-rename-title">Rename save</h2>
+        <button class="pp-box pp-button pp-dialog-close" type="button" commandfor="ds-rename" command="close" value="cancel" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button>
+      </header>
+      <div class="pp-dialog-body">
+        <div class="pp-field">
+          <label class="pp-field-label" for="ds-rename-name">Name</label>
+          <span class="pp-box pp-input"><input id="ds-rename-name" name="name" value="Slot 2" maxlength="24" autocomplete="off"></span>
+        </div>
+      </div>
+      <footer class="pp-dialog-footer">
+        <button class="pp-box pp-button" type="button" commandfor="ds-rename" command="close" value="cancel" data-variant="soft" data-tone="neutral">Cancel</button>
+        <button class="pp-box pp-button" value="save">Save</button>
+      </footer>
+    </form>
+  </dialog>
+</pp-dialog>

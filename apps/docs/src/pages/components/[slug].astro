@@ -1,14 +1,14 @@
 ---
 /**
  * One page per component, from the package's own docs/<name>.md and examples/<name>.html: the example rendered live,
- * its source, the markdown's sections, the element reference (from the Custom Elements Manifest when there is one)
+ * its source, any snippets (examples/<name>/NN-title.html, each live with its source), the markdown's sections, the element reference (from the Custom Elements Manifest when there is one)
  * and how to use it from React.
  */
 import Docs from "../../layouts/Docs.astro";
 import Example from "../../components/Example.astro";
 import Table from "../../components/Table.astro";
 import Pager from "../../components/Pager.astro";
-import { componentDocs, docLink, example, type Doc } from "../../lib/data";
+import { APG, apgUrl, componentDocs, docLink, example, idsIn, snippet, type Doc } from "../../lib/data";
 import { renderMarkdown, type Heading } from "../../lib/markdown";
 import { elementReference } from "../../lib/cem";
 import { code, esc, kitsFor, stripTags } from "../../lib/html";
@@ -25,7 +25,18 @@ const { doc } = Astro.props;
 const { meta } = doc;
 const r = await renderMarkdown(doc.source, { link: docLink(doc.pkg), anatomy: anatomyFigure(doc.slug) });
 const ex = doc.example ? example(doc.example) : null;
-const kits = kitsFor(ex?.html ?? "", doc.pkg);
+const snippets = doc.snippets.map((rel) => snippet(doc, rel));
+// Every snippet shares the page with the full example: an id used twice would wire a label or a button to the wrong one.
+const owner = new Map(idsIn(ex?.html ?? "").map((id) => [id, doc.example!]));
+doc.snippets.forEach((rel, i) => {
+  for (const id of [snippets[i]!.id, ...idsIn(snippets[i]!.html)]) {
+    if (owner.has(id)) throw new Error(`docs: ${rel} uses the id "${id}", which ${owner.get(id)} uses too. Ids must be unique on the page: prefix the snippet's.`);
+    owner.set(id, rel);
+  }
+});
+const eq = meta.equivalents;
+const aka = eq.shadcn.length + eq.apg.length + eq.html.length > 0;
+const kits = kitsFor([ex?.html ?? "", ...snippets.map((s) => s.html)].join("\n"), doc.pkg);
 const elements = (meta.element ?? "").split(",").map((s) => s.trim()).filter(Boolean);
 const refs = elements.map((t) => elementReference(t)).filter((x) => !!x);
 
@@ -35,6 +46,7 @@ const preferred = doc.pkg === "components" || doc.pkg === "elements" ? "@jaatste
 
 const headings: Heading[] = [
   ...(ex ? [{ depth: 2, id: "example", text: "Example" }] : []),
+  ...(snippets.length ? [{ depth: 2, id: "snippets", text: "Snippets" }, ...snippets.map((s) => ({ depth: 3, id: s.id, text: s.title }))] : []),
   ...r.headings,
   ...(refs.length ? [{ depth: 2, id: "element-reference", text: "Element reference" }] : []),
   ...(react || meta.react ? [{ depth: 2, id: "react", text: "React" }] : []),
@@ -57,9 +69,27 @@ const searchShortcut = ex && /<pp-command[\s>]/.test(ex.html) ? "/" : undefined;
       {elements.length > 0 && <li><span class="docs-meta-key">Element</span> {elements.map((t) => <code class="docs-inline-code">{`<${t}>`}</code>)}</li>}
       {react && <li><span class="docs-meta-key">React</span> <code class="docs-inline-code">{`<${react.main.name}>`}</code></li>}
     </ul>
+    {aka && (
+      <div class="docs-aka">
+        <span class="docs-meta-key" id="also-known-as">Also known as</span>
+        <ul class="docs-meta" role="list" aria-labelledby="also-known-as">
+          {eq.shadcn.length > 0 && <li><span class="docs-meta-key">shadcn/ui</span> {eq.shadcn.join(", ")}</li>}
+          {eq.apg.length > 0 && <li><span class="docs-meta-key">WAI-ARIA</span> {eq.apg.map((s, i) => <Fragment>{i > 0 && ", "}<a href={apgUrl(s)} rel="noopener">{APG[s]}<span class="pp-sr-only"> pattern</span></a></Fragment>)}</li>}
+          {eq.html.length > 0 && <li><span class="docs-meta-key">HTML</span> {eq.html.map((h) => <code class="docs-inline-code">{h}</code>)}</li>}
+        </ul>
+      </div>
+    )}
   </header>
 
   {ex && <Example id="example" html={ex.html} source={ex.source} note={ex.note} />}
+
+  {snippets.length > 0 && (
+    <section class="docs-section docs-snippets" aria-labelledby="snippets">
+      <h2 id="snippets">Snippets</h2>
+      <p>Small examples, one idea each, to copy as they are.</p>
+      {snippets.map((s) => <Example id={s.id} html={s.html} source={s.source} note={s.note} title={s.title} level={3} switches={false} sourceOpen />)}
+    </section>
+  )}
 
   <div class="docs-prose docs-section" set:html={r.html} />
 

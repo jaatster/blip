@@ -5,9 +5,11 @@
  */
 import Docs from "../layouts/Docs.astro";
 import Icon from "../components/Icon.astro";
+import Install from "../components/Install.astro";
 import { assets, componentDocs, frog, icons, pkgVersion } from "../lib/data";
 import { kb } from "../lib/html";
 import { codeBlock } from "../lib/markdown";
+import { cdnStylesheets } from "../lib/install";
 
 const a = assets();
 const letters = (word: string, start: number) => [...word].map((c, i) => ({ c, i: start + i }));
@@ -37,7 +39,6 @@ const accents = [
   { tone: "pink", name: "Pink" },
   { tone: "orange", name: "Orange" },
 ];
-const install = await codeBlock(`npm install @jaatster/blip-font @jaatster/blip-tokens @jaatster/blip-core @jaatster/blip-components`, "sh", "Shell");
 const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/font.css">
 <link rel="stylesheet" href="@jaatster/blip-tokens/tokens.css">
 <link rel="stylesheet" href="@jaatster/blip-core/core.css">
@@ -348,7 +349,7 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
       <p class="home-intro">The font, the tokens, the building blocks and the components, in that order. Elements, kits and React come when you need them.</p>
     </div>
     <div class="home-end-code">
-      <Fragment set:html={install} />
+      <Install lines={[{ packages: ["font", "tokens", "core", "components"] }]} cdn={cdnStylesheets()} />
       <Fragment set:html={order} />
     </div>
     <div class="docs-row">

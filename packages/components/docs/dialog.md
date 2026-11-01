@@ -5,6 +5,10 @@ css: dialog.css
 element: pp-dialog
 react: Dialog
 status: stable
+equivalents:
+  shadcn: Dialog, Alert Dialog
+  apg: dialog-modal, alertdialog
+  html: '<dialog>'
 ---
 
 # Dialog
@@ -129,6 +133,7 @@ With reduced motion it opens and closes at once.
 | `requestClose(returnValue?)` | Asks to close; resolves `true` if it closed. |
 | `close(returnValue?)` | Closes after the exit, without asking. |
 | `returnValue` | The value of the button that closed it. |
+| `dialog` (read only) | The `<dialog>` it drives. |
 | `pp-open` | After it opens. |
 | `pp-before-close` (cancelable) | `detail: { reason, returnValue }`, reason `escape`, `backdrop`, `button`, `submit` or `api`. |
 | `pp-close` | After it closes; same `detail`. |

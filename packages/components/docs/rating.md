@@ -5,6 +5,8 @@ css: rating.css
 element: pp-rating
 react: Rating
 status: beta
+equivalents:
+  apg: radio
 ---
 
 # Rating

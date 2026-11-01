@@ -5,6 +5,8 @@ css: file-drop.css
 element: pp-file-drop
 react: FileDrop
 status: beta
+equivalents:
+  html: '<input type="file">'
 ---
 
 # File drop
@@ -32,8 +34,9 @@ shows in the tray.
 1. **Tray** (`.pp-file-drop-zone`): the calm well, a `<label>` so a click anywhere opens the picker.
 2. **Input**: the native file input, invisible once the element is running.
 3. **Words**: a bold line saying what to drop, and a muted line with the types and sizes accepted.
-4. **List** (`.pp-file-drop-list`): one `.pp-file-drop-item` per file: its name (cut with an ellipsis when long; the
-   full name is its tooltip), its size, and a ghost `.pp-file-drop-remove` button with a pixel cross.
+4. **List** (`.pp-file-drop-list`): one `.pp-file-drop-item` per file: its name (`.pp-file-drop-name`, cut with an
+   ellipsis when long; the full name is its tooltip), its size (`.pp-file-drop-size`), and a ghost
+   `.pp-file-drop-remove` button with a pixel cross.
 
 ## Variants
 

@@ -1,0 +1,106 @@
+{
+  "$description": "The colour pairs every scheme of every palette must pass, or the token build stops (PP-T060). The build reads them (scripts/tokens.mjs), and so do the docs, which show each with its reason. {intent} is each of the intents in turn; {Intent} is its name capitalised. Each pair's background maps to its label.",
+  "intents": [
+    "accent",
+    "info",
+    "success",
+    "warning",
+    "danger"
+  ],
+  "pairs": [
+    {
+      "fg": "text.base",
+      "bg": {
+        "bg": "Text on the page",
+        "surface.base": "Text on a surface",
+        "surface.raised": "Text on a raised surface",
+        "surface.sunken": "Text on a sunken well",
+        "surface.panel": "Text on a panel"
+      },
+      "min": 4.5,
+      "why": "Body text, on the page and on everything that sits on it."
+    },
+    {
+      "fg": "text.muted",
+      "bg": {
+        "bg": "Muted text on the page",
+        "surface.base": "Muted text on a surface",
+        "surface.raised": "Muted text on a raised surface",
+        "surface.sunken": "Muted text on a sunken well",
+        "surface.panel": "Muted text on a panel"
+      },
+      "min": 4.5,
+      "why": "Secondary text is still text: quieter, never under AA."
+    },
+    {
+      "fg": "{intent}.text",
+      "bg": {
+        "bg": "{Intent} text on the page",
+        "surface.base": "{Intent} text on a surface",
+        "surface.raised": "{Intent} text on a raised surface"
+      },
+      "min": 4.5,
+      "why": "An intent as text: links and the caret (accent), status words, a field's error."
+    },
+    {
+      "fg": "{intent}.on",
+      "bg": {
+        "{intent}.base": "Label on {intent} candy",
+        "{intent}.light": "Label on soft {intent}"
+      },
+      "min": 4.5,
+      "why": "Labels and icons on a candy, and on its light band, which is the whole fill of a soft box."
+    },
+    {
+      "fg": "link.visited",
+      "bg": {
+        "bg": "Visited link on the page",
+        "surface.base": "Visited link on a surface"
+      },
+      "min": 4.5,
+      "why": "A visited link changes colour, and still reads."
+    },
+    {
+      "fg": "line.base",
+      "bg": {
+        "bg": "Control outline on the page",
+        "surface.base": "Control outline on a surface"
+      },
+      "min": 3,
+      "why": "The outline of a field or an outline button shows where to click: non-text contrast, WCAG 1.4.11."
+    },
+    {
+      "fg": "selection.text",
+      "bg": {
+        "selection.bg": "Selected text"
+      },
+      "min": 4.5,
+      "why": "Text the reader selects stays readable on the selection colour."
+    },
+    {
+      "fg": "text.inverse",
+      "bg": {
+        "text.base": "Inverse text"
+      },
+      "min": 4.5,
+      "why": "Text on an inverted surface, which is the scheme's text colour."
+    },
+    {
+      "fg": "{intent}.on",
+      "bg": {
+        "disabled.dither": "Label on disabled {intent}"
+      },
+      "min": 4.5,
+      "why": "Disabled is dithered, never greyed: the label still reads on the checkerboard over the candy."
+    },
+    {
+      "fg": "ink.base",
+      "bg": {
+        "disabled.dither": "Ink label on a disabled candy",
+        "disabled.dither-cream": "Ink label on disabled cream"
+      },
+      "min": 4.5,
+      "why": "Plain candies label in ink: on their dither, and on cream's own, lighter one."
+    }
+  ]
+}

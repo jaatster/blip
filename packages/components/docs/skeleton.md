@@ -5,6 +5,8 @@ css: skeleton.css
 element: null
 react: Skeleton
 status: stable
+equivalents:
+  shadcn: Skeleton
 ---
 
 # Skeleton

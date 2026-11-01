@@ -1,0 +1,6 @@
+<!-- Tones say what kind of news it is: success, info, warning or danger, each with its pixel sign and a body line. -->
+<div class="pp-cluster">
+  <button class="pp-box pp-button" type="button" data-tone="success" onclick="document.querySelector('pp-toaster').add({ title: 'Achievement unlocked', body: 'First Flight: clear World 1 without taking a hit.', tone: 'success' })">Success</button>
+  <button class="pp-box pp-button" type="button" data-variant="soft" data-tone="warning" onclick="document.querySelector('pp-toaster').add({ title: 'Controller battery low', body: 'About 10 minutes left.', tone: 'warning' })">Warning</button>
+  <button class="pp-box pp-button" type="button" data-variant="soft" data-tone="danger" onclick="document.querySelector('pp-toaster').add({ title: 'Couldn’t upload your replay', body: 'Check your connection, then try again.', tone: 'danger', action: { label: 'Try again' } })">Danger</button>
+</div>

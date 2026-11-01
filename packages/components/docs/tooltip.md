@@ -5,6 +5,9 @@ css: tooltip.css
 element: pp-tooltip
 react: Tooltip
 status: stable
+equivalents:
+  shadcn: Tooltip
+  apg: tooltip
 ---
 
 # Tooltip

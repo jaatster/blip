@@ -37,6 +37,7 @@
     "./manifest.json": "./dist/json/manifest.json",
     "./figma/variables.json": "./dist/figma/variables.json",
     "./resolver": "./blip.resolver.json",
+    "./contrast.json": "./contrast.json",
     "./src/*": "./src/*",
     "./package.json": "./package.json"
   },
@@ -45,6 +46,7 @@
     "src",
     "scripts",
     "blip.resolver.json",
+    "contrast.json",
     "CHANGELOG.md"
   ],
   "engines": {

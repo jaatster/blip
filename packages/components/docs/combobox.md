@@ -5,6 +5,10 @@ css: combobox.css
 element: pp-combobox
 react: Combobox
 status: beta
+equivalents:
+  shadcn: Combobox
+  apg: combobox
+  html: '<datalist>'
 ---
 
 # Combobox
@@ -98,6 +102,7 @@ from the field. A click or tap outside, or focus moving elsewhere, closes the li
 | `open` | boolean | The list is showing. |
 | `empty-text` | string | Shown when nothing matches ("No matches"). |
 | `toggle-label` | string | The toggle's name ("Show suggestions"). |
+| `form` (read only) | `HTMLFormElement` or null | The form it belongs to, as on native controls. |
 
 `required` (and `pattern`, `minlength`…) on the input work as usual: the browser checks them, and the element's
 `checkValidity()` and `reportValidity()` ask the input.

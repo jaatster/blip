@@ -5,6 +5,10 @@ css: radio.css
 element: null
 react: RadioGroup
 status: beta
+equivalents:
+  shadcn: Radio Group
+  apg: radio
+  html: '<input type="radio">'
 ---
 
 # Radio group

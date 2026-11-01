@@ -1,5 +1,5 @@
 /** Colour arithmetic for the foundations pages: WCAG contrast, the pairs the token build checks, and the palettes. */
-import { tokens, tokenSource } from "./data";
+import { json, tokens, tokenSource } from "./data";
 
 export function rgb(hex: string): [number, number, number] {
   const h = hex.replace("#", "");
@@ -30,23 +30,24 @@ export interface Pair {
   bg: string;
   min: number;
   label: string;
+  /** Why the pair is checked. */
+  why: string;
 }
-/** The text pairs the token build fails on (packages/tokens/scripts/tokens.mjs, PAIRS), in the same order. */
+interface ContrastData {
+  intents: string[];
+  pairs: { fg: string; bg: Record<string, string>; min: number; why: string }[];
+}
+/** A token path as the custom property's name: accent.base is accent, surface.raised is surface-raised. */
+const kebab = (path: string) => path.split(".").filter((p, i, a) => !(p === "base" && i === a.length - 1)).join("-");
+/** The pairs the token build fails on, in the same order: both read @jaatster/blip-tokens' contrast.json. */
 export function pairs(): Pair[] {
-  const out: Pair[] = [];
-  const surfaces: [string, string][] = [["bg", "the page"], ["surface", "a surface"], ["surface-raised", "a raised surface"], ["surface-sunken", "a sunken well"], ["surface-panel", "a panel"]];
-  for (const [s, name] of surfaces) out.push({ fg: "text", bg: s, min: 4.5, label: `Text on ${name}` }, { fg: "text-muted", bg: s, min: 4.5, label: `Muted text on ${name}` });
-  for (const intent of ["accent", "info", "success", "warning", "danger"]) {
-    for (const [s, name] of [["bg", "the page"], ["surface", "a surface"], ["surface-raised", "a raised surface"]] as const) out.push({ fg: `${intent}-text`, bg: s, min: 4.5, label: `${cap(intent)} text on ${name}` });
-    out.push({ fg: `${intent}-on`, bg: intent, min: 4.5, label: `Label on ${intent} candy` }, { fg: `${intent}-on`, bg: `${intent}-light`, min: 4.5, label: `Label on soft ${intent}` });
-  }
-  out.push({ fg: "link-visited", bg: "bg", min: 4.5, label: "Visited link on the page" }, { fg: "link-visited", bg: "surface", min: 4.5, label: "Visited link on a surface" });
-  out.push({ fg: "line", bg: "bg", min: 3, label: "Control outline on the page" }, { fg: "line", bg: "surface", min: 3, label: "Control outline on a surface" }, { fg: "selection-text", bg: "selection-bg", min: 4.5, label: "Selected text" }, { fg: "text-inverse", bg: "text", min: 4.5, label: "Inverse text" });
-  // A disabled candy is dithered: its label still reads on the dither (intents label with their own colour, plain
-  // candies with ink, cream on its own dither).
-  for (const intent of ["accent", "info", "success", "warning", "danger"]) out.push({ fg: `${intent}-on`, bg: "disabled-dither", min: 4.5, label: `Label on disabled ${intent}` });
-  out.push({ fg: "ink", bg: "disabled-dither", min: 4.5, label: "Ink label on a disabled candy" }, { fg: "ink", bg: "disabled-dither-cream", min: 4.5, label: "Ink label on disabled cream" });
-  return out;
+  const data = json<ContrastData>("packages/tokens/contrast.json");
+  return data.pairs.flatMap(({ fg, bg, min, why }) =>
+    (fg.includes("{intent}") ? data.intents : [""]).flatMap((intent) => {
+      const fill = (s: string) => s.replaceAll("{intent}", intent).replaceAll("{Intent}", cap(intent));
+      return Object.entries(bg).map(([b, label]) => ({ fg: kebab(fill(fg)), bg: kebab(fill(b)), min, label: fill(label), why }));
+    }),
+  );
 }
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 

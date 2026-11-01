@@ -5,6 +5,9 @@ css: menu.css
 element: pp-menu
 react: Menu
 status: beta
+equivalents:
+  shadcn: Dropdown Menu
+  apg: menu-button
 ---
 
 # Menu

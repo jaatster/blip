@@ -5,6 +5,8 @@ css: empty-state.css
 element: null
 react: EmptyState
 status: stable
+equivalents:
+  shadcn: Empty
 ---
 
 # Empty state

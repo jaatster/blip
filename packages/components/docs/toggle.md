@@ -5,6 +5,9 @@ css: button.css
 element: null
 react: ToggleButton
 status: beta
+equivalents:
+  shadcn: Toggle
+  apg: button
 ---
 
 # Toggle button

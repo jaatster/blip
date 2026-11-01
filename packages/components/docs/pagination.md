@@ -5,6 +5,8 @@ css: pagination.css
 element: null
 react: Pagination
 status: beta
+equivalents:
+  shadcn: Pagination
 ---
 
 # Pagination

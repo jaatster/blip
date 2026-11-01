@@ -1,7 +1,8 @@
 ---
 /**
  * A live example: the package's own fragment, rendered in the page as it is, on a stage whose scheme and pixel can be
- * switched on their own. Then its source, to copy.
+ * switched on their own. Then its source, to copy: behind "Show the HTML" (with a copy button beside it), or shown
+ * at once (sourceOpen, for a snippet).
  */
 import { codeBlock } from "../lib/markdown";
 interface Props {
@@ -11,14 +12,19 @@ interface Props {
   note?: string;
   title?: string;
   switches?: boolean;
+  /** The title's heading level: 2 for the page's example, 3 for a snippet under "Snippets". */
+  level?: 2 | 3;
+  /** Show the source under the stage, not behind "Show the HTML". */
+  sourceOpen?: boolean;
 }
-const { id, html, source, note, title = "Example", switches = true } = Astro.props;
-const code = await codeBlock(source, "html", "HTML", true);
+const { id, html, source, note, title = "Example", switches = true, level = 2, sourceOpen = false } = Astro.props;
+const code = await codeBlock(source, "html", "HTML", !sourceOpen);
+const Heading = level === 3 ? "h3" : "h2";
 ---
-<section class="docs-example" aria-labelledby={id}>
+<section class="docs-example" data-level={level} aria-labelledby={id}>
   <div class="docs-example-bar">
     <div class="docs-stack" style="gap:var(--pp-space-2)">
-      <h2 class="docs-example-title" id={id}>{title}</h2>
+      <Heading class="docs-example-title" id={id}>{title}</Heading>
       {note && <p class="docs-example-note">{note}</p>}
     </div>
     {switches && (
@@ -38,8 +44,15 @@ const code = await codeBlock(source, "html", "HTML", true);
     )}
   </div>
   <div class="pp-box docs-stage" id={`${id}-stage`}><div class="docs-stage-scroll"><Fragment set:html={html} /></div></div>
-  <details class="docs-source">
-    <summary class="pp-box pp-button" data-variant="outline" data-size="sm"><span class="docs-when-closed">Show the HTML</span><span class="docs-when-open">Hide the HTML</span></summary>
-    <Fragment set:html={code} />
-  </details>
+  {sourceOpen
+    ? <div class="docs-source-open"><Fragment set:html={code} /></div>
+    : (
+      <div class="docs-source-row">
+        <details class="docs-source" id={`${id}-source`}>
+          <summary class="pp-box pp-button" data-variant="outline" data-size="sm"><span class="docs-when-closed">Show the HTML</span><span class="docs-when-open">Hide the HTML</span></summary>
+          <Fragment set:html={code} />
+        </details>
+        <button class="pp-box pp-button docs-copy docs-source-copy" type="button" data-variant="ghost" data-size="sm" data-copy-from={`#${id}-source pre`} hidden>Copy the HTML</button>
+      </div>
+    )}
 </section>

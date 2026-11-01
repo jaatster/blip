@@ -5,6 +5,9 @@ css: switch.css
 element: null
 react: Switch
 status: beta
+equivalents:
+  shadcn: Switch
+  apg: switch
 ---
 
 # Switch

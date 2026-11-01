@@ -5,6 +5,9 @@ css: tabs.css
 element: pp-tabs
 react: Tabs
 status: beta
+equivalents:
+  shadcn: Tabs
+  apg: tabs
 ---
 
 # Tabs

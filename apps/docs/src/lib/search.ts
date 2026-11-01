@@ -3,7 +3,7 @@
  * scripts/search-sections.mjs adds each page's headings, so a search can open a page at the section it found.
  * The matching (synonyms, sections, typos) is public/js/search-match.js, shared by the palette and the A to Z page.
  */
-import { componentDocs, diagnostics, headingsOf, manifest, summary } from "./data";
+import { APG, componentDocs, diagnostics, headingsOf, manifest, summary } from "./data";
 import { FOUNDATIONS, TEMPLATES } from "./nav";
 import { reactFamily } from "./react";
 
@@ -67,7 +67,12 @@ export function searchData(): SearchData {
     .map((d) => {
       // The React names of a component and its parts find it too: <DialogPanel>, <CardBody>.
       const react = reactFamily(d);
-      return { title: d.meta.name, url: d.url, hint: d.group.title, icon: d.group.icon, keywords: words(d.name, d.meta.element, d.meta.react, react.map((c) => c.name).join(" "), d.meta.css, d.meta.package, summary(d.source), headingsOf(d.source).join(" ")) };
+      // What other systems call it: shadcn/ui's names count as synonyms (searching "Sheet" finds the drawer), the
+      // APG pattern's name and the HTML element as keywords.
+      const eq = d.meta.equivalents;
+      const item: Item = { title: d.meta.name, url: d.url, hint: d.group.title, icon: d.group.icon, keywords: words(d.name, d.meta.element, d.meta.react, react.map((c) => c.name).join(" "), d.meta.css, d.meta.package, summary(d.source), headingsOf(d.source).join(" "), eq.apg.map((s) => APG[s]).join(" "), eq.html.join(" ")) };
+      if (eq.shadcn.length) item.synonyms = words(eq.shadcn.join(" "));
+      return item;
     })
     .sort((a, b) => a.title.localeCompare(b.title));
   const tokens: Item[] = manifest()

@@ -5,6 +5,9 @@ css: select.css
 element: null
 react: Select
 status: beta
+equivalents:
+  shadcn: Native Select, Select
+  html: '<select>'
 ---
 
 # Select

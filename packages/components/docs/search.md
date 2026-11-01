@@ -5,6 +5,8 @@ css: search.css
 element: null
 react: Search
 status: beta
+equivalents:
+  html: '<input type="search">'
 ---
 
 # Search

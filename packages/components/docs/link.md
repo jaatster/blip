@@ -5,6 +5,9 @@ css: link.css
 element: null
 react: Link
 status: beta
+equivalents:
+  apg: link
+  html: '<a>'
 ---
 
 # Link

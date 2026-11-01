@@ -5,6 +5,8 @@ css: button-group.css
 element: null
 react: ButtonGroup
 status: beta
+equivalents:
+  shadcn: Button Group, Toggle Group
 ---
 
 # Button group

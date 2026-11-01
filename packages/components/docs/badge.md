@@ -5,6 +5,8 @@ css: badge.css
 element: null
 react: Badge
 status: stable
+equivalents:
+  shadcn: Badge
 ---
 
 # Badge

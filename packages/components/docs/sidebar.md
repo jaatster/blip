@@ -5,6 +5,8 @@ css: sidebar.css
 element: null
 react: Sidebar
 status: beta
+equivalents:
+  shadcn: Sidebar
 ---
 
 # Sidebar

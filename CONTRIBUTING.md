@@ -69,6 +69,8 @@ pnpm build
 | `pnpm --filter @jaatster/blip-stylelint-config test` | Tests the lint rules themselves. |
 | `pnpm budgets` | Checks the size budgets after a build; fails if anything is over. |
 | `pnpm check` | `cem:check`, `lint:css`, `budgets` and the React type check together. |
+| `pnpm qa <name> [--fast] [--update-snapshots]` | Every check of one component or kit part, and only its checks (`scripts/qa.mjs`): what is missing (docs page, example, header comment, baselines, a unit test of its element, its CONTRACT.md row), stylelint on its CSS, its docs page against the code, its manifest, its budget lines, the unit tests that mention it, and the visual tests and accessibility scans of its example. `--fast` skips the Playwright runs. |
+| `node scripts/heavy.mjs <command> [args…]` | Runs a heavy job once no other is running in this checkout, printing "waiting for <job> (pid N)…" while it queues. `test:visual`, `test:a11y`, `test:conditions`, `test:real-stack`, the docs build and `pnpm qa`'s Playwright runs go through it, so agents sharing a checkout take turns. |
 | `pnpm changeset` | Records a change for the changelog and the next version. |
 
 The test server uses port 4180 (`PP_TEST_PORT` to change it) and Vitest's browser mode port 63410, so they run
@@ -103,7 +105,9 @@ AUTHORING.md has the rules for all of these. The steps:
    work"): crisp stepped corners, ink outlines, no blur, every state distinct, nothing overflowing.
 8. Add its name to its group in `apps/docs/src/lib/data.ts` (it is listed under "More" otherwise). If it changes
    at phone width, add it to `RESPONSIVE` in `tests/page/manifest.ts`.
-9. Run the checks below. A new example is a new visual test and a new accessibility scan, so it needs baselines.
+9. Run `pnpm qa <name>`: it says what is still missing and runs only this component's checks. A new example is a
+   new visual test and a new accessibility scan, so it needs baselines: `pnpm qa <name> --update-snapshots`, then
+   look at every picture. Before the pull request, run the checks below.
 
 The docs site, Storybook and the tests find the new files on their own: there is no shared list to edit.
 
@@ -233,8 +237,8 @@ a build warning fails it too. CI runs it on every pull request.
 
 ```sh
 pnpm build                        # it packs packages/*/dist as they are
-node scripts/real-stack.mjs       # every app: a few minutes the first time, under a minute after that
-node scripts/real-stack.mjs next  # one app: react, vue, svelte, next, tailwind or astro
+pnpm test:real-stack              # every app: a few minutes the first time, under a minute after that
+pnpm test:real-stack next         # one app: react, vue, svelte, next, tailwind or astro
 ```
 
 It needs network access to npm. The apps are made in `pp-stack` in the system's temporary folder (`--dir` picks

@@ -56,9 +56,33 @@ How to add to Blip: components, kits, effects, icons, tokens. The button
 | `packages/<pkg>/src/<name>.css` | Its CSS, with a header comment like the button's: markup, attributes, states. |
 | `packages/<pkg>/src/<name>.ts` | Its element, if it has behaviour (`packages/elements` for core components; kits keep theirs). |
 | `packages/<pkg>/examples/<name>.html` | An HTML fragment showing every variant and state, with real content. |
-| `packages/<pkg>/docs/<name>.md` | Front matter (name, package, css, element, react, status), then: usage, anatomy, variants, states, accessibility (keyboard map, ARIA), content, do and don't, API. |
+| `packages/<pkg>/examples/<name>/NN-title.html` | Optional snippets: small examples, one idea each, to copy (see below). |
+| `packages/<pkg>/docs/<name>.md` | Front matter (name, package, css, element, react, status, equivalents), then: usage, anatomy, variants, states, accessibility (keyboard map, ARIA), content, do and don't, API. |
 
 Indexes are generated from the files: no shared list to edit.
+
+### Equivalents
+
+`equivalents:` in the front matter says what other systems call the component. The docs page shows it as "Also
+known as" and search finds the component by those names ("Sheet" finds the drawer). Each key is a comma-separated
+list; leave out a key, or the whole block, when there is no real equivalent.
+
+```yaml
+equivalents:
+  shadcn: Sheet, Drawer            # shadcn/ui's component names, as ui.shadcn.com/docs/components lists them
+  apg: dialog-modal                # WAI-ARIA APG pattern slugs: www.w3.org/WAI/ARIA/apg/patterns/<slug>/
+  html: '<dialog>'                 # the native element or attribute; quote values that start with <
+```
+
+### Snippets
+
+The full `examples/<name>.html` is the specimen: the visual tests and the gallery use it, so keep every variant and
+state there. Snippets sit beside it in `examples/<name>/`, which the tests and the gallery never read. Name each
+`NN-title.html` (`01-tiers.html`, `02-with-an-icon.html`): the number orders them and the rest becomes the title
+("With an icon"). Start each with a comment saying what it shows, as the full example does; the page shows it above
+the live snippet and its source. Two to four per component: the common case, an interesting variant, a real
+composition. Snippets share the page with the full example, so give their ids a prefix of their own (the docs build
+fails on an id used twice).
 
 ## Checking your work
 
@@ -70,10 +94,20 @@ node scripts/shoot.mjs .tools/shots/me \
   "/specimen/gallery.html?only=button,tabs&scheme=night=night" --full
 node scripts/shoot.mjs .tools/shots/me "/specimen/gallery.html?only=tabs=zoom" --scale 2 --width 800
 pnpm --filter @jaatster/blip-<pkg> build         # builds and reports sizes
+pnpm qa tabs                                 # every check of one item, and only its checks
 ```
 
 Open the PNGs and look: crisp stepped corners, ink outlines, no blurry edges, every state distinct, nothing
 overflowing, Day, Sunset and Night all readable.
+
+`pnpm qa <name>` (`scripts/qa.mjs`) finds the item's docs page, stylesheet, element and example by name, says what is
+missing (a docs page, an example, a header comment, visual baselines, a unit test of its element, its row in
+CONTRACT.md), then runs its checks: stylelint on its CSS, the docs page against the code
+(`tests/unit/node/docs-components.test.ts`), its Custom Elements Manifest, its budget lines, the unit tests that
+mention it, and the visual tests and accessibility scans of its example in every scheme. It ends with a table and
+fails if anything does. `--fast` skips the Playwright runs; `--update-snapshots` writes its visual baselines (look
+at every picture before you commit them). It does not build: the Playwright runs and the budgets read `dist`, and
+it notes when a package's build is older than its sources.
 
 ## Names the box reserves
 

@@ -5,6 +5,10 @@ css: checkbox.css
 element: null
 react: Checkbox
 status: beta
+equivalents:
+  shadcn: Checkbox
+  apg: checkbox
+  html: '<input type="checkbox">'
 ---
 
 # Checkbox

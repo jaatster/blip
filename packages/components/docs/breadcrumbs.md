@@ -5,6 +5,9 @@ css: breadcrumbs.css
 element: null
 react: Breadcrumbs
 status: beta
+equivalents:
+  shadcn: Breadcrumb
+  apg: breadcrumb
 ---
 
 # Breadcrumbs

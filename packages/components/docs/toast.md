@@ -5,6 +5,8 @@ css: toast.css
 element: pp-toaster
 react: Toaster
 status: stable
+equivalents:
+  shadcn: Toast
 ---
 
 # Toast

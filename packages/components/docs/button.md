@@ -5,6 +5,10 @@ css: button.css
 element: null
 react: Button
 status: stable
+equivalents:
+  shadcn: Button
+  apg: button
+  html: '<button>'
 ---
 
 # Button

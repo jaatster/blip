@@ -8,7 +8,7 @@
   "scripts": {
     "prepare-site": "node scripts/prepare.mjs",
     "dev": "node scripts/prepare.mjs && astro dev",
-    "build": "node scripts/prepare.mjs && astro build",
+    "build": "node ../../scripts/heavy.mjs \"node scripts/prepare.mjs && astro build\"",
     "preview": "astro preview"
   },
   "dependencies": {

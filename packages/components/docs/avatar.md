@@ -5,6 +5,8 @@ css: avatar.css
 element: null
 react: Avatar
 status: stable
+equivalents:
+  shadcn: Avatar
 ---
 
 # Avatar

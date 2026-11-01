@@ -5,6 +5,9 @@ css: divider.css
 element: null
 react: Divider
 status: stable
+equivalents:
+  shadcn: Separator
+  html: '<hr>'
 ---
 
 # Divider

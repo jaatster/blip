@@ -5,6 +5,9 @@ css: field.css
 element: pp-field
 react: Field
 status: beta
+equivalents:
+  shadcn: Field
+  html: '<fieldset>'
 ---
 
 # Field

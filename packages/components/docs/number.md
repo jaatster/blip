@@ -5,6 +5,9 @@ css: number.css
 element: pp-number
 react: NumberStepper
 status: beta
+equivalents:
+  apg: spinbutton
+  html: '<input type="number">'
 ---
 
 # Number stepper

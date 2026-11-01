@@ -5,6 +5,8 @@ css: list.css
 element: null
 react: List
 status: stable
+equivalents:
+  shadcn: Item
 ---
 
 # List

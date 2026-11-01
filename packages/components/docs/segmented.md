@@ -5,6 +5,9 @@ css: segmented.css
 element: pp-segmented
 react: Segmented
 status: beta
+equivalents:
+  shadcn: Toggle Group
+  apg: radio
 ---
 
 # Segmented control

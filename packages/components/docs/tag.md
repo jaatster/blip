@@ -5,6 +5,8 @@ css: tag.css
 element: null
 react: Tag
 status: stable
+equivalents:
+  shadcn: Badge
 ---
 
 # Tag

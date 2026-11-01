@@ -5,6 +5,10 @@ css: drawer.css
 element: pp-drawer
 react: Drawer
 status: stable
+equivalents:
+  shadcn: Sheet, Drawer
+  apg: dialog-modal
+  html: '<dialog>'
 ---
 
 # Drawer
@@ -84,8 +88,9 @@ title, focus returned to the opener, Escape through `pp-before-close`, light dis
 
 ## API
 
-`<pp-drawer>`: `open`, `light-dismiss`, `show(opener?)`, `requestClose(value?)`, `close(value?)`, `returnValue`, and
-the events `pp-open`, `pp-before-close` (cancelable) and `pp-close`, exactly as [`<pp-dialog>`](dialog.md#api).
+`<pp-drawer>`: `open`, `light-dismiss`, `show(opener?)`, `requestClose(value?)`, `close(value?)`, `returnValue`,
+`dialog` (read only), and the events `pp-open`, `pp-before-close` (cancelable) and `pp-close`, exactly as
+[`<pp-dialog>`](dialog.md#api).
 
 | Class or property | |
 |---|---|

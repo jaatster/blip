@@ -55,7 +55,7 @@ const checked = checkedPairs();
 const byLabel = new Map<string, typeof checked>();
 for (const p of checked) byLabel.set(p.label, [...(byLabel.get(p.label) ?? []), p]);
 const pairRows = [...byLabel.entries()].map(([label, list]) => [
-  esc(label) + `<br><span class="pp-muted pp-small">${code(`--pp-${list[0]!.fg}`)} on ${code(`--pp-${list[0]!.bg}`)}</span>`,
+  esc(label) + `<br><span class="pp-muted pp-small">${code(`--pp-${list[0]!.fg}`)} on ${code(`--pp-${list[0]!.bg}`)}</span><br><span class="pp-small">${esc(list[0]!.why)}</span>`,
   ...list.map((p) => `<span class="docs-ratio" data-pass="${p.pass}"><span class="docs-aa" data-pp-scheme="${p.scheme}" style="color:var(--pp-${p.fg});background:var(--pp-${p.bg})">Aa</span>${ratio(p.ratio)}</span>`),
   `${list[0]!.min}:1`,
 ]);
@@ -176,7 +176,7 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
 
   <section class="docs-section" aria-labelledby="contrast">
     <h2 id="contrast">Every pair, checked</h2>
-    <p>{total} text pairs in three schemes, the same list the token build checks against WCAG 2.2 AA in every palette (these are Candy's): a failing pair fails the build. {passing === total ? "All of them pass." : `${total - passing} fail.`} Closest to the line: {weakest.map((w, i) => <Fragment>{i > 0 && ", "}{w.label.toLowerCase()} at {w.scheme} ({ratio(w.ratio)})</Fragment>)}.</p>
+    <p>{total} text pairs in three schemes, the same list the token build checks against WCAG 2.2 AA in every palette (these are Candy's), each with why it is checked: a failing pair fails the build. The list is data, <code class="docs-inline-code">@jaatster/blip-tokens/contrast.json</code>, which the build and this page both read. {passing === total ? "All of them pass." : `${total - passing} fail.`} Closest to the line: {weakest.map((w, i) => <Fragment>{i > 0 && ", "}{w.label.toLowerCase()} at {w.scheme} ({ratio(w.ratio)})</Fragment>)}.</p>
     <Table label="Contrast of every checked pair" head={["Pair", "Day", "Sunset", "Night", "Needs"]} rows={pairRows} class="docs-contrast" />
   </section>
 

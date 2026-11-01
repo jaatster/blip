@@ -40,7 +40,7 @@ export function editJson(file: string, change: (json: any) => void): void {
 export function tokensCopy(): { dir: string; build: (...args: string[]) => Run; remove: () => void } {
   const { dir, remove } = tempDir("tokens");
   const from = join(REPO, "packages/tokens");
-  for (const part of ["scripts", "src", "blip.resolver.json"]) cpSync(join(from, part), join(dir, part), { recursive: true });
+  for (const part of ["scripts", "src", "blip.resolver.json", "contrast.json"]) cpSync(join(from, part), join(dir, part), { recursive: true });
   return { dir, remove, build: (...args) => node(join(dir, "scripts/build.mjs"), args, dir) };
 }
 

@@ -1,0 +1,29 @@
+---
+/**
+ * An install box: the same packages for npm, pnpm, yarn and bun, and the CDN's files, as tabs. Each has its copy
+ * button. The reader's choice is remembered, and every install box on the page follows it (site.js, "install").
+ * The CDN tab shows the `cdn` code given, after anything in the "cdn" slot.
+ */
+import { codeBlock } from "../lib/markdown";
+import { MANAGERS, commands, type InstallLine } from "../lib/install";
+interface Props {
+  lines: InstallLine[];
+  /** The CDN's markup (HTML): what to put in the page instead of installing. */
+  cdn: string;
+  label?: string;
+}
+const { lines, cdn, label = "How to install" } = Astro.props;
+const panels = await Promise.all(MANAGERS.map((m) => (m.id === "cdn" ? codeBlock(cdn, "html", "HTML") : codeBlock(commands(m.id, lines), "sh", m.label))));
+const cdnNote = Astro.slots.has("cdn") ? await Astro.slots.render("cdn") : "";
+---
+<pp-tabs class="pp-tabs docs-tabs docs-install" data-variant="underline" data-size="sm" value="npm">
+  <div class="pp-tabs-list" role="tablist" aria-label={label}>
+    {MANAGERS.map((m, i) => <button class="pp-box pp-tab" data-variant="ghost" role="tab" data-value={m.id} aria-selected={String(i === 0)} tabindex={i === 0 ? undefined : "-1"}>{m.label}</button>)}
+  </div>
+  {MANAGERS.map((m, i) => (
+    <div class="pp-tabs-panel" role="tabpanel" hidden={i > 0}>
+      {m.id === "cdn" && <Fragment set:html={cdnNote} />}
+      <Fragment set:html={panels[i]} />
+    </div>
+  ))}
+</pp-tabs>

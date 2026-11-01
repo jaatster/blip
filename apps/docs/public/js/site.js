@@ -1,9 +1,11 @@
 // The docs' own behaviour, on top of Blip's elements: the display menu (scheme and pixel), the palette menu,
-// Auto following the clock, search through the command palette, copy buttons, the example switches and "On this page".
+// Auto following the clock, search through the command palette, copy buttons, the install boxes, the example
+// switches and "On this page".
 import { autoScheme, setScheme } from "@jaatster/blip-core";
 
 const root = document.documentElement;
-const KEYS = { scheme: "blip-docs:scheme", pixel: "blip-docs:pixel", palette: "blip-docs:palette" };
+// install: the package manager the install boxes show (INSTALL_KEY in src/lib/install.ts).
+const KEYS = { scheme: "blip-docs:scheme", pixel: "blip-docs:pixel", palette: "blip-docs:palette", install: "blip-docs:install" };
 const store = {
   get: (k) => { try { return localStorage.getItem(k); } catch { return null; } },
   set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch { /* private mode */ } },
@@ -245,6 +247,25 @@ for (const b of document.querySelectorAll(".docs-copy")) {
   b.addEventListener("click", () => {
     const from = b.dataset.copyFrom ? document.querySelector(b.dataset.copyFrom) : b.closest(".docs-code")?.querySelector("pre");
     copyText(b, b.dataset.copy ?? from?.textContent ?? "");
+  });
+}
+
+// ------------------------------------------------------------------ install: one package manager in every box
+
+// Each install box (components/Install.astro) is tabs, one per package manager and the CDN. The one picked is
+// remembered, and every box on the page turns to it.
+const installs = [...document.querySelectorAll("pp-tabs.docs-install")];
+function chooseInstall(id, from) {
+  for (const box of installs) if (box !== from && box.querySelector(`[role="tab"][data-value="${CSS.escape(id)}"]`)) box.setAttribute("value", id);
+}
+if (installs.length) {
+  const saved = store.get(KEYS.install);
+  if (saved) chooseInstall(saved);
+  document.addEventListener("pp-change", (e) => {
+    const box = e.target.closest?.("pp-tabs.docs-install");
+    if (!box || !e.detail?.value) return;
+    store.set(KEYS.install, e.detail.value);
+    chooseInstall(e.detail.value, box);
   });
 }
 

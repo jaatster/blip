@@ -5,6 +5,9 @@ css: alert.css
 element: null
 react: Alert
 status: stable
+equivalents:
+  shadcn: Alert
+  apg: alert
 ---
 
 # Alert

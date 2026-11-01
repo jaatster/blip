@@ -25,6 +25,17 @@ export const exists = (rel: string) => existsSync(join(ROOT, rel));
 
 // ------------------------------------------------------------------ front matter
 
+/**
+ * What other systems call a component, from the front matter's `equivalents:` map: shadcn/ui's component names,
+ * WAI-ARIA APG pattern slugs (keys of APG) and HTML elements. Each a comma-separated list; any may be missing.
+ */
+export interface Equivalents {
+  shadcn: string[];
+  apg: string[];
+  html: string[];
+}
+export const EQUIVALENT_KEYS = ["shadcn", "apg", "html"] as const;
+
 export interface Meta {
   name: string;
   package: string;
@@ -32,20 +43,49 @@ export interface Meta {
   element: string | null;
   react: string | null;
   status: string;
+  equivalents: Equivalents;
 }
+
+/** The WAI-ARIA Authoring Practices patterns, by the slug of their page, with the names the APG gives them. */
+export const APG: Record<string, string> = {
+  accordion: "Accordion", alert: "Alert", alertdialog: "Alert and Message Dialogs", breadcrumb: "Breadcrumb", button: "Button", carousel: "Carousel", checkbox: "Checkbox", combobox: "Combobox", "dialog-modal": "Dialog (Modal)", disclosure: "Disclosure", feed: "Feed", grid: "Grid", landmarks: "Landmarks", link: "Link", listbox: "Listbox", menubar: "Menu and Menubar", "menu-button": "Menu Button", meter: "Meter", radio: "Radio Group", slider: "Slider", "slider-multithumb": "Slider (Multi-Thumb)", spinbutton: "Spinbutton", switch: "Switch", table: "Table", tabs: "Tabs", toolbar: "Toolbar", tooltip: "Tooltip", treeview: "Tree View", treegrid: "Treegrid", windowsplitter: "Window Splitter",
+};
+export const apgUrl = (slug: string) => `https://www.w3.org/WAI/ARIA/apg/patterns/${slug}/`;
+
+const unquote = (v: string): string | null => {
+  let s = v.trim();
+  if (/^".*"$|^'.*'$/.test(s)) s = s.slice(1, -1);
+  return s === "null" || s === "~" || s === "" ? null : s;
+};
 
 export function frontMatter(source: string): Meta {
   const m = source.match(/^---\n([\s\S]*?)\n---/);
   const out: Record<string, string | null> = {};
+  // One level of nesting: "equivalents:" then indented "  shadcn: Sheet" lines.
+  const nested: Record<string, Record<string, string | null>> = {};
+  let parent: string | null = null;
   for (const line of (m?.[1] ?? "").split("\n")) {
+    const sub = line.match(/^\s+([A-Za-z_][\w-]*):\s*(.*)$/);
+    if (sub && parent) {
+      // A YAML comment after the value goes: "Sheet, Drawer  # shadcn's names", "'<dialog>'  # the element".
+      const raw = sub[2]!.match(/^('[^']*'|"[^"]*")\s*(?:#.*)?$/)?.[1] ?? sub[2]!.replace(/\s+#.*$/, "");
+      (nested[parent] ??= {})[sub[1]!] = unquote(raw);
+      continue;
+    }
     const kv = line.match(/^([A-Za-z_][\w-]*):\s*(.*)$/);
     if (!kv) continue;
-    let v: string | null = kv[2]!.trim();
-    if (/^".*"$|^'.*'$/.test(v)) v = v.slice(1, -1);
-    if (v === "null" || v === "~" || v === "") v = null;
+    const v = unquote(kv[2]!);
     out[kv[1]!] = v;
+    parent = v === null ? kv[1]! : null;
   }
-  return { name: out.name ?? "", package: out.package ?? "", css: out.css ?? null, element: out.element ?? null, react: out.react ?? null, status: out.status ?? "beta" };
+  const eq = nested.equivalents ?? {};
+  const list = (v: string | null | undefined) => (v ?? "").split(",").map((s) => s.trim()).filter(Boolean);
+  const equivalents: Equivalents = { shadcn: list(eq.shadcn), apg: list(eq.apg), html: list(eq.html) };
+  const unknown = Object.keys(eq).filter((k) => !(EQUIVALENT_KEYS as readonly string[]).includes(k));
+  if (unknown.length) throw new Error(`docs: equivalents has ${unknown.join(", ")}; it takes ${EQUIVALENT_KEYS.join(", ")}`);
+  const badApg = equivalents.apg.filter((s) => !(s in APG));
+  if (badApg.length) throw new Error(`docs: equivalents.apg "${badApg.join(", ")}" is not an APG pattern's slug (one of: ${Object.keys(APG).join(", ")})`);
+  return { name: out.name ?? "", package: out.package ?? "", css: out.css ?? null, element: out.element ?? null, react: out.react ?? null, status: out.status ?? "beta", equivalents };
 }
 
 // ------------------------------------------------------------------ groups
@@ -83,6 +123,8 @@ export interface Doc {
   meta: Meta;
   group: Group;
   example: string | null;
+  /** Small named examples beside the full one: examples/<name>/NN-title.html, in order. */
+  snippets: string[];
   foundation: boolean;
 }
 
@@ -98,7 +140,13 @@ export function docs(): Doc[] {
       const name = f.slice(0, -3);
       const source = read(`${dir}/${f}`);
       const ex = `packages/${pkg}/examples/${name}.html`;
-      found.push({ pkg, name, file: `${dir}/${f}`, source, meta: frontMatter(source), example: exists(ex) ? ex : null, foundation: `${pkg}/${name}` in FOUNDATION_DOCS });
+      let meta: Meta;
+      try {
+        meta = frontMatter(source);
+      } catch (e) {
+        throw new Error(`${dir}/${f}: ${(e as Error).message}`);
+      }
+      found.push({ pkg, name, file: `${dir}/${f}`, source, meta, example: exists(ex) ? ex : null, snippets: snippetFiles(pkg, name), foundation: `${pkg}/${name}` in FOUNDATION_DOCS });
     }
   }
   const counts = new Map<string, number>();
@@ -161,6 +209,41 @@ export function example(rel: string): Example {
   const body = m ? raw.slice(m[0].length) : raw;
   return { html: body, note, source: body.trim() + "\n" };
 }
+
+/** A snippet: one small named example, rendered live on the component's page with its source. */
+export interface Snippet extends Example {
+  /** From the file name: 02-with-an-icon.html is "With an icon". */
+  title: string;
+  /** For the heading: <slug>-snippet-with-an-icon. */
+  id: string;
+}
+
+const SNIPPET = /^(\d{2})-([a-z0-9]+(?:-[a-z0-9]+)*)\.html$/;
+
+/**
+ * The snippets in packages/<pkg>/examples/<name>/, in the order of their numbers. The full examples/<name>.html
+ * stays the specimen the visual tests and the gallery use; they read only the .html files beside it, never this folder.
+ */
+function snippetFiles(pkg: string, name: string): string[] {
+  const dir = `packages/${pkg}/examples/${name}`;
+  if (!exists(dir) || !statSync(join(ROOT, dir)).isDirectory()) return [];
+  const files = readdirSync(join(ROOT, dir)).filter((f) => !f.startsWith(".")).sort();
+  const bad = files.filter((f) => !SNIPPET.test(f));
+  if (bad.length) throw new Error(`docs: ${dir}/ holds ${bad.join(", ")}. Name each snippet NN-title.html (two digits, then the title in lower case with hyphens): 01-sizes.html`);
+  const numbers = files.map((f) => f.slice(0, 2));
+  const twice = numbers.filter((n, i) => numbers.indexOf(n) !== i);
+  if (twice.length) throw new Error(`docs: ${dir}/ has two snippets numbered ${twice.join(", ")}`);
+  return files.map((f) => `${dir}/${f}`);
+}
+
+export function snippet(doc: Pick<Doc, "slug">, rel: string): Snippet {
+  const words = rel.split("/").pop()!.match(SNIPPET)![2]!.replace(/-/g, " ");
+  const title = words[0]!.toUpperCase() + words.slice(1);
+  return { ...example(rel), title, id: `${doc.slug}-snippet-${slug(words)}` };
+}
+
+/** The ids a fragment of markup defines. */
+export const idsIn = (html: string): string[] => [...html.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]!);
 
 // ------------------------------------------------------------------ tokens, icons, assets
 

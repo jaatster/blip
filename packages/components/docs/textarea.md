@@ -5,6 +5,9 @@ css: textarea.css
 element: null
 react: Textarea
 status: beta
+equivalents:
+  shadcn: Textarea
+  html: '<textarea>'
 ---
 
 # Textarea

@@ -43,7 +43,7 @@ blinks for six beats once the last letter is in, and stays, so a caret that says
 | `mood` | `plain` (default), `happy`, `sleepy` | Pitches the blips up or down. |
 | `caret` | | A two-pixel block: still while it types, then six blinks on the beat, then still and shown. |
 
-Style the text with any text class: `.pp-body`, `.pp-display`, `.pp-title`.
+Style the text with any text class: `.pp-body`, `.pp-display` (with `data-scale`, 1 to 4), `.pp-title`.
 
 ## States
 

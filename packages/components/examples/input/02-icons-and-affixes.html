@@ -1,0 +1,15 @@
+<!-- An icon in front, and text before or after the value (aria-hidden: the label says it already). -->
+<div class="pp-stack" style="max-inline-size:calc(160*var(--pp-pixel))">
+  <div class="pp-field">
+    <label class="pp-field-label" for="is-search">Find a level</label>
+    <span class="pp-box pp-input"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg><input id="is-search" type="search" placeholder="Crystal caves"></span>
+  </div>
+  <div class="pp-field">
+    <label class="pp-field-label" for="is-site">Website</label>
+    <span class="pp-box pp-input"><span class="pp-input-affix" aria-hidden="true">https://</span><input id="is-site" type="url" placeholder="pixel.example" inputmode="url"></span>
+  </div>
+  <div class="pp-field">
+    <label class="pp-field-label" for="is-weight">Backpack limit, in kilograms</label>
+    <span class="pp-box pp-input"><input id="is-weight" type="number" value="12" min="0" max="99"><span class="pp-input-affix" aria-hidden="true">kg</span></span>
+  </div>
+</div>

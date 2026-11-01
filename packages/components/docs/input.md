@@ -5,6 +5,9 @@ css: input.css
 element: null
 react: Input
 status: beta
+equivalents:
+  shadcn: Input, Input Group
+  html: '<input>'
 ---
 
 # Input

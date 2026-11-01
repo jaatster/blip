@@ -8,10 +8,10 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:visual": "playwright test --project=visual",
-    "test:visual:update": "playwright test --project=visual --update-snapshots=all",
-    "test:a11y": "playwright test --project=a11y",
-    "test:conditions": "playwright test --project=conditions"
+    "test:visual": "node ../scripts/heavy.mjs playwright test --project=visual",
+    "test:visual:update": "node ../scripts/heavy.mjs playwright test --project=visual --update-snapshots=all",
+    "test:a11y": "node ../scripts/heavy.mjs playwright test --project=a11y",
+    "test:conditions": "node ../scripts/heavy.mjs playwright test --project=conditions"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",

@@ -297,6 +297,8 @@
   }
   .docs-meta > li { display: inline-flex; align-items: center; gap: var(--pp-space-2); }
   .docs-meta-key { color: var(--pp-text-muted); }
+  /* "Also known as": what shadcn/ui, the WAI-ARIA APG and HTML call it. */
+  .docs-aka { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--pp-space-2) var(--pp-space-4); font-size: var(--pp-size-small); }
   /* The status tag links to what stable and beta mean. */
   .docs-status { display: inline-flex; color: inherit; text-decoration: none; }
   .docs-status:hover > .pp-tag { text-decoration: underline; text-decoration-thickness: var(--pp-pixel); text-underline-offset: calc(2 * var(--pp-pixel)); }
@@ -585,7 +587,17 @@
   }
   /* A stage that has its own scheme paints the scheme's page behind the example. */
   .docs-stage[data-pp-scheme] { background: none; }
-  .docs-source { margin-block-start: var(--pp-space-6); }
+  /* "Show the HTML" and, while it is closed, "Copy the HTML" beside it; open, the code's own Copy is there. */
+  .docs-source-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0 var(--pp-space-4);
+    margin-block-start: var(--pp-space-6);
+  }
+  .docs-source-row > .docs-source[open] { flex-basis: 100%; }
+  .docs-source-row:has(> .docs-source[open]) > .docs-source-copy { display: none; }
+  .docs-source-open { margin-block-start: var(--pp-space-6); }
   :is(.docs-source, .docs-react-more) > summary {
     display: inline-flex;
     margin-block-end: var(--pp-space-4);
@@ -605,6 +617,9 @@
   .docs-react-types dd { margin: 0; }
 
   .docs-example-title { font-size: var(--pp-size-title); line-height: var(--pp-leading-tight); scroll-margin-block-start: calc(var(--docs-top) + var(--pp-space-6)); }
+  /* Snippets: small named examples under "Snippets", each a smaller title. */
+  .docs-example[data-level="3"] .docs-example-title { font-size: var(--pp-size-lead); }
+  .docs-snippets > .docs-example + .docs-example { margin-block-start: var(--pp-space-16); }
 
   /* ------------------------------------------------------------------ indexes: a list of names and what each is for */
 

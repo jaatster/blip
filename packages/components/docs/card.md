@@ -5,6 +5,8 @@ css: card.css
 element: null
 react: Card
 status: stable
+equivalents:
+  shadcn: Card
 ---
 
 # Card

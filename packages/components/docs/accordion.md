@@ -5,6 +5,10 @@ css: accordion.css
 element: null
 react: Accordion
 status: stable
+equivalents:
+  shadcn: Accordion
+  apg: accordion
+  html: '<details>'
 ---
 
 # Accordion

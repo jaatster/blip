@@ -36,21 +36,14 @@ function contrast(a, b) {
 const TYPES = new Set(["color", "dimension", "duration", "number", "fontFamily", "fontWeight", "cubicBezier"]);
 const NAME_RE = /^[^${}.][^{}.]*$/;
 const HEX_RE = /^#[0-9A-F]{6}$/i;
-const INTENTS = ["accent", "info", "success", "warning", "danger"];
-
-/** The text pairs every scheme must pass, as [foreground, background, minimum ratio]. */
-const PAIRS = [];
-for (const s of ["bg", "surface.base", "surface.raised", "surface.sunken", "surface.panel"]) PAIRS.push(["text.base", s, 4.5], ["text.muted", s, 4.5]);
-for (const intent of INTENTS) {
-  for (const s of ["bg", "surface.base", "surface.raised"]) PAIRS.push([`${intent}.text`, s, 4.5]);
-  PAIRS.push([`${intent}.on`, `${intent}.base`, 4.5], [`${intent}.on`, `${intent}.light`, 4.5]);
-}
-for (const s of ["bg", "surface.base"]) PAIRS.push(["link.visited", s, 4.5]);
-PAIRS.push(["line.base", "bg", 3], ["line.base", "surface.base", 3], ["selection.text", "selection.bg", 4.5], ["text.inverse", "text.base", 4.5]);
-// A disabled candy is dithered: its label must still read on the dither as well as on the candy. Intents label with
-// their own colour; plain candies with ink, on the dither or (cream) cream's own. Slate's ink dither is checked below.
-for (const intent of INTENTS) PAIRS.push([`${intent}.on`, "disabled.dither", 4.5]);
-PAIRS.push(["ink.base", "disabled.dither", 4.5], ["ink.base", "disabled.dither-cream", 4.5]);
+/**
+ * The pairs every scheme must pass, as [foreground, background, minimum ratio], from contrast.json: the same list
+ * the docs show, each with its reason. {intent} stands for each intent in turn. Slate's ink dither is checked below.
+ */
+const CONTRAST = JSON.parse(readFileSync(join(ROOT, "contrast.json"), "utf8"));
+const PAIRS = CONTRAST.pairs.flatMap(({ fg, bg, min }) =>
+  (fg.includes("{intent}") ? CONTRAST.intents : [null]).flatMap((intent) =>
+    Object.keys(bg).map((b) => [fg, b, min].map((v) => (typeof v === "string" && intent ? v.replaceAll("{intent}", intent) : v)))));
 
 /**
  * Reads a resolver and everything it points at, and checks it: names, types, values, aliases, then contrast.

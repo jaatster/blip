@@ -4,6 +4,7 @@
  *
  *   pnpm cem             analyse and write
  *   pnpm cem --check     analyse and fail if a written manifest is out of date (CI)
+ *   pnpm cem --check game effects    only those packages (scripts/qa.mjs checks one item's)
  *
  * Each manifest is checked as it is made: every element needs a tag name and a summary or description, and every
  * event a name. Problems are listed together, with the module to fix.
@@ -42,9 +43,15 @@ export function problems(pkg, manifest) {
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
   const check = process.argv.includes("--check");
+  const only = process.argv.slice(2).filter((a) => !a.startsWith("--"));
+  const unknown = only.filter((p) => !PACKAGES.includes(p));
+  if (unknown.length) {
+    console.error(`cem: no elements in ${unknown.join(", ")}. Packages with elements: ${PACKAGES.join(", ")}.`);
+    process.exit(2);
+  }
   const issues = [];
   const stale = [];
-  for (const pkg of PACKAGES) {
+  for (const pkg of only.length ? only : PACKAGES) {
     const manifest = await analyse(pkg);
     issues.push(...problems(pkg, manifest));
     const file = join(ROOT, "packages", pkg, "custom-elements.json");

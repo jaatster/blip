@@ -5,6 +5,9 @@ css: command.css
 element: pp-command
 react: CommandPalette
 status: beta
+equivalents:
+  shadcn: Command
+  apg: combobox
 ---
 
 # Command palette

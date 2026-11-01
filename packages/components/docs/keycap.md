@@ -5,6 +5,9 @@ css: keycap.css
 element: null
 react: Keycap
 status: stable
+equivalents:
+  shadcn: Kbd
+  html: '<kbd>'
 ---
 
 # Keycap

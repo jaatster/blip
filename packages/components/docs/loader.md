@@ -5,6 +5,8 @@ css: loader.css
 element: null
 react: Loader
 status: stable
+equivalents:
+  shadcn: Spinner
 ---
 
 # Loader

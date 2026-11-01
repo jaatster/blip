@@ -5,6 +5,9 @@ css: pause.css
 element: null
 react: PauseMenu
 status: beta
+equivalents:
+  apg: dialog-modal
+  html: '<dialog>'
 ---
 
 # Pause menu

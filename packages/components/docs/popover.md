@@ -5,6 +5,9 @@ css: popover.css
 element: null
 react: Popover
 status: stable
+equivalents:
+  shadcn: Popover
+  html: popover
 ---
 
 # Popover

@@ -5,6 +5,10 @@ css: slider.css
 element: null
 react: Slider
 status: beta
+equivalents:
+  shadcn: Slider
+  apg: slider
+  html: '<input type="range">'
 ---
 
 # Slider
