@@ -184,6 +184,7 @@ Conventions, for every element:
 | `<pp-hearts>` | `@jaatster/blip-game/hud` | `value`, `max`, `label`, `quiet` | | |
 | `<pp-inventory>` | `@jaatster/blip-game/inventory` | | `slots`, `selected` (read-only), `select()` | `pp-select` |
 | `<pp-sprite>` | `@jaatster/blip-game/sprites` | `name`, `aria-label`, `data-tone` | | |
+| `<pp-attract>` | `@jaatster/blip-effects/attract` | `script`, `label`, `pointer` | `steps` | |
 | `<pp-drop-text>` | `@jaatster/blip-effects/text` | `data-pop`, `data-scale`, `data-tone` | `text`, `play()` | |
 | `<pp-motion-toggle>` | `@jaatster/blip-effects/motion` | `label` | | |
 | `<pp-typewriter>` | `@jaatster/blip-effects/text` | `blips`, `caret`, `mood`, `data-scale` | `text`, `play()`, `finish()` | `pp-typewriter-done` |
@@ -203,7 +204,7 @@ is private.
 | `@jaatster/blip-core` | `PixelElement` (the base of every element: `static box`, `static classes`, `signal`, `static define()`, and for subclasses `connected()`, `disconnected()`, `emit()`, `on()`, `flag()`); the services `provide()`, `services` (`now()`, `random()`, `between()`, `sound()`), `seeded()` and the types `Services` and `SoundSink`; motion `reducedMotion()`, `steps()`, `duration()`, `pixel()`; timelines `run()`, `frames()`, `every()` and `Step`; schemes `autoScheme()`, `setScheme()`, `schemeAt()` and `Scheme`; diagnostics `warn()`, `checkName()`; the controllers `rovingFocus()` with `RovingOptions`, `typeahead()` and `dismiss()`. |
 | `@jaatster/blip-elements` | One module per element (`@jaatster/blip-elements/<name>`), each defining its tag; the index defines them all. The element classes, `toast()`, and the types `ActionDetail`, `CloseDetail`, `CloseReason`, `SortDirection`, `TabsChangeDetail`, `ToastHandle`, `ToastOptions`, `ToastTone`. |
 | `@jaatster/blip-game` | The element classes; `sprite()`, `spriteNames`, `pixels()` (the sprites as SVG strings and pixel maps); `blipRate()`; the types `ChoiceDetail` and `SelectDetail`. |
-| `@jaatster/blip-effects` | `burst()` with `BurstKind` and `BurstOptions`; `transition()` with `TransitionKind` (`dissolve`, `dither`, `mosaic`) and `TransitionOptions`; `drawWorld()` and `worldPalette()` with `WorldLayer`, `WorldPalette`, `WorldBox` and `DrawWorldOptions`; the element classes. |
+| `@jaatster/blip-effects` | `burst()` with `BurstKind` and `BurstOptions`; `transition()` with `TransitionKind` (`dissolve`, `dither`, `mosaic`) and `TransitionOptions`; `drawWorld()` and `worldPalette()` with `WorldLayer`, `WorldPalette`, `WorldBox` and `DrawWorldOptions`; `AttractStep`; the element classes. |
 | `@jaatster/blip-sound` | `enableSound()`, `disableSound()`, `soundOn()`, `rememberSound()`, `play()`, `synth()`, `SOUNDS`, `voiceRate()`, `voiced()`, and the types `SoundName`, `Note` and `Mood`. The sound names (`step`, `look`, `jump`, `coin`, `open`, `back`, `bump`, `blip`, `success`, `error`, `select`) are public. |
 | `@jaatster/blip-icons` | `icons` (path data by name), `iconSvg()` with `IconSvgOptions`, the `IconName` type (every icon's name is public), `@jaatster/blip-icons/element` (`<pp-icon>`, `PixelIcon`), `sprite.svg` (symbols `pp-icon-<name>`), `svg/<name>.svg` and `icons.json`. |
 | `@jaatster/blip-tokens` | See Tokens above. |
@@ -267,6 +268,7 @@ The codes are public. Each prefix is a range, numbered in tens by topic:
 | `PP-M` | `<pp-menu>` | A menu without its button or its list | `PP-M001` |
 | `PP-C` | `<pp-command>` | A command palette without its `<dialog>`, input or list | `PP-C001` |
 | `PP-W` | `<pp-world>` | The world backdrop: no world colours (`tokens.css` is not loaded), an `avoid` that is not a selector list | `PP-W001` and `PP-W002` |
+| `PP-D` | `<pp-attract>` | An attract demo: no `label`, a step it cannot read, a step whose selector matches nothing in it | `PP-D001`, `PP-D010` and `PP-D011` |
 | `PP-I` | `<pp-icon>` | An icon name that does not exist | `PP-I001` |
 <!-- /diagnostics -->
 

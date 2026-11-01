@@ -4,6 +4,106 @@
   "modules": [
     {
       "kind": "javascript-module",
+      "path": "src/attract.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "<pp-attract>: a short demo of the markup inside it, played by a pixel pointer from a script, looping while it is\non screen. Its markup is inert and the element is one image to assistive technology, named by label; between loops\nevery change the demo caused is undone. With less motion asked for, on the device or on the page, it shows its\nstill frame at once, and plays on when that is lifted. Show it only on a page that shows <pp-motion-toggle>.",
+          "name": "PixelAttract",
+          "members": [
+            {
+              "kind": "field",
+              "name": "script",
+              "type": {
+                "text": "string | null"
+              },
+              "description": "The script attribute, or null.",
+              "attribute": "script"
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string | null"
+              },
+              "description": "The label attribute, or null.",
+              "attribute": "label"
+            },
+            {
+              "kind": "field",
+              "name": "pointer",
+              "type": {
+                "text": "string | null"
+              },
+              "description": "The pointer attribute: \"glove\", or null for the arrow.",
+              "attribute": "pointer"
+            },
+            {
+              "kind": "field",
+              "name": "steps",
+              "type": {
+                "text": "AttractStep[]"
+              },
+              "description": "The steps it plays: the ones set here, else the script's. Setting them plays them from the top; null goes back\nto the script."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "script",
+              "type": {
+                "text": "string"
+              },
+              "description": "The steps, split by \";\": move <selector>, press <selector>, type <selector> '<text>', wait <time>, show <selector>, hide <selector>, and poster (the still frame).",
+              "fieldName": "script"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "description": "The one sentence assistive technology reads for the demo: what it shows happening.",
+              "fieldName": "label"
+            },
+            {
+              "name": "pointer",
+              "type": {
+                "text": "\"arrow\" | \"glove\""
+              },
+              "description": "The pointer: the arrow, or the white glove (game screens, touch).",
+              "default": "\"arrow\"",
+              "fieldName": "pointer"
+            }
+          ],
+          "superclass": {
+            "name": "PixelElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "Attract mode: a short demo of the markup inside it, a pixel pointer pressing its real controls, looping.",
+          "tagName": "pp-attract",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "PixelAttract",
+          "declaration": {
+            "name": "PixelAttract",
+            "module": "src/attract.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "pp-attract",
+          "declaration": {
+            "name": "PixelAttract",
+            "module": "src/attract.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/burst.ts",
       "declarations": [
         {

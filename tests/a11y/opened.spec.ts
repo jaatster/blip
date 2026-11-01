@@ -1,7 +1,8 @@
 /**
  * The same scan with each live overlay open, one at a time, since closed overlays are not rendered and so not
  * checked: dialogs and drawers (commandfor), popovers (popovertarget), menus (pp-menu), toasts (the example's buttons)
- * and tooltips (hovering their trigger). Covers what the elements generate, which the static copies cannot.
+ * and tooltips (hovering their trigger). Covers what the elements generate, which the static copies cannot. A trigger in
+ * an attract demo is inert: what it opens is scanned as the demo's still frame shows it.
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -62,6 +63,8 @@ async function act(page: Page, opener: Opener, i: number): Promise<string | null
     : page.locator(`#example ${opener.trigger}`).nth(i);
   if (!(await trigger.isVisible())) return null;
   const label = `${opener.trigger === "pp-tooltip" ? "the tooltip of" : ""} ${(await trigger.getAttribute("aria-label")) ?? (await trigger.innerText()).trim()}`.trim();
+  // An attract demo's controls are inert: nobody can open what they open, the demo does, and its still frame shows it.
+  if (await trigger.evaluate((el) => !!el.closest("[inert]"))) return (await page.locator(opener.open).first().isVisible()) ? `"${label}" (opened by its demo)` : null;
   if (opener.how === "hover") await trigger.hover();
   else await trigger.click();
   await expect(page.locator(opener.open).first(), `${label} did not open`).toBeVisible({ timeout: 5000 });

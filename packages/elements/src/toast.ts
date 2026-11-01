@@ -295,9 +295,10 @@ export class PixelToaster extends PixelElement {
 
 PixelToaster.define("pp-toaster", PixelToaster);
 
-/** Shows a toast in the page's toaster, adding one to <body> if there is none. */
+/** Shows a toast in the page's toaster, adding one to <body> if there is none. A toaster in a <pp-attract> demo is
+    the demo's own, never the page's. */
 export function toast(options: ToastOptions | string): ToastHandle {
-  let toaster = document.querySelector("pp-toaster");
+  let toaster = document.querySelector<PixelToaster>("pp-toaster:not(pp-attract *)");
   if (!toaster) toaster = document.body.appendChild(document.createElement("pp-toaster"));
   return toaster.add(options);
 }

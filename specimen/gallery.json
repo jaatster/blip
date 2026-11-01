@@ -68,6 +68,7 @@
     "/packages/blocks/src/footer.css",
     "/packages/blocks/src/hero.css",
     "/packages/blocks/src/pricing.css",
+    "/packages/effects/src/attract.css",
     "/packages/effects/src/crt.css",
     "/packages/effects/src/text.css",
     "/packages/effects/src/transitions.css",
@@ -79,6 +80,7 @@
     "/packages/game/dist/hud.js",
     "/packages/game/dist/inventory.js",
     "/packages/game/dist/sprites.js",
+    "/packages/effects/dist/attract.js",
     "/packages/effects/dist/burst.js",
     "/packages/effects/dist/motion.js",
     "/packages/effects/dist/text.js",
@@ -448,6 +450,11 @@
       "pkg": "blocks",
       "name": "pricing",
       "url": "/packages/blocks/examples/pricing.html"
+    },
+    {
+      "pkg": "effects",
+      "name": "attract",
+      "url": "/packages/effects/examples/attract.html"
     },
     {
       "pkg": "effects",

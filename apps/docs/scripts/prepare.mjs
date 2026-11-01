@@ -167,7 +167,7 @@ if (ci) {
     pick("core-css", "core.css", "Building blocks", "core.css: the box, type, icons, motion"),
     pick("core-js", "core JS", "Core runtime", "the element base, controllers, timeline, services"),
     els[0] && { id: "element", label: "Largest element", bytes: els[0].bytes, limit: els[0].limit, note: `${els[0].name.replace("element ", "")}: each of the ${els.length} is under ${els[0].limit / KB} KB` },
-    pick("effects", "effects JS + CSS", "Effects", "the world, transitions, text, bursts and CRT, with their CSS"),
+    pick("effects", "effects JS + CSS", "Effects", "the world, transitions, text, bursts, CRT and attract mode, with their CSS"),
     pick("sound", "sound", "Sound", "eleven chip sounds, synthesised: no audio files"),
     pick("font", "Pixel Bop woff2", "Display font", "pixel-bop.woff2: Latin; Cyrillic and Greek in their own files"),
     pick("icons", "icons index.js", "Icons", `all ${JSON.parse(readFileSync(pkg("icons", "dist", "icons.json"), "utf8")).icons.length} icons as path data`),

@@ -31,10 +31,11 @@ export const RANGES = {
   M: "A menu without its button or its list",
   C: "A command palette without its `<dialog>`, input or list",
   W: "The world backdrop: no world colours (`tokens.css` is not loaded), an `avoid` that is not a selector list",
+  D: "An attract demo: no `label`, a step it cannot read, a step whose selector matches nothing in it",
   I: "An icon name that does not exist",
 };
 /** The order of the table: the build first, then the browser, roughly from most to least common. */
-const ORDER = ["T", "A", "E", "N", "M", "C", "W", "I"];
+const ORDER = ["T", "A", "E", "N", "M", "C", "W", "D", "I"];
 
 // ------------------------------------------------------------------ the scan
 

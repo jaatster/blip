@@ -27,6 +27,21 @@ export const NOTES: Record<string, Note> = {
     why: "<pp-command> works on markup that is already there: a <dialog>, a text input and a [role=listbox] of options. Without them it does nothing.",
     fix: 'Start from the markup on the <a href="/components/command/">command palette</a> page.',
   },
+  "PP-D001": {
+    title: "An attract demo has no label",
+    why: "A demo is one picture to a screen reader: its markup is inert, and only its label is read. Without one, the person hears nothing about what it shows.",
+    fix: 'Give <code class="docs-inline-code">&lt;pp-attract&gt;</code> a <code class="docs-inline-code">label</code>: one sentence that says what happens ("Typing a title and saving shows a toast").',
+  },
+  "PP-D010": {
+    title: "An attract demo cannot read a step",
+    why: "A demo plays the steps it can read and skips the rest, so a misspelt verb, a type with no quoted text or a wait with no time leaves a gap in the story.",
+    fix: 'Write each step as <code class="docs-inline-code">move</code>, <code class="docs-inline-code">press</code>, <code class="docs-inline-code">type #field \'text\'</code>, <code class="docs-inline-code">wait 2s</code>, <code class="docs-inline-code">show</code>, <code class="docs-inline-code">hide</code> or <code class="docs-inline-code">poster</code>, split by semicolons; see the <a href="/components/attract/">attract</a> page.',
+  },
+  "PP-D011": {
+    title: "An attract demo's step matches nothing",
+    why: "A step's selector is matched inside the demo. One that matches nothing there (a typo, an id outside it) is skipped, and the pointer stays where it was.",
+    fix: 'Point the selector at something inside the <code class="docs-inline-code">&lt;pp-attract&gt;</code>, as for <code class="docs-inline-code">querySelector</code>.',
+  },
   "PP-E001": {
     title: "An element is missing what it needs",
     why: "Elements add behaviour to markup that already works, so each needs its native part inside: <pp-combobox> an <input>, <pp-number> an <input type=number>, <pp-file-drop> an <input type=file>.",

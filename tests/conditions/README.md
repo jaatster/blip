@@ -43,7 +43,8 @@ whole example through.
 ## Adding to a lane
 
 A new example is covered as it is. A lane only needs changing for something it cannot find by itself: a new
-directional glyph (`GLYPHS` in `rtl.spec.ts`), a new endless loading indicator or a DESIGN.md exception to the motion
-rules (`lib/motion.ts`), a new kind of part that shows a value (`print.spec.ts`, `contrast.spec.ts`). To check that a
-lane still catches what it guards, plant the problem (put back an old stylesheet with `page.route`, or add a bad
-rule with `page.addStyleTag`) and watch it fail.
+directional glyph (`GLYPHS` in `rtl.spec.ts`), a new endless loading indicator, a DESIGN.md exception to the motion
+rules or script motion made of many moves, each judged on its own (an attract demo's pointer: `lib/motion.ts`), a
+new kind of part that shows a value (`print.spec.ts`, `contrast.spec.ts`). To check that a lane still catches what it
+guards, plant the problem (put back an old stylesheet with `page.route`, or add a bad rule with `page.addStyleTag`)
+and watch it fail.

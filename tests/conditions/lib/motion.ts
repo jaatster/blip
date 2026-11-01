@@ -27,6 +27,11 @@ export const ENDLESS = ".pp-loader, progress:indeterminate, .pp-skeleton, [aria-
     (nine frames of 30 ms to cover the screen, nine to clear it), an ordered dither, or a mosaic") and the world
     ("Clouds can drift right a whole pixel at a time ... now and then birds cross or a star shoots"). */
 export const ANY_STEPS = "pp-world, .pp-world";
+/** Script motion made of many moves, each judged on its own: an attract demo (docs/attract.md) plays its script again
+    and again, its pointer hopping from control to control ("in at most six even steps") and pressing them. A move is
+    a run of changes with no rest longer than two frames (80 ms) between them; each goes in at most six steps (the
+    Snap Rule). */
+export const MOVES = "pp-attract";
 /** Clocks, which keep stepping with reduced motion because they tell the time (docs/toast.md: "With reduced motion
     they appear and go at once; the timer still steps (it is a clock, not motion)"). */
 export const CLOCKS = ".pp-toast-timer";
@@ -55,7 +60,7 @@ export interface Sampled {
 
 /** Registers the recorder and the sampler. Call before page.clock.install() and before the page loads. */
 export async function installRecorder(page: Page): Promise<void> {
-  await page.addInitScript(recorder, { endless: ENDLESS, anySteps: ANY_STEPS, clocks: CLOCKS });
+  await page.addInitScript(recorder, { endless: ENDLESS, anySteps: ANY_STEPS, clocks: CLOCKS, moves: MOVES });
 }
 
 export const film = (page: Page, label: string, dpr: number, reduced: boolean): Promise<Filmed> =>
@@ -92,7 +97,7 @@ interface Lanes {
 }
 
 /* The page side. Self-contained: it is serialised into the page. */
-export function recorder({ endless, anySteps, clocks }: { endless: string; anySteps: string; clocks: string }): void {
+export function recorder({ endless, anySteps, clocks, moves: many }: { endless: string; anySteps: string; clocks: string; moves: string }): void {
   if (window.top !== window) return;
   const nativeFrame = window.requestAnimationFrame.bind(window);
   const found: Animation[] = [];
@@ -295,7 +300,7 @@ export function recorder({ endless, anySteps, clocks }: { endless: string; anySt
       return { names, failures, endless: endlessly };
     },
 
-    sampling: null as null | { observer: MutationObserver; take: (r: MutationRecord[]) => void; start: number; t0: number | undefined; tracks: Map<Element, { t: number; key: string; look: Look; text: string; own: boolean }[]>; seen: Map<Element, { who: string; anyOK: boolean; endlessOK: boolean }> },
+    sampling: null as null | { observer: MutationObserver; take: (r: MutationRecord[]) => void; start: number; t0: number | undefined; tracks: Map<Element, { t: number; key: string; look: Look; text: string; own: boolean }[]>; seen: Map<Element, { who: string; anyOK: boolean; endlessOK: boolean; manyOK: boolean }> },
 
     /** Starts reading what the DOM changes: after every change (every fake timer or frame that changes something),
         at the page's own (fake) time. */
@@ -322,7 +327,7 @@ export function recorder({ endless, anySteps, clocks }: { endless: string; anySt
           track.push({ t, key, look: l, text, own: L.acting === 0 });
           s.tracks.set(el, track);
           // Where it is, while it is there: a shooting star is judged after it has gone.
-          if (!s.seen.has(el)) s.seen.set(el, { who: describe(el, null), anyOK: !!el.closest(anySteps), endlessOK: !!el.closest(endless) });
+          if (!s.seen.has(el)) s.seen.set(el, { who: describe(el, null), anyOK: !!el.closest(anySteps), endlessOK: !!el.closest(endless), manyOK: !!el.closest(many) });
         }
       };
       const observer = new MutationObserver(take);
@@ -348,21 +353,26 @@ export function recorder({ endless, anySteps, clocks }: { endless: string; anySt
         let busy = false;
         for (let i = 2; i < own.length; i++) if (own[i]!.t - own[i - 2]!.t <= 1000) busy = true;
         if (!busy) continue;
-        const { who, anyOK, endlessOK } = s.seen.get(el)!;
+        const { who, anyOK, endlessOK, manyOK } = s.seen.get(el)!;
         moving.push(who);
         if (reduced) {
           failures.add(`[${label}] ${who}: changes ${own.length} times by itself (script) under reduced motion; DESIGN.md: with reduced motion every effect arrives at once`);
           continue;
         }
         const first = track[0]!.look;
-        let moves = 0;
+        // Steps in one move: all of them, or (for what makes many moves) the most in a run with no rest over 80 ms.
+        let moves = 0, run = 0, last = -Infinity;
         const broken = tally();
         for (let i = 0; i < track.length; i++) {
           broken.add(wrong(track[i]!.look, first, dpr), `at ${Math.round(track[i]!.t)} ms`);
-          if (i && moved(track[i - 1]!.look, track[i]!.look)) moves++;
+          if (!i || !moved(track[i - 1]!.look, track[i]!.look)) continue;
+          if (!manyOK || track[i]!.t - last <= 80) run++;
+          else run = 1;
+          last = track[i]!.t;
+          moves = Math.max(moves, run);
         }
         for (const line of broken.lines()) failures.add(`[${label}] ${who} (script): ${line}`);
-        if (moves > 6 && !anyOK) failures.add(`[${label}] ${who} (script): moves in ${moves} steps; DESIGN.md, the Snap Rule: movement goes through 2 to 6 even steps`);
+        if (moves > 6 && !anyOK) failures.add(`[${label}] ${who} (script): moves in ${moves} steps${manyOK ? " in one move" : ""}; DESIGN.md, the Snap Rule: movement goes through 2 to 6 even steps`);
         if (endlessCheck && !endlessOK && track.at(-1)!.t > end - 3000) {
           failures.add(`[${label}] ${who} (script): never stops: ${track.length} changes in ${Math.round(end / 1000)} s, the last ${Math.round((end - track.at(-1)!.t) / 1000 * 10) / 10} s before the end; DESIGN.md: anything that blinks or bobs stops after six beats, under five seconds; only loaders, and ambient motion beside the motion toggle, run on`);
           endlessly.add(who);

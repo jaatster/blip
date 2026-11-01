@@ -2031,7 +2031,7 @@
               }
             }
           ],
-          "description": "Shows a toast in the page's toaster, adding one to <body> if there is none."
+          "description": "Shows a toast in the page's toaster, adding one to <body> if there is none. A toaster in a <pp-attract> demo is\nthe demo's own, never the page's."
         }
       ],
       "exports": [

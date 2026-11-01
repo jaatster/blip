@@ -3,8 +3,9 @@
 Blip's opt-in effects, all drawn in the browser (no image files) and all still with reduced motion: the
 dithered world backdrop (sky, mountains, hills, meadow; Day, Sunset, Night and Auto; parallax), screen transitions
 (dissolve, dither, mosaic, through View Transitions), drop-in text, the typewriter, the glint, bursts (sparkle,
-coin, star, confetti), a CRT filter, and the motion toggle: a page-wide pause for the world's ambient motion,
-remembered on the device.
+coin, star, confetti), a CRT filter, attract mode (a short demo of real markup, played by a pixel pointer from a
+script), and the motion toggle: a page-wide pause for the world's ambient motion and every demo, remembered on the
+device.
 
 ```sh
 npm install @jaatster/blip-effects
@@ -25,6 +26,8 @@ burst(button, { kind: "coin" });
 <div style="position: relative"><pp-world scheme="auto" parallax></pp-world>…</div>
 <!-- A world whose clouds drift, whose stars flare or that has events runs on: show the pause beside it. -->
 <div style="position: relative"><pp-world clouds stars events></pp-world>… <pp-motion-toggle></pp-motion-toggle></div>
+<!-- A demo runs on too: import "@jaatster/blip-effects/attract.js", and show the pause on its page. -->
+<pp-attract label="Pressing Save shows a toast" script="move #save; press #save; poster; wait 2s">…</pp-attract>
 ```
 
-JS and CSS together are under 15 KB gzipped. [Docs](./docs) · [examples](./examples) · MIT
+JS and CSS together are under 17 KB gzipped. [Docs](./docs) · [examples](./examples) · MIT

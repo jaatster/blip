@@ -147,7 +147,7 @@ event handler or effect, never while rendering.
 
 ### Effects: `@jaatster/blip-react/effects`
 
-- **Web Components (generated)**: `DropText`, `MotionToggle`, `Typewriter`, `World`
+- **Web Components (generated)**: `Attract`, `DropText`, `MotionToggle`, `Typewriter`, `World`
 
 ### Icons: `@jaatster/blip-react/icons`
 

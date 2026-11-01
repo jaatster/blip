@@ -80,6 +80,29 @@ const plans = [
             <h3 class="pp-feature-title">A week at a glance</h3>
             <p class="pp-feature-text">Seven days as seven skies, so a heavy Thursday is easy to see coming.</p>
           </article>
+          <article class="pp-box pp-feature" data-layout="wide" data-variant="soft" data-tone="orange">
+            <pp-attract class="tpl-demo" label="Typing Call mum and pressing Add puts it on the morning list, and ticking it off sets off a burst of sparkles."
+                        script="move #tpl-task-field; type #tpl-task-field 'Call mum'; move #tpl-task-add; press #tpl-task-add; move #tpl-task-new; press #tpl-task-new; poster; wait 2s">
+              <section class="pp-box pp-window" data-tone="orange" aria-labelledby="tpl-demo-title">
+                <header class="pp-window-bar"><p class="pp-window-title pp-display pp-pop" id="tpl-demo-title">Morning</p></header>
+                <div class="pp-window-body tpl-stack-4">
+                  <div class="tpl-task-add">
+                    <span class="pp-box pp-input" data-size="sm"><input id="tpl-task-field" aria-label="New task" placeholder="Add a task" autocomplete="off" /></span>
+                    <button class="pp-box pp-button" id="tpl-task-add" type="button" data-size="sm">Add</button>
+                  </div>
+                  <div class="tpl-task-list">
+                    <label class="pp-check"><span class="pp-box pp-checkbox"><input type="checkbox" checked /></span>Stretch</label>
+                    <label class="pp-check"><span class="pp-box pp-checkbox"><input type="checkbox" /></span>Water the plants</label>
+                    <label class="pp-check" hidden><span class="pp-box pp-checkbox"><input type="checkbox" id="tpl-task-new" data-pp-burst="sparkle" /></span><span></span></label>
+                  </div>
+                </div>
+              </section>
+            </pp-attract>
+            <div class="tpl-stack-2">
+              <h3 class="pp-feature-title">Three things, then done</h3>
+              <p class="pp-feature-text">Write down the morning's three things and tick them off as you go. Each one gets a little sparkle; there is no fourth.</p>
+            </div>
+          </article>
           <article class="pp-box pp-feature" data-layout="stat" data-variant="soft" data-tone="blue">
             <p class="pp-feature-stat pp-pop" data-pop="3">3</p>
             <p class="pp-feature-text">things a day, at most, in the morning list</p>

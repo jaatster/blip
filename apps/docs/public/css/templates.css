@@ -109,6 +109,13 @@
   .tpl-times .pp-stage { padding: var(--pp-space-4); min-block-size: calc(48 * var(--pp-pixel)); }
   .tpl-stack-2 { display: grid; gap: var(--pp-space-2); }
   .tpl-pricing { display: grid; gap: var(--pp-space-6); }
+  /* The morning list's attract demo: the window whole, with a pixel round it for its drop. The list keeps room for
+     its third thing, so adding one moves nothing outside the demo. */
+  .tpl-demo { inline-size: min(100%, calc(150 * var(--pp-pixel))); padding: var(--pp-pixel) var(--pp-pixel) var(--pp-space-2) 0; }
+  .tpl-stack-4 { display: grid; gap: var(--pp-space-4); }
+  .tpl-task-add { display: flex; gap: var(--pp-space-3); }
+  .tpl-task-add > .pp-input { flex: 1; min-inline-size: 0; }
+  .tpl-task-list { display: grid; grid-template-rows: repeat(3, calc(11 * var(--pp-pixel))); gap: var(--pp-space-2); }
 
   /* ------------------------------------------------------------------ game */
 
