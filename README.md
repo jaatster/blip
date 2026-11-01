@@ -1,5 +1,7 @@
 # Blip
 
+![Blip in white pixel letters over a pixel-art meadow under a blue sky, with four ice lollies standing in the grass. A 16-bit pixel-art design system.](apps/docs/public/og.png)
+
 **A 16-bit pixel-art design system: candy controls on a soft pixel world, one square pixel everywhere, and motion
 that snaps.**
 
@@ -29,8 +31,10 @@ The docs site, [jaatster.com/blip](https://jaatster.com/blip), is built in Blip 
 Sunset and Night, the foundations, three templates (a dashboard, a landing page and a game menu) and a theme
 builder. Run it locally with `pnpm --filter @jaatster/blip-docs dev`.
 
-There are no screenshots in this repository on purpose: Blip draws itself. The visual tests render every
-example in all three schemes at 1280 px wide (and the responsive ones at 390 px) and compare them pixel for pixel:
+There are no screenshots in this repository on purpose: Blip draws itself. The card at the top is the one
+picture, and Blip drew that too: `specimen/press.html` builds it from the system's own parts, and `pnpm shoot`
+saves it as the docs site's social preview. The visual tests render every example in all three schemes at 1280 px
+wide (and the responsive ones at 390 px) and compare them pixel for pixel:
 
 ```sh
 pnpm build

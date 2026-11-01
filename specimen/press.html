@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en" data-chu-scheme="day" data-chu-pixel="4" data-chu-motion="reduce">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1200">
+  <title>Blip press card</title>
+  <link rel="icon" href="data:,">
+  <!-- The social card (1200 x 630), drawn by Blip itself: the hero block over <chu-world>, the name in Pixel Bop
+       POP, and four blips (ice lollies) drawn by the game kit's sprite renderer. Time is frozen and randomness seeded, as on
+       the test page, and motion is paused, so the picture is the same every time. scripts/shoot.mjs saves it as
+       apps/docs/public/og.png. ?scheme=sunset|night  ?palette=grape (any preset) -->
+  <script type="importmap">{ "imports": { "@jaatster/blip-core": "/packages/core/dist/js/index.js", "@jaatster/blip-tokens": "/packages/tokens/dist/js/index.js" } }</script>
+  <link rel="stylesheet" href="/packages/font/font.css">
+  <link rel="stylesheet" href="/packages/tokens/dist/css/tokens.css">
+  <link rel="stylesheet" href="/packages/tokens/dist/css/palettes.css">
+  <link rel="stylesheet" href="/packages/core/dist/core.css">
+  <link rel="stylesheet" href="/packages/effects/src/world.css">
+  <link rel="stylesheet" href="/packages/blocks/src/hero.css">
+  <link rel="stylesheet" href="/packages/game/src/sprites.css">
+  <style>
+    @layer press {
+      html, body { margin: 0; overflow: hidden; }
+      .press.chu-hero {
+        --chu-hero-ground: 16;
+        box-sizing: border-box;
+        inline-size: 1200px;
+        block-size: 630px;
+        min-block-size: 0;
+        padding: 0 calc(8 * var(--chu-pixel)) calc(26 * var(--chu-pixel));
+      }
+      .press .chu-hero-inner { gap: calc(4 * var(--chu-pixel)); }
+      .press .chu-hero-title { margin: 0; }
+      .press-pitch { margin: 0; }
+      .press .chu-hero-scenery { display: flex; justify-content: space-between; align-items: end; padding-inline: calc(10 * var(--chu-pixel)); }
+      .press-lollies { display: flex; align-items: end; gap: calc(4 * var(--chu-pixel)); }
+      /* The second blip of each pair is stuck deeper in the meadow. */
+      .press-lollies > :nth-child(2) { margin-block-end: calc(-6 * var(--chu-pixel)); }
+      .press-lollies:last-child { flex-direction: row-reverse; }
+    }
+  </style>
+</head>
+<body>
+  <section class="chu-hero press" aria-labelledby="press-title">
+    <chu-world avoid=".chu-hero-title, .press-pitch, .press-lollies"></chu-world>
+    <div class="chu-hero-inner">
+      <h1 class="chu-hero-title chu-display" id="press-title"><span class="chu-sr-only">Blip</span><span aria-hidden="true"><span class="chu-hero-word"><span class="chu-pop chu-drop-in" data-pop="C" style="--i:0">C</span><span class="chu-pop chu-drop-in" data-pop="h" style="--i:1">h</span><span class="chu-pop chu-drop-in" data-pop="u" style="--i:2">u</span><span class="chu-pop chu-drop-in" data-pop="s" style="--i:3">s</span><span class="chu-pop chu-drop-in" data-pop="k" style="--i:4">k</span><span class="chu-pop chu-drop-in" data-pop="i" style="--i:5">i</span></span></span></h1>
+      <p class="press-pitch chu-display chu-pop" data-scale="1" data-tone="pink" data-pop="A 16-bit pixel-art design system">A 16-bit pixel-art design system</p>
+    </div>
+    <div class="chu-hero-scenery" aria-hidden="true">
+      <span class="press-lollies" data-lollies="pink purple"></span>
+      <span class="press-lollies" data-lollies="orange teal"></span>
+    </div>
+    <div class="chu-hero-ground"></div>
+  </section>
+
+  <script type="module">
+    import { provide } from "@jaatster/blip-core";
+    import { paths, colour } from "/packages/game/dist/_pixels.js";
+
+    // The test page's clock and seed (tests/page/example.js), before the world loads.
+    provide({ clock: () => new Date("2026-06-21T12:00:00"), seed: 42 });
+
+    const root = document.documentElement;
+    const q = new URLSearchParams(location.search);
+    if (/^(day|sunset|night)$/.test(q.get("scheme") ?? "")) root.dataset.chuScheme = q.get("scheme");
+    if (q.get("palette")) root.dataset.chuPalette = q.get("palette");
+
+    // A blip: crushed ice soaked in syrup on a stick. The game kit's sprite format (l c s: the tone's light, base and
+    // shade; w white; k K cream; the ink outline added round the fill), drawn by its renderer.
+    const BLIP = [
+      ".....lllllllll....",
+      "...lllwwllllllcc..",
+      "..llwwwlllllcccs..",
+      ".llwwllccclccccss.",
+      ".lwwlcccccccclccss",
+      "llwlccwccccccccscs",
+      "llllcccccclcccccss",
+      ".lwlcclcccccwcccss",
+      ".llccccccccccccscs",
+      "llcccwcccclcccccss",
+      "lwccccccccccccccs.",
+      "llcclccccwcccscss.",
+      "lllccccccccccccscs",
+      "lwccccwcclccccccss",
+      ".lcccccccccccccsss",
+      ".llclccccccwcccscs",
+      "lwccccclccccccccss",
+      "llccwcccccccsccccs",
+      "llccccccccclccccs.",
+      "lwcclcccwcccccscs.",
+      "llcccccccccccccsss",
+      ".lccccwcclccccccss",
+      ".wclccccccccscccss",
+      "llccccccwcccccsss.",
+      ".scccclcccccccccs.",
+      ".ssccccccccccsssss",
+      "..sssscssssssssss.",
+      "...ss..kkkK..ss...",
+      "...ss..kkkK...s...",
+      ".......kkkK.......",
+      ".......kkkK.......",
+      ".......kkkK.......",
+      ".......kkkK.......",
+      ".......kkkK.......",
+      ".......kkkK.......",
+      ".......kkkK.......",
+      ".......kkkK.......",
+      "........kK........",
+    ];
+    // The one-pixel ink outline round the fill, as the kit's pixels() adds it to its own sprites.
+    function outlined(fill) {
+      const at = (x, y) => (fill[y - 1]?.[x - 1] ?? ".") !== ".";
+      return Array.from({ length: fill.length + 2 }, (_, y) => Array.from({ length: fill[0].length + 2 }, (_, x) =>
+        at(x, y) ? fill[y - 1][x - 1] : at(x - 1, y) || at(x + 1, y) || at(x, y - 1) || at(x, y + 1) ? "o" : ".").join(""));
+    }
+    function blip(tone) {
+      const rows = outlined(BLIP), w = rows[0].length, h = rows.length;
+      let body = "";
+      for (const [key, d] of paths(rows)) body += `<path fill="${colour(key, tone)}" d="${d}"/>`;
+      return `<svg class="chu-sprite" viewBox="0 0 ${w} ${h}" style="--_w:${w};--_h:${h}" shape-rendering="crispEdges" aria-hidden="true">${body}</svg>`;
+    }
+    for (const el of document.querySelectorAll("[data-lollies]")) el.innerHTML = el.dataset.lollies.split(" ").map(blip).join("");
+
+    await import("/packages/effects/dist/world.js");
+    await Promise.all([document.fonts.load(`${10 * 4}px "Pixel Bop"`), document.fonts.ready]);
+    await settle();
+    await frames(2);
+    document.body.dataset.ready = "";
+
+    function settle(quiet = 150, max = 4000) {
+      return new Promise((resolve) => {
+        let timer = setTimeout(done, quiet);
+        const cap = setTimeout(done, max);
+        const watch = new MutationObserver(() => { clearTimeout(timer); timer = setTimeout(done, quiet); });
+        watch.observe(document, { subtree: true, childList: true, attributes: true, characterData: true });
+        function done() { watch.disconnect(); clearTimeout(timer); clearTimeout(cap); resolve(); }
+      });
+    }
+    function frames(n) {
+      return new Promise((resolve) => { const tick = () => (--n <= 0 ? resolve() : requestAnimationFrame(tick)); requestAnimationFrame(tick); });
+    }
+  </script>
+</body>
+</html>

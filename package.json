@@ -25,7 +25,8 @@
     "changeset": "changeset",
     "version-packages": "changeset version && pnpm install --lockfile-only",
     "release": "pnpm build && pnpm budgets && changeset publish",
-    "specimen": "node scripts/serve.mjs specimen"
+    "specimen": "node scripts/serve.mjs specimen",
+    "shoot": "node scripts/shoot.mjs"
   },
   "devDependencies": {
     "@changesets/cli": "^3.0.3",
