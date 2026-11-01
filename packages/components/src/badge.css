@@ -53,7 +53,9 @@
     vertical-align: middle;
   }
   .blip-badge[data-variant="outline"] { --blip-box-text: var(--blip-tone-text); --blip-box-outline: var(--blip-tone-text); }
-  .blip-badge[data-size="sm"] { --_blip-h: 8; --_blip-badge-em: calc(4 / 3); --blip-band-top: 0; --blip-band-bottom: 1; padding: 0 calc(2 * var(--blip-pixel)); }
+  /* Its face ends a pixel early, at the bottom band, so the text sits a pixel up: centred on the face, clear of the
+     band's darker colour wherever the system rounds the baseline down. */
+  .blip-badge[data-size="sm"] { --_blip-h: 8; --_blip-badge-em: calc(4 / 3); --blip-band-top: 0; --blip-band-bottom: 1; padding: 0 calc(2 * var(--blip-pixel)) var(--blip-pixel); }
   .blip-badge[data-size="lg"] { --_blip-h: 12; --_blip-badge-font: var(--blip-size-small); --_blip-badge-em: calc(12 / 7); padding: 0 calc(4 * var(--blip-pixel)); }
   .blip-badge[data-dot] {
     --_blip-h: 6;

@@ -1,7 +1,7 @@
 # @blip/icons
 
 Original icons drawn on a 12 x 12 pixel grid as bold, solid shapes with two-pixel lines, in one colour (`currentColor`): arrows,
-actions, status, media, files, communication and people, commerce, devices, weather and time, and a game set. As SVG files, a
+actions, status, media, files, communication and people, commerce, devices, weather and time, a game set, and GitHub's mark for linking to a repository. As SVG files, a
 sprite, JS path data, `iconSvg()` and the `<blip-icon>` element.
 
 ```sh

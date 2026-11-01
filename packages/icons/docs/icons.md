@@ -9,7 +9,8 @@ status: beta
 
 # Icons
 
-Original icons, drawn by hand on a 12 x 12 pixel grid in one colour. They share their pixel with Pixel Bop and the
+Original icons, drawn by hand on a 12 x 12 pixel grid in one colour, and one brand: GitHub's mark, redrawn on the
+grid, for linking to a repository (it stays GitHub's trademark). They share their pixel with Pixel Bop and the
 candy box, so an icon, a letter and a button corner are made of the same squares. At the default pixel an icon is 24
 CSS px.
 
@@ -115,6 +116,8 @@ only for focus, coins and stars.
 **Game** (17): `sword`, `shield`, `potion`, `key`, `chest`, `trophy`, `crown`, `gem`, `skull`, `map`, `compass`, `dice`, `target`, `rocket`, `critter`, `coin`, `bomb`.
 
 **Miscellaneous** (14): `globe`, `rss`, `code-brackets`, `terminal`, `bug`, `palette`, `brush`, `sparkle`, `lightbulb`, `puzzle`, `location-pin`, `ticket`, `grid`, `chart`.
+
+**Brands** (1): `github`.
 <!-- icons:end -->
 
 ## Drawing a new icon

@@ -15,7 +15,7 @@ Blip is the tiny pop of a 16-bit sound and a dot of light on a screen.
 Blip is one coherent pixel-art world, not a retro costume over a generic kit. Everything you can press is the
 same building block, the candy box: a saturated three-tone fill, a one-pixel ink outline with stepped corners,
 glints and a one-pixel drop. It stands in front of a soft, dithered landscape whose sky follows the clock, from Day
-through Sunset to Night. It has its own display font (Pixel Bop), 188 icons on the same 12 x 12 grid, 53 core
+through Sunset to Night. It has its own display font (Pixel Bop), 189 icons on the same 12 x 12 grid, 53 core
 components, kits for game UI, website blocks, effects and sound, and no image files at all.
 
 It is design tokens in the W3C format, plain layered CSS and dependency-free Web Components, with typed React
@@ -159,7 +159,7 @@ runtime dependencies outside `@blip/*` (React is a peer of the React package).
 | `@blip/core` | The building blocks: the pixel, the candy box, type, stepped motion and base styles; `BlipElement`, roving focus, typeahead, dismiss, timelines, the scheme clock and swappable services | CSS 6.5 KB, JS 3 KB | 6.04 KB, 2.88 KB |
 | `@blip/components` | The 61 core components as layered CSS, phone ones included: one file, or one per component | 34 KB, all of it | 31.18 KB |
 | `@blip/elements` | 22 light-DOM Web Components for the components that need behaviour, with a Custom Elements Manifest | 3 KB each | 1.05 to 3.00 KB |
-| `@blip/icons` | 188 original icons on a 12 x 12 grid: SVG files, a sprite, JS path data and `<blip-icon>` | 6 KB, all the path data | 5.59 KB |
+| `@blip/icons` | 189 icons on a 12 x 12 grid: SVG files, a sprite, JS path data and `<blip-icon>` | 6 KB, all the path data | 5.59 KB |
 | `@blip/font` | Pixel Bop, the display face (WOFF2 and TTF), and a Latin subset of Pixelify Sans | Pixel Bop 15 KB (file size) | 8.52 KB |
 | `@blip/react` | Typed React components for every component and kit | none: no side effects, one export each | |
 | **Kits** | | | |

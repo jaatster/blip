@@ -44,6 +44,7 @@ const CATEGORIES = {
   weather: "Weather and time",
   game: "Game",
   misc: "Miscellaneous",
+  brands: "Brands",
 };
 
 // ------------------------------------------------------------------------------------------------ read and check
