@@ -54,8 +54,9 @@ Each must pass `pnpm qa <name>`.
 - **The site's address:** the docs are served under `/blip` (Astro `base`) and know their full address,
   https://jaatster.com/blip. That covers every path, the link preview and the search index.
 - **shadcn registry:** its address becomes `https://jaatster.com/blip/r/{name}.json`.
-- **Cloudflare:** a new Pages project, `blip`, holds the docs. A small Worker on `jaatster.com/blip*` passes
-  requests to it, so the existing jaatster.com project stays untouched.
+- **Cloudflare:** a `blip` Worker serves the docs' files on the route `jaatster.com/blip*`, so the existing
+  jaatster.com project stays untouched. (Planned as a Pages project behind a proxy Worker; Pages now runs on
+  Workers, so one Worker with static files does both. Done 2026-11-02: `scripts/deploy-docs.mjs`.)
 - **Check:** every page and asset loads, the link preview and the registry work, and the home page at jaatster.com
   is unchanged.
 - **Nothing else goes public:** nothing is pushed to GitHub or published to npm.
