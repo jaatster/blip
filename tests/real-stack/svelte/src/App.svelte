@@ -42,7 +42,7 @@
     <button class="blip-box blip-button" type="button" id="open-dialog" onclick={() => (open = true)}>Load game</button>
     <p id="dialog-state">{open ? "open" : "closed"}</p>
     <!-- Bound as the start page says. -->
-    <blip-dialog open={open || undefined} onpp-close={() => (open = false)}>
+    <blip-dialog open={open || undefined} onblip-close={() => (open = false)}>
       <dialog class="blip-box blip-dialog" id="save" aria-labelledby="save-title">
         <header class="blip-dialog-header"><h2 class="blip-dialog-title" id="save-title">Load game</h2></header>
         <div class="blip-dialog-body">Slot 2 will be replaced.</div>

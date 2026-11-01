@@ -142,7 +142,7 @@ import App from "./App.vue";
 
 createApp(App).mount("#app");`, "ts", "Vue");
 const vueBoolean = await codeBlock(`<blip-dialog :open="open || undefined" @blip-close="open = false">…</blip-dialog>`, "html", "Vue");
-const svelteBoolean = await codeBlock(`<blip-dialog open={open || undefined} onpp-close={() => (open = false)}>…</blip-dialog>`, "html", "Svelte");
+const svelteBoolean = await codeBlock(`<blip-dialog open={open || undefined} onblip-close={() => (open = false)}>…</blip-dialog>`, "html", "Svelte");
 const booleans = booleanAttributes();
 // Which boolean attributes the elements read as off when they say "false" (their manifests say so).
 const offNames = [...new Set(booleans.flatMap((b) => b.falseIsOff))].sort();
