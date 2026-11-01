@@ -57,6 +57,7 @@ function modules(dir, base = dir) {
 }
 
 const defines = {}; // tag -> URL of the module that defines it
+const deps = {}; // module URL -> the URLs of the package's own modules it imports (preloaded with it, Base.astro)
 let jsBytes = 0;
 async function copyModules(name, from, to) {
   for (const rel of modules(from)) {
@@ -68,6 +69,8 @@ async function copyModules(name, from, to) {
     jsBytes += code.length;
     const url = `/blip/${to}/${rel}`.replaceAll("\\", "/");
     for (const m of source.matchAll(/define\(\s*"(blip-[a-z0-9-]+)"/g)) defines[m[1]] ??= url;
+    const own = [...code.matchAll(/(?:\bimport|\bfrom)\s*["'](\.\.?\/[^"']+)["']/g)].map((m) => new URL(m[1], `https://x${url}`).pathname);
+    if (own.length) deps[url] = [...new Set(own)];
   }
 }
 
@@ -197,7 +200,7 @@ const kits = {
   font: { display: statSync(pkg("font", "dist", "pixel-bop.woff2")).size, ui: statSync(pkg("font", "dist", "pixelify-sans.woff2")).size },
 };
 
-writeFileSync(join(GEN, "assets.json"), JSON.stringify({ importMap, defines, coreModules, budgets, budgetsFrom: ci ? "scripts/budgets.mjs" : "docs", elements, kits }, null, 2) + "\n");
+writeFileSync(join(GEN, "assets.json"), JSON.stringify({ importMap, defines, deps, coreModules, budgets, budgetsFrom: ci ? "scripts/budgets.mjs" : "docs", elements, kits }, null, 2) + "\n");
 console.log(`docs: staged the packages in public/blip (${Object.keys(defines).length} elements, ${(jsBytes / 1024).toFixed(1)} KB of minified modules)`);
 for (const b of budgets) console.log(`  ${b.label.padEnd(20)} ${(b.bytes / 1024).toFixed(1).padStart(5)} KB of ${b.limit / 1024} KB${b.bytes > b.limit ? "  OVER" : ""}`);
 

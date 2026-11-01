@@ -398,3 +398,25 @@ addEventListener("storage", (e) => {
   syncSound();
 });
 syncSound();
+
+// ------------------------------------------------------------------ the next page, ahead
+
+// Chrome and Edge draw the page under the pointer ahead (the speculation rules in Base.astro). Where pages can't be
+// drawn ahead (Safari, Firefox), a link held under the pointer, or touched, is fetched: pages stay fresh for a minute
+// (deploy _headers), so the click opens it from the cache.
+if (!("prerendering" in document)) {
+  const fetched = new Set();
+  let wait;
+  const ahead = (a) => {
+    const url = new URL(a.href, location.href);
+    if (url.origin !== location.origin || url.pathname === location.pathname || fetched.has(url.pathname) || a.target || a.hasAttribute("download")) return;
+    fetched.add(url.pathname);
+    fetch(url.pathname, { credentials: "same-origin", priority: "low" }).catch(() => fetched.delete(url.pathname));
+  };
+  document.addEventListener("pointerover", (e) => {
+    clearTimeout(wait);
+    const a = e.target.closest?.("a[href]");
+    if (a) wait = setTimeout(() => ahead(a), 65);
+  }, { passive: true });
+  document.addEventListener("touchstart", (e) => { const a = e.target.closest?.("a[href]"); if (a) ahead(a); }, { passive: true });
+}

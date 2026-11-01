@@ -27,6 +27,12 @@ const tags = new Set([...html.matchAll(/<(blip-[a-z0-9-]+)[\s>/]/g)].map((m) => 
 // Behaviour some markup asks for by attribute rather than by tag.
 const byAttribute: [RegExp, string][] = [[/data-blip-burst=/, "/blip/effects/burst.js"]];
 const modules = [...new Set([...[...tags].map((t) => a.defines[t]), ...byAttribute.filter(([re]) => re.test(html)).map(([, m]) => m)].filter((m): m is string => !!m))];
+// Every module the page runs, in one wave: core (site.js imports it on every page), the elements' modules and the
+// package files they import, so none waits for the one before it to arrive.
+const preload = [...new Set([...a.coreModules, ...modules.flatMap(function all(m: string): string[] { return [m, ...(a.deps?.[m] ?? []).flatMap(all)]; })])];
+// The page under the pointer (or the finger, on a phone) is drawn ahead, so a click shows it at once.
+// Browsers that only prefetch (Safari) take the prefetch rule; Chrome prefers the prerender.
+const speculation = { prerender: [{ where: { href_matches: "/*" }, eagerness: "moderate" }], prefetch: [{ where: { href_matches: "/*" }, eagerness: "moderate" }] };
 const pageTitle = title === "Blip" ? title : `${title} · Blip`;
 // The docs' own address (astro.config.mjs's site), which may have a path: /blip on jaatster.com.
 const home = Astro.site!.href.replace(/\/?$/, "/");
@@ -93,12 +99,11 @@ const presets = Object.keys(tokens().palettes ?? {}).join(" ");
     {kits.map((k) => <link rel="stylesheet" href={`/blip/${k}/${k}.css`} />)}
     <link rel="stylesheet" href="/css/docs.css" />
     {styles.map((s) => <link rel="stylesheet" href={`/css/${s}.css`} />)}
-    {modules.length > 0 && a.coreModules.map((m) => <link rel="modulepreload" href={m} />)}
-    {modules.map((m) => <link rel="modulepreload" href={m} />)}
+    {preload.map((m) => <link rel="modulepreload" href={m} />)}
     <script type="module" src="/js/site.js"></script>
     {modules.length > 0 && <script type="module" set:html={modules.map((m) => `import "${m}";`).join("")} />}
     {scripts.map((s) => <script type="module" src={`/js/${s}.js`}></script>)}
-    <script type="speculationrules" set:html={JSON.stringify({ prefetch: [{ where: { href_matches: "/*" }, eagerness: "moderate" }] })} />
+    <script type="speculationrules" set:html={JSON.stringify(speculation)} />
   </head>
   <body class={bodyClass}>
     <Fragment set:html={html} />

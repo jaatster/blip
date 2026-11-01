@@ -414,7 +414,9 @@ async function check(name, browser, smoke, packs) {
       try {
         // A warning from a build is a rule dropped or a module skipped, as the minifiers once did with Blip's CSS.
         const out = await run("npm", ["run", r.build], { cwd: dir, log, both: true });
-        const warnings = out.split("\n").filter((l) => /\bwarn(ings?)?\b|\u26a0/i.test(l));
+        // Not about Blip: Next.js on a fresh machine (CI) has no build cache yet, and says so.
+        const benign = /No build cache found/;
+        const warnings = out.split("\n").filter((l) => /\bwarn(ings?)?\b|\u26a0/i.test(l) && !benign.test(l));
         if (warnings.length) throw new Error(`the build warned:\n${warnings.slice(0, 10).map((l) => `    ${l.trim()}`).join("\n")}`);
         entry.steps.push({ step: "build", ok: true, ms: Date.now() - t0 });
       } catch (e) {

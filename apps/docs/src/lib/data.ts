@@ -335,6 +335,8 @@ export interface Budget {
 export interface Assets {
   importMap: { imports: Record<string, string> };
   defines: Record<string, string>;
+  /** Each module's imports of its own package's modules (relative), for preloading them together. */
+  deps?: Record<string, string[]>;
   coreModules: string[];
   budgets: Budget[];
   elements: { name: string; bytes: number }[];
