@@ -1,0 +1,25 @@
+{
+  "name": "pp-stack-tailwind",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 4615 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --port 4615 --strictPort"
+  },
+  "dependencies": {
+    "@jaatster/blip-components": "*",
+    "@jaatster/blip-core": "*",
+    "@jaatster/blip-font": "*",
+    "@jaatster/blip-react": "*",
+    "@jaatster/blip-tokens": "*",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^6.1.2",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.5"
+  }
+}

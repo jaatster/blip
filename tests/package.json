@@ -3,14 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Blip's unit tests (Vitest), visual regression and accessibility scans (Playwright).",
+  "description": "Blip's unit tests (Vitest), visual regression, accessibility scans and condition lanes (Playwright).",
   "license": "MIT",
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
     "test:visual": "playwright test --project=visual",
     "test:visual:update": "playwright test --project=visual --update-snapshots=all",
-    "test:a11y": "playwright test --project=a11y"
+    "test:a11y": "playwright test --project=a11y",
+    "test:conditions": "playwright test --project=conditions"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
@@ -27,6 +28,8 @@
     "@playwright/test": "^1.64.1",
     "@types/node": "^26.6.6",
     "@vitest/browser-playwright": "^5.0.5",
+    "esbuild": "^0.28.2",
+    "lightningcss": "^1.33.0",
     "playwright": "^1.64.1",
     "vitest": "^5.0.5"
   }

@@ -1,0 +1,18 @@
+{
+  "name": "pp-stack-astro",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --port 4616",
+    "build": "astro build",
+    "preview": "astro preview --port 4616"
+  },
+  "dependencies": {
+    "@jaatster/blip-components": "*",
+    "@jaatster/blip-core": "*",
+    "@jaatster/blip-elements": "*",
+    "@jaatster/blip-font": "*",
+    "@jaatster/blip-tokens": "*",
+    "astro": "^7.4.4"
+  }
+}

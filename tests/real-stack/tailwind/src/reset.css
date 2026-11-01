@@ -1,0 +1,6 @@
+/* An app's own reset, as the common ones go: bare elements only. */
+*, ::before, ::after { box-sizing: border-box; margin: 0; padding: 0; border: 0 solid; }
+html { line-height: 1.5; -webkit-text-size-adjust: 100%; }
+button, input, select, textarea { font: inherit; letter-spacing: inherit; color: inherit; background: transparent; }
+button { cursor: pointer; text-transform: none; }
+a { color: inherit; text-decoration: inherit; }

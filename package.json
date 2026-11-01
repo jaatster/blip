@@ -17,6 +17,7 @@
     "budgets": "node scripts/budgets.mjs",
     "test": "pnpm --filter @jaatster/blip-tests test",
     "test:visual": "pnpm --filter @jaatster/blip-tests test:visual",
+    "test:conditions": "pnpm --filter @jaatster/blip-tests test:conditions",
     "test:react": "pnpm --filter @jaatster/blip-react test",
     "check": "pnpm cem:check && pnpm lint:css && pnpm budgets && pnpm --filter @jaatster/blip-react typecheck",
     "changeset": "changeset",

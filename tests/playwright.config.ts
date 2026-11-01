@@ -5,6 +5,10 @@
  *   pnpm --filter @jaatster/blip-tests test:visual          compare with the baselines in visual/__screenshots__/<platform>
  *   pnpm --filter @jaatster/blip-tests test:visual:update   write new baselines (review them before committing)
  *   pnpm --filter @jaatster/blip-tests test:a11y            axe, WCAG 2.2 AA, every example in Day and Night
+ *   pnpm --filter @jaatster/blip-tests test:conditions      every example under real conditions, measured, not shot:
+ *                                                       contrast as rendered, seams at 125% to 262.5%, forced colours,
+ *                                                       right to left, long words, other scripts, print and motion
+ *                                                       (conditions/README.md; one lane: add its file name)
  *
  * Baselines are per platform (font rasterising differs): Linux CI keeps its own, made in CI or in the Playwright
  * Docker image.
@@ -45,5 +49,6 @@ export default defineConfig({
   projects: [
     { name: "visual", testDir: "./visual" },
     { name: "a11y", testDir: "./a11y" },
+    { name: "conditions", testDir: "./conditions" },
   ],
 });

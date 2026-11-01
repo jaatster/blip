@@ -63,7 +63,8 @@ pnpm build
 | `pnpm test:react` | The React wrappers in jsdom, under React 19 and React 18. |
 | `pnpm --filter @jaatster/blip-storybook dev` | Storybook at http://localhost:6006. `build` writes `storybook-static`; `test` runs every story as a test, with axe, in Day and in Night. |
 | `pnpm --filter @jaatster/blip-docs dev` | The docs site, locally. `build` writes the static site; `preview` serves the build. |
-| `pnpm cem` | Writes the Custom Elements Manifests from the elements' JSDoc. `pnpm cem:check` fails if one is out of date. |
+| `pnpm cem` | Writes the Custom Elements Manifests from the elements' JSDoc. `pnpm cem:check` fails if one is out of date. Then run `node scripts/contract-elements.mjs`, which writes CONTRACT.md's table of elements from them. |
+| `node scripts/diagnostics.mjs` | Writes CONTRACT.md's table of diagnostic codes from the source; `--check` fails if it is out of date. |
 | `pnpm lint:css` | Regenerates the list of public custom properties, then lints every package's CSS with Blip's rules. |
 | `pnpm --filter @jaatster/blip-stylelint-config test` | Tests the lint rules themselves. |
 | `pnpm budgets` | Checks the size budgets after a build; fails if anything is over. |
@@ -139,9 +140,12 @@ Packs as data are planned, not built: there is no pack schema or loader yet, so 
 What works today:
 
 - **A palette** (an accent for each time of day): the docs site's theme builder (`/theme/`) works out the light
-  and shade bands, checks every label against AA, and exports DTCG token files for Day, Sunset and Night, a resolver
-  that loads them after Blip's own, and the same as CSS to load after `tokens.css`. A `palette` modifier in
-  `blip.resolver.json` is the plan; the token build handles only `scheme` and `pixel` today.
+  and shade bands, nudges a colour until its ink labels pass AA (or holds the export back when you keep it exact),
+  warns when the accent looks like an intent or like the focus yellow, and exports DTCG token files for Day, Sunset
+  and Night, a resolver that loads them after Blip's own, and the same as CSS to load after `tokens.css`.
+  `npx blip-tokens my-theme.resolver.json` builds those token files into a `tokens.css` through the same checks
+  as Blip's own. The builder's page also says how to set the six roles by hand. A `palette` modifier in `blip.resolver.json` is the plan;
+  the token build handles only `scheme` and `pixel` today.
 - **A world palette**: `<pp-world>` paints with the `--pp-world-*` tokens (28 colours for each time of day, and the
   shared sky colours), so overriding them repaints the backdrop without any code.
 - **A new landscape** is code today (`packages/effects/src/world.ts`), not data.
@@ -150,7 +154,9 @@ What works today:
 
 Development warnings go through `warn(code, message, element)` from `@jaatster/blip-core`. Pick a code in the right
 range (CONTRACT.md lists them), never reuse one for a different problem, and add a note for it in
-`apps/docs/src/lib/diagnostics-notes.ts`; the diagnostics page lists every code it finds in the source.
+`apps/docs/src/lib/diagnostics-notes.ts`; the diagnostics page lists every code it finds in the source. Then run
+`node scripts/diagnostics.mjs`, which writes CONTRACT.md's table of codes from the source (`pnpm test` fails until
+the table matches; a new prefix needs a line in the script's `RANGES`).
 
 ## Before you open a pull request
 
@@ -202,8 +208,9 @@ Every package has its own version. When a change should reach users, add a chang
 pnpm changeset      # pick the packages, the bump (patch, minor, major) and write one line for the changelog
 ```
 
-A change that breaks the public contract is a major bump; while a package is 0.x, use minor for it. Fixes are
-patches, and new public API is a minor. Changes that users cannot see (tests, docs tooling) need no changeset.
+A change that breaks the public contract is a major bump; while a package is 0.x, use minor for it. A change to a
+beta part's API is a minor too (CONTRACT.md, "Stable and beta"), and its line says what to do. Fixes are patches,
+and new public API is a minor. Changes that users cannot see (tests, docs tooling) need no changeset.
 
 Releases run from `main` (`.github/workflows/release.yml`): pending changesets become a "Version packages" pull
 request (`pnpm version-packages`: new versions, changelogs and an updated lockfile). Merging it publishes every
@@ -211,3 +218,27 @@ version that is not on npm yet (`pnpm release`: build, budgets, `changeset publi
 when the repository has an `NPM_TOKEN` secret; without one, the version pull requests still work and nothing is
 published. The first release publishes every package at its current version (0.1.0, and 0.2.0 for
 `@jaatster/blip-font`), as `.changeset/first-release.md` records. Nothing is published without the owner's go-ahead.
+
+## The real-stack check
+
+The other tests use tools the repository picked. `scripts/real-stack.mjs` checks Blip the way an adopter gets
+it: it packs every package with `pnpm pack`, installs the tarballs and a framework from npm into small apps that
+follow the README and the start page to the letter (`tests/real-stack/`: React with Vite, Vue, Svelte, Next.js
+with Turbopack and with webpack, React with Tailwind CSS, and Astro), runs each framework's production build and
+dev server, and opens every app in Chromium. In each, the fonts load and a button is a candy box; a dialog opens
+and closes from the app's state; tabs, combobox options and a field's error that arrive after load are wired; with
+Vue and Svelte, a dialog defined after mounting stays closed; with Tailwind, its utilities win and a button keeps
+every pixel; with React, a page with only `Button` or only `Tabs` stays small. A console error, a failed request or
+a build warning fails it too. CI runs it on every pull request.
+
+```sh
+pnpm build                        # it packs packages/*/dist as they are
+node scripts/real-stack.mjs       # every app: a few minutes the first time, under a minute after that
+node scripts/real-stack.mjs next  # one app: react, vue, svelte, next, tailwind or astro
+```
+
+It needs network access to npm. The apps are made in `pp-stack` in the system's temporary folder (`--dir` picks
+another) and keep their installs there between runs (`--clean` starts again); `--no-dev` skips the dev servers.
+Each app's commands and server output are in `<app>/real-stack.log`, with a picture of the page for each check that
+fails. To look at an app yourself after a run, `cd` into its folder and `npm run dev`. The apps use ports 4611 to
+4616.

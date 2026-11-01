@@ -1,0 +1,30 @@
+{
+  "name": "pp-stack-next",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --hostname localhost --port 4614",
+    "build": "next build",
+    "start": "next start --hostname localhost --port 4614",
+    "dev:webpack": "next dev --webpack --hostname localhost --port 4614",
+    "build:webpack": "next build --webpack"
+  },
+  "dependencies": {
+    "@jaatster/blip-blocks": "*",
+    "@jaatster/blip-components": "*",
+    "@jaatster/blip-core": "*",
+    "@jaatster/blip-effects": "*",
+    "@jaatster/blip-font": "*",
+    "@jaatster/blip-game": "*",
+    "@jaatster/blip-react": "*",
+    "@jaatster/blip-tokens": "*",
+    "next": "^16.4.3",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "typescript": "^5"
+  }
+}
