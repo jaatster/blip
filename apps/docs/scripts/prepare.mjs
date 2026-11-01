@@ -6,6 +6,8 @@
 //                                would)
 //   src/generated/assets.json    the import map, which module defines which element, and sizes measured against
 //                                the plan's budgets
+//   public/r/                     the shadcn registry: registry.json and one <item>.json each, written from the
+//                                docs and the React source by scripts/registry.mjs (served as /r/<item>.json)
 //
 // Run by `pnpm --filter @jaatster/blip-docs build` (and dev). Build the packages first:
 //   pnpm -r --filter "./packages/**" run build
@@ -15,6 +17,7 @@ import { fileURLToPath } from "node:url";
 import { gzipSync } from "node:zlib";
 import { execFileSync } from "node:child_process";
 import { build, transform } from "esbuild";
+import { build as buildRegistry, problems as registryProblems, write as writeRegistry } from "../../../scripts/registry.mjs";
 
 const APP = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const ROOT = resolve(APP, "../..");
@@ -197,3 +200,14 @@ const kits = {
 writeFileSync(join(GEN, "assets.json"), JSON.stringify({ importMap, defines, coreModules, budgets, budgetsFrom: ci ? "scripts/budgets.mjs" : "docs", elements, kits }, null, 2) + "\n");
 console.log(`docs: staged the packages in public/chu (${Object.keys(defines).length} elements, ${(jsBytes / 1024).toFixed(1)} KB of minified modules)`);
 for (const b of budgets) console.log(`  ${b.label.padEnd(20)} ${(b.bytes / 1024).toFixed(1).padStart(5)} KB of ${b.limit / 1024} KB${b.bytes > b.limit ? "  OVER" : ""}`);
+
+// ------------------------------------------------------------------ the shadcn registry
+
+const registry = buildRegistry({ root: ROOT });
+const invalid = registryProblems(registry, ROOT);
+if (invalid.length) {
+  console.error(`docs: the shadcn registry does not match shadcn's schema:\n  ${invalid.join("\n  ")}`);
+  process.exit(1);
+}
+writeRegistry(registry, join(APP, "public/r"));
+console.log(`docs: wrote the shadcn registry in public/r (${registry.items.size} items)`);

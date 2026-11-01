@@ -39,6 +39,10 @@
     --chu-drop-size: 2;
     /* The box makes things position: relative; in the top layer that would become absolute and scroll away. */
     position: fixed;
+    /* Centred, as the browser centres a modal dialog: said here too, so a reset that clears every margin (Tailwind's
+       preflight, under Blip) does not pin it to the top left. */
+    inset: 0;
+    margin: auto;
     inline-size: round(down, min(calc(var(--_chu-w) * var(--chu-pixel)), 100% - 16 * var(--chu-pixel)), var(--chu-pixel));
     max-inline-size: none;
     max-block-size: round(down, 100% - 16 * var(--chu-pixel), var(--chu-pixel));

@@ -9,11 +9,12 @@ import Example from "../../components/Example.astro";
 import Table from "../../components/Table.astro";
 import Pager from "../../components/Pager.astro";
 import { APG, apgUrl, componentDocs, docLink, example, idsIn, snippet, type Doc } from "../../lib/data";
-import { renderMarkdown, type Heading } from "../../lib/markdown";
+import { codeBlock, renderMarkdown, type Heading } from "../../lib/markdown";
 import { elementReference } from "../../lib/cem";
 import { code, esc, kitsFor, stripTags } from "../../lib/html";
 import { reactSection } from "../../lib/react-section";
 import { anatomyFigure } from "../../lib/anatomy";
+import { SHADCN_NAMESPACE, shadcnItemFor } from "../../lib/shadcn";
 
 export function getStaticPaths() {
   return componentDocs().map((doc) => ({ params: { slug: doc.slug }, props: { doc } }));
@@ -43,6 +44,9 @@ const refs = elements.map((t) => elementReference(t)).filter((x) => !!x);
 // React: the components @jaatster/blip-react has for this page today, their examples and props, read from its source.
 const react = await reactSection(doc, ex?.html ?? null);
 const preferred = doc.pkg === "components" || doc.pkg === "elements" ? "@jaatster/blip-react" : `@jaatster/blip-react/${doc.pkg}`;
+// shadcn/ui: the registry item that copies this page's React file into an app (scripts/registry.mjs), if it has one.
+const shadcn = shadcnItemFor(doc);
+const shadcnCode = shadcn ? await codeBlock(shadcn.command, "sh", "Terminal") : "";
 
 const headings: Heading[] = [
   ...(ex ? [{ depth: 2, id: "example", text: "Example" }] : []),
@@ -53,6 +57,7 @@ const headings: Heading[] = [
   ...(react ? [{ depth: 3, id: "react-props", text: `${react.main.name} props` }] : []),
   ...(react?.parts.length ? [{ depth: 3, id: "react-parts", text: "Parts" }] : []),
   ...(react?.functions ?? []).map((f) => ({ depth: 3, id: `react-${f.name}`, text: `${f.name}()` })),
+  ...(react && shadcn ? [{ depth: 3, id: "react-shadcn", text: "With shadcn/ui" }] : []),
 ];
 const statusTone = meta.status === "stable" ? "success" : meta.status === "beta" ? "info" : "warning";
 // The command palette's own example already answers to Ctrl+K: the site's search steps aside to "/".
@@ -163,6 +168,14 @@ const searchShortcut = ex && /<chu-command[\s>]/.test(ex.html) ? "/" : undefined
           {f.examples.map((e) => <Fragment set:html={e} />)}
         </Fragment>
       ))}
+
+      {shadcn && (
+        <Fragment>
+          <h3 id="react-shadcn">With shadcn/ui</h3>
+          <p>In an app set up with shadcn/ui, the CLI copies these components into <code class="docs-inline-code">{shadcn.files[0]}</code>, yours to edit, with Blip's CSS from npm. Add the <code class="docs-inline-code">{SHADCN_NAMESPACE}</code> registry first: <a href="/start/#shadcn">Use with shadcn/ui</a>.</p>
+          <Fragment set:html={shadcnCode} />
+        </Fragment>
+      )}
     </section>
   )}
   {!react && meta.react && (

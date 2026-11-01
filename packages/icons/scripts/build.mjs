@@ -462,7 +462,7 @@ ${row([
   `<chu-icon name="wifi" label="Connected"></chu-icon>`,
   `<chu-icon name="battery-half" label="Battery half full"></chu-icon>`,
   `<chu-icon name="gamepad" data-size="lg"></chu-icon>`,
-], "&lt;chu-icon&gt;")}
+], "Element")}
 
 ${set.join("\n\n")}
 `;

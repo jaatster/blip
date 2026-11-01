@@ -1,6 +1,6 @@
 /**
- * Window: a pixel window for game menus, pause screens and retro dashboards, with its title bar, controls, body and
- * status bar. CSS from @jaatster/blip-components (window.css). It does not drag.
+ * Window: Window, WindowBar, WindowTitle, WindowControls, WindowControl, WindowBody and WindowStatus. CSS from
+ * @jaatster/blip-components (window.css).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";
@@ -19,6 +19,7 @@ export interface WindowOwnProps {
   /** Corner radius in pixels, 0 to 8 (4 by default). `data-chu-r`. */
   radius?: Radius;
 }
+
 export type WindowProps<T extends ElementType = "section"> = PolymorphicProps<T, WindowOwnProps>;
 
 /**

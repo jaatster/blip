@@ -55,6 +55,7 @@ pnpm build
 | `pnpm build:tokens` | Builds the tokens only. `pnpm --filter @jaatster/blip-tokens check` validates them and checks contrast without writing. |
 | `node scripts/serve.mjs [path] [--port 4173]` | Serves the repository root at http://localhost:4173, so pages can load `packages/*/dist`. `pnpm specimen` opens the specimen. |
 | `node scripts/gallery.mjs` | Rewrites `specimen/gallery.json` after you add a stylesheet, module or example. The gallery is `/specimen/gallery.html?only=button,tabs&scheme=night`. |
+| `pnpm shoot` | Draws the social card, `specimen/press.html` (`?scheme=night`, `?palette=grape`), at 1200 x 630 in Playwright's Chromium, with the tests' frozen clock and seed and reduced motion, and saves it as `apps/docs/public/og.png` and `og-night.png`. The same build gives the same bytes. It uses the server on port 4173 if that serves this checkout, and starts its own otherwise (`CHU_SHOOT_PORT`, 4181). |
 | `node scripts/shoot.mjs <dir> "<path>=<name>" … [--width 1280] [--height 900] [--full] [--scale 1]` | Screenshots pages of the running server, with reduced motion. It uses Chrome if it is installed (`CHU_BROWSER` picks another channel), Playwright's Chromium otherwise. |
 | `pnpm test` | Unit tests: build tools and pure functions in Node, everything that needs a DOM in Chromium. |
 | `pnpm test:visual` | Every example in Day, Sunset and Night at 1280 px (and the responsive ones at 390 px), compared pixel for pixel with the baselines. |
@@ -100,7 +101,9 @@ AUTHORING.md has the rules for all of these. The steps:
    `BlipElement`, tag and events `chu-<name>`, every listener and timer on `this.signal`, JSDoc for the manifest.
    Run `pnpm cem`.
 6. React: element wrappers are generated from the manifests by `pnpm --filter @jaatster/blip-react build`. For a CSS
-   component, add its component and its parts by hand to the matching file in `packages/react/src/components/`.
+   component, add its component and its parts by hand in a file of its own, named like its docs page:
+   `packages/react/src/components/<name>.tsx` (kits: `components/game/`, `components/blocks/`), exported from the
+   package's entry. One file per page is what the shadcn registry installs (`scripts/registry.mjs`).
 7. Run `node scripts/gallery.mjs`, then look at it in all three schemes, and zoomed (AUTHORING.md, "Checking your
    work"): crisp stepped corners, ink outlines, no blur, every state distinct, nothing overflowing.
 8. Add its name to its group in `apps/docs/src/lib/data.ts` (it is listed under "More" otherwise). If it changes

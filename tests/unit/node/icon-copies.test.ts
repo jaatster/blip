@@ -41,7 +41,7 @@ describe("inline icons", () => {
   });
 
   it("the React search field's magnifier is the search icon", () => {
-    const text = readFileSync(join(REPO, "packages/react/src/components/forms.tsx"), "utf8");
+    const text = readFileSync(join(REPO, "packages/react/src/components/search.tsx"), "utf8");
     const literal = /const magnifier =\s*((?:"[^"]*"\s*\+?\s*)+);/.exec(text)?.[1] ?? "";
     const path = [...literal.matchAll(/"([^"]*)"/g)].map((m) => m[1]).join("");
     expect(paths.get(path)).toBe("search");

@@ -46,3 +46,11 @@ export const flag = (on: boolean | undefined): "" | undefined => (on ? "" : unde
 
 /** Props of an element type, without ref, minus the component's own. */
 export type NativeProps<T extends ElementType, Own = object> = Omit<ComponentPropsWithoutRef<T>, keyof Own>;
+
+/**
+ * An icon-only button is square and needs a name: `aria-label` (the action, "Add level", not the icon) or
+ * `aria-labelledby`.
+ */
+export type IconOnly =
+  | { iconOnly?: false }
+  | ({ iconOnly: true } & ({ "aria-label": string } | { "aria-labelledby": string }));

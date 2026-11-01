@@ -1,5 +1,5 @@
 ---
-/** Get started: install, the CSS in its order, elements, React, frameworks, the theme switches, Auto, motion, diagnostics. */
+/** Get started: install, the CSS in its order, Tailwind, shadcn/ui, elements, React, frameworks, the theme switches, Auto, motion, diagnostics. */
 import Docs from "../../layouts/Docs.astro";
 import Table from "../../components/Table.astro";
 import Pager from "../../components/Pager.astro";
@@ -11,11 +11,12 @@ import { cdnStylesheets, cdnUrl } from "../../lib/install";
 import { code, esc } from "../../lib/html";
 import { booleanAttributes } from "../../lib/cem";
 import { reactEntryFor } from "../../lib/react";
+import { addCommand, REGISTRY_URL, SHADCN_NAMESPACE, setupImports, shadcnItems, THEME_MAP } from "../../lib/shadcn";
 
 const a = assets();
 const v = pkgVersion("components");
 const H = (id: string, text: string) => ({ depth: 2, id, text });
-const headings = [H("install", "Install"), H("css", "CSS, in order"), H("tailwind", "With Tailwind or your own CSS"), H("elements", "Web Components"), H("react", "React"), H("frameworks", "Frameworks"), H("theming", "Theming: two switches"), H("auto", "Auto: the clock"), H("motion", "Reduced motion"), H("languages", "Right to left and other languages"), H("diagnostics", "Diagnostics")];
+const headings = [H("install", "Install"), H("css", "CSS, in order"), H("tailwind", "With Tailwind or your own CSS"), H("shadcn", "Use with shadcn/ui"), H("elements", "Web Components"), H("react", "React"), H("frameworks", "Frameworks"), H("theming", "Theming: two switches"), H("auto", "Auto: the clock"), H("motion", "Reduced motion"), H("languages", "Right to left and other languages"), H("diagnostics", "Diagnostics")];
 
 // One set of packages for every package manager, and the CDN's files instead (lib/install.ts).
 const installLines = [
@@ -71,6 +72,37 @@ const ownCss = await codeBlock(`@import "@jaatster/blip-core/layers.css";
 @import "./reset.css" layer(base);         /* button { … }, a { … }: under Blip */
 @import "@jaatster/blip-tokens/tokens.css";
 /* … */`, "css", "CSS");
+// shadcn/ui: the registry's items and what they write, from scripts/registry.mjs (lib/shadcn.ts).
+const registryItems = shadcnItems();
+const shadcnConfig = await codeBlock(`{
+  "registries": {
+    "${SHADCN_NAMESPACE}": "${REGISTRY_URL}"
+  }
+}`, "json", "components.json");
+const shadcnAdd = await codeBlock(`${addCommand("theme", "button")}
+${addCommand("dialog", "tabs")}   # more, as you need them`, "sh", "Terminal");
+const shadcnCss = await codeBlock(`@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+${setupImports().join(";\n")};`, "css", "CSS, after npx shadcn add");
+const shadcnUse = await codeBlock(`<!doctype html>
+<html lang="en" data-chu-scheme="day">   <!-- or sunset, night; data-chu-palette="grape" for a preset -->`, "html", "index.html");
+const themeRows = Object.entries(THEME_MAP).map(([v, role]) => [code(`--${v}`), code(`--chu-${role}`)]);
+const buttonProps = [
+  [code('variant="default"'), `the default, ${code('variant="candy"')}`],
+  [code('variant="secondary"'), code('variant="soft"')],
+  [code('variant="outline"'), code('variant="outline"')],
+  [code('variant="ghost"'), code('variant="ghost"')],
+  [code('variant="destructive"'), `${code('tone="danger"')}, with any variant`],
+  [code('variant="link"'), `${code("<Link>")}, or ${code("<ButtonLink>")} for a link that looks like a button`],
+  [code('size="sm" | "default" | "lg"'), code('size="sm" | "md" | "lg"')],
+  [code('size="icon"'), `${code("iconOnly")}, with an ${code("aria-label")}`],
+];
+const itemRows = registryItems.map((i) => [
+  code(`${SHADCN_NAMESPACE}/${i.name}`),
+  `${i.doc ? `<a href="${i.doc.url}">${esc(i.title)}</a>` : esc(i.title)}: ${esc(i.description)}`,
+  i.files.length ? i.files.map((f) => code(f.split("/").pop())).join(" ") : esc(i.type === "registry:theme" ? "variables in your CSS file" : "packages, and imports in your CSS file"),
+]);
 const scripts = fontSection("Supported scripts", "Character set");
 const elements = await codeBlock(`// One element at a time: each module defines its tag and imports only @jaatster/blip-core.
 import "@jaatster/blip-elements/tabs";
@@ -202,6 +234,31 @@ const elementRows = Object.entries(a.defines)
     <Fragment set:html={layersCode} />
     <p>Your own CSS outside any layer beats every layer, Blip's included, which is right for your own classes. Rules for bare elements (a reset, <code class="docs-inline-code">button {"{ … }"}</code>, <code class="docs-inline-code">a {"{ … }"}</code>) would restyle Blip's components too: import them into the base layer, under Blip. That covers everything a component sets, and boxes also clear any corner rounding or shadow. A size a component leaves to its content, such as a <code class="docs-inline-code">min-height</code> on every button, still applies, so leave Blip's parts out of it with <code class="docs-inline-code">:not(.chu-box)</code>.</p>
     <Fragment set:html={ownCss} />
+  </section>
+
+  <section class="docs-section" aria-labelledby="shadcn">
+    <h2 id="shadcn">Use with shadcn/ui</h2>
+    <p>Blip is also a shadcn/ui registry. The <code class="docs-inline-code">shadcn</code> CLI can do two things with it: give an app's shadcn components Blip's colours with a theme, and copy Blip's own React components into the app, as it copies shadcn's. The copied files are yours to edit; Blip's CSS and its elements' behaviour stay in the npm packages, as Base UI and Radix do for shadcn. No Blip file uses Tailwind classes.</p>
+    <p>Add the <code class="docs-inline-code">{SHADCN_NAMESPACE}</code> registry to the app's <code class="docs-inline-code">components.json</code> once, then add the theme and any components:</p>
+    <Fragment set:html={shadcnConfig} />
+    <Fragment set:html={shadcnAdd} />
+    <p>Every item brings the setup: the four CSS packages from npm, imported into your Tailwind CSS file. The CLI adds imports after <code class="docs-inline-code">@import "tailwindcss"</code>, where layers.css (above) can no longer go first, so each import puts Blip inside Tailwind's <code class="docs-inline-code">components</code> layer: over the reset, under the utilities, the same order layers.css sets. <code class="docs-inline-code">className="mt-4"</code> still moves a Blip button.</p>
+    <Fragment set:html={shadcnCss} />
+    <p>Components land in <code class="docs-inline-code">components/blip/</code>, beside shadcn's <code class="docs-inline-code">components/ui/</code> rather than over it, so both can live in one app while you move screens across. Set the scheme on <code class="docs-inline-code">&lt;html&gt;</code> yourself: without it Blip follows the device's dark mode, and shadcn's <code class="docs-inline-code">dark:</code> classes, which follow the <code class="docs-inline-code">dark</code> class, would not.</p>
+    <Fragment set:html={shadcnUse} />
+
+    <h3 id="shadcn-theme">What the theme does, and what it doesn't</h3>
+    <p><code class="docs-inline-code">{SHADCN_NAMESPACE}/theme</code> sets shadcn's variables to Blip's scheme roles by reference, so the colours follow <code class="docs-inline-code">data-chu-scheme</code> and <code class="docs-inline-code">data-chu-palette</code>, on the page or on any part of it. Borders and inputs take the ink line, the ring is the focus yellow, the radius is 0, every shadow is a one-pixel ink drop, the text is Pixelify Sans, and transitions step.</p>
+    <p>That is as far as variables go. shadcn's own components stay shadcn's: square, flat and in Blip's colours, but without the stepped corners, the light and shade bands, the dithered disabled state or the snapping pop-in, and with their own translucent focus halo and fading, zooming animations. A style can also bypass the variables (Nova's card outline is the text colour at 10%). The full pixel look comes with Blip's components, whose props are Blip's:</p>
+    <Table label="shadcn's Button props and Blip's" head={["shadcn's Button", "Blip's Button"]} rows={buttonProps} />
+    <details class="docs-react-more">
+      <summary class="chu-box chu-button" data-variant="outline" data-size="sm"><span class="docs-when-closed">Show the theme's variables</span><span class="docs-when-open">Hide the theme's variables</span></summary>
+      <Table label="shadcn's variables and the Blip roles they take" head={["shadcn", "Blip"]} rows={themeRows} />
+    </details>
+
+    <h3 id="shadcn-items">Items</h3>
+    <p>{registryItems.length} items, served from <code class="docs-inline-code">{REGISTRY_URL.replace("{name}", "registry")}</code> and written from the components' docs and React source when this site builds. Components go in <code class="docs-inline-code">components/blip/</code>, the helpers in <code class="docs-inline-code">lib/blip/</code>. Each component page shows its command.</p>
+    <Table label="The registry's items" head={["Item", "", "Writes"]} rows={itemRows} />
   </section>
 
   <section class="docs-section" aria-labelledby="elements">
