@@ -1,11 +1,5 @@
 # Security policy
 
-> **Placeholders to fill in before the repository is public:** the repository
-> (`github.com/jaatster/blip`, as the packages' `repository` fields name it) does not exist yet, so the
-> reporting link below does not work. When it does, turn on private vulnerability reporting in its settings
-> (Settings, Code security, Private vulnerability reporting), and set the fallback contact
-> `[SECURITY CONTACT EMAIL TO BE SET BY THE OWNER]`. Then remove this note.
-
 ## Reporting a vulnerability
 
 Please do not report security problems in a public issue, a pull request or a discussion.
@@ -13,7 +7,7 @@ Please do not report security problems in a public issue, a pull request or a di
 Report them privately through GitHub's security advisories:
 [github.com/jaatster/blip/security/advisories/new](https://github.com/jaatster/blip/security/advisories/new)
 (the "Report a vulnerability" button on the repository's Security tab). If you cannot use GitHub, write to
-**[SECURITY CONTACT EMAIL TO BE SET BY THE OWNER]**.
+**0xjaatster@gmail.com**.
 
 Tell us, as far as you can:
 

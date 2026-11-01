@@ -16,7 +16,7 @@
   "bugs": "https://github.com/jaatster/blip/issues",
   "repository": {
     "type": "git",
-    "url": "github:blip/blip",
+    "url": "github:jaatster/blip",
     "directory": "packages/effects"
   },
   "license": "MIT",

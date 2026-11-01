@@ -5,7 +5,7 @@ import Table from "../../components/Table.astro";
 import Pager from "../../components/Pager.astro";
 import Icon from "../../components/Icon.astro";
 import Install from "../../components/Install.astro";
-import { assets, componentDocs, diagnostics, fontSection, pkgVersion, read } from "../../lib/data";
+import { assets, componentDocs, diagnostics, fontSection, pkgVersion, read, REPO } from "../../lib/data";
 import { codeBlock } from "../../lib/markdown";
 import { cdnStylesheets, cdnUrl } from "../../lib/install";
 import { code, esc } from "../../lib/html";
@@ -205,7 +205,7 @@ const elementRows = Object.entries(a.defines)
     <span class="chu-alert-icon" aria-hidden="true"></span>
     <div class="chu-alert-body">
       <p class="chu-alert-title">Version {v} is not on npm yet</p>
-      <p>Until it is published, build the packages from the repository (<code class="docs-inline-code">pnpm install</code>, then <code class="docs-inline-code">pnpm build</code>) and link them. The commands below are how installing will work.</p>
+      <p>Until it is published, build the packages from <a href={REPO}>the repository on GitHub</a> (<code class="docs-inline-code">pnpm install</code>, then <code class="docs-inline-code">pnpm build</code>) and link them. The commands below are how installing will work.</p>
     </div>
   </div>
 

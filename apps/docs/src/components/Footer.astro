@@ -1,6 +1,6 @@
 ---
 /** The site's foot: what Blip is made of, its licences, and the way back. */
-import { pkgVersion } from "../lib/data";
+import { pkgVersion, REPO } from "../lib/data";
 const version = pkgVersion("components");
 ---
 <footer class="docs-footer" id="docs-footer">
@@ -14,6 +14,7 @@ const version = pkgVersion("components");
       <li><a href="/foundations/accessibility/">Accessibility</a></li>
       <li><a href="/diagnostics/">Diagnostics</a></li>
       <li><a href="/search/">All pages</a></li>
+      <li><a href={REPO}>Source on GitHub</a></li>
     </ul>
   </div>
 </footer>

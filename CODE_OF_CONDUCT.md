@@ -1,9 +1,5 @@
 # Contributor Covenant Code of Conduct
 
-> **Placeholder to fill in before the repository is public:** the contact for reports, in the Enforcement section
-> below, is not set yet. Replace `[CONTACT EMAIL TO BE SET BY THE OWNER]` with an address that reaches the people
-> who enforce this code, and remove this note.
-
 ## Our Pledge
 
 We as members, contributors, and leaders pledge to make participation in our
@@ -64,7 +60,7 @@ representative at an online or offline event.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at
-**[CONTACT EMAIL TO BE SET BY THE OWNER]**.
+**0xjaatster@gmail.com**.
 All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the

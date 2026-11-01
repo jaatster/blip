@@ -18,6 +18,9 @@ function findRoot(): string {
   }
   return dir;
 }
+/** The source, on GitHub. */
+export const REPO = "https://github.com/jaatster/blip";
+
 export const ROOT = findRoot();
 export const read = (rel: string) => readFileSync(join(ROOT, rel), "utf8");
 export const json = <T = any>(rel: string): T => JSON.parse(read(rel));
