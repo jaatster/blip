@@ -56,7 +56,7 @@ Write both the numbers and the status: CSS shows whichever fits.
 
 | State | How | Look |
 |---|---|---|
-| Hover | pointer | Lifts a pixel (outline and ghost: sunken fill). |
+| Hover | pointer | Lifts a pixel in a white ring (outline and ghost: sunken fill). |
 | Focus | keyboard | The yellow ring. |
 | Pressed | `:active` | Sits in its drop. |
 | Current | `aria-current="page"` | The accent, sitting in (outline: accent-light fill, ink outline). |

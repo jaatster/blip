@@ -68,7 +68,7 @@ Pixel art that must stay crisp, at whole multiples of its pixels:
 
 | State | How | Look |
 |---|---|---|
-| Hover | pointer, on a card that is a link or button, or has `data-chu-interactive` | Lifts one pixel; the drop grows to keep the shadow in place. |
+| Hover | pointer, on a card that is a link or button, or has `data-chu-interactive` | Lifts one pixel (the drop grows to keep the shadow in place) inside a white ring with an ink edge. |
 | Focus | keyboard | A whole-card link takes the yellow ring round the card. A `.chu-card-link` takes the square yellow ring round its own text. |
 | Pressed | `:active` | Sits in its drop. |
 

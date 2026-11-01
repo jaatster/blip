@@ -51,7 +51,7 @@ The candy box, from the outside in, then what it holds:
 
 | State | How | Look |
 |---|---|---|
-| Hover | pointer | Lifts one pixel; the drop grows to keep the shadow in place. Outline and ghost fill with the sunken surface. |
+| Hover | pointer | Lifts one pixel (the drop grows to keep the shadow in place) inside a white ring with an ink edge. Outline and ghost fill with the sunken surface instead. |
 | Focus | keyboard | Yellow ring one pixel out, ink one pixel beyond, following the stepped corners. |
 | Pressed | `:active` | Sits in its drop. |
 | On | `aria-pressed="true"` | Sits in, bands swap (shade on top, light below): the pushed-in look. |

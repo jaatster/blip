@@ -69,6 +69,8 @@
     --chu-box-fill: var(--chu-surface-sunken);
     --chu-box-bottom: var(--chu-surface-sunken);
   }
+  /* Calm, so no hover ring round the box (or a switch's track): focus keeps its yellow one. */
+  :where(.chu-checkbox, .chu-radio, .chu-switch):where([data-chu-state~="hover"]):where(:not([data-chu-state~="focus"], :has(> input:focus-visible))) { filter: none; }
 
   /* The input fills the box and one pixel more all round (a 26 px target), and draws the glyph. */
   :where(.chu-checkbox, .chu-radio) > :where(input) {

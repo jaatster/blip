@@ -127,6 +127,8 @@
       --chu-box-bottom: var(--chu-surface);
     }
   }
+  /* A segment is calm (it never lifts), so it takes no hover ring: focus keeps its yellow one. */
+  .chu-segmented > .chu-box:not(:focus-visible, [data-chu-state~="focus"], :has(> input:focus-visible)) { filter: none; }
   .chu-segmented > .chu-box:is(:focus-visible, [data-chu-state~="focus"], :has(> input:focus-visible)),
   .chu-segmented > .chu-box[data-chu-state~="hover"] {
     --chu-box-outline: var(--chu-line);

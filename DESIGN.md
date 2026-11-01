@@ -625,7 +625,7 @@ lays itself out in a sidebar, a dialog or a whole page.
 Flat, with one light at the top left. There is no ambient shadow and no blur: depth is a one-pixel ink drop down and
 to the right, and things move up off it or down into it. Every component uses the same three heights, so depth
 always means the same thing. A box at rest stands on its drop; on hover it lifts one pixel and its drop grows one
-pixel, so the shadow stays where it was; pressed, it sits down into its drop and the drop disappears; selected or
+pixel, so the shadow stays where it was, and the TV's ring goes round it (white, with an ink edge); pressed, it sits down into its drop and the drop disappears; selected or
 on, it stays sat in, its bands swap (shade on top, light below) and its face drops a pixel inside the outline,
 leaving an ink shadow along the top and left: the 16-bit pushed-in look, which reads without colour. A selected tile
 is the one exception: it lifts two pixels, as the TV's app blocks did.
@@ -721,8 +721,8 @@ off.
 - **Primary (candy):** the accent's base with a 4-pixel light band and a 4-pixel shade band, glints, an ink
   outline and a one-pixel drop; an ink label in Pixelify Sans bold 14px, capitals, 0.5px tracking; padding 0 16px
   (12px small with a 12px label, 20px large with a 16px label); a 24 px icon before or after the label.
-- **Hover / Focus:** hover lifts one pixel (the drop grows to keep the shadow in place); keyboard focus draws the
-  yellow ring with its ink edge; pressed sits in its drop; on (`aria-pressed="true"`) sits in with the bands
+- **Hover / Focus:** hover lifts one pixel (the drop grows to keep the shadow in place) inside the TV's white ring
+  with its ink edge; keyboard focus draws the yellow ring instead; pressed sits in its drop; on (`aria-pressed="true"`) sits in with the bands
   swapped and an ink shadow inside its top and left; disabled is dithered with a light colour and loses its drop;
   busy (`aria-busy="true"`) hides the label, keeps its width, and steps in three dots, one, two, three.
 - **Secondary / Ghost / Tertiary:** soft (the tone's light fill, its base as the bottom band) for the second action;
@@ -872,7 +872,7 @@ an ink dissolve (nine frames of 30 ms to cover the screen, nine to
 clear it), an ordered dither, or a mosaic of 2 to 12 pixel blocks, never a cross-fade. A change of time of day is
 an ordered dither straight from one palette to the next, in three frames.
 
-**The One-Look Rule.** Every state has one look, drawn by the candy box: hover lifts one pixel, pressed sits in its
+**The One-Look Rule.** Every state has one look, drawn by the candy box: hover lifts one pixel in the white ring, pressed sits in its
 drop, selected sits in with its bands swapped and an ink shadow inside its top and left, focus is the yellow ring,
 disabled is dithered, busy is three stepped dots, invalid is the danger tone. No component invents its own.
 

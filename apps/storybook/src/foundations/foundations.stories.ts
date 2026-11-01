@@ -77,7 +77,7 @@ export const Box: Story = {
     return example(
       section("Tiers", "Candy is loud, for the main action; soft, outline and ghost are calmer, for dense UI. Panel is a surface.", `<div style="display:flex;flex-wrap:wrap;gap:${px(6)};align-items:center">${tiers.map((t) => `<button class="chu-box chu-button" type="button" data-variant="${t}">${t}</button>`).join("")}<div class="chu-box" data-variant="panel" style="padding:${px(6)}"><span class="chu-small">panel</span></div></div>`) +
         section("Tones", "Meaning first (accent, info, success, warning, danger, neutral), then any candy.", `<div style="display:flex;flex-wrap:wrap;gap:${px(4)}">${tones.map((t) => `<button class="chu-box chu-button" type="button" data-tone="${t}">${t}</button>`).join("")}</div>`) +
-        section("States", "One look per state, for every component: hover lifts, pressed sits in its drop, focus is the yellow ring, disabled is dithered, busy steps three dots.", `<div style="display:flex;flex-wrap:wrap;gap:${px(4)};align-items:center">${states.map(([n, a]) => `<button class="chu-box chu-button" type="button"${a}>${n}</button>`).join("")}</div>`),
+        section("States", "One look per state, for every component: hover lifts in the white ring, pressed sits in its drop, focus is the yellow ring, disabled is dithered, busy steps three dots.", `<div style="display:flex;flex-wrap:wrap;gap:${px(4)};align-items:center">${states.map(([n, a]) => `<button class="chu-box chu-button" type="button"${a}>${n}</button>`).join("")}</div>`),
     );
   },
 };

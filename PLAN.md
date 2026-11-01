@@ -111,7 +111,7 @@ per component, so an app takes only what it uses.
 
 | State | Look |
 |---|---|
-| Hover | Lifts one pixel; the light band brightens |
+| Hover | Lifts one pixel, in the TV's white ring with an ink edge |
 | Focus | A 2-pixel yellow ring with an ink edge, following the stepped corners |
 | Pressed | Drops one pixel into its shadow |
 | Selected or checked | Accent fill with a check or notch |

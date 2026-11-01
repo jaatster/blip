@@ -193,7 +193,7 @@ Reviewers check, and authors check first:
       `calc(N * var(--chu-pixel))`); text sizes are `--chu-size-*`; Pixel Bop only at whole scales.
 - [ ] **The candy box.** Every candy thing is a `.chu-box`; the component sets the box's variables and draws no
       outline, drop, focus ring or dither of its own.
-- [ ] **One look per state.** Hover lifts, pressed sits in, selected sits in with bands swapped, focus is the yellow
+- [ ] **One look per state.** Hover lifts in the white ring, pressed sits in, selected sits in with bands swapped, focus is the yellow
       ring, disabled is dithered, busy is the stepped dots, invalid is the danger tone. `data-chu-state` shows them.
 - [ ] **Motion snaps.** `steps()` only, at most 6 steps, durations from tokens, and everything stops or goes
       instant with `prefers-reduced-motion`.

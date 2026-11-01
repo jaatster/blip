@@ -54,7 +54,7 @@ button with a pixel chevron that steps round, one frame at a time, when it opens
 
 | State | How | Look |
 |---|---|---|
-| Hover | pointer | Lifts one pixel. |
+| Hover | pointer | Lifts one pixel in a white ring (outline and ghost: sunken fill). |
 | Focus | keyboard | The yellow ring. |
 | Pressed | `:active` | Sits in its drop. |
 | Open | `open` | The chevron steps to point down; the panel shows. |

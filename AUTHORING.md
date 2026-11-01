@@ -14,7 +14,7 @@ How to add to Blip: components, kits, effects, icons, tokens. The button
    drops, focus rings or dither: set the box's variables (`--chu-r` with `--chu-shape` and `--chu-shape-inner`,
    `--chu-band-top`, `--chu-band-bottom`, `--chu-drop-size`, `--chu-box-*`) or use `data-variant` (`candy`, `soft`,
    `outline`, `ghost`, `panel`) and `data-tone`.
-3. **One rule per state, from the box.** Hover lifts, pressed sits in its drop, selected/current sits in with bands
+3. **One rule per state, from the box.** Hover lifts in the white ring, pressed sits in its drop, selected/current sits in with bands
    swapped, focus is the yellow-and-ink ring, disabled is dithered, busy shows stepped dots, invalid uses the danger
    tone. Don't invent new state looks. Support `data-chu-state="hover focus active"` for forced looks in examples.
 4. **Motion snaps.** Only `steps(n, jump-end)` (n = pixels moved, at most 6) or `--chu-ease-2|4|6`. Durations from

@@ -12,7 +12,8 @@
  * Put `chu-box` on the element (components add it for you), then set the tier with data-variant and the colour
  * with data-tone. States follow one rule each, for every component:
  *
- *   hover      lifts one pixel                 pressed    sits in its drop
+ *   hover      lifts one pixel, in a white     pressed    sits in its drop
+ *              ring with an ink edge (the TV's)
  *   focus      yellow ring with an ink edge    selected   sits in, bands swap (light below, shade above), and
  *   disabled   dithered with a light colour               an ink shadow runs inside its top and left (candy, soft)
  *              (--chu-disabled-dither)          busy       three stepped dots replace the label
@@ -286,6 +287,16 @@
       --chu-box-top: var(--chu-surface-sunken);
       --chu-box-fill: var(--chu-surface-sunken);
       --chu-box-bottom: var(--chu-surface-sunken);
+    }
+    /* And the TV's ring: white one pixel out, an ink edge beyond, round the box's own shape as focus is. Keyboard
+       focus keeps its yellow ring; calm tiers keep their well. */
+    .chu-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-chu-interactive]):not(:disabled, [aria-disabled="true"], [aria-busy="true"], [aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked), [data-variant="outline"], [data-variant="ghost"], :focus-visible, :has(> :is(input, select, textarea):focus-visible)):hover,
+    .chu-box[data-chu-state~="hover"]:not([data-variant="outline"], [data-variant="ghost"], [data-chu-state~="focus"]) {
+      filter:
+        drop-shadow(0 calc(-1 * var(--_p)) 0 var(--chu-white)) drop-shadow(0 var(--_p) 0 var(--chu-white))
+        drop-shadow(calc(-1 * var(--_p)) 0 0 var(--chu-white)) drop-shadow(var(--_p) 0 0 var(--chu-white))
+        drop-shadow(0 calc(-1 * var(--_p)) 0 var(--chu-box-ring-edge, var(--chu-focus-edge))) drop-shadow(0 var(--_p) 0 var(--chu-box-ring-edge, var(--chu-focus-edge)))
+        drop-shadow(calc(-1 * var(--_p)) 0 0 var(--chu-box-ring-edge, var(--chu-focus-edge))) drop-shadow(var(--_p) 0 0 var(--chu-box-ring-edge, var(--chu-focus-edge)));
     }
   }
 
