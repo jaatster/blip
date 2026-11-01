@@ -61,7 +61,6 @@ function syncPalette() {
   for (const b of document.querySelectorAll("[data-docs-palette]")) b.setAttribute("aria-pressed", String(b.dataset.docsPalette === id));
 }
 if (paletteMenu) {
-  paletteMenu.hidden = false;
   syncPalette();
   paletteMenu.addEventListener(paletteMenu.dataset.docsChoose || "chu-action", (e) => {
     const [k, v] = String(e.detail.value).split(":");
@@ -87,7 +86,6 @@ function syncMenu() {
   }
 }
 if (display) {
-  display.hidden = false;
   syncMenu();
   // The event a chosen item fires, as the element's manifest names it (the page writes it in data-docs-choose).
   display.addEventListener(display.dataset.docsChoose || "chu-action", (e) => {
@@ -285,12 +283,6 @@ document.addEventListener("chu-change", (e) => {
     else stage.setAttribute("data-chu-pixel", value);
   }
 });
-
-// ------------------------------------------------------------------ the sidebar shows where you are
-
-const nav = document.querySelector(".docs-sidebar");
-const here = nav?.querySelector('[aria-current="page"]');
-if (nav && here && nav.scrollHeight > nav.clientHeight) nav.scrollTop = Math.max(0, here.offsetTop - nav.clientHeight / 3);
 
 // ------------------------------------------------------------------ on this page
 

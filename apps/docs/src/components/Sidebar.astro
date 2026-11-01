@@ -12,7 +12,7 @@ const { section } = Astro.props;
 const path = Astro.url.pathname;
 const groups = section.groups();
 ---
-<nav class="chu-sidebar docs-sidebar" id="docs-nav" popover aria-label={section.title} data-arrow>
+<nav class="chu-sidebar docs-sidebar" id="docs-nav" popover aria-label={section.title} data-arrow data-section={section.id}>
   <div class="docs-sidebar-head">
     <p class="docs-sidebar-title">{section.title}</p>
     <button class="chu-box chu-button docs-sidebar-close" type="button" data-variant="ghost" data-size="sm" data-icon-only popovertarget="docs-nav" popovertargetaction="hide" aria-label="Close the list"><Icon name="close" /></button>
@@ -33,3 +33,19 @@ const groups = section.groups();
     </Fragment>
   ))}
 </nav>
+<script is:inline>
+  // Before the first paint, so moving between pages never jumps the list: it stays where the reader left it in this
+  // section, unless that would hide where they are now; arriving from elsewhere, where they are shows a third of the
+  // way down. Its place is kept for the next page as it scrolls.
+  (() => {
+    const nav = document.getElementById("docs-nav"), here = nav.querySelector('[aria-current="page"]'), key = "blip-docs:nav";
+    if (!here || nav.scrollHeight <= nav.clientHeight) return;
+    let kept = null;
+    try { kept = JSON.parse(sessionStorage.getItem(key)); } catch (e) {}
+    const shows = (top) => here.offsetTop >= top && here.offsetTop + here.offsetHeight <= top + nav.clientHeight;
+    nav.scrollTop = kept && kept.section === nav.dataset.section && shows(kept.top) ? kept.top : Math.max(0, here.offsetTop - nav.clientHeight / 3);
+    const keep = () => { try { sessionStorage.setItem(key, JSON.stringify({ section: nav.dataset.section, top: nav.scrollTop })); } catch (e) {} };
+    keep();
+    nav.addEventListener("scroll", keep, { passive: true });
+  })();
+</script>

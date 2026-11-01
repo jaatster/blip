@@ -83,6 +83,8 @@
 
   /* Without the script, the parts that need it stay out of the way. */
   html:not(.js) .docs-needs-js { display: none !important; }
+  /* Ctrl, or Cmd on a Mac: the head script knows which before the first paint. */
+  html.mac .docs-mod-ctrl, html:not(.mac) .docs-mod-cmd { display: none; }
 
   /* ------------------------------------------------------------------ the shell */
 
@@ -731,4 +733,31 @@
   .docs-diag-where { display: grid; gap: var(--chu-space-4); margin: 0; padding: 0; list-style: none; }
   .docs-diag-where > li { display: grid; gap: var(--chu-space-1); padding-inline-start: var(--chu-space-6); box-shadow: inset var(--chu-pixel) 0 0 var(--chu-line-soft); }
   .docs-diag-msg { font-family: var(--chu-font-mono); font-size: var(--chu-size-small); }
+}
+
+/* ------------------------------------------------------------------ between pages */
+
+/* Moving between pages is a view transition of type "page" (Chrome, Edge, Safari; elsewhere the page just changes).
+   The app bar and the sidebar stay put (the sidebar keeps its place before the first paint, Sidebar.astro), and the
+   new page dithers in over the old one: a quarter of its pixels, half, three quarters, a frame each, as a change of
+   time of day does. With motion reduced the frames take no time. */
+@view-transition { navigation: auto; types: page; }
+
+@layer docs {
+  :root:active-view-transition-type(page) .docs-top { view-transition-name: docs-top; }
+  :root:active-view-transition-type(page) .docs-sidebar { view-transition-name: docs-nav; }
+  :root:active-view-transition-type(page)::view-transition-group(*) { animation: none; }
+  :root:active-view-transition-type(page)::view-transition-old(*),
+  :root:active-view-transition-type(page)::view-transition-new(*) { animation: none; mix-blend-mode: normal; }
+  :root:active-view-transition-type(page)::view-transition-old(docs-top),
+  :root:active-view-transition-type(page)::view-transition-old(docs-nav) { display: none; }
+  :root:active-view-transition-type(page)::view-transition-new(root) {
+    mask-size: calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel));
+    animation: docs-page-in calc(3 * var(--chu-duration-frame)) step-end both;
+  }
+}
+@keyframes docs-page-in {
+  0% { mask-image: conic-gradient(#000 25%, #0000 0); }
+  33.333% { mask-image: repeating-conic-gradient(#000 0 25%, #0000 0 50%); }
+  66.667%, 100% { mask-image: conic-gradient(#000 75%, #0000 0); }
 }

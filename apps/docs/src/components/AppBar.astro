@@ -24,9 +24,9 @@ const chips = palettes().map((p) => ({ ...p, chip: `--docs-chip-page:${p.schemes
   <div class="chu-app-bar-actions">
     <a class="chu-box chu-button docs-search-button" data-variant="outline" data-size="sm" href="/search/" aria-keyshortcuts="Control+K Meta+K">
       <Icon name="search" /><span class="docs-search-label">Search</span>
-      <kbd class="chu-keys docs-search-keys" aria-hidden="true"><kbd class="chu-box chu-keycap" data-size="sm" data-mod>Ctrl</kbd><kbd class="chu-box chu-keycap" data-size="sm">K</kbd></kbd>
+      <kbd class="chu-keys docs-search-keys" aria-hidden="true"><kbd class="chu-box chu-keycap" data-size="sm" data-mod><span class="docs-mod-ctrl">Ctrl</span><span class="docs-mod-cmd">Cmd</span></kbd><kbd class="chu-box chu-keycap" data-size="sm">K</kbd></kbd>
     </a>
-    <chu-menu class="chu-menu docs-palette" data-align="end" data-docs-choose={chooseEvent("chu-menu")} hidden>
+    <chu-menu class="chu-menu docs-palette docs-needs-js" data-align="end" data-docs-choose={chooseEvent("chu-menu")}>
       <button class="chu-box chu-button" type="button" data-variant="ghost" data-icon-only aria-label={`Palette: ${chips[0]?.name ?? ""}`}><Icon name="palette" /></button>
       <div class="chu-box chu-menu-list chu-pop-in docs-palette-list" role="menu" popover aria-label="Palette">
         <div role="group" aria-labelledby="docs-palette-heading">
@@ -39,7 +39,7 @@ const chips = palettes().map((p) => ({ ...p, chip: `--docs-chip-page:${p.schemes
         </div>
       </div>
     </chu-menu>
-    <chu-menu class="chu-menu docs-display" data-align="end" data-docs-choose={chooseEvent("chu-menu")} hidden>
+    <chu-menu class="chu-menu docs-display docs-needs-js" data-align="end" data-docs-choose={chooseEvent("chu-menu")}>
       <button class="chu-box chu-button" type="button" data-variant="ghost" data-icon-only aria-label="Display: scheme and pixel size">
         <span class="docs-display-icon" data-for="auto"><Icon name="clock" /></span>
         <span class="docs-display-icon" data-for="day"><Icon name="sun" /></span>

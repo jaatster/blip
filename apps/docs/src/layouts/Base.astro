@@ -71,12 +71,16 @@ const presets = Object.keys(tokens().palettes ?? {}).join(" ");
         d.setAttribute("data-chu-scheme", pref === "auto" ? (h >= 6 && h < 17 ? "day" : h >= 17 && h < 19 ? "sunset" : "night") : pref);
         d.setAttribute("data-scheme-choice", pref);
         if (px === "3" || px === "4") d.setAttribute("data-chu-pixel", px);
+        if (/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)) d.classList.add("mac");
         d.classList.add("js");
       })();
     </script>
     <script type="importmap" set:html={JSON.stringify(a.importMap)} />
     <link rel="preload" href="/chu/font/dist/pixelify-sans.woff2" as="font" type="font/woff2" crossorigin />
     {display && <link rel="preload" href="/chu/font/dist/pixel-bop.woff2" as="font" type="font/woff2" crossorigin />}
+    <!-- The first paint waits for the page to the footer (Chrome), so a page never shows half drawn, or changes
+         (view transitions, docs.css) into a page that isn't there yet. -->
+    <link rel="expect" href="#docs-footer" blocking="render" />
     <link rel="stylesheet" href="/chu/font/font.css" />
     <link rel="stylesheet" href="/chu/tokens/tokens.css" />
     <link rel="stylesheet" href="/chu/tokens/palettes.css" />
