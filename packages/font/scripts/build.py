@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Builds the two faces of @jaatster/blip-font.
+"""Builds the two faces of @blip/font.
 
 1. Pixel Bop, Blip's pixel display font: src/pixel-bop.glyphs -> dist/pixel-bop.ttf (every script) and one WOFF2
    per script: dist/pixel-bop.woff2 (Latin), pixel-bop-cyrillic.woff2 and pixel-bop-greek.woff2.
@@ -25,7 +25,7 @@ between pixels at any size. Accented letters are composed from a base and a mark
 When the parts do not touch, at that enlargement too, the glyph is a TrueType composite that points at them, which
 keeps the font small; when they touch (a cedilla, an ogonek) they are merged into one outline.
 
-Usage:  pnpm --filter @jaatster/blip-font build
+Usage:  pnpm --filter @blip/font build
    or:  .tools/venv/bin/python -I packages/font/scripts/build.py
         .tools/venv/bin/python -I packages/font/scripts/build.py --check FONT...   (checks Pixelify Sans files only)
 Environment:
@@ -700,9 +700,9 @@ GROUPS = (
 )
 
 
-TABLE = ("display:grid;grid-template-columns:max-content minmax(0,1fr);gap:calc(4*var(--chu-pixel)) calc(8*var(--chu-pixel));"
+TABLE = ("display:grid;grid-template-columns:max-content minmax(0,1fr);gap:calc(4*var(--blip-pixel)) calc(8*var(--blip-pixel));"
          "align-items:baseline;margin:0")
-TABLE_CELL = "margin:0;text-transform:none;letter-spacing:calc(3*var(--chu-pixel));word-break:break-all"
+TABLE_CELL = "margin:0;text-transform:none;letter-spacing:calc(3*var(--blip-pixel));word-break:break-all"
 
 
 def _groups(glyphs):
@@ -743,8 +743,8 @@ def write_tables(glyphs):
             cells = "".join(f'<span title="U+{ord(c):04X} {html.escape(unicodedata.name(c, "").title())}">{html.escape(c)}</span>'
                             for c in chars)
             # As typed (no upper-casing, which would turn the micro sign into a Greek capital), with room to point at.
-            rows.append(f'  <dt class="chu-label chu-muted">{label} ({len(chars)})</dt>\n'
-                        f'  <dd class="chu-display" data-scale="1" style="{TABLE_CELL}">{cells}</dd>')
+            rows.append(f'  <dt class="blip-label blip-muted">{label} ({len(chars)})</dt>\n'
+                        f'  <dd class="blip-display" data-scale="1" style="{TABLE_CELL}">{cells}</dd>')
         _between(EXAMPLE, "<!-- glyph-table: written by scripts/build.py -->", "<!-- /glyph-table -->",
                  f'<dl style="{TABLE}">\n' + "\n".join(rows) + "\n</dl>\n")
     if os.path.exists(DOC):
@@ -1042,7 +1042,7 @@ class _Pixelify:
             return name
         new = agl.UV2AGL.get(cp) or f"uni{cp:04X}"
         while new in self.glyf.glyphs:
-            new += ".chu"
+            new += ".blip"
         return new
 
     def map(self, cp, name):

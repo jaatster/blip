@@ -2,9 +2,9 @@
  * Private: what checkbox, radio and switch share. Each of those files imports this one. Not part of the public
  * contract.
  *
- *   <label class="chu-check"><span class="chu-box chu-checkbox"><input type="checkbox" name="music"></span>Music</label>
+ *   <label class="blip-check"><span class="blip-box blip-checkbox"><input type="checkbox" name="music"></span>Music</label>
  *
- * Help for one option goes after its row as <p class="chu-check-help" id="…">, linked from the input with
+ * Help for one option goes after its row as <p class="blip-check-help" id="…">, linked from the input with
  * aria-describedby, so it describes the option instead of becoming part of its name.
  *
  * The box is a wrapper; the native input sits inside it, invisible but real (it takes the click, the keys, the
@@ -15,67 +15,67 @@
  * the files load in (each of them carries a copy of this one).
  */
 
-@layer chu.components {
+@layer blip.components {
   /* The row: the box, then its label. data-layout="split" puts the label first and the control at the far end. */
-  :where(.chu-check) {
+  :where(.blip-check) {
     display: flex;
     align-items: flex-start;
-    gap: calc(4 * var(--chu-pixel));
+    gap: calc(4 * var(--blip-pixel));
     inline-size: fit-content;
-    font-size: var(--chu-size-body);
-    line-height: calc(11 * var(--chu-pixel));
+    font-size: var(--blip-size-body);
+    line-height: calc(11 * var(--blip-pixel));
     cursor: pointer;
   }
-  :where(.chu-check[data-size="sm"]) { gap: calc(3 * var(--chu-pixel)); font-size: var(--chu-size-small); line-height: calc(9 * var(--chu-pixel)); }
-  :where(.chu-check[data-size="lg"]) { font-size: var(--chu-size-lead); line-height: calc(13 * var(--chu-pixel)); }
-  :where(.chu-check[data-layout="split"]) { inline-size: auto; justify-content: space-between; }
-  :where(.chu-check-help) { display: block; margin: 0; font-size: var(--chu-size-small); line-height: var(--chu-leading-normal); color: var(--chu-text-muted); }
+  :where(.blip-check[data-size="sm"]) { gap: calc(3 * var(--blip-pixel)); font-size: var(--blip-size-small); line-height: calc(9 * var(--blip-pixel)); }
+  :where(.blip-check[data-size="lg"]) { font-size: var(--blip-size-lead); line-height: calc(13 * var(--blip-pixel)); }
+  :where(.blip-check[data-layout="split"]) { inline-size: auto; justify-content: space-between; }
+  :where(.blip-check-help) { display: block; margin: 0; font-size: var(--blip-size-small); line-height: var(--blip-leading-normal); color: var(--blip-text-muted); }
   /* Help after the row (linked with aria-describedby, so it describes rather than names): under the words. */
-  :where(.chu-check) + :where(.chu-check-help) { padding-inline-start: calc(15 * var(--chu-pixel)); }
-  :where(.chu-check[data-size="sm"]) + :where(.chu-check-help) { padding-inline-start: calc(12 * var(--chu-pixel)); }
-  :where(.chu-check[data-size="lg"]) + :where(.chu-check-help) { padding-inline-start: calc(17 * var(--chu-pixel)); }
-  :where(.chu-check[data-layout="split"]) + :where(.chu-check-help) { padding-inline-start: 0; }
-  :where(.chu-check:has(:disabled)) { color: var(--chu-text-muted); cursor: not-allowed; }
+  :where(.blip-check) + :where(.blip-check-help) { padding-inline-start: calc(15 * var(--blip-pixel)); }
+  :where(.blip-check[data-size="sm"]) + :where(.blip-check-help) { padding-inline-start: calc(12 * var(--blip-pixel)); }
+  :where(.blip-check[data-size="lg"]) + :where(.blip-check-help) { padding-inline-start: calc(17 * var(--blip-pixel)); }
+  :where(.blip-check[data-layout="split"]) + :where(.blip-check-help) { padding-inline-start: 0; }
+  :where(.blip-check:has(:disabled)) { color: var(--blip-text-muted); cursor: not-allowed; }
 
   /* The box at rest: the calm well. */
-  :where(.chu-checkbox, .chu-radio, .chu-switch) {
+  :where(.blip-checkbox, .blip-radio, .blip-switch) {
     --_n: 11;
-    --chu-band-top: 1;
-    --chu-band-bottom: 0;
-    --chu-drop-size: 0;
-    --chu-box-outline: var(--chu-line);
-    --chu-box-top: var(--chu-surface-sunken);
-    --chu-box-fill: var(--chu-surface);
-    --chu-box-bottom: var(--chu-surface);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
+    --blip-band-top: 1;
+    --blip-band-bottom: 0;
+    --blip-drop-size: 0;
+    --blip-box-outline: var(--blip-line);
+    --blip-box-top: var(--blip-surface-sunken);
+    --blip-box-fill: var(--blip-surface);
+    --blip-box-bottom: var(--blip-surface);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
     display: inline-block;
     flex: none;
-    inline-size: calc(var(--_n) * var(--chu-pixel));
-    block-size: calc(var(--_n) * var(--chu-pixel));
+    inline-size: calc(var(--_n) * var(--blip-pixel));
+    block-size: calc(var(--_n) * var(--blip-pixel));
     vertical-align: middle;
   }
-  :where(.chu-checkbox, .chu-radio, .chu-switch):where([data-size="sm"], [data-size="sm"] > *) { --_n: 9; }
-  :where(.chu-checkbox, .chu-radio, .chu-switch):where([data-size="lg"], [data-size="lg"] > *) { --_n: 13; }
+  :where(.blip-checkbox, .blip-radio, .blip-switch):where([data-size="sm"], [data-size="sm"] > *) { --_n: 9; }
+  :where(.blip-checkbox, .blip-radio, .blip-switch):where([data-size="lg"], [data-size="lg"] > *) { --_n: 13; }
 
   /* Hover (the box, or anywhere on its label row): the well darkens, as the calm tiers do. */
   @media (hover: hover) {
-    :where(.chu-checkbox, .chu-radio):where(:hover, .chu-check:hover > *):where(:not(:has(> :disabled))) {
-      --chu-box-fill: var(--chu-surface-sunken);
-      --chu-box-bottom: var(--chu-surface-sunken);
+    :where(.blip-checkbox, .blip-radio):where(:hover, .blip-check:hover > *):where(:not(:has(> :disabled))) {
+      --blip-box-fill: var(--blip-surface-sunken);
+      --blip-box-bottom: var(--blip-surface-sunken);
     }
   }
-  :where(.chu-checkbox, .chu-radio):where([data-chu-state~="hover"]) {
-    --chu-box-fill: var(--chu-surface-sunken);
-    --chu-box-bottom: var(--chu-surface-sunken);
+  :where(.blip-checkbox, .blip-radio):where([data-blip-state~="hover"]) {
+    --blip-box-fill: var(--blip-surface-sunken);
+    --blip-box-bottom: var(--blip-surface-sunken);
   }
   /* Calm, so no hover ring round the box (or a switch's track): focus keeps its yellow one. */
-  :where(.chu-checkbox, .chu-radio, .chu-switch):where([data-chu-state~="hover"]):where(:not([data-chu-state~="focus"], :has(> input:focus-visible))) { filter: none; }
+  :where(.blip-checkbox, .blip-radio, .blip-switch):where([data-blip-state~="hover"]):where(:not([data-blip-state~="focus"], :has(> input:focus-visible))) { filter: none; }
 
   /* The input fills the box and one pixel more all round (a 26 px target), and draws the glyph. */
-  :where(.chu-checkbox, .chu-radio) > :where(input) {
+  :where(.blip-checkbox, .blip-radio) > :where(input) {
     position: absolute;
-    inset: calc(-1 * var(--chu-pixel));
+    inset: calc(-1 * var(--blip-pixel));
     margin: 0;
     padding: 0;
     border: 0;
@@ -89,41 +89,41 @@
     mask: var(--_g) center / var(--_gs) no-repeat;
   }
   /* A small box is 9 pixels: two more all round keeps its target at 26 px too (WCAG 2.5.8). */
-  :where(.chu-checkbox, .chu-radio):where([data-size="sm"], [data-size="sm"] > *) > :where(input) { inset: calc(-2 * var(--chu-pixel)); }
-  :where(.chu-checkbox, .chu-radio) > :where(:checked) { background-color: currentColor; }
-  :where(.chu-checkbox, .chu-radio, .chu-switch) > :where(:disabled) { cursor: not-allowed; }
+  :where(.blip-checkbox, .blip-radio):where([data-size="sm"], [data-size="sm"] > *) > :where(input) { inset: calc(-2 * var(--blip-pixel)); }
+  :where(.blip-checkbox, .blip-radio) > :where(:checked) { background-color: currentColor; }
+  :where(.blip-checkbox, .blip-radio, .blip-switch) > :where(:disabled) { cursor: not-allowed; }
 
   /* Checked: candy that sits in (shade on top, light below), ink glyph. data-tone picks the candy. */
-  :where(.chu-checkbox, .chu-radio, .chu-switch):where(:has(> :checked)) {
-    --chu-band-bottom: 1;
-    --chu-box-outline: var(--chu-outline);
-    --chu-box-top: var(--chu-tone-shade);
-    --chu-box-fill: var(--chu-tone);
-    --chu-box-bottom: var(--chu-tone-light);
-    --chu-box-text: var(--chu-tone-on);
+  :where(.blip-checkbox, .blip-radio, .blip-switch):where(:has(> :checked)) {
+    --blip-band-bottom: 1;
+    --blip-box-outline: var(--blip-outline);
+    --blip-box-top: var(--blip-tone-shade);
+    --blip-box-fill: var(--blip-tone);
+    --blip-box-bottom: var(--blip-tone-light);
+    --blip-box-text: var(--blip-tone-on);
   }
 
   /* Invalid: the danger tone's outline (with a message from the field). */
-  :where(.chu-checkbox, .chu-radio, .chu-switch):where(:has(> :is([aria-invalid="true"], :user-invalid))) {
-    --chu-box-outline: var(--chu-danger-text);
+  :where(.blip-checkbox, .blip-radio, .blip-switch):where(:has(> :is([aria-invalid="true"], :user-invalid))) {
+    --blip-box-outline: var(--blip-danger-text);
   }
 
   /* Disabled: dithered. Unchecked goes soft like the calm tiers; checked keeps its candy under the light dither. */
-  :where(.chu-checkbox, .chu-radio, .chu-switch):where(:has(> :disabled)) {
-    --chu-box-outline: var(--chu-line-soft);
-    --chu-box-text: var(--chu-text-muted);
-    --chu-box-dither: var(--chu-surface-sunken);
+  :where(.blip-checkbox, .blip-radio, .blip-switch):where(:has(> :disabled)) {
+    --blip-box-outline: var(--blip-line-soft);
+    --blip-box-text: var(--blip-text-muted);
+    --blip-box-dither: var(--blip-surface-sunken);
   }
-  :where(.chu-checkbox, .chu-radio, .chu-switch):where(:has(> :checked:disabled)) {
-    --chu-box-outline: var(--chu-outline);
-    --chu-box-text: var(--chu-tone-on);
-    --chu-box-dither: var(--chu-disabled-dither);
+  :where(.blip-checkbox, .blip-radio, .blip-switch):where(:has(> :checked:disabled)) {
+    --blip-box-outline: var(--blip-outline);
+    --blip-box-text: var(--blip-tone-on);
+    --blip-box-dither: var(--blip-disabled-dither);
   }
 
   /* Windows high contrast: the system draws the real control; the box shows where the focus is. */
   @media (forced-colors: active) {
-    :where(.chu-checkbox, .chu-radio, .chu-switch):where(:has(> input:focus-visible)) { outline: var(--chu-pixel) solid Highlight; outline-offset: var(--chu-pixel); }
-    :where(.chu-checkbox, .chu-radio) { border: 0; }
-    :where(.chu-checkbox, .chu-radio) > :where(input) { inset: 0; appearance: auto; mask: none; }
+    :where(.blip-checkbox, .blip-radio, .blip-switch):where(:has(> input:focus-visible)) { outline: var(--blip-pixel) solid Highlight; outline-offset: var(--blip-pixel); }
+    :where(.blip-checkbox, .blip-radio) { border: 0; }
+    :where(.blip-checkbox, .blip-radio) > :where(input) { inset: 0; appearance: auto; mask: none; }
   }
 }

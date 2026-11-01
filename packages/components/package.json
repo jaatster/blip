@@ -1,5 +1,5 @@
 {
-  "name": "@jaatster/blip-components",
+  "name": "@blip/components",
   "version": "0.1.0",
   "description": "Blip's core components as layered CSS: one file, or one per component.",
   "keywords": [
@@ -45,7 +45,7 @@
     "build": "node ../../scripts/build-css-package.mjs components && node ../../scripts/bundle-css.mjs src/opt-in/popover-nub.css dist/popover-nub.css"
   },
   "dependencies": {
-    "@jaatster/blip-core": "workspace:*",
-    "@jaatster/blip-tokens": "workspace:*"
+    "@blip/core": "workspace:*",
+    "@blip/tokens": "workspace:*"
   }
 }

@@ -1,86 +1,86 @@
 <!-- Field: a sign-up form built from fields (label, control, help, error, count), then the inline layout.
-     <chu-field> wires descriptions, errors and counts; method="dialog" only keeps this demo on the page. -->
-<form method="dialog" class="chu-box" data-variant="panel" data-chu-r="4" aria-labelledby="su-title" style="display:grid;gap:calc(8*var(--chu-pixel));max-inline-size:calc(200*var(--chu-pixel));padding:calc(10*var(--chu-pixel))">
-  <h3 class="chu-title" id="su-title">Make your player</h3>
+     <blip-field> wires descriptions, errors and counts; method="dialog" only keeps this demo on the page. -->
+<form method="dialog" class="blip-box" data-variant="panel" data-blip-r="4" aria-labelledby="su-title" style="display:grid;gap:calc(8*var(--blip-pixel));max-inline-size:calc(200*var(--blip-pixel));padding:calc(10*var(--blip-pixel))">
+  <h3 class="blip-title" id="su-title">Make your player</h3>
 
-  <chu-field class="chu-field">
-    <label class="chu-field-label" for="su-name">Player name</label>
-    <span class="chu-box chu-input"><input id="su-name" name="name" required minlength="3" maxlength="16" value="PixelPal" autocomplete="nickname" spellcheck="false"></span>
-    <p class="chu-field-help">Shown on the leaderboard. Letters and numbers.</p>
-    <p class="chu-field-count"></p>
-  </chu-field>
+  <blip-field class="blip-field">
+    <label class="blip-field-label" for="su-name">Player name</label>
+    <span class="blip-box blip-input"><input id="su-name" name="name" required minlength="3" maxlength="16" value="PixelPal" autocomplete="nickname" spellcheck="false"></span>
+    <p class="blip-field-help">Shown on the leaderboard. Letters and numbers.</p>
+    <p class="blip-field-count"></p>
+  </blip-field>
 
-  <chu-field class="chu-field">
-    <label class="chu-field-label" for="su-email">Email</label>
-    <span class="chu-box chu-input"><input id="su-email" name="email" type="email" required value="pal@" autocomplete="email"></span>
-    <p class="chu-field-error">Enter an email like pal@example.com.</p>
-  </chu-field>
+  <blip-field class="blip-field">
+    <label class="blip-field-label" for="su-email">Email</label>
+    <span class="blip-box blip-input"><input id="su-email" name="email" type="email" required value="pal@" autocomplete="email"></span>
+    <p class="blip-field-error">Enter an email like pal@example.com.</p>
+  </blip-field>
 
-  <chu-field class="chu-field">
-    <label class="chu-field-label" for="su-password">Password</label>
-    <span class="chu-box chu-input"><input id="su-password" name="password" type="password" required minlength="8" autocomplete="new-password"></span>
-    <p class="chu-field-help">8 letters or more. A short phrase is easy to remember.</p>
-    <p class="chu-field-error"></p>
-  </chu-field>
+  <blip-field class="blip-field">
+    <label class="blip-field-label" for="su-password">Password</label>
+    <span class="blip-box blip-input"><input id="su-password" name="password" type="password" required minlength="8" autocomplete="new-password"></span>
+    <p class="blip-field-help">8 letters or more. A short phrase is easy to remember.</p>
+    <p class="blip-field-error"></p>
+  </blip-field>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:calc(6*var(--chu-pixel))">
-    <chu-field class="chu-field">
-      <label class="chu-field-label" for="su-birthday">Birthday</label>
-      <span class="chu-box chu-input"><input id="su-birthday" name="birthday" type="date" value="2010-06-21"></span>
-    </chu-field>
-    <chu-field class="chu-field">
-      <label class="chu-field-label" for="su-world">Home world</label>
-      <span class="chu-box chu-select"><select id="su-world" name="world"><option class="chu-box">Meadow</option><option class="chu-box" selected>Crystal caves</option><option class="chu-box">Sky islands</option></select></span>
-    </chu-field>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:calc(6*var(--blip-pixel))">
+    <blip-field class="blip-field">
+      <label class="blip-field-label" for="su-birthday">Birthday</label>
+      <span class="blip-box blip-input"><input id="su-birthday" name="birthday" type="date" value="2010-06-21"></span>
+    </blip-field>
+    <blip-field class="blip-field">
+      <label class="blip-field-label" for="su-world">Home world</label>
+      <span class="blip-box blip-select"><select id="su-world" name="world"><option class="blip-box">Meadow</option><option class="blip-box" selected>Crystal caves</option><option class="blip-box">Sky islands</option></select></span>
+    </blip-field>
   </div>
 
-  <chu-field class="chu-field">
-    <label class="chu-field-label" for="su-bio">About you</label>
-    <span class="chu-box chu-textarea"><textarea id="su-bio" name="bio" rows="3" maxlength="120">Speedrunner. Still scared of the ghost house.</textarea></span>
-    <p class="chu-field-count"></p>
-  </chu-field>
+  <blip-field class="blip-field">
+    <label class="blip-field-label" for="su-bio">About you</label>
+    <span class="blip-box blip-textarea"><textarea id="su-bio" name="bio" rows="3" maxlength="120">Speedrunner. Still scared of the ghost house.</textarea></span>
+    <p class="blip-field-count"></p>
+  </blip-field>
 
-  <fieldset class="chu-field">
-    <legend class="chu-field-label">Play style</legend>
-    <div style="display:flex;flex-wrap:wrap;gap:calc(2*var(--chu-pixel)) calc(10*var(--chu-pixel))">
-      <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="su-style" value="explore" checked></span>Explorer</label>
-      <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="su-style" value="speed"></span>Speedrunner</label>
-      <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="su-style" value="collect"></span>Collector</label>
+  <fieldset class="blip-field">
+    <legend class="blip-field-label">Play style</legend>
+    <div style="display:flex;flex-wrap:wrap;gap:calc(2*var(--blip-pixel)) calc(10*var(--blip-pixel))">
+      <label class="blip-check"><span class="blip-box blip-radio"><input type="radio" name="su-style" value="explore" checked></span>Explorer</label>
+      <label class="blip-check"><span class="blip-box blip-radio"><input type="radio" name="su-style" value="speed"></span>Speedrunner</label>
+      <label class="blip-check"><span class="blip-box blip-radio"><input type="radio" name="su-style" value="collect"></span>Collector</label>
     </div>
   </fieldset>
 
-  <div><label class="chu-check" data-layout="split">Send me patch notes<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" name="news" checked aria-describedby="su-news"></span></label>
-  <p class="chu-check-help" id="su-news">About once a month. No ads.</p></div>
+  <div><label class="blip-check" data-layout="split">Send me patch notes<span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box" name="news" checked aria-describedby="su-news"></span></label>
+  <p class="blip-check-help" id="su-news">About once a month. No ads.</p></div>
 
-  <chu-field class="chu-field">
-    <label class="chu-check"><span class="chu-box chu-checkbox"><input type="checkbox" name="rules" required></span>I have read the house rules</label>
-    <p class="chu-field-error"></p>
-  </chu-field>
+  <blip-field class="blip-field">
+    <label class="blip-check"><span class="blip-box blip-checkbox"><input type="checkbox" name="rules" required></span>I have read the house rules</label>
+    <p class="blip-field-error"></p>
+  </blip-field>
 
-  <div class="chu-button-group">
-    <button class="chu-box chu-button" type="submit">Create player</button>
-    <button class="chu-box chu-button" type="reset" data-variant="ghost">Start over</button>
+  <div class="blip-button-group">
+    <button class="blip-box blip-button" type="submit">Create player</button>
+    <button class="blip-box blip-button" type="reset" data-variant="ghost">Start over</button>
   </div>
 </form>
 
 <!-- Inline: labels in a column beside their controls. -->
-<div class="chu-box" data-variant="panel" data-chu-r="4" style="display:grid;gap:calc(6*var(--chu-pixel));max-inline-size:calc(220*var(--chu-pixel));margin-block-start:calc(12*var(--chu-pixel));padding:calc(10*var(--chu-pixel))">
-  <div class="chu-field" data-layout="inline">
-    <label class="chu-field-label" for="in2-name">Display name</label>
-    <span class="chu-box chu-input"><input id="in2-name" value="Pixel Pal"></span>
+<div class="blip-box" data-variant="panel" data-blip-r="4" style="display:grid;gap:calc(6*var(--blip-pixel));max-inline-size:calc(220*var(--blip-pixel));margin-block-start:calc(12*var(--blip-pixel));padding:calc(10*var(--blip-pixel))">
+  <div class="blip-field" data-layout="inline">
+    <label class="blip-field-label" for="in2-name">Display name</label>
+    <span class="blip-box blip-input"><input id="in2-name" value="Pixel Pal"></span>
   </div>
-  <div class="chu-field" data-layout="inline">
-    <label class="chu-field-label" for="in2-region">Region</label>
-    <span class="chu-box chu-select"><select id="in2-region"><option class="chu-box">Europe</option><option class="chu-box">Americas</option><option class="chu-box">Asia</option></select></span>
-    <p class="chu-field-help">Pick the nearest for the smoothest races.</p>
+  <div class="blip-field" data-layout="inline">
+    <label class="blip-field-label" for="in2-region">Region</label>
+    <span class="blip-box blip-select"><select id="in2-region"><option class="blip-box">Europe</option><option class="blip-box">Americas</option><option class="blip-box">Asia</option></select></span>
+    <p class="blip-field-help">Pick the nearest for the smoothest races.</p>
   </div>
-  <div class="chu-field" data-layout="inline">
-    <label class="chu-field-label" for="in2-code">Friend code</label>
-    <span class="chu-box chu-input"><input id="in2-code" value="PP-7731-QX" readonly></span>
+  <div class="blip-field" data-layout="inline">
+    <label class="blip-field-label" for="in2-code">Friend code</label>
+    <span class="blip-box blip-input"><input id="in2-code" value="PP-7731-QX" readonly></span>
   </div>
-  <div class="chu-field" data-layout="inline">
-    <label class="chu-field-label" for="in2-clan">Clan tag</label>
-    <span class="chu-box chu-input"><input id="in2-clan" value="??" aria-invalid="true" aria-describedby="in2-clan-error"></span>
-    <p class="chu-field-error" id="in2-clan-error">Tags are 2 to 4 letters.</p>
+  <div class="blip-field" data-layout="inline">
+    <label class="blip-field-label" for="in2-clan">Clan tag</label>
+    <span class="blip-box blip-input"><input id="in2-clan" value="??" aria-invalid="true" aria-describedby="in2-clan-error"></span>
+    <p class="blip-field-error" id="in2-clan-error">Tags are 2 to 4 letters.</p>
   </div>
 </div>

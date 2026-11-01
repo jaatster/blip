@@ -1,5 +1,5 @@
 /**
- * <Textarea>. CSS from @jaatster/blip-components (textarea.css). The ref and every native prop go to the control
+ * <Textarea>. CSS from @blip/components (textarea.css). The ref and every native prop go to the control
  * itself, so forms, labels and refs work as on the bare element; className and style go to the outermost element it
  * renders.
  */
@@ -28,7 +28,7 @@ export type TextareaProps = TextareaOwnProps & Omit<NativeProps<"textarea", Text
  *   <Textarea id="bio" name="bio" rows={4} maxLength={200} />
  *   <Textarea id="note" rows={2} autoGrow />
  *
- * Renders `<span class="chu-box chu-textarea"><textarea></span>`. The ref and every native prop (rows, value,
+ * Renders `<span class="blip-box blip-textarea"><textarea></span>`. The ref and every native prop (rows, value,
  * onChange…) go to the `<textarea>`; className and style go to the well.
  */
 export const Textarea = /*#__PURE__*/ forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
@@ -37,7 +37,7 @@ export const Textarea = /*#__PURE__*/ forwardRef<HTMLTextAreaElement, TextareaPr
 ) {
   return (
     <span
-      className={cx("chu-box chu-textarea", className)}
+      className={cx("blip-box blip-textarea", className)}
       style={style}
       data-autogrow={flag(autoGrow)}
       data-size={size}

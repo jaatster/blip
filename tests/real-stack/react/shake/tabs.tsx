@@ -1,6 +1,6 @@
 // Only Tabs and its parts; the tabs element loads on its own when Tabs mounts.
 import { createRoot } from "react-dom/client";
-import { Tab, TabList, TabPanel, Tabs } from "@jaatster/blip-react";
+import { Tab, TabList, TabPanel, Tabs } from "@blip/react";
 
 createRoot(document.getElementById("root")!).render(
   <Tabs>

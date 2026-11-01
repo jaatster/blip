@@ -14,77 +14,77 @@
  * the cue steps aside, so the focus ring is never dithered.
  */
 
-@layer chu.components {
-  :is(.chu-table-scroll, .chu-dialog-body, .chu-segmented) { scrollbar-color: var(--chu-line) var(--chu-surface-sunken); }
-  :is(.chu-table-scroll, .chu-dialog-body, .chu-segmented, .chu-tabs-list) {
+@layer blip.components {
+  :is(.blip-table-scroll, .blip-dialog-body, .blip-segmented) { scrollbar-color: var(--blip-line) var(--blip-surface-sunken); }
+  :is(.blip-table-scroll, .blip-dialog-body, .blip-segmented, .blip-tabs-list) {
     /* The fade's steps, as masks: opaque where the content still shows. Twelve pixels across (three steps of four),
        two along. */
-    --_chu-fade-end: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 2' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h4v1H0zM4 0h1v1H4zM6 0h1v1H6zM8 0h1v1H8zM10 0h1v1H10zM1 1h1v1H1zM3 1h1v1H3zM5 1h1v1H5zM7 1h1v1H7z'/%3E%3C/svg%3E");
-    --_chu-fade-start: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 2' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h1v1H1zM3 0h1v1H3zM5 0h1v1H5zM7 0h1v1H7zM8 0h4v1H8zM4 1h1v1H4zM6 1h1v1H6zM8 1h1v1H8zM10 1h1v1H10z'/%3E%3C/svg%3E");
-    --_chu-fade-foot: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 12' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v4H0zM0 4h1v1H0zM0 6h1v1H0zM0 8h1v1H0zM0 10h1v1H0zM1 1h1v1H1zM1 3h1v1H1zM1 5h1v1H1zM1 7h1v1H1z'/%3E%3C/svg%3E");
-    --_chu-fade-head: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 12' shape-rendering='crispEdges'%3E%3Cpath d='M0 1h1v1H0zM0 3h1v1H0zM0 5h1v1H0zM0 7h1v1H0zM0 8h1v4H0zM1 4h1v1H1zM1 6h1v1H1zM1 8h1v1H1zM1 10h1v1H1z'/%3E%3C/svg%3E");
-    --_chu-fade: calc(12 * var(--chu-pixel));
+    --_blip-fade-end: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 2' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h4v1H0zM4 0h1v1H4zM6 0h1v1H6zM8 0h1v1H8zM10 0h1v1H10zM1 1h1v1H1zM3 1h1v1H3zM5 1h1v1H5zM7 1h1v1H7z'/%3E%3C/svg%3E");
+    --_blip-fade-start: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 2' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h1v1H1zM3 0h1v1H3zM5 0h1v1H5zM7 0h1v1H7zM8 0h4v1H8zM4 1h1v1H4zM6 1h1v1H6zM8 1h1v1H8zM10 1h1v1H10z'/%3E%3C/svg%3E");
+    --_blip-fade-foot: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 12' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v4H0zM0 4h1v1H0zM0 6h1v1H0zM0 8h1v1H0zM0 10h1v1H0zM1 1h1v1H1zM1 3h1v1H1zM1 5h1v1H1zM1 7h1v1H1z'/%3E%3C/svg%3E");
+    --_blip-fade-head: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 12' shape-rendering='crispEdges'%3E%3Cpath d='M0 1h1v1H0zM0 3h1v1H0zM0 5h1v1H0zM0 7h1v1H0zM0 8h1v4H0zM1 4h1v1H1zM1 6h1v1H1zM1 8h1v1H1zM1 10h1v1H1z'/%3E%3C/svg%3E");
+    --_blip-fade: calc(12 * var(--blip-pixel));
   }
 
   /* A pixel scrollbar where the browser lets us draw one: a candy thumb with an ink edge on a dithered track. */
   @supports selector(::-webkit-scrollbar) {
-    :is(.chu-table-scroll, .chu-dialog-body) { scrollbar-color: auto; scrollbar-width: auto; }
-    :is(.chu-table-scroll, .chu-dialog-body)::-webkit-scrollbar { inline-size: calc(6 * var(--chu-pixel)); block-size: calc(6 * var(--chu-pixel)); }
-    :is(.chu-table-scroll, .chu-dialog-body)::-webkit-scrollbar-track {
-      background: repeating-conic-gradient(var(--chu-line-soft) 0 25%, var(--chu-surface-sunken) 0 50%) 0 0 / calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel));
+    :is(.blip-table-scroll, .blip-dialog-body) { scrollbar-color: auto; scrollbar-width: auto; }
+    :is(.blip-table-scroll, .blip-dialog-body)::-webkit-scrollbar { inline-size: calc(6 * var(--blip-pixel)); block-size: calc(6 * var(--blip-pixel)); }
+    :is(.blip-table-scroll, .blip-dialog-body)::-webkit-scrollbar-track {
+      background: repeating-conic-gradient(var(--blip-line-soft) 0 25%, var(--blip-surface-sunken) 0 50%) 0 0 / calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel));
     }
-    :is(.chu-table-scroll, .chu-dialog-body)::-webkit-scrollbar-thumb {
-      border: var(--chu-pixel) solid var(--chu-outline);
+    :is(.blip-table-scroll, .blip-dialog-body)::-webkit-scrollbar-thumb {
+      border: var(--blip-pixel) solid var(--blip-outline);
       border-radius: 0;
-      background: var(--chu-accent-light);
-      box-shadow: inset 0 calc(-1 * var(--chu-pixel)) 0 var(--chu-accent), inset 0 var(--chu-pixel) 0 var(--chu-white);
+      background: var(--blip-accent-light);
+      box-shadow: inset 0 calc(-1 * var(--blip-pixel)) 0 var(--blip-accent), inset 0 var(--blip-pixel) 0 var(--blip-white);
     }
-    :is(.chu-table-scroll, .chu-dialog-body)::-webkit-scrollbar-thumb:hover { background: var(--chu-accent); }
-    :is(.chu-table-scroll, .chu-dialog-body)::-webkit-scrollbar-corner { background: var(--chu-surface-sunken); }
+    :is(.blip-table-scroll, .blip-dialog-body)::-webkit-scrollbar-thumb:hover { background: var(--blip-accent); }
+    :is(.blip-table-scroll, .blip-dialog-body)::-webkit-scrollbar-corner { background: var(--blip-surface-sunken); }
   }
 
   /* Without scroll-driven animations the body's foot still shows its ink rule while there is more below: drawn
      under the content, and covered by a strip of the panel that travels with the content's end. */
-  .chu-dialog-body {
+  .blip-dialog-body {
     background:
-      linear-gradient(var(--chu-box-fill, var(--chu-surface-raised)) 0 0) 0 100% / 100% var(--chu-pixel) no-repeat local,
-      linear-gradient(var(--chu-outline) 0 0) 0 100% / 100% var(--chu-pixel) no-repeat scroll;
+      linear-gradient(var(--blip-box-fill, var(--blip-surface-raised)) 0 0) 0 100% / 100% var(--blip-pixel) no-repeat local,
+      linear-gradient(var(--blip-outline) 0 0) 0 100% / 100% var(--blip-pixel) no-repeat scroll;
   }
 
   @supports (animation-timeline: scroll()) {
-    /* Across: the table's scroll region. --_chu-s and --_chu-e are 1 while there is more to the start or the end. */
-    .chu-table-scroll {
-      --_chu-s: 0;
-      --_chu-e: 0;
+    /* Across: the table's scroll region. --_blip-s and --_blip-e are 1 while there is more to the start or the end. */
+    .blip-table-scroll {
+      --_blip-s: 0;
+      --_blip-e: 0;
       mask:
-        linear-gradient(#000 0 0) calc(var(--_chu-s) * var(--_chu-fade)) 0 / calc(100% - (var(--_chu-s) + var(--_chu-e)) * var(--_chu-fade)) 100% no-repeat,
-        var(--_chu-fade-start) 0 0 / calc(var(--_chu-s) * var(--_chu-fade)) calc(2 * var(--chu-pixel)) repeat-y,
-        var(--_chu-fade-end) 100% 0 / calc(var(--_chu-e) * var(--_chu-fade)) calc(2 * var(--chu-pixel)) repeat-y;
-      animation: chu-scroll-cue steps(1, jump-end) both;
+        linear-gradient(#000 0 0) calc(var(--_blip-s) * var(--_blip-fade)) 0 / calc(100% - (var(--_blip-s) + var(--_blip-e)) * var(--_blip-fade)) 100% no-repeat,
+        var(--_blip-fade-start) 0 0 / calc(var(--_blip-s) * var(--_blip-fade)) calc(2 * var(--blip-pixel)) repeat-y,
+        var(--_blip-fade-end) 100% 0 / calc(var(--_blip-e) * var(--_blip-fade)) calc(2 * var(--blip-pixel)) repeat-y;
+      animation: blip-scroll-cue steps(1, jump-end) both;
       animation-timeline: scroll(self inline);
     }
     /* Down: the dialog's body. Its foot also takes an ink rule over the footer while there is more below. */
-    .chu-dialog-body {
-      --_chu-s: 0;
-      --_chu-e: 0;
+    .blip-dialog-body {
+      --_blip-s: 0;
+      --_blip-e: 0;
       background: none;
-      border-block-end: var(--chu-pixel) solid color-mix(in srgb, var(--chu-outline) calc(var(--_chu-e) * 100%), transparent);
+      border-block-end: var(--blip-pixel) solid color-mix(in srgb, var(--blip-outline) calc(var(--_blip-e) * 100%), transparent);
       mask:
-        linear-gradient(#000 0 0) 0 calc(var(--_chu-s) * var(--_chu-fade)) / 100% calc(100% - var(--_chu-s) * var(--_chu-fade) - var(--_chu-e) * (var(--_chu-fade) + var(--chu-pixel))) no-repeat,
-        var(--_chu-fade-head) 0 0 / calc(2 * var(--chu-pixel)) calc(var(--_chu-s) * var(--_chu-fade)) repeat-x,
-        var(--_chu-fade-foot) 0 calc(100% - var(--chu-pixel)) / calc(2 * var(--chu-pixel)) calc(var(--_chu-e) * var(--_chu-fade)) repeat-x,
-        linear-gradient(#000 0 0) 0 100% / 100% var(--chu-pixel) no-repeat;
-      animation: chu-scroll-cue steps(1, jump-end) both;
+        linear-gradient(#000 0 0) 0 calc(var(--_blip-s) * var(--_blip-fade)) / 100% calc(100% - var(--_blip-s) * var(--_blip-fade) - var(--_blip-e) * (var(--_blip-fade) + var(--blip-pixel))) no-repeat,
+        var(--_blip-fade-head) 0 0 / calc(2 * var(--blip-pixel)) calc(var(--_blip-s) * var(--_blip-fade)) repeat-x,
+        var(--_blip-fade-foot) 0 calc(100% - var(--blip-pixel)) / calc(2 * var(--blip-pixel)) calc(var(--_blip-e) * var(--_blip-fade)) repeat-x,
+        linear-gradient(#000 0 0) 0 100% / 100% var(--blip-pixel) no-repeat;
+      animation: blip-scroll-cue steps(1, jump-end) both;
       animation-timeline: scroll(self);
     }
-    :is(.chu-table-scroll, .chu-dialog-body):focus-visible { mask: none; }
+    :is(.blip-table-scroll, .blip-dialog-body):focus-visible { mask: none; }
   }
 }
 
 /* Where the scroller is: at the start (more at the end), in between (more both ways), at the end (more at the start).
    It never scrolls: a scroller with nothing to scroll has no timeline, and shows no cue. */
-@keyframes chu-scroll-cue {
-  0% { --_chu-s: 0; --_chu-e: 1; }
-  1%, 98% { --_chu-s: 1; --_chu-e: 1; }
-  99%, 100% { --_chu-s: 1; --_chu-e: 0; }
+@keyframes blip-scroll-cue {
+  0% { --_blip-s: 0; --_blip-e: 1; }
+  1%, 98% { --_blip-s: 1; --_blip-e: 1; }
+  99%, 100% { --_blip-s: 1; --_blip-e: 0; }
 }

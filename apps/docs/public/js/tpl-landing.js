@@ -1,7 +1,7 @@
 // Landing template: the plan buttons and the letter answer honestly, as a template should, and the morning list's
 // Add puts the new task on the list (the features' attract demo presses it).
 const $ = (s, r = document) => r.querySelector(s);
-const toaster = async () => { await customElements.whenDefined("chu-toaster"); return $("chu-toaster"); };
+const toaster = async () => { await customElements.whenDefined("blip-toaster"); return $("blip-toaster"); };
 document.addEventListener("click", async (e) => {
   const b = e.target.closest?.(".tpl-plan-button");
   if (b) (await toaster())?.add({ title: `${b.dataset.plan}: nothing to buy here`, body: "Daybreak is made up for this template.", tone: "info" });

@@ -2,7 +2,7 @@
 // Prints the CSS masks for the glyphs drawn inside game components, made from the same pixel maps as the sprites, so
 // a glyph and its sprite never drift apart. Paste the output into the component's CSS when a map changes.
 //
-//   pnpm --filter @jaatster/blip-game build && node packages/game/scripts/masks.mjs
+//   pnpm --filter @blip/game build && node packages/game/scripts/masks.mjs
 //
 // For each glyph: "<name>-ink" is the whole silhouette, outline included (paint it ink, behind), and "<name>-fill" is
 // everything inside the outline (paint it the glyph's colours, in front).

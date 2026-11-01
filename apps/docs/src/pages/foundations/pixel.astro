@@ -17,42 +17,42 @@ const breakpoints = Object.keys(t.shared).filter((k) => k.startsWith("breakpoint
 const px = (n: number | string) => `${Number(n) * 2} px`;
 
 const usage = await codeBlock(`.my-panel {
-  padding: var(--chu-space-8);                    /* 8 pixels: 16 CSS px, 24 at a 3 px pixel */
+  padding: var(--blip-space-8);                    /* 8 pixels: 16 CSS px, 24 at a 3 px pixel */
   border-radius: 0;                              /* corners come from the candy box, stepped */
-  inline-size: calc(120 * var(--chu-pixel));      /* any size: a whole number of pixels */
+  inline-size: calc(120 * var(--blip-pixel));      /* any size: a whole number of pixels */
 }`, "css", "CSS");
 const H = (id: string, text: string) => ({ depth: 2, id, text });
 ---
 <Docs styles={["foundations"]} scripts={["foundations"]} title="The pixel and space" description="Blip's one square pixel, the spacing scale counted in it, control and icon sizes, and breakpoints." headings={[H("pixel", "One pixel"), H("space", "Space"), H("sizes", "Sizes"), H("breakpoints", "Breakpoints")]}>
   <header class="docs-page-head">
-    <h1 class="docs-page-title chu-display" data-scale="2">The pixel and space</h1>
-    <p class="docs-lede">Everything in Blip is counted in one square pixel, <code class="docs-inline-code">--chu-pixel</code>: 2 CSS px by default, 3 or 4 for a TV or a game. Outlines, corners, icons, letters, spacing and movement are all whole numbers of it, so nothing is ever blurred.</p>
+    <h1 class="docs-page-title blip-display" data-scale="2">The pixel and space</h1>
+    <p class="docs-lede">Everything in Blip is counted in one square pixel, <code class="docs-inline-code">--blip-pixel</code>: 2 CSS px by default, 3 or 4 for a TV or a game. Outlines, corners, icons, letters, spacing and movement are all whole numbers of it, so nothing is ever blurred.</p>
   </header>
 
   <section class="docs-section" aria-labelledby="pixel">
     <h2 id="pixel">One pixel</h2>
-    <p>Switch the pixel and the panel below is drawn again, a size larger. The pixel can be set on the page or on any part of it, with <code class="docs-inline-code">data-chu-pixel</code>.</p>
+    <p>Switch the pixel and the panel below is drawn again, a size larger. The pixel can be set on the page or on any part of it, with <code class="docs-inline-code">data-blip-pixel</code>.</p>
     <div class="docs-row docs-needs-js">
-      <chu-segmented class="chu-box chu-segmented" aria-label="Pixel size of the sample" data-stage="pixel-stage" data-attr="pixel" value="2">
-        <button class="chu-box" type="button" value="2" aria-checked="true">2 px</button>
-        <button class="chu-box" type="button" value="3">3 px</button>
-        <button class="chu-box" type="button" value="4">4 px</button>
-      </chu-segmented>
+      <blip-segmented class="blip-box blip-segmented" aria-label="Pixel size of the sample" data-stage="pixel-stage" data-attr="pixel" value="2">
+        <button class="blip-box" type="button" value="2" aria-checked="true">2 px</button>
+        <button class="blip-box" type="button" value="3">3 px</button>
+        <button class="blip-box" type="button" value="4">4 px</button>
+      </blip-segmented>
     </div>
     <div class="docs-pixel-stage docs-scroll">
       <div id="pixel-stage" class="docs-pixel-sample">
-        <div class="chu-box docs-pixel-card" data-variant="panel">
-          <p class="chu-display chu-pop" data-scale="1" data-pop="Hi!">Hi!</p>
+        <div class="blip-box docs-pixel-card" data-variant="panel">
+          <p class="blip-display blip-pop" data-scale="1" data-pop="Hi!">Hi!</p>
           <div class="docs-row">
-            <span class="chu-box chu-button" data-size="sm"><Icon name="star" />Star</span>
-            <span class="chu-box chu-tag" data-tone="pink">New</span>
+            <span class="blip-box blip-button" data-size="sm"><Icon name="star" />Star</span>
+            <span class="blip-box blip-tag" data-tone="pink">New</span>
             <Icon name="heart" />
           </div>
         </div>
         <div class="docs-pixel-grid" aria-hidden="true"></div>
       </div>
     </div>
-    <p>In CSS, every length is <code class="docs-inline-code">calc(N * var(--chu-pixel))</code> or a token that is one already. Only Pixelify Sans text, which is too small to be read as pixels, and one-pixel borders in Windows high contrast are allowed off the grid.</p>
+    <p>In CSS, every length is <code class="docs-inline-code">calc(N * var(--blip-pixel))</code> or a token that is one already. Only Pixelify Sans text, which is too small to be read as pixels, and one-pixel borders in Windows high contrast are allowed off the grid.</p>
     <Fragment set:html={usage} />
   </section>
 
@@ -62,9 +62,9 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     <div class="docs-space">
       {spaces.map((k) => (
         <div class="docs-space-row">
-          <code class="docs-inline-code">--chu-{k}</code>
-          <span class="docs-space-n docs-num">{t.shared[k]} px<span class="chu-muted"> · {px(t.shared[k]!)}</span></span>
-          <span class="docs-space-bar" style={`inline-size:var(--chu-${k})`}></span>
+          <code class="docs-inline-code">--blip-{k}</code>
+          <span class="docs-space-n docs-num">{t.shared[k]} px<span class="blip-muted"> · {px(t.shared[k]!)}</span></span>
+          <span class="docs-space-bar" style={`inline-size:var(--blip-${k})`}></span>
         </div>
       ))}
     </div>
@@ -74,19 +74,19 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     <h2 id="sizes">Sizes</h2>
     <p>Controls come in three heights, icons in two. Every target is at least 24 CSS px across.</p>
     <div class="docs-row docs-sizes-demo" aria-hidden="true">
-      <span class="chu-box chu-button" data-size="sm">Small</span>
-      <span class="chu-box chu-button">Medium</span>
-      <span class="chu-box chu-button" data-size="lg">Large</span>
+      <span class="blip-box blip-button" data-size="sm">Small</span>
+      <span class="blip-box blip-button">Medium</span>
+      <span class="blip-box blip-button" data-size="lg">Large</span>
       <Icon name="gem" />
       <Icon name="gem" size="lg" />
     </div>
-    <Table label="Size tokens" head={["Token", "Pixels", "At 2 px", ""]} numeric={[1, 2]} rows={sizes.map((k) => [code(`--chu-${k}`), esc(t.shared[k]), px(t.shared[k]!), esc(desc.get(k) ?? "")])} />
+    <Table label="Size tokens" head={["Token", "Pixels", "At 2 px", ""]} numeric={[1, 2]} rows={sizes.map((k) => [code(`--blip-${k}`), esc(t.shared[k]), px(t.shared[k]!), esc(desc.get(k) ?? "")])} />
   </section>
 
   <section class="docs-section" aria-labelledby="breakpoints">
     <h2 id="breakpoints">Breakpoints</h2>
     <p>Three widths: compact, medium from {t.shared["breakpoint-medium"]} px, wide from {t.shared["breakpoint-wide"]} px. Components answer to their container, not the window, so a sidebar's card and a full-width card each lay themselves out.</p>
-    <Table label="Breakpoint tokens" head={["Token", "CSS px", ""]} numeric={[1]} rows={breakpoints.map((k) => [code(`--chu-${k}`), esc(t.shared[k]), esc(desc.get(k) ?? "")])} />
+    <Table label="Breakpoint tokens" head={["Token", "CSS px", ""]} numeric={[1]} rows={breakpoints.map((k) => [code(`--blip-${k}`), esc(t.shared[k]), esc(desc.get(k) ?? "")])} />
   </section>
 
   <Pager />

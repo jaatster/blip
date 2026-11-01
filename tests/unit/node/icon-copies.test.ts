@@ -1,5 +1,5 @@
 /**
- * Pasted icons stay in step with @jaatster/blip-icons. Examples, docs, component comments and the React search field draw
+ * Pasted icons stay in step with @blip/icons. Examples, docs, component comments and the React search field draw
  * some icons inline (a 12 x 12 SVG with the path written out); every such path must be the path of a current icon, so
  * redrawing an icon cannot leave an old copy behind. The set is built from source into a temporary copy first.
  */
@@ -33,7 +33,7 @@ describe("inline icons", () => {
       for (const m of text.matchAll(/viewBox="0 0 12 12"[^>]*>\s*<path d="([^"]+)"/g)) {
         if (m[1]!.includes("${")) continue; // a template that writes the current path in
         seen++;
-        if (!paths.has(m[1]!)) stale.push(`${file}: <path d="${m[1]!.slice(0, 32)}…"> is not the path of any icon. Copy the current one from @jaatster/blip-icons.`);
+        if (!paths.has(m[1]!)) stale.push(`${file}: <path d="${m[1]!.slice(0, 32)}…"> is not the path of any icon. Copy the current one from @blip/icons.`);
       }
     }
     expect(seen).toBeGreaterThan(100);

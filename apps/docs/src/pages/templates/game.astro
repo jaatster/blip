@@ -12,107 +12,107 @@ const letters = [..."Starfall"].map((c, i) => ({ c, i }));
 ---
 <Template title="Game menu template" description="A Blip game menu: a title screen on the world, press start, a main menu, a level with a HUD and dialogue, and a pause menu." kits={["game", "effects"]} scripts={["tpl-game"]} bodyClass="tpl-game-body" display>
   <main class="tpl-game" data-screen="title">
-    <chu-world class="tpl-game-world" parallax clouds stars events></chu-world>
+    <blip-world class="tpl-game-world" parallax clouds stars events></blip-world>
 
     <section class="tpl-screen tpl-title" data-screen-id="title" aria-labelledby="game-title">
-      <h1 class="tpl-game-title chu-display" id="game-title"><span class="chu-sr-only">Starfall</span><span aria-hidden="true">{letters.map(({ c, i }) => <span class="chu-pop chu-drop-in" data-pop={c} style={`--i:${i}`}>{c}</span>)}</span></h1>
-      <p class="tpl-subtitle chu-outline chu-label">A Blip template</p>
+      <h1 class="tpl-game-title blip-display" id="game-title"><span class="blip-sr-only">Starfall</span><span aria-hidden="true">{letters.map(({ c, i }) => <span class="blip-pop blip-drop-in" data-pop={c} style={`--i:${i}`}>{c}</span>)}</span></h1>
+      <p class="tpl-subtitle blip-outline blip-label">A Blip template</p>
       <button class="tpl-press-start" type="button" data-go="menu">
-        <span class="chu-prompt-start chu-display chu-pop chu-blink" data-scale="2" data-pop="Press start">Press start</span>
+        <span class="blip-prompt-start blip-display blip-pop blip-blink" data-scale="2" data-pop="Press start">Press start</span>
       </button>
-      <p class="chu-prompt tpl-hint">or press <kbd class="chu-box chu-prompt-key">Enter</kbd></p>
-      <chu-motion-toggle></chu-motion-toggle>
+      <p class="blip-prompt tpl-hint">or press <kbd class="blip-box blip-prompt-key">Enter</kbd></p>
+      <blip-motion-toggle></blip-motion-toggle>
     </section>
 
     <section class="tpl-screen tpl-menu" data-screen-id="menu" aria-labelledby="menu-title">
-      <div class="chu-box tpl-menu-panel" data-variant="panel">
-        <h2 class="chu-display chu-pop" data-scale="2" data-pop="Starfall" id="menu-title">Starfall</h2>
-        <chu-choices class="tpl-main-choices">
-          <ul class="chu-choices" role="list" data-font="display">
-            <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="new">New game</button></li>
-            <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="continue" aria-disabled="true" aria-describedby="no-save">Continue</button></li>
-            <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="options">Options</button></li>
-            <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="docs">Back to the docs</button></li>
+      <div class="blip-box tpl-menu-panel" data-variant="panel">
+        <h2 class="blip-display blip-pop" data-scale="2" data-pop="Starfall" id="menu-title">Starfall</h2>
+        <blip-choices class="tpl-main-choices">
+          <ul class="blip-choices" role="list" data-font="display">
+            <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="new">New game</button></li>
+            <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="continue" aria-disabled="true" aria-describedby="no-save">Continue</button></li>
+            <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="options">Options</button></li>
+            <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="docs">Back to the docs</button></li>
           </ul>
-        </chu-choices>
-        <p class="chu-small chu-muted" id="no-save">No saved game yet.</p>
+        </blip-choices>
+        <p class="blip-small blip-muted" id="no-save">No saved game yet.</p>
       </div>
-      <section class="chu-box chu-window tpl-options" aria-labelledby="options-title" hidden>
-        <header class="chu-window-bar"><h2 class="chu-window-title chu-display chu-pop" id="options-title">Options</h2></header>
-        <div class="chu-window-body tpl-options-body">
-          <label class="chu-check" data-layout="split">Chip sounds<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box tpl-sound" data-docs-sound /></span></label>
+      <section class="blip-box blip-window tpl-options" aria-labelledby="options-title" hidden>
+        <header class="blip-window-bar"><h2 class="blip-window-title blip-display blip-pop" id="options-title">Options</h2></header>
+        <div class="blip-window-body tpl-options-body">
+          <label class="blip-check" data-layout="split">Chip sounds<span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box tpl-sound" data-docs-sound /></span></label>
           <div class="tpl-options-row">
-            <span class="chu-label" id="tpl-time">Time of day</span>
-            <chu-segmented class="chu-box chu-segmented tpl-time" data-size="sm" aria-labelledby="tpl-time" value="auto">
-              <button class="chu-box" type="button" value="auto" aria-checked="true">Clock</button>
-              <button class="chu-box" type="button" value="day">Day</button>
-              <button class="chu-box" type="button" value="sunset">Sunset</button>
-              <button class="chu-box" type="button" value="night">Night</button>
-            </chu-segmented>
+            <span class="blip-label" id="tpl-time">Time of day</span>
+            <blip-segmented class="blip-box blip-segmented tpl-time" data-size="sm" aria-labelledby="tpl-time" value="auto">
+              <button class="blip-box" type="button" value="auto" aria-checked="true">Clock</button>
+              <button class="blip-box" type="button" value="day">Day</button>
+              <button class="blip-box" type="button" value="sunset">Sunset</button>
+              <button class="blip-box" type="button" value="night">Night</button>
+            </blip-segmented>
           </div>
-          <button class="chu-box chu-button tpl-options-done" type="button" data-variant="soft" data-width="full">Done</button>
+          <button class="blip-box blip-button tpl-options-done" type="button" data-variant="soft" data-width="full">Done</button>
         </div>
       </section>
     </section>
 
     <section class="tpl-screen tpl-level" data-screen-id="level" aria-labelledby="level-title">
-      <div class="chu-hud tpl-hud">
-        <div class="chu-hud-group">
-          <chu-hearts class="tpl-hearts" value="3" max="5" label="Health"></chu-hearts>
-          <div class="chu-hud-stat">
-            <span class="chu-hud-label chu-display chu-pop" data-scale="1" aria-hidden="true">MP</span>
-            <div class="chu-box chu-hud-bar" data-tone="blue" role="meter" aria-label="Magic" aria-valuemin="0" aria-valuemax="8" aria-valuenow="5" style="--chu-hud-value:5;--chu-hud-max:8;--chu-hud-segments:8"><span class="chu-hud-bar-fill"></span></div>
+      <div class="blip-hud tpl-hud">
+        <div class="blip-hud-group">
+          <blip-hearts class="tpl-hearts" value="3" max="5" label="Health"></blip-hearts>
+          <div class="blip-hud-stat">
+            <span class="blip-hud-label blip-display blip-pop" data-scale="1" aria-hidden="true">MP</span>
+            <div class="blip-box blip-hud-bar" data-tone="blue" role="meter" aria-label="Magic" aria-valuemin="0" aria-valuemax="8" aria-valuenow="5" style="--blip-hud-value:5;--blip-hud-max:8;--blip-hud-segments:8"><span class="blip-hud-bar-fill"></span></div>
           </div>
         </div>
-        <div class="chu-hud-group">
-          <chu-counter class="tpl-coins" value="12" pad="3" label="Coins" sound="coin"><chu-sprite name="coin"></chu-sprite></chu-counter>
-          <chu-counter class="tpl-score" value="1200" pad="6" label="Score"><span class="chu-hud-label chu-display chu-pop" data-scale="1" aria-hidden="true">Score</span></chu-counter>
-          <chu-counter class="tpl-clock" value="300" format="time" low="30" label="Time" quiet><chu-sprite name="clock"></chu-sprite></chu-counter>
-          <button class="chu-box chu-button tpl-pause-button" type="button" data-variant="soft" data-tone="neutral" data-size="sm" data-icon-only aria-label="Pause" aria-keyshortcuts="Escape"><Icon name="pause" /></button>
+        <div class="blip-hud-group">
+          <blip-counter class="tpl-coins" value="12" pad="3" label="Coins" sound="coin"><blip-sprite name="coin"></blip-sprite></blip-counter>
+          <blip-counter class="tpl-score" value="1200" pad="6" label="Score"><span class="blip-hud-label blip-display blip-pop" data-scale="1" aria-hidden="true">Score</span></blip-counter>
+          <blip-counter class="tpl-clock" value="300" format="time" low="30" label="Time" quiet><blip-sprite name="clock"></blip-sprite></blip-counter>
+          <button class="blip-box blip-button tpl-pause-button" type="button" data-variant="soft" data-tone="neutral" data-size="sm" data-icon-only aria-label="Pause" aria-keyshortcuts="Escape"><Icon name="pause" /></button>
         </div>
       </div>
-      <h2 class="tpl-level-name chu-display chu-pop" data-scale="2" data-pop="1-1 Puddle Path" id="level-title">1-1 Puddle Path</h2>
+      <h2 class="tpl-level-name blip-display blip-pop" data-scale="2" data-pop="1-1 Puddle Path" id="level-title">1-1 Puddle Path</h2>
       <div class="tpl-field">
-        <button class="chu-box chu-button tpl-coin-button" type="button" data-tone="orange" aria-describedby="coin-hint"><chu-sprite name="coin"></chu-sprite>Collect a coin</button>
-        <p class="chu-prompt tpl-keys" id="coin-hint"><kbd class="chu-box chu-prompt-key">Space</kbd> Coin <kbd class="chu-box chu-prompt-key">Esc</kbd> Pause</p>
+        <button class="blip-box blip-button tpl-coin-button" type="button" data-tone="orange" aria-describedby="coin-hint"><blip-sprite name="coin"></blip-sprite>Collect a coin</button>
+        <p class="blip-prompt tpl-keys" id="coin-hint"><kbd class="blip-box blip-prompt-key">Space</kbd> Coin <kbd class="blip-box blip-prompt-key">Esc</kbd> Pause</p>
       </div>
-      <chu-dialogue class="chu-box chu-dialogue tpl-frog" voice>
-        <span class="chu-box chu-dialogue-name" data-tone="green">Bramble</span>
-        <div class="chu-box chu-dialogue-portrait" data-variant="soft" data-tone="teal" aria-hidden="true"><Fragment set:html={frog()} /></div>
-        <div class="chu-dialogue-body">
-          <div class="chu-dialogue-text">
+      <blip-dialogue class="blip-box blip-dialogue tpl-frog" voice>
+        <span class="blip-box blip-dialogue-name" data-tone="green">Bramble</span>
+        <div class="blip-box blip-dialogue-portrait" data-variant="soft" data-tone="teal" aria-hidden="true"><Fragment set:html={frog()} /></div>
+        <div class="blip-dialogue-body">
+          <div class="blip-dialogue-text">
             <p>Ah, a traveller! The rope bridge washed out in last night's storm.</p>
             <p>I could patch it up before sunset, for thirty coins. Fair?</p>
           </div>
-          <chu-choices class="chu-dialogue-choices">
-            <ul class="chu-choices" role="list">
-              <li><button class="chu-box chu-choice" type="button" data-variant="ghost" value="pay">Pay 30 coins</button></li>
-              <li><button class="chu-box chu-choice" type="button" data-variant="ghost" value="later">Maybe later</button></li>
+          <blip-choices class="blip-dialogue-choices">
+            <ul class="blip-choices" role="list">
+              <li><button class="blip-box blip-choice" type="button" data-variant="ghost" value="pay">Pay 30 coins</button></li>
+              <li><button class="blip-box blip-choice" type="button" data-variant="ghost" value="later">Maybe later</button></li>
             </ul>
-          </chu-choices>
+          </blip-choices>
         </div>
-      </chu-dialogue>
-      <div class="chu-stage-ground tpl-ground"></div>
+      </blip-dialogue>
+      <div class="blip-stage-ground tpl-ground"></div>
     </section>
 
-    <dialog class="chu-box chu-pause tpl-pause" aria-labelledby="pause-title">
-      <h2 id="pause-title" class="chu-pause-title chu-display chu-pop" data-scale="3" data-pop="Paused">Paused</h2>
-      <p class="chu-pause-stats">
-        <span><chu-sprite name="coin"></chu-sprite><span class="tpl-pause-coins">12</span> coins</span>
-        <span><chu-sprite name="star"></chu-sprite>0 of 3</span>
-        <span><chu-sprite name="clock"></chu-sprite><span class="tpl-pause-time">5:00</span></span>
+    <dialog class="blip-box blip-pause tpl-pause" aria-labelledby="pause-title">
+      <h2 id="pause-title" class="blip-pause-title blip-display blip-pop" data-scale="3" data-pop="Paused">Paused</h2>
+      <p class="blip-pause-stats">
+        <span><blip-sprite name="coin"></blip-sprite><span class="tpl-pause-coins">12</span> coins</span>
+        <span><blip-sprite name="star"></blip-sprite>0 of 3</span>
+        <span><blip-sprite name="clock"></blip-sprite><span class="tpl-pause-time">5:00</span></span>
       </p>
-      <chu-choices class="tpl-pause-choices">
-        <ul class="chu-choices" role="list" data-font="display">
-          <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="resume" autofocus>Resume</button></li>
-          <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="title">Quit to title</button></li>
-          <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="docs">Back to the docs</button></li>
+      <blip-choices class="tpl-pause-choices">
+        <ul class="blip-choices" role="list" data-font="display">
+          <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="resume" autofocus>Resume</button></li>
+          <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="title">Quit to title</button></li>
+          <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="docs">Back to the docs</button></li>
         </ul>
-      </chu-choices>
-      <p class="chu-pause-hint chu-prompt"><kbd class="chu-box chu-prompt-key">Esc</kbd> Resume</p>
+      </blip-choices>
+      <p class="blip-pause-hint blip-prompt"><kbd class="blip-box blip-prompt-key">Esc</kbd> Resume</p>
     </dialog>
     <!-- On a touch screen: the D-pad and A, B and Start, sending the keys the game already listens for. Hidden where
          there is a mouse. Behind the pause menu (a modal) it rests; tap the menu's choices there. -->
-    <chu-touch-pad data-a="Enter" data-b="Escape" data-start="Enter"></chu-touch-pad>
+    <blip-touch-pad data-a="Enter" data-b="Escape" data-start="Enter"></blip-touch-pad>
   </main>
 </Template>

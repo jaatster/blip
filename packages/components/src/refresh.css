@@ -1,69 +1,69 @@
 /*
  * Pull to refresh. Round a scroll container: pull down from its top on a touch screen and the content follows a
  * whole pixel at a time, with a pixel arrow stepping down above it. Past the line the arrow flips; let go and the
- * loader spins while the page refreshes, then everything steps back up. <chu-refresh> (@jaatster/blip-elements/refresh)
+ * loader spins while the page refreshes, then everything steps back up. <blip-refresh> (@blip/elements/refresh)
  * does the pulling and adds the indicator and a live region itself. Touch only: pair it with a Refresh button.
  *
- *   <chu-refresh class="chu-refresh">
- *     <div class="chu-refresh-scroller" tabindex="0" aria-label="Scores">…</div>
- *   </chu-refresh>
+ *   <blip-refresh class="blip-refresh">
+ *     <div class="blip-refresh-scroller" tabindex="0" aria-label="Scores">…</div>
+ *   </blip-refresh>
  *
- *   .chu-refresh-scroller           the scroll container (overscroll-behavior-y: contain, so the browser's own pull
+ *   .blip-refresh-scroller           the scroll container (overscroll-behavior-y: contain, so the browser's own pull
  *                                   and the page behind stay out of it); give it a height, or let a layout give one
- *   .chu-refresh-indicator          added by the element: .chu-refresh-arrow, a .chu-loader and .chu-refresh-label,
- *                                   hidden from screen readers; .chu-refresh-status is the polite live region
+ *   .blip-refresh-indicator          added by the element: .blip-refresh-arrow, a .blip-loader and .blip-refresh-label,
+ *                                   hidden from screen readers; .blip-refresh-status is the polite live region
  *
- * Set by the element, to read and style: data-chu-pull="pulling" (the arrow points down), "ready" (past the line:
+ * Set by the element, to read and style: data-blip-pull="pulling" (the arrow points down), "ready" (past the line:
  * it points up), "refreshing" (the loader) and "done" (stepping back up). The scroller is aria-busy="true" while
- * the page refreshes. data-chu-state with the same words draws a state for docs and tests.
+ * the page refreshes. data-blip-state with the same words draws a state for docs and tests.
  */
 
-@layer chu.components {
-  .chu-refresh {
+@layer blip.components {
+  .blip-refresh {
     position: relative;
     display: flex;
     flex-direction: column;
     min-block-size: 0;
   }
-  .chu-refresh-scroller {
+  .blip-refresh-scroller {
     flex: 1 1 auto;
     min-block-size: 0;
     overflow-y: auto;
     overscroll-behavior-y: contain;
-    translate: 0 var(--_chu-pull, var(--_chu-pull-at, 0px));
+    translate: 0 var(--_blip-pull, var(--_blip-pull-at, 0px));
   }
   /* While it is pulled, the content is cut at the bottom (focus rings still show at the sides). */
-  .chu-refresh:is([data-chu-pull], [data-chu-state]) { overflow-y: clip; }
-  .chu-refresh[data-chu-state~="pulling"] { --_chu-pull-at: calc(20 * var(--chu-pixel)); }
-  .chu-refresh[data-chu-state~="ready"] { --_chu-pull-at: calc(32 * var(--chu-pixel)); }
-  .chu-refresh:is([data-chu-state~="refreshing"], [data-chu-state~="done"]) { --_chu-pull-at: calc(24 * var(--chu-pixel)); }
+  .blip-refresh:is([data-blip-pull], [data-blip-state]) { overflow-y: clip; }
+  .blip-refresh[data-blip-state~="pulling"] { --_blip-pull-at: calc(20 * var(--blip-pixel)); }
+  .blip-refresh[data-blip-state~="ready"] { --_blip-pull-at: calc(32 * var(--blip-pixel)); }
+  .blip-refresh:is([data-blip-state~="refreshing"], [data-blip-state~="done"]) { --_blip-pull-at: calc(24 * var(--blip-pixel)); }
 
   /* The arrow or the loader a third of the way in and the words after it, so changing words never move them sideways. */
-  .chu-refresh-indicator {
+  .blip-refresh-indicator {
     position: absolute;
     inset-block-start: 0;
     inset-inline: 0;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 2fr);
     align-items: end;
-    column-gap: var(--chu-space-4);
+    column-gap: var(--blip-space-4);
     box-sizing: border-box;
-    block-size: var(--_chu-pull, var(--_chu-pull-at, 0px));
-    padding-block-end: calc(6 * var(--chu-pixel));
+    block-size: var(--_blip-pull, var(--_blip-pull-at, 0px));
+    padding-block-end: calc(6 * var(--blip-pixel));
     overflow: hidden;
-    color: var(--chu-text-muted);
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-caption);
-    font-weight: var(--chu-weight-bold);
+    color: var(--blip-text-muted);
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-caption);
+    font-weight: var(--blip-weight-bold);
     line-height: 1;
-    letter-spacing: var(--chu-tracking-label);
+    letter-spacing: var(--blip-tracking-label);
     text-transform: uppercase;
     pointer-events: none;
   }
-  .chu-refresh:not([data-chu-pull], [data-chu-state]) > .chu-refresh-indicator { visibility: hidden; }
-  .chu-refresh-indicator > :is(.chu-refresh-arrow, .chu-loader) { grid-area: 1 / 2; }
+  .blip-refresh:not([data-blip-pull], [data-blip-state]) > .blip-refresh-indicator { visibility: hidden; }
+  .blip-refresh-indicator > :is(.blip-refresh-arrow, .blip-loader) { grid-area: 1 / 2; }
   /* Long words end in an ellipsis: they are a hint, and the live region says what happens. */
-  .chu-refresh-label {
+  .blip-refresh-label {
     grid-area: 1 / 3;
     justify-self: start;
     max-inline-size: 100%;
@@ -73,32 +73,32 @@
   }
 
   /* The arrow: an ink silhouette with the accent inside it, 12 pixels square. It flips past the line. */
-  .chu-refresh-arrow {
+  .blip-refresh-arrow {
     position: relative;
     flex: none;
-    inline-size: var(--chu-icon-md);
-    block-size: var(--chu-icon-md);
+    inline-size: var(--blip-icon-md);
+    block-size: var(--blip-icon-md);
   }
-  .chu-refresh-arrow::before,
-  .chu-refresh-arrow::after {
+  .blip-refresh-arrow::before,
+  .blip-refresh-arrow::after {
     content: "";
     position: absolute;
     inset: 0;
-    background-color: var(--chu-outline);
+    background-color: var(--blip-outline);
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' shape-rendering='crispEdges'%3E%3Cpath d='M4 0h4v6h3v2h-1v1h-1v1h-1v1h-1v1H5v-1H4v-1H3V9H2V8H1V6h3z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   }
-  .chu-refresh-arrow::after {
-    background-color: var(--chu-accent);
+  .blip-refresh-arrow::after {
+    background-color: var(--blip-accent);
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' shape-rendering='crispEdges'%3E%3Cpath d='M5 1h2v6h3v1H9v1H8v1H7v1H5v-1H4V9H3V8H2V7h3z'/%3E%3C/svg%3E");
   }
-  .chu-refresh:is([data-chu-pull="ready"], [data-chu-state~="ready"]) .chu-refresh-arrow { scale: 1 -1; }
+  .blip-refresh:is([data-blip-pull="ready"], [data-blip-state~="ready"]) .blip-refresh-arrow { scale: 1 -1; }
 
-  .chu-refresh-indicator > .chu-loader { display: none; justify-self: center; }
-  .chu-refresh:is([data-chu-pull="refreshing"], [data-chu-state~="refreshing"]) .chu-refresh-indicator > .chu-loader { display: inline-flex; }
-  .chu-refresh:is([data-chu-pull="refreshing"], [data-chu-pull="done"], [data-chu-state~="refreshing"], [data-chu-state~="done"]) .chu-refresh-arrow { display: none; }
+  .blip-refresh-indicator > .blip-loader { display: none; justify-self: center; }
+  .blip-refresh:is([data-blip-pull="refreshing"], [data-blip-state~="refreshing"]) .blip-refresh-indicator > .blip-loader { display: inline-flex; }
+  .blip-refresh:is([data-blip-pull="refreshing"], [data-blip-pull="done"], [data-blip-state~="refreshing"], [data-blip-state~="done"]) .blip-refresh-arrow { display: none; }
 
   @media (forced-colors: active) {
-    .chu-refresh-arrow::before { background-color: CanvasText; }
-    .chu-refresh-arrow::after { background-color: Highlight; }
+    .blip-refresh-arrow::before { background-color: CanvasText; }
+    .blip-refresh-arrow::after { background-color: Highlight; }
   }
 }

@@ -24,36 +24,36 @@ const Heading = level === 3 ? "h3" : "h2";
 ---
 <section class="docs-example" data-level={level} aria-labelledby={id}>
   <div class="docs-example-bar">
-    <div class="docs-stack" style="gap:var(--chu-space-2)">
+    <div class="docs-stack" style="gap:var(--blip-space-2)">
       <Heading class="docs-example-title" id={id}>{title}</Heading>
       {note && <p class="docs-example-note">{note}</p>}
     </div>
     {switches && (
       <div class="docs-example-switches docs-needs-js">
-        <chu-segmented class="chu-box chu-segmented" data-size="sm" aria-label="Scheme of the example" data-stage={`${id}-stage`} data-attr="scheme" value="page">
-          <button class="chu-box" type="button" value="page" aria-checked="true">Page</button>
-          <button class="chu-box" type="button" value="day">Day</button>
-          <button class="chu-box" type="button" value="sunset">Sunset</button>
-          <button class="chu-box" type="button" value="night">Night</button>
-        </chu-segmented>
-        <chu-segmented class="chu-box chu-segmented" data-size="sm" aria-label="Pixel size of the example" data-stage={`${id}-stage`} data-attr="pixel" value="2">
-          <button class="chu-box" type="button" value="2" aria-checked="true">2 px</button>
-          <button class="chu-box" type="button" value="3">3 px</button>
-          <button class="chu-box" type="button" value="4">4 px</button>
-        </chu-segmented>
+        <blip-segmented class="blip-box blip-segmented" data-size="sm" aria-label="Scheme of the example" data-stage={`${id}-stage`} data-attr="scheme" value="page">
+          <button class="blip-box" type="button" value="page" aria-checked="true">Page</button>
+          <button class="blip-box" type="button" value="day">Day</button>
+          <button class="blip-box" type="button" value="sunset">Sunset</button>
+          <button class="blip-box" type="button" value="night">Night</button>
+        </blip-segmented>
+        <blip-segmented class="blip-box blip-segmented" data-size="sm" aria-label="Pixel size of the example" data-stage={`${id}-stage`} data-attr="pixel" value="2">
+          <button class="blip-box" type="button" value="2" aria-checked="true">2 px</button>
+          <button class="blip-box" type="button" value="3">3 px</button>
+          <button class="blip-box" type="button" value="4">4 px</button>
+        </blip-segmented>
       </div>
     )}
   </div>
-  <div class="chu-box docs-stage" id={`${id}-stage`}><div class="docs-stage-scroll"><Fragment set:html={html} /></div>{(["start", "end"] as const).map((dir) => <span class="docs-stage-more" data-dir={dir} aria-hidden="true"><span class="chu-box docs-stage-more-chip" data-variant="soft"><span></span></span></span>)}</div>
+  <div class="blip-box docs-stage" id={`${id}-stage`}><div class="docs-stage-scroll"><Fragment set:html={html} /></div>{(["start", "end"] as const).map((dir) => <span class="docs-stage-more" data-dir={dir} aria-hidden="true"><span class="blip-box docs-stage-more-chip" data-variant="soft"><span></span></span></span>)}</div>
   {sourceOpen
     ? <div class="docs-source-open"><Fragment set:html={code} /></div>
     : (
       <div class="docs-source-row">
         <details class="docs-source" id={`${id}-source`}>
-          <summary class="chu-box chu-button" data-variant="outline" data-size="sm"><span class="docs-when-closed">Show the HTML</span><span class="docs-when-open">Hide the HTML</span></summary>
+          <summary class="blip-box blip-button" data-variant="outline" data-size="sm"><span class="docs-when-closed">Show the HTML</span><span class="docs-when-open">Hide the HTML</span></summary>
           <Fragment set:html={code} />
         </details>
-        <button class="chu-box chu-button docs-copy docs-source-copy" type="button" data-variant="ghost" data-size="sm" data-copy-from={`#${id}-source pre`} hidden>Copy the HTML</button>
+        <button class="blip-box blip-button docs-copy docs-source-copy" type="button" data-variant="ghost" data-size="sm" data-copy-from={`#${id}-source pre`} hidden>Copy the HTML</button>
       </div>
     )}
 </section>

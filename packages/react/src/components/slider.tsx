@@ -1,5 +1,5 @@
 /**
- * Slider: Slider, SliderGroup, SliderValue and SliderTicks. CSS from @jaatster/blip-components (slider.css). The ref and
+ * Slider: Slider, SliderGroup, SliderValue and SliderTicks. CSS from @blip/components (slider.css). The ref and
  * every native prop go to the control itself, so forms, labels and refs work as on the bare element; className and
  * style go to the outermost element it renders.
  */
@@ -20,7 +20,7 @@ function withVars(style: CSSProperties | undefined, vars: Record<`--${string}`, 
 export interface SliderOwnProps {
   /**
    * How much of the groove is filled, 0 to 1: (value - min) / (max - min). In a `Field` the element keeps it in
-   * step; without one (and without this) the groove stays empty, except in Firefox. `--chu-slider-value`, in style.
+   * step; without one (and without this) the groove stays empty, except in Firefox. `--blip-slider-value`, in style.
    */
   fill?: number;
 }
@@ -42,7 +42,7 @@ export type SliderProps = SliderOwnProps & Omit<NativeProps<"input", SliderOwnPr
  *   </Field>
  *   <Slider aria-label="Volume" value={volume} onChange={change} fill={volume / 100} />
  *
- * Renders `<input class="chu-slider" type="range">`. The ref and every native prop (min, max, step, value,
+ * Renders `<input class="blip-slider" type="range">`. The ref and every native prop (min, max, step, value,
  * onChange…) go to it.
  */
 export const Slider = /*#__PURE__*/ forwardRef<HTMLInputElement, SliderProps>(function Slider(
@@ -52,9 +52,9 @@ export const Slider = /*#__PURE__*/ forwardRef<HTMLInputElement, SliderProps>(fu
   return (
     <input
       ref={ref}
-      className={cx("chu-slider", className)}
+      className={cx("blip-slider", className)}
       type="range"
-      style={withVars(style, { "--chu-slider-value": fill })}
+      style={withVars(style, { "--blip-slider-value": fill })}
       {...rest}
     />
   );
@@ -64,7 +64,7 @@ export const Slider = /*#__PURE__*/ forwardRef<HTMLInputElement, SliderProps>(fu
 export type SliderGroupProps = NativeProps<"div">;
 
 /**
- * A slider with its readout beside it and its ticks below it. Renders `<div class="chu-slider-group">`.
+ * A slider with its readout beside it and its ticks below it. Renders `<div class="blip-slider-group">`.
  *
  *   <SliderGroup>
  *     <Slider id="sfx" min={0} max={100} step={5} defaultValue={40} />
@@ -75,7 +75,7 @@ export const SliderGroup = /*#__PURE__*/ forwardRef<HTMLDivElement, SliderGroupP
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-slider-group", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-slider-group", className)} {...rest} />;
 });
 
 /** Props for {@link SliderValue}. */
@@ -84,7 +84,7 @@ export type SliderValueProps = NativeProps<"output">;
 /**
  * A slider's value in a small panel, beside it in a {@link SliderGroup}. Screen readers skip it (aria-hidden): the
  * slider already says its value. Point htmlFor at the slider; in a `Field` the element keeps the readout in step.
- * Renders `<output class="chu-box chu-slider-value" data-variant="panel" aria-hidden="true">`.
+ * Renders `<output class="blip-box blip-slider-value" data-variant="panel" aria-hidden="true">`.
  *
  *   <SliderValue htmlFor="music">7</SliderValue>
  */
@@ -93,7 +93,7 @@ export const SliderValue = /*#__PURE__*/ forwardRef<HTMLOutputElement, SliderVal
   ref,
 ) {
   return (
-    <output ref={ref} className={cx("chu-box chu-slider-value", className)} data-variant="panel" aria-hidden {...rest} />
+    <output ref={ref} className={cx("blip-box blip-slider-value", className)} data-variant="panel" aria-hidden {...rest} />
   );
 });
 
@@ -104,7 +104,7 @@ export type SliderTicksProps<T extends ElementType = "datalist"> = PolymorphicPr
  * Tick marks under a slider, one per child, each lined up with the knob at its value; a child's text is its label
  * ("Dim", "Normal", "Bright"). A `<datalist>` of `<option>`s, linked from the slider's list, also snaps the knob to
  * them while dragging (Chromium); `as="div"` with `<span>`s draws the same marks. Renders `<datalist
- * class="chu-slider-ticks">`.
+ * class="blip-slider-ticks">`.
  *
  *   <SliderTicks id="bright-ticks">
  *     <option value="1">Dim</option><option value="2">Normal</option><option value="3">Bright</option>
@@ -114,5 +114,5 @@ export const SliderTicks = /*#__PURE__*/ forwardRef(function SliderTicks(
   { as: Tag = "datalist", className, ...rest }: SliderTicksProps<ElementType>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("chu-slider-ticks", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("blip-slider-ticks", className)} {...rest} />;
 }) as PolymorphicComponent<"datalist", object>;

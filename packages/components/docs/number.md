@@ -1,8 +1,8 @@
 ---
 name: Number stepper
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: number.css
-element: chu-number
+element: blip-number
 react: NumberStepper
 status: beta
 equivalents:
@@ -13,16 +13,16 @@ equivalents:
 # Number stepper
 
 A number field with a pixel minus and plus at its ends: lives, potions to buy, team size. The input inside stays the
-real control (the spin button: arrow keys, typing, the form value); `<chu-number>` adds the buttons, which repeat in
+real control (the spin button: arrow keys, typing, the form value); `<blip-number>` adds the buttons, which repeat in
 steps while held. Without JavaScript it is a plain number field.
 
 ## Usage
 
 ```html
-<label class="chu-field-label" for="lives">Lives</label>
-<chu-number class="chu-number">
-  <span class="chu-box chu-input"><input id="lives" name="lives" type="number" min="1" max="9" value="3"></span>
-</chu-number>
+<label class="blip-field-label" for="lives">Lives</label>
+<blip-number class="blip-number">
+  <span class="blip-box blip-input"><input id="lives" name="lives" type="number" min="1" max="9" value="3"></span>
+</blip-number>
 ```
 
 ## Anatomy
@@ -35,7 +35,7 @@ steps while held. Without JavaScript it is a plain number field.
 
 | Attribute | Values | Use |
 |---|---|---|
-| `data-size` (on `.chu-input`) | `sm`, `md` (default), `lg` | As for the input; the buttons follow. |
+| `data-size` (on `.blip-input`) | `sm`, `md` (default), `lg` | As for the input; the buttons follow. |
 | `min`, `max`, `step` (on the input) | numbers | The range and the step; the buttons respect them. |
 
 ## States
@@ -74,7 +74,7 @@ steps while held. Without JavaScript it is a plain number field.
 
 ## API
 
-`<chu-number>`
+`<blip-number>`
 
 | Attribute | Default | |
 |---|---|---|
@@ -87,10 +87,10 @@ steps while held. Without JavaScript it is a plain number field.
 
 | Event | Detail | |
 |---|---|---|
-| `chu-change` | `{ value }` | The value was committed (the input's `change`). |
+| `blip-change` | `{ value }` | The value was committed (the input's `change`). |
 
 An input rendered after the element, or swapped by a framework, gets the buttons when it arrives.
 
 | Part | |
 |---|---|
-| `.chu-number-step[data-step="down"]`, `.chu-number-step[data-step="up"]` | The buttons the element adds. |
+| `.blip-number-step[data-step="down"]`, `.blip-number-step[data-step="up"]` | The buttons the element adds. |

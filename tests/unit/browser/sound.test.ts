@@ -1,5 +1,5 @@
 /**
- * @jaatster/blip-sound's synthesiser and the dialogue's voice: the same notes always make the same samples, and the game
+ * @blip/sound's synthesiser and the dialogue's voice: the same notes always make the same samples, and the game
  * kit's dialogue voices a letter at the same pitch as the sound package.
  */
 import { describe, expect, it } from "vitest";

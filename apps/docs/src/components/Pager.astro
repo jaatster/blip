@@ -9,7 +9,7 @@ const next = i >= 0 && i < order.length - 1 ? order[i + 1] : undefined;
 ---
 {(prev || next) && (
   <nav class="docs-pager" aria-label="Previous and next">
-    {prev ? <a class="chu-box" data-variant="outline" href={prev.url} rel="prev"><span class="docs-pager-label">Previous</span><span class="docs-pager-title">{prev.title}</span></a> : <span />}
-    {next && <a class="chu-box" data-variant="outline" href={next.url} rel="next"><span class="docs-pager-label">Next</span><span class="docs-pager-title">{next.title}</span></a>}
+    {prev ? <a class="blip-box" data-variant="outline" href={prev.url} rel="prev"><span class="docs-pager-label">Previous</span><span class="docs-pager-title">{prev.title}</span></a> : <span />}
+    {next && <a class="blip-box" data-variant="outline" href={next.url} rel="next"><span class="docs-pager-label">Next</span><span class="docs-pager-title">{next.title}</span></a>}
   </nav>
 )}

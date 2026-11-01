@@ -1,59 +1,59 @@
-<!-- Segmented control: <chu-segmented> with buttons, icons, sizes, full width, a disabled segment; and the same
-     look from native radios with no script. Forced states use data-chu-state (docs and tests only). -->
-<div style="display:grid;gap:calc(8*var(--chu-pixel));justify-items:start">
-  <chu-segmented class="chu-box chu-segmented" name="sg-view" value="grid" aria-label="View">
-    <button class="chu-box" type="button" value="list">List</button>
-    <button class="chu-box" type="button" value="grid" aria-checked="true">Grid</button>
-    <button class="chu-box" type="button" value="map">Map</button>
-  </chu-segmented>
+<!-- Segmented control: <blip-segmented> with buttons, icons, sizes, full width, a disabled segment; and the same
+     look from native radios with no script. Forced states use data-blip-state (docs and tests only). -->
+<div style="display:grid;gap:calc(8*var(--blip-pixel));justify-items:start">
+  <blip-segmented class="blip-box blip-segmented" name="sg-view" value="grid" aria-label="View">
+    <button class="blip-box" type="button" value="list">List</button>
+    <button class="blip-box" type="button" value="grid" aria-checked="true">Grid</button>
+    <button class="blip-box" type="button" value="map">Map</button>
+  </blip-segmented>
 
-  <chu-segmented class="chu-box chu-segmented" name="sg-layout" value="tiles" aria-label="Layout">
-    <button class="chu-box" type="button" value="rows" data-icon-only aria-label="Rows"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h2v2H1zm3 0h7v2H4zM1 5h2v2H1zm3 0h7v2H4zM1 8h2v2H1zm3 0h7v2H4z"/></svg></button>
-    <button class="chu-box" type="button" value="tiles" data-icon-only aria-label="Tiles" aria-checked="true"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zm6 0h4v4H7zM1 7h4v4H1zm6 0h4v4H7z"/></svg></button>
-  </chu-segmented>
+  <blip-segmented class="blip-box blip-segmented" name="sg-layout" value="tiles" aria-label="Layout">
+    <button class="blip-box" type="button" value="rows" data-icon-only aria-label="Rows"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h2v2H1zm3 0h7v2H4zM1 5h2v2H1zm3 0h7v2H4zM1 8h2v2H1zm3 0h7v2H4z"/></svg></button>
+    <button class="blip-box" type="button" value="tiles" data-icon-only aria-label="Tiles" aria-checked="true"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zm6 0h4v4H7zM1 7h4v4H1zm6 0h4v4H7z"/></svg></button>
+  </blip-segmented>
 
-  <div style="display:flex;flex-wrap:wrap;gap:calc(6*var(--chu-pixel));align-items:center">
-    <chu-segmented class="chu-box chu-segmented" data-size="sm" value="day" aria-label="Time of day, small">
-      <button class="chu-box" type="button" value="day" aria-checked="true">Day</button>
-      <button class="chu-box" type="button" value="sunset">Sunset</button>
-      <button class="chu-box" type="button" value="night">Night</button>
-    </chu-segmented>
-    <chu-segmented class="chu-box chu-segmented" data-size="lg" value="2p" aria-label="Players, large">
-      <button class="chu-box" type="button" value="1p">1P</button>
-      <button class="chu-box" type="button" value="2p" aria-checked="true">2P</button>
-      <button class="chu-box" type="button" value="4p" disabled>4P</button>
-    </chu-segmented>
-    <chu-segmented class="chu-box chu-segmented" value="pink" data-tone="pink" aria-label="Team colour">
-      <button class="chu-box" type="button" value="pink" aria-checked="true" data-tone="pink">Pink</button>
-      <button class="chu-box" type="button" value="teal" data-tone="teal">Teal</button>
-    </chu-segmented>
+  <div style="display:flex;flex-wrap:wrap;gap:calc(6*var(--blip-pixel));align-items:center">
+    <blip-segmented class="blip-box blip-segmented" data-size="sm" value="day" aria-label="Time of day, small">
+      <button class="blip-box" type="button" value="day" aria-checked="true">Day</button>
+      <button class="blip-box" type="button" value="sunset">Sunset</button>
+      <button class="blip-box" type="button" value="night">Night</button>
+    </blip-segmented>
+    <blip-segmented class="blip-box blip-segmented" data-size="lg" value="2p" aria-label="Players, large">
+      <button class="blip-box" type="button" value="1p">1P</button>
+      <button class="blip-box" type="button" value="2p" aria-checked="true">2P</button>
+      <button class="blip-box" type="button" value="4p" disabled>4P</button>
+    </blip-segmented>
+    <blip-segmented class="blip-box blip-segmented" value="pink" data-tone="pink" aria-label="Team colour">
+      <button class="blip-box" type="button" value="pink" aria-checked="true" data-tone="pink">Pink</button>
+      <button class="blip-box" type="button" value="teal" data-tone="teal">Teal</button>
+    </blip-segmented>
   </div>
 
-  <chu-segmented class="chu-box chu-segmented" data-width="full" value="weekly" aria-label="Leaderboard" style="inline-size:min(100%,calc(200*var(--chu-pixel)))">
-    <button class="chu-box" type="button" value="daily">Today</button>
-    <button class="chu-box" type="button" value="weekly" aria-checked="true">This week</button>
-    <button class="chu-box" type="button" value="ever">All time</button>
-  </chu-segmented>
+  <blip-segmented class="blip-box blip-segmented" data-width="full" value="weekly" aria-label="Leaderboard" style="inline-size:min(100%,calc(200*var(--blip-pixel)))">
+    <button class="blip-box" type="button" value="daily">Today</button>
+    <button class="blip-box" type="button" value="weekly" aria-checked="true">This week</button>
+    <button class="blip-box" type="button" value="ever">All time</button>
+  </blip-segmented>
 
-  <div style="display:flex;flex-wrap:wrap;gap:calc(6*var(--chu-pixel));align-items:center">
-    <span class="chu-label chu-muted">Hover, focus</span>
-    <div class="chu-box chu-segmented" role="radiogroup" aria-label="Forced states">
-      <button class="chu-box" type="button" role="radio" aria-checked="false" tabindex="-1" data-chu-state="hover">Hover</button>
-      <button class="chu-box" type="button" role="radio" aria-checked="true" tabindex="-1">Chosen</button>
-      <button class="chu-box" type="button" role="radio" aria-checked="false" tabindex="-1" data-chu-state="focus">Focus</button>
+  <div style="display:flex;flex-wrap:wrap;gap:calc(6*var(--blip-pixel));align-items:center">
+    <span class="blip-label blip-muted">Hover, focus</span>
+    <div class="blip-box blip-segmented" role="radiogroup" aria-label="Forced states">
+      <button class="blip-box" type="button" role="radio" aria-checked="false" tabindex="-1" data-blip-state="hover">Hover</button>
+      <button class="blip-box" type="button" role="radio" aria-checked="true" tabindex="-1">Chosen</button>
+      <button class="blip-box" type="button" role="radio" aria-checked="false" tabindex="-1" data-blip-state="focus">Focus</button>
     </div>
-    <span class="chu-label chu-muted">Disabled</span>
-    <chu-segmented class="chu-box chu-segmented" value="on" disabled aria-label="Disabled">
-      <button class="chu-box" type="button" value="off">Off</button>
-      <button class="chu-box" type="button" value="on" aria-checked="true">On</button>
-    </chu-segmented>
+    <span class="blip-label blip-muted">Disabled</span>
+    <blip-segmented class="blip-box blip-segmented" value="on" disabled aria-label="Disabled">
+      <button class="blip-box" type="button" value="off">Off</button>
+      <button class="blip-box" type="button" value="on" aria-checked="true">On</button>
+    </blip-segmented>
   </div>
 
   <!-- No script: native radios do the work. -->
-  <fieldset class="chu-box chu-segmented">
-    <legend class="chu-sr-only">Difficulty</legend>
-    <label class="chu-box"><input type="radio" name="sg-difficulty" value="easy">Easy</label>
-    <label class="chu-box"><input type="radio" name="sg-difficulty" value="normal" checked>Normal</label>
-    <label class="chu-box"><input type="radio" name="sg-difficulty" value="hard">Hard</label>
+  <fieldset class="blip-box blip-segmented">
+    <legend class="blip-sr-only">Difficulty</legend>
+    <label class="blip-box"><input type="radio" name="sg-difficulty" value="easy">Easy</label>
+    <label class="blip-box"><input type="radio" name="sg-difficulty" value="normal" checked>Normal</label>
+    <label class="blip-box"><input type="radio" name="sg-difficulty" value="hard">Hard</label>
   </fieldset>
 </div>

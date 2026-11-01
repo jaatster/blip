@@ -3,45 +3,45 @@
  * where the dither fills in sweeps across it in six steps every four beats; with reduced motion it holds still.
  * Never a blurred or see-through shimmer: the sweep only changes which pixels are lit.
  *
- *   <div class="chu-box chu-card" aria-busy="true" aria-describedby="loading-note">
- *     <span class="chu-skeleton" data-shape="circle" aria-hidden="true"></span>
- *     <span class="chu-skeleton" data-shape="text" aria-hidden="true"></span>
- *     <span class="chu-skeleton" data-shape="text" style="inline-size: 60%" aria-hidden="true"></span>
+ *   <div class="blip-box blip-card" aria-busy="true" aria-describedby="loading-note">
+ *     <span class="blip-skeleton" data-shape="circle" aria-hidden="true"></span>
+ *     <span class="blip-skeleton" data-shape="text" aria-hidden="true"></span>
+ *     <span class="blip-skeleton" data-shape="text" style="inline-size: 60%" aria-hidden="true"></span>
  *   </div>
  *
  *   data-shape             block (default) | text | circle
- *   --chu-skeleton-size     a block's height, a circle's width (default 24 pixels)
+ *   --blip-skeleton-size     a block's height, a circle's width (default 24 pixels)
  *
  * Skeletons are pictures of nothing: hide them from assistive technology, mark the region aria-busy="true", and
  * say what is loading in words (a loader with role="status", or text).
  */
 
-@property --_chu-sweep { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --_blip-sweep { syntax: "<number>"; inherits: false; initial-value: 0; }
 
-@layer chu.components {
-  .chu-skeleton {
+@layer blip.components {
+  .blip-skeleton {
     /* A checkerboard of a soft line colour and the surface; the sweep fills the gaps in with the line colour, which
        reads in every scheme (darker by day, lighter at night). */
-    --_chu-a: var(--chu-line-soft);
-    --_chu-b: var(--chu-surface);
-    --_chu-tile: calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel));
+    --_blip-a: var(--blip-line-soft);
+    --_blip-b: var(--blip-surface);
+    --_blip-tile: calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel));
     display: block;
     position: relative;
     inline-size: 100%;
-    block-size: var(--chu-skeleton-size, calc(24 * var(--chu-pixel)));
-    background: repeating-conic-gradient(var(--_chu-a) 0 25%, var(--_chu-b) 0 50%) 0 0 / var(--_chu-tile);
+    block-size: var(--blip-skeleton-size, calc(24 * var(--blip-pixel)));
+    background: repeating-conic-gradient(var(--_blip-a) 0 25%, var(--_blip-b) 0 50%) 0 0 / var(--_blip-tile);
     /* One pixel off each corner: the smallest stepped corner. */
     clip-path: polygon(
-      var(--chu-pixel) 0, calc(100% - var(--chu-pixel)) 0, calc(100% - var(--chu-pixel)) var(--chu-pixel), 100% var(--chu-pixel),
-      100% calc(100% - var(--chu-pixel)), calc(100% - var(--chu-pixel)) calc(100% - var(--chu-pixel)), calc(100% - var(--chu-pixel)) 100%, var(--chu-pixel) 100%,
-      var(--chu-pixel) calc(100% - var(--chu-pixel)), 0 calc(100% - var(--chu-pixel)), 0 var(--chu-pixel), var(--chu-pixel) var(--chu-pixel));
+      var(--blip-pixel) 0, calc(100% - var(--blip-pixel)) 0, calc(100% - var(--blip-pixel)) var(--blip-pixel), 100% var(--blip-pixel),
+      100% calc(100% - var(--blip-pixel)), calc(100% - var(--blip-pixel)) calc(100% - var(--blip-pixel)), calc(100% - var(--blip-pixel)) 100%, var(--blip-pixel) 100%,
+      var(--blip-pixel) calc(100% - var(--blip-pixel)), 0 calc(100% - var(--blip-pixel)), 0 var(--blip-pixel), var(--blip-pixel) var(--blip-pixel));
   }
-  .chu-skeleton[data-shape="text"] {
-    block-size: calc(6 * var(--chu-pixel));
-    margin-block: calc(3 * var(--chu-pixel));
+  .blip-skeleton[data-shape="text"] {
+    block-size: calc(6 * var(--blip-pixel));
+    margin-block: calc(3 * var(--blip-pixel));
   }
-  .chu-skeleton[data-shape="circle"] {
-    inline-size: var(--chu-skeleton-size, calc(24 * var(--chu-pixel)));
+  .blip-skeleton[data-shape="circle"] {
+    inline-size: var(--blip-skeleton-size, calc(24 * var(--blip-pixel)));
     block-size: auto;
     aspect-ratio: 1;
     flex: none;
@@ -50,27 +50,27 @@
   }
 
   /* The sweep: a band a third as wide where the dither is filled in, masked in and moved a step at a time. */
-  .chu-skeleton::after {
+  .blip-skeleton::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: var(--_chu-a);
-    mask: linear-gradient(var(--chu-ink) 0 0) no-repeat;
+    background: var(--_blip-a);
+    mask: linear-gradient(var(--blip-ink) 0 0) no-repeat;
     mask-size: 30% 100%;
-    mask-position: round(nearest, var(--_chu-sweep) * 30.952% - 42.857%, var(--chu-pixel)) 0;
-    animation: chu-skeleton-sweep calc(4 * var(--chu-duration-beat)) steps(6, jump-end) infinite;
+    mask-position: round(nearest, var(--_blip-sweep) * 30.952% - 42.857%, var(--blip-pixel)) 0;
+    animation: blip-skeleton-sweep calc(4 * var(--blip-duration-beat)) steps(6, jump-end) infinite;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-skeleton::after { animation: none; display: none; }
+    .blip-skeleton::after { animation: none; display: none; }
   }
   @media (forced-colors: active) {
-    .chu-skeleton { forced-color-adjust: none; --_chu-a: GrayText; --_chu-b: Canvas; }
-    .chu-skeleton::after { display: none; }
+    .blip-skeleton { forced-color-adjust: none; --_blip-a: GrayText; --_blip-b: Canvas; }
+    .blip-skeleton::after { display: none; }
   }
 }
 
-@keyframes chu-skeleton-sweep {
-  0% { --_chu-sweep: 0; }
-  40%, 100% { --_chu-sweep: 6; }
+@keyframes blip-skeleton-sweep {
+  0% { --_blip-sweep: 0; }
+  40%, 100% { --_blip-sweep: 6; }
 }

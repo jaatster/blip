@@ -4,17 +4,17 @@
  * it in the tab order right after its button. CSS anchor positioning places it; it flips to the other side when
  * there is no room.
  *
- *   <button class="chu-box chu-button" popovertarget="profile">Player 1</button>
- *   <div class="chu-box chu-popover" id="profile" popover>
- *     <span class="chu-popover-nub" aria-hidden="true"></span>
+ *   <button class="blip-box blip-button" popovertarget="profile">Player 1</button>
+ *   <div class="blip-box blip-popover" id="profile" popover>
+ *     <span class="blip-popover-nub" aria-hidden="true"></span>
  *     …
  *   </div>
  *
  *   data-side        bottom (default) | top | left | right          which side of the button it opens on
  *   data-align       center (default) | start | end                  for bottom and top; the nub follows
- *   .chu-popover-title   an optional bold first line
- *   .chu-popover-close   an optional close button (popovertarget="profile" popovertargetaction="hide")
- *   data-chu-static   drawn in the page flow, for docs, tests and screenshots
+ *   .blip-popover-title   an optional bold first line
+ *   .blip-popover-close   an optional close button (popovertarget="profile" popovertargetaction="hide")
+ *   data-blip-static   drawn in the page flow, for docs, tests and screenshots
  *
  * The button needs nothing else in browsers where the popover's opener is its anchor. Elsewhere give the button
  * style="anchor-name: --profile" and the popover style="position-anchor: --profile". Without anchor positioning
@@ -27,92 +27,92 @@
  */
 @import "./_feedback.css";
 
-@layer chu.components {
-  .chu-popover {
-    --chu-drop-size: 2;
-    --_chu-gap: calc(5 * var(--chu-pixel));
+@layer blip.components {
+  .blip-popover {
+    --blip-drop-size: 2;
+    --_blip-gap: calc(5 * var(--blip-pixel));
     position: fixed;
     inset: auto;
     margin: 0;
-    margin-block-start: var(--_chu-gap);
-    padding: calc(6 * var(--chu-pixel)) calc(7 * var(--chu-pixel)) calc(7 * var(--chu-pixel));
-    max-inline-size: round(down, min(calc(160 * var(--chu-pixel)), 100vw - 16 * var(--chu-pixel)), var(--chu-pixel));
+    margin-block-start: var(--_blip-gap);
+    padding: calc(6 * var(--blip-pixel)) calc(7 * var(--blip-pixel)) calc(7 * var(--blip-pixel));
+    max-inline-size: round(down, min(calc(160 * var(--blip-pixel)), 100vw - 16 * var(--blip-pixel)), var(--blip-pixel));
     overflow: visible;
-    color: var(--chu-box-text);
-    font-size: var(--chu-size-small);
-    line-height: var(--chu-leading-normal);
+    color: var(--blip-box-text);
+    font-size: var(--blip-size-small);
+    line-height: var(--blip-leading-normal);
     text-align: start;
     position-area: block-end;
     position-try-fallbacks: flip-block;
   }
-  .chu-popover:not([data-variant]) {
-    --chu-box-top: var(--chu-surface-raised);
-    --chu-box-fill: var(--chu-surface-raised);
-    --chu-box-bottom: var(--chu-surface-raised);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
+  .blip-popover:not([data-variant]) {
+    --blip-box-top: var(--blip-surface-raised);
+    --blip-box-fill: var(--blip-surface-raised);
+    --blip-box-bottom: var(--blip-surface-raised);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
   }
-  .chu-popover[data-align="start"] { position-area: block-end span-inline-end; }
-  .chu-popover[data-align="end"] { position-area: block-end span-inline-start; }
-  .chu-popover[data-side="top"] { margin-block: 0 var(--_chu-gap); position-area: block-start; }
-  .chu-popover[data-side="top"][data-align="start"] { position-area: block-start span-inline-end; }
-  .chu-popover[data-side="top"][data-align="end"] { position-area: block-start span-inline-start; }
-  .chu-popover:is([data-side="left"], [data-side="right"]) { margin: 0; position-try-fallbacks: flip-inline; }
-  .chu-popover[data-side="left"] { margin-right: var(--_chu-gap); position-area: left; }
-  .chu-popover[data-side="right"] { margin-left: var(--_chu-gap); position-area: right; }
+  .blip-popover[data-align="start"] { position-area: block-end span-inline-end; }
+  .blip-popover[data-align="end"] { position-area: block-end span-inline-start; }
+  .blip-popover[data-side="top"] { margin-block: 0 var(--_blip-gap); position-area: block-start; }
+  .blip-popover[data-side="top"][data-align="start"] { position-area: block-start span-inline-end; }
+  .blip-popover[data-side="top"][data-align="end"] { position-area: block-start span-inline-start; }
+  .blip-popover:is([data-side="left"], [data-side="right"]) { margin: 0; position-try-fallbacks: flip-inline; }
+  .blip-popover[data-side="left"] { margin-right: var(--_blip-gap); position-area: left; }
+  .blip-popover[data-side="right"] { margin-left: var(--_blip-gap); position-area: right; }
 
-  .chu-popover:popover-open { animation: chu-popover-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end); }
-  .chu-popover[data-chu-static] { display: block; position: relative; animation: none; }
+  .blip-popover:popover-open { animation: blip-popover-in calc(2 * var(--blip-duration-frame)) steps(1, jump-end); }
+  .blip-popover[data-blip-static] { display: block; position: relative; animation: none; }
 
   /* The nub: an ink outline and the panel's fill, its base lying on the panel's outline. It is drawn pointing
      down in the top of a 7 x 7 pixel square and turned in quarter turns, which keep every pixel on the grid. */
-  .chu-popover-nub {
+  .blip-popover-nub {
     position: absolute;
-    inset-block-start: calc(-6 * var(--chu-pixel));
-    inset-inline-start: calc(round(down, 50%, var(--chu-pixel)) - 3 * var(--chu-pixel));
-    inline-size: calc(7 * var(--chu-pixel));
-    block-size: calc(7 * var(--chu-pixel));
+    inset-block-start: calc(-6 * var(--blip-pixel));
+    inset-inline-start: calc(round(down, 50%, var(--blip-pixel)) - 3 * var(--blip-pixel));
+    inline-size: calc(7 * var(--blip-pixel));
+    block-size: calc(7 * var(--blip-pixel));
     rotate: 180deg;
-    background: var(--chu-box-outline);
-    mask: var(--_chu-g-nub) 0 0 / 100% calc(4 * var(--chu-pixel)) no-repeat;
+    background: var(--blip-box-outline);
+    mask: var(--_blip-g-nub) 0 0 / 100% calc(4 * var(--blip-pixel)) no-repeat;
     pointer-events: none;
   }
-  .chu-popover-nub::before {
+  .blip-popover-nub::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: var(--chu-box-fill);
-    mask: var(--_chu-g-nub-fill) 0 0 / 100% calc(4 * var(--chu-pixel)) no-repeat;
+    background: var(--blip-box-fill);
+    mask: var(--_blip-g-nub-fill) 0 0 / 100% calc(4 * var(--blip-pixel)) no-repeat;
   }
-  .chu-popover[data-align="start"] .chu-popover-nub { inset-inline-start: calc(5 * var(--chu-pixel)); }
-  .chu-popover[data-align="end"] .chu-popover-nub { inset-inline-start: calc(round(down, 100%, var(--chu-pixel)) - 12 * var(--chu-pixel)); }
-  .chu-popover[data-side="top"] .chu-popover-nub { inset-block-start: calc(round(down, 100%, var(--chu-pixel)) - var(--chu-pixel)); rotate: none; }
-  .chu-popover:is([data-side="left"], [data-side="right"]) .chu-popover-nub {
-    inset-block-start: calc(round(down, 50%, var(--chu-pixel)) - 3 * var(--chu-pixel));
+  .blip-popover[data-align="start"] .blip-popover-nub { inset-inline-start: calc(5 * var(--blip-pixel)); }
+  .blip-popover[data-align="end"] .blip-popover-nub { inset-inline-start: calc(round(down, 100%, var(--blip-pixel)) - 12 * var(--blip-pixel)); }
+  .blip-popover[data-side="top"] .blip-popover-nub { inset-block-start: calc(round(down, 100%, var(--blip-pixel)) - var(--blip-pixel)); rotate: none; }
+  .blip-popover:is([data-side="left"], [data-side="right"]) .blip-popover-nub {
+    inset-block-start: calc(round(down, 50%, var(--blip-pixel)) - 3 * var(--blip-pixel));
     inset-inline-start: auto;
   }
-  .chu-popover[data-side="left"] .chu-popover-nub { left: calc(round(down, 100%, var(--chu-pixel)) - var(--chu-pixel)); rotate: -90deg; }
-  .chu-popover[data-side="right"] .chu-popover-nub { left: calc(-6 * var(--chu-pixel)); rotate: 90deg; }
+  .blip-popover[data-side="left"] .blip-popover-nub { left: calc(round(down, 100%, var(--blip-pixel)) - var(--blip-pixel)); rotate: -90deg; }
+  .blip-popover[data-side="right"] .blip-popover-nub { left: calc(-6 * var(--blip-pixel)); rotate: 90deg; }
 
   /* An open popover may have flipped, and only popover-nub.css can tell: until it does, no nub rather than a wrong
      one. Without anchor positioning at all, the popover opens in the middle of the screen. */
-  .chu-popover:not([data-chu-static]) .chu-popover-nub { display: var(--_chu-popover-nub, none); }
+  .blip-popover:not([data-blip-static]) .blip-popover-nub { display: var(--_blip-popover-nub, none); }
   @supports not (position-area: top) {
-    .chu-popover:not([data-chu-static]) { inset: 0; margin: auto; }
+    .blip-popover:not([data-blip-static]) { inset: 0; margin: auto; }
   }
 
-  .chu-popover-title { font-size: var(--chu-size-body); font-weight: var(--chu-weight-bold); line-height: calc(10 * var(--chu-pixel)); }
-  .chu-popover > :where(p + p) { margin-block-start: calc(2 * var(--chu-pixel)); }
+  .blip-popover-title { font-size: var(--blip-size-body); font-weight: var(--blip-weight-bold); line-height: calc(10 * var(--blip-pixel)); }
+  .blip-popover > :where(p + p) { margin-block-start: calc(2 * var(--blip-pixel)); }
 
-  .chu-popover-close { float: inline-end; margin-block: calc(-3 * var(--chu-pixel)) 0; margin-inline: calc(2 * var(--chu-pixel)) calc(-4 * var(--chu-pixel)); }
+  .blip-popover-close { float: inline-end; margin-block: calc(-3 * var(--blip-pixel)) 0; margin-inline: calc(2 * var(--blip-pixel)) calc(-4 * var(--blip-pixel)); }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-popover:popover-open { animation: none; }
+    .blip-popover:popover-open { animation: none; }
   }
   @media (forced-colors: active) {
-    .chu-popover { background: Canvas; }
-    .chu-popover-nub { display: none; }
+    .blip-popover { background: Canvas; }
+    .blip-popover-nub { display: none; }
   }
 }
 
-@keyframes chu-popover-in { 0% { translate: 0 var(--chu-pixel); } 50%, 100% { translate: 0 0; } }
+@keyframes blip-popover-in { 0% { translate: 0 var(--blip-pixel); } 50%, 100% { translate: 0 0; } }

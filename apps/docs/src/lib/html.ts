@@ -8,8 +8,8 @@ export const kb = (bytes: number, digits = 1) => `${(bytes / 1024).toFixed(digit
 export function kitsFor(html: string, pkg?: string): ("game" | "blocks" | "effects")[] {
   const kits = new Set<"game" | "blocks" | "effects">();
   if (pkg === "game" || pkg === "blocks" || pkg === "effects") kits.add(pkg);
-  if (/chu-world|chu-drop-text|chu-typewriter|chu-crt|chu-glint|chu-transition|data-chu-transition|chu-burst|chu-attract/.test(html)) kits.add("effects");
-  if (/chu-sprite|chu-stage|chu-hud|chu-choice|chu-dialogue|chu-prompt|chu-pause|chu-level|chu-inventory|chu-achievement|chu-hearts|chu-counter/.test(html)) kits.add("game");
-  if (/chu-hero|chu-cta|chu-feature|chu-plan|chu-pricing|chu-footer/.test(html)) kits.add("blocks");
+  if (/blip-world|blip-drop-text|blip-typewriter|blip-crt|blip-glint|blip-transition|data-blip-transition|blip-burst|blip-attract/.test(html)) kits.add("effects");
+  if (/blip-sprite|blip-stage|blip-hud|blip-choice|blip-dialogue|blip-prompt|blip-pause|blip-level|blip-inventory|blip-achievement|blip-hearts|blip-counter/.test(html)) kits.add("game");
+  if (/blip-hero|blip-cta|blip-feature|blip-plan|blip-pricing|blip-footer/.test(html)) kits.add("blocks");
   return [...kits].sort((a, b) => ["game", "blocks", "effects"].indexOf(a) - ["game", "blocks", "effects"].indexOf(b));
 }

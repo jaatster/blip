@@ -1,6 +1,6 @@
 /**
  * Drawer: DrawerSheet, the parts that go inside <Drawer>, and <Drawer> itself (generated from its element, re-exported
- * here). CSS from @jaatster/blip-components (drawer.css).
+ * here). CSS from @blip/components (drawer.css).
  */
 import { forwardRef } from "react";
 import { cx, flag } from "../internal/props.js";
@@ -23,9 +23,9 @@ export interface DrawerSheetOwnProps {
   size?: Size;
   /** The title bar's colour: accent (default), any tone or candy. `data-tone`. */
   tone?: Tone;
-  /** Corner radius in pixels, 0 by default: the sheet is part of the screen's edge. `data-chu-r`. */
+  /** Corner radius in pixels, 0 by default: the sheet is part of the screen's edge. `data-blip-r`. */
   radius?: Radius;
-  /** Drawn in the page flow (with `open`): docs, tests and screenshots only. `data-chu-static`. */
+  /** Drawn in the page flow (with `open`): docs, tests and screenshots only. `data-blip-static`. */
   static?: boolean;
 }
 
@@ -47,7 +47,7 @@ export type DrawerSheetProps = DrawerSheetOwnProps & Named & NativeProps<"dialog
  *     </DrawerSheet>
  *   </Drawer>
  *
- * Renders `<dialog class="chu-box chu-drawer">`.
+ * Renders `<dialog class="blip-box blip-drawer">`.
  */
 export const DrawerSheet = /*#__PURE__*/ forwardRef<HTMLDialogElement, DrawerSheetProps>(function DrawerSheet(
   { side, size, tone, radius, static: isStatic, className, ...rest },
@@ -56,12 +56,12 @@ export const DrawerSheet = /*#__PURE__*/ forwardRef<HTMLDialogElement, DrawerShe
   return (
     <dialog
       ref={ref}
-      className={cx("chu-box chu-drawer", className)}
+      className={cx("blip-box blip-drawer", className)}
       data-side={side}
       data-size={size}
       data-tone={tone}
-      data-chu-r={radius}
-      data-chu-static={flag(isStatic)}
+      data-blip-r={radius}
+      data-blip-static={flag(isStatic)}
       {...rest}
     />
   );

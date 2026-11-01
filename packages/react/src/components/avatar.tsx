@@ -1,5 +1,5 @@
 /**
- * Avatar: Avatar, AvatarStatus and AvatarGroup. CSS from @jaatster/blip-components (avatar.css).
+ * Avatar: Avatar, AvatarStatus and AvatarGroup. CSS from @blip/components (avatar.css).
  */
 import { forwardRef } from "react";
 import { box, cx, type NativeProps, type Radius, type Tone } from "../internal/props.js";
@@ -13,7 +13,7 @@ export interface AvatarOwnProps {
   size?: "xs" | "sm" | "md" | "lg" | "xl";
   /** The matte round a picture, or the candy behind initials. Keep each person's colour the same. `data-tone`. */
   tone?: Tone;
-  /** Corner radius in pixels, 0 to 5 (which keeps the picture clear of the corners); by size 1 to 5. `data-chu-r`. */
+  /** Corner radius in pixels, 0 to 5 (which keeps the picture clear of the corners); by size 1 to 5. `data-blip-r`. */
   radius?: Extract<Radius, 0 | 1 | 2 | 3 | 4 | 5>;
 }
 
@@ -22,7 +22,7 @@ export type AvatarProps = AvatarOwnProps & NativeProps<"span", AvatarOwnProps>;
 /**
  * A person or player as a picture or initials in a candy box. A picture is an `<img>`, `<svg>` or `<canvas>` (drawn at
  * 8 x 8 or 16 x 16, so it scales by whole numbers) with `alt` naming them; initials are one or two letters (one on xs
- * and sm) with `role="img"` and `aria-label` the full name. Renders `<span class="chu-box chu-avatar">`.
+ * and sm) with `role="img"` and `aria-label` the full name. Renders `<span class="blip-box blip-avatar">`.
  *
  *   <Avatar tone="pink"><img src="pip.png" alt="Pip Bloom" /></Avatar>
  *   <Avatar tone="teal" role="img" aria-label="Kit Moss">KM</Avatar>
@@ -34,7 +34,7 @@ export const Avatar = /*#__PURE__*/ forwardRef<HTMLSpanElement, AvatarProps>(fun
   return (
     <span
       ref={ref}
-      className={cx("chu-box chu-avatar", className)}
+      className={cx("blip-box blip-avatar", className)}
       {...box({ tone, radius })}
       data-size={size}
       {...rest}
@@ -56,7 +56,7 @@ export type AvatarStatusProps = AvatarStatusOwnProps & Named & NativeProps<"span
 
 /**
  * The status dot on an avatar's corner: a small candy box with a name ("Online"), so colour is never the only cue.
- * Renders `<span class="chu-box chu-avatar-status" role="img">`.
+ * Renders `<span class="blip-box blip-avatar-status" role="img">`.
  *
  *   <Avatar size="lg" tone="pink">
  *     <img src="pip.png" alt="Pip Bloom" />
@@ -70,7 +70,7 @@ export const AvatarStatus = /*#__PURE__*/ forwardRef<HTMLSpanElement, AvatarStat
   return (
     <span
       ref={ref}
-      className={cx("chu-box chu-avatar-status", className)}
+      className={cx("blip-box blip-avatar-status", className)}
       {...box({ variant, tone })}
       role={role}
       {...rest}
@@ -83,7 +83,7 @@ export type AvatarGroupProps = Named & NativeProps<"div">;
 
 /**
  * Avatars that overlap by four pixels (three for small ones), ending with a `+3` avatar in neutral. A group named
- * with a label that counts everyone ("Party: Pip, Juno and 3 more"). Renders `<div class="chu-avatar-group"
+ * with a label that counts everyone ("Party: Pip, Juno and 3 more"). Renders `<div class="blip-avatar-group"
  * role="group">`.
  *
  *   <AvatarGroup aria-label="Party: Pip, Juno and 3 more">
@@ -95,5 +95,5 @@ export const AvatarGroup = /*#__PURE__*/ forwardRef<HTMLDivElement, AvatarGroupP
   { role = "group", className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-avatar-group", className)} role={role} {...rest} />;
+  return <div ref={ref} className={cx("blip-avatar-group", className)} role={role} {...rest} />;
 });

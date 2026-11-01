@@ -1,5 +1,5 @@
 /**
- * Bottom bar: BottomBar, BottomBarList, BottomBarItem, BottomBarLabel and BottomBarBadge. CSS from @jaatster/blip-components
+ * Bottom bar: BottomBar, BottomBarList, BottomBarItem, BottomBarLabel and BottomBarBadge. CSS from @blip/components
  * (bottom-bar.css). A link to the page you are on takes `current` (`aria-current="page"`); list items with no class of
  * their own stay plain `<li>`s.
  */
@@ -16,9 +16,9 @@ const current = (on: boolean | undefined) => (on ? "page" : undefined);
 
 /** Own props of {@link BottomBar}. */
 export interface BottomBarOwnProps {
-  /** `auto`: hidden while the `chu-shell` container is 600 px or wider (the sidebar takes over). `data-collapse`. */
+  /** `auto`: hidden while the `blip-shell` container is 600 px or wider (the sidebar takes over). `data-collapse`. */
   collapse?: "auto";
-  /** Corner radius in pixels, 5 by default. `data-chu-r`. */
+  /** Corner radius in pixels, 5 by default. `data-blip-r`. */
   radius?: Radius;
 }
 
@@ -38,13 +38,13 @@ export type BottomBarProps = BottomBarOwnProps & Named & NativeProps<"nav", Bott
  *       <li>
  *         <BottomBarItem href="/inbox">
  *           <Icon name="inbox" /><BottomBarLabel>Inbox</BottomBarLabel>
- *           <BottomBarBadge tone="danger">3<span className="chu-sr-only"> new</span></BottomBarBadge>
+ *           <BottomBarBadge tone="danger">3<span className="blip-sr-only"> new</span></BottomBarBadge>
  *         </BottomBarItem>
  *       </li>
  *     </BottomBarList>
  *   </BottomBar>
  *
- * Renders `<nav class="chu-box chu-bottom-bar">`.
+ * Renders `<nav class="blip-box blip-bottom-bar">`.
  */
 export const BottomBar = /*#__PURE__*/ forwardRef<HTMLElement, BottomBarProps>(function BottomBar(
   { collapse, radius, className, ...rest },
@@ -53,9 +53,9 @@ export const BottomBar = /*#__PURE__*/ forwardRef<HTMLElement, BottomBarProps>(f
   return (
     <nav
       ref={ref}
-      className={cx("chu-box chu-bottom-bar", className)}
+      className={cx("blip-box blip-bottom-bar", className)}
       data-collapse={collapse}
-      data-chu-r={radius}
+      data-blip-r={radius}
       {...rest}
     />
   );
@@ -69,20 +69,20 @@ export type BottomBarListProps = NativeProps<"ul">;
  *
  *   <BottomBarList>…</BottomBarList>
  *
- * Renders `<ul class="chu-bottom-bar-list" role="list">`.
+ * Renders `<ul class="blip-bottom-bar-list" role="list">`.
  */
 export const BottomBarList = /*#__PURE__*/ forwardRef<HTMLUListElement, BottomBarListProps>(function BottomBarList(
   { className, ...rest },
   ref,
 ) {
-  return <ul ref={ref} className={cx("chu-bottom-bar-list", className)} role="list" {...rest} />;
+  return <ul ref={ref} className={cx("blip-bottom-bar-list", className)} role="list" {...rest} />;
 });
 
 /** Own props of {@link BottomBarItem}. */
 export interface BottomBarItemOwnProps {
   /** The destination you are on: sits in, an accent-light chip with an ink label. `aria-current="page"`. */
   current?: boolean;
-  /** Corner radius in pixels, 4 by default. `data-chu-r`. */
+  /** Corner radius in pixels, 4 by default. `data-blip-r`. */
   radius?: Radius;
 }
 
@@ -95,7 +95,7 @@ export type BottomBarItemProps<T extends ElementType = "a"> = PolymorphicProps<T
  *
  *   <li><BottomBarItem href="/" current><Icon name="home" /><BottomBarLabel>Today</BottomBarLabel></BottomBarItem></li>
  *
- * Renders `<a class="chu-box chu-bottom-bar-item" data-variant="ghost">`; with `as`, your router's link.
+ * Renders `<a class="blip-box blip-bottom-bar-item" data-variant="ghost">`; with `as`, your router's link.
  */
 export const BottomBarItem = /*#__PURE__*/ forwardRef(function BottomBarItem(
   { as: Tag = "a", current: isCurrent, radius, className, ...rest }: BottomBarItemProps<ElementType>,
@@ -104,9 +104,9 @@ export const BottomBarItem = /*#__PURE__*/ forwardRef(function BottomBarItem(
   return (
     <Tag
       ref={ref}
-      className={cx("chu-box chu-bottom-bar-item", className)}
+      className={cx("blip-box blip-bottom-bar-item", className)}
       data-variant="ghost"
-      data-chu-r={radius}
+      data-blip-r={radius}
       aria-current={current(isCurrent)}
       {...rest}
     />
@@ -121,13 +121,13 @@ export type BottomBarLabelProps = NativeProps<"span">;
  *
  *   <BottomBarLabel>Inbox</BottomBarLabel>
  *
- * Renders `<span class="chu-bottom-bar-label">`.
+ * Renders `<span class="blip-bottom-bar-label">`.
  */
 export const BottomBarLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, BottomBarLabelProps>(function BottomBarLabel(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-bottom-bar-label", className)} {...rest} />;
+  return <span ref={ref} className={cx("blip-bottom-bar-label", className)} {...rest} />;
 });
 
 /** Own props of {@link BottomBarBadge}. */
@@ -144,10 +144,10 @@ export type BottomBarBadgeProps = BottomBarBadgeOwnProps & NativeProps<"span", B
 /**
  * A count on the corner of an item's icon: a small candy box. Add words for screen readers.
  *
- *   <BottomBarBadge tone="danger">3<span className="chu-sr-only"> new</span></BottomBarBadge>
- *   <BottomBarBadge tone="danger" dot><span className="chu-sr-only">, new</span></BottomBarBadge>
+ *   <BottomBarBadge tone="danger">3<span className="blip-sr-only"> new</span></BottomBarBadge>
+ *   <BottomBarBadge tone="danger" dot><span className="blip-sr-only">, new</span></BottomBarBadge>
  *
- * Renders `<span class="chu-box chu-bottom-bar-badge">`.
+ * Renders `<span class="blip-box blip-bottom-bar-badge">`.
  */
 export const BottomBarBadge = /*#__PURE__*/ forwardRef<HTMLSpanElement, BottomBarBadgeProps>(function BottomBarBadge(
   { tone, dot, className, ...rest },
@@ -156,7 +156,7 @@ export const BottomBarBadge = /*#__PURE__*/ forwardRef<HTMLSpanElement, BottomBa
   return (
     <span
       ref={ref}
-      className={cx("chu-box chu-bottom-bar-badge", className)}
+      className={cx("blip-box blip-bottom-bar-badge", className)}
       data-tone={tone}
       data-dot={flag(dot)}
       {...rest}

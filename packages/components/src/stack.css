@@ -1,39 +1,39 @@
 /*
  * Stack. Vertical rhythm: children one under another, a token gap apart. A layout primitive: no colour, no box.
  *
- *   <div class="chu-stack">…</div>
- *   <div class="chu-stack" data-gap="4" data-align="start">…</div>
- *   <div class="chu-stack"><header>…</header><main>…</main><footer data-push>…</footer></div>
+ *   <div class="blip-stack">…</div>
+ *   <div class="blip-stack" data-gap="4" data-align="start">…</div>
+ *   <div class="blip-stack"><header>…</header><main>…</main><footer data-push>…</footer></div>
  *
- *   data-gap     0 | 1 | 2 | 3 | 4 | 6 | 8 (default) | 12 | 16 | 24 | 32       pixels between children (--chu-space-N)
+ *   data-gap     0 | 1 | 2 | 3 | 4 | 6 | 8 (default) | 12 | 16 | 24 | 32       pixels between children (--blip-space-N)
  *   data-align   stretch (default) | start | center | end                     where children sit across the stack
  *   data-push    on a child: pushes it, and everything after it, to the far end (a footer at the bottom)
  *
- * The gap is counted in the section's own pixel, so a part of the page with data-chu-pixel="3" keeps its rhythm.
+ * The gap is counted in the section's own pixel, so a part of the page with data-blip-pixel="3" keeps its rhythm.
  * Nothing here reads the viewport: a stack is as wide as its container.
  */
 
-@layer chu.components {
-  .chu-stack {
+@layer blip.components {
+  .blip-stack {
     display: flex;
     flex-direction: column;
-    gap: var(--chu-stack-gap, var(--chu-space-8));
+    gap: var(--blip-stack-gap, var(--blip-space-8));
     min-inline-size: 0;
   }
-  .chu-stack > [data-push] { margin-block-start: auto; }
+  .blip-stack > [data-push] { margin-block-start: auto; }
 
-  .chu-stack[data-gap="0"] { gap: 0; }
-  .chu-stack[data-gap="1"] { gap: var(--chu-space-1); }
-  .chu-stack[data-gap="2"] { gap: var(--chu-space-2); }
-  .chu-stack[data-gap="3"] { gap: var(--chu-space-3); }
-  .chu-stack[data-gap="4"] { gap: var(--chu-space-4); }
-  .chu-stack[data-gap="6"] { gap: var(--chu-space-6); }
-  .chu-stack[data-gap="12"] { gap: var(--chu-space-12); }
-  .chu-stack[data-gap="16"] { gap: var(--chu-space-16); }
-  .chu-stack[data-gap="24"] { gap: var(--chu-space-24); }
-  .chu-stack[data-gap="32"] { gap: var(--chu-space-32); }
+  .blip-stack[data-gap="0"] { gap: 0; }
+  .blip-stack[data-gap="1"] { gap: var(--blip-space-1); }
+  .blip-stack[data-gap="2"] { gap: var(--blip-space-2); }
+  .blip-stack[data-gap="3"] { gap: var(--blip-space-3); }
+  .blip-stack[data-gap="4"] { gap: var(--blip-space-4); }
+  .blip-stack[data-gap="6"] { gap: var(--blip-space-6); }
+  .blip-stack[data-gap="12"] { gap: var(--blip-space-12); }
+  .blip-stack[data-gap="16"] { gap: var(--blip-space-16); }
+  .blip-stack[data-gap="24"] { gap: var(--blip-space-24); }
+  .blip-stack[data-gap="32"] { gap: var(--blip-space-32); }
 
-  .chu-stack[data-align="start"] { align-items: flex-start; }
-  .chu-stack[data-align="center"] { align-items: center; }
-  .chu-stack[data-align="end"] { align-items: flex-end; }
+  .blip-stack[data-align="start"] { align-items: flex-start; }
+  .blip-stack[data-align="center"] { align-items: center; }
+  .blip-stack[data-align="end"] { align-items: flex-end; }
 }

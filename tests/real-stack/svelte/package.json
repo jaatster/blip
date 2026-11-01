@@ -1,5 +1,5 @@
 {
-  "name": "chu-stack-svelte",
+  "name": "blip-stack-svelte",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,11 +8,11 @@
     "preview": "vite preview --port 4613 --strictPort"
   },
   "dependencies": {
-    "@jaatster/blip-components": "*",
-    "@jaatster/blip-core": "*",
-    "@jaatster/blip-elements": "*",
-    "@jaatster/blip-font": "*",
-    "@jaatster/blip-tokens": "*"
+    "@blip/components": "*",
+    "@blip/core": "*",
+    "@blip/elements": "*",
+    "@blip/font": "*",
+    "@blip/tokens": "*"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^7.3.1",

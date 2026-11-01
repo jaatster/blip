@@ -3,44 +3,44 @@
  * container is narrower than that. A layout primitive: no colour, no box, no breakpoints. It follows its container,
  * not the viewport, so the same grid works in a page, a sidebar or a card.
  *
- *   <div class="chu-grid">…</div>
- *   <ul class="chu-grid" role="list" data-min="64" data-gap="6">…</ul>
- *   <div class="chu-grid" style="--chu-grid-min: calc(72 * var(--chu-pixel))">…</div>
+ *   <div class="blip-grid">…</div>
+ *   <ul class="blip-grid" role="list" data-min="64" data-gap="6">…</ul>
+ *   <div class="blip-grid" style="--blip-grid-min: calc(72 * var(--blip-pixel))">…</div>
  *
  *   data-min    32 | 48 | 64 | 80 | 96 (default) | 128 | 160 | 192     a column's minimum width, in pixels
- *   data-gap    0 | 1 | 2 | 3 | 4 | 6 | 8 (default) | 12 | 16 | 24 | 32      pixels between cells (--chu-space-N)
+ *   data-gap    0 | 1 | 2 | 3 | 4 | 6 | 8 (default) | 12 | 16 | 24 | 32      pixels between cells (--blip-space-N)
  *   data-fill   keep empty columns when there are few items, instead of stretching them across the row
  *
- * Public custom properties: --chu-grid-min (a length) and --chu-grid-gap.
+ * Public custom properties: --blip-grid-min (a length) and --blip-grid-gap.
  */
 
-@layer chu.components {
-  .chu-grid {
-    --_min: var(--chu-grid-min, calc(96 * var(--chu-pixel)));
+@layer blip.components {
+  .blip-grid {
+    --_min: var(--blip-grid-min, calc(96 * var(--blip-pixel)));
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--_min)), 1fr));
-    gap: var(--chu-grid-gap, var(--chu-space-8));
+    gap: var(--blip-grid-gap, var(--blip-space-8));
     min-inline-size: 0;
   }
-  .chu-grid[data-fill] { grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--_min)), 1fr)); }
-  :where(.chu-grid > *) { min-inline-size: 0; }
+  .blip-grid[data-fill] { grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--_min)), 1fr)); }
+  :where(.blip-grid > *) { min-inline-size: 0; }
 
-  .chu-grid[data-min="32"] { --_min: calc(32 * var(--chu-pixel)); }
-  .chu-grid[data-min="48"] { --_min: calc(48 * var(--chu-pixel)); }
-  .chu-grid[data-min="64"] { --_min: calc(64 * var(--chu-pixel)); }
-  .chu-grid[data-min="80"] { --_min: calc(80 * var(--chu-pixel)); }
-  .chu-grid[data-min="128"] { --_min: calc(128 * var(--chu-pixel)); }
-  .chu-grid[data-min="160"] { --_min: calc(160 * var(--chu-pixel)); }
-  .chu-grid[data-min="192"] { --_min: calc(192 * var(--chu-pixel)); }
+  .blip-grid[data-min="32"] { --_min: calc(32 * var(--blip-pixel)); }
+  .blip-grid[data-min="48"] { --_min: calc(48 * var(--blip-pixel)); }
+  .blip-grid[data-min="64"] { --_min: calc(64 * var(--blip-pixel)); }
+  .blip-grid[data-min="80"] { --_min: calc(80 * var(--blip-pixel)); }
+  .blip-grid[data-min="128"] { --_min: calc(128 * var(--blip-pixel)); }
+  .blip-grid[data-min="160"] { --_min: calc(160 * var(--blip-pixel)); }
+  .blip-grid[data-min="192"] { --_min: calc(192 * var(--blip-pixel)); }
 
-  .chu-grid[data-gap="0"] { gap: 0; }
-  .chu-grid[data-gap="1"] { gap: var(--chu-space-1); }
-  .chu-grid[data-gap="2"] { gap: var(--chu-space-2); }
-  .chu-grid[data-gap="3"] { gap: var(--chu-space-3); }
-  .chu-grid[data-gap="4"] { gap: var(--chu-space-4); }
-  .chu-grid[data-gap="6"] { gap: var(--chu-space-6); }
-  .chu-grid[data-gap="12"] { gap: var(--chu-space-12); }
-  .chu-grid[data-gap="16"] { gap: var(--chu-space-16); }
-  .chu-grid[data-gap="24"] { gap: var(--chu-space-24); }
-  .chu-grid[data-gap="32"] { gap: var(--chu-space-32); }
+  .blip-grid[data-gap="0"] { gap: 0; }
+  .blip-grid[data-gap="1"] { gap: var(--blip-space-1); }
+  .blip-grid[data-gap="2"] { gap: var(--blip-space-2); }
+  .blip-grid[data-gap="3"] { gap: var(--blip-space-3); }
+  .blip-grid[data-gap="4"] { gap: var(--blip-space-4); }
+  .blip-grid[data-gap="6"] { gap: var(--blip-space-6); }
+  .blip-grid[data-gap="12"] { gap: var(--blip-space-12); }
+  .blip-grid[data-gap="16"] { gap: var(--blip-space-16); }
+  .blip-grid[data-gap="24"] { gap: var(--blip-space-24); }
+  .blip-grid[data-gap="32"] { gap: var(--blip-space-32); }
 }

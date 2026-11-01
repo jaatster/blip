@@ -1,45 +1,45 @@
-<!-- Slider: game settings with ticks and readouts (<chu-field> keeps the readout and the groove's fill in step),
-     then every state. Forced states use data-chu-state (docs and tests only). -->
-<section class="chu-box" data-variant="panel" data-chu-r="4" aria-labelledby="sl-title" style="display:grid;gap:calc(8*var(--chu-pixel));max-inline-size:calc(200*var(--chu-pixel));padding:calc(10*var(--chu-pixel))">
-  <h3 class="chu-label" id="sl-title">Sound and screen</h3>
+<!-- Slider: game settings with ticks and readouts (<blip-field> keeps the readout and the groove's fill in step),
+     then every state. Forced states use data-blip-state (docs and tests only). -->
+<section class="blip-box" data-variant="panel" data-blip-r="4" aria-labelledby="sl-title" style="display:grid;gap:calc(8*var(--blip-pixel));max-inline-size:calc(200*var(--blip-pixel));padding:calc(10*var(--blip-pixel))">
+  <h3 class="blip-label" id="sl-title">Sound and screen</h3>
 
-  <chu-field class="chu-field">
-    <label class="chu-field-label" for="sl-music">Music</label>
-    <div class="chu-slider-group">
-      <input class="chu-slider" id="sl-music" name="music" type="range" min="0" max="10" value="7" list="sl-music-ticks">
-      <output class="chu-box chu-slider-value" data-variant="panel" for="sl-music" aria-hidden="true">7</output>
-      <datalist class="chu-slider-ticks" id="sl-music-ticks"><option value="0">0</option><option value="1"></option><option value="2"></option><option value="3"></option><option value="4"></option><option value="5">5</option><option value="6"></option><option value="7"></option><option value="8"></option><option value="9"></option><option value="10">10</option></datalist>
+  <blip-field class="blip-field">
+    <label class="blip-field-label" for="sl-music">Music</label>
+    <div class="blip-slider-group">
+      <input class="blip-slider" id="sl-music" name="music" type="range" min="0" max="10" value="7" list="sl-music-ticks">
+      <output class="blip-box blip-slider-value" data-variant="panel" for="sl-music" aria-hidden="true">7</output>
+      <datalist class="blip-slider-ticks" id="sl-music-ticks"><option value="0">0</option><option value="1"></option><option value="2"></option><option value="3"></option><option value="4"></option><option value="5">5</option><option value="6"></option><option value="7"></option><option value="8"></option><option value="9"></option><option value="10">10</option></datalist>
     </div>
-  </chu-field>
+  </blip-field>
 
-  <chu-field class="chu-field">
-    <label class="chu-field-label" for="sl-sfx">Sound effects</label>
-    <div class="chu-slider-group">
-      <input class="chu-slider" id="sl-sfx" name="sfx" type="range" min="0" max="100" step="5" value="40">
-      <output class="chu-box chu-slider-value" data-variant="panel" for="sl-sfx" aria-hidden="true">40</output>
+  <blip-field class="blip-field">
+    <label class="blip-field-label" for="sl-sfx">Sound effects</label>
+    <div class="blip-slider-group">
+      <input class="blip-slider" id="sl-sfx" name="sfx" type="range" min="0" max="100" step="5" value="40">
+      <output class="blip-box blip-slider-value" data-variant="panel" for="sl-sfx" aria-hidden="true">40</output>
     </div>
-  </chu-field>
+  </blip-field>
 
-  <chu-field class="chu-field">
-    <label class="chu-field-label" for="sl-bright">Brightness</label>
-    <input class="chu-slider" id="sl-bright" name="brightness" type="range" min="1" max="3" value="2" list="sl-bright-ticks" aria-valuetext="Normal">
-    <datalist class="chu-slider-ticks" id="sl-bright-ticks"><option value="1">Dim</option><option value="2">Normal</option><option value="3">Bright</option></datalist>
-  </chu-field>
+  <blip-field class="blip-field">
+    <label class="blip-field-label" for="sl-bright">Brightness</label>
+    <input class="blip-slider" id="sl-bright" name="brightness" type="range" min="1" max="3" value="2" list="sl-bright-ticks" aria-valuetext="Normal">
+    <datalist class="blip-slider-ticks" id="sl-bright-ticks"><option value="1">Dim</option><option value="2">Normal</option><option value="3">Bright</option></datalist>
+  </blip-field>
 
-  <chu-field class="chu-field">
-    <label class="chu-field-label" for="sl-voice">Voice chat</label>
-    <div class="chu-slider-group">
-      <input class="chu-slider" id="sl-voice" type="range" min="0" max="10" value="3" disabled aria-describedby="sl-voice-help">
-      <output class="chu-box chu-slider-value" data-variant="panel" for="sl-voice" aria-hidden="true">3</output>
+  <blip-field class="blip-field">
+    <label class="blip-field-label" for="sl-voice">Voice chat</label>
+    <div class="blip-slider-group">
+      <input class="blip-slider" id="sl-voice" type="range" min="0" max="10" value="3" disabled aria-describedby="sl-voice-help">
+      <output class="blip-box blip-slider-value" data-variant="panel" for="sl-voice" aria-hidden="true">3</output>
     </div>
-    <p class="chu-field-help" id="sl-voice-help">Plug in a headset to talk.</p>
-  </chu-field>
+    <p class="blip-field-help" id="sl-voice-help">Plug in a headset to talk.</p>
+  </blip-field>
 </section>
 
-<div style="display:grid;grid-template-columns:max-content minmax(0,calc(100*var(--chu-pixel)));gap:calc(6*var(--chu-pixel)) calc(10*var(--chu-pixel));align-items:center;margin-block-start:calc(12*var(--chu-pixel))">
-  <span class="chu-label chu-muted">Rest</span><input class="chu-slider" type="range" value="30" aria-label="Rest" style="--chu-slider-value:0.3">
-  <span class="chu-label chu-muted">Hover</span><input class="chu-slider" type="range" value="50" aria-label="Hover" data-chu-state="hover" style="--chu-slider-value:0.5">
-  <span class="chu-label chu-muted">Focus</span><input class="chu-slider" type="range" value="70" aria-label="Focus" data-chu-state="focus" style="--chu-slider-value:0.7">
-  <span class="chu-label chu-muted">Pressed</span><input class="chu-slider" type="range" value="90" aria-label="Pressed" data-chu-state="active" style="--chu-slider-value:0.9">
-  <span class="chu-label chu-muted">Disabled</span><input class="chu-slider" type="range" value="60" aria-label="Disabled" disabled style="--chu-slider-value:0.6">
+<div style="display:grid;grid-template-columns:max-content minmax(0,calc(100*var(--blip-pixel)));gap:calc(6*var(--blip-pixel)) calc(10*var(--blip-pixel));align-items:center;margin-block-start:calc(12*var(--blip-pixel))">
+  <span class="blip-label blip-muted">Rest</span><input class="blip-slider" type="range" value="30" aria-label="Rest" style="--blip-slider-value:0.3">
+  <span class="blip-label blip-muted">Hover</span><input class="blip-slider" type="range" value="50" aria-label="Hover" data-blip-state="hover" style="--blip-slider-value:0.5">
+  <span class="blip-label blip-muted">Focus</span><input class="blip-slider" type="range" value="70" aria-label="Focus" data-blip-state="focus" style="--blip-slider-value:0.7">
+  <span class="blip-label blip-muted">Pressed</span><input class="blip-slider" type="range" value="90" aria-label="Pressed" data-blip-state="active" style="--blip-slider-value:0.9">
+  <span class="blip-label blip-muted">Disabled</span><input class="blip-slider" type="range" value="60" aria-label="Disabled" disabled style="--blip-slider-value:0.6">
 </div>

@@ -2,26 +2,26 @@
  * Dialog. A native <dialog> drawn as a raised panel: a title bar in the tone's light colour with an ink rule under
  * it, a body, and a footer of actions. Opened with showModal(), it stands over a dithered ink scrim (never a
  * see-through wash) and pops in: one pixel low for a frame while the scrim dithers in, then in place. Wrap it in
- * <chu-dialog> (from @jaatster/blip-elements) for the stepped exit, a cancelable chu-before-close and light dismiss.
+ * <blip-dialog> (from @blip/elements) for the stepped exit, a cancelable blip-before-close and light dismiss.
  *
- *   <dialog class="chu-box chu-dialog" id="save" aria-labelledby="save-title">
+ *   <dialog class="blip-box blip-dialog" id="save" aria-labelledby="save-title">
  *     <form method="dialog">
- *       <header class="chu-dialog-header">
- *         <h2 class="chu-dialog-title" id="save-title">Save game</h2>
- *         <button class="chu-box chu-button chu-dialog-close" type="button" commandfor="save" command="close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
+ *       <header class="blip-dialog-header">
+ *         <h2 class="blip-dialog-title" id="save-title">Save game</h2>
+ *         <button class="blip-box blip-button blip-dialog-close" type="button" commandfor="save" command="close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
  *       </header>
- *       <div class="chu-dialog-body">…</div>
- *       <footer class="chu-dialog-footer">
- *         <button class="chu-box chu-button" type="button" commandfor="save" command="close" data-variant="soft" data-tone="neutral">Cancel</button>
- *         <button class="chu-box chu-button" value="save">Save</button>
+ *       <div class="blip-dialog-body">…</div>
+ *       <footer class="blip-dialog-footer">
+ *         <button class="blip-box blip-button" type="button" commandfor="save" command="close" data-variant="soft" data-tone="neutral">Cancel</button>
+ *         <button class="blip-box blip-button" value="save">Save</button>
  *       </footer>
  *     </form>
  *   </dialog>
  *
  *   data-size            sm | md (default) | lg      160, 224 or 320 pixels wide; never wider than the screen
  *   data-tone            accent (default) | info | success | warning | danger            the title bar
- *   role="alertdialog"   a confirmation that interrupts: add .chu-dialog-icon (the tone's sign) to the header
- *   data-chu-static       drawn in the page flow, without the top layer: for docs, tests and screenshots
+ *   role="alertdialog"   a confirmation that interrupts: add .blip-dialog-icon (the tone's sign) to the header
+ *   data-blip-static       drawn in the page flow, without the top layer: for docs, tests and screenshots
  *
  * The body scrolls when the dialog is taller than the screen; the title bar and footer stay put. While there is more
  * below, an ink rule runs over the footer and the text dithers out above it; scrolled down, its top dithers too; a
@@ -30,160 +30,160 @@
 @import "./_feedback.css";
 @import "./_scroll.css";
 
-@layer chu.components {
-  chu-dialog { display: contents; }
+@layer blip.components {
+  blip-dialog { display: contents; }
 
-  .chu-dialog {
-    --_chu-glyph: var(--_chu-g-info);
-    --_chu-w: 224;
-    --chu-drop-size: 2;
+  .blip-dialog {
+    --_blip-glyph: var(--_blip-g-info);
+    --_blip-w: 224;
+    --blip-drop-size: 2;
     /* The box makes things position: relative; in the top layer that would become absolute and scroll away. */
     position: fixed;
     /* Centred, as the browser centres a modal dialog: said here too, so a reset that clears every margin (Tailwind's
        preflight, under Blip) does not pin it to the top left. */
     inset: 0;
     margin: auto;
-    inline-size: round(down, min(calc(var(--_chu-w) * var(--chu-pixel)), 100% - 16 * var(--chu-pixel)), var(--chu-pixel));
+    inline-size: round(down, min(calc(var(--_blip-w) * var(--blip-pixel)), 100% - 16 * var(--blip-pixel)), var(--blip-pixel));
     max-inline-size: none;
-    max-block-size: round(down, 100% - 16 * var(--chu-pixel), var(--chu-pixel));
+    max-block-size: round(down, 100% - 16 * var(--blip-pixel), var(--blip-pixel));
     /* The corners' rows stay clear of content; the title bar reaches up into them. */
-    padding: calc((var(--chu-r) + 1) * var(--chu-pixel)) 0;
+    padding: calc((var(--blip-r) + 1) * var(--blip-pixel)) 0;
     overflow: visible;
-    color: var(--chu-box-text);
-    font-size: var(--chu-size-body);
-    line-height: var(--chu-leading-normal);
+    color: var(--blip-box-text);
+    font-size: var(--blip-size-body);
+    line-height: var(--blip-leading-normal);
   }
-  .chu-dialog[open] { display: flex; flex-direction: column; }
-  .chu-dialog > form { display: contents; }
-  .chu-dialog[data-size="sm"] { --_chu-w: 160; }
-  .chu-dialog[data-size="lg"] { --_chu-w: 320; }
-  .chu-dialog[data-tone="success"] { --_chu-glyph: var(--_chu-g-success); }
-  .chu-dialog[data-tone="warning"] { --_chu-glyph: var(--_chu-g-warning); }
-  .chu-dialog[data-tone="danger"] { --_chu-glyph: var(--_chu-g-danger); }
-  .chu-dialog:not([data-chu-r]) { --chu-r: 4; --chu-shape: var(--chu-shape-4); --chu-shape-inner: var(--chu-shape-4-inner); }
+  .blip-dialog[open] { display: flex; flex-direction: column; }
+  .blip-dialog > form { display: contents; }
+  .blip-dialog[data-size="sm"] { --_blip-w: 160; }
+  .blip-dialog[data-size="lg"] { --_blip-w: 320; }
+  .blip-dialog[data-tone="success"] { --_blip-glyph: var(--_blip-g-success); }
+  .blip-dialog[data-tone="warning"] { --_blip-glyph: var(--_blip-g-warning); }
+  .blip-dialog[data-tone="danger"] { --_blip-glyph: var(--_blip-g-danger); }
+  .blip-dialog:not([data-blip-r]) { --blip-r: 4; --blip-shape: var(--blip-shape-4); --blip-shape-inner: var(--blip-shape-4-inner); }
 
   /* A raised panel; with a header, the top band becomes the title bar's corners. */
-  :is(.chu-dialog, .chu-drawer):not([data-variant]) {
-    --chu-box-top: var(--chu-surface-raised);
-    --chu-box-fill: var(--chu-surface-raised);
-    --chu-box-bottom: var(--chu-surface-raised);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
+  :is(.blip-dialog, .blip-drawer):not([data-variant]) {
+    --blip-box-top: var(--blip-surface-raised);
+    --blip-box-fill: var(--blip-surface-raised);
+    --blip-box-bottom: var(--blip-surface-raised);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
   }
-  :is(.chu-dialog, .chu-drawer):has(> .chu-dialog-header, > form > .chu-dialog-header) {
-    --chu-band-top: var(--chu-r);
-    --chu-box-top: var(--chu-tone-light);
+  :is(.blip-dialog, .blip-drawer):has(> .blip-dialog-header, > form > .blip-dialog-header) {
+    --blip-band-top: var(--blip-r);
+    --blip-box-top: var(--blip-tone-light);
   }
 
-  .chu-dialog-header {
+  .blip-dialog-header {
     display: flex;
     align-items: center;
-    gap: calc(3 * var(--chu-pixel));
+    gap: calc(3 * var(--blip-pixel));
     /* Starts at the outline row: three pixels of bar, a small button's height, three pixels, the rule. */
-    min-block-size: calc(24 * var(--chu-pixel));
-    margin: calc(-1 * (var(--chu-r) + 1) * var(--chu-pixel)) var(--chu-pixel) 0;
-    padding-block: calc(4 * var(--chu-pixel)) calc(3 * var(--chu-pixel));
-    padding-inline: calc(7 * var(--chu-pixel)) calc(3 * var(--chu-pixel));
+    min-block-size: calc(24 * var(--blip-pixel));
+    margin: calc(-1 * (var(--blip-r) + 1) * var(--blip-pixel)) var(--blip-pixel) 0;
+    padding-block: calc(4 * var(--blip-pixel)) calc(3 * var(--blip-pixel));
+    padding-inline: calc(7 * var(--blip-pixel)) calc(3 * var(--blip-pixel));
     /* The bar's colour below the corners; the box's top band paints the corners themselves. */
-    background: linear-gradient(var(--chu-tone-light) 0 0) 0 calc((var(--chu-r) + 1) * var(--chu-pixel)) / 100% 100% no-repeat;
-    border-block-end: var(--chu-pixel) solid var(--chu-outline);
-    color: var(--chu-tone-on);
+    background: linear-gradient(var(--blip-tone-light) 0 0) 0 calc((var(--blip-r) + 1) * var(--blip-pixel)) / 100% 100% no-repeat;
+    border-block-end: var(--blip-pixel) solid var(--blip-outline);
+    color: var(--blip-tone-on);
     /* What sits on the bar is light in every scheme. */
-    --chu-text: var(--chu-ink);
-    --chu-text-muted: var(--chu-ink);
-    --chu-accent-text: var(--chu-ink);
-    --chu-disabled-dither: var(--chu-tone-light);
-    --chu-line: var(--chu-ink);
-    --chu-surface: var(--chu-white);
-    --chu-surface-sunken: var(--chu-tone);
-    --chu-bg: var(--chu-tone-light);
+    --blip-text: var(--blip-ink);
+    --blip-text-muted: var(--blip-ink);
+    --blip-accent-text: var(--blip-ink);
+    --blip-disabled-dither: var(--blip-tone-light);
+    --blip-line: var(--blip-ink);
+    --blip-surface: var(--blip-white);
+    --blip-surface-sunken: var(--blip-tone);
+    --blip-bg: var(--blip-tone-light);
   }
-  .chu-dialog-title {
+  .blip-dialog-title {
     flex: 1;
     min-inline-size: 0;
-    font-family: var(--chu-font-display);
-    font-size: calc(10 * var(--chu-pixel));
+    font-family: var(--blip-font-display);
+    font-size: calc(10 * var(--blip-pixel));
     font-weight: 400;
-    line-height: var(--chu-leading-display);
+    line-height: var(--blip-leading-display);
     letter-spacing: 0;
     text-transform: uppercase;
     overflow-wrap: anywhere;
     -webkit-font-smoothing: none;
     font-smooth: never;
   }
-  .chu-dialog-icon {
+  .blip-dialog-icon {
     flex: none;
-    inline-size: calc(12 * var(--chu-pixel));
-    block-size: calc(12 * var(--chu-pixel));
-    margin-inline-start: calc(-2 * var(--chu-pixel));
+    inline-size: calc(12 * var(--blip-pixel));
+    block-size: calc(12 * var(--blip-pixel));
+    margin-inline-start: calc(-2 * var(--blip-pixel));
   }
-  .chu-dialog-icon:empty { background-color: currentColor; mask: var(--_chu-glyph) 0 0 / 100% 100% no-repeat; }
-  .chu-dialog-close { flex: none; margin-inline-start: auto; }
+  .blip-dialog-icon:empty { background-color: currentColor; mask: var(--_blip-glyph) 0 0 / 100% 100% no-repeat; }
+  .blip-dialog-close { flex: none; margin-inline-start: auto; }
 
-  .chu-dialog-body {
+  .blip-dialog-body {
     flex: 1 1 auto;
     min-block-size: 0;
-    margin-inline: var(--chu-pixel);
-    padding: calc(6 * var(--chu-pixel)) calc(7 * var(--chu-pixel));
+    margin-inline: var(--blip-pixel);
+    padding: calc(6 * var(--blip-pixel)) calc(7 * var(--blip-pixel));
     overflow: auto;
     overscroll-behavior: contain;
   }
-  .chu-dialog-body > :where(* + *) { margin-block-start: calc(4 * var(--chu-pixel)); }
+  .blip-dialog-body > :where(* + *) { margin-block-start: calc(4 * var(--blip-pixel)); }
   /* The overflow cue's rule (_scroll.css) takes its pixel from the padding, so a body that fits moves nothing. */
   @supports (animation-timeline: scroll()) {
-    .chu-dialog-body { padding-block-end: calc(5 * var(--chu-pixel)); }
+    .blip-dialog-body { padding-block-end: calc(5 * var(--blip-pixel)); }
   }
-  .chu-dialog-footer {
+  .blip-dialog-footer {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
     align-items: center;
-    gap: calc(4 * var(--chu-pixel));
-    margin-inline: var(--chu-pixel);
-    padding: calc(2 * var(--chu-pixel)) calc(7 * var(--chu-pixel)) calc(2 * var(--chu-pixel));
+    gap: calc(4 * var(--blip-pixel));
+    margin-inline: var(--blip-pixel);
+    padding: calc(2 * var(--blip-pixel)) calc(7 * var(--blip-pixel)) calc(2 * var(--blip-pixel));
   }
-  .chu-dialog-footer > .chu-button { margin-inline-end: 0; }
+  .blip-dialog-footer > .blip-button { margin-inline-end: 0; }
 
   /* The scrim: an ink checkerboard, one pixel per square. */
-  :is(.chu-dialog, .chu-drawer)::backdrop {
-    background: repeating-conic-gradient(var(--chu-scrim) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel));
+  :is(.blip-dialog, .blip-drawer)::backdrop {
+    background: repeating-conic-gradient(var(--blip-scrim) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel));
   }
 
   /* In: the scrim is a quarter dither for a frame, then half; the panel is one pixel low, then in place.
-     Out (with <chu-dialog>): the same two frames backwards. */
-  .chu-dialog[open] { animation: chu-dialog-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end); }
-  :is(.chu-dialog, .chu-drawer)[open]::backdrop { animation: chu-scrim-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end); }
-  .chu-dialog[data-chu-closing] { animation: chu-dialog-out calc(2 * var(--chu-duration-frame)) steps(1, jump-end) forwards; }
-  :is(.chu-dialog, .chu-drawer)[data-chu-closing]::backdrop { animation: chu-scrim-out calc(2 * var(--chu-duration-frame)) steps(1, jump-end) forwards; }
+     Out (with <blip-dialog>): the same two frames backwards. */
+  .blip-dialog[open] { animation: blip-dialog-in calc(2 * var(--blip-duration-frame)) steps(1, jump-end); }
+  :is(.blip-dialog, .blip-drawer)[open]::backdrop { animation: blip-scrim-in calc(2 * var(--blip-duration-frame)) steps(1, jump-end); }
+  .blip-dialog[data-blip-closing] { animation: blip-dialog-out calc(2 * var(--blip-duration-frame)) steps(1, jump-end) forwards; }
+  :is(.blip-dialog, .blip-drawer)[data-blip-closing]::backdrop { animation: blip-scrim-out calc(2 * var(--blip-duration-frame)) steps(1, jump-end) forwards; }
 
-  .chu-dialog[data-chu-static] { position: relative; inset: auto; margin: 0; z-index: auto; animation: none; }
+  .blip-dialog[data-blip-static] { position: relative; inset: auto; margin: 0; z-index: auto; animation: none; }
 
   /* Paper cannot scroll: an open dialog prints its whole body, grown over the page past any height it is held to
      (an inline max-block-size too). */
   @media print {
-    .chu-dialog { max-block-size: none !important; }
-    .chu-dialog .chu-dialog-body { overflow: visible; }
+    .blip-dialog { max-block-size: none !important; }
+    .blip-dialog .blip-dialog-body { overflow: visible; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-dialog:is([open], [data-chu-closing]),
-    :is(.chu-dialog, .chu-drawer):is([open], [data-chu-closing])::backdrop { animation: none; }
+    .blip-dialog:is([open], [data-blip-closing]),
+    :is(.blip-dialog, .blip-drawer):is([open], [data-blip-closing])::backdrop { animation: none; }
   }
 
   @media (forced-colors: active) {
-    :is(.chu-dialog, .chu-drawer) { background: Canvas; }
-    .chu-dialog-header { background: Canvas; border-color: CanvasText; }
-    .chu-dialog-icon:empty { forced-color-adjust: none; background-color: CanvasText; }
+    :is(.blip-dialog, .blip-drawer) { background: Canvas; }
+    .blip-dialog-header { background: Canvas; border-color: CanvasText; }
+    .blip-dialog-icon:empty { forced-color-adjust: none; background-color: CanvasText; }
   }
 }
 
-@keyframes chu-dialog-in { 0% { translate: 0 var(--chu-pixel); } 50%, 100% { translate: 0 0; } }
-@keyframes chu-dialog-out { 0% { translate: 0 var(--chu-pixel); } 50%, 100% { translate: 0 var(--chu-pixel); visibility: hidden; } }
-@keyframes chu-scrim-in {
-  0% { background-image: conic-gradient(var(--chu-scrim) 0 25%, transparent 0); }
-  50%, 100% { background-image: repeating-conic-gradient(var(--chu-scrim) 0 25%, transparent 0 50%); }
+@keyframes blip-dialog-in { 0% { translate: 0 var(--blip-pixel); } 50%, 100% { translate: 0 0; } }
+@keyframes blip-dialog-out { 0% { translate: 0 var(--blip-pixel); } 50%, 100% { translate: 0 var(--blip-pixel); visibility: hidden; } }
+@keyframes blip-scrim-in {
+  0% { background-image: conic-gradient(var(--blip-scrim) 0 25%, transparent 0); }
+  50%, 100% { background-image: repeating-conic-gradient(var(--blip-scrim) 0 25%, transparent 0 50%); }
 }
-@keyframes chu-scrim-out {
-  0% { background-image: conic-gradient(var(--chu-scrim) 0 25%, transparent 0); }
+@keyframes blip-scrim-out {
+  0% { background-image: conic-gradient(var(--blip-scrim) 0 25%, transparent 0); }
   50%, 100% { background-image: none; }
 }

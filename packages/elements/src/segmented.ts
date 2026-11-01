@@ -1,18 +1,18 @@
 /**
- * <chu-segmented>: one choice from a few buttons, as a radio group. The arrow keys move and choose (Home and End
- * jump), the value goes with the form, and chu-change says what was chosen.
+ * <blip-segmented>: one choice from a few buttons, as a radio group. The arrow keys move and choose (Home and End
+ * jump), the value goes with the form, and blip-change says what was chosen.
  *
- *   <chu-segmented class="chu-box chu-segmented" name="view" value="grid" aria-label="View">
- *     <button class="chu-box" type="button" value="list">List</button>
- *     <button class="chu-box" type="button" value="grid" aria-checked="true">Grid</button>
- *   </chu-segmented>
+ *   <blip-segmented class="blip-box blip-segmented" name="view" value="grid" aria-label="View">
+ *     <button class="blip-box" type="button" value="list">List</button>
+ *     <button class="blip-box" type="button" value="grid" aria-checked="true">Grid</button>
+ *   </blip-segmented>
  *
  * Attributes: name, value, disabled, required. Properties: value, disabled. Events: input and change (as a native
- * control), then chu-change { value }.
+ * control), then blip-change { value }.
  * Write aria-checked="true" on the chosen button too, so it looks chosen before the script runs. Buttons added or
  * removed later (by a framework) are wired as they come.
  */
-import { BlipElement, rovingFocus, warn } from "@jaatster/blip-core";
+import { BlipElement, rovingFocus, warn } from "@blip/core";
 import { isOn, unFalse, watch } from "./_dom.js";
 
 /**
@@ -29,7 +29,7 @@ import { isOn, unFalse, watch } from "./_dom.js";
  * @attr {"full"} data-width - Fills its container; the segments share the width.
  * @attr {"accent" | "info" | "success" | "warning" | "danger" | "neutral" | "red" | "orange" | "yellow" | "green" | "teal" |
  * "blue" | "purple" | "pink" | "slate"} data-tone - The chosen segment's candy.
- * @fires {CustomEvent<{ value: string }>} chu-change - A segment was chosen by click or key (after input and change).
+ * @fires {CustomEvent<{ value: string }>} blip-change - A segment was chosen by click or key (after input and change).
  */
 export class BlipSegmented extends BlipElement {
   static formAssociated = true;
@@ -80,7 +80,7 @@ export class BlipSegmented extends BlipElement {
       if (!this.hasAttribute("value") && this.#initial) this.value = this.#initial;
     }
     if (!this.getAttribute("aria-label") && !this.getAttribute("aria-labelledby") && !this.#internals.labels.length) {
-      warn("CHU-A001", "<chu-segmented> has no name. Add aria-label or aria-labelledby.", this);
+      warn("BLIP-A001", "<blip-segmented> has no name. Add aria-label or aria-labelledby.", this);
     }
     this.#sync();
     // Buttons rendered later (or taken away) get their role, state and place in the tab order as they come.
@@ -129,10 +129,10 @@ export class BlipSegmented extends BlipElement {
       // Disabled with the group: remember which buttons were already off on their own.
       if (off && !b.disabled) {
         b.disabled = true;
-        b.dataset.chuGroupOff = "";
-      } else if (!off && b.dataset.chuGroupOff !== undefined) {
+        b.dataset.blipGroupOff = "";
+      } else if (!off && b.dataset.blipGroupOff !== undefined) {
         b.disabled = false;
-        delete b.dataset.chuGroupOff;
+        delete b.dataset.blipGroupOff;
       }
     }
     const stop = chosen && !chosen.disabled ? chosen : items.find((b) => !b.disabled);
@@ -143,10 +143,10 @@ export class BlipSegmented extends BlipElement {
   }
 }
 
-BlipElement.define("chu-segmented", BlipSegmented);
+BlipElement.define("blip-segmented", BlipSegmented);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "chu-segmented": BlipSegmented;
+    "blip-segmented": BlipSegmented;
   }
 }

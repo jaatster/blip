@@ -90,7 +90,7 @@ const LANG_LABEL: Record<string, string> = { html: "HTML", css: "CSS", js: "Java
 export async function codeBlock(code: string, lang = "text", label?: string, tall = false): Promise<string> {
   const l = ALIAS[lang] ?? lang;
   const name = label ?? LANG_LABEL[l] ?? l.toUpperCase();
-  return `<figure class="chu-box docs-code"${tall ? " data-tall" : ""}><figcaption class="docs-code-bar"><span class="docs-code-lang">${escapeHtml(name)}</span><button class="chu-box chu-button docs-copy" type="button" data-variant="ghost" data-size="sm" hidden>Copy</button></figcaption>${await highlight(code, l)}</figure>`;
+  return `<figure class="blip-box docs-code"${tall ? " data-tall" : ""}><figcaption class="docs-code-bar"><span class="docs-code-lang">${escapeHtml(name)}</span><button class="blip-box blip-button docs-copy" type="button" data-variant="ghost" data-size="sm" hidden>Copy</button></figcaption>${await highlight(code, l)}</figure>`;
 }
 
 // ------------------------------------------------------------------ the docs' own transforms
@@ -129,7 +129,7 @@ export function slug(s: string): string {
 // Keys in the first column of a keyboard table become keycaps: "Shift+Tab", "Up / Down Arrow", "Ctrl+K".
 const KEY = String.raw`(?:Page Up|Page Down|(?:Up|Down|Left|Right) Arrow|Arrow(?:Up|Down|Left|Right)|Shift|Tab|Enter|Return|Escape|Esc|Space|Home|End|Alt|Option|Ctrl|Control|Cmd|Meta|Backspace|Delete|Up|Down|Left|Right|F\d{1,2})`;
 const COMBO = new RegExp(String.raw`\b${KEY}(?:\s?\+\s?(?:${KEY}|[A-Z0-9])\b)*`, "g");
-const keycap = (k: string, size = "sm") => el("kbd", { className: ["chu-box", "chu-keycap"], dataSize: size }, [text(k.trim())]);
+const keycap = (k: string, size = "sm") => el("kbd", { className: ["blip-box", "blip-keycap"], dataSize: size }, [text(k.trim())]);
 
 function keycapText(value: string): Node[] {
   const out: Node[] = [];
@@ -137,7 +137,7 @@ function keycapText(value: string): Node[] {
   for (const m of value.matchAll(COMBO)) {
     if (m.index! > at) out.push(text(value.slice(at, m.index)));
     const parts = m[0].split(/\s?\+\s?/);
-    out.push(parts.length > 1 ? el("kbd", { className: ["chu-keys"] }, parts.flatMap((p, i) => (i ? [text("+"), keycap(p)] : [keycap(p)]))) : keycap(m[0]));
+    out.push(parts.length > 1 ? el("kbd", { className: ["blip-keys"] }, parts.flatMap((p, i) => (i ? [text("+"), keycap(p)] : [keycap(p)]))) : keycap(m[0]));
     at = m.index! + m[0].length;
   }
   if (at < value.length) out.push(text(value.slice(at)));
@@ -146,7 +146,7 @@ function keycapText(value: string): Node[] {
 
 function dressTable(table: Element, label: string, labelId: string | undefined, regionNames: Map<string, number>): Element {
   // On a phone the rows stack: each cell is labelled with its column's header (data-label), the first cell leads.
-  table.properties = { ...table.properties, className: ["chu-table", "docs-table"], dataDensity: "compact", dataStack: true };
+  table.properties = { ...table.properties, className: ["blip-table", "docs-table"], dataDensity: "compact", dataStack: true };
   const head = table.children.find((c) => isEl(c, "thead")) as Element | undefined;
   const firstHeader = head ? textOf(head).trim().split(/\s{2,}|\n/)[0] : "";
   const headCells = head ? ((head.children.find((c) => isEl(c, "tr")) as Element | undefined)?.children.filter((c) => isEl(c)) as Element[]) : [];
@@ -156,7 +156,7 @@ function dressTable(table: Element, label: string, labelId: string | undefined, 
   if (head) for (const th of headCells ?? []) {
     th.properties = { ...th.properties, scope: "col" };
     // A blank header (a table's last column of notes) still needs a name for screen readers.
-    if (!textOf(th).trim()) th.children = [el("span", { className: ["chu-sr-only"] }, [text("Notes")])];
+    if (!textOf(th).trim()) th.children = [el("span", { className: ["blip-sr-only"] }, [text("Notes")])];
   }
   const body = table.children.find((c) => isEl(c, "tbody")) as Element | undefined;
   if (body) {
@@ -169,12 +169,12 @@ function dressTable(table: Element, label: string, labelId: string | undefined, 
       // An empty first column (a table of options with no name) reads better without an empty cell's outline.
     }
   }
-  if (isKeys) table.properties.className = ["chu-table", "docs-table", "docs-keys"];
+  if (isKeys) table.properties.className = ["blip-table", "docs-table", "docs-keys"];
   // Each region needs a name of its own: the heading above it, numbered when one heading has several tables.
   const n = (regionNames.get(label) ?? 0) + 1;
   regionNames.set(label, n);
-  const scroll = el("div", { className: ["chu-table-scroll", "docs-table-scroll"], role: "region", tabIndex: 0, ...(labelId && n === 1 ? { ariaLabelledby: labelId } : { ariaLabel: n === 1 ? label : `${label}, table ${n}` }) }, [table]);
-  return el("div", { className: ["chu-box", "chu-table-frame", "docs-table-frame"] }, [scroll]);
+  const scroll = el("div", { className: ["blip-table-scroll", "docs-table-scroll"], role: "region", tabIndex: 0, ...(labelId && n === 1 ? { ariaLabelledby: labelId } : { ariaLabel: n === 1 ? label : `${label}, table ${n}` }) }, [table]);
+  return el("div", { className: ["blip-box", "blip-table-frame", "docs-table-frame"] }, [scroll]);
 }
 
 export async function renderMarkdown(source: string, options: RenderOptions = {}): Promise<Rendered> {

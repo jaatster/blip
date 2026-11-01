@@ -2,13 +2,13 @@
  * Badge. A small candy box with a count, a word or nothing at all (a dot), in a tone; on its own in a line of
  * text, or pinned to the corner of a button, an avatar or an icon.
  *
- *   <span class="chu-box chu-badge" data-tone="danger">3</span>
- *   <span class="chu-box chu-badge" data-tone="success">New</span>
- *   <button class="chu-box chu-button" data-icon-only aria-label="Inbox, 99+ unread">
- *     <svg class="chu-icon" …></svg>
- *     <span class="chu-box chu-badge" data-tone="danger" data-position="top-end" aria-hidden="true">99+</span>
+ *   <span class="blip-box blip-badge" data-tone="danger">3</span>
+ *   <span class="blip-box blip-badge" data-tone="success">New</span>
+ *   <button class="blip-box blip-button" data-icon-only aria-label="Inbox, 99+ unread">
+ *     <svg class="blip-icon" …></svg>
+ *     <span class="blip-box blip-badge" data-tone="danger" data-position="top-end" aria-hidden="true">99+</span>
  *   </button>
- *   <span class="chu-box chu-badge" data-dot data-tone="success" data-position="bottom-end" role="img" aria-label="Online"></span>
+ *   <span class="blip-box blip-badge" data-dot data-tone="success" data-position="bottom-end" role="img" aria-label="Online"></span>
  *
  *   data-tone       accent (default) | info | success | warning | danger | neutral | a candy name
  *   data-variant    candy (default) | soft | outline
@@ -21,72 +21,72 @@
  * or role="img" with a label when it stands alone.
  */
 
-@layer chu.components {
-  .chu-badge {
-    --chu-r: 2;
-    --chu-shape: var(--chu-shape-2);
-    --chu-shape-inner: var(--chu-shape-2-inner);
-    --chu-band-top: 1;
-    --chu-band-bottom: 1;
-    --_chu-h: 10;
+@layer blip.components {
+  .blip-badge {
+    --blip-r: 2;
+    --blip-shape: var(--blip-shape-2);
+    --blip-shape-inner: var(--blip-shape-2-inner);
+    --blip-band-top: 1;
+    --blip-band-bottom: 1;
+    --_blip-h: 10;
     /* As many times its text size as at the default (20 px for 12 px text), if that is taller: a bigger default text
        size gets a bigger badge, in whole pixels, so the count never spills onto the outline. A dot stays a dot. */
-    --_chu-badge-font: var(--chu-size-caption);
-    --_chu-badge-em: calc(5 / 3);
-    --_chu-badge-size: max(calc(var(--_chu-h) * var(--chu-pixel)), round(up, var(--_chu-badge-em) * var(--_chu-badge-font), var(--chu-pixel)));
+    --_blip-badge-font: var(--blip-size-caption);
+    --_blip-badge-em: calc(5 / 3);
+    --_blip-badge-size: max(calc(var(--_blip-h) * var(--blip-pixel)), round(up, var(--_blip-badge-em) * var(--_blip-badge-font), var(--blip-pixel)));
     display: inline-flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    min-inline-size: var(--_chu-badge-size);
-    block-size: var(--_chu-badge-size);
-    padding: 0 calc(3 * var(--chu-pixel));
-    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
-    font-family: var(--chu-font-ui);
-    font-size: var(--_chu-badge-font);
-    font-weight: var(--chu-weight-bold);
+    min-inline-size: var(--_blip-badge-size);
+    block-size: var(--_blip-badge-size);
+    padding: 0 calc(3 * var(--blip-pixel));
+    margin: 0 var(--blip-pixel) var(--blip-pixel) 0;
+    font-family: var(--blip-font-ui);
+    font-size: var(--_blip-badge-font);
+    font-weight: var(--blip-weight-bold);
     line-height: 1;
-    letter-spacing: var(--chu-tracking-label);
+    letter-spacing: var(--blip-tracking-label);
     font-variant-numeric: tabular-nums;
     text-transform: uppercase;
     white-space: nowrap;
     vertical-align: middle;
   }
-  .chu-badge[data-variant="outline"] { --chu-box-text: var(--chu-tone-text); --chu-box-outline: var(--chu-tone-text); }
-  .chu-badge[data-size="sm"] { --_chu-h: 8; --_chu-badge-em: calc(4 / 3); --chu-band-top: 0; --chu-band-bottom: 1; padding: 0 calc(2 * var(--chu-pixel)); }
-  .chu-badge[data-size="lg"] { --_chu-h: 12; --_chu-badge-font: var(--chu-size-small); --_chu-badge-em: calc(12 / 7); padding: 0 calc(4 * var(--chu-pixel)); }
-  .chu-badge[data-dot] {
-    --_chu-h: 6;
-    --_chu-badge-em: 0;
-    --chu-r: 1;
-    --chu-shape: var(--chu-shape-1);
-    --chu-shape-inner: var(--chu-shape-1-inner);
-    --chu-band-top: 0;
-    --chu-band-bottom: 1;
-    --chu-box-glint: transparent;
-    inline-size: calc(6 * var(--chu-pixel));
+  .blip-badge[data-variant="outline"] { --blip-box-text: var(--blip-tone-text); --blip-box-outline: var(--blip-tone-text); }
+  .blip-badge[data-size="sm"] { --_blip-h: 8; --_blip-badge-em: calc(4 / 3); --blip-band-top: 0; --blip-band-bottom: 1; padding: 0 calc(2 * var(--blip-pixel)); }
+  .blip-badge[data-size="lg"] { --_blip-h: 12; --_blip-badge-font: var(--blip-size-small); --_blip-badge-em: calc(12 / 7); padding: 0 calc(4 * var(--blip-pixel)); }
+  .blip-badge[data-dot] {
+    --_blip-h: 6;
+    --_blip-badge-em: 0;
+    --blip-r: 1;
+    --blip-shape: var(--blip-shape-1);
+    --blip-shape-inner: var(--blip-shape-1-inner);
+    --blip-band-top: 0;
+    --blip-band-bottom: 1;
+    --blip-box-glint: transparent;
+    inline-size: calc(6 * var(--blip-pixel));
     min-inline-size: 0;
     padding: 0;
-    /* No text: font-size-adjust (from @jaatster/blip-font) makes Chrome draw 0-size text at full size, so it goes too. */
+    /* No text: font-size-adjust (from @blip/font) makes Chrome draw 0-size text at full size, so it goes too. */
     font-size: 0;
     font-size-adjust: none;
   }
 
-  /* Pinned over a corner of its parent (any positioned box: a button, an avatar, a .chu-badge-anchor). */
-  .chu-badge[data-position] { position: absolute; z-index: 1; margin: 0; }
-  .chu-badge[data-position^="top"] { inset-block-start: calc(-4 * var(--chu-pixel)); }
-  .chu-badge[data-position^="bottom"] { inset-block-end: calc(-3 * var(--chu-pixel)); }
-  .chu-badge[data-position$="end"] { inset-inline-end: calc(-4 * var(--chu-pixel)); }
-  .chu-badge[data-position$="start"] { inset-inline-start: calc(-4 * var(--chu-pixel)); }
-  .chu-badge[data-dot][data-position^="top"] { inset-block-start: calc(-2 * var(--chu-pixel)); }
-  .chu-badge[data-dot][data-position^="bottom"] { inset-block-end: calc(-1 * var(--chu-pixel)); }
-  .chu-badge[data-dot][data-position$="end"] { inset-inline-end: calc(-2 * var(--chu-pixel)); }
-  .chu-badge[data-dot][data-position$="start"] { inset-inline-start: calc(-2 * var(--chu-pixel)); }
+  /* Pinned over a corner of its parent (any positioned box: a button, an avatar, a .blip-badge-anchor). */
+  .blip-badge[data-position] { position: absolute; z-index: 1; margin: 0; }
+  .blip-badge[data-position^="top"] { inset-block-start: calc(-4 * var(--blip-pixel)); }
+  .blip-badge[data-position^="bottom"] { inset-block-end: calc(-3 * var(--blip-pixel)); }
+  .blip-badge[data-position$="end"] { inset-inline-end: calc(-4 * var(--blip-pixel)); }
+  .blip-badge[data-position$="start"] { inset-inline-start: calc(-4 * var(--blip-pixel)); }
+  .blip-badge[data-dot][data-position^="top"] { inset-block-start: calc(-2 * var(--blip-pixel)); }
+  .blip-badge[data-dot][data-position^="bottom"] { inset-block-end: calc(-1 * var(--blip-pixel)); }
+  .blip-badge[data-dot][data-position$="end"] { inset-inline-end: calc(-2 * var(--blip-pixel)); }
+  .blip-badge[data-dot][data-position$="start"] { inset-inline-start: calc(-2 * var(--blip-pixel)); }
 
   /* A wrapper that lets a badge sit on something that is not a box, such as an icon. */
-  .chu-badge-anchor { position: relative; display: inline-flex; vertical-align: middle; }
+  .blip-badge-anchor { position: relative; display: inline-flex; vertical-align: middle; }
 
   @media (forced-colors: active) {
-    .chu-badge[data-dot] { forced-color-adjust: none; background: CanvasText; }
+    .blip-badge[data-dot] { forced-color-adjust: none; background: CanvasText; }
   }
 }

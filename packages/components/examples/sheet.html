@@ -1,79 +1,79 @@
-<!-- Bottom sheet: sheets drawn statically (data-chu-static) inside small "screens" with the scrim, then live ones in
-     <chu-sheet>. The screens clip the sheet's off-screen pixel as a real screen edge does. Static handles show their
+<!-- Bottom sheet: sheets drawn statically (data-blip-static) inside small "screens" with the scrim, then live ones in
+     <blip-sheet>. The screens clip the sheet's off-screen pixel as a real screen edge does. Static handles show their
      states: at rest, hovered, focused, and at the tallest height (aria-expanded="true"). Live: drag the handle or the
      title bar, press the handle (or Enter on it) to change height, and drag or flick down to close. -->
-<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel));align-items:flex-start">
-  <div class="chu-scrim" style="display:flex;flex-direction:column;justify-content:flex-end;inline-size:min(100%,calc(180*var(--chu-pixel)));block-size:calc(160*var(--chu-pixel));overflow:clip;outline:var(--chu-pixel) solid var(--chu-line-soft)">
-    <dialog class="chu-box chu-drawer chu-sheet" open data-chu-static aria-labelledby="ex-sheet-level-title" style="margin-inline:calc(-1*var(--chu-pixel));margin-block-end:calc(-1*var(--chu-pixel))">
-      <header class="chu-dialog-header">
-        <button class="chu-box chu-sheet-handle" type="button" data-variant="ghost" aria-label="Resize"><span></span></button>
-        <h2 class="chu-dialog-title" id="ex-sheet-level-title">World 1-4</h2>
-        <button class="chu-box chu-button chu-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
+<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--blip-pixel));align-items:flex-start">
+  <div class="blip-scrim" style="display:flex;flex-direction:column;justify-content:flex-end;inline-size:min(100%,calc(180*var(--blip-pixel)));block-size:calc(160*var(--blip-pixel));overflow:clip;outline:var(--blip-pixel) solid var(--blip-line-soft)">
+    <dialog class="blip-box blip-drawer blip-sheet" open data-blip-static aria-labelledby="ex-sheet-level-title" style="margin-inline:calc(-1*var(--blip-pixel));margin-block-end:calc(-1*var(--blip-pixel))">
+      <header class="blip-dialog-header">
+        <button class="blip-box blip-sheet-handle" type="button" data-variant="ghost" aria-label="Resize"><span></span></button>
+        <h2 class="blip-dialog-title" id="ex-sheet-level-title">World 1-4</h2>
+        <button class="blip-box blip-button blip-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
       </header>
-      <div class="chu-dialog-body">
-        <p class="chu-small">Best time 1:52. Three of three stars.</p>
+      <div class="blip-dialog-body">
+        <p class="blip-small">Best time 1:52. Three of three stars.</p>
       </div>
-      <footer class="chu-dialog-footer">
-        <button class="chu-box chu-button" type="button" data-width="full">Play</button>
+      <footer class="blip-dialog-footer">
+        <button class="blip-box blip-button" type="button" data-width="full">Play</button>
       </footer>
     </dialog>
   </div>
 
-  <div class="chu-scrim" style="display:flex;flex-direction:column;justify-content:flex-end;inline-size:min(100%,calc(180*var(--chu-pixel)));block-size:calc(160*var(--chu-pixel));overflow:clip;outline:var(--chu-pixel) solid var(--chu-line-soft)">
-    <dialog class="chu-box chu-drawer chu-sheet" data-tone="teal" open data-chu-static aria-labelledby="ex-sheet-route-title" style="block-size:50%;margin-inline:calc(-1*var(--chu-pixel));margin-block-end:calc(-1*var(--chu-pixel))">
-      <header class="chu-dialog-header">
-        <button class="chu-box chu-sheet-handle" type="button" data-variant="ghost" aria-label="Resize" aria-expanded="false" data-chu-state="hover"><span></span></button>
-        <h2 class="chu-dialog-title" id="ex-sheet-route-title">Route</h2>
+  <div class="blip-scrim" style="display:flex;flex-direction:column;justify-content:flex-end;inline-size:min(100%,calc(180*var(--blip-pixel)));block-size:calc(160*var(--blip-pixel));overflow:clip;outline:var(--blip-pixel) solid var(--blip-line-soft)">
+    <dialog class="blip-box blip-drawer blip-sheet" data-tone="teal" open data-blip-static aria-labelledby="ex-sheet-route-title" style="block-size:50%;margin-inline:calc(-1*var(--blip-pixel));margin-block-end:calc(-1*var(--blip-pixel))">
+      <header class="blip-dialog-header">
+        <button class="blip-box blip-sheet-handle" type="button" data-variant="ghost" aria-label="Resize" aria-expanded="false" data-blip-state="hover"><span></span></button>
+        <h2 class="blip-dialog-title" id="ex-sheet-route-title">Route</h2>
       </header>
-      <div class="chu-dialog-body">
-        <p class="chu-small">Meadow to Dunes: 3 levels, 2 warp pipes.</p>
-        <p class="chu-small">Dunes to Crystal Caves: 5 levels.</p>
+      <div class="blip-dialog-body">
+        <p class="blip-small">Meadow to Dunes: 3 levels, 2 warp pipes.</p>
+        <p class="blip-small">Dunes to Crystal Caves: 5 levels.</p>
       </div>
     </dialog>
   </div>
 
-  <div class="chu-scrim" style="display:flex;flex-direction:column;justify-content:flex-end;inline-size:min(100%,calc(180*var(--chu-pixel)));block-size:calc(160*var(--chu-pixel));overflow:clip;outline:var(--chu-pixel) solid var(--chu-line-soft)">
-    <dialog class="chu-box chu-drawer chu-sheet" data-tone="pink" open data-chu-static aria-labelledby="ex-sheet-list-title" style="block-size:calc(100% - 8*var(--chu-pixel));margin-inline:calc(-1*var(--chu-pixel));margin-block-end:calc(-1*var(--chu-pixel))">
-      <header class="chu-dialog-header">
-        <button class="chu-box chu-sheet-handle" type="button" data-variant="ghost" aria-label="Resize" aria-expanded="true" data-chu-state="focus"><span></span></button>
-        <h2 class="chu-dialog-title" id="ex-sheet-list-title">Friends</h2>
+  <div class="blip-scrim" style="display:flex;flex-direction:column;justify-content:flex-end;inline-size:min(100%,calc(180*var(--blip-pixel)));block-size:calc(160*var(--blip-pixel));overflow:clip;outline:var(--blip-pixel) solid var(--blip-line-soft)">
+    <dialog class="blip-box blip-drawer blip-sheet" data-tone="pink" open data-blip-static aria-labelledby="ex-sheet-list-title" style="block-size:calc(100% - 8*var(--blip-pixel));margin-inline:calc(-1*var(--blip-pixel));margin-block-end:calc(-1*var(--blip-pixel))">
+      <header class="blip-dialog-header">
+        <button class="blip-box blip-sheet-handle" type="button" data-variant="ghost" aria-label="Resize" aria-expanded="true" data-blip-state="focus"><span></span></button>
+        <h2 class="blip-dialog-title" id="ex-sheet-list-title">Friends</h2>
       </header>
-      <div class="chu-dialog-body">
-        <p class="chu-small">Pip: World 3-2</p>
-        <p class="chu-small">Moss: World 2-1</p>
-        <p class="chu-small">Juno: World 5-4</p>
-        <p class="chu-small">Kit: World 1-1</p>
-        <p class="chu-small">Bo: World 4-3</p>
-        <p class="chu-small">Wren: World 6-1</p>
+      <div class="blip-dialog-body">
+        <p class="blip-small">Pip: World 3-2</p>
+        <p class="blip-small">Moss: World 2-1</p>
+        <p class="blip-small">Juno: World 5-4</p>
+        <p class="blip-small">Kit: World 1-1</p>
+        <p class="blip-small">Bo: World 4-3</p>
+        <p class="blip-small">Wren: World 6-1</p>
       </div>
     </dialog>
   </div>
 
-  <div class="chu-scrim" style="display:flex;flex-direction:column;justify-content:flex-end;inline-size:min(100%,calc(180*var(--chu-pixel)));block-size:calc(160*var(--chu-pixel));overflow:clip;outline:var(--chu-pixel) solid var(--chu-line-soft)">
-    <dialog class="chu-box chu-drawer chu-sheet" open data-chu-static aria-label="Now playing" style="margin-inline:calc(-1*var(--chu-pixel));margin-block-end:calc(-1*var(--chu-pixel))">
-      <button class="chu-box chu-sheet-handle" type="button" data-variant="ghost" aria-label="Resize"><span></span></button>
-      <div class="chu-dialog-body">
-        <p class="chu-small"><strong>Now playing</strong><br>Crystal Caves (theme), 2:14</p>
+  <div class="blip-scrim" style="display:flex;flex-direction:column;justify-content:flex-end;inline-size:min(100%,calc(180*var(--blip-pixel)));block-size:calc(160*var(--blip-pixel));overflow:clip;outline:var(--blip-pixel) solid var(--blip-line-soft)">
+    <dialog class="blip-box blip-drawer blip-sheet" open data-blip-static aria-label="Now playing" style="margin-inline:calc(-1*var(--blip-pixel));margin-block-end:calc(-1*var(--blip-pixel))">
+      <button class="blip-box blip-sheet-handle" type="button" data-variant="ghost" aria-label="Resize"><span></span></button>
+      <div class="blip-dialog-body">
+        <p class="blip-small"><strong>Now playing</strong><br>Crystal Caves (theme), 2:14</p>
       </div>
     </dialog>
   </div>
 </div>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--chu-pixel));align-items:center;margin-block-start:calc(8*var(--chu-pixel))">
-  <span class="chu-label chu-muted">Live</span>
-  <button class="chu-box chu-button" type="button" commandfor="route-sheet" command="show-modal">Route</button>
-  <button class="chu-box chu-button" type="button" data-variant="soft" commandfor="level-sheet" command="show-modal">World 1-4</button>
-  <button class="chu-box chu-button" type="button" data-variant="soft" commandfor="music-sheet" command="show-modal">Now playing</button>
+<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--blip-pixel));align-items:center;margin-block-start:calc(8*var(--blip-pixel))">
+  <span class="blip-label blip-muted">Live</span>
+  <button class="blip-box blip-button" type="button" commandfor="route-sheet" command="show-modal">Route</button>
+  <button class="blip-box blip-button" type="button" data-variant="soft" commandfor="level-sheet" command="show-modal">World 1-4</button>
+  <button class="blip-box blip-button" type="button" data-variant="soft" commandfor="music-sheet" command="show-modal">Now playing</button>
 </div>
 
-<chu-sheet light-dismiss>
-  <dialog class="chu-box chu-drawer chu-sheet" id="route-sheet" data-snap="half full" data-tone="teal" aria-labelledby="route-sheet-title">
-    <header class="chu-dialog-header">
-      <button class="chu-box chu-sheet-handle" type="button" data-variant="ghost" aria-label="Resize"><span></span></button>
-      <h2 class="chu-dialog-title" id="route-sheet-title">Route</h2>
-      <form method="dialog"><button class="chu-box chu-button chu-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button></form>
+<blip-sheet light-dismiss>
+  <dialog class="blip-box blip-drawer blip-sheet" id="route-sheet" data-snap="half full" data-tone="teal" aria-labelledby="route-sheet-title">
+    <header class="blip-dialog-header">
+      <button class="blip-box blip-sheet-handle" type="button" data-variant="ghost" aria-label="Resize"><span></span></button>
+      <h2 class="blip-dialog-title" id="route-sheet-title">Route</h2>
+      <form method="dialog"><button class="blip-box blip-button blip-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button></form>
     </header>
-    <div class="chu-dialog-body">
+    <div class="blip-dialog-body">
       <p>Meadow to Dunes: 3 levels, 2 warp pipes.</p>
       <p>Dunes to Crystal Caves: 5 levels and the boss.</p>
       <p>Crystal Caves to Sky Garden: 4 levels, one of them under water.</p>
@@ -82,28 +82,28 @@
       <p>Secret: a warp pipe in Dunes 2 skips straight to the Clock Tower.</p>
     </div>
   </dialog>
-</chu-sheet>
+</blip-sheet>
 
-<chu-sheet light-dismiss>
-  <dialog class="chu-box chu-drawer chu-sheet" id="level-sheet" aria-labelledby="level-sheet-title">
+<blip-sheet light-dismiss>
+  <dialog class="blip-box blip-drawer blip-sheet" id="level-sheet" aria-labelledby="level-sheet-title">
     <form method="dialog">
-      <header class="chu-dialog-header">
-        <button class="chu-box chu-sheet-handle" type="button" data-variant="ghost" aria-label="Resize"><span></span></button>
-        <h2 class="chu-dialog-title" id="level-sheet-title">World 1-4</h2>
-        <button class="chu-box chu-button chu-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
+      <header class="blip-dialog-header">
+        <button class="blip-box blip-sheet-handle" type="button" data-variant="ghost" aria-label="Resize"><span></span></button>
+        <h2 class="blip-dialog-title" id="level-sheet-title">World 1-4</h2>
+        <button class="blip-box blip-button blip-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
       </header>
-      <div class="chu-dialog-body"><p>Best time 1:52. Three of three stars.</p></div>
-      <footer class="chu-dialog-footer"><button class="chu-box chu-button" data-width="full" value="play">Play</button></footer>
+      <div class="blip-dialog-body"><p>Best time 1:52. Three of three stars.</p></div>
+      <footer class="blip-dialog-footer"><button class="blip-box blip-button" data-width="full" value="play">Play</button></footer>
     </form>
   </dialog>
-</chu-sheet>
+</blip-sheet>
 
-<chu-sheet light-dismiss>
-  <dialog class="chu-box chu-drawer chu-sheet" id="music-sheet" data-snap="content 70%" aria-label="Now playing">
-    <button class="chu-box chu-sheet-handle" type="button" data-variant="ghost" aria-label="Resize"><span></span></button>
-    <div class="chu-dialog-body">
+<blip-sheet light-dismiss>
+  <dialog class="blip-box blip-drawer blip-sheet" id="music-sheet" data-snap="content 70%" aria-label="Now playing">
+    <button class="blip-box blip-sheet-handle" type="button" data-variant="ghost" aria-label="Resize"><span></span></button>
+    <div class="blip-dialog-body">
       <p><strong>Now playing</strong><br>Crystal Caves (theme), 2:14</p>
       <p>Up next: Sky Garden, Clock Tower, The Moon.</p>
     </div>
   </dialog>
-</chu-sheet>
+</blip-sheet>

@@ -4,36 +4,36 @@
      carry on. Then each time of day, and Auto, which follows the clock and steps its palette over a minute when the
      time of day changes. A short world gives up dirt, then meadow, then sky, so its mountains stay; a tall one
      stretches its sky. -->
-<div style="position:relative;block-size:calc(150*var(--chu-pixel));display:grid;place-content:center;justify-items:center;gap:calc(4*var(--chu-pixel));padding:calc(8*var(--chu-pixel));margin-block-end:calc(8*var(--chu-pixel))">
-  <chu-world parallax clouds stars events></chu-world>
-  <p class="chu-display chu-pop" data-scale="3" data-pop="Blip">Blip</p>
-  <p class="chu-label chu-outline">Move the pointer: the hills slide</p>
-  <chu-motion-toggle></chu-motion-toggle>
+<div style="position:relative;block-size:calc(150*var(--blip-pixel));display:grid;place-content:center;justify-items:center;gap:calc(4*var(--blip-pixel));padding:calc(8*var(--blip-pixel));margin-block-end:calc(8*var(--blip-pixel))">
+  <blip-world parallax clouds stars events></blip-world>
+  <p class="blip-display blip-pop" data-scale="3" data-pop="Blip">Blip</p>
+  <p class="blip-label blip-outline">Move the pointer: the hills slide</p>
+  <blip-motion-toggle></blip-motion-toggle>
 </div>
 
-<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,calc(220*var(--chu-pixel))),1fr));gap:calc(8*var(--chu-pixel))">
-  <figure style="margin:0;display:grid;gap:calc(3*var(--chu-pixel))">
-    <div style="position:relative;aspect-ratio:16/9"><chu-world scheme="day"></chu-world></div>
-    <figcaption class="chu-label chu-muted">Day, 6:00 to 17:00</figcaption>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,calc(220*var(--blip-pixel))),1fr));gap:calc(8*var(--blip-pixel))">
+  <figure style="margin:0;display:grid;gap:calc(3*var(--blip-pixel))">
+    <div style="position:relative;aspect-ratio:16/9"><blip-world scheme="day"></blip-world></div>
+    <figcaption class="blip-label blip-muted">Day, 6:00 to 17:00</figcaption>
   </figure>
-  <figure style="margin:0;display:grid;gap:calc(3*var(--chu-pixel))">
-    <div style="position:relative;aspect-ratio:16/9"><chu-world scheme="sunset"></chu-world></div>
-    <figcaption class="chu-label chu-muted">Sunset, 17:00 to 19:00</figcaption>
+  <figure style="margin:0;display:grid;gap:calc(3*var(--blip-pixel))">
+    <div style="position:relative;aspect-ratio:16/9"><blip-world scheme="sunset"></blip-world></div>
+    <figcaption class="blip-label blip-muted">Sunset, 17:00 to 19:00</figcaption>
   </figure>
-  <figure style="margin:0;display:grid;gap:calc(3*var(--chu-pixel))">
-    <div style="position:relative;aspect-ratio:16/9"><chu-world scheme="night"></chu-world></div>
-    <figcaption class="chu-label chu-muted">Night</figcaption>
+  <figure style="margin:0;display:grid;gap:calc(3*var(--blip-pixel))">
+    <div style="position:relative;aspect-ratio:16/9"><blip-world scheme="night"></blip-world></div>
+    <figcaption class="blip-label blip-muted">Night</figcaption>
   </figure>
-  <figure style="margin:0;display:grid;gap:calc(3*var(--chu-pixel))">
-    <div style="position:relative;aspect-ratio:16/9"><chu-world scheme="auto" clouds stars events></chu-world></div>
-    <figcaption class="chu-label chu-muted">Auto: the clock's time of day</figcaption>
+  <figure style="margin:0;display:grid;gap:calc(3*var(--blip-pixel))">
+    <div style="position:relative;aspect-ratio:16/9"><blip-world scheme="auto" clouds stars events></blip-world></div>
+    <figcaption class="blip-label blip-muted">Auto: the clock's time of day</figcaption>
   </figure>
-  <figure style="margin:0;display:grid;gap:calc(3*var(--chu-pixel))">
-    <div style="position:relative;aspect-ratio:16/9"><chu-world scheme="sunset" zoom="2"></chu-world></div>
-    <figcaption class="chu-label chu-muted">zoom="2": two pixels to a world pixel, as on a TV</figcaption>
+  <figure style="margin:0;display:grid;gap:calc(3*var(--blip-pixel))">
+    <div style="position:relative;aspect-ratio:16/9"><blip-world scheme="sunset" zoom="2"></blip-world></div>
+    <figcaption class="blip-label blip-muted">zoom="2": two pixels to a world pixel, as on a TV</figcaption>
   </figure>
-  <figure style="margin:0;display:grid;gap:calc(3*var(--chu-pixel))">
-    <div style="position:relative;aspect-ratio:16/9"><chu-world scheme="night" clouds="none" stars></chu-world></div>
-    <figcaption class="chu-label chu-muted">Night, clouds="none", flaring stars</figcaption>
+  <figure style="margin:0;display:grid;gap:calc(3*var(--blip-pixel))">
+    <div style="position:relative;aspect-ratio:16/9"><blip-world scheme="night" clouds="none" stars></blip-world></div>
+    <figcaption class="blip-label blip-muted">Night, clouds="none", flaring stars</figcaption>
   </figure>
 </div>

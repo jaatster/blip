@@ -1,8 +1,8 @@
 ---
 name: File drop
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: file-drop.css
-element: chu-file-drop
+element: blip-file-drop
 react: FileDrop
 status: beta
 equivalents:
@@ -13,37 +13,37 @@ equivalents:
 
 A tray to drop files on, or click to browse, and the list of what was picked, each with a remove button. The real
 control is the native `<input type="file">` inside the tray: it opens the picker, takes the focus and sends the files
-with the form. `<chu-file-drop>` adds dropping, the list and removing; without JavaScript the browser's own file button
+with the form. `<blip-file-drop>` adds dropping, the list and removing; without JavaScript the browser's own file button
 shows in the tray.
 
 ## Usage
 
 ```html
-<chu-file-drop class="chu-file-drop">
-  <label class="chu-box chu-file-drop-zone">
+<blip-file-drop class="blip-file-drop">
+  <label class="blip-box blip-file-drop-zone">
     <input type="file" name="shots" multiple accept="image/png, image/jpeg" aria-describedby="shots-help">
-    <svg class="chu-icon" data-size="lg" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+    <svg class="blip-icon" data-size="lg" viewBox="0 0 12 12" aria-hidden="true">…</svg>
     <strong>Drop screenshots here</strong>
     <span id="shots-help">or click to browse. PNG or JPG.</span>
   </label>
-</chu-file-drop>
+</blip-file-drop>
 ```
 
 ## Anatomy
 
-1. **Tray** (`.chu-file-drop-zone`): the calm well, a `<label>` so a click anywhere opens the picker.
+1. **Tray** (`.blip-file-drop-zone`): the calm well, a `<label>` so a click anywhere opens the picker.
 2. **Input**: the native file input, invisible once the element is running.
 3. **Words**: a bold line saying what to drop, and a muted line with the types and sizes accepted.
-4. **List** (`.chu-file-drop-list`): one `.chu-file-drop-item` per file: its name (`.chu-file-drop-name`, cut with an
-   ellipsis when long; the full name is its tooltip), its size (`.chu-file-drop-size`), and a ghost
-   `.chu-file-drop-remove` button with a pixel cross.
+4. **List** (`.blip-file-drop-list`): one `.blip-file-drop-item` per file: its name (`.blip-file-drop-name`, cut with an
+   ellipsis when long; the full name is its tooltip), its size (`.blip-file-drop-size`), and a ghost
+   `.blip-file-drop-remove` button with a pixel cross.
 
 ## Variants
 
 | On the input | Use |
 |---|---|
 | `multiple` | Files add up across drops and picks. Without it, a new file replaces the old one. |
-| `accept` | Dropped files that don't match are left out (and reported with `chu-reject`). |
+| `accept` | Dropped files that don't match are left out (and reported with `blip-reject`). |
 
 ## States
 
@@ -55,7 +55,7 @@ shows in the tray.
 | Invalid | `aria-invalid="true"` or `:user-invalid` on the input | Danger outline; pair with an error. |
 | Disabled | `disabled` on the input | Dithered; drops are ignored, remove buttons disabled. |
 
-`data-chu-state="hover focus dragover"` on the tray forces those looks in docs and tests.
+`data-blip-state="hover focus dragover"` on the tray forces those looks in docs and tests.
 
 ## Accessibility
 
@@ -83,7 +83,7 @@ shows in the tray.
 
 ## API
 
-`<chu-file-drop>`
+`<blip-file-drop>`
 
 | Attribute / property | Type | |
 |---|---|---|
@@ -93,7 +93,7 @@ shows in the tray.
 
 | Event | Detail | |
 |---|---|---|
-| `chu-change` | `{ files }` | The list changed (picked, dropped or removed). The input also fires `input` and `change`. |
-| `chu-reject` | `{ files }` | Dropped files that didn't match `accept`. |
+| `blip-change` | `{ files }` | The list changed (picked, dropped or removed). The input also fires `input` and `change`. |
+| `blip-reject` | `{ files }` | Dropped files that didn't match `accept`. |
 
 An input rendered after the element, or swapped by a framework, is taken up when it arrives.

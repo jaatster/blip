@@ -1,5 +1,5 @@
 ---
-/** A Blip icon as inline SVG, from @jaatster/blip-icons' data: decorative unless it has a label. */
+/** A Blip icon as inline SVG, from @blip/icons' data: decorative unless it has a label. */
 import { iconPath } from "../lib/data";
 interface Props {
   name: string;
@@ -9,4 +9,4 @@ interface Props {
 }
 const { name, label, size, class: cls } = Astro.props;
 ---
-<svg class:list={["chu-icon", cls]} viewBox="0 0 12 12" data-size={size} role={label ? "img" : undefined} aria-label={label} aria-hidden={label ? undefined : "true"}><path d={iconPath(name)} /></svg>
+<svg class:list={["blip-icon", cls]} viewBox="0 0 12 12" data-size={size} role={label ? "img" : undefined} aria-label={label} aria-hidden={label ? undefined : "true"}><path d={iconPath(name)} /></svg>

@@ -1,6 +1,6 @@
 ---
 name: Popover
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: popover.css
 element: null
 react: Popover
@@ -21,10 +21,10 @@ of commands, a menu.
 ## Usage
 
 ```html
-<button class="chu-box chu-button" popovertarget="profile">Pixel Pat</button>
-<div class="chu-box chu-popover" id="profile" popover role="dialog" aria-labelledby="profile-name">
-  <span class="chu-popover-nub" aria-hidden="true"></span>
-  <p class="chu-popover-title" id="profile-name">Pixel Pat</p>
+<button class="blip-box blip-button" popovertarget="profile">Pixel Pat</button>
+<div class="blip-box blip-popover" id="profile" popover role="dialog" aria-labelledby="profile-name">
+  <span class="blip-popover-nub" aria-hidden="true"></span>
+  <p class="blip-popover-title" id="profile-name">Pixel Pat</p>
   <p>Level 12, 3,450 XP</p>
 </div>
 ```
@@ -39,10 +39,10 @@ popover.
 An open popover flips to the other side of its button when there is no room, and only an anchored container query
 can tell which side it took. Those queries live in a file of their own, `popover-nub.css`: with it, an open popover
 shows its nub and turns it when it flips; without it, an open popover has no nub, rather than one pointing the wrong
-way. (Static popovers, `data-chu-static`, always have theirs.)
+way. (Static popovers, `data-blip-static`, always have theirs.)
 
 ```html
-<link rel="stylesheet" href="…/@jaatster/blip-components/dist/popover-nub.min.css">
+<link rel="stylesheet" href="…/@blip/components/dist/popover-nub.min.css">
 ```
 
 Load it with a `<link>` after `components.css` (or `popover.css`): from a CDN, or a copy in your public folder. Do
@@ -53,10 +53,10 @@ without anchored container queries ignore the file.
 ## Anatomy
 
 1. **Panel**: a candy box, raised, radius 3, ink outline, a two-pixel drop.
-2. **Nub** (`.chu-popover-nub`): seven pixels wide and four deep, an ink outline round the panel's own fill, its base
+2. **Nub** (`.blip-popover-nub`): seven pixels wide and four deep, an ink outline round the panel's own fill, its base
    lying on the panel's outline so the two read as one shape (like the TV's speech bubble). It is drawn pointing
    down and turned in quarter turns, which keep every pixel on the grid.
-3. **Title** (`.chu-popover-title`, optional), content, and an optional **close** button (`.chu-popover-close`).
+3. **Title** (`.blip-popover-title`, optional), content, and an optional **close** button (`.blip-popover-close`).
 
 ## Variants
 
@@ -71,7 +71,7 @@ without anchored container queries ignore the file.
 |---|---|---|
 | Opening | `popovertarget`, `showPopover()` | One pixel low for a frame, then in place (the pop-in). |
 | Flipped | not enough room | On the other side; with `popover-nub.css`, the nub turned to match. |
-| Static | `data-chu-static` | In the page flow: docs, tests, screenshots only. |
+| Static | `data-blip-static` | In the page flow: docs, tests, screenshots only. |
 
 Where nothing can tell which side the popover took (`popover-nub.css` not loaded, or a browser without anchored
 container queries), an open popover's nub is hidden rather than pointing the wrong way. Without anchor positioning at
@@ -107,14 +107,14 @@ all, the popover opens in the middle of the screen.
 
 | Class or attribute | |
 |---|---|
-| `.chu-popover` on a `.chu-box` with `popover` | The panel. |
-| `.chu-popover-nub` | The nub: an empty span, first in the popover. |
-| `.chu-popover-title`, `.chu-popover-close` | Optional title line; optional close button (`popovertargetaction="hide"`). |
+| `.blip-popover` on a `.blip-box` with `popover` | The panel. |
+| `.blip-popover-nub` | The nub: an empty span, first in the popover. |
+| `.blip-popover-title`, `.blip-popover-close` | Optional title line; optional close button (`popovertargetaction="hide"`). |
 | `data-side`, `data-align` | Placement (see Variants). |
-| `data-chu-static` | Drawn in the page flow. |
-| `@jaatster/blip-components/popover-nub.css` | Opt-in: the nub on open popovers, turned when they flip. Not in `components.css`; load it with a `<link>`. |
+| `data-blip-static` | Drawn in the page flow. |
+| `@blip/components/popover-nub.css` | Opt-in: the nub on open popovers, turned when they flip. Not in `components.css`; load it with a `<link>`. |
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-r` with `--chu-shape`, `--chu-shape-inner` | 3 | Corner radius in pixels. |
-| `--chu-drop-size` | 2 | Drop in pixels. |
+| `--blip-r` with `--blip-shape`, `--blip-shape-inner` | 3 | Corner radius in pixels. |
+| `--blip-drop-size` | 2 | Drop in pixels. |

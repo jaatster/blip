@@ -1,15 +1,15 @@
 <!-- Typewriter: types a letter every 50 ms and holds after a full stop (260 ms) or a comma (130 ms), as the TV's
      speech bubble does. With blips, every other letter plays the blip voice once sound is on (see the sound board);
      mood="happy" or "sleepy" pitches it up or down. caret adds a blinking block. The untyped rest keeps its room. -->
-<div style="display:grid;gap:calc(6*var(--chu-pixel));max-inline-size:calc(220*var(--chu-pixel))">
-  <div class="chu-box" data-variant="panel" style="padding:calc(6*var(--chu-pixel)) calc(8*var(--chu-pixel))">
-    <chu-typewriter class="chu-body" caret blips>Welcome back! Your save is ready, and the coins you found are still in your pocket.</chu-typewriter>
+<div style="display:grid;gap:calc(6*var(--blip-pixel));max-inline-size:calc(220*var(--blip-pixel))">
+  <div class="blip-box" data-variant="panel" style="padding:calc(6*var(--blip-pixel)) calc(8*var(--blip-pixel))">
+    <blip-typewriter class="blip-body" caret blips>Welcome back! Your save is ready, and the coins you found are still in your pocket.</blip-typewriter>
   </div>
-  <div class="chu-box" data-variant="panel" data-chu-r="4" style="padding:calc(6*var(--chu-pixel)) calc(8*var(--chu-pixel))">
-    <chu-typewriter class="chu-display" data-scale="1" mood="happy" blips>Wow, you found the secret level!</chu-typewriter>
+  <div class="blip-box" data-variant="panel" data-blip-r="4" style="padding:calc(6*var(--blip-pixel)) calc(8*var(--blip-pixel))">
+    <blip-typewriter class="blip-display" data-scale="1" mood="happy" blips>Wow, you found the secret level!</blip-typewriter>
   </div>
-  <div style="display:flex;gap:calc(4*var(--chu-pixel))">
-    <button class="chu-box chu-button" type="button" data-size="sm" onclick="this.closest('div').parentElement.querySelectorAll('chu-typewriter').forEach((t) => t.play())">Type again</button>
-    <button class="chu-box chu-button" type="button" data-size="sm" data-variant="soft" onclick="this.closest('div').parentElement.querySelectorAll('chu-typewriter').forEach((t) => t.finish())">Skip</button>
+  <div style="display:flex;gap:calc(4*var(--blip-pixel))">
+    <button class="blip-box blip-button" type="button" data-size="sm" onclick="this.closest('div').parentElement.querySelectorAll('blip-typewriter').forEach((t) => t.play())">Type again</button>
+    <button class="blip-box blip-button" type="button" data-size="sm" data-variant="soft" onclick="this.closest('div').parentElement.querySelectorAll('blip-typewriter').forEach((t) => t.finish())">Skip</button>
   </div>
 </div>

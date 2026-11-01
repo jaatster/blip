@@ -1,8 +1,8 @@
 ---
 name: Tooltip
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: tooltip.css
-element: chu-tooltip
+element: blip-tooltip
 react: Tooltip
 status: stable
 equivalents:
@@ -19,20 +19,20 @@ its trigger. Text only: anything with links or buttons is a [popover](popover.md
 ## Usage
 
 ```html
-<button class="chu-box chu-button" data-icon-only aria-label="Save" id="save-btn">…</button>
-<chu-tooltip for="save-btn">Save to slot 2 (Ctrl+S)</chu-tooltip>
+<button class="blip-box blip-button" data-icon-only aria-label="Save" id="save-btn">…</button>
+<blip-tooltip for="save-btn">Save to slot 2 (Ctrl+S)</blip-tooltip>
 
-<span class="chu-box chu-input"><input id="name" aria-label="Player name"></span>
-<chu-tooltip for="name" data-side="right">3 to 12 letters or numbers. Shown on leaderboards.</chu-tooltip>
+<span class="blip-box blip-input"><input id="name" aria-label="Player name"></span>
+<blip-tooltip for="name" data-side="right">3 to 12 letters or numbers. Shown on leaderboards.</blip-tooltip>
 ```
 
-Without `for`, a `<chu-tooltip>` belongs to the element just before it.
+Without `for`, a `<blip-tooltip>` belongs to the element just before it.
 
 ## Anatomy
 
 1. **Chip**: a candy box, radius 2, filled with the scheme's text colour, one-pixel drop. Caption-size text, up to
    about 110 pixels wide.
-2. **Nub** (`.chu-tooltip-nub`, added by the element): seven pixels wide and four deep, turned in quarter turns to
+2. **Nub** (`.blip-tooltip-nub`, added by the element): seven pixels wide and four deep, turned in quarter turns to
    point at the trigger's middle, even when the chip was pushed back on screen.
 
 ## Variants
@@ -46,7 +46,7 @@ Without `for`, a `<chu-tooltip>` belongs to the element just before it.
 | State | How | Look |
 |---|---|---|
 | Hidden | | Not shown; still read by screen readers as the trigger's description. |
-| Showing | hover for a beat (`--chu-duration-beat`, 400 ms), or keyboard focus at once | Pops in: one pixel low for a frame. |
+| Showing | hover for a beat (`--blip-duration-beat`, 400 ms), or keyboard focus at once | Pops in: one pixel low for a frame. |
 | Hiding | hover and focus leave (after a glide, 160 ms, to reach the chip), a press on the trigger, Escape | Gone at once. |
 
 Moving from one trigger to the next while a tooltip shows skips the wait. One shows at a time. With reduced motion
@@ -84,10 +84,10 @@ there is no pop-in; the waits stay (they are not motion).
 
 ## API
 
-`<chu-tooltip>`: attributes `for` (the trigger's id), `data-side` and `open` (showing; set it to show it); properties
-`htmlFor` and `open`; methods `show()` and `close()`; events `chu-open` and `chu-close`. A trigger rendered after the
+`<blip-tooltip>`: attributes `for` (the trigger's id), `data-side` and `open` (showing; set it to show it); properties
+`htmlFor` and `open`; methods `show()` and `close()`; events `blip-open` and `blip-close`. A trigger rendered after the
 tooltip, or replaced by a framework, is found again and described as it arrives. It becomes the chip: it gets
-`chu-box chu-tooltip`, `role="tooltip"`, an id if it has none,
+`blip-box blip-tooltip`, `role="tooltip"`, an id if it has none,
 `popover="manual"` (the top layer, above dialogs) and the nub. It shows itself with its trigger as the popover's
 source, so where the browser anchors a popover to its source, CSS anchor positioning places it; where not (it
 checks on the first show), it places itself with script. It follows scrolling and resizing either way, and never
@@ -95,7 +95,7 @@ writes the trigger's `anchor-name`.
 
 | Class or property | |
 |---|---|
-| `.chu-tooltip` on a `.chu-box` | The chip. `data-chu-static` draws it in the page flow. |
-| `.chu-tooltip-nub` | The nub. |
-| `--_chu-nub-x` | Where the nub sits along the top or bottom edge (set by the element). |
-| `--chu-duration-beat`, `--chu-duration-glide` | The show and hide waits; set them on a `<chu-tooltip>` to change its own. |
+| `.blip-tooltip` on a `.blip-box` | The chip. `data-blip-static` draws it in the page flow. |
+| `.blip-tooltip-nub` | The nub. |
+| `--_blip-nub-x` | Where the nub sits along the top or bottom edge (set by the element). |
+| `--blip-duration-beat`, `--blip-duration-glide` | The show and hide waits; set them on a `<blip-tooltip>` to change its own. |

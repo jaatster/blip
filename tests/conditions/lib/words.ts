@@ -58,16 +58,16 @@ export interface Measured {
  * a line whose middle falls outside one is out of it vertically too), up to the first box taken out of the flow (a
  * badge over a corner, a chip, a tooltip sits where it is put). Only the innermost box a run leaves is reported. Text
  * in a sideways scroller scrolls; text cut short with text-overflow: ellipsis is deliberate (listed); visually hidden
- * text (clip-path: inset(50%), .chu-sr-only) does not count. Past the screen is the page's width, measured apart.
+ * text (clip-path: inset(50%), .blip-sr-only) does not count. Past the screen is the page's width, measured apart.
  */
 export function measureWords(): Measured {
   const root = document.getElementById("example")!;
   const html = document.documentElement;
   const out = new Set<string>();
   const truncated = new Set<string>();
-  const name = (e: Element) => `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c.startsWith("chu-") && c !== "chu-box").slice(0, 2).map((c) => `.${c}`).join("")}`;
+  const name = (e: Element) => `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c.startsWith("blip-") && c !== "blip-box").slice(0, 2).map((c) => `.${c}`).join("")}`;
   const component = (e: Element) => {
-    const c = e.parentElement?.closest("[class*='chu-']");
+    const c = e.parentElement?.closest("[class*='blip-']");
     return c ? ` in ${name(c)}` : "";
   };
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
@@ -80,7 +80,7 @@ export function measureWords(): Measured {
     let hidden = false;
     for (let a: Element | null = el; a && a !== root.parentElement; a = a.parentElement) {
       const cs = getComputedStyle(a);
-      if (cs.clipPath.startsWith("inset(50%") || a.classList.contains("chu-sr-only")) { hidden = true; break; }
+      if (cs.clipPath.startsWith("inset(50%") || a.classList.contains("blip-sr-only")) { hidden = true; break; }
       chain.push(a);
       if (/absolute|fixed/.test(cs.position)) break;
     }
@@ -96,8 +96,8 @@ export function measureWords(): Measured {
         const cs = getComputedStyle(a);
         const b = a.getBoundingClientRect();
         const clips = /hidden|clip/.test(cs.overflowX), scrolls = /auto|scroll/.test(cs.overflowX);
-        const box = a.classList.contains("chu-box");
-        const p = box ? parseFloat(cs.getPropertyValue("--chu-pixel")) || 2 : 0;
+        const box = a.classList.contains("blip-box");
+        const p = box ? parseFloat(cs.getPropertyValue("--blip-pixel")) || 2 : 0;
         const over = Math.max(b.left + p - r.left, r.right - (b.right - p));
         const holds = formatting && !["inline", "contents"].includes(cs.display);
         if (holds) formatting = false;

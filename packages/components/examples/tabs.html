@@ -1,126 +1,126 @@
 <!-- Tabs: a settings page (outline), a game inventory (candy, with the arrow), dense underline tabs, soft tabs down the
-     side, a row too long for its box, and every state forced with data-chu-state. -->
-<div style="display:grid;gap:calc(12*var(--chu-pixel));max-inline-size:calc(400*var(--chu-pixel))">
+     side, a row too long for its box, and every state forced with data-blip-state. -->
+<div style="display:grid;gap:calc(12*var(--blip-pixel));max-inline-size:calc(400*var(--blip-pixel))">
 
-  <chu-tabs class="chu-tabs" data-variant="outline">
-    <div class="chu-tabs-list" role="tablist" aria-label="Settings">
-      <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="true">General</button>
-      <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Sound</button>
-      <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Display</button>
-      <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Controls</button>
-      <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1" aria-disabled="true">Online</button>
+  <blip-tabs class="blip-tabs" data-variant="outline">
+    <div class="blip-tabs-list" role="tablist" aria-label="Settings">
+      <button class="blip-box blip-tab" data-variant="outline" role="tab" aria-selected="true">General</button>
+      <button class="blip-box blip-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Sound</button>
+      <button class="blip-box blip-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Display</button>
+      <button class="blip-box blip-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Controls</button>
+      <button class="blip-box blip-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1" aria-disabled="true">Online</button>
     </div>
-    <section class="chu-box chu-tabs-panel" data-variant="panel" role="tabpanel" style="padding:calc(8*var(--chu-pixel))">
-      <h3 class="chu-title">General</h3>
-      <p class="chu-body chu-muted">Language, save slots and what happens when you start the game.</p>
+    <section class="blip-box blip-tabs-panel" data-variant="panel" role="tabpanel" style="padding:calc(8*var(--blip-pixel))">
+      <h3 class="blip-title">General</h3>
+      <p class="blip-body blip-muted">Language, save slots and what happens when you start the game.</p>
     </section>
-    <section class="chu-box chu-tabs-panel" data-variant="panel" role="tabpanel" hidden style="padding:calc(8*var(--chu-pixel))">
-      <h3 class="chu-title">Sound</h3>
-      <p class="chu-body chu-muted">Music at 60%, chip sounds on, voices off.</p>
+    <section class="blip-box blip-tabs-panel" data-variant="panel" role="tabpanel" hidden style="padding:calc(8*var(--blip-pixel))">
+      <h3 class="blip-title">Sound</h3>
+      <p class="blip-body blip-muted">Music at 60%, chip sounds on, voices off.</p>
     </section>
-    <section class="chu-box chu-tabs-panel" data-variant="panel" role="tabpanel" hidden style="padding:calc(8*var(--chu-pixel))">
-      <h3 class="chu-title">Display</h3>
-      <p class="chu-body chu-muted">Pixel size 2, the Auto scheme, scanlines off.</p>
+    <section class="blip-box blip-tabs-panel" data-variant="panel" role="tabpanel" hidden style="padding:calc(8*var(--blip-pixel))">
+      <h3 class="blip-title">Display</h3>
+      <p class="blip-body blip-muted">Pixel size 2, the Auto scheme, scanlines off.</p>
     </section>
-    <section class="chu-box chu-tabs-panel" data-variant="panel" role="tabpanel" hidden style="padding:calc(8*var(--chu-pixel))">
-      <h3 class="chu-title">Controls</h3>
-      <p class="chu-body chu-muted">Arrow keys move, Z jumps, X opens the map.</p>
+    <section class="blip-box blip-tabs-panel" data-variant="panel" role="tabpanel" hidden style="padding:calc(8*var(--blip-pixel))">
+      <h3 class="blip-title">Controls</h3>
+      <p class="blip-body blip-muted">Arrow keys move, Z jumps, X opens the map.</p>
     </section>
-    <section class="chu-box chu-tabs-panel" data-variant="panel" role="tabpanel" hidden style="padding:calc(8*var(--chu-pixel))">
-      <h3 class="chu-title">Online</h3>
+    <section class="blip-box blip-tabs-panel" data-variant="panel" role="tabpanel" hidden style="padding:calc(8*var(--blip-pixel))">
+      <h3 class="blip-title">Online</h3>
     </section>
-  </chu-tabs>
+  </blip-tabs>
 
-  <chu-tabs class="chu-tabs" data-arrow>
-    <div class="chu-tabs-list" role="tablist" aria-label="Inventory">
-      <button class="chu-box chu-tab" role="tab" aria-selected="false" tabindex="-1">Items</button>
-      <button class="chu-box chu-tab" role="tab" aria-selected="true">Weapons</button>
-      <button class="chu-box chu-tab" role="tab" aria-selected="false" tabindex="-1" data-tone="teal">Armour</button>
-      <button class="chu-box chu-tab" role="tab" aria-selected="false" tabindex="-1" data-tone="pink">Key items</button>
+  <blip-tabs class="blip-tabs" data-arrow>
+    <div class="blip-tabs-list" role="tablist" aria-label="Inventory">
+      <button class="blip-box blip-tab" role="tab" aria-selected="false" tabindex="-1">Items</button>
+      <button class="blip-box blip-tab" role="tab" aria-selected="true">Weapons</button>
+      <button class="blip-box blip-tab" role="tab" aria-selected="false" tabindex="-1" data-tone="teal">Armour</button>
+      <button class="blip-box blip-tab" role="tab" aria-selected="false" tabindex="-1" data-tone="pink">Key items</button>
     </div>
-    <div class="chu-tabs-panel" role="tabpanel" hidden><p class="chu-body">Potion x3, Ether x1, Phoenix feather x1.</p></div>
-    <div class="chu-tabs-panel" role="tabpanel"><p class="chu-body">Wooden sword (equipped), Slingshot, Boomerang.</p></div>
-    <div class="chu-tabs-panel" role="tabpanel" hidden><p class="chu-body">Leather cap, Travel cloak.</p></div>
-    <div class="chu-tabs-panel" role="tabpanel" hidden><p class="chu-body">Castle key, Old map.</p></div>
-  </chu-tabs>
+    <div class="blip-tabs-panel" role="tabpanel" hidden><p class="blip-body">Potion x3, Ether x1, Phoenix feather x1.</p></div>
+    <div class="blip-tabs-panel" role="tabpanel"><p class="blip-body">Wooden sword (equipped), Slingshot, Boomerang.</p></div>
+    <div class="blip-tabs-panel" role="tabpanel" hidden><p class="blip-body">Leather cap, Travel cloak.</p></div>
+    <div class="blip-tabs-panel" role="tabpanel" hidden><p class="blip-body">Castle key, Old map.</p></div>
+  </blip-tabs>
 
-  <chu-tabs class="chu-tabs" data-variant="underline" data-size="sm">
-    <div class="chu-tabs-list" role="tablist" aria-label="Players">
-      <button class="chu-box chu-tab" data-variant="ghost" role="tab" aria-selected="true">Online <span class="chu-muted">128</span></button>
-      <button class="chu-box chu-tab" data-variant="ghost" role="tab" aria-selected="false" tabindex="-1">Banned <span class="chu-muted">3</span></button>
-      <button class="chu-box chu-tab" data-variant="ghost" role="tab" aria-selected="false" tabindex="-1">Reports <span class="chu-muted">12</span></button>
-      <button class="chu-box chu-tab" data-variant="ghost" role="tab" aria-selected="false" tabindex="-1">Invites</button>
+  <blip-tabs class="blip-tabs" data-variant="underline" data-size="sm">
+    <div class="blip-tabs-list" role="tablist" aria-label="Players">
+      <button class="blip-box blip-tab" data-variant="ghost" role="tab" aria-selected="true">Online <span class="blip-muted">128</span></button>
+      <button class="blip-box blip-tab" data-variant="ghost" role="tab" aria-selected="false" tabindex="-1">Banned <span class="blip-muted">3</span></button>
+      <button class="blip-box blip-tab" data-variant="ghost" role="tab" aria-selected="false" tabindex="-1">Reports <span class="blip-muted">12</span></button>
+      <button class="blip-box blip-tab" data-variant="ghost" role="tab" aria-selected="false" tabindex="-1">Invites</button>
     </div>
-    <div class="chu-tabs-panel" role="tabpanel"><p class="chu-small chu-muted">128 players online in 9 worlds.</p></div>
-    <div class="chu-tabs-panel" role="tabpanel" hidden><p class="chu-small chu-muted">3 accounts banned this week.</p></div>
-    <div class="chu-tabs-panel" role="tabpanel" hidden><p class="chu-small chu-muted">12 reports waiting for review.</p></div>
-    <div class="chu-tabs-panel" role="tabpanel" hidden><p class="chu-small chu-muted">No invites sent yet.</p></div>
-  </chu-tabs>
+    <div class="blip-tabs-panel" role="tabpanel"><p class="blip-small blip-muted">128 players online in 9 worlds.</p></div>
+    <div class="blip-tabs-panel" role="tabpanel" hidden><p class="blip-small blip-muted">3 accounts banned this week.</p></div>
+    <div class="blip-tabs-panel" role="tabpanel" hidden><p class="blip-small blip-muted">12 reports waiting for review.</p></div>
+    <div class="blip-tabs-panel" role="tabpanel" hidden><p class="blip-small blip-muted">No invites sent yet.</p></div>
+  </blip-tabs>
 
-  <chu-tabs class="chu-tabs" data-variant="soft" activation="manual">
-    <div class="chu-tabs-list" role="tablist" aria-label="Account" aria-orientation="vertical">
-      <button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="true"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg>Profile</button>
-      <button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3h1v6H2V5h1V2h1zm1 2v2h2V3zm0 4v2h2V7z"/></svg>Security</button>
-      <button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v1h2v1h1v3h1v2H1V6h1V3h1V2h2zM4 9h4v1H7v1H5v-1H4z"/></svg>Alerts</button>
+  <blip-tabs class="blip-tabs" data-variant="soft" activation="manual">
+    <div class="blip-tabs-list" role="tablist" aria-label="Account" aria-orientation="vertical">
+      <button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="true"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg>Profile</button>
+      <button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3h1v6H2V5h1V2h1zm1 2v2h2V3zm0 4v2h2V7z"/></svg>Security</button>
+      <button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v1h2v1h1v3h1v2H1V6h1V3h1V2h2zM4 9h4v1H7v1H5v-1H4z"/></svg>Alerts</button>
     </div>
-    <div class="chu-tabs-panel" role="tabpanel"><p class="chu-body">Name, avatar and the world you start in. Arrow keys move here; Enter or Space opens a tab (manual activation).</p></div>
-    <div class="chu-tabs-panel" role="tabpanel" hidden><p class="chu-body">Password and two-step sign-in.</p></div>
-    <div class="chu-tabs-panel" role="tabpanel" hidden><p class="chu-body">Tell me when a friend comes online.</p></div>
-  </chu-tabs>
+    <div class="blip-tabs-panel" role="tabpanel"><p class="blip-body">Name, avatar and the world you start in. Arrow keys move here; Enter or Space opens a tab (manual activation).</p></div>
+    <div class="blip-tabs-panel" role="tabpanel" hidden><p class="blip-body">Password and two-step sign-in.</p></div>
+    <div class="blip-tabs-panel" role="tabpanel" hidden><p class="blip-body">Tell me when a friend comes online.</p></div>
+  </blip-tabs>
 
-  <div style="max-inline-size:calc(180*var(--chu-pixel))">
-    <chu-tabs class="chu-tabs" data-variant="soft" data-size="sm">
-      <div class="chu-tabs-list" role="tablist" aria-label="Worlds">
-        <button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="true">World 1</button>
-        <button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 2</button>
-        <button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 3</button>
-        <button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 4</button>
-        <button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 5</button>
-        <button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 6</button>
-        <button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 7</button>
-        <button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 8</button>
+  <div style="max-inline-size:calc(180*var(--blip-pixel))">
+    <blip-tabs class="blip-tabs" data-variant="soft" data-size="sm">
+      <div class="blip-tabs-list" role="tablist" aria-label="Worlds">
+        <button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="true">World 1</button>
+        <button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 2</button>
+        <button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 3</button>
+        <button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 4</button>
+        <button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 5</button>
+        <button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 6</button>
+        <button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 7</button>
+        <button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="false" tabindex="-1">World 8</button>
       </div>
-      <div class="chu-tabs-panel" role="tabpanel"><p class="chu-small chu-muted">Grass Land: 8 levels, 3 secrets.</p></div>
-      <div class="chu-tabs-panel" role="tabpanel" hidden><p class="chu-small chu-muted">Desert Hill.</p></div>
-      <div class="chu-tabs-panel" role="tabpanel" hidden><p class="chu-small chu-muted">Ocean Side.</p></div>
-      <div class="chu-tabs-panel" role="tabpanel" hidden><p class="chu-small chu-muted">Big Island.</p></div>
-      <div class="chu-tabs-panel" role="tabpanel" hidden><p class="chu-small chu-muted">The Sky.</p></div>
-      <div class="chu-tabs-panel" role="tabpanel" hidden><p class="chu-small chu-muted">Ice Land.</p></div>
-      <div class="chu-tabs-panel" role="tabpanel" hidden><p class="chu-small chu-muted">Pipe Maze.</p></div>
-      <div class="chu-tabs-panel" role="tabpanel" hidden><p class="chu-small chu-muted">Dark Land.</p></div>
-    </chu-tabs>
+      <div class="blip-tabs-panel" role="tabpanel"><p class="blip-small blip-muted">Grass Land: 8 levels, 3 secrets.</p></div>
+      <div class="blip-tabs-panel" role="tabpanel" hidden><p class="blip-small blip-muted">Desert Hill.</p></div>
+      <div class="blip-tabs-panel" role="tabpanel" hidden><p class="blip-small blip-muted">Ocean Side.</p></div>
+      <div class="blip-tabs-panel" role="tabpanel" hidden><p class="blip-small blip-muted">Big Island.</p></div>
+      <div class="blip-tabs-panel" role="tabpanel" hidden><p class="blip-small blip-muted">The Sky.</p></div>
+      <div class="blip-tabs-panel" role="tabpanel" hidden><p class="blip-small blip-muted">Ice Land.</p></div>
+      <div class="blip-tabs-panel" role="tabpanel" hidden><p class="blip-small blip-muted">Pipe Maze.</p></div>
+      <div class="blip-tabs-panel" role="tabpanel" hidden><p class="blip-small blip-muted">Dark Land.</p></div>
+    </blip-tabs>
   </div>
 </div>
 
-<!-- States, forced with data-chu-state: one row per variant. A picture of each look, not wired to panels. -->
-<div style="display:grid;gap:calc(4*var(--chu-pixel));margin-block-start:calc(12*var(--chu-pixel));max-inline-size:calc(400*var(--chu-pixel))">
-  <div class="chu-tabs"><div class="chu-tabs-list" role="tablist" aria-label="Candy tab states">
-    <button class="chu-box chu-tab" role="tab" aria-selected="false">Rest</button>
-    <button class="chu-box chu-tab" role="tab" aria-selected="false" data-chu-state="hover">Hover</button>
-    <button class="chu-box chu-tab" role="tab" aria-selected="false" data-chu-state="focus">Focus</button>
-    <button class="chu-box chu-tab" role="tab" aria-selected="true">Selected</button>
-    <button class="chu-box chu-tab" role="tab" aria-selected="false" aria-disabled="true">Disabled</button>
+<!-- States, forced with data-blip-state: one row per variant. A picture of each look, not wired to panels. -->
+<div style="display:grid;gap:calc(4*var(--blip-pixel));margin-block-start:calc(12*var(--blip-pixel));max-inline-size:calc(400*var(--blip-pixel))">
+  <div class="blip-tabs"><div class="blip-tabs-list" role="tablist" aria-label="Candy tab states">
+    <button class="blip-box blip-tab" role="tab" aria-selected="false">Rest</button>
+    <button class="blip-box blip-tab" role="tab" aria-selected="false" data-blip-state="hover">Hover</button>
+    <button class="blip-box blip-tab" role="tab" aria-selected="false" data-blip-state="focus">Focus</button>
+    <button class="blip-box blip-tab" role="tab" aria-selected="true">Selected</button>
+    <button class="blip-box blip-tab" role="tab" aria-selected="false" aria-disabled="true">Disabled</button>
   </div></div>
-  <div class="chu-tabs" data-variant="soft"><div class="chu-tabs-list" role="tablist" aria-label="Soft tab states">
-    <button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="false">Rest</button>
-    <button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="false" data-chu-state="hover">Hover</button>
-    <button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="false" data-chu-state="focus">Focus</button>
-    <button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="true">Selected</button>
-    <button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="false" aria-disabled="true">Disabled</button>
+  <div class="blip-tabs" data-variant="soft"><div class="blip-tabs-list" role="tablist" aria-label="Soft tab states">
+    <button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="false">Rest</button>
+    <button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="false" data-blip-state="hover">Hover</button>
+    <button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="false" data-blip-state="focus">Focus</button>
+    <button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="true">Selected</button>
+    <button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="false" aria-disabled="true">Disabled</button>
   </div></div>
-  <div class="chu-tabs" data-variant="outline"><div class="chu-tabs-list" role="tablist" aria-label="Outline tab states">
-    <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="false">Rest</button>
-    <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="false" data-chu-state="hover">Hover</button>
-    <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="false" data-chu-state="focus">Focus</button>
-    <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="true">Selected</button>
-    <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="false" aria-disabled="true">Disabled</button>
+  <div class="blip-tabs" data-variant="outline"><div class="blip-tabs-list" role="tablist" aria-label="Outline tab states">
+    <button class="blip-box blip-tab" data-variant="outline" role="tab" aria-selected="false">Rest</button>
+    <button class="blip-box blip-tab" data-variant="outline" role="tab" aria-selected="false" data-blip-state="hover">Hover</button>
+    <button class="blip-box blip-tab" data-variant="outline" role="tab" aria-selected="false" data-blip-state="focus">Focus</button>
+    <button class="blip-box blip-tab" data-variant="outline" role="tab" aria-selected="true">Selected</button>
+    <button class="blip-box blip-tab" data-variant="outline" role="tab" aria-selected="false" aria-disabled="true">Disabled</button>
   </div></div>
-  <div class="chu-tabs" data-variant="underline"><div class="chu-tabs-list" role="tablist" aria-label="Underline tab states">
-    <button class="chu-box chu-tab" data-variant="ghost" role="tab" aria-selected="false">Rest</button>
-    <button class="chu-box chu-tab" data-variant="ghost" role="tab" aria-selected="false" data-chu-state="hover">Hover</button>
-    <button class="chu-box chu-tab" data-variant="ghost" role="tab" aria-selected="false" data-chu-state="focus">Focus</button>
-    <button class="chu-box chu-tab" data-variant="ghost" role="tab" aria-selected="true">Selected</button>
-    <button class="chu-box chu-tab" data-variant="ghost" role="tab" aria-selected="true" data-chu-state="focus">Sel + focus</button>
-    <button class="chu-box chu-tab" data-variant="ghost" role="tab" aria-selected="false" aria-disabled="true">Disabled</button>
+  <div class="blip-tabs" data-variant="underline"><div class="blip-tabs-list" role="tablist" aria-label="Underline tab states">
+    <button class="blip-box blip-tab" data-variant="ghost" role="tab" aria-selected="false">Rest</button>
+    <button class="blip-box blip-tab" data-variant="ghost" role="tab" aria-selected="false" data-blip-state="hover">Hover</button>
+    <button class="blip-box blip-tab" data-variant="ghost" role="tab" aria-selected="false" data-blip-state="focus">Focus</button>
+    <button class="blip-box blip-tab" data-variant="ghost" role="tab" aria-selected="true">Selected</button>
+    <button class="blip-box blip-tab" data-variant="ghost" role="tab" aria-selected="true" data-blip-state="focus">Sel + focus</button>
+    <button class="blip-box blip-tab" data-variant="ghost" role="tab" aria-selected="false" aria-disabled="true">Disabled</button>
   </div></div>
 </div>

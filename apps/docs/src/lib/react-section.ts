@@ -38,7 +38,7 @@ export interface ReactSection {
 function propsTable(c: ReactComponent, used: Set<string>): PropsTable {
   const rows = c.props.map((p) => {
     for (const t of p.type.split(/[^A-Za-z]+/)) if (NAMED_TYPES.has(t)) used.add(t);
-    return [code(p.name) + (p.optional ? "" : ' <span class="chu-muted">required</span>'), code(p.type), p.default ? code(p.default) : "", inline(p.description)];
+    return [code(p.name) + (p.optional ? "" : ' <span class="blip-muted">required</span>'), code(p.type), p.default ? code(p.default) : "", inline(p.description)];
   });
   const root = c.renders?.match(/^<([a-z][a-z0-9-]*)/)?.[1];
   let rest: string;
@@ -70,7 +70,7 @@ export async function reactSection(doc: Doc, exampleHtml: string | null): Promis
     `Each prop sets the attribute or state its description names, so the HTML on this page says what it does. Load the CSS once, as for plain HTML.`;
 
   const props = propsTable(main, used);
-  const partRows = parts.map((p) => [tag(p.name), p.renders ? code(p.renders) : "", inline(p.summary) + (p.props.length ? ` <span class="chu-muted">Props: ${p.props.map((x) => code(x.name)).join(", ")}.</span>` : "")]);
+  const partRows = parts.map((p) => [tag(p.name), p.renders ? code(p.renders) : "", inline(p.summary) + (p.props.length ? ` <span class="blip-muted">Props: ${p.props.map((x) => code(x.name)).join(", ")}.</span>` : "")]);
   const partProps = parts.filter((p) => p.props.length).map((p) => ({ name: p.name, table: propsTable(p, used) }));
   const types = [...used].sort().map((t): [string, string] => [t, inline(namedType(t)?.split(", ").map((v) => `\`${v}\``).join(", ") ?? "")]);
 

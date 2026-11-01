@@ -1,56 +1,56 @@
 <!-- Prompts: a title screen's PRESS START (its small line in OUTLINE, which the keycap never takes on), the lines a
      game shows, then every glyph. -->
-<section class="chu-stage" data-frame aria-label="Title screen" style="display:grid;place-content:center;justify-items:center;gap:calc(8*var(--chu-pixel));block-size:calc(100*var(--chu-pixel));max-inline-size:calc(420*var(--chu-pixel));padding-block-end:calc(16*var(--chu-pixel))">
-  <p class="chu-prompt-start chu-display chu-pop" data-scale="2" data-pop="Press start">Press start</p>
-  <p class="chu-prompt chu-outline">or press <kbd class="chu-box chu-prompt-key">Enter</kbd></p>
-  <div class="chu-stage-ground"></div>
+<section class="blip-stage" data-frame aria-label="Title screen" style="display:grid;place-content:center;justify-items:center;gap:calc(8*var(--blip-pixel));block-size:calc(100*var(--blip-pixel));max-inline-size:calc(420*var(--blip-pixel));padding-block-end:calc(16*var(--blip-pixel))">
+  <p class="blip-prompt-start blip-display blip-pop" data-scale="2" data-pop="Press start">Press start</p>
+  <p class="blip-prompt blip-outline">or press <kbd class="blip-box blip-prompt-key">Enter</kbd></p>
+  <div class="blip-stage-ground"></div>
 </section>
 
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,calc(150*var(--chu-pixel))),1fr));gap:calc(10*var(--chu-pixel)) calc(16*var(--chu-pixel));margin-block-start:calc(14*var(--chu-pixel))">
-  <div style="display:grid;gap:calc(5*var(--chu-pixel));justify-items:start;align-content:start">
-    <span class="chu-label chu-muted">Lines</span>
-    <p class="chu-prompt">Press <kbd class="chu-box chu-prompt-button" data-button="a">A</kbd> to jump</p>
-    <p class="chu-prompt">Hold <kbd class="chu-box chu-prompt-shoulder" data-button="rb">RB</kbd> to dash</p>
-    <p class="chu-prompt"><span class="chu-prompt-dpad" data-dir="left" role="img" aria-label="D-pad left"></span><span class="chu-prompt-dpad" data-dir="right" role="img" aria-label="D-pad right"></span> Move</p>
-    <p class="chu-prompt"><kbd class="chu-box chu-prompt-key">Esc</kbd> Pause <kbd class="chu-box chu-prompt-button" data-button="b">B</kbd> Back</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,calc(150*var(--blip-pixel))),1fr));gap:calc(10*var(--blip-pixel)) calc(16*var(--blip-pixel));margin-block-start:calc(14*var(--blip-pixel))">
+  <div style="display:grid;gap:calc(5*var(--blip-pixel));justify-items:start;align-content:start">
+    <span class="blip-label blip-muted">Lines</span>
+    <p class="blip-prompt">Press <kbd class="blip-box blip-prompt-button" data-button="a">A</kbd> to jump</p>
+    <p class="blip-prompt">Hold <kbd class="blip-box blip-prompt-shoulder" data-button="rb">RB</kbd> to dash</p>
+    <p class="blip-prompt"><span class="blip-prompt-dpad" data-dir="left" role="img" aria-label="D-pad left"></span><span class="blip-prompt-dpad" data-dir="right" role="img" aria-label="D-pad right"></span> Move</p>
+    <p class="blip-prompt"><kbd class="blip-box blip-prompt-key">Esc</kbd> Pause <kbd class="blip-box blip-prompt-button" data-button="b">B</kbd> Back</p>
   </div>
 
-  <div style="display:grid;gap:calc(5*var(--chu-pixel));justify-items:start;align-content:start">
-    <span class="chu-label chu-muted">Keyboard</span>
-    <div style="display:flex;flex-wrap:wrap;gap:calc(2*var(--chu-pixel));align-items:center">
-      <kbd class="chu-box chu-prompt-key">Esc</kbd><kbd class="chu-box chu-prompt-key">Enter</kbd><kbd class="chu-box chu-prompt-key">Shift</kbd><kbd class="chu-box chu-prompt-key" style="min-inline-size:calc(40*var(--chu-pixel))">Space</kbd>
+  <div style="display:grid;gap:calc(5*var(--blip-pixel));justify-items:start;align-content:start">
+    <span class="blip-label blip-muted">Keyboard</span>
+    <div style="display:flex;flex-wrap:wrap;gap:calc(2*var(--blip-pixel));align-items:center">
+      <kbd class="blip-box blip-prompt-key">Esc</kbd><kbd class="blip-box blip-prompt-key">Enter</kbd><kbd class="blip-box blip-prompt-key">Shift</kbd><kbd class="blip-box blip-prompt-key" style="min-inline-size:calc(40*var(--blip-pixel))">Space</kbd>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(3,max-content);gap:calc(2*var(--chu-pixel))" aria-label="W, A, S, D keys" role="group">
-      <span></span><kbd class="chu-box chu-prompt-key">W</kbd><span></span>
-      <kbd class="chu-box chu-prompt-key">A</kbd><kbd class="chu-box chu-prompt-key">S</kbd><kbd class="chu-box chu-prompt-key">D</kbd>
+    <div style="display:grid;grid-template-columns:repeat(3,max-content);gap:calc(2*var(--blip-pixel))" aria-label="W, A, S, D keys" role="group">
+      <span></span><kbd class="blip-box blip-prompt-key">W</kbd><span></span>
+      <kbd class="blip-box blip-prompt-key">A</kbd><kbd class="blip-box blip-prompt-key">S</kbd><kbd class="blip-box blip-prompt-key">D</kbd>
     </div>
-    <div style="display:flex;gap:calc(2*var(--chu-pixel))">
-      <kbd class="chu-box chu-prompt-key"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h1v2H4v1h7v2H4v1h1v2H4V9H3V8H2V7H1V5h1V4h1V3h1z"/></svg><span class="chu-sr-only">Left arrow</span></kbd>
-      <kbd class="chu-box chu-prompt-key"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v1h1v1h1v1h1v1H8V4H7v7H5V4H4v1H2V4h1V3h1V2h1z"/></svg><span class="chu-sr-only">Up arrow</span></kbd>
-      <kbd class="chu-box chu-prompt-key"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v7h1V7h2v1H9v1H8v1H7v1H5v-1H4V9H3V8H2V7h2v1h1z"/></svg><span class="chu-sr-only">Down arrow</span></kbd>
-      <kbd class="chu-box chu-prompt-key"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M7 2h1v1h1v1h1v1h1v2h-1v1H9v1H8v1H7V8h1V7H1V5h7V4H7z"/></svg><span class="chu-sr-only">Right arrow</span></kbd>
+    <div style="display:flex;gap:calc(2*var(--blip-pixel))">
+      <kbd class="blip-box blip-prompt-key"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h1v2H4v1h7v2H4v1h1v2H4V9H3V8H2V7H1V5h1V4h1V3h1z"/></svg><span class="blip-sr-only">Left arrow</span></kbd>
+      <kbd class="blip-box blip-prompt-key"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v1h1v1h1v1h1v1H8V4H7v7H5V4H4v1H2V4h1V3h1V2h1z"/></svg><span class="blip-sr-only">Up arrow</span></kbd>
+      <kbd class="blip-box blip-prompt-key"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v7h1V7h2v1H9v1H8v1H7v1H5v-1H4V9H3V8H2V7h2v1h1z"/></svg><span class="blip-sr-only">Down arrow</span></kbd>
+      <kbd class="blip-box blip-prompt-key"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M7 2h1v1h1v1h1v1h1v2h-1v1H9v1H8v1H7V8h1V7H1V5h7V4H7z"/></svg><span class="blip-sr-only">Right arrow</span></kbd>
     </div>
   </div>
 
-  <div style="display:grid;gap:calc(5*var(--chu-pixel));justify-items:start;align-content:start">
-    <span class="chu-label chu-muted">Gamepad</span>
-    <div style="display:flex;gap:calc(14*var(--chu-pixel));align-items:center">
-      <div style="display:grid;grid-template-columns:repeat(3,max-content);gap:calc(1*var(--chu-pixel))" role="group" aria-label="Face buttons">
-        <span></span><kbd class="chu-box chu-prompt-button" data-button="y">Y</kbd><span></span>
-        <kbd class="chu-box chu-prompt-button" data-button="x">X</kbd><span></span><kbd class="chu-box chu-prompt-button" data-button="b">B</kbd>
-        <span></span><kbd class="chu-box chu-prompt-button" data-button="a">A</kbd><span></span>
+  <div style="display:grid;gap:calc(5*var(--blip-pixel));justify-items:start;align-content:start">
+    <span class="blip-label blip-muted">Gamepad</span>
+    <div style="display:flex;gap:calc(14*var(--blip-pixel));align-items:center">
+      <div style="display:grid;grid-template-columns:repeat(3,max-content);gap:calc(1*var(--blip-pixel))" role="group" aria-label="Face buttons">
+        <span></span><kbd class="blip-box blip-prompt-button" data-button="y">Y</kbd><span></span>
+        <kbd class="blip-box blip-prompt-button" data-button="x">X</kbd><span></span><kbd class="blip-box blip-prompt-button" data-button="b">B</kbd>
+        <span></span><kbd class="blip-box blip-prompt-button" data-button="a">A</kbd><span></span>
       </div>
-      <div style="display:grid;gap:calc(3*var(--chu-pixel))">
-        <div style="display:flex;gap:calc(3*var(--chu-pixel));align-items:end"><kbd class="chu-box chu-prompt-shoulder" data-button="lt">LT</kbd><kbd class="chu-box chu-prompt-shoulder" data-button="rt">RT</kbd></div>
-        <div style="display:flex;gap:calc(3*var(--chu-pixel))"><kbd class="chu-box chu-prompt-shoulder" data-button="lb">LB</kbd><kbd class="chu-box chu-prompt-shoulder" data-button="rb">RB</kbd></div>
+      <div style="display:grid;gap:calc(3*var(--blip-pixel))">
+        <div style="display:flex;gap:calc(3*var(--blip-pixel));align-items:end"><kbd class="blip-box blip-prompt-shoulder" data-button="lt">LT</kbd><kbd class="blip-box blip-prompt-shoulder" data-button="rt">RT</kbd></div>
+        <div style="display:flex;gap:calc(3*var(--blip-pixel))"><kbd class="blip-box blip-prompt-shoulder" data-button="lb">LB</kbd><kbd class="blip-box blip-prompt-shoulder" data-button="rb">RB</kbd></div>
       </div>
     </div>
-    <div style="display:flex;gap:calc(4*var(--chu-pixel));align-items:center">
-      <span class="chu-prompt-dpad" role="img" aria-label="D-pad"></span>
-      <span class="chu-prompt-dpad" data-dir="up" role="img" aria-label="D-pad up"></span>
-      <span class="chu-prompt-dpad" data-dir="right" role="img" aria-label="D-pad right"></span>
-      <span class="chu-prompt-dpad" data-dir="down" role="img" aria-label="D-pad down"></span>
-      <span class="chu-prompt-dpad" data-dir="left" role="img" aria-label="D-pad left"></span>
+    <div style="display:flex;gap:calc(4*var(--blip-pixel));align-items:center">
+      <span class="blip-prompt-dpad" role="img" aria-label="D-pad"></span>
+      <span class="blip-prompt-dpad" data-dir="up" role="img" aria-label="D-pad up"></span>
+      <span class="blip-prompt-dpad" data-dir="right" role="img" aria-label="D-pad right"></span>
+      <span class="blip-prompt-dpad" data-dir="down" role="img" aria-label="D-pad down"></span>
+      <span class="blip-prompt-dpad" data-dir="left" role="img" aria-label="D-pad left"></span>
     </div>
   </div>
 </div>

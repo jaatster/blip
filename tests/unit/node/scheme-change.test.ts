@@ -12,7 +12,7 @@ import { inflateSync } from "node:zlib";
 import type { Browser, Page } from "playwright";
 import { STYLES, assets, contrast, launch, open, type Assets } from "./base-page.ts";
 
-/** Foreground role, background role, the contrast it needs: the token build's pairs (CHU-T060, CHU-T061). */
+/** Foreground role, background role, the contrast it needs: the token build's pairs (BLIP-T060, BLIP-T061). */
 const PAIRS: [string, string, number][] = [];
 for (const s of ["bg", "surface", "surface-raised", "surface-sunken", "surface-panel"]) PAIRS.push(["text", s, 4.5], ["text-muted", s, 4.5]);
 for (const i of ["accent", "info", "success", "warning", "danger"]) {
@@ -25,9 +25,9 @@ PAIRS.push(["selection-text", "selection-bg", 4.5], ["text-inverse", "text", 4.5
 // Each pair is drawn as a swatch of the foreground on a strip of the background, with some real text beside them.
 const body = `<main style="padding:12px">
   <p style="margin:0 0 8px">Level 3: Cloud Castle. Collect every coin before the timer runs out. <a href="#">Read the rules</a></p>
-  <p class="chu-muted" style="margin:0 0 8px">Best time 1:42. Saved a moment ago.</p>
-  ${PAIRS.map(([fg, bg], k) => `<div data-pair="${k}" style="display:inline-block;margin:0 4px 4px 0;padding:6px;background:var(--chu-${bg})"><i style="display:block;inline-size:8px;block-size:8px;background:var(--chu-${fg})"></i></div>`).join("")}
-  <div data-ring style="display:inline-block;padding:6px;background:var(--chu-bg)"><i style="display:block;inline-size:8px;block-size:8px;background:var(--chu-focus)"></i></div>
+  <p class="blip-muted" style="margin:0 0 8px">Best time 1:42. Saved a moment ago.</p>
+  ${PAIRS.map(([fg, bg], k) => `<div data-pair="${k}" style="display:inline-block;margin:0 4px 4px 0;padding:6px;background:var(--blip-${bg})"><i style="display:block;inline-size:8px;block-size:8px;background:var(--blip-${fg})"></i></div>`).join("")}
+  <div data-ring style="display:inline-block;padding:6px;background:var(--blip-bg)"><i style="display:block;inline-size:8px;block-size:8px;background:var(--blip-focus)"></i></div>
 </main>`;
 const head = `${STYLES}<script type="module">import { autoScheme } from "/core.js"; autoScheme();</script>`;
 
@@ -88,7 +88,7 @@ async function pairs(page: Page): Promise<{ pair: string; ratio: number; min: nu
   });
   // The focus ring: yellow, with an ink edge; one of the two stands 3:1 against the page.
   const [x, y] = boxes.at(-1)!;
-  const edge = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--chu-focus-edge"));
+  const edge = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--blip-focus-edge"));
   out.push({ pair: "focus ring on bg", ratio: Math.max(contrast(at(shot, x! + 10, y! + 10), at(shot, x! + 1, y! + 1)), contrast(edge, at(shot, x! + 1, y! + 1))), min: 3 });
   return out;
 }
@@ -111,7 +111,7 @@ describe.each([
       await p.clock.install({ time: new Date(2026, 5, 21, h, m, s) });
       await p.addInitScript(hold);
     } });
-    const scheme = () => page.evaluate(() => document.documentElement.dataset.chuScheme);
+    const scheme = () => page.evaluate(() => document.documentElement.dataset.blipScheme);
     expect(await scheme()).toBe(from);
     expect(failing(await pairs(page)), `${from}, before`).toEqual([]);
     const before = png(await page.screenshot());
@@ -172,13 +172,13 @@ describe.each([
 it("changes at once with fade: false: no view transition, no dither", async () => {
   const page = await open(browser, a, {
     head: `${STYLES}<script type="module">import { autoScheme } from "/core.js"; autoScheme(document.querySelector("section"), { fade: false });</script>`,
-    body: '<section data-chu-scheme="day"><p>Text</p></section>',
+    body: '<section data-blip-scheme="day"><p>Text</p></section>',
     before: async (p) => {
       await p.clock.install({ time: new Date(2026, 5, 21, 18, 59, 30) });
       await p.addInitScript(hold);
     },
   });
   await page.clock.runFor(60_000);
-  expect(await page.evaluate(() => [document.querySelector("section")!.dataset.chuScheme, !!document.activeViewTransition, (window as unknown as { held: Animation[] }).held.length])).toEqual(["night", false, 0]);
+  expect(await page.evaluate(() => [document.querySelector("section")!.dataset.blipScheme, !!document.activeViewTransition, (window as unknown as { held: Animation[] }).held.length])).toEqual(["night", false, 0]);
   await page.context().close();
 }, 30_000);

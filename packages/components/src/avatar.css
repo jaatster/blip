@@ -2,17 +2,17 @@
  * Avatar. A person or player as a picture in a candy box: the image is drawn pixelated inside a one-pixel matte of
  * the box's colour; with no image, initials in Pixel Bop at scale 1 on the candy. A status dot sits on the corner.
  *
- *   <span class="chu-box chu-avatar" data-tone="pink"><img src="pip.png" alt="Pip Bloom"></span>
- *   <span class="chu-box chu-avatar" data-tone="teal" role="img" aria-label="Kit Moss">KM</span>
- *   <span class="chu-box chu-avatar" data-size="lg">
+ *   <span class="blip-box blip-avatar" data-tone="pink"><img src="pip.png" alt="Pip Bloom"></span>
+ *   <span class="blip-box blip-avatar" data-tone="teal" role="img" aria-label="Kit Moss">KM</span>
+ *   <span class="blip-box blip-avatar" data-size="lg">
  *     <img src="…" alt="Pip Bloom">
- *     <span class="chu-box chu-avatar-status" data-tone="success" role="img" aria-label="Online"></span>
+ *     <span class="blip-box blip-avatar-status" data-tone="success" role="img" aria-label="Online"></span>
  *   </span>
- *   <div class="chu-avatar-group" role="group" aria-label="Party, 5 players">…avatars…</div>
+ *   <div class="blip-avatar-group" role="group" aria-label="Party, 5 players">…avatars…</div>
  *
  *   data-size   xs | sm | md (default) | lg | xl            10, 12, 20, 28 or 36 pixels square
  *   data-tone   accent (default) | any tone | neutral          the matte, or the candy behind the initials
- *   --chu-r with --chu-shape and --chu-shape-inner     another radius (0 to 5 keeps the image clear of the corners)
+ *   --blip-r with --blip-shape and --blip-shape-inner     another radius (0 to 5 keeps the image clear of the corners)
  *
  * The picture fills 8, 8, 16, 24 or 32 pixels inside the matte: draw avatars at 8 x 8 (or 16 x 16) and they scale
  * by whole numbers. Any <img>, <svg> or <canvas>, never smoothed (image-rendering: pixelated). Initials: one or
@@ -20,14 +20,14 @@
  * outline dot (data-variant="outline") reads as away or offline.
  */
 
-@layer chu.components {
-  .chu-avatar {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
-    --chu-band-top: 2;
-    --chu-band-bottom: 2;
-    --_size: calc(20 * var(--chu-pixel));
+@layer blip.components {
+  .blip-avatar {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
+    --blip-band-top: 2;
+    --blip-band-bottom: 2;
+    --_size: calc(20 * var(--blip-pixel));
     display: inline-grid;
     place-items: center;
     flex: none;
@@ -35,13 +35,13 @@
     inline-size: var(--_size);
     block-size: var(--_size);
     /* Outline plus one pixel of matte: clear of the stepped corners for every radius up to 5. */
-    padding: calc(2 * var(--chu-pixel));
-    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
-    font-family: var(--chu-font-display);
-    font-size: calc(10 * var(--chu-pixel));
+    padding: calc(2 * var(--blip-pixel));
+    margin: 0 var(--blip-pixel) var(--blip-pixel) 0;
+    font-family: var(--blip-font-display);
+    font-size: calc(10 * var(--blip-pixel));
     font-weight: 400;
     /* Pixel Bop's capitals are 7 pixels tall: an 8-pixel line holds them exactly (rows 0 to 6), so they centre. */
-    line-height: calc(8 * var(--chu-pixel));
+    line-height: calc(8 * var(--blip-pixel));
     letter-spacing: 0;
     text-transform: uppercase;
     font-synthesis: none;
@@ -49,7 +49,7 @@
     white-space: nowrap;
     vertical-align: middle;
   }
-  .chu-avatar > :is(img, svg, canvas, video) {
+  .blip-avatar > :is(img, svg, canvas, video) {
     grid-area: 1 / 1;
     display: block;
     inline-size: 100%;
@@ -60,34 +60,34 @@
     shape-rendering: crispEdges;
   }
 
-  .chu-avatar[data-size="xs"] { --_size: calc(10 * var(--chu-pixel)); --chu-r: 1; --chu-shape: var(--chu-shape-1); --chu-shape-inner: var(--chu-shape-1-inner); --chu-band-top: 1; --chu-band-bottom: 1; --chu-box-glint: transparent; padding: var(--chu-pixel); }
-  .chu-avatar[data-size="sm"] { --_size: calc(12 * var(--chu-pixel)); --chu-r: 2; --chu-shape: var(--chu-shape-2); --chu-shape-inner: var(--chu-shape-2-inner); }
-  .chu-avatar[data-size="lg"] { --_size: calc(28 * var(--chu-pixel)); --chu-r: 4; --chu-shape: var(--chu-shape-4); --chu-shape-inner: var(--chu-shape-4-inner); --chu-band-top: 4; --chu-band-bottom: 4; }
-  .chu-avatar[data-size="xl"] { --_size: calc(36 * var(--chu-pixel)); --chu-r: 5; --chu-shape: var(--chu-shape-5); --chu-shape-inner: var(--chu-shape-5-inner); --chu-band-top: 5; --chu-band-bottom: 5; }
+  .blip-avatar[data-size="xs"] { --_size: calc(10 * var(--blip-pixel)); --blip-r: 1; --blip-shape: var(--blip-shape-1); --blip-shape-inner: var(--blip-shape-1-inner); --blip-band-top: 1; --blip-band-bottom: 1; --blip-box-glint: transparent; padding: var(--blip-pixel); }
+  .blip-avatar[data-size="sm"] { --_size: calc(12 * var(--blip-pixel)); --blip-r: 2; --blip-shape: var(--blip-shape-2); --blip-shape-inner: var(--blip-shape-2-inner); }
+  .blip-avatar[data-size="lg"] { --_size: calc(28 * var(--blip-pixel)); --blip-r: 4; --blip-shape: var(--blip-shape-4); --blip-shape-inner: var(--blip-shape-4-inner); --blip-band-top: 4; --blip-band-bottom: 4; }
+  .blip-avatar[data-size="xl"] { --_size: calc(36 * var(--blip-pixel)); --blip-r: 5; --blip-shape: var(--blip-shape-5); --blip-shape-inner: var(--blip-shape-5-inner); --blip-band-top: 5; --blip-band-bottom: 5; }
 
   /* The status dot: a small candy box on the bottom-right corner, outside the matte. */
-  .chu-avatar-status {
-    --chu-r: 1;
-    --chu-shape: var(--chu-shape-1);
-    --chu-shape-inner: var(--chu-shape-1-inner);
-    --chu-band-top: 1;
-    --chu-band-bottom: 1;
-    --chu-box-glint: transparent;
+  .blip-avatar-status {
+    --blip-r: 1;
+    --blip-shape: var(--blip-shape-1);
+    --blip-shape-inner: var(--blip-shape-1-inner);
+    --blip-band-top: 1;
+    --blip-band-bottom: 1;
+    --blip-box-glint: transparent;
     position: absolute;
-    inset-inline-end: calc(-2 * var(--chu-pixel));
-    inset-block-end: calc(-2 * var(--chu-pixel));
-    inline-size: calc(6 * var(--chu-pixel));
-    block-size: calc(6 * var(--chu-pixel));
+    inset-inline-end: calc(-2 * var(--blip-pixel));
+    inset-block-end: calc(-2 * var(--blip-pixel));
+    inline-size: calc(6 * var(--blip-pixel));
+    block-size: calc(6 * var(--blip-pixel));
   }
-  .chu-avatar[data-size="xs"] > .chu-avatar-status { inline-size: calc(4 * var(--chu-pixel)); block-size: calc(4 * var(--chu-pixel)); --chu-r: 0; --chu-shape: var(--chu-shape-0); --chu-shape-inner: var(--chu-shape-0-inner); }
-  .chu-avatar:is([data-size="lg"], [data-size="xl"]) > .chu-avatar-status { inline-size: calc(8 * var(--chu-pixel)); block-size: calc(8 * var(--chu-pixel)); --chu-r: 2; --chu-shape: var(--chu-shape-2); --chu-shape-inner: var(--chu-shape-2-inner); --chu-band-top: 2; --chu-band-bottom: 2; }
+  .blip-avatar[data-size="xs"] > .blip-avatar-status { inline-size: calc(4 * var(--blip-pixel)); block-size: calc(4 * var(--blip-pixel)); --blip-r: 0; --blip-shape: var(--blip-shape-0); --blip-shape-inner: var(--blip-shape-0-inner); }
+  .blip-avatar:is([data-size="lg"], [data-size="xl"]) > .blip-avatar-status { inline-size: calc(8 * var(--blip-pixel)); block-size: calc(8 * var(--blip-pixel)); --blip-r: 2; --blip-shape: var(--blip-shape-2); --blip-shape-inner: var(--blip-shape-2-inner); --blip-band-top: 2; --blip-band-bottom: 2; }
 
   /* A group: avatars overlap by four pixels; each outline keeps them apart. */
-  .chu-avatar-group {
+  .blip-avatar-group {
     display: inline-flex;
     align-items: center;
     vertical-align: middle;
   }
-  .chu-avatar-group > .chu-avatar + .chu-avatar { margin-inline-start: calc(-4 * var(--chu-pixel)); }
-  .chu-avatar-group > .chu-avatar:is([data-size="xs"], [data-size="sm"]) + .chu-avatar { margin-inline-start: calc(-3 * var(--chu-pixel)); }
+  .blip-avatar-group > .blip-avatar + .blip-avatar { margin-inline-start: calc(-4 * var(--blip-pixel)); }
+  .blip-avatar-group > .blip-avatar:is([data-size="xs"], [data-size="sm"]) + .blip-avatar { margin-inline-start: calc(-3 * var(--blip-pixel)); }
 }

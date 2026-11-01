@@ -46,15 +46,15 @@
                 "text": "CustomEvent<ChoiceDetail>"
               },
               "description": "A choice was clicked or pressed.",
-              "name": "chu-action"
+              "name": "blip-action"
             }
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "A list of answers to pick from with the keys.",
-          "tagName": "chu-choices",
+          "tagName": "blip-choices",
           "customElement": true
         }
       ],
@@ -69,7 +69,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-choices",
+          "name": "blip-choices",
           "declaration": {
             "name": "BlipChoices",
             "module": "src/choices.ts"
@@ -109,7 +109,7 @@
         },
         {
           "kind": "class",
-          "description": "The RPG text box: one <p> per page, each typed in a letter at a time with the TV's rhythm and an optional chip\nvoice. A click, Enter or Space shows the whole page, the next press turns it; after the last page come the\nchoices, if any, or chu-done. Screen readers get each whole page at once.",
+          "description": "The RPG text box: one <p> per page, each typed in a letter at a time with the TV's rhythm and an optional chip\nvoice. A click, Enter or Space shows the whole page, the next press turns it; after the last page come the\nchoices, if any, or blip-done. Screen readers get each whole page at once.",
           "name": "BlipDialogue",
           "members": [
             {
@@ -165,7 +165,7 @@
                   "text": "void"
                 }
               },
-              "description": "Shows the rest of a typing page; otherwise turns to the next page, or after the last sends chu-done."
+              "description": "Shows the rest of a typing page; otherwise turns to the next page, or after the last sends blip-done."
             },
             {
               "kind": "method",
@@ -193,14 +193,14 @@
                 "text": "CustomEvent<{ page: number; pages: number }>"
               },
               "description": "A page turned.",
-              "name": "chu-next"
+              "name": "blip-next"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "The reader pressed on after the last page (and there were no choices).",
-              "name": "chu-done"
+              "name": "blip-done"
             }
           ],
           "attributes": [
@@ -263,15 +263,15 @@
                 "text": "number"
               },
               "description": "Freezes the first page at this many letters (docs and screenshots only).",
-              "name": "data-chu-typed"
+              "name": "data-blip-typed"
             }
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "The RPG dialogue box that types its pages in.",
-          "tagName": "chu-dialogue",
+          "tagName": "blip-dialogue",
           "customElement": true
         }
       ],
@@ -294,7 +294,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-dialogue",
+          "name": "blip-dialogue",
           "declaration": {
             "name": "BlipDialogue",
             "module": "src/dialogue.ts"
@@ -421,7 +421,7 @@
             "module": "src/hud.ts"
           },
           "summary": "A coin, score or time counter.",
-          "tagName": "chu-counter",
+          "tagName": "blip-counter",
           "customElement": true
         },
         {
@@ -510,7 +510,7 @@
             "module": "src/hud.ts"
           },
           "summary": "A row of hearts for health.",
-          "tagName": "chu-hearts",
+          "tagName": "blip-hearts",
           "customElement": true
         }
       ],
@@ -533,7 +533,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-counter",
+          "name": "blip-counter",
           "declaration": {
             "name": "BlipCounter",
             "module": "src/hud.ts"
@@ -541,7 +541,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-hearts",
+          "name": "blip-hearts",
           "declaration": {
             "name": "BlipHearts",
             "module": "src/hud.ts"
@@ -592,7 +592,7 @@
                   }
                 }
               ],
-              "description": "Selects a slot (by element or index) and sends chu-select."
+              "description": "Selects a slot (by element or index) and sends blip-select."
             }
           ],
           "events": [
@@ -601,15 +601,15 @@
                 "text": "CustomEvent<SelectDetail>"
               },
               "description": "A slot was selected.",
-              "name": "chu-select"
+              "name": "blip-select"
             }
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "An inventory grid of item slots.",
-          "tagName": "chu-inventory",
+          "tagName": "blip-inventory",
           "customElement": true
         }
       ],
@@ -624,7 +624,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-inventory",
+          "name": "blip-inventory",
           "declaration": {
             "name": "BlipInventory",
             "module": "src/inventory.ts"
@@ -643,15 +643,15 @@
           "cssProperties": [
             {
               "description": "A custom tone's light, set on the sprite.",
-              "name": "--chu-sprite-light"
+              "name": "--blip-sprite-light"
             },
             {
               "description": "A custom tone's base.",
-              "name": "--chu-sprite-base"
+              "name": "--blip-sprite-base"
             },
             {
               "description": "A custom tone's shade.",
-              "name": "--chu-sprite-shade"
+              "name": "--blip-sprite-shade"
             }
           ],
           "members": [
@@ -691,10 +691,10 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "A game sprite: coin, heart, potion, key…",
-          "tagName": "chu-sprite",
+          "tagName": "blip-sprite",
           "customElement": true
         }
       ],
@@ -733,7 +733,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-sprite",
+          "name": "blip-sprite",
           "declaration": {
             "name": "BlipSprite",
             "module": "src/sprites.ts"
@@ -804,10 +804,10 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "An on-screen D-pad and buttons that send key events.",
-          "tagName": "chu-touch-pad",
+          "tagName": "blip-touch-pad",
           "customElement": true
         }
       ],
@@ -822,7 +822,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-touch-pad",
+          "name": "blip-touch-pad",
           "declaration": {
             "name": "BlipTouchPad",
             "module": "src/touch-pad.ts"

@@ -1,6 +1,6 @@
 /**
  * Inventory: Slot, SlotCount and SlotTag, the parts that go inside <Inventory>, and <Inventory> itself (generated from
- * its element, re-exported here). CSS from @jaatster/blip-game (inventory.css).
+ * its element, re-exported here). CSS from @blip/game (inventory.css).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";
@@ -40,7 +40,7 @@ export type SlotProps<T extends ElementType = "button"> = PolymorphicProps<T, Sl
  *     <Slot variant="outline" aria-label="Empty" />
  *   </Inventory>
  *
- * Renders `<button type="button" class="chu-box chu-slot" data-variant="soft">`; `as="span"` for a picture of a slot
+ * Renders `<button type="button" class="blip-box blip-slot" data-variant="soft">`; `as="span"` for a picture of a slot
  * outside the grid (beside the selected item's details).
  */
 export const Slot = /*#__PURE__*/ forwardRef(function Slot(
@@ -61,7 +61,7 @@ export const Slot = /*#__PURE__*/ forwardRef(function Slot(
     <Tag
       ref={ref}
       type={type ?? (Tag === "button" ? "button" : undefined)}
-      className={cx("chu-box chu-slot", className)}
+      className={cx("blip-box blip-slot", className)}
       data-variant={variant}
       data-rarity={rarity}
       data-tone={tone}
@@ -81,13 +81,13 @@ export type SlotCountProps = NativeProps<"span">;
  *
  *   <SlotCount>3</SlotCount>
  *
- * Renders `<span class="chu-slot-count chu-display chu-pop" data-scale="1" aria-hidden="true">`.
+ * Renders `<span class="blip-slot-count blip-display blip-pop" data-scale="1" aria-hidden="true">`.
  */
 export const SlotCount = /*#__PURE__*/ forwardRef<HTMLSpanElement, SlotCountProps>(function SlotCount({ className, ...rest }, ref) {
   return (
     <span
       ref={ref}
-      className={cx("chu-slot-count chu-display chu-pop", className)}
+      className={cx("blip-slot-count blip-display blip-pop", className)}
       data-scale={1}
       aria-hidden={true}
       {...rest}
@@ -109,10 +109,10 @@ export type SlotTagProps = SlotTagOwnProps & NativeProps<"span", SlotTagOwnProps
  *
  *   <SlotTag tone="neutral">E</SlotTag>
  *
- * Renders `<span class="chu-box chu-slot-tag" aria-hidden="true">`.
+ * Renders `<span class="blip-box blip-slot-tag" aria-hidden="true">`.
  */
 export const SlotTag = /*#__PURE__*/ forwardRef<HTMLSpanElement, SlotTagProps>(function SlotTag({ tone, className, ...rest }, ref) {
   return (
-    <span ref={ref} className={cx("chu-box chu-slot-tag", className)} data-tone={tone} aria-hidden={true} {...rest} />
+    <span ref={ref} className={cx("blip-box blip-slot-tag", className)} data-tone={tone} aria-hidden={true} {...rest} />
   );
 });

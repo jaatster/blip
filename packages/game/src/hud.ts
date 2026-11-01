@@ -2,14 +2,14 @@
  * The HUD's live values (see hud.css). Each keeps a polite live region and speaks only once its value has settled for
  * a second, so a run of coins is one announcement, not twenty. `quiet` turns that off (a ticking timer, a busy score).
  *
- *   <chu-counter value="42" pad="3" label="Coins" sound="coin"><chu-sprite name="coin"></chu-sprite></chu-counter>
- *   <chu-counter value="165" format="time" low="30" label="Time" quiet></chu-counter>
- *   <chu-hearts value="3.5" max="5" label="Health"></chu-hearts>
+ *   <blip-counter value="42" pad="3" label="Coins" sound="coin"><blip-sprite name="coin"></blip-sprite></blip-counter>
+ *   <blip-counter value="165" format="time" low="30" label="Time" quiet></blip-counter>
+ *   <blip-hearts value="3.5" max="5" label="Health"></blip-hearts>
  *
  *   coins.value += 10;   // counts up a whole step a frame, the coin bumps, the coin sound plays
  *   hearts.value -= 1;   // the row shakes
  */
-import { BlipElement, duration, frames, run, services } from "@jaatster/blip-core";
+import { BlipElement, duration, frames, run, services } from "@blip/core";
 
 const retrigger = (el: Element | null, name: string) => {
   if (!el) return;
@@ -43,7 +43,7 @@ abstract class HudValue extends BlipElement {
   protected abstract draw(from?: number): void;
 
   protected override connected(): void {
-    this.#live ??= this.appendChild(Object.assign(document.createElement("span"), { className: "chu-sr-only" }));
+    this.#live ??= this.appendChild(Object.assign(document.createElement("span"), { className: "blip-sr-only" }));
     this.#live.setAttribute("aria-live", "polite");
     this.#live.textContent = this.text();
     this.#ready = true;
@@ -79,7 +79,7 @@ abstract class HudValue extends BlipElement {
  * @omit-attr max
  */
 export class BlipCounter extends HudValue {
-  static override classes = ["chu-counter"];
+  static override classes = ["blip-counter"];
   #shown?: number;
   #count?: AbortController;
   #out?: HTMLElement;
@@ -97,7 +97,7 @@ export class BlipCounter extends HudValue {
 
   protected draw(from?: number): void {
     if (!this.#out) {
-      this.#out = this.querySelector<HTMLElement>(".chu-counter-value") ?? this.appendChild(Object.assign(document.createElement("span"), { className: "chu-counter-value chu-display chu-pop" }));
+      this.#out = this.querySelector<HTMLElement>(".blip-counter-value") ?? this.appendChild(Object.assign(document.createElement("span"), { className: "blip-counter-value blip-display blip-pop" }));
       this.#out.setAttribute("aria-hidden", "true");
     }
     const to = this.value, low = this.getAttribute("low");
@@ -106,7 +106,7 @@ export class BlipCounter extends HudValue {
     const start = this.#shown ?? from ?? to;
     if (from === undefined || start === to) return this.#render(to);
     if (to > start) {
-      retrigger(this.querySelector(".chu-counter-icon, chu-sprite, svg"), "chu-bump");
+      retrigger(this.querySelector(".blip-counter-icon, blip-sprite, svg"), "blip-bump");
       const sound = this.getAttribute("sound");
       if (sound) services.sound().play(sound);
     }
@@ -136,7 +136,7 @@ export class BlipCounter extends HudValue {
  * @omit-attr low
  */
 export class BlipHearts extends HudValue {
-  static override classes = ["chu-hearts"];
+  static override classes = ["blip-hearts"];
 
   get max(): number {
     return Number(this.getAttribute("max")) || 3;
@@ -150,26 +150,26 @@ export class BlipHearts extends HudValue {
   }
 
   protected draw(from?: number): void {
-    const hearts = [...this.querySelectorAll("chu-sprite")];
+    const hearts = [...this.querySelectorAll("blip-sprite")];
     for (let i = 0; i < Math.max(this.max, hearts.length); i++) {
       if (i >= this.max) {
         hearts[i]!.remove();
         continue;
       }
       const left = this.value - i;
-      const heart = hearts[i] ?? this.insertBefore(document.createElement("chu-sprite"), this.querySelector(".chu-sr-only"));
+      const heart = hearts[i] ?? this.insertBefore(document.createElement("blip-sprite"), this.querySelector(".blip-sr-only"));
       heart.setAttribute("name", left >= 1 ? "heart" : left >= 0.5 ? "heart-half" : "heart-empty");
     }
-    if (from !== undefined && this.value < from) retrigger(this, "chu-shake");
+    if (from !== undefined && this.value < from) retrigger(this, "blip-shake");
   }
 }
 
-BlipElement.define("chu-counter", BlipCounter);
-BlipElement.define("chu-hearts", BlipHearts);
+BlipElement.define("blip-counter", BlipCounter);
+BlipElement.define("blip-hearts", BlipHearts);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "chu-counter": BlipCounter;
-    "chu-hearts": BlipHearts;
+    "blip-counter": BlipCounter;
+    "blip-hearts": BlipHearts;
   }
 }

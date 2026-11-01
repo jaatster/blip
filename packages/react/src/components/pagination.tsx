@@ -1,6 +1,6 @@
 /**
  * Pagination: Pagination, PaginationList, PaginationPrev, PaginationNext, PaginationPage, PaginationGap and
- * PaginationStatus. CSS from @jaatster/blip-components (pagination.css). A link to the page you are on takes `current`
+ * PaginationStatus. CSS from @blip/components (pagination.css). A link to the page you are on takes `current`
  * (`aria-current="page"`); list items with no class of their own stay plain `<li>`s.
  */
 import { forwardRef } from "react";
@@ -45,14 +45,14 @@ export type PaginationProps = PaginationOwnProps & Named & NativeProps<"nav", Pa
  *     </PaginationList>
  *   </Pagination>
  *
- * Renders `<nav class="chu-pagination">`, a size container that takes the width it is given.
+ * Renders `<nav class="blip-pagination">`, a size container that takes the width it is given.
  */
 export const Pagination = /*#__PURE__*/ forwardRef<HTMLElement, PaginationProps>(function Pagination(
   { size, compact, className, ...rest },
   ref,
 ) {
   return (
-    <nav ref={ref} className={cx("chu-pagination", className)} data-size={size} data-compact={flag(compact)} {...rest} />
+    <nav ref={ref} className={cx("blip-pagination", className)} data-size={size} data-compact={flag(compact)} {...rest} />
   );
 });
 
@@ -64,13 +64,13 @@ export type PaginationListProps = NativeProps<"ul">;
  *
  *   <PaginationList>…</PaginationList>
  *
- * Renders `<ul class="chu-pagination-list" role="list">`.
+ * Renders `<ul class="blip-pagination-list" role="list">`.
  */
 export const PaginationList = /*#__PURE__*/ forwardRef<HTMLUListElement, PaginationListProps>(function PaginationList(
   { className, ...rest },
   ref,
 ) {
-  return <ul ref={ref} className={cx("chu-pagination-list", className)} role="list" {...rest} />;
+  return <ul ref={ref} className={cx("blip-pagination-list", className)} role="list" {...rest} />;
 });
 
 /** Own props of {@link PaginationPrev} and {@link PaginationNext}. */
@@ -106,7 +106,7 @@ const arrowAttrs = ({ variant, tone, radius, iconOnly, disabled }: PaginationArr
  *   <li><PaginationPrev variant="ghost" disabled>Previous</PaginationPrev></li>
  *   <li><PaginationPrev iconOnly aria-label="Previous page" href="?page=4">Previous</PaginationPrev></li>
  *
- * Renders `<a class="chu-box chu-pagination-prev" rel="prev"><span>…</span></a>`; with `as`, your router's link.
+ * Renders `<a class="blip-box blip-pagination-prev" rel="prev"><span>…</span></a>`; with `as`, your router's link.
  */
 export const PaginationPrev = /*#__PURE__*/ forwardRef(function PaginationPrev(
   { as: Tag = "a", variant, tone, radius, iconOnly, disabled, rel = disabled ? undefined : "prev", className, children, ...rest }: PaginationPrevProps<ElementType>,
@@ -115,7 +115,7 @@ export const PaginationPrev = /*#__PURE__*/ forwardRef(function PaginationPrev(
   return (
     <Tag
       ref={ref}
-      className={cx("chu-box chu-pagination-prev", className)}
+      className={cx("blip-box blip-pagination-prev", className)}
       {...arrowAttrs({ variant, tone, radius, iconOnly, disabled })}
       rel={rel}
       {...rest}
@@ -130,7 +130,7 @@ export const PaginationPrev = /*#__PURE__*/ forwardRef(function PaginationPrev(
  *
  *   <li><PaginationNext variant="ghost" href="?page=6">Next</PaginationNext></li>
  *
- * Renders `<a class="chu-box chu-pagination-next" rel="next"><span>…</span></a>`; with `as`, your router's link.
+ * Renders `<a class="blip-box blip-pagination-next" rel="next"><span>…</span></a>`; with `as`, your router's link.
  */
 export const PaginationNext = /*#__PURE__*/ forwardRef(function PaginationNext(
   { as: Tag = "a", variant, tone, radius, iconOnly, disabled, rel = disabled ? undefined : "next", className, children, ...rest }: PaginationNextProps<ElementType>,
@@ -139,7 +139,7 @@ export const PaginationNext = /*#__PURE__*/ forwardRef(function PaginationNext(
   return (
     <Tag
       ref={ref}
-      className={cx("chu-box chu-pagination-next", className)}
+      className={cx("blip-box blip-pagination-next", className)}
       {...arrowAttrs({ variant, tone, radius, iconOnly, disabled })}
       rel={rel}
       {...rest}
@@ -164,7 +164,7 @@ export type PaginationPageProps<T extends ElementType = "a"> = PolymorphicProps<
  *
  *   <li><PaginationPage variant="outline" href="?page=5" aria-label="Page 5" current>5</PaginationPage></li>
  *
- * Renders `<a class="chu-box chu-pagination-page">`; with `as`, your router's link.
+ * Renders `<a class="blip-box blip-pagination-page">`; with `as`, your router's link.
  */
 export const PaginationPage = /*#__PURE__*/ forwardRef(function PaginationPage(
   { as: Tag = "a", variant, tone, radius, current: isCurrent, className, ...rest }: PolymorphicProps<ElementType, PaginationPageOwnProps>,
@@ -173,7 +173,7 @@ export const PaginationPage = /*#__PURE__*/ forwardRef(function PaginationPage(
   return (
     <Tag
       ref={ref}
-      className={cx("chu-box chu-pagination-page", className)}
+      className={cx("blip-box blip-pagination-page", className)}
       {...box({ variant, tone, radius })}
       aria-current={current(isCurrent)}
       {...rest}
@@ -189,13 +189,13 @@ export type PaginationGapProps = Omit<NativeProps<"li">, "children">;
  *
  *   <PaginationGap />
  *
- * Renders `<li class="chu-pagination-gap" aria-hidden="true">`.
+ * Renders `<li class="blip-pagination-gap" aria-hidden="true">`.
  */
 export const PaginationGap = /*#__PURE__*/ forwardRef<HTMLLIElement, PaginationGapProps>(function PaginationGap(
   { className, ...rest },
   ref,
 ) {
-  return <li ref={ref} className={cx("chu-pagination-gap", className)} aria-hidden="true" {...rest} />;
+  return <li ref={ref} className={cx("blip-pagination-gap", className)} aria-hidden="true" {...rest} />;
 });
 
 /** Own props of {@link PaginationStatus}. */
@@ -204,9 +204,9 @@ export interface PaginationStatusOwnProps {
   page: number | string;
   /** How many pages there are. */
   total: number | string;
-  /** What a page is called, read before its number (a `chu-sr-only` span): "Page" by default, or "World". */
+  /** What a page is called, read before its number (a `blip-sr-only` span): "Page" by default, or "World". */
   label?: string;
-  /** The word read between the numbers, in a `chu-sr-only` span: "of" by default. */
+  /** The word read between the numbers, in a `blip-sr-only` span: "of" by default. */
   of?: string;
 }
 
@@ -221,17 +221,17 @@ export type PaginationStatusProps = PaginationStatusOwnProps &
  *   <PaginationStatus page={5} total={16} />
  *   <PaginationStatus page={3} total={8} label="World" />
  *
- * Renders `<li class="chu-pagination-status"><span class="chu-sr-only">Page</span> 5 <span aria-hidden="true">/</span>
- * <span class="chu-sr-only">of</span> 16</li>`.
+ * Renders `<li class="blip-pagination-status"><span class="blip-sr-only">Page</span> 5 <span aria-hidden="true">/</span>
+ * <span class="blip-sr-only">of</span> 16</li>`.
  */
 export const PaginationStatus = /*#__PURE__*/ forwardRef<HTMLLIElement, PaginationStatusProps>(function PaginationStatus(
   { page, total, label = "Page", of = "of", className, ...rest },
   ref,
 ) {
   return (
-    <li ref={ref} className={cx("chu-pagination-status", className)} {...rest}>
-      <span className="chu-sr-only">{label}</span> {page} <span aria-hidden="true">/</span>
-      <span className="chu-sr-only">{of}</span> {total}
+    <li ref={ref} className={cx("blip-pagination-status", className)} {...rest}>
+      <span className="blip-sr-only">{label}</span> {page} <span aria-hidden="true">/</span>
+      <span className="blip-sr-only">{of}</span> {total}
     </li>
   );
 });

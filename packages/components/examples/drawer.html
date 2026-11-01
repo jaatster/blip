@@ -1,95 +1,95 @@
-<!-- Drawer: each side drawn statically (data-chu-static) inside a small "screen" with the scrim, then live ones in
-     <chu-drawer>. The static screens clip the sheet's off-screen pixel like a real screen edge does. -->
-<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel));align-items:flex-start">
-  <div class="chu-scrim" style="display:flex;justify-content:flex-end;inline-size:calc(200*var(--chu-pixel));block-size:calc(150*var(--chu-pixel));overflow:clip;outline:var(--chu-pixel) solid var(--chu-line-soft)">
-    <dialog class="chu-box chu-drawer" data-side="end" data-size="sm" open data-chu-static aria-labelledby="ex-settings-title" style="margin-block:calc(-1*var(--chu-pixel));margin-inline-end:calc(-1*var(--chu-pixel))">
-      <header class="chu-dialog-header">
-        <h2 class="chu-dialog-title" id="ex-settings-title">Settings</h2>
-        <button class="chu-box chu-button chu-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
+<!-- Drawer: each side drawn statically (data-blip-static) inside a small "screen" with the scrim, then live ones in
+     <blip-drawer>. The static screens clip the sheet's off-screen pixel like a real screen edge does. -->
+<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--blip-pixel));align-items:flex-start">
+  <div class="blip-scrim" style="display:flex;justify-content:flex-end;inline-size:calc(200*var(--blip-pixel));block-size:calc(150*var(--blip-pixel));overflow:clip;outline:var(--blip-pixel) solid var(--blip-line-soft)">
+    <dialog class="blip-box blip-drawer" data-side="end" data-size="sm" open data-blip-static aria-labelledby="ex-settings-title" style="margin-block:calc(-1*var(--blip-pixel));margin-inline-end:calc(-1*var(--blip-pixel))">
+      <header class="blip-dialog-header">
+        <h2 class="blip-dialog-title" id="ex-settings-title">Settings</h2>
+        <button class="blip-box blip-button blip-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
       </header>
-      <div class="chu-dialog-body">
-        <label class="chu-check" data-layout="split">Music<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" checked></span></label>
-        <label class="chu-check" data-layout="split">Sound effects<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" checked></span></label>
-        <label class="chu-check" data-layout="split">Screen shake<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box"></span></label>
+      <div class="blip-dialog-body">
+        <label class="blip-check" data-layout="split">Music<span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box" checked></span></label>
+        <label class="blip-check" data-layout="split">Sound effects<span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box" checked></span></label>
+        <label class="blip-check" data-layout="split">Screen shake<span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box"></span></label>
       </div>
     </dialog>
   </div>
 
-  <div class="chu-scrim" style="display:flex;inline-size:calc(200*var(--chu-pixel));block-size:calc(150*var(--chu-pixel));overflow:clip;outline:var(--chu-pixel) solid var(--chu-line-soft)">
-    <dialog class="chu-box chu-drawer" data-side="start" data-size="sm" data-tone="teal" open data-chu-static aria-labelledby="ex-map-title" style="margin-block:calc(-1*var(--chu-pixel));margin-inline-start:calc(-1*var(--chu-pixel))">
-      <header class="chu-dialog-header">
-        <h2 class="chu-dialog-title" id="ex-map-title">World map</h2>
-        <button class="chu-box chu-button chu-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
+  <div class="blip-scrim" style="display:flex;inline-size:calc(200*var(--blip-pixel));block-size:calc(150*var(--blip-pixel));overflow:clip;outline:var(--blip-pixel) solid var(--blip-line-soft)">
+    <dialog class="blip-box blip-drawer" data-side="start" data-size="sm" data-tone="teal" open data-blip-static aria-labelledby="ex-map-title" style="margin-block:calc(-1*var(--blip-pixel));margin-inline-start:calc(-1*var(--blip-pixel))">
+      <header class="blip-dialog-header">
+        <h2 class="blip-dialog-title" id="ex-map-title">World map</h2>
+        <button class="blip-box blip-button blip-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
       </header>
-      <div class="chu-dialog-body">
-        <p class="chu-small">1 Meadow: 24 of 24 stars</p>
-        <p class="chu-small">2 Dunes: 18 of 24 stars</p>
-        <p class="chu-small">3 Crystal Caves: 2 of 24 stars</p>
+      <div class="blip-dialog-body">
+        <p class="blip-small">1 Meadow: 24 of 24 stars</p>
+        <p class="blip-small">2 Dunes: 18 of 24 stars</p>
+        <p class="blip-small">3 Crystal Caves: 2 of 24 stars</p>
       </div>
     </dialog>
   </div>
 
-  <div class="chu-scrim" style="display:flex;flex-direction:column;justify-content:flex-end;inline-size:calc(200*var(--chu-pixel));block-size:calc(150*var(--chu-pixel));overflow:clip;outline:var(--chu-pixel) solid var(--chu-line-soft)">
-    <dialog class="chu-box chu-drawer" data-side="bottom" open data-chu-static aria-labelledby="ex-share-title" style="inline-size:auto;margin-inline:calc(-1*var(--chu-pixel));margin-block-end:calc(-1*var(--chu-pixel))">
-      <header class="chu-dialog-header">
-        <h2 class="chu-dialog-title" id="ex-share-title">Share replay</h2>
-        <button class="chu-box chu-button chu-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
+  <div class="blip-scrim" style="display:flex;flex-direction:column;justify-content:flex-end;inline-size:calc(200*var(--blip-pixel));block-size:calc(150*var(--blip-pixel));overflow:clip;outline:var(--blip-pixel) solid var(--blip-line-soft)">
+    <dialog class="blip-box blip-drawer" data-side="bottom" open data-blip-static aria-labelledby="ex-share-title" style="inline-size:auto;margin-inline:calc(-1*var(--blip-pixel));margin-block-end:calc(-1*var(--blip-pixel))">
+      <header class="blip-dialog-header">
+        <h2 class="blip-dialog-title" id="ex-share-title">Share replay</h2>
+        <button class="blip-box blip-button blip-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
       </header>
-      <footer class="chu-dialog-footer" style="justify-content:flex-start;padding-block-start:calc(6*var(--chu-pixel))">
-        <button class="chu-box chu-button" type="button" data-size="sm">Copy link</button>
-        <button class="chu-box chu-button" type="button" data-size="sm" data-variant="soft">Save video</button>
+      <footer class="blip-dialog-footer" style="justify-content:flex-start;padding-block-start:calc(6*var(--blip-pixel))">
+        <button class="blip-box blip-button" type="button" data-size="sm">Copy link</button>
+        <button class="blip-box blip-button" type="button" data-size="sm" data-variant="soft">Save video</button>
       </footer>
     </dialog>
   </div>
 </div>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--chu-pixel));align-items:center;margin-block-start:calc(8*var(--chu-pixel))">
-  <span class="chu-label chu-muted">Live</span>
-  <button class="chu-box chu-button" type="button" commandfor="settings-drawer" command="show-modal">Settings</button>
-  <button class="chu-box chu-button" type="button" data-variant="soft" commandfor="map-drawer" command="show-modal">World map</button>
-  <button class="chu-box chu-button" type="button" data-variant="soft" commandfor="share-drawer" command="show-modal">Share replay</button>
+<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--blip-pixel));align-items:center;margin-block-start:calc(8*var(--blip-pixel))">
+  <span class="blip-label blip-muted">Live</span>
+  <button class="blip-box blip-button" type="button" commandfor="settings-drawer" command="show-modal">Settings</button>
+  <button class="blip-box blip-button" type="button" data-variant="soft" commandfor="map-drawer" command="show-modal">World map</button>
+  <button class="blip-box blip-button" type="button" data-variant="soft" commandfor="share-drawer" command="show-modal">Share replay</button>
 </div>
 
-<chu-drawer light-dismiss>
-  <dialog class="chu-box chu-drawer" id="settings-drawer" data-side="end" aria-labelledby="settings-drawer-title">
-    <header class="chu-dialog-header">
-      <h2 class="chu-dialog-title" id="settings-drawer-title">Settings</h2>
-      <form method="dialog"><button class="chu-box chu-button chu-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button></form>
+<blip-drawer light-dismiss>
+  <dialog class="blip-box blip-drawer" id="settings-drawer" data-side="end" aria-labelledby="settings-drawer-title">
+    <header class="blip-dialog-header">
+      <h2 class="blip-dialog-title" id="settings-drawer-title">Settings</h2>
+      <form method="dialog"><button class="blip-box blip-button blip-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button></form>
     </header>
-    <div class="chu-dialog-body">
-      <label class="chu-check" data-layout="split">Music<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" checked></span></label>
-      <label class="chu-check" data-layout="split">Sound effects<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" checked></span></label>
-      <label class="chu-check" data-layout="split">Screen shake<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box"></span></label>
+    <div class="blip-dialog-body">
+      <label class="blip-check" data-layout="split">Music<span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box" checked></span></label>
+      <label class="blip-check" data-layout="split">Sound effects<span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box" checked></span></label>
+      <label class="blip-check" data-layout="split">Screen shake<span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box"></span></label>
     </div>
-    <footer class="chu-dialog-footer"><form method="dialog"><button class="chu-box chu-button">Done</button></form></footer>
+    <footer class="blip-dialog-footer"><form method="dialog"><button class="blip-box blip-button">Done</button></form></footer>
   </dialog>
-</chu-drawer>
+</blip-drawer>
 
-<chu-drawer light-dismiss>
-  <dialog class="chu-box chu-drawer" id="map-drawer" data-side="start" data-tone="teal" aria-labelledby="map-drawer-title">
-    <header class="chu-dialog-header">
-      <h2 class="chu-dialog-title" id="map-drawer-title">World map</h2>
-      <form method="dialog"><button class="chu-box chu-button chu-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button></form>
+<blip-drawer light-dismiss>
+  <dialog class="blip-box blip-drawer" id="map-drawer" data-side="start" data-tone="teal" aria-labelledby="map-drawer-title">
+    <header class="blip-dialog-header">
+      <h2 class="blip-dialog-title" id="map-drawer-title">World map</h2>
+      <form method="dialog"><button class="blip-box blip-button blip-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button></form>
     </header>
-    <div class="chu-dialog-body">
+    <div class="blip-dialog-body">
       <p>1 Meadow: 24 of 24 stars</p>
       <p>2 Dunes: 18 of 24 stars</p>
       <p>3 Crystal Caves: 2 of 24 stars</p>
     </div>
   </dialog>
-</chu-drawer>
+</blip-drawer>
 
-<chu-drawer light-dismiss>
-  <dialog class="chu-box chu-drawer" id="share-drawer" data-side="bottom" aria-labelledby="share-drawer-title">
+<blip-drawer light-dismiss>
+  <dialog class="blip-box blip-drawer" id="share-drawer" data-side="bottom" aria-labelledby="share-drawer-title">
     <form method="dialog">
-      <header class="chu-dialog-header">
-        <h2 class="chu-dialog-title" id="share-drawer-title">Share replay</h2>
-        <button class="chu-box chu-button chu-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
+      <header class="blip-dialog-header">
+        <h2 class="blip-dialog-title" id="share-drawer-title">Share replay</h2>
+        <button class="blip-box blip-button blip-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
       </header>
-      <footer class="chu-dialog-footer" style="justify-content:flex-start;padding-block-start:calc(6*var(--chu-pixel))">
-        <button class="chu-box chu-button" value="link">Copy link</button>
-        <button class="chu-box chu-button" data-variant="soft" value="video">Save video</button>
+      <footer class="blip-dialog-footer" style="justify-content:flex-start;padding-block-start:calc(6*var(--blip-pixel))">
+        <button class="blip-box blip-button" value="link">Copy link</button>
+        <button class="blip-box blip-button" data-variant="soft" value="video">Save video</button>
       </footer>
     </form>
   </dialog>
-</chu-drawer>
+</blip-drawer>

@@ -1,5 +1,5 @@
 /* No Tailwind: the README's CSS alone, to compare a button with. */
-@import "@jaatster/blip-font/font.css";
-@import "@jaatster/blip-tokens/tokens.css";
-@import "@jaatster/blip-core/core.css";
-@import "@jaatster/blip-components/components.css";
+@import "@blip/font/font.css";
+@import "@blip/tokens/tokens.css";
+@import "@blip/core/core.css";
+@import "@blip/components/components.css";

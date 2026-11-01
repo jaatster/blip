@@ -3,18 +3,18 @@
  * step sits in, upcoming steps wait in outline, and a line joins them (solid behind you, dashed ahead). Horizontal by
  * default, or down the side.
  *
- *   <div class="chu-progress-steps" data-arrow>
- *     <ol class="chu-progress-steps-list" aria-label="Checkout">
- *       <li class="chu-progress-steps-item" data-state="done">
- *         <a href="#cart"><span class="chu-box chu-progress-steps-marker">1</span>
- *           <span class="chu-progress-steps-label">Cart<span class="chu-sr-only">, done</span></span></a>
+ *   <div class="blip-progress-steps" data-arrow>
+ *     <ol class="blip-progress-steps-list" aria-label="Checkout">
+ *       <li class="blip-progress-steps-item" data-state="done">
+ *         <a href="#cart"><span class="blip-box blip-progress-steps-marker">1</span>
+ *           <span class="blip-progress-steps-label">Cart<span class="blip-sr-only">, done</span></span></a>
  *       </li>
- *       <li class="chu-progress-steps-item" aria-current="step">
- *         <span class="chu-box chu-progress-steps-marker">2</span>
- *         <span class="chu-progress-steps-label">Payment</span>
- *         <span class="chu-progress-steps-hint">Card or voucher</span>
+ *       <li class="blip-progress-steps-item" aria-current="step">
+ *         <span class="blip-box blip-progress-steps-marker">2</span>
+ *         <span class="blip-progress-steps-label">Payment</span>
+ *         <span class="blip-progress-steps-hint">Card or voucher</span>
  *       </li>
- *       <li class="chu-progress-steps-item"><span class="chu-box chu-progress-steps-marker">3</span>…</li>
+ *       <li class="blip-progress-steps-item"><span class="blip-box blip-progress-steps-marker">3</span>…</li>
  *     </ol>
  *   </div>
  *
@@ -29,138 +29,138 @@
  * the current and upcoming steps are text.
  */
 
-@layer chu.components {
-  .chu-progress-steps {
-    --_m: calc(14 * var(--chu-pixel));
+@layer blip.components {
+  .blip-progress-steps {
+    --_m: calc(14 * var(--blip-pixel));
     /* A size container: it takes the width it is given (it cannot grow to fit its content). */
     container-type: inline-size;
     inline-size: 100%;
-    font-family: var(--chu-font-ui);
+    font-family: var(--blip-font-ui);
   }
 
-  .chu-progress-steps-list {
+  .blip-progress-steps-list {
     display: flex;
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  .chu-progress-steps[data-arrow] .chu-progress-steps-list { padding-block-start: calc(9 * var(--chu-pixel)); }
+  .blip-progress-steps[data-arrow] .blip-progress-steps-list { padding-block-start: calc(9 * var(--blip-pixel)); }
 
-  .chu-progress-steps-item {
+  .blip-progress-steps-item {
     position: relative;
     flex: 1 1 0;
     min-inline-size: 0;
-    padding-inline: var(--chu-space-2);
+    padding-inline: var(--blip-space-2);
   }
   /* A step's own parts, in a column: marker, label, hint. A link takes the layout when the step is one. */
-  .chu-progress-steps-item:not(:has(> a)),
-  .chu-progress-steps-item > a {
+  .blip-progress-steps-item:not(:has(> a)),
+  .blip-progress-steps-item > a {
     display: grid;
     justify-items: center;
     align-content: start;
-    gap: var(--chu-space-2);
+    gap: var(--blip-space-2);
     text-align: center;
   }
-  .chu-progress-steps-item > a {
+  .blip-progress-steps-item > a {
     color: inherit;
     text-decoration: none;
   }
 
-  .chu-progress-steps-marker {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
+  .blip-progress-steps-marker {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
     /* Upcoming: an outline box. */
-    --chu-box-outline: var(--chu-line);
-    --chu-box-top: var(--chu-surface);
-    --chu-box-fill: var(--chu-surface);
-    --chu-box-bottom: var(--chu-surface);
-    --chu-box-text: var(--chu-text-muted);
-    --chu-box-glint: transparent;
-    --chu-drop-size: 0;
+    --blip-box-outline: var(--blip-line);
+    --blip-box-top: var(--blip-surface);
+    --blip-box-fill: var(--blip-surface);
+    --blip-box-bottom: var(--blip-surface);
+    --blip-box-text: var(--blip-text-muted);
+    --blip-box-glint: transparent;
+    --blip-drop-size: 0;
 
     display: grid;
     place-items: center;
     inline-size: var(--_m);
     block-size: var(--_m);
-    margin-block-end: var(--chu-space-1);
-    font-size: var(--chu-size-small);
-    font-weight: var(--chu-weight-bold);
+    margin-block-end: var(--blip-space-1);
+    font-size: var(--blip-size-small);
+    font-weight: var(--blip-weight-bold);
     font-variant-numeric: tabular-nums;
     line-height: 1;
   }
   /* Done: green candy with a check in place of the number. */
-  .chu-progress-steps-item[data-state="done"] .chu-progress-steps-marker {
-    --chu-box-outline: var(--chu-outline);
-    --chu-box-top: var(--chu-success-light);
-    --chu-box-fill: var(--chu-success);
-    --chu-box-bottom: var(--chu-success-shade);
-    --chu-box-text: transparent;
-    --chu-box-glint: var(--chu-white);
-    --chu-drop-size: 1;
+  .blip-progress-steps-item[data-state="done"] .blip-progress-steps-marker {
+    --blip-box-outline: var(--blip-outline);
+    --blip-box-top: var(--blip-success-light);
+    --blip-box-fill: var(--blip-success);
+    --blip-box-bottom: var(--blip-success-shade);
+    --blip-box-text: transparent;
+    --blip-box-glint: var(--blip-white);
+    --blip-drop-size: 1;
   }
   /* Current: accent candy, sitting in with its bands swapped. */
-  .chu-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"])) .chu-progress-steps-marker {
-    --chu-box-outline: var(--chu-outline);
-    --chu-box-top: var(--chu-tone-shade);
-    --chu-box-fill: var(--chu-tone);
-    --chu-box-bottom: var(--chu-tone-light);
-    --chu-box-text: var(--chu-tone-on);
+  .blip-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"])) .blip-progress-steps-marker {
+    --blip-box-outline: var(--blip-outline);
+    --blip-box-top: var(--blip-tone-shade);
+    --blip-box-fill: var(--blip-tone);
+    --blip-box-bottom: var(--blip-tone-light);
+    --blip-box-text: var(--blip-tone-on);
   }
 
-  .chu-progress-steps-label {
-    font-size: var(--chu-size-small);
-    font-weight: var(--chu-weight-bold);
-    line-height: var(--chu-leading-tight);
-    letter-spacing: var(--chu-tracking-label);
+  .blip-progress-steps-label {
+    font-size: var(--blip-size-small);
+    font-weight: var(--blip-weight-bold);
+    line-height: var(--blip-leading-tight);
+    letter-spacing: var(--blip-tracking-label);
     text-transform: uppercase;
     overflow-wrap: anywhere;
   }
-  .chu-progress-steps-item:not([data-state="done"], [aria-current="step"], :has(> [aria-current="step"])) .chu-progress-steps-label { color: var(--chu-text-muted); }
-  .chu-progress-steps-item > a:hover .chu-progress-steps-label {
+  .blip-progress-steps-item:not([data-state="done"], [aria-current="step"], :has(> [aria-current="step"])) .blip-progress-steps-label { color: var(--blip-text-muted); }
+  .blip-progress-steps-item > a:hover .blip-progress-steps-label {
     text-decoration: underline;
-    text-decoration-thickness: var(--chu-pixel);
-    text-underline-offset: var(--chu-space-2);
+    text-decoration-thickness: var(--blip-pixel);
+    text-underline-offset: var(--blip-space-2);
   }
-  .chu-progress-steps-hint {
-    font-size: var(--chu-size-caption);
-    line-height: var(--chu-leading-tight);
-    color: var(--chu-text-muted);
+  .blip-progress-steps-hint {
+    font-size: var(--blip-size-caption);
+    line-height: var(--blip-leading-tight);
+    color: var(--blip-text-muted);
     overflow-wrap: anywhere;
   }
 
   /* The line to the next step: solid once that step is reached, dashed while it is ahead. */
-  .chu-progress-steps-item:not(:last-child)::before {
+  .blip-progress-steps-item:not(:last-child)::before {
     content: "";
     position: absolute;
-    inset-block-start: calc(var(--_m) / 2 - var(--chu-pixel));
-    inset-inline: calc(50% + var(--_m) / 2 + var(--chu-space-3)) calc(-50% + var(--_m) / 2 + var(--chu-space-3));
-    block-size: var(--chu-space-2);
-    color: var(--chu-line-soft);
-    background: repeating-linear-gradient(to right, currentColor 0 var(--chu-space-2), transparent 0 var(--chu-space-4));
+    inset-block-start: calc(var(--_m) / 2 - var(--blip-pixel));
+    inset-inline: calc(50% + var(--_m) / 2 + var(--blip-space-3)) calc(-50% + var(--_m) / 2 + var(--blip-space-3));
+    block-size: var(--blip-space-2);
+    color: var(--blip-line-soft);
+    background: repeating-linear-gradient(to right, currentColor 0 var(--blip-space-2), transparent 0 var(--blip-space-4));
   }
-  .chu-progress-steps-item:has(+ [data-state="done"], + [aria-current="step"], + * > [aria-current="step"])::before {
-    color: var(--chu-line);
+  .blip-progress-steps-item:has(+ [data-state="done"], + [aria-current="step"], + * > [aria-current="step"])::before {
+    color: var(--blip-line);
     background: linear-gradient(currentColor 0 0);
   }
 
   /* The check on a done step: 8 x 5, drawn over its marker. */
-  .chu-progress-steps-item[data-state="done"]::after {
+  .blip-progress-steps-item[data-state="done"]::after {
     content: "";
     position: absolute;
-    inset-block-start: calc(4 * var(--chu-pixel));
-    inset-inline-start: calc(50% - 4 * var(--chu-pixel));
-    inline-size: calc(8 * var(--chu-pixel));
-    block-size: calc(5 * var(--chu-pixel));
-    background-color: var(--chu-success-on);
+    inset-block-start: calc(4 * var(--blip-pixel));
+    inset-inline-start: calc(50% - 4 * var(--blip-pixel));
+    inline-size: calc(8 * var(--blip-pixel));
+    block-size: calc(5 * var(--blip-pixel));
+    background-color: var(--blip-success-on);
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 5' shape-rendering='crispEdges'%3E%3Cpath d='M6 0h2v1H7v1H6v1H5v1H4v1H2V4H1V3H0V2h2v1h2V2h1V1h1z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
     pointer-events: none;
   }
 
   /* The TV's pointer arrow over the current step: 10 x 6, ink outline, accent fill, a white glint. It bobs for a few
      beats, then rests. */
-  .chu-progress-steps[data-arrow] .chu-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"]))::after {
-    --_p: var(--chu-pixel);
+  .blip-progress-steps[data-arrow] .blip-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"]))::after {
+    --_p: var(--blip-pixel);
     content: "";
     position: absolute;
     inset-block-start: calc(-8 * var(--_p));
@@ -168,99 +168,99 @@
     inline-size: calc(10 * var(--_p));
     block-size: calc(6 * var(--_p));
     background:
-      linear-gradient(var(--chu-white) 0 0) calc(2 * var(--_p)) var(--_p) / var(--_p) var(--_p) no-repeat,
-      linear-gradient(var(--chu-accent-light) 0 0) var(--_p) var(--_p) / calc(8 * var(--_p)) var(--_p) no-repeat,
-      linear-gradient(var(--chu-accent) 0 0) calc(2 * var(--_p)) calc(2 * var(--_p)) / calc(6 * var(--_p)) var(--_p) no-repeat,
-      linear-gradient(var(--chu-accent) 0 0) calc(3 * var(--_p)) calc(3 * var(--_p)) / calc(4 * var(--_p)) var(--_p) no-repeat,
-      linear-gradient(var(--chu-accent-shade) 0 0) calc(4 * var(--_p)) calc(4 * var(--_p)) / calc(2 * var(--_p)) var(--_p) no-repeat,
-      var(--chu-outline);
+      linear-gradient(var(--blip-white) 0 0) calc(2 * var(--_p)) var(--_p) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--blip-accent-light) 0 0) var(--_p) var(--_p) / calc(8 * var(--_p)) var(--_p) no-repeat,
+      linear-gradient(var(--blip-accent) 0 0) calc(2 * var(--_p)) calc(2 * var(--_p)) / calc(6 * var(--_p)) var(--_p) no-repeat,
+      linear-gradient(var(--blip-accent) 0 0) calc(3 * var(--_p)) calc(3 * var(--_p)) / calc(4 * var(--_p)) var(--_p) no-repeat,
+      linear-gradient(var(--blip-accent-shade) 0 0) calc(4 * var(--_p)) calc(4 * var(--_p)) / calc(2 * var(--_p)) var(--_p) no-repeat,
+      var(--blip-outline);
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h10v2H9v1H8v1H7v1H6v1H4V5H3V4H2V3H1V2H0z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
-    animation: chu-bob calc(2 * var(--chu-duration-beat)) steps(1, jump-end) 6;
+    animation: blip-bob calc(2 * var(--blip-duration-beat)) steps(1, jump-end) 6;
     pointer-events: none;
   }
 
   /* ------------------------------------------------------------ down the side */
 
-  .chu-progress-steps[data-orientation="vertical"] .chu-progress-steps-list { flex-direction: column; }
-  .chu-progress-steps[data-orientation="vertical"][data-arrow] .chu-progress-steps-list {
+  .blip-progress-steps[data-orientation="vertical"] .blip-progress-steps-list { flex-direction: column; }
+  .blip-progress-steps[data-orientation="vertical"][data-arrow] .blip-progress-steps-list {
     padding-block-start: 0;
-    padding-inline-start: calc(9 * var(--chu-pixel));
+    padding-inline-start: calc(9 * var(--blip-pixel));
   }
-  .chu-progress-steps[data-orientation="vertical"] .chu-progress-steps-item { padding: 0 0 var(--chu-space-8); }
-  .chu-progress-steps[data-orientation="vertical"] :is(.chu-progress-steps-item:not(:has(> a)), .chu-progress-steps-item > a) {
+  .blip-progress-steps[data-orientation="vertical"] .blip-progress-steps-item { padding: 0 0 var(--blip-space-8); }
+  .blip-progress-steps[data-orientation="vertical"] :is(.blip-progress-steps-item:not(:has(> a)), .blip-progress-steps-item > a) {
     grid-template-columns: var(--_m) minmax(0, 1fr);
     justify-items: start;
     align-items: center;
-    gap: var(--chu-space-1) var(--chu-space-6);
+    gap: var(--blip-space-1) var(--blip-space-6);
     text-align: start;
   }
-  .chu-progress-steps[data-orientation="vertical"] .chu-progress-steps-marker { grid-row: span 2; align-self: start; margin: 0; }
-  .chu-progress-steps[data-orientation="vertical"] .chu-progress-steps-label { display: flex; align-items: center; min-block-size: var(--_m); }
-  .chu-progress-steps[data-orientation="vertical"] .chu-progress-steps-item:not(:last-child)::before {
-    inset-block: calc(var(--_m) + var(--chu-space-2)) var(--chu-space-2);
-    inset-inline: calc(var(--_m) / 2 - var(--chu-pixel)) auto;
-    inline-size: var(--chu-space-2);
+  .blip-progress-steps[data-orientation="vertical"] .blip-progress-steps-marker { grid-row: span 2; align-self: start; margin: 0; }
+  .blip-progress-steps[data-orientation="vertical"] .blip-progress-steps-label { display: flex; align-items: center; min-block-size: var(--_m); }
+  .blip-progress-steps[data-orientation="vertical"] .blip-progress-steps-item:not(:last-child)::before {
+    inset-block: calc(var(--_m) + var(--blip-space-2)) var(--blip-space-2);
+    inset-inline: calc(var(--_m) / 2 - var(--blip-pixel)) auto;
+    inline-size: var(--blip-space-2);
     block-size: auto;
-    background: repeating-linear-gradient(to bottom, currentColor 0 var(--chu-space-2), transparent 0 var(--chu-space-4));
+    background: repeating-linear-gradient(to bottom, currentColor 0 var(--blip-space-2), transparent 0 var(--blip-space-4));
   }
-  .chu-progress-steps[data-orientation="vertical"] .chu-progress-steps-item:has(+ [data-state="done"], + [aria-current="step"], + * > [aria-current="step"])::before { background: linear-gradient(currentColor 0 0); }
-  .chu-progress-steps[data-orientation="vertical"] .chu-progress-steps-item[data-state="done"]::after { inset-inline-start: calc(3 * var(--chu-pixel)); }
+  .blip-progress-steps[data-orientation="vertical"] .blip-progress-steps-item:has(+ [data-state="done"], + [aria-current="step"], + * > [aria-current="step"])::before { background: linear-gradient(currentColor 0 0); }
+  .blip-progress-steps[data-orientation="vertical"] .blip-progress-steps-item[data-state="done"]::after { inset-inline-start: calc(3 * var(--blip-pixel)); }
   /* Beside the current step the arrow points across: 6 x 10. */
-  .chu-progress-steps[data-orientation="vertical"][data-arrow] .chu-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"]))::after {
+  .blip-progress-steps[data-orientation="vertical"][data-arrow] .blip-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"]))::after {
     inset-block-start: calc(2 * var(--_p));
     inset-inline-start: calc(-8 * var(--_p));
     inline-size: calc(6 * var(--_p));
     block-size: calc(10 * var(--_p));
     background:
-      linear-gradient(var(--chu-white) 0 0) var(--_p) calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
-      linear-gradient(var(--chu-accent-light) 0 0) var(--_p) var(--_p) / var(--_p) calc(8 * var(--_p)) no-repeat,
-      linear-gradient(var(--chu-accent) 0 0) calc(2 * var(--_p)) calc(2 * var(--_p)) / var(--_p) calc(6 * var(--_p)) no-repeat,
-      linear-gradient(var(--chu-accent) 0 0) calc(3 * var(--_p)) calc(3 * var(--_p)) / var(--_p) calc(4 * var(--_p)) no-repeat,
-      linear-gradient(var(--chu-accent-shade) 0 0) calc(4 * var(--_p)) calc(4 * var(--_p)) / var(--_p) calc(2 * var(--_p)) no-repeat,
-      var(--chu-outline);
+      linear-gradient(var(--blip-white) 0 0) var(--_p) calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--blip-accent-light) 0 0) var(--_p) var(--_p) / var(--_p) calc(8 * var(--_p)) no-repeat,
+      linear-gradient(var(--blip-accent) 0 0) calc(2 * var(--_p)) calc(2 * var(--_p)) / var(--_p) calc(6 * var(--_p)) no-repeat,
+      linear-gradient(var(--blip-accent) 0 0) calc(3 * var(--_p)) calc(3 * var(--_p)) / var(--_p) calc(4 * var(--_p)) no-repeat,
+      linear-gradient(var(--blip-accent-shade) 0 0) calc(4 * var(--_p)) calc(4 * var(--_p)) / var(--_p) calc(2 * var(--_p)) no-repeat,
+      var(--blip-outline);
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 10' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1h1v1h1v1h1v1h1v2H5v1H4v1H3v1H2v1H0z'/%3E%3C/svg%3E");
   }
-  .chu-progress-steps[data-orientation="vertical"][data-arrow] .chu-progress-steps-item:dir(rtl)::after { scale: -1 1; }
+  .blip-progress-steps[data-orientation="vertical"][data-arrow] .blip-progress-steps-item:dir(rtl)::after { scale: -1 1; }
 
   /* ------------------------------------------------------------ narrow */
 
   /* Side by side, a label may take its step's width but for a pixel each side, so neighbours never touch. The current
      step's label, which never folds, may take all of it before a word breaks, so the labels either side of it keep
      a pixel inside their steps' padding. */
-  .chu-progress-steps:not([data-orientation="vertical"]) .chu-progress-steps-label { margin-inline: calc(-1 * var(--chu-pixel)); }
-  .chu-progress-steps:not([data-orientation="vertical"]) .chu-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"])) .chu-progress-steps-label { margin-inline: calc(-2 * var(--chu-pixel)); }
-  .chu-progress-steps:not([data-orientation="vertical"]) .chu-progress-steps-item:has(+ :is([aria-current="step"], :has(> [aria-current="step"]))) .chu-progress-steps-label,
-  .chu-progress-steps:not([data-orientation="vertical"]) .chu-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"])) + .chu-progress-steps-item .chu-progress-steps-label { margin-inline: var(--chu-pixel); }
+  .blip-progress-steps:not([data-orientation="vertical"]) .blip-progress-steps-label { margin-inline: calc(-1 * var(--blip-pixel)); }
+  .blip-progress-steps:not([data-orientation="vertical"]) .blip-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"])) .blip-progress-steps-label { margin-inline: calc(-2 * var(--blip-pixel)); }
+  .blip-progress-steps:not([data-orientation="vertical"]) .blip-progress-steps-item:has(+ :is([aria-current="step"], :has(> [aria-current="step"]))) .blip-progress-steps-label,
+  .blip-progress-steps:not([data-orientation="vertical"]) .blip-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"])) + .blip-progress-steps-item .blip-progress-steps-label { margin-inline: var(--blip-pixel); }
   @container (width < 480px) {
-    .chu-progress-steps:not([data-orientation="vertical"]) .chu-progress-steps-hint { display: none; }
+    .blip-progress-steps:not([data-orientation="vertical"]) .blip-progress-steps-hint { display: none; }
   }
   /* A label that does not fit its step folds away, where the browser can tell (a label whose word runs past its own
      box has a scroll timeline; one that fits has none). It keeps its box, only clipped, so folding it never changes
      whether it fits. Elsewhere long words break instead. */
   @supports (animation-timeline: scroll()) {
-    .chu-progress-steps:not([data-orientation="vertical"]) .chu-progress-steps-item:not([aria-current="step"], :has(> [aria-current="step"])) .chu-progress-steps-label {
+    .blip-progress-steps:not([data-orientation="vertical"]) .blip-progress-steps-item:not([aria-current="step"], :has(> [aria-current="step"])) .blip-progress-steps-label {
       justify-self: stretch;
       overflow-wrap: normal;
       overflow-x: hidden;
       /* Cut short, if animations are switched off and it cannot fold. */
       text-overflow: ellipsis;
       /* Room for accents above the capitals, which the scroll box would clip. */
-      margin-block: calc(-1 * var(--chu-pixel));
-      padding-block: var(--chu-pixel);
-      animation: chu-progress-steps-fold steps(1, jump-end) both;
+      margin-block: calc(-1 * var(--blip-pixel));
+      padding-block: var(--blip-pixel);
+      animation: blip-progress-steps-fold steps(1, jump-end) both;
       animation-timeline: scroll(self inline);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-progress-steps-item::after { animation: none; }
+    .blip-progress-steps-item::after { animation: none; }
   }
   @media (forced-colors: active) {
-    .chu-progress-steps-item::before { forced-color-adjust: none; color: CanvasText !important; }
-    .chu-progress-steps-item::after { forced-color-adjust: none; background: CanvasText !important; }
-    .chu-progress-steps-item[data-state="done"] .chu-progress-steps-marker { forced-color-adjust: none; color: transparent; background: Canvas; }
-    .chu-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"])) .chu-progress-steps-marker { border-width: var(--chu-pixel); }
+    .blip-progress-steps-item::before { forced-color-adjust: none; color: CanvasText !important; }
+    .blip-progress-steps-item::after { forced-color-adjust: none; background: CanvasText !important; }
+    .blip-progress-steps-item[data-state="done"] .blip-progress-steps-marker { forced-color-adjust: none; color: transparent; background: Canvas; }
+    .blip-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"])) .blip-progress-steps-marker { border-width: var(--blip-pixel); }
   }
 }
 
-@keyframes chu-progress-steps-fold { from, to { clip-path: inset(50%); } }
+@keyframes blip-progress-steps-fold { from, to { clip-path: inset(50%); } }

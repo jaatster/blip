@@ -3,7 +3,7 @@
  * inside, such as its button).
  */
 import { describe, expect, it, vi } from "vitest";
-import { dismiss } from "@jaatster/blip-core";
+import { dismiss } from "@blip/core";
 import { mount, press } from "../support/dom.ts";
 
 function popup() {

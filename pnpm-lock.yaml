@@ -35,34 +35,34 @@ importers:
 
   apps/docs:
     dependencies:
-      '@jaatster/blip-blocks':
+      '@blip/blocks':
         specifier: workspace:*
         version: link:../../packages/blocks
-      '@jaatster/blip-components':
+      '@blip/components':
         specifier: workspace:*
         version: link:../../packages/components
-      '@jaatster/blip-core':
+      '@blip/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@jaatster/blip-effects':
+      '@blip/effects':
         specifier: workspace:*
         version: link:../../packages/effects
-      '@jaatster/blip-elements':
+      '@blip/elements':
         specifier: workspace:*
         version: link:../../packages/elements
-      '@jaatster/blip-font':
+      '@blip/font':
         specifier: workspace:*
         version: link:../../packages/font
-      '@jaatster/blip-game':
+      '@blip/game':
         specifier: workspace:*
         version: link:../../packages/game
-      '@jaatster/blip-icons':
+      '@blip/icons':
         specifier: workspace:*
         version: link:../../packages/icons
-      '@jaatster/blip-sound':
+      '@blip/sound':
         specifier: workspace:*
         version: link:../../packages/sound
-      '@jaatster/blip-tokens':
+      '@blip/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens
       astro:
@@ -81,34 +81,34 @@ importers:
 
   apps/storybook:
     devDependencies:
-      '@jaatster/blip-blocks':
+      '@blip/blocks':
         specifier: workspace:*
         version: link:../../packages/blocks
-      '@jaatster/blip-components':
+      '@blip/components':
         specifier: workspace:*
         version: link:../../packages/components
-      '@jaatster/blip-core':
+      '@blip/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@jaatster/blip-effects':
+      '@blip/effects':
         specifier: workspace:*
         version: link:../../packages/effects
-      '@jaatster/blip-elements':
+      '@blip/elements':
         specifier: workspace:*
         version: link:../../packages/elements
-      '@jaatster/blip-font':
+      '@blip/font':
         specifier: workspace:*
         version: link:../../packages/font
-      '@jaatster/blip-game':
+      '@blip/game':
         specifier: workspace:*
         version: link:../../packages/game
-      '@jaatster/blip-icons':
+      '@blip/icons':
         specifier: workspace:*
         version: link:../../packages/icons
-      '@jaatster/blip-sound':
+      '@blip/sound':
         specifier: workspace:*
         version: link:../../packages/sound
-      '@jaatster/blip-tokens':
+      '@blip/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens
       '@storybook/addon-a11y':
@@ -144,46 +144,46 @@ importers:
 
   packages/blocks:
     dependencies:
-      '@jaatster/blip-components':
+      '@blip/components':
         specifier: workspace:*
         version: link:../components
-      '@jaatster/blip-core':
+      '@blip/core':
         specifier: workspace:*
         version: link:../core
-      '@jaatster/blip-tokens':
+      '@blip/tokens':
         specifier: workspace:*
         version: link:../tokens
 
   packages/components:
     dependencies:
-      '@jaatster/blip-core':
+      '@blip/core':
         specifier: workspace:*
         version: link:../core
-      '@jaatster/blip-tokens':
+      '@blip/tokens':
         specifier: workspace:*
         version: link:../tokens
 
   packages/core:
     dependencies:
-      '@jaatster/blip-tokens':
+      '@blip/tokens':
         specifier: workspace:*
         version: link:../tokens
 
   packages/effects:
     dependencies:
-      '@jaatster/blip-core':
+      '@blip/core':
         specifier: workspace:*
         version: link:../core
-      '@jaatster/blip-tokens':
+      '@blip/tokens':
         specifier: workspace:*
         version: link:../tokens
 
   packages/elements:
     dependencies:
-      '@jaatster/blip-core':
+      '@blip/core':
         specifier: workspace:*
         version: link:../core
-      '@jaatster/blip-tokens':
+      '@blip/tokens':
         specifier: workspace:*
         version: link:../tokens
 
@@ -191,13 +191,13 @@ importers:
 
   packages/game:
     dependencies:
-      '@jaatster/blip-components':
+      '@blip/components':
         specifier: workspace:*
         version: link:../components
-      '@jaatster/blip-core':
+      '@blip/core':
         specifier: workspace:*
         version: link:../core
-      '@jaatster/blip-tokens':
+      '@blip/tokens':
         specifier: workspace:*
         version: link:../tokens
 
@@ -205,16 +205,16 @@ importers:
 
   packages/react:
     dependencies:
-      '@jaatster/blip-effects':
+      '@blip/effects':
         specifier: workspace:^
         version: link:../effects
-      '@jaatster/blip-elements':
+      '@blip/elements':
         specifier: workspace:^
         version: link:../elements
-      '@jaatster/blip-game':
+      '@blip/game':
         specifier: workspace:^
         version: link:../game
-      '@jaatster/blip-icons':
+      '@blip/icons':
         specifier: workspace:^
         version: link:../icons
     devDependencies:
@@ -245,13 +245,13 @@ importers:
 
   packages/sound:
     dependencies:
-      '@jaatster/blip-core':
+      '@blip/core':
         specifier: workspace:*
         version: link:../core
 
   packages/stylelint-config:
     dependencies:
-      '@jaatster/blip-tokens':
+      '@blip/tokens':
         specifier: workspace:*
         version: link:../tokens
       postcss-value-parser:
@@ -269,34 +269,34 @@ importers:
       '@axe-core/playwright':
         specifier: ^4.14.0
         version: 4.14.0(playwright-core@1.64.1)
-      '@jaatster/blip-blocks':
+      '@blip/blocks':
         specifier: workspace:*
         version: link:../packages/blocks
-      '@jaatster/blip-components':
+      '@blip/components':
         specifier: workspace:*
         version: link:../packages/components
-      '@jaatster/blip-core':
+      '@blip/core':
         specifier: workspace:*
         version: link:../packages/core
-      '@jaatster/blip-effects':
+      '@blip/effects':
         specifier: workspace:*
         version: link:../packages/effects
-      '@jaatster/blip-elements':
+      '@blip/elements':
         specifier: workspace:*
         version: link:../packages/elements
-      '@jaatster/blip-font':
+      '@blip/font':
         specifier: workspace:*
         version: link:../packages/font
-      '@jaatster/blip-game':
+      '@blip/game':
         specifier: workspace:*
         version: link:../packages/game
-      '@jaatster/blip-icons':
+      '@blip/icons':
         specifier: workspace:*
         version: link:../packages/icons
-      '@jaatster/blip-sound':
+      '@blip/sound':
         specifier: workspace:*
         version: link:../packages/sound
-      '@jaatster/blip-tokens':
+      '@blip/tokens':
         specifier: workspace:*
         version: link:../packages/tokens
       '@playwright/test':

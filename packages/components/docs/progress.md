@@ -1,6 +1,6 @@
 ---
 name: Progress
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: progress.css
 element: null
 react: Progress
@@ -21,12 +21,12 @@ steps of a flow, progress steps.
 ## Usage
 
 ```html
-<div class="chu-progress-label"><label for="load">Loading World 2</label><span>60%</span></div>
-<div class="chu-box chu-progress" data-tone="success"><progress id="load" max="100" value="60">60%</progress></div>
+<div class="blip-progress-label"><label for="load">Loading World 2</label><span>60%</span></div>
+<div class="blip-box blip-progress" data-tone="success"><progress id="load" max="100" value="60">60%</progress></div>
 
-<div class="chu-box chu-progress"><progress aria-label="Finding a match">Searching</progress></div>
+<div class="blip-box blip-progress"><progress aria-label="Finding a match">Searching</progress></div>
 
-<div class="chu-box chu-meter"><meter min="0" max="10" low="4" high="7" optimum="10" value="6" aria-label="Health">6 of 10</meter></div>
+<div class="blip-box blip-meter"><meter min="0" max="10" low="4" high="7" optimum="10" value="6" aria-label="Health">6 of 10</meter></div>
 ```
 
 ## Anatomy
@@ -37,7 +37,7 @@ steps of a flow, progress steps.
    row); empty ones are dark, as in the game's HUD: Liquorice's shade by Day and at Sunset, the palette's page
    colour at Night, in the ink well (cream under the Liquorice candy, which is dark itself). Filled and empty differ by at least 3:1 in
    lightness for every tone in every scheme, so the bar reads in greyscale and to colour-blind eyes.
-3. **Label row** (`.chu-progress-label`, optional): the name at the start, the value in words at the end.
+3. **Label row** (`.blip-progress-label`, optional): the name at the start, the value in words at the end.
 
 ## Variants
 
@@ -45,7 +45,7 @@ steps of a flow, progress steps.
 |---|---|---|
 | `data-tone` | `accent` (default), `info`, `success`, `warning`, `danger`, any candy name | Progress fill. `success` when done, `danger` for a draining thing (a boss's health). |
 | `data-size` | `sm` (7 pixels high, 3-pixel blocks), `md` (8, 4-pixel blocks), `lg` (12, 6-pixel blocks) | Small in dense lists and popovers, large for a loading screen. |
-| `.chu-meter` | | Colour from the meter's own `low`, `high` and `optimum`: green when good, orange when not, red when worse. `data-tone` fixes one colour instead (a magic bar is always blue). |
+| `.blip-meter` | | Colour from the meter's own `low`, `high` and `optimum`: green when good, orange when not, red when worse. `data-tone` fixes one colour instead (a magic bar is always blue). |
 
 ## States
 
@@ -86,7 +86,7 @@ Progress bars and meters are not interactive: no keys.
 
 | Class or attribute | |
 |---|---|
-| `.chu-progress` on a `.chu-box` around a `<progress>` | The bar. |
-| `.chu-meter` on a `.chu-box` around a `<meter>` | The meter. |
-| `.chu-progress-label` | A row above: the label first, the value in words last. |
+| `.blip-progress` on a `.blip-box` around a `<progress>` | The bar. |
+| `.blip-meter` on a `.blip-box` around a `<meter>` | The meter. |
+| `.blip-progress-label` | A row above: the label first, the value in words last. |
 | `data-tone`, `data-size` | See Variants. |

@@ -6,9 +6,9 @@
  * and timeline, and nothing leaks. `static box = true` adds the candy box class.
  */
 export abstract class BlipElement extends HTMLElement {
-  /** Add `chu-box` to the element when it connects. */
+  /** Add `blip-box` to the element when it connects. */
   static box = false;
-  /** Extra classes to add when it connects, e.g. "chu-tabs". */
+  /** Extra classes to add when it connects, e.g. "blip-tabs". */
   static classes: string[] = [];
 
   #controller?: AbortController;
@@ -23,7 +23,7 @@ export abstract class BlipElement extends HTMLElement {
     this.#controller?.abort();
     this.#controller = new AbortController();
     const ctor = this.constructor as typeof BlipElement;
-    if (ctor.box) this.classList.add("chu-box");
+    if (ctor.box) this.classList.add("blip-box");
     if (ctor.classes.length) this.classList.add(...ctor.classes);
     // Defined by a classic script while the page is still parsing, an element upgrades before its children exist:
     // wait for them.
@@ -44,9 +44,9 @@ export abstract class BlipElement extends HTMLElement {
   /** Anything this.signal does not clean up. */
   protected disconnected(): void {}
 
-  /** Dispatches a bubbling, composed `chu-<name>` event. Returns false if a listener called preventDefault(). */
+  /** Dispatches a bubbling, composed `blip-<name>` event. Returns false if a listener called preventDefault(). */
   protected emit<T>(name: string, detail?: T, cancelable = false): boolean {
-    return this.dispatchEvent(new CustomEvent(`chu-${name}`, { detail, bubbles: true, composed: true, cancelable }));
+    return this.dispatchEvent(new CustomEvent(`blip-${name}`, { detail, bubbles: true, composed: true, cancelable }));
   }
 
   /** Listens with this connection's signal. */

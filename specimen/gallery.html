@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Blip gallery</title>
   <link rel="icon" href="data:,">
-  <script type="importmap">{ "imports": { "@jaatster/blip-core": "/packages/core/dist/js/index.js", "@jaatster/blip-tokens": "/packages/tokens/dist/js/index.js", "@jaatster/blip-icons": "/packages/icons/dist/index.js", "@jaatster/blip-sound": "/packages/sound/dist/index.js", "@jaatster/blip-effects": "/packages/effects/dist/index.js" } }</script>
+  <script type="importmap">{ "imports": { "@blip/core": "/packages/core/dist/js/index.js", "@blip/tokens": "/packages/tokens/dist/js/index.js", "@blip/icons": "/packages/icons/dist/index.js", "@blip/sound": "/packages/sound/dist/index.js", "@blip/effects": "/packages/effects/dist/index.js" } }</script>
   <link rel="stylesheet" href="/packages/font/font.css">
   <link rel="stylesheet" href="/packages/tokens/dist/css/tokens.css">
   <link rel="stylesheet" href="/packages/core/dist/core.css">
   <style>
     @layer gallery {
-      body { padding: calc(12 * var(--chu-pixel)); }
-      .chu-gallery-item { margin-block-end: calc(20 * var(--chu-pixel)); }
-      .chu-gallery-item > h2 { margin-block-end: calc(6 * var(--chu-pixel)); display: flex; gap: calc(4 * var(--chu-pixel)); align-items: baseline; }
-      .chu-gallery-item > h2 small { color: var(--chu-text-muted); font-size: var(--chu-size-caption); font-weight: 400; }
+      body { padding: calc(12 * var(--blip-pixel)); }
+      .blip-gallery-item { margin-block-end: calc(20 * var(--blip-pixel)); }
+      .blip-gallery-item > h2 { margin-block-end: calc(6 * var(--blip-pixel)); display: flex; gap: calc(4 * var(--blip-pixel)); align-items: baseline; }
+      .blip-gallery-item > h2 small { color: var(--blip-text-muted); font-size: var(--blip-size-caption); font-weight: 400; }
     }
   </style>
 </head>
@@ -24,8 +24,8 @@
     // ?only=button,tabs  ?scheme=night  ?pixel=3  ?pkg=game
     const q = new URLSearchParams(location.search);
     const root = document.documentElement;
-    if (q.get("scheme")) root.dataset.chuScheme = q.get("scheme");
-    if (q.get("pixel")) root.dataset.chuPixel = q.get("pixel");
+    if (q.get("scheme")) root.dataset.blipScheme = q.get("scheme");
+    if (q.get("pixel")) root.dataset.blipPixel = q.get("pixel");
     const only = q.get("only")?.split(",");
     const pkg = q.get("pkg");
     const manifest = await (await fetch("/specimen/gallery.json", { cache: "no-store" })).json();
@@ -35,8 +35,8 @@
     for (const e of items) {
       const html = await (await fetch(e.url, { cache: "no-store" })).text();
       const section = document.createElement("section");
-      section.className = "chu-gallery-item";
-      section.innerHTML = `<h2 class="chu-title">${e.name} <small>@jaatster/blip-${e.pkg}</small></h2>${html}`;
+      section.className = "blip-gallery-item";
+      section.innerHTML = `<h2 class="blip-title">${e.name} <small>@blip/${e.pkg}</small></h2>${html}`;
       main.append(section);
     }
     for (const src of manifest.js) await import(src).catch((e) => console.error(`gallery: ${src} failed to load: ${e.message}`));

@@ -1,5 +1,5 @@
 /**
- * Keycap: Keycap and Keys. CSS from @jaatster/blip-components (keycap.css).
+ * Keycap: Keycap and Keys. CSS from @blip/components (keycap.css).
  */
 import { forwardRef } from "react";
 import { box, cx, flag, type NativeProps, type Size, type Tone } from "../internal/props.js";
@@ -14,7 +14,7 @@ export interface KeycapOwnProps {
    * Cream (default), neutral, or a tone or candy: a gamepad's buttons (A green, B red, X blue, Y slate). `data-tone`.
    */
   tone?: Tone;
-  /** Shows the key held down: it sits in its drop (key tests, tutorials). `data-chu-pressed`. */
+  /** Shows the key held down: it sits in its drop (key tests, tutorials). `data-blip-pressed`. */
   pressed?: boolean;
 }
 
@@ -23,7 +23,7 @@ export type KeycapProps = KeycapOwnProps & NativeProps<"kbd", KeycapOwnProps>;
 /**
  * A key to press, drawn as a little key standing up off the page. It is a `<kbd>`, so assistive technology knows it is
  * keyboard input: write the label as the key reads ("Ctrl", "Esc"), not as a symbol. A picture, never a control.
- * Renders `<kbd class="chu-box chu-keycap">`.
+ * Renders `<kbd class="blip-box blip-keycap">`.
  *
  *   <p>Press <Keycap>Esc</Keycap> to pause.</p>
  *   <Keycap size="lg" tone="green">A</Keycap>
@@ -35,10 +35,10 @@ export const Keycap = /*#__PURE__*/ forwardRef<HTMLElement, KeycapProps>(functio
   return (
     <kbd
       ref={ref}
-      className={cx("chu-box chu-keycap", className)}
+      className={cx("blip-box blip-keycap", className)}
       {...box({ tone })}
       data-size={size}
-      data-chu-pressed={flag(pressed)}
+      data-blip-pressed={flag(pressed)}
       {...rest}
     />
   );
@@ -49,10 +49,10 @@ export type KeysProps = NativeProps<"kbd">;
 
 /**
  * A key combination: an outer `<kbd>` holding keycaps, with a quiet "+" between them. Renders `<kbd
- * class="chu-keys">`.
+ * class="blip-keys">`.
  *
  *   <Keys><Keycap>Ctrl</Keycap>+<Keycap>K</Keycap></Keys>
  */
 export const Keys = /*#__PURE__*/ forwardRef<HTMLElement, KeysProps>(function Keys({ className, ...rest }, ref) {
-  return <kbd ref={ref} className={cx("chu-keys", className)} {...rest} />;
+  return <kbd ref={ref} className={cx("blip-keys", className)} {...rest} />;
 });

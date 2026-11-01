@@ -1,6 +1,6 @@
 ---
 /**
- * Template: a landing page made only of @jaatster/blip-blocks (hero, features, pricing, call to action, footer), for a
+ * Template: a landing page made only of @blip/blocks (hero, features, pricing, call to action, footer), for a
  * made-up planner whose sky keeps time with you.
  */
 import Template from "../../layouts/Template.astro";
@@ -14,184 +14,184 @@ const plans = [
 ] as const;
 ---
 <Template title="Landing page template" description="A Blip landing page made from the blocks: a hero on the world, features, pricing, a call to action and a footer." kits={["game", "blocks", "effects"]} scripts={["tpl-landing"]} display>
-  <a class="chu-box chu-skip-link" href="#features-title">Skip to the features</a>
+  <a class="blip-box blip-skip-link" href="#features-title">Skip to the features</a>
   <header class="tpl-landing-top">
-    <nav class="chu-box chu-app-bar" aria-label="Daybreak" data-collapse="medium">
-      <a class="chu-app-bar-brand" href="#hero-title"><Icon name="sunrise" /><span class="chu-display chu-pop" data-scale="1" data-tone="orange" data-pop="Daybreak">Daybreak</span></a>
-      <div class="chu-app-bar-nav">
-        <button class="chu-box chu-button chu-app-bar-toggle" type="button" data-variant="ghost" data-icon-only popovertarget="landing-links" aria-label="Menu"><Icon name="menu" /></button>
-        <ul class="chu-box chu-app-bar-links" id="landing-links" popover role="list">
-          <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#features-title">Features</a></li>
-          <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#pricing-title">Pricing</a></li>
-          <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="/templates/">Blip docs</a></li>
+    <nav class="blip-box blip-app-bar" aria-label="Daybreak" data-collapse="medium">
+      <a class="blip-app-bar-brand" href="#hero-title"><Icon name="sunrise" /><span class="blip-display blip-pop" data-scale="1" data-tone="orange" data-pop="Daybreak">Daybreak</span></a>
+      <div class="blip-app-bar-nav">
+        <button class="blip-box blip-button blip-app-bar-toggle" type="button" data-variant="ghost" data-icon-only popovertarget="landing-links" aria-label="Menu"><Icon name="menu" /></button>
+        <ul class="blip-box blip-app-bar-links" id="landing-links" popover role="list">
+          <li><a class="blip-box blip-app-bar-link" data-variant="ghost" href="#features-title">Features</a></li>
+          <li><a class="blip-box blip-app-bar-link" data-variant="ghost" href="#pricing-title">Pricing</a></li>
+          <li><a class="blip-box blip-app-bar-link" data-variant="ghost" href="/templates/">Blip docs</a></li>
         </ul>
       </div>
-      <div class="chu-app-bar-actions"><a class="chu-box chu-button" data-size="sm" href="#pricing-title">Get Daybreak</a></div>
+      <div class="blip-app-bar-actions"><a class="blip-box blip-button" data-size="sm" href="#pricing-title">Get Daybreak</a></div>
     </nav>
   </header>
 
   <main>
-    <section class="chu-hero tpl-hero" aria-labelledby="hero-title">
-      <chu-world parallax clouds stars avoid=".chu-hero-title, .chu-hero-lead, .chu-hero-actions, .chu-hero-note, chu-motion-toggle"></chu-world>
-      <div class="chu-hero-inner">
-        <h1 class="chu-hero-title chu-display" id="hero-title"><span class="chu-sr-only">Daybreak</span><span aria-hidden="true"><span class="chu-hero-word">{letters.map(({ c, i }) => <span class="chu-pop chu-drop-in" data-pop={c} style={`--i:${i}`}>{c}</span>)}</span></span></h1>
-        <p class="chu-hero-lead">A planner on a sky that keeps time with you: pastel mornings for the big things, a sunset to wrap up, and a starry night that says stop.</p>
-        <div class="chu-hero-actions">
-          <a class="chu-box chu-button" data-size="lg" href="#pricing-title">Plan tomorrow</a>
-          <a class="chu-box chu-button" data-size="lg" data-variant="soft" data-tone="neutral" href="#features-title">See how it works</a>
+    <section class="blip-hero tpl-hero" aria-labelledby="hero-title">
+      <blip-world parallax clouds stars avoid=".blip-hero-title, .blip-hero-lead, .blip-hero-actions, .blip-hero-note, blip-motion-toggle"></blip-world>
+      <div class="blip-hero-inner">
+        <h1 class="blip-hero-title blip-display" id="hero-title"><span class="blip-sr-only">Daybreak</span><span aria-hidden="true"><span class="blip-hero-word">{letters.map(({ c, i }) => <span class="blip-pop blip-drop-in" data-pop={c} style={`--i:${i}`}>{c}</span>)}</span></span></h1>
+        <p class="blip-hero-lead">A planner on a sky that keeps time with you: pastel mornings for the big things, a sunset to wrap up, and a starry night that says stop.</p>
+        <div class="blip-hero-actions">
+          <a class="blip-box blip-button" data-size="lg" href="#pricing-title">Plan tomorrow</a>
+          <a class="blip-box blip-button" data-size="lg" data-variant="soft" data-tone="neutral" href="#features-title">See how it works</a>
         </div>
-        <p class="chu-hero-note">Free on one device. No account needed.</p>
-        <chu-motion-toggle></chu-motion-toggle>
+        <p class="blip-hero-note">Free on one device. No account needed.</p>
+        <blip-motion-toggle></blip-motion-toggle>
       </div>
-      <div class="chu-hero-scenery" aria-hidden="true">
-        <chu-sprite name="star" style="position:absolute;left:calc(round(down,8%,var(--chu-pixel)));bottom:0"></chu-sprite>
-        <chu-sprite name="sparkle" style="position:absolute;left:calc(round(down,14%,var(--chu-pixel)));bottom:calc(14*var(--chu-pixel))"></chu-sprite>
-        <chu-sprite name="clock" style="position:absolute;left:calc(round(down,84%,var(--chu-pixel)));bottom:0"></chu-sprite>
-        <chu-sprite name="star" style="position:absolute;left:calc(round(down,90%,var(--chu-pixel)));bottom:0"></chu-sprite>
+      <div class="blip-hero-scenery" aria-hidden="true">
+        <blip-sprite name="star" style="position:absolute;left:calc(round(down,8%,var(--blip-pixel)));bottom:0"></blip-sprite>
+        <blip-sprite name="sparkle" style="position:absolute;left:calc(round(down,14%,var(--blip-pixel)));bottom:calc(14*var(--blip-pixel))"></blip-sprite>
+        <blip-sprite name="clock" style="position:absolute;left:calc(round(down,84%,var(--blip-pixel)));bottom:0"></blip-sprite>
+        <blip-sprite name="star" style="position:absolute;left:calc(round(down,90%,var(--blip-pixel)));bottom:0"></blip-sprite>
       </div>
-      <div class="chu-hero-ground"></div>
+      <div class="blip-hero-ground"></div>
     </section>
 
     <div class="tpl-landing-body">
-      <section class="chu-features" aria-labelledby="features-title">
-        <header class="chu-features-head">
-          <h2 class="chu-features-title" id="features-title">A day that has a shape</h2>
-          <p class="chu-features-lead">Lists are endless. Days are not. Daybreak plans to the light you have left.</p>
+      <section class="blip-features" aria-labelledby="features-title">
+        <header class="blip-features-head">
+          <h2 class="blip-features-title" id="features-title">A day that has a shape</h2>
+          <p class="blip-features-lead">Lists are endless. Days are not. Daybreak plans to the light you have left.</p>
         </header>
-        <div class="chu-features-grid">
-          <article class="chu-box chu-feature" data-layout="lead" data-variant="panel">
-            <div class="chu-feature-media" aria-hidden="true">
+        <div class="blip-features-grid">
+          <article class="blip-box blip-feature" data-layout="lead" data-variant="panel">
+            <div class="blip-feature-media" aria-hidden="true">
               <div class="tpl-times">
-                <div class="chu-stage" data-frame data-chu-scheme="day"><p class="chu-display chu-pop" data-scale="1" data-pop="9:00">9:00</p><div class="chu-stage-ground" style="--chu-stage-ground:10"></div></div>
-                <div class="chu-stage" data-frame data-chu-scheme="sunset"><p class="chu-display chu-pop" data-scale="1" data-pop="18:00">18:00</p><div class="chu-stage-ground" style="--chu-stage-ground:10"></div></div>
-                <div class="chu-stage" data-frame data-chu-scheme="night"><p class="chu-display chu-pop" data-scale="1" data-pop="22:00">22:00</p><div class="chu-stage-ground" style="--chu-stage-ground:10"></div></div>
+                <div class="blip-stage" data-frame data-blip-scheme="day"><p class="blip-display blip-pop" data-scale="1" data-pop="9:00">9:00</p><div class="blip-stage-ground" style="--blip-stage-ground:10"></div></div>
+                <div class="blip-stage" data-frame data-blip-scheme="sunset"><p class="blip-display blip-pop" data-scale="1" data-pop="18:00">18:00</p><div class="blip-stage-ground" style="--blip-stage-ground:10"></div></div>
+                <div class="blip-stage" data-frame data-blip-scheme="night"><p class="blip-display blip-pop" data-scale="1" data-pop="22:00">22:00</p><div class="blip-stage-ground" style="--blip-stage-ground:10"></div></div>
               </div>
             </div>
-            <h3 class="chu-feature-title">Three skies a day</h3>
-            <p class="chu-feature-text">Mornings are for the one thing that matters. At sunset Daybreak gathers what is left; after dark it shows only tomorrow, and the stars.</p>
+            <h3 class="blip-feature-title">Three skies a day</h3>
+            <p class="blip-feature-text">Mornings are for the one thing that matters. At sunset Daybreak gathers what is left; after dark it shows only tomorrow, and the stars.</p>
           </article>
-          <article class="chu-box chu-feature" data-variant="soft" data-tone="orange">
-            <span class="chu-box chu-feature-icon" data-tone="orange"><Icon name="hourglass" /></span>
-            <h3 class="chu-feature-title">Focus in rounds</h3>
-            <p class="chu-feature-text">Twenty-five minutes, then a short walk. A chime only if you want one.</p>
+          <article class="blip-box blip-feature" data-variant="soft" data-tone="orange">
+            <span class="blip-box blip-feature-icon" data-tone="orange"><Icon name="hourglass" /></span>
+            <h3 class="blip-feature-title">Focus in rounds</h3>
+            <p class="blip-feature-text">Twenty-five minutes, then a short walk. A chime only if you want one.</p>
           </article>
-          <article class="chu-box chu-feature" data-variant="soft" data-tone="teal">
-            <span class="chu-box chu-feature-icon" data-tone="teal"><Icon name="calendar" /></span>
-            <h3 class="chu-feature-title">A week at a glance</h3>
-            <p class="chu-feature-text">Seven days as seven skies, so a heavy Thursday is easy to see coming.</p>
+          <article class="blip-box blip-feature" data-variant="soft" data-tone="teal">
+            <span class="blip-box blip-feature-icon" data-tone="teal"><Icon name="calendar" /></span>
+            <h3 class="blip-feature-title">A week at a glance</h3>
+            <p class="blip-feature-text">Seven days as seven skies, so a heavy Thursday is easy to see coming.</p>
           </article>
-          <article class="chu-box chu-feature" data-layout="wide" data-variant="soft" data-tone="orange">
-            <chu-attract class="tpl-demo" label="Typing Call mum and pressing Add puts it on the morning list, and ticking it off sets off a burst of sparkles."
+          <article class="blip-box blip-feature" data-layout="wide" data-variant="soft" data-tone="orange">
+            <blip-attract class="tpl-demo" label="Typing Call mum and pressing Add puts it on the morning list, and ticking it off sets off a burst of sparkles."
                         script="move #tpl-task-field; type #tpl-task-field 'Call mum'; move #tpl-task-add; press #tpl-task-add; move #tpl-task-new; press #tpl-task-new; poster; wait 2s">
-              <section class="chu-box chu-window" data-tone="orange" aria-labelledby="tpl-demo-title">
-                <header class="chu-window-bar"><p class="chu-window-title chu-display chu-pop" id="tpl-demo-title">Morning</p></header>
-                <div class="chu-window-body tpl-stack-4">
+              <section class="blip-box blip-window" data-tone="orange" aria-labelledby="tpl-demo-title">
+                <header class="blip-window-bar"><p class="blip-window-title blip-display blip-pop" id="tpl-demo-title">Morning</p></header>
+                <div class="blip-window-body tpl-stack-4">
                   <div class="tpl-task-add">
-                    <span class="chu-box chu-input" data-size="sm"><input id="tpl-task-field" aria-label="New task" placeholder="Add a task" autocomplete="off" /></span>
-                    <button class="chu-box chu-button" id="tpl-task-add" type="button" data-size="sm">Add</button>
+                    <span class="blip-box blip-input" data-size="sm"><input id="tpl-task-field" aria-label="New task" placeholder="Add a task" autocomplete="off" /></span>
+                    <button class="blip-box blip-button" id="tpl-task-add" type="button" data-size="sm">Add</button>
                   </div>
                   <div class="tpl-task-list">
-                    <label class="chu-check"><span class="chu-box chu-checkbox"><input type="checkbox" checked /></span>Stretch</label>
-                    <label class="chu-check"><span class="chu-box chu-checkbox"><input type="checkbox" /></span>Water the plants</label>
-                    <label class="chu-check" hidden><span class="chu-box chu-checkbox"><input type="checkbox" id="tpl-task-new" data-chu-burst="sparkle" /></span><span></span></label>
+                    <label class="blip-check"><span class="blip-box blip-checkbox"><input type="checkbox" checked /></span>Stretch</label>
+                    <label class="blip-check"><span class="blip-box blip-checkbox"><input type="checkbox" /></span>Water the plants</label>
+                    <label class="blip-check" hidden><span class="blip-box blip-checkbox"><input type="checkbox" id="tpl-task-new" data-blip-burst="sparkle" /></span><span></span></label>
                   </div>
                 </div>
               </section>
-            </chu-attract>
+            </blip-attract>
             <div class="tpl-stack-2">
-              <h3 class="chu-feature-title">Three things, then done</h3>
-              <p class="chu-feature-text">Write down the morning's three things and tick them off as you go. Each one gets a little sparkle; there is no fourth.</p>
+              <h3 class="blip-feature-title">Three things, then done</h3>
+              <p class="blip-feature-text">Write down the morning's three things and tick them off as you go. Each one gets a little sparkle; there is no fourth.</p>
             </div>
           </article>
-          <article class="chu-box chu-feature" data-layout="stat" data-variant="soft">
-            <p class="chu-feature-stat chu-pop" data-pop="3">3</p>
-            <p class="chu-feature-text">things a day, at most, in the morning list</p>
+          <article class="blip-box blip-feature" data-layout="stat" data-variant="soft">
+            <p class="blip-feature-stat blip-pop" data-pop="3">3</p>
+            <p class="blip-feature-text">things a day, at most, in the morning list</p>
           </article>
-          <article class="chu-box chu-feature" data-layout="stat" data-variant="soft" data-tone="purple">
-            <p class="chu-feature-stat chu-pop" data-tone="purple" data-pop="0">0</p>
-            <p class="chu-feature-text">notifications after dark</p>
+          <article class="blip-box blip-feature" data-layout="stat" data-variant="soft" data-tone="purple">
+            <p class="blip-feature-stat blip-pop" data-tone="purple" data-pop="0">0</p>
+            <p class="blip-feature-text">notifications after dark</p>
           </article>
-          <article class="chu-box chu-feature" data-layout="stat" data-variant="soft" data-tone="teal">
-            <p class="chu-feature-stat chu-pop" data-tone="teal" data-pop="365">365</p>
-            <p class="chu-feature-text">days in the yearly map of what you did</p>
+          <article class="blip-box blip-feature" data-layout="stat" data-variant="soft" data-tone="teal">
+            <p class="blip-feature-stat blip-pop" data-tone="teal" data-pop="365">365</p>
+            <p class="blip-feature-text">days in the yearly map of what you did</p>
           </article>
-          <article class="chu-box chu-feature" data-layout="wide" data-variant="panel">
-            <span class="chu-box chu-feature-icon" data-tone="green"><Icon name="eye" /></span>
+          <article class="blip-box blip-feature" data-layout="wide" data-variant="panel">
+            <span class="blip-box blip-feature-icon" data-tone="green"><Icon name="eye" /></span>
             <div class="tpl-stack-2">
-              <h3 class="chu-feature-title">Gentle on purpose</h3>
-              <p class="chu-feature-text">Every setting is one tap from the start: the sky can stay still, the chimes can stay off.</p>
+              <h3 class="blip-feature-title">Gentle on purpose</h3>
+              <p class="blip-feature-text">Every setting is one tap from the start: the sky can stay still, the chimes can stay off.</p>
             </div>
-            <ul class="chu-feature-chips" role="list">
-              <li class="chu-box" data-variant="soft" data-tone="neutral">Reduced motion</li>
-              <li class="chu-box" data-variant="soft" data-tone="neutral">Big text</li>
-              <li class="chu-box" data-variant="soft" data-tone="neutral">Screen readers</li>
-              <li class="chu-box" data-variant="soft" data-tone="neutral">Keyboard only</li>
+            <ul class="blip-feature-chips" role="list">
+              <li class="blip-box" data-variant="soft" data-tone="neutral">Reduced motion</li>
+              <li class="blip-box" data-variant="soft" data-tone="neutral">Big text</li>
+              <li class="blip-box" data-variant="soft" data-tone="neutral">Screen readers</li>
+              <li class="blip-box" data-variant="soft" data-tone="neutral">Keyboard only</li>
             </ul>
           </article>
         </div>
       </section>
 
       <section class="tpl-pricing" aria-labelledby="pricing-title">
-        <h2 class="chu-title" id="pricing-title">Pick a plan</h2>
-        <div class="chu-pricing">
+        <h2 class="blip-title" id="pricing-title">Pick a plan</h2>
+        <div class="blip-pricing">
           {plans.map((p) => (
-            <article class="chu-box chu-plan" data-variant={p.featured ? undefined : "panel"} data-featured={p.featured ? "" : undefined} data-tone={p.featured ? "orange" : undefined} aria-labelledby={`plan-${p.id}`}>
-              {p.featured && <p class="chu-box chu-plan-ribbon">Most loved</p>}
-              <h3 class="chu-plan-name" id={`plan-${p.id}`}>{p.name}</h3>
-              <p class="chu-plan-price"><span class="chu-plan-currency">$</span><span class="chu-plan-amount">{p.price}</span><span class="chu-plan-period">{p.period}</span></p>
-              <p class="chu-plan-text">{p.text}</p>
-              <ul class="chu-plan-features" role="list">
+            <article class="blip-box blip-plan" data-variant={p.featured ? undefined : "panel"} data-featured={p.featured ? "" : undefined} data-tone={p.featured ? "orange" : undefined} aria-labelledby={`plan-${p.id}`}>
+              {p.featured && <p class="blip-box blip-plan-ribbon">Most loved</p>}
+              <h3 class="blip-plan-name" id={`plan-${p.id}`}>{p.name}</h3>
+              <p class="blip-plan-price"><span class="blip-plan-currency">$</span><span class="blip-plan-amount">{p.price}</span><span class="blip-plan-period">{p.period}</span></p>
+              <p class="blip-plan-text">{p.text}</p>
+              <ul class="blip-plan-features" role="list">
                 {p.features.map((f) => (Array.isArray(f) ? <li data-off>{f[0]}</li> : <li>{f}</li>))}
               </ul>
-              <button class="chu-box chu-button tpl-plan-button" type="button" data-variant={p.featured ? undefined : "soft"} data-tone={p.featured ? "orange" : undefined} data-width="full" data-plan={p.name}>{p.button}</button>
+              <button class="blip-box blip-button tpl-plan-button" type="button" data-variant={p.featured ? undefined : "soft"} data-tone={p.featured ? "orange" : undefined} data-width="full" data-plan={p.name}>{p.button}</button>
             </article>
           ))}
         </div>
-        <p class="chu-small chu-muted">Prices in US dollars. Cancel whenever you like; your days stay yours.</p>
+        <p class="blip-small blip-muted">Prices in US dollars. Cancel whenever you like; your days stay yours.</p>
       </section>
 
-      <section class="chu-cta" aria-labelledby="cta-title">
-        <chu-world avoid=".chu-cta-title, .chu-cta-text, .chu-cta-actions"></chu-world>
-        <h2 class="chu-cta-title chu-display chu-pop" data-scale="2" data-pop="Tomorrow starts tonight" id="cta-title">Tomorrow starts tonight</h2>
-        <p class="chu-cta-text">Take two minutes before bed to pick tomorrow's one thing. Daybreak will have the sky ready.</p>
-        <div class="chu-cta-actions">
-          <a class="chu-box chu-button" data-size="lg" href="#pricing-title">Plan tomorrow</a>
+      <section class="blip-cta" aria-labelledby="cta-title">
+        <blip-world avoid=".blip-cta-title, .blip-cta-text, .blip-cta-actions"></blip-world>
+        <h2 class="blip-cta-title blip-display blip-pop" data-scale="2" data-pop="Tomorrow starts tonight" id="cta-title">Tomorrow starts tonight</h2>
+        <p class="blip-cta-text">Take two minutes before bed to pick tomorrow's one thing. Daybreak will have the sky ready.</p>
+        <div class="blip-cta-actions">
+          <a class="blip-box blip-button" data-size="lg" href="#pricing-title">Plan tomorrow</a>
         </div>
-        <div class="chu-cta-ground"></div>
+        <div class="blip-cta-ground"></div>
       </section>
     </div>
   </main>
 
-  <footer class="chu-footer tpl-landing-foot">
-    <div class="chu-footer-inner">
-      <div class="chu-footer-brand">
-        <p class="chu-display chu-pop" data-scale="2" data-tone="orange" data-pop="Daybreak">Daybreak</p>
-        <p class="chu-small">A made-up planner, to show a Blip landing page built from the blocks.</p>
+  <footer class="blip-footer tpl-landing-foot">
+    <div class="blip-footer-inner">
+      <div class="blip-footer-brand">
+        <p class="blip-display blip-pop" data-scale="2" data-tone="orange" data-pop="Daybreak">Daybreak</p>
+        <p class="blip-small">A made-up planner, to show a Blip landing page built from the blocks.</p>
       </div>
-      <nav class="chu-footer-nav" aria-label="More from Daybreak">
-        <div class="chu-footer-col">
-          <h2 class="chu-footer-heading">Daybreak</h2>
+      <nav class="blip-footer-nav" aria-label="More from Daybreak">
+        <div class="blip-footer-col">
+          <h2 class="blip-footer-heading">Daybreak</h2>
           <ul role="list"><li><a href="#features-title">Features</a></li><li><a href="#pricing-title">Pricing</a></li><li><a href="#cta-title">Plan tomorrow</a></li></ul>
         </div>
-        <div class="chu-footer-col">
-          <h2 class="chu-footer-heading">Blip</h2>
+        <div class="blip-footer-col">
+          <h2 class="blip-footer-heading">Blip</h2>
           <ul role="list"><li><a href="/templates/">Templates</a></li><li><a href="/components/hero/">The blocks</a></li><li><a href="/start/">Get started</a></li></ul>
         </div>
       </nav>
-      <form class="chu-footer-signup tpl-signup" action="#footer-letter" method="post" aria-labelledby="footer-letter">
-        <h2 class="chu-footer-heading" id="footer-letter">The morning letter</h2>
+      <form class="blip-footer-signup tpl-signup" action="#footer-letter" method="post" aria-labelledby="footer-letter">
+        <h2 class="blip-footer-heading" id="footer-letter">The morning letter</h2>
         <p>One short email a month, with a sky worth seeing.</p>
-        <div class="chu-footer-row">
-          <label class="chu-sr-only" for="footer-email">Email address</label>
-          <span class="chu-box chu-footer-field" data-variant="outline"><input id="footer-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" required /></span>
-          <button class="chu-box chu-button" type="submit">Subscribe</button>
+        <div class="blip-footer-row">
+          <label class="blip-sr-only" for="footer-email">Email address</label>
+          <span class="blip-box blip-footer-field" data-variant="outline"><input id="footer-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" required /></span>
+          <button class="blip-box blip-button" type="submit">Subscribe</button>
         </div>
       </form>
     </div>
-    <div class="chu-footer-legal">
+    <div class="blip-footer-legal">
       <p>Daybreak is made up for this Blip template. Blip is MIT; its fonts are SIL OFL.</p>
       <ul role="list"><li><a href="/templates/">Back to the docs</a></li></ul>
     </div>
   </footer>
-  <chu-toaster data-side="bottom" data-align="center"></chu-toaster>
+  <blip-toaster data-side="bottom" data-align="center"></blip-toaster>
 </Template>

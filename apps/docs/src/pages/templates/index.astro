@@ -6,13 +6,13 @@ import Pager from "../../components/Pager.astro";
 import { TEMPLATES } from "../../lib/nav";
 const parts: Record<string, string> = {
   dashboard: "App bar, sidebar, bottom bar, breadcrumbs, segmented control, stats, progress bars, a sortable table, avatars, tags, a menu and toasts. The bar chart is the template's own CSS: there is no chart component yet.",
-  landing: "Hero, features, pricing, call to action and footer from @jaatster/blip-blocks, on the world from @jaatster/blip-effects.",
+  landing: "Hero, features, pricing, call to action and footer from @blip/blocks, on the world from @blip/effects.",
   game: "The world, POP and drop-in letters, a press-start prompt, choices, a window of options, the HUD, a talking dialogue and the pause menu.",
 };
 ---
 <Docs title="Templates" description="Three whole screens built from Blip: a dashboard, a landing page and a game menu." styles={["templates"]} headings={TEMPLATES.map((t) => ({ depth: 2, id: t.slug, text: t.title }))}>
   <header class="docs-page-head">
-    <h1 class="docs-page-title chu-display" data-scale="2">Templates</h1>
+    <h1 class="docs-page-title blip-display" data-scale="2">Templates</h1>
     <p class="docs-lede">Three whole screens made of Blip parts, with only their layout as page CSS (and, on the dashboard, a bar chart). Each runs live below at its real size; open one to use it full screen. Their markup is the place to start your own.</p>
   </header>
   <div class="tpl-index">
@@ -21,10 +21,10 @@ const parts: Record<string, string> = {
         <div class="tpl-index-text">
           <h2 id={t.slug}><Icon name={t.icon!} /> {t.title}</h2>
           <p>{t.blurb}</p>
-          <p class="chu-small chu-muted">{parts[t.slug]}</p>
-          <a class="chu-box chu-button" href={t.url} data-size="sm"><Icon name="maximize" />Open full screen</a>
+          <p class="blip-small blip-muted">{parts[t.slug]}</p>
+          <a class="blip-box blip-button" href={t.url} data-size="sm"><Icon name="maximize" />Open full screen</a>
         </div>
-        <div class="chu-box tpl-preview" data-variant="panel">
+        <div class="blip-box tpl-preview" data-variant="panel">
           <iframe src={t.url} title={`${t.title}, a live preview`} loading="lazy" tabindex="-1" inert></iframe>
         </div>
       </section>

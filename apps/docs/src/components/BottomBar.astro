@@ -5,12 +5,12 @@ import { SECTIONS, sectionOf } from "../lib/nav";
 const path = Astro.url.pathname;
 const current = sectionOf(path);
 ---
-<nav class="chu-box chu-bottom-bar docs-bottom-bar" aria-label="Sections" data-collapse="auto">
-  <ul class="chu-bottom-bar-list" role="list">
+<nav class="blip-box blip-bottom-bar docs-bottom-bar" aria-label="Sections" data-collapse="auto">
+  <ul class="blip-bottom-bar-list" role="list">
     {SECTIONS.map((s) => (
       <li>
-        <a class="chu-box chu-bottom-bar-item" data-variant="ghost" href={s.url} aria-current={path === s.url ? "page" : current?.id === s.id ? "true" : undefined}>
-          <Icon name={s.icon} /><span class="chu-bottom-bar-label">{s.short}</span>
+        <a class="blip-box blip-bottom-bar-item" data-variant="ghost" href={s.url} aria-current={path === s.url ? "page" : current?.id === s.id ? "true" : undefined}>
+          <Icon name={s.icon} /><span class="blip-bottom-bar-label">{s.short}</span>
         </a>
       </li>
     ))}

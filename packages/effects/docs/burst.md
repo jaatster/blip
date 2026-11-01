@@ -1,6 +1,6 @@
 ---
 name: Burst
-package: "@jaatster/blip-effects"
+package: "@blip/effects"
 css: null
 element: null
 react: null
@@ -15,12 +15,12 @@ level cleared, a coin collected.
 ## Usage
 
 ```html
-<button class="chu-box chu-button" data-chu-burst="coin">Collect</button>
-<button class="chu-box chu-button" data-chu-burst="confetti" data-chu-burst-count="24">Celebrate</button>
+<button class="blip-box blip-button" data-blip-burst="coin">Collect</button>
+<button class="blip-box blip-button" data-blip-burst="confetti" data-blip-burst-count="24">Celebrate</button>
 ```
 
 ```js
-import { burst } from "@jaatster/blip-effects/burst";
+import { burst } from "@blip/effects/burst";
 await burst(button, { kind: "star", count: 8 });
 ```
 
@@ -60,4 +60,4 @@ words too (a toast, a live region).
 | | |
 |---|---|
 | `burst(target, { kind, count, signal })` | Returns a promise that resolves when the last sprite has gone. |
-| `data-chu-burst="<kind>"`, `data-chu-burst-count` | Bursts on click, with no script of your own (load the module once). |
+| `data-blip-burst="<kind>"`, `data-blip-burst-count` | Bursts on click, with no script of your own (load the module once). |

@@ -3,126 +3,126 @@
  * sitting in. A panel that sticks to the bottom of the screen, clear of the home indicator. In a wide shell it steps
  * aside for the sidebar and the app bar.
  *
- *   <nav class="chu-box chu-bottom-bar" aria-label="Main" data-collapse="auto">
- *     <ul class="chu-bottom-bar-list" role="list">
- *       <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="/" aria-current="page">
- *         <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
- *         <span class="chu-bottom-bar-label">Home</span></a></li>
- *       <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="/inbox">
- *         <svg class="chu-icon" …></svg><span class="chu-bottom-bar-label">Inbox</span>
- *         <span class="chu-box chu-bottom-bar-badge" data-tone="danger">3<span class="chu-sr-only"> new</span></span></a></li>
+ *   <nav class="blip-box blip-bottom-bar" aria-label="Main" data-collapse="auto">
+ *     <ul class="blip-bottom-bar-list" role="list">
+ *       <li><a class="blip-box blip-bottom-bar-item" data-variant="ghost" href="/" aria-current="page">
+ *         <svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+ *         <span class="blip-bottom-bar-label">Home</span></a></li>
+ *       <li><a class="blip-box blip-bottom-bar-item" data-variant="ghost" href="/inbox">
+ *         <svg class="blip-icon" …></svg><span class="blip-bottom-bar-label">Inbox</span>
+ *         <span class="blip-box blip-bottom-bar-badge" data-tone="danger">3<span class="blip-sr-only"> new</span></span></a></li>
  *     </ul>
  *   </nav>
  *
  *   aria-current="page"   the destination you are on: sits in, ink label. aria-current="true" (a page inside that
  *                         destination's section) looks the same.
- *   .chu-bottom-bar-badge  a count on an item's icon; empty or data-dot: a dot. data-tone colours it.
- *   data-collapse="auto"  hidden when the chu-shell container (container: chu-shell / inline-size) is 600 px or wider
+ *   .blip-bottom-bar-badge  a count on an item's icon; empty or data-dot: a dot. data-tone colours it.
+ *   data-collapse="auto"  hidden when the blip-shell container (container: blip-shell / inline-size) is 600 px or wider
  */
 
-@layer chu.components {
-  .chu-bottom-bar {
-    --chu-r: 5;
-    --chu-shape: var(--chu-shape-5);
-    --chu-shape-inner: var(--chu-shape-5-inner);
-    --chu-box-top: var(--chu-surface);
-    --chu-box-fill: var(--chu-surface);
-    --chu-box-bottom: var(--chu-surface);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
+@layer blip.components {
+  .blip-bottom-bar {
+    --blip-r: 5;
+    --blip-shape: var(--blip-shape-5);
+    --blip-shape-inner: var(--blip-shape-5-inner);
+    --blip-box-top: var(--blip-surface);
+    --blip-box-fill: var(--blip-surface);
+    --blip-box-bottom: var(--blip-surface);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
 
     position: sticky;
-    inset-block-end: calc(var(--chu-space-3) + env(safe-area-inset-bottom, 0px));
-    z-index: var(--chu-layer-sticky);
+    inset-block-end: calc(var(--blip-space-3) + env(safe-area-inset-bottom, 0px));
+    z-index: var(--blip-layer-sticky);
     display: block;
-    margin: var(--chu-space-3);
-    margin-inline-end: calc(var(--chu-space-3) + var(--chu-pixel));
-    padding: var(--chu-space-2);
-    font-family: var(--chu-font-ui);
+    margin: var(--blip-space-3);
+    margin-inline-end: calc(var(--blip-space-3) + var(--blip-pixel));
+    padding: var(--blip-space-2);
+    font-family: var(--blip-font-ui);
   }
 
   /* Each destination takes its label's width and an even share of the room left over, so a long label gets room a
      short one does not need. When five do not fit even so, the short labels keep their width and the long ones
      share what is left, cut short with an ellipsis as the last resort. */
-  .chu-bottom-bar-list {
+  .blip-bottom-bar-list {
     display: grid;
     grid-auto-flow: column;
-    gap: var(--chu-space-2);
+    gap: var(--blip-space-2);
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  .chu-bottom-bar-list > li {
+  .blip-bottom-bar-list > li {
     display: flex;
     min-inline-size: 0;
   }
 
-  .chu-bottom-bar-item {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
+  .blip-bottom-bar-item {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--chu-space-1);
+    gap: var(--blip-space-1);
     inline-size: 100%;
-    min-block-size: calc(26 * var(--chu-pixel));
-    padding: var(--chu-space-2) var(--chu-space-1);
-    font-size: var(--chu-size-caption);
-    font-weight: var(--chu-weight-bold);
+    min-block-size: calc(26 * var(--blip-pixel));
+    padding: var(--blip-space-2) var(--blip-space-1);
+    font-size: var(--blip-size-caption);
+    font-weight: var(--blip-weight-bold);
     line-height: 1;
     /* Set tight, without the labels' half-pixel tracking: five have to fit across a 320 px phone. */
-    letter-spacing: var(--chu-tracking-none);
+    letter-spacing: var(--blip-tracking-none);
     text-transform: uppercase;
     text-decoration: none;
   }
-  .chu-bottom-bar-item:not([aria-current]:not([aria-current="false"])) { --chu-box-text: var(--chu-text-muted); }
-  .chu-bottom-bar-label {
+  .blip-bottom-bar-item:not([aria-current]:not([aria-current="false"])) { --blip-box-text: var(--blip-text-muted); }
+  .blip-bottom-bar-label {
     max-inline-size: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .chu-bottom-bar-badge {
-    --chu-r: 2;
-    --chu-shape: var(--chu-shape-2);
-    --chu-shape-inner: var(--chu-shape-2-inner);
-    --chu-band-top: 1;
-    --chu-band-bottom: 1;
-    --chu-drop-size: 0;
+  .blip-bottom-bar-badge {
+    --blip-r: 2;
+    --blip-shape: var(--blip-shape-2);
+    --blip-shape-inner: var(--blip-shape-2-inner);
+    --blip-band-top: 1;
+    --blip-band-bottom: 1;
+    --blip-drop-size: 0;
 
     position: absolute;
-    inset-block-start: var(--chu-space-1);
-    inset-inline-start: calc(50% + var(--chu-space-3));
+    inset-block-start: var(--blip-space-1);
+    inset-inline-start: calc(50% + var(--blip-space-3));
     display: grid;
     place-items: center;
     /* Ten pixels, or 5/3 of its text size if that is more (a bigger default text size), so the count fits. */
-    --_chu-badge-size: max(calc(10 * var(--chu-pixel)), round(up, calc(5 / 3) * var(--chu-size-caption), var(--chu-pixel)));
-    min-inline-size: var(--_chu-badge-size);
-    block-size: var(--_chu-badge-size);
-    padding: 0 var(--chu-space-2);
+    --_blip-badge-size: max(calc(10 * var(--blip-pixel)), round(up, calc(5 / 3) * var(--blip-size-caption), var(--blip-pixel)));
+    min-inline-size: var(--_blip-badge-size);
+    block-size: var(--_blip-badge-size);
+    padding: 0 var(--blip-space-2);
     letter-spacing: 0;
     font-variant-numeric: tabular-nums;
   }
-  .chu-bottom-bar-badge:is(:empty, [data-dot]) {
-    --chu-r: 1;
-    --chu-shape: var(--chu-shape-1);
-    --chu-shape-inner: var(--chu-shape-1-inner);
+  .blip-bottom-bar-badge:is(:empty, [data-dot]) {
+    --blip-r: 1;
+    --blip-shape: var(--blip-shape-1);
+    --blip-shape-inner: var(--blip-shape-1-inner);
     min-inline-size: 0;
-    inline-size: calc(6 * var(--chu-pixel));
-    block-size: calc(6 * var(--chu-pixel));
+    inline-size: calc(6 * var(--blip-pixel));
+    block-size: calc(6 * var(--blip-pixel));
     padding: 0;
   }
 
-  @container chu-shell (width >= 600px) {
-    .chu-bottom-bar[data-collapse="auto"] { display: none; }
+  @container blip-shell (width >= 600px) {
+    .blip-bottom-bar[data-collapse="auto"] { display: none; }
   }
 
   @media (forced-colors: active) {
-    .chu-bottom-bar-item { border-color: Canvas; }
-    .chu-bottom-bar-item[aria-current]:not([aria-current="false"]) { border-color: CanvasText; }
+    .blip-bottom-bar-item { border-color: Canvas; }
+    .blip-bottom-bar-item[aria-current]:not([aria-current="false"]) { border-color: CanvasText; }
   }
 }

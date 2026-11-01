@@ -4,7 +4,7 @@
  */
 import { describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
-import { rovingFocus, type RovingOptions } from "@jaatster/blip-core";
+import { rovingFocus, type RovingOptions } from "@blip/core";
 import { focused, mount, press } from "../support/dom.ts";
 
 /** A group of buttons named by their text, with rovingFocus on it. */

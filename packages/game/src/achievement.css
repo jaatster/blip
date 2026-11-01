@@ -2,86 +2,86 @@
  * Achievement. A toast for something earned: a trophy in a dark well, what it is called and what it was for. It
  * slides in four pixel steps, bumps, and a sparkle flares on the trophy a few times.
  *
- *   <div class="chu-achievements" role="status">
- *     <div class="chu-box chu-achievement">
- *       <span class="chu-box chu-achievement-icon"><chu-sprite name="trophy"></chu-sprite><span class="chu-achievement-sparkles"></span></span>
- *       <p class="chu-achievement-label">Achievement unlocked</p>
- *       <p class="chu-achievement-title">Early bird</p>
- *       <p class="chu-achievement-text">Catch a falling star before sunrise.</p>
+ *   <div class="blip-achievements" role="status">
+ *     <div class="blip-box blip-achievement">
+ *       <span class="blip-box blip-achievement-icon"><blip-sprite name="trophy"></blip-sprite><span class="blip-achievement-sparkles"></span></span>
+ *       <p class="blip-achievement-label">Achievement unlocked</p>
+ *       <p class="blip-achievement-title">Early bird</p>
+ *       <p class="blip-achievement-text">Catch a falling star before sunrise.</p>
  *     </div>
  *   </div>
  *
- *   .chu-achievements      a stack for toasts, and the polite live region they are announced from (role="status")
+ *   .blip-achievements      a stack for toasts, and the polite live region they are announced from (role="status")
  *   data-tone             slate by default; any tone
- *   .chu-achievement-reward  an extra line: a coin and an amount
+ *   .blip-achievement-reward  an extra line: a coin and an amount
  *
  * Add a toast to the region to show it; take it away after a few seconds. The motion plays once and stops; reduced
  * motion shows it in place.
  */
 
-@layer chu.kits {
-  .chu-achievements {
+@layer blip.kits {
+  .blip-achievements {
     display: grid;
     justify-items: end;
-    gap: calc(4 * var(--chu-pixel));
+    gap: calc(4 * var(--blip-pixel));
   }
 
-  .chu-achievement {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
-    --chu-band-top: 3;
-    --chu-band-bottom: 3;
+  .blip-achievement {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
+    --blip-band-top: 3;
+    --blip-band-bottom: 3;
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
-    column-gap: calc(7 * var(--chu-pixel));
-    inline-size: min(100%, calc(196 * var(--chu-pixel)));
-    padding-block: calc(6 * var(--chu-pixel)) calc(7 * var(--chu-pixel));
-    padding-inline: calc(6 * var(--chu-pixel)) calc(10 * var(--chu-pixel));
-    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
+    column-gap: calc(7 * var(--blip-pixel));
+    inline-size: min(100%, calc(196 * var(--blip-pixel)));
+    padding-block: calc(6 * var(--blip-pixel)) calc(7 * var(--blip-pixel));
+    padding-inline: calc(6 * var(--blip-pixel)) calc(10 * var(--blip-pixel));
+    margin: 0 var(--blip-pixel) var(--blip-pixel) 0;
     text-align: start;
     animation:
-      chu-achievement-in calc(4 * var(--chu-duration-frame)) var(--chu-ease-4) both,
-      chu-bump calc(3 * var(--chu-duration-frame)) steps(1, jump-end) calc(4 * var(--chu-duration-frame));
+      blip-achievement-in calc(4 * var(--blip-duration-frame)) var(--blip-ease-4) both,
+      blip-bump calc(3 * var(--blip-duration-frame)) steps(1, jump-end) calc(4 * var(--blip-duration-frame));
   }
-  .chu-achievement:not([data-tone]) {
-    --chu-tone: var(--chu-candy-slate);
-    --chu-tone-light: var(--chu-candy-slate-light);
-    --chu-tone-shade: var(--chu-candy-slate-shade);
-    --chu-tone-on: var(--chu-white);
+  .blip-achievement:not([data-tone]) {
+    --blip-tone: var(--blip-candy-slate);
+    --blip-tone-light: var(--blip-candy-slate-light);
+    --blip-tone-shade: var(--blip-candy-slate-shade);
+    --blip-tone-on: var(--blip-white);
   }
-  .chu-achievement > p { margin: 0; grid-column: 2; }
+  .blip-achievement > p { margin: 0; grid-column: 2; }
 
   /* A dark well for the trophy: square-ish, no drop, no glints. */
-  .chu-achievement-icon {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
-    --chu-band-top: 2;
-    --chu-band-bottom: 0;
-    --chu-drop-size: 0;
-    --chu-box-top: var(--chu-ink);
-    --chu-box-fill: var(--chu-candy-slate-shade);
-    --chu-box-bottom: var(--chu-candy-slate-shade);
-    --chu-box-glint: transparent;
+  .blip-achievement-icon {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
+    --blip-band-top: 2;
+    --blip-band-bottom: 0;
+    --blip-drop-size: 0;
+    --blip-box-top: var(--blip-ink);
+    --blip-box-fill: var(--blip-candy-slate-shade);
+    --blip-box-bottom: var(--blip-candy-slate-shade);
+    --blip-box-glint: transparent;
     display: grid;
     place-items: center;
     grid-row: 1 / span 4;
-    inline-size: calc(23 * var(--chu-pixel));
-    block-size: calc(23 * var(--chu-pixel));
+    inline-size: calc(23 * var(--blip-pixel));
+    block-size: calc(23 * var(--blip-pixel));
   }
-  .chu-achievement-icon > * { grid-area: 1 / 1; }
+  .blip-achievement-icon > * { grid-area: 1 / 1; }
 
   /* Two sparkles: small, big, small, gone, after the toast has landed; three times, then rest. */
-  .chu-achievement-sparkles {
+  .blip-achievement-sparkles {
     position: absolute;
     inset: 0;
     pointer-events: none;
   }
-  .chu-achievement-sparkles::before,
-  .chu-achievement-sparkles::after {
-    --_p: var(--chu-pixel);
+  .blip-achievement-sparkles::before,
+  .blip-achievement-sparkles::after {
+    --_p: var(--blip-pixel);
     content: "";
     position: absolute;
     inline-size: calc(5 * var(--_p));
@@ -89,58 +89,58 @@
     inset-block-start: calc(-2 * var(--_p));
     inset-inline-end: calc(-2 * var(--_p));
     background:
-      linear-gradient(var(--chu-white) 0 0) calc(2 * var(--_p)) calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
-      linear-gradient(var(--chu-candy-yellow-light) 0 0) calc(2 * var(--_p)) var(--_p) / var(--_p) calc(3 * var(--_p)) no-repeat,
-      linear-gradient(var(--chu-candy-yellow-light) 0 0) var(--_p) calc(2 * var(--_p)) / calc(3 * var(--_p)) var(--_p) no-repeat;
-    animation: chu-achievement-sparkle calc(30 * var(--chu-duration-frame)) steps(1, jump-end) calc(7 * var(--chu-duration-frame)) 3 both;
+      linear-gradient(var(--blip-white) 0 0) calc(2 * var(--_p)) calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--blip-candy-yellow-light) 0 0) calc(2 * var(--_p)) var(--_p) / var(--_p) calc(3 * var(--_p)) no-repeat,
+      linear-gradient(var(--blip-candy-yellow-light) 0 0) var(--_p) calc(2 * var(--_p)) / calc(3 * var(--_p)) var(--_p) no-repeat;
+    animation: blip-achievement-sparkle calc(30 * var(--blip-duration-frame)) steps(1, jump-end) calc(7 * var(--blip-duration-frame)) 3 both;
   }
-  .chu-achievement-sparkles::after {
+  .blip-achievement-sparkles::after {
     inset: auto auto calc(1 * var(--_p)) calc(-3 * var(--_p));
-    animation-delay: calc(19 * var(--chu-duration-frame));
+    animation-delay: calc(19 * var(--blip-duration-frame));
   }
 
-  .chu-achievement-label {
-    font-family: var(--chu-font-display);
-    font-size: calc(10 * var(--chu-pixel));
+  .blip-achievement-label {
+    font-family: var(--blip-font-display);
+    font-size: calc(10 * var(--blip-pixel));
     line-height: 1.2;
     text-transform: uppercase;
     font-synthesis: none;
     -webkit-font-smoothing: none;
   }
-  .chu-achievement:not([data-tone]) .chu-achievement-label { color: var(--chu-candy-orange-light); }
-  .chu-achievement-title {
-    font-size: var(--chu-size-body);
-    font-weight: var(--chu-weight-bold);
-    line-height: var(--chu-leading-tight);
+  .blip-achievement:not([data-tone]) .blip-achievement-label { color: var(--blip-candy-orange-light); }
+  .blip-achievement-title {
+    font-size: var(--blip-size-body);
+    font-weight: var(--blip-weight-bold);
+    line-height: var(--blip-leading-tight);
   }
   /* Two pixels under the title, the system's gap inside a tight group, so the two lines never crowd. */
-  .chu-achievement > .chu-achievement-text {
-    margin-block-start: calc(2 * var(--chu-pixel));
-    font-size: var(--chu-size-small);
-    line-height: var(--chu-leading-tight);
+  .blip-achievement > .blip-achievement-text {
+    margin-block-start: calc(2 * var(--blip-pixel));
+    font-size: var(--blip-size-small);
+    line-height: var(--blip-leading-tight);
   }
-  .chu-achievement:not([data-tone]) .chu-achievement-text { color: var(--chu-candy-cream-shade); }
-  .chu-achievement > .chu-achievement-reward {
+  .blip-achievement:not([data-tone]) .blip-achievement-text { color: var(--blip-candy-cream-shade); }
+  .blip-achievement > .blip-achievement-reward {
     display: inline-flex;
     align-items: center;
-    gap: calc(2 * var(--chu-pixel));
-    margin-block-start: calc(2 * var(--chu-pixel));
-    font-family: var(--chu-font-display);
-    font-size: calc(10 * var(--chu-pixel));
+    gap: calc(2 * var(--blip-pixel));
+    margin-block-start: calc(2 * var(--blip-pixel));
+    font-family: var(--blip-font-display);
+    font-size: calc(10 * var(--blip-pixel));
     line-height: 1.2;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-achievement, .chu-achievement-sparkles::before, .chu-achievement-sparkles::after { animation: none; }
+    .blip-achievement, .blip-achievement-sparkles::before, .blip-achievement-sparkles::after { animation: none; }
   }
   @media (forced-colors: active), print {
-    .chu-achievement-sparkles { display: none; }
+    .blip-achievement-sparkles { display: none; }
   }
 }
 
-@keyframes chu-achievement-in { from { translate: calc(24 * var(--chu-pixel)) 0; } to { translate: 0 0; } }
+@keyframes blip-achievement-in { from { translate: calc(24 * var(--blip-pixel)) 0; } to { translate: 0 0; } }
 /* Small for three frames, big for nine, small for three, then gone until the next flare. */
-@keyframes chu-achievement-sparkle {
+@keyframes blip-achievement-sparkle {
   0% {
     opacity: 1;
     background-size: var(--_p) var(--_p), var(--_p) calc(3 * var(--_p)), calc(3 * var(--_p)) var(--_p);

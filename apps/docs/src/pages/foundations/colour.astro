@@ -34,11 +34,11 @@ const inks = [
 const neutrals = ["ink-soft", "white"];
 const deeps = ["deep-1", "deep-2", "deep-3", "deep-4", "deep-5"];
 const inkSwatch = (i: (typeof inks)[number]) =>
-  `<div class="docs-neutral"><span class="docs-neutral-swatch" data-chu-scheme="${i.scheme}" style="background:var(--chu-ink)"></span><button class="docs-chip docs-copy" type="button" data-copy="var(--chu-ink)" title="Copy var(--chu-ink)"><span class="docs-dot" data-chu-scheme="${i.scheme}" style="background:var(--chu-ink)"></span><span>${esc(i.label)}</span><span class="docs-hex">${esc(i.value)}</span></button></div>`;
+  `<div class="docs-neutral"><span class="docs-neutral-swatch" data-blip-scheme="${i.scheme}" style="background:var(--blip-ink)"></span><button class="docs-chip docs-copy" type="button" data-copy="var(--blip-ink)" title="Copy var(--blip-ink)"><span class="docs-dot" data-blip-scheme="${i.scheme}" style="background:var(--blip-ink)"></span><span>${esc(i.label)}</span><span class="docs-hex">${esc(i.value)}</span></button></div>`;
 
 // The palettes, each with the pairs the build checks in it. Candy, the default, is set by having none: its card
 // carries Candy's own colours, so it shows Candy whatever palette the site is in.
-const candyVars = Object.entries(t.shared).filter(([k]) => k.startsWith("palette-") || k.startsWith("world-night-")).map(([k, v]) => `--chu-${k}:${v}`).join(";");
+const candyVars = Object.entries(t.shared).filter(([k]) => k.startsWith("palette-") || k.startsWith("world-night-")).map(([k, v]) => `--blip-${k}:${v}`).join(";");
 const paletteCards = palettes().map((p) => {
   const list = checkedPairs(p.id);
   const closest = [...list].sort((a, b) => a.ratio / a.min - b.ratio / b.min)[0]!;
@@ -46,8 +46,8 @@ const paletteCards = palettes().map((p) => {
 });
 const roleNames = Object.keys(t.schemes.day).filter((k) => !k.startsWith("scene-"));
 const roleRows = roleNames.map((r) => [
-  code(`--chu-${r}`),
-  ...SCHEMES.map((s) => `<span class="docs-role-cell"><span class="docs-dot" data-chu-scheme="${s.id}" style="background:var(--chu-${r})"></span><span class="docs-hex">${esc(t.schemes[s.id][r])}</span></span>`),
+  code(`--blip-${r}`),
+  ...SCHEMES.map((s) => `<span class="docs-role-cell"><span class="docs-dot" data-blip-scheme="${s.id}" style="background:var(--blip-${r})"></span><span class="docs-hex">${esc(t.schemes[s.id][r])}</span></span>`),
   esc(desc.get(r) ?? ""),
 ]);
 
@@ -55,8 +55,8 @@ const checked = checkedPairs();
 const byLabel = new Map<string, typeof checked>();
 for (const p of checked) byLabel.set(p.label, [...(byLabel.get(p.label) ?? []), p]);
 const pairRows = [...byLabel.entries()].map(([label, list]) => [
-  esc(label) + `<br><span class="chu-muted chu-small">${code(`--chu-${list[0]!.fg}`)} on ${code(`--chu-${list[0]!.bg}`)}</span><br><span class="chu-small">${esc(list[0]!.why)}</span>`,
-  ...list.map((p) => `<span class="docs-ratio" data-pass="${p.pass}"><span class="docs-aa" data-chu-scheme="${p.scheme}" style="color:var(--chu-${p.fg});background:var(--chu-${p.bg})">Aa</span>${ratio(p.ratio)}</span>`),
+  esc(label) + `<br><span class="blip-muted blip-small">${code(`--blip-${list[0]!.fg}`)} on ${code(`--blip-${list[0]!.bg}`)}</span><br><span class="blip-small">${esc(list[0]!.why)}</span>`,
+  ...list.map((p) => `<span class="docs-ratio" data-pass="${p.pass}"><span class="docs-aa" data-blip-scheme="${p.scheme}" style="color:var(--blip-${p.fg});background:var(--blip-${p.bg})">Aa</span>${ratio(p.ratio)}</span>`),
   `${list[0]!.min}:1`,
 ]);
 const total = checked.length;
@@ -80,8 +80,8 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
 ---
 <Docs styles={["foundations"]} scripts={["foundations"]} title="Colour" description="Blip's colour, from its tokens: ten candies with light and shade, ink, twelve palettes, the scheme roles with contrast ratios, and the world palettes." headings={[H("candy", "Candy"), H("ink", "Ink"), H("palettes", "Palettes"), H("schemes", "Three schemes"), H("contrast", "Every pair, checked"), H("roles", "Scheme roles"), H("world", "World palettes")]}>
   <header class="docs-page-head">
-    <h1 class="docs-page-title chu-display" data-scale="2">Colour</h1>
-    <p class="docs-lede">Three layers: primitives (ink, ten candies, the world), roles per scheme (page, surfaces, text, intents), and component tokens on top. Components only ever use roles, so a scheme or a theme changes everything at once. Everything on this page is read from <code class="docs-inline-code">@jaatster/blip-tokens</code>.</p>
+    <h1 class="docs-page-title blip-display" data-scale="2">Colour</h1>
+    <p class="docs-lede">Three layers: primitives (ink, ten candies, the world), roles per scheme (page, surfaces, text, intents), and component tokens on top. Components only ever use roles, so a scheme or a theme changes everything at once. Everything on this page is read from <code class="docs-inline-code">@blip/tokens</code>.</p>
   </header>
 
   <section class="docs-section" aria-labelledby="candy">
@@ -90,14 +90,14 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     <div class="docs-candies">
       {CANDIES.map(([id, name, use]) => (
         <figure class="docs-candy">
-          <div class="chu-box docs-candy-box" data-tone={id === "cream" ? "neutral" : id} aria-hidden="true"></div>
+          <div class="blip-box docs-candy-box" data-tone={id === "cream" ? "neutral" : id} aria-hidden="true"></div>
           <figcaption>
             <span class="docs-candy-name">{name}</span>
             <span class="docs-candy-use">{use}</span>
             <span class="docs-candy-values" set:html={[
-              swatchCopy(`--chu-candy-${id}-light`, "Light", hex(`candy-${id}-light`)),
-              swatchCopy(`--chu-candy-${id}`, "Base", hex(`candy-${id}`)),
-              swatchCopy(`--chu-candy-${id}-shade`, "Shade", hex(`candy-${id}-shade`)),
+              swatchCopy(`--blip-candy-${id}-light`, "Light", hex(`candy-${id}-light`)),
+              swatchCopy(`--blip-candy-${id}`, "Base", hex(`candy-${id}`)),
+              swatchCopy(`--blip-candy-${id}-shade`, "Shade", hex(`candy-${id}-shade`)),
             ].join("")} />
           </figcaption>
         </figure>
@@ -108,36 +108,36 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
   <section class="docs-section" aria-labelledby="ink">
     <h2 id="ink">Ink</h2>
     <p>Ink is the darkest colour there is: every outline, drop and piece of dark text, in every scheme. Black is never used. By Day and at Sunset it is a deep violet; at Night it is the palette's own, a step darker than its page, so outlines and drops still read on it.</p>
-    <div class="docs-neutrals" set:html={[...inks.map(inkSwatch), ...neutrals.map((n) => `<div class="docs-neutral"><span class="docs-neutral-swatch" style="background:var(--chu-${n})"></span>${swatchCopy(`--chu-${n}`, n, hex(n))}</div>`)].join("")} />
+    <div class="docs-neutrals" set:html={[...inks.map(inkSwatch), ...neutrals.map((n) => `<div class="docs-neutral"><span class="docs-neutral-swatch" style="background:var(--blip-${n})"></span>${swatchCopy(`--blip-${n}`, n, hex(n))}</div>`)].join("")} />
     <p>The deep indigos were the TV's Night. They are the Grape palette's page now.</p>
-    <div class="docs-neutrals" set:html={deeps.map((n) => `<div class="docs-neutral"><span class="docs-neutral-swatch" style="background:var(--chu-${n})"></span>${swatchCopy(`--chu-${n}`, n, hex(n))}</div>`).join("")} />
+    <div class="docs-neutrals" set:html={deeps.map((n) => `<div class="docs-neutral"><span class="docs-neutral-swatch" style="background:var(--blip-${n})"></span>${swatchCopy(`--blip-${n}`, n, hex(n))}</div>`).join("")} />
   </section>
 
   <section class="docs-section" aria-labelledby="palettes">
     <h2 id="palettes">Palettes</h2>
-    <p>A palette is the accent of each time of day and Night's page: its surfaces, text, lines, ink, accent and night sky. Set <code class="docs-inline-code">data-chu-palette</code> on <code class="docs-inline-code">&lt;html&gt;</code> with <code class="docs-inline-code">@jaatster/blip-tokens/palettes.css</code> loaded; with none set, the palette is Candy. Each of them passes the same {paletteCards[0]?.pairs} checks as Candy. Try one on this whole site, here or from the palette menu at the top, and make your own on the <a href="/theme/">palette maker</a>.</p>
+    <p>A palette is the accent of each time of day and Night's page: its surfaces, text, lines, ink, accent and night sky. Set <code class="docs-inline-code">data-blip-palette</code> on <code class="docs-inline-code">&lt;html&gt;</code> with <code class="docs-inline-code">@blip/tokens/palettes.css</code> loaded; with none set, the palette is Candy. Each of them passes the same {paletteCards[0]?.pairs} checks as Candy. Try one on this whole site, here or from the palette menu at the top, and make your own on the <a href="/theme/">palette maker</a>.</p>
     <ul class="docs-palettes" role="list">
       {paletteCards.map((p) => (
-        <li class="chu-box docs-palette-card" data-variant="panel">
+        <li class="blip-box docs-palette-card" data-variant="panel">
           <div class="docs-palette-stages" style={p.default ? candyVars : undefined} aria-hidden="true">
-            <div class="docs-palette-stage" data-chu-scheme="night" data-chu-palette={p.default ? undefined : p.id}>
-              <span class="chu-box chu-button" data-size="sm">Play</span>
-              <span class="chu-box chu-tag" data-size="sm">Rare</span>
-              <span class="docs-palette-words">Starlight <span class="chu-muted">and muted</span> <span class="docs-palette-link">a link</span></span>
+            <div class="docs-palette-stage" data-blip-scheme="night" data-blip-palette={p.default ? undefined : p.id}>
+              <span class="blip-box blip-button" data-size="sm">Play</span>
+              <span class="blip-box blip-tag" data-size="sm">Rare</span>
+              <span class="docs-palette-words">Starlight <span class="blip-muted">and muted</span> <span class="docs-palette-link">a link</span></span>
             </div>
             {(["day", "sunset"] as const).map((s) => (
-              <div class="docs-palette-stage" data-chu-scheme={s} data-chu-palette={p.default ? undefined : p.id}>
-                <span class="chu-box chu-button" data-size="sm">{s === "day" ? "Day" : "Sunset"}</span>
+              <div class="docs-palette-stage" data-blip-scheme={s} data-blip-palette={p.default ? undefined : p.id}>
+                <span class="blip-box blip-button" data-size="sm">{s === "day" ? "Day" : "Sunset"}</span>
               </div>
             ))}
           </div>
-          <h3 class="docs-palette-name">{p.name}{p.default && <span class="chu-box chu-tag" data-size="sm" data-tone="neutral">Default</span>}</h3>
-          <p class="chu-small">{p.description}</p>
-          {p.credit && <p class="chu-caption chu-muted">{p.credit}</p>}
-          <p class="chu-caption chu-muted">{p.pass ? `All ${p.pairs} pairs pass` : `${p.pairs} pairs, some under AA`}; the closest, {p.closest.label.toLowerCase()} at {SCHEMES.find((s) => s.id === p.closest.scheme)!.title}, is {ratio(p.closest.ratio)}.</p>
+          <h3 class="docs-palette-name">{p.name}{p.default && <span class="blip-box blip-tag" data-size="sm" data-tone="neutral">Default</span>}</h3>
+          <p class="blip-small">{p.description}</p>
+          {p.credit && <p class="blip-caption blip-muted">{p.credit}</p>}
+          <p class="blip-caption blip-muted">{p.pass ? `All ${p.pairs} pairs pass` : `${p.pairs} pairs, some under AA`}; the closest, {p.closest.label.toLowerCase()} at {SCHEMES.find((s) => s.id === p.closest.scheme)!.title}, is {ratio(p.closest.ratio)}.</p>
           <div class="docs-palette-actions">
-            <button class="chu-box chu-button" type="button" data-variant="outline" data-size="sm" data-docs-palette={p.id} aria-pressed={p.default ? "true" : "false"}>Use {p.name}</button>
-            {!p.default && <code class="docs-inline-code">data-chu-palette="{p.id}"</code>}
+            <button class="blip-box blip-button" type="button" data-variant="outline" data-size="sm" data-docs-palette={p.id} aria-pressed={p.default ? "true" : "false"}>Use {p.name}</button>
+            {!p.default && <code class="docs-inline-code">data-blip-palette="{p.id}"</code>}
           </div>
         </li>
       ))}
@@ -146,28 +146,28 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
 
   <section class="docs-section" aria-labelledby="schemes">
     <h2 id="schemes">Three schemes</h2>
-    <p>Each scheme maps the same roles to its own colours. Every panel below is set with <code class="docs-inline-code">data-chu-scheme</code>, in the site's palette, and its ratios are Candy's, worked out from the tokens when the site builds (each palette passes the same checks).</p>
+    <p>Each scheme maps the same roles to its own colours. Every panel below is set with <code class="docs-inline-code">data-blip-scheme</code>, in the site's palette, and its ratios are Candy's, worked out from the tokens when the site builds (each palette passes the same checks).</p>
     <div class="docs-schemes">
       {SCHEMES.map((s) => (
-        <section class="chu-box docs-scheme" data-variant="panel" data-chu-scheme={s.id} aria-labelledby={`scheme-${s.id}`}>
-          <h3 id={`scheme-${s.id}`}>{s.title} <span class="chu-small chu-muted">{s.hours}</span></h3>
+        <section class="blip-box docs-scheme" data-variant="panel" data-blip-scheme={s.id} aria-labelledby={`scheme-${s.id}`}>
+          <h3 id={`scheme-${s.id}`}>{s.title} <span class="blip-small blip-muted">{s.hours}</span></h3>
           <ul class="docs-scheme-pairs" role="list">
             {SHOW.map(([fg, bg, label]) => {
               const r = contrast(t.schemes[s.id][fg]!, t.schemes[s.id][bg]!);
               return (
                 <li>
-                  <span class="docs-scheme-sample" style={`background:var(--chu-${bg});color:var(--chu-${fg});${fg === "line" ? `box-shadow:inset 0 0 0 var(--chu-pixel) var(--chu-${fg})` : ""}`}>{fg === "line" ? "" : "Aa"}</span>
-                  <span class="docs-scheme-label">{label}<span class="chu-muted chu-small">{`--chu-${fg} on --chu-${bg}`}</span></span>
+                  <span class="docs-scheme-sample" style={`background:var(--blip-${bg});color:var(--blip-${fg});${fg === "line" ? `box-shadow:inset 0 0 0 var(--blip-pixel) var(--blip-${fg})` : ""}`}>{fg === "line" ? "" : "Aa"}</span>
+                  <span class="docs-scheme-label">{label}<span class="blip-muted blip-small">{`--blip-${fg} on --blip-${bg}`}</span></span>
                   <span class="docs-scheme-ratio docs-num">{ratio(r)}</span>
                 </li>
               );
             })}
           </ul>
           <div class="docs-scheme-candy">
-            <span class="chu-box chu-button" data-size="sm">Accent</span>
-            <span class="chu-box chu-tag" data-size="sm" data-tone="success">Success</span>
-            <span class="chu-box chu-tag" data-size="sm" data-tone="warning">Warning</span>
-            <span class="chu-box chu-tag" data-size="sm" data-tone="danger">Danger</span>
+            <span class="blip-box blip-button" data-size="sm">Accent</span>
+            <span class="blip-box blip-tag" data-size="sm" data-tone="success">Success</span>
+            <span class="blip-box blip-tag" data-size="sm" data-tone="warning">Warning</span>
+            <span class="blip-box blip-tag" data-size="sm" data-tone="danger">Danger</span>
           </div>
         </section>
       ))}
@@ -176,33 +176,33 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
 
   <section class="docs-section" aria-labelledby="contrast">
     <h2 id="contrast">Every pair, checked</h2>
-    <p>{total} text pairs in three schemes, the same list the token build checks against WCAG 2.2 AA in every palette (these are Candy's), each with why it is checked: a failing pair fails the build. The list is data, <code class="docs-inline-code">@jaatster/blip-tokens/contrast.json</code>, which the build and this page both read. {passing === total ? "All of them pass." : `${total - passing} fail.`} Closest to the line: {weakest.map((w, i) => <Fragment>{i > 0 && ", "}{w.label.toLowerCase()} at {w.scheme} ({ratio(w.ratio)})</Fragment>)}.</p>
+    <p>{total} text pairs in three schemes, the same list the token build checks against WCAG 2.2 AA in every palette (these are Candy's), each with why it is checked: a failing pair fails the build. The list is data, <code class="docs-inline-code">@blip/tokens/contrast.json</code>, which the build and this page both read. {passing === total ? "All of them pass." : `${total - passing} fail.`} Closest to the line: {weakest.map((w, i) => <Fragment>{i > 0 && ", "}{w.label.toLowerCase()} at {w.scheme} ({ratio(w.ratio)})</Fragment>)}.</p>
     <Table label="Contrast of every checked pair" head={["Pair", "Day", "Sunset", "Night", "Needs"]} rows={pairRows} class="docs-contrast" />
   </section>
 
   <section class="docs-section" aria-labelledby="roles">
     <h2 id="roles">Scheme roles</h2>
-    <p>The roles components use, in each scheme. Read them with <code class="docs-inline-code">var(--chu-…)</code>; set <code class="docs-inline-code">data-chu-scheme</code> to switch.</p>
+    <p>The roles components use, in each scheme. Read them with <code class="docs-inline-code">var(--blip-…)</code>; set <code class="docs-inline-code">data-blip-scheme</code> to switch.</p>
     <Table label="Scheme roles in each scheme" head={["Role", "Day", "Sunset", "Night", ""]} rows={roleRows} />
   </section>
 
   <section class="docs-section" aria-labelledby="world">
     <h2 id="world">World palettes</h2>
-    <p>The world backdrop's own colours, sky to dirt, for each time of day: the palette <code class="docs-inline-code">&lt;chu-world&gt;</code> draws with, and what a palette pack repaints. Soft, dithered and outline-free, so candy always stands out on it.</p>
+    <p>The world backdrop's own colours, sky to dirt, for each time of day: the palette <code class="docs-inline-code">&lt;blip-world&gt;</code> draws with, and what a palette pack repaints. Soft, dithered and outline-free, so candy always stands out on it.</p>
     <div class="docs-strata">
       {SCHEMES.map((s) => (
         <figure class="docs-stratum">
           <div class="docs-stratum-bands" role="img" aria-label={`${s.title}: ${STRATA.length} colours from sky to dirt`}>
-            {STRATA.map((k) => <span title={`--chu-world-${s.id}-${k} ${hex(`world-${s.id}-${k}`)}`} style={`background:var(--chu-world-${s.id}-${k})`}></span>)}
+            {STRATA.map((k) => <span title={`--blip-world-${s.id}-${k} ${hex(`world-${s.id}-${k}`)}`} style={`background:var(--blip-world-${s.id}-${k})`}></span>)}
           </div>
-          <figcaption><strong>{s.title}</strong> <span class="chu-muted chu-small">{STRATA.length} colours</span></figcaption>
+          <figcaption><strong>{s.title}</strong> <span class="blip-muted blip-small">{STRATA.length} colours</span></figcaption>
         </figure>
       ))}
       <figure class="docs-stratum">
         <div class="docs-stratum-bands" role="img" aria-label="Shared: sun, moon, stars, trails and flowers">
-          {sky.map((k) => <span title={`--chu-${k} ${hex(k)}`} style={`background:var(--chu-${k})`}></span>)}
+          {sky.map((k) => <span title={`--blip-${k} ${hex(k)}`} style={`background:var(--blip-${k})`}></span>)}
         </div>
-        <figcaption><strong>Every sky</strong> <span class="chu-muted chu-small">sun, moon, stars, flowers</span></figcaption>
+        <figcaption><strong>Every sky</strong> <span class="blip-muted blip-small">sun, moon, stars, flowers</span></figcaption>
       </figure>
     </div>
   </section>

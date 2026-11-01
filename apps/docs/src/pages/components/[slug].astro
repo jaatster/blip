@@ -41,9 +41,9 @@ const kits = kitsFor([ex?.html ?? "", ...snippets.map((s) => s.html)].join("\n")
 const elements = (meta.element ?? "").split(",").map((s) => s.trim()).filter(Boolean);
 const refs = elements.map((t) => elementReference(t)).filter((x) => !!x);
 
-// React: the components @jaatster/blip-react has for this page today, their examples and props, read from its source.
+// React: the components @blip/react has for this page today, their examples and props, read from its source.
 const react = await reactSection(doc, ex?.html ?? null);
-const preferred = doc.pkg === "components" || doc.pkg === "elements" ? "@jaatster/blip-react" : `@jaatster/blip-react/${doc.pkg}`;
+const preferred = doc.pkg === "components" || doc.pkg === "elements" ? "@blip/react" : `@blip/react/${doc.pkg}`;
 // shadcn/ui: the registry item that copies this page's React file into an app (scripts/registry.mjs), if it has one.
 const shadcn = shadcnItemFor(doc);
 const shadcnCode = shadcn ? await codeBlock(shadcn.command, "sh", "Terminal") : "";
@@ -61,14 +61,14 @@ const headings: Heading[] = [
 ];
 const statusTone = meta.status === "stable" ? "success" : meta.status === "beta" ? "info" : "warning";
 // The command palette's own example already answers to Ctrl+K: the site's search steps aside to "/".
-const searchShortcut = ex && /<chu-command[\s>]/.test(ex.html) ? "/" : undefined;
+const searchShortcut = ex && /<blip-command[\s>]/.test(ex.html) ? "/" : undefined;
 ---
 <Docs title={meta.name} description={stripTags(r.lede)} headings={headings} kits={kits} searchShortcut={searchShortcut} display>
   <header class="docs-page-head">
-    <h1 class="docs-page-title chu-display" data-scale="2">{meta.name}</h1>
+    <h1 class="docs-page-title blip-display" data-scale="2">{meta.name}</h1>
     <p class="docs-lede" set:html={r.lede} />
     <ul class="docs-meta" role="list" aria-label="About this component">
-      <li><a class="docs-status" href="/versions/#status" aria-label={`Status: ${meta.status}. What it means`}><span class="chu-box chu-tag" data-size="sm" data-tone={statusTone}>{meta.status}</span></a></li>
+      <li><a class="docs-status" href="/versions/#status" aria-label={`Status: ${meta.status}. What it means`}><span class="blip-box blip-tag" data-size="sm" data-tone={statusTone}>{meta.status}</span></a></li>
       <li><span class="docs-meta-key">Package</span> <code class="docs-inline-code">{meta.package}</code></li>
       {meta.css && <li><span class="docs-meta-key">CSS</span> <code class="docs-inline-code">{meta.css}</code></li>}
       {elements.length > 0 && <li><span class="docs-meta-key">Element</span> {elements.map((t) => <code class="docs-inline-code">{`<${t}>`}</code>)}</li>}
@@ -79,7 +79,7 @@ const searchShortcut = ex && /<chu-command[\s>]/.test(ex.html) ? "/" : undefined
         <span class="docs-meta-key" id="also-known-as">Also known as</span>
         <ul class="docs-meta" role="list" aria-labelledby="also-known-as">
           {eq.shadcn.length > 0 && <li><span class="docs-meta-key">shadcn/ui</span> {eq.shadcn.join(", ")}</li>}
-          {eq.apg.length > 0 && <li><span class="docs-meta-key">WAI-ARIA</span> {eq.apg.map((s, i) => <Fragment>{i > 0 && ", "}<a href={apgUrl(s)} rel="noopener">{APG[s]}<span class="chu-sr-only"> pattern</span></a></Fragment>)}</li>}
+          {eq.apg.length > 0 && <li><span class="docs-meta-key">WAI-ARIA</span> {eq.apg.map((s, i) => <Fragment>{i > 0 && ", "}<a href={apgUrl(s)} rel="noopener">{APG[s]}<span class="blip-sr-only"> pattern</span></a></Fragment>)}</li>}
           {eq.html.length > 0 && <li><span class="docs-meta-key">HTML</span> {eq.html.map((h) => <code class="docs-inline-code">{h}</code>)}</li>}
         </ul>
       </div>
@@ -104,10 +104,10 @@ const searchShortcut = ex && /<chu-command[\s>]/.test(ex.html) ? "/" : undefined
       <p>Generated from the package's Custom Elements Manifest, the same file the React types and Storybook read.</p>
       {refs.map((ref) => (
         <div class="docs-stack">
-          <h3 class="docs-ref-title"><code class="docs-inline-code">{`<${ref.tag}>`}</code> <span class="chu-muted chu-small">{ref.module}</span></h3>
+          <h3 class="docs-ref-title"><code class="docs-inline-code">{`<${ref.tag}>`}</code> <span class="blip-muted blip-small">{ref.module}</span></h3>
           {ref.summary && <p class="docs-note">{ref.summary}</p>}
           {ref.attributes.length > 0 && <Table label={`${ref.tag} attributes`} head={["Attribute", "Type", "Default", ""]} rows={ref.attributes.map((a) => [code(a.name), a.type ? code(a.type) : "", a.default ? code(a.default) : "", esc(a.description)])} />}
-          {ref.properties.length > 0 && <Table label={`${ref.tag} properties`} head={["Property", "Type", ""]} rows={ref.properties.map((p) => [code(p.name) + (p.readonly ? ' <span class="chu-muted">read only</span>' : ""), p.type ? code(p.type) : "", esc(p.description)])} />}
+          {ref.properties.length > 0 && <Table label={`${ref.tag} properties`} head={["Property", "Type", ""]} rows={ref.properties.map((p) => [code(p.name) + (p.readonly ? ' <span class="blip-muted">read only</span>' : ""), p.type ? code(p.type) : "", esc(p.description)])} />}
           {ref.methods.length > 0 && <Table label={`${ref.tag} methods`} head={["Method", ""]} rows={ref.methods.map((m) => [code(m.signature), esc(m.description)])} />}
           {ref.events.length > 0 && <Table label={`${ref.tag} events`} head={["Event", "Detail", ""]} rows={ref.events.map((e) => [code(e.name), e.type ? code(e.type) : "", esc(e.description)])} />}
         </div>
@@ -141,7 +141,7 @@ const searchShortcut = ex && /<chu-command[\s>]/.test(ex.html) ? "/" : undefined
           <Table label={`${react.main.name} parts`} head={["Component", "Renders", ""]} rows={react.partRows} />
           {react.partProps.length > 0 && (
             <details class="docs-react-more">
-              <summary class="chu-box chu-button" data-variant="outline" data-size="sm"><span class="docs-when-closed">Show the parts' props</span><span class="docs-when-open">Hide the parts' props</span></summary>
+              <summary class="blip-box blip-button" data-variant="outline" data-size="sm"><span class="docs-when-closed">Show the parts' props</span><span class="docs-when-open">Hide the parts' props</span></summary>
               {react.partProps.map((p) => (
                 <div class="docs-stack docs-react-part">
                   <h4 class="docs-react-h4"><code class="docs-inline-code">{`<${p.name}>`}</code></h4>

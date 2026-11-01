@@ -6,7 +6,7 @@
  * A native control can't wear the candy box (it has no pseudo-elements), so the box is a wrapper and the control
  * sits inside it, transparent:
  *
- *   <span class="chu-box chu-input"><input …></span>
+ *   <span class="blip-box blip-input"><input …></span>
  *
  * The look is the box's calm one: a line outline, the surface, one sunken row along the top (the inset), no drop.
  * Candy stays for checked things and the main action.
@@ -15,56 +15,56 @@
  * the files load in (each of them carries a copy of this one).
  */
 
-@layer chu.components {
-  :where(.chu-input, .chu-textarea, .chu-select) {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
-    --chu-band-top: 1;
-    --chu-band-bottom: 0;
-    --chu-drop-size: 0;
-    --chu-box-outline: var(--chu-line);
-    --chu-box-top: var(--chu-surface-sunken);
-    --chu-box-fill: var(--chu-surface);
-    --chu-box-bottom: var(--chu-surface);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
-    --_h: var(--chu-control-md);
-    --_pad: calc(5 * var(--chu-pixel));
+@layer blip.components {
+  :where(.blip-input, .blip-textarea, .blip-select) {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
+    --blip-band-top: 1;
+    --blip-band-bottom: 0;
+    --blip-drop-size: 0;
+    --blip-box-outline: var(--blip-line);
+    --blip-box-top: var(--blip-surface-sunken);
+    --blip-box-fill: var(--blip-surface);
+    --blip-box-bottom: var(--blip-surface);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
+    --_h: var(--blip-control-md);
+    --_pad: calc(5 * var(--blip-pixel));
 
     display: flex;
     align-items: center;
     min-inline-size: 0;
-    gap: calc(3 * var(--chu-pixel));
+    gap: calc(3 * var(--blip-pixel));
     min-block-size: var(--_h);
     padding-inline: var(--_pad);
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-body);
-    line-height: var(--chu-leading-tight);
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-body);
+    line-height: var(--blip-leading-tight);
     cursor: text;
   }
 
-  :where(.chu-input, .chu-textarea, .chu-select):where([data-size="sm"]) {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
-    --_h: var(--chu-control-sm);
-    --_pad: calc(4 * var(--chu-pixel));
-    gap: calc(2 * var(--chu-pixel));
+  :where(.blip-input, .blip-textarea, .blip-select):where([data-size="sm"]) {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
+    --_h: var(--blip-control-sm);
+    --_pad: calc(4 * var(--blip-pixel));
+    gap: calc(2 * var(--blip-pixel));
   }
-  :where(.chu-input, .chu-textarea, .chu-select):where([data-size="lg"]) {
-    --chu-r: 5;
-    --chu-shape: var(--chu-shape-5);
-    --chu-shape-inner: var(--chu-shape-5-inner);
-    --_h: var(--chu-control-lg);
-    --_pad: calc(6 * var(--chu-pixel));
-    font-size: var(--chu-size-lead);
+  :where(.blip-input, .blip-textarea, .blip-select):where([data-size="lg"]) {
+    --blip-r: 5;
+    --blip-shape: var(--blip-shape-5);
+    --blip-shape-inner: var(--blip-shape-5-inner);
+    --_h: var(--blip-control-lg);
+    --_pad: calc(6 * var(--blip-pixel));
+    font-size: var(--blip-size-lead);
   }
 
   /* The native control: transparent, borderless, filling the well. The box draws the focus ring for it. Its width in
      percent lets the well narrow past the control's own width (twenty characters or so) in a row too narrow for it,
      on a phone, instead of pushing the row wider. */
-  :where(.chu-input, .chu-textarea, .chu-select) > :where(input, textarea, select) {
+  :where(.blip-input, .blip-textarea, .blip-select) > :where(input, textarea, select) {
     flex: 1;
     align-self: stretch;
     inline-size: 100%;
@@ -82,83 +82,83 @@
     text-overflow: ellipsis;
     appearance: none;
   }
-  :where(.chu-input, .chu-textarea) > :where(input, textarea)::placeholder { color: var(--chu-text-muted); opacity: 1; }
+  :where(.blip-input, .blip-textarea) > :where(input, textarea)::placeholder { color: var(--blip-text-muted); opacity: 1; }
   /* More contrast makes muted text the text colour, and a placeholder would pass for typed text: it gets a dashed
      line under it as well, which typed text never has. */
   @media (prefers-contrast: more) {
-    :where(.chu-input, .chu-textarea) > :where(input, textarea)::placeholder {
+    :where(.blip-input, .blip-textarea) > :where(input, textarea)::placeholder {
       text-decoration-line: underline;
       text-decoration-style: dashed;
-      text-decoration-thickness: var(--chu-pixel);
-      text-underline-offset: calc(2 * var(--chu-pixel));
+      text-decoration-thickness: var(--blip-pixel);
+      text-underline-offset: calc(2 * var(--blip-pixel));
       text-decoration-skip-ink: none;
     }
   }
-  :where(.chu-input, .chu-textarea, .chu-select) > :where(input, textarea, select):where(:disabled) { cursor: not-allowed; opacity: 1; -webkit-text-fill-color: currentColor; }
+  :where(.blip-input, .blip-textarea, .blip-select) > :where(input, textarea, select):where(:disabled) { cursor: not-allowed; opacity: 1; -webkit-text-fill-color: currentColor; }
   /* Autofill keeps the well's own colours (the browser's tint would arrive after a very long wait). */
-  :where(.chu-input, .chu-textarea) > :where(:autofill) { transition: background-color 0s 600000s, color 0s 600000s; }
-  /* Number inputs step with the keyboard; the stepper (chu-number) adds pixel buttons. */
-  :where(.chu-input) > :where(input[type="number"]) { -moz-appearance: textfield; }
-  :where(.chu-input) > :where(input)::-webkit-inner-spin-button, :where(.chu-input) > :where(input)::-webkit-outer-spin-button { appearance: none; margin: 0; }
+  :where(.blip-input, .blip-textarea) > :where(:autofill) { transition: background-color 0s 600000s, color 0s 600000s; }
+  /* Number inputs step with the keyboard; the stepper (blip-number) adds pixel buttons. */
+  :where(.blip-input) > :where(input[type="number"]) { -moz-appearance: textfield; }
+  :where(.blip-input) > :where(input)::-webkit-inner-spin-button, :where(.blip-input) > :where(input)::-webkit-outer-spin-button { appearance: none; margin: 0; }
 
   /* Prefix and suffix: an icon, or a little text (https://, kg, $). */
-  :where(.chu-input, .chu-select) > :where(.chu-icon, .chu-input-affix) { flex: none; color: var(--chu-text-muted); }
-  :where(.chu-input-affix) { font-size: var(--chu-size-small); white-space: nowrap; }
+  :where(.blip-input, .blip-select) > :where(.blip-icon, .blip-input-affix) { flex: none; color: var(--blip-text-muted); }
+  :where(.blip-input-affix) { font-size: var(--blip-size-small); white-space: nowrap; }
 
   /* A button inside the well (a stepper's - and +, a combobox's chevron, a "show password" eye): a ghost box
      (data-variant="ghost") two pixels in from the edge, square, as tall as the well allows. */
-  :where(.chu-input) > :where(button.chu-box) {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
+  :where(.blip-input) > :where(button.blip-box) {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
     display: grid;
     flex: none;
     place-items: center;
-    inline-size: calc(var(--_h) - 4 * var(--chu-pixel));
-    block-size: calc(var(--_h) - 4 * var(--chu-pixel));
+    inline-size: calc(var(--_h) - 4 * var(--blip-pixel));
+    block-size: calc(var(--_h) - 4 * var(--blip-pixel));
     margin: 0;
     padding: 0;
-    color: var(--chu-text);
+    color: var(--blip-text);
     touch-action: manipulation;
   }
-  :where(.chu-input) > :where(button.chu-box:first-child) { margin-inline-start: calc(2 * var(--chu-pixel) - var(--_pad)); }
-  :where(.chu-input) > :where(button.chu-box:last-child) { margin-inline-end: calc(2 * var(--chu-pixel) - var(--_pad)); }
+  :where(.blip-input) > :where(button.blip-box:first-child) { margin-inline-start: calc(2 * var(--blip-pixel) - var(--_pad)); }
+  :where(.blip-input) > :where(button.blip-box:last-child) { margin-inline-end: calc(2 * var(--blip-pixel) - var(--_pad)); }
   /* A glyph inside it is a mask in the text colour. */
-  :where(.chu-input) > :where(button.chu-box) > :where(span) { inline-size: calc(8 * var(--chu-pixel)); block-size: calc(8 * var(--chu-pixel)); background: currentColor; mask: var(--_g) center / var(--_gs, 100% 100%) no-repeat; }
+  :where(.blip-input) > :where(button.blip-box) > :where(span) { inline-size: calc(8 * var(--blip-pixel)); block-size: calc(8 * var(--blip-pixel)); background: currentColor; mask: var(--_g) center / var(--_gs, 100% 100%) no-repeat; }
 
   /* Tones: data-tone="success" (or any tone) draws the outline and the inset in it. Invalid is the danger tone. */
-  :where(.chu-input, .chu-textarea, .chu-select):where([data-tone]) {
-    --chu-box-outline: var(--chu-tone-text);
-    --chu-box-top: var(--chu-tone-light);
+  :where(.blip-input, .blip-textarea, .blip-select):where([data-tone]) {
+    --blip-box-outline: var(--blip-tone-text);
+    --blip-box-top: var(--blip-tone-light);
   }
-  :where(.chu-input, .chu-textarea, .chu-select):where(:has(> :is([aria-invalid="true"], :user-invalid))) {
-    --chu-box-outline: var(--chu-danger-text);
-    --chu-box-top: var(--chu-danger-light);
+  :where(.blip-input, .blip-textarea, .blip-select):where(:has(> :is([aria-invalid="true"], :user-invalid))) {
+    --blip-box-outline: var(--blip-danger-text);
+    --blip-box-top: var(--blip-danger-light);
   }
 
   /* Read-only: flat, no outline, no bands. Still focusable, still selectable. */
-  :where(.chu-input, .chu-textarea):where(:has(> [readonly])) {
-    --chu-box-outline: transparent;
-    --chu-box-top: var(--chu-surface-sunken);
-    --chu-box-fill: var(--chu-surface-sunken);
-    --chu-box-bottom: var(--chu-surface-sunken);
+  :where(.blip-input, .blip-textarea):where(:has(> [readonly])) {
+    --blip-box-outline: transparent;
+    --blip-box-top: var(--blip-surface-sunken);
+    --blip-box-fill: var(--blip-surface-sunken);
+    --blip-box-bottom: var(--blip-surface-sunken);
     cursor: default;
   }
 
   /* Disabled: dithered, the outline and text go soft, as the box's calm tiers do. */
-  :where(.chu-input, .chu-textarea, .chu-select):where(:has(> :is(input, textarea, select):disabled)) {
-    --chu-box-outline: var(--chu-line-soft);
-    --chu-box-text: var(--chu-text-muted);
-    --chu-box-dither: var(--chu-surface-sunken);
+  :where(.blip-input, .blip-textarea, .blip-select):where(:has(> :is(input, textarea, select):disabled)) {
+    --blip-box-outline: var(--blip-line-soft);
+    --blip-box-text: var(--blip-text-muted);
+    --blip-box-dither: var(--blip-surface-sunken);
     cursor: not-allowed;
   }
 
   @media (forced-colors: active) {
-    :where(.chu-input, .chu-textarea, .chu-select):where(:has(> :is(input, textarea, select):focus-visible)) { outline: var(--chu-pixel) solid Highlight; outline-offset: var(--chu-pixel); }
-    :where(.chu-input, .chu-textarea, .chu-select):where(:has(> :is([aria-invalid="true"], :user-invalid))) { border-style: dashed; }
-    :where(.chu-input, .chu-textarea, .chu-select):where(:has(> :is(input, textarea, select):disabled)) { border-color: GrayText; color: GrayText; }
+    :where(.blip-input, .blip-textarea, .blip-select):where(:has(> :is(input, textarea, select):focus-visible)) { outline: var(--blip-pixel) solid Highlight; outline-offset: var(--blip-pixel); }
+    :where(.blip-input, .blip-textarea, .blip-select):where(:has(> :is([aria-invalid="true"], :user-invalid))) { border-style: dashed; }
+    :where(.blip-input, .blip-textarea, .blip-select):where(:has(> :is(input, textarea, select):disabled)) { border-color: GrayText; color: GrayText; }
     /* Mask glyphs would be painted in Canvas: paint them in the system's text colours instead. */
-    :where(.chu-input) > :where(button.chu-box) > :where(span) { forced-color-adjust: none; background: ButtonText; }
-    :where(.chu-input) > :where(button.chu-box:disabled) > :where(span) { background: GrayText; }
+    :where(.blip-input) > :where(button.blip-box) > :where(span) { forced-color-adjust: none; background: ButtonText; }
+    :where(.blip-input) > :where(button.blip-box:disabled) > :where(span) { background: GrayText; }
   }
 }

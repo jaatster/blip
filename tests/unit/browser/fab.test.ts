@@ -1,5 +1,5 @@
 /**
- * <chu-fab>: the action button's speed dial, as a WAI-ARIA menu button. The button says what it opens and whether it
+ * <blip-fab>: the action button's speed dial, as a WAI-ARIA menu button. The button says what it opens and whether it
  * is open; opening focuses the item nearest the button; the arrow keys move along the stack as it looks (it runs
  * upward); Escape and choosing an item close it and give focus back to the button; Tab closes it where focus goes.
  */
@@ -9,14 +9,14 @@ import "../../../packages/elements/src/fab.ts";
 import { focused, mount, press } from "../support/dom.ts";
 
 const DIAL = `
-  <chu-fab class="chu-fab-dial" data-position="static">
-    <button class="chu-box chu-fab" data-icon-only aria-label="Create">+</button>
-    <div class="chu-fab-menu" role="menu" aria-label="Create" hidden>
-      <button class="chu-box chu-fab-action" role="menuitem" data-value="photo">Photo</button>
-      <button class="chu-box chu-fab-action" role="menuitem">Clip</button>
-      <button class="chu-box chu-fab-action" role="menuitem">Note</button>
+  <blip-fab class="blip-fab-dial" data-position="static">
+    <button class="blip-box blip-fab" data-icon-only aria-label="Create">+</button>
+    <div class="blip-fab-menu" role="menu" aria-label="Create" hidden>
+      <button class="blip-box blip-fab-action" role="menuitem" data-value="photo">Photo</button>
+      <button class="blip-box blip-fab-action" role="menuitem">Clip</button>
+      <button class="blip-box blip-fab-action" role="menuitem">Note</button>
     </div>
-  </chu-fab>`;
+  </blip-fab>`;
 
 const record = (el: Element, ...types: string[]) => {
   const seen: [string, unknown][] = [];
@@ -24,11 +24,11 @@ const record = (el: Element, ...types: string[]) => {
   return seen;
 };
 
-describe("<chu-fab>", () => {
+describe("<blip-fab>", () => {
   it("wires its button as a menu button, closed", () => {
     const fab = mount<BlipFab>(DIAL);
     const button = fab.trigger!;
-    expect(fab.classList.contains("chu-fab-dial")).toBe(true);
+    expect(fab.classList.contains("blip-fab-dial")).toBe(true);
     expect(button.getAttribute("aria-haspopup")).toBe("menu");
     expect(button.getAttribute("aria-expanded")).toBe("false");
     expect(button.getAttribute("aria-controls")).toBe(fab.menu!.id);
@@ -39,7 +39,7 @@ describe("<chu-fab>", () => {
 
   it("opens from its button, focusing the item nearest it, and says so", () => {
     const fab = mount<BlipFab>(DIAL);
-    const seen = record(fab, "chu-open", "chu-close");
+    const seen = record(fab, "blip-open", "blip-close");
     fab.trigger!.click();
     expect(fab.open).toBe(true);
     expect(fab.hasAttribute("open")).toBe(true);
@@ -47,7 +47,7 @@ describe("<chu-fab>", () => {
     expect(focused()).toBe("Photo");
     fab.trigger!.click();
     expect(fab.open).toBe(false);
-    expect(seen.map(([t]) => t)).toEqual(["chu-open", "chu-close"]);
+    expect(seen.map(([t]) => t)).toEqual(["blip-open", "blip-close"]);
   });
 
   it("moves up the stack with ArrowUp and back with ArrowDown, wrapping; Home and End jump", () => {
@@ -75,14 +75,14 @@ describe("<chu-fab>", () => {
     expect(fab.trigger!.getAttribute("aria-expanded")).toBe("false");
   });
 
-  it("an item chosen is chu-action with its value; the stack closes unless the event is cancelled", () => {
+  it("an item chosen is blip-action with its value; the stack closes unless the event is cancelled", () => {
     const fab = mount<BlipFab>(DIAL);
-    const seen = record(fab, "chu-action");
+    const seen = record(fab, "blip-action");
     fab.show();
     fab.items[0]!.click();
     expect(fab.open).toBe(false);
     expect(document.activeElement).toBe(fab.trigger);
-    fab.addEventListener("chu-action", (e) => e.preventDefault(), { once: true });
+    fab.addEventListener("blip-action", (e) => e.preventDefault(), { once: true });
     fab.show();
     fab.items[1]!.click();
     expect(fab.open).toBe(true);

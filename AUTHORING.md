@@ -6,46 +6,46 @@ How to add to Blip: components, kits, effects, icons, tokens. The button
 ## The rules
 
 1. **Tokens only.** No raw colours (hex, `rgb()`, named) except `transparent`, `currentColor`, and system colours
-   inside `@media (forced-colors: active)`. Sizes are whole pixels: `calc(N * var(--chu-pixel))` or a pixel token
-   (`--chu-space-N`, `--chu-radius-N`, `--chu-control-sm|md|lg`, `--chu-icon-md`). Text sizes use `--chu-size-*`; big
-   text is Pixel Bop at a whole scale (`.chu-display` with `--chu-scale` or `data-scale`). The only off-grid lengths
+   inside `@media (forced-colors: active)`. Sizes are whole pixels: `calc(N * var(--blip-pixel))` or a pixel token
+   (`--blip-space-N`, `--blip-radius-N`, `--blip-control-sm|md|lg`, `--blip-icon-md`). Text sizes use `--blip-size-*`; big
+   text is Pixel Bop at a whole scale (`.blip-display` with `--blip-scale` or `data-scale`). The only off-grid lengths
    allowed: `1px` borders in forced-colors mode, and Pixelify Sans text.
-2. **Every candy thing is a `.chu-box`.** Markup is `class="chu-box chu-<component>"`. Do not redraw outlines, bands,
-   drops, focus rings or dither: set the box's variables (`--chu-r` with `--chu-shape` and `--chu-shape-inner`,
-   `--chu-band-top`, `--chu-band-bottom`, `--chu-drop-size`, `--chu-box-*`) or use `data-variant` (`candy`, `soft`,
+2. **Every candy thing is a `.blip-box`.** Markup is `class="blip-box blip-<component>"`. Do not redraw outlines, bands,
+   drops, focus rings or dither: set the box's variables (`--blip-r` with `--blip-shape` and `--blip-shape-inner`,
+   `--blip-band-top`, `--blip-band-bottom`, `--blip-drop-size`, `--blip-box-*`) or use `data-variant` (`candy`, `soft`,
    `outline`, `ghost`, `panel`) and `data-tone`.
 3. **One rule per state, from the box.** Hover lifts in the white ring, pressed sits in its drop, selected/current sits in with bands
    swapped, focus is the yellow-and-ink ring, disabled is dithered, busy shows stepped dots, invalid uses the danger
-   tone. Don't invent new state looks. Support `data-chu-state="hover focus active"` for forced looks in examples.
-4. **Motion snaps.** Only `steps(n, jump-end)` (n = pixels moved, at most 6) or `--chu-ease-2|4|6`. Durations from
-   `--chu-duration-*`. Everything stops or goes instant with `prefers-reduced-motion`. No easing curves, no blur, no
+   tone. Don't invent new state looks. Support `data-blip-state="hover focus active"` for forced looks in examples.
+4. **Motion snaps.** Only `steps(n, jump-end)` (n = pixels moved, at most 6) or `--blip-ease-2|4|6`. Durations from
+   `--blip-duration-*`. Everything stops or goes instant with `prefers-reduced-motion`. No easing curves, no blur, no
    fractional scaling or rotation.
 5. **Ink, never black. Yellow means focus.** Warnings are orange. Yellow appears elsewhere only as coins and stars.
-6. **Layers.** Core components in `@layer chu.components`; kits (game, blocks, effects) in `@layer chu.kits`.
+6. **Layers.** Core components in `@layer blip.components`; kits (game, blocks, effects) in `@layer blip.kits`.
 7. **Native HTML first.** `<button>`, `<input>`, `<select>`, `<dialog>`, `<details>`, the `popover` attribute,
    `<progress>`, `<meter>`, `<table>`. Follow the WAI-ARIA Authoring Practices for roles, states and keyboard.
-8. **Web Components only for behaviour.** Light DOM, no shadow DOM, extend `BlipElement` from `@jaatster/blip-core`
+8. **Web Components only for behaviour.** Light DOM, no shadow DOM, extend `BlipElement` from `@blip/core`
    (it gives `this.signal`, which aborts on disconnect: pass it to every listener, timer and timeline). Tag
-   `chu-<name>`; events `chu-<name>` (bubbling, composed). Elements upgrade markup that already renders correctly
+   `blip-<name>`; events `blip-<name>` (bubbling, composed). Elements upgrade markup that already renders correctly
    without JavaScript where possible. Replacing a form control? Make it form-associated (`static formAssociated =
-   true`, `ElementInternals`). No dependencies except `@jaatster/blip-core`. Use the shared controllers
+   true`, `ElementInternals`). No dependencies except `@blip/core`. Use the shared controllers
    (`rovingFocus`, `typeahead`, `dismiss`) and `run`/`frames` timelines rather than writing your own.
 9. **Glyphs inside components** (check marks, chevrons, close crosses, radio dots, arrows) are CSS masks with an
    SVG data URI drawn on whole pixels (12 x 12 grid, or smaller), coloured with `background-color: currentColor`.
-   `shape-rendering='crispEdges'` in the SVG. Content icons in markup use `<svg class="chu-icon" viewBox="0 0 12
-   12">` from `@jaatster/blip-icons`.
+   `shape-rendering='crispEdges'` in the SVG. Content icons in markup use `<svg class="blip-icon" viewBox="0 0 12
+   12">` from `@blip/icons`.
 10. **Budgets.** Each element 3 KB gzipped or less (the build reports it). All component CSS together 34 KB.
 11. **Accessible by default.** WCAG 2.2 AA: names, roles, states, focus order, 24 px targets
-    (`--chu-target-min`), contrast from the scheme roles (they are checked when the tokens build), forced-colors.
+    (`--blip-target-min`), contrast from the scheme roles (they are checked when the tokens build), forced-colors.
 
 ## API conventions
 
 - Variants and options are attributes: `data-variant`, `data-tone`, `data-size` (`sm`, `md` default, `lg`),
-  `data-chu-r` for radius. Booleans are present or absent.
-- Parts are classes named `chu-<component>-<part>` (`chu-dialog-title`, `chu-card-media`).
-- Public custom properties are `--chu-<component>-<thing>`; private ones start with `--_`.
+  `data-blip-r` for radius. Booleans are present or absent.
+- Parts are classes named `blip-<component>-<part>` (`blip-dialog-title`, `blip-card-media`).
+- Public custom properties are `--blip-<component>-<thing>`; private ones start with `--_`.
 - Element properties mirror attributes. Events carry `detail` and are cancelable when they announce a change that
-  can be refused (`chu-before-close`).
+  can be refused (`blip-before-close`).
 - Use ARIA attributes for state wherever ARIA has one (`aria-pressed`, `aria-selected`, `aria-current`,
   `aria-expanded`, `aria-invalid`, `aria-busy`, `aria-disabled`); style from them.
 
@@ -93,7 +93,7 @@ node scripts/shoot.mjs .tools/shots/me \
   "/specimen/gallery.html?only=button,tabs=day" \
   "/specimen/gallery.html?only=button,tabs&scheme=night=night" --full
 node scripts/shoot.mjs .tools/shots/me "/specimen/gallery.html?only=tabs=zoom" --scale 2 --width 800
-pnpm --filter @jaatster/blip-<pkg> build         # builds and reports sizes
+pnpm --filter @blip/<pkg> build         # builds and reports sizes
 pnpm qa tabs                                 # every check of one item, and only its checks
 ```
 
@@ -111,6 +111,6 @@ it notes when a package's build is older than its sources.
 
 ## Names the box reserves
 
-On a `.chu-box`, `--_p` (one pixel) and `--_t` (the corner tile) are set by the box: read them, never redefine them.
-Every other private name of the box starts with `--_chu-`. Your own private names should be specific
-(`--_chu-<component>-x`) so they never collide with another component on the same element.
+On a `.blip-box`, `--_p` (one pixel) and `--_t` (the corner tile) are set by the box: read them, never redefine them.
+Every other private name of the box starts with `--_blip-`. Your own private names should be specific
+(`--_blip-<component>-x`) so they never collide with another component on the same element.

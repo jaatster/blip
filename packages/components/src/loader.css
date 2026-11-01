@@ -1,11 +1,11 @@
 /*
  * Loader. A pixel spinner: a ring of eight pixel dots where a lit arc steps round one dot a frame, eight frames a
  * turn. Or three dots that step in, one, two, three, like a busy button. Its text is the label; hide the text
- * with .chu-sr-only to show the spinner alone. With reduced motion it holds still, and the words still say it.
+ * with .blip-sr-only to show the spinner alone. With reduced motion it holds still, and the words still say it.
  *
- *   <span class="chu-loader" role="status">Loading World 2…</span>
- *   <span class="chu-loader" data-size="lg" role="status"><span class="chu-sr-only">Loading</span></span>
- *   <span class="chu-loader" data-variant="dots" role="status">Saving</span>
+ *   <span class="blip-loader" role="status">Loading World 2…</span>
+ *   <span class="blip-loader" data-size="lg" role="status"><span class="blip-sr-only">Loading</span></span>
+ *   <span class="blip-loader" data-variant="dots" role="status">Saving</span>
  *
  *   data-variant   ring (default) | dots
  *   data-size      sm | md (default) | lg       ring 8, 12 or 24 pixels across; dots 2, 3 or 4 pixels each
@@ -15,67 +15,67 @@
  * announce the end ("World 2 loaded") somewhere else.
  */
 
-@property --_chu-spin { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@property --_blip-spin { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
 
-@layer chu.components {
-  .chu-loader {
-    --_chu-c: var(--chu-accent);
-    --_chu-c2: var(--chu-accent-light);
-    --_chu-s: 12;
-    --_chu-d: 3;
-    --_chu-ring: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' shape-rendering='crispEdges'%3E%3Cpath d='M5 0h2v2H5zM2 2h2v2H2zM8 2h2v2H8zM0 5h2v2H0zM10 5h2v2H10zM2 8h2v2H2zM8 8h2v2H8zM5 10h2v2H5z'/%3E%3C/svg%3E");
+@layer blip.components {
+  .blip-loader {
+    --_blip-c: var(--blip-accent);
+    --_blip-c2: var(--blip-accent-light);
+    --_blip-s: 12;
+    --_blip-d: 3;
+    --_blip-ring: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' shape-rendering='crispEdges'%3E%3Cpath d='M5 0h2v2H5zM2 2h2v2H2zM8 2h2v2H8zM0 5h2v2H0zM10 5h2v2H10zM2 8h2v2H2zM8 8h2v2H8zM5 10h2v2H5z'/%3E%3C/svg%3E");
     display: inline-flex;
     align-items: center;
-    gap: calc(4 * var(--chu-pixel));
+    gap: calc(4 * var(--blip-pixel));
     vertical-align: middle;
-    color: var(--chu-text-muted);
-    font-size: var(--chu-size-small);
-    line-height: var(--chu-leading-tight);
+    color: var(--blip-text-muted);
+    font-size: var(--blip-size-small);
+    line-height: var(--blip-leading-tight);
   }
-  .chu-loader[data-size="sm"] {
-    --_chu-s: 8;
-    --_chu-d: 2;
-    --_chu-ring: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h2v1H3zM1 1h1v1H1zM6 1h1v1H6zM0 3h1v2H0zM7 3h1v2H7zM1 6h1v1H1zM6 6h1v1H6zM3 7h2v1H3z'/%3E%3C/svg%3E");
-    gap: calc(3 * var(--chu-pixel));
+  .blip-loader[data-size="sm"] {
+    --_blip-s: 8;
+    --_blip-d: 2;
+    --_blip-ring: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h2v1H3zM1 1h1v1H1zM6 1h1v1H6zM0 3h1v2H0zM7 3h1v2H7zM1 6h1v1H1zM6 6h1v1H6zM3 7h2v1H3z'/%3E%3C/svg%3E");
+    gap: calc(3 * var(--blip-pixel));
   }
-  .chu-loader[data-size="lg"] { --_chu-s: 24; --_chu-d: 4; gap: calc(6 * var(--chu-pixel)); font-size: var(--chu-size-body); }
-  .chu-loader[data-tone="info"] { --_chu-c: var(--chu-info); --_chu-c2: var(--chu-info-light); }
-  .chu-loader[data-tone="success"] { --_chu-c: var(--chu-success); --_chu-c2: var(--chu-success-light); }
-  .chu-loader[data-tone="warning"] { --_chu-c: var(--chu-warning); --_chu-c2: var(--chu-warning-light); }
-  .chu-loader[data-tone="danger"] { --_chu-c: var(--chu-danger); --_chu-c2: var(--chu-danger-light); }
+  .blip-loader[data-size="lg"] { --_blip-s: 24; --_blip-d: 4; gap: calc(6 * var(--blip-pixel)); font-size: var(--blip-size-body); }
+  .blip-loader[data-tone="info"] { --_blip-c: var(--blip-info); --_blip-c2: var(--blip-info-light); }
+  .blip-loader[data-tone="success"] { --_blip-c: var(--blip-success); --_blip-c2: var(--blip-success-light); }
+  .blip-loader[data-tone="warning"] { --_blip-c: var(--blip-warning); --_blip-c2: var(--blip-warning-light); }
+  .blip-loader[data-tone="danger"] { --_blip-c: var(--blip-danger); --_blip-c2: var(--blip-danger-light); }
 
   /* The ring: eight dots masked out of a turning wheel of eighths (head, five dim, two trailing), so each dot is
      one solid colour and the lit arc moves a whole dot per frame. */
-  .chu-loader::before {
+  .blip-loader::before {
     content: "";
     flex: none;
-    inline-size: calc(var(--_chu-s) * var(--chu-pixel));
-    block-size: calc(var(--_chu-s) * var(--chu-pixel));
-    background: conic-gradient(from calc(var(--_chu-spin) - 22.5deg), var(--_chu-c) 0 45deg, var(--chu-line-soft) 0 270deg, var(--_chu-c2) 0);
-    mask: var(--_chu-ring) 0 0 / 100% 100% no-repeat;
-    animation: chu-loader-spin calc(8 * var(--chu-duration-nudge)) steps(8, jump-end) infinite;
+    inline-size: calc(var(--_blip-s) * var(--blip-pixel));
+    block-size: calc(var(--_blip-s) * var(--blip-pixel));
+    background: conic-gradient(from calc(var(--_blip-spin) - 22.5deg), var(--_blip-c) 0 45deg, var(--blip-line-soft) 0 270deg, var(--_blip-c2) 0);
+    mask: var(--_blip-ring) 0 0 / 100% 100% no-repeat;
+    animation: blip-loader-spin calc(8 * var(--blip-duration-nudge)) steps(8, jump-end) infinite;
   }
 
   /* Dots: three squares, revealed one, two, three on the beat. */
-  .chu-loader[data-variant="dots"]::before {
-    inline-size: calc(5 * var(--_chu-d) * var(--chu-pixel));
-    block-size: calc(var(--_chu-d) * var(--chu-pixel));
-    background: linear-gradient(to right, var(--_chu-c) 0 calc(var(--_chu-d) * var(--chu-pixel)), transparent 0) 0 0 / calc(2 * var(--_chu-d) * var(--chu-pixel)) 100%;
+  .blip-loader[data-variant="dots"]::before {
+    inline-size: calc(5 * var(--_blip-d) * var(--blip-pixel));
+    block-size: calc(var(--_blip-d) * var(--blip-pixel));
+    background: linear-gradient(to right, var(--_blip-c) 0 calc(var(--_blip-d) * var(--blip-pixel)), transparent 0) 0 0 / calc(2 * var(--_blip-d) * var(--blip-pixel)) 100%;
     mask: none;
-    animation: chu-loader-dots calc(3 * var(--chu-duration-beat)) steps(1, jump-end) infinite;
+    animation: blip-loader-dots calc(3 * var(--blip-duration-beat)) steps(1, jump-end) infinite;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-loader::before { animation: none; }
+    .blip-loader::before { animation: none; }
   }
   @media (forced-colors: active) {
-    .chu-loader::before { forced-color-adjust: none; --_chu-c: Highlight; --_chu-c2: Highlight; --chu-line-soft: GrayText; }
+    .blip-loader::before { forced-color-adjust: none; --_blip-c: Highlight; --_blip-c2: Highlight; --blip-line-soft: GrayText; }
   }
 }
 
-@keyframes chu-loader-spin { to { --_chu-spin: 360deg; } }
-@keyframes chu-loader-dots {
-  0% { clip-path: inset(0 calc(4 * var(--_chu-d) * var(--chu-pixel)) 0 0); }
-  33.333% { clip-path: inset(0 calc(2 * var(--_chu-d) * var(--chu-pixel)) 0 0); }
+@keyframes blip-loader-spin { to { --_blip-spin: 360deg; } }
+@keyframes blip-loader-dots {
+  0% { clip-path: inset(0 calc(4 * var(--_blip-d) * var(--blip-pixel)) 0 0); }
+  33.333% { clip-path: inset(0 calc(2 * var(--_blip-d) * var(--blip-pixel)) 0 0); }
   66.667%, 100% { clip-path: inset(0); }
 }

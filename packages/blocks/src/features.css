@@ -2,22 +2,22 @@
  * Features. What the product does, in a grid that varies its scale: a lead feature with room for a picture, tiles
  * beside it, stat tiles with one big Pixel Bop number, and a wide band. Not a row of identical cards.
  *
- *   <section class="chu-features" aria-labelledby="features-title">
- *     <header class="chu-features-head">
- *       <h2 class="chu-features-title" id="features-title">A small world that keeps time</h2>
+ *   <section class="blip-features" aria-labelledby="features-title">
+ *     <header class="blip-features-head">
+ *       <h2 class="blip-features-title" id="features-title">A small world that keeps time</h2>
  *     </header>
- *     <div class="chu-features-grid">
- *       <article class="chu-box chu-feature" data-layout="lead" data-variant="panel">
- *         <div class="chu-feature-media">…</div>
- *         <h3 class="chu-feature-title">…</h3><p class="chu-feature-text">…</p>
+ *     <div class="blip-features-grid">
+ *       <article class="blip-box blip-feature" data-layout="lead" data-variant="panel">
+ *         <div class="blip-feature-media">…</div>
+ *         <h3 class="blip-feature-title">…</h3><p class="blip-feature-text">…</p>
  *       </article>
- *       <article class="chu-box chu-feature" data-variant="soft" data-tone="pink">
- *         <span class="chu-box chu-feature-icon" data-tone="pink"><svg class="chu-icon">…</svg></span> …
+ *       <article class="blip-box blip-feature" data-variant="soft" data-tone="pink">
+ *         <span class="blip-box blip-feature-icon" data-tone="pink"><svg class="blip-icon">…</svg></span> …
  *       </article>
- *       <article class="chu-box chu-feature" data-layout="stat" data-variant="soft" data-tone="teal">
- *         <p class="chu-feature-stat">60</p><p class="chu-feature-text">hand-made levels</p>
+ *       <article class="blip-box blip-feature" data-layout="stat" data-variant="soft" data-tone="teal">
+ *         <p class="blip-feature-stat">60</p><p class="blip-feature-text">hand-made levels</p>
  *       </article>
- *       <article class="chu-box chu-feature" data-layout="wide" data-variant="panel">…</article>
+ *       <article class="blip-box blip-feature" data-layout="wide" data-variant="panel">…</article>
  *     </div>
  *   </section>
  *
@@ -28,90 +28,90 @@
  * Panels are not buttons: put a link inside one if it goes somewhere. Keep stat tiles honest: real numbers only.
  */
 
-@layer chu.kits {
-  .chu-features {
+@layer blip.kits {
+  .blip-features {
     container-type: inline-size;
     display: grid;
-    gap: calc(10 * var(--chu-pixel));
+    gap: calc(10 * var(--blip-pixel));
   }
 
-  .chu-features-head {
+  .blip-features-head {
     display: grid;
-    gap: calc(3 * var(--chu-pixel));
+    gap: calc(3 * var(--blip-pixel));
     max-inline-size: 60ch;
   }
-  .chu-features-title {
+  .blip-features-title {
     margin: 0;
-    font-size: var(--chu-size-title);
-    line-height: var(--chu-leading-tight);
+    font-size: var(--blip-size-title);
+    line-height: var(--blip-leading-tight);
   }
-  .chu-features-lead { margin: 0; font-size: var(--chu-size-lead); color: var(--chu-text-muted); }
+  .blip-features-lead { margin: 0; font-size: var(--blip-size-lead); color: var(--blip-text-muted); }
 
-  .chu-features-grid {
+  .blip-features-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: calc(6 * var(--chu-pixel));
+    gap: calc(6 * var(--blip-pixel));
   }
   @container (width >= 600px) {
-    .chu-features-grid { grid-template-columns: repeat(2, 1fr); }
-    .chu-feature:is([data-layout="lead"], [data-layout="wide"]) { grid-column: span 2; }
+    .blip-features-grid { grid-template-columns: repeat(2, 1fr); }
+    .blip-feature:is([data-layout="lead"], [data-layout="wide"]) { grid-column: span 2; }
   }
   @container (width >= 1024px) {
-    .chu-features-grid { grid-template-columns: repeat(6, 1fr); }
-    .chu-feature { grid-column: span 2; }
-    .chu-feature[data-layout="lead"] { grid-column: span 4; grid-row: span 2; }
-    .chu-feature[data-layout="wide"] { grid-column: 1 / -1; grid-template-columns: auto 1fr auto; align-items: center; }
+    .blip-features-grid { grid-template-columns: repeat(6, 1fr); }
+    .blip-feature { grid-column: span 2; }
+    .blip-feature[data-layout="lead"] { grid-column: span 4; grid-row: span 2; }
+    .blip-feature[data-layout="wide"] { grid-column: 1 / -1; grid-template-columns: auto 1fr auto; align-items: center; }
   }
 
-  .chu-feature {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
-    --chu-band-top: 2;
-    --chu-band-bottom: 3;
+  .blip-feature {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
+    --blip-band-top: 2;
+    --blip-band-bottom: 3;
     display: grid;
     align-content: start;
-    gap: calc(3 * var(--chu-pixel));
-    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
-    padding: calc(8 * var(--chu-pixel)) calc(9 * var(--chu-pixel)) calc(9 * var(--chu-pixel));
+    gap: calc(3 * var(--blip-pixel));
+    margin: 0 var(--blip-pixel) var(--blip-pixel) 0;
+    padding: calc(8 * var(--blip-pixel)) calc(9 * var(--blip-pixel)) calc(9 * var(--blip-pixel));
   }
-  .chu-feature > :is(h2, h3, h4, p) { margin: 0; }
+  .blip-feature > :is(h2, h3, h4, p) { margin: 0; }
 
-  .chu-feature-icon {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
-    --chu-band-top: 2;
-    --chu-band-bottom: 2;
+  .blip-feature-icon {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
+    --blip-band-top: 2;
+    --blip-band-bottom: 2;
     display: grid;
     place-items: center;
-    inline-size: calc(22 * var(--chu-pixel));
-    block-size: calc(22 * var(--chu-pixel));
-    margin: 0 var(--chu-pixel) calc(2 * var(--chu-pixel)) 0;
+    inline-size: calc(22 * var(--blip-pixel));
+    block-size: calc(22 * var(--blip-pixel));
+    margin: 0 var(--blip-pixel) calc(2 * var(--blip-pixel)) 0;
   }
-  .chu-feature-title {
-    font-size: var(--chu-size-lead);
-    font-weight: var(--chu-weight-bold);
-    line-height: var(--chu-leading-tight);
+  .blip-feature-title {
+    font-size: var(--blip-size-lead);
+    font-weight: var(--blip-weight-bold);
+    line-height: var(--blip-leading-tight);
   }
-  .chu-feature[data-layout="lead"] .chu-feature-title { font-size: var(--chu-size-title); }
-  .chu-feature-text { font-size: var(--chu-size-body); line-height: var(--chu-leading-normal); }
+  .blip-feature[data-layout="lead"] .blip-feature-title { font-size: var(--blip-size-title); }
+  .blip-feature-text { font-size: var(--blip-size-body); line-height: var(--blip-leading-normal); }
 
   /* The lead's picture: a framed slot, as wide as the panel. It grows to fill the lead's two rows. */
-  .chu-feature[data-layout="lead"]:has(> .chu-feature-media) { grid-template-rows: 1fr auto auto; align-content: stretch; }
-  .chu-feature-media {
+  .blip-feature[data-layout="lead"]:has(> .blip-feature-media) { grid-template-rows: 1fr auto auto; align-content: stretch; }
+  .blip-feature-media {
     display: grid;
-    min-block-size: calc(56 * var(--chu-pixel));
-    margin-block-end: calc(4 * var(--chu-pixel));
+    min-block-size: calc(56 * var(--blip-pixel));
+    margin-block-end: calc(4 * var(--blip-pixel));
   }
-  .chu-feature-media > * { grid-area: 1 / 1; }
+  .blip-feature-media > * { grid-area: 1 / 1; }
 
   /* A stat: one number in Pixel Bop, POP, and what it counts. */
-  .chu-feature[data-layout="stat"] { align-content: center; justify-items: start; }
-  .chu-feature-stat {
-    --chu-scale: 3;
-    font-family: var(--chu-font-display);
-    font-size: calc(10 * var(--chu-pixel) * var(--chu-scale));
+  .blip-feature[data-layout="stat"] { align-content: center; justify-items: start; }
+  .blip-feature-stat {
+    --blip-scale: 3;
+    font-family: var(--blip-font-display);
+    font-size: calc(10 * var(--blip-pixel) * var(--blip-scale));
     line-height: 1.2;
     font-variant-numeric: tabular-nums;
     text-transform: uppercase;
@@ -119,24 +119,24 @@
     -webkit-font-smoothing: none;
   }
 
-  /* Small things in a row (options, languages): each one a soft .chu-box. */
-  .chu-feature-chips {
+  /* Small things in a row (options, languages): each one a soft .blip-box. */
+  .blip-feature-chips {
     display: flex;
     flex-wrap: wrap;
-    gap: calc(3 * var(--chu-pixel));
+    gap: calc(3 * var(--blip-pixel));
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  .chu-feature-chips > .chu-box {
-    --chu-r: 2;
-    --chu-shape: var(--chu-shape-2);
-    --chu-shape-inner: var(--chu-shape-2-inner);
-    --chu-band-top: 1;
-    --chu-band-bottom: 2;
-    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
-    padding: var(--chu-pixel) calc(4 * var(--chu-pixel)) calc(2 * var(--chu-pixel));
-    font-size: var(--chu-size-small);
-    font-weight: var(--chu-weight-bold);
+  .blip-feature-chips > .blip-box {
+    --blip-r: 2;
+    --blip-shape: var(--blip-shape-2);
+    --blip-shape-inner: var(--blip-shape-2-inner);
+    --blip-band-top: 1;
+    --blip-band-bottom: 2;
+    margin: 0 var(--blip-pixel) var(--blip-pixel) 0;
+    padding: var(--blip-pixel) calc(4 * var(--blip-pixel)) calc(2 * var(--blip-pixel));
+    font-size: var(--blip-size-small);
+    font-weight: var(--blip-weight-bold);
   }
 }

@@ -1,10 +1,10 @@
 /**
- * The world backdrop (@jaatster/blip-effects, drawWorld): the TV's landscape, drawn a pixel at a time. It must come out the
+ * The world backdrop (@blip/effects, drawWorld): the TV's landscape, drawn a pixel at a time. It must come out the
  * same every time, whatever the random service or the clock say, so screenshots and the TV agree. The pinned hashes
  * use a made-up palette, so they change only when the drawing changes, not when a world colour is retuned.
  */
 import { afterEach, beforeEach, describe, expect, inject, it } from "vitest";
-import { provide, type Scheme } from "@jaatster/blip-core";
+import { provide, type Scheme } from "@blip/core";
 import { drawWorld, worldPalette, type DrawWorldOptions, type WorldLayer } from "../../../packages/effects/src/world.ts";
 
 /** 44 distinct colours, one per palette slot. */
@@ -152,7 +152,7 @@ describe("drawWorld with the tokens' colours", () => {
   });
   afterEach(() => style.remove());
 
-  it("reads 44 colours per time of day from the --chu-world-* tokens", () => {
+  it("reads 44 colours per time of day from the --blip-world-* tokens", () => {
     const day = worldPalette("day"), night = worldPalette("night");
     expect(day).toHaveLength(44);
     expect(night).toHaveLength(44);
@@ -173,18 +173,18 @@ describe("drawWorld with the tokens' colours", () => {
     expect(await hash(draw("day", 320, 180, {}))).not.toBe(await hash(draw("night", 320, 180, {})));
   });
 
-  it("takes the night sky from the palette (data-chu-palette); Day and Sunset are the same in every palette", () => {
+  it("takes the night sky from the palette (data-blip-palette); Day and Sunset are the same in every palette", () => {
     const presets = document.head.appendChild(Object.assign(document.createElement("style"), { textContent: inject("palettesCss") }));
     const html = document.documentElement;
     try {
       const candy = { day: worldPalette("day"), night: worldPalette("night") };
-      html.dataset.chuPalette = "grape";
+      html.dataset.blipPalette = "grape";
       expect(worldPalette("night").slice(0, 28)).not.toEqual(candy.night.slice(0, 28));
       // Grape is the TV's own night: its sky starts at #3A3E7C.
       expect(worldPalette("night")[0]).toBe(0x3a3e7c);
       expect(worldPalette("day")).toEqual(candy.day);
     } finally {
-      delete html.dataset.chuPalette;
+      delete html.dataset.blipPalette;
       presets.remove();
     }
   });

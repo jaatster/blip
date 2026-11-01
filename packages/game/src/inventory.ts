@@ -1,12 +1,12 @@
 /**
- * <chu-inventory>: a grid of item slots as a single-select listbox (see inventory.css). The arrow keys move in two
+ * <blip-inventory>: a grid of item slots as a single-select listbox (see inventory.css). The arrow keys move in two
  * dimensions (Up and Down by a whole row, however many columns the grid has right now), Home and End jump to the
  * ends, typing a letter jumps to the next item whose name starts with it, and Enter, Space or a click selects. Slots
  * rendered after the element upgrades become options as they arrive.
  *
- *   inventory.addEventListener("chu-select", (e) => show(e.detail.item));   // { item, index, value }
+ *   inventory.addEventListener("blip-select", (e) => show(e.detail.item));   // { item, index, value }
  */
-import { BlipElement, rovingFocus, typeahead } from "@jaatster/blip-core";
+import { BlipElement, rovingFocus, typeahead } from "@blip/core";
 
 export interface SelectDetail {
   item: HTMLElement;
@@ -20,14 +20,14 @@ export interface SelectDetail {
  * ends, a letter jumps to the next item with that name, and Enter, Space or a click selects.
  *
  * @summary An inventory grid of item slots.
- * @fires {CustomEvent<SelectDetail>} chu-select - A slot was selected.
+ * @fires {CustomEvent<SelectDetail>} blip-select - A slot was selected.
  */
 export class BlipInventory extends BlipElement {
-  static override classes = ["chu-inventory"];
+  static override classes = ["blip-inventory"];
 
   /** The slots, in order. Slots added later become options as they are found. */
   get slots(): HTMLElement[] {
-    const slots = [...this.querySelectorAll<HTMLElement>(".chu-slot")];
+    const slots = [...this.querySelectorAll<HTMLElement>(".blip-slot")];
     for (const slot of slots) {
       if (slot.getAttribute("role") === "option") continue;
       slot.setAttribute("role", "option");
@@ -67,12 +67,12 @@ export class BlipInventory extends BlipElement {
       signal: this.signal,
     });
     this.on(this, "click", (e: Event) => {
-      const slot = (e.target as Element).closest<HTMLElement>(".chu-slot");
+      const slot = (e.target as Element).closest<HTMLElement>(".blip-slot");
       if (slot && this.contains(slot) && slot.getAttribute("aria-disabled") !== "true") this.select(slot);
     });
   }
 
-  /** Selects a slot (by element or index) and sends chu-select. */
+  /** Selects a slot (by element or index) and sends blip-select. */
   select(slot: HTMLElement | number): void {
     const item = typeof slot === "number" ? this.slots[slot] : slot;
     if (!item) return;
@@ -82,10 +82,10 @@ export class BlipInventory extends BlipElement {
   }
 }
 
-BlipElement.define("chu-inventory", BlipInventory);
+BlipElement.define("blip-inventory", BlipInventory);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "chu-inventory": BlipInventory;
+    "blip-inventory": BlipInventory;
   }
 }

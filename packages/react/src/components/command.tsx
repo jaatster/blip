@@ -2,7 +2,7 @@
  * Command palette: CommandPanel, CommandSearch, CommandInput, CommandResults, CommandGroup, CommandHeading,
  * CommandItem, CommandLabel, CommandHint, CommandShortcut, CommandEmpty, CommandStatus and CommandFooter, the parts
  * that go inside <CommandPalette>, and <CommandPalette> itself (generated from its element, re-exported here). CSS
- * from @jaatster/blip-components (command.css).
+ * from @blip/components (command.css).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";
@@ -17,7 +17,7 @@ type Named = { "aria-label": string } | { "aria-labelledby": string };
 
 /** Own props of {@link CommandPanel}. */
 export interface CommandPanelOwnProps {
-  /** Corner radius in pixels, 5 by default. `data-chu-r`. */
+  /** Corner radius in pixels, 5 by default. `data-blip-r`. */
   radius?: Radius;
 }
 
@@ -47,7 +47,7 @@ export type CommandPanelProps<T extends ElementType = "dialog"> = PolymorphicPro
  *     </CommandPanel>
  *   </CommandPalette>
  *
- * Renders `<dialog class="chu-box chu-command chu-pop-in" closedby="any">`.
+ * Renders `<dialog class="blip-box blip-command blip-pop-in" closedby="any">`.
  */
 export const CommandPanel = /*#__PURE__*/ forwardRef(function CommandPanel(
   // The name is required by CommandPanelProps; inside, the props are just passed on.
@@ -57,8 +57,8 @@ export const CommandPanel = /*#__PURE__*/ forwardRef(function CommandPanel(
   return (
     <Tag
       ref={ref}
-      className={cx("chu-box chu-command chu-pop-in", className)}
-      data-chu-r={radius}
+      className={cx("blip-box blip-command blip-pop-in", className)}
+      data-blip-r={radius}
       closedby={Tag === "dialog" ? "any" : undefined}
       {...rest}
     />
@@ -73,13 +73,13 @@ export type CommandSearchProps = NativeProps<"div">;
  *
  *   <CommandSearch><Icon name="search" /><CommandInput aria-label="Search pages and actions" /></CommandSearch>
  *
- * Renders `<div class="chu-command-search">`.
+ * Renders `<div class="blip-command-search">`.
  */
 export const CommandSearch = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandSearchProps>(function CommandSearch(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-command-search", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-command-search", className)} {...rest} />;
 });
 
 /** Props for {@link CommandInput}. */
@@ -92,13 +92,13 @@ export type CommandInputProps = Named & NativeProps<"input">;
  *
  *   <CommandInput aria-label="Search pages and actions" placeholder="Search…" />
  *
- * Renders `<input class="chu-command-input" type="text">`.
+ * Renders `<input class="blip-command-input" type="text">`.
  */
 export const CommandInput = /*#__PURE__*/ forwardRef<HTMLInputElement, CommandInputProps>(function CommandInput(
   { type = "text", className, ...rest },
   ref,
 ) {
-  return <input ref={ref} className={cx("chu-command-input", className)} type={type} {...rest} />;
+  return <input ref={ref} className={cx("blip-command-input", className)} type={type} {...rest} />;
 });
 
 /** Props for {@link CommandResults}. */
@@ -109,13 +109,13 @@ export type CommandResultsProps = Named & NativeProps<"div">;
  *
  *   <CommandResults aria-label="Results">…</CommandResults>
  *
- * Renders `<div class="chu-command-results" role="listbox">`.
+ * Renders `<div class="blip-command-results" role="listbox">`.
  */
 export const CommandResults = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandResultsProps>(function CommandResults(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-command-results", className)} role="listbox" {...rest} />;
+  return <div ref={ref} className={cx("blip-command-results", className)} role="listbox" {...rest} />;
 });
 
 /** Props for {@link CommandGroup}. */
@@ -128,13 +128,13 @@ export type CommandGroupProps = Named & NativeProps<"div">;
  *     <CommandHeading id="palette-actions">Actions</CommandHeading>…
  *   </CommandGroup>
  *
- * Renders `<div class="chu-command-group" role="group">`.
+ * Renders `<div class="blip-command-group" role="group">`.
  */
 export const CommandGroup = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandGroupProps>(function CommandGroup(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-command-group", className)} role="group" {...rest} />;
+  return <div ref={ref} className={cx("blip-command-group", className)} role="group" {...rest} />;
 });
 
 /** Props for {@link CommandHeading}. */
@@ -145,22 +145,22 @@ export type CommandHeadingProps = NativeProps<"div">;
  *
  *   <CommandHeading id="palette-pages">Pages</CommandHeading>
  *
- * Renders `<div class="chu-command-heading">`.
+ * Renders `<div class="blip-command-heading">`.
  */
 export const CommandHeading = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandHeadingProps>(function CommandHeading(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-command-heading", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-command-heading", className)} {...rest} />;
 });
 
 /** Own props of {@link CommandItem}. */
 export interface CommandItemOwnProps {
-  /** What `chu-action` reports as `detail.value` (the label otherwise): a path, an action's name. `data-value`. */
+  /** What `blip-action` reports as `detail.value` (the label otherwise): a path, an action's name. `data-value`. */
   value?: string;
   /** More words the filter matches, space-separated ("home dashboard" finds Overview). `data-keywords`. */
   keywords?: string;
-  /** Corner radius in pixels, 3 by default. `data-chu-r`. */
+  /** Corner radius in pixels, 3 by default. `data-blip-r`. */
   radius?: Radius;
 }
 
@@ -176,7 +176,7 @@ export type CommandItemProps = CommandItemOwnProps & NativeProps<"div", CommandI
  *     <Icon name="plus" /><CommandLabel>New level</CommandLabel>
  *   </CommandItem>
  *
- * Renders `<div class="chu-box chu-command-item" role="option">`.
+ * Renders `<div class="blip-box blip-command-item" role="option">`.
  */
 export const CommandItem = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandItemProps>(function CommandItem(
   { value, keywords, radius, className, ...rest },
@@ -185,11 +185,11 @@ export const CommandItem = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandItemP
   return (
     <div
       ref={ref}
-      className={cx("chu-box chu-command-item", className)}
+      className={cx("blip-box blip-command-item", className)}
       role="option"
       data-value={value}
       data-keywords={keywords}
-      data-chu-r={radius}
+      data-blip-r={radius}
       {...rest}
     />
   );
@@ -199,17 +199,17 @@ export const CommandItem = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandItemP
 export type CommandLabelProps = NativeProps<"span">;
 
 /**
- * A result's name, as the visible navigation says it ("Players", "New level"); the filter and `chu-action` read it.
+ * A result's name, as the visible navigation says it ("Players", "New level"); the filter and `blip-action` read it.
  *
  *   <CommandLabel>Levels</CommandLabel>
  *
- * Renders `<span class="chu-command-label">`.
+ * Renders `<span class="blip-command-label">`.
  */
 export const CommandLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, CommandLabelProps>(function CommandLabel(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-command-label", className)} {...rest} />;
+  return <span ref={ref} className={cx("blip-command-label", className)} {...rest} />;
 });
 
 /** Props for {@link CommandHint}. */
@@ -220,13 +220,13 @@ export type CommandHintProps = NativeProps<"span">;
  *
  *   <CommandHint>Page</CommandHint>
  *
- * Renders `<span class="chu-command-hint">`.
+ * Renders `<span class="blip-command-hint">`.
  */
 export const CommandHint = /*#__PURE__*/ forwardRef<HTMLSpanElement, CommandHintProps>(function CommandHint(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-command-hint", className)} {...rest} />;
+  return <span ref={ref} className={cx("blip-command-hint", className)} {...rest} />;
 });
 
 /** Props for {@link CommandShortcut}. */
@@ -236,16 +236,16 @@ export type CommandShortcutProps = NativeProps<"span">;
  * A result's keys, small keycaps at the end, hidden from screen readers.
  *
  *   <CommandShortcut>
- *     <kbd className="chu-box chu-keycap" data-size="sm">G</kbd><kbd className="chu-box chu-keycap" data-size="sm">L</kbd>
+ *     <kbd className="blip-box blip-keycap" data-size="sm">G</kbd><kbd className="blip-box blip-keycap" data-size="sm">L</kbd>
  *   </CommandShortcut>
  *
- * Renders `<span class="chu-command-shortcut" aria-hidden="true">`.
+ * Renders `<span class="blip-command-shortcut" aria-hidden="true">`.
  */
 export const CommandShortcut = /*#__PURE__*/ forwardRef<HTMLSpanElement, CommandShortcutProps>(function CommandShortcut(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-command-shortcut", className)} aria-hidden="true" {...rest} />;
+  return <span ref={ref} className={cx("blip-command-shortcut", className)} aria-hidden="true" {...rest} />;
 });
 
 /** Props for {@link CommandEmpty}. */
@@ -257,13 +257,13 @@ export type CommandEmptyProps = NativeProps<"p">;
  *
  *   <CommandEmpty>Nothing matches. Try a page or an action.</CommandEmpty>
  *
- * Renders `<p class="chu-command-empty" hidden>`.
+ * Renders `<p class="blip-command-empty" hidden>`.
  */
 export const CommandEmpty = /*#__PURE__*/ forwardRef<HTMLParagraphElement, CommandEmptyProps>(function CommandEmpty(
   { hidden = true, className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("chu-command-empty", className)} hidden={hidden} {...rest} />;
+  return <p ref={ref} className={cx("blip-command-empty", className)} hidden={hidden} {...rest} />;
 });
 
 /** Props for {@link CommandStatus}. */
@@ -275,13 +275,13 @@ export type CommandStatusProps = Omit<NativeProps<"p">, "children">;
  *
  *   <CommandStatus />
  *
- * Renders `<p class="chu-sr-only" role="status">`.
+ * Renders `<p class="blip-sr-only" role="status">`.
  */
 export const CommandStatus = /*#__PURE__*/ forwardRef<HTMLParagraphElement, CommandStatusProps>(function CommandStatus(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("chu-sr-only", className)} role="status" {...rest} />;
+  return <p ref={ref} className={cx("blip-sr-only", className)} role="status" {...rest} />;
 });
 
 /** Props for {@link CommandFooter}. */
@@ -291,13 +291,13 @@ export type CommandFooterProps = NativeProps<"div">;
  * Optional keycap hints for the keys along the bottom, each a `<span>` of keycaps and a word. For the eye only:
  * hidden from screen readers, which hear the combobox.
  *
- *   <CommandFooter><span><kbd className="chu-box chu-keycap" data-size="sm">Enter</kbd> Open</span></CommandFooter>
+ *   <CommandFooter><span><kbd className="blip-box blip-keycap" data-size="sm">Enter</kbd> Open</span></CommandFooter>
  *
- * Renders `<div class="chu-command-footer" aria-hidden="true">`.
+ * Renders `<div class="blip-command-footer" aria-hidden="true">`.
  */
 export const CommandFooter = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandFooterProps>(function CommandFooter(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-command-footer", className)} aria-hidden="true" {...rest} />;
+  return <div ref={ref} className={cx("blip-command-footer", className)} aria-hidden="true" {...rest} />;
 });

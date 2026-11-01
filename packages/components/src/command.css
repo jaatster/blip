@@ -1,199 +1,199 @@
 /*
  * Command palette. Every page and action one search away: a cream panel over a dithered scrim, a search field, and
- * grouped results. The result you are on is the yellow FOCUS row; Enter runs it. <chu-command> opens it with Ctrl+K
+ * grouped results. The result you are on is the yellow FOCUS row; Enter runs it. <blip-command> opens it with Ctrl+K
  * (Cmd+K on a Mac), filters as you type, moves with the arrow keys and keeps the focus in the field.
  *
- *   <chu-command shortcut="mod+k">
- *     <dialog class="chu-box chu-command chu-pop-in" aria-label="Command palette" closedby="any">
- *       <div class="chu-command-search">
- *         <svg class="chu-icon" …></svg>
- *         <input class="chu-command-input" type="text" role="combobox" aria-expanded="true" aria-controls="cmd-results"
+ *   <blip-command shortcut="mod+k">
+ *     <dialog class="blip-box blip-command blip-pop-in" aria-label="Command palette" closedby="any">
+ *       <div class="blip-command-search">
+ *         <svg class="blip-icon" …></svg>
+ *         <input class="blip-command-input" type="text" role="combobox" aria-expanded="true" aria-controls="cmd-results"
  *                aria-autocomplete="list" aria-label="Search pages and actions" placeholder="Search…" autocomplete="off">
  *       </div>
- *       <div class="chu-command-results" id="cmd-results" role="listbox" aria-label="Results">
- *         <div class="chu-command-group" role="group" aria-labelledby="cmd-pages">
- *           <div class="chu-command-heading" id="cmd-pages">Pages</div>
- *           <div class="chu-box chu-command-item" role="option" data-value="dashboard">
- *             <svg class="chu-icon" …></svg><span class="chu-command-label">Dashboard</span>
- *             <span class="chu-command-shortcut" aria-hidden="true"><kbd class="chu-box chu-keycap" data-size="sm">G</kbd>…</span>
+ *       <div class="blip-command-results" id="cmd-results" role="listbox" aria-label="Results">
+ *         <div class="blip-command-group" role="group" aria-labelledby="cmd-pages">
+ *           <div class="blip-command-heading" id="cmd-pages">Pages</div>
+ *           <div class="blip-box blip-command-item" role="option" data-value="dashboard">
+ *             <svg class="blip-icon" …></svg><span class="blip-command-label">Dashboard</span>
+ *             <span class="blip-command-shortcut" aria-hidden="true"><kbd class="blip-box blip-keycap" data-size="sm">G</kbd>…</span>
  *           </div>
  *         </div>
  *       </div>
- *       <p class="chu-command-empty" hidden>Nothing matches. Try another word.</p>
- *       <p class="chu-sr-only" role="status"></p>
- *       <div class="chu-command-footer" aria-hidden="true">…keycap hints…</div>
+ *       <p class="blip-command-empty" hidden>Nothing matches. Try another word.</p>
+ *       <p class="blip-sr-only" role="status"></p>
+ *       <div class="blip-command-footer" aria-hidden="true">…keycap hints…</div>
  *     </dialog>
- *   </chu-command>
+ *   </blip-command>
  *
- *   aria-selected="true" on an option   the active result: the yellow FOCUS row (chu-command moves it)
+ *   aria-selected="true" on an option   the active result: the yellow FOCUS row (blip-command moves it)
  *   aria-disabled="true"                 dithered; never runs
- *   .chu-command-hint                     a quiet note after the label ("Page", "Action")
+ *   .blip-command-hint                     a quiet note after the label ("Page", "Action")
  *   data-keywords="…"                    more words the filter matches
  *
  * Shortcuts and the footer's hints use the keycap component (keycap.css).
  */
 
-@layer chu.components {
-  .chu-command {
-    --chu-r: 5;
-    --chu-shape: var(--chu-shape-5);
-    --chu-shape-inner: var(--chu-shape-5-inner);
-    --chu-box-top: var(--chu-surface-panel);
-    --chu-box-fill: var(--chu-surface-panel);
-    --chu-box-bottom: var(--chu-surface-panel);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
+@layer blip.components {
+  .blip-command {
+    --blip-r: 5;
+    --blip-shape: var(--blip-shape-5);
+    --blip-shape-inner: var(--blip-shape-5-inner);
+    --blip-box-top: var(--blip-surface-panel);
+    --blip-box-fill: var(--blip-surface-panel);
+    --blip-box-bottom: var(--blip-surface-panel);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
 
     display: flex;
     flex-direction: column;
-    inline-size: min(100% - 2 * var(--chu-space-6), calc(280 * var(--chu-pixel)));
+    inline-size: min(100% - 2 * var(--blip-space-6), calc(280 * var(--blip-pixel)));
     max-inline-size: none;
-    max-block-size: calc(100% - 2 * var(--chu-space-24));
+    max-block-size: calc(100% - 2 * var(--blip-space-24));
     padding: 0;
     overflow: visible;
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-small);
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-small);
   }
-  dialog.chu-command {
+  dialog.blip-command {
     position: fixed;
     inset: 0;
-    margin: var(--chu-space-24) auto auto;
+    margin: var(--blip-space-24) auto auto;
   }
-  dialog.chu-command:not([open]) { display: none; }
+  dialog.blip-command:not([open]) { display: none; }
   /* Blip never washes the page out: the scrim is an ink dither. */
-  .chu-command::backdrop {
-    background: repeating-conic-gradient(var(--chu-scrim) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel));
+  .blip-command::backdrop {
+    background: repeating-conic-gradient(var(--blip-scrim) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel));
   }
 
-  .chu-command-search {
+  .blip-command-search {
     display: flex;
     align-items: center;
-    gap: var(--chu-space-4);
-    padding: var(--chu-space-3) var(--chu-space-6);
-    background: linear-gradient(var(--chu-line-soft) 0 0) bottom / 100% var(--chu-pixel) no-repeat;
+    gap: var(--blip-space-4);
+    padding: var(--blip-space-3) var(--blip-space-6);
+    background: linear-gradient(var(--blip-line-soft) 0 0) bottom / 100% var(--blip-pixel) no-repeat;
   }
-  .chu-command-search > .chu-icon { color: var(--chu-text-muted); }
-  .chu-command-input {
+  .blip-command-search > .blip-icon { color: var(--blip-text-muted); }
+  .blip-command-input {
     flex: 1;
     min-inline-size: 0;
-    block-size: calc(18 * var(--chu-pixel));
+    block-size: calc(18 * var(--blip-pixel));
     padding: 0;
     border: 0;
     background: none;
-    font-size: var(--chu-size-body);
+    font-size: var(--blip-size-body);
   }
   /* The field always has the focus while the palette is open; the yellow row shows where Enter goes. */
-  .chu-command-input:focus-visible {
+  .blip-command-input:focus-visible {
     outline: none;
     box-shadow: none;
   }
-  .chu-command-input::placeholder {
-    color: var(--chu-text-muted);
+  .blip-command-input::placeholder {
+    color: var(--blip-text-muted);
     opacity: 1;
   }
 
-  .chu-command-results {
+  .blip-command-results {
     flex: 1 1 auto;
     min-block-size: 0;
-    max-block-size: calc(160 * var(--chu-pixel));
-    padding: var(--chu-space-3);
+    max-block-size: calc(160 * var(--blip-pixel));
+    padding: var(--blip-space-3);
     overflow-y: auto;
     overscroll-behavior: contain;
-    scroll-padding-block: var(--chu-space-3);
+    scroll-padding-block: var(--blip-space-3);
   }
-  .chu-command-group[hidden] { display: none; }
-  .chu-command-group + .chu-command-group { margin-block-start: var(--chu-space-3); }
-  .chu-command-heading {
-    padding: var(--chu-space-2) var(--chu-space-4) var(--chu-space-1);
-    font-size: var(--chu-size-caption);
-    font-weight: var(--chu-weight-bold);
-    line-height: var(--chu-leading-tight);
-    letter-spacing: var(--chu-tracking-label);
+  .blip-command-group[hidden] { display: none; }
+  .blip-command-group + .blip-command-group { margin-block-start: var(--blip-space-3); }
+  .blip-command-heading {
+    padding: var(--blip-space-2) var(--blip-space-4) var(--blip-space-1);
+    font-size: var(--blip-size-caption);
+    font-weight: var(--blip-weight-bold);
+    line-height: var(--blip-leading-tight);
+    letter-spacing: var(--blip-tracking-label);
     text-transform: uppercase;
-    color: var(--chu-text-muted);
+    color: var(--blip-text-muted);
   }
 
-  .chu-command-item {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
-    --chu-band-top: 2;
-    --chu-band-bottom: 2;
-    --chu-box-outline: transparent;
-    --chu-box-top: transparent;
-    --chu-box-fill: transparent;
-    --chu-box-bottom: transparent;
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
-    --chu-drop-size: 0;
+  .blip-command-item {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
+    --blip-band-top: 2;
+    --blip-band-bottom: 2;
+    --blip-box-outline: transparent;
+    --blip-box-top: transparent;
+    --blip-box-fill: transparent;
+    --blip-box-bottom: transparent;
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
+    --blip-drop-size: 0;
 
     display: flex;
     align-items: center;
-    gap: var(--chu-space-4);
-    min-block-size: calc(16 * var(--chu-pixel));
-    padding: var(--chu-space-1) var(--chu-space-4);
+    gap: var(--blip-space-4);
+    min-block-size: calc(16 * var(--blip-pixel));
+    padding: var(--blip-space-1) var(--blip-space-4);
     translate: none;
-    font-weight: var(--chu-weight-medium);
-    line-height: var(--chu-leading-tight);
+    font-weight: var(--blip-weight-medium);
+    line-height: var(--blip-leading-tight);
     white-space: nowrap;
   }
-  .chu-command-item[hidden] { display: none; }
-  .chu-command-item[aria-disabled="true"] {
-    --chu-box-text: var(--chu-text-muted);
-    --chu-box-dither: var(--chu-surface-sunken);
+  .blip-command-item[hidden] { display: none; }
+  .blip-command-item[aria-disabled="true"] {
+    --blip-box-text: var(--blip-text-muted);
+    --blip-box-dither: var(--blip-surface-sunken);
   }
   /* The active result: the yellow FOCUS row, as in a menu. */
-  .chu-command-item:is([aria-selected="true"], [data-chu-state~="focus"]) {
-    --chu-box-outline: var(--chu-outline);
-    --chu-box-top: var(--chu-candy-yellow-light);
-    --chu-box-fill: var(--chu-focus);
-    --chu-box-bottom: var(--chu-candy-yellow-shade);
-    --chu-box-text: var(--chu-ink);
-    --chu-box-glint: var(--chu-white);
+  .blip-command-item:is([aria-selected="true"], [data-blip-state~="focus"]) {
+    --blip-box-outline: var(--blip-outline);
+    --blip-box-top: var(--blip-candy-yellow-light);
+    --blip-box-fill: var(--blip-focus);
+    --blip-box-bottom: var(--blip-candy-yellow-shade);
+    --blip-box-text: var(--blip-ink);
+    --blip-box-glint: var(--blip-white);
     filter: none;
   }
-  .chu-command-label {
+  .blip-command-label {
     min-inline-size: 0;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .chu-command-hint {
-    font-size: var(--chu-size-caption);
-    font-weight: var(--chu-weight-regular);
-    color: var(--chu-text-muted);
+  .blip-command-hint {
+    font-size: var(--blip-size-caption);
+    font-weight: var(--blip-weight-regular);
+    color: var(--blip-text-muted);
   }
-  .chu-command-item:is([aria-selected="true"], [data-chu-state~="focus"]) .chu-command-hint { color: inherit; }
-  .chu-command-shortcut {
+  .blip-command-item:is([aria-selected="true"], [data-blip-state~="focus"]) .blip-command-hint { color: inherit; }
+  .blip-command-shortcut {
     display: inline-flex;
-    gap: var(--chu-space-1);
+    gap: var(--blip-space-1);
     margin-inline-start: auto;
-    padding-inline-start: var(--chu-space-6);
+    padding-inline-start: var(--blip-space-6);
   }
 
-  .chu-command-empty {
-    padding: var(--chu-space-12) var(--chu-space-6);
+  .blip-command-empty {
+    padding: var(--blip-space-12) var(--blip-space-6);
     text-align: center;
-    color: var(--chu-text-muted);
+    color: var(--blip-text-muted);
   }
-  .chu-command-footer {
+  .blip-command-footer {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--chu-space-2) var(--chu-space-8);
-    padding: var(--chu-space-3) var(--chu-space-6) var(--chu-space-4);
-    background: linear-gradient(var(--chu-line-soft) 0 0) top / 100% var(--chu-pixel) no-repeat;
-    font-size: var(--chu-size-caption);
-    color: var(--chu-text-muted);
+    gap: var(--blip-space-2) var(--blip-space-8);
+    padding: var(--blip-space-3) var(--blip-space-6) var(--blip-space-4);
+    background: linear-gradient(var(--blip-line-soft) 0 0) top / 100% var(--blip-pixel) no-repeat;
+    font-size: var(--blip-size-caption);
+    color: var(--blip-text-muted);
   }
-  .chu-command-footer > span {
+  .blip-command-footer > span {
     display: inline-flex;
     align-items: center;
-    gap: var(--chu-space-2);
+    gap: var(--blip-space-2);
   }
 
   @media (forced-colors: active) {
-    .chu-command-item { border-color: Canvas; }
-    .chu-command-item:is([aria-selected="true"], [data-chu-state~="focus"]) { outline: var(--chu-pixel) solid Highlight; outline-offset: calc(-1 * var(--chu-pixel)); }
-    .chu-command::backdrop { background: none; }
+    .blip-command-item { border-color: Canvas; }
+    .blip-command-item:is([aria-selected="true"], [data-blip-state~="focus"]) { outline: var(--blip-pixel) solid Highlight; outline-offset: calc(-1 * var(--blip-pixel)); }
+    .blip-command::backdrop { background: none; }
   }
 }

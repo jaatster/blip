@@ -2,13 +2,13 @@
  * Button group. Buttons that belong together: spaced (a row of actions) or attached (one bar, sharing their
  * outlines, square where they meet and rounded only at the ends). A group of toggles, a pager, a toolbar.
  *
- *   <div class="chu-button-group" role="group" aria-label="Save">
- *     <button class="chu-box chu-button">Save</button>
- *     <button class="chu-box chu-button" data-variant="soft">Save as…</button>
+ *   <div class="blip-button-group" role="group" aria-label="Save">
+ *     <button class="blip-box blip-button">Save</button>
+ *     <button class="blip-box blip-button" data-variant="soft">Save as…</button>
  *   </div>
- *   <div class="chu-button-group" data-attached role="group" aria-label="Text style">
- *     <button class="chu-box chu-button" data-variant="outline" aria-pressed="true">Bold</button>
- *     <button class="chu-box chu-button" data-variant="outline" aria-pressed="false">Italic</button>
+ *   <div class="blip-button-group" data-attached role="group" aria-label="Text style">
+ *     <button class="blip-box blip-button" data-variant="outline" aria-pressed="true">Bold</button>
+ *     <button class="blip-box blip-button" data-variant="outline" aria-pressed="false">Italic</button>
  *   </div>
  *
  *   data-attached           one bar: shared outlines, a radius of 3 at the two ends only
@@ -20,31 +20,31 @@
  * (role="toolbar"), make one button tabbable and move with the arrow keys: see the docs.
  */
 
-@layer chu.components {
-  .chu-button-group {
+@layer blip.components {
+  .blip-button-group {
     display: inline-flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: calc(4 * var(--chu-pixel));
+    gap: calc(4 * var(--blip-pixel));
     vertical-align: middle;
   }
-  .chu-button-group[data-width="full"] { display: flex; }
-  .chu-button-group[data-width="full"] > .chu-button { flex: 1 1 0; }
-  .chu-button-group > [role="separator"] {
+  .blip-button-group[data-width="full"] { display: flex; }
+  .blip-button-group[data-width="full"] > .blip-button { flex: 1 1 0; }
+  .blip-button-group > [role="separator"] {
     align-self: stretch;
-    inline-size: var(--chu-pixel);
-    margin: calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel)) calc(3 * var(--chu-pixel));
-    background: var(--chu-line-soft);
+    inline-size: var(--blip-pixel);
+    margin: calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel)) calc(3 * var(--blip-pixel));
+    background: var(--blip-line-soft);
   }
 
   /* Attached: middle buttons are square; the ends take the radius-3 corners on their outer side only. The tiles
-     are the box's own (from --chu-shape-3); the square inner corners are drawn by conic gradients. */
-  .chu-button-group[data-attached] {
+     are the box's own (from --blip-shape-3); the square inner corners are drawn by conic gradients. */
+  .blip-button-group[data-attached] {
     --_s: linear-gradient(#000 0 0);
     --_l: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h1v1H3zM1 1h3v2H1zM0 3h4v1H0z'/%3E%3C/svg%3E"), var(--_s), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h4v1H0zM1 1h3v2H1zM3 3h1v1H3z'/%3E%3C/svg%3E"), var(--_s), var(--_s), var(--_s);
-    --_li: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4' shape-rendering='crispEdges'%3E%3Cpath d='M3 1h1v1H3zM2 2h2v1H2zM1 3h3v1H1z'/%3E%3C/svg%3E"), conic-gradient(from 180deg at calc(100% - var(--chu-pixel)) var(--chu-pixel), #000 25%, transparent 0), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h3v1H1zM2 1h2v1H2zM3 2h1v1H3z'/%3E%3C/svg%3E"), conic-gradient(from 270deg at calc(100% - var(--chu-pixel)) calc(100% - var(--chu-pixel)), #000 25%, transparent 0), var(--_s), var(--_s);
+    --_li: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4' shape-rendering='crispEdges'%3E%3Cpath d='M3 1h1v1H3zM2 2h2v1H2zM1 3h3v1H1z'/%3E%3C/svg%3E"), conic-gradient(from 180deg at calc(100% - var(--blip-pixel)) var(--blip-pixel), #000 25%, transparent 0), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h3v1H1zM2 1h2v1H2zM3 2h1v1H3z'/%3E%3C/svg%3E"), conic-gradient(from 270deg at calc(100% - var(--blip-pixel)) calc(100% - var(--blip-pixel)), #000 25%, transparent 0), var(--_s), var(--_s);
     --_r: var(--_s), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1H0zM0 1h3v2H0zM0 3h4v1H0z'/%3E%3C/svg%3E"), var(--_s), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h4v1H0zM0 1h3v2H0zM0 3h1v1H0z'/%3E%3C/svg%3E"), var(--_s), var(--_s);
-    --_ri: conic-gradient(from 90deg at var(--chu-pixel) var(--chu-pixel), #000 25%, transparent 0), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4' shape-rendering='crispEdges'%3E%3Cpath d='M0 1h1v1H0zM0 2h2v1H0zM0 3h3v1H0z'/%3E%3C/svg%3E"), conic-gradient(at var(--chu-pixel) calc(100% - var(--chu-pixel)), #000 25%, transparent 0), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h3v1H0zM0 1h2v1H0zM0 2h1v1H0z'/%3E%3C/svg%3E"), var(--_s), var(--_s);
+    --_ri: conic-gradient(from 90deg at var(--blip-pixel) var(--blip-pixel), #000 25%, transparent 0), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4' shape-rendering='crispEdges'%3E%3Cpath d='M0 1h1v1H0zM0 2h2v1H0zM0 3h3v1H0z'/%3E%3C/svg%3E"), conic-gradient(at var(--blip-pixel) calc(100% - var(--blip-pixel)), #000 25%, transparent 0), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h3v1H0zM0 1h2v1H0zM0 2h1v1H0z'/%3E%3C/svg%3E"), var(--_s), var(--_s);
     --_start: var(--_l);
     --_start-in: var(--_li);
     --_end: var(--_r);
@@ -52,24 +52,24 @@
     flex-wrap: nowrap;
     gap: 0;
   }
-  .chu-button-group[data-attached]:dir(rtl) { --_start: var(--_r); --_start-in: var(--_ri); --_end: var(--_l); --_end-in: var(--_li); }
+  .blip-button-group[data-attached]:dir(rtl) { --_start: var(--_r); --_start-in: var(--_ri); --_end: var(--_l); --_end-in: var(--_li); }
 
-  .chu-button-group[data-attached] > .chu-button {
-    --chu-r: 0;
-    --chu-shape: var(--chu-shape-0);
-    --chu-shape-inner: var(--chu-shape-0-inner);
-    margin: 0 0 var(--chu-pixel);
-    margin-inline-start: calc(-1 * var(--chu-pixel));
+  .blip-button-group[data-attached] > .blip-button {
+    --blip-r: 0;
+    --blip-shape: var(--blip-shape-0);
+    --blip-shape-inner: var(--blip-shape-0-inner);
+    margin: 0 0 var(--blip-pixel);
+    margin-inline-start: calc(-1 * var(--blip-pixel));
   }
-  .chu-button-group[data-attached] > .chu-button:first-child { --chu-r: 3; --chu-shape: var(--_start); --chu-shape-inner: var(--_start-in); margin-inline-start: 0; }
-  .chu-button-group[data-attached] > .chu-button:last-child { --chu-r: 3; --chu-shape: var(--_end); --chu-shape-inner: var(--_end-in); margin-inline-end: var(--chu-pixel); }
-  .chu-button-group[data-attached] > .chu-button:only-child { --chu-shape: var(--chu-shape-3); --chu-shape-inner: var(--chu-shape-3-inner); }
+  .blip-button-group[data-attached] > .blip-button:first-child { --blip-r: 3; --blip-shape: var(--_start); --blip-shape-inner: var(--_start-in); margin-inline-start: 0; }
+  .blip-button-group[data-attached] > .blip-button:last-child { --blip-r: 3; --blip-shape: var(--_end); --blip-shape-inner: var(--_end-in); margin-inline-end: var(--blip-pixel); }
+  .blip-button-group[data-attached] > .blip-button:only-child { --blip-shape: var(--blip-shape-3); --blip-shape-inner: var(--blip-shape-3-inner); }
   /* The button in use is drawn over its neighbours, so its outline, lift and ring are whole. */
-  .chu-button-group[data-attached] > .chu-button:is(:hover, :focus-visible, :active, [aria-pressed="true"], [data-chu-state]) { z-index: 1; }
-  .chu-button-group[data-attached] > .chu-button:is(:focus-visible, [data-chu-state~="focus"]) { z-index: 2; }
+  .blip-button-group[data-attached] > .blip-button:is(:hover, :focus-visible, :active, [aria-pressed="true"], [data-blip-state]) { z-index: 1; }
+  .blip-button-group[data-attached] > .blip-button:is(:focus-visible, [data-blip-state~="focus"]) { z-index: 2; }
 
   @media (forced-colors: active) {
-    .chu-button-group[data-attached] > .chu-button { margin-inline-start: -1px; }
-    .chu-button-group[data-attached] > .chu-button:first-child { margin-inline-start: 0; }
+    .blip-button-group[data-attached] > .blip-button { margin-inline-start: -1px; }
+    .blip-button-group[data-attached] > .blip-button:first-child { margin-inline-start: 0; }
   }
 }

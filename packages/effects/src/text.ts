@@ -1,19 +1,19 @@
 /**
  * Text effects (the TV spec §6, PixelText.java, PixelTalk.java, PixelSpeech.java):
  *
- *   <chu-drop-text>   a Pixel Bop heading whose letters drop in one after another: each appears 30 ms after the last,
+ *   <blip-drop-text>   a Pixel Bop heading whose letters drop in one after another: each appears 30 ms after the last,
  *                    two pixels high for a frame, then lands (the TV's app name)
- *   <chu-typewriter>  types its text a letter every 50 ms, holding after a full stop (260 ms) or a comma (130 ms) that
+ *   <blip-typewriter>  types its text a letter every 50 ms, holding after a full stop (260 ms) or a comma (130 ms) that
  *                    ends a word; with `blips`, every other voiced letter plays the blip voice through services.sound()
  *
  * Both keep their whole text for assistive technology from the start, and show it all at once with reduced motion.
  */
-import { BlipElement, run, services, reducedMotion, duration } from "@jaatster/blip-core";
+import { BlipElement, run, services, reducedMotion, duration } from "@blip/core";
 import { mirror } from "./_pixel.js";
 
 /** Splits text into an accessible copy and a hidden visual copy whose letters can move. */
 function frame(host: HTMLElement, text: string): HTMLElement {
-  const said = Object.assign(document.createElement("span"), { className: "chu-sr-only", textContent: text });
+  const said = Object.assign(document.createElement("span"), { className: "blip-sr-only", textContent: text });
   const shown = document.createElement("span");
   shown.setAttribute("aria-hidden", "true");
   host.replaceChildren(said, shown);
@@ -21,16 +21,16 @@ function frame(host: HTMLElement, text: string): HTMLElement {
 }
 
 /**
- * <chu-drop-text class="chu-display chu-pop" data-pop="Blip">Blip</chu-drop-text>: the letters drop in when
+ * <blip-drop-text class="blip-display blip-pop" data-pop="Blip">Blip</blip-drop-text>: the letters drop in when
  * it connects, when its text changes, and on play(). With data-pop, each letter keeps the POP tint.
  *
  * @summary A Pixel Bop heading whose letters drop in one after another.
- * @attr {boolean | string} data-pop - With .chu-pop: each letter keeps the POP outline and drop (the element keeps
+ * @attr {boolean | string} data-pop - With .blip-pop: each letter keeps the POP outline and drop (the element keeps
  * the value in step with the text).
- * @attr {1 | 2 | 3 | 4} data-scale - With .chu-display: Pixel Bop at this whole scale.
+ * @attr {1 | 2 | 3 | 4} data-scale - With .blip-display: Pixel Bop at this whole scale.
  * @attr {"red" | "orange" | "yellow" | "green" | "teal" | "blue" | "purple" | "pink" | "info" | "success" | "warning" |
- * "danger"} data-tone - With .chu-pop: the tint and the drop's colour.
- * @cssprop [--chu-drop-text-stagger=30ms] - Time between letters.
+ * "danger"} data-tone - With .blip-pop: the tint and the drop's colour.
+ * @cssprop [--blip-drop-text-stagger=30ms] - Time between letters.
  */
 export class BlipDropText extends BlipElement {
   #text = "";
@@ -58,9 +58,9 @@ export class BlipDropText extends BlipElement {
         shown.append(" ");
         i++;
       }
-      const w = shown.appendChild(Object.assign(document.createElement("span"), { className: "chu-drop-text-word" }));
+      const w = shown.appendChild(Object.assign(document.createElement("span"), { className: "blip-drop-text-word" }));
       for (const ch of word) {
-        const l = w.appendChild(Object.assign(document.createElement("span"), { className: "chu-drop-text-letter", textContent: ch }));
+        const l = w.appendChild(Object.assign(document.createElement("span"), { className: "blip-drop-text-letter", textContent: ch }));
         l.dataset.pop = ch;
         l.style.setProperty("--_i", String(i++));
       }
@@ -78,8 +78,8 @@ function voiceRate(char: string, mood: string): number {
 }
 
 /**
- * <chu-typewriter mood="happy" blips>Hello there!</chu-typewriter>: types when it connects, when its text changes,
- * and on play(); finish() shows it all. Fires chu-typewriter-done when the last letter is in. The untyped rest keeps
+ * <blip-typewriter mood="happy" blips>Hello there!</blip-typewriter>: types when it connects, when its text changes,
+ * and on play(); finish() shows it all. Fires blip-typewriter-done when the last letter is in. The untyped rest keeps
  * its room, so nothing moves while it types.
  *
  * @summary Text that types itself in, a letter at a time.
@@ -87,11 +87,11 @@ function voiceRate(char: string, mood: string): number {
  * @attr {boolean} caret - A two-pixel block after the typed text: still while it types, then it blinks for six beats
  * once the last letter is in, and stays. "false" is off.
  * @attr {"plain" | "happy" | "sleepy"} [mood="plain"] - Pitches the blips.
- * @attr {1 | 2 | 3 | 4} data-scale - With .chu-display: Pixel Bop at this whole scale.
- * @fires {CustomEvent<void>} chu-typewriter-done - Once per play: when the last letter is in, or on finish().
- * @cssprop [--chu-duration-letter=50ms] - Time per letter.
- * @cssprop [--chu-duration-stop=260ms] - The hold after a full stop that ends a word.
- * @cssprop [--chu-duration-comma=130ms] - The hold after a comma that ends a word.
+ * @attr {1 | 2 | 3 | 4} data-scale - With .blip-display: Pixel Bop at this whole scale.
+ * @fires {CustomEvent<void>} blip-typewriter-done - Once per play: when the last letter is in, or on finish().
+ * @cssprop [--blip-duration-letter=50ms] - Time per letter.
+ * @cssprop [--blip-duration-stop=260ms] - The hold after a full stop that ends a word.
+ * @cssprop [--blip-duration-comma=130ms] - The hold after a comma that ends a word.
  */
 export class BlipTypewriter extends BlipElement {
   declare blips: boolean;
@@ -119,7 +119,7 @@ export class BlipTypewriter extends BlipElement {
     this.#stop?.abort();
   }
 
-  /** Fires chu-typewriter-done once a play has shown all its letters. */
+  /** Fires blip-typewriter-done once a play has shown all its letters. */
   #end(): void {
     if (this.#done) return;
     this.#done = true;
@@ -132,8 +132,8 @@ export class BlipTypewriter extends BlipElement {
     this.#stop = new AbortController();
     this.#done = false;
     const text = this.#text, shown = frame(this, text);
-    const typed = shown.appendChild(Object.assign(document.createElement("span"), { className: "chu-typewriter-typed" }));
-    const rest = shown.appendChild(Object.assign(document.createElement("span"), { className: "chu-typewriter-rest", textContent: text }));
+    const typed = shown.appendChild(Object.assign(document.createElement("span"), { className: "blip-typewriter-typed" }));
+    const rest = shown.appendChild(Object.assign(document.createElement("span"), { className: "blip-typewriter-rest", textContent: text }));
     const letter = duration("letter", 50, this), stop = duration("stop", 260, this), comma = duration("comma", 130, this);
     const mood = this.getAttribute("mood") ?? "plain", blips = this.blips;
     let at = 0, v = 0;
@@ -159,7 +159,7 @@ export class BlipTypewriter extends BlipElement {
   /** Shows the whole text at once. */
   finish(): void {
     this.#stop?.abort();
-    const typed = this.querySelector(".chu-typewriter-typed"), rest = this.querySelector(".chu-typewriter-rest");
+    const typed = this.querySelector(".blip-typewriter-typed"), rest = this.querySelector(".blip-typewriter-rest");
     if (typed && rest) {
       typed.textContent = this.#text;
       rest.textContent = "";
@@ -168,13 +168,13 @@ export class BlipTypewriter extends BlipElement {
   }
 }
 
-BlipElement.define("chu-drop-text", BlipDropText);
+BlipElement.define("blip-drop-text", BlipDropText);
 mirror(BlipTypewriter, ["blips", "caret"], ["mood"]);
-BlipElement.define("chu-typewriter", BlipTypewriter);
+BlipElement.define("blip-typewriter", BlipTypewriter);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "chu-drop-text": BlipDropText;
-    "chu-typewriter": BlipTypewriter;
+    "blip-drop-text": BlipDropText;
+    "blip-typewriter": BlipTypewriter;
   }
 }

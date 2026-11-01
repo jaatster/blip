@@ -1,23 +1,23 @@
 /**
- * <chu-number>: a number field with a pixel minus and plus. The input inside stays the real control (the spin
+ * <blip-number>: a number field with a pixel minus and plus. The input inside stays the real control (the spin
  * button: arrow keys, typing, the form value); the buttons are for pointers and touch. Held down, a button steps
  * once, then again after a beat, then every 100 ms, then every 40 ms, until it is let go or the range ends.
  * Page Up and Page Down step ten at a time.
  *
- *   <chu-number class="chu-number">
- *     <span class="chu-box chu-input"><input id="lives" name="lives" type="number" min="1" max="9" value="3"></span>
- *   </chu-number>
+ *   <blip-number class="blip-number">
+ *     <span class="blip-box blip-input"><input id="lives" name="lives" type="number" min="1" max="9" value="3"></span>
+ *   </blip-number>
  *
- * Attributes: decrease-label, increase-label (the buttons' names). Event: chu-change { value } when the value is
+ * Attributes: decrease-label, increase-label (the buttons' names). Event: blip-change { value } when the value is
  * committed (the input's change). An input rendered later, or swapped by a framework, gets the buttons as it comes.
  */
-import { BlipElement, warn } from "@jaatster/blip-core";
+import { BlipElement, warn } from "@blip/core";
 import { both, elementsChanged, observe } from "./_dom.js";
 
 const button = (step: string, label: string): HTMLButtonElement => {
   const b = document.createElement("button");
   b.type = "button";
-  b.className = "chu-box chu-number-step";
+  b.className = "blip-box blip-number-step";
   b.dataset.variant = "ghost";
   b.dataset.step = step;
   b.tabIndex = -1;
@@ -33,10 +33,10 @@ const button = (step: string, label: string): HTMLButtonElement => {
  * @summary A number field with step buttons.
  * @attr {string} [decrease-label="Decrease"] - The minus button's accessible name.
  * @attr {string} [increase-label="Increase"] - The plus button's accessible name.
- * @fires {CustomEvent<{ value: string }>} chu-change - The value was committed (the input's change).
+ * @fires {CustomEvent<{ value: string }>} blip-change - The value was committed (the input's change).
  */
 export class BlipNumber extends BlipElement {
-  static classes = ["chu-number"];
+  static classes = ["blip-number"];
 
   #down = button("down", "Decrease");
   #up = button("up", "Increase");
@@ -53,7 +53,7 @@ export class BlipNumber extends BlipElement {
     this.#wire();
     // An input rendered later, or swapped by a framework, gets the buttons when it arrives.
     observe(this, this.signal, () => this.#wire(), elementsChanged);
-    if (!this.input && this.children.length) warn("CHU-E001", "<chu-number> needs an <input type=number> inside.", this);
+    if (!this.input && this.children.length) warn("BLIP-E001", "<blip-number> needs an <input type=number> inside.", this);
     for (const [b, dir] of [[this.#down, -1], [this.#up, 1]] as const) {
       this.on(b, "pointerdown", (e) => {
         if (e.button !== 0) return;
@@ -159,10 +159,10 @@ export class BlipNumber extends BlipElement {
   }
 }
 
-BlipElement.define("chu-number", BlipNumber);
+BlipElement.define("blip-number", BlipNumber);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "chu-number": BlipNumber;
+    "blip-number": BlipNumber;
   }
 }

@@ -7,21 +7,21 @@
 </script>
 
 <main>
-  <button class="chu-box chu-button" type="button" id="open-lazy" onclick={() => (open = true)}>Load game</button>
+  <button class="blip-box blip-button" type="button" id="open-lazy" onclick={() => (open = true)}>Load game</button>
   <p id="lazy-state">{open ? "open" : "closed"}</p>
   {#if bind === "plain"}
-    <chu-dialog open={open} onpp-close={() => (open = false)}>
-      <dialog class="chu-box chu-dialog" id="lazy" aria-labelledby="lazy-title">
-        <header class="chu-dialog-header"><h2 class="chu-dialog-title" id="lazy-title">Load game</h2></header>
-        <div class="chu-dialog-body">Slot 2 will be replaced.</div>
+    <blip-dialog open={open} onpp-close={() => (open = false)}>
+      <dialog class="blip-box blip-dialog" id="lazy" aria-labelledby="lazy-title">
+        <header class="blip-dialog-header"><h2 class="blip-dialog-title" id="lazy-title">Load game</h2></header>
+        <div class="blip-dialog-body">Slot 2 will be replaced.</div>
       </dialog>
-    </chu-dialog>
+    </blip-dialog>
   {:else}
-    <chu-dialog open={open || undefined} onpp-close={() => (open = false)}>
-      <dialog class="chu-box chu-dialog" id="lazy" aria-labelledby="lazy-title">
-        <header class="chu-dialog-header"><h2 class="chu-dialog-title" id="lazy-title">Load game</h2></header>
-        <div class="chu-dialog-body">Slot 2 will be replaced.</div>
+    <blip-dialog open={open || undefined} onpp-close={() => (open = false)}>
+      <dialog class="blip-box blip-dialog" id="lazy" aria-labelledby="lazy-title">
+        <header class="blip-dialog-header"><h2 class="blip-dialog-title" id="lazy-title">Load game</h2></header>
+        <div class="blip-dialog-body">Slot 2 will be replaced.</div>
       </dialog>
-    </chu-dialog>
+    </blip-dialog>
   {/if}
 </main>

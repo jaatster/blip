@@ -1,11 +1,11 @@
 /**
  * Sprites: the game kit's art as whole-pixel SVG in token colours. sprite(name) returns the SVG as a string (for
- * servers, templates and canvas-free games); <chu-sprite name="coin"> draws one in place.
+ * servers, templates and canvas-free games); <blip-sprite name="coin"> draws one in place.
  *
- *   <chu-sprite name="coin"></chu-sprite>
- *   <chu-sprite name="potion" data-tone="blue" aria-label="Mana potion"></chu-sprite>
+ *   <blip-sprite name="coin"></blip-sprite>
+ *   <blip-sprite name="potion" data-tone="blue" aria-label="Mana potion"></blip-sprite>
  */
-import { BlipElement } from "@jaatster/blip-core";
+import { BlipElement } from "@blip/core";
 import { sprite } from "./_pixels.js";
 
 export { sprite, spriteNames, pixels } from "./_pixels.js";
@@ -19,9 +19,9 @@ export { sprite, spriteNames, pixels } from "./_pixels.js";
  * @attr {string} aria-label - Names the sprite; without it the sprite is hidden from assistive technology.
  * @attr {"accent" | "neutral" | "red" | "orange" | "yellow" | "green" | "teal" | "blue" | "purple" | "pink" | "slate"} data-tone -
  * Recolours the sprite's own candy (potions, gems, keys, hearts, shields).
- * @cssprop --chu-sprite-light - A custom tone's light, set on the sprite.
- * @cssprop --chu-sprite-base - A custom tone's base.
- * @cssprop --chu-sprite-shade - A custom tone's shade.
+ * @cssprop --blip-sprite-light - A custom tone's light, set on the sprite.
+ * @cssprop --blip-sprite-base - A custom tone's base.
+ * @cssprop --blip-sprite-shade - A custom tone's shade.
  */
 export class BlipSprite extends BlipElement {
   static observedAttributes = ["name", "aria-label"];
@@ -59,10 +59,10 @@ export class BlipSprite extends BlipElement {
   }
 }
 
-BlipElement.define("chu-sprite", BlipSprite);
+BlipElement.define("blip-sprite", BlipSprite);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "chu-sprite": BlipSprite;
+    "blip-sprite": BlipSprite;
   }
 }

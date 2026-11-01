@@ -1,9 +1,9 @@
 /*
- * The world: <chu-world> is a backdrop that fills its positioned container. Its container becomes its own stacking
+ * The world: <blip-world> is a backdrop that fills its positioned container. Its container becomes its own stacking
  * context, so the world sits behind the container's content and in front of the container's background.
  *
  *   <section style="position: relative">
- *     <chu-world scheme="day" parallax></chu-world>
+ *     <blip-world scheme="day" parallax></blip-world>
  *     ...content...
  *   </section>
  *
@@ -11,15 +11,15 @@
  * stars (they flare at night), events (birds by day, a shooting star at night), zoom (world pixel = zoom x pixel,
  * made a whole number of device pixels), avoid (what the sky keeps clear of). Until the script runs, and around the
  * drawn picture, the world shows its sky's top colour. It is decoration: not in forced colours, not in print. Its
- * motion pauses with reduced motion and with data-chu-motion="reduce" on <html> (<chu-motion-toggle>).
+ * motion pauses with reduced motion and with data-blip-motion="reduce" on <html> (<blip-motion-toggle>).
  */
 
 /* Where a sliding layer is, in world pixels: the script sets whole numbers and the slide steps between them. */
-@property --_chu-world-x { syntax: "<number>"; inherits: false; initial-value: 0; }
-@property --_chu-world-y { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --_blip-world-x { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --_blip-world-y { syntax: "<number>"; inherits: false; initial-value: 0; }
 
-@layer chu.kits {
-  chu-world {
+@layer blip.kits {
+  blip-world {
     position: absolute;
     inset: 0;
     z-index: -1;
@@ -28,44 +28,44 @@
     contain: strict;
     pointer-events: none;
     user-select: none;
-    background-color: var(--_chu-world-sky);
+    background-color: var(--_blip-world-sky);
   }
 
   /* The time of day a world without a scheme follows: the page's, inherited like the tokens. */
-  :root, [data-chu-scheme="day"] { --_chu-world-scheme: day; --_chu-world-sky: var(--chu-world-day-sky-1); }
-  [data-chu-scheme="sunset"] { --_chu-world-scheme: sunset; --_chu-world-sky: var(--chu-world-sunset-sky-1); }
-  [data-chu-scheme="night"] { --_chu-world-scheme: night; --_chu-world-sky: var(--chu-world-night-sky-1); }
+  :root, [data-blip-scheme="day"] { --_blip-world-scheme: day; --_blip-world-sky: var(--blip-world-day-sky-1); }
+  [data-blip-scheme="sunset"] { --_blip-world-scheme: sunset; --_blip-world-sky: var(--blip-world-sunset-sky-1); }
+  [data-blip-scheme="night"] { --_blip-world-scheme: night; --_blip-world-sky: var(--blip-world-night-sky-1); }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-chu-scheme]) { --_chu-world-scheme: night; --_chu-world-sky: var(--chu-world-night-sky-1); }
+    :root:not([data-blip-scheme]) { --_blip-world-scheme: night; --_blip-world-sky: var(--blip-world-night-sky-1); }
   }
-  chu-world[scheme="day"] { --_chu-world-sky: var(--chu-world-day-sky-1); }
-  chu-world[scheme="sunset"] { --_chu-world-sky: var(--chu-world-sunset-sky-1); }
-  chu-world[scheme="night"] { --_chu-world-sky: var(--chu-world-night-sky-1); }
+  blip-world[scheme="day"] { --_blip-world-sky: var(--blip-world-day-sky-1); }
+  blip-world[scheme="sunset"] { --_blip-world-sky: var(--blip-world-sunset-sky-1); }
+  blip-world[scheme="night"] { --_blip-world-sky: var(--blip-world-night-sky-1); }
 
-  :where(:has(> chu-world)) { isolation: isolate; }
+  :where(:has(> blip-world)) { isolation: isolate; }
 
   /* The picture: a canvas pixel is a world pixel, laid out a device pixel each and scaled up by the world pixel's
-     whole number of device pixels (--_chu-world-k); --_chu-world-px is the world pixel in CSS pixels. Everything moves
+     whole number of device pixels (--_blip-world-k); --_blip-world-px is the world pixel in CSS pixels. Everything moves
      by transforms, in whole device pixels, so no edge falls between device pixels at 125% or 175%. */
-  .chu-world-stage, .chu-world-things { position: absolute; left: 0; top: 0; }
-  .chu-world-stage canvas { transform-origin: 0 0; scale: var(--_chu-world-k); }
-  .chu-world-things canvas[hidden] { display: none; }
+  .blip-world-stage, .blip-world-things { position: absolute; left: 0; top: 0; }
+  .blip-world-stage canvas { transform-origin: 0 0; scale: var(--_blip-world-k); }
+  .blip-world-things canvas[hidden] { display: none; }
 
   /* Parallax: a layer slides to its next whole-pixel place in two steps, as on the TV. The steps move a number and the
      translate rounds it to a whole world pixel, so a slide cut short never lands between pixels. */
-  .chu-world-stage > :is(canvas, .chu-world-things) {
-    translate: calc(round(var(--_chu-world-x), 1) * var(--_chu-world-px)) calc(round(var(--_chu-world-y), 1) * var(--_chu-world-px));
-    transition: --_chu-world-x var(--chu-duration-slide) var(--chu-ease-2), --_chu-world-y var(--chu-duration-slide) var(--chu-ease-2);
+  .blip-world-stage > :is(canvas, .blip-world-things) {
+    translate: calc(round(var(--_blip-world-x), 1) * var(--_blip-world-px)) calc(round(var(--_blip-world-y), 1) * var(--_blip-world-px));
+    transition: --_blip-world-x var(--blip-duration-slide) var(--blip-ease-2), --_blip-world-y var(--blip-duration-slide) var(--blip-ease-2);
   }
 
-  /* Less motion, asked for on the device or on the page (data-chu-motion="reduce", which <chu-motion-toggle> sets):
+  /* Less motion, asked for on the device or on the page (data-blip-motion="reduce", which <blip-motion-toggle> sets):
      the layers come back to rest at once. */
   @media (prefers-reduced-motion: reduce) {
-    .chu-world-stage > :is(canvas, .chu-world-things) { transition: none; }
+    .blip-world-stage > :is(canvas, .blip-world-things) { transition: none; }
   }
-  :root[data-chu-motion="reduce"] .chu-world-stage > :is(canvas, .chu-world-things) { transition: none; }
+  :root[data-blip-motion="reduce"] .blip-world-stage > :is(canvas, .blip-world-things) { transition: none; }
 
   @media (forced-colors: active), print {
-    chu-world { display: none; }
+    blip-world { display: none; }
   }
 }

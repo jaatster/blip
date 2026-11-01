@@ -1,36 +1,36 @@
 /*
  * Number stepper. A number input in the calm well with a pixel minus and plus at its ends. The input stays the
  * real control (it is the spin button: arrow keys, typing, the form value); the buttons are for pointers and
- * touch, and repeat in steps while held. <chu-number> (from @jaatster/blip-elements) adds the buttons, so without
+ * touch, and repeat in steps while held. <blip-number> (from @blip/elements) adds the buttons, so without
  * JavaScript this is a plain number field.
  *
- *   <chu-number class="chu-number">
- *     <span class="chu-box chu-input"><input id="lives" name="lives" type="number" min="1" max="9" value="3"></span>
- *   </chu-number>
+ *   <blip-number class="blip-number">
+ *     <span class="blip-box blip-input"><input id="lives" name="lives" type="number" min="1" max="9" value="3"></span>
+ *   </blip-number>
  *
- *   data-size               sm | md (default) | lg       on the .chu-input, as for the input
- *   decrease-label, increase-label                     on <chu-number>: the buttons' names ("Decrease", "Increase")
+ *   data-size               sm | md (default) | lg       on the .blip-input, as for the input
+ *   decrease-label, increase-label                     on <blip-number>: the buttons' names ("Decrease", "Increase")
  *
  * The buttons are ghost boxes: hover darkens them, a press sits in, and one goes dithered at the end of the range.
  * Focus, invalid, read-only and disabled come from the input, as for any field.
  */
 @import "./_control.css";
 
-@layer chu.components {
-  .chu-number { display: inline-flex; justify-self: start; vertical-align: middle; max-inline-size: 100%; }
-  .chu-number > .chu-input { inline-size: 100%; gap: var(--chu-pixel); }
-  .chu-number > .chu-input > input {
+@layer blip.components {
+  .blip-number { display: inline-flex; justify-self: start; vertical-align: middle; max-inline-size: 100%; }
+  .blip-number > .blip-input { inline-size: 100%; gap: var(--blip-pixel); }
+  .blip-number > .blip-input > input {
     min-inline-size: 3ch;
     field-sizing: content;
     text-align: center;
     font-variant-numeric: tabular-nums;
   }
   /* The minus and the plus: pixel glyphs in the text colour (the element makes the buttons). */
-  .chu-number-step[data-step="down"] {
+  .blip-number-step[data-step="down"] {
     --_g: linear-gradient(#000 0 0);
-    --_gs: calc(8 * var(--chu-pixel)) calc(2 * var(--chu-pixel));
+    --_gs: calc(8 * var(--blip-pixel)) calc(2 * var(--blip-pixel));
   }
-  .chu-number-step[data-step="up"] {
+  .blip-number-step[data-step="up"] {
     --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h2v3H3zM0 3h8v2H0zM3 5h2v3H3z'/%3E%3C/svg%3E");
   }
 }

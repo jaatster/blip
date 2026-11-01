@@ -2,69 +2,69 @@
  * Link. Words that go somewhere: underlined a pixel below the text in the accent's text colour, with a two-pixel
  * underline on hover. Focus paints the link yellow with ink letters, the TV's focus highlight for text.
  *
- *   <a class="chu-link" href="/rules">house rules</a>
- *   <a class="chu-link" data-variant="standalone" href="/levels">All levels <svg class="chu-icon" …></svg></a>
- *   <a class="chu-link" href="https://example.com" target="_blank" data-external="opens in a new tab">Wiki</a>
+ *   <a class="blip-link" href="/rules">house rules</a>
+ *   <a class="blip-link" data-variant="standalone" href="/levels">All levels <svg class="blip-icon" …></svg></a>
+ *   <a class="blip-link" href="https://example.com" target="_blank" data-external="opens in a new tab">Wiki</a>
  *
  *   data-variant="standalone"   a link on its own (under a card, at the end of a list): bold, underlined on hover
  *   data-external="…"           a pixel arrow after the text; the attribute's words are read out with it
- *   .chu-icon                    an icon before or after the words, sitting on the line
- *   --chu-link-visited           the colour of visited links (the text colour by default)
+ *   .blip-icon                    an icon before or after the words, sitting on the line
+ *   --blip-link-visited           the colour of visited links (the text colour by default)
  *
- * data-chu-state="hover focus visited" forces those looks for docs and tests.
+ * data-blip-state="hover focus visited" forces those looks for docs and tests.
  */
 
-@layer chu.components {
-  .chu-link {
-    --chu-link-visited: var(--chu-text);
-    color: var(--chu-accent-text);
+@layer blip.components {
+  .blip-link {
+    --blip-link-visited: var(--blip-text);
+    color: var(--blip-accent-text);
     text-decoration-line: underline;
-    text-decoration-thickness: var(--chu-pixel);
-    text-underline-offset: calc(2 * var(--chu-pixel));
+    text-decoration-thickness: var(--blip-pixel);
+    text-underline-offset: calc(2 * var(--blip-pixel));
     text-decoration-skip-ink: none;
     border-radius: 0;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
   }
-  .chu-link:visited, .chu-link[data-chu-state~="visited"] { color: var(--chu-link-visited); }
-  .chu-link:hover, .chu-link[data-chu-state~="hover"] { text-decoration-thickness: calc(2 * var(--chu-pixel)); }
+  .blip-link:visited, .blip-link[data-blip-state~="visited"] { color: var(--blip-link-visited); }
+  .blip-link:hover, .blip-link[data-blip-state~="hover"] { text-decoration-thickness: calc(2 * var(--blip-pixel)); }
 
-  .chu-link:focus-visible, .chu-link[data-chu-state~="focus"] {
+  .blip-link:focus-visible, .blip-link[data-blip-state~="focus"] {
     outline: 0;
-    box-shadow: 0 calc(2 * var(--chu-pixel)) 0 var(--chu-focus-edge);
-    background: var(--chu-focus);
-    color: var(--chu-ink);
+    box-shadow: 0 calc(2 * var(--blip-pixel)) 0 var(--blip-focus-edge);
+    background: var(--blip-focus);
+    color: var(--blip-ink);
     text-decoration-line: none;
   }
 
-  .chu-link[data-variant="standalone"] {
+  .blip-link[data-variant="standalone"] {
     display: inline-flex;
     align-items: center;
-    gap: calc(2 * var(--chu-pixel));
-    font-weight: var(--chu-weight-bold);
+    gap: calc(2 * var(--blip-pixel));
+    font-weight: var(--blip-weight-bold);
     text-decoration-line: none;
   }
-  .chu-link[data-variant="standalone"]:is(:hover, [data-chu-state~="hover"]) { text-decoration-line: underline; }
+  .blip-link[data-variant="standalone"]:is(:hover, [data-blip-state~="hover"]) { text-decoration-line: underline; }
 
   /* Icons sit on the line without making it taller. */
-  .chu-link > .chu-icon { display: inline-block; margin-block: calc(-3 * var(--chu-pixel)); vertical-align: calc(-3 * var(--chu-pixel)); }
-  .chu-link[data-variant="standalone"] > .chu-icon { margin-block: 0; vertical-align: 0; }
+  .blip-link > .blip-icon { display: inline-block; margin-block: calc(-3 * var(--blip-pixel)); vertical-align: calc(-3 * var(--blip-pixel)); }
+  .blip-link[data-variant="standalone"] > .blip-icon { margin-block: 0; vertical-align: 0; }
 
-  .chu-link[data-external]::after {
+  .blip-link[data-external]::after {
     content: "" / attr(data-external);
     display: inline-block;
-    inline-size: calc(7 * var(--chu-pixel));
-    block-size: calc(7 * var(--chu-pixel));
-    margin-inline-start: calc(2 * var(--chu-pixel));
+    inline-size: calc(7 * var(--blip-pixel));
+    block-size: calc(7 * var(--blip-pixel));
+    margin-inline-start: calc(2 * var(--blip-pixel));
     background: currentColor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h4v1H3zM5 1h2v1H5zM4 2h1v1H4zM6 2h1v2H6zM3 3h1v1H3zM2 4h1v1H2zM1 5h1v1H1zM0 6h1v1H0z'/%3E%3C/svg%3E") 0 0 / 100% 100%;
   }
-  .chu-link[data-external]:dir(rtl)::after { scale: -1 1; }
+  .blip-link[data-external]:dir(rtl)::after { scale: -1 1; }
 
   @media (forced-colors: active) {
-    .chu-link { color: LinkText; }
-    .chu-link:visited { color: VisitedText; }
-    .chu-link:focus-visible { outline: var(--chu-pixel) solid Highlight; outline-offset: var(--chu-pixel); background: none; color: LinkText; }
-    .chu-link[data-external]::after { forced-color-adjust: none; background: LinkText; }
+    .blip-link { color: LinkText; }
+    .blip-link:visited { color: VisitedText; }
+    .blip-link:focus-visible { outline: var(--blip-pixel) solid Highlight; outline-offset: var(--blip-pixel); background: none; color: LinkText; }
+    .blip-link[data-external]::after { forced-color-adjust: none; background: LinkText; }
   }
 }

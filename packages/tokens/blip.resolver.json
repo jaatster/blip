@@ -66,7 +66,7 @@
       "default": "2"
     },
     "palette": {
-      "description": "The accent of each time of day and Night's page, ink and sky. Candy is Blip's own; the rest are presets (palettes.css, data-chu-palette). A preset lists Candy first, so it sets only what it changes.",
+      "description": "The accent of each time of day and Night's page, ink and sky. Candy is Blip's own; the rest are presets (palettes.css, data-blip-palette). A preset lists Candy first, so it sets only what it changes.",
       "contexts": {
         "candy": [
           {

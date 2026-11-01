@@ -1,4 +1,4 @@
-// Type-checked as a consumer would write it (pnpm --filter @jaatster/blip-react typecheck, against React 19 and React 18
+// Type-checked as a consumer would write it (pnpm --filter @blip/react typecheck, against React 19 and React 18
 // types): imports go through the package's own exports, so this checks the published types. The expected errors at
 // the end must stay errors: those are the mistakes the types refuse.
 import { forwardRef, useRef, useState, type ComponentPropsWithoutRef } from "react";
@@ -71,11 +71,11 @@ import {
   WindowTitle,
   toast,
   type Tone,
-} from "@jaatster/blip-react";
-import { Choice, ChoiceList, Choices, Counter, Dialogue, DialogueName, DialogueText, Hearts, HudBar, Inventory, Slot, Sprite } from "@jaatster/blip-react/game";
-import { CtaActions, CtaBand, CtaText, CtaTitle, Feature, FeaturesGrid, FeatureTitle, Hero, HeroActions, HeroInner, HeroLead, HeroTitle } from "@jaatster/blip-react/blocks";
-import { DropText, Typewriter, World } from "@jaatster/blip-react/effects";
-import { Icon, type IconName } from "@jaatster/blip-react/icons";
+} from "@blip/react";
+import { Choice, ChoiceList, Choices, Counter, Dialogue, DialogueName, DialogueText, Hearts, HudBar, Inventory, Slot, Sprite } from "@blip/react/game";
+import { CtaActions, CtaBand, CtaText, CtaTitle, Feature, FeaturesGrid, FeatureTitle, Hero, HeroActions, HeroInner, HeroLead, HeroTitle } from "@blip/react/blocks";
+import { DropText, Typewriter, World } from "@blip/react/effects";
+import { Icon, type IconName } from "@blip/react/icons";
 
 /** A router's own link (as React Router's): it takes `to` and renders an anchor. Link parts take it with `as`. */
 const RouterLink = forwardRef<HTMLAnchorElement, { to: string } & Omit<ComponentPropsWithoutRef<"a">, "href">>(function RouterLink({ to, ...rest }, ref) {
@@ -150,7 +150,7 @@ export function Forms() {
 }
 
 export function Overlays() {
-  const dialog = useRef<HTMLElementTagNameMap["chu-dialog"]>(null);
+  const dialog = useRef<HTMLElementTagNameMap["blip-dialog"]>(null);
   return (
     <>
       <Button type="button" commandFor="save" command="show-modal">
@@ -269,7 +269,7 @@ export function Game() {
           <Sprite name="potion" tone="blue" />
         </Slot>
       </Inventory>
-      <DropText className="chu-display chu-pop" scale={3} tone="pink" pop>
+      <DropText className="blip-display blip-pop" scale={3} tone="pink" pop>
         Blip
       </DropText>
       <Typewriter mood="sleepy" blips onTypewriterDone={() => console.log("typed")}>
@@ -330,7 +330,7 @@ export function Landing() {
   return (
     <>
       <Hero>
-        <World scheme="auto" parallax clouds="drift" avoid=".chu-hero-title, .chu-hero-lead, .chu-hero-actions" />
+        <World scheme="auto" parallax clouds="drift" avoid=".blip-hero-title, .blip-hero-lead, .blip-hero-actions" />
         <HeroInner>
           <HeroTitle>Blip</HeroTitle>
           <HeroLead>Candy on pastel.</HeroLead>
@@ -393,7 +393,7 @@ export function Refused() {
       <PaginationPage href="?page=5">5</PaginationPage>
       {/* @ts-expect-error: menus and palettes say an item ran with onAction, not onSelect */}
       <Menu onSelect={(e: CustomEvent<{ value: string }>) => e} />
-      {/* @ts-expect-error: chu-change carries a number here */}
+      {/* @ts-expect-error: blip-change carries a number here */}
       <Rating onChange={(e: CustomEvent<{ value: string }>) => e} />
       {/* @ts-expect-error: a tab list needs a name */}
       <TabList>

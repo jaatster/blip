@@ -1,6 +1,6 @@
 ---
 name: Radio group
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: radio.css
 element: null
 react: RadioGroup
@@ -19,11 +19,11 @@ off, candy with an ink pixel dot when on. The box's own stepped corners make a p
 ## Usage
 
 ```html
-<fieldset class="chu-field">
-  <legend class="chu-field-label">Difficulty</legend>
-  <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="level" value="story"></span>Story</label>
-  <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="level" value="normal" checked></span>Normal</label>
-  <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="level" value="hard"></span>Hard</label>
+<fieldset class="blip-field">
+  <legend class="blip-field-label">Difficulty</legend>
+  <label class="blip-check"><span class="blip-box blip-radio"><input type="radio" name="level" value="story"></span>Story</label>
+  <label class="blip-check"><span class="blip-box blip-radio"><input type="radio" name="level" value="normal" checked></span>Normal</label>
+  <label class="blip-check"><span class="blip-box blip-radio"><input type="radio" name="level" value="hard"></span>Hard</label>
 </fieldset>
 ```
 
@@ -33,7 +33,7 @@ off, candy with an ink pixel dot when on. The box's own stepped corners make a p
    row. On: candy that sits in, ink outline.
 2. **Dot**: a 5 x 5 pixel dot (3 x 3 small, 7 x 7 large) in ink.
 3. **Input**: the native radio, invisible, covering the box and a pixel more.
-4. **Row** and **group**: `.chu-check` labels inside a `<fieldset class="chu-field">` with a `<legend>`.
+4. **Row** and **group**: `.blip-check` labels inside a `<fieldset class="blip-field">` with a `<legend>`.
 
 ## Variants
 
@@ -69,7 +69,7 @@ off, candy with an ink pixel dot when on. The box's own stepped corners make a p
 ## Content
 
 - Order options logically (easy to hard) and keep their labels parallel. To explain an option, put a
-  `<p class="chu-check-help" id="…">` after its row and point the radio's `aria-describedby` at it.
+  `<p class="blip-check-help" id="…">` after its row and point the radio's `aria-describedby` at it.
 
 ## Do and don't
 
@@ -81,8 +81,8 @@ off, candy with an ink pixel dot when on. The box's own stepped corners make a p
 
 | Class | |
 |---|---|
-| `.chu-radio` | The box. Markup: `class="chu-box chu-radio"` on a `<span>` around the input. |
+| `.blip-radio` | The box. Markup: `class="blip-box blip-radio"` on a `<span>` around the input. |
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-tone`, `--chu-tone-light`, `--chu-tone-shade`, `--chu-tone-on` | accent | The checked candy (or `data-tone`). |
+| `--blip-tone`, `--blip-tone-light`, `--blip-tone-shade`, `--blip-tone-on` | accent | The checked candy (or `data-tone`). |

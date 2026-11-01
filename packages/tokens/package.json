@@ -1,5 +1,5 @@
 {
-  "name": "@jaatster/blip-tokens",
+  "name": "@blip/tokens",
   "version": "0.1.0",
   "description": "Blip design tokens in the W3C DTCG 2025.10 format, with CSS, JS/TS, Android, iOS and Figma exports.",
   "keywords": [

@@ -1,23 +1,23 @@
 <!-- A short form in a dialog: Enter in the field saves, because Save is the only submit button. -->
-<button class="chu-box chu-button" type="button" data-variant="outline" commandfor="ds-rename" command="show-modal">Rename save</button>
+<button class="blip-box blip-button" type="button" data-variant="outline" commandfor="ds-rename" command="show-modal">Rename save</button>
 
-<chu-dialog light-dismiss>
-  <dialog class="chu-box chu-dialog" id="ds-rename" data-size="sm" aria-labelledby="ds-rename-title">
+<blip-dialog light-dismiss>
+  <dialog class="blip-box blip-dialog" id="ds-rename" data-size="sm" aria-labelledby="ds-rename-title">
     <form method="dialog">
-      <header class="chu-dialog-header">
-        <h2 class="chu-dialog-title" id="ds-rename-title">Rename save</h2>
-        <button class="chu-box chu-button chu-dialog-close" type="button" commandfor="ds-rename" command="close" value="cancel" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
+      <header class="blip-dialog-header">
+        <h2 class="blip-dialog-title" id="ds-rename-title">Rename save</h2>
+        <button class="blip-box blip-button blip-dialog-close" type="button" commandfor="ds-rename" command="close" value="cancel" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
       </header>
-      <div class="chu-dialog-body">
-        <div class="chu-field">
-          <label class="chu-field-label" for="ds-rename-name">Name</label>
-          <span class="chu-box chu-input"><input id="ds-rename-name" name="name" value="Slot 2" maxlength="24" autocomplete="off"></span>
+      <div class="blip-dialog-body">
+        <div class="blip-field">
+          <label class="blip-field-label" for="ds-rename-name">Name</label>
+          <span class="blip-box blip-input"><input id="ds-rename-name" name="name" value="Slot 2" maxlength="24" autocomplete="off"></span>
         </div>
       </div>
-      <footer class="chu-dialog-footer">
-        <button class="chu-box chu-button" type="button" commandfor="ds-rename" command="close" value="cancel" data-variant="soft" data-tone="neutral">Cancel</button>
-        <button class="chu-box chu-button" value="save">Save</button>
+      <footer class="blip-dialog-footer">
+        <button class="blip-box blip-button" type="button" commandfor="ds-rename" command="close" value="cancel" data-variant="soft" data-tone="neutral">Cancel</button>
+        <button class="blip-box blip-button" value="save">Save</button>
       </footer>
     </form>
   </dialog>
-</chu-dialog>
+</blip-dialog>

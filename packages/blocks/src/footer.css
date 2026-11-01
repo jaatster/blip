@@ -3,166 +3,166 @@
  * Footer. The ground the page stands on: a grass edge with blades poking up, then link columns, a newsletter
  * sign-up and the legal line, on the sunken surface so every text colour is a scheme role.
  *
- *   <footer class="chu-footer">
- *     <div class="chu-footer-inner">
- *       <div class="chu-footer-brand">…</div>
- *       <nav class="chu-footer-nav" aria-label="More from Sherbit">
- *         <div class="chu-footer-col"><h2 class="chu-footer-heading">Studio</h2><ul role="list"><li><a href="#">About</a></li></ul></div>
+ *   <footer class="blip-footer">
+ *     <div class="blip-footer-inner">
+ *       <div class="blip-footer-brand">…</div>
+ *       <nav class="blip-footer-nav" aria-label="More from Sherbit">
+ *         <div class="blip-footer-col"><h2 class="blip-footer-heading">Studio</h2><ul role="list"><li><a href="#">About</a></li></ul></div>
  *       </nav>
- *       <form class="chu-footer-signup" action="/subscribe" method="post">
- *         <h2 class="chu-footer-heading" id="letter">The Sherbit letter</h2>
- *         <div class="chu-footer-row">
- *           <label class="chu-sr-only" for="email">Email address</label>
- *           <span class="chu-box chu-footer-field" data-variant="outline"><input id="email" type="email" name="email" autocomplete="email" required></span>
- *           <button class="chu-box chu-button" type="submit">Subscribe</button>
+ *       <form class="blip-footer-signup" action="/subscribe" method="post">
+ *         <h2 class="blip-footer-heading" id="letter">The Sherbit letter</h2>
+ *         <div class="blip-footer-row">
+ *           <label class="blip-sr-only" for="email">Email address</label>
+ *           <span class="blip-box blip-footer-field" data-variant="outline"><input id="email" type="email" name="email" autocomplete="email" required></span>
+ *           <button class="blip-box blip-button" type="submit">Subscribe</button>
  *         </div>
  *       </form>
  *     </div>
- *     <div class="chu-footer-legal"><p>© 2026 …</p><ul role="list"><li><a href="#">Privacy</a></li></ul></div>
+ *     <div class="blip-footer-legal"><p>© 2026 …</p><ul role="list"><li><a href="#">Privacy</a></li></ul></div>
  *   </footer>
  *
- *   .chu-footer-field   a text field in an outline box: the box draws the focus ring, and the danger outline when
+ *   .blip-footer-field   a text field in an outline box: the box draws the focus ring, and the danger outline when
  *                      the entry is wrong after the person has typed (:user-invalid)
- *   --chu-footer-edge   how deep the ground edge is, in pixels (14)
+ *   --blip-footer-edge   how deep the ground edge is, in pixels (14)
  *
  * Columns sit side by side from the wide breakpoint (1024 px); below it the brand, the links and the sign-up stack.
  */
 
-@layer chu.kits {
-  .chu-footer {
-    --_p: var(--chu-pixel);
-    --_e: var(--chu-footer-edge, 14);
+@layer blip.kits {
+  .blip-footer {
+    --_p: var(--blip-pixel);
+    --_e: var(--blip-footer-edge, 14);
     position: relative;
     container-type: inline-size;
     display: grid;
     gap: calc(14 * var(--_p));
     margin-block-start: calc(3 * var(--_p));
     padding: calc((var(--_e) + 14) * var(--_p)) calc(12 * var(--_p)) calc(12 * var(--_p));
-    background: var(--chu-surface-sunken);
-    color: var(--chu-text);
+    background: var(--blip-surface-sunken);
+    color: var(--blip-text);
   }
   /* The ground's edge: grass, a lip, dirt with pebbles, then a dithered row down into the footer. */
-  .chu-footer::before {
+  .blip-footer::before {
     content: "";
     position: absolute;
     inset-inline: 0;
     inset-block-start: 0;
     block-size: calc(var(--_e) * var(--_p));
     background:
-      linear-gradient(to right, var(--chu-blocks-dirt-shadow) 0 var(--_p), transparent 0) 0 100% / calc(2 * var(--_p)) var(--_p) repeat-x,
-      linear-gradient(to right, transparent 0 calc(5 * var(--_p)), var(--chu-blocks-pebble) 0 calc(7 * var(--_p)), transparent 0 calc(19 * var(--_p)), var(--chu-blocks-pebble) 0 calc(20 * var(--_p)), transparent 0) 0 calc(7 * var(--_p)) / calc(29 * var(--_p)) var(--_p) repeat-x,
-      linear-gradient(to right, transparent 0 calc(13 * var(--_p)), var(--chu-blocks-dirt-shadow) 0 calc(15 * var(--_p)), transparent 0) 0 calc(10 * var(--_p)) / calc(23 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, var(--blip-blocks-dirt-shadow) 0 var(--_p), transparent 0) 0 100% / calc(2 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(5 * var(--_p)), var(--blip-blocks-pebble) 0 calc(7 * var(--_p)), transparent 0 calc(19 * var(--_p)), var(--blip-blocks-pebble) 0 calc(20 * var(--_p)), transparent 0) 0 calc(7 * var(--_p)) / calc(29 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(13 * var(--_p)), var(--blip-blocks-dirt-shadow) 0 calc(15 * var(--_p)), transparent 0) 0 calc(10 * var(--_p)) / calc(23 * var(--_p)) var(--_p) repeat-x,
       linear-gradient(to bottom,
-        var(--chu-blocks-grass-top) 0 var(--_p),
-        var(--chu-blocks-grass) 0 calc(4 * var(--_p)),
-        var(--chu-blocks-grass-lip) 0 calc(5 * var(--_p)),
-        var(--chu-blocks-dirt) 0 calc(100% - 3 * var(--_p)),
-        var(--chu-blocks-dirt-shadow) 0 calc(100% - var(--_p)),
+        var(--blip-blocks-grass-top) 0 var(--_p),
+        var(--blip-blocks-grass) 0 calc(4 * var(--_p)),
+        var(--blip-blocks-grass-lip) 0 calc(5 * var(--_p)),
+        var(--blip-blocks-dirt) 0 calc(100% - 3 * var(--_p)),
+        var(--blip-blocks-dirt-shadow) 0 calc(100% - var(--_p)),
         transparent 0);
   }
-  .chu-footer::after {
+  .blip-footer::after {
     content: "";
     position: absolute;
     inset-inline: 0;
     inset-block-end: 100%;
     block-size: calc(2 * var(--_p));
     background:
-      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(4 * var(--_p)), transparent 0 calc(17 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 0 / calc(23 * var(--_p)) var(--_p) repeat-x,
-      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(5 * var(--_p)), transparent 0 calc(12 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(13 * var(--_p)), transparent 0 calc(16 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 var(--_p) / calc(23 * var(--_p)) var(--_p) repeat-x;
+      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--blip-blocks-grass-top) 0 calc(4 * var(--_p)), transparent 0 calc(17 * var(--_p)), var(--blip-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 0 / calc(23 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--blip-blocks-grass-top) 0 calc(5 * var(--_p)), transparent 0 calc(12 * var(--_p)), var(--blip-blocks-grass-top) 0 calc(13 * var(--_p)), transparent 0 calc(16 * var(--_p)), var(--blip-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 var(--_p) / calc(23 * var(--_p)) var(--_p) repeat-x;
   }
 
-  .chu-footer-inner {
+  .blip-footer-inner {
     display: grid;
     grid-template-columns: 1fr;
     gap: calc(12 * var(--_p));
   }
   @container (width >= 1024px) {
-    .chu-footer-inner { grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr) minmax(0, 1.4fr); }
+    .blip-footer-inner { grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr) minmax(0, 1.4fr); }
   }
 
-  .chu-footer-brand { display: grid; align-content: start; gap: calc(3 * var(--_p)); }
-  .chu-footer-brand > p { margin: 0; }
+  .blip-footer-brand { display: grid; align-content: start; gap: calc(3 * var(--_p)); }
+  .blip-footer-brand > p { margin: 0; }
 
-  .chu-footer-nav {
+  .blip-footer-nav {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(calc(64 * var(--_p)), 1fr));
     gap: calc(8 * var(--_p));
   }
-  .chu-footer-heading {
+  .blip-footer-heading {
     margin: 0 0 calc(4 * var(--_p));
-    font-size: var(--chu-size-small);
-    font-weight: var(--chu-weight-bold);
-    letter-spacing: var(--chu-tracking-label);
+    font-size: var(--blip-size-small);
+    font-weight: var(--blip-weight-bold);
+    letter-spacing: var(--blip-tracking-label);
     text-transform: uppercase;
   }
-  .chu-footer-col ul, .chu-footer-legal ul {
+  .blip-footer-col ul, .blip-footer-legal ul {
     display: grid;
     gap: calc(2 * var(--_p));
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  .chu-footer-col a {
-    color: var(--chu-text);
+  .blip-footer-col a {
+    color: var(--blip-text);
     text-decoration-line: none;
   }
-  .chu-footer-col a:hover { color: var(--chu-accent-text); text-decoration-line: underline; }
+  .blip-footer-col a:hover { color: var(--blip-accent-text); text-decoration-line: underline; }
 
-  .chu-footer-signup { display: grid; align-content: start; gap: calc(3 * var(--_p)); }
-  .chu-footer-signup p { margin: 0; color: var(--chu-text-muted); font-size: var(--chu-size-small); }
-  .chu-footer-row {
+  .blip-footer-signup { display: grid; align-content: start; gap: calc(3 * var(--_p)); }
+  .blip-footer-signup p { margin: 0; color: var(--blip-text-muted); font-size: var(--blip-size-small); }
+  .blip-footer-row {
     display: flex;
     flex-wrap: wrap;
     gap: calc(3 * var(--_p));
     margin-block-start: calc(2 * var(--_p));
   }
 
-  .chu-footer-field {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
+  .blip-footer-field {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
     display: flex;
     flex: 1 1 calc(60 * var(--_p));
     min-inline-size: 0;
-    block-size: var(--chu-control-md);
+    block-size: var(--blip-control-md);
   }
-  .chu-footer-field:has(> :user-invalid) { --chu-box-outline: var(--chu-danger); }
+  .blip-footer-field:has(> :user-invalid) { --blip-box-outline: var(--blip-danger); }
   /* A percentage width, so the input's own width (twenty characters, more with a bigger text size) never holds the
      footer wider than a phone. */
-  .chu-footer-field > input {
+  .blip-footer-field > input {
     flex: 1;
     inline-size: 100%;
     min-inline-size: 0;
     padding: 0 calc(5 * var(--_p));
     border: 0;
     background: none;
-    color: var(--chu-text);
-    font-size: var(--chu-size-body);
+    color: var(--blip-text);
+    font-size: var(--blip-size-body);
   }
-  .chu-footer-field > input::placeholder { color: var(--chu-text-muted); opacity: 1; }
+  .blip-footer-field > input::placeholder { color: var(--blip-text-muted); opacity: 1; }
   /* The box draws the ring around the field, so the input itself shows none. */
-  .chu-footer-field > input:focus-visible { outline: none; box-shadow: none; }
+  .blip-footer-field > input:focus-visible { outline: none; box-shadow: none; }
 
-  .chu-footer-legal {
+  .blip-footer-legal {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: calc(4 * var(--_p)) calc(12 * var(--_p));
     padding-block-start: calc(8 * var(--_p));
-    border-block-start: var(--_p) solid var(--chu-line-soft);
-    color: var(--chu-text-muted);
-    font-size: var(--chu-size-small);
+    border-block-start: var(--_p) solid var(--blip-line-soft);
+    color: var(--blip-text-muted);
+    font-size: var(--blip-size-small);
   }
-  .chu-footer-legal p { margin: 0; }
-  .chu-footer-legal ul { display: flex; flex-wrap: wrap; gap: calc(8 * var(--_p)); }
-  .chu-footer-legal a { color: var(--chu-text-muted); }
+  .blip-footer-legal p { margin: 0; }
+  .blip-footer-legal ul { display: flex; flex-wrap: wrap; gap: calc(8 * var(--_p)); }
+  .blip-footer-legal a { color: var(--blip-text-muted); }
 
   /* The ground's edge is the world's: not in high contrast, not on paper. */
   @media (forced-colors: active), print {
-    .chu-footer::before, .chu-footer::after { display: none; }
+    .blip-footer::before, .blip-footer::after { display: none; }
   }
   @media (forced-colors: active) {
-    .chu-footer { border-block-start: 1px solid CanvasText; }
-    .chu-footer-field > input:focus-visible { outline: var(--chu-pixel) solid Highlight; }
+    .blip-footer { border-block-start: 1px solid CanvasText; }
+    .blip-footer-field > input:focus-visible { outline: var(--blip-pixel) solid Highlight; }
   }
 }

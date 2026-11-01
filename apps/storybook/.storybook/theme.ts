@@ -1,7 +1,7 @@
 /**
  * Storybook's own UI in Blip: ink outlines and text, the Day scheme's pastel page, candy blue for what is
  * selected, and the brand title set in Pixel Bop (loaded by manager-head.html). Colours are the tokens' values
- * (@jaatster/blip-tokens), copied here because the manager cannot read CSS custom properties.
+ * (@blip/tokens), copied here because the manager cannot read CSS custom properties.
  */
 import { create } from "storybook/theming/create";
 

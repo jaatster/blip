@@ -1,5 +1,5 @@
 /**
- * Button group: ButtonGroup. CSS from @jaatster/blip-components (button-group.css).
+ * Button group: ButtonGroup. CSS from @blip/components (button-group.css).
  */
 import { forwardRef } from "react";
 import { cx, flag, type NativeProps } from "../internal/props.js";
@@ -16,7 +16,7 @@ export type ButtonGroupProps = ButtonGroupOwnProps & NativeProps<"div", ButtonGr
 
 /**
  * Buttons that belong together: spaced (a row of actions) or attached (one bar). Name the group with aria-label.
- * Renders `<div class="chu-button-group" role="group">`; pass `role="toolbar"` for a toolbar (then make one button
+ * Renders `<div class="blip-button-group" role="group">`; pass `role="toolbar"` for a toolbar (then make one button
  * tabbable and move with the arrow keys). A `<span role="separator" />` inside draws a divider.
  *
  *   <ButtonGroup attached aria-label="Text style">
@@ -25,5 +25,5 @@ export type ButtonGroupProps = ButtonGroupOwnProps & NativeProps<"div", ButtonGr
  *   </ButtonGroup>
  */
 export const ButtonGroup = /*#__PURE__*/ forwardRef<HTMLDivElement, ButtonGroupProps>(function ButtonGroup({ attached, fullWidth, className, role = "group", ...rest }, ref) {
-  return <div ref={ref} className={cx("chu-button-group", className)} role={role} data-attached={flag(attached)} data-width={fullWidth ? "full" : undefined} {...rest} />;
+  return <div ref={ref} className={cx("blip-button-group", className)} role={role} data-attached={flag(attached)} data-width={fullWidth ? "full" : undefined} {...rest} />;
 });

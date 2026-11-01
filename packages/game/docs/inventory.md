@@ -1,8 +1,8 @@
 ---
 name: Inventory
-package: "@jaatster/blip-game"
+package: "@blip/game"
 css: inventory.css
-element: chu-inventory
+element: blip-inventory
 react: Inventory
 status: beta
 ---
@@ -15,37 +15,37 @@ Pair it with a panel that describes the selected item.
 ## Usage
 
 ```html
-<chu-inventory class="chu-inventory" aria-label="Backpack" style="--chu-inventory-columns: 5">
-  <button type="button" class="chu-box chu-slot" data-variant="soft" aria-label="Red potion, 3">
-    <chu-sprite name="potion"></chu-sprite>
-    <span class="chu-slot-count chu-display chu-pop" data-scale="1" aria-hidden="true">3</span>
+<blip-inventory class="blip-inventory" aria-label="Backpack" style="--blip-inventory-columns: 5">
+  <button type="button" class="blip-box blip-slot" data-variant="soft" aria-label="Red potion, 3">
+    <blip-sprite name="potion"></blip-sprite>
+    <span class="blip-slot-count blip-display blip-pop" data-scale="1" aria-hidden="true">3</span>
   </button>
-  <button type="button" class="chu-box chu-slot" data-variant="soft" data-rarity="rare"
+  <button type="button" class="blip-box blip-slot" data-variant="soft" data-rarity="rare"
           aria-selected="true" aria-label="Moon key, rare">
-    <chu-sprite name="key" data-tone="blue"></chu-sprite>
+    <blip-sprite name="key" data-tone="blue"></blip-sprite>
   </button>
-  <button type="button" class="chu-box chu-slot" data-variant="soft" data-rarity="uncommon"
+  <button type="button" class="blip-box blip-slot" data-variant="soft" data-rarity="uncommon"
           aria-label="Reed sword, uncommon, equipped">
-    <chu-sprite name="sword" data-tone="green"></chu-sprite>
-    <span class="chu-box chu-slot-tag" data-tone="neutral" aria-hidden="true">E</span>
+    <blip-sprite name="sword" data-tone="green"></blip-sprite>
+    <span class="blip-box blip-slot-tag" data-tone="neutral" aria-hidden="true">E</span>
   </button>
-  <button type="button" class="chu-box chu-slot" data-variant="outline" aria-label="Empty"></button>
-</chu-inventory>
+  <button type="button" class="blip-box blip-slot" data-variant="outline" aria-label="Empty"></button>
+</blip-inventory>
 ```
 
 ```js
-import "@jaatster/blip-game/inventory";
-bag.addEventListener("chu-select", (e) => showDetails(e.detail.item));
+import "@blip/game/inventory";
+bag.addEventListener("blip-select", (e) => showDetails(e.detail.item));
 ```
 
 Slots a framework renders after the element upgrades become options and join the keys as they arrive.
 
 ## Anatomy
 
-1. **Grid** (`.chu-inventory`): `--chu-inventory-columns` slots across; each slot `--chu-inventory-slot` pixels square (24).
-2. **Slot** (`.chu-slot`): a soft candy box, radius 3, holding one sprite.
-3. **Count** (`.chu-slot-count`): Pixel Bop digits in POP, bottom corner.
-4. **Tag** (`.chu-slot-tag`): a tiny candy label on the top corner: "E" for equipped, "New".
+1. **Grid** (`.blip-inventory`): `--blip-inventory-columns` slots across; each slot `--blip-inventory-slot` pixels square (24).
+2. **Slot** (`.blip-slot`): a soft candy box, radius 3, holding one sprite.
+3. **Count** (`.blip-slot-count`): Pixel Bop digits in POP, bottom corner.
+4. **Tag** (`.blip-slot-tag`): a tiny candy label on the top corner: "E" for equipped, "New".
 
 ## Variants
 
@@ -67,7 +67,7 @@ Slots a framework renders after the element upgrades become options and join the
 
 ## Accessibility
 
-- `chu-inventory` is a single-select `listbox`; each slot is a `<button role="option">` with `aria-selected`.
+- `blip-inventory` is a single-select `listbox`; each slot is a `<button role="option">` with `aria-selected`.
 - **Keyboard:** one slot is in the tab order. **Left** and **Right** move along, **Up** and **Down** move a whole row
   (however many columns the grid has at its current width), **Home** and **End** jump to the ends, typing a letter
   jumps to the next item whose name starts with it, **Enter** or **Space** selects.
@@ -89,8 +89,8 @@ Item names in sentence case; counts as plain numbers. Keep descriptions for the 
 |---|---|
 | `slots` | The slots, in order. |
 | `selected` | The selected slot, if any. |
-| `select(slotOrIndex)` | Selects a slot and sends `chu-select`. |
+| `select(slotOrIndex)` | Selects a slot and sends `blip-select`. |
 
 | Event | `detail` | When |
 |---|---|---|
-| `chu-select` | `{ item, index, value }` | A slot was selected; `value` is its `value`, `data-value` or name. |
+| `blip-select` | `{ item, index, value }` | A slot was selected; `value` is its `value`, `data-value` or name. |

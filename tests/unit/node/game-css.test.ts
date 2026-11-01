@@ -19,14 +19,14 @@ describe("game CSS", () => {
 
   it("leaves the stage's sky and ground and the achievement's sparkles off paper", () => {
     const stage = media(read("stage.css"), "print");
-    expect(stage).toMatch(/\.chu-stage\s*\{\s*background:\s*none/);
-    expect(stage).toMatch(/\.chu-stage-ground\s*\{\s*display:\s*none/);
-    expect(media(read("achievement.css"), "print")).toMatch(/\.chu-achievement-sparkles\s*\{\s*display:\s*none/);
+    expect(stage).toMatch(/\.blip-stage\s*\{\s*background:\s*none/);
+    expect(stage).toMatch(/\.blip-stage-ground\s*\{\s*display:\s*none/);
+    expect(media(read("achievement.css"), "print")).toMatch(/\.blip-achievement-sparkles\s*\{\s*display:\s*none/);
   });
 
   it("prints the pictures that carry meaning", () => {
-    expect(media(read("hud.css"), "print")).toMatch(/\.chu-hud-bar-fill,\s*\.chu-hud-bar-fill::before\s*\{\s*print-color-adjust:\s*exact/);
-    expect(media(read("prompt.css"), "print")).toMatch(/\.chu-prompt-dpad::before,\s*\.chu-prompt-dpad::after\s*\{\s*print-color-adjust:\s*exact/);
-    expect(media(read("level.css"), "print")).toMatch(/\.chu-level-path\s*\{\s*print-color-adjust:\s*exact/);
+    expect(media(read("hud.css"), "print")).toMatch(/\.blip-hud-bar-fill,\s*\.blip-hud-bar-fill::before\s*\{\s*print-color-adjust:\s*exact/);
+    expect(media(read("prompt.css"), "print")).toMatch(/\.blip-prompt-dpad::before,\s*\.blip-prompt-dpad::after\s*\{\s*print-color-adjust:\s*exact/);
+    expect(media(read("level.css"), "print")).toMatch(/\.blip-level-path\s*\{\s*print-color-adjust:\s*exact/);
   });
 });

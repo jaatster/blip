@@ -1,16 +1,16 @@
 <!-- Motion toggle: a page-wide pause for motion that runs on by itself, here a night sky whose clouds drift, whose stars
-     flare and where a star shoots now and then. Pressed, it sets data-chu-motion="reduce" on <html>: the sky stops at
+     flare and where a star shoots now and then. Pressed, it sets data-blip-motion="reduce" on <html>: the sky stops at
      once, every toggle on the page shows it pressed, and the choice is remembered on this device. Pressed again, the
      sky carries on. It makes its own soft button with a pause icon (label="…" changes the words), or wires yours: an
      icon-only one here. -->
-<div style="position:relative;block-size:calc(100*var(--chu-pixel));display:grid;align-content:end;justify-items:end;padding:calc(6*var(--chu-pixel));margin-block-end:calc(8*var(--chu-pixel))">
-  <chu-world scheme="night" clouds stars events></chu-world>
-  <chu-motion-toggle></chu-motion-toggle>
+<div style="position:relative;block-size:calc(100*var(--blip-pixel));display:grid;align-content:end;justify-items:end;padding:calc(6*var(--blip-pixel));margin-block-end:calc(8*var(--blip-pixel))">
+  <blip-world scheme="night" clouds stars events></blip-world>
+  <blip-motion-toggle></blip-motion-toggle>
 </div>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(6*var(--chu-pixel));align-items:center">
-  <chu-motion-toggle lang="de" label="Bewegung anhalten"></chu-motion-toggle>
-  <chu-motion-toggle>
-    <button class="chu-box chu-button" type="button" data-variant="soft" data-tone="purple" data-icon-only aria-label="Pause motion"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v8H2zm5 0h3v8H7z"/></svg></button>
-  </chu-motion-toggle>
+<div style="display:flex;flex-wrap:wrap;gap:calc(6*var(--blip-pixel));align-items:center">
+  <blip-motion-toggle lang="de" label="Bewegung anhalten"></blip-motion-toggle>
+  <blip-motion-toggle>
+    <button class="blip-box blip-button" type="button" data-variant="soft" data-tone="purple" data-icon-only aria-label="Pause motion"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v8H2zm5 0h3v8H7z"/></svg></button>
+  </blip-motion-toggle>
 </div>

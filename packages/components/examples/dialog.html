@@ -1,46 +1,46 @@
-<!-- Dialog: open dialogs drawn statically (data-chu-static) over a scrim, then live ones in <chu-dialog>. Static
+<!-- Dialog: open dialogs drawn statically (data-blip-static) over a scrim, then live ones in <blip-dialog>. Static
      dialogs use type="button" so pressing them in the gallery does nothing. -->
-<div class="chu-scrim" style="display:flex;flex-wrap:wrap;gap:calc(12*var(--chu-pixel));align-items:flex-start;padding:calc(12*var(--chu-pixel))">
-  <dialog class="chu-box chu-dialog" open data-chu-static aria-labelledby="ex-save-title">
-    <header class="chu-dialog-header">
-      <h2 class="chu-dialog-title" id="ex-save-title">Save game</h2>
-      <button class="chu-box chu-button chu-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
+<div class="blip-scrim" style="display:flex;flex-wrap:wrap;gap:calc(12*var(--blip-pixel));align-items:flex-start;padding:calc(12*var(--blip-pixel))">
+  <dialog class="blip-box blip-dialog" open data-blip-static aria-labelledby="ex-save-title">
+    <header class="blip-dialog-header">
+      <h2 class="blip-dialog-title" id="ex-save-title">Save game</h2>
+      <button class="blip-box blip-button blip-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
     </header>
-    <div class="chu-dialog-body">
+    <div class="blip-dialog-body">
       <p>Choose a slot. Saving over a slot replaces what's in it.</p>
-      <fieldset class="chu-field">
-        <legend class="chu-field-label">Slot</legend>
-        <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="ex-slot" value="1"></span>Slot 1: World 1-4, 52 min</label>
-        <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="ex-slot" value="2" checked></span>Slot 2: World 3-2, 4 h 12 min</label>
-        <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="ex-slot" value="3"></span>Slot 3: empty</label>
+      <fieldset class="blip-field">
+        <legend class="blip-field-label">Slot</legend>
+        <label class="blip-check"><span class="blip-box blip-radio"><input type="radio" name="ex-slot" value="1"></span>Slot 1: World 1-4, 52 min</label>
+        <label class="blip-check"><span class="blip-box blip-radio"><input type="radio" name="ex-slot" value="2" checked></span>Slot 2: World 3-2, 4 h 12 min</label>
+        <label class="blip-check"><span class="blip-box blip-radio"><input type="radio" name="ex-slot" value="3"></span>Slot 3: empty</label>
       </fieldset>
     </div>
-    <footer class="chu-dialog-footer">
-      <button class="chu-box chu-button" type="button" data-variant="soft" data-tone="neutral">Cancel</button>
-      <button class="chu-box chu-button" type="button">Save</button>
+    <footer class="blip-dialog-footer">
+      <button class="blip-box blip-button" type="button" data-variant="soft" data-tone="neutral">Cancel</button>
+      <button class="blip-box blip-button" type="button">Save</button>
     </footer>
   </dialog>
 
-  <dialog class="chu-box chu-dialog" role="alertdialog" data-tone="danger" data-size="sm" open data-chu-static aria-labelledby="ex-delete-title" aria-describedby="ex-delete-text">
-    <header class="chu-dialog-header">
-      <span class="chu-dialog-icon" aria-hidden="true"></span>
-      <h2 class="chu-dialog-title" id="ex-delete-title">Delete slot 2?</h2>
+  <dialog class="blip-box blip-dialog" role="alertdialog" data-tone="danger" data-size="sm" open data-blip-static aria-labelledby="ex-delete-title" aria-describedby="ex-delete-text">
+    <header class="blip-dialog-header">
+      <span class="blip-dialog-icon" aria-hidden="true"></span>
+      <h2 class="blip-dialog-title" id="ex-delete-title">Delete slot 2?</h2>
     </header>
-    <div class="chu-dialog-body">
+    <div class="blip-dialog-body">
       <p id="ex-delete-text">World 3-2, 4 h 12 min played. You can't undo this.</p>
     </div>
-    <footer class="chu-dialog-footer">
-      <button class="chu-box chu-button" type="button" data-variant="soft" data-tone="neutral">Keep it</button>
-      <button class="chu-box chu-button" type="button" data-tone="danger">Delete</button>
+    <footer class="blip-dialog-footer">
+      <button class="blip-box blip-button" type="button" data-variant="soft" data-tone="neutral">Keep it</button>
+      <button class="blip-box blip-button" type="button" data-tone="danger">Delete</button>
     </footer>
   </dialog>
 
-  <dialog class="chu-box chu-dialog" data-size="sm" data-tone="success" open data-chu-static aria-labelledby="ex-notes-title" style="max-block-size:calc(110*var(--chu-pixel))">
-    <header class="chu-dialog-header">
-      <h2 class="chu-dialog-title" id="ex-notes-title">What's new in 1.4</h2>
-      <button class="chu-box chu-button chu-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
+  <dialog class="blip-box blip-dialog" data-size="sm" data-tone="success" open data-blip-static aria-labelledby="ex-notes-title" style="max-block-size:calc(110*var(--blip-pixel))">
+    <header class="blip-dialog-header">
+      <h2 class="blip-dialog-title" id="ex-notes-title">What's new in 1.4</h2>
+      <button class="blip-box blip-button blip-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
     </header>
-    <div class="chu-dialog-body" role="region" tabindex="0" aria-label="Release notes">
+    <div class="blip-dialog-body" role="region" tabindex="0" aria-label="Release notes">
       <p>Crystal Caves, a new world of eight levels, with a boss that plays back your own moves.</p>
       <p>Saves now sync between devices. Turn it on in Settings, then Cloud.</p>
       <p>The map shows which stars you are missing in each level.</p>
@@ -49,48 +49,48 @@
   </dialog>
 </div>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--chu-pixel));align-items:center;margin-block-start:calc(8*var(--chu-pixel))">
-  <span class="chu-label chu-muted">Live</span>
-  <button class="chu-box chu-button" type="button" commandfor="save-dialog" command="show-modal">Save game</button>
-  <button class="chu-box chu-button" type="button" data-variant="soft" data-tone="danger" commandfor="delete-dialog" command="show-modal">Delete slot 2</button>
+<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--blip-pixel));align-items:center;margin-block-start:calc(8*var(--blip-pixel))">
+  <span class="blip-label blip-muted">Live</span>
+  <button class="blip-box blip-button" type="button" commandfor="save-dialog" command="show-modal">Save game</button>
+  <button class="blip-box blip-button" type="button" data-variant="soft" data-tone="danger" commandfor="delete-dialog" command="show-modal">Delete slot 2</button>
 </div>
 
-<chu-dialog light-dismiss>
-  <dialog class="chu-box chu-dialog" id="save-dialog" aria-labelledby="save-dialog-title">
+<blip-dialog light-dismiss>
+  <dialog class="blip-box blip-dialog" id="save-dialog" aria-labelledby="save-dialog-title">
     <form method="dialog">
-      <header class="chu-dialog-header">
-        <h2 class="chu-dialog-title" id="save-dialog-title">Save game</h2>
-        <button class="chu-box chu-button chu-dialog-close" type="button" commandfor="save-dialog" command="close" value="cancel" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
+      <header class="blip-dialog-header">
+        <h2 class="blip-dialog-title" id="save-dialog-title">Save game</h2>
+        <button class="blip-box blip-button blip-dialog-close" type="button" commandfor="save-dialog" command="close" value="cancel" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
       </header>
-      <div class="chu-dialog-body">
+      <div class="blip-dialog-body">
         <p>Choose a slot. Saving over a slot replaces what's in it.</p>
-        <fieldset class="chu-field">
-          <legend class="chu-field-label">Slot</legend>
-          <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="slot" value="1"></span>Slot 1: World 1-4, 52 min</label>
-          <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="slot" value="2" checked></span>Slot 2: World 3-2, 4 h 12 min</label>
-          <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="slot" value="3"></span>Slot 3: empty</label>
+        <fieldset class="blip-field">
+          <legend class="blip-field-label">Slot</legend>
+          <label class="blip-check"><span class="blip-box blip-radio"><input type="radio" name="slot" value="1"></span>Slot 1: World 1-4, 52 min</label>
+          <label class="blip-check"><span class="blip-box blip-radio"><input type="radio" name="slot" value="2" checked></span>Slot 2: World 3-2, 4 h 12 min</label>
+          <label class="blip-check"><span class="blip-box blip-radio"><input type="radio" name="slot" value="3"></span>Slot 3: empty</label>
         </fieldset>
       </div>
-      <footer class="chu-dialog-footer">
-        <button class="chu-box chu-button" type="button" commandfor="save-dialog" command="close" value="cancel" data-variant="soft" data-tone="neutral">Cancel</button>
-        <button class="chu-box chu-button" value="save">Save</button>
+      <footer class="blip-dialog-footer">
+        <button class="blip-box blip-button" type="button" commandfor="save-dialog" command="close" value="cancel" data-variant="soft" data-tone="neutral">Cancel</button>
+        <button class="blip-box blip-button" value="save">Save</button>
       </footer>
     </form>
   </dialog>
-</chu-dialog>
+</blip-dialog>
 
-<chu-dialog>
-  <dialog class="chu-box chu-dialog" id="delete-dialog" role="alertdialog" data-tone="danger" data-size="sm" aria-labelledby="delete-dialog-title" aria-describedby="delete-dialog-text">
+<blip-dialog>
+  <dialog class="blip-box blip-dialog" id="delete-dialog" role="alertdialog" data-tone="danger" data-size="sm" aria-labelledby="delete-dialog-title" aria-describedby="delete-dialog-text">
     <form method="dialog">
-      <header class="chu-dialog-header">
-        <span class="chu-dialog-icon" aria-hidden="true"></span>
-        <h2 class="chu-dialog-title" id="delete-dialog-title">Delete slot 2?</h2>
+      <header class="blip-dialog-header">
+        <span class="blip-dialog-icon" aria-hidden="true"></span>
+        <h2 class="blip-dialog-title" id="delete-dialog-title">Delete slot 2?</h2>
       </header>
-      <div class="chu-dialog-body"><p id="delete-dialog-text">World 3-2, 4 h 12 min played. You can't undo this.</p></div>
-      <footer class="chu-dialog-footer">
-        <button class="chu-box chu-button" data-variant="soft" data-tone="neutral" value="keep" autofocus>Keep it</button>
-        <button class="chu-box chu-button" data-tone="danger" value="delete">Delete</button>
+      <div class="blip-dialog-body"><p id="delete-dialog-text">World 3-2, 4 h 12 min played. You can't undo this.</p></div>
+      <footer class="blip-dialog-footer">
+        <button class="blip-box blip-button" data-variant="soft" data-tone="neutral" value="keep" autofocus>Keep it</button>
+        <button class="blip-box blip-button" data-tone="danger" value="delete">Delete</button>
       </footer>
     </form>
   </dialog>
-</chu-dialog>
+</blip-dialog>

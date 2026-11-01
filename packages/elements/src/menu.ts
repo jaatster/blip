@@ -1,5 +1,5 @@
 /**
- * <chu-menu>: a WAI-ARIA menu button over the menu markup (see components/menu.css).
+ * <blip-menu>: a WAI-ARIA menu button over the menu markup (see components/menu.css).
  *
  * The list is a native popover (light dismiss, Escape, one menu at a time). This element wires the button
  * (aria-haspopup, aria-expanded, aria-controls), puts focus on the first item when the menu opens (the last with
@@ -8,13 +8,13 @@
  * the button. It lines the menu up with CSS anchor positioning, or measures where that is missing. Items are read
  * as they are, so items rendered later just work; a button or list rendered later is wired when it arrives.
  *
- *   menu.addEventListener("chu-action", (e) => run(e.detail.value)); // e.preventDefault() keeps the menu open
- *   menu.open = true;                                               // or <chu-menu open>
+ *   menu.addEventListener("blip-action", (e) => run(e.detail.value)); // e.preventDefault() keeps the menu open
+ *   menu.open = true;                                               // or <blip-menu open>
  */
-import { BlipElement, rovingFocus, typeahead, pixel, warn } from "@jaatster/blip-core";
+import { BlipElement, rovingFocus, typeahead, pixel, warn } from "@blip/core";
 import { both, isOn, unFalse, valueOf, watch } from "./_dom.js";
 
-/** What chu-action reports: the item chosen in a menu or a command palette. */
+/** What blip-action reports: the item chosen in a menu or a command palette. */
 export interface ActionDetail {
   item: HTMLElement;
   /** The item's data-value, else its value, else its label. */
@@ -34,13 +34,13 @@ let uid = 0;
  * @summary A menu button and its list of actions.
  * @attr {boolean} open - The menu is open; setting it opens or closes the menu. Reflects the menu. "false" is off.
  * @attr {"start" | "end"} [data-align="start"] - Lines the menu up with the start or the end of its button.
- * @fires {CustomEvent<ActionDetail>} chu-action - An item was chosen, before it runs. Cancelable: preventDefault()
+ * @fires {CustomEvent<ActionDetail>} blip-action - An item was chosen, before it runs. Cancelable: preventDefault()
  * keeps the menu open and the item unchanged.
- * @fires {CustomEvent<void>} chu-open - The menu opened.
- * @fires {CustomEvent<void>} chu-close - The menu closed.
+ * @fires {CustomEvent<void>} blip-open - The menu opened.
+ * @fires {CustomEvent<void>} blip-close - The menu closed.
  */
 export class BlipMenu extends BlipElement {
-  static override classes = ["chu-menu"];
+  static override classes = ["blip-menu"];
   static observedAttributes = ["open"];
   #last = false;
   #tab = false;
@@ -103,7 +103,7 @@ export class BlipMenu extends BlipElement {
     this.#wire();
     // A button or list rendered later (or swapped) is wired when it arrives. Items are read as they are.
     watch(this, this.signal, () => this.#wire(), { subtree: false });
-    if (!this.menu && this.children.length) warn("CHU-M001", "<chu-menu> needs a button and a [role=menu] list inside it.", this);
+    if (!this.menu && this.children.length) warn("BLIP-M001", "<blip-menu> needs a button and a [role=menu] list inside it.", this);
     if (!anchored) {
       const again = () => this.open && this.#place();
       this.on(window, "resize", again);
@@ -121,7 +121,7 @@ export class BlipMenu extends BlipElement {
     if (!button || !menu) return;
     const signal = both(this.signal, (this.#wiring = new AbortController()).signal);
     const listen = (target: EventTarget, type: string, fn: (e: KeyboardEvent & PointerEvent & ToggleEvent) => void) => target.addEventListener(type, fn as EventListener, { signal });
-    const id = (menu.id ||= `chu-menu-${++uid}`);
+    const id = (menu.id ||= `blip-menu-${++uid}`);
     const sub = !!this.parentElement?.closest('[role="menu"]');
     const rtl = () => getComputedStyle(this).direction === "rtl";
     if (!menu.hasAttribute("popover")) menu.popover = "auto";
@@ -137,7 +137,7 @@ export class BlipMenu extends BlipElement {
     rovingFocus(menu, { items: () => this.items, orientation: "vertical", signal });
     typeahead(menu, {
       items: () => (this.items.includes(document.activeElement as HTMLElement) ? this.#enabled() : []),
-      label: (el) => (el.querySelector(".chu-menu-label") ?? el).textContent?.trim().toLowerCase() ?? "",
+      label: (el) => (el.querySelector(".blip-menu-label") ?? el).textContent?.trim().toLowerCase() ?? "",
       onMatch: (el) => el.focus(),
       signal,
     });
@@ -209,7 +209,7 @@ export class BlipMenu extends BlipElement {
   #activate(item: HTMLElement, close: boolean): void {
     const role = item.getAttribute("role");
     const checked = role === "menuitemcheckbox" ? item.getAttribute("aria-checked") !== "true" : role === "menuitemradio" ? true : undefined;
-    const value = valueOf(item, (item.querySelector(".chu-menu-label") ?? item).textContent?.trim());
+    const value = valueOf(item, (item.querySelector(".blip-menu-label") ?? item).textContent?.trim());
     if (!this.emit<ActionDetail>("action", { item, value, checked }, true)) return;
     if (role === "menuitemradio") {
       for (const radio of (item.closest('[role="group"]') ?? this.menu!).querySelectorAll('[role="menuitemradio"]')) radio.setAttribute("aria-checked", String(radio === item));
@@ -217,7 +217,7 @@ export class BlipMenu extends BlipElement {
     if (!close) return;
     // Close the whole chain of menus, back to the first button.
     let root: BlipMenu = this;
-    for (let m = this.parentElement?.closest<BlipMenu>("chu-menu"); m; m = m.parentElement?.closest<BlipMenu>("chu-menu")) root = m;
+    for (let m = this.parentElement?.closest<BlipMenu>("blip-menu"); m; m = m.parentElement?.closest<BlipMenu>("blip-menu")) root = m;
     root.close();
   }
 
@@ -237,14 +237,14 @@ export class BlipMenu extends BlipElement {
   }
 }
 
-BlipElement.define("chu-menu", BlipMenu);
+BlipElement.define("blip-menu", BlipMenu);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "chu-menu": BlipMenu;
+    "blip-menu": BlipMenu;
   }
   interface HTMLElementEventMap {
-    /** From chu-menu and chu-command: an item was chosen to run. Cancelable. */
-    "chu-action": CustomEvent<ActionDetail>;
+    /** From blip-menu and blip-command: an item was chosen to run. Cancelable. */
+    "blip-action": CustomEvent<ActionDetail>;
   }
 }

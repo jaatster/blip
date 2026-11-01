@@ -1,8 +1,8 @@
 <!-- Your own wheels, from selects: one wheel per select, one row per option. Without JavaScript they are plain
-     selects; with it, the form gets the wheel's value ("3 cocoa"), and change (then chu-change) says when it settles. -->
-<div class="chu-stack" data-gap="2">
-  <label class="chu-field-label" for="whs-order">Your order</label>
-  <chu-wheel class="chu-box chu-wheel" id="whs-order" name="order" data-tone="pink"
+     selects; with it, the form gets the wheel's value ("3 cocoa"), and change (then blip-change) says when it settles. -->
+<div class="blip-stack" data-gap="2">
+  <label class="blip-field-label" for="whs-order">Your order</label>
+  <blip-wheel class="blip-box blip-wheel" id="whs-order" name="order" data-tone="pink"
              onchange="document.getElementById('whs-order-said').textContent = 'Order: ' + this.value">
     <select aria-label="Scoops"><option>1</option><option selected>2</option><option>3</option></select>
     <select aria-label="Flavour">
@@ -11,6 +11,6 @@
       <option value="mint">Mint</option>
       <option value="cocoa">Cocoa</option>
     </select>
-  </chu-wheel>
-  <p class="chu-label chu-muted" id="whs-order-said" aria-live="polite">Order: 2 lemon</p>
+  </blip-wheel>
+  <p class="blip-label blip-muted" id="whs-order-said" aria-live="polite">Order: 2 lemon</p>
 </div>

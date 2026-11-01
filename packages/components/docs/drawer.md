@@ -1,8 +1,8 @@
 ---
 name: Drawer
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: drawer.css
-element: chu-drawer
+element: blip-drawer
 react: Drawer
 status: stable
 equivalents:
@@ -21,27 +21,27 @@ page is used, a sidebar.
 ## Usage
 
 ```html
-<button class="chu-box chu-button" commandfor="settings" command="show-modal">Settings</button>
+<button class="blip-box blip-button" commandfor="settings" command="show-modal">Settings</button>
 
-<chu-drawer light-dismiss>
-  <dialog class="chu-box chu-drawer" id="settings" data-side="end" aria-labelledby="settings-title">
-    <header class="chu-dialog-header">
-      <h2 class="chu-dialog-title" id="settings-title">Settings</h2>
-      <form method="dialog"><button class="chu-box chu-button chu-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button></form>
+<blip-drawer light-dismiss>
+  <dialog class="blip-box blip-drawer" id="settings" data-side="end" aria-labelledby="settings-title">
+    <header class="blip-dialog-header">
+      <h2 class="blip-dialog-title" id="settings-title">Settings</h2>
+      <form method="dialog"><button class="blip-box blip-button blip-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button></form>
     </header>
-    <div class="chu-dialog-body">…</div>
-    <footer class="chu-dialog-footer">…</footer>
+    <div class="blip-dialog-body">…</div>
+    <footer class="blip-dialog-footer">…</footer>
   </dialog>
-</chu-drawer>
+</blip-drawer>
 ```
 
-`drawer.css` includes `dialog.css` (the parts). `<chu-drawer>` has the same API as `<chu-dialog>`.
+`drawer.css` includes `dialog.css` (the parts). `<blip-drawer>` has the same API as `<blip-dialog>`.
 
 ## Anatomy
 
 1. **Sheet**: a candy box, raised, square corners. It runs one pixel past the screen on the sides it touches, so
    only its inner edge shows the ink outline. A sheet on the left edge casts its two-pixel drop onto the page.
-2. **Title bar, title, close, body, footer**: the dialog's parts (`.chu-dialog-header` and so on). The body scrolls,
+2. **Title bar, title, close, body, footer**: the dialog's parts (`.blip-dialog-header` and so on). The body scrolls,
    with the dialog's cue while there is more below: an ink rule over the footer and a dithered fade.
 3. **Scrim**: the dialog's one-pixel ink checkerboard.
 
@@ -58,15 +58,15 @@ page is used, a sidebar.
 | State | How | Look |
 |---|---|---|
 | Opening | `showModal()`, `command="show-modal"`, `open` | Slides in from its edge in six steps over a glide (160 ms), each a whole pixel-snapped sixth of the sheet; the scrim dithers in. |
-| Closing | with `<chu-drawer>` | Slides back out the same six steps. |
-| Static | `data-chu-static` with `open` | In the page flow: docs, tests, screenshots only. |
+| Closing | with `<blip-drawer>` | Slides back out the same six steps. |
+| Static | `data-blip-static` with `open` | In the page flow: docs, tests, screenshots only. |
 
 With reduced motion it appears and goes at once.
 
 ## Accessibility
 
 Everything in the dialog's accessibility section applies: modal (focus kept inside, page inert), named by its
-title, focus returned to the opener, Escape through `chu-before-close`, light dismiss only when nothing is lost.
+title, focus returned to the opener, Escape through `blip-before-close`, light dismiss only when nothing is lost.
 
 | Key | Does |
 |---|---|
@@ -88,11 +88,11 @@ title, focus returned to the opener, Escape through `chu-before-close`, light di
 
 ## API
 
-`<chu-drawer>`: `open`, `light-dismiss`, `show(opener?)`, `requestClose(value?)`, `close(value?)`, `returnValue`,
-`dialog` (read only), and the events `chu-open`, `chu-before-close` (cancelable) and `chu-close`, exactly as
-[`<chu-dialog>`](dialog.md#api).
+`<blip-drawer>`: `open`, `light-dismiss`, `show(opener?)`, `requestClose(value?)`, `close(value?)`, `returnValue`,
+`dialog` (read only), and the events `blip-open`, `blip-before-close` (cancelable) and `blip-close`, exactly as
+[`<blip-dialog>`](dialog.md#api).
 
 | Class or property | |
 |---|---|
-| `.chu-drawer` on a `<dialog class="chu-box">` | The sheet. |
-| `--chu-r` with `--chu-shape`, `--chu-shape-inner`, or `data-chu-r` | Corner radius (0). |
+| `.blip-drawer` on a `<dialog class="blip-box">` | The sheet. |
+| `--blip-r` with `--blip-shape`, `--blip-shape-inner`, or `data-blip-r` | Corner radius (0). |

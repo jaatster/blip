@@ -1,8 +1,8 @@
 ---
 name: Touch pad
-package: "@jaatster/blip-game"
+package: "@blip/game"
 css: touch-pad.css
-element: chu-touch-pad
+element: blip-touch-pad
 react: TouchPad
 status: beta
 ---
@@ -17,9 +17,9 @@ of the screen inside the notch's and the home bar's safe areas, and it shows onl
 ## Usage
 
 ```html
-<!-- import "@jaatster/blip-game/touch-pad.js" and @jaatster/blip-game/touch-pad.css (or game.css) -->
+<!-- import "@blip/game/touch-pad.js" and @blip/game/touch-pad.css (or game.css) -->
 <canvas id="game" tabindex="0"></canvas>
-<chu-touch-pad for="game" data-a="z" data-b="x" data-start="Enter"></chu-touch-pad>
+<blip-touch-pad for="game" data-a="z" data-b="x" data-start="Enter"></blip-touch-pad>
 ```
 
 The game listens as it always has:
@@ -35,7 +35,7 @@ addEventListener("keyup", (e) => {
 ```
 
 Keys go to the element named by `for` and bubble up to the document and the window, so listeners on any of them
-hear them. Without `for` they go to the focused element: a focused menu (`<chu-choices>`, a list with the arrow keys)
+hear them. Without `for` they go to the focused element: a focused menu (`<blip-choices>`, a list with the arrow keys)
 moves with the D-pad, as with the keyboard. Leave room at the bottom of the game for the pad: about 60 pixels (120
 CSS px) plus the safe area. With Start it all fits a 320 px screen at the default pixel; on anything narrower (or with
 a chunkier pixel) B and A wrap to a row of their own, still on the right, rather than widen the page.
@@ -52,9 +52,9 @@ or scroll the page. A game reads keys with listeners, so it works; for a menu of
 
 ## Anatomy
 
-1. **D-pad** (`.chu-touch-pad-dpad`): four slate arms (`.chu-touch-pad-arm`, each with a white pixel arrow) round a
-   sat-in hub (`.chu-touch-pad-hub`). Arms are 16 pixels square, the whole pad 52: 104 CSS px at the default pixel.
-2. **B and A** (`.chu-touch-pad-buttons`): red and green face buttons 22 pixels across (44 CSS px), on a diagonal with
+1. **D-pad** (`.blip-touch-pad-dpad`): four slate arms (`.blip-touch-pad-arm`, each with a white pixel arrow) round a
+   sat-in hub (`.blip-touch-pad-hub`). Arms are 16 pixels square, the whole pad 52: 104 CSS px at the default pixel.
+2. **B and A** (`.blip-touch-pad-buttons`): red and green face buttons 22 pixels across (44 CSS px), on a diagonal with
    B lower and nearer the thumb, as on the 16-bit pads, with their letters in Pixel Bop.
 3. **Start** (`data-start`): a small slate pill, low in the middle.
 
@@ -69,7 +69,7 @@ leave a part out.
 | `data-start` | a key (`Enter` when empty) | Shows Start, sending this key. |
 | `data-show="always"` | | Shows the pad on every pointer. By default it shows only on a coarse one (`@media (pointer: coarse)`): a phone or tablet, not a laptop with a touch screen. |
 | `data-position="inline"` | | In the page's flow instead of fixed to the bottom: for a demo, or a layout of your own. |
-| `data-chu-pixel` | `3`, `4` | The pixel switch: a chunkier pad for a tablet or a TV. Every size is in pixels, so it stays crisp. |
+| `data-blip-pixel` | `3`, `4` | The pixel switch: a chunkier pad for a tablet or a TV. Every size is in pixels, so it stays crisp. |
 | `haptics` | boolean | A 10 ms buzz on each press where the device has one (`navigator.vibrate`). Off unless asked for. |
 
 ## States
@@ -77,7 +77,7 @@ leave a part out.
 | State | How | Look |
 |---|---|---|
 | Rest | | Candy on its drop. |
-| Held | a finger, the mouse or a pen on it | Sits in its drop (`data-chu-pressed`, set while held). |
+| Held | a finger, the mouse or a pen on it | Sits in its drop (`data-blip-pressed`, set while held). |
 | Rolled | a thumb slid across the D-pad | The arm under the thumb takes over: the old arrow's `keyup`, then the new one's `keydown`. The middle of the D-pad presses nothing. |
 
 ## Accessibility
@@ -119,7 +119,7 @@ The touch pad duplicates the keyboard: everything it does, the keys do. So:
 
 ## API
 
-`<chu-touch-pad>`
+`<blip-touch-pad>`
 
 | Attribute | Type | |
 |---|---|---|
@@ -134,8 +134,8 @@ It fires no events of its own: it sends `keydown` and `keyup` to its target.
 
 | Part | |
 |---|---|
-| `.chu-touch-pad-dpad` | The D-pad. |
-| `.chu-touch-pad-arm` | An arm: `data-dir` `up`, `right`, `down` or `left`, holding an empty `<span>` for its arrow. |
-| `.chu-touch-pad-hub` | The D-pad's middle. |
-| `.chu-touch-pad-buttons` | B and A. |
-| `.chu-touch-pad-button` | A button: `data-button` `a`, `b` or `start`. |
+| `.blip-touch-pad-dpad` | The D-pad. |
+| `.blip-touch-pad-arm` | An arm: `data-dir` `up`, `right`, `down` or `left`, holding an empty `<span>` for its arrow. |
+| `.blip-touch-pad-hub` | The D-pad's middle. |
+| `.blip-touch-pad-buttons` | B and A. |
+| `.blip-touch-pad-button` | A button: `data-button` `a`, `b` or `start`. |

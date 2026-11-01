@@ -72,7 +72,7 @@ export function elementReference(tag: string): ElementReference | undefined {
         return {
           tag,
           className: d.name,
-          module: `@jaatster/blip-${pkg}/${mod.path.replace(/^src\//, "").replace(/\.(ts|js)$/, "")}`,
+          module: `@blip/${pkg}/${mod.path.replace(/^src\//, "").replace(/\.(ts|js)$/, "")}`,
           summary: clean(d.summary || d.description),
           attributes: (d.attributes ?? []).map((a) => ({ name: a.name, type: clean(a.type?.text), default: clean(a.default), description: clean(a.description || a.summary) })),
           properties: members.filter((m) => m.kind === "field").map((m) => ({ name: m.name, type: clean(m.type?.text), description: clean(m.description || m.summary), readonly: !!m.readonly })),
@@ -107,7 +107,7 @@ export function booleanAttributes(): { tag: string; names: string[]; falseIsOff:
 }
 
 /**
- * The event an element fires when one of its options is chosen (chu-command and chu-menu), read from its manifest so
+ * The event an element fires when one of its options is chosen (blip-command and blip-menu), read from its manifest so
  * the site's scripts listen for the name the element has today.
  */
 export function chooseEvent(tag: string): string {

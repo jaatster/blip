@@ -1,6 +1,6 @@
 ---
 name: Tag
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: tag.css
 element: null
 react: Tag
@@ -17,9 +17,9 @@ removable tag has a pixel cross; a filter chip is a toggle button that sits in w
 ## Usage
 
 ```html
-<span class="chu-box chu-tag" data-tone="success">Cleared</span>
-<span class="chu-box chu-tag" data-tone="orange">Lava zone<button class="chu-tag-remove" type="button" aria-label="Remove Lava zone"></button></span>
-<button class="chu-box chu-tag" data-variant="outline" type="button" aria-pressed="true">Swords</button>
+<span class="blip-box blip-tag" data-tone="success">Cleared</span>
+<span class="blip-box blip-tag" data-tone="orange">Lava zone<button class="blip-tag-remove" type="button" aria-label="Remove Lava zone"></button></span>
+<button class="blip-box blip-tag" data-variant="outline" type="button" aria-pressed="true">Swords</button>
 ```
 
 ## Anatomy
@@ -27,7 +27,7 @@ removable tag has a pixel cross; a filter chip is a toggle button that sits in w
 1. **Box**: the candy box, 14 pixels high with a radius of 5: the TV's pill.
 2. **Label**: Pixelify Sans, bold, upper case, a little tracking.
 3. **Icon** (optional, `lg`): a 12 x 12 icon before the label.
-4. **Cross** (optional): `.chu-tag-remove`, its own 12-pixel button (24 CSS px) with a pixel ×.
+4. **Cross** (optional): `.blip-tag-remove`, its own 12-pixel button (24 CSS px) with a pixel ×.
 
 ## Variants
 
@@ -71,10 +71,10 @@ removable tag has a pixel cross; a filter chip is a toggle button that sits in w
 
 | Class | |
 |---|---|
-| `.chu-tag` | The pill. Use with `.chu-box`. |
-| `.chu-tag-remove` | The cross button inside a tag. |
+| `.blip-tag` | The pill. Use with `.blip-box`. |
+| `.blip-tag-remove` | The cross button inside a tag. |
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-r` with `--chu-shape`, `--chu-shape-inner` | 5 (sm 4, lg 6) | Corner radius. |
-| `--chu-tone`, `--chu-tone-light`, `--chu-tone-shade`, `--chu-tone-on` | accent | A custom colour. |
+| `--blip-r` with `--blip-shape`, `--blip-shape-inner` | 5 (sm 4, lg 6) | Corner radius. |
+| `--blip-tone`, `--blip-tone-light`, `--blip-tone-shade`, `--blip-tone-on` | accent | A custom colour. |

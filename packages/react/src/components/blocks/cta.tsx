@@ -1,8 +1,8 @@
 /**
- * CTA band: CtaBand, CtaTitle, CtaText, CtaActions, CtaNote and CtaGround. CSS from @jaatster/blip-blocks (cta.css). It
- * stands on the world: pass a `<World>` (from @jaatster/blip-react/effects) as its first child; without it, and until it
+ * CTA band: CtaBand, CtaTitle, CtaText, CtaActions, CtaNote and CtaGround. CSS from @blip/blocks (cta.css). It
+ * stands on the world: pass a `<World>` (from @blip/react/effects) as its first child; without it, and until it
  * draws, its own sky shows, the scheme's palette in hard bands. Its calls to action are a `<ButtonLink>` (or
- * `<Button>`) from @jaatster/blip-react.
+ * `<Button>`) from @blip/react.
  */
 import { forwardRef } from "react";
 import type { ElementType, ReactNode } from "react";
@@ -35,7 +35,7 @@ export type CtaBandProps = CtaBandOwnProps & NativeProps<"section", CtaBandOwnPr
  * outline: candy stays on what you press. One or two per page, named by the title.
  *
  *   <CtaBand aria-labelledby="cta-title">
- *     <World avoid=".chu-cta-title, .chu-cta-text, .chu-cta-actions" />
+ *     <World avoid=".blip-cta-title, .blip-cta-text, .blip-cta-actions" />
  *     <CtaTitle id="cta-title">Catch the first star</CtaTitle>
  *     <CtaText>Wishlist Starfall Meadow and we'll send one email on launch day.</CtaText>
  *     <CtaActions><ButtonLink size="lg" href="#wishlist">Wishlist now</ButtonLink></CtaActions>
@@ -47,7 +47,7 @@ export type CtaBandProps = CtaBandOwnProps & NativeProps<"section", CtaBandOwnPr
  *     <CtaActions><ButtonLink variant="outline" href="#press">Get the press kit</ButtonLink></CtaActions>
  *   </CtaBand>
  *
- * Renders `<section class="chu-cta">`, or `<section class="chu-box chu-cta" data-variant="soft">` with `variant`.
+ * Renders `<section class="blip-cta">`, or `<section class="blip-box blip-cta" data-variant="soft">` with `variant`.
  */
 export const CtaBand = /*#__PURE__*/ forwardRef<HTMLElement, CtaBandProps>(function CtaBand(
   { variant, candy, tone, className, ...rest },
@@ -57,7 +57,7 @@ export const CtaBand = /*#__PURE__*/ forwardRef<HTMLElement, CtaBandProps>(funct
   return (
     <section
       ref={ref}
-      className={cx(boxed && "chu-box", "chu-cta", className)}
+      className={cx(boxed && "blip-box", "blip-cta", className)}
       data-variant={boxed}
       data-tone={boxed ? tone : undefined}
       {...rest}
@@ -82,8 +82,8 @@ export type CtaTitleProps<T extends ElementType = "h2"> = PolymorphicProps<T, Ct
  *   <CtaTitle id="cta-title">Catch the first star</CtaTitle>
  *   <CtaTitle boxed id="press-title">Writing about the game?</CtaTitle>
  *
- * Renders `<h2 class="chu-cta-title chu-display chu-pop" data-scale="2" data-pop="…">` (`data-pop` repeats the text,
- * when the children are text), or `<h2 class="chu-cta-title chu-display" data-scale="1">` with `boxed`.
+ * Renders `<h2 class="blip-cta-title blip-display blip-pop" data-scale="2" data-pop="…">` (`data-pop` repeats the text,
+ * when the children are text), or `<h2 class="blip-cta-title blip-display" data-scale="1">` with `boxed`.
  */
 export const CtaTitle = /*#__PURE__*/ forwardRef(function CtaTitle(
   { as: Tag = "h2", boxed, candy, className, children, ...rest }: CtaTitleProps<ElementType>,
@@ -93,7 +93,7 @@ export const CtaTitle = /*#__PURE__*/ forwardRef(function CtaTitle(
   return (
     <Tag
       ref={ref}
-      className={cx("chu-cta-title chu-display", !plain && "chu-pop", className)}
+      className={cx("blip-cta-title blip-display", !plain && "blip-pop", className)}
       data-scale={plain ? 1 : 2}
       data-pop={plain ? undefined : popText(children)}
       {...rest}
@@ -111,10 +111,10 @@ export type CtaTextProps = NativeProps<"p">;
  *
  *   <CtaText>Wishlist Starfall Meadow and we'll send one email on launch day. Nothing else.</CtaText>
  *
- * Renders `<p class="chu-cta-text">`.
+ * Renders `<p class="blip-cta-text">`.
  */
 export const CtaText = /*#__PURE__*/ forwardRef<HTMLParagraphElement, CtaTextProps>(function CtaText({ className, ...rest }, ref) {
-  return <p ref={ref} className={cx("chu-cta-text", className)} {...rest} />;
+  return <p ref={ref} className={cx("blip-cta-text", className)} {...rest} />;
 });
 
 /** Props for {@link CtaActions}. */
@@ -125,13 +125,13 @@ export type CtaActionsProps = NativeProps<"div">;
  *
  *   <CtaActions><ButtonLink size="lg" href="#wishlist">Wishlist now</ButtonLink></CtaActions>
  *
- * Renders `<div class="chu-cta-actions">`.
+ * Renders `<div class="blip-cta-actions">`.
  */
 export const CtaActions = /*#__PURE__*/ forwardRef<HTMLDivElement, CtaActionsProps>(function CtaActions(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-cta-actions", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-cta-actions", className)} {...rest} />;
 });
 
 /** Props for {@link CtaNote}. */
@@ -142,10 +142,10 @@ export type CtaNoteProps = NativeProps<"p">;
  *
  *   <CtaNote>Free, and no account needed.</CtaNote>
  *
- * Renders `<p class="chu-cta-note">`.
+ * Renders `<p class="blip-cta-note">`.
  */
 export const CtaNote = /*#__PURE__*/ forwardRef<HTMLParagraphElement, CtaNoteProps>(function CtaNote({ className, ...rest }, ref) {
-  return <p ref={ref} className={cx("chu-cta-note", className)} {...rest} />;
+  return <p ref={ref} className={cx("blip-cta-note", className)} {...rest} />;
 });
 
 /** Props for {@link CtaGround}. */
@@ -156,8 +156,8 @@ export type CtaGroundProps = NativeProps<"div", { children?: never }> & { childr
  *
  *   <CtaGround />
  *
- * Renders `<div class="chu-cta-ground">`.
+ * Renders `<div class="blip-cta-ground">`.
  */
 export const CtaGround = /*#__PURE__*/ forwardRef<HTMLDivElement, CtaGroundProps>(function CtaGround({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("chu-cta-ground", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-cta-ground", className)} {...rest} />;
 });

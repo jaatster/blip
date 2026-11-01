@@ -1,8 +1,8 @@
 ---
 name: Tile
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: tile.css
-element: chu-tile-grid
+element: blip-tile-grid
 react: Tile
 status: stable
 ---
@@ -16,34 +16,34 @@ inventories, level and world pickers: a few big things to choose between, each b
 ## Usage
 
 ```html
-<chu-tile-grid selection="single">
-  <ul class="chu-tile-grid" role="list" aria-label="Inventory">
-    <li class="chu-tile-item">
-      <button class="chu-box chu-tile" data-tone="red" aria-pressed="true" aria-labelledby="t-sword">
-        <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
-        <span class="chu-tile-glint"></span>
+<blip-tile-grid selection="single">
+  <ul class="blip-tile-grid" role="list" aria-label="Inventory">
+    <li class="blip-tile-item">
+      <button class="blip-box blip-tile" data-tone="red" aria-pressed="true" aria-labelledby="t-sword">
+        <svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+        <span class="blip-tile-glint"></span>
       </button>
-      <span class="chu-tile-label" id="t-sword" aria-hidden="true">Iron sword</span>
+      <span class="blip-tile-label" id="t-sword" aria-hidden="true">Iron sword</span>
     </li>
     …
   </ul>
-</chu-tile-grid>
+</blip-tile-grid>
 ```
 
 ## Anatomy
 
-1. **Tile**: a square candy box (`.chu-box.chu-tile`), a `<button>` or `<a>`. Bands as on the TV: about 20% light, 18%
+1. **Tile**: a square candy box (`.blip-box.blip-tile`), a `<button>` or `<a>`. Bands as on the TV: about 20% light, 18%
    shade, never thicker than on a 28-pixel block.
 2. **Glyph**: a 12 x 12 icon, white with a one-pixel ink outline (diagonals included), one pixel above the middle.
-3. **Item**: `.chu-tile-item`, a fixed-width cell holding the tile, room above it for the arrow, and the label.
-4. **Label**: `.chu-tile-label`, upper case, centred under the tile; it names the tile (`aria-labelledby`) and is
+3. **Item**: `.blip-tile-item`, a fixed-width cell holding the tile, room above it for the arrow, and the label.
+4. **Label**: `.blip-tile-label`, upper case, centred under the tile; it names the tile (`aria-labelledby`) and is
    `aria-hidden` itself, so screen readers hear it once, as the button's name.
 5. **Ring**: drawn round the box's own shape when selected: one pixel of white, one of ink.
 6. **Arrow**: the TV's 10 x 6 pointer over the selected tile, white with an ink outline, bobbing on the beat for six
    beats (under five seconds), then resting.
-7. **Glint** (optional): `.chu-tile-glint`, an empty span; a white band with light candy edges sweeps across in five
+7. **Glint** (optional): `.blip-tile-glint`, an empty span; a white band with light candy edges sweeps across in five
    frames once, as the tile is selected.
-8. **Grid**: `.chu-tile-grid`, as many fixed cells as fit.
+8. **Grid**: `.blip-tile-grid`, as many fixed cells as fit.
 
 ## Variants
 
@@ -51,8 +51,8 @@ inventories, level and world pickers: a few big things to choose between, each b
 |---|---|---|
 | `data-tone` | `accent` (default), `info`, `success`, `warning`, `danger`, `neutral`, any candy name | The block's candy. In a launcher, the app's colour; in an inventory, the item's kind. Yellow is allowed for coins. |
 | `data-variant` | `candy` (default), `soft`, `outline`, `ghost` | Soft for a calmer grid; an `outline` tile with no glyph is an empty slot. |
-| `data-size` | `sm` (20 pixels), `md` (28, default), `lg` (36) | On the tile, or on the `.chu-tile-grid` for every tile in it. Cells are 32, 40 and 48 pixels wide. |
-| `data-label="tooltip"` | on `.chu-tile-item` | The label shows only while its tile is hovered, focused or selected, in its own space below (it never covers anything). Give the label `.chu-box` for a cream bubble. |
+| `data-size` | `sm` (20 pixels), `md` (28, default), `lg` (36) | On the tile, or on the `.blip-tile-grid` for every tile in it. Cells are 32, 40 and 48 pixels wide. |
+| `data-label="tooltip"` | on `.blip-tile-item` | The label shows only while its tile is hovered, focused or selected, in its own space below (it never covers anything). Give the label `.blip-box` for a cream bubble. |
 
 ## States
 
@@ -71,7 +71,7 @@ inventories, level and world pickers: a few big things to choose between, each b
   `aria-labelledby`; the label is `aria-hidden` so it isn't read twice. The glyph is `aria-hidden`.
 - Say what selection means with the right attribute: `aria-pressed` for a pick in an inventory, `aria-current="true"`
   for the active app in a launcher. `data-selected` is only for pictures of the state (docs, tests).
-- `<chu-tile-grid>` makes the grid one Tab stop. Keyboard:
+- `<blip-tile-grid>` makes the grid one Tab stop. Keyboard:
 
   | Key | Does |
   |---|---|
@@ -87,7 +87,7 @@ inventories, level and world pickers: a few big things to choose between, each b
 
 ## Content
 
-- One glyph per tile, from `@jaatster/blip-icons` or drawn on the same 12 x 12 grid. Pictures, not letters.
+- One glyph per tile, from `@blip/icons` or drawn on the same 12 x 12 grid. Pictures, not letters.
 - Labels: one to three words, sentence case (CSS sets upper case). Counts go in the label: "Potion ×3".
 
 ## Do and don't
@@ -101,17 +101,17 @@ inventories, level and world pickers: a few big things to choose between, each b
 
 | Class or attribute | |
 |---|---|
-| `.chu-tile` | The block. Use with `.chu-box`. |
-| `.chu-tile-item`, `.chu-tile-label`, `.chu-tile-glint`, `.chu-tile-grid` | Cell, label, glint span, grid. |
+| `.blip-tile` | The block. Use with `.blip-box`. |
+| `.blip-tile-item`, `.blip-tile-label`, `.blip-tile-glint`, `.blip-tile-grid` | Cell, label, glint span, grid. |
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-tile-glyph` | `--chu-white` | The glyph's colour. |
-| `--chu-tile-ring` | `--chu-white` | The selection ring's and arrow's colour (focus turns them yellow). |
-| `--chu-tile-cell` | 40 pixels (32, 48), or 5rem (4, 6) if that is wider | A cell's width; keep it an even number of pixels so the arrow centres on whole pixels. The default widens with a bigger default text size, so a label still breaks between words. |
-| `--chu-tone`, `--chu-tone-light`, `--chu-tone-shade`, `--chu-tone-on` | accent | A custom candy. |
+| `--blip-tile-glyph` | `--blip-white` | The glyph's colour. |
+| `--blip-tile-ring` | `--blip-white` | The selection ring's and arrow's colour (focus turns them yellow). |
+| `--blip-tile-cell` | 40 pixels (32, 48), or 5rem (4, 6) if that is wider | A cell's width; keep it an even number of pixels so the arrow centres on whole pixels. The default widens with a bigger default text size, so a label still breaks between words. |
+| `--blip-tone`, `--blip-tone-light`, `--blip-tone-shade`, `--blip-tone-on` | accent | A custom candy. |
 
-### `<chu-tile-grid>`
+### `<blip-tile-grid>`
 
 | Attribute or property | | |
 |---|---|---|
@@ -122,7 +122,7 @@ inventories, level and world pickers: a few big things to choose between, each b
 
 | Event | Detail | |
 |---|---|---|
-| `chu-select` | `{ tile }` | Before the selection moves. Cancelable: `preventDefault()` keeps the old one. |
+| `blip-select` | `{ tile }` | Before the selection moves. Cancelable: `preventDefault()` keeps the old one. |
 
 Tiles added or removed later keep one Tab stop between them: the tile that had it, else the selected one, else the
 first.

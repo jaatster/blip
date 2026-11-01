@@ -1,86 +1,86 @@
 <!-- Menu: a level editor's menu drawn open for the picture (static copies, inert), then the same menus live. -->
-<div style="display:flex;flex-wrap:wrap;gap:calc(16*var(--chu-pixel));align-items:start">
+<div style="display:flex;flex-wrap:wrap;gap:calc(16*var(--blip-pixel));align-items:start">
 
-  <div class="chu-menu" inert aria-hidden="true" style="display:grid;justify-items:start;gap:calc(2*var(--chu-pixel))">
-    <button class="chu-box chu-button" data-variant="soft" aria-expanded="true">Level<svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4h2v1h1v1h2V5h1V4h2v1H9v1H8v1H7v1H5V7H4V6H3V5H2z"/></svg></button>
-    <div class="chu-box chu-menu-list" role="menu" aria-label="Level">
-      <button class="chu-box chu-menu-item" role="menuitem" aria-keyshortcuts="Control+N"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg><span class="chu-menu-label">New level</span><span class="chu-menu-shortcut" aria-hidden="true"><kbd class="chu-box chu-keycap" data-size="sm">Ctrl</kbd><kbd class="chu-box chu-keycap" data-size="sm">N</kbd></span></button>
-      <button class="chu-box chu-menu-item" role="menuitem" aria-keyshortcuts="Control+D" data-chu-state="focus"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h7v7H9V3H4zM1 4h7v7H1z"/></svg><span class="chu-menu-label">Duplicate</span><span class="chu-menu-shortcut" aria-hidden="true"><kbd class="chu-box chu-keycap" data-size="sm">Ctrl</kbd><kbd class="chu-box chu-keycap" data-size="sm">D</kbd></span></button>
-      <button class="chu-box chu-menu-item" role="menuitem" aria-haspopup="menu" aria-expanded="false"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v4h1V4h2v1H9v1H8v1H7v1H5V7H4V6H3V5H2V4h2v1h1zM1 8h2v1h6V8h2v3H1z"/></svg><span class="chu-menu-label">Export</span></button>
-      <div class="chu-menu-separator" role="separator"></div>
+  <div class="blip-menu" inert aria-hidden="true" style="display:grid;justify-items:start;gap:calc(2*var(--blip-pixel))">
+    <button class="blip-box blip-button" data-variant="soft" aria-expanded="true">Level<svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4h2v1h1v1h2V5h1V4h2v1H9v1H8v1H7v1H5V7H4V6H3V5H2z"/></svg></button>
+    <div class="blip-box blip-menu-list" role="menu" aria-label="Level">
+      <button class="blip-box blip-menu-item" role="menuitem" aria-keyshortcuts="Control+N"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg><span class="blip-menu-label">New level</span><span class="blip-menu-shortcut" aria-hidden="true"><kbd class="blip-box blip-keycap" data-size="sm">Ctrl</kbd><kbd class="blip-box blip-keycap" data-size="sm">N</kbd></span></button>
+      <button class="blip-box blip-menu-item" role="menuitem" aria-keyshortcuts="Control+D" data-blip-state="focus"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h7v7H9V3H4zM1 4h7v7H1z"/></svg><span class="blip-menu-label">Duplicate</span><span class="blip-menu-shortcut" aria-hidden="true"><kbd class="blip-box blip-keycap" data-size="sm">Ctrl</kbd><kbd class="blip-box blip-keycap" data-size="sm">D</kbd></span></button>
+      <button class="blip-box blip-menu-item" role="menuitem" aria-haspopup="menu" aria-expanded="false"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v4h1V4h2v1H9v1H8v1H7v1H5V7H4V6H3V5H2V4h2v1h1zM1 8h2v1h6V8h2v3H1z"/></svg><span class="blip-menu-label">Export</span></button>
+      <div class="blip-menu-separator" role="separator"></div>
       <div role="group" aria-labelledby="menu-static-show">
-        <div class="chu-menu-heading" id="menu-static-show">Show</div>
-        <button class="chu-box chu-menu-item" role="menuitemcheckbox" aria-checked="true"><span class="chu-menu-label">Grid</span></button>
-        <button class="chu-box chu-menu-item" role="menuitemcheckbox" aria-checked="false"><span class="chu-menu-label">Hitboxes</span></button>
+        <div class="blip-menu-heading" id="menu-static-show">Show</div>
+        <button class="blip-box blip-menu-item" role="menuitemcheckbox" aria-checked="true"><span class="blip-menu-label">Grid</span></button>
+        <button class="blip-box blip-menu-item" role="menuitemcheckbox" aria-checked="false"><span class="blip-menu-label">Hitboxes</span></button>
       </div>
-      <div class="chu-menu-separator" role="separator"></div>
+      <div class="blip-menu-separator" role="separator"></div>
       <div role="group" aria-labelledby="menu-static-sort">
-        <div class="chu-menu-heading" id="menu-static-sort">Sort tiles by</div>
-        <button class="chu-box chu-menu-item" role="menuitemradio" aria-checked="true"><span class="chu-menu-label">Name</span></button>
-        <button class="chu-box chu-menu-item" role="menuitemradio" aria-checked="false"><span class="chu-menu-label">Last used</span></button>
+        <div class="blip-menu-heading" id="menu-static-sort">Sort tiles by</div>
+        <button class="blip-box blip-menu-item" role="menuitemradio" aria-checked="true"><span class="blip-menu-label">Name</span></button>
+        <button class="blip-box blip-menu-item" role="menuitemradio" aria-checked="false"><span class="blip-menu-label">Last used</span></button>
       </div>
-      <div class="chu-menu-separator" role="separator"></div>
-      <button class="chu-box chu-menu-item" role="menuitem" aria-disabled="true"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3h1v6H2V5h1V2h1zm1 2v2h2V3zm0 4v2h2V7z"/></svg><span class="chu-menu-label">Publish (finish the level first)</span></button>
-      <button class="chu-box chu-menu-item" role="menuitem" data-tone="danger" aria-keyshortcuts="Delete"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h3v2H1V2h3zM2 5h8v5H9v1H3v-1H2zm2 1v3h1V6zm3 0v3h1V6z"/></svg><span class="chu-menu-label">Delete level</span><span class="chu-menu-shortcut" aria-hidden="true"><kbd class="chu-box chu-keycap" data-size="sm">Del</kbd></span></button>
+      <div class="blip-menu-separator" role="separator"></div>
+      <button class="blip-box blip-menu-item" role="menuitem" aria-disabled="true"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3h1v6H2V5h1V2h1zm1 2v2h2V3zm0 4v2h2V7z"/></svg><span class="blip-menu-label">Publish (finish the level first)</span></button>
+      <button class="blip-box blip-menu-item" role="menuitem" data-tone="danger" aria-keyshortcuts="Delete"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h3v2H1V2h3zM2 5h8v5H9v1H3v-1H2zm2 1v3h1V6zm3 0v3h1V6z"/></svg><span class="blip-menu-label">Delete level</span><span class="blip-menu-shortcut" aria-hidden="true"><kbd class="blip-box blip-keycap" data-size="sm">Del</kbd></span></button>
     </div>
   </div>
 
-  <div inert aria-hidden="true" style="display:flex;flex-wrap:wrap;align-items:start;gap:calc(1*var(--chu-pixel));padding-block-start:calc(22*var(--chu-pixel))">
-    <div class="chu-box chu-menu-list" role="menu" aria-label="Level">
-      <button class="chu-box chu-menu-item" role="menuitem"><span class="chu-menu-label">Duplicate</span></button>
-      <button class="chu-box chu-menu-item" role="menuitem" aria-haspopup="menu" aria-expanded="true"><span class="chu-menu-label">Export</span></button>
-      <button class="chu-box chu-menu-item" role="menuitem"><span class="chu-menu-label">Rename</span></button>
+  <div inert aria-hidden="true" style="display:flex;flex-wrap:wrap;align-items:start;gap:calc(1*var(--blip-pixel));padding-block-start:calc(22*var(--blip-pixel))">
+    <div class="blip-box blip-menu-list" role="menu" aria-label="Level">
+      <button class="blip-box blip-menu-item" role="menuitem"><span class="blip-menu-label">Duplicate</span></button>
+      <button class="blip-box blip-menu-item" role="menuitem" aria-haspopup="menu" aria-expanded="true"><span class="blip-menu-label">Export</span></button>
+      <button class="blip-box blip-menu-item" role="menuitem"><span class="blip-menu-label">Rename</span></button>
     </div>
-    <div class="chu-box chu-menu-list" role="menu" aria-label="Export" style="margin-block-start:calc(14*var(--chu-pixel))">
-      <button class="chu-box chu-menu-item" role="menuitem" data-chu-state="focus"><span class="chu-menu-label">PNG picture</span></button>
-      <button class="chu-box chu-menu-item" role="menuitem"><span class="chu-menu-label">Tile map (JSON)</span></button>
-      <button class="chu-box chu-menu-item" role="menuitem"><span class="chu-menu-label">Share link</span></button>
+    <div class="blip-box blip-menu-list" role="menu" aria-label="Export" style="margin-block-start:calc(14*var(--blip-pixel))">
+      <button class="blip-box blip-menu-item" role="menuitem" data-blip-state="focus"><span class="blip-menu-label">PNG picture</span></button>
+      <button class="blip-box blip-menu-item" role="menuitem"><span class="blip-menu-label">Tile map (JSON)</span></button>
+      <button class="blip-box blip-menu-item" role="menuitem"><span class="blip-menu-label">Share link</span></button>
     </div>
   </div>
 </div>
 
 <!-- Live: Enter, Space or ArrowDown opens; arrows, Home, End and letters move; Escape or Tab closes. -->
-<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel));align-items:center;margin-block-start:calc(12*var(--chu-pixel))">
-  <chu-menu class="chu-menu">
-    <button class="chu-box chu-button" data-variant="soft">Level<svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4h2v1h1v1h2V5h1V4h2v1H9v1H8v1H7v1H5V7H4V6H3V5H2z"/></svg></button>
-    <div class="chu-box chu-menu-list chu-pop-in" role="menu" aria-label="Level" popover>
-      <button class="chu-box chu-menu-item" role="menuitem" aria-keyshortcuts="Control+N" data-value="new"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg><span class="chu-menu-label">New level</span><span class="chu-menu-shortcut" aria-hidden="true"><kbd class="chu-box chu-keycap" data-size="sm">Ctrl</kbd><kbd class="chu-box chu-keycap" data-size="sm">N</kbd></span></button>
-      <button class="chu-box chu-menu-item" role="menuitem" aria-keyshortcuts="Control+D" data-value="duplicate"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h7v7H9V3H4zM1 4h7v7H1z"/></svg><span class="chu-menu-label">Duplicate</span><span class="chu-menu-shortcut" aria-hidden="true"><kbd class="chu-box chu-keycap" data-size="sm">Ctrl</kbd><kbd class="chu-box chu-keycap" data-size="sm">D</kbd></span></button>
-      <chu-menu class="chu-menu">
-        <button class="chu-box chu-menu-item" role="menuitem"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v4h1V4h2v1H9v1H8v1H7v1H5V7H4V6H3V5H2V4h2v1h1zM1 8h2v1h6V8h2v3H1z"/></svg><span class="chu-menu-label">Export</span></button>
-        <div class="chu-box chu-menu-list chu-pop-in" role="menu" aria-label="Export" popover>
-          <button class="chu-box chu-menu-item" role="menuitem" data-value="export-png"><span class="chu-menu-label">PNG picture</span></button>
-          <button class="chu-box chu-menu-item" role="menuitem" data-value="export-json"><span class="chu-menu-label">Tile map (JSON)</span></button>
-          <button class="chu-box chu-menu-item" role="menuitem" data-value="share"><span class="chu-menu-label">Share link</span></button>
+<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--blip-pixel));align-items:center;margin-block-start:calc(12*var(--blip-pixel))">
+  <blip-menu class="blip-menu">
+    <button class="blip-box blip-button" data-variant="soft">Level<svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4h2v1h1v1h2V5h1V4h2v1H9v1H8v1H7v1H5V7H4V6H3V5H2z"/></svg></button>
+    <div class="blip-box blip-menu-list blip-pop-in" role="menu" aria-label="Level" popover>
+      <button class="blip-box blip-menu-item" role="menuitem" aria-keyshortcuts="Control+N" data-value="new"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg><span class="blip-menu-label">New level</span><span class="blip-menu-shortcut" aria-hidden="true"><kbd class="blip-box blip-keycap" data-size="sm">Ctrl</kbd><kbd class="blip-box blip-keycap" data-size="sm">N</kbd></span></button>
+      <button class="blip-box blip-menu-item" role="menuitem" aria-keyshortcuts="Control+D" data-value="duplicate"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h7v7H9V3H4zM1 4h7v7H1z"/></svg><span class="blip-menu-label">Duplicate</span><span class="blip-menu-shortcut" aria-hidden="true"><kbd class="blip-box blip-keycap" data-size="sm">Ctrl</kbd><kbd class="blip-box blip-keycap" data-size="sm">D</kbd></span></button>
+      <blip-menu class="blip-menu">
+        <button class="blip-box blip-menu-item" role="menuitem"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v4h1V4h2v1H9v1H8v1H7v1H5V7H4V6H3V5H2V4h2v1h1zM1 8h2v1h6V8h2v3H1z"/></svg><span class="blip-menu-label">Export</span></button>
+        <div class="blip-box blip-menu-list blip-pop-in" role="menu" aria-label="Export" popover>
+          <button class="blip-box blip-menu-item" role="menuitem" data-value="export-png"><span class="blip-menu-label">PNG picture</span></button>
+          <button class="blip-box blip-menu-item" role="menuitem" data-value="export-json"><span class="blip-menu-label">Tile map (JSON)</span></button>
+          <button class="blip-box blip-menu-item" role="menuitem" data-value="share"><span class="blip-menu-label">Share link</span></button>
         </div>
-      </chu-menu>
-      <div class="chu-menu-separator" role="separator"></div>
+      </blip-menu>
+      <div class="blip-menu-separator" role="separator"></div>
       <div role="group" aria-labelledby="menu-live-show">
-        <div class="chu-menu-heading" id="menu-live-show">Show</div>
-        <button class="chu-box chu-menu-item" role="menuitemcheckbox" aria-checked="true" data-value="grid"><span class="chu-menu-label">Grid</span></button>
-        <button class="chu-box chu-menu-item" role="menuitemcheckbox" aria-checked="false" data-value="hitboxes"><span class="chu-menu-label">Hitboxes</span></button>
+        <div class="blip-menu-heading" id="menu-live-show">Show</div>
+        <button class="blip-box blip-menu-item" role="menuitemcheckbox" aria-checked="true" data-value="grid"><span class="blip-menu-label">Grid</span></button>
+        <button class="blip-box blip-menu-item" role="menuitemcheckbox" aria-checked="false" data-value="hitboxes"><span class="blip-menu-label">Hitboxes</span></button>
       </div>
-      <div class="chu-menu-separator" role="separator"></div>
+      <div class="blip-menu-separator" role="separator"></div>
       <div role="group" aria-labelledby="menu-live-sort">
-        <div class="chu-menu-heading" id="menu-live-sort">Sort tiles by</div>
-        <button class="chu-box chu-menu-item" role="menuitemradio" aria-checked="true" data-value="name"><span class="chu-menu-label">Name</span></button>
-        <button class="chu-box chu-menu-item" role="menuitemradio" aria-checked="false" data-value="recent"><span class="chu-menu-label">Last used</span></button>
+        <div class="blip-menu-heading" id="menu-live-sort">Sort tiles by</div>
+        <button class="blip-box blip-menu-item" role="menuitemradio" aria-checked="true" data-value="name"><span class="blip-menu-label">Name</span></button>
+        <button class="blip-box blip-menu-item" role="menuitemradio" aria-checked="false" data-value="recent"><span class="blip-menu-label">Last used</span></button>
       </div>
-      <div class="chu-menu-separator" role="separator"></div>
-      <button class="chu-box chu-menu-item" role="menuitem" aria-disabled="true"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3h1v6H2V5h1V2h1zm1 2v2h2V3zm0 4v2h2V7z"/></svg><span class="chu-menu-label">Publish (finish the level first)</span></button>
-      <button class="chu-box chu-menu-item" role="menuitem" data-tone="danger" aria-keyshortcuts="Delete" data-value="delete"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h3v2H1V2h3zM2 5h8v5H9v1H3v-1H2zm2 1v3h1V6zm3 0v3h1V6z"/></svg><span class="chu-menu-label">Delete level</span><span class="chu-menu-shortcut" aria-hidden="true"><kbd class="chu-box chu-keycap" data-size="sm">Del</kbd></span></button>
+      <div class="blip-menu-separator" role="separator"></div>
+      <button class="blip-box blip-menu-item" role="menuitem" aria-disabled="true"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3h1v6H2V5h1V2h1zm1 2v2h2V3zm0 4v2h2V7z"/></svg><span class="blip-menu-label">Publish (finish the level first)</span></button>
+      <button class="blip-box blip-menu-item" role="menuitem" data-tone="danger" aria-keyshortcuts="Delete" data-value="delete"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h3v2H1V2h3zM2 5h8v5H9v1H3v-1H2zm2 1v3h1V6zm3 0v3h1V6z"/></svg><span class="blip-menu-label">Delete level</span><span class="blip-menu-shortcut" aria-hidden="true"><kbd class="blip-box blip-keycap" data-size="sm">Del</kbd></span></button>
     </div>
-  </chu-menu>
+  </blip-menu>
 
-  <chu-menu class="chu-menu" data-align="end">
-    <button class="chu-box chu-button" data-variant="ghost" data-icon-only aria-label="More for World 2"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 5h2v2H1zm4 0h2v2H5zm4 0h2v2H9z"/></svg></button>
-    <div class="chu-box chu-menu-list chu-pop-in" role="menu" aria-label="World 2" popover>
-      <a class="chu-box chu-menu-item" role="menuitem" href="#world-2"><span class="chu-menu-label">Open World 2</span></a>
-      <button class="chu-box chu-menu-item" role="menuitem"><span class="chu-menu-label">Rename</span></button>
-      <button class="chu-box chu-menu-item" role="menuitem"><span class="chu-menu-label">Move to the end</span></button>
-      <div class="chu-menu-separator" role="separator"></div>
-      <button class="chu-box chu-menu-item" role="menuitem" data-tone="danger"><span class="chu-menu-label">Delete world</span></button>
+  <blip-menu class="blip-menu" data-align="end">
+    <button class="blip-box blip-button" data-variant="ghost" data-icon-only aria-label="More for World 2"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 5h2v2H1zm4 0h2v2H5zm4 0h2v2H9z"/></svg></button>
+    <div class="blip-box blip-menu-list blip-pop-in" role="menu" aria-label="World 2" popover>
+      <a class="blip-box blip-menu-item" role="menuitem" href="#world-2"><span class="blip-menu-label">Open World 2</span></a>
+      <button class="blip-box blip-menu-item" role="menuitem"><span class="blip-menu-label">Rename</span></button>
+      <button class="blip-box blip-menu-item" role="menuitem"><span class="blip-menu-label">Move to the end</span></button>
+      <div class="blip-menu-separator" role="separator"></div>
+      <button class="blip-box blip-menu-item" role="menuitem" data-tone="danger"><span class="blip-menu-label">Delete world</span></button>
     </div>
-  </chu-menu>
+  </blip-menu>
 
 </div>

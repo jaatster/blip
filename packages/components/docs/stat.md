@@ -1,6 +1,6 @@
 ---
 name: Stat
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: stat.css
 element: null
 react: Stat
@@ -15,24 +15,24 @@ colour of what the move means. Dashboards, profiles, end-of-level screens.
 ## Usage
 
 ```html
-<dl class="chu-grid" data-min="128">
-  <div class="chu-stat">
-    <dt class="chu-stat-label">High score</dt>
-    <dd class="chu-stat-value chu-display chu-pop" data-scale="3" data-pop="98,120">98,120</dd>
-    <dd class="chu-stat-delta" data-trend="up">+12% vs last week</dd>
+<dl class="blip-grid" data-min="128">
+  <div class="blip-stat">
+    <dt class="blip-stat-label">High score</dt>
+    <dd class="blip-stat-value blip-display blip-pop" data-scale="3" data-pop="98,120">98,120</dd>
+    <dd class="blip-stat-delta" data-trend="up">+12% vs last week</dd>
   </div>
 </dl>
 ```
 
 ## Anatomy
 
-1. **Label**: `.chu-stat-label`, upper case, muted.
-2. **Value**: `.chu-stat-value` with `.chu-display` (Pixel Bop at a whole scale) and, for the TV's look, `.chu-pop`
+1. **Label**: `.blip-stat-label`, upper case, muted.
+2. **Value**: `.blip-stat-value` with `.blip-display` (Pixel Bop at a whole scale) and, for the TV's look, `.blip-pop`
    (white letters, ink outline, a tinted lower band with `data-pop`, a drop in the tone's shade). Tabular digits.
-3. **Delta** (optional): `.chu-stat-delta`, the change in words, after a pixel arrow for which way it moved and a
+3. **Delta** (optional): `.blip-stat-delta`, the change in words, after a pixel arrow for which way it moved and a
    mark for what that means: the success sign's check for good news, the danger sign's exclamation mark for bad,
    none when it is neither.
-4. **Panel** (optional): `.chu-box` on the stat, with `data-variant="panel"` (or soft), for a stat on its own.
+4. **Panel** (optional): `.blip-box` on the stat, with `data-variant="panel"` (or soft), for a stat on its own.
 
 ## Variants
 
@@ -60,7 +60,7 @@ panel's ink, in every scheme.
 
 ## Content
 
-- In a grid (`.chu-grid`) a stat is a size container: its value steps down a whole scale while the column is narrower
+- In a grid (`.blip-grid`) a stat is a size container: its value steps down a whole scale while the column is narrower
   than five figures at its scale (146, 216 and 286 px for scales 2, 3 and 4), so a number never breaks or runs out.
   Give a longer value a wider column (`data-min`) or a smaller `data-scale`.
 - Labels of one to three words.
@@ -80,5 +80,5 @@ panel's ink, in every scheme.
 
 | Class | |
 |---|---|
-| `.chu-stat` | One stat. |
-| `.chu-stat-label`, `.chu-stat-value`, `.chu-stat-delta` | Parts. |
+| `.blip-stat` | One stat. |
+| `.blip-stat-label`, `.blip-stat-value`, `.blip-stat-delta` | Parts. |

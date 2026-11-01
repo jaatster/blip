@@ -1,140 +1,140 @@
 /*
  * Wheel picker. One or more wheels of options in a calm well, with a candy band across the middle: the row on the band
  * is the value. Rows above and below fade out through the dither (three pixels of four, then half), never a wash.
- * <chu-wheel> (from @jaatster/blip-elements) builds the wheels and turns them: a drag or a finger moves the rows a whole
+ * <blip-wheel> (from @blip/elements) builds the wheels and turns them: a drag or a finger moves the rows a whole
  * pixel at a time, and they settle onto a row in steps.
  *
- *   <chu-wheel class="chu-box chu-wheel" name="alarm" data-type="time" value="07:30" aria-label="Alarm"></chu-wheel>
- *   <chu-wheel class="chu-box chu-wheel" name="size" aria-label="Size">
+ *   <blip-wheel class="blip-box blip-wheel" name="alarm" data-type="time" value="07:30" aria-label="Alarm"></blip-wheel>
+ *   <blip-wheel class="blip-box blip-wheel" name="size" aria-label="Size">
  *     <select aria-label="Size"><option value="s">Small</option><option value="m" selected>Medium</option></select>
- *   </chu-wheel>
+ *   </blip-wheel>
  *
  *   data-type               time | date: the element builds the wheels; without it, one wheel per <select> inside
  *   data-size               sm | md (default) | lg       rows 12, 16 or 20 pixels high; five rows show
  *   data-width="full"       fills its container; the wheels share the width
  *   data-tone               the band's candy (accent by default)
  *
- * Parts the element adds: .chu-wheel-column (one wheel; data-key names its part: hour, minute, dayPeriod, day,
- * month, year, or empty for one of your own), .chu-wheel-band (its piece of the band: the spin button that
- * takes focus), .chu-wheel-list and .chu-wheel-option (the rows; [data-current] is the one on the band).
+ * Parts the element adds: .blip-wheel-column (one wheel; data-key names its part: hour, minute, dayPeriod, day,
+ * month, year, or empty for one of your own), .blip-wheel-band (its piece of the band: the spin button that
+ * takes focus), .blip-wheel-list and .blip-wheel-option (the rows; [data-current] is the one on the band).
  * Focus is the box's yellow ring round the band of the wheel that has the keyboard. Disabled dithers the well and
  * the band. Without JavaScript the selects inside show as they are.
  */
 
-@layer chu.components {
-  .chu-wheel {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
-    --chu-band-top: 1;
-    --chu-band-bottom: 0;
-    --chu-drop-size: 0;
-    --chu-box-outline: var(--chu-line);
-    --chu-box-top: var(--chu-surface-sunken);
-    --chu-box-fill: var(--chu-surface);
-    --chu-box-bottom: var(--chu-surface);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
-    --_chu-wheel-r: calc(16 * var(--chu-pixel));
+@layer blip.components {
+  .blip-wheel {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
+    --blip-band-top: 1;
+    --blip-band-bottom: 0;
+    --blip-drop-size: 0;
+    --blip-box-outline: var(--blip-line);
+    --blip-box-top: var(--blip-surface-sunken);
+    --blip-box-fill: var(--blip-surface);
+    --blip-box-bottom: var(--blip-surface);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
+    --_blip-wheel-r: calc(16 * var(--blip-pixel));
 
     display: inline-flex;
     justify-content: center;
-    gap: var(--chu-pixel);
+    gap: var(--blip-pixel);
     max-inline-size: 100%;
-    padding: calc(3 * var(--chu-pixel)) calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel));
+    padding: calc(3 * var(--blip-pixel)) calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel));
     vertical-align: middle;
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-body);
-    font-weight: var(--chu-weight-medium);
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-body);
+    font-weight: var(--blip-weight-medium);
     font-variant-numeric: tabular-nums;
     line-height: 1;
   }
-  .chu-wheel[data-size="sm"] { --_chu-wheel-r: calc(12 * var(--chu-pixel)); font-size: var(--chu-size-small); }
-  .chu-wheel[data-size="lg"] { --_chu-wheel-r: calc(20 * var(--chu-pixel)); font-size: var(--chu-size-lead); }
-  .chu-wheel[data-width="full"] { display: flex; }
-  .chu-wheel[data-width="full"] > .chu-wheel-column { flex-grow: 1; }
+  .blip-wheel[data-size="sm"] { --_blip-wheel-r: calc(12 * var(--blip-pixel)); font-size: var(--blip-size-small); }
+  .blip-wheel[data-size="lg"] { --_blip-wheel-r: calc(20 * var(--blip-pixel)); font-size: var(--blip-size-lead); }
+  .blip-wheel[data-width="full"] { display: flex; }
+  .blip-wheel[data-width="full"] > .blip-wheel-column { flex-grow: 1; }
 
   /* One wheel: five rows high, and the rows beyond them clipped away (it is a scroll container the element moves
      by translating the rows). Its own touch-action: a finger on it turns the wheel, never the page. */
-  .chu-wheel-column {
+  .blip-wheel-column {
     position: relative;
     /* As wide as its longest row. Only words may give way when the well is too narrow for them all (a month, your own
        rows): they end in an ellipsis. Numbers never do. */
     flex: none;
-    min-inline-size: calc(16 * var(--chu-pixel));
-    block-size: calc(5 * var(--_chu-wheel-r));
+    min-inline-size: calc(16 * var(--blip-pixel));
+    block-size: calc(5 * var(--_blip-wheel-r));
     overflow: hidden;
     touch-action: none;
     cursor: grab;
     user-select: none;
     -webkit-user-select: none;
   }
-  .chu-wheel-column:active { cursor: grabbing; }
-  .chu-wheel-column:is([data-key="month"], [data-key=""]) { flex-shrink: 1; }
+  .blip-wheel-column:active { cursor: grabbing; }
+  .blip-wheel-column:is([data-key="month"], [data-key=""]) { flex-shrink: 1; }
 
   /* The band: candy across the middle row, flush in the well (no drop). It is the spin button, so focus rings it:
      two pixels in from the wheel's sides, so the ring stays inside the clip. */
-  .chu-wheel-band {
-    --chu-r: 2;
-    --chu-shape: var(--chu-shape-2);
-    --chu-shape-inner: var(--chu-shape-2-inner);
-    --chu-band-top: 2;
-    --chu-band-bottom: 2;
-    --chu-drop-size: 0;
-    --chu-tone: inherit;
-    --chu-tone-light: inherit;
-    --chu-tone-shade: inherit;
-    --chu-tone-on: inherit;
+  .blip-wheel-band {
+    --blip-r: 2;
+    --blip-shape: var(--blip-shape-2);
+    --blip-shape-inner: var(--blip-shape-2-inner);
+    --blip-band-top: 2;
+    --blip-band-bottom: 2;
+    --blip-drop-size: 0;
+    --blip-tone: inherit;
+    --blip-tone-light: inherit;
+    --blip-tone-shade: inherit;
+    --blip-tone-on: inherit;
     position: absolute;
-    inset-inline: calc(2 * var(--chu-pixel));
-    inset-block-start: calc(2 * var(--_chu-wheel-r));
-    block-size: var(--_chu-wheel-r);
+    inset-inline: calc(2 * var(--blip-pixel));
+    inset-block-start: calc(2 * var(--_blip-wheel-r));
+    block-size: var(--_blip-wheel-r);
   }
 
-  /* The rows, moved to the row the element sets (--_chu-wheel-at, in rows), snapped to whole pixels. */
-  .chu-wheel-list {
+  /* The rows, moved to the row the element sets (--_blip-wheel-at, in rows), snapped to whole pixels. */
+  .blip-wheel-list {
     position: relative;
     z-index: 1;
-    padding-block: calc(2 * var(--_chu-wheel-r));
-    translate: 0 round(calc(var(--_chu-wheel-at, 0) * -1 * var(--_chu-wheel-r)), var(--chu-pixel));
+    padding-block: calc(2 * var(--_blip-wheel-r));
+    translate: 0 round(calc(var(--_blip-wheel-at, 0) * -1 * var(--_blip-wheel-r)), var(--blip-pixel));
   }
-  .chu-wheel-option {
-    block-size: var(--_chu-wheel-r);
-    padding-inline: calc(5 * var(--chu-pixel));
+  .blip-wheel-option {
+    block-size: var(--_blip-wheel-r);
+    padding-inline: calc(5 * var(--blip-pixel));
     overflow: hidden;
-    line-height: var(--_chu-wheel-r);
+    line-height: var(--_blip-wheel-r);
     text-align: center;
     text-overflow: ellipsis;
     white-space: nowrap;
     /* Far rows: one pixel in four. */
-    mask: conic-gradient(currentColor 0 25%, transparent 0) 0 0 / calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel));
+    mask: conic-gradient(currentColor 0 25%, transparent 0) 0 0 / calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel));
   }
-  .chu-wheel-option[hidden] { display: none; }
+  .blip-wheel-option[hidden] { display: none; }
   /* Two rows from the band: half. */
-  .chu-wheel-option:is([data-current] + * + *, :has(+ * + [data-current])) {
-    mask: repeating-conic-gradient(currentColor 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel));
+  .blip-wheel-option:is([data-current] + * + *, :has(+ * + [data-current])) {
+    mask: repeating-conic-gradient(currentColor 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel));
   }
   /* Next to the band: three in four. */
-  .chu-wheel-option:is([data-current] + *, :has(+ [data-current])) {
-    mask: conic-gradient(transparent 0 25%, currentColor 0) 0 0 / calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel));
+  .blip-wheel-option:is([data-current] + *, :has(+ [data-current])) {
+    mask: conic-gradient(transparent 0 25%, currentColor 0) 0 0 / calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel));
   }
   /* On the band: whole, in the candy's label colour. */
-  .chu-wheel-option[data-current] {
+  .blip-wheel-option[data-current] {
     mask: none;
-    color: var(--chu-tone-on);
-    font-weight: var(--chu-weight-bold);
+    color: var(--blip-tone-on);
+    font-weight: var(--blip-weight-bold);
   }
 
   /* Disabled: the calm well's dither, as for a field: a soft outline, muted rows, and the band dithered by the box. */
-  .chu-wheel:disabled {
-    --chu-box-outline: var(--chu-line-soft);
-    --chu-box-text: var(--chu-text-muted);
-    --chu-box-dither: var(--chu-surface-sunken);
+  .blip-wheel:disabled {
+    --blip-box-outline: var(--blip-line-soft);
+    --blip-box-text: var(--blip-text-muted);
+    --blip-box-dither: var(--blip-surface-sunken);
   }
-  .chu-wheel:disabled .chu-wheel-column { cursor: not-allowed; }
+  .blip-wheel:disabled .blip-wheel-column { cursor: not-allowed; }
 
   @media (forced-colors: active) {
-    .chu-wheel-band { forced-color-adjust: none; background: Highlight; }
-    .chu-wheel-option[data-current] { forced-color-adjust: none; color: HighlightText; }
+    .blip-wheel-band { forced-color-adjust: none; background: Highlight; }
+    .blip-wheel-option[data-current] { forced-color-adjust: none; color: HighlightText; }
   }
 }

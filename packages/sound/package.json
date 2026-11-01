@@ -1,5 +1,5 @@
 {
-  "name": "@jaatster/blip-sound",
+  "name": "@blip/sound",
   "version": "0.1.0",
   "description": "Blip chip sounds, synthesised in the browser with Web Audio: no audio files. Off until enabled.",
   "keywords": [
@@ -43,6 +43,6 @@
     "build": "node ../../scripts/build-ts-package.mjs sound"
   },
   "dependencies": {
-    "@jaatster/blip-core": "workspace:*"
+    "@blip/core": "workspace:*"
   }
 }

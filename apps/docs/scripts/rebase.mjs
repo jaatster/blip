@@ -1,16 +1,16 @@
-// Serves the built docs under a path: CHU_DOCS_BASE, "/blip" on jaatster.com. The sources write root paths
-// ("/components/button/", "/chu/core/core.css"), so a local build serves at "/" unchanged; for a deploy, every root
+// Serves the built docs under a path: BLIP_DOCS_BASE, "/blip" on jaatster.com. The sources write root paths
+// ("/components/button/", "/blip/core/core.css"), so a local build serves at "/" unchanged; for a deploy, every root
 // path to the site's own top-level names gets the prefix in the HTML, the docs' own scripts and styles, and the JSON
-// (search, the shadcn registry). The packages' files in /chu hold no root paths, so they are left alone.
+// (search, the shadcn registry). The packages' files in /blip hold no root paths, so they are left alone.
 //
-// Usage: rebase(distDir, "/blip") after the build (astro.config.mjs runs it when CHU_DOCS_BASE is set).
+// Usage: rebase(distDir, "/blip") after the build (astro.config.mjs runs it when BLIP_DOCS_BASE is set).
 
 import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { extname, join, relative } from "node:path";
 
 export function rebase(dir, base) {
   base = "/" + base.replace(/^\/+|\/+$/g, "");
-  // The site's own names at its root: its sections, folders and files (components, chu, js, og.png, search.json…).
+  // The site's own names at its root: its sections, folders and files (components, blip, js, og.png, search.json…).
   const names = readdirSync(dir).filter((n) => n !== "index.html" && n !== "404.html").map((n) => n.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
   // A root path to one of them, after a quote, a bracket, an equals sign, a comma or a space, and ending at a slash,
   // a quote, ? # ) , or a space.
@@ -23,7 +23,7 @@ export function rebase(dir, base) {
   const walk = (d) => {
     for (const n of readdirSync(d)) {
       const p = join(d, n);
-      if (statSync(p).isDirectory()) { if (relative(dir, p) !== "chu") walk(p); }
+      if (statSync(p).isDirectory()) { if (relative(dir, p) !== "blip") walk(p); }
       else if ([".html", ".css", ".js", ".json", ".mjs"].includes(extname(n))) files.push(p);
     }
   };

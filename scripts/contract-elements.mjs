@@ -2,7 +2,7 @@
 /**
  * CONTRACT.md's table of elements, written from the Custom Elements Manifests (which `pnpm cem` writes from the
  * elements' JSDoc), so the contract names the attributes, properties, methods and events the elements have; and
- * its line on what @jaatster/blip-elements exports, from the source.
+ * its line on what @blip/elements exports, from the source.
  *
  *   node scripts/contract-elements.mjs           rewrite the table in CONTRACT.md
  *   node scripts/contract-elements.mjs --check   fail if the table is out of date
@@ -33,7 +33,7 @@ export function rows(root = ROOT) {
     for (const mod of cem.modules ?? []) {
       for (const d of mod.declarations ?? []) {
         if (!d.customElement || !d.tagName) continue;
-        const module = `@jaatster/blip-${pkg}/${mod.path.replace(/^src\//, "").replace(/\.(ts|js)$/, "")}`;
+        const module = `@blip/${pkg}/${mod.path.replace(/^src\//, "").replace(/\.(ts|js)$/, "")}`;
         const attributes = (d.attributes ?? []).map((a) => code(a.name));
         const pub = (m) => m.privacy !== "private" && m.privacy !== "protected" && !m.static && !m.name.startsWith("#") && !m.name.startsWith("_");
         const members = (d.members ?? []).filter(pub);
@@ -62,7 +62,7 @@ export function table(root = ROOT) {
 }
 
 /**
- * The row of the JavaScript APIs table for @jaatster/blip-elements: what its public modules export besides the element
+ * The row of the JavaScript APIs table for @blip/elements: what its public modules export besides the element
  * classes, read from their source (a module starting with _ is private; what a public module re-exports counts).
  */
 export function exportsRow(root = ROOT) {
@@ -76,7 +76,7 @@ export function exportsRow(root = ROOT) {
     for (const m of src.matchAll(/^export\s+type\s*\{([^}]*)\}/gm)) for (const n of m[1].split(",")) if (n.trim()) types.add(n.trim().split(/\s+as\s+/).pop());
   }
   const list = (names) => [...names].sort().map(code).join(", ");
-  return `| \`@jaatster/blip-elements\` | One module per element (\`@jaatster/blip-elements/<name>\`), each defining its tag; the index defines them all. The element classes, ${[...fns].sort().map((f) => code(`${f}()`)).join(", ")}, and the types ${list(types)}. |`;
+  return `| \`@blip/elements\` | One module per element (\`@blip/elements/<name>\`), each defining its tag; the index defines them all. The element classes, ${[...fns].sort().map((f) => code(`${f}()`)).join(", ")}, and the types ${list(types)}. |`;
 }
 const ROW = /^\| `@blip\/elements` \|.*\|$/m;
 
@@ -99,14 +99,14 @@ if (process.argv[1] && /[\\/]scripts[\\/]contract-elements\.mjs$/.test(self) && 
   const { contract, want, row, upToDate } = compare();
   if (process.argv.includes("--check")) {
     if (!upToDate) {
-      console.error("contract-elements: CONTRACT.md's elements (their table, and what @jaatster/blip-elements exports) are out of date. Run: node scripts/contract-elements.mjs");
+      console.error("contract-elements: CONTRACT.md's elements (their table, and what @blip/elements exports) are out of date. Run: node scripts/contract-elements.mjs");
       process.exit(1);
     }
     console.log(`contract-elements: CONTRACT.md lists all ${rows().length} elements as their manifests describe them.`);
   } else {
     const a = contract.indexOf(START), b = contract.indexOf(END);
     if (a < 0 || b < a) throw new Error("contract-elements: CONTRACT.md has no table markers.");
-    if (!ROW.test(contract)) throw new Error("contract-elements: CONTRACT.md has no row for @jaatster/blip-elements in its JavaScript APIs table.");
+    if (!ROW.test(contract)) throw new Error("contract-elements: CONTRACT.md has no row for @blip/elements in its JavaScript APIs table.");
     const next = (contract.slice(0, a + START.length) + "\n" + want + "\n" + contract.slice(b)).replace(ROW, row);
     if (next !== contract) writeFileSync(join(ROOT, "CONTRACT.md"), next);
     console.log(`contract-elements: ${rows().length} elements${next !== contract ? ", CONTRACT.md updated" : ", CONTRACT.md already up to date"}.`);

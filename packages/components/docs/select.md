@@ -1,6 +1,6 @@
 ---
 name: Select
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: select.css
 element: null
 react: Select
@@ -20,11 +20,11 @@ the chosen row has a pixel check. Elsewhere the browser's own list opens, in the
 ## Usage
 
 ```html
-<label class="chu-field-label" for="world">Home world</label>
-<span class="chu-box chu-select">
+<label class="blip-field-label" for="world">Home world</label>
+<span class="blip-box blip-select">
   <select id="world" name="world">
-    <option class="chu-box" value="meadow">Meadow</option>
-    <option class="chu-box" value="caves" selected>Crystal caves</option>
+    <option class="blip-box" value="meadow">Meadow</option>
+    <option class="blip-box" value="caves" selected>Crystal caves</option>
   </select>
 </span>
 ```
@@ -34,7 +34,7 @@ the chosen row has a pixel check. Elsewhere the browser's own list opens, in the
 1. **Well**: the input's well; the whole of it opens the select.
 2. **Value**: the chosen option's text.
 3. **Chevron**: four rows of pixels (7, 5, 3, 1) in the text colour.
-4. **Menu** (customisable select): the picker panel, its rows (`option.chu-box`) and the check.
+4. **Menu** (customisable select): the picker panel, its rows (`option.blip-box`) and the check.
 
 ## Variants
 
@@ -42,7 +42,7 @@ the chosen row has a pixel check. Elsewhere the browser's own list opens, in the
 |---|---|---|
 | `data-size` | `sm`, `md` (default), `lg` | As for the input. |
 | `data-tone` | `success`, any tone | A valid field's outline. |
-| `class="chu-box"` on each `<option>` | | The highlighted row is a candy box (corners, bands, glints). Without it the row is a flat yellow bar. |
+| `class="blip-box"` on each `<option>` | | The highlighted row is a candy box (corners, bands, glints). Without it the row is a flat yellow bar. |
 
 ## States
 
@@ -84,5 +84,5 @@ the chosen row has a pixel check. Elsewhere the browser's own list opens, in the
 
 | Class | |
 |---|---|
-| `.chu-select` | The well. Markup: `class="chu-box chu-select"`. |
-| `option.chu-box` | A candy row in the customisable select's menu. |
+| `.blip-select` | The well. Markup: `class="blip-box blip-select"`. |
+| `option.blip-box` | A candy row in the customisable select's menu. |

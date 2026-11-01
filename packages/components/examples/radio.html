@@ -1,49 +1,49 @@
 <!-- Radio: off and on in every state; sizes; a real group with help and an error. Forced states use
-     data-chu-state (docs and tests only). -->
-<div style="display:grid;grid-template-columns:max-content repeat(2,max-content);gap:calc(4*var(--chu-pixel)) calc(12*var(--chu-pixel));align-items:center">
-  <span></span><span class="chu-label chu-muted">Off</span><span class="chu-label chu-muted">On</span>
-  <span class="chu-label chu-muted">Rest</span>
-  <span class="chu-box chu-radio"><input type="radio" name="ex-rest" aria-label="Rest, off"></span>
-  <span class="chu-box chu-radio"><input type="radio" name="ex-rest" aria-label="Rest, on" checked></span>
-  <span class="chu-label chu-muted">Hover</span>
-  <span class="chu-box chu-radio" data-chu-state="hover"><input type="radio" name="ex-hover" aria-label="Hover, off"></span>
-  <span class="chu-box chu-radio" data-chu-state="hover"><input type="radio" name="ex-hover" aria-label="Hover, on" checked></span>
-  <span class="chu-label chu-muted">Focus</span>
-  <span class="chu-box chu-radio" data-chu-state="focus"><input type="radio" name="ex-focus" aria-label="Focus, off"></span>
-  <span class="chu-box chu-radio" data-chu-state="focus"><input type="radio" name="ex-focus" aria-label="Focus, on" checked></span>
-  <span class="chu-label chu-muted">Invalid</span>
-  <span class="chu-box chu-radio"><input type="radio" name="ex-invalid" aria-label="Invalid, off" aria-invalid="true"></span>
+     data-blip-state (docs and tests only). -->
+<div style="display:grid;grid-template-columns:max-content repeat(2,max-content);gap:calc(4*var(--blip-pixel)) calc(12*var(--blip-pixel));align-items:center">
+  <span></span><span class="blip-label blip-muted">Off</span><span class="blip-label blip-muted">On</span>
+  <span class="blip-label blip-muted">Rest</span>
+  <span class="blip-box blip-radio"><input type="radio" name="ex-rest" aria-label="Rest, off"></span>
+  <span class="blip-box blip-radio"><input type="radio" name="ex-rest" aria-label="Rest, on" checked></span>
+  <span class="blip-label blip-muted">Hover</span>
+  <span class="blip-box blip-radio" data-blip-state="hover"><input type="radio" name="ex-hover" aria-label="Hover, off"></span>
+  <span class="blip-box blip-radio" data-blip-state="hover"><input type="radio" name="ex-hover" aria-label="Hover, on" checked></span>
+  <span class="blip-label blip-muted">Focus</span>
+  <span class="blip-box blip-radio" data-blip-state="focus"><input type="radio" name="ex-focus" aria-label="Focus, off"></span>
+  <span class="blip-box blip-radio" data-blip-state="focus"><input type="radio" name="ex-focus" aria-label="Focus, on" checked></span>
+  <span class="blip-label blip-muted">Invalid</span>
+  <span class="blip-box blip-radio"><input type="radio" name="ex-invalid" aria-label="Invalid, off" aria-invalid="true"></span>
   <span></span>
-  <span class="chu-label chu-muted">Disabled</span>
-  <span class="chu-box chu-radio"><input type="radio" name="ex-disabled" aria-label="Disabled, off" disabled></span>
-  <span class="chu-box chu-radio"><input type="radio" name="ex-disabled" aria-label="Disabled, on" checked disabled></span>
+  <span class="blip-label blip-muted">Disabled</span>
+  <span class="blip-box blip-radio"><input type="radio" name="ex-disabled" aria-label="Disabled, off" disabled></span>
+  <span class="blip-box blip-radio"><input type="radio" name="ex-disabled" aria-label="Disabled, on" checked disabled></span>
 </div>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--chu-pixel)) calc(12*var(--chu-pixel));align-items:center;margin-block:calc(10*var(--chu-pixel))">
-  <label class="chu-check" data-size="sm"><span class="chu-box chu-radio"><input type="radio" name="ex-size" checked></span>Small</label>
-  <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="ex-size2" checked></span>Medium</label>
-  <label class="chu-check" data-size="lg"><span class="chu-box chu-radio"><input type="radio" name="ex-size3" checked></span>Large</label>
-  <label class="chu-check"><span class="chu-box chu-radio" data-tone="purple"><input type="radio" name="ex-tone" checked></span>Purple</label>
+<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--blip-pixel)) calc(12*var(--blip-pixel));align-items:center;margin-block:calc(10*var(--blip-pixel))">
+  <label class="blip-check" data-size="sm"><span class="blip-box blip-radio"><input type="radio" name="ex-size" checked></span>Small</label>
+  <label class="blip-check"><span class="blip-box blip-radio"><input type="radio" name="ex-size2" checked></span>Medium</label>
+  <label class="blip-check" data-size="lg"><span class="blip-box blip-radio"><input type="radio" name="ex-size3" checked></span>Large</label>
+  <label class="blip-check"><span class="blip-box blip-radio" data-tone="purple"><input type="radio" name="ex-tone" checked></span>Purple</label>
 </div>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(16*var(--chu-pixel));align-items:start">
-  <fieldset class="chu-field" aria-describedby="difficulty-help">
-    <legend class="chu-field-label">Difficulty</legend>
-    <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="difficulty" value="story" aria-describedby="dif-story"></span>Story</label>
-    <p class="chu-check-help" id="dif-story">Enemies go easy. Enjoy the view.</p>
-    <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="difficulty" value="normal" checked aria-describedby="dif-normal"></span>Normal</label>
-    <p class="chu-check-help" id="dif-normal">How the levels were made to be played.</p>
-    <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="difficulty" value="hard" aria-describedby="dif-hard"></span>Hard</label>
-    <p class="chu-check-help" id="dif-hard">One heart. No checkpoints.</p>
-    <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="difficulty" value="pixel" disabled aria-describedby="dif-pixel"></span>Pixel perfect</label>
-    <p class="chu-check-help" id="dif-pixel">Finish Hard to unlock.</p>
-    <p class="chu-field-help" id="difficulty-help">You can change this between levels.</p>
+<div style="display:flex;flex-wrap:wrap;gap:calc(16*var(--blip-pixel));align-items:start">
+  <fieldset class="blip-field" aria-describedby="difficulty-help">
+    <legend class="blip-field-label">Difficulty</legend>
+    <label class="blip-check"><span class="blip-box blip-radio"><input type="radio" name="difficulty" value="story" aria-describedby="dif-story"></span>Story</label>
+    <p class="blip-check-help" id="dif-story">Enemies go easy. Enjoy the view.</p>
+    <label class="blip-check"><span class="blip-box blip-radio"><input type="radio" name="difficulty" value="normal" checked aria-describedby="dif-normal"></span>Normal</label>
+    <p class="blip-check-help" id="dif-normal">How the levels were made to be played.</p>
+    <label class="blip-check"><span class="blip-box blip-radio"><input type="radio" name="difficulty" value="hard" aria-describedby="dif-hard"></span>Hard</label>
+    <p class="blip-check-help" id="dif-hard">One heart. No checkpoints.</p>
+    <label class="blip-check"><span class="blip-box blip-radio"><input type="radio" name="difficulty" value="pixel" disabled aria-describedby="dif-pixel"></span>Pixel perfect</label>
+    <p class="blip-check-help" id="dif-pixel">Finish Hard to unlock.</p>
+    <p class="blip-field-help" id="difficulty-help">You can change this between levels.</p>
   </fieldset>
 
-  <fieldset class="chu-field" aria-describedby="team-error">
-    <legend class="chu-field-label">Team</legend>
-    <label class="chu-check"><span class="chu-box chu-radio" data-tone="red"><input type="radio" name="team" value="red" required aria-invalid="true"></span>Red rockets</label>
-    <label class="chu-check"><span class="chu-box chu-radio" data-tone="blue"><input type="radio" name="team" value="blue" required aria-invalid="true"></span>Blue comets</label>
-    <p class="chu-field-error" id="team-error">Pick a team to start the match.</p>
+  <fieldset class="blip-field" aria-describedby="team-error">
+    <legend class="blip-field-label">Team</legend>
+    <label class="blip-check"><span class="blip-box blip-radio" data-tone="red"><input type="radio" name="team" value="red" required aria-invalid="true"></span>Red rockets</label>
+    <label class="blip-check"><span class="blip-box blip-radio" data-tone="blue"><input type="radio" name="team" value="blue" required aria-invalid="true"></span>Blue comets</label>
+    <p class="blip-field-error" id="team-error">Pick a team to start the match.</p>
   </fieldset>
 </div>

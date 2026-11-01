@@ -1,22 +1,22 @@
 <!-- Skip link: two small pages (each frame is a layout container, so the fixed link sits in its corner rather than the
-     window's). Left: the link as a keyboard user sees it after the first Tab (forced with data-chu-state). Right: live;
+     window's). Left: the link as a keyboard user sees it after the first Tab (forced with data-blip-state). Right: live;
      Tab into the frame to make it appear. -->
-<div style="display:flex;flex-wrap:wrap;gap:calc(12*var(--chu-pixel))">
-  <div class="chu-box" data-variant="panel" style="contain:layout;inline-size:calc(180*var(--chu-pixel));padding:calc(20*var(--chu-pixel)) calc(8*var(--chu-pixel)) calc(8*var(--chu-pixel))">
-    <a class="chu-box chu-skip-link" href="#skip-demo-main" data-chu-state="focus">Skip to content</a>
-    <p class="chu-label chu-muted">Questboard · Live ops · Studio · Community</p>
-    <div id="skip-demo-main" tabindex="-1" style="margin-block-start:calc(6*var(--chu-pixel))">
-      <h3 class="chu-title">Overview</h3>
-      <p class="chu-small chu-muted">The first Tab lands on the skip link; Enter jumps past the navigation to here.</p>
+<div style="display:flex;flex-wrap:wrap;gap:calc(12*var(--blip-pixel))">
+  <div class="blip-box" data-variant="panel" style="contain:layout;inline-size:calc(180*var(--blip-pixel));padding:calc(20*var(--blip-pixel)) calc(8*var(--blip-pixel)) calc(8*var(--blip-pixel))">
+    <a class="blip-box blip-skip-link" href="#skip-demo-main" data-blip-state="focus">Skip to content</a>
+    <p class="blip-label blip-muted">Questboard · Live ops · Studio · Community</p>
+    <div id="skip-demo-main" tabindex="-1" style="margin-block-start:calc(6*var(--blip-pixel))">
+      <h3 class="blip-title">Overview</h3>
+      <p class="blip-small blip-muted">The first Tab lands on the skip link; Enter jumps past the navigation to here.</p>
     </div>
   </div>
 
-  <div class="chu-box" data-variant="panel" style="contain:layout;inline-size:calc(180*var(--chu-pixel));padding:calc(20*var(--chu-pixel)) calc(8*var(--chu-pixel)) calc(8*var(--chu-pixel))">
-    <a class="chu-box chu-skip-link" href="#skip-live-main" data-tone="pink">Skip to content</a>
-    <p class="chu-label chu-muted"><a href="#skip-live-nav">Live ops</a> · <a href="#skip-live-nav">Studio</a> · <a href="#skip-live-nav">Community</a></p>
-    <div id="skip-live-main" tabindex="-1" style="margin-block-start:calc(6*var(--chu-pixel))">
-      <h3 class="chu-title">Live</h3>
-      <p class="chu-small chu-muted">Tab here: the link pops in at the corner.</p>
+  <div class="blip-box" data-variant="panel" style="contain:layout;inline-size:calc(180*var(--blip-pixel));padding:calc(20*var(--blip-pixel)) calc(8*var(--blip-pixel)) calc(8*var(--blip-pixel))">
+    <a class="blip-box blip-skip-link" href="#skip-live-main" data-tone="pink">Skip to content</a>
+    <p class="blip-label blip-muted"><a href="#skip-live-nav">Live ops</a> · <a href="#skip-live-nav">Studio</a> · <a href="#skip-live-nav">Community</a></p>
+    <div id="skip-live-main" tabindex="-1" style="margin-block-start:calc(6*var(--blip-pixel))">
+      <h3 class="blip-title">Live</h3>
+      <p class="blip-small blip-muted">Tab here: the link pops in at the corner.</p>
     </div>
   </div>
 </div>

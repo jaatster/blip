@@ -1,6 +1,6 @@
 ---
 name: Slider
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: slider.css
 element: null
 react: Slider
@@ -19,19 +19,19 @@ with stepped ends and a cream candy knob, with tick marks under it and a value r
 ## Usage
 
 ```html
-<chu-field class="chu-field">
-  <label class="chu-field-label" for="music">Music</label>
-  <div class="chu-slider-group">
-    <input class="chu-slider" id="music" name="music" type="range" min="0" max="10" value="7" list="music-ticks">
-    <output class="chu-box chu-slider-value" data-variant="panel" for="music" aria-hidden="true">7</output>
-    <datalist class="chu-slider-ticks" id="music-ticks">
+<blip-field class="blip-field">
+  <label class="blip-field-label" for="music">Music</label>
+  <div class="blip-slider-group">
+    <input class="blip-slider" id="music" name="music" type="range" min="0" max="10" value="7" list="music-ticks">
+    <output class="blip-box blip-slider-value" data-variant="panel" for="music" aria-hidden="true">7</output>
+    <datalist class="blip-slider-ticks" id="music-ticks">
       <option value="0">0</option><option value="5">5</option><option value="10">10</option>
     </datalist>
   </div>
-</chu-field>
+</blip-field>
 ```
 
-`<chu-field>` keeps the readout and the groove's fill in step with the slider. Without it, the slider still works; the
+`<blip-field>` keeps the readout and the groove's fill in step with the slider. Without it, the slider still works; the
 groove just doesn't fill (Firefox fills it natively).
 
 ## Anatomy
@@ -40,19 +40,19 @@ groove just doesn't fill (Firefox fills it natively).
    the accent up to the knob's middle.
 2. **Knob**: an 8 x 12 pixel cream candy box (ink outline with stepped corners, light and shade bands, glints, a drop),
    in a 12 x 16 target.
-3. **Ticks** (optional, `.chu-slider-ticks`): one mark per child, spread so each lines up with the knob at that
+3. **Ticks** (optional, `.blip-slider-ticks`): one mark per child, spread so each lines up with the knob at that
    value; a child's text is its label.
-4. **Readout** (optional, `.chu-slider-value`): the value in a small panel.
+4. **Readout** (optional, `.blip-slider-value`): the value in a small panel.
 
-The knob is a pseudo-element of the input, so it can't wear `.chu-box`: it is drawn here from the same tokens and the
+The knob is a pseudo-element of the input, so it can't wear `.blip-box`: it is drawn here from the same tokens and the
 same rules as the box.
 
 ## Variants
 
 | Part | Use |
 |---|---|
-| `.chu-slider-group` | Slider and readout side by side, ticks below the slider. |
-| `<datalist class="chu-slider-ticks">` linked with `list` | Ticks that also make the knob snap to them while dragging (Chromium). A `<div>` of spans works too. |
+| `.blip-slider-group` | Slider and readout side by side, ticks below the slider. |
+| `<datalist class="blip-slider-ticks">` linked with `list` | Ticks that also make the knob snap to them while dragging (Chromium). A `<div>` of spans works too. |
 
 ## States
 
@@ -63,7 +63,7 @@ same rules as the box.
 | Focus | keyboard | The yellow ring with an ink edge round the knob. |
 | Disabled | `disabled` | Knob dithered, groove soft. |
 
-`data-chu-state="hover focus active"` forces those looks in docs and tests.
+`data-blip-state="hover focus active"` forces those looks in docs and tests.
 
 ## Accessibility
 
@@ -95,9 +95,9 @@ same rules as the box.
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-slider-value` | 0 | How much of the groove is filled, 0 to 1. `<chu-field>` sets it. |
+| `--blip-slider-value` | 0 | How much of the groove is filled, 0 to 1. `<blip-field>` sets it. |
 
 | Class | |
 |---|---|
-| `.chu-slider` | The input. |
-| `.chu-slider-group`, `.chu-slider-ticks`, `.chu-slider-value` | Layout, ticks and readout. |
+| `.blip-slider` | The input. |
+| `.blip-slider-group`, `.blip-slider-ticks`, `.blip-slider-value` | Layout, ticks and readout. |

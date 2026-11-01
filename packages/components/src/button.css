@@ -1,9 +1,9 @@
 /*
  * Button. A candy box you press. The reference component: every other component follows its conventions.
  *
- *   <button class="chu-box chu-button">Save</button>
- *   <button class="chu-box chu-button" data-variant="soft" data-tone="danger" data-size="sm">Delete</button>
- *   <button class="chu-box chu-button" data-icon-only aria-label="Close"><svg class="chu-icon">…</svg></button>
+ *   <button class="blip-box blip-button">Save</button>
+ *   <button class="blip-box blip-button" data-variant="soft" data-tone="danger" data-size="sm">Delete</button>
+ *   <button class="blip-box blip-button" data-icon-only aria-label="Close"><svg class="blip-icon">…</svg></button>
  *
  *   data-variant  candy (default) | soft | outline | ghost        the tier: loud to quiet
  *   data-tone     accent (default) | info | success | warning | danger | a candy name | neutral
@@ -19,70 +19,70 @@
  * minimum), and a word longer than the room breaks as a last resort. It is never cut short.
  */
 
-@layer chu.components {
-  .chu-button {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
-    --chu-band-top: 4;
-    --chu-band-bottom: 4;
-    --_h: var(--chu-control-md);
-    --_pad: calc(8 * var(--chu-pixel));
+@layer blip.components {
+  .blip-button {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
+    --blip-band-top: 4;
+    --blip-band-bottom: 4;
+    --_h: var(--blip-control-md);
+    --_pad: calc(8 * var(--blip-pixel));
 
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: calc(3 * var(--chu-pixel));
+    gap: calc(3 * var(--blip-pixel));
     min-block-size: var(--_h);
     min-inline-size: var(--_h);
     /* Room above and below for an icon, which keeps a wrapped label on the base, clear of the bands. */
-    padding: calc((var(--_h) - var(--chu-icon-md)) / 2) var(--_pad);
+    padding: calc((var(--_h) - var(--blip-icon-md)) / 2) var(--_pad);
     /* Leave room for the drop, so neighbours never touch it. */
-    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-small);
-    font-weight: var(--chu-weight-bold);
+    margin: 0 var(--blip-pixel) var(--blip-pixel) 0;
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-small);
+    font-weight: var(--blip-weight-bold);
     line-height: 1;
-    letter-spacing: var(--chu-tracking-label);
+    letter-spacing: var(--blip-tracking-label);
     text-align: center;
     text-transform: uppercase;
     text-decoration: none;
     vertical-align: middle;
   }
 
-  .chu-button[data-size="sm"] {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
-    --chu-band-top: 3;
-    --chu-band-bottom: 3;
-    --_h: var(--chu-control-sm);
-    --_pad: calc(6 * var(--chu-pixel));
-    gap: calc(2 * var(--chu-pixel));
-    font-size: var(--chu-size-caption);
+  .blip-button[data-size="sm"] {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
+    --blip-band-top: 3;
+    --blip-band-bottom: 3;
+    --_h: var(--blip-control-sm);
+    --_pad: calc(6 * var(--blip-pixel));
+    gap: calc(2 * var(--blip-pixel));
+    font-size: var(--blip-size-caption);
   }
 
-  .chu-button[data-size="lg"] {
-    --chu-r: 5;
-    --chu-shape: var(--chu-shape-5);
-    --chu-shape-inner: var(--chu-shape-5-inner);
-    --chu-band-top: 5;
-    --chu-band-bottom: 4;
-    --_h: var(--chu-control-lg);
-    --_pad: calc(10 * var(--chu-pixel));
-    font-size: var(--chu-size-body);
+  .blip-button[data-size="lg"] {
+    --blip-r: 5;
+    --blip-shape: var(--blip-shape-5);
+    --blip-shape-inner: var(--blip-shape-5-inner);
+    --blip-band-top: 5;
+    --blip-band-bottom: 4;
+    --_h: var(--blip-control-lg);
+    --_pad: calc(10 * var(--blip-pixel));
+    font-size: var(--blip-size-body);
   }
 
-  .chu-button[data-icon-only] {
+  .blip-button[data-icon-only] {
     padding: 0;
     inline-size: var(--_h);
   }
-  .chu-button[data-width="full"] {
+  .blip-button[data-width="full"] {
     display: flex;
-    inline-size: calc(100% - var(--chu-pixel));
+    inline-size: calc(100% - var(--blip-pixel));
   }
 
   /* An icon nudged to sit optically centred with capitals. */
-  .chu-button > :is(.chu-icon, chu-icon):first-child:not(:only-child) { margin-inline-start: calc(-2 * var(--chu-pixel)); }
-  .chu-button > :is(.chu-icon, chu-icon):last-child:not(:only-child) { margin-inline-end: calc(-2 * var(--chu-pixel)); }
+  .blip-button > :is(.blip-icon, blip-icon):first-child:not(:only-child) { margin-inline-start: calc(-2 * var(--blip-pixel)); }
+  .blip-button > :is(.blip-icon, blip-icon):last-child:not(:only-child) { margin-inline-end: calc(-2 * var(--blip-pixel)); }
 }

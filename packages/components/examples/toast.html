@@ -1,63 +1,63 @@
-<!-- Toast: two static toasters (data-chu-static) with every tone, then buttons that make live toasts in <chu-toaster>.
-     The timer bars of the static ones are held part-way with --_chu-toast-left (8 is full). -->
-<div style="display:flex;flex-wrap:wrap;gap:calc(12*var(--chu-pixel));align-items:flex-start">
-  <div class="chu-toaster" data-chu-static role="region" aria-label="Notifications, example">
-    <div class="chu-box chu-toast" data-tone="success" role="group" aria-label="Achievement unlocked">
-      <span class="chu-toast-icon" aria-hidden="true"></span>
-      <div class="chu-toast-body">
-        <p class="chu-toast-title">Achievement unlocked</p>
+<!-- Toast: two static toasters (data-blip-static) with every tone, then buttons that make live toasts in <blip-toaster>.
+     The timer bars of the static ones are held part-way with --_blip-toast-left (8 is full). -->
+<div style="display:flex;flex-wrap:wrap;gap:calc(12*var(--blip-pixel));align-items:flex-start">
+  <div class="blip-toaster" data-blip-static role="region" aria-label="Notifications, example">
+    <div class="blip-box blip-toast" data-tone="success" role="group" aria-label="Achievement unlocked">
+      <span class="blip-toast-icon" aria-hidden="true"></span>
+      <div class="blip-toast-body">
+        <p class="blip-toast-title">Achievement unlocked</p>
         <p>First Flight: clear World 1 without taking a hit.</p>
-        <div class="chu-toast-actions"><button class="chu-box chu-button chu-toast-action" type="button" data-size="sm" data-variant="outline">View</button></div>
+        <div class="blip-toast-actions"><button class="blip-box blip-button blip-toast-action" type="button" data-size="sm" data-variant="outline">View</button></div>
       </div>
-      <button class="chu-box chu-button chu-toast-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
-      <span class="chu-toast-timer" style="--_chu-toast-left:6" aria-hidden="true"></span>
+      <button class="blip-box blip-button blip-toast-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
+      <span class="blip-toast-timer" style="--_blip-toast-left:6" aria-hidden="true"></span>
     </div>
-    <div class="chu-box chu-toast" role="group" aria-label="Saved to slot 2">
-      <div class="chu-toast-body">
-        <p class="chu-toast-title">Saved to slot 2</p>
-        <div class="chu-toast-actions"><button class="chu-box chu-button chu-toast-action" type="button" data-size="sm" data-variant="outline">Undo</button></div>
+    <div class="blip-box blip-toast" role="group" aria-label="Saved to slot 2">
+      <div class="blip-toast-body">
+        <p class="blip-toast-title">Saved to slot 2</p>
+        <div class="blip-toast-actions"><button class="blip-box blip-button blip-toast-action" type="button" data-size="sm" data-variant="outline">Undo</button></div>
       </div>
-      <button class="chu-box chu-button chu-toast-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
-      <span class="chu-toast-timer" style="--_chu-toast-left:3" aria-hidden="true"></span>
+      <button class="blip-box blip-button blip-toast-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
+      <span class="blip-toast-timer" style="--_blip-toast-left:3" aria-hidden="true"></span>
     </div>
-    <div class="chu-box chu-toast" data-tone="danger" role="group" aria-label="Couldn't upload your replay">
-      <span class="chu-toast-icon" aria-hidden="true"></span>
-      <div class="chu-toast-body">
-        <p class="chu-toast-title">Couldn't upload your replay</p>
+    <div class="blip-box blip-toast" data-tone="danger" role="group" aria-label="Couldn't upload your replay">
+      <span class="blip-toast-icon" aria-hidden="true"></span>
+      <div class="blip-toast-body">
+        <p class="blip-toast-title">Couldn't upload your replay</p>
         <p>Check your connection, then try again. It stays here until you do.</p>
-        <div class="chu-toast-actions"><button class="chu-box chu-button chu-toast-action" type="button" data-size="sm" data-variant="outline">Try again</button></div>
+        <div class="blip-toast-actions"><button class="blip-box blip-button blip-toast-action" type="button" data-size="sm" data-variant="outline">Try again</button></div>
       </div>
-      <button class="chu-box chu-button chu-toast-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
+      <button class="blip-box blip-button blip-toast-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
     </div>
   </div>
 
-  <div class="chu-toaster" data-chu-static role="region" aria-label="Notifications, louder example">
-    <div class="chu-box chu-toast" data-tone="success" data-variant="candy" role="group" aria-label="Level clear!">
-      <span class="chu-toast-icon" aria-hidden="true"></span>
-      <div class="chu-toast-body"><p class="chu-toast-title">Level clear!</p><p>3 of 3 stars, 2:41.</p></div>
-      <button class="chu-box chu-button chu-toast-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
-      <span class="chu-toast-timer" style="--_chu-toast-left:8" aria-hidden="true"></span>
+  <div class="blip-toaster" data-blip-static role="region" aria-label="Notifications, louder example">
+    <div class="blip-box blip-toast" data-tone="success" data-variant="candy" role="group" aria-label="Level clear!">
+      <span class="blip-toast-icon" aria-hidden="true"></span>
+      <div class="blip-toast-body"><p class="blip-toast-title">Level clear!</p><p>3 of 3 stars, 2:41.</p></div>
+      <button class="blip-box blip-button blip-toast-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
+      <span class="blip-toast-timer" style="--_blip-toast-left:8" aria-hidden="true"></span>
     </div>
-    <div class="chu-box chu-toast" data-tone="info" role="group" aria-label="Pixel Pat is online">
-      <span class="chu-toast-icon" aria-hidden="true"></span>
-      <div class="chu-toast-body"><p class="chu-toast-title">Pixel Pat is online</p><p>Playing World 3: Crystal Caves.</p></div>
-      <button class="chu-box chu-button chu-toast-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
-      <span class="chu-toast-timer" style="--_chu-toast-left:7" aria-hidden="true"></span>
+    <div class="blip-box blip-toast" data-tone="info" role="group" aria-label="Pixel Pat is online">
+      <span class="blip-toast-icon" aria-hidden="true"></span>
+      <div class="blip-toast-body"><p class="blip-toast-title">Pixel Pat is online</p><p>Playing World 3: Crystal Caves.</p></div>
+      <button class="blip-box blip-button blip-toast-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
+      <span class="blip-toast-timer" style="--_blip-toast-left:7" aria-hidden="true"></span>
     </div>
-    <div class="chu-box chu-toast" data-tone="warning" role="group" aria-label="Controller battery low">
-      <span class="chu-toast-icon" aria-hidden="true"></span>
-      <div class="chu-toast-body"><p class="chu-toast-title">Controller battery low</p><p>About 10 minutes left.</p></div>
-      <button class="chu-box chu-button chu-toast-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
-      <span class="chu-toast-timer" style="--_chu-toast-left:2" aria-hidden="true"></span>
+    <div class="blip-box blip-toast" data-tone="warning" role="group" aria-label="Controller battery low">
+      <span class="blip-toast-icon" aria-hidden="true"></span>
+      <div class="blip-toast-body"><p class="blip-toast-title">Controller battery low</p><p>About 10 minutes left.</p></div>
+      <button class="blip-box blip-button blip-toast-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
+      <span class="blip-toast-timer" style="--_blip-toast-left:2" aria-hidden="true"></span>
     </div>
   </div>
 </div>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--chu-pixel));align-items:center;margin-block-start:calc(8*var(--chu-pixel))">
-  <span class="chu-label chu-muted">Live</span>
-  <button class="chu-box chu-button" type="button" data-tone="success" onclick="document.querySelector('chu-toaster').add({ title: 'Achievement unlocked', body: 'First Flight: clear World 1 without taking a hit.', tone: 'success', action: { label: 'View' } })">Unlock achievement</button>
-  <button class="chu-box chu-button" type="button" data-variant="soft" data-tone="neutral" onclick="document.querySelector('chu-toaster').add({ title: 'Saved to slot 2', action: { label: 'Undo' } })">Save</button>
-  <button class="chu-box chu-button" type="button" data-variant="soft" data-tone="danger" onclick="document.querySelector('chu-toaster').add({ title: 'Couldn’t upload your replay', body: 'Check your connection, then try again.', tone: 'danger', action: { label: 'Try again' } })">Fail an upload</button>
-  <button class="chu-box chu-button" type="button" data-variant="outline" onclick="document.querySelector('chu-toaster').add({ title: 'Level clear!', body: '3 of 3 stars, 2:41.', tone: 'success', variant: 'candy', duration: 3000 })">Clear a level</button>
+<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--blip-pixel));align-items:center;margin-block-start:calc(8*var(--blip-pixel))">
+  <span class="blip-label blip-muted">Live</span>
+  <button class="blip-box blip-button" type="button" data-tone="success" onclick="document.querySelector('blip-toaster').add({ title: 'Achievement unlocked', body: 'First Flight: clear World 1 without taking a hit.', tone: 'success', action: { label: 'View' } })">Unlock achievement</button>
+  <button class="blip-box blip-button" type="button" data-variant="soft" data-tone="neutral" onclick="document.querySelector('blip-toaster').add({ title: 'Saved to slot 2', action: { label: 'Undo' } })">Save</button>
+  <button class="blip-box blip-button" type="button" data-variant="soft" data-tone="danger" onclick="document.querySelector('blip-toaster').add({ title: 'Couldn’t upload your replay', body: 'Check your connection, then try again.', tone: 'danger', action: { label: 'Try again' } })">Fail an upload</button>
+  <button class="blip-box blip-button" type="button" data-variant="outline" onclick="document.querySelector('blip-toaster').add({ title: 'Level clear!', body: '3 of 3 stars, 2:41.', tone: 'success', variant: 'candy', duration: 3000 })">Clear a level</button>
 </div>
-<chu-toaster data-side="bottom" data-align="end"></chu-toaster>
+<blip-toaster data-side="bottom" data-align="end"></blip-toaster>

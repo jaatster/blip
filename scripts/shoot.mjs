@@ -53,10 +53,10 @@ async function server() {
   const mine = readFileSync(join(ROOT, "specimen/press.html"), "utf8");
   const serves = async (base) => (await fetch(`${base}/specimen/press.html`).then((r) => (r.ok ? r.text() : ""), () => "")) === mine;
   if (await serves("http://localhost:4173")) return { base: "http://localhost:4173", stop: () => {} };
-  const port = Number(process.env.CHU_SHOOT_PORT ?? 4181), base = `http://localhost:${port}`;
+  const port = Number(process.env.BLIP_SHOOT_PORT ?? 4181), base = `http://localhost:${port}`;
   const child = spawn(process.execPath, [join(ROOT, "scripts/serve.mjs"), "--port", String(port)], { stdio: "ignore" });
   for (let i = 0; i < 100 && !(await serves(base)); i++) await new Promise((r) => setTimeout(r, 100));
-  if (!(await serves(base))) throw new Error(`shoot: could not start scripts/serve.mjs on port ${port} (CHU_SHOOT_PORT picks another).`);
+  if (!(await serves(base))) throw new Error(`shoot: could not start scripts/serve.mjs on port ${port} (BLIP_SHOOT_PORT picks another).`);
   return { base, stop: () => child.kill() };
 }
 
@@ -74,7 +74,7 @@ async function adhoc() {
   const width = Number(opt("width", 1280)), height = Number(opt("height", 900)), scale = Number(opt("scale", 1));
   const base = opt("base", "http://localhost:4173");
   mkdirSync(outDir, { recursive: true });
-  const browser = await chromium.launch({ channel: process.env.CHU_BROWSER ?? "chrome" }).catch(() => chromium.launch());
+  const browser = await chromium.launch({ channel: process.env.BLIP_BROWSER ?? "chrome" }).catch(() => chromium.launch());
   const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: scale, reducedMotion: "reduce" });
   const errors = watch(page);
   for (const s of shots) {

@@ -1,5 +1,5 @@
 /**
- * <chu-sheet>: it opens at the first height data-snap lists, the handle steps through the heights (a click, Enter)
+ * <blip-sheet>: it opens at the first height data-snap lists, the handle steps through the heights (a click, Enter)
  * and says which with aria-expanded, a drag follows the pointer in whole pixels and lets go at the nearest height,
  * a drag or flick down past the lowest closes it (reason "drag"), the body only pulls it down with a finger at its
  * top, the click that ends a drag is not a press, and Escape still closes it.
@@ -20,28 +20,28 @@ beforeEach(async () => {
   // As core's base.css: border-box.
   style = document.head.appendChild(Object.assign(document.createElement("style"), { textContent: `${inject("tokensCss")}*, *::before, *::after { box-sizing: border-box; }\n${css}` }));
   // No slide and heights at once, so each test reads the end of a move. (Reduced motion: the slide is CSS.)
-  document.documentElement.dataset.chuMotion = "reduce";
+  document.documentElement.dataset.blipMotion = "reduce";
   await commands.emulateMedia("reduce");
 });
 afterEach(async () => {
   await commands.emulateMedia("no-preference");
   style.remove();
-  delete document.documentElement.dataset.chuMotion;
+  delete document.documentElement.dataset.blipMotion;
 });
 
 const settle = (ms = 0) => new Promise((done) => setTimeout(done, ms));
 const body = Array.from({ length: 30 }, (_, i) => `<p>Line ${i + 1}</p>`).join("");
 function sheet(snap: string | null = "half full", handle = true): { el: BlipSheet; d: HTMLDialogElement; handle: HTMLButtonElement; body: HTMLElement } {
-  const el = mount<BlipSheet>(`<chu-sheet>
-    <dialog class="chu-box chu-drawer chu-sheet" ${snap === null ? "" : `data-snap="${snap}"`} aria-labelledby="sh-t">
-      <header class="chu-dialog-header">
-        ${handle ? '<button class="chu-box chu-sheet-handle" type="button" data-variant="ghost" aria-label="Resize"><span></span></button>' : ""}
-        <h2 class="chu-dialog-title" id="sh-t">Route</h2>
+  const el = mount<BlipSheet>(`<blip-sheet>
+    <dialog class="blip-box blip-drawer blip-sheet" ${snap === null ? "" : `data-snap="${snap}"`} aria-labelledby="sh-t">
+      <header class="blip-dialog-header">
+        ${handle ? '<button class="blip-box blip-sheet-handle" type="button" data-variant="ghost" aria-label="Resize"><span></span></button>' : ""}
+        <h2 class="blip-dialog-title" id="sh-t">Route</h2>
       </header>
-      <div class="chu-dialog-body">${body}</div>
-    </dialog></chu-sheet>`);
+      <div class="blip-dialog-body">${body}</div>
+    </dialog></blip-sheet>`);
   const d = el.querySelector("dialog")!;
-  return { el, d, handle: d.querySelector(".chu-sheet-handle")!, body: d.querySelector(".chu-dialog-body")! };
+  return { el, d, handle: d.querySelector(".blip-sheet-handle")!, body: d.querySelector(".blip-dialog-body")! };
 }
 const height = (d: HTMLDialogElement) => d.getBoundingClientRect().height;
 const top = (d: HTMLDialogElement) => d.getBoundingClientRect().top;
@@ -63,15 +63,15 @@ async function drag(el: Element, moves: number[], { type = "mouse", pause = 150,
   await settle();
 }
 
-describe("chu-sheet", () => {
+describe("blip-sheet", () => {
   it("opens at its first height and steps through them with the handle", async () => {
     const { el, d, handle } = sheet();
     const seen: unknown[] = [];
-    el.addEventListener("chu-change", (e) => seen.push((e as CustomEvent).detail));
+    el.addEventListener("blip-change", (e) => seen.push((e as CustomEvent).detail));
     expect(el.snaps).toEqual(["half", "full"]);
     el.show();
     expect(el.snap).toBe("half");
-    expect(d.dataset.chuSnap).toBe("half");
+    expect(d.dataset.blipSnap).toBe("half");
     expect(height(d)).toBe(300);
     expect(handle.getAttribute("aria-expanded")).toBe("false");
     handle.click();
@@ -120,14 +120,14 @@ describe("chu-sheet", () => {
     const init = (y: number): PointerEventInit => ({ pointerId: 5, pointerType: "mouse", button: 0, clientX: r.left + 5, clientY: y, bubbles: true });
     handle.dispatchEvent(new PointerEvent("pointerdown", init(r.top + 5)));
     handle.dispatchEvent(new PointerEvent("pointermove", init(r.top - 5)));
-    expect(d.hasAttribute("data-chu-dragging")).toBe(true);
+    expect(d.hasAttribute("data-blip-dragging")).toBe(true);
     handle.dispatchEvent(new PointerEvent("pointermove", init(r.top - 106.3)));
     expect(height(d)).toBe(402);
     expect(height(d) % 2).toBe(0);
     await settle(150);
     handle.dispatchEvent(new PointerEvent("pointerup", init(r.top - 106.3)));
     await settle();
-    expect(d.hasAttribute("data-chu-dragging")).toBe(false);
+    expect(d.hasAttribute("data-blip-dragging")).toBe(false);
     expect(el.snap).toBe("half");
     // Past half way to full, it goes to full; the click that ends the drag does not step it on.
     await drag(handle, [-10, -200]);
@@ -137,7 +137,7 @@ describe("chu-sheet", () => {
   it("drags from the title bar, but not from its buttons", async () => {
     const { el, d } = sheet();
     el.show();
-    const title = d.querySelector(".chu-dialog-title")!;
+    const title = d.querySelector(".blip-dialog-title")!;
     await drag(title, [-10, -250]);
     expect(el.snap).toBe("full");
   });
@@ -145,7 +145,7 @@ describe("chu-sheet", () => {
   it("slides down below its lowest height, and closes past half of it (reason drag)", async () => {
     const { el, d, handle } = sheet();
     const closed: unknown[] = [];
-    el.addEventListener("chu-close", (e) => closed.push((e as CustomEvent).detail.reason));
+    el.addEventListener("blip-close", (e) => closed.push((e as CustomEvent).detail.reason));
     el.show();
     const at = top(d);
     const r = handle.getBoundingClientRect();
@@ -178,9 +178,9 @@ describe("chu-sheet", () => {
     expect(el.open).toBe(false);
   });
 
-  it("can be kept open: chu-before-close cancelled puts it back", async () => {
+  it("can be kept open: blip-before-close cancelled puts it back", async () => {
     const { el, handle } = sheet();
-    el.addEventListener("chu-before-close", (e) => e.preventDefault());
+    el.addEventListener("blip-before-close", (e) => e.preventDefault());
     el.show();
     await drag(handle, [10, 280]);
     await settle();
@@ -207,7 +207,7 @@ describe("chu-sheet", () => {
     await drag(p, [10, 200], { type: "touch" });
     await settle(50);
     expect(el.open).toBe(false);
-    expect(d.hasAttribute("data-chu-dragging")).toBe(false);
+    expect(d.hasAttribute("data-blip-dragging")).toBe(false);
   });
 
   it("goes back where it was when the browser takes the pointer", async () => {
@@ -221,7 +221,7 @@ describe("chu-sheet", () => {
   it("still closes with Escape", async () => {
     const { el, handle } = sheet();
     const closed: unknown[] = [];
-    el.addEventListener("chu-close", (e) => closed.push((e as CustomEvent).detail.reason));
+    el.addEventListener("blip-close", (e) => closed.push((e as CustomEvent).detail.reason));
     el.show();
     handle.focus();
     await userEvent.keyboard("{Escape}");

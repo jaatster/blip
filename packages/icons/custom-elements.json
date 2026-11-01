@@ -8,7 +8,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "One Blip icon as inline SVG in light DOM, so it takes the page's colour and the .chu-icon size. Markup that\nalready holds the <svg> (rendered on the server) is adopted, not replaced.",
+          "description": "One Blip icon as inline SVG in light DOM, so it takes the page's colour and the .blip-icon size. Markup that\nalready holds the <svg> (rendered on the server) is adopted, not replaced.",
           "name": "BlipIcon",
           "members": [
             {
@@ -36,7 +36,7 @@
               "type": {
                 "text": "IconName"
               },
-              "description": "The icon to draw. An unknown name draws nothing and warns once (CHU-I001).",
+              "description": "The icon to draw. An unknown name draws nothing and warns once (BLIP-I001).",
               "fieldName": "name"
             },
             {
@@ -59,7 +59,7 @@
             "name": "HTMLElement"
           },
           "summary": "One 12 x 12 pixel icon.",
-          "tagName": "chu-icon",
+          "tagName": "blip-icon",
           "customElement": true
         }
       ],
@@ -74,7 +74,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-icon",
+          "name": "blip-icon",
           "declaration": {
             "name": "BlipIcon",
             "module": "src/element.ts"

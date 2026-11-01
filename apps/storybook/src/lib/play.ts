@@ -15,7 +15,7 @@ interface Input {
 }
 
 /** Vitest's userEvent when running under Vitest, else undefined. */
-const trusted = (): Input | undefined => (globalThis as { __chuTrustedInput?: Input }).__chuTrustedInput;
+const trusted = (): Input | undefined => (globalThis as { __blipTrustedInput?: Input }).__blipTrustedInput;
 const input = (): Input => trusted() ?? (simulated as unknown as Input);
 
 /** Keys, in Testing Library's syntax: "{ArrowDown}", "{Enter}", " ", "abc", "{Shift>}{Tab}{/Shift}". */

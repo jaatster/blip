@@ -1,5 +1,5 @@
 /**
- * Stage: Stage, StageGround and StageScrim. CSS from @jaatster/blip-game (stage.css).
+ * Stage: Stage, StageGround and StageScrim. CSS from @blip/game (stage.css).
  */
 import { forwardRef } from "react";
 import type { CSSProperties, ElementType } from "react";
@@ -19,7 +19,7 @@ function withVars(
 export interface StageOwnProps {
   /** An ink edge and a drop, for a screen set into a page. `data-frame`. */
   frame?: boolean;
-  /** Its own time of day, whatever the page's: a night level on a day page. `data-chu-scheme`. */
+  /** Its own time of day, whatever the page's: a night level on a day page. `data-blip-scheme`. */
   scheme?: "day" | "sunset" | "night";
 }
 
@@ -28,7 +28,7 @@ export type StageProps<T extends ElementType = "section"> = PolymorphicProps<T, 
 /**
  * A game screen for a HUD, a menu or a map to sit on: a positioned frame with a pastel sky, six hard bands of the
  * scheme's world palette stepping up from a {@link StageGround}, dithered where they meet. For the full world, with
- * mountains, hills and clouds, pass a `<World>` (from @jaatster/blip-react/effects) as its first child; until it draws,
+ * mountains, hills and clouds, pass a `<World>` (from @blip/react/effects) as its first child; until it draws,
  * the banded sky shows. Name it if it is a region of the page.
  *
  *   <Stage frame aria-label="Puddle Path">
@@ -37,20 +37,20 @@ export type StageProps<T extends ElementType = "section"> = PolymorphicProps<T, 
  *     <StageGround />
  *   </Stage>
  *
- * Renders `<section class="chu-stage">`; `as="div"` for a small one inside something else (a feature's picture).
+ * Renders `<section class="blip-stage">`; `as="div"` for a small one inside something else (a feature's picture).
  */
 export const Stage = /*#__PURE__*/ forwardRef(function Stage(
   { as: Tag = "section", frame, scheme, className, ...rest }: StageProps<ElementType>,
   ref,
 ) {
   return (
-    <Tag ref={ref} className={cx("chu-stage", className)} data-frame={flag(frame)} data-chu-scheme={scheme} {...rest} />
+    <Tag ref={ref} className={cx("blip-stage", className)} data-frame={flag(frame)} data-blip-scheme={scheme} {...rest} />
   );
 }) as PolymorphicComponent<"section", StageOwnProps>;
 
 /** Own props of {@link StageGround}. */
 export interface StageGroundOwnProps {
-  /** The ground's height in pixels; 16 by default. `--chu-stage-ground`. */
+  /** The ground's height in pixels; 16 by default. `--blip-stage-ground`. */
   height?: number;
   children?: never;
 }
@@ -64,7 +64,7 @@ export type StageGroundProps = StageGroundOwnProps & NativeProps<"div", StageGro
  *   <StageGround />
  *   <StageGround height={10} />
  *
- * Renders `<div class="chu-stage-ground">`.
+ * Renders `<div class="blip-stage-ground">`.
  */
 export const StageGround = /*#__PURE__*/ forwardRef<HTMLDivElement, StageGroundProps>(function StageGround(
   { height, className, style, ...rest },
@@ -73,8 +73,8 @@ export const StageGround = /*#__PURE__*/ forwardRef<HTMLDivElement, StageGroundP
   return (
     <div
       ref={ref}
-      className={cx("chu-stage-ground", className)}
-      style={withVars(style, { "--chu-stage-ground": height })}
+      className={cx("blip-stage-ground", className)}
+      style={withVars(style, { "--blip-stage-ground": height })}
       {...rest}
     />
   );
@@ -94,8 +94,8 @@ export type StageScrimProps = NativeProps<"div">;
  *     <PauseMenu open aria-labelledby="pause-title">…</PauseMenu>
  *   </Stage>
  *
- * Renders `<div class="chu-scrim">`.
+ * Renders `<div class="blip-scrim">`.
  */
 export const StageScrim = /*#__PURE__*/ forwardRef<HTMLDivElement, StageScrimProps>(function StageScrim({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("chu-scrim", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-scrim", className)} {...rest} />;
 });

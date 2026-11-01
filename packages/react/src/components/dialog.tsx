@@ -1,6 +1,6 @@
 /**
  * Dialog: DialogPanel, DialogHeader, DialogTitle, DialogIcon, DialogClose, DialogBody and DialogFooter, the parts that
- * go inside <Dialog>, and <Dialog> itself (generated from its element, re-exported here). CSS from @jaatster/blip-components
+ * go inside <Dialog>, and <Dialog> itself (generated from its element, re-exported here). CSS from @blip/components
  * (dialog.css).
  */
 import { forwardRef } from "react";
@@ -13,7 +13,7 @@ export { Dialog, type DialogProps } from "../generated/elements.js";
 type Named = { "aria-label": string } | { "aria-labelledby": string };
 
 /** The pixel cross a close button shows when it has no children (made when needed, so nothing runs on import). */
-const cross = () => <span className="chu-icon" data-glyph="close" aria-hidden="true" />;
+const cross = () => <span className="blip-icon" data-glyph="close" aria-hidden="true" />;
 
 /** Invoker attributes, spread because React's DOM types do not list them yet. */
 const invoker = (target: string | undefined, command: string) =>
@@ -25,9 +25,9 @@ export interface DialogPanelOwnProps {
   size?: Size;
   /** The title bar's colour: accent (default) or an intent; `danger` for destructive confirmations. `data-tone`. */
   tone?: "accent" | Intent;
-  /** Corner radius in pixels, 4 by default; the title bar follows it. `data-chu-r`. */
+  /** Corner radius in pixels, 4 by default; the title bar follows it. `data-blip-r`. */
   radius?: Radius;
-  /** Drawn in the page flow, out of the top layer (with `open`): docs, tests and screenshots only. `data-chu-static`. */
+  /** Drawn in the page flow, out of the top layer (with `open`): docs, tests and screenshots only. `data-blip-static`. */
   static?: boolean;
   /**
    * `alertdialog`: a confirmation that interrupts. It then needs `aria-describedby` on its message; add a
@@ -44,7 +44,7 @@ export type DialogPanelProps = DialogPanelOwnProps & Named & DialogRole & Native
 
 /**
  * The dialog itself: a native `<dialog>` drawn as a raised panel with a title bar, over a dithered ink scrim. Inside
- * `<Dialog>`, which opens it as a modal, runs every close through `chu-before-close` and gives focus back. Name it by
+ * `<Dialog>`, which opens it as a modal, runs every close through `blip-before-close` and gives focus back. Name it by
  * its title, and give it the id its buttons point at.
  *
  *   <Dialog lightDismiss>
@@ -60,7 +60,7 @@ export type DialogPanelProps = DialogPanelOwnProps & Named & DialogRole & Native
  *     </DialogPanel>
  *   </Dialog>
  *
- * Renders `<dialog class="chu-box chu-dialog">`.
+ * Renders `<dialog class="blip-box blip-dialog">`.
  */
 export const DialogPanel = /*#__PURE__*/ forwardRef<HTMLDialogElement, DialogPanelProps>(function DialogPanel(
   { size, tone, radius, static: isStatic, className, ...rest },
@@ -69,11 +69,11 @@ export const DialogPanel = /*#__PURE__*/ forwardRef<HTMLDialogElement, DialogPan
   return (
     <dialog
       ref={ref}
-      className={cx("chu-box chu-dialog", className)}
+      className={cx("blip-box blip-dialog", className)}
       data-size={size}
       data-tone={tone}
-      data-chu-r={radius}
-      data-chu-static={flag(isStatic)}
+      data-blip-r={radius}
+      data-blip-static={flag(isStatic)}
       {...rest}
     />
   );
@@ -89,13 +89,13 @@ export type DialogHeaderProps = NativeProps<"header">;
  *
  *   <DialogHeader><DialogTitle id="save-title">Save game</DialogTitle><DialogClose commandFor="save" /></DialogHeader>
  *
- * Renders `<header class="chu-dialog-header">`.
+ * Renders `<header class="blip-dialog-header">`.
  */
 export const DialogHeader = /*#__PURE__*/ forwardRef<HTMLElement, DialogHeaderProps>(function DialogHeader(
   { className, ...rest },
   ref,
 ) {
-  return <header ref={ref} className={cx("chu-dialog-header", className)} {...rest} />;
+  return <header ref={ref} className={cx("blip-dialog-header", className)} {...rest} />;
 });
 
 /** Props for {@link DialogTitle}. */
@@ -107,13 +107,13 @@ export type DialogTitleProps = NativeProps<"h2">;
  *
  *   <DialogTitle id="save-title">Save game</DialogTitle>
  *
- * Renders `<h2 class="chu-dialog-title">`.
+ * Renders `<h2 class="blip-dialog-title">`.
  */
 export const DialogTitle = /*#__PURE__*/ forwardRef<HTMLHeadingElement, DialogTitleProps>(function DialogTitle(
   { className, ...rest },
   ref,
 ) {
-  return <h2 ref={ref} className={cx("chu-dialog-title", className)} {...rest} />;
+  return <h2 ref={ref} className={cx("blip-dialog-title", className)} {...rest} />;
 });
 
 /** Props for {@link DialogIcon}. */
@@ -125,13 +125,13 @@ export type DialogIconProps = Omit<NativeProps<"span">, "children">;
  *
  *   <DialogHeader><DialogIcon /><DialogTitle id="delete-title">Delete slot 2?</DialogTitle></DialogHeader>
  *
- * Renders `<span class="chu-dialog-icon" aria-hidden="true">`.
+ * Renders `<span class="blip-dialog-icon" aria-hidden="true">`.
  */
 export const DialogIcon = /*#__PURE__*/ forwardRef<HTMLSpanElement, DialogIconProps>(function DialogIcon(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-dialog-icon", className)} aria-hidden="true" {...rest} />;
+  return <span ref={ref} className={cx("blip-dialog-icon", className)} aria-hidden="true" {...rest} />;
 });
 
 /** Own props of {@link DialogClose}. */
@@ -154,8 +154,8 @@ export type DialogCloseProps = DialogCloseOwnProps & NativeProps<"button", Dialo
  *   <DialogClose commandFor="save" value="cancel" />
  *   <form method="dialog"><DialogClose /></form>
  *
- * Renders `<button class="chu-box chu-button chu-dialog-close" type="button" commandfor command="close"
- * data-variant="ghost" data-size="sm" data-icon-only aria-label="Close">` around `<span class="chu-icon"
+ * Renders `<button class="blip-box blip-button blip-dialog-close" type="button" commandfor command="close"
+ * data-variant="ghost" data-size="sm" data-icon-only aria-label="Close">` around `<span class="blip-icon"
  * data-glyph="close" aria-hidden="true">`.
  */
 export const DialogClose = /*#__PURE__*/ forwardRef<HTMLButtonElement, DialogCloseProps>(function DialogClose(
@@ -173,7 +173,7 @@ export const DialogClose = /*#__PURE__*/ forwardRef<HTMLButtonElement, DialogClo
   return (
     <button
       ref={ref}
-      className={cx("chu-box chu-button chu-dialog-close", className)}
+      className={cx("blip-box blip-button blip-dialog-close", className)}
       type={type}
       {...invoker(commandFor, "close")}
       data-variant="ghost"
@@ -197,10 +197,10 @@ export type DialogBodyProps = NativeProps<"div">;
  *
  *   <DialogBody><p>Choose a slot. Saving over a slot replaces what's in it.</p></DialogBody>
  *
- * Renders `<div class="chu-dialog-body">`.
+ * Renders `<div class="blip-dialog-body">`.
  */
 export const DialogBody = /*#__PURE__*/ forwardRef<HTMLDivElement, DialogBodyProps>(function DialogBody({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("chu-dialog-body", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-dialog-body", className)} {...rest} />;
 });
 
 /** Props for {@link DialogFooter}. */
@@ -214,11 +214,11 @@ export type DialogFooterProps = NativeProps<"footer">;
  *     <Button tone="danger" value="delete">Delete</Button>
  *   </DialogFooter>
  *
- * Renders `<footer class="chu-dialog-footer">`.
+ * Renders `<footer class="blip-dialog-footer">`.
  */
 export const DialogFooter = /*#__PURE__*/ forwardRef<HTMLElement, DialogFooterProps>(function DialogFooter(
   { className, ...rest },
   ref,
 ) {
-  return <footer ref={ref} className={cx("chu-dialog-footer", className)} {...rest} />;
+  return <footer ref={ref} className={cx("blip-dialog-footer", className)} {...rest} />;
 });

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Prepares the docs site from the built packages, so the site never drifts from them.
 //
-//   public/chu/<package>/…        the packages' CSS and fonts as built, and their ES modules minified one file at a
+//   public/blip/<package>/…        the packages' CSS and fonts as built, and their ES modules minified one file at a
 //                                time (imports stay as they are, so the import map wires them exactly as a CDN user
 //                                would)
 //   src/generated/assets.json    the import map, which module defines which element, and sizes measured against
@@ -9,7 +9,7 @@
 //   public/r/                     the shadcn registry: registry.json and one <item>.json each, written from the
 //                                docs and the React source by scripts/registry.mjs (served as /r/<item>.json)
 //
-// Run by `pnpm --filter @jaatster/blip-docs build` (and dev). Build the packages first:
+// Run by `pnpm --filter @blip/docs build` (and dev). Build the packages first:
 //   pnpm -r --filter "./packages/**" run build
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync, copyFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
@@ -21,7 +21,7 @@ import { build as buildRegistry, problems as registryProblems, write as writeReg
 
 const APP = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const ROOT = resolve(APP, "../..");
-const OUT = join(APP, "public/chu");
+const OUT = join(APP, "public/blip");
 const GEN = join(APP, "src/generated");
 const pkg = (name, ...rest) => join(ROOT, "packages", name, ...rest);
 const gz = (buf) => gzipSync(buf, { level: 9 }).length;
@@ -66,8 +66,8 @@ async function copyModules(name, from, to) {
     mkdirSync(dirname(dest), { recursive: true });
     writeFileSync(dest, code);
     jsBytes += code.length;
-    const url = `/chu/${to}/${rel}`.replaceAll("\\", "/");
-    for (const m of source.matchAll(/define\(\s*"(chu-[a-z0-9-]+)"/g)) defines[m[1]] ??= url;
+    const url = `/blip/${to}/${rel}`.replaceAll("\\", "/");
+    for (const m of source.matchAll(/define\(\s*"(blip-[a-z0-9-]+)"/g)) defines[m[1]] ??= url;
   }
 }
 
@@ -76,7 +76,7 @@ async function copyModules(name, from, to) {
 copy(pkg("font", "font.css"), join(OUT, "font/font.css"));
 for (const f of readdirSync(pkg("font", "dist"))) if (f.endsWith(".woff2")) copy(pkg("font", "dist", f), join(OUT, "font/dist", f));
 copy(pkg("tokens", "dist", "css", "tokens.css"), join(OUT, "tokens/tokens.css"));
-// The presets (data-chu-palette), and the palette maths the palette maker shares with the presets' generator.
+// The presets (data-blip-palette), and the palette maths the palette maker shares with the presets' generator.
 copy(pkg("tokens", "dist", "css", "palettes.css"), join(OUT, "tokens/palettes.css"));
 copy(pkg("tokens", "scripts", "palette.mjs"), join(OUT, "tokens/palette.mjs"));
 copy(pkg("core", "dist", "core.min.css"), join(OUT, "core/core.css"));
@@ -96,32 +96,32 @@ for (const f of ["index.js", "element.js"]) {
   const source = readFileSync(pkg("icons", "dist", f), "utf8");
   const { code } = await transform(source, { loader: "js", format: "esm", minify: true, target: "es2022", legalComments: "none" });
   writeFileSync(join(OUT, "icons", f), code);
-  for (const m of source.matchAll(/define\(\s*"(chu-[a-z0-9-]+)"/g)) defines[m[1]] ??= `/chu/icons/${f}`;
+  for (const m of source.matchAll(/define\(\s*"(blip-[a-z0-9-]+)"/g)) defines[m[1]] ??= `/blip/icons/${f}`;
 }
 
 const importMap = {
   imports: {
-    "@jaatster/blip-core": "/chu/core/js/index.js",
-    "@jaatster/blip-tokens": "/chu/tokens/index.js",
-    "@jaatster/blip-elements": "/chu/elements/index.js",
-    "@jaatster/blip-elements/": "/chu/elements/",
-    "@jaatster/blip-effects": "/chu/effects/index.js",
-    "@jaatster/blip-effects/": "/chu/effects/",
-    "@jaatster/blip-game": "/chu/game/index.js",
-    "@jaatster/blip-game/": "/chu/game/",
-    "@jaatster/blip-sound": "/chu/sound/index.js",
-    "@jaatster/blip-icons": "/chu/icons/index.js",
-    "@jaatster/blip-icons/": "/chu/icons/",
+    "@blip/core": "/blip/core/js/index.js",
+    "@blip/tokens": "/blip/tokens/index.js",
+    "@blip/elements": "/blip/elements/index.js",
+    "@blip/elements/": "/blip/elements/",
+    "@blip/effects": "/blip/effects/index.js",
+    "@blip/effects/": "/blip/effects/",
+    "@blip/game": "/blip/game/index.js",
+    "@blip/game/": "/blip/game/",
+    "@blip/sound": "/blip/sound/index.js",
+    "@blip/icons": "/blip/icons/index.js",
+    "@blip/icons/": "/blip/icons/",
   },
 };
 // The core modules every element needs: preloaded with the first element on a page, so they arrive together.
-const coreModules = modules(pkg("core", "dist", "js")).map((rel) => `/chu/core/js/${rel}`.replaceAll("\\", "/"));
+const coreModules = modules(pkg("core", "dist", "js")).map((rel) => `/blip/core/js/${rel}`.replaceAll("\\", "/"));
 
 // ------------------------------------------------------------------ budgets (gzipped, as the packages report them)
 
 /** One module bundled and minified with the other packages left out, as scripts/build-ts-package.mjs measures it. */
 async function moduleSize(entry) {
-  const r = await build({ entryPoints: [entry], bundle: true, minify: true, format: "esm", target: "es2022", write: false, external: ["@jaatster/blip-*"], logLevel: "silent" });
+  const r = await build({ entryPoints: [entry], bundle: true, minify: true, format: "esm", target: "es2022", write: false, external: ["@blip/*"], logLevel: "silent" });
   return gz(r.outputFiles[0].contents);
 }
 const fileGz = (f) => gz(readFileSync(f));
@@ -198,7 +198,7 @@ const kits = {
 };
 
 writeFileSync(join(GEN, "assets.json"), JSON.stringify({ importMap, defines, coreModules, budgets, budgetsFrom: ci ? "scripts/budgets.mjs" : "docs", elements, kits }, null, 2) + "\n");
-console.log(`docs: staged the packages in public/chu (${Object.keys(defines).length} elements, ${(jsBytes / 1024).toFixed(1)} KB of minified modules)`);
+console.log(`docs: staged the packages in public/blip (${Object.keys(defines).length} elements, ${(jsBytes / 1024).toFixed(1)} KB of minified modules)`);
 for (const b of budgets) console.log(`  ${b.label.padEnd(20)} ${(b.bytes / 1024).toFixed(1).padStart(5)} KB of ${b.limit / 1024} KB${b.bytes > b.limit ? "  OVER" : ""}`);
 
 // ------------------------------------------------------------------ the shadcn registry

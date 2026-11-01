@@ -1,33 +1,33 @@
-# @jaatster/blip-react
+# @blip/react
 
 Typed React components for Blip: every core component and kit. They render the system's own markup (the
 classes, data attributes and ARIA the CSS documents) and its Web Components, nothing else: no CSS-in-JS, no styles
 of their own. Works with React 18.3 and 19, on the client and on the server.
 
 ```sh
-npm install @jaatster/blip-react @jaatster/blip-tokens @jaatster/blip-core @jaatster/blip-components @jaatster/blip-font
+npm install @blip/react @blip/tokens @blip/core @blip/components @blip/font
 ```
 
 ## Set up the CSS once
 
 ```ts
-import "@jaatster/blip-tokens/tokens.css";
-import "@jaatster/blip-font/font.css";
-import "@jaatster/blip-core/core.css";
-import "@jaatster/blip-components/components.css"; // or one file per component
+import "@blip/tokens/tokens.css";
+import "@blip/font/font.css";
+import "@blip/core/core.css";
+import "@blip/components/components.css"; // or one file per component
 // kits, if you use them:
-import "@jaatster/blip-game/game.css";
-import "@jaatster/blip-blocks/blocks.css";
-import "@jaatster/blip-effects/effects.css";
+import "@blip/game/game.css";
+import "@blip/blocks/blocks.css";
+import "@blip/effects/effects.css";
 ```
 
 ## Use
 
 ```tsx
-import { Button, Card, CardBody, CardTitle, Dialog, DialogPanel, Stack, toast } from "@jaatster/blip-react";
-import { Counter, Sprite } from "@jaatster/blip-react/game";
-import { World } from "@jaatster/blip-react/effects";
-import { Icon } from "@jaatster/blip-react/icons";
+import { Button, Card, CardBody, CardTitle, Dialog, DialogPanel, Stack, toast } from "@blip/react";
+import { Counter, Sprite } from "@blip/react/game";
+import { World } from "@blip/react/effects";
+import { Icon } from "@blip/react/icons";
 
 <Stack gap={4}>
   <Button onClick={() => toast({ title: "Saved", tone: "success" })}>Save game</Button>
@@ -39,15 +39,15 @@ import { Icon } from "@jaatster/blip-react/icons";
 ```
 
 Props are the documented attributes, typed: `variant`, `tone`, `size`, `radius` become `data-variant`, `data-tone`,
-`data-size`, `data-chu-r`; states use ARIA (`busy` is `aria-busy`, `pressed` is `aria-pressed`). Where the system
+`data-size`, `data-blip-r`; states use ARIA (`busy` is `aria-busy`, `pressed` is `aria-pressed`). Where the system
 needs something, the type does too: an icon-only button needs `aria-label` (or `aria-labelledby`), a toggle always
 has `pressed`, `Icon` takes only real icon names. `className` joins the component's classes and every other prop
 goes to the element. Form controls (`Input`, `Checkbox`…) put the ref and native props on the native control, and
 `className` on the box around it. Parts that can never submit a form (`Tab`, `MenuItem`, `ToggleButton`…) default
 to `type="button"`; `Button` keeps the native default, so give it `type="button"` outside a form.
 
-Subpaths: `@jaatster/blip-react` (core components), `@jaatster/blip-react/game`, `@jaatster/blip-react/blocks`,
-`@jaatster/blip-react/effects` and `@jaatster/blip-react/icons`. The package is ESM, has no side effects, and every
+Subpaths: `@blip/react` (core components), `@blip/react/game`, `@blip/react/blocks`,
+`@blip/react/effects` and `@blip/react/icons`. The package is ESM, has no side effects, and every
 component is a pure call (`/*#__PURE__*/`), so a bundler keeps only what you use: a page with just a `Button` gets
 the button, and one with `Tabs` gets the tabs' parts and their element, nothing else.
 
@@ -96,8 +96,8 @@ Blip's custom elements. Their wrappers are generated from the Custom Elements Ma
 
 - **Attributes** are written as attributes in the first render, so the element has them when it connects and they
   are in server-rendered HTML. Booleans are present or absent.
-- **Events**: `on<Event>` listens to the element's `chu-<event>` (`onChange` is `chu-change`, `onBeforeClose` is
-  `chu-before-close`) with the detail typed, the same in React 18 and 19. Like any listener added after an element
+- **Events**: `on<Event>` listens to the element's `blip-<event>` (`onChange` is `blip-change`, `onBeforeClose` is
+  `blip-before-close`) with the detail typed, the same in React 18 and 19. Like any listener added after an element
   is in the page, it does not hear an event the element sends while it first connects.
 - **Properties** without an attribute (`DropText`'s `text`) are assigned once the element is defined. A prop that
   mirrors an attribute is also assigned to the property when it changes after the first render, so it reaches
@@ -105,7 +105,7 @@ Blip's custom elements. Their wrappers are generated from the Custom Elements Ma
   again, so a choice made in the element stays.
 - **Loading**: each wrapper imports its element's module on the client when it first mounts, so it upgrades in
   place (until then the markup already reads and looks right). Nothing runs on the server. To define elements
-  yourself, import `@jaatster/blip-elements` (or a single element) as usual: they are defined once.
+  yourself, import `@blip/elements` (or a single element) as usual: they are defined once.
 - **Content you render later** is wired as it arrives: tabs that come with their data, options your search fills in,
   an error from your server (a `Field` links it, reads it out and leaves your `aria-invalid` alone). A `Combobox`
   whose input you control takes `aria-autocomplete="list"`, so it filters without completing the text you own.
@@ -116,7 +116,7 @@ Blip's custom elements. Their wrappers are generated from the Custom Elements Ma
 - Server rendering: light-DOM elements rewrite their own content when they upgrade. When you hydrate, let the
   wrappers load the elements (the default, after hydration) rather than defining them before.
 
-`toast()` is exported too, and returns the same handle as `@jaatster/blip-elements` at once: `const saving =
+`toast()` is exported too, and returns the same handle as `@blip/elements` at once: `const saving =
 toast("Saving…"); saving.close();`. The toaster loads as soon as `toast` is imported in the browser. Call it from an
 event handler or effect, never while rendering.
 
@@ -124,7 +124,7 @@ event handler or effect, never while rendering.
 
 <!-- components -->
 
-### Core: `@jaatster/blip-react`
+### Core: `@blip/react`
 
 - **Actions**: `Button`, `ButtonGroup`, `ButtonLink`, `Link`, `ToggleButton`
 - **Forms**: `CheckHelp`, `Checkbox`, `FieldCount`, `FieldError`, `FieldHelp`, `FieldLabel`, `FieldSet`, `FileDropItem`, `FileDropList`, `FileDropName`, `FileDropRemove`, `FileDropSize`, `FileDropZone`, `Input`, `InputAffix`, `InputButton`, `PlainField`, `Radio`, `RadioGroup`, `RatingDisplay`, `Search`, `Segment`, `SegmentRadio`, `SegmentedRadios`, `Select`, `SelectOption`, `Slider`, `SliderGroup`, `SliderTicks`, `SliderValue`, `Switch`, `Textarea`
@@ -137,20 +137,20 @@ event handler or effect, never while rendering.
 - **Window**: `Window`, `WindowBar`, `WindowBody`, `WindowControl`, `WindowControls`, `WindowStatus`, `WindowTitle`
 - **Web Components (generated)**: `ActionSheet`, `Combobox`, `CommandPalette`, `Dialog`, `Drawer`, `Fab`, `Field`, `FileDrop`, `Menu`, `NumberStepper`, `Pager`, `Rating`, `Refresh`, `Segmented`, `Sheet`, `SwipeRow`, `Table`, `Tabs`, `TileGrid`, `Toaster`, `Tooltip`, `Wheel`
 
-### Game kit: `@jaatster/blip-react/game`
+### Game kit: `@blip/react/game`
 
 - **CSS components**: `Achievement`, `AchievementIcon`, `AchievementLabel`, `AchievementReward`, `AchievementText`, `AchievementTitle`, `Achievements`, `Choice`, `ChoiceAside`, `ChoiceList`, `CounterIcon`, `DialogueBody`, `DialogueName`, `DialoguePortrait`, `DialogueText`, `Hud`, `HudBar`, `HudGroup`, `HudLabel`, `HudStat`, `LevelMap`, `LevelNumber`, `LevelPath`, `LevelStars`, `LevelTile`, `PauseHint`, `PauseMenu`, `PauseStats`, `PauseTitle`, `Prompt`, `PromptButton`, `PromptDpad`, `PromptKey`, `PromptShoulder`, `PromptStart`, `Slot`, `SlotCount`, `SlotTag`, `Stage`, `StageGround`, `StageScrim`
 - **Web Components (generated)**: `Choices`, `Counter`, `Dialogue`, `Hearts`, `Inventory`, `Sprite`, `TouchPad`
 
-### Website blocks: `@jaatster/blip-react/blocks`
+### Website blocks: `@blip/react/blocks`
 
 - **Blocks**: `CtaActions`, `CtaBand`, `CtaGround`, `CtaNote`, `CtaText`, `CtaTitle`, `Feature`, `FeatureChip`, `FeatureChips`, `FeatureIcon`, `FeatureMedia`, `FeatureStat`, `FeatureText`, `FeatureTitle`, `Features`, `FeaturesGrid`, `FeaturesHead`, `FeaturesLead`, `FeaturesTitle`, `Footer`, `FooterBrand`, `FooterCol`, `FooterField`, `FooterHeading`, `FooterInner`, `FooterLegal`, `FooterNav`, `FooterRow`, `FooterSignup`, `Hero`, `HeroActions`, `HeroGround`, `HeroInner`, `HeroLead`, `HeroNote`, `HeroScenery`, `HeroTitle`, `Plan`, `PlanAmount`, `PlanCurrency`, `PlanFeature`, `PlanFeatures`, `PlanName`, `PlanPeriod`, `PlanPrice`, `PlanRibbon`, `PlanText`, `Pricing`
 
-### Effects: `@jaatster/blip-react/effects`
+### Effects: `@blip/react/effects`
 
 - **Web Components (generated)**: `Attract`, `DropText`, `MotionToggle`, `Typewriter`, `World`
 
-### Icons: `@jaatster/blip-react/icons`
+### Icons: `@blip/react/icons`
 
 - **Icons**: `Icon`
 
@@ -158,9 +158,9 @@ event handler or effect, never while rendering.
 
 ```sh
 pnpm cem                                  # at the root: refresh the Custom Elements Manifests after an element changes
-pnpm --filter @jaatster/blip-react build      # generate the wrappers, then compile
-pnpm --filter @jaatster/blip-react typecheck  # examples/usage.tsx, against React 19 and React 18 types
-pnpm --filter @jaatster/blip-react test       # the wrapper runtime in jsdom, with React 19 and React 18
+pnpm --filter @blip/react build      # generate the wrappers, then compile
+pnpm --filter @blip/react typecheck  # examples/usage.tsx, against React 19 and React 18 types
+pnpm --filter @blip/react test       # the wrapper runtime in jsdom, with React 19 and React 18
 ```
 
 MIT

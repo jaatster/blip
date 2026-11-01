@@ -10,61 +10,61 @@ const current = sectionOf(path);
 // Each palette's chip: its Night page with its accent on it, the colours that tell them apart.
 const chips = palettes().map((p) => ({ ...p, chip: `--docs-chip-page:${p.schemes.night.bg};--docs-chip-accent:${p.schemes.night.accent};--docs-chip-ink:${p.schemes.night.ink}` }));
 ---
-<header class="chu-box chu-app-bar docs-app-bar">
-  <a class="chu-app-bar-brand docs-brand" href="/" aria-current={path === "/" ? "page" : undefined}>
-    <span class="chu-display chu-pop" data-scale="2" data-pop="Blip">Blip</span>
+<header class="blip-box blip-app-bar docs-app-bar">
+  <a class="blip-app-bar-brand docs-brand" href="/" aria-current={path === "/" ? "page" : undefined}>
+    <span class="blip-display blip-pop" data-scale="2" data-pop="Blip">Blip</span>
   </a>
-  <nav class="chu-app-bar-nav" aria-label="Main">
-    <button class="chu-box chu-button chu-app-bar-toggle" type="button" data-variant="ghost" data-icon-only popovertarget="docs-main-links" aria-label="Menu"><Icon name="menu" /></button>
-    <ul class="chu-box chu-app-bar-links" id="docs-main-links" popover role="list">
+  <nav class="blip-app-bar-nav" aria-label="Main">
+    <button class="blip-box blip-button blip-app-bar-toggle" type="button" data-variant="ghost" data-icon-only popovertarget="docs-main-links" aria-label="Menu"><Icon name="menu" /></button>
+    <ul class="blip-box blip-app-bar-links" id="docs-main-links" popover role="list">
       {SECTIONS.map((s) => (
-        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href={s.url} aria-current={path === s.url ? "page" : current?.id === s.id ? "true" : undefined}>{s.title}</a></li>
+        <li><a class="blip-box blip-app-bar-link" data-variant="ghost" href={s.url} aria-current={path === s.url ? "page" : current?.id === s.id ? "true" : undefined}>{s.title}</a></li>
       ))}
     </ul>
   </nav>
-  <div class="chu-app-bar-actions">
-    <a class="chu-box chu-button docs-search-button" data-variant="outline" data-size="sm" href="/search/" aria-keyshortcuts="Control+K Meta+K">
+  <div class="blip-app-bar-actions">
+    <a class="blip-box blip-button docs-search-button" data-variant="outline" data-size="sm" href="/search/" aria-keyshortcuts="Control+K Meta+K">
       <Icon name="search" /><span class="docs-search-label">Search</span>
-      <kbd class="chu-keys docs-search-keys" aria-hidden="true"><kbd class="chu-box chu-keycap" data-size="sm" data-mod><span class="docs-mod-ctrl">Ctrl</span><span class="docs-mod-cmd">Cmd</span></kbd><kbd class="chu-box chu-keycap" data-size="sm">K</kbd></kbd>
+      <kbd class="blip-keys docs-search-keys" aria-hidden="true"><kbd class="blip-box blip-keycap" data-size="sm" data-mod><span class="docs-mod-ctrl">Ctrl</span><span class="docs-mod-cmd">Cmd</span></kbd><kbd class="blip-box blip-keycap" data-size="sm">K</kbd></kbd>
     </a>
-    <chu-menu class="chu-menu docs-palette docs-needs-js" data-align="end" data-docs-choose={chooseEvent("chu-menu")}>
-      <button class="chu-box chu-button" type="button" data-variant="ghost" data-icon-only aria-label={`Palette: ${chips[0]?.name ?? ""}`}><Icon name="palette" /></button>
-      <div class="chu-box chu-menu-list chu-pop-in docs-palette-list" role="menu" popover aria-label="Palette">
+    <blip-menu class="blip-menu docs-palette docs-needs-js" data-align="end" data-docs-choose={chooseEvent("blip-menu")}>
+      <button class="blip-box blip-button" type="button" data-variant="ghost" data-icon-only aria-label={`Palette: ${chips[0]?.name ?? ""}`}><Icon name="palette" /></button>
+      <div class="blip-box blip-menu-list blip-pop-in docs-palette-list" role="menu" popover aria-label="Palette">
         <div role="group" aria-labelledby="docs-palette-heading">
-          <div class="chu-menu-heading" id="docs-palette-heading">Palette</div>
+          <div class="blip-menu-heading" id="docs-palette-heading">Palette</div>
           {chips.map((p, i) => (
-            <button class="chu-box chu-menu-item" type="button" role="menuitemradio" aria-checked={i === 0 ? "true" : "false"} data-value={`palette:${p.id}`} data-name={p.name}>
-              <span class="docs-palette-chip" style={p.chip} aria-hidden="true"></span><span class="chu-menu-label">{p.default ? `${p.name}, Blip's own` : p.name}</span>
+            <button class="blip-box blip-menu-item" type="button" role="menuitemradio" aria-checked={i === 0 ? "true" : "false"} data-value={`palette:${p.id}`} data-name={p.name}>
+              <span class="docs-palette-chip" style={p.chip} aria-hidden="true"></span><span class="blip-menu-label">{p.default ? `${p.name}, Blip's own` : p.name}</span>
             </button>
           ))}
         </div>
       </div>
-    </chu-menu>
-    <chu-menu class="chu-menu docs-display docs-needs-js" data-align="end" data-docs-choose={chooseEvent("chu-menu")}>
-      <button class="chu-box chu-button" type="button" data-variant="ghost" data-icon-only aria-label="Display: scheme and pixel size">
+    </blip-menu>
+    <blip-menu class="blip-menu docs-display docs-needs-js" data-align="end" data-docs-choose={chooseEvent("blip-menu")}>
+      <button class="blip-box blip-button" type="button" data-variant="ghost" data-icon-only aria-label="Display: scheme and pixel size">
         <span class="docs-display-icon" data-for="auto"><Icon name="clock" /></span>
         <span class="docs-display-icon" data-for="day"><Icon name="sun" /></span>
         <span class="docs-display-icon" data-for="sunset"><Icon name="sunset" /></span>
         <span class="docs-display-icon" data-for="night"><Icon name="moon" /></span>
       </button>
-      <div class="chu-box chu-menu-list chu-pop-in" role="menu" popover aria-label="Display">
+      <div class="blip-box blip-menu-list blip-pop-in" role="menu" popover aria-label="Display">
         <div role="group" aria-labelledby="docs-display-scheme">
-          <div class="chu-menu-heading" id="docs-display-scheme">Scheme</div>
-          <button class="chu-box chu-menu-item" type="button" role="menuitemradio" aria-checked="true" data-value="scheme:auto"><Icon name="clock" /><span class="chu-menu-label">Auto, by your clock</span></button>
-          <button class="chu-box chu-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="scheme:day"><Icon name="sun" /><span class="chu-menu-label">Day</span></button>
-          <button class="chu-box chu-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="scheme:sunset"><Icon name="sunset" /><span class="chu-menu-label">Sunset</span></button>
-          <button class="chu-box chu-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="scheme:night"><Icon name="moon" /><span class="chu-menu-label">Night</span></button>
+          <div class="blip-menu-heading" id="docs-display-scheme">Scheme</div>
+          <button class="blip-box blip-menu-item" type="button" role="menuitemradio" aria-checked="true" data-value="scheme:auto"><Icon name="clock" /><span class="blip-menu-label">Auto, by your clock</span></button>
+          <button class="blip-box blip-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="scheme:day"><Icon name="sun" /><span class="blip-menu-label">Day</span></button>
+          <button class="blip-box blip-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="scheme:sunset"><Icon name="sunset" /><span class="blip-menu-label">Sunset</span></button>
+          <button class="blip-box blip-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="scheme:night"><Icon name="moon" /><span class="blip-menu-label">Night</span></button>
         </div>
-        <div class="chu-menu-separator" role="separator"></div>
+        <div class="blip-menu-separator" role="separator"></div>
         <div role="group" aria-labelledby="docs-display-pixel">
-          <div class="chu-menu-heading" id="docs-display-pixel">Pixel</div>
-          <button class="chu-box chu-menu-item" type="button" role="menuitemradio" aria-checked="true" data-value="pixel:2"><span class="chu-menu-label">2 px, the default</span></button>
-          <button class="chu-box chu-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="pixel:3"><span class="chu-menu-label">3 px</span></button>
-          <button class="chu-box chu-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="pixel:4"><span class="chu-menu-label">4 px, for a TV</span></button>
+          <div class="blip-menu-heading" id="docs-display-pixel">Pixel</div>
+          <button class="blip-box blip-menu-item" type="button" role="menuitemradio" aria-checked="true" data-value="pixel:2"><span class="blip-menu-label">2 px, the default</span></button>
+          <button class="blip-box blip-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="pixel:3"><span class="blip-menu-label">3 px</span></button>
+          <button class="blip-box blip-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="pixel:4"><span class="blip-menu-label">4 px, for a TV</span></button>
         </div>
       </div>
-    </chu-menu>
+    </blip-menu>
     <!-- GitHub's own mark (Primer's mark-github octicon, MIT), unchanged as GitHub asks, so it is not redrawn in pixels. -->
-    <a class="chu-box chu-button docs-github" href={REPO} data-variant="ghost" data-icon-only aria-label="Blip on GitHub" title="Blip on GitHub"><svg class="chu-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg></a>
+    <a class="blip-box blip-button docs-github" href={REPO} data-variant="ghost" data-icon-only aria-label="Blip on GitHub" title="Blip on GitHub"><svg class="blip-icon" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg></a>
   </div>
 </header>

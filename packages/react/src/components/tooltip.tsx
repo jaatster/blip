@@ -1,6 +1,6 @@
 /**
  * Tooltip: TooltipChip and TooltipNub, the parts that go inside <Tooltip>, and <Tooltip> itself (generated from its
- * element, re-exported here). CSS from @jaatster/blip-components (tooltip.css).
+ * element, re-exported here). CSS from @blip/components (tooltip.css).
  */
 import { forwardRef } from "react";
 import { cx, flag } from "../internal/props.js";
@@ -12,7 +12,7 @@ export { Tooltip, type TooltipProps } from "../generated/elements.js";
 export interface TooltipChipOwnProps {
   /** Where it sits by its trigger: top (default), bottom, left or right; the nub points the other way. `data-side`. */
   side?: "top" | "bottom" | "left" | "right";
-  /** Drawn in the page flow, beside its trigger: docs, tests and screenshots. `data-chu-static`. */
+  /** Drawn in the page flow, beside its trigger: docs, tests and screenshots. `data-blip-static`. */
   static?: boolean;
 }
 
@@ -26,7 +26,7 @@ export type TooltipChipProps = TooltipChipOwnProps & NativeProps<"span", Tooltip
  *
  *   <TooltipChip side="bottom" static>Settings (S)<TooltipNub /></TooltipChip>
  *
- * Renders `<span class="chu-box chu-tooltip" role="tooltip">`.
+ * Renders `<span class="blip-box blip-tooltip" role="tooltip">`.
  */
 export const TooltipChip = /*#__PURE__*/ forwardRef<HTMLSpanElement, TooltipChipProps>(function TooltipChip(
   { side, static: isStatic, className, ...rest },
@@ -35,10 +35,10 @@ export const TooltipChip = /*#__PURE__*/ forwardRef<HTMLSpanElement, TooltipChip
   return (
     <span
       ref={ref}
-      className={cx("chu-box chu-tooltip", className)}
+      className={cx("blip-box blip-tooltip", className)}
       role="tooltip"
       data-side={side}
-      data-chu-static={flag(isStatic)}
+      data-blip-static={flag(isStatic)}
       {...rest}
     />
   );
@@ -53,11 +53,11 @@ export type TooltipNubProps = Omit<NativeProps<"span">, "children">;
  *
  *   <TooltipNub />
  *
- * Renders `<span class="chu-tooltip-nub" aria-hidden="true">`.
+ * Renders `<span class="blip-tooltip-nub" aria-hidden="true">`.
  */
 export const TooltipNub = /*#__PURE__*/ forwardRef<HTMLSpanElement, TooltipNubProps>(function TooltipNub(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-tooltip-nub", className)} aria-hidden="true" {...rest} />;
+  return <span ref={ref} className={cx("blip-tooltip-nub", className)} aria-hidden="true" {...rest} />;
 });

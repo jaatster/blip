@@ -22,23 +22,23 @@ import type { Page } from "@playwright/test";
     steps one dot a frame") and busy dots ("steps in three dots, one, two, three"), an indeterminate bar (progress.css:
     "two lit blocks in every six march along a block a step"), a skeleton (skeleton.css: the sweep comes "every four
     beats") and a table's loading row (table.css: "the box's busy rhythm"). Nothing else may run for ever. */
-export const ENDLESS = ".chu-loader, progress:indeterminate, .chu-skeleton, [aria-busy='true'], .chu-table-loading";
+export const ENDLESS = ".blip-loader, progress:indeterminate, .blip-skeleton, [aria-busy='true'], .blip-table-loading";
 /** Motion that DESIGN.md lets take more than six steps, a whole pixel at a time: screen changes ("an ink dissolve
     (nine frames of 30 ms to cover the screen, nine to clear it), an ordered dither, or a mosaic") and the world
     ("Clouds can drift right a whole pixel at a time ... now and then birds cross or a star shoots"). */
-export const ANY_STEPS = "chu-world, .chu-world";
+export const ANY_STEPS = "blip-world, .blip-world";
 /** Script motion made of many moves, each judged on its own: an attract demo (docs/attract.md) plays its script again
     and again, its pointer hopping from control to control ("in at most six even steps") and pressing them. A move is
     a run of changes with no rest longer than two frames (80 ms) between them; each goes in at most six steps (the
     Snap Rule). */
-export const MOVES = "chu-attract";
+export const MOVES = "blip-attract";
 /** Clocks, which keep stepping with reduced motion because they tell the time (docs/toast.md: "With reduced motion
     they appear and go at once; the timer still steps (it is a clock, not motion)"). */
-export const CLOCKS = ".chu-toast-timer";
+export const CLOCKS = ".blip-toast-timer";
 /** The motion toggle's button (docs/motion-toggle.md): motion that runs on (the world's drifting clouds, flaring stars
     and passing birds) is allowed only on a page that shows it, and pressing it must stop all of that within a frame
     (DESIGN.md, the Pause Rule: "everything that moves on its own stops within a frame, where it is"). */
-export const TOGGLE = "chu-motion-toggle button";
+export const TOGGLE = "blip-motion-toggle button";
 /** What every line about motion that never stops says, so the toggle check can find them. */
 export const NEVER_STOPS = ": never stops";
 
@@ -126,10 +126,10 @@ export function recorder({ endless, anySteps, clocks, moves: many }: { endless: 
   const nearly = (v: number, by = 0.02) => Math.abs(v - Math.round(v)) <= by;
   const px = (s: string) => [...s.matchAll(/(-?[\d.]+(?:e-?\d+)?)px/g)].map((m) => parseFloat(m[1]!));
   const describe = (el: Element, pseudo: string | null) => {
-    const own = (e: Element) => `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c.startsWith("chu-") && c !== "chu-box").slice(0, 2).map((c) => `.${c}`).join("")}`;
+    const own = (e: Element) => `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c.startsWith("blip-") && c !== "blip-box").slice(0, 2).map((c) => `.${c}`).join("")}`;
     const parts = [own(el)];
     for (let a = el.parentElement; a && a.id !== "example" && parts.length < 3; a = a.parentElement) {
-      if ([...a.classList].some((c) => c.startsWith("chu-") && c !== "chu-box") || a.tagName.includes("-")) parts.unshift(own(a));
+      if ([...a.classList].some((c) => c.startsWith("blip-") && c !== "blip-box") || a.tagName.includes("-")) parts.unshift(own(a));
     }
     return parts.join(" > ") + (pseudo ?? "");
   };

@@ -1,34 +1,34 @@
 <!-- Search: a search field with its magnifier and pixel clear button; a filter bar; sizes and states. Forced
-     states use data-chu-state (docs and tests only). method="dialog" only keeps this demo on the page: a real
+     states use data-blip-state (docs and tests only). method="dialog" only keeps this demo on the page: a real
      search form has action="/levels". -->
-<search style="display:block;max-inline-size:calc(160*var(--chu-pixel))">
+<search style="display:block;max-inline-size:calc(160*var(--blip-pixel))">
   <form method="dialog">
-    <label class="chu-sr-only" for="se-levels">Search levels</label>
-    <span class="chu-box chu-input">
-      <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg>
+    <label class="blip-sr-only" for="se-levels">Search levels</label>
+    <span class="blip-box blip-input">
+      <svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg>
       <input id="se-levels" name="q" type="search" value="ghost house" placeholder="Search levels" enterkeyhint="search">
     </span>
   </form>
 </search>
 
 <!-- A filter bar: search, a segmented choice, a select, and the action. -->
-<search class="chu-box" data-variant="panel" data-chu-r="4" style="display:flex;flex-wrap:wrap;gap:calc(4*var(--chu-pixel));align-items:center;margin-block:calc(10*var(--chu-pixel));padding:calc(6*var(--chu-pixel))" aria-label="Filter levels">
-  <span class="chu-box chu-input" style="flex:1 1 calc(80*var(--chu-pixel))">
-    <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg>
+<search class="blip-box" data-variant="panel" data-blip-r="4" style="display:flex;flex-wrap:wrap;gap:calc(4*var(--blip-pixel));align-items:center;margin-block:calc(10*var(--blip-pixel));padding:calc(6*var(--blip-pixel))" aria-label="Filter levels">
+  <span class="blip-box blip-input" style="flex:1 1 calc(80*var(--blip-pixel))">
+    <svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg>
     <input type="search" aria-label="Search levels" placeholder="Search levels">
   </span>
-  <chu-segmented class="chu-box chu-segmented" name="se-world" value="all" aria-label="World">
-    <button class="chu-box" type="button" value="all" aria-checked="true">All</button>
-    <button class="chu-box" type="button" value="w1">World 1</button>
-    <button class="chu-box" type="button" value="w2">World 2</button>
-  </chu-segmented>
-  <span class="chu-box chu-select"><select aria-label="Sort by"><option class="chu-box">Newest first</option><option class="chu-box">Hardest first</option><option class="chu-box">Most played</option></select></span>
-  <button class="chu-box chu-button">Filter</button>
+  <blip-segmented class="blip-box blip-segmented" name="se-world" value="all" aria-label="World">
+    <button class="blip-box" type="button" value="all" aria-checked="true">All</button>
+    <button class="blip-box" type="button" value="w1">World 1</button>
+    <button class="blip-box" type="button" value="w2">World 2</button>
+  </blip-segmented>
+  <span class="blip-box blip-select"><select aria-label="Sort by"><option class="blip-box">Newest first</option><option class="blip-box">Hardest first</option><option class="blip-box">Most played</option></select></span>
+  <button class="blip-box blip-button">Filter</button>
 </search>
 
-<div style="display:grid;gap:calc(4*var(--chu-pixel));max-inline-size:calc(160*var(--chu-pixel))">
-  <span class="chu-box chu-input" data-size="sm"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg><input type="search" aria-label="Search, small" placeholder="Small"></span>
-  <span class="chu-box chu-input" data-chu-state="focus"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg><input type="search" aria-label="Search, focused" value="Focus"></span>
-  <span class="chu-box chu-input" data-size="lg"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg><input type="search" aria-label="Search, large" value="Large"></span>
-  <span class="chu-box chu-input"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg><input type="search" aria-label="Search, disabled" placeholder="Search is off offline" disabled></span>
+<div style="display:grid;gap:calc(4*var(--blip-pixel));max-inline-size:calc(160*var(--blip-pixel))">
+  <span class="blip-box blip-input" data-size="sm"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg><input type="search" aria-label="Search, small" placeholder="Small"></span>
+  <span class="blip-box blip-input" data-blip-state="focus"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg><input type="search" aria-label="Search, focused" value="Focus"></span>
+  <span class="blip-box blip-input" data-size="lg"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg><input type="search" aria-label="Search, large" value="Large"></span>
+  <span class="blip-box blip-input"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg><input type="search" aria-label="Search, disabled" placeholder="Search is off offline" disabled></span>
 </div>

@@ -1,8 +1,8 @@
 ---
 name: Toast
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: toast.css
-element: chu-toaster
+element: blip-toaster
 react: Toaster
 status: stable
 equivalents:
@@ -19,9 +19,9 @@ what is on screen belongs in an [alert](alert.md) next to it.
 ## Usage
 
 ```html
-<chu-toaster data-side="bottom" data-align="end"></chu-toaster>
+<blip-toaster data-side="bottom" data-align="end"></blip-toaster>
 <script type="module">
-  import { toast } from "@jaatster/blip-elements/toast";
+  import { toast } from "@blip/elements/toast";
   toast({ title: "Achievement unlocked", body: "First Flight: clear World 1 without taking a hit.", tone: "success",
           action: { label: "View", onClick: () => openTrophies() } });
   const saving = toast("Saved to slot 2");   // a string is just a title
@@ -29,19 +29,19 @@ what is on screen belongs in an [alert](alert.md) next to it.
 </script>
 ```
 
-`toast()` uses the first `<chu-toaster>` in the page and adds one to the end of `<body>` if there is none. Put your
+`toast()` uses the first `<blip-toaster>` in the page and adds one to the end of `<body>` if there is none. Put your
 own in the page early (in the HTML) so its live regions exist before the first message.
 
 ## Anatomy
 
-1. **Toaster** (`<chu-toaster>`, `.chu-toaster`): a labelled region fixed to a corner. Holds the toasts, newest nearest
+1. **Toaster** (`<blip-toaster>`, `.blip-toaster`): a labelled region fixed to a corner. Holds the toasts, newest nearest
    the edge, and two hidden live regions that announce them.
-2. **Toast** (`.chu-toast` on a `.chu-box`): with a tone, the tone's soft fill like an alert; without, a raised
+2. **Toast** (`.blip-toast` on a `.blip-box`): with a tone, the tone's soft fill like an alert; without, a raised
    panel in the scheme's colours. Two-pixel drop: it floats.
-3. **Sign** (`.chu-toast-icon`): the tone's 12 x 12 glyph (none without a tone).
-4. **Title** (`.chu-toast-title`), **text**, **action** (`.chu-toast-actions`, one small outline button).
-5. **Dismiss** (`.chu-toast-close`): a ghost icon button with the pixel cross.
-6. **Timer** (`.chu-toast-timer`): a two-pixel strip over the bottom band that steps down in eight whole-pixel
+3. **Sign** (`.blip-toast-icon`): the tone's 12 x 12 glyph (none without a tone).
+4. **Title** (`.blip-toast-title`), **text**, **action** (`.blip-toast-actions`, one small outline button).
+5. **Dismiss** (`.blip-toast-close`): a ghost icon button with the pixel cross.
+6. **Timer** (`.blip-toast-timer`): a two-pixel strip over the bottom band that steps down in eight whole-pixel
    steps. Absent for toasts that stay.
 
 ## Variants
@@ -50,7 +50,7 @@ own in the page early (in the HTML) so its live regions exist before the first m
 |---|---|---|---|
 | `tone` | `data-tone` | none (a raised panel), `info`, `success`, `warning`, `danger` | What kind of news. |
 | `variant` | `data-variant` | `soft` (default), `candy` | Candy for celebrations ("Level clear!"). |
-| `duration` | `--chu-toast-duration` | ms; `0` stays | Default: 5 s, or 60 ms a character when longer; danger stays until dismissed. |
+| `duration` | `--blip-toast-duration` | ms; `0` stays | Default: 5 s, or 60 ms a character when longer; danger stays until dismissed. |
 | `live` | | `polite`, `assertive` | Default: assertive for danger, polite for the rest. |
 | | `data-side` (toaster) | `bottom` (default), `top` | The edge of the screen they come up at. |
 | | `data-align` (toaster) | `end` (default), `center`, `start` | Where along that edge. |
@@ -106,19 +106,19 @@ With reduced motion they appear and go at once; the timer still steps (it is a c
 
 ## API
 
-`<chu-toaster>`: attributes `data-side`, `data-align`, `max`, `dismiss-label` (default "Dismiss"), `aria-label`
+`<blip-toaster>`: attributes `data-side`, `data-align`, `max`, `dismiss-label` (default "Dismiss"), `aria-label`
 (default "Notifications"). Method `add(options | title)` returns a handle.
 
 `toast(options | title): ToastHandle` with `options` `{ title, body?, tone?, variant?, action?: { label, onClick? },
 duration?, live? }`. The handle is `{ close(), closed: Promise<void> }`, returned at once, the same from
-`@jaatster/blip-react`: `close()` works straight away (a toast still waiting its turn never shows), and `closed` settles
+`@blip/react`: `close()` works straight away (a toast still waiting its turn never shows), and `closed` settles
 once it has gone.
 
 | Class or property | |
 |---|---|
-| `.chu-toaster` | The region. `data-chu-static` draws it in the page flow (docs and screenshots). |
-| `.chu-toast`, `.chu-toast-icon`, `.chu-toast-body`, `.chu-toast-title`, `.chu-toast-actions`, `.chu-toast-close`, `.chu-toast-timer` | The parts. |
-| `--chu-toast-duration` | The countdown, on a toast (set by the element). |
-| `--chu-toast-timer` | The timer strip's colour (default: the tone's shade). |
+| `.blip-toaster` | The region. `data-blip-static` draws it in the page flow (docs and screenshots). |
+| `.blip-toast`, `.blip-toast-icon`, `.blip-toast-body`, `.blip-toast-title`, `.blip-toast-actions`, `.blip-toast-close`, `.blip-toast-timer` | The parts. |
+| `--blip-toast-duration` | The countdown, on a toast (set by the element). |
+| `--blip-toast-timer` | The timer strip's colour (default: the tone's shade). |
 
 Sound: with a sink provided through `provide({ sound })`, a toast plays `success`, `error` or `open` as it shows.

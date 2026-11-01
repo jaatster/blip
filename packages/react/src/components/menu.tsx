@@ -1,6 +1,6 @@
 /**
  * Menu: MenuList, MenuItem, MenuLabel, MenuShortcut, MenuSeparator, MenuGroup and MenuHeading, the parts that go
- * inside <Menu>, and <Menu> itself (generated from its element, re-exported here). CSS from @jaatster/blip-components
+ * inside <Menu>, and <Menu> itself (generated from its element, re-exported here). CSS from @blip/components
  * (menu.css).
  */
 import { forwardRef } from "react";
@@ -16,7 +16,7 @@ type Named = { "aria-label": string } | { "aria-labelledby": string };
 
 /** Own props of {@link MenuList}. */
 export interface MenuListOwnProps {
-  /** Corner radius in pixels, 4 by default. `data-chu-r`. */
+  /** Corner radius in pixels, 4 by default. `data-blip-r`. */
   radius?: Radius;
 }
 
@@ -32,7 +32,7 @@ export type MenuListProps = MenuListOwnProps & Named & NativeProps<"div", MenuLi
  *     <MenuList aria-label="Level">
  *       <MenuItem value="duplicate" aria-keyshortcuts="Control+D">
  *         <Icon name="copy" /><MenuLabel>Duplicate</MenuLabel>
- *         <MenuShortcut><kbd className="chu-box chu-keycap" data-size="sm">Ctrl</kbd>…</MenuShortcut>
+ *         <MenuShortcut><kbd className="blip-box blip-keycap" data-size="sm">Ctrl</kbd>…</MenuShortcut>
  *       </MenuItem>
  *       <MenuSeparator />
  *       <MenuItem kind="checkbox" checked={grid}><MenuLabel>Grid</MenuLabel></MenuItem>
@@ -40,7 +40,7 @@ export type MenuListProps = MenuListOwnProps & Named & NativeProps<"div", MenuLi
  *     </MenuList>
  *   </Menu>
  *
- * Renders `<div class="chu-box chu-menu-list chu-pop-in" role="menu" popover>`. A submenu is a `<Menu>` in the list,
+ * Renders `<div class="blip-box blip-menu-list blip-pop-in" role="menu" popover>`. A submenu is a `<Menu>` in the list,
  * its button a {@link MenuItem}.
  */
 export const MenuList = /*#__PURE__*/ forwardRef<HTMLDivElement, MenuListProps>(function MenuList(
@@ -50,8 +50,8 @@ export const MenuList = /*#__PURE__*/ forwardRef<HTMLDivElement, MenuListProps>(
   return (
     <div
       ref={ref}
-      className={cx("chu-box chu-menu-list chu-pop-in", className)}
-      data-chu-r={radius}
+      className={cx("blip-box blip-menu-list blip-pop-in", className)}
+      data-blip-r={radius}
       role="menu"
       popover=""
       {...rest}
@@ -70,9 +70,9 @@ export interface MenuItemOwnProps {
   checked?: boolean;
   /** A destructive item: red text until it is focused. Confirm what it does, and put it last. `data-tone`. */
   tone?: "danger";
-  /** What `chu-action` reports as `detail.value` (the label otherwise), so code need not read labels. `data-value`. */
+  /** What `blip-action` reports as `detail.value` (the label otherwise), so code need not read labels. `data-value`. */
   value?: string;
-  /** Corner radius in pixels, 3 by default. `data-chu-r`. */
+  /** Corner radius in pixels, 3 by default. `data-blip-r`. */
   radius?: Radius;
 }
 
@@ -92,7 +92,7 @@ export type MenuItemProps<T extends ElementType = "button"> = PolymorphicProps<T
  *   <MenuItem kind="radio" checked={sort === "name"} value="name"><MenuLabel>Name</MenuLabel></MenuItem>
  *   <MenuItem as="a" href="/profile"><MenuLabel>Profile</MenuLabel></MenuItem>
  *
- * Renders `<button class="chu-box chu-menu-item" type="button" role="menuitem">`.
+ * Renders `<button class="blip-box blip-menu-item" type="button" role="menuitem">`.
  */
 export const MenuItem = /*#__PURE__*/ forwardRef(function MenuItem(
   { as: Tag = "button", kind, checked, tone, value, radius, className, ...rest }: MenuItemProps<ElementType>,
@@ -101,12 +101,12 @@ export const MenuItem = /*#__PURE__*/ forwardRef(function MenuItem(
   return (
     <Tag
       ref={ref}
-      className={cx("chu-box chu-menu-item", className)}
+      className={cx("blip-box blip-menu-item", className)}
       type={Tag === "button" ? "button" : undefined}
       role={kind === "checkbox" ? "menuitemcheckbox" : kind === "radio" ? "menuitemradio" : "menuitem"}
       aria-checked={checked}
       data-tone={tone}
-      data-chu-r={radius}
+      data-blip-r={radius}
       data-value={value}
       {...rest}
     />
@@ -122,10 +122,10 @@ export type MenuLabelProps = NativeProps<"span">;
  *
  *   <MenuLabel>Export as PNG</MenuLabel>
  *
- * Renders `<span class="chu-menu-label">`.
+ * Renders `<span class="blip-menu-label">`.
  */
 export const MenuLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, MenuLabelProps>(function MenuLabel({ className, ...rest }, ref) {
-  return <span ref={ref} className={cx("chu-menu-label", className)} {...rest} />;
+  return <span ref={ref} className={cx("blip-menu-label", className)} {...rest} />;
 });
 
 /** Props for {@link MenuShortcut}. */
@@ -136,17 +136,17 @@ export type MenuShortcutProps = NativeProps<"span">;
  * shortcut with `aria-keyshortcuts` on the item.
  *
  *   <MenuShortcut>
- *     <kbd className="chu-box chu-keycap" data-size="sm">Ctrl</kbd>
- *     <kbd className="chu-box chu-keycap" data-size="sm">D</kbd>
+ *     <kbd className="blip-box blip-keycap" data-size="sm">Ctrl</kbd>
+ *     <kbd className="blip-box blip-keycap" data-size="sm">D</kbd>
  *   </MenuShortcut>
  *
- * Renders `<span class="chu-menu-shortcut" aria-hidden="true">`.
+ * Renders `<span class="blip-menu-shortcut" aria-hidden="true">`.
  */
 export const MenuShortcut = /*#__PURE__*/ forwardRef<HTMLSpanElement, MenuShortcutProps>(function MenuShortcut(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-menu-shortcut", className)} aria-hidden="true" {...rest} />;
+  return <span ref={ref} className={cx("blip-menu-shortcut", className)} aria-hidden="true" {...rest} />;
 });
 
 /** Props for {@link MenuSeparator}. */
@@ -157,13 +157,13 @@ export type MenuSeparatorProps = Omit<NativeProps<"div">, "children">;
  *
  *   <MenuSeparator />
  *
- * Renders `<div class="chu-menu-separator" role="separator">`.
+ * Renders `<div class="blip-menu-separator" role="separator">`.
  */
 export const MenuSeparator = /*#__PURE__*/ forwardRef<HTMLDivElement, MenuSeparatorProps>(function MenuSeparator(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-menu-separator", className)} role="separator" {...rest} />;
+  return <div ref={ref} className={cx("blip-menu-separator", className)} role="separator" {...rest} />;
 });
 
 /** Props for {@link MenuGroup}. */
@@ -192,11 +192,11 @@ export type MenuHeadingProps = NativeProps<"div">;
  *
  *   <MenuHeading id="show">Show</MenuHeading>
  *
- * Renders `<div class="chu-menu-heading">`.
+ * Renders `<div class="blip-menu-heading">`.
  */
 export const MenuHeading = /*#__PURE__*/ forwardRef<HTMLDivElement, MenuHeadingProps>(function MenuHeading(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-menu-heading", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-menu-heading", className)} {...rest} />;
 });

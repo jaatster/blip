@@ -17,7 +17,7 @@ export interface ChoiceOptions {
 
 /**
  * A checkbox, radio or switch needs a name: its label text as children (then it sits in a clickable `<label
- * class="chu-check">` row with them), or aria-label or aria-labelledby when it stands alone.
+ * class="blip-check">` row with them), or aria-label or aria-labelledby when it stands alone.
  */
 export type ChoiceName =
   | { children: ReactNode }
@@ -31,12 +31,12 @@ interface ChoiceRow extends ChoiceOptions {
   children?: ReactNode;
 }
 
-/** The box round a choice's input, in a `<label class="chu-check">` row with its words when it has some. */
+/** The box round a choice's input, in a `<label class="blip-check">` row with its words when it has some. */
 export function choice(box: string, input: ReactNode, { size, tone, split, className, style, children }: ChoiceRow) {
   const row = children !== undefined && children !== null && typeof children !== "boolean" && children !== "";
   const control = (
     <span
-      className={cx("chu-box", box, !row && className)}
+      className={cx("blip-box", box, !row && className)}
       style={row ? undefined : style}
       data-size={row ? undefined : size}
       data-tone={tone}
@@ -47,7 +47,7 @@ export function choice(box: string, input: ReactNode, { size, tone, split, class
   if (!row) return control;
   const layout = split ? "split" : undefined;
   return (
-    <label className={cx("chu-check", className)} style={style} data-size={size} data-layout={layout}>
+    <label className={cx("blip-check", className)} style={style} data-size={size} data-layout={layout}>
       {split ? children : null}
       {control}
       {split ? null : children}

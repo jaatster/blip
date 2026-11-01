@@ -4,40 +4,40 @@
  * With prefers-reduced-motion the duration tokens are 0ms, and these animations are switched off.
  */
 
-@layer chu.core {
+@layer blip.core {
   :root {
-    --chu-ease-2: steps(2, jump-end);
-    --chu-ease-4: steps(4, jump-end);
-    --chu-ease-6: steps(6, jump-end);
+    --blip-ease-2: steps(2, jump-end);
+    --blip-ease-4: steps(4, jump-end);
+    --blip-ease-6: steps(6, jump-end);
   }
 
   /* Pops in: one pixel low for a frame, then in place. Menus, popovers, toasts, bubbles. */
-  .chu-pop-in { animation: chu-pop-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end) both; }
-  /* Drops in: two pixels high for a frame, then lands. Letters of a title, one after another (--chu-delay). */
-  .chu-drop-in { animation: chu-drop-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end) both; animation-delay: var(--chu-delay, 0ms); }
+  .blip-pop-in { animation: blip-pop-in calc(2 * var(--blip-duration-frame)) steps(1, jump-end) both; }
+  /* Drops in: two pixels high for a frame, then lands. Letters of a title, one after another (--blip-delay). */
+  .blip-drop-in { animation: blip-drop-in calc(2 * var(--blip-duration-frame)) steps(1, jump-end) both; animation-delay: var(--blip-delay, 0ms); }
   /* Bumps: up 6, 3, then down. A coin block, a success. */
-  .chu-bump { animation: chu-bump calc(3 * var(--chu-duration-frame)) steps(1, jump-end); }
+  .blip-bump { animation: blip-bump calc(3 * var(--blip-duration-frame)) steps(1, jump-end); }
   /* Shakes: a pixel each way. A wrong answer, an edge. */
-  .chu-shake { animation: chu-shake calc(5 * var(--chu-duration-frame)) steps(1, jump-end); }
+  .blip-shake { animation: blip-shake calc(5 * var(--blip-duration-frame)) steps(1, jump-end); }
   /* Blinks: on and off on the beat. A caret, a "press start". Stops after six beats (under five seconds,
-     WCAG 2.2.2); set --chu-blink-count: infinite only where the person can pause it. */
-  .chu-blink { animation: chu-blink calc(2 * var(--chu-duration-beat)) steps(1, jump-end) var(--chu-blink-count, 6); }
-  /* Bobs: up a pixel and back on the beat. An arrow, a pointer. Stops after six beats (--chu-bob-count, as
-     --chu-blink-count for blinks). */
-  .chu-bob { animation: chu-bob calc(2 * var(--chu-duration-beat)) steps(1, jump-end) var(--chu-bob-count, 6); }
+     WCAG 2.2.2); set --blip-blink-count: infinite only where the person can pause it. */
+  .blip-blink { animation: blip-blink calc(2 * var(--blip-duration-beat)) steps(1, jump-end) var(--blip-blink-count, 6); }
+  /* Bobs: up a pixel and back on the beat. An arrow, a pointer. Stops after six beats (--blip-bob-count, as
+     --blip-blink-count for blinks). */
+  .blip-bob { animation: blip-bob calc(2 * var(--blip-duration-beat)) steps(1, jump-end) var(--blip-bob-count, 6); }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-pop-in, .chu-drop-in, .chu-bump, .chu-shake, .chu-bob { animation: none; }
-    .chu-blink { animation: none; }
+    .blip-pop-in, .blip-drop-in, .blip-bump, .blip-shake, .blip-bob { animation: none; }
+    .blip-blink { animation: none; }
   }
 }
 
-@keyframes chu-pop-in { 0% { translate: 0 var(--chu-pixel); } 50%, 100% { translate: 0 0; } }
-@keyframes chu-drop-in { 0% { translate: 0 calc(-2 * var(--chu-pixel)); } 50%, 100% { translate: 0 0; } }
-@keyframes chu-bump { 0% { translate: 0 calc(-6 * var(--chu-pixel)); } 33% { translate: 0 calc(-3 * var(--chu-pixel)); } 66%, 100% { translate: 0 0; } }
-@keyframes chu-shake {
-  0% { translate: calc(2 * var(--chu-pixel)) 0; } 20% { translate: calc(-2 * var(--chu-pixel)) 0; }
-  40% { translate: var(--chu-pixel) 0; } 60% { translate: calc(-1 * var(--chu-pixel)) 0; } 80%, 100% { translate: 0 0; }
+@keyframes blip-pop-in { 0% { translate: 0 var(--blip-pixel); } 50%, 100% { translate: 0 0; } }
+@keyframes blip-drop-in { 0% { translate: 0 calc(-2 * var(--blip-pixel)); } 50%, 100% { translate: 0 0; } }
+@keyframes blip-bump { 0% { translate: 0 calc(-6 * var(--blip-pixel)); } 33% { translate: 0 calc(-3 * var(--blip-pixel)); } 66%, 100% { translate: 0 0; } }
+@keyframes blip-shake {
+  0% { translate: calc(2 * var(--blip-pixel)) 0; } 20% { translate: calc(-2 * var(--blip-pixel)) 0; }
+  40% { translate: var(--blip-pixel) 0; } 60% { translate: calc(-1 * var(--blip-pixel)) 0; } 80%, 100% { translate: 0 0; }
 }
-@keyframes chu-blink { 0% { opacity: 1; } 50%, 100% { opacity: 0; } }
-@keyframes chu-bob { 0% { translate: 0 0; } 50%, 100% { translate: 0 calc(-1 * var(--chu-pixel)); } }
+@keyframes blip-blink { 0% { opacity: 1; } 50%, 100% { opacity: 0; } }
+@keyframes blip-bob { 0% { translate: 0 0; } 50%, 100% { translate: 0 calc(-1 * var(--blip-pixel)); } }

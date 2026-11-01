@@ -1,8 +1,8 @@
 ---
 name: Menu
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: menu.css
-element: chu-menu
+element: blip-menu
 react: Menu
 status: beta
 equivalents:
@@ -19,42 +19,42 @@ use the app bar's links or a sidebar; for choosing a value in a form, use a sele
 ## Usage
 
 ```html
-<chu-menu class="chu-menu">
-  <button class="chu-box chu-button" data-variant="soft">Level</button>
-  <div class="chu-box chu-menu-list chu-pop-in" role="menu" aria-label="Level" popover>
-    <button class="chu-box chu-menu-item" role="menuitem" aria-keyshortcuts="Control+D" data-value="duplicate">
-      <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
-      <span class="chu-menu-label">Duplicate</span>
-      <span class="chu-menu-shortcut" aria-hidden="true"><kbd class="chu-box chu-keycap" data-size="sm">Ctrl</kbd><kbd class="chu-box chu-keycap" data-size="sm">D</kbd></span>
+<blip-menu class="blip-menu">
+  <button class="blip-box blip-button" data-variant="soft">Level</button>
+  <div class="blip-box blip-menu-list blip-pop-in" role="menu" aria-label="Level" popover>
+    <button class="blip-box blip-menu-item" role="menuitem" aria-keyshortcuts="Control+D" data-value="duplicate">
+      <svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+      <span class="blip-menu-label">Duplicate</span>
+      <span class="blip-menu-shortcut" aria-hidden="true"><kbd class="blip-box blip-keycap" data-size="sm">Ctrl</kbd><kbd class="blip-box blip-keycap" data-size="sm">D</kbd></span>
     </button>
-    <div class="chu-menu-separator" role="separator"></div>
-    <button class="chu-box chu-menu-item" role="menuitemcheckbox" aria-checked="true"><span class="chu-menu-label">Grid</span></button>
-    <button class="chu-box chu-menu-item" role="menuitem" data-tone="danger"><span class="chu-menu-label">Delete level</span></button>
+    <div class="blip-menu-separator" role="separator"></div>
+    <button class="blip-box blip-menu-item" role="menuitemcheckbox" aria-checked="true"><span class="blip-menu-label">Grid</span></button>
+    <button class="blip-box blip-menu-item" role="menuitem" data-tone="danger"><span class="blip-menu-label">Delete level</span></button>
   </div>
-</chu-menu>
+</blip-menu>
 ```
 
-The list is a native popover, so it opens above everything and closes on Escape or a click outside. `<chu-menu>`
-(from `@jaatster/blip-elements/menu.js`) wires the button, adds the keyboard and returns focus. A submenu is a `chu-menu`
+The list is a native popover, so it opens above everything and closes on Escape or a click outside. `<blip-menu>`
+(from `@blip/elements/menu.js`) wires the button, adds the keyboard and returns focus. A submenu is a `blip-menu`
 nested in the list, its button a menu item:
 
 ```html
-<chu-menu class="chu-menu">
-  <button class="chu-box chu-menu-item" role="menuitem"><span class="chu-menu-label">Export</span></button>
-  <div class="chu-box chu-menu-list chu-pop-in" role="menu" aria-label="Export" popover>…</div>
-</chu-menu>
+<blip-menu class="blip-menu">
+  <button class="blip-box blip-menu-item" role="menuitem"><span class="blip-menu-label">Export</span></button>
+  <div class="blip-box blip-menu-list blip-pop-in" role="menu" aria-label="Export" popover>…</div>
+</blip-menu>
 ```
 
 ## Anatomy
 
 1. **Button**: any button; while its menu is open (`aria-expanded="true"`) it sits in.
-2. **Panel**: `.chu-menu-list`, a cream box (`--chu-surface-panel`: cream by day, deep blue at night) with a drop. It
-   pops in: one pixel low for a frame, then in place (`.chu-pop-in`).
+2. **Panel**: `.blip-menu-list`, a cream box (`--blip-surface-panel`: cream by day, deep blue at night) with a drop. It
+   pops in: one pixel low for a frame, then in place (`.blip-pop-in`).
 3. **Item**: a box that is just its text at rest and the yellow FOCUS row (a candy box with glints) when focused.
-4. **Label**: `.chu-menu-label`. It carries the check or dot and the submenu chevron; keep it.
+4. **Label**: `.blip-menu-label`. It carries the check or dot and the submenu chevron; keep it.
 5. **Icon** (optional): a 12 x 12 icon before the label.
-6. **Shortcut** (optional): `.chu-menu-shortcut`, keycaps from the keycap component, pushed to the end.
-7. **Separator**: `.chu-menu-separator`, a dashed pixel line. **Group heading**: `.chu-menu-heading` in a
+6. **Shortcut** (optional): `.blip-menu-shortcut`, keycaps from the keycap component, pushed to the end.
+7. **Separator**: `.blip-menu-separator`, a dashed pixel line. **Group heading**: `.blip-menu-heading` in a
    `role="group"`.
 
 ## Variants
@@ -65,7 +65,7 @@ nested in the list, its button a menu item:
 | `aria-checked` | `true`, `false` | A check (8 x 5) or a dot (4 x 4) in the gutter. |
 | `aria-haspopup="menu"` on an item | | A chevron at its end: it opens a submenu. |
 | `data-tone="danger"` on an item | | A destructive item: red text until it is focused. Confirm what it does. |
-| `data-align` on `.chu-menu` | `start` (default), `end` | Which edge of its button the menu lines up with: `end` for a "more" button at the end of a row. |
+| `data-align` on `.blip-menu` | `start` (default), `end` | Which edge of its button the menu lines up with: `end` for a "more" button at the end of a row. |
 
 ## States
 
@@ -117,7 +117,7 @@ Follows the WAI-ARIA Authoring Practices Menu Button pattern.
 
 ## API
 
-### `<chu-menu>`
+### `<blip-menu>`
 
 | Attribute, property or method | | |
 |---|---|---|
@@ -129,8 +129,8 @@ Follows the WAI-ARIA Authoring Practices Menu Button pattern.
 
 | Event | Detail | |
 |---|---|---|
-| `chu-action` | `{ item, value, checked? }` | An item was chosen, before it runs. `value` is its `data-value`, else its `value`, else its label; `checked` is the new state of a checkbox or radio item. Cancelable: `preventDefault()` keeps the menu open and the item unchanged. Bubbles. |
-| `chu-open`, `chu-close` | | The menu opened or closed, however it happened. |
+| `blip-action` | `{ item, value, checked? }` | An item was chosen, before it runs. `value` is its `data-value`, else its `value`, else its label; `checked` is the new state of a checkbox or radio item. Cancelable: `preventDefault()` keeps the menu open and the item unchanged. Bubbles. |
+| `blip-open`, `blip-close` | | The menu opened or closed, however it happened. |
 
 Items are read as they are, so items rendered later just work; a button or list rendered after the element is
 wired when it arrives.
@@ -142,5 +142,5 @@ where that is missing, the element measures and places the menu itself.
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-r` with `--chu-shape`, `--chu-shape-inner` | 4 on the list, 3 on items | Corner radius in pixels. |
-| `--chu-box-top`, `--chu-box-fill`, `--chu-box-bottom` on `.chu-menu-list` | `--chu-surface-panel` | The panel's colour. |
+| `--blip-r` with `--blip-shape`, `--blip-shape-inner` | 4 on the list, 3 on items | Corner radius in pixels. |
+| `--blip-box-top`, `--blip-box-fill`, `--blip-box-bottom` on `.blip-menu-list` | `--blip-surface-panel` | The panel's colour. |

@@ -1,21 +1,21 @@
 <!-- Glint: the TV's shine. A band two pixels white with a light edge each side sweeps down and right across a candy
-     box in five frames, 80 ms apart, inside the outline, once when it appears (--chu-glint-count asks for more, 4.5 s
-     apart). Add a .chu-glint span to any .chu-box. The bottom row holds each of the five frames (data-frame), for docs
+     box in five frames, 80 ms apart, inside the outline, once when it appears (--blip-glint-count asks for more, 4.5 s
+     apart). Add a .blip-glint span to any .blip-box. The bottom row holds each of the five frames (data-frame), for docs
      and tests. -->
-<div style="display:grid;gap:calc(8*var(--chu-pixel))">
-  <div style="display:flex;flex-wrap:wrap;gap:calc(6*var(--chu-pixel));align-items:center">
-    <div class="chu-box" data-tone="red" style="inline-size:calc(28*var(--chu-pixel));block-size:calc(28*var(--chu-pixel));--chu-band-top:5;--chu-band-bottom:4"><span class="chu-glint" aria-hidden="true"></span></div>
-    <div class="chu-box" data-tone="blue" style="inline-size:calc(28*var(--chu-pixel));block-size:calc(28*var(--chu-pixel));--chu-band-top:5;--chu-band-bottom:4"><span class="chu-glint" aria-hidden="true" style="--chu-glint-delay:600ms"></span></div>
-    <div class="chu-box" data-tone="teal" style="inline-size:calc(28*var(--chu-pixel));block-size:calc(28*var(--chu-pixel));--chu-band-top:5;--chu-band-bottom:4"><span class="chu-glint" aria-hidden="true" style="--chu-glint-delay:1200ms"></span></div>
-    <button class="chu-box chu-button" type="button">Continue<span class="chu-glint" aria-hidden="true"></span></button>
-    <button class="chu-box chu-button" type="button" data-size="lg" data-tone="pink">Start game<span class="chu-glint" aria-hidden="true" style="--chu-glint-delay:800ms"></span></button>
+<div style="display:grid;gap:calc(8*var(--blip-pixel))">
+  <div style="display:flex;flex-wrap:wrap;gap:calc(6*var(--blip-pixel));align-items:center">
+    <div class="blip-box" data-tone="red" style="inline-size:calc(28*var(--blip-pixel));block-size:calc(28*var(--blip-pixel));--blip-band-top:5;--blip-band-bottom:4"><span class="blip-glint" aria-hidden="true"></span></div>
+    <div class="blip-box" data-tone="blue" style="inline-size:calc(28*var(--blip-pixel));block-size:calc(28*var(--blip-pixel));--blip-band-top:5;--blip-band-bottom:4"><span class="blip-glint" aria-hidden="true" style="--blip-glint-delay:600ms"></span></div>
+    <div class="blip-box" data-tone="teal" style="inline-size:calc(28*var(--blip-pixel));block-size:calc(28*var(--blip-pixel));--blip-band-top:5;--blip-band-bottom:4"><span class="blip-glint" aria-hidden="true" style="--blip-glint-delay:1200ms"></span></div>
+    <button class="blip-box blip-button" type="button">Continue<span class="blip-glint" aria-hidden="true"></span></button>
+    <button class="blip-box blip-button" type="button" data-size="lg" data-tone="pink">Start game<span class="blip-glint" aria-hidden="true" style="--blip-glint-delay:800ms"></span></button>
   </div>
-  <div style="display:flex;flex-wrap:wrap;gap:calc(6*var(--chu-pixel));align-items:center">
-    <div class="chu-box" data-tone="red" style="inline-size:calc(28*var(--chu-pixel));block-size:calc(28*var(--chu-pixel));--chu-band-top:5;--chu-band-bottom:4"><span class="chu-glint" aria-hidden="true" data-frame="0"></span></div>
-    <div class="chu-box" data-tone="red" style="inline-size:calc(28*var(--chu-pixel));block-size:calc(28*var(--chu-pixel));--chu-band-top:5;--chu-band-bottom:4"><span class="chu-glint" aria-hidden="true" data-frame="1"></span></div>
-    <div class="chu-box" data-tone="red" style="inline-size:calc(28*var(--chu-pixel));block-size:calc(28*var(--chu-pixel));--chu-band-top:5;--chu-band-bottom:4"><span class="chu-glint" aria-hidden="true" data-frame="2"></span></div>
-    <div class="chu-box" data-tone="red" style="inline-size:calc(28*var(--chu-pixel));block-size:calc(28*var(--chu-pixel));--chu-band-top:5;--chu-band-bottom:4"><span class="chu-glint" aria-hidden="true" data-frame="3"></span></div>
-    <div class="chu-box" data-tone="red" style="inline-size:calc(28*var(--chu-pixel));block-size:calc(28*var(--chu-pixel));--chu-band-top:5;--chu-band-bottom:4"><span class="chu-glint" aria-hidden="true" data-frame="4"></span></div>
-    <button class="chu-box chu-button" type="button" data-tone="green">Claim reward<span class="chu-glint" aria-hidden="true" data-frame="2"></span></button>
+  <div style="display:flex;flex-wrap:wrap;gap:calc(6*var(--blip-pixel));align-items:center">
+    <div class="blip-box" data-tone="red" style="inline-size:calc(28*var(--blip-pixel));block-size:calc(28*var(--blip-pixel));--blip-band-top:5;--blip-band-bottom:4"><span class="blip-glint" aria-hidden="true" data-frame="0"></span></div>
+    <div class="blip-box" data-tone="red" style="inline-size:calc(28*var(--blip-pixel));block-size:calc(28*var(--blip-pixel));--blip-band-top:5;--blip-band-bottom:4"><span class="blip-glint" aria-hidden="true" data-frame="1"></span></div>
+    <div class="blip-box" data-tone="red" style="inline-size:calc(28*var(--blip-pixel));block-size:calc(28*var(--blip-pixel));--blip-band-top:5;--blip-band-bottom:4"><span class="blip-glint" aria-hidden="true" data-frame="2"></span></div>
+    <div class="blip-box" data-tone="red" style="inline-size:calc(28*var(--blip-pixel));block-size:calc(28*var(--blip-pixel));--blip-band-top:5;--blip-band-bottom:4"><span class="blip-glint" aria-hidden="true" data-frame="3"></span></div>
+    <div class="blip-box" data-tone="red" style="inline-size:calc(28*var(--blip-pixel));block-size:calc(28*var(--blip-pixel));--blip-band-top:5;--blip-band-bottom:4"><span class="blip-glint" aria-hidden="true" data-frame="4"></span></div>
+    <button class="blip-box blip-button" type="button" data-tone="green">Claim reward<span class="blip-glint" aria-hidden="true" data-frame="2"></span></button>
   </div>
 </div>

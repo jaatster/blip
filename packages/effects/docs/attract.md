@@ -1,8 +1,8 @@
 ---
 name: Attract
-package: "@jaatster/blip-effects"
+package: "@blip/effects"
 css: attract.css
-element: chu-attract
+element: blip-attract
 react: Attract
 status: beta
 ---
@@ -17,16 +17,16 @@ show one interaction.
 ## Usage
 
 ```html
-<chu-attract label="Typing a title and saving shows a toast"
+<blip-attract label="Typing a title and saving shows a toast"
             script="move #title; type #title 'Ship it'; move #save; press #save; poster; wait 2s">
   …any Blip markup: a window, a field, a Save button, a toaster…
-</chu-attract>
+</blip-attract>
 ```
 
 ```js
-import "@jaatster/blip-effects/motion";    // <chu-motion-toggle>: every page with a demo shows it
-import "@jaatster/blip-effects/attract";   // defines <chu-attract>
-const demo = document.querySelector("chu-attract");
+import "@blip/effects/motion";    // <blip-motion-toggle>: every page with a demo shows it
+import "@blip/effects/attract";   // defines <blip-attract>
+const demo = document.querySelector("blip-attract");
 demo.steps = [{ type: "#title", text: "Ship it" }, { press: "#save" }, { poster: true }, { wait: "2s" }];
 ```
 
@@ -46,14 +46,14 @@ Steps split by `;`. Selectors are matched inside the element.
 | `move <selector>` | `move #save` | The pointer hops there in at most six even steps, a frame apart, each on a whole pixel, then rests a beat. |
 | `press <selector>` | `press #save` | It goes there first, dips a pixel with the control's pressed look, comes back up and calls the control's own `click()`. |
 | `type <selector> '<text>'` | `type #title 'Ship it'` | It goes there first, then puts the text in a character a pop (120 ms), each with an `input` event (a field's value; anything else, its text). Quote with `'` or `"`. |
-| `wait <time>` | `wait 2s` | `500ms`, `2s`, `2 beats` (a beat is `--chu-duration-beat`, 400 ms); a bare number is ms. |
+| `wait <time>` | `wait 2s` | `500ms`, `2s`, `2 beats` (a beat is `--blip-duration-beat`, 400 ms); a bare number is ms. |
 | `show <selector>`, `hide <selector>` | `show #done` | Takes `hidden` off, or puts it on. In a demo, `hidden` hides whatever a component's own `display`. |
 | `poster` | `press #save; poster` | The still frame is the state here. Without one, the still frame is the end. |
 
 In JavaScript and React, `steps` takes the same steps as objects: the verb holds its selector (`wait` its time, in ms
 or as in the script), `type` has its `text`, and `poster: true` marks the still frame, on its own or on a step (the
 state once that step is done). A step it cannot read, or whose selector matches nothing, is reported in the console
-with its text ([`CHU-D010`, `CHU-D011`](https://jaatster.com/blip/diagnostics/#chu-d010)) and skipped; the rest plays.
+with its text ([`BLIP-D010`, `BLIP-D011`](https://jaatster.com/blip/diagnostics/#blip-d010)) and skipped; the rest plays.
 
 ### The craft
 
@@ -74,7 +74,7 @@ with its text ([`CHU-D010`, `CHU-D011`](https://jaatster.com/blip/diagnostics/#c
 - **The element**: a block that crops what it holds, and the frame for what is fixed in it (a toaster in it brings its
   toasts up in the demo's corner, not the page's; the page's own `toast()` never uses it).
 - **The markup inside**: any Blip markup, made `inert`.
-- **The pointer** (`.chu-attract-pointer`, added by the element): a 9 x 16 pixel arrow, an ink outline and a white fill,
+- **The pointer** (`.blip-attract-pointer`, added by the element): a 9 x 16 pixel arrow, an ink outline and a white fill,
   or the game kit's 14 x 10 white glove. It goes over everything in the demo.
 
 ## Variants
@@ -87,7 +87,7 @@ with its text ([`CHU-D010`, `CHU-D011`](https://jaatster.com/blip/diagnostics/#c
 
 | State | Look |
 |---|---|
-| Playing | The steps in order, then a cut back to the markup, a beat, and again. What the pointer is over has the hover look (`data-chu-state="hover"`); pressed, the active look. |
+| Playing | The steps in order, then a cut back to the markup, a beat, and again. What the pointer is over has the hover look (`data-blip-state="hover"`); pressed, the active look. |
 | Off screen, or in a hidden tab | Nothing plays. It starts from the top when it comes back. |
 | Reduced motion, or the motion toggle pressed | The still frame at once, and nothing moves. When that is lifted, it plays from the top. |
 | Before it starts | The markup as written, without a pointer. |
@@ -99,8 +99,8 @@ with its text ([`CHU-D010`, `CHU-D011`](https://jaatster.com/blip/diagnostics/#c
 - A demo is one picture: the element is `role="img"`, named by `label`, and its markup is `inert`, so nobody tabs into
   it or clicks it, and assistive technology reads the label once and nothing inside.
 - Write `label` as one sentence that says what happens: "Typing a title and saving shows a toast". Without one, it
-  warns (`CHU-D001`).
-- It runs on: show `<chu-motion-toggle>` on the page (WCAG 2.2.2). With the device's reduced motion it never moves.
+  warns (`BLIP-D001`).
+- It runs on: show `<blip-motion-toggle>` on the page (WCAG 2.2.2). With the device's reduced motion it never moves.
 - Never put the only copy of something important in a demo.
 
 ## Content
@@ -128,4 +128,4 @@ with its text ([`CHU-D010`, `CHU-D011`](https://jaatster.com/blip/diagnostics/#c
 | `label` | attribute and property | The sentence assistive technology reads (its `aria-label`). |
 | `pointer` | attribute and property | `glove`, or left out for the arrow. |
 | `steps` | property | The steps it plays, as objects: those set here, else the script's. Setting them plays them from the top; `null` goes back to the script. |
-| `AttractStep` | type | One step as an object (`@jaatster/blip-effects/attract`). |
+| `AttractStep` | type | One step as an object (`@blip/effects/attract`). |

@@ -1,8 +1,8 @@
 ---
 name: Segmented control
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: segmented.css
-element: chu-segmented
+element: blip-segmented
 react: Segmented
 status: beta
 equivalents:
@@ -18,23 +18,23 @@ group, so the arrow keys move and choose.
 
 ## Usage
 
-With the element (buttons, a `value`, `chu-change`, and a form value):
+With the element (buttons, a `value`, `blip-change`, and a form value):
 
 ```html
-<chu-segmented class="chu-box chu-segmented" name="view" value="grid" aria-label="View">
-  <button class="chu-box" type="button" value="list">List</button>
-  <button class="chu-box" type="button" value="grid" aria-checked="true">Grid</button>
-  <button class="chu-box" type="button" value="map">Map</button>
-</chu-segmented>
+<blip-segmented class="blip-box blip-segmented" name="view" value="grid" aria-label="View">
+  <button class="blip-box" type="button" value="list">List</button>
+  <button class="blip-box" type="button" value="grid" aria-checked="true">Grid</button>
+  <button class="blip-box" type="button" value="map">Map</button>
+</blip-segmented>
 ```
 
 With no JavaScript at all (native radios; the browser groups them and steers with the arrow keys):
 
 ```html
-<fieldset class="chu-box chu-segmented">
-  <legend class="chu-sr-only">View</legend>
-  <label class="chu-box"><input type="radio" name="view" value="list">List</label>
-  <label class="chu-box"><input type="radio" name="view" value="grid" checked>Grid</label>
+<fieldset class="blip-box blip-segmented">
+  <legend class="blip-sr-only">View</legend>
+  <label class="blip-box"><input type="radio" name="view" value="list">List</label>
+  <label class="blip-box"><input type="radio" name="view" value="grid" checked>Grid</label>
 </fieldset>
 ```
 
@@ -68,7 +68,7 @@ With no JavaScript at all (native radios; the browser groups them and steers wit
 
 ## Accessibility
 
-- `<chu-segmented>` gives itself `role="radiogroup"` and its buttons `role="radio"` with `aria-checked`; only the
+- `<blip-segmented>` gives itself `role="radiogroup"` and its buttons `role="radio"` with `aria-checked`; only the
   chosen one (or the first) is in the tab order.
 - Name the group: `aria-label`, `aria-labelledby`, or a `<label for>` pointing at the element. The element warns in
   development when it has no name.
@@ -97,7 +97,7 @@ With no JavaScript at all (native radios; the browser groups them and steers wit
 
 ## API
 
-`<chu-segmented>` (form-associated)
+`<blip-segmented>` (form-associated)
 
 | Attribute / property | Type | |
 |---|---|---|
@@ -110,10 +110,10 @@ With no JavaScript at all (native radios; the browser groups them and steers wit
 
 | Event | Detail | |
 |---|---|---|
-| `chu-change` | `{ value }` | A segment was chosen by click or key, after `input` and `change` (as a native control fires them). None of them are sent when the value is set from script. |
+| `blip-change` | `{ value }` | A segment was chosen by click or key, after `input` and `change` (as a native control fires them). None of them are sent when the value is set from script. |
 
 Segments added or removed later (by a framework) get their role, state and place in the tab order as they come.
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-tone`, `--chu-tone-light`, `--chu-tone-shade`, `--chu-tone-on` | accent | The chosen segment's candy (or use `data-tone`). |
+| `--blip-tone`, `--blip-tone-light`, `--blip-tone-shade`, `--blip-tone-on` | accent | The chosen segment's candy (or use `data-tone`). |

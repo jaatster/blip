@@ -1,7 +1,7 @@
 /**
  * blip-tokens (packages/tokens/scripts/cli.mjs), run from a copy of the package on themes written the way the
  * docs' palette maker exported them before palettes: a resolver whose scheme contexts list Blip's scheme file and the theme's
- * own, pointing into node_modules/@jaatster/blip-tokens. The theme passes Blip's own checks or the build stops.
+ * own, pointing into node_modules/@blip/tokens. The theme passes Blip's own checks or the build stops.
  */
 import { afterEach, describe, expect, it } from "vitest";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -27,14 +27,14 @@ function theme(dir: string, accents: Record<(typeof SCHEMES)[number], Accent>): 
   }
   mkdirSync(join(dir, "theme"), { recursive: true });
   const resolver = join(dir, "theme/my-theme.resolver.json");
-  const ctx = (s: string) => [{ $ref: `node_modules/@jaatster/blip-tokens/src/schemes/${s}.tokens.json` }, { $ref: `../my-theme.${s}.tokens.json` }];
+  const ctx = (s: string) => [{ $ref: `node_modules/@blip/tokens/src/schemes/${s}.tokens.json` }, { $ref: `../my-theme.${s}.tokens.json` }];
   writeFileSync(resolver, JSON.stringify({
     $schema: "https://www.designtokens.org/schemas/2025.10/resolver.json",
     name: "My Blip theme",
     version: "2025.10",
     modifiers: {
       scheme: { contexts: Object.fromEntries(SCHEMES.map((s) => [s, ctx(s)])), default: "day" },
-      pixel: { contexts: Object.fromEntries(["2", "3", "4"].map((p) => [p, [{ $ref: `node_modules/@jaatster/blip-tokens/src/pixel/${p}.tokens.json` }]])), default: "2" },
+      pixel: { contexts: Object.fromEntries(["2", "3", "4"].map((p) => [p, [{ $ref: `node_modules/@blip/tokens/src/pixel/${p}.tokens.json` }]])), default: "2" },
     },
   }, null, 2));
   return resolver;
@@ -67,12 +67,12 @@ describe("blip-tokens", () => {
     expect(run.stdout).toMatch(/Contrast: \d+ pairs pass in 3 schemes/);
     const css = readFileSync(join(project, "theme/my-theme.css"), "utf8");
     // The theme's accent in each scheme; everything else is Blip's, so the file replaces tokens.css.
-    expect(css).toMatch(/:root, \[data-chu-scheme="day"\] \{[^}]*--chu-accent: #16A99C;/);
-    expect(css).toMatch(/\[data-chu-scheme="sunset"\] \{[^}]*--chu-accent: #FF5FA2;/);
-    expect(css).toMatch(/\[data-chu-scheme="night"\] \{[^}]*--chu-accent: #2FD3C5;[^}]*--chu-selection-bg: #7EFFF4;/);
-    expect(css).toContain("@layer chu.reset, chu.tokens, chu.base, chu.core, chu.components, chu.kits, chu.utilities;");
-    expect(css).toContain("--chu-candy-red: #FF3D4F;");
-    expect(css).toContain("--chu-disabled-dither:");
+    expect(css).toMatch(/:root, \[data-blip-scheme="day"\] \{[^}]*--blip-accent: #16A99C;/);
+    expect(css).toMatch(/\[data-blip-scheme="sunset"\] \{[^}]*--blip-accent: #FF5FA2;/);
+    expect(css).toMatch(/\[data-blip-scheme="night"\] \{[^}]*--blip-accent: #2FD3C5;[^}]*--blip-selection-bg: #7EFFF4;/);
+    expect(css).toContain("@layer blip.reset, blip.tokens, blip.base, blip.core, blip.components, blip.kits, blip.utilities;");
+    expect(css).toContain("--blip-candy-red: #FF3D4F;");
+    expect(css).toContain("--blip-disabled-dither:");
   });
 
   it("writes where --out says, and nothing with --check", () => {
@@ -80,14 +80,14 @@ describe("blip-tokens", () => {
     expect(cli("theme/my-theme.resolver.json", "--check").status).toBe(0);
     expect(existsSync(join(project, "theme/my-theme.css"))).toBe(false);
     expect(cli("--out", "styles/tokens.css", "theme/my-theme.resolver.json").status).toBe(0);
-    expect(readFileSync(join(project, "styles/tokens.css"), "utf8")).toContain("--chu-accent: #16A99C;");
+    expect(readFileSync(join(project, "styles/tokens.css"), "utf8")).toContain("--blip-accent: #16A99C;");
   });
 
   it("stops on a theme that fails a check, naming the theme's file, the token, the pair and the ratio", () => {
     const { project, cli } = setup({ ...TEAL, day: NAVY });
     const run = cli("theme/my-theme.resolver.json");
     expect(run.status).toBe(1);
-    expect(run.stderr).toContain("CHU-T060  my-theme.day.tokens.json at /accent/on");
+    expect(run.stderr).toContain("BLIP-T060  my-theme.day.tokens.json at /accent/on");
     expect(run.stderr).toMatch(/day: accent\.on #FFFFFF on accent\.light #719CFF is 2\.66:1; it needs 4\.5:1\./);
     // A white label would vanish into the light dither of a disabled button, too.
     expect(run.stderr).toMatch(/day: accent\.on #FFFFFF on disabled\.dither #F4F7FF is 1\.07:1/);
@@ -105,7 +105,7 @@ describe("blip-tokens", () => {
     writeFileSync(day, JSON.stringify(j));
     const run = cli("theme/my-theme.resolver.json", "--check");
     expect(run.status).toBe(1);
-    expect(run.stderr).toMatch(/CHU-T061  my-theme\.day\.tokens\.json at \/(bg|focus)\n    day: the focus ring is 1\.00:1 against the page\./);
+    expect(run.stderr).toMatch(/BLIP-T061  my-theme\.day\.tokens\.json at \/(bg|focus)\n    day: the focus ring is 1\.00:1 against the page\./);
   });
 
   it("explains what it needs", () => {
@@ -118,7 +118,7 @@ describe("blip-tokens", () => {
     expect(cli("--help").status).toBe(0);
     const missing = cli("nope.resolver.json");
     expect(missing.status).toBe(1);
-    expect(missing.stderr).toContain("CHU-T001  nope.resolver.json");
+    expect(missing.stderr).toContain("BLIP-T001  nope.resolver.json");
   });
 
   it("builds a palette made in the palette maker: its own palette file, in a palette context of its own", async () => {
@@ -130,7 +130,7 @@ describe("blip-tokens", () => {
     const { readTokens } = await import(pathToFileURL(join(pkg.dir, "scripts/tokens.mjs")).href);
     const file = paletteFile({ id: "mine", name: "Mine", description: "Teal on soot.", recipe: { hue: 192, lightness: 0.18, tint: 0.014 } }, sceneOf(readTokens()));
     writeFileSync(join(project, "my-palette.tokens.json"), JSON.stringify(file, null, 2));
-    const candy = { $ref: "node_modules/@jaatster/blip-tokens/src/palettes/candy.tokens.json" };
+    const candy = { $ref: "node_modules/@blip/tokens/src/palettes/candy.tokens.json" };
     writeFileSync(join(project, "my-palette.resolver.json"), JSON.stringify({
       $schema: "https://www.designtokens.org/schemas/2025.10/resolver.json",
       name: "My Blip palette",
@@ -143,8 +143,8 @@ describe("blip-tokens", () => {
     expect(run.stdout).toMatch(/Contrast: \d+ pairs pass in 3 schemes and 2 palettes/);
     const css = readFileSync(join(project, "my-palette.css"), "utf8");
     const own = file.palette.night;
-    expect(css).toMatch(new RegExp(`:root \\{[^}]*--chu-palette-night-bg: ${own.bg.$value.hex};`));
-    expect(css).toMatch(new RegExp(`:root \\{[^}]*--chu-palette-day-accent: ${file.palette.day.accent.base.$value.hex};`));
-    expect(css).toMatch(/\[data-chu-scheme="night"\] \{[^}]*--chu-bg: var\(--chu-palette-night-bg\);/);
+    expect(css).toMatch(new RegExp(`:root \\{[^}]*--blip-palette-night-bg: ${own.bg.$value.hex};`));
+    expect(css).toMatch(new RegExp(`:root \\{[^}]*--blip-palette-day-accent: ${file.palette.day.accent.base.$value.hex};`));
+    expect(css).toMatch(/\[data-blip-scheme="night"\] \{[^}]*--blip-bg: var\(--blip-palette-night-bg\);/);
   });
 });

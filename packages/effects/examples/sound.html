@@ -1,21 +1,21 @@
 <!-- Sound board: the TV's chip sounds and three more, made in the browser (no audio files). Sound is off until you
      turn it on, from a press, as browsers ask. The typewriter's blips play through the same sink. -->
-<div style="display:grid;gap:calc(6*var(--chu-pixel))">
-  <div style="display:flex;gap:calc(4*var(--chu-pixel));align-items:center">
-    <button class="chu-box chu-button" type="button" data-tone="slate" aria-pressed="false" onclick="const b = this; import('@jaatster/blip-sound').then(async (s) => { const on = b.getAttribute('aria-pressed') !== 'true'; if (on) { await s.enableSound(); s.play('open'); } else s.disableSound(); b.setAttribute('aria-pressed', String(on)); })">Sound</button>
-    <span class="chu-small chu-muted">Turn sound on, then press a candy.</span>
+<div style="display:grid;gap:calc(6*var(--blip-pixel))">
+  <div style="display:flex;gap:calc(4*var(--blip-pixel));align-items:center">
+    <button class="blip-box blip-button" type="button" data-tone="slate" aria-pressed="false" onclick="const b = this; import('@blip/sound').then(async (s) => { const on = b.getAttribute('aria-pressed') !== 'true'; if (on) { await s.enableSound(); s.play('open'); } else s.disableSound(); b.setAttribute('aria-pressed', String(on)); })">Sound</button>
+    <span class="blip-small blip-muted">Turn sound on, then press a candy.</span>
   </div>
-  <div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--chu-pixel))">
-    <button class="chu-box chu-button" type="button" data-tone="red" onclick="import('@jaatster/blip-sound').then((s) => s.play('step'))">Step</button>
-    <button class="chu-box chu-button" type="button" data-tone="orange" onclick="import('@jaatster/blip-sound').then((s) => s.play('look'))">Look</button>
-    <button class="chu-box chu-button" type="button" data-tone="green" onclick="import('@jaatster/blip-sound').then((s) => s.play('jump'))">Jump</button>
-    <button class="chu-box chu-button" type="button" data-tone="teal" onclick="import('@jaatster/blip-sound').then((s) => s.play('coin'))">Coin</button>
-    <button class="chu-box chu-button" type="button" data-tone="blue" onclick="import('@jaatster/blip-sound').then((s) => s.play('open'))">Open</button>
-    <button class="chu-box chu-button" type="button" data-tone="purple" onclick="import('@jaatster/blip-sound').then((s) => s.play('back'))">Back</button>
-    <button class="chu-box chu-button" type="button" data-tone="pink" onclick="import('@jaatster/blip-sound').then((s) => s.play('bump'))">Bump</button>
-    <button class="chu-box chu-button" type="button" data-tone="slate" onclick="import('@jaatster/blip-sound').then((s) => 'Blip'.split('').forEach((c, i) => setTimeout(() => s.play('blip', { rate: s.voiceRate(c) }), i * 100)))">Blip</button>
-    <button class="chu-box chu-button" type="button" data-tone="success" onclick="import('@jaatster/blip-sound').then((s) => s.play('success'))">Success</button>
-    <button class="chu-box chu-button" type="button" data-tone="danger" onclick="import('@jaatster/blip-sound').then((s) => s.play('error'))">Error</button>
-    <button class="chu-box chu-button" type="button" data-tone="neutral" onclick="import('@jaatster/blip-sound').then((s) => s.play('select'))">Select</button>
+  <div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--blip-pixel))">
+    <button class="blip-box blip-button" type="button" data-tone="red" onclick="import('@blip/sound').then((s) => s.play('step'))">Step</button>
+    <button class="blip-box blip-button" type="button" data-tone="orange" onclick="import('@blip/sound').then((s) => s.play('look'))">Look</button>
+    <button class="blip-box blip-button" type="button" data-tone="green" onclick="import('@blip/sound').then((s) => s.play('jump'))">Jump</button>
+    <button class="blip-box blip-button" type="button" data-tone="teal" onclick="import('@blip/sound').then((s) => s.play('coin'))">Coin</button>
+    <button class="blip-box blip-button" type="button" data-tone="blue" onclick="import('@blip/sound').then((s) => s.play('open'))">Open</button>
+    <button class="blip-box blip-button" type="button" data-tone="purple" onclick="import('@blip/sound').then((s) => s.play('back'))">Back</button>
+    <button class="blip-box blip-button" type="button" data-tone="pink" onclick="import('@blip/sound').then((s) => s.play('bump'))">Bump</button>
+    <button class="blip-box blip-button" type="button" data-tone="slate" onclick="import('@blip/sound').then((s) => 'Blip'.split('').forEach((c, i) => setTimeout(() => s.play('blip', { rate: s.voiceRate(c) }), i * 100)))">Blip</button>
+    <button class="blip-box blip-button" type="button" data-tone="success" onclick="import('@blip/sound').then((s) => s.play('success'))">Success</button>
+    <button class="blip-box blip-button" type="button" data-tone="danger" onclick="import('@blip/sound').then((s) => s.play('error'))">Error</button>
+    <button class="blip-box blip-button" type="button" data-tone="neutral" onclick="import('@blip/sound').then((s) => s.play('select'))">Select</button>
   </div>
 </div>

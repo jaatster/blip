@@ -1,15 +1,15 @@
 /* Icons are drawn on a 12 x 12 pixel grid, in one colour (currentColor). At the default pixel they are 24 CSS px. */
 
-@layer chu.core {
-  .chu-icon {
+@layer blip.core {
+  .blip-icon {
     display: inline-block;
-    inline-size: calc(12 * var(--chu-pixel));
-    block-size: calc(12 * var(--chu-pixel));
+    inline-size: calc(12 * var(--blip-pixel));
+    block-size: calc(12 * var(--blip-pixel));
     flex: none;
     fill: currentColor;
     shape-rendering: crispEdges;
     vertical-align: middle;
   }
-  chu-icon { display: inline-flex; vertical-align: middle; }
-  .chu-icon[data-size="lg"] { inline-size: calc(24 * var(--chu-pixel)); block-size: calc(24 * var(--chu-pixel)); }
+  blip-icon { display: inline-flex; vertical-align: middle; }
+  .blip-icon[data-size="lg"] { inline-size: calc(24 * var(--blip-pixel)); block-size: calc(24 * var(--blip-pixel)); }
 }

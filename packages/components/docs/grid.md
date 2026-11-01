@@ -1,6 +1,6 @@
 ---
 name: Grid
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: grid.css
 element: null
 react: Grid
@@ -16,9 +16,9 @@ page, a sidebar or a card.
 ## Usage
 
 ```html
-<ul class="chu-grid" role="list">…cards…</ul>
-<dl class="chu-grid" data-min="64" data-gap="6">…stats…</dl>
-<div class="chu-grid" style="--chu-grid-min: calc(72 * var(--chu-pixel))">…</div>
+<ul class="blip-grid" role="list">…cards…</ul>
+<dl class="blip-grid" data-min="64" data-gap="6">…stats…</dl>
+<div class="blip-grid" style="--blip-grid-min: calc(72 * var(--blip-pixel))">…</div>
 ```
 
 ## Anatomy
@@ -30,8 +30,8 @@ never wider than the container.
 
 | Attribute | Values | Use |
 |---|---|---|
-| `data-min` | `32`, `48`, `64`, `80`, `96` (default), `128`, `160`, `192` | A column's minimum width, in pixels (192 CSS px at the default 96). Cards 96 to 160; stats 48 to 128; tiles use `.chu-tile-grid`. |
-| `data-gap` | `0`, `1`, `2`, `3`, `4`, `6`, `8` (default), `12`, `16`, `24`, `32` | Pixels between cells (`--chu-space-N`). |
+| `data-min` | `32`, `48`, `64`, `80`, `96` (default), `128`, `160`, `192` | A column's minimum width, in pixels (192 CSS px at the default 96). Cards 96 to 160; stats 48 to 128; tiles use `.blip-tile-grid`. |
+| `data-gap` | `0`, `1`, `2`, `3`, `4`, `6`, `8` (default), `12`, `16`, `24`, `32` | Pixels between cells (`--blip-space-N`). |
 | `data-fill` | | Keeps empty columns when there are few items, so two cards don't stretch across a wide row. |
 
 ## Accessibility
@@ -48,5 +48,5 @@ label-value pairs is a `<dl>`.
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-grid-min` | 96 pixels | A column's minimum width (a length). |
-| `--chu-grid-gap` | `--chu-space-8` | The gap. |
+| `--blip-grid-min` | 96 pixels | A column's minimum width (a length). |
+| `--blip-grid-gap` | `--blip-space-8` | The gap. |

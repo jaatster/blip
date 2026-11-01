@@ -2,21 +2,21 @@
  * Drawer. A side sheet: a native <dialog> that comes in from the end, the start or the bottom edge, a whole
  * pixel-snapped sixth of its size per step (six steps over a glide), over the same dithered scrim as the dialog.
  * It is a dialog, so it uses the dialog's parts (header, title, close, body, footer) and the same element
- * behaviour: wrap it in <chu-drawer> from @jaatster/blip-elements for the stepped exit, chu-before-close and light dismiss.
+ * behaviour: wrap it in <blip-drawer> from @blip/elements for the stepped exit, blip-before-close and light dismiss.
  *
- *   <dialog class="chu-box chu-drawer" id="settings" data-side="end" aria-labelledby="settings-title">
- *     <header class="chu-dialog-header">
- *       <h2 class="chu-dialog-title" id="settings-title">Settings</h2>
- *       <form method="dialog"><button class="chu-box chu-button chu-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button></form>
+ *   <dialog class="blip-box blip-drawer" id="settings" data-side="end" aria-labelledby="settings-title">
+ *     <header class="blip-dialog-header">
+ *       <h2 class="blip-dialog-title" id="settings-title">Settings</h2>
+ *       <form method="dialog"><button class="blip-box blip-button blip-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button></form>
  *     </header>
- *     <div class="chu-dialog-body">…</div>
- *     <footer class="chu-dialog-footer">…</footer>
+ *     <div class="blip-dialog-body">…</div>
+ *     <footer class="blip-dialog-footer">…</footer>
  *   </dialog>
  *
  *   data-side        end (default) | start | bottom      end and start follow the text: the right and the left in
  *                                                      left-to-right text, the other way round right to left
  *   data-size        sm | md (default) | lg      128, 160 or 224 pixels across (bottom: up to 85% of the height)
- *   data-chu-static   drawn in the page flow, for docs, tests and screenshots
+ *   data-blip-static   drawn in the page flow, for docs, tests and screenshots
  *
  * The sheet runs one pixel past the screen on the sides it touches, so only its inner edge shows an outline.
  * Square corners: it is part of the screen's edge, not a card floating on it.
@@ -25,68 +25,68 @@
 
 /* How far out the sheet is, 0 to 1; the slide animates it in six steps and the sheet's translate rounds it to whole
    pixels. */
-@property --_chu-slide { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --_blip-slide { syntax: "<number>"; inherits: false; initial-value: 0; }
 
-@layer chu.components {
-  chu-drawer { display: contents; }
+@layer blip.components {
+  blip-drawer { display: contents; }
 
-  .chu-drawer {
-    --_chu-w: 160;
-    /* Which way it slides: --_chu-sx across (1 towards the end), --_chu-sy down; --_chu-dir is -1 right to left. */
-    --_chu-sx: 1;
-    --_chu-sy: 0;
-    --_chu-dir: 1;
+  .blip-drawer {
+    --_blip-w: 160;
+    /* Which way it slides: --_blip-sx across (1 towards the end), --_blip-sy down; --_blip-dir is -1 right to left. */
+    --_blip-sx: 1;
+    --_blip-sy: 0;
+    --_blip-dir: 1;
     position: fixed;
-    inset: calc(-1 * var(--chu-pixel));
+    inset: calc(-1 * var(--blip-pixel));
     inset-inline-start: auto;
-    inline-size: calc(round(down, min(calc(var(--_chu-w) * var(--chu-pixel)), 100% - 16 * var(--chu-pixel)), var(--chu-pixel)) + var(--chu-pixel));
+    inline-size: calc(round(down, min(calc(var(--_blip-w) * var(--blip-pixel)), 100% - 16 * var(--blip-pixel)), var(--blip-pixel)) + var(--blip-pixel));
     block-size: auto;
     max-inline-size: none;
     max-block-size: none;
     margin: 0;
-    padding: calc((var(--chu-r) + 1) * var(--chu-pixel)) 0;
+    padding: calc((var(--blip-r) + 1) * var(--blip-pixel)) 0;
     overflow: visible;
-    color: var(--chu-box-text);
-    font-size: var(--chu-size-body);
-    line-height: var(--chu-leading-normal);
+    color: var(--blip-box-text);
+    font-size: var(--blip-size-body);
+    line-height: var(--blip-leading-normal);
   }
-  .chu-drawer[open] {
+  .blip-drawer[open] {
     display: flex;
     flex-direction: column;
-    translate: calc(var(--_chu-sx) * var(--_chu-dir) * round(var(--_chu-slide) * 100%, var(--chu-pixel))) calc(var(--_chu-sy) * round(var(--_chu-slide) * 100%, var(--chu-pixel)));
+    translate: calc(var(--_blip-sx) * var(--_blip-dir) * round(var(--_blip-slide) * 100%, var(--blip-pixel))) calc(var(--_blip-sy) * round(var(--_blip-slide) * 100%, var(--blip-pixel)));
   }
-  .chu-drawer:dir(rtl) { --_chu-dir: -1; }
-  .chu-drawer > form { display: contents; }
-  .chu-drawer:not([data-chu-r]) { --chu-r: 0; --chu-shape: var(--chu-shape-0); --chu-shape-inner: var(--chu-shape-0-inner); }
-  .chu-drawer:not([data-variant]) { --chu-drop-size: 2; }
-  .chu-drawer[data-size="sm"] { --_chu-w: 128; }
-  .chu-drawer[data-size="lg"] { --_chu-w: 224; }
+  .blip-drawer:dir(rtl) { --_blip-dir: -1; }
+  .blip-drawer > form { display: contents; }
+  .blip-drawer:not([data-blip-r]) { --blip-r: 0; --blip-shape: var(--blip-shape-0); --blip-shape-inner: var(--blip-shape-0-inner); }
+  .blip-drawer:not([data-variant]) { --blip-drop-size: 2; }
+  .blip-drawer[data-size="sm"] { --_blip-w: 128; }
+  .blip-drawer[data-size="lg"] { --_blip-w: 224; }
 
-  .chu-drawer[data-side="start"] {
-    --_chu-sx: -1;
-    inset: calc(-1 * var(--chu-pixel));
+  .blip-drawer[data-side="start"] {
+    --_blip-sx: -1;
+    inset: calc(-1 * var(--blip-pixel));
     inset-inline-end: auto;
   }
-  .chu-drawer[data-side="bottom"] {
-    --_chu-sx: 0;
-    --_chu-sy: 1;
-    inset: auto calc(-1 * var(--chu-pixel)) calc(-1 * var(--chu-pixel));
+  .blip-drawer[data-side="bottom"] {
+    --_blip-sx: 0;
+    --_blip-sy: 1;
+    inset: auto calc(-1 * var(--blip-pixel)) calc(-1 * var(--blip-pixel));
     inline-size: auto;
-    max-block-size: round(down, 85%, var(--chu-pixel));
+    max-block-size: round(down, 85%, var(--blip-pixel));
   }
 
   /* In and out: six steps, each a whole pixel-snapped sixth of the sheet. */
-  .chu-drawer[open] { animation: chu-drawer-in var(--chu-duration-glide) steps(6, jump-end); }
-  .chu-drawer[open]::backdrop { animation-duration: var(--chu-duration-glide); }
-  .chu-drawer[data-chu-closing] { animation: chu-drawer-out var(--chu-duration-glide) steps(6, jump-end) forwards; }
-  .chu-drawer[data-chu-closing]::backdrop { animation-duration: var(--chu-duration-glide); }
+  .blip-drawer[open] { animation: blip-drawer-in var(--blip-duration-glide) steps(6, jump-end); }
+  .blip-drawer[open]::backdrop { animation-duration: var(--blip-duration-glide); }
+  .blip-drawer[data-blip-closing] { animation: blip-drawer-out var(--blip-duration-glide) steps(6, jump-end) forwards; }
+  .blip-drawer[data-blip-closing]::backdrop { animation-duration: var(--blip-duration-glide); }
 
-  .chu-drawer[data-chu-static] { position: relative; inset: auto; margin: 0; z-index: auto; translate: none; animation: none; }
+  .blip-drawer[data-blip-static] { position: relative; inset: auto; margin: 0; z-index: auto; translate: none; animation: none; }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-drawer:is([open], [data-chu-closing]) { animation: none; }
+    .blip-drawer:is([open], [data-blip-closing]) { animation: none; }
   }
 }
 
-@keyframes chu-drawer-in { from { --_chu-slide: 1; } to { --_chu-slide: 0; } }
-@keyframes chu-drawer-out { from { --_chu-slide: 0; } to { --_chu-slide: 1; } }
+@keyframes blip-drawer-in { from { --_blip-slide: 1; } to { --_blip-slide: 0; } }
+@keyframes blip-drawer-out { from { --_blip-slide: 0; } to { --_blip-slide: 1; } }

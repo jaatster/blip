@@ -1,4 +1,4 @@
-# @jaatster/blip-font
+# @blip/font
 
 ## 0.2.0
 
@@ -10,3 +10,4 @@ comma and symbol drawn finer than one of its pixels (@ read as a dot, © as °),
 weight; Cyrillic and Greek corrected and completed. Emoji fall back to the system's, sized to the capitals.
 
 - Renamed from Blip: the package is `@jaatster/blip-font` (was `@jaatster/blip-font`). The fonts keep their names, Pixel Bop and Pixelify Sans.
+- Renamed from Blip: the package is `@blip/font` (was `@jaatster/blip-font`). The fonts keep their names, Pixel Bop and Pixelify Sans.

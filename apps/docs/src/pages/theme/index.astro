@@ -21,7 +21,7 @@ interface PaletteJson { name: string; description: string; credit?: string; shar
 const t = tokens() as Tokens & { palette: string; palettes: Record<string, PaletteJson> };
 const entries = manifest();
 
-// Token paths and their names: palette.day.accent.base is --chu-palette-day-accent.
+// Token paths and their names: palette.day.accent.base is --blip-palette-day-accent.
 const paletteEntries = entries.filter((e) => e.palette && e.type === "color");
 const nameOf = Object.fromEntries(paletteEntries.map((e) => [e.path, e.name]));
 const hexes = Object.fromEntries(Object.entries(t.shared).filter((e): e is [string, string] => typeof e[1] === "string" && /^#[0-9A-F]{6}$/i.test(e[1])));
@@ -94,7 +94,7 @@ const leverHelp: Record<(typeof LEVER_IDS)[number], string> = {
 
 const known = new Map(entries.map((m) => [m.name, m]));
 const role = (name: string) => {
-  if (!known.has(name)) throw new Error(`docs: the palette maker names --chu-${name}, which the tokens no longer have`);
+  if (!known.has(name)) throw new Error(`docs: the palette maker names --blip-${name}, which the tokens no longer have`);
   return code(known.get(name)!.cssVar);
 };
 // One name a line: the names are long, and a line of them would push the table off the page.
@@ -110,17 +110,17 @@ const ROLES: [string, string][] = [
   [all("palette-night-text", "palette-night-text-muted"), "Night's body and secondary text, 4.5:1 on all four; also the disabled dithers."],
   [all("palette-night-line", "palette-night-line-soft"), "Outlines of calm controls (3:1 on the page and surfaces), and dividers."],
   [role("palette-night-ink"), "Ink at Night: every outline and drop, labels on the candies, the scrim. Darker than the page, never black."],
-  [code("--chu-world-night-*"), "The night sky and ground the world draws: 28 colours, the sky glowing faintly in the accent near the horizon."],
+  [code("--blip-world-night-*"), "The night sky and ground the world draws: 28 colours, the sky glowing faintly in the accent near the horizon."],
 ];
 for (const s of ["day", "sunset", "night"]) for (const k of ["light", "shade", "text"]) role(`palette-${s}-warning-${k}`);
 const roleRows = ROLES.map(([names, what]) => [names, esc(what)]);
 const presetRows = palettes.filter((p) => p.id !== t.palette).map((p) => [code(p.id), esc(p.name), esc(p.description), esc(p.credit ?? "Blip")]);
-const candyCss = await codeBlock(["/* After @jaatster/blip-tokens/tokens.css: Candy's own palette, as tokens.css sets it */", "@layer chu.tokens {", "  :root {", ...paletteEntries.filter((e) => e.path.startsWith("palette.")).map((e) => `    ${e.cssVar}: ${t.shared[e.name]};`), "    /* …and the 28 --chu-world-night-* colours */", "  }", "}"].join("\n"), "css", "my-palette.css");
-const presetHtml = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-tokens/tokens.css">
-<link rel="stylesheet" href="@jaatster/blip-tokens/palettes.css">
+const candyCss = await codeBlock(["/* After @blip/tokens/tokens.css: Candy's own palette, as tokens.css sets it */", "@layer blip.tokens {", "  :root {", ...paletteEntries.filter((e) => e.path.startsWith("palette.")).map((e) => `    ${e.cssVar}: ${t.shared[e.name]};`), "    /* …and the 28 --blip-world-night-* colours */", "  }", "}"].join("\n"), "css", "my-palette.css");
+const presetHtml = await codeBlock(`<link rel="stylesheet" href="@blip/tokens/tokens.css">
+<link rel="stylesheet" href="@blip/tokens/palettes.css">
 
-<html data-chu-palette="ember">`, "html", "HTML");
-// @jaatster/blip-tokens' command (its README): builds the palette's tokens.css through Blip's checks.
+<html data-blip-palette="ember">`, "html", "HTML");
+// @blip/tokens' command (its README): builds the palette's tokens.css through Blip's checks.
 const cli = await codeBlock(`npx blip-tokens my-palette.resolver.json                # writes my-palette.css beside it
 npx blip-tokens my-palette.resolver.json --out src/tokens.css
 npx blip-tokens my-palette.resolver.json --check        # checks only, writes nothing`, "sh", "Shell");
@@ -129,72 +129,72 @@ const style = (vars: Record<string, string>) => Object.entries(vars).map(([k, v]
 ---
 <Docs title="Palette maker" description="Make a Blip palette: start from Candy or a preset (Ember, Dracula, Nord and more), turn the levers for the accent's hue and strength and Night's tint and lightness, check every pair in Day, Sunset and Night, and export it as CSS or DTCG tokens." wide kits={["effects"]} styles={["theme"]} scripts={["theme"]} headings={[H("tb-palettes-title", "Start from a palette"), H("tb-controls-title", "Your palette"), H("tb-preview-title", "Preview"), H("tb-export-title", "Export"), H("by-hand", "By hand")]}>
   <header class="docs-page-head tb-head">
-    <h1 class="docs-page-title chu-display" data-scale="2">Palette maker</h1>
+    <h1 class="docs-page-title blip-display" data-scale="2">Palette maker</h1>
     <p class="docs-lede">A palette is the accent of each time of day and Night's dark page, ink and sky. Start from Blip's own or a preset, then turn the levers: everything else is worked out the way the presets were, every text colour nudged until it passes AA, and the result comes out as CSS or as token files for the resolver.</p>
   </header>
 
-  <noscript><p class="chu-box chu-alert" data-tone="info"><span class="chu-alert-icon" aria-hidden="true"></span><span class="chu-alert-body">The maker needs JavaScript. For the presets and the palette's custom properties, see <a href="#by-hand">By hand</a> below.</span></p></noscript>
+  <noscript><p class="blip-box blip-alert" data-tone="info"><span class="blip-alert-icon" aria-hidden="true"></span><span class="blip-alert-body">The maker needs JavaScript. For the presets and the palette's custom properties, see <a href="#by-hand">By hand</a> below.</span></p></noscript>
 
   <div class="tb docs-needs-js">
     <section class="tb-palettes" aria-labelledby="tb-palettes-title">
       <h2 class="tb-h2" id="tb-palettes-title">Start from a palette</h2>
       <div class="tb-cards" role="radiogroup" aria-labelledby="tb-palettes-title">
         {palettes.map((p, i) => (
-          <label class="chu-box tb-card" data-variant="outline">
+          <label class="blip-box tb-card" data-variant="outline">
             <input type="radio" name="tb-palette" value={p.id} checked={i === 0} aria-describedby={`tb-about-${p.id}`} />
             <span class="tb-card-art" style={style(p.art)} aria-hidden="true"><span class="tb-card-panel"><span class="tb-card-pill"></span></span><span class="tb-card-days"><span></span><span></span></span></span>
             <span class="tb-card-name">{p.name}</span>
-            <span class="chu-sr-only" id={`tb-about-${p.id}`}>{p.description}{p.credit && ` ${p.credit}.`}</span>
+            <span class="blip-sr-only" id={`tb-about-${p.id}`}>{p.description}{p.credit && ` ${p.credit}.`}</span>
           </label>
         ))}
       </div>
-      <p class="chu-small tb-about" aria-live="polite"></p>
+      <p class="blip-small tb-about" aria-live="polite"></p>
     </section>
 
-    <section class="chu-box tb-controls" data-variant="panel" aria-labelledby="tb-controls-title">
+    <section class="blip-box tb-controls" data-variant="panel" aria-labelledby="tb-controls-title">
       <h2 class="tb-h2" id="tb-controls-title">Your palette</h2>
 
       <fieldset class="tb-field">
-        <legend class="chu-label">The accent, all day</legend>
+        <legend class="blip-label">The accent, all day</legend>
         {LEVER_IDS.slice(0, 2).map((id) => (
-          <div class="chu-field">
-            <label class="chu-field-label" for={`tb-${id}`}>{LEVERS[id].label}</label>
-            <div class="chu-slider-group">
-              <input class="chu-slider tb-lever" id={`tb-${id}`} data-lever={id} type="range" min={LEVERS[id].min} max={LEVERS[id].max} step={LEVERS[id].step} aria-describedby={`tb-${id}-help`} />
-              <output class="chu-box chu-slider-value" data-variant="panel" for={`tb-${id}`} aria-hidden="true"></output>
+          <div class="blip-field">
+            <label class="blip-field-label" for={`tb-${id}`}>{LEVERS[id].label}</label>
+            <div class="blip-slider-group">
+              <input class="blip-slider tb-lever" id={`tb-${id}`} data-lever={id} type="range" min={LEVERS[id].min} max={LEVERS[id].max} step={LEVERS[id].step} aria-describedby={`tb-${id}-help`} />
+              <output class="blip-box blip-slider-value" data-variant="panel" for={`tb-${id}`} aria-hidden="true"></output>
             </div>
-            <p class="chu-field-help" id={`tb-${id}-help`}>{leverHelp[id]}</p>
+            <p class="blip-field-help" id={`tb-${id}-help`}>{leverHelp[id]}</p>
           </div>
         ))}
-        <label class="chu-label" for="tb-hex">Or start from any colour</label>
+        <label class="blip-label" for="tb-hex">Or start from any colour</label>
         <div class="tb-hex-row">
-          <span class="chu-box chu-input tb-hex"><input id="tb-hex" type="text" inputmode="text" spellcheck="false" autocomplete="off" maxlength="7" value="#00C2FA" aria-describedby="tb-hex-help" /></span>
+          <span class="blip-box blip-input tb-hex"><input id="tb-hex" type="text" inputmode="text" spellcheck="false" autocomplete="off" maxlength="7" value="#00C2FA" aria-describedby="tb-hex-help" /></span>
           <input class="tb-picker" type="color" value="#00c2fa" aria-label="Pick a colour" />
         </div>
-        <p class="chu-field-help" id="tb-hex-help">Your colour as the candy, made lighter if an ink label would not read on it. The levers then turn it.</p>
-        <label class="chu-check tb-days-row" data-layout="split" hidden><span class="tb-days-label">Keep Candy's Day and Sunset</span><span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box tb-days" aria-describedby="tb-days-help" /></span></label>
-        <p class="chu-check-help tb-days-row" id="tb-days-help" hidden>On, the accent changes Night only. Off, it is the accent of all three.</p>
+        <p class="blip-field-help" id="tb-hex-help">Your colour as the candy, made lighter if an ink label would not read on it. The levers then turn it.</p>
+        <label class="blip-check tb-days-row" data-layout="split" hidden><span class="tb-days-label">Keep Candy's Day and Sunset</span><span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box tb-days" aria-describedby="tb-days-help" /></span></label>
+        <p class="blip-check-help tb-days-row" id="tb-days-help" hidden>On, the accent changes Night only. Off, it is the accent of all three.</p>
         <div class="tb-warnings" aria-live="polite"></div>
       </fieldset>
 
       <fieldset class="tb-field">
-        <legend class="chu-label">Night's page</legend>
+        <legend class="blip-label">Night's page</legend>
         {LEVER_IDS.slice(2).map((id) => (
-          <div class="chu-field">
-            <label class="chu-field-label" for={`tb-${id}`}>{LEVERS[id].label}</label>
-            <div class="chu-slider-group">
-              <input class="chu-slider tb-lever" id={`tb-${id}`} data-lever={id} type="range" min={LEVERS[id].min} max={LEVERS[id].max} step={LEVERS[id].step} aria-describedby={`tb-${id}-help`} />
-              <output class="chu-box chu-slider-value" data-variant="panel" for={`tb-${id}`} aria-hidden="true"></output>
+          <div class="blip-field">
+            <label class="blip-field-label" for={`tb-${id}`}>{LEVERS[id].label}</label>
+            <div class="blip-slider-group">
+              <input class="blip-slider tb-lever" id={`tb-${id}`} data-lever={id} type="range" min={LEVERS[id].min} max={LEVERS[id].max} step={LEVERS[id].step} aria-describedby={`tb-${id}-help`} />
+              <output class="blip-box blip-slider-value" data-variant="panel" for={`tb-${id}`} aria-hidden="true"></output>
             </div>
-            <p class="chu-field-help" id={`tb-${id}-help`}>{leverHelp[id]}</p>
+            <p class="blip-field-help" id={`tb-${id}-help`}>{leverHelp[id]}</p>
           </div>
         ))}
       </fieldset>
 
       <div class="tb-field">
-        <span class="chu-label">Worked out</span>
+        <span class="blip-label">Worked out</span>
         <div class="tb-derived">
-          <span class="chu-box tb-derived-box" aria-hidden="true"></span>
+          <span class="blip-box tb-derived-box" aria-hidden="true"></span>
           <dl class="tb-derived-values">
             <div><dt>Light</dt><dd><span class="tb-dot" data-k="light"></span><code data-v="light"></code></dd></div>
             <div><dt>Candy</dt><dd><span class="tb-dot" data-k="base"></span><code data-v="base"></code></dd></div>
@@ -208,88 +208,88 @@ const style = (vars: Record<string, string>) => Object.entries(vars).map(([k, v]
       </div>
 
       <div class="tb-field">
-        <span class="chu-label" id="tb-scheme-label">Checks and preview for</span>
-        <chu-segmented class="chu-box chu-segmented tb-scheme" aria-labelledby="tb-scheme-label" value="night" data-width="full">
-          {SCHEMES.map((s) => <button class="chu-box" type="button" value={s.id} aria-checked={s.id === "night" ? "true" : "false"}><Icon name={s.id === "day" ? "sun" : s.id === "sunset" ? "sunset" : "moon"} />{s.title}</button>)}
-        </chu-segmented>
+        <span class="blip-label" id="tb-scheme-label">Checks and preview for</span>
+        <blip-segmented class="blip-box blip-segmented tb-scheme" aria-labelledby="tb-scheme-label" value="night" data-width="full">
+          {SCHEMES.map((s) => <button class="blip-box" type="button" value={s.id} aria-checked={s.id === "night" ? "true" : "false"}><Icon name={s.id === "day" ? "sun" : s.id === "sunset" ? "sunset" : "moon"} />{s.title}</button>)}
+        </blip-segmented>
         <ul class="tb-checks" role="list" aria-labelledby="tb-scheme-label"></ul>
-        <p class="chu-small tb-summary" role="status"></p>
+        <p class="blip-small tb-summary" role="status"></p>
       </div>
 
       <div class="tb-field">
-        <span class="chu-label" id="tb-pixel-label">Pixel</span>
-        <chu-segmented class="chu-box chu-segmented tb-pixel" aria-labelledby="tb-pixel-label" value="2">
-          <button class="chu-box" type="button" value="2" aria-checked="true">2 px</button>
-          <button class="chu-box" type="button" value="3">3 px</button>
-          <button class="chu-box" type="button" value="4">4 px</button>
-        </chu-segmented>
+        <span class="blip-label" id="tb-pixel-label">Pixel</span>
+        <blip-segmented class="blip-box blip-segmented tb-pixel" aria-labelledby="tb-pixel-label" value="2">
+          <button class="blip-box" type="button" value="2" aria-checked="true">2 px</button>
+          <button class="blip-box" type="button" value="3">3 px</button>
+          <button class="blip-box" type="button" value="4">4 px</button>
+        </blip-segmented>
       </div>
 
-      <button class="chu-box chu-button tb-reset" type="button" data-variant="ghost" data-size="sm"><Icon name="undo" /><span class="tb-reset-label">Back to Candy</span></button>
+      <button class="blip-box blip-button tb-reset" type="button" data-variant="ghost" data-size="sm"><Icon name="undo" /><span class="tb-reset-label">Back to Candy</span></button>
     </section>
 
     <section class="tb-preview-wrap" aria-labelledby="tb-preview-title">
       <h2 class="tb-h2" id="tb-preview-title">Preview</h2>
       <div class="tb-strip" aria-hidden="true">
-        {SCHEMES.map((s) => <div class="tb-strip-cell" data-chu-scheme={s.id} data-strip={s.id}><span class="chu-box chu-button" data-size="sm">{s.title}</span><span class="chu-box chu-button" data-size="sm" data-variant="soft">Soft</span></div>)}
+        {SCHEMES.map((s) => <div class="tb-strip-cell" data-blip-scheme={s.id} data-strip={s.id}><span class="blip-box blip-button" data-size="sm">{s.title}</span><span class="blip-box blip-button" data-size="sm" data-variant="soft">Soft</span></div>)}
       </div>
-      <div class="tb-night" data-chu-scheme="night" data-strip="night" aria-hidden="true" inert>
-        <chu-world clouds="none" stars></chu-world>
-        <div class="chu-box tb-night-card" data-variant="panel">
+      <div class="tb-night" data-blip-scheme="night" data-strip="night" aria-hidden="true" inert>
+        <blip-world clouds="none" stars></blip-world>
+        <div class="blip-box tb-night-card" data-variant="panel">
           <p class="tb-night-title">Saved to slot 2</p>
-          <p class="chu-small">Body text, <span class="chu-muted">muted words</span> and <a href="#tb-preview-title">a link</a> on a surface.</p>
-          <span class="chu-box chu-input"><input type="text" value="Player one" aria-label="Sample field" /></span>
+          <p class="blip-small">Body text, <span class="blip-muted">muted words</span> and <a href="#tb-preview-title">a link</a> on a surface.</p>
+          <span class="blip-box blip-input"><input type="text" value="Player one" aria-label="Sample field" /></span>
           <div class="docs-row tb-night-tags">
-            <span class="chu-box chu-tag" data-size="sm">Accent</span>
-            <span class="chu-box chu-tag" data-size="sm" data-tone="info">Info</span>
-            <span class="chu-box chu-tag" data-size="sm" data-tone="success">Done</span>
-            <span class="chu-box chu-tag" data-size="sm" data-tone="warning">Warning</span>
-            <span class="chu-box chu-tag" data-size="sm" data-tone="danger">Error</span>
+            <span class="blip-box blip-tag" data-size="sm">Accent</span>
+            <span class="blip-box blip-tag" data-size="sm" data-tone="info">Info</span>
+            <span class="blip-box blip-tag" data-size="sm" data-tone="success">Done</span>
+            <span class="blip-box blip-tag" data-size="sm" data-tone="warning">Warning</span>
+            <span class="blip-box blip-tag" data-size="sm" data-tone="danger">Error</span>
           </div>
           <div class="docs-row">
-            <button class="chu-box chu-button" type="button" data-size="sm">Continue</button>
-            <button class="chu-box chu-button" type="button" data-size="sm" data-variant="outline">Back</button>
+            <button class="blip-box blip-button" type="button" data-size="sm">Continue</button>
+            <button class="blip-box blip-button" type="button" data-size="sm" data-variant="outline">Back</button>
           </div>
         </div>
       </div>
       <div class="tb-preview-scroll docs-scroll">
-        <div class="tb-preview" data-chu-scheme="night">
-          <div class="chu-box tb-sample" data-variant="panel">
+        <div class="tb-preview" data-blip-scheme="night">
+          <div class="blip-box tb-sample" data-variant="panel">
             <div class="tb-sample-head">
-              <p class="chu-display chu-pop" data-scale="2" data-pop="Level 2">Level 2</p>
-              <span class="chu-box chu-badge" data-size="sm">New</span>
+              <p class="blip-display blip-pop" data-scale="2" data-pop="Level 2">Level 2</p>
+              <span class="blip-box blip-badge" data-size="sm">New</span>
             </div>
-            <div class="chu-tabs" data-variant="soft" data-size="sm">
-              <div class="chu-tabs-list" role="tablist" aria-label="Sample tabs">
-                <button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="true" type="button">Play</button>
-                <button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="false" type="button" tabindex="-1">Map</button>
-                <button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="false" type="button" tabindex="-1">Items</button>
+            <div class="blip-tabs" data-variant="soft" data-size="sm">
+              <div class="blip-tabs-list" role="tablist" aria-label="Sample tabs">
+                <button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="true" type="button">Play</button>
+                <button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="false" type="button" tabindex="-1">Map</button>
+                <button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="false" type="button" tabindex="-1">Items</button>
               </div>
             </div>
-            <p class="chu-body">Your palette's accent, in the parts that use it: candy and soft buttons, the chosen tab, a switch, a checkbox, the progress fill, POP letters and <a href="#tb-preview-title">a link like this one</a>.</p>
+            <p class="blip-body">Your palette's accent, in the parts that use it: candy and soft buttons, the chosen tab, a switch, a checkbox, the progress fill, POP letters and <a href="#tb-preview-title">a link like this one</a>.</p>
             <div class="docs-row">
-              <button class="chu-box chu-button" type="button">Continue</button>
-              <button class="chu-box chu-button" type="button" data-variant="soft">Options</button>
-              <button class="chu-box chu-button" type="button" data-variant="outline" aria-pressed="true">Outline, on</button>
+              <button class="blip-box blip-button" type="button">Continue</button>
+              <button class="blip-box blip-button" type="button" data-variant="soft">Options</button>
+              <button class="blip-box blip-button" type="button" data-variant="outline" aria-pressed="true">Outline, on</button>
             </div>
             <div class="docs-row tb-focus-row">
-              <button class="chu-box chu-button" type="button" data-chu-state="focus" tabindex="-1">Focused</button>
-              <span class="chu-small chu-muted">The focus ring, beside your candy.</span>
+              <button class="blip-box blip-button" type="button" data-blip-state="focus" tabindex="-1">Focused</button>
+              <span class="blip-small blip-muted">The focus ring, beside your candy.</span>
             </div>
             <div class="tb-sample-row">
-              <label class="chu-check"><span class="chu-box chu-checkbox"><input type="checkbox" checked /></span>Auto-save</label>
-              <label class="chu-check"><span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" checked /></span>Music</label>
-              <span class="chu-box chu-tag">Rare</span>
+              <label class="blip-check"><span class="blip-box blip-checkbox"><input type="checkbox" checked /></span>Auto-save</label>
+              <label class="blip-check"><span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box" checked /></span>Music</label>
+              <span class="blip-box blip-tag">Rare</span>
             </div>
             <div>
-              <div class="chu-progress-label"><label for="tb-progress">World 2</label><span>60%</span></div>
-              <div class="chu-box chu-progress"><progress id="tb-progress" max="100" value="60">60%</progress></div>
+              <div class="blip-progress-label"><label for="tb-progress">World 2</label><span>60%</span></div>
+              <div class="blip-box blip-progress"><progress id="tb-progress" max="100" value="60">60%</progress></div>
             </div>
-            <chu-segmented class="chu-box chu-segmented" data-size="sm" aria-label="Difficulty" value="normal">
-              <button class="chu-box" type="button" value="easy">Easy</button>
-              <button class="chu-box" type="button" value="normal" aria-checked="true">Normal</button>
-              <button class="chu-box" type="button" value="hard">Hard</button>
-            </chu-segmented>
+            <blip-segmented class="blip-box blip-segmented" data-size="sm" aria-label="Difficulty" value="normal">
+              <button class="blip-box" type="button" value="easy">Easy</button>
+              <button class="blip-box" type="button" value="normal" aria-checked="true">Normal</button>
+              <button class="blip-box" type="button" value="hard">Hard</button>
+            </blip-segmented>
           </div>
         </div>
       </div>
@@ -299,48 +299,48 @@ const style = (vars: Record<string, string>) => Object.entries(vars).map(([k, v]
       <h2 class="tb-h2" id="tb-export-title">Export</h2>
       <p class="docs-note">Two ways to use it. The CSS goes after Blip's <code class="docs-inline-code">tokens.css</code>, as it is: a <code class="docs-inline-code">:root</code> rule in the same layer, loaded later, wins. Or build a checked <code class="docs-inline-code">tokens.css</code> of your own: put the palette's token file and the resolver in your project's folder, beside <code class="docs-inline-code">node_modules</code>, and run <code class="docs-inline-code">blip-tokens</code>, which checks every pair as Blip's own palettes are checked, and writes a file to load instead of Blip's.</p>
       <Fragment set:html={cli} />
-      <div class="chu-box chu-alert tb-blocked" data-tone="danger" role="group" aria-labelledby="tb-blocked-title" hidden>
-        <span class="chu-alert-icon" aria-hidden="true"></span>
-        <div class="chu-alert-body">
-          <p class="chu-alert-title" id="tb-blocked-title">Some pairs would not pass AA</p>
+      <div class="blip-box blip-alert tb-blocked" data-tone="danger" role="group" aria-labelledby="tb-blocked-title" hidden>
+        <span class="blip-alert-icon" aria-hidden="true"></span>
+        <div class="blip-alert-body">
+          <p class="blip-alert-title" id="tb-blocked-title">Some pairs would not pass AA</p>
           <ul class="tb-blocked-list"></ul>
           <p>Turn a lever, or pick another colour. Or export it as it is, and check those pairs yourself:</p>
-          <label class="chu-check"><span class="chu-box chu-checkbox" data-tone="danger"><input type="checkbox" class="tb-override" /></span>Export anyway</label>
+          <label class="blip-check"><span class="blip-box blip-checkbox" data-tone="danger"><input type="checkbox" class="tb-override" /></span>Export anyway</label>
         </div>
       </div>
-      <p class="chu-small tb-downloaded" role="status"></p>
-      <chu-tabs class="chu-tabs" data-variant="underline" data-size="sm">
-        <div class="chu-tabs-list" role="tablist" aria-label="Export formats">
-          <button class="chu-box chu-tab" data-variant="ghost" role="tab" aria-selected="true" type="button">CSS</button>
-          <button class="chu-box chu-tab" data-variant="ghost" role="tab" aria-selected="false" type="button" tabindex="-1">Palette tokens</button>
-          <button class="chu-box chu-tab" data-variant="ghost" role="tab" aria-selected="false" type="button" tabindex="-1">Resolver</button>
+      <p class="blip-small tb-downloaded" role="status"></p>
+      <blip-tabs class="blip-tabs" data-variant="underline" data-size="sm">
+        <div class="blip-tabs-list" role="tablist" aria-label="Export formats">
+          <button class="blip-box blip-tab" data-variant="ghost" role="tab" aria-selected="true" type="button">CSS</button>
+          <button class="blip-box blip-tab" data-variant="ghost" role="tab" aria-selected="false" type="button" tabindex="-1">Palette tokens</button>
+          <button class="blip-box blip-tab" data-variant="ghost" role="tab" aria-selected="false" type="button" tabindex="-1">Resolver</button>
         </div>
         {[["css", "my-palette.css", "CSS"], ["tokens", "my-palette.tokens.json", "JSON"], ["resolver", "my-palette.resolver.json", "JSON"]].map(([id, file, lang], i) => (
-          <div class="chu-tabs-panel" role="tabpanel" hidden={i > 0 ? true : undefined}>
-            <figure class="chu-box docs-code tb-out">
+          <div class="blip-tabs-panel" role="tabpanel" hidden={i > 0 ? true : undefined}>
+            <figure class="blip-box docs-code tb-out">
               <figcaption class="docs-code-bar">
                 <span class="docs-code-lang">{file}</span>
                 <span class="docs-row tb-out-actions">
-                  <button class="chu-box chu-button docs-copy" type="button" data-variant="ghost" data-size="sm" data-copy-from={`#tb-out-${id}`}>Copy</button>
-                  <button class="chu-box chu-button tb-download" type="button" data-variant="soft" data-size="sm" data-file={file} data-from={`#tb-out-${id}`}><Icon name="download" />Download</button>
+                  <button class="blip-box blip-button docs-copy" type="button" data-variant="ghost" data-size="sm" data-copy-from={`#tb-out-${id}`}>Copy</button>
+                  <button class="blip-box blip-button tb-download" type="button" data-variant="soft" data-size="sm" data-file={file} data-from={`#tb-out-${id}`}><Icon name="download" />Download</button>
                 </span>
               </figcaption>
               <pre class="tb-code" data-lang={lang} tabindex="0" aria-label={file}><code id={`tb-out-${id}`}></code></pre>
             </figure>
           </div>
         ))}
-      </chu-tabs>
+      </blip-tabs>
     </section>
   </div>
 
   <section class="docs-section tb-by-hand" aria-labelledby="by-hand">
     <h2 id="by-hand">By hand</h2>
-    <p>The scheme roles read the palette: Night's <code class="docs-inline-code">--chu-bg</code> is <code class="docs-inline-code">var(--chu-palette-night-bg)</code>, every scheme's <code class="docs-inline-code">--chu-accent</code> its own <code class="docs-inline-code">--chu-palette-*-accent</code>. So a palette is these custom properties, set inside <code class="docs-inline-code">@layer chu.tokens</code> in a file loaded after <code class="docs-inline-code">tokens.css</code>. Keep them in the layer: outside it, they would beat the presets too.</p>
+    <p>The scheme roles read the palette: Night's <code class="docs-inline-code">--blip-bg</code> is <code class="docs-inline-code">var(--blip-palette-night-bg)</code>, every scheme's <code class="docs-inline-code">--blip-accent</code> its own <code class="docs-inline-code">--blip-palette-*-accent</code>. So a palette is these custom properties, set inside <code class="docs-inline-code">@layer blip.tokens</code> in a file loaded after <code class="docs-inline-code">tokens.css</code>. Keep them in the layer: outside it, they would beat the presets too.</p>
     <Table label="The palette's custom properties" head={["Custom properties", "What they paint"]} rows={roleRows} />
     <Fragment set:html={candyCss} />
-    <p>Or use a preset: load <code class="docs-inline-code">@jaatster/blip-tokens/palettes.css</code> after the tokens and set <code class="docs-inline-code">data-chu-palette</code> on <code class="docs-inline-code">&lt;html&gt;</code>, or on an element that sets its own <code class="docs-inline-code">data-chu-scheme</code>: the roles are worked out where the scheme is set.</p>
+    <p>Or use a preset: load <code class="docs-inline-code">@blip/tokens/palettes.css</code> after the tokens and set <code class="docs-inline-code">data-blip-palette</code> on <code class="docs-inline-code">&lt;html&gt;</code>, or on an element that sets its own <code class="docs-inline-code">data-blip-scheme</code>: the roles are worked out where the scheme is set.</p>
     <Fragment set:html={presetHtml} />
-    <Table label="The presets" head={["data-chu-palette", "Name", "What it is", "Credit"]} rows={presetRows} />
+    <Table label="The presets" head={["data-blip-palette", "Name", "What it is", "Credit"]} rows={presetRows} />
     <ul class="docs-help">
       <li>Nothing checks a CSS file. Put your colours into the maker, or write them as a palette token file and run <code class="docs-inline-code">blip-tokens</code> on it (see Export, above): it checks every pair in every scheme and stops on the first that fails.</li>
       <li>The info intent is the Day accent's blue in every scheme, and stays so. Success and danger are separate roles; an accent close to one of them makes every main button look like it. An accent close to the warning's orange moves the warning to amber.</li>

@@ -1,6 +1,6 @@
 /**
- * Level tile: LevelMap, LevelTile, LevelNumber, LevelStars and LevelPath. CSS from @jaatster/blip-game (level.css). The
- * current tile's arrow is `<Sprite className="chu-level-here" name="arrow" />` (Sprite from this same entry point).
+ * Level tile: LevelMap, LevelTile, LevelNumber, LevelStars and LevelPath. CSS from @blip/game (level.css). The
+ * current tile's arrow is `<Sprite className="blip-level-here" name="arrow" />` (Sprite from this same entry point).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";
@@ -23,10 +23,10 @@ export type LevelMapProps = NativeProps<"ol">;
  *     <li><LevelTile locked aria-label="Level 3: locked"><Sprite name="padlock" /></LevelTile></li>
  *   </LevelMap>
  *
- * Renders `<ol class="chu-level-map">`.
+ * Renders `<ol class="blip-level-map">`.
  */
 export const LevelMap = /*#__PURE__*/ forwardRef<HTMLOListElement, LevelMapProps>(function LevelMap({ className, ...rest }, ref) {
-  return <ol ref={ref} className={cx("chu-level-map", className)} {...rest} />;
+  return <ol ref={ref} className={cx("blip-level-map", className)} {...rest} />;
 });
 
 /** Options of {@link LevelTile}. */
@@ -50,7 +50,7 @@ export type LevelTileProps<T extends ElementType = "button"> = PolymorphicProps<
 /**
  * One stop on a level map: a candy box with the level's number in Pixel Bop and the stars earned, a padlock when it
  * is locked, a sprite for a bonus. A button (`type="button"`) by default; `as="a"` with an href for a link. The
- * current tile carries the arrow first: `<Sprite className="chu-level-here" name="arrow" />`, which bobs over it for
+ * current tile carries the arrow first: `<Sprite className="blip-level-here" name="arrow" />`, which bobs over it for
  * five seconds, then rests.
  *
  *   <LevelTile aria-label="Level 2, Clover Hill: 2 of 3 stars">
@@ -58,12 +58,12 @@ export type LevelTileProps<T extends ElementType = "button"> = PolymorphicProps<
  *     <LevelStars><Sprite name="star" /><Sprite name="star" /><Sprite name="star-empty" /></LevelStars>
  *   </LevelTile>
  *   <LevelTile current aria-label="Level 3, Puddle Path: you are here">
- *     <Sprite className="chu-level-here" name="arrow" />
+ *     <Sprite className="blip-level-here" name="arrow" />
  *     <LevelNumber>3</LevelNumber>
  *   </LevelTile>
  *   <LevelTile locked tone="danger" aria-label="Level 5, the boss: locked"><Sprite name="padlock" /></LevelTile>
  *
- * Renders `<button type="button" class="chu-box chu-level">`.
+ * Renders `<button type="button" class="blip-box blip-level">`.
  */
 // The public type (the cast below) requires the name; inside, only the options are read.
 export const LevelTile = /*#__PURE__*/ forwardRef(function LevelTile(
@@ -82,7 +82,7 @@ export const LevelTile = /*#__PURE__*/ forwardRef(function LevelTile(
     <Tag
       ref={ref}
       type={type ?? (Tag === "button" ? "button" : undefined)}
-      className={cx("chu-box chu-level", className)}
+      className={cx("blip-box blip-level", className)}
       data-tone={tone}
       aria-current={current ? "step" : undefined}
       aria-disabled={locked ? true : undefined}
@@ -99,13 +99,13 @@ export type LevelNumberProps = NativeProps<"span">;
  *
  *   <LevelNumber>12</LevelNumber>
  *
- * Renders `<span class="chu-level-number">`.
+ * Renders `<span class="blip-level-number">`.
  */
 export const LevelNumber = /*#__PURE__*/ forwardRef<HTMLSpanElement, LevelNumberProps>(function LevelNumber(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-level-number", className)} {...rest} />;
+  return <span ref={ref} className={cx("blip-level-number", className)} {...rest} />;
 });
 
 /** Props for {@link LevelStars}. */
@@ -116,13 +116,13 @@ export type LevelStarsProps = NativeProps<"span">;
  *
  *   <LevelStars><Sprite name="star" /><Sprite name="star" /><Sprite name="star-empty" /></LevelStars>
  *
- * Renders `<span class="chu-level-stars">`.
+ * Renders `<span class="blip-level-stars">`.
  */
 export const LevelStars = /*#__PURE__*/ forwardRef<HTMLSpanElement, LevelStarsProps>(function LevelStars(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-level-stars", className)} {...rest} />;
+  return <span ref={ref} className={cx("blip-level-stars", className)} {...rest} />;
 });
 
 /** Own props of {@link LevelPath}. */
@@ -137,12 +137,12 @@ export interface LevelPathOwnProps {
 export type LevelPathProps = LevelPathOwnProps & NativeProps<"span", LevelPathOwnProps>;
 
 /**
- * The dotted way from a tile to the next: dots two pixels square, two apart, `--chu-level-path` pixels long (10). It
+ * The dotted way from a tile to the next: dots two pixels square, two apart, `--blip-level-path` pixels long (10). It
  * is scenery, hidden from assistive technology: the list's order is the path.
  *
  *   <li><LevelTile current aria-label="Level 3, Puddle Path: you are here">…</LevelTile><LevelPath locked /></li>
  *
- * Renders `<span class="chu-level-path" aria-hidden="true">`.
+ * Renders `<span class="blip-level-path" aria-hidden="true">`.
  */
 export const LevelPath = /*#__PURE__*/ forwardRef<HTMLSpanElement, LevelPathProps>(function LevelPath(
   { direction, locked, className, ...rest },
@@ -151,7 +151,7 @@ export const LevelPath = /*#__PURE__*/ forwardRef<HTMLSpanElement, LevelPathProp
   return (
     <span
       ref={ref}
-      className={cx("chu-level-path", className)}
+      className={cx("blip-level-path", className)}
       data-direction={direction}
       data-locked={flag(locked)}
       aria-hidden={true}

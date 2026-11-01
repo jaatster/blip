@@ -3,7 +3,7 @@
  * box's states compute to in each scheme, in forced colours and on paper.
  *
  * Everything comes from the sources, never from a package's dist (another build may be writing it): the tokens are
- * built in a temporary copy and core's CSS is bundled from src. The page is served from http://chu.test/ by request
+ * built in a temporary copy and core's CSS is bundled from src. The page is served from http://blip.test/ by request
  * routing: /tokens.css and /core.css are those, any other path is a file of the repository, so a component's
  * stylesheet loads from /packages/components/src/<name>.css with its own imports.
  */
@@ -12,7 +12,7 @@ import { extname, join } from "node:path";
 import { chromium, type Browser, type BrowserContextOptions, type Page } from "playwright";
 import { REPO, node, tempDir, tokensCopy } from "../support/fixtures.ts";
 
-const ORIGIN = "http://chu.test";
+const ORIGIN = "http://blip.test";
 
 export interface BoxAssets {
   tokensCss: string;
@@ -48,7 +48,7 @@ export async function boxPage(
 ): Promise<Page> {
   const page = await (await browser.newContext({ viewport: { width: 800, height: 600 }, deviceScaleFactor: 1, reducedMotion: "reduce", ...context })).newPage();
   const links = ["/tokens.css", "/core.css", ...components.map((c) => `/packages/components/src/${c}.css`)].map((href) => `<link rel="stylesheet" href="${href}">`).join("");
-  const html = `<!doctype html><html lang="en"${scheme ? ` data-chu-scheme="${scheme}"` : ""}><head><meta charset="utf-8">${links}<style>body{margin:0}${style}</style></head><body>${body}</body></html>`;
+  const html = `<!doctype html><html lang="en"${scheme ? ` data-blip-scheme="${scheme}"` : ""}><head><meta charset="utf-8">${links}<style>body{margin:0}${style}</style></head><body>${body}</body></html>`;
   await page.route(`${ORIGIN}/**`, (route) => {
     const path = new URL(route.request().url()).pathname;
     if (path === "/") return route.fulfill({ contentType: "text/html", body: html });

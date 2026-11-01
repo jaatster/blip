@@ -1,19 +1,19 @@
 <!-- The common case: a title, a line of context, three choices with one destructive, and Cancel apart. Each button
-     closes the sheet with its value: returnValue, and chu-close's detail.returnValue (shown beside the button). -->
-<button class="chu-box chu-button" type="button" commandfor="as-replay" command="show-modal" onclick="const out = this.nextElementSibling; document.querySelector('#as-replay').closest('chu-action-sheet').addEventListener('chu-close', (e) => { out.value = e.detail.returnValue || '(dismissed)'; }, { once: true })">Replay 12</button>
-<output class="chu-small chu-muted" aria-live="polite"></output>
+     closes the sheet with its value: returnValue, and blip-close's detail.returnValue (shown beside the button). -->
+<button class="blip-box blip-button" type="button" commandfor="as-replay" command="show-modal" onclick="const out = this.nextElementSibling; document.querySelector('#as-replay').closest('blip-action-sheet').addEventListener('blip-close', (e) => { out.value = e.detail.returnValue || '(dismissed)'; }, { once: true })">Replay 12</button>
+<output class="blip-small blip-muted" aria-live="polite"></output>
 
-<chu-action-sheet light-dismiss>
-  <dialog class="chu-box chu-drawer chu-action-sheet" id="as-replay" aria-labelledby="as-replay-title" aria-describedby="as-replay-text">
+<blip-action-sheet light-dismiss>
+  <dialog class="blip-box blip-drawer blip-action-sheet" id="as-replay" aria-labelledby="as-replay-title" aria-describedby="as-replay-text">
     <form method="dialog">
-      <h2 class="chu-action-sheet-title" id="as-replay-title">Replay 12</h2>
-      <p class="chu-action-sheet-message" id="as-replay-text">World 3-2, saved 2 minutes ago.</p>
-      <div class="chu-action-sheet-actions">
-        <button class="chu-box chu-button" data-size="lg" data-width="full" data-variant="soft" value="share">Share</button>
-        <button class="chu-box chu-button" data-size="lg" data-width="full" data-variant="soft" value="rename">Rename</button>
-        <button class="chu-box chu-button" data-size="lg" data-width="full" data-variant="soft" data-tone="danger" value="delete">Delete</button>
+      <h2 class="blip-action-sheet-title" id="as-replay-title">Replay 12</h2>
+      <p class="blip-action-sheet-message" id="as-replay-text">World 3-2, saved 2 minutes ago.</p>
+      <div class="blip-action-sheet-actions">
+        <button class="blip-box blip-button" data-size="lg" data-width="full" data-variant="soft" value="share">Share</button>
+        <button class="blip-box blip-button" data-size="lg" data-width="full" data-variant="soft" value="rename">Rename</button>
+        <button class="blip-box blip-button" data-size="lg" data-width="full" data-variant="soft" data-tone="danger" value="delete">Delete</button>
       </div>
-      <button class="chu-box chu-button chu-action-sheet-cancel" data-size="lg" data-width="full" data-variant="soft" data-tone="neutral" value="cancel">Cancel</button>
+      <button class="blip-box blip-button blip-action-sheet-cancel" data-size="lg" data-width="full" data-variant="soft" data-tone="neutral" value="cancel">Cancel</button>
     </form>
   </dialog>
-</chu-action-sheet>
+</blip-action-sheet>

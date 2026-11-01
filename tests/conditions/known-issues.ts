@@ -24,7 +24,7 @@ export interface KnownIssue {
 // The long-words lane's causes: what is still left on purpose, or waits on another stream.
 const DISPLAY = {
   why: "Owner decision: display type (Pixel Bop) never breaks inside a word or number; on a narrow stage it steps down to a whole scale that fits (stage.css), and titles wrap between words. A compound of 18 to 24 letters is 252 to 336 px even at scale 1, the smallest whole scale (14 px a letter at the default pixel), so in a phone-width stage, panel or footer it is wider than its box. In English everything fits.",
-  fix: "Nothing in the CSS while display words stay whole: there is no smaller whole scale. The owner's call: let display text break inside a word as a last resort at scale 1 (overflow-wrap: anywhere on .chu-display[data-scale=\"1\"] and on stepped-down text), or give these examples more room.",
+  fix: "Nothing in the CSS while display words stay whole: there is no smaller whole scale. The owner's call: let display text break inside a word as a last resort at scale 1 (overflow-wrap: anywhere on .blip-display[data-scale=\"1\"] and on stepped-down text), or give these examples more room.",
 };
 const BRAND = {
   why: "Deliberate, documented in app-bar.css: 'The brand gives way first when space runs out', so on a narrow bar the wordmark is clipped (with no ellipsis) to keep the menu button and the actions whole.",
@@ -50,15 +50,15 @@ export const KNOWN_ISSUES: KnownIssue[] = [
   // ---------------------------------------------------------------- rtl
   // ---------------------------------------------------------------- long-words
   { lane: "long-words", example: "blocks/landing", match: "the page is wider than the screen", ...DISPLAY },
-  { lane: "long-words", example: "components/app-bar", match: "a.chu-app-bar-link in ul.chu-app-bar-links \"", ...NEVER_SQUEEZED },
-  { lane: "long-words", example: "components/app-bar", match: "span.chu-display.chu-pop in a.chu-app-bar-brand \"", ...BRAND },
+  { lane: "long-words", example: "components/app-bar", match: "a.blip-app-bar-link in ul.blip-app-bar-links \"", ...NEVER_SQUEEZED },
+  { lane: "long-words", example: "components/app-bar", match: "span.blip-display.blip-pop in a.blip-app-bar-brand \"", ...BRAND },
   { lane: "long-words", example: "components/app-bar", match: "the page is wider than the screen", ...NEVER_SQUEEZED },
   { lane: "long-words", example: "components/bottom-bar", match: "falls out of the bottom of div", ...EXAMPLE_FRAME },
-  { lane: "long-words", example: "effects/crt", match: "p.chu-display in div \"", ...DISPLAY },
-  { lane: "long-words", example: "game/inventory", match: "span.chu-slot-tag in button.chu-slot \"", ...OVERHANG },
-  { lane: "long-words", example: "game/level", match: "h3.chu-display.chu-pop in section.chu-stage \"", ...DISPLAY },
-  { lane: "long-words", example: "game/pause", match: "h2.chu-pause-title.chu-display in dialog.chu-pause \"", ...DISPLAY },
-  { lane: "long-words", example: "game/stage", match: "p.chu-display.chu-pop in section.chu-stage \"", ...DISPLAY },
+  { lane: "long-words", example: "effects/crt", match: "p.blip-display in div \"", ...DISPLAY },
+  { lane: "long-words", example: "game/inventory", match: "span.blip-slot-tag in button.blip-slot \"", ...OVERHANG },
+  { lane: "long-words", example: "game/level", match: "h3.blip-display.blip-pop in section.blip-stage \"", ...DISPLAY },
+  { lane: "long-words", example: "game/pause", match: "h2.blip-pause-title.blip-display in dialog.blip-pause \"", ...DISPLAY },
+  { lane: "long-words", example: "game/stage", match: "p.blip-display.blip-pop in section.blip-stage \"", ...DISPLAY },
   // ---------------------------------------------------------------- scripts
   // ---------------------------------------------------------------- print
   // ---------------------------------------------------------------- motion

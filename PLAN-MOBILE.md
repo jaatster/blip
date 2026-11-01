@@ -41,13 +41,13 @@ Each must pass `pnpm qa <name>`.
 |---|---|
 | **Bottom sheet** | The drawer's bottom side, plus a grab handle. Drag it between snap heights (`data-snap="half full"`) or down to close; on a keyboard, press the handle to change height, and Escape closes it. |
 | **Action sheet** | A short column of big buttons rising from the bottom (one can be danger), with Cancel apart from the rest. A modal, so focus stays inside it. |
-| **Swipe rows** | `<chu-swipe-row>` on a list row: swipe left or right to reveal actions, and a full swipe runs the first one. The actions are always in the tab order, with a "More" button for mouse and keyboard. |
-| **Pull to refresh** | `<chu-refresh>` round a scroller. Pull past the line, a pixel arrow steps into the loader, and the `chu-refresh` event gets a promise to wait on. It's announced politely; pair it with a refresh button. |
+| **Swipe rows** | `<blip-swipe-row>` on a list row: swipe left or right to reveal actions, and a full swipe runs the first one. The actions are always in the tab order, with a "More" button for mouse and keyboard. |
+| **Pull to refresh** | `<blip-refresh>` round a scroller. Pull past the line, a pixel arrow steps into the loader, and the `blip-refresh` event gets a promise to wait on. It's announced politely; pair it with a refresh button. |
 | **Phone top bar** | Back button, centred title and up to two actions. Sticky, inside the notch's safe area. `data-large` gives a big title that steps down to the small one as you scroll (CSS only). |
-| **Action button** | A candy block floating at the bottom end, above the bottom bar. `<chu-fab>` can fan out into two or three labelled mini buttons (a speed dial). |
-| **Pager** | A swipeable row of cards with pixel dots (`scroll-snap`, so it works without JS). `<chu-pager>` keeps the dots in step and adds arrow keys. It never plays by itself. |
-| **Wheel picker** | `<chu-wheel>`: one or more snapping wheels with a highlight band. It works in forms like an input, each wheel works with the arrow keys, and there are presets for time and date. |
-| **Touch pad** (game kit) | `<chu-touch-pad>`: a pixel D-pad plus A and B, sending arrow keys and the keys you choose to a target, with several fingers at once. It shows only on touch screens unless forced. |
+| **Action button** | A candy block floating at the bottom end, above the bottom bar. `<blip-fab>` can fan out into two or three labelled mini buttons (a speed dial). |
+| **Pager** | A swipeable row of cards with pixel dots (`scroll-snap`, so it works without JS). `<blip-pager>` keeps the dots in step and adds arrow keys. It never plays by itself. |
+| **Wheel picker** | `<blip-wheel>`: one or more snapping wheels with a highlight band. It works in forms like an input, each wheel works with the arrow keys, and there are presets for time and date. |
+| **Touch pad** (game kit) | `<blip-touch-pad>`: a pixel D-pad plus A and B, sending arrow keys and the keys you choose to a target, with several fingers at once. It shows only on touch screens unless forced. |
 
 ## 4. Live at jaatster.com/blip
 

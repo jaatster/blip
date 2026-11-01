@@ -1,8 +1,8 @@
 /* Storybook-only touches: canvases in the docs pages take the scheme's page colour, as the stories do. */
 .docs-story {
-  background: var(--chu-bg);
-  color: var(--chu-text);
+  background: var(--blip-bg);
+  color: var(--blip-text);
 }
 .docs-story > div:first-child {
-  font-family: var(--chu-font-ui);
+  font-family: var(--blip-font-ui);
 }

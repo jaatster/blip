@@ -54,32 +54,32 @@ jobs:
         run: pnpm budgets
 
       - name: Stylelint rules
-        run: pnpm --filter @jaatster/blip-stylelint-config test
+        run: pnpm --filter @blip/stylelint-config test
 
       - name: React (example typecheck, React 18 and 19)
         run: |
-          pnpm --filter @jaatster/blip-react typecheck
-          pnpm --filter @jaatster/blip-react test
+          pnpm --filter @blip/react typecheck
+          pnpm --filter @blip/react test
 
       - name: Playwright Chromium
-        run: pnpm --filter @jaatster/blip-tests exec playwright install --with-deps chromium
+        run: pnpm --filter @blip/tests exec playwright install --with-deps chromium
 
       - name: Unit tests
-        run: pnpm --filter @jaatster/blip-tests test
+        run: pnpm --filter @blip/tests test
 
       # Baselines are per platform: Linux ones live in tests/visual/__screenshots__/linux (see visual-baselines.yml).
       - name: Visual tests
-        run: pnpm --filter @jaatster/blip-tests test:visual
+        run: pnpm --filter @blip/tests test:visual
 
       # Every example under other conditions (tests/conditions); what is left on purpose is in its known-issues.ts.
       - name: Condition tests
-        run: pnpm --filter @jaatster/blip-tests test:conditions
+        run: pnpm --filter @blip/tests test:conditions
 
       - name: Storybook
-        run: pnpm --filter @jaatster/blip-storybook build
+        run: pnpm --filter @blip/storybook build
 
       - name: Docs site
-        run: pnpm --filter @jaatster/blip-docs build
+        run: pnpm --filter @blip/docs build
 
       - name: Generated files are committed
         run: git diff --exit-code
@@ -126,7 +126,7 @@ jobs:
         run: pnpm build
 
       - name: Playwright Chromium
-        run: pnpm --filter @jaatster/blip-tests exec playwright install --with-deps chromium
+        run: pnpm --filter @blip/tests exec playwright install --with-deps chromium
 
       # npm's download cache, for the apps' installs; it keeps tarballs, not versions.
       - uses: actions/cache@v6
@@ -136,7 +136,7 @@ jobs:
           restore-keys: real-stack-npm-
 
       - name: Real stack
-        run: node scripts/real-stack.mjs --dir "$RUNNER_TEMP/chu-stack"
+        run: node scripts/real-stack.mjs --dir "$RUNNER_TEMP/blip-stack"
 
       - name: Real-stack logs
         if: failure()
@@ -144,8 +144,8 @@ jobs:
         with:
           name: real-stack
           path: |
-            ${{ runner.temp }}/chu-stack/results.json
-            ${{ runner.temp }}/chu-stack/pack.log
-            ${{ runner.temp }}/chu-stack/*/real-stack.log
-            ${{ runner.temp }}/chu-stack/*/*/*.png
+            ${{ runner.temp }}/blip-stack/results.json
+            ${{ runner.temp }}/blip-stack/pack.log
+            ${{ runner.temp }}/blip-stack/*/real-stack.log
+            ${{ runner.temp }}/blip-stack/*/*/*.png
           if-no-files-found: ignore

@@ -1,16 +1,16 @@
 // Dashboard template: the period changes the numbers; Export and the menu answer with toasts; one welcome toast.
 const $ = (s, r = document) => r.querySelector(s);
-const toaster = async () => { await customElements.whenDefined("chu-toaster"); return $("chu-toaster"); };
+const toaster = async () => { await customElements.whenDefined("blip-toaster"); return $("blip-toaster"); };
 const DATA = {
   day: [["312", "+8% on yesterday", "up"], ["1,180", "+2%", "up"], ["7K", "-1%", "down"], ["1", "-2: good news", "down"]],
   week: [["1,204", "+12% on last week", "up"], ["8,812", "+4%", "up"], ["54K", "-3%", "down"], ["7", "-9: good news", "down"]],
   month: [["4,980", "+31% on last month", "up"], ["36,402", "+18%", "up"], ["231K", "+6%", "up"], ["29", "+3", "up"]],
 };
-$(".tpl-range")?.addEventListener("chu-change", (e) => {
+$(".tpl-range")?.addEventListener("blip-change", (e) => {
   const rows = DATA[e.detail.value] ?? DATA.week;
-  document.querySelectorAll(".tpl-stats > .chu-stat").forEach((stat, i) => {
+  document.querySelectorAll(".tpl-stats > .blip-stat").forEach((stat, i) => {
     const [value, delta, trend] = rows[i];
-    const v = stat.querySelector(".chu-stat-value"), d = stat.querySelector(".chu-stat-delta");
+    const v = stat.querySelector(".blip-stat-value"), d = stat.querySelector(".blip-stat-delta");
     v.textContent = value;
     d.textContent = delta;
     d.dataset.trend = trend;

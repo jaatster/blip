@@ -1,170 +1,170 @@
 /*
  * Toast. A short message that floats in a corner and leaves on its own: a sign, a title, a few words, an
- * action, a dismiss button, and a stepped pixel bar that counts down until it goes. <chu-toaster> (from
- * @jaatster/blip-elements) makes them, stacks them, announces them and pauses them while you point at or focus one.
+ * action, a dismiss button, and a stepped pixel bar that counts down until it goes. <blip-toaster> (from
+ * @blip/elements) makes them, stacks them, announces them and pauses them while you point at or focus one.
  *
- *   <chu-toaster data-side="bottom" data-align="end"></chu-toaster>
+ *   <blip-toaster data-side="bottom" data-align="end"></blip-toaster>
  *   toast({ title: "Achievement unlocked", body: "First Flight", tone: "success", action: { label: "View" } })
  *
  * The markup it makes, also usable on its own:
  *
- *   <div class="chu-box chu-toast" data-tone="success">
- *     <span class="chu-toast-icon" aria-hidden="true"></span>
- *     <div class="chu-toast-body">
- *       <p class="chu-toast-title">Achievement unlocked</p>
+ *   <div class="blip-box blip-toast" data-tone="success">
+ *     <span class="blip-toast-icon" aria-hidden="true"></span>
+ *     <div class="blip-toast-body">
+ *       <p class="blip-toast-title">Achievement unlocked</p>
  *       <p>First Flight: clear World 1 without a hit.</p>
- *       <div class="chu-toast-actions"><button class="chu-box chu-button" data-size="sm" data-variant="outline">View</button></div>
+ *       <div class="blip-toast-actions"><button class="blip-box blip-button" data-size="sm" data-variant="outline">View</button></div>
  *     </div>
- *     <button class="chu-box chu-button chu-toast-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
- *     <span class="chu-toast-timer" aria-hidden="true"></span>
+ *     <button class="blip-box blip-button blip-toast-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
+ *     <span class="blip-toast-timer" aria-hidden="true"></span>
  *   </div>
  *
  *   data-tone        none: a raised panel | info | success | warning | danger      soft fill in the tone
  *   data-variant     soft (default with a tone) | candy                             candy is louder
- *   .chu-toaster      data-side: bottom (default) | top; data-align: end (default) | center | start
- *   data-chu-static   on .chu-toaster: in the page flow, for docs and screenshots
+ *   .blip-toaster      data-side: bottom (default) | top; data-align: end (default) | center | start
+ *   data-blip-static   on .blip-toaster: in the page flow, for docs and screenshots
  *
- * The timer bar steps down in eight whole-pixel steps over --chu-toast-duration and stops while the toaster has
- * data-paused; --chu-toast-timer (on a toast or the toaster) recolours it. Toasts come up from their edge (six
+ * The timer bar steps down in eight whole-pixel steps over --blip-toast-duration and stops while the toaster has
+ * data-paused; --blip-toast-timer (on a toast or the toaster) recolours it. Toasts come up from their edge (six
  * pixels, two, then in place) and drop back out the same way.
  */
 @import "./_feedback.css";
 
-@property --_chu-toast-left { syntax: "<number>"; inherits: false; initial-value: 8; }
+@property --_blip-toast-left { syntax: "<number>"; inherits: false; initial-value: 8; }
 
-@layer chu.components {
-  .chu-toaster {
-    --_chu-dir: 1;
+@layer blip.components {
+  .blip-toaster {
+    --_blip-dir: 1;
     position: fixed;
-    z-index: var(--chu-layer-toast);
-    inset-block-end: calc(8 * var(--chu-pixel));
-    inset-inline-end: calc(8 * var(--chu-pixel));
+    z-index: var(--blip-layer-toast);
+    inset-block-end: calc(8 * var(--blip-pixel));
+    inset-inline-end: calc(8 * var(--blip-pixel));
     display: flex;
     flex-direction: column;
-    gap: calc(3 * var(--chu-pixel));
-    inline-size: round(down, min(calc(170 * var(--chu-pixel)), 100% - 16 * var(--chu-pixel)), var(--chu-pixel));
+    gap: calc(3 * var(--blip-pixel));
+    inline-size: round(down, min(calc(170 * var(--blip-pixel)), 100% - 16 * var(--blip-pixel)), var(--blip-pixel));
     pointer-events: none;
   }
-  .chu-toaster[data-align="center"] { inset-inline: 0; margin-inline: auto; }
-  .chu-toaster[data-align="start"] { inset-inline: calc(8 * var(--chu-pixel)) auto; }
-  .chu-toaster[data-side="top"] {
-    --_chu-dir: -1;
-    inset-block: calc(8 * var(--chu-pixel)) auto;
+  .blip-toaster[data-align="center"] { inset-inline: 0; margin-inline: auto; }
+  .blip-toaster[data-align="start"] { inset-inline: calc(8 * var(--blip-pixel)) auto; }
+  .blip-toaster[data-side="top"] {
+    --_blip-dir: -1;
+    inset-block: calc(8 * var(--blip-pixel)) auto;
     flex-direction: column-reverse;
   }
-  .chu-toaster[data-chu-static] { position: relative; inset: auto; z-index: auto; margin: 0; }
+  .blip-toaster[data-blip-static] { position: relative; inset: auto; z-index: auto; margin: 0; }
 
-  .chu-toast {
-    --_chu-glyph: var(--_chu-g-info);
-    --chu-drop-size: 2;
+  .blip-toast {
+    --_blip-glyph: var(--_blip-g-info);
+    --blip-drop-size: 2;
     display: flex;
     align-items: flex-start;
-    gap: calc(3 * var(--chu-pixel));
-    padding: calc(4 * var(--chu-pixel)) calc(4 * var(--chu-pixel)) calc(6 * var(--chu-pixel)) calc(5 * var(--chu-pixel));
-    margin: 0 calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel)) 0;
-    font-size: var(--chu-size-small);
-    line-height: var(--chu-leading-normal);
+    gap: calc(3 * var(--blip-pixel));
+    padding: calc(4 * var(--blip-pixel)) calc(4 * var(--blip-pixel)) calc(6 * var(--blip-pixel)) calc(5 * var(--blip-pixel));
+    margin: 0 calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel)) 0;
+    font-size: var(--blip-size-small);
+    line-height: var(--blip-leading-normal);
     text-align: start;
     pointer-events: auto;
   }
-  .chu-toast[hidden] { display: none; }
-  .chu-toast[data-tone="success"] { --_chu-glyph: var(--_chu-g-success); }
-  .chu-toast[data-tone="warning"] { --_chu-glyph: var(--_chu-g-warning); }
-  .chu-toast[data-tone="danger"] { --_chu-glyph: var(--_chu-g-danger); }
+  .blip-toast[hidden] { display: none; }
+  .blip-toast[data-tone="success"] { --_blip-glyph: var(--_blip-g-success); }
+  .blip-toast[data-tone="warning"] { --_blip-glyph: var(--_blip-g-warning); }
+  .blip-toast[data-tone="danger"] { --_blip-glyph: var(--_blip-g-danger); }
 
   /* No tone: a raised panel in the scheme's colours. A tone: its soft fill. */
-  .chu-toast:not([data-tone]):not([data-variant]) {
-    --chu-box-top: var(--chu-surface-raised);
-    --chu-box-fill: var(--chu-surface-raised);
-    --chu-box-bottom: var(--chu-surface-raised);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
+  .blip-toast:not([data-tone]):not([data-variant]) {
+    --blip-box-top: var(--blip-surface-raised);
+    --blip-box-fill: var(--blip-surface-raised);
+    --blip-box-bottom: var(--blip-surface-raised);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
   }
-  .chu-toast[data-tone]:not([data-variant]) {
-    --chu-box-top: var(--chu-tone-light);
-    --chu-box-fill: var(--chu-tone-light);
-    --chu-box-bottom: var(--chu-tone);
-    --chu-box-glint: transparent;
+  .blip-toast[data-tone]:not([data-variant]) {
+    --blip-box-top: var(--blip-tone-light);
+    --blip-box-fill: var(--blip-tone-light);
+    --blip-box-bottom: var(--blip-tone);
+    --blip-box-glint: transparent;
   }
   /* Toned toasts are light in every scheme, so what sits on them (text, links, the action and the close cross, a
      disabled dither) takes the light roles. The box does that for data-variant="soft" and "candy"; a toned toast is
      soft by default, so it takes the same roles here. */
-  .chu-toast[data-tone]:not([data-variant]) {
-    --chu-text: var(--chu-tone-on);
-    --chu-text-muted: var(--chu-tone-on);
-    --chu-text-inverse: var(--chu-white);
-    --chu-accent-text: var(--chu-tone-on);
-    --chu-info-text: var(--chu-tone-on);
-    --chu-success-text: var(--chu-tone-on);
-    --chu-warning-text: var(--chu-tone-on);
-    --chu-danger-text: var(--chu-tone-on);
-    --chu-link-visited: var(--chu-tone-on);
-    --chu-line: var(--chu-tone-on);
-    --chu-line-soft: var(--chu-tone);
-    --chu-surface: var(--chu-white);
-    --chu-surface-raised: var(--chu-white);
-    --chu-surface-panel: var(--chu-candy-cream);
-    --chu-surface-sunken: var(--chu-tone);
-    --chu-bg: var(--chu-tone-light);
-    --chu-disabled-dither: var(--chu-tone-light);
+  .blip-toast[data-tone]:not([data-variant]) {
+    --blip-text: var(--blip-tone-on);
+    --blip-text-muted: var(--blip-tone-on);
+    --blip-text-inverse: var(--blip-white);
+    --blip-accent-text: var(--blip-tone-on);
+    --blip-info-text: var(--blip-tone-on);
+    --blip-success-text: var(--blip-tone-on);
+    --blip-warning-text: var(--blip-tone-on);
+    --blip-danger-text: var(--blip-tone-on);
+    --blip-link-visited: var(--blip-tone-on);
+    --blip-line: var(--blip-tone-on);
+    --blip-line-soft: var(--blip-tone);
+    --blip-surface: var(--blip-white);
+    --blip-surface-raised: var(--blip-white);
+    --blip-surface-panel: var(--blip-candy-cream);
+    --blip-surface-sunken: var(--blip-tone);
+    --blip-bg: var(--blip-tone-light);
+    --blip-disabled-dither: var(--blip-tone-light);
   }
 
-  .chu-toast-icon { flex: none; inline-size: calc(12 * var(--chu-pixel)); block-size: calc(12 * var(--chu-pixel)); }
-  .chu-toast-icon:empty { background-color: currentColor; mask: var(--_chu-glyph) 0 0 / 100% 100% no-repeat; }
-  .chu-toast:not([data-tone]) .chu-toast-icon { color: var(--chu-accent-text); }
+  .blip-toast-icon { flex: none; inline-size: calc(12 * var(--blip-pixel)); block-size: calc(12 * var(--blip-pixel)); }
+  .blip-toast-icon:empty { background-color: currentColor; mask: var(--_blip-glyph) 0 0 / 100% 100% no-repeat; }
+  .blip-toast:not([data-tone]) .blip-toast-icon { color: var(--blip-accent-text); }
 
-  .chu-toast-body { flex: 1; min-inline-size: 0; }
-  .chu-toast-title { font-weight: var(--chu-weight-bold); line-height: calc(12 * var(--chu-pixel)); }
-  .chu-toast-actions {
+  .blip-toast-body { flex: 1; min-inline-size: 0; }
+  .blip-toast-title { font-weight: var(--blip-weight-bold); line-height: calc(12 * var(--blip-pixel)); }
+  .blip-toast-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: calc(3 * var(--chu-pixel));
-    margin-block-start: calc(3 * var(--chu-pixel));
+    gap: calc(3 * var(--blip-pixel));
+    margin-block-start: calc(3 * var(--blip-pixel));
   }
-  .chu-toast-close { flex: none; margin: calc(-2 * var(--chu-pixel)) calc(-1 * var(--chu-pixel)) 0 0; }
+  .blip-toast-close { flex: none; margin: calc(-2 * var(--blip-pixel)) calc(-1 * var(--blip-pixel)) 0 0; }
 
   /* The countdown: a strip over the bottom band, inside the corners, eight steps from full to empty. */
-  .chu-toast-timer {
-    --_chu-in: calc((var(--chu-r) + 1) * var(--chu-pixel));
+  .blip-toast-timer {
+    --_blip-in: calc((var(--blip-r) + 1) * var(--blip-pixel));
     position: absolute;
-    inset-block-end: var(--chu-pixel);
-    inset-inline-start: var(--_chu-in);
-    block-size: calc(2 * var(--chu-pixel));
-    inline-size: round(down, (100% - 2 * var(--_chu-in)) * var(--_chu-toast-left) / 8, var(--chu-pixel));
-    background: var(--chu-toast-timer, var(--_chu-timer));
+    inset-block-end: var(--blip-pixel);
+    inset-inline-start: var(--_blip-in);
+    block-size: calc(2 * var(--blip-pixel));
+    inline-size: round(down, (100% - 2 * var(--_blip-in)) * var(--_blip-toast-left) / 8, var(--blip-pixel));
+    background: var(--blip-toast-timer, var(--_blip-timer));
     pointer-events: none;
   }
-  .chu-toast { --_chu-timer: var(--chu-tone-shade); }
-  .chu-toast:not([data-tone]) { --_chu-timer: var(--chu-accent); }
-  .chu-toast[data-variant="candy"] { --_chu-timer: var(--chu-tone-light); }
-  .chu-toaster:not([data-chu-static]) .chu-toast-timer {
-    animation: chu-toast-timer var(--chu-toast-duration, 0ms) steps(8, jump-end) forwards;
+  .blip-toast { --_blip-timer: var(--blip-tone-shade); }
+  .blip-toast:not([data-tone]) { --_blip-timer: var(--blip-accent); }
+  .blip-toast[data-variant="candy"] { --_blip-timer: var(--blip-tone-light); }
+  .blip-toaster:not([data-blip-static]) .blip-toast-timer {
+    animation: blip-toast-timer var(--blip-toast-duration, 0ms) steps(8, jump-end) forwards;
   }
-  .chu-toaster[data-paused] .chu-toast-timer { animation-play-state: paused; }
+  .blip-toaster[data-paused] .blip-toast-timer { animation-play-state: paused; }
 
   /* Arriving and leaving: up from the toaster's edge, back out the same way. */
-  .chu-toaster:not([data-chu-static]) > .chu-toast { animation: chu-toast-in var(--chu-duration-pop) steps(1, jump-end); }
-  .chu-toaster > .chu-toast[data-chu-leaving] { animation: chu-toast-out var(--chu-duration-pop) steps(1, jump-end) forwards; }
+  .blip-toaster:not([data-blip-static]) > .blip-toast { animation: blip-toast-in var(--blip-duration-pop) steps(1, jump-end); }
+  .blip-toaster > .blip-toast[data-blip-leaving] { animation: blip-toast-out var(--blip-duration-pop) steps(1, jump-end) forwards; }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-toaster:not([data-chu-static]) > .chu-toast, .chu-toaster > .chu-toast[data-chu-leaving] { animation: none; }
+    .blip-toaster:not([data-blip-static]) > .blip-toast, .blip-toaster > .blip-toast[data-blip-leaving] { animation: none; }
   }
 
   @media (forced-colors: active) {
-    .chu-toaster > .chu-toast { background: Canvas; }
-    .chu-toast-icon:empty { forced-color-adjust: none; background-color: CanvasText; }
-    .chu-toast-timer { forced-color-adjust: none; background: Highlight; }
+    .blip-toaster > .blip-toast { background: Canvas; }
+    .blip-toast-icon:empty { forced-color-adjust: none; background-color: CanvasText; }
+    .blip-toast-timer { forced-color-adjust: none; background: Highlight; }
   }
 }
 
-@keyframes chu-toast-timer { from { --_chu-toast-left: 8; } to { --_chu-toast-left: 0; } }
-@keyframes chu-toast-in {
-  0% { translate: 0 calc(var(--_chu-dir) * 6 * var(--chu-pixel)); }
-  33.333% { translate: 0 calc(var(--_chu-dir) * 2 * var(--chu-pixel)); }
+@keyframes blip-toast-timer { from { --_blip-toast-left: 8; } to { --_blip-toast-left: 0; } }
+@keyframes blip-toast-in {
+  0% { translate: 0 calc(var(--_blip-dir) * 6 * var(--blip-pixel)); }
+  33.333% { translate: 0 calc(var(--_blip-dir) * 2 * var(--blip-pixel)); }
   66.667%, 100% { translate: 0 0; }
 }
-@keyframes chu-toast-out {
-  0% { translate: 0 calc(var(--_chu-dir) * 2 * var(--chu-pixel)); }
-  33.333% { translate: 0 calc(var(--_chu-dir) * 6 * var(--chu-pixel)); }
-  66.667%, 100% { translate: 0 calc(var(--_chu-dir) * 6 * var(--chu-pixel)); visibility: hidden; }
+@keyframes blip-toast-out {
+  0% { translate: 0 calc(var(--_blip-dir) * 2 * var(--blip-pixel)); }
+  33.333% { translate: 0 calc(var(--_blip-dir) * 6 * var(--blip-pixel)); }
+  66.667%, 100% { translate: 0 calc(var(--_blip-dir) * 6 * var(--blip-pixel)); visibility: hidden; }
 }

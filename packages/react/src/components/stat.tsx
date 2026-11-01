@@ -1,12 +1,12 @@
 /**
- * Stat: Stat, StatLabel, StatValue and StatDelta. CSS from @jaatster/blip-components (stat.css).
+ * Stat: Stat, StatLabel, StatValue and StatDelta. CSS from @blip/components (stat.css).
  */
 import { forwardRef } from "react";
 import { box, cx, type NativeProps, type Scale, type Tone } from "../internal/props.js";
 
 /** Own props of {@link Stat}. */
 export interface StatOwnProps {
-  /** The stat in its own panel, for a stat on its own: white (`panel`) or soft. Adds `.chu-box`. `data-variant`. */
+  /** The stat in its own panel, for a stat on its own: white (`panel`) or soft. Adds `.blip-box`. `data-variant`. */
   variant?: "panel" | "soft";
   /** A soft panel's colour. `data-tone`. */
   tone?: Tone;
@@ -17,7 +17,7 @@ export type StatProps = StatOwnProps & NativeProps<"div", StatOwnProps>;
 /**
  * One number that matters: its label, its value said big, and how it moved. Use a {@link StatLabel}, a {@link
  * StatValue} and a {@link StatDelta}. Group stats in a `<dl>` (a grid or cluster), three to six in a row: each stat is
- * a `<div>` of a `<dt>` and `<dd>`s, so the label is read with its value. Renders `<div class="chu-stat">`.
+ * a `<div>` of a `<dt>` and `<dd>`s, so the label is read with its value. Renders `<div class="blip-stat">`.
  *
  *   <Grid as="dl" min={128}>
  *     <Stat>
@@ -31,7 +31,7 @@ export const Stat = /*#__PURE__*/ forwardRef<HTMLDivElement, StatProps>(function
   return (
     <div
       ref={ref}
-      className={cx(variant && "chu-box", "chu-stat", className)}
+      className={cx(variant && "blip-box", "blip-stat", className)}
       {...box({ tone })}
       data-variant={variant}
       {...rest}
@@ -43,12 +43,12 @@ export const Stat = /*#__PURE__*/ forwardRef<HTMLDivElement, StatProps>(function
 export type StatLabelProps = NativeProps<"dt">;
 
 /**
- * The stat's label: one to three words, upper case and muted. Renders `<dt class="chu-stat-label">`.
+ * The stat's label: one to three words, upper case and muted. Renders `<dt class="blip-stat-label">`.
  *
  *   <StatLabel>Levels cleared</StatLabel>
  */
 export const StatLabel = /*#__PURE__*/ forwardRef<HTMLElement, StatLabelProps>(function StatLabel({ className, ...rest }, ref) {
-  return <dt ref={ref} className={cx("chu-stat-label", className)} {...rest} />;
+  return <dt ref={ref} className={cx("blip-stat-label", className)} {...rest} />;
 });
 
 /** Own props of {@link StatValue}. */
@@ -60,7 +60,7 @@ export interface StatValueOwnProps {
    */
   tone?: Tone;
   /**
-   * The TV's look: white letters, an ink outline, a drop in the tone's shade and a tinted lower band. Adds `.chu-pop`
+   * The TV's look: white letters, an ink outline, a drop in the tone's shade and a tinted lower band. Adds `.blip-pop`
    * and `data-pop`, which holds the same text: string or number children are copied; otherwise give the text here.
    */
   pop?: boolean | string;
@@ -70,7 +70,7 @@ export type StatValueProps = StatValueOwnProps & NativeProps<"dd", StatValueOwnP
 
 /**
  * The value, big, in Pixel Bop with tabular digits, formatted for reading ("98,120", "412 KB"). Renders `<dd
- * class="chu-stat-value chu-display">`, with `chu-pop` and `data-pop` when it pops.
+ * class="blip-stat-value blip-display">`, with `blip-pop` and `data-pop` when it pops.
  *
  *   <StatValue scale={3} tone="green" pop>42</StatValue>
  *   <StatValue>12:30</StatValue>
@@ -84,7 +84,7 @@ export const StatValue = /*#__PURE__*/ forwardRef<HTMLElement, StatValueProps>(f
   return (
     <dd
       ref={ref}
-      className={cx("chu-stat-value chu-display", popping && "chu-pop", className)}
+      className={cx("blip-stat-value blip-display", popping && "blip-pop", className)}
       data-scale={scale}
       data-tone={tone}
       data-pop={typeof pop === "string" ? pop : popping ? text : undefined}
@@ -116,7 +116,7 @@ export type StatDeltaProps = StatDeltaOwnProps & NativeProps<"dd", StatDeltaOwnP
  * How the value moved, in words that carry the change. The words must say its sign, what it compares to, and whether
  * it is good or bad news wherever the number alone does not ("+12% vs last week", "-6, fewer is better", "+12 ms,
  * slower"). The arrow, the mark (a check for good news, an exclamation mark for bad) and the colour repeat the words
- * and are not read out. Renders `<dd class="chu-stat-delta">`.
+ * and are not read out. Renders `<dd class="blip-stat-delta">`.
  *
  *   <StatDelta trend="down" tone="success">-6, fewer is better</StatDelta>
  */
@@ -124,5 +124,5 @@ export const StatDelta = /*#__PURE__*/ forwardRef<HTMLElement, StatDeltaProps>(f
   { trend, tone, className, ...rest },
   ref,
 ) {
-  return <dd ref={ref} className={cx("chu-stat-delta", className)} data-trend={trend} data-tone={tone} {...rest} />;
+  return <dd ref={ref} className={cx("blip-stat-delta", className)} data-trend={trend} data-tone={tone} {...rest} />;
 });

@@ -11,7 +11,7 @@ const settle = () => new Promise((done) => setTimeout(done, 0));
 let n = 0;
 /** Mounts markup for a tag that is defined only afterwards, as a lazily loaded element is. */
 function late<T extends HTMLElement>(base: CustomElementConstructor, markup: (tag: string) => string): T {
-  const tag = `chu-late-${++n}`;
+  const tag = `blip-late-${++n}`;
   const el = mount<T>(markup(tag));
   customElements.define(tag, class extends (base as unknown as typeof HTMLElement) {});
   return el;
@@ -19,7 +19,7 @@ function late<T extends HTMLElement>(base: CustomElementConstructor, markup: (ta
 
 describe('boolean attributes: "false" is off', () => {
   it('a dialog with open="false" stays closed when it upgrades, and opens and closes as the property says', async () => {
-    const host = late<BlipDialog>(BlipDialog, (t) => `<${t} open="false" light-dismiss="false"><dialog class="chu-box chu-dialog" aria-label="Save">…</dialog></${t}>`);
+    const host = late<BlipDialog>(BlipDialog, (t) => `<${t} open="false" light-dismiss="false"><dialog class="blip-box blip-dialog" aria-label="Save">…</dialog></${t}>`);
     await settle();
     const dialog = host.querySelector("dialog")!;
     expect(dialog.open).toBe(false);
@@ -32,7 +32,7 @@ describe('boolean attributes: "false" is off', () => {
   });
 
   it('an open dialog closes when the attribute becomes "false"', async () => {
-    const host = late<BlipDialog>(BlipDialog, (t) => `<${t} open><dialog class="chu-box chu-dialog" aria-label="Save">…</dialog></${t}>`);
+    const host = late<BlipDialog>(BlipDialog, (t) => `<${t} open><dialog class="blip-box blip-dialog" aria-label="Save">…</dialog></${t}>`);
     await settle();
     expect(host.querySelector("dialog")!.open).toBe(true);
     host.setAttribute("open", "false");
@@ -66,6 +66,6 @@ describe('boolean attributes: "false" is off', () => {
     expect(rating.hasAttribute("aria-disabled")).toBe(false);
     expect(rating.hasAttribute("aria-readonly")).toBe(false);
     expect(rating.checkValidity()).toBe(true);
-    expect(rating.querySelector<HTMLElement>(".chu-rating-star")!.tabIndex).toBe(0);
+    expect(rating.querySelector<HTMLElement>(".blip-rating-star")!.tabIndex).toBe(0);
   });
 });

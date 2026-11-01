@@ -1,5 +1,5 @@
 /**
- * Breadcrumbs: Breadcrumbs, BreadcrumbsList and BreadcrumbsLink. CSS from @jaatster/blip-components (breadcrumbs.css). A link
+ * Breadcrumbs: Breadcrumbs, BreadcrumbsList and BreadcrumbsLink. CSS from @blip/components (breadcrumbs.css). A link
  * to the page you are on takes `current` (`aria-current="page"`); list items with no class of their own stay plain
  * `<li>`s.
  */
@@ -32,7 +32,7 @@ export type BreadcrumbsProps = BreadcrumbsOwnProps & NativeProps<"nav", Breadcru
  *     </BreadcrumbsList>
  *   </Breadcrumbs>
  *
- * Renders `<nav class="chu-breadcrumbs" aria-label="Breadcrumb">`.
+ * Renders `<nav class="blip-breadcrumbs" aria-label="Breadcrumb">`.
  */
 export const Breadcrumbs = /*#__PURE__*/ forwardRef<HTMLElement, BreadcrumbsProps>(function Breadcrumbs(
   {
@@ -47,7 +47,7 @@ export const Breadcrumbs = /*#__PURE__*/ forwardRef<HTMLElement, BreadcrumbsProp
   return (
     <nav
       ref={ref}
-      className={cx("chu-breadcrumbs", className)}
+      className={cx("blip-breadcrumbs", className)}
       data-size={size}
       aria-label={label}
       aria-labelledby={labelledBy}
@@ -64,20 +64,20 @@ export type BreadcrumbsListProps = NativeProps<"ol">;
  *
  *   <BreadcrumbsList>…</BreadcrumbsList>
  *
- * Renders `<ol class="chu-breadcrumbs-list">`.
+ * Renders `<ol class="blip-breadcrumbs-list">`.
  */
 export const BreadcrumbsList = /*#__PURE__*/ forwardRef<HTMLOListElement, BreadcrumbsListProps>(function BreadcrumbsList(
   { className, ...rest },
   ref,
 ) {
-  return <ol ref={ref} className={cx("chu-breadcrumbs-list", className)} {...rest} />;
+  return <ol ref={ref} className={cx("blip-breadcrumbs-list", className)} {...rest} />;
 });
 
 /** Own props of {@link BreadcrumbsLink}. */
 export interface BreadcrumbsLinkOwnProps {
   /** The page you are on, the last crumb: a soft chip, ink bold text. `aria-current="page"`. */
   current?: boolean;
-  /** Corner radius in pixels, 3 by default. `data-chu-r`. */
+  /** Corner radius in pixels, 3 by default. `data-blip-r`. */
   radius?: Radius;
 }
 
@@ -85,7 +85,7 @@ export interface BreadcrumbsLinkOwnProps {
 export type BreadcrumbsLinkProps<T extends ElementType = "a"> = PolymorphicProps<T, BreadcrumbsLinkOwnProps>;
 
 /**
- * A crumb: a ghost box, a link in the accent's text colour. A label in a `<span>` is cut to `--chu-breadcrumbs-max`
+ * A crumb: a ghost box, a link in the accent's text colour. A label in a `<span>` is cut to `--blip-breadcrumbs-max`
  * with an ellipsis (its whole text stays the name); an icon-only crumb needs `aria-label`. As a button
  * (`as="button"`, `type="button"` by default) it opens the {@link MenuList} that folds a long trail's middle.
  *
@@ -97,7 +97,7 @@ export type BreadcrumbsLinkProps<T extends ElementType = "a"> = PolymorphicProps
  *     </Menu>
  *   </li>
  *
- * Renders `<a class="chu-box chu-breadcrumbs-link" data-variant="ghost">`.
+ * Renders `<a class="blip-box blip-breadcrumbs-link" data-variant="ghost">`.
  */
 export const BreadcrumbsLink = /*#__PURE__*/ forwardRef(function BreadcrumbsLink(
   { as: Tag = "a", current: isCurrent, radius, className, ...rest }: BreadcrumbsLinkProps<ElementType>,
@@ -106,10 +106,10 @@ export const BreadcrumbsLink = /*#__PURE__*/ forwardRef(function BreadcrumbsLink
   return (
     <Tag
       ref={ref}
-      className={cx("chu-box chu-breadcrumbs-link", className)}
+      className={cx("blip-box blip-breadcrumbs-link", className)}
       type={Tag === "button" ? "button" : undefined}
       data-variant="ghost"
-      data-chu-r={radius}
+      data-blip-r={radius}
       aria-current={current(isCurrent)}
       {...rest}
     />

@@ -1,18 +1,18 @@
 <!-- A button opens it (command="show-modal"); Cancel and the cross close it; Save is the form's one submit button. -->
-<button class="chu-box chu-button" type="button" commandfor="ds-quit" command="show-modal">Quit to title</button>
+<button class="blip-box blip-button" type="button" commandfor="ds-quit" command="show-modal">Quit to title</button>
 
-<chu-dialog light-dismiss>
-  <dialog class="chu-box chu-dialog" id="ds-quit" data-size="sm" aria-labelledby="ds-quit-title">
+<blip-dialog light-dismiss>
+  <dialog class="blip-box blip-dialog" id="ds-quit" data-size="sm" aria-labelledby="ds-quit-title">
     <form method="dialog">
-      <header class="chu-dialog-header">
-        <h2 class="chu-dialog-title" id="ds-quit-title">Quit to the title screen?</h2>
-        <button class="chu-box chu-button chu-dialog-close" type="button" commandfor="ds-quit" command="close" value="cancel" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
+      <header class="blip-dialog-header">
+        <h2 class="blip-dialog-title" id="ds-quit-title">Quit to the title screen?</h2>
+        <button class="blip-box blip-button blip-dialog-close" type="button" commandfor="ds-quit" command="close" value="cancel" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
       </header>
-      <div class="chu-dialog-body"><p>Your progress since the last save point will be lost.</p></div>
-      <footer class="chu-dialog-footer">
-        <button class="chu-box chu-button" type="button" commandfor="ds-quit" command="close" value="cancel" data-variant="soft" data-tone="neutral">Keep playing</button>
-        <button class="chu-box chu-button" value="quit">Quit</button>
+      <div class="blip-dialog-body"><p>Your progress since the last save point will be lost.</p></div>
+      <footer class="blip-dialog-footer">
+        <button class="blip-box blip-button" type="button" commandfor="ds-quit" command="close" value="cancel" data-variant="soft" data-tone="neutral">Keep playing</button>
+        <button class="blip-box blip-button" value="quit">Quit</button>
       </footer>
     </form>
   </dialog>
-</chu-dialog>
+</blip-dialog>

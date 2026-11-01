@@ -104,7 +104,7 @@ const order = (path) => ["palette.day", "palette.sunset", "palette.night", "worl
 // Run as a script (not imported by a test or the docs).
 if (process.argv[1] && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url)) {
   const model = readTokens();
-  if (model.problems.some((p) => !p.code.startsWith("CHU-T06"))) {
+  if (model.problems.some((p) => !p.code.startsWith("BLIP-T06"))) {
     process.stderr.write(formatProblems(model.problems));
     process.exit(1);
   }

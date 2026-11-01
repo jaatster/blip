@@ -32,9 +32,9 @@ export function problems(pkg, manifest) {
     for (const d of mod.declarations ?? []) {
       if (!d.customElement) continue;
       const at = `packages/${pkg}/${mod.path}: ${d.name}`;
-      if (!d.tagName) out.push(`${at} has no tag name. Register it with BlipElement.define("chu-…", ${d.name}) or add @tag.`);
+      if (!d.tagName) out.push(`${at} has no tag name. Register it with BlipElement.define("blip-…", ${d.name}) or add @tag.`);
       if (!d.summary && !d.description) out.push(`${at} has no description. Add a JSDoc comment above the class.`);
-      for (const e of d.events ?? []) if (!e.name) out.push(`${at} has an event without a name. Write @fires {Type} chu-name - What it means.`);
+      for (const e of d.events ?? []) if (!e.name) out.push(`${at} has an event without a name. Write @fires {Type} blip-name - What it means.`);
       for (const a of d.attributes ?? []) if (!a.type) out.push(`${at}: attribute "${a.name}" has no type. Write @attr {string} ${a.name} - What it does.`);
     }
   }
@@ -60,7 +60,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     if (check) {
       if (!existsSync(file) || readFileSync(file, "utf8") !== json) stale.push(`packages/${pkg}/custom-elements.json`);
     } else writeFileSync(file, json);
-    console.log(`${`@jaatster/blip-${pkg}`.padEnd(22)} ${String(elements.length).padStart(2)} elements  ${elements.join(" ")}`);
+    console.log(`${`@blip/${pkg}`.padEnd(22)} ${String(elements.length).padStart(2)} elements  ${elements.join(" ")}`);
   }
   if (issues.length) console.error(`\ncem: ${issues.length} problem${issues.length > 1 ? "s" : ""}:\n  ${issues.join("\n  ")}`);
   if (stale.length) console.error(`\ncem: out of date (run pnpm cem and commit):\n  ${stale.join("\n  ")}`);

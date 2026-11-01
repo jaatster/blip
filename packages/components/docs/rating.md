@@ -1,8 +1,8 @@
 ---
 name: Rating
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: rating.css
-element: chu-rating
+element: blip-rating
 react: Rating
 status: beta
 equivalents:
@@ -12,7 +12,7 @@ equivalents:
 # Rating
 
 A row of pixel stars (or hearts). To show a score, plain CSS draws it, fractions included, on whole pixels. To set
-one, `<chu-rating>` makes the row a radio group: the arrow keys move and set it, and the pointer previews what a click
+one, `<blip-rating>` makes the row a radio group: the arrow keys move and set it, and the pointer previews what a click
 would set.
 
 ## Usage
@@ -20,30 +20,30 @@ would set.
 Showing a score (no script):
 
 ```html
-<span class="chu-rating" role="img" aria-label="Rated 4.5 out of 5" style="--chu-rating-value: 4.5"></span>
+<span class="blip-rating" role="img" aria-label="Rated 4.5 out of 5" style="--blip-rating-value: 4.5"></span>
 ```
 
 Setting one:
 
 ```html
-<span class="chu-field-label" id="fun-label">How fun was it?</span>
-<chu-rating class="chu-rating" name="fun" value="4" aria-labelledby="fun-label"></chu-rating>
+<span class="blip-field-label" id="fun-label">How fun was it?</span>
+<blip-rating class="blip-rating" name="fun" value="4" aria-labelledby="fun-label"></blip-rating>
 ```
 
 ## Anatomy
 
 1. **Stars**: 11 x 11 pixel stars 12 pixels apart (hearts 11 x 10). On: yellow candy (a light band, the base, a shade
    band) with an ink outline. Off: a sunken well with only the soft line round it, no ink.
-2. **Score**: the fill stops at `--chu-rating-value` stars, rounded down to a whole pixel, so 3.5 fills half a star.
-3. **Radios** (element): one transparent `.chu-rating-star` per star, over the drawing.
+2. **Score**: the fill stops at `--blip-rating-value` stars, rounded down to a whole pixel, so 3.5 fills half a star.
+3. **Radios** (element): one transparent `.blip-rating-star` per star, over the drawing.
 
 ## Variants
 
 | Attribute | Values | Use |
 |---|---|---|
 | `data-shape="heart"` | | Red pixel hearts (lives, how much you loved it). |
-| `max` (element) or `--chu-rating-max` | 5 | How many stars. |
-| `data-chu-pixel` (on a parent) | 2, 3, 4 | Bigger stars, still on the grid. |
+| `max` (element) or `--blip-rating-max` | 5 | How many stars. |
+| `data-blip-pixel` (on a parent) | 2, 3, 4 | Bigger stars, still on the grid. |
 
 ## States
 
@@ -52,12 +52,12 @@ Setting one:
 | Preview | pointer over a star (`data-preview`) | The stars a click would set go pale yellow. |
 | Focus | keyboard | The square yellow ring with an ink edge round that star. |
 | Read-only | `readonly` | The score shows; one tab stop (on the current star) so it can be reached; it can't change. |
-| Disabled | `disabled` | Dithered with a light colour (`--chu-disabled-dither`); not focusable. |
+| Disabled | `disabled` | Dithered with a light colour (`--blip-disabled-dither`); not focusable. |
 
 ## Accessibility
 
 - A display-only score is an image: `role="img"` with an `aria-label` that says the score in words.
-- `<chu-rating>` is a `radiogroup` (name it with `aria-label`, `aria-labelledby` or a `<label for>`; it warns in
+- `<blip-rating>` is a `radiogroup` (name it with `aria-label`, `aria-labelledby` or a `<label for>`; it warns in
   development without one) of `radio`s named "1 star", "2 stars"… (`star-label` translates: "{n} of {max}"). Only the
   current star, or the first, is in the tab order. Read-only sets `aria-readonly` and keeps that one tab stop;
   disabled sets `aria-disabled` and has none. Right to left, the stars fill from the right.
@@ -85,7 +85,7 @@ Setting one:
 
 ## API
 
-`<chu-rating>` (form-associated)
+`<blip-rating>` (form-associated)
 
 | Attribute / property | Type | |
 |---|---|---|
@@ -99,9 +99,9 @@ Setting one:
 
 | Event | Detail | |
 |---|---|---|
-| `chu-change` | `{ value }` | A star was set by click or key, after `input` and `change` (as a native control fires them). |
+| `blip-change` | `{ value }` | A star was set by click or key, after `input` and `change` (as a native control fires them). |
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-rating-value` | 0 | The score drawn (the element sets it). |
-| `--chu-rating-max` | 5 | How many stars are drawn (the element sets it). |
+| `--blip-rating-value` | 0 | The score drawn (the element sets it). |
+| `--blip-rating-max` | 5 | How many stars are drawn (the element sets it). |

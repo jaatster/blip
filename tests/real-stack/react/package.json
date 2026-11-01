@@ -1,5 +1,5 @@
 {
-  "name": "chu-stack-react",
+  "name": "blip-stack-react",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,14 +8,14 @@
     "preview": "vite preview --port 4611 --strictPort"
   },
   "dependencies": {
-    "@jaatster/blip-blocks": "*",
-    "@jaatster/blip-components": "*",
-    "@jaatster/blip-core": "*",
-    "@jaatster/blip-effects": "*",
-    "@jaatster/blip-font": "*",
-    "@jaatster/blip-game": "*",
-    "@jaatster/blip-react": "*",
-    "@jaatster/blip-tokens": "*",
+    "@blip/blocks": "*",
+    "@blip/components": "*",
+    "@blip/core": "*",
+    "@blip/effects": "*",
+    "@blip/font": "*",
+    "@blip/game": "*",
+    "@blip/react": "*",
+    "@blip/tokens": "*",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },

@@ -4,16 +4,16 @@
  * drop, rows that light up in the focus yellow, and a pixel check by the chosen one. Elsewhere the browser's own
  * list opens, in the scheme's colours.
  *
- *   <span class="chu-box chu-select">
+ *   <span class="blip-box blip-select">
  *     <select id="world" name="world">
- *       <option class="chu-box" value="meadow">Meadow</option>
- *       <option class="chu-box" value="caves" selected>Crystal caves</option>
+ *       <option class="blip-box" value="meadow">Meadow</option>
+ *       <option class="blip-box" value="caves" selected>Crystal caves</option>
  *     </select>
  *   </span>
  *
  *   data-size               sm | md (default) | lg       as for the input
  *   data-tone               success (or any tone): a valid field's outline
- *   option.chu-box           each row is a candy box, so the highlighted one gets the box's corners and bands
+ *   option.blip-box           each row is a candy box, so the highlighted one gets the box's corners and bands
  *                           (without the class it is a flat yellow bar)
  *
  * Keyboard and states are the browser's: the box draws the focus ring; aria-invalid or :user-invalid is the
@@ -21,44 +21,44 @@
  */
 @import "./_control.css";
 
-@layer chu.components {
-  .chu-select { padding-inline-end: 0; cursor: pointer; }
-  .chu-select:has(> select:disabled) { cursor: not-allowed; }
+@layer blip.components {
+  .blip-select { padding-inline-end: 0; cursor: pointer; }
+  .blip-select:has(> select:disabled) { cursor: not-allowed; }
 
   /* The chevron: four rows of pixels (7, 5, 3, 1), drawn in the text colour at the end of the control. */
-  .chu-select > select {
-    --_y: calc(var(--_h) / 2 - 2 * var(--chu-pixel));
-    padding-inline-end: calc(var(--_pad) + 10 * var(--chu-pixel));
+  .blip-select > select {
+    --_y: calc(var(--_h) / 2 - 2 * var(--blip-pixel));
+    padding-inline-end: calc(var(--_pad) + 10 * var(--blip-pixel));
     cursor: inherit;
     background:
-      linear-gradient(currentColor 0 0) right var(--_pad) top var(--_y) / calc(7 * var(--chu-pixel)) var(--chu-pixel) no-repeat,
-      linear-gradient(currentColor 0 0) right calc(var(--_pad) + var(--chu-pixel)) top calc(var(--_y) + var(--chu-pixel)) / calc(5 * var(--chu-pixel)) var(--chu-pixel) no-repeat,
-      linear-gradient(currentColor 0 0) right calc(var(--_pad) + 2 * var(--chu-pixel)) top calc(var(--_y) + 2 * var(--chu-pixel)) / calc(3 * var(--chu-pixel)) var(--chu-pixel) no-repeat,
-      linear-gradient(currentColor 0 0) right calc(var(--_pad) + 3 * var(--chu-pixel)) top calc(var(--_y) + 3 * var(--chu-pixel)) / var(--chu-pixel) var(--chu-pixel) no-repeat;
+      linear-gradient(currentColor 0 0) right var(--_pad) top var(--_y) / calc(7 * var(--blip-pixel)) var(--blip-pixel) no-repeat,
+      linear-gradient(currentColor 0 0) right calc(var(--_pad) + var(--blip-pixel)) top calc(var(--_y) + var(--blip-pixel)) / calc(5 * var(--blip-pixel)) var(--blip-pixel) no-repeat,
+      linear-gradient(currentColor 0 0) right calc(var(--_pad) + 2 * var(--blip-pixel)) top calc(var(--_y) + 2 * var(--blip-pixel)) / calc(3 * var(--blip-pixel)) var(--blip-pixel) no-repeat,
+      linear-gradient(currentColor 0 0) right calc(var(--_pad) + 3 * var(--blip-pixel)) top calc(var(--_y) + 3 * var(--blip-pixel)) / var(--blip-pixel) var(--blip-pixel) no-repeat;
   }
-  .chu-select > select:dir(rtl) { background-position-x: left var(--_pad), left calc(var(--_pad) + var(--chu-pixel)), left calc(var(--_pad) + 2 * var(--chu-pixel)), left calc(var(--_pad) + 3 * var(--chu-pixel)); }
+  .blip-select > select:dir(rtl) { background-position-x: left var(--_pad), left calc(var(--_pad) + var(--blip-pixel)), left calc(var(--_pad) + 2 * var(--blip-pixel)), left calc(var(--_pad) + 3 * var(--blip-pixel)); }
   /* The browser's own list, in the scheme's colours where it allows. */
-  .chu-select option { background-color: var(--chu-surface); color: var(--chu-text); }
+  .blip-select option { background-color: var(--blip-surface); color: var(--blip-text); }
 
   /* The customisable select: the picker is a Blip menu. */
   @supports (appearance: base-select) {
-    .chu-select > select,
-    .chu-select > select::picker(select) { appearance: base-select; }
-    .chu-select > select { display: flex; align-items: center; }
-    .chu-select > select::picker-icon { display: none; }
+    .blip-select > select,
+    .blip-select > select::picker(select) { appearance: base-select; }
+    .blip-select > select { display: flex; align-items: center; }
+    .blip-select > select::picker-icon { display: none; }
 
-    .chu-select > select::picker(select) {
-      --_p: var(--chu-pixel);
+    .blip-select > select::picker(select) {
+      --_p: var(--blip-pixel);
       min-inline-size: calc(anchor-size(self-inline) + var(--_pad));
       max-block-size: calc(120 * var(--_p));
       margin: calc(2 * var(--_p)) 0;
       margin-inline-start: calc(-1 * var(--_pad));
       padding: var(--_p);
-      border: var(--_p) solid var(--chu-outline);
-      background: var(--chu-surface-panel);
-      color: var(--chu-text);
-      box-shadow: var(--_p) var(--_p) 0 var(--chu-drop);
-      font-family: var(--chu-font-ui);
+      border: var(--_p) solid var(--blip-outline);
+      background: var(--blip-surface-panel);
+      color: var(--blip-text);
+      box-shadow: var(--_p) var(--_p) 0 var(--blip-drop);
+      font-family: var(--blip-font-ui);
       /* A one-pixel stepped corner, and the drop's shape one pixel down and right. */
       mask:
         linear-gradient(#000 0 0) var(--_p) 0 / calc(100% - 2 * var(--_p)) 100% no-repeat,
@@ -69,69 +69,69 @@
     }
     /* :open on the select, not :popover-open on the picker: a pseudo-class after a pseudo-element fails to parse in
        lightningcss (Vite 8, Next.js 16). */
-    .chu-select > select:open::picker(select) { animation: chu-pop-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end) both; }
+    .blip-select > select:open::picker(select) { animation: blip-pop-in calc(2 * var(--blip-duration-frame)) steps(1, jump-end) both; }
 
-    .chu-select option {
-      gap: calc(3 * var(--chu-pixel));
-      min-block-size: calc(14 * var(--chu-pixel));
-      padding: 0 calc(5 * var(--chu-pixel)) 0 calc(3 * var(--chu-pixel));
+    .blip-select option {
+      gap: calc(3 * var(--blip-pixel));
+      min-block-size: calc(14 * var(--blip-pixel));
+      padding: 0 calc(5 * var(--blip-pixel)) 0 calc(3 * var(--blip-pixel));
       background: none;
-      color: var(--chu-box-text);
-      font-size: var(--chu-size-body);
+      color: var(--blip-box-text);
+      font-size: var(--blip-size-body);
       outline: 0;
       box-shadow: none;
     }
-    .chu-select option::checkmark {
+    .blip-select option::checkmark {
       content: "";
-      inline-size: calc(7 * var(--chu-pixel));
-      block-size: calc(7 * var(--chu-pixel));
+      inline-size: calc(7 * var(--blip-pixel));
+      block-size: calc(7 * var(--blip-pixel));
       background: currentColor;
       mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7' shape-rendering='crispEdges'%3E%3Cpath d='M6 0h1v1H6zM5 1h2v1H5zM0 2h1v1H0zM4 2h3v1H4zM0 3h2v1H0zM3 3h3v1H3zM0 4h5v1H0zM1 5h3v1H1zM2 6h1v1H2z'/%3E%3C/svg%3E") 0 0 / 100% 100%;
     }
-    .chu-select option:disabled { color: var(--chu-text-muted); }
-    .chu-select option:not(.chu-box):is(:focus-visible, :hover):not(:disabled) { background: var(--chu-focus); color: var(--chu-ink); }
+    .blip-select option:disabled { color: var(--blip-text-muted); }
+    .blip-select option:not(.blip-box):is(:focus-visible, :hover):not(:disabled) { background: var(--blip-focus); color: var(--blip-ink); }
 
     /* Each row a candy box: invisible at rest, the focus yellow when it has the keyboard or the pointer. */
-    .chu-select option.chu-box {
-      --chu-r: 3;
-      --chu-shape: var(--chu-shape-3);
-      --chu-shape-inner: var(--chu-shape-3-inner);
-      --chu-drop-size: 0;
-      --chu-box-outline: transparent;
-      --chu-box-top: transparent;
-      --chu-box-fill: transparent;
-      --chu-box-bottom: transparent;
-      --chu-box-text: var(--chu-text);
-      --chu-box-glint: transparent;
+    .blip-select option.blip-box {
+      --blip-r: 3;
+      --blip-shape: var(--blip-shape-3);
+      --blip-shape-inner: var(--blip-shape-3-inner);
+      --blip-drop-size: 0;
+      --blip-box-outline: transparent;
+      --blip-box-top: transparent;
+      --blip-box-fill: transparent;
+      --blip-box-bottom: transparent;
+      --blip-box-text: var(--blip-text);
+      --blip-box-glint: transparent;
     }
-    .chu-select option.chu-box:is(:focus-visible, :hover):not(:disabled) {
-      --chu-band-top: 2;
-      --chu-band-bottom: 2;
-      --chu-box-outline: var(--chu-outline);
-      --chu-box-top: var(--chu-candy-yellow-light);
-      --chu-box-fill: var(--chu-focus);
-      --chu-box-bottom: var(--chu-candy-yellow-shade);
-      --chu-box-text: var(--chu-ink);
-      --chu-box-glint: var(--chu-white);
+    .blip-select option.blip-box:is(:focus-visible, :hover):not(:disabled) {
+      --blip-band-top: 2;
+      --blip-band-bottom: 2;
+      --blip-box-outline: var(--blip-outline);
+      --blip-box-top: var(--blip-candy-yellow-light);
+      --blip-box-fill: var(--blip-focus);
+      --blip-box-bottom: var(--blip-candy-yellow-shade);
+      --blip-box-text: var(--blip-ink);
+      --blip-box-glint: var(--blip-white);
       filter: none;
     }
-    .chu-select option.chu-box:disabled { --chu-box-dither: transparent; }
+    .blip-select option.blip-box:disabled { --blip-box-dither: transparent; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-select > select:open::picker(select) { animation: none; }
+    .blip-select > select:open::picker(select) { animation: none; }
   }
 
   /* Windows high contrast drops gradient backgrounds: keep the chevron by drawing the select in system colours
      ourselves (the list and the picker go back to the system's). */
   @media (forced-colors: active) {
-    .chu-select > select { forced-color-adjust: none; color: CanvasText; }
-    .chu-select > select:disabled { color: GrayText; }
-    .chu-select > select :is(option, optgroup) { forced-color-adjust: auto; }
+    .blip-select > select { forced-color-adjust: none; color: CanvasText; }
+    .blip-select > select:disabled { color: GrayText; }
+    .blip-select > select :is(option, optgroup) { forced-color-adjust: auto; }
   }
   @supports (appearance: base-select) {
     @media (forced-colors: active) {
-      .chu-select > select::picker(select) { forced-color-adjust: auto; }
+      .blip-select > select::picker(select) { forced-color-adjust: auto; }
     }
   }
 }

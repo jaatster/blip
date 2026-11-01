@@ -1,6 +1,6 @@
 ---
 name: Badge
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: badge.css
 element: null
 react: Badge
@@ -18,20 +18,20 @@ button, an avatar or an icon. For labels people act on or remove, use a tag.
 ## Usage
 
 ```html
-<span class="chu-box chu-badge" data-tone="success">New</span>
+<span class="blip-box blip-badge" data-tone="success">New</span>
 
-<button class="chu-box chu-button" data-icon-only aria-label="Messages, 99+ unread">
-  <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
-  <span class="chu-box chu-badge" data-tone="danger" data-size="sm" data-position="top-end" aria-hidden="true">99+</span>
+<button class="blip-box blip-button" data-icon-only aria-label="Messages, 99+ unread">
+  <svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+  <span class="blip-box blip-badge" data-tone="danger" data-size="sm" data-position="top-end" aria-hidden="true">99+</span>
 </button>
 
-<span class="chu-box chu-avatar" data-tone="teal" role="img" aria-label="Kit Moss, online">KM
-  <span class="chu-box chu-badge" data-dot data-tone="success" data-position="bottom-end" aria-hidden="true"></span>
+<span class="blip-box blip-avatar" data-tone="teal" role="img" aria-label="Kit Moss, online">KM
+  <span class="blip-box blip-badge" data-dot data-tone="success" data-position="bottom-end" aria-hidden="true"></span>
 </span>
 
-<span class="chu-badge-anchor" role="img" aria-label="Trophies, 2 new">
-  <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
-  <span class="chu-box chu-badge" data-tone="success" data-size="sm" data-position="top-end" aria-hidden="true">2</span>
+<span class="blip-badge-anchor" role="img" aria-label="Trophies, 2 new">
+  <svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+  <span class="blip-box blip-badge" data-tone="success" data-size="sm" data-position="top-end" aria-hidden="true">2</span>
 </span>
 ```
 
@@ -50,7 +50,7 @@ button, an avatar or an icon. For labels people act on or remove, use a tag.
 | `data-variant` | `candy` (default), `soft`, `outline` | Soft and outline for quieter labels in dense lists. Outline badges keep the tone in their text and outline (the tone's text colour). |
 | `data-size` | `sm` (8 pixels), `md` (10, default), `lg` (12) | Small when pinned to small buttons, large beside large ones. |
 | `data-dot` | | No text: status, or "something new here". |
-| `data-position` | `top-end`, `top-start`, `bottom-end`, `bottom-start` | Pinned over that corner of its parent: a button or avatar (any `.chu-box`), or a `.chu-badge-anchor` round an icon. |
+| `data-position` | `top-end`, `top-start`, `bottom-end`, `bottom-start` | Pinned over that corner of its parent: a button or avatar (any `.blip-box`), or a `.blip-badge-anchor` round an icon. |
 
 ## States
 
@@ -84,10 +84,10 @@ Badges are not interactive. When the count changes, change the text; at zero, re
 
 | Class or attribute | |
 |---|---|
-| `.chu-badge` on a `.chu-box` | The badge. |
+| `.blip-badge` on a `.blip-box` | The badge. |
 | `data-tone`, `data-variant`, `data-size`, `data-dot`, `data-position` | See Variants. |
-| `.chu-badge-anchor` | A wrapper that lets a badge sit on something that is not positioned, such as an icon. |
+| `.blip-badge-anchor` | A wrapper that lets a badge sit on something that is not positioned, such as an icon. |
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-tone`, `--chu-tone-light`, `--chu-tone-shade`, `--chu-tone-on` | accent | A custom tone. |
+| `--blip-tone`, `--blip-tone-light`, `--blip-tone-shade`, `--blip-tone-on` | accent | A custom tone. |

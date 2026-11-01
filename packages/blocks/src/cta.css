@@ -3,19 +3,19 @@
  * CTA band. One call to action across the page, on a strip of the world or, for a second, quieter ask, on a soft
  * panel.
  *
- *   <section class="chu-cta" aria-labelledby="cta-title">                         the world: sky bands, ground
- *     <chu-world avoid=".chu-cta-title, .chu-cta-text, .chu-cta-actions, .chu-cta-note"></chu-world>
- *     <h2 class="chu-cta-title chu-display chu-pop" data-scale="2" data-pop="…" id="cta-title">…</h2>
- *     <p class="chu-cta-text">…</p>
- *     <div class="chu-cta-actions"><a class="chu-box chu-button" data-size="lg" href="#">Wishlist now</a></div>
- *     <div class="chu-cta-ground"></div>
+ *   <section class="blip-cta" aria-labelledby="cta-title">                         the world: sky bands, ground
+ *     <blip-world avoid=".blip-cta-title, .blip-cta-text, .blip-cta-actions, .blip-cta-note"></blip-world>
+ *     <h2 class="blip-cta-title blip-display blip-pop" data-scale="2" data-pop="…" id="cta-title">…</h2>
+ *     <p class="blip-cta-text">…</p>
+ *     <div class="blip-cta-actions"><a class="blip-box blip-button" data-size="lg" href="#">Wishlist now</a></div>
+ *     <div class="blip-cta-ground"></div>
  *   </section>
  *
- *   <section class="chu-box chu-cta" data-variant="soft" data-tone="purple" aria-labelledby="…">   a soft panel
- *     … <a class="chu-box chu-button" data-variant="outline" href="#">…</a>
+ *   <section class="blip-box blip-cta" data-variant="soft" data-tone="purple" aria-labelledby="…">   a soft panel
+ *     … <a class="blip-box blip-button" data-variant="outline" href="#">…</a>
  *   </section>
  *
- *   .chu-cta-note         a small line under the actions (what happens next, what it costs)
+ *   .blip-cta-note         a small line under the actions (what happens next, what it costs)
  *   avoid                on the world, the parts its sun, moon, stars and clouds keep clear of: the words, never
  *                        behind them. On the world the text and the note wear a one-pixel halo in the page colour.
  *   A boxed band is soft by default (the tone's light fill, its base along the bottom, no glints), or the plain
@@ -23,9 +23,9 @@
  *   the primary button is candy (candy on pastel); in a box it is outline.
  */
 
-@layer chu.kits {
-  .chu-cta {
-    --_p: var(--chu-pixel);
+@layer blip.kits {
+  .blip-cta {
+    --_p: var(--blip-pixel);
     position: relative;
     display: grid;
     justify-items: center;
@@ -33,82 +33,82 @@
     padding: calc(18 * var(--_p)) calc(12 * var(--_p));
     text-align: center;
   }
-  .chu-cta > :is(h2, h3, p) { margin: 0; }
+  .blip-cta > :is(h2, h3, p) { margin: 0; }
 
-  /* On the world: the sky in bands from the horizon up, over the ground strip. Public: --chu-cta-band, each sky
+  /* On the world: the sky in bands from the horizon up, over the ground strip. Public: --blip-cta-band, each sky
      band's height in pixels (8). */
-  .chu-cta:not(.chu-box) {
-    --_b: var(--chu-cta-band, 8);
+  .blip-cta:not(.blip-box) {
+    --_b: var(--blip-cta-band, 8);
     --_g: 14;
     --_row: calc(2 * var(--_p)) var(--_p) repeat-x;
     isolation: isolate;
     overflow: hidden;
     padding-block-end: calc((var(--_g) + 18) * var(--_p));
-    color: var(--chu-text);
+    color: var(--blip-text);
     background:
-      linear-gradient(to right, var(--chu-blocks-sky-6) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + var(--_b)) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--chu-blocks-sky-5) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + var(--_b) - 1) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--chu-blocks-sky-5) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 2 * var(--_b)) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--chu-blocks-sky-4) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 2 * var(--_b) - 1) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--chu-blocks-sky-4) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 3 * var(--_b)) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--chu-blocks-sky-3) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 3 * var(--_b) - 1) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--blip-blocks-sky-6) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + var(--_b)) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--blip-blocks-sky-5) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + var(--_b) - 1) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--blip-blocks-sky-5) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 2 * var(--_b)) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--blip-blocks-sky-4) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 2 * var(--_b) - 1) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--blip-blocks-sky-4) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 3 * var(--_b)) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--blip-blocks-sky-3) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 3 * var(--_b) - 1) * var(--_p)) / var(--_row),
       linear-gradient(to top,
-        var(--chu-blocks-sky-6) 0 calc((var(--_g) + var(--_b)) * var(--_p)),
-        var(--chu-blocks-sky-5) 0 calc((var(--_g) + 2 * var(--_b)) * var(--_p)),
-        var(--chu-blocks-sky-4) 0 calc((var(--_g) + 3 * var(--_b)) * var(--_p)),
-        var(--chu-blocks-sky-3) 0);
+        var(--blip-blocks-sky-6) 0 calc((var(--_g) + var(--_b)) * var(--_p)),
+        var(--blip-blocks-sky-5) 0 calc((var(--_g) + 2 * var(--_b)) * var(--_p)),
+        var(--blip-blocks-sky-4) 0 calc((var(--_g) + 3 * var(--_b)) * var(--_p)),
+        var(--blip-blocks-sky-3) 0);
   }
-  .chu-cta > chu-world { position: absolute; inset: 0; z-index: -2; }
-  .chu-cta > chu-world:not(:defined) { visibility: hidden; }
+  .blip-cta > blip-world { position: absolute; inset: 0; z-index: -2; }
+  .blip-cta > blip-world:not(:defined) { visibility: hidden; }
 
   /* In a box: the soft tier unless told otherwise (the tone's light fill, its base as a lip along the bottom, an ink
      outline and drop). Candy stays on the button. */
-  .chu-cta.chu-box {
-    --chu-r: 5;
-    --chu-shape: var(--chu-shape-5);
-    --chu-shape-inner: var(--chu-shape-5-inner);
-    --chu-band-top: 4;
-    --chu-band-bottom: 4;
+  .blip-cta.blip-box {
+    --blip-r: 5;
+    --blip-shape: var(--blip-shape-5);
+    --blip-shape-inner: var(--blip-shape-5-inner);
+    --blip-band-top: 4;
+    --blip-band-bottom: 4;
     margin: 0 var(--_p) var(--_p) 0;
   }
-  .chu-cta.chu-box:not([data-variant]) {
-    --chu-box-top: var(--chu-tone-light);
-    --chu-box-fill: var(--chu-tone-light);
-    --chu-box-bottom: var(--chu-tone);
-    --chu-box-glint: transparent;
+  .blip-cta.blip-box:not([data-variant]) {
+    --blip-box-top: var(--blip-tone-light);
+    --blip-box-fill: var(--blip-tone-light);
+    --blip-box-bottom: var(--blip-tone);
+    --blip-box-glint: transparent;
   }
 
-  .chu-cta-title { text-wrap: balance; }
-  .chu-cta-text {
+  .blip-cta-title { text-wrap: balance; }
+  .blip-cta-text {
     max-inline-size: 52ch;
-    font-size: var(--chu-size-lead);
-    line-height: var(--chu-leading-normal);
+    font-size: var(--blip-size-lead);
+    line-height: var(--blip-leading-normal);
     text-wrap: pretty;
   }
-  .chu-cta-actions {
+  .blip-cta-actions {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: calc(4 * var(--_p));
     margin-block-start: calc(2 * var(--_p));
   }
-  .chu-cta-note { font-size: var(--chu-size-small); font-weight: var(--chu-weight-bold); }
+  .blip-cta-note { font-size: var(--blip-size-small); font-weight: var(--blip-weight-bold); }
   /* On the world, a one-pixel halo in the page colour keeps the text and the note readable where they cross a snowy
      peak, the moon or a cloud (as the hero's lead). */
-  .chu-cta:not(.chu-box) :is(.chu-cta-text, .chu-cta-note) {
+  .blip-cta:not(.blip-box) :is(.blip-cta-text, .blip-cta-note) {
     text-shadow:
-      calc(-1 * var(--_p)) calc(-1 * var(--_p)) var(--chu-bg),
-      0 calc(-1 * var(--_p)) var(--chu-bg),
-      var(--_p) calc(-1 * var(--_p)) var(--chu-bg),
-      calc(-1 * var(--_p)) 0 var(--chu-bg),
-      var(--_p) 0 var(--chu-bg),
-      calc(-1 * var(--_p)) var(--_p) var(--chu-bg),
-      0 var(--_p) var(--chu-bg),
-      var(--_p) var(--_p) var(--chu-bg);
+      calc(-1 * var(--_p)) calc(-1 * var(--_p)) var(--blip-bg),
+      0 calc(-1 * var(--_p)) var(--blip-bg),
+      var(--_p) calc(-1 * var(--_p)) var(--blip-bg),
+      calc(-1 * var(--_p)) 0 var(--blip-bg),
+      var(--_p) 0 var(--blip-bg),
+      calc(-1 * var(--_p)) var(--_p) var(--blip-bg),
+      0 var(--_p) var(--blip-bg),
+      var(--_p) var(--_p) var(--blip-bg);
   }
 
-  .chu-cta-ground {
-    --_p: var(--chu-pixel);
+  .blip-cta-ground {
+    --_p: var(--blip-pixel);
     position: absolute;
     inset-inline: 0;
     inset-block-end: 0;
@@ -116,34 +116,34 @@
     block-size: calc(14 * var(--_p));
     pointer-events: none;
     background:
-      linear-gradient(to right, transparent 0 calc(5 * var(--_p)), var(--chu-blocks-pebble) 0 calc(7 * var(--_p)), transparent 0 calc(19 * var(--_p)), var(--chu-blocks-pebble) 0 calc(20 * var(--_p)), transparent 0) 0 calc(8 * var(--_p)) / calc(29 * var(--_p)) var(--_p) repeat-x,
-      linear-gradient(to right, transparent 0 calc(13 * var(--_p)), var(--chu-blocks-dirt-shadow) 0 calc(15 * var(--_p)), transparent 0) 0 calc(10 * var(--_p)) / calc(23 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(5 * var(--_p)), var(--blip-blocks-pebble) 0 calc(7 * var(--_p)), transparent 0 calc(19 * var(--_p)), var(--blip-blocks-pebble) 0 calc(20 * var(--_p)), transparent 0) 0 calc(8 * var(--_p)) / calc(29 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(13 * var(--_p)), var(--blip-blocks-dirt-shadow) 0 calc(15 * var(--_p)), transparent 0) 0 calc(10 * var(--_p)) / calc(23 * var(--_p)) var(--_p) repeat-x,
       linear-gradient(to bottom,
-        var(--chu-blocks-grass-top) 0 var(--_p),
-        var(--chu-blocks-grass) 0 calc(4 * var(--_p)),
-        var(--chu-blocks-grass-lip) 0 calc(5 * var(--_p)),
-        var(--chu-blocks-dirt) 0 calc(100% - 2 * var(--_p)),
-        var(--chu-blocks-dirt-shadow) 0);
+        var(--blip-blocks-grass-top) 0 var(--_p),
+        var(--blip-blocks-grass) 0 calc(4 * var(--_p)),
+        var(--blip-blocks-grass-lip) 0 calc(5 * var(--_p)),
+        var(--blip-blocks-dirt) 0 calc(100% - 2 * var(--_p)),
+        var(--blip-blocks-dirt-shadow) 0);
   }
-  .chu-cta-ground::before {
+  .blip-cta-ground::before {
     content: "";
     position: absolute;
     inset-inline: 0;
     inset-block-end: 100%;
     block-size: calc(2 * var(--_p));
     background:
-      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(4 * var(--_p)), transparent 0 calc(17 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 0 / calc(23 * var(--_p)) var(--_p) repeat-x,
-      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(5 * var(--_p)), transparent 0 calc(12 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(13 * var(--_p)), transparent 0 calc(16 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 var(--_p) / calc(23 * var(--_p)) var(--_p) repeat-x;
+      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--blip-blocks-grass-top) 0 calc(4 * var(--_p)), transparent 0 calc(17 * var(--_p)), var(--blip-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 0 / calc(23 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--blip-blocks-grass-top) 0 calc(5 * var(--_p)), transparent 0 calc(12 * var(--_p)), var(--blip-blocks-grass-top) 0 calc(13 * var(--_p)), transparent 0 calc(16 * var(--_p)), var(--blip-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 var(--_p) / calc(23 * var(--_p)) var(--_p) repeat-x;
   }
 
   @media (forced-colors: active) {
-    .chu-cta:not(.chu-box) { background: Canvas; border-block: 1px solid CanvasText; }
+    .blip-cta:not(.blip-box) { background: Canvas; border-block: 1px solid CanvasText; }
   }
   @media (forced-colors: active), print {
-    .chu-cta-ground { display: none; }
+    .blip-cta-ground { display: none; }
   }
   /* On paper the world's sky bands stay off too. */
   @media print {
-    .chu-cta:not(.chu-box) { background: none; }
+    .blip-cta:not(.blip-box) { background: none; }
   }
 }

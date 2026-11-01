@@ -1,5 +1,5 @@
 /**
- * <chu-command>: a command palette over the command markup (see components/command.css): a modal <dialog> holding a
+ * <blip-command>: a command palette over the command markup (see components/command.css): a modal <dialog> holding a
  * combobox and a listbox of grouped options.
  *
  * Opens and closes with a shortcut (Ctrl+K, Cmd+K on a Mac; set `shortcut`, or "" for none), resets and focuses the
@@ -9,11 +9,11 @@
  * dialog gives focus back to whatever had it. Options rendered later (results a framework fetches as you type) are
  * given ids and filtered as they arrive.
  *
- *   <chu-command shortcut="mod+k">…</chu-command>
- *   palette.addEventListener("chu-action", (e) => go(e.detail.value)); // e.preventDefault() keeps it open
- *   palette.open = true;                                              // or <chu-command open>
+ *   <blip-command shortcut="mod+k">…</blip-command>
+ *   palette.addEventListener("blip-action", (e) => go(e.detail.value)); // e.preventDefault() keeps it open
+ *   palette.open = true;                                              // or <blip-command open>
  */
-import { BlipElement, warn } from "@jaatster/blip-core";
+import { BlipElement, warn } from "@blip/core";
 import { both, isOn, unFalse, valueOf, watch } from "./_dom.js";
 import type { ActionDetail } from "./menu.js";
 
@@ -31,10 +31,10 @@ let uid = 0;
  * @attr {string} [shortcut="mod+k"] - The keys that open and close it ("mod+k", "ctrl+shift+p", "/"); "" for none.
  * @attr {boolean} open - The palette is open; setting it opens (with an empty search) or closes it. Reflects the
  * palette. "false" is off.
- * @fires {CustomEvent<ActionDetail>} chu-action - An option was chosen (Enter or a click), before it runs.
+ * @fires {CustomEvent<ActionDetail>} blip-action - An option was chosen (Enter or a click), before it runs.
  * Cancelable: preventDefault() keeps the palette open.
- * @fires {CustomEvent<void>} chu-open - The palette opened.
- * @fires {CustomEvent<void>} chu-close - The palette closed.
+ * @fires {CustomEvent<void>} blip-open - The palette opened.
+ * @fires {CustomEvent<void>} blip-close - The palette closed.
  */
 export class BlipCommand extends BlipElement {
   static observedAttributes = ["open"];
@@ -87,7 +87,7 @@ export class BlipCommand extends BlipElement {
   }
 
   #label(o: HTMLElement): string {
-    return (o.querySelector(".chu-command-label") ?? o).textContent?.trim() ?? "";
+    return (o.querySelector(".blip-command-label") ?? o).textContent?.trim() ?? "";
   }
   #visible(): HTMLElement[] {
     return this.options.filter((o) => !o.hidden && o.getAttribute("aria-disabled") !== "true");
@@ -109,7 +109,7 @@ export class BlipCommand extends BlipElement {
       if (!o.hidden) count++;
     }
     for (const g of this.querySelectorAll<HTMLElement>('[role="listbox"] [role="group"]')) g.hidden = !g.querySelector(`${OPTION}:not([hidden])`);
-    const empty = this.querySelector<HTMLElement>(".chu-command-empty");
+    const empty = this.querySelector<HTMLElement>(".blip-command-empty");
     if (empty) empty.hidden = count > 0;
     const status = this.querySelector('[role="status"]');
     if (status) status.textContent = words.length ? `${count} ${count === 1 ? "result" : "results"}` : "";
@@ -151,7 +151,7 @@ export class BlipCommand extends BlipElement {
     this.#wire();
     // Parts rendered later, and options that come and go as results arrive, are wired as they come.
     watch(this, this.signal, () => this.#wire());
-    if (!this.dialog && this.children.length) warn("CHU-C001", "<chu-command> needs a <dialog> with an input and a [role=listbox] inside it.", this);
+    if (!this.dialog && this.children.length) warn("BLIP-C001", "<blip-command> needs a <dialog> with an input and a [role=listbox] inside it.", this);
     this.on(document, "keydown", (e) => {
       if (e.defaultPrevented || !this.#matches(e)) return;
       e.preventDefault();
@@ -166,7 +166,7 @@ export class BlipCommand extends BlipElement {
     const input = this.input;
     const list = this.querySelector<HTMLElement>('[role="listbox"]');
     if (!dialog || !input || !list) return;
-    this.#id ||= `chu-command-${++uid}`;
+    this.#id ||= `blip-command-${++uid}`;
     list.id ||= `${this.#id}-list`;
     for (const o of this.options) o.id ||= `${this.#id}-option-${this.#n++}`;
     if (this.#parts[0] !== dialog || this.#parts[1] !== input || this.#parts[2] !== list) this.#listen(dialog, input, list);
@@ -225,10 +225,10 @@ export class BlipCommand extends BlipElement {
   }
 }
 
-BlipElement.define("chu-command", BlipCommand);
+BlipElement.define("blip-command", BlipCommand);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "chu-command": BlipCommand;
+    "blip-command": BlipCommand;
   }
 }

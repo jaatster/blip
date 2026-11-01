@@ -1,21 +1,21 @@
 /*
  * Tabs. Views of one thing, one at a time: a row of tabs over a panel. The selected tab sits in, like every selected
- * thing; the underline variant marks it with a stepped bar instead. <chu-tabs> adds the keyboard (arrows, Home, End)
+ * thing; the underline variant marks it with a stepped bar instead. <blip-tabs> adds the keyboard (arrows, Home, End)
  * and, when the row overflows, two buttons at its ends that scroll it in steps.
  *
- *   <chu-tabs class="chu-tabs" data-variant="outline">
- *     <div class="chu-tabs-list" role="tablist" aria-label="Settings">
- *       <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="true">General</button>
- *       <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Audio</button>
+ *   <blip-tabs class="blip-tabs" data-variant="outline">
+ *     <div class="blip-tabs-list" role="tablist" aria-label="Settings">
+ *       <button class="blip-box blip-tab" data-variant="outline" role="tab" aria-selected="true">General</button>
+ *       <button class="blip-box blip-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Audio</button>
  *     </div>
- *     <div class="chu-tabs-panel" role="tabpanel">…</div>
- *     <div class="chu-tabs-panel" role="tabpanel" hidden>…</div>
- *   </chu-tabs>
+ *     <div class="blip-tabs-panel" role="tabpanel">…</div>
+ *     <div class="blip-tabs-panel" role="tabpanel" hidden>…</div>
+ *   </blip-tabs>
  *
- *   data-variant  on .chu-tabs: candy (default) | soft | outline | underline. Each tab carries the matching box tier
- *                 (none, soft, outline, ghost for underline); <chu-tabs> fills it in when it is missing.
- *   data-size     on .chu-tabs: sm | md (default) | lg      tabs 32, 40 or 48 px high, like buttons
- *   data-arrow    on .chu-tabs: the TV's pointer arrow over the selected tab (where anchor positioning is supported)
+ *   data-variant  on .blip-tabs: candy (default) | soft | outline | underline. Each tab carries the matching box tier
+ *                 (none, soft, outline, ghost for underline); <blip-tabs> fills it in when it is missing.
+ *   data-size     on .blip-tabs: sm | md (default) | lg      tabs 32, 40 or 48 px high, like buttons
+ *   data-arrow    on .blip-tabs: the TV's pointer arrow over the selected tab (where anchor positioning is supported)
  *   aria-orientation="vertical" on the list: tabs down the side, the panel beside them (a row again under 480 px)
  *   aria-selected="true", or aria-current="page" for tabs that are links: sits in
  *   aria-disabled="true"  dithered; the arrow keys skip it
@@ -25,11 +25,11 @@
  */
 @import "./_scroll.css";
 
-@layer chu.components {
-  .chu-tabs {
-    --_h: var(--chu-control-md);
+@layer blip.components {
+  .blip-tabs {
+    --_h: var(--blip-control-md);
     /* Room inside the scrolling row for the ring, the lift and the drop. */
-    --_pad: var(--chu-space-3);
+    --_pad: var(--blip-space-3);
 
     /* A size container: it takes the width it is given (it cannot grow to fit its content). */
     container-type: inline-size;
@@ -37,81 +37,81 @@
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: start;
-    row-gap: var(--chu-space-4);
-    font-family: var(--chu-font-ui);
+    row-gap: var(--blip-space-4);
+    font-family: var(--blip-font-ui);
   }
-  .chu-tabs[data-size="sm"] { --_h: var(--chu-control-sm); }
-  .chu-tabs[data-size="lg"] { --_h: var(--chu-control-lg); }
+  .blip-tabs[data-size="sm"] { --_h: var(--blip-control-sm); }
+  .blip-tabs[data-size="lg"] { --_h: var(--blip-control-lg); }
 
-  .chu-tabs-list {
+  .blip-tabs-list {
     position: relative;
     grid-row: 1;
     grid-column: 1 / -1;
     display: flex;
-    gap: var(--chu-space-3);
+    gap: var(--blip-space-3);
     min-inline-size: 0;
     padding: var(--_pad-top, var(--_pad)) var(--_pad) var(--_pad);
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scrollbar-width: thin;
   }
-  .chu-tabs:not([data-overflow]) > .chu-tabs-list:not([aria-orientation="vertical"]) { margin-inline: calc(-1 * var(--_pad)); }
+  .blip-tabs:not([data-overflow]) > .blip-tabs-list:not([aria-orientation="vertical"]) { margin-inline: calc(-1 * var(--_pad)); }
 
-  .chu-tab {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
-    --chu-band-top: 4;
-    --chu-band-bottom: 4;
+  .blip-tab {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
+    --blip-band-top: 4;
+    --blip-band-bottom: 4;
 
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--chu-space-3);
+    gap: var(--blip-space-3);
     flex: none;
-    block-size: var(--_h, var(--chu-control-md));
-    padding: 0 var(--chu-space-8);
+    block-size: var(--_h, var(--blip-control-md));
+    padding: 0 var(--blip-space-8);
     /* Leave room for the drop. */
-    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
-    font-size: var(--chu-size-small);
-    font-weight: var(--chu-weight-bold);
+    margin: 0 var(--blip-pixel) var(--blip-pixel) 0;
+    font-size: var(--blip-size-small);
+    font-weight: var(--blip-weight-bold);
     line-height: 1;
-    letter-spacing: var(--chu-tracking-label);
+    letter-spacing: var(--blip-tracking-label);
     text-transform: uppercase;
     text-decoration: none;
     white-space: nowrap;
   }
   /* Selected is the accent fill: candy and soft tabs rest in cream and the selected one takes the accent (and sits in).
      A tab with its own data-tone keeps it. */
-  .chu-tabs:not([data-variant="outline"], [data-variant="underline"]) > .chu-tabs-list > .chu-tab:not([aria-selected="true"], [aria-current="page"], [data-tone]) {
-    --chu-tone: var(--chu-candy-cream);
-    --chu-tone-light: var(--chu-candy-cream-light);
-    --chu-tone-shade: var(--chu-candy-cream-shade);
-    --chu-tone-on: var(--chu-ink);
+  .blip-tabs:not([data-variant="outline"], [data-variant="underline"]) > .blip-tabs-list > .blip-tab:not([aria-selected="true"], [aria-current="page"], [data-tone]) {
+    --blip-tone: var(--blip-candy-cream);
+    --blip-tone-light: var(--blip-candy-cream-light);
+    --blip-tone-shade: var(--blip-candy-cream-shade);
+    --blip-tone-on: var(--blip-ink);
   }
   /* Cream is too close to the page for the usual dither: a disabled cream tab takes the cream one. */
-  .chu-tabs:not([data-variant="outline"], [data-variant="underline"]) > .chu-tabs-list > .chu-tab:not([aria-selected="true"], [aria-current="page"], [data-tone]):is(:disabled, [aria-disabled="true"]) { --chu-box-dither: var(--chu-disabled-dither-cream); }
-  .chu-tabs[data-size="sm"] > .chu-tabs-list > .chu-tab {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
-    --chu-band-top: 3;
-    --chu-band-bottom: 3;
-    gap: var(--chu-space-2);
-    padding: 0 var(--chu-space-6);
-    font-size: var(--chu-size-caption);
+  .blip-tabs:not([data-variant="outline"], [data-variant="underline"]) > .blip-tabs-list > .blip-tab:not([aria-selected="true"], [aria-current="page"], [data-tone]):is(:disabled, [aria-disabled="true"]) { --blip-box-dither: var(--blip-disabled-dither-cream); }
+  .blip-tabs[data-size="sm"] > .blip-tabs-list > .blip-tab {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
+    --blip-band-top: 3;
+    --blip-band-bottom: 3;
+    gap: var(--blip-space-2);
+    padding: 0 var(--blip-space-6);
+    font-size: var(--blip-size-caption);
   }
-  .chu-tabs[data-size="lg"] > .chu-tabs-list > .chu-tab {
-    --chu-r: 5;
-    --chu-shape: var(--chu-shape-5);
-    --chu-shape-inner: var(--chu-shape-5-inner);
-    --chu-band-top: 5;
-    --chu-band-bottom: 4;
-    padding: 0 calc(10 * var(--chu-pixel));
-    font-size: var(--chu-size-body);
+  .blip-tabs[data-size="lg"] > .blip-tabs-list > .blip-tab {
+    --blip-r: 5;
+    --blip-shape: var(--blip-shape-5);
+    --blip-shape-inner: var(--blip-shape-5-inner);
+    --blip-band-top: 5;
+    --blip-band-bottom: 4;
+    padding: 0 calc(10 * var(--blip-pixel));
+    font-size: var(--blip-size-body);
   }
 
-  .chu-tabs-panel {
+  .blip-tabs-panel {
     grid-column: 1 / -1;
     min-inline-size: 0;
   }
@@ -120,35 +120,35 @@
 
   /* Ghost tabs on a one-pixel rule; the selected tab's shade band becomes a two-pixel bar, its ends stepped by the
      box's own corners. */
-  .chu-tabs[data-variant="underline"] > .chu-tabs-list:not([aria-orientation="vertical"]) {
-    gap: var(--chu-space-2);
-    background: linear-gradient(var(--chu-line-soft) 0 0) 0 calc(100% - var(--_pad)) / 100% var(--chu-pixel) no-repeat local;
+  .blip-tabs[data-variant="underline"] > .blip-tabs-list:not([aria-orientation="vertical"]) {
+    gap: var(--blip-space-2);
+    background: linear-gradient(var(--blip-line-soft) 0 0) 0 calc(100% - var(--_pad)) / 100% var(--blip-pixel) no-repeat local;
   }
-  .chu-tabs[data-variant="underline"] > .chu-tabs-list > .chu-tab {
-    --chu-r: 2;
-    --chu-shape: var(--chu-shape-2);
-    --chu-shape-inner: var(--chu-shape-2-inner);
-    --chu-band-bottom: 2;
+  .blip-tabs[data-variant="underline"] > .blip-tabs-list > .blip-tab {
+    --blip-r: 2;
+    --blip-shape: var(--blip-shape-2);
+    --blip-shape-inner: var(--blip-shape-2-inner);
+    --blip-band-bottom: 2;
     margin: 0;
-    padding: 0 var(--chu-space-6);
+    padding: 0 var(--blip-space-6);
   }
-  .chu-tabs[data-variant="underline"] > .chu-tabs-list > .chu-tab:not([aria-selected="true"], [aria-current="page"]) { --chu-box-text: var(--chu-text-muted); }
+  .blip-tabs[data-variant="underline"] > .blip-tabs-list > .blip-tab:not([aria-selected="true"], [aria-current="page"]) { --blip-box-text: var(--blip-text-muted); }
   /* Disabled, it stays bare like its neighbours, only dithered: a disabled ghost's soft outline would show through its
      empty fill, too dark under the muted label at Sunset. */
-  .chu-tabs[data-variant="underline"] > .chu-tabs-list > .chu-tab:is(:disabled, [aria-disabled="true"]) { --chu-box-outline: transparent; }
-  .chu-tabs[data-variant="underline"] > .chu-tabs-list:not([aria-orientation="vertical"]) > .chu-tab:is([aria-selected="true"], [aria-current="page"]) {
-    --chu-box-outline: transparent;
-    --chu-box-top: transparent;
-    --chu-box-fill: transparent;
-    --chu-box-bottom: var(--chu-accent-text);
-    --chu-box-text: var(--chu-text);
+  .blip-tabs[data-variant="underline"] > .blip-tabs-list > .blip-tab:is(:disabled, [aria-disabled="true"]) { --blip-box-outline: transparent; }
+  .blip-tabs[data-variant="underline"] > .blip-tabs-list:not([aria-orientation="vertical"]) > .blip-tab:is([aria-selected="true"], [aria-current="page"]) {
+    --blip-box-outline: transparent;
+    --blip-box-top: transparent;
+    --blip-box-fill: transparent;
+    --blip-box-bottom: var(--blip-accent-text);
+    --blip-box-text: var(--blip-text);
   }
   /* With focus, the well every focused ghost shows (not a selected ghost's tone chip, too light for the scheme's text
      at Night), so the ring has a shape to follow; the bar stays. */
-  .chu-tabs[data-variant="underline"] > .chu-tabs-list:not([aria-orientation="vertical"]) > .chu-tab:is([aria-selected="true"], [aria-current="page"]):is(:focus-visible, [data-chu-state~="focus"]) {
-    --chu-box-outline: var(--chu-line);
-    --chu-box-top: var(--chu-surface-sunken);
-    --chu-box-fill: var(--chu-surface-sunken);
+  .blip-tabs[data-variant="underline"] > .blip-tabs-list:not([aria-orientation="vertical"]) > .blip-tab:is([aria-selected="true"], [aria-current="page"]):is(:focus-visible, [data-blip-state~="focus"]) {
+    --blip-box-outline: var(--blip-line);
+    --blip-box-top: var(--blip-surface-sunken);
+    --blip-box-fill: var(--blip-surface-sunken);
   }
 
   /* ------------------------------------------------------------ the arrow */
@@ -156,50 +156,50 @@
   /* The TV's pointer arrow over the selected tab: 10 x 6, ink outline, accent fill, a white glint. It bobs for a few
      beats, then rests. Anchored to whichever tab is selected. */
   @supports (position-area: top) {
-    .chu-tabs[data-arrow] { --_pad-top: calc(10 * var(--chu-pixel)); }
-    .chu-tabs[data-arrow] > .chu-tabs-list > .chu-tab:is([aria-selected="true"], [aria-current="page"]) { anchor-name: --chu-tab; }
-    .chu-tabs[data-arrow] > .chu-tabs-list::after {
-      --_p: var(--chu-pixel);
+    .blip-tabs[data-arrow] { --_pad-top: calc(10 * var(--blip-pixel)); }
+    .blip-tabs[data-arrow] > .blip-tabs-list > .blip-tab:is([aria-selected="true"], [aria-current="page"]) { anchor-name: --blip-tab; }
+    .blip-tabs[data-arrow] > .blip-tabs-list::after {
+      --_p: var(--blip-pixel);
       content: "";
       position: absolute;
-      position-anchor: --chu-tab;
+      position-anchor: --blip-tab;
       position-area: top center;
-      margin-block-end: var(--chu-space-2);
+      margin-block-end: var(--blip-space-2);
       inline-size: calc(10 * var(--_p));
       block-size: calc(6 * var(--_p));
       background:
-        linear-gradient(var(--chu-white) 0 0) calc(2 * var(--_p)) var(--_p) / var(--_p) var(--_p) no-repeat,
-        linear-gradient(var(--chu-accent-light) 0 0) var(--_p) var(--_p) / calc(8 * var(--_p)) var(--_p) no-repeat,
-        linear-gradient(var(--chu-accent) 0 0) calc(2 * var(--_p)) calc(2 * var(--_p)) / calc(6 * var(--_p)) var(--_p) no-repeat,
-        linear-gradient(var(--chu-accent) 0 0) calc(3 * var(--_p)) calc(3 * var(--_p)) / calc(4 * var(--_p)) var(--_p) no-repeat,
-        linear-gradient(var(--chu-accent-shade) 0 0) calc(4 * var(--_p)) calc(4 * var(--_p)) / calc(2 * var(--_p)) var(--_p) no-repeat,
-        var(--chu-outline);
+        linear-gradient(var(--blip-white) 0 0) calc(2 * var(--_p)) var(--_p) / var(--_p) var(--_p) no-repeat,
+        linear-gradient(var(--blip-accent-light) 0 0) var(--_p) var(--_p) / calc(8 * var(--_p)) var(--_p) no-repeat,
+        linear-gradient(var(--blip-accent) 0 0) calc(2 * var(--_p)) calc(2 * var(--_p)) / calc(6 * var(--_p)) var(--_p) no-repeat,
+        linear-gradient(var(--blip-accent) 0 0) calc(3 * var(--_p)) calc(3 * var(--_p)) / calc(4 * var(--_p)) var(--_p) no-repeat,
+        linear-gradient(var(--blip-accent-shade) 0 0) calc(4 * var(--_p)) calc(4 * var(--_p)) / calc(2 * var(--_p)) var(--_p) no-repeat,
+        var(--blip-outline);
       mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h10v2H9v1H8v1H7v1H6v1H4V5H3V4H2V3H1V2H0z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
-      animation: chu-bob calc(2 * var(--chu-duration-beat)) steps(1, jump-end) 6;
+      animation: blip-bob calc(2 * var(--blip-duration-beat)) steps(1, jump-end) 6;
       pointer-events: none;
     }
   }
 
   /* ------------------------------------------------------------ down the side */
 
-  .chu-tabs:has(> .chu-tabs-list[aria-orientation="vertical"]) { column-gap: var(--chu-space-8); }
-  .chu-tabs-list[aria-orientation="vertical"] {
+  .blip-tabs:has(> .blip-tabs-list[aria-orientation="vertical"]) { column-gap: var(--blip-space-8); }
+  .blip-tabs-list[aria-orientation="vertical"] {
     grid-column: 1;
     flex-direction: column;
     overflow: visible;
   }
-  .chu-tabs-list[aria-orientation="vertical"] > .chu-tab { justify-content: flex-start; }
-  .chu-tabs:has(> .chu-tabs-list[aria-orientation="vertical"]) > .chu-tabs-panel {
+  .blip-tabs-list[aria-orientation="vertical"] > .blip-tab { justify-content: flex-start; }
+  .blip-tabs:has(> .blip-tabs-list[aria-orientation="vertical"]) > .blip-tabs-panel {
     grid-row: 1;
     grid-column: 2 / -1;
   }
   @container (width < 480px) {
-    .chu-tabs-list[aria-orientation="vertical"] {
+    .blip-tabs-list[aria-orientation="vertical"] {
       grid-column: 1 / -1;
       flex-direction: row;
       overflow-x: auto;
     }
-    .chu-tabs:has(> .chu-tabs-list[aria-orientation="vertical"]) > .chu-tabs-panel {
+    .blip-tabs:has(> .blip-tabs-list[aria-orientation="vertical"]) > .blip-tabs-panel {
       grid-row: auto;
       grid-column: 1 / -1;
     }
@@ -207,74 +207,74 @@
 
   /* ------------------------------------------------------------ overflow */
 
-  /* <chu-tabs> adds these when the row is too long: they scroll it a few tabs at a time, in steps. */
-  .chu-tabs-scroll {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
+  /* <blip-tabs> adds these when the row is too long: they scroll it a few tabs at a time, in steps. */
+  .blip-tabs-scroll {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
 
     display: none;
     grid-row: 1;
     place-items: center;
-    inline-size: var(--chu-control-sm);
+    inline-size: var(--blip-control-sm);
     block-size: var(--_h);
     margin-block-start: var(--_pad-top, var(--_pad));
   }
-  .chu-tabs-scroll[data-dir="start"] { grid-column: 1; }
-  .chu-tabs-scroll[data-dir="end"] { grid-column: 3; }
-  .chu-tabs[data-overflow] > .chu-tabs-scroll { display: grid; }
-  .chu-tabs[data-overflow] > .chu-tabs-list {
+  .blip-tabs-scroll[data-dir="start"] { grid-column: 1; }
+  .blip-tabs-scroll[data-dir="end"] { grid-column: 3; }
+  .blip-tabs[data-overflow] > .blip-tabs-scroll { display: grid; }
+  .blip-tabs[data-overflow] > .blip-tabs-list {
     grid-column: 2;
     scrollbar-width: none;
   }
-  .chu-tabs-scroll > span {
-    inline-size: calc(5 * var(--chu-pixel));
-    block-size: calc(7 * var(--chu-pixel));
+  .blip-tabs-scroll > span {
+    inline-size: calc(5 * var(--blip-pixel));
+    block-size: calc(7 * var(--blip-pixel));
     background-color: currentColor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5 7' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1h1v1h1v1h1v1H4v1H3v1H2v1H0V6h1V5h1V4h1V3H2V2H1V1H0z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   }
-  .chu-tabs-scroll[data-dir="start"] > span,
-  .chu-tabs-scroll[data-dir="end"]:dir(rtl) > span { scale: -1 1; }
-  .chu-tabs-scroll[data-dir="start"]:dir(rtl) > span { scale: none; }
+  .blip-tabs-scroll[data-dir="start"] > span,
+  .blip-tabs-scroll[data-dir="end"]:dir(rtl) > span { scale: -1 1; }
+  .blip-tabs-scroll[data-dir="start"]:dir(rtl) > span { scale: none; }
 
   /* A row that scrolls without the buttons (no element, or a side list turned into a row on a narrow screen): while
      there is more to one side, that edge dithers out, as a table's does. The tab with the keyboard shows its whole
      ring. */
   @supports (animation-timeline: scroll()) {
-    .chu-tabs:not([data-overflow]) > .chu-tabs-list {
-      --_chu-s: 0;
-      --_chu-e: 0;
-      --_chu-l: var(--_chu-s);
-      --_chu-r: var(--_chu-e);
+    .blip-tabs:not([data-overflow]) > .blip-tabs-list {
+      --_blip-s: 0;
+      --_blip-e: 0;
+      --_blip-l: var(--_blip-s);
+      --_blip-r: var(--_blip-e);
       mask:
-        linear-gradient(#000 0 0) calc(var(--_chu-l) * var(--_chu-fade)) 0 / calc(100% - (var(--_chu-l) + var(--_chu-r)) * var(--_chu-fade)) 100% no-repeat,
-        var(--_chu-fade-start) 0 0 / calc(var(--_chu-l) * var(--_chu-fade)) calc(2 * var(--chu-pixel)) repeat-y,
-        var(--_chu-fade-end) 100% 0 / calc(var(--_chu-r) * var(--_chu-fade)) calc(2 * var(--chu-pixel)) repeat-y;
-      animation: chu-scroll-cue steps(1, jump-end) both;
+        linear-gradient(#000 0 0) calc(var(--_blip-l) * var(--_blip-fade)) 0 / calc(100% - (var(--_blip-l) + var(--_blip-r)) * var(--_blip-fade)) 100% no-repeat,
+        var(--_blip-fade-start) 0 0 / calc(var(--_blip-l) * var(--_blip-fade)) calc(2 * var(--blip-pixel)) repeat-y,
+        var(--_blip-fade-end) 100% 0 / calc(var(--_blip-r) * var(--_blip-fade)) calc(2 * var(--blip-pixel)) repeat-y;
+      animation: blip-scroll-cue steps(1, jump-end) both;
       animation-timeline: scroll(self inline);
     }
     /* Down the side it never scrolls. */
     @container (width >= 480px) {
-      .chu-tabs:not([data-overflow]) > .chu-tabs-list[aria-orientation="vertical"] { mask: none; animation: none; }
+      .blip-tabs:not([data-overflow]) > .blip-tabs-list[aria-orientation="vertical"] { mask: none; animation: none; }
     }
-    .chu-tabs:not([data-overflow]) > .chu-tabs-list:dir(rtl) { --_chu-l: var(--_chu-e); --_chu-r: var(--_chu-s); }
-    .chu-tabs:not([data-overflow]) > .chu-tabs-list:has(:focus-visible) { mask: none; }
+    .blip-tabs:not([data-overflow]) > .blip-tabs-list:dir(rtl) { --_blip-l: var(--_blip-e); --_blip-r: var(--_blip-s); }
+    .blip-tabs:not([data-overflow]) > .blip-tabs-list:has(:focus-visible) { mask: none; }
   }
 
   /* Paper cannot scroll: a row too long for its box prints wrapped, every tab in sight, without the buttons that
      scroll it (a row that fits is unchanged). */
   @media print {
-    .chu-tabs > .chu-tabs-list { flex-wrap: wrap; overflow: visible; }
-    .chu-tabs[data-overflow] > .chu-tabs-list { grid-column: 1 / -1; margin-inline: calc(-1 * var(--_pad)); }
-    .chu-tabs[data-overflow] > .chu-tabs-scroll { display: none; }
+    .blip-tabs > .blip-tabs-list { flex-wrap: wrap; overflow: visible; }
+    .blip-tabs[data-overflow] > .blip-tabs-list { grid-column: 1 / -1; margin-inline: calc(-1 * var(--_pad)); }
+    .blip-tabs[data-overflow] > .blip-tabs-scroll { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-tabs-list::after { animation: none; }
+    .blip-tabs-list::after { animation: none; }
   }
   @media (forced-colors: active) {
-    .chu-tab:is([aria-selected="true"], [aria-current="page"]) { border-width: var(--chu-pixel); }
-    .chu-tabs-list::after { forced-color-adjust: none; background: CanvasText !important; }
-    .chu-tabs-scroll > span { forced-color-adjust: none; }
+    .blip-tab:is([aria-selected="true"], [aria-current="page"]) { border-width: var(--blip-pixel); }
+    .blip-tabs-list::after { forced-color-adjust: none; background: CanvasText !important; }
+    .blip-tabs-scroll > span { forced-color-adjust: none; }
   }
 }

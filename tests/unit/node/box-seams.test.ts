@@ -20,13 +20,13 @@ const PALETTE: Record<(typeof KINDS)[number], string[]> = {
   r: ["1a1530", "33a3ff", "7fc8ff", "1478d6", "f4f7ff"],
 };
 /** The boxes at pixel size P (CSS px), spaced to match. */
-const body = (P: number) => `<div data-chu-pixel="${P}">${[["e", 20], ["o", 21]].flatMap(([row, base], k) => OFFSETS.map((f, i) => {
+const body = (P: number) => `<div data-blip-pixel="${P}">${[["e", 20], ["o", 21]].flatMap(([row, base], k) => OFFSETS.map((f, i) => {
   const x = Number(base) + i * 45 * P + f, y = Number(base) + k * 115 * P + f;
-  return `<button class="p chu-box chu-button" id="b${row}${i}" style="left:${x}px;top:${y}px"></button>`
-    + `<div class="p chu-box chu-card" id="c${row}${i}" style="left:${x}px;top:${y + 35 * P}px;width:${32 * P}px;height:${20 * P}px"></div>`
-    + `<span class="p chu-box chu-radio" id="r${row}${i}" style="left:${x}px;top:${y + 70 * P}px"><input type="radio" checked name="r${row}${i}"></span>`;
+  return `<button class="p blip-box blip-button" id="b${row}${i}" style="left:${x}px;top:${y}px"></button>`
+    + `<div class="p blip-box blip-card" id="c${row}${i}" style="left:${x}px;top:${y + 35 * P}px;width:${32 * P}px;height:${20 * P}px"></div>`
+    + `<span class="p blip-box blip-radio" id="r${row}${i}" style="left:${x}px;top:${y + 70 * P}px"><input type="radio" checked name="r${row}${i}"></span>`;
 })).join("")}</div>`;
-const style = ".p { position: absolute; } button.chu-button { inline-size: calc(32 * var(--chu-pixel)); padding: 0; }";
+const style = ".p { position: absolute; } button.blip-button { inline-size: calc(32 * var(--blip-pixel)); padding: 0; }";
 
 interface Image { width: number; height: number; data: Uint8Array }
 /** Decodes Playwright's screenshots: 8-bit RGB or RGBA, not interlaced. */

@@ -1,6 +1,6 @@
 /**
  * Pager: PagerTrack, PagerSlide, PagerDots and PagerDot, the parts that go inside <Pager> (generated from its
- * element, re-exported here). CSS from @jaatster/blip-components (pager.css).
+ * element, re-exported here). CSS from @blip/components (pager.css).
  */
 import { forwardRef } from "react";
 import { cx, type NativeProps } from "../internal/props.js";
@@ -24,10 +24,10 @@ export type PagerTrackProps = NativeProps<"div">;
  *     </PagerDots>
  *   </Pager>
  *
- * Renders `<div class="chu-pager-track">`.
+ * Renders `<div class="blip-pager-track">`.
  */
 export const PagerTrack = /*#__PURE__*/ forwardRef<HTMLDivElement, PagerTrackProps>(function PagerTrack({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("chu-pager-track", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-pager-track", className)} {...rest} />;
 });
 
 /** Props for {@link PagerSlide}: it needs an `id` for its dot, and a name. */
@@ -38,10 +38,10 @@ export type PagerSlideProps = { id: string } & ({ "aria-label": string } | { "ar
  *
  *   <PagerSlide id="world-2" aria-label="2 of 4"><Card>…</Card></PagerSlide>
  *
- * Renders `<section class="chu-pager-slide" role="group" aria-roledescription="slide">`.
+ * Renders `<section class="blip-pager-slide" role="group" aria-roledescription="slide">`.
  */
 export const PagerSlide = /*#__PURE__*/ forwardRef<HTMLElement, PagerSlideProps>(function PagerSlide({ className, ...rest }, ref) {
-  return <section ref={ref} className={cx("chu-pager-slide", className)} role="group" aria-roledescription="slide" {...rest} />;
+  return <section ref={ref} className={cx("blip-pager-slide", className)} role="group" aria-roledescription="slide" {...rest} />;
 });
 
 /** Props for {@link PagerDots}. */
@@ -53,10 +53,10 @@ export type PagerDotsProps = NativeProps<"div">;
  *
  *   <PagerDots>…</PagerDots>
  *
- * Renders `<div class="chu-pager-dots">`.
+ * Renders `<div class="blip-pager-dots">`.
  */
 export const PagerDots = /*#__PURE__*/ forwardRef<HTMLDivElement, PagerDotsProps>(function PagerDots({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("chu-pager-dots", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-pager-dots", className)} {...rest} />;
 });
 
 /** Own props of {@link PagerDot}. */
@@ -78,8 +78,8 @@ export type PagerDotProps = PagerDotOwnProps & ({ "aria-label": string } | { "ar
  *
  *   <PagerDot href="#world-1" current aria-label="Meadow" />
  *
- * Renders `<a class="chu-pager-dot">`.
+ * Renders `<a class="blip-pager-dot">`.
  */
 export const PagerDot = /*#__PURE__*/ forwardRef<HTMLAnchorElement, PagerDotProps>(function PagerDot({ current, className, ...rest }, ref) {
-  return <a ref={ref} className={cx("chu-pager-dot", className)} aria-current={current ? "true" : undefined} {...rest} />;
+  return <a ref={ref} className={cx("blip-pager-dot", className)} aria-current={current ? "true" : undefined} {...rest} />;
 });

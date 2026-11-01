@@ -3,104 +3,104 @@
  * groups that fold open, and the page you are on sitting in. Folded to a rail it keeps just the icons, and an item
  * shows its name beside it on hover and focus.
  *
- *   <nav class="chu-sidebar" aria-label="Main" data-collapse="auto">
- *     <h2 class="chu-sidebar-heading" id="nav-live">Live ops</h2>
- *     <ul class="chu-sidebar-list" role="list" aria-labelledby="nav-live">
- *       <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="/" aria-current="page">
- *         <svg class="chu-icon" …></svg><span class="chu-sidebar-label">Overview</span></a></li>
- *       <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="/players">
- *         <svg class="chu-icon" …></svg><span class="chu-sidebar-label">Players</span>
- *         <span class="chu-box chu-sidebar-badge">12</span></a></li>
- *       <li><details class="chu-sidebar-group" open>
- *         <summary class="chu-box chu-sidebar-item" data-variant="ghost"><svg …></svg><span class="chu-sidebar-label">Levels</span></summary>
- *         <ul class="chu-sidebar-list" role="list">…</ul>
+ *   <nav class="blip-sidebar" aria-label="Main" data-collapse="auto">
+ *     <h2 class="blip-sidebar-heading" id="nav-live">Live ops</h2>
+ *     <ul class="blip-sidebar-list" role="list" aria-labelledby="nav-live">
+ *       <li><a class="blip-box blip-sidebar-item" data-variant="ghost" href="/" aria-current="page">
+ *         <svg class="blip-icon" …></svg><span class="blip-sidebar-label">Overview</span></a></li>
+ *       <li><a class="blip-box blip-sidebar-item" data-variant="ghost" href="/players">
+ *         <svg class="blip-icon" …></svg><span class="blip-sidebar-label">Players</span>
+ *         <span class="blip-box blip-sidebar-badge">12</span></a></li>
+ *       <li><details class="blip-sidebar-group" open>
+ *         <summary class="blip-box blip-sidebar-item" data-variant="ghost"><svg …></svg><span class="blip-sidebar-label">Levels</span></summary>
+ *         <ul class="blip-sidebar-list" role="list">…</ul>
  *       </details></li>
  *     </ul>
  *   </nav>
  *
  *   aria-current="page"   the page you are on: sits in, a soft chip
- *   .chu-sidebar-label     the item's name; keep it, it carries the group chevron and the arrow, and names the rail
- *   .chu-sidebar-badge     a count at the end of an item (data-tone colours it); a dot on the rail
+ *   .blip-sidebar-label     the item's name; keep it, it carries the group chevron and the arrow, and names the rail
+ *   .blip-sidebar-badge     a count at the end of an item (data-tone colours it); a dot on the rail
  *   <details> group       folds with a pixel chevron; open it when it holds the current page
  *   data-collapsed        the rail: icons only
- *   data-collapse="auto"  a rail when the chu-shell container is under 1024 px, hidden under 600 px (pair it with the
+ *   data-collapse="auto"  a rail when the blip-shell container is under 1024 px, hidden under 600 px (pair it with the
  *                         bottom bar or the app bar's menu)
  *                         A rail sits at the start edge of the screen: an item's name shows beside it, over the
  *                         content, never wider than the sidebar (a longer name wraps)
  *   data-arrow            the TV's pointer arrow beside the current page
- *   --chu-sidebar-width    120 pixels (240 px). Keep it over 120 px: a content box under 100 px reads as the rail.
+ *   --blip-sidebar-width    120 pixels (240 px). Keep it over 120 px: a content box under 100 px reads as the rail.
  */
 
-@layer chu.components {
-  .chu-sidebar {
-    --chu-sidebar-width: calc(120 * var(--chu-pixel));
-    --_rail: calc(30 * var(--chu-pixel));
+@layer blip.components {
+  .blip-sidebar {
+    --blip-sidebar-width: calc(120 * var(--blip-pixel));
+    --_rail: calc(30 * var(--blip-pixel));
 
-    container: chu-sidebar / inline-size;
+    container: blip-sidebar / inline-size;
     position: relative;
-    z-index: var(--chu-layer-raised);
+    z-index: var(--blip-layer-raised);
     display: flex;
     flex-direction: column;
-    gap: var(--chu-space-2);
+    gap: var(--blip-space-2);
     flex: none;
-    inline-size: var(--chu-sidebar-width);
-    padding-block: var(--chu-space-6);
-    padding-inline: var(--chu-space-8) var(--chu-space-4);
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-small);
+    inline-size: var(--blip-sidebar-width);
+    padding-block: var(--blip-space-6);
+    padding-inline: var(--blip-space-8) var(--blip-space-4);
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-small);
   }
-  .chu-sidebar[data-collapsed] {
+  .blip-sidebar[data-collapsed] {
     inline-size: var(--_rail);
-    padding-inline: var(--chu-space-4);
+    padding-inline: var(--blip-space-4);
   }
-  @container chu-shell (width < 1024px) {
-    .chu-sidebar[data-collapse="auto"] {
+  @container blip-shell (width < 1024px) {
+    .blip-sidebar[data-collapse="auto"] {
       inline-size: var(--_rail);
-      padding-inline: var(--chu-space-4);
+      padding-inline: var(--blip-space-4);
     }
   }
-  @container chu-shell (width < 600px) {
-    .chu-sidebar[data-collapse="auto"] { display: none; }
+  @container blip-shell (width < 600px) {
+    .blip-sidebar[data-collapse="auto"] { display: none; }
   }
 
-  .chu-sidebar-heading {
-    margin: var(--chu-space-6) 0 0;
-    padding: 0 var(--chu-space-4) var(--chu-space-1);
-    font-size: var(--chu-size-caption);
-    font-weight: var(--chu-weight-bold);
-    line-height: var(--chu-leading-tight);
-    letter-spacing: var(--chu-tracking-label);
+  .blip-sidebar-heading {
+    margin: var(--blip-space-6) 0 0;
+    padding: 0 var(--blip-space-4) var(--blip-space-1);
+    font-size: var(--blip-size-caption);
+    font-weight: var(--blip-weight-bold);
+    line-height: var(--blip-leading-tight);
+    letter-spacing: var(--blip-tracking-label);
     text-transform: uppercase;
-    color: var(--chu-text-muted);
+    color: var(--blip-text-muted);
   }
-  .chu-sidebar-heading:first-child { margin-block-start: 0; }
+  .blip-sidebar-heading:first-child { margin-block-start: 0; }
 
-  .chu-sidebar-list {
+  .blip-sidebar-list {
     display: flex;
     flex-direction: column;
-    gap: var(--chu-pixel);
+    gap: var(--blip-pixel);
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .chu-sidebar-item {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
+  .blip-sidebar-item {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
 
     display: flex;
     align-items: center;
-    gap: var(--chu-space-4);
-    min-block-size: var(--chu-control-sm);
-    padding: var(--chu-space-1) var(--chu-space-4);
-    font-weight: var(--chu-weight-medium);
-    line-height: var(--chu-leading-tight);
+    gap: var(--blip-space-4);
+    min-block-size: var(--blip-control-sm);
+    padding: var(--blip-space-1) var(--blip-space-4);
+    font-weight: var(--blip-weight-medium);
+    line-height: var(--blip-leading-tight);
     text-align: start;
     text-decoration: none;
   }
-  .chu-sidebar-item[aria-current="page"] { font-weight: var(--chu-weight-bold); }
-  .chu-sidebar-label {
+  .blip-sidebar-item[aria-current="page"] { font-weight: var(--blip-weight-bold); }
+  .blip-sidebar-label {
     flex: 1;
     min-inline-size: 0;
     overflow: hidden;
@@ -108,61 +108,61 @@
     white-space: nowrap;
   }
 
-  .chu-sidebar-badge {
-    --chu-r: 2;
-    --chu-shape: var(--chu-shape-2);
-    --chu-shape-inner: var(--chu-shape-2-inner);
-    --chu-box-top: var(--chu-tone-light);
-    --chu-box-fill: var(--chu-tone-light);
-    --chu-box-bottom: var(--chu-tone-light);
-    --chu-box-text: var(--chu-tone-on);
-    --chu-box-glint: transparent;
-    --chu-drop-size: 0;
+  .blip-sidebar-badge {
+    --blip-r: 2;
+    --blip-shape: var(--blip-shape-2);
+    --blip-shape-inner: var(--blip-shape-2-inner);
+    --blip-box-top: var(--blip-tone-light);
+    --blip-box-fill: var(--blip-tone-light);
+    --blip-box-bottom: var(--blip-tone-light);
+    --blip-box-text: var(--blip-tone-on);
+    --blip-box-glint: transparent;
+    --blip-drop-size: 0;
 
     display: inline-grid;
     place-items: center;
     flex: none;
     /* Ten pixels, or 5/3 of its text size if that is more (a bigger default text size), so the count fits. */
-    --_chu-badge-size: max(calc(10 * var(--chu-pixel)), round(up, calc(5 / 3) * var(--chu-size-caption), var(--chu-pixel)));
-    min-inline-size: var(--_chu-badge-size);
-    block-size: var(--_chu-badge-size);
-    padding: 0 var(--chu-space-2);
-    font-size: var(--chu-size-caption);
-    font-weight: var(--chu-weight-bold);
+    --_blip-badge-size: max(calc(10 * var(--blip-pixel)), round(up, calc(5 / 3) * var(--blip-size-caption), var(--blip-pixel)));
+    min-inline-size: var(--_blip-badge-size);
+    block-size: var(--_blip-badge-size);
+    padding: 0 var(--blip-space-2);
+    font-size: var(--blip-size-caption);
+    font-weight: var(--blip-weight-bold);
     line-height: 1;
     font-variant-numeric: tabular-nums;
   }
 
   /* A group: a disclosure with a pixel chevron. */
-  .chu-sidebar-group > summary {
-    padding-inline-end: calc(12 * var(--chu-pixel));
+  .blip-sidebar-group > summary {
+    padding-inline-end: calc(12 * var(--blip-pixel));
     list-style: none;
   }
-  .chu-sidebar-group > summary::-webkit-details-marker { display: none; }
-  .chu-sidebar-group > summary > .chu-sidebar-label::after {
+  .blip-sidebar-group > summary::-webkit-details-marker { display: none; }
+  .blip-sidebar-group > summary > .blip-sidebar-label::after {
     content: "";
     position: absolute;
-    inset-block-start: calc(50% - 4 * var(--chu-pixel));
-    inset-inline-end: var(--chu-space-4);
-    inline-size: calc(5 * var(--chu-pixel));
-    block-size: calc(7 * var(--chu-pixel));
+    inset-block-start: calc(50% - 4 * var(--blip-pixel));
+    inset-inline-end: var(--blip-space-4);
+    inline-size: calc(5 * var(--blip-pixel));
+    block-size: calc(7 * var(--blip-pixel));
     background-color: currentColor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5 7' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1h1v1h1v1h1v1H4v1H3v1H2v1H0V6h1V5h1V4h1V3H2V2H1V1H0z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   }
-  .chu-sidebar-group > summary:dir(rtl) > .chu-sidebar-label::after { scale: -1 1; }
+  .blip-sidebar-group > summary:dir(rtl) > .blip-sidebar-label::after { scale: -1 1; }
   /* Open: the same chevron, a quarter turn (whole pixels: a 5 x 7 glyph turns into 7 x 5 about its centre). */
-  .chu-sidebar-group[open] > summary > .chu-sidebar-label::after { rotate: 90deg; }
-  .chu-sidebar-group[open] > summary:dir(rtl) > .chu-sidebar-label::after { rotate: -90deg; }
-  .chu-sidebar-group > .chu-sidebar-list {
-    margin-block-start: var(--chu-pixel);
-    padding-inline-start: calc(8 * var(--chu-pixel));
+  .blip-sidebar-group[open] > summary > .blip-sidebar-label::after { rotate: 90deg; }
+  .blip-sidebar-group[open] > summary:dir(rtl) > .blip-sidebar-label::after { rotate: -90deg; }
+  .blip-sidebar-group > .blip-sidebar-list {
+    margin-block-start: var(--blip-pixel);
+    padding-inline-start: calc(8 * var(--blip-pixel));
   }
 
   /* The TV's pointer arrow beside the current page: 6 x 10, ink outline, accent fill. It pokes at the page for a few
      beats, then rests. */
-  .chu-sidebar[data-arrow] .chu-sidebar-item[aria-current="page"] > .chu-sidebar-label::before {
-    --_p: var(--chu-pixel);
-    --_poke: var(--chu-pixel);
+  .blip-sidebar[data-arrow] .blip-sidebar-item[aria-current="page"] > .blip-sidebar-label::before {
+    --_p: var(--blip-pixel);
+    --_poke: var(--blip-pixel);
     content: "";
     position: absolute;
     inset-block-start: calc(50% - 5 * var(--_p));
@@ -170,97 +170,97 @@
     inline-size: calc(6 * var(--_p));
     block-size: calc(10 * var(--_p));
     background:
-      linear-gradient(var(--chu-white) 0 0) var(--_p) calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
-      linear-gradient(var(--chu-accent-light) 0 0) var(--_p) var(--_p) / var(--_p) calc(8 * var(--_p)) no-repeat,
-      linear-gradient(var(--chu-accent) 0 0) calc(2 * var(--_p)) calc(2 * var(--_p)) / var(--_p) calc(6 * var(--_p)) no-repeat,
-      linear-gradient(var(--chu-accent) 0 0) calc(3 * var(--_p)) calc(3 * var(--_p)) / var(--_p) calc(4 * var(--_p)) no-repeat,
-      linear-gradient(var(--chu-accent-shade) 0 0) calc(4 * var(--_p)) calc(4 * var(--_p)) / var(--_p) calc(2 * var(--_p)) no-repeat,
-      var(--chu-outline);
+      linear-gradient(var(--blip-white) 0 0) var(--_p) calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--blip-accent-light) 0 0) var(--_p) var(--_p) / var(--_p) calc(8 * var(--_p)) no-repeat,
+      linear-gradient(var(--blip-accent) 0 0) calc(2 * var(--_p)) calc(2 * var(--_p)) / var(--_p) calc(6 * var(--_p)) no-repeat,
+      linear-gradient(var(--blip-accent) 0 0) calc(3 * var(--_p)) calc(3 * var(--_p)) / var(--_p) calc(4 * var(--_p)) no-repeat,
+      linear-gradient(var(--blip-accent-shade) 0 0) calc(4 * var(--_p)) calc(4 * var(--_p)) / var(--_p) calc(2 * var(--_p)) no-repeat,
+      var(--blip-outline);
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 10' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1h1v1h1v1h1v1h1v2H5v1H4v1H3v1H2v1H0z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
-    animation: chu-sidebar-poke calc(2 * var(--chu-duration-beat)) steps(1, jump-end) 6;
+    animation: blip-sidebar-poke calc(2 * var(--blip-duration-beat)) steps(1, jump-end) 6;
   }
-  .chu-sidebar[data-arrow] .chu-sidebar-item[aria-current="page"]:dir(rtl) > .chu-sidebar-label::before {
-    --_poke: calc(-1 * var(--chu-pixel));
+  .blip-sidebar[data-arrow] .blip-sidebar-item[aria-current="page"]:dir(rtl) > .blip-sidebar-label::before {
+    --_poke: calc(-1 * var(--blip-pixel));
     scale: -1 1;
   }
 
   /* ------------------------------------------------------------ the rail */
 
-  @container chu-sidebar (width < 100px) {
-    .chu-sidebar-heading {
+  @container blip-sidebar (width < 100px) {
+    .blip-sidebar-heading {
       position: absolute;
       clip-path: inset(50%);
       white-space: nowrap;
     }
-    .chu-sidebar-heading:not(:first-child) + .chu-sidebar-list {
-      margin-block-start: var(--chu-space-3);
-      padding-block-start: var(--chu-space-4);
-      background: linear-gradient(var(--chu-line-soft) 0 0) top / 100% var(--chu-pixel) no-repeat;
+    .blip-sidebar-heading:not(:first-child) + .blip-sidebar-list {
+      margin-block-start: var(--blip-space-3);
+      padding-block-start: var(--blip-space-4);
+      background: linear-gradient(var(--blip-line-soft) 0 0) top / 100% var(--blip-pixel) no-repeat;
     }
-    .chu-sidebar-item {
+    .blip-sidebar-item {
       justify-content: center;
-      inline-size: var(--chu-control-md);
-      min-block-size: var(--chu-control-md);
+      inline-size: var(--blip-control-md);
+      min-block-size: var(--blip-control-md);
       padding: 0;
       gap: 0;
     }
-    .chu-sidebar-group > summary { padding-inline-end: 0; }
-    .chu-sidebar-group > .chu-sidebar-list { padding-inline-start: 0; }
-    .chu-sidebar-label {
+    .blip-sidebar-group > summary { padding-inline-end: 0; }
+    .blip-sidebar-group > .blip-sidebar-list { padding-inline-start: 0; }
+    .blip-sidebar-label {
       position: absolute;
       clip-path: inset(50%);
     }
-    .chu-sidebar-label::before,
-    .chu-sidebar-label::after { content: none; }
+    .blip-sidebar-label::before,
+    .blip-sidebar-label::after { content: none; }
     /* The name, beside the item, while the pointer or the focus is on it: ink on a notched chip. */
-    .chu-sidebar-item:is(:hover, :focus-visible, [data-chu-state~="focus"]) > .chu-sidebar-label {
-      --_p: var(--chu-pixel);
+    .blip-sidebar-item:is(:hover, :focus-visible, [data-blip-state~="focus"]) > .blip-sidebar-label {
+      --_p: var(--blip-pixel);
       inset-block-start: 50%;
-      inset-inline-start: calc(100% + var(--chu-space-4));
+      inset-inline-start: calc(100% + var(--blip-space-4));
       z-index: 1;
       translate: 0 -50%;
       inline-size: max-content;
-      max-inline-size: var(--chu-sidebar-width);
-      padding: var(--chu-space-2) var(--chu-space-4);
+      max-inline-size: var(--blip-sidebar-width);
+      padding: var(--blip-space-2) var(--blip-space-4);
       white-space: normal;
-      background: var(--chu-text);
-      color: var(--chu-text-inverse);
-      font-weight: var(--chu-weight-bold);
+      background: var(--blip-text);
+      color: var(--blip-text-inverse);
+      font-weight: var(--blip-weight-bold);
       clip-path: polygon(
         var(--_p) 0, calc(100% - var(--_p)) 0, calc(100% - var(--_p)) var(--_p), 100% var(--_p),
         100% calc(100% - var(--_p)), calc(100% - var(--_p)) calc(100% - var(--_p)), calc(100% - var(--_p)) 100%,
         var(--_p) 100%, var(--_p) calc(100% - var(--_p)), 0 calc(100% - var(--_p)), 0 var(--_p), var(--_p) var(--_p));
       pointer-events: none;
     }
-    .chu-sidebar-badge {
-      --chu-r: 1;
-      --chu-shape: var(--chu-shape-1);
-      --chu-shape-inner: var(--chu-shape-1-inner);
+    .blip-sidebar-badge {
+      --blip-r: 1;
+      --blip-shape: var(--blip-shape-1);
+      --blip-shape-inner: var(--blip-shape-1-inner);
       position: absolute;
-      inset-block-start: calc(-1 * var(--chu-pixel));
-      inset-inline-end: calc(-1 * var(--chu-pixel));
+      inset-block-start: calc(-1 * var(--blip-pixel));
+      inset-inline-end: calc(-1 * var(--blip-pixel));
       min-inline-size: 0;
-      inline-size: calc(6 * var(--chu-pixel));
-      block-size: calc(6 * var(--chu-pixel));
+      inline-size: calc(6 * var(--blip-pixel));
+      block-size: calc(6 * var(--blip-pixel));
       padding: 0;
-      /* A dot: no count. font-size-adjust off too: with it (from @jaatster/blip-font), Chrome draws 0-size text at full size. */
+      /* A dot: no count. font-size-adjust off too: with it (from @blip/font), Chrome draws 0-size text at full size. */
       font-size: 0;
       font-size-adjust: none;
     }
     @media (forced-colors: active) {
-      .chu-sidebar-item:is(:hover, :focus-visible) > .chu-sidebar-label { border: 1px solid CanvasText; }
+      .blip-sidebar-item:is(:hover, :focus-visible) > .blip-sidebar-label { border: 1px solid CanvasText; }
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-sidebar-label::before { animation: none; }
+    .blip-sidebar-label::before { animation: none; }
   }
   @media (forced-colors: active) {
-    .chu-sidebar-item { border-color: Canvas; }
-    .chu-sidebar-item[aria-current="page"] { border-color: CanvasText; }
-    .chu-sidebar-label::before,
-    .chu-sidebar-label::after { forced-color-adjust: none; background: currentColor !important; }
+    .blip-sidebar-item { border-color: Canvas; }
+    .blip-sidebar-item[aria-current="page"] { border-color: CanvasText; }
+    .blip-sidebar-label::before,
+    .blip-sidebar-label::after { forced-color-adjust: none; background: currentColor !important; }
   }
 }
 
-@keyframes chu-sidebar-poke { 0% { translate: 0 0; } 50%, 100% { translate: var(--_poke) 0; } }
+@keyframes blip-sidebar-poke { 0% { translate: 0 0; } 50%, 100% { translate: var(--_poke) 0; } }

@@ -1,74 +1,74 @@
-<!-- Action sheet: drawn statically (data-chu-static) inside small "screens" with the scrim, then live ones in
-     <chu-action-sheet>. On a wide screen an action sheet is a compact dialog in the middle; data-layout="sheet" keeps
+<!-- Action sheet: drawn statically (data-blip-static) inside small "screens" with the scrim, then live ones in
+     <blip-action-sheet>. On a wide screen an action sheet is a compact dialog in the middle; data-layout="sheet" keeps
      it at the bottom, as every one is on a phone. Static buttons are type="button", so pressing them does nothing; the
-     live ones close with the value of the button pressed (returnValue, and chu-close's detail). -->
-<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel));align-items:flex-start">
-  <div class="chu-scrim" style="display:flex;flex-direction:column;justify-content:flex-end;inline-size:min(100%,calc(180*var(--chu-pixel)));block-size:calc(180*var(--chu-pixel));overflow:clip;outline:var(--chu-pixel) solid var(--chu-line-soft)">
-    <dialog class="chu-box chu-drawer chu-action-sheet" data-layout="sheet" open data-chu-static aria-labelledby="ex-as-replay-title" aria-describedby="ex-as-replay-text" style="margin-inline:calc(-1*var(--chu-pixel));margin-block-end:calc(-1*var(--chu-pixel))">
-      <h2 class="chu-action-sheet-title" id="ex-as-replay-title">Replay 12</h2>
-      <p class="chu-action-sheet-message" id="ex-as-replay-text">World 3-2, saved 2 minutes ago.</p>
-      <div class="chu-action-sheet-actions">
-        <button class="chu-box chu-button" type="button" data-size="lg" data-width="full" data-variant="soft">Share</button>
-        <button class="chu-box chu-button" type="button" data-size="lg" data-width="full" data-variant="soft" data-chu-state="focus">Rename</button>
-        <button class="chu-box chu-button" type="button" data-size="lg" data-width="full" data-variant="soft" data-tone="danger">Delete</button>
+     live ones close with the value of the button pressed (returnValue, and blip-close's detail). -->
+<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--blip-pixel));align-items:flex-start">
+  <div class="blip-scrim" style="display:flex;flex-direction:column;justify-content:flex-end;inline-size:min(100%,calc(180*var(--blip-pixel)));block-size:calc(180*var(--blip-pixel));overflow:clip;outline:var(--blip-pixel) solid var(--blip-line-soft)">
+    <dialog class="blip-box blip-drawer blip-action-sheet" data-layout="sheet" open data-blip-static aria-labelledby="ex-as-replay-title" aria-describedby="ex-as-replay-text" style="margin-inline:calc(-1*var(--blip-pixel));margin-block-end:calc(-1*var(--blip-pixel))">
+      <h2 class="blip-action-sheet-title" id="ex-as-replay-title">Replay 12</h2>
+      <p class="blip-action-sheet-message" id="ex-as-replay-text">World 3-2, saved 2 minutes ago.</p>
+      <div class="blip-action-sheet-actions">
+        <button class="blip-box blip-button" type="button" data-size="lg" data-width="full" data-variant="soft">Share</button>
+        <button class="blip-box blip-button" type="button" data-size="lg" data-width="full" data-variant="soft" data-blip-state="focus">Rename</button>
+        <button class="blip-box blip-button" type="button" data-size="lg" data-width="full" data-variant="soft" data-tone="danger">Delete</button>
       </div>
-      <button class="chu-box chu-button chu-action-sheet-cancel" type="button" data-size="lg" data-width="full" data-variant="soft" data-tone="neutral">Cancel</button>
+      <button class="blip-box blip-button blip-action-sheet-cancel" type="button" data-size="lg" data-width="full" data-variant="soft" data-tone="neutral">Cancel</button>
     </dialog>
   </div>
 
-  <div class="chu-scrim" style="display:flex;flex-direction:column;justify-content:flex-end;inline-size:min(100%,calc(180*var(--chu-pixel)));block-size:calc(180*var(--chu-pixel));overflow:clip;outline:var(--chu-pixel) solid var(--chu-line-soft)">
-    <dialog class="chu-box chu-drawer chu-action-sheet" data-layout="sheet" open data-chu-static aria-label="Photo" style="margin-inline:calc(-1*var(--chu-pixel));margin-block-end:calc(-1*var(--chu-pixel))">
-      <div class="chu-action-sheet-actions">
-        <button class="chu-box chu-button" type="button" data-size="lg" data-width="full">Take a photo</button>
-        <button class="chu-box chu-button" type="button" data-size="lg" data-width="full" data-variant="soft" data-chu-state="hover">Choose from library</button>
-        <button class="chu-box chu-button" type="button" data-size="lg" data-width="full" data-variant="soft" disabled>Use last photo</button>
+  <div class="blip-scrim" style="display:flex;flex-direction:column;justify-content:flex-end;inline-size:min(100%,calc(180*var(--blip-pixel)));block-size:calc(180*var(--blip-pixel));overflow:clip;outline:var(--blip-pixel) solid var(--blip-line-soft)">
+    <dialog class="blip-box blip-drawer blip-action-sheet" data-layout="sheet" open data-blip-static aria-label="Photo" style="margin-inline:calc(-1*var(--blip-pixel));margin-block-end:calc(-1*var(--blip-pixel))">
+      <div class="blip-action-sheet-actions">
+        <button class="blip-box blip-button" type="button" data-size="lg" data-width="full">Take a photo</button>
+        <button class="blip-box blip-button" type="button" data-size="lg" data-width="full" data-variant="soft" data-blip-state="hover">Choose from library</button>
+        <button class="blip-box blip-button" type="button" data-size="lg" data-width="full" data-variant="soft" disabled>Use last photo</button>
       </div>
-      <button class="chu-box chu-button chu-action-sheet-cancel" type="button" data-size="lg" data-width="full" data-variant="soft" data-tone="neutral">Cancel</button>
+      <button class="blip-box blip-button blip-action-sheet-cancel" type="button" data-size="lg" data-width="full" data-variant="soft" data-tone="neutral">Cancel</button>
     </dialog>
   </div>
 
-  <div class="chu-scrim" style="display:flex;flex-direction:column;justify-content:flex-end;inline-size:min(100%,calc(200*var(--chu-pixel)));block-size:calc(180*var(--chu-pixel));overflow:clip;outline:var(--chu-pixel) solid var(--chu-line-soft)">
-    <dialog class="chu-box chu-drawer chu-action-sheet" role="alertdialog" open data-chu-static aria-labelledby="ex-as-slot-title" aria-describedby="ex-as-slot-text">
-      <h2 class="chu-action-sheet-title" id="ex-as-slot-title">Slot 2</h2>
-      <p class="chu-action-sheet-message" id="ex-as-slot-text">Deleting it can't be undone.</p>
-      <div class="chu-action-sheet-actions">
-        <button class="chu-box chu-button" type="button" data-size="lg" data-width="full" data-tone="danger">Delete slot 2</button>
+  <div class="blip-scrim" style="display:flex;flex-direction:column;justify-content:flex-end;inline-size:min(100%,calc(200*var(--blip-pixel)));block-size:calc(180*var(--blip-pixel));overflow:clip;outline:var(--blip-pixel) solid var(--blip-line-soft)">
+    <dialog class="blip-box blip-drawer blip-action-sheet" role="alertdialog" open data-blip-static aria-labelledby="ex-as-slot-title" aria-describedby="ex-as-slot-text">
+      <h2 class="blip-action-sheet-title" id="ex-as-slot-title">Slot 2</h2>
+      <p class="blip-action-sheet-message" id="ex-as-slot-text">Deleting it can't be undone.</p>
+      <div class="blip-action-sheet-actions">
+        <button class="blip-box blip-button" type="button" data-size="lg" data-width="full" data-tone="danger">Delete slot 2</button>
       </div>
-      <button class="chu-box chu-button chu-action-sheet-cancel" type="button" data-size="lg" data-width="full" data-variant="soft" data-tone="neutral">Keep it</button>
+      <button class="blip-box blip-button blip-action-sheet-cancel" type="button" data-size="lg" data-width="full" data-variant="soft" data-tone="neutral">Keep it</button>
     </dialog>
   </div>
 </div>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--chu-pixel));align-items:center;margin-block-start:calc(8*var(--chu-pixel))">
-  <span class="chu-label chu-muted">Live</span>
-  <button class="chu-box chu-button" type="button" commandfor="replay-actions" command="show-modal">Replay 12</button>
-  <button class="chu-box chu-button" type="button" data-variant="soft" data-tone="danger" commandfor="slot-actions" command="show-modal">Delete slot 2</button>
+<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--blip-pixel));align-items:center;margin-block-start:calc(8*var(--blip-pixel))">
+  <span class="blip-label blip-muted">Live</span>
+  <button class="blip-box blip-button" type="button" commandfor="replay-actions" command="show-modal">Replay 12</button>
+  <button class="blip-box blip-button" type="button" data-variant="soft" data-tone="danger" commandfor="slot-actions" command="show-modal">Delete slot 2</button>
 </div>
 
-<chu-action-sheet light-dismiss>
-  <dialog class="chu-box chu-drawer chu-action-sheet" id="replay-actions" aria-labelledby="replay-actions-title" aria-describedby="replay-actions-text">
+<blip-action-sheet light-dismiss>
+  <dialog class="blip-box blip-drawer blip-action-sheet" id="replay-actions" aria-labelledby="replay-actions-title" aria-describedby="replay-actions-text">
     <form method="dialog">
-      <h2 class="chu-action-sheet-title" id="replay-actions-title">Replay 12</h2>
-      <p class="chu-action-sheet-message" id="replay-actions-text">World 3-2, saved 2 minutes ago.</p>
-      <div class="chu-action-sheet-actions">
-        <button class="chu-box chu-button" data-size="lg" data-width="full" data-variant="soft" value="share">Share</button>
-        <button class="chu-box chu-button" data-size="lg" data-width="full" data-variant="soft" value="rename">Rename</button>
-        <button class="chu-box chu-button" data-size="lg" data-width="full" data-variant="soft" data-tone="danger" value="delete">Delete</button>
+      <h2 class="blip-action-sheet-title" id="replay-actions-title">Replay 12</h2>
+      <p class="blip-action-sheet-message" id="replay-actions-text">World 3-2, saved 2 minutes ago.</p>
+      <div class="blip-action-sheet-actions">
+        <button class="blip-box blip-button" data-size="lg" data-width="full" data-variant="soft" value="share">Share</button>
+        <button class="blip-box blip-button" data-size="lg" data-width="full" data-variant="soft" value="rename">Rename</button>
+        <button class="blip-box blip-button" data-size="lg" data-width="full" data-variant="soft" data-tone="danger" value="delete">Delete</button>
       </div>
-      <button class="chu-box chu-button chu-action-sheet-cancel" data-size="lg" data-width="full" data-variant="soft" data-tone="neutral" value="cancel">Cancel</button>
+      <button class="blip-box blip-button blip-action-sheet-cancel" data-size="lg" data-width="full" data-variant="soft" data-tone="neutral" value="cancel">Cancel</button>
     </form>
   </dialog>
-</chu-action-sheet>
+</blip-action-sheet>
 
-<chu-action-sheet>
-  <dialog class="chu-box chu-drawer chu-action-sheet" id="slot-actions" role="alertdialog" aria-labelledby="slot-actions-title" aria-describedby="slot-actions-text">
+<blip-action-sheet>
+  <dialog class="blip-box blip-drawer blip-action-sheet" id="slot-actions" role="alertdialog" aria-labelledby="slot-actions-title" aria-describedby="slot-actions-text">
     <form method="dialog">
-      <h2 class="chu-action-sheet-title" id="slot-actions-title">Slot 2</h2>
-      <p class="chu-action-sheet-message" id="slot-actions-text">Deleting it can't be undone.</p>
-      <div class="chu-action-sheet-actions">
-        <button class="chu-box chu-button" data-size="lg" data-width="full" data-tone="danger" value="delete">Delete slot 2</button>
+      <h2 class="blip-action-sheet-title" id="slot-actions-title">Slot 2</h2>
+      <p class="blip-action-sheet-message" id="slot-actions-text">Deleting it can't be undone.</p>
+      <div class="blip-action-sheet-actions">
+        <button class="blip-box blip-button" data-size="lg" data-width="full" data-tone="danger" value="delete">Delete slot 2</button>
       </div>
-      <button class="chu-box chu-button chu-action-sheet-cancel" data-size="lg" data-width="full" data-variant="soft" data-tone="neutral" value="keep" autofocus>Keep it</button>
+      <button class="blip-box blip-button blip-action-sheet-cancel" data-size="lg" data-width="full" data-variant="soft" data-tone="neutral" value="keep" autofocus>Keep it</button>
     </form>
   </dialog>
-</chu-action-sheet>
+</blip-action-sheet>

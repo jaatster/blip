@@ -1,6 +1,6 @@
 ---
 name: Link
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: link.css
 element: null
 react: Link
@@ -19,9 +19,9 @@ text. A standalone link (under a card, at the end of a list) is bold and underli
 ## Usage
 
 ```html
-<p>Read the <a class="chu-link" href="/rules">house rules</a> first.</p>
-<a class="chu-link" data-variant="standalone" href="/levels">All levels <svg class="chu-icon" …></svg></a>
-<a class="chu-link" href="https://example.com/wiki" target="_blank" rel="noopener" data-external="opens in a new tab">Wiki</a>
+<p>Read the <a class="blip-link" href="/rules">house rules</a> first.</p>
+<a class="blip-link" data-variant="standalone" href="/levels">All levels <svg class="blip-icon" …></svg></a>
+<a class="blip-link" href="https://example.com/wiki" target="_blank" rel="noopener" data-external="opens in a new tab">Wiki</a>
 ```
 
 ## Anatomy
@@ -44,9 +44,9 @@ text. A standalone link (under a card, at the end of a list) is bold and underli
 |---|---|---|
 | Hover | pointer | Underline two pixels thick (standalone links gain one). |
 | Focus | keyboard | Yellow background, ink text, a two-pixel ink line underneath. |
-| Visited | `:visited` | `--chu-link-visited` (the text colour by default). |
+| Visited | `:visited` | `--blip-link-visited` (the text colour by default). |
 
-`data-chu-state="hover focus visited"` forces those looks in docs and tests.
+`data-blip-state="hover focus visited"` forces those looks in docs and tests.
 
 ## Accessibility
 
@@ -77,4 +77,4 @@ text. A standalone link (under a card, at the end of a list) is bold and underli
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-link-visited` | `var(--chu-text)` | The visited colour. A scheme token for it is proposed; until then set your own per scheme. |
+| `--blip-link-visited` | `var(--blip-text)` | The visited colour. A scheme token for it is proposed; until then set your own per scheme. |

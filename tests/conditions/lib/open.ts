@@ -43,7 +43,7 @@ export async function open(page: Page, example: Example, { scheme = "day", dir, 
       // The packages' manifest, plus this project's fixtures, so example.js can load either.
       const m = { ...manifest, examples: [...manifest.examples, ...(example.pkg === "conditions" ? [example] : [])] };
       await page.addInitScript((m) => {
-        (window as unknown as { __CHU_MANIFEST__: unknown }).__CHU_MANIFEST__ = m;
+        (window as unknown as { __BLIP_MANIFEST__: unknown }).__BLIP_MANIFEST__ = m;
       }, m);
       // dir and lang on <html> as soon as it exists: before the example's elements connect.
       await page.addInitScript(() => {

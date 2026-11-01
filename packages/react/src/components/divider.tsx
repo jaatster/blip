@@ -1,5 +1,5 @@
 /**
- * <Divider>. CSS from @jaatster/blip-components (divider.css).
+ * <Divider>. CSS from @blip/components (divider.css).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";
@@ -28,7 +28,7 @@ export type DividerProps<T extends ElementType = "hr"> = PolymorphicProps<T, Div
 /**
  * A line in whole pixels between real groups of content: an `<hr>`, a separator. A stack's gap often separates enough.
  * A labelled divider is `as="div"` with a word or two, read as text; if the words name a section, use a heading
- * instead. Renders `<hr class="chu-divider">`.
+ * instead. Renders `<hr class="blip-divider">`.
  *
  *   <Divider variant="dither" />
  *   <Divider orientation="vertical" />
@@ -41,7 +41,7 @@ export const Divider = /*#__PURE__*/ forwardRef(function Divider(
   return (
     <Tag
       ref={ref}
-      className={cx("chu-divider", className)}
+      className={cx("blip-divider", className)}
       data-variant={variant}
       data-strong={flag(strong)}
       data-align={align}

@@ -1,14 +1,14 @@
 <!-- Transitions: each button moves the scene on to the next time of day behind a full-screen transition. With
-     reduced motion the scene changes at once. Between pages, add data-chu-transition to <html> and
+     reduced motion the scene changes at once. Between pages, add data-blip-transition to <html> and
      @view-transition { navigation: auto; } to the CSS of both pages. -->
-<div style="display:grid;grid-template-columns:minmax(0,calc(160*var(--chu-pixel))) auto;gap:calc(8*var(--chu-pixel));align-items:center">
+<div style="display:grid;grid-template-columns:minmax(0,calc(160*var(--blip-pixel))) auto;gap:calc(8*var(--blip-pixel));align-items:center">
   <div style="position:relative;aspect-ratio:16/9;display:grid;place-content:center">
-    <chu-world id="chu-transition-demo" scheme="day"></chu-world>
-    <p class="chu-display chu-pop" data-scale="2" data-pop="Level 1">Level 1</p>
+    <blip-world id="blip-transition-demo" scheme="day"></blip-world>
+    <p class="blip-display blip-pop" data-scale="2" data-pop="Level 1">Level 1</p>
   </div>
-  <div style="display:flex;flex-direction:column;align-items:start;gap:calc(4*var(--chu-pixel))">
-    <button class="chu-box chu-button" type="button" onclick="const w = document.getElementById('chu-transition-demo'), t = w.nextElementSibling, next = { day: 'sunset', sunset: 'night', night: 'day' }; import('@jaatster/blip-effects').then(({ transition }) => transition(() => { w.scheme = next[w.scheme]; const n = String(Number(t.textContent.replace(/\D/g, '')) % 9 + 1); t.textContent = t.dataset.pop = 'Level ' + n; }, { kind: 'dissolve' }))">Ink dissolve</button>
-    <button class="chu-box chu-button" type="button" data-tone="teal" onclick="const w = document.getElementById('chu-transition-demo'), t = w.nextElementSibling, next = { day: 'sunset', sunset: 'night', night: 'day' }; import('@jaatster/blip-effects').then(({ transition }) => transition(() => { w.scheme = next[w.scheme]; const n = String(Number(t.textContent.replace(/\D/g, '')) % 9 + 1); t.textContent = t.dataset.pop = 'Level ' + n; }, { kind: 'dither' }))">Dither</button>
-    <button class="chu-box chu-button" type="button" data-tone="purple" onclick="const w = document.getElementById('chu-transition-demo'), t = w.nextElementSibling, next = { day: 'sunset', sunset: 'night', night: 'day' }; import('@jaatster/blip-effects').then(({ transition }) => transition(() => { w.scheme = next[w.scheme]; const n = String(Number(t.textContent.replace(/\D/g, '')) % 9 + 1); t.textContent = t.dataset.pop = 'Level ' + n; }, { kind: 'mosaic' }))">Mosaic</button>
+  <div style="display:flex;flex-direction:column;align-items:start;gap:calc(4*var(--blip-pixel))">
+    <button class="blip-box blip-button" type="button" onclick="const w = document.getElementById('blip-transition-demo'), t = w.nextElementSibling, next = { day: 'sunset', sunset: 'night', night: 'day' }; import('@blip/effects').then(({ transition }) => transition(() => { w.scheme = next[w.scheme]; const n = String(Number(t.textContent.replace(/\D/g, '')) % 9 + 1); t.textContent = t.dataset.pop = 'Level ' + n; }, { kind: 'dissolve' }))">Ink dissolve</button>
+    <button class="blip-box blip-button" type="button" data-tone="teal" onclick="const w = document.getElementById('blip-transition-demo'), t = w.nextElementSibling, next = { day: 'sunset', sunset: 'night', night: 'day' }; import('@blip/effects').then(({ transition }) => transition(() => { w.scheme = next[w.scheme]; const n = String(Number(t.textContent.replace(/\D/g, '')) % 9 + 1); t.textContent = t.dataset.pop = 'Level ' + n; }, { kind: 'dither' }))">Dither</button>
+    <button class="blip-box blip-button" type="button" data-tone="purple" onclick="const w = document.getElementById('blip-transition-demo'), t = w.nextElementSibling, next = { day: 'sunset', sunset: 'night', night: 'day' }; import('@blip/effects').then(({ transition }) => transition(() => { w.scheme = next[w.scheme]; const n = String(Number(t.textContent.replace(/\D/g, '')) % 9 + 1); t.textContent = t.dataset.pop = 'Level ' + n; }, { kind: 'mosaic' }))">Mosaic</button>
   </div>
 </div>

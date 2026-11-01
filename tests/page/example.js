@@ -1,17 +1,17 @@
-// The test page's loader. Freezes the clock and seeds randomness before any element module loads (one @jaatster/blip-core
+// The test page's loader. Freezes the clock and seeds randomness before any element module loads (one @blip/core
 // instance, through the import map), then loads every stylesheet, the example, and every element module, and marks
 // <body data-ready> once fonts are in and the page has stopped changing.
-import { provide } from "@jaatster/blip-core";
+import { provide } from "@blip/core";
 
 provide({ clock: () => new Date("2026-06-21T12:00:00"), seed: 42 });
 
 const q = new URLSearchParams(location.search);
 const root = document.documentElement;
-root.dataset.chuScheme = q.get("scheme") ?? "day";
-if (q.get("pixel")) root.dataset.chuPixel = q.get("pixel");
+root.dataset.blipScheme = q.get("scheme") ?? "day";
+if (q.get("pixel")) root.dataset.blipPixel = q.get("pixel");
 
 // The tests pass the manifest they read from the packages; opened by hand, the page uses the gallery's.
-const manifest = window.__CHU_MANIFEST__ ?? (await (await fetch("/specimen/gallery.json", { cache: "no-store" })).json());
+const manifest = window.__BLIP_MANIFEST__ ?? (await (await fetch("/specimen/gallery.json", { cache: "no-store" })).json());
 const wanted = q.get("example") ?? "components/button";
 const example = manifest.examples.find((e) => `${e.pkg}/${e.name}` === wanted);
 if (!example) throw new Error(`No example "${wanted}". Try one of: ${manifest.examples.map((e) => `${e.pkg}/${e.name}`).join(", ")}`);

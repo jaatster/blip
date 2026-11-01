@@ -1,27 +1,27 @@
 <!-- Pause menu: the game behind a dithered scrim, the menu on top. In a game it is a modal: dialog.showModal(). Here
-     it is shown open inside the stage, with Resume under the pointer (data-chu-state, for the docs). -->
-<section class="chu-stage" data-frame aria-label="Puddle Path, paused" style="block-size:calc(202*var(--chu-pixel));max-inline-size:calc(420*var(--chu-pixel))">
-  <div class="chu-hud" aria-hidden="true">
-    <chu-hearts value="3.5" max="5" label="Health"></chu-hearts>
-    <chu-counter value="42" pad="3" label="Coins" quiet><chu-sprite name="coin"></chu-sprite></chu-counter>
+     it is shown open inside the stage, with Resume under the pointer (data-blip-state, for the docs). -->
+<section class="blip-stage" data-frame aria-label="Puddle Path, paused" style="block-size:calc(202*var(--blip-pixel));max-inline-size:calc(420*var(--blip-pixel))">
+  <div class="blip-hud" aria-hidden="true">
+    <blip-hearts value="3.5" max="5" label="Health"></blip-hearts>
+    <blip-counter value="42" pad="3" label="Coins" quiet><blip-sprite name="coin"></blip-sprite></blip-counter>
   </div>
-  <div class="chu-stage-ground"></div>
-  <div class="chu-scrim"></div>
-  <dialog class="chu-box chu-pause" open aria-labelledby="pause-title">
-    <h2 id="pause-title" class="chu-pause-title chu-display chu-pop" data-scale="3" data-pop="Paused">Paused</h2>
-    <p class="chu-pause-stats">
-      <span><chu-sprite name="coin"></chu-sprite>42 coins</span>
-      <span><chu-sprite name="star"></chu-sprite>5 of 18</span>
-      <span><chu-sprite name="clock"></chu-sprite>12:40</span>
+  <div class="blip-stage-ground"></div>
+  <div class="blip-scrim"></div>
+  <dialog class="blip-box blip-pause" open aria-labelledby="pause-title">
+    <h2 id="pause-title" class="blip-pause-title blip-display blip-pop" data-scale="3" data-pop="Paused">Paused</h2>
+    <p class="blip-pause-stats">
+      <span><blip-sprite name="coin"></blip-sprite>42 coins</span>
+      <span><blip-sprite name="star"></blip-sprite>5 of 18</span>
+      <span><blip-sprite name="clock"></blip-sprite>12:40</span>
     </p>
-    <chu-choices>
-      <ul class="chu-choices" role="list" data-font="display">
-        <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="resume" data-chu-state="focus">Resume</button></li>
-        <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="options">Options</button></li>
-        <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="controls">Controls</button></li>
-        <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="quit">Quit to map</button></li>
+    <blip-choices>
+      <ul class="blip-choices" role="list" data-font="display">
+        <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="resume" data-blip-state="focus">Resume</button></li>
+        <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="options">Options</button></li>
+        <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="controls">Controls</button></li>
+        <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="quit">Quit to map</button></li>
       </ul>
-    </chu-choices>
-    <p class="chu-pause-hint chu-prompt"><kbd class="chu-box chu-prompt-key">Esc</kbd> Resume</p>
+    </blip-choices>
+    <p class="blip-pause-hint blip-prompt"><kbd class="blip-box blip-prompt-key">Esc</kbd> Resume</p>
   </dialog>
 </section>

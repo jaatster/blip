@@ -10,10 +10,10 @@
  *   node scripts/real-stack.mjs next vue           some of them
  *   node scripts/real-stack.mjs react --no-dev     production builds only
  *
- *   --dir <folder>   where the tarballs and the apps go (CHU_STACK_DIR; default <tmp>/chu-stack). Each app keeps its
+ *   --dir <folder>   where the tarballs and the apps go (BLIP_STACK_DIR; default <tmp>/blip-stack). Each app keeps its
  *                    node_modules there between runs, so a second run installs only Blip again.
  *   --clean          install everything afresh.
- *   --jobs <n>       apps at once (CHU_STACK_JOBS; default 2, or 1 on a machine with fewer than 4 cores).
+ *   --jobs <n>       apps at once (BLIP_STACK_JOBS; default 2, or 1 on a machine with fewer than 4 cores).
  *   --no-dev         skip the dev servers.
  *   --headed         show the browser.
  *
@@ -46,8 +46,8 @@ const { values: opts, positionals } = parseArgs({
     headed: { type: "boolean", default: false },
   },
 });
-const WORK = opts.dir ?? process.env.CHU_STACK_DIR ?? join(tmpdir(), "chu-stack");
-const JOBS = Number(opts.jobs ?? process.env.CHU_STACK_JOBS ?? (availableParallelism() >= 4 ? 2 : 1));
+const WORK = opts.dir ?? process.env.BLIP_STACK_DIR ?? join(tmpdir(), "blip-stack");
+const JOBS = Number(opts.jobs ?? process.env.BLIP_STACK_JOBS ?? (availableParallelism() >= 4 ? 2 : 1));
 
 /** A production build served by the framework's own preview server, and the dev server. */
 const vite = [{ name: "build", build: "build", serve: "preview" }, { name: "dev", serve: "dev" }];
@@ -335,7 +335,7 @@ async function prepare(name, app, packs, log) {
   const pkg = readJson(file);
   for (const field of ["dependencies", "devDependencies"]) {
     for (const dep of Object.keys(pkg[field] ?? {})) {
-      if (!dep.startsWith("@jaatster/blip-")) continue;
+      if (!dep.startsWith("@blip/")) continue;
       if (!packs[dep]) throw new Error(`${name} depends on ${dep}, which is not a package here`);
       pkg[field][dep] = `file:${packs[dep].file}`;
     }
@@ -367,8 +367,8 @@ async function shake(dir, log) {
     pages[page] = {
       eager: eager.reduce((n, f) => n + gz(f), 0),
       lazy: assets.filter((f) => !eager.includes(f)).reduce((n, f) => n + gz(f), 0),
-      // Each element module ends BlipElement.define("chu-name", Class); minifiers may quote it with backticks.
-      elements: [...new Set([...all.matchAll(/\.define\(\s*["'`](chu-[a-z-]+)["'`]/g)].map((m) => m[1]))].sort(),
+      // Each element module ends BlipElement.define("blip-name", Class); minifiers may quote it with backticks.
+      elements: [...new Set([...all.matchAll(/\.define\(\s*["'`](blip-[a-z-]+)["'`]/g)].map((m) => m[1]))].sort(),
     };
   }
   const button = pages.button.eager - pages.plain.eager;
@@ -377,8 +377,8 @@ async function shake(dir, log) {
   if (button >= 1024) problems.push(`Button adds ${bytes(button)} gzipped to the page (budget: under 1,024 B)`);
   if (tabs >= 2560) problems.push(`Tabs adds ${bytes(tabs)} gzipped to the page (budget: under 2,560 B)`);
   if (pages.button.elements.length) problems.push(`a page with only Button defines ${pages.button.elements.join(", ")}`);
-  if (pages.tabs.elements.join() !== "chu-tabs") problems.push(`a page with only Tabs defines ${pages.tabs.elements.join(", ") || "no element"}, not just chu-tabs`);
-  const summary = `Button +${bytes(button)}, Tabs +${bytes(tabs)} (and ${bytes(pages.tabs.lazy)} for chu-tabs when it mounts) over React alone, gzipped`;
+  if (pages.tabs.elements.join() !== "blip-tabs") problems.push(`a page with only Tabs defines ${pages.tabs.elements.join(", ") || "no element"}, not just blip-tabs`);
+  const summary = `Button +${bytes(button)}, Tabs +${bytes(tabs)} (and ${bytes(pages.tabs.lazy)} for blip-tabs when it mounts) over React alone, gzipped`;
   return { ok: !problems.length, summary, problems, pages, button, tabs };
 }
 

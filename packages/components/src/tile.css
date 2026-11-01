@@ -2,15 +2,15 @@
  * Tile. The TV's app block: a square candy box with a white glyph in an ink outline, its label below. Selected, it
  * lifts two pixels inside a ring (white, with an ink edge), an arrow bobs above it for six beats, and a glint can
  * sweep across it once.
- * Tiles live in a .chu-tile-grid of .chu-tile-item cells: a launcher, an inventory, a level select.
+ * Tiles live in a .blip-tile-grid of .blip-tile-item cells: a launcher, an inventory, a level select.
  *
- *   <ul class="chu-tile-grid" role="list">
- *     <li class="chu-tile-item">
- *       <button class="chu-box chu-tile" data-tone="red" aria-pressed="true" aria-labelledby="t-sword">
- *         <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
- *         <span class="chu-tile-glint"></span>
+ *   <ul class="blip-tile-grid" role="list">
+ *     <li class="blip-tile-item">
+ *       <button class="blip-box blip-tile" data-tone="red" aria-pressed="true" aria-labelledby="t-sword">
+ *         <svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+ *         <span class="blip-tile-glint"></span>
  *       </button>
- *       <span class="chu-tile-label" id="t-sword" aria-hidden="true">Sword</span>
+ *       <span class="blip-tile-label" id="t-sword" aria-hidden="true">Sword</span>
  *     </li>
  *   </ul>
  *
@@ -18,211 +18,211 @@
  *   data-variant     candy (default) | soft | outline | ghost          outline makes an empty slot
  *   data-size        sm | md (default) | lg       20, 28 (the TV's block) or 36 pixels; on the tile or the grid
  *   selected         aria-pressed, aria-selected or aria-checked "true", aria-current, or data-selected (looks only)
- *   .chu-tile-glint   an empty span in the tile: a white glint sweeps across it once when it is selected
+ *   .blip-tile-glint   an empty span in the tile: a white glint sweeps across it once when it is selected
  *   data-label="tooltip"   on the item: its label shows only while its tile is hovered, focused or selected
  *
  * Hover lifts a pixel and pressed sits in its drop, from the box. Selected lifts two pixels, as on the TV, and the
  * ring is drawn round the box's own shape. With keyboard focus the ring and the arrow turn focus yellow: the TV's
- * look, where the selected block is the focused one. <chu-tile-grid> adds arrow keys and selection.
+ * look, where the selected block is the focused one. <blip-tile-grid> adds arrow keys and selection.
  */
 
-@property --_chu-glint { syntax: "<number>"; inherits: true; initial-value: 0; }
+@property --_blip-glint { syntax: "<number>"; inherits: true; initial-value: 0; }
 
-@layer chu.components {
-  .chu-tile {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
-    --chu-band-top: 6;
-    --chu-band-bottom: 5;
+@layer blip.components {
+  .blip-tile {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
+    --blip-band-top: 6;
+    --blip-band-bottom: 5;
     --_n: 28;
-    --_ring: var(--chu-tile-ring, var(--chu-white));
+    --_ring: var(--blip-tile-ring, var(--blip-white));
     display: inline-grid;
     place-items: center;
     flex: none;
     box-sizing: border-box;
-    inline-size: calc(var(--_n) * var(--chu-pixel));
-    block-size: calc(var(--_n) * var(--chu-pixel));
+    inline-size: calc(var(--_n) * var(--blip-pixel));
+    block-size: calc(var(--_n) * var(--blip-pixel));
     /* The glyph sits one pixel above the middle, as on the TV. */
-    padding: 0 0 calc(2 * var(--chu-pixel));
-    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
+    padding: 0 0 calc(2 * var(--blip-pixel));
+    margin: 0 var(--blip-pixel) var(--blip-pixel) 0;
     vertical-align: middle;
   }
-  .chu-tile[data-size="sm"], .chu-tile-grid[data-size="sm"] .chu-tile {
-    --chu-r: 2;
-    --chu-shape: var(--chu-shape-2);
-    --chu-shape-inner: var(--chu-shape-2-inner);
-    --chu-band-top: 4;
-    --chu-band-bottom: 4;
+  .blip-tile[data-size="sm"], .blip-tile-grid[data-size="sm"] .blip-tile {
+    --blip-r: 2;
+    --blip-shape: var(--blip-shape-2);
+    --blip-shape-inner: var(--blip-shape-2-inner);
+    --blip-band-top: 4;
+    --blip-band-bottom: 4;
     --_n: 20;
   }
-  .chu-tile[data-size="lg"], .chu-tile-grid[data-size="lg"] .chu-tile {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
+  .blip-tile[data-size="lg"], .blip-tile-grid[data-size="lg"] .blip-tile {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
     --_n: 36;
   }
 
   /* The glyph: white, with a one-pixel ink outline that takes in the diagonals. */
-  .chu-tile > :is(.chu-icon, svg, img) {
+  .blip-tile > :is(.blip-icon, svg, img) {
     grid-area: 1 / 1;
-    color: var(--chu-tile-glyph, var(--chu-white));
+    color: var(--blip-tile-glyph, var(--blip-white));
     filter:
-      drop-shadow(var(--chu-pixel) 0 0 var(--chu-outline)) drop-shadow(calc(-1 * var(--chu-pixel)) 0 0 var(--chu-outline))
-      drop-shadow(0 var(--chu-pixel) 0 var(--chu-outline)) drop-shadow(0 calc(-1 * var(--chu-pixel)) 0 var(--chu-outline));
+      drop-shadow(var(--blip-pixel) 0 0 var(--blip-outline)) drop-shadow(calc(-1 * var(--blip-pixel)) 0 0 var(--blip-outline))
+      drop-shadow(0 var(--blip-pixel) 0 var(--blip-outline)) drop-shadow(0 calc(-1 * var(--blip-pixel)) 0 var(--blip-outline));
   }
-  .chu-tile > img { inline-size: calc(12 * var(--chu-pixel)); image-rendering: pixelated; }
+  .blip-tile > img { inline-size: calc(12 * var(--blip-pixel)); image-rendering: pixelated; }
 
   /* Selected: up two pixels, its own bands kept (it is lifted, not pushed in, so its face does not sink either), a
      ring round the box. */
-  .chu-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) {
-    --_chu-sunk: 0;
-    translate: 0 calc(-2 * var(--chu-pixel));
+  .blip-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) {
+    --_blip-sunk: 0;
+    translate: 0 calc(-2 * var(--blip-pixel));
     filter:
-      drop-shadow(0 calc(-1 * var(--chu-pixel)) 0 var(--_ring)) drop-shadow(0 var(--chu-pixel) 0 var(--_ring))
-      drop-shadow(calc(-1 * var(--chu-pixel)) 0 0 var(--_ring)) drop-shadow(var(--chu-pixel) 0 0 var(--_ring))
-      drop-shadow(0 calc(-1 * var(--chu-pixel)) 0 var(--chu-focus-edge)) drop-shadow(0 var(--chu-pixel) 0 var(--chu-focus-edge))
-      drop-shadow(calc(-1 * var(--chu-pixel)) 0 0 var(--chu-focus-edge)) drop-shadow(var(--chu-pixel) 0 0 var(--chu-focus-edge));
+      drop-shadow(0 calc(-1 * var(--blip-pixel)) 0 var(--_ring)) drop-shadow(0 var(--blip-pixel) 0 var(--_ring))
+      drop-shadow(calc(-1 * var(--blip-pixel)) 0 0 var(--_ring)) drop-shadow(var(--blip-pixel) 0 0 var(--_ring))
+      drop-shadow(0 calc(-1 * var(--blip-pixel)) 0 var(--blip-focus-edge)) drop-shadow(0 var(--blip-pixel) 0 var(--blip-focus-edge))
+      drop-shadow(calc(-1 * var(--blip-pixel)) 0 0 var(--blip-focus-edge)) drop-shadow(var(--blip-pixel) 0 0 var(--blip-focus-edge));
   }
-  .chu-tile:not([data-variant]):is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) {
-    --chu-drop-size: 1;
-    --chu-box-top: var(--chu-tone-light);
-    --chu-box-bottom: var(--chu-tone-shade);
-    --chu-box-glint: var(--chu-white);
+  .blip-tile:not([data-variant]):is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) {
+    --blip-drop-size: 1;
+    --blip-box-top: var(--blip-tone-light);
+    --blip-box-bottom: var(--blip-tone-shade);
+    --blip-box-glint: var(--blip-white);
   }
-  .chu-tile[data-variant="soft"]:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) {
-    --chu-drop-size: 1;
-    --chu-box-top: var(--chu-tone-light);
-    --chu-box-bottom: var(--chu-tone);
+  .blip-tile[data-variant="soft"]:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) {
+    --blip-drop-size: 1;
+    --blip-box-top: var(--blip-tone-light);
+    --blip-box-bottom: var(--blip-tone);
   }
-  .chu-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]):is(:active, [data-chu-state~="active"]):not(:disabled, [aria-disabled="true"]) { translate: 0 calc(-1 * var(--chu-pixel)); }
-  .chu-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]):is(:focus-visible, [data-chu-state~="focus"]) { --_ring: var(--chu-focus); }
+  .blip-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]):is(:active, [data-blip-state~="active"]):not(:disabled, [aria-disabled="true"]) { translate: 0 calc(-1 * var(--blip-pixel)); }
+  .blip-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]):is(:focus-visible, [data-blip-state~="focus"]) { --_ring: var(--blip-focus); }
 
   /* The glint: a white band two pixels wide with light edges, five frames corner to corner, then a rest. It stays
      a pixel inside the fill, clear of the outline's stepped corners. */
-  .chu-tile-glint { position: absolute; inset: calc(2 * var(--chu-pixel)); overflow: hidden; pointer-events: none; }
+  .blip-tile-glint { position: absolute; inset: calc(2 * var(--blip-pixel)); overflow: hidden; pointer-events: none; }
   @media (prefers-reduced-motion: no-preference) {
-    .chu-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) > .chu-tile-glint {
+    .blip-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) > .blip-tile-glint {
       /* Five positions across the glint's square, the first and last just catching the corners. */
-      --_step: calc((var(--_n) - 8) / 2 * var(--chu-pixel));
-      --_x: calc(4 * var(--chu-pixel) + var(--_chu-glint) * var(--_step));
+      --_step: calc((var(--_n) - 8) / 2 * var(--blip-pixel));
+      --_x: calc(4 * var(--blip-pixel) + var(--_blip-glint) * var(--_step));
       /* Once, as it is selected, and then it rests hidden: nothing moves for more than five seconds (WCAG 2.2.2). */
-      animation: chu-tile-glint calc(11.25 * var(--chu-duration-beat)) steps(1, jump-end) forwards;
+      animation: blip-tile-glint calc(11.25 * var(--blip-duration-beat)) steps(1, jump-end) forwards;
     }
-    .chu-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) > .chu-tile-glint::before,
-    .chu-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) > .chu-tile-glint::after {
+    .blip-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) > .blip-tile-glint::before,
+    .blip-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) > .blip-tile-glint::after {
       --_band: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1H0zM63 0h1v2h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-2v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1z'/%3E%3C/svg%3E");
       content: "";
       position: absolute;
       inset: 0;
-      background: var(--chu-white);
-      mask: var(--_band) var(--_x) 0 / calc(64 * var(--chu-pixel)) calc(64 * var(--chu-pixel));
+      background: var(--blip-white);
+      mask: var(--_band) var(--_x) 0 / calc(64 * var(--blip-pixel)) calc(64 * var(--blip-pixel));
     }
-    .chu-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) > .chu-tile-glint::before {
-      background: var(--chu-tone-light);
-      mask: var(--_band) calc(var(--_x) - var(--chu-pixel)) 0 / calc(64 * var(--chu-pixel)) calc(64 * var(--chu-pixel)),
-            var(--_band) calc(var(--_x) + var(--chu-pixel)) 0 / calc(64 * var(--chu-pixel)) calc(64 * var(--chu-pixel));
+    .blip-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) > .blip-tile-glint::before {
+      background: var(--blip-tone-light);
+      mask: var(--_band) calc(var(--_x) - var(--blip-pixel)) 0 / calc(64 * var(--blip-pixel)) calc(64 * var(--blip-pixel)),
+            var(--_band) calc(var(--_x) + var(--blip-pixel)) 0 / calc(64 * var(--blip-pixel)) calc(64 * var(--blip-pixel));
     }
   }
 
   /* An item: the tile, room above it for the arrow, its label below. Cells are whole pixels wide and the tile
      sits a whole number of pixels in, so the arrow centres on it exactly. With a bigger default text size the cells
      widen with their labels' text (an even number of pixels), so a label still breaks between words. */
-  .chu-tile-item {
+  .blip-tile-item {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--chu-space-3);
-    inline-size: var(--chu-tile-cell, max(calc(40 * var(--chu-pixel)), round(up, calc(20 / 3) * var(--chu-size-caption), calc(2 * var(--chu-pixel)))));
-    padding-block-start: calc(13 * var(--chu-pixel));
+    gap: var(--blip-space-3);
+    inline-size: var(--blip-tile-cell, max(calc(40 * var(--blip-pixel)), round(up, calc(20 / 3) * var(--blip-size-caption), calc(2 * var(--blip-pixel)))));
+    padding-block-start: calc(13 * var(--blip-pixel));
     margin: 0;
   }
-  .chu-tile-grid[data-size="sm"], .chu-tile-item:has(> .chu-tile[data-size="sm"]) { --chu-tile-cell: max(calc(32 * var(--chu-pixel)), round(up, calc(16 / 3) * var(--chu-size-caption), calc(2 * var(--chu-pixel)))); }
-  .chu-tile-grid[data-size="lg"], .chu-tile-item:has(> .chu-tile[data-size="lg"]) { --chu-tile-cell: max(calc(48 * var(--chu-pixel)), round(up, 8 * var(--chu-size-caption), calc(2 * var(--chu-pixel)))); }
-  .chu-tile-item > .chu-tile { margin: 0; }
+  .blip-tile-grid[data-size="sm"], .blip-tile-item:has(> .blip-tile[data-size="sm"]) { --blip-tile-cell: max(calc(32 * var(--blip-pixel)), round(up, calc(16 / 3) * var(--blip-size-caption), calc(2 * var(--blip-pixel)))); }
+  .blip-tile-grid[data-size="lg"], .blip-tile-item:has(> .blip-tile[data-size="lg"]) { --blip-tile-cell: max(calc(48 * var(--blip-pixel)), round(up, 8 * var(--blip-size-caption), calc(2 * var(--blip-pixel)))); }
+  .blip-tile-item > .blip-tile { margin: 0; }
 
-  .chu-tile-label {
+  .blip-tile-label {
     max-inline-size: 100%;
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-caption);
-    font-weight: var(--chu-weight-bold);
-    line-height: var(--chu-leading-tight);
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-caption);
+    font-weight: var(--blip-weight-bold);
+    line-height: var(--blip-leading-tight);
     /* Set tight, as the bottom bar's are: a word as long as "Foundations" fits a cell at any text size. */
-    letter-spacing: var(--chu-tracking-none);
+    letter-spacing: var(--blip-tracking-none);
     text-align: center;
     text-transform: uppercase;
     overflow-wrap: anywhere;
-    color: var(--chu-text);
+    color: var(--blip-text);
   }
   /* Tooltip: only the hovered, focused or selected tile shows its name, in its own space (it covers nothing). */
-  .chu-tile-item[data-label="tooltip"] > .chu-tile-label { visibility: hidden; max-inline-size: none; white-space: nowrap; }
-  .chu-tile-item[data-label="tooltip"]:has(> .chu-tile:is(:hover, :focus-visible, [data-chu-state~="hover"], [data-chu-state~="focus"])) > .chu-tile-label,
-  .chu-tile-item[data-label="tooltip"]:has(> .chu-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected])) > .chu-tile-label { visibility: visible; }
-  .chu-tile-label.chu-box {
-    --chu-r: 2;
-    --chu-shape: var(--chu-shape-2);
-    --chu-shape-inner: var(--chu-shape-2-inner);
-    padding: calc(2 * var(--chu-pixel)) calc(4 * var(--chu-pixel));
+  .blip-tile-item[data-label="tooltip"] > .blip-tile-label { visibility: hidden; max-inline-size: none; white-space: nowrap; }
+  .blip-tile-item[data-label="tooltip"]:has(> .blip-tile:is(:hover, :focus-visible, [data-blip-state~="hover"], [data-blip-state~="focus"])) > .blip-tile-label,
+  .blip-tile-item[data-label="tooltip"]:has(> .blip-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected])) > .blip-tile-label { visibility: visible; }
+  .blip-tile-label.blip-box {
+    --blip-r: 2;
+    --blip-shape: var(--blip-shape-2);
+    --blip-shape-inner: var(--blip-shape-2-inner);
+    padding: calc(2 * var(--blip-pixel)) calc(4 * var(--blip-pixel));
   }
-  .chu-tile-label.chu-box:not([data-variant]) {
-    --chu-box-top: var(--chu-surface-panel);
-    --chu-box-fill: var(--chu-surface-panel);
-    --chu-box-bottom: var(--chu-surface-panel);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
+  .blip-tile-label.blip-box:not([data-variant]) {
+    --blip-box-top: var(--blip-surface-panel);
+    --blip-box-fill: var(--blip-surface-panel);
+    --blip-box-bottom: var(--blip-surface-panel);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
   }
 
   /* The arrow over the selected tile: ten pixels wide, the TV's, white with a glint pixel, focus yellow with focus. */
-  .chu-tile-item:has(> .chu-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]))::before {
-    --_fill: var(--chu-tile-ring, var(--chu-white));
+  .blip-tile-item:has(> .blip-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]))::before {
+    --_fill: var(--blip-tile-ring, var(--blip-white));
     content: "";
     position: absolute;
     inset-block-start: 0;
-    inset-inline-start: calc(50% - 5 * var(--chu-pixel));
-    inline-size: calc(10 * var(--chu-pixel));
-    block-size: calc(6 * var(--chu-pixel));
+    inset-inline-start: calc(50% - 5 * var(--blip-pixel));
+    inline-size: calc(10 * var(--blip-pixel));
+    block-size: calc(6 * var(--blip-pixel));
     background:
-      linear-gradient(var(--chu-white) 0 0) var(--chu-pixel) var(--chu-pixel) / var(--chu-pixel) var(--chu-pixel),
-      linear-gradient(var(--_fill) 0 0) calc(2 * var(--chu-pixel)) var(--chu-pixel) / calc(7 * var(--chu-pixel)) var(--chu-pixel),
-      linear-gradient(var(--_fill) 0 0) calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel)) / calc(6 * var(--chu-pixel)) var(--chu-pixel),
-      linear-gradient(var(--_fill) 0 0) calc(3 * var(--chu-pixel)) calc(3 * var(--chu-pixel)) / calc(4 * var(--chu-pixel)) var(--chu-pixel),
-      linear-gradient(var(--_fill) 0 0) calc(4 * var(--chu-pixel)) calc(4 * var(--chu-pixel)) / calc(2 * var(--chu-pixel)) var(--chu-pixel),
-      var(--chu-outline);
+      linear-gradient(var(--blip-white) 0 0) var(--blip-pixel) var(--blip-pixel) / var(--blip-pixel) var(--blip-pixel),
+      linear-gradient(var(--_fill) 0 0) calc(2 * var(--blip-pixel)) var(--blip-pixel) / calc(7 * var(--blip-pixel)) var(--blip-pixel),
+      linear-gradient(var(--_fill) 0 0) calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel)) / calc(6 * var(--blip-pixel)) var(--blip-pixel),
+      linear-gradient(var(--_fill) 0 0) calc(3 * var(--blip-pixel)) calc(3 * var(--blip-pixel)) / calc(4 * var(--blip-pixel)) var(--blip-pixel),
+      linear-gradient(var(--_fill) 0 0) calc(4 * var(--blip-pixel)) calc(4 * var(--blip-pixel)) / calc(2 * var(--blip-pixel)) var(--blip-pixel),
+      var(--blip-outline);
     background-repeat: no-repeat;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h10v2H0zM1 2h8v1H1zM2 3h6v1H2zM3 4h4v1H3zM4 5h2v1H4z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
     /* Six beats, then it rests, as the tabs' and steps' arrows do. */
-    animation: chu-bob calc(2 * var(--chu-duration-beat)) steps(1, jump-end) 6;
+    animation: blip-bob calc(2 * var(--blip-duration-beat)) steps(1, jump-end) 6;
   }
-  .chu-tile-item:has(> .chu-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]):is(:focus-visible, [data-chu-state~="focus"]))::before { --_fill: var(--chu-focus); }
+  .blip-tile-item:has(> .blip-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]):is(:focus-visible, [data-blip-state~="focus"]))::before { --_fill: var(--blip-focus); }
 
   /* A grid of tiles: fixed cells, as many as fit. */
-  .chu-tile-grid {
+  .blip-tile-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, var(--chu-tile-cell, max(calc(40 * var(--chu-pixel)), round(up, calc(20 / 3) * var(--chu-size-caption), calc(2 * var(--chu-pixel))))));
-    gap: var(--chu-space-2) 0;
+    grid-template-columns: repeat(auto-fill, var(--blip-tile-cell, max(calc(40 * var(--blip-pixel)), round(up, calc(20 / 3) * var(--blip-size-caption), calc(2 * var(--blip-pixel))))));
+    gap: var(--blip-space-2) 0;
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  chu-tile-grid { display: block; }
+  blip-tile-grid { display: block; }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-tile-item::before { animation: none; }
+    .blip-tile-item::before { animation: none; }
   }
   @media (forced-colors: active) {
-    .chu-tile > :is(.chu-icon, svg, img) { filter: none; color: ButtonText; }
-    .chu-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]):not(:focus-visible) { outline: var(--chu-pixel) dashed ButtonText; outline-offset: calc(2 * var(--chu-pixel)); }
-    .chu-tile-item::before { background: CanvasText; forced-color-adjust: none; }
+    .blip-tile > :is(.blip-icon, svg, img) { filter: none; color: ButtonText; }
+    .blip-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]):not(:focus-visible) { outline: var(--blip-pixel) dashed ButtonText; outline-offset: calc(2 * var(--blip-pixel)); }
+    .blip-tile-item::before { background: CanvasText; forced-color-adjust: none; }
   }
 }
 
 /* Five frames 80 ms apart (the TV's glint), then hidden for the rest of the 4.5 s, where it stays. */
-@keyframes chu-tile-glint {
-  0% { --_chu-glint: 0; visibility: visible; }
-  1.7777% { --_chu-glint: 1; }
-  3.5555% { --_chu-glint: 2; }
-  5.3333% { --_chu-glint: 3; }
-  7.1111% { --_chu-glint: 4; }
-  8.8888%, 100% { --_chu-glint: 4; visibility: hidden; }
+@keyframes blip-tile-glint {
+  0% { --_blip-glint: 0; visibility: visible; }
+  1.7777% { --_blip-glint: 1; }
+  3.5555% { --_blip-glint: 2; }
+  5.3333% { --_blip-glint: 3; }
+  7.1111% { --_blip-glint: 4; }
+  8.8888%, 100% { --_blip-glint: 4; visibility: hidden; }
 }

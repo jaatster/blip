@@ -1,7 +1,7 @@
 /**
  * Every story as a test, in Chromium (Playwright's build): it renders, its play function runs, and axe checks it to
  * WCAG 2.2 AA (parameters.a11y.test). Twice: in Day with full motion, and in Night with reduced motion, so the dark
- * scheme is checked too and the interaction paths hold when motion is off. `pnpm --filter @jaatster/blip-storybook test`
+ * scheme is checked too and the interaction paths hold when motion is off. `pnpm --filter @blip/storybook test`
  * generates the stories first.
  */
 import { fileURLToPath } from "node:url";

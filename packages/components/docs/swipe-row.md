@@ -1,8 +1,8 @@
 ---
 name: Swipe rows
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: swipe-row.css
-element: chu-swipe-row
+element: blip-swipe-row
 react: SwipeRow
 status: beta
 ---
@@ -18,32 +18,32 @@ of a [list](list.md).
 ## Usage
 
 ```html
-<ul class="chu-box chu-list" role="list" data-dividers aria-label="Inbox">
+<ul class="blip-box blip-list" role="list" data-dividers aria-label="Inbox">
   <li>
-    <chu-swipe-row class="chu-swipe-row">
-      <div class="chu-swipe-row-face">
-        <a class="chu-box chu-list-item" data-variant="ghost" href="/inbox/12">
-          <span class="chu-list-content"><span class="chu-list-title" id="msg-12">Pip Bloom</span>…</span>
+    <blip-swipe-row class="blip-swipe-row">
+      <div class="blip-swipe-row-face">
+        <a class="blip-box blip-list-item" data-variant="ghost" href="/inbox/12">
+          <span class="blip-list-content"><span class="blip-list-title" id="msg-12">Pip Bloom</span>…</span>
         </a>
-        <button class="chu-box chu-button chu-swipe-row-more" type="button" data-variant="ghost" data-size="sm"
+        <button class="blip-box blip-button blip-swipe-row-more" type="button" data-variant="ghost" data-size="sm"
           data-icon-only aria-label="More actions" aria-describedby="msg-12">
-          <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+          <svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
         </button>
       </div>
-      <div class="chu-swipe-row-actions" data-side="start">
-        <button class="chu-box chu-button" type="button">Archive</button>
+      <div class="blip-swipe-row-actions" data-side="start">
+        <button class="blip-box blip-button" type="button">Archive</button>
       </div>
-      <div class="chu-swipe-row-actions" data-side="end">
-        <button class="chu-box chu-button" type="button" data-tone="danger">Delete</button>
-        <button class="chu-box chu-button" type="button" data-tone="warning">Flag</button>
+      <div class="blip-swipe-row-actions" data-side="end">
+        <button class="blip-box blip-button" type="button" data-tone="danger">Delete</button>
+        <button class="blip-box blip-button" type="button" data-tone="warning">Flag</button>
       </div>
-    </chu-swipe-row>
+    </blip-swipe-row>
   </li>
 </ul>
 ```
 
 ```js
-import "@jaatster/blip-elements/swipe-row";
+import "@blip/elements/swipe-row";
 document.querySelector("#delete-12").addEventListener("click", () => removeMessage(12));
 ```
 
@@ -51,12 +51,12 @@ Each action does its work in its own click handler, so a press, a key and a full
 
 ## Anatomy
 
-1. **Row**: `<chu-swipe-row class="chu-swipe-row">`, inside the list's `<li>`. With the element it is a sunken well,
+1. **Row**: `<blip-swipe-row class="blip-swipe-row">`, inside the list's `<li>`. With the element it is a sunken well,
    clipped at its sides while the face is aside.
-2. **Face**: `.chu-swipe-row-face`, what the row shows: a `.chu-list-item` (a row of content, or a link or button
+2. **Face**: `.blip-swipe-row-face`, what the row shows: a `.blip-list-item` (a row of content, or a link or button
    you press), then the More button. It is painted in the list's colour, so it hides the trays.
-3. **More**: `.chu-swipe-row-more`, a ghost icon button with three dots, shown where there is a fine pointer.
-4. **Trays**: `.chu-swipe-row-actions` with `data-side="start"` or `"end"`, each holding one to three candy
+3. **More**: `.blip-swipe-row-more`, a ghost icon button with three dots, shown where there is a fine pointer.
+4. **Trays**: `.blip-swipe-row-actions` with `data-side="start"` or `"end"`, each holding one to three candy
    buttons, as tall as the row.
 
 Before the element runs (no script, or not loaded yet) the trays sit at the row's ends like any buttons, and More
@@ -76,9 +76,9 @@ is hidden, so every action still works.
 |---|---|---|
 | Closed | no `open` | The face covers the row. |
 | Open | `open="start"` or `open="end"` | The face is aside by the tray's width, in whole pixels, and holds there. More's `aria-expanded` is `"true"`. |
-| Dragging | `data-chu-dragging` (set by the element) | The face follows the finger a pixel at a time; text cannot be selected. |
-| Aside | `data-chu-moved="start"` or `"end"` (set by the element) | The face narrows off that side's tray (its title, description and end text end in an ellipsis rather than wrap into a sliver), and the tray lies over the other. Right to left it mirrors. |
-| Full swipe | `data-chu-full="start"` or `"end"` (set by the element) | Past 60% of the row: the side's first action stretches across the tray, and letting go runs it. |
+| Dragging | `data-blip-dragging` (set by the element) | The face follows the finger a pixel at a time; text cannot be selected. |
+| Aside | `data-blip-moved="start"` or `"end"` (set by the element) | The face narrows off that side's tray (its title, description and end text end in an ellipsis rather than wrap into a sliver), and the tray lies over the other. Right to left it mirrors. |
+| Full swipe | `data-blip-full="start"` or `"end"` (set by the element) | Past 60% of the row: the side's first action stretches across the tray, and letting go runs it. |
 | Focus | keyboard | An action that gets focus opens its side, with the yellow ring; the face's own focus closes the row. |
 | Hover, pressed, disabled | from the buttons | The candy box's own looks. A disabled action is skipped by a full swipe. |
 
@@ -97,7 +97,7 @@ The face snaps open or shut in up to four whole-pixel frames, and at once with r
 - The page keeps scrolling: the row sets `touch-action: pan-y`, so vertical swipes stay the browser's, and a
   swipe only takes the row once it has gone a few pixels more across than along.
 - A mouse never drags the row: it uses More. Pen and touch swipe.
-- A full swipe sends a cancelable `chu-swipe` first: confirm a destructive one, or refuse it, there. Prefer an
+- A full swipe sends a cancelable `blip-swipe` first: confirm a destructive one, or refuse it, there. Prefer an
   undo (a [toast](toast.md) with an Undo button) over a question for Delete.
 - Windows high contrast: the well and the face are the system canvas; the buttons keep their system borders.
 
@@ -122,7 +122,7 @@ The face snaps open or shut in up to four whole-pixel frames, and at once with r
 
 ## API
 
-### `<chu-swipe-row>`
+### `<blip-swipe-row>`
 
 | Attribute, property or method | | |
 |---|---|---|
@@ -132,9 +132,9 @@ The face snaps open or shut in up to four whole-pixel frames, and at once with r
 
 | Event | Detail | |
 |---|---|---|
-| `chu-open` | `{ side }` | The row opened on a side, however it happened. |
-| `chu-close` | | The row closed. |
-| `chu-swipe` | `{ side, action }` | A full swipe, before the side's first action runs (the element clicks it). Cancelable: `preventDefault()` runs nothing and leaves the row open. Bubbles. |
+| `blip-open` | `{ side }` | The row opened on a side, however it happened. |
+| `blip-close` | | The row closed. |
+| `blip-swipe` | `{ side, action }` | A full swipe, before the side's first action runs (the element clicks it). Cancelable: `preventDefault()` runs nothing and leaves the row open. Bubbles. |
 
 One row in a list is open at a time, and a press anywhere else closes it. A press on the face of an open row closes
 it rather than following its link.
@@ -143,4 +143,4 @@ it rather than following its link.
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-swipe-row-face` | the list's fill (`--chu-box-fill`), else `--chu-bg` | The face's colour; set it when the row sits on something else. |
+| `--blip-swipe-row-face` | the list's fill (`--blip-box-fill`), else `--blip-bg` | The face's colour; set it when the row sits on something else. |

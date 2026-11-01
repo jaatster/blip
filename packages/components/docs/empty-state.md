@@ -1,6 +1,6 @@
 ---
 name: Empty state
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: empty-state.css
 element: null
 react: EmptyState
@@ -17,13 +17,13 @@ line saying why it is empty or what goes here, and the action that fills it. It 
 ## Usage
 
 ```html
-<div class="chu-empty-state">
-  <svg class="chu-empty-state-art" viewBox="0 0 32 24" aria-hidden="true">…</svg>
-  <h2 class="chu-empty-state-title">No saves yet</h2>
-  <p class="chu-empty-state-text">Start a game and it is saved here after every level. You can keep three.</p>
-  <div class="chu-empty-state-actions">
-    <button class="chu-box chu-button">New game</button>
-    <button class="chu-box chu-button" data-variant="ghost">Load from file</button>
+<div class="blip-empty-state">
+  <svg class="blip-empty-state-art" viewBox="0 0 32 24" aria-hidden="true">…</svg>
+  <h2 class="blip-empty-state-title">No saves yet</h2>
+  <p class="blip-empty-state-text">Start a game and it is saved here after every level. You can keep three.</p>
+  <div class="blip-empty-state-actions">
+    <button class="blip-box blip-button">New game</button>
+    <button class="blip-box blip-button" data-variant="ghost">Load from file</button>
   </div>
 </div>
 ```
@@ -33,12 +33,12 @@ The example's picture (an open, empty cardboard box with dust above it) is in
 
 ## Anatomy
 
-1. **Picture** (`.chu-empty-state-art`): an inline SVG drawn on a grid 32 units wide, shown at two pixels a unit
-   (one when small), so every unit is whole pixels. Colour it with tokens (`style="fill: var(--chu-outline)"`,
+1. **Picture** (`.blip-empty-state-art`): an inline SVG drawn on a grid 32 units wide, shown at two pixels a unit
+   (one when small), so every unit is whole pixels. Colour it with tokens (`style="fill: var(--blip-outline)"`,
    candies, scheme roles), with an ink outline like everything you can see.
-2. **Title** (`.chu-empty-state-title`): Pixel Bop at scale 1, in capitals.
-3. **Text** (`.chu-empty-state-text`): one or two sentences, muted, at most 44 characters a line.
-4. **Actions** (`.chu-empty-state-actions`): the main way to fill it (candy) and perhaps one more (ghost).
+2. **Title** (`.blip-empty-state-title`): Pixel Bop at scale 1, in capitals.
+3. **Text** (`.blip-empty-state-text`): one or two sentences, muted, at most 44 characters a line.
+4. **Actions** (`.blip-empty-state-actions`): the main way to fill it (candy) and perhaps one more (ghost).
 
 ## Variants
 
@@ -77,6 +77,6 @@ Empty states are static. Replace the whole thing with the content when there is 
 
 | Class or attribute | |
 |---|---|
-| `.chu-empty-state` | The block, centred in its container. |
-| `.chu-empty-state-art`, `.chu-empty-state-title`, `.chu-empty-state-text`, `.chu-empty-state-actions` | The parts. |
+| `.blip-empty-state` | The block, centred in its container. |
+| `.blip-empty-state-art`, `.blip-empty-state-title`, `.blip-empty-state-text`, `.blip-empty-state-actions` | The parts. |
 | `data-size` | `sm`, `md` or `lg`. |

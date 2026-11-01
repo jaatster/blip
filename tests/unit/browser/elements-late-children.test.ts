@@ -17,11 +17,11 @@ const html = (s: string) => {
 
 afterEach(() => vi.restoreAllMocks());
 
-describe("chu-tabs: tabs and panels rendered later", () => {
-  const TABS = `<chu-tabs class="chu-tabs"><div class="chu-tabs-list" role="tablist" aria-label="Async"></div></chu-tabs>`;
+describe("blip-tabs: tabs and panels rendered later", () => {
+  const TABS = `<blip-tabs class="blip-tabs"><div class="blip-tabs-list" role="tablist" aria-label="Async"></div></blip-tabs>`;
   const add = (tabs: HTMLElement, label: string, selected = false, value?: string) => {
-    const tab = html(`<button class="chu-box chu-tab" role="tab" aria-selected="${selected}"${value ? ` data-value="${value}"` : ""}>${label}</button>`);
-    const panel = html(`<div class="chu-tabs-panel" role="tabpanel"${selected ? "" : " hidden"}>Panel ${label}</div>`);
+    const tab = html(`<button class="blip-box blip-tab" role="tab" aria-selected="${selected}"${value ? ` data-value="${value}"` : ""}>${label}</button>`);
+    const panel = html(`<div class="blip-tabs-panel" role="tabpanel"${selected ? "" : " hidden"}>Panel ${label}</div>`);
     tabs.querySelector('[role="tablist"]')!.append(tab);
     tabs.append(panel);
     return { tab, panel };
@@ -30,7 +30,7 @@ describe("chu-tabs: tabs and panels rendered later", () => {
   it("wires tabs that arrive after it upgraded, and shows the panel of the one you pick", async () => {
     const tabs = mount(TABS);
     const changes: unknown[] = [];
-    tabs.addEventListener("chu-change", (e) => changes.push((e as CustomEvent).detail));
+    tabs.addEventListener("blip-change", (e) => changes.push((e as CustomEvent).detail));
     const a = add(tabs, "Alpha", true);
     const b = add(tabs, "Beta");
     const c = add(tabs, "Gamma");
@@ -69,19 +69,19 @@ describe("chu-tabs: tabs and panels rendered later", () => {
 
   it("wires a tab list that arrives after the element, without a warning", async () => {
     const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
-    const tabs = mount(`<chu-tabs class="chu-tabs"></chu-tabs>`);
-    tabs.append(html(`<div class="chu-tabs-list" role="tablist" aria-label="Later"><button class="chu-box chu-tab" role="tab">One</button><button class="chu-box chu-tab" role="tab">Two</button></div>`));
-    tabs.append(html(`<div class="chu-tabs-panel" role="tabpanel">1</div>`), html(`<div class="chu-tabs-panel" role="tabpanel">2</div>`));
+    const tabs = mount(`<blip-tabs class="blip-tabs"></blip-tabs>`);
+    tabs.append(html(`<div class="blip-tabs-list" role="tablist" aria-label="Later"><button class="blip-box blip-tab" role="tab">One</button><button class="blip-box blip-tab" role="tab">Two</button></div>`));
+    tabs.append(html(`<div class="blip-tabs-panel" role="tabpanel">1</div>`), html(`<div class="blip-tabs-panel" role="tabpanel">2</div>`));
     await settle();
     const [one, two] = tabs.querySelectorAll<HTMLElement>('[role="tab"]');
     expect(one!.getAttribute("aria-selected")).toBe("true");
     two!.click();
     expect(tabs.querySelectorAll<HTMLElement>('[role="tabpanel"]')[1]!.hidden).toBe(false);
-    expect(warn.mock.calls.flat().join(" ")).not.toContain("CHU-N001");
+    expect(warn.mock.calls.flat().join(" ")).not.toContain("BLIP-N001");
   });
 
   it("selects the tab its value names once that tab arrives", async () => {
-    const tabs = mount(`<chu-tabs class="chu-tabs" value="beta"><div class="chu-tabs-list" role="tablist" aria-label="Async"></div></chu-tabs>`);
+    const tabs = mount(`<blip-tabs class="blip-tabs" value="beta"><div class="blip-tabs-list" role="tablist" aria-label="Async"></div></blip-tabs>`);
     add(tabs, "Alpha", true, "alpha");
     const beta = add(tabs, "Beta", false, "beta");
     await settle();
@@ -91,13 +91,13 @@ describe("chu-tabs: tabs and panels rendered later", () => {
   });
 });
 
-describe("chu-combobox: options that change as you type", () => {
+describe("blip-combobox: options that change as you type", () => {
   it("lists the datalist's options as they are now, and keeps the active option's id real", async () => {
     const box = mount(`
-      <chu-combobox class="chu-combobox">
-        <span class="chu-box chu-input"><input id="place" aria-label="Place" list="places"></span>
+      <blip-combobox class="blip-combobox">
+        <span class="blip-box blip-input"><input id="place" aria-label="Place" list="places"></span>
         <datalist id="places"></datalist>
-      </chu-combobox>`);
+      </blip-combobox>`);
     const input = box.querySelector("input")!;
     const data = box.querySelector("datalist")!;
     const options = () => [...box.querySelectorAll<HTMLElement>('[role="option"]')];
@@ -121,10 +121,10 @@ describe("chu-combobox: options that change as you type", () => {
 
   it("lets the page hear what was typed before it completes, and completes nothing with aria-autocomplete=list", async () => {
     const box = mount(`
-      <chu-combobox class="chu-combobox">
-        <span class="chu-box chu-input"><input aria-label="Place" list="places-heard"></span>
+      <blip-combobox class="blip-combobox">
+        <span class="blip-box blip-input"><input aria-label="Place" list="places-heard"></span>
         <datalist id="places-heard"><option value="Castle">Castle</option></datalist>
-      </chu-combobox>`);
+      </blip-combobox>`);
     const input = box.querySelector("input")!;
     const heard: string[] = [];
     // As a framework listens: on the root, after the element's own listener.
@@ -146,8 +146,8 @@ describe("chu-combobox: options that change as you type", () => {
   });
 
   it("wires an input rendered after the element", async () => {
-    const box = mount(`<chu-combobox class="chu-combobox"></chu-combobox>`);
-    box.append(html(`<span class="chu-box chu-input"><input aria-label="World" list="worlds-late"></span>`), html(`<datalist id="worlds-late"><option value="meadow">Meadow</option></datalist>`));
+    const box = mount(`<blip-combobox class="blip-combobox"></blip-combobox>`);
+    box.append(html(`<span class="blip-box blip-input"><input aria-label="World" list="worlds-late"></span>`), html(`<datalist id="worlds-late"><option value="meadow">Meadow</option></datalist>`));
     await settle();
     const input = box.querySelector("input")!;
     expect(input.getAttribute("role")).toBe("combobox");
@@ -156,29 +156,29 @@ describe("chu-combobox: options that change as you type", () => {
   });
 });
 
-describe("chu-field: help and errors that come and go", () => {
+describe("blip-field: help and errors that come and go", () => {
   const FIELD = `
     <form>
-      <chu-field class="chu-field">
-        <label class="chu-field-label" for="name">Player name</label>
-        <span class="chu-box chu-input"><input id="name" name="name" required minlength="3"></span>
-      </chu-field>
+      <blip-field class="blip-field">
+        <label class="blip-field-label" for="name">Player name</label>
+        <span class="blip-box blip-input"><input id="name" name="name" required minlength="3"></span>
+      </blip-field>
     </form>`;
   const parts = (form: HTMLElement) => {
-    const field = form.querySelector("chu-field")!;
+    const field = form.querySelector("blip-field")!;
     const input = form.querySelector("input")!;
     const described = () => (input.getAttribute("aria-describedby") ?? "").split(/\s+/).filter(Boolean);
-    const live = () => field.querySelector(".chu-field-live")?.textContent ?? "";
+    const live = () => field.querySelector(".blip-field-live")?.textContent ?? "";
     return { field, input, described, live };
   };
 
   it("links, marks and reads out an error rendered later, and lets go of it when it goes", async () => {
     const { field, input, described, live } = parts(mount(FIELD));
-    const help = html(`<p class="chu-field-help">3 to 12 letters.</p>`);
+    const help = html(`<p class="blip-field-help">3 to 12 letters.</p>`);
     field.append(help);
     await settle();
     expect(described()).toEqual([help.id]);
-    const error = html(`<p class="chu-field-error">That name is taken.</p>`);
+    const error = html(`<p class="blip-field-error">That name is taken.</p>`);
     field.append(error);
     await settle();
     expect(described()).toEqual([help.id, error.id]);
@@ -197,7 +197,7 @@ describe("chu-field: help and errors that come and go", () => {
   it("leaves the page's own aria-invalid and error alone when the browser finds the value valid", async () => {
     const { field, input, live } = parts(mount(FIELD));
     input.setAttribute("aria-invalid", "true");
-    const error = html(`<p class="chu-field-error">That name is taken.</p>`);
+    const error = html(`<p class="blip-field-error">That name is taken.</p>`);
     field.append(error);
     await settle();
     input.value = "PixelPat";
@@ -211,7 +211,7 @@ describe("chu-field: help and errors that come and go", () => {
   it("marks the browser's errors itself, and takes away only its own mark", async () => {
     const form = mount(FIELD);
     const { field, input, described } = parts(form);
-    const error = html(`<p class="chu-field-error"></p>`);
+    const error = html(`<p class="blip-field-error"></p>`);
     field.append(error);
     await settle();
     (form as HTMLFormElement).reportValidity();
@@ -240,13 +240,13 @@ describe("chu-field: help and errors that come and go", () => {
 
   it("shows a hidden error's words for the browser's message, and describes nothing while it is hidden", async () => {
     const form = mount(`
-      <form><chu-field class="chu-field">
-        <label class="chu-field-label" for="bio">About you</label>
-        <span class="chu-box chu-textarea"><textarea id="bio" required></textarea></span>
-        <p class="chu-field-error" hidden>Tell us a little about you.</p>
-      </chu-field></form>`);
+      <form><blip-field class="blip-field">
+        <label class="blip-field-label" for="bio">About you</label>
+        <span class="blip-box blip-textarea"><textarea id="bio" required></textarea></span>
+        <p class="blip-field-error" hidden>Tell us a little about you.</p>
+      </blip-field></form>`);
     const input = form.querySelector("textarea")!;
-    const error = form.querySelector<HTMLElement>(".chu-field-error")!;
+    const error = form.querySelector<HTMLElement>(".blip-field-error")!;
     expect(input.hasAttribute("aria-describedby")).toBe(false);
     (form as HTMLFormElement).reportValidity();
     expect(error.hidden).toBe(false);
@@ -261,15 +261,15 @@ describe("chu-field: help and errors that come and go", () => {
 });
 
 describe("other elements with children rendered later", () => {
-  it("chu-menu wires a button and list that arrive later; items added later are reached by the keys", async () => {
-    const menu = mount(`<chu-menu class="chu-menu"></chu-menu>`);
-    menu.append(html(`<button class="chu-box chu-button">Level</button>`), html(`<div class="chu-box chu-menu-list" role="menu" aria-label="Level" popover><button class="chu-box chu-menu-item" role="menuitem">New</button></div>`));
+  it("blip-menu wires a button and list that arrive later; items added later are reached by the keys", async () => {
+    const menu = mount(`<blip-menu class="blip-menu"></blip-menu>`);
+    menu.append(html(`<button class="blip-box blip-button">Level</button>`), html(`<div class="blip-box blip-menu-list" role="menu" aria-label="Level" popover><button class="blip-box blip-menu-item" role="menuitem">New</button></div>`));
     await settle();
     const button = menu.querySelector("button")!;
     const list = menu.querySelector<HTMLElement>('[role="menu"]')!;
     expect(button.getAttribute("aria-haspopup")).toBe("menu");
     expect(button.getAttribute("aria-controls")).toBe(list.id);
-    list.append(html(`<button class="chu-box chu-menu-item" role="menuitem">Duplicate</button>`));
+    list.append(html(`<button class="blip-box blip-menu-item" role="menuitem">Duplicate</button>`));
     (menu as HTMLElement & { show(): void }).show();
     await settle();
     press("ArrowDown");
@@ -278,21 +278,21 @@ describe("other elements with children rendered later", () => {
     await settle();
   });
 
-  it("chu-command gives options rendered later ids, and filters them by what is typed", async () => {
+  it("blip-command gives options rendered later ids, and filters them by what is typed", async () => {
     const palette = mount(`
-      <chu-command shortcut="">
-        <dialog class="chu-box chu-command" aria-label="Command palette">
-          <input class="chu-command-input" aria-label="Search">
-          <div class="chu-command-results" role="listbox" aria-label="Results"></div>
-          <p class="chu-sr-only" role="status"></p>
+      <blip-command shortcut="">
+        <dialog class="blip-box blip-command" aria-label="Command palette">
+          <input class="blip-command-input" aria-label="Search">
+          <div class="blip-command-results" role="listbox" aria-label="Results"></div>
+          <p class="blip-sr-only" role="status"></p>
         </dialog>
-      </chu-command>`);
+      </blip-command>`);
     const input = palette.querySelector("input")!;
     const list = palette.querySelector('[role="listbox"]')!;
     (palette as HTMLElement & { show(): void }).show();
     input.value = "lev";
     input.dispatchEvent(new Event("input", { bubbles: true }));
-    list.append(html(`<div class="chu-box chu-command-item" role="option"><span class="chu-command-label">Levels</span></div>`), html(`<div class="chu-box chu-command-item" role="option"><span class="chu-command-label">Players</span></div>`));
+    list.append(html(`<div class="blip-box blip-command-item" role="option"><span class="blip-command-label">Levels</span></div>`), html(`<div class="blip-box blip-command-item" role="option"><span class="blip-command-label">Players</span></div>`));
     await settle();
     const [levels, players] = list.querySelectorAll<HTMLElement>('[role="option"]');
     expect(levels!.id).toBeTruthy();
@@ -302,9 +302,9 @@ describe("other elements with children rendered later", () => {
     await settle();
   });
 
-  it("chu-segmented gives buttons added later their role, state and one tab stop", async () => {
-    const seg = mount(`<chu-segmented class="chu-box chu-segmented" value="night" aria-label="Scheme"><button class="chu-box" type="button" value="day">Day</button></chu-segmented>`);
-    seg.append(html(`<button class="chu-box" type="button" value="night">Night</button>`));
+  it("blip-segmented gives buttons added later their role, state and one tab stop", async () => {
+    const seg = mount(`<blip-segmented class="blip-box blip-segmented" value="night" aria-label="Scheme"><button class="blip-box" type="button" value="day">Day</button></blip-segmented>`);
+    seg.append(html(`<button class="blip-box" type="button" value="night">Night</button>`));
     await settle();
     const [day, night] = seg.querySelectorAll("button");
     expect(night!.getAttribute("role")).toBe("radio");
@@ -312,62 +312,62 @@ describe("other elements with children rendered later", () => {
     expect([day!.tabIndex, night!.tabIndex]).toEqual([-1, 0]);
   });
 
-  it("chu-table keeps its own sort when rows change, and select-all follows new rows", async () => {
+  it("blip-table keeps its own sort when rows change, and select-all follows new rows", async () => {
     const table = mount(`
-      <chu-table><table class="chu-table">
-        <thead><tr><th><input type="checkbox" data-select-all aria-label="All"></th><th>Name</th><th><button class="chu-table-sort">Score</button></th></tr></thead>
+      <blip-table><table class="blip-table">
+        <thead><tr><th><input type="checkbox" data-select-all aria-label="All"></th><th>Name</th><th><button class="blip-table-sort">Score</button></th></tr></thead>
         <tbody>
-          <tr><td class="chu-table-check"><input type="checkbox" aria-label="Ana" checked></td><th>Ana</th><td>30</td></tr>
-          <tr><td class="chu-table-check"><input type="checkbox" aria-label="Bo" checked></td><th>Bo</th><td>10</td></tr>
+          <tr><td class="blip-table-check"><input type="checkbox" aria-label="Ana" checked></td><th>Ana</th><td>30</td></tr>
+          <tr><td class="blip-table-check"><input type="checkbox" aria-label="Bo" checked></td><th>Bo</th><td>10</td></tr>
         </tbody>
-      </table></chu-table>`);
+      </table></blip-table>`);
     const names = () => [...table.querySelectorAll("tbody tr th")].map((th) => th.textContent);
-    table.querySelector<HTMLButtonElement>(".chu-table-sort")!.click();
+    table.querySelector<HTMLButtonElement>(".blip-table-sort")!.click();
     expect(names()).toEqual(["Bo", "Ana"]);
     await settle();
     // The app bumps a score and adds a row.
     table.querySelectorAll("tbody tr")[0]!.children[2]!.textContent = "110";
-    table.querySelector("tbody")!.append(html(`<table><tr><td class="chu-table-check"><input type="checkbox" aria-label="Dee"></td><th>Dee</th><td>5</td></tr></table>`).querySelector("tr")!);
+    table.querySelector("tbody")!.append(html(`<table><tr><td class="blip-table-check"><input type="checkbox" aria-label="Dee"></td><th>Dee</th><td>5</td></tr></table>`).querySelector("tr")!);
     await settle();
     expect(names()).toEqual(["Dee", "Ana", "Bo"]);
     const all = table.querySelector<HTMLInputElement>("[data-select-all]")!;
     expect(all.indeterminate).toBe(true);
   });
 
-  it("chu-tile-grid keeps one tab stop as tiles come", async () => {
-    const grid = mount(`<chu-tile-grid><ul class="chu-tile-grid" role="list" aria-label="Apps"><li><button class="chu-box chu-tile">A</button></li></ul></chu-tile-grid>`);
-    grid.querySelector("ul")!.prepend(html(`<li><button class="chu-box chu-tile">New</button></li>`));
+  it("blip-tile-grid keeps one tab stop as tiles come", async () => {
+    const grid = mount(`<blip-tile-grid><ul class="blip-tile-grid" role="list" aria-label="Apps"><li><button class="blip-box blip-tile">A</button></li></ul></blip-tile-grid>`);
+    grid.querySelector("ul")!.prepend(html(`<li><button class="blip-box blip-tile">New</button></li>`));
     await settle();
-    expect([...grid.querySelectorAll<HTMLElement>(".chu-tile")].map((t) => t.tabIndex)).toEqual([-1, 0]);
+    expect([...grid.querySelectorAll<HTMLElement>(".blip-tile")].map((t) => t.tabIndex)).toEqual([-1, 0]);
   });
 
-  it("chu-number puts its buttons round an input rendered later", async () => {
-    const num = mount(`<chu-number class="chu-number"></chu-number>`);
-    num.append(html(`<span class="chu-box chu-input"><input id="lives" type="number" min="1" max="9" value="3"></span>`));
+  it("blip-number puts its buttons round an input rendered later", async () => {
+    const num = mount(`<blip-number class="blip-number"></blip-number>`);
+    num.append(html(`<span class="blip-box blip-input"><input id="lives" type="number" min="1" max="9" value="3"></span>`));
     await settle();
     const input = num.querySelector("input")!;
-    expect(input.previousElementSibling?.matches(".chu-number-step")).toBe(true);
-    expect(input.nextElementSibling?.matches(".chu-number-step")).toBe(true);
+    expect(input.previousElementSibling?.matches(".blip-number-step")).toBe(true);
+    expect(input.nextElementSibling?.matches(".blip-number-step")).toBe(true);
   });
 
-  it("chu-file-drop takes up an input rendered later", async () => {
-    const drop = mount(`<chu-file-drop class="chu-file-drop"></chu-file-drop>`);
-    drop.append(html(`<label class="chu-box chu-file-drop-zone"><input type="file" multiple> Drop here</label>`));
+  it("blip-file-drop takes up an input rendered later", async () => {
+    const drop = mount(`<blip-file-drop class="blip-file-drop"></blip-file-drop>`);
+    drop.append(html(`<label class="blip-box blip-file-drop-zone"><input type="file" multiple> Drop here</label>`));
     await settle();
-    expect(drop.querySelector(".chu-file-drop-list")).not.toBeNull();
+    expect(drop.querySelector(".blip-file-drop-list")).not.toBeNull();
   });
 
-  it("chu-dialog opens a dialog rendered after its open attribute", async () => {
-    const host = mount(`<chu-dialog open></chu-dialog>`);
-    host.append(html(`<dialog class="chu-box chu-dialog" aria-label="Late">…</dialog>`));
+  it("blip-dialog opens a dialog rendered after its open attribute", async () => {
+    const host = mount(`<blip-dialog open></blip-dialog>`);
+    host.append(html(`<dialog class="blip-box blip-dialog" aria-label="Late">…</dialog>`));
     await settle();
     expect(host.querySelector("dialog")!.open).toBe(true);
     await (host as HTMLElement & { close(): Promise<void> }).close();
   });
 
-  it("chu-tooltip describes a trigger rendered after it, and the new one when a framework replaces it", async () => {
-    const box = mount(`<div><chu-tooltip for="tip-late">Saves to slot 2</chu-tooltip></div>`);
-    const tip = box.querySelector("chu-tooltip")!;
+  it("blip-tooltip describes a trigger rendered after it, and the new one when a framework replaces it", async () => {
+    const box = mount(`<div><blip-tooltip for="tip-late">Saves to slot 2</blip-tooltip></div>`);
+    const tip = box.querySelector("blip-tooltip")!;
     const first = html(`<button id="tip-late">Save</button>`);
     box.prepend(first);
     await settle();

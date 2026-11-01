@@ -4,9 +4,9 @@
  *
  *   <search>
  *     <form action="/levels">
- *       <label class="chu-sr-only" for="q">Search levels</label>
- *       <span class="chu-box chu-input">
- *         <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+ *       <label class="blip-sr-only" for="q">Search levels</label>
+ *       <span class="blip-box blip-input">
+ *         <svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
  *         <input id="q" name="q" type="search" placeholder="Search levels">
  *       </span>
  *     </form>
@@ -19,19 +19,19 @@
  */
 @import "./_control.css";
 
-@layer chu.components {
-  .chu-input > input[type="search"]::-webkit-search-decoration { appearance: none; }
-  .chu-input > input[type="search"]::-webkit-search-cancel-button {
-    inline-size: calc(12 * var(--chu-pixel));
-    block-size: calc(12 * var(--chu-pixel));
-    margin: 0 calc(-2 * var(--chu-pixel)) 0 var(--chu-pixel);
-    background: var(--chu-text-muted);
+@layer blip.components {
+  .blip-input > input[type="search"]::-webkit-search-decoration { appearance: none; }
+  .blip-input > input[type="search"]::-webkit-search-cancel-button {
+    inline-size: calc(12 * var(--blip-pixel));
+    block-size: calc(12 * var(--blip-pixel));
+    margin: 0 calc(-2 * var(--blip-pixel)) 0 var(--blip-pixel);
+    background: var(--blip-text-muted);
     cursor: pointer;
     appearance: none;
-    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1H0zM6 0h2v1H6zM0 1h3v1H0zM5 1h3v1H5zM1 2h6v1H1zM2 3h4v2H2zM1 5h6v1H1zM0 6h3v1H0zM5 6h3v1H5zM0 7h2v1H0zM6 7h2v1H6z'/%3E%3C/svg%3E") center / calc(8 * var(--chu-pixel)) calc(8 * var(--chu-pixel)) no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1H0zM6 0h2v1H6zM0 1h3v1H0zM5 1h3v1H5zM1 2h6v1H1zM2 3h4v2H2zM1 5h6v1H1zM0 6h3v1H0zM5 6h3v1H5zM0 7h2v1H0zM6 7h2v1H6z'/%3E%3C/svg%3E") center / calc(8 * var(--blip-pixel)) calc(8 * var(--blip-pixel)) no-repeat;
   }
-  .chu-input > input[type="search"]::-webkit-search-cancel-button:hover { background: var(--chu-text); }
+  .blip-input > input[type="search"]::-webkit-search-cancel-button:hover { background: var(--blip-text); }
   @media (forced-colors: active) {
-    .chu-input > input[type="search"]::-webkit-search-cancel-button { forced-color-adjust: none; background: ButtonText; }
+    .blip-input > input[type="search"]::-webkit-search-cancel-button { forced-color-adjust: none; background: ButtonText; }
   }
 }

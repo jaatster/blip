@@ -55,7 +55,7 @@ export function collectRuns(page: Page, scope = "#example", within?: string): Pr
       }
       return n > 0 && hidden / n > 0.3;
     };
-    const pixel = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--chu-pixel")) || 2;
+    const pixel = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--blip-pixel")) || 2;
     const out: Run[] = [];
     const visibleRect = (el: Element, r: DOMRect) => {
       let x0 = r.left, y0 = r.top, x1 = r.right, y1 = r.bottom;
@@ -73,13 +73,13 @@ export function collectRuns(page: Page, scope = "#example", within?: string): Pr
       return o;
     };
     const where = (el: Element) => {
-      const name = (e: Element) => `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c.startsWith("chu-") && c !== "chu-box").slice(0, 2).map((c) => `.${c}`).join("")}`;
+      const name = (e: Element) => `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c.startsWith("blip-") && c !== "blip-box").slice(0, 2).map((c) => `.${c}`).join("")}`;
       const parts = [name(el)];
       for (let a = el.parentElement; a && a !== root && parts.length < 3; a = a.parentElement) {
-        if ([...a.classList].some((c) => c.startsWith("chu-") && c !== "chu-box")) parts.unshift(name(a));
+        if ([...a.classList].some((c) => c.startsWith("blip-") && c !== "blip-box")) parts.unshift(name(a));
       }
-      const state = el.closest("[data-chu-state], [aria-pressed='true'], [aria-selected='true'], [aria-current]:not([aria-current='false']), [aria-checked='true']");
-      return parts.join(" > ") + (state && root.contains(state) ? ` (${[...state.attributes].filter((x) => /^(data-chu-state|aria-(pressed|selected|current|checked))$/.test(x.name)).map((x) => `${x.name}=${x.value}`).join(" ")})` : "");
+      const state = el.closest("[data-blip-state], [aria-pressed='true'], [aria-selected='true'], [aria-current]:not([aria-current='false']), [aria-checked='true']");
+      return parts.join(" > ") + (state && root.contains(state) ? ` (${[...state.attributes].filter((x) => /^(data-blip-state|aria-(pressed|selected|current|checked))$/.test(x.name)).map((x) => `${x.name}=${x.value}`).join(" ")})` : "");
     };
     const shadows = (cs: CSSStyleDeclaration): { ring: [string, number, number][]; other: boolean } => {
       const ring: [string, number, number][] = [];

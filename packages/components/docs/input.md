@@ -1,6 +1,6 @@
 ---
 name: Input
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: input.css
 element: null
 react: Input
@@ -19,11 +19,11 @@ drop. Every text type works: text, email, password, number, url, tel, date, time
 ## Usage
 
 ```html
-<label class="chu-field-label" for="email">Email</label>
-<span class="chu-box chu-input"><input id="email" name="email" type="email" autocomplete="email"></span>
+<label class="blip-field-label" for="email">Email</label>
+<span class="blip-box blip-input"><input id="email" name="email" type="email" autocomplete="email"></span>
 
-<span class="chu-box chu-input">
-  <span class="chu-input-affix" aria-hidden="true">https://</span>
+<span class="blip-box blip-input">
+  <span class="blip-input-affix" aria-hidden="true">https://</span>
   <input id="site" type="url" placeholder="pixel.example">
 </span>
 ```
@@ -34,8 +34,8 @@ Wrap it in a [field](field.md) for the label, help and error.
 
 1. **Well**: the box, calm tier: line outline with stepped corners, surface fill, a one-pixel sunken inset at the top.
 2. **Input**: the native control, transparent, filling the well.
-3. **Affixes** (optional): a `.chu-icon` or `.chu-input-affix` text before or after the value, muted.
-4. **Buttons** (optional): a `<button class="chu-box" data-variant="ghost">` inside the well ("show password") sits two
+3. **Affixes** (optional): a `.blip-icon` or `.blip-input-affix` text before or after the value, muted.
+4. **Buttons** (optional): a `<button class="blip-box" data-variant="ghost">` inside the well ("show password") sits two
    pixels in from the edge, square.
 
 ## Variants
@@ -55,7 +55,7 @@ Wrap it in a [field](field.md) for the label, help and error.
 | Disabled | `disabled` | Dithered, soft outline, muted text. |
 | Placeholder | `placeholder` | Muted text (it passes AA; it's still not a label). |
 
-`data-chu-state="focus"` on the well forces the ring in docs and tests.
+`data-blip-state="focus"` on the well forces the ring in docs and tests.
 
 ## Accessibility
 
@@ -88,10 +88,10 @@ Wrap it in a [field](field.md) for the label, help and error.
 
 | Class | |
 |---|---|
-| `.chu-input` | The well. Markup: `class="chu-box chu-input"` on a `<span>` or `<div>`. |
-| `.chu-input-affix` | Text before or after the value. |
+| `.blip-input` | The well. Markup: `class="blip-box blip-input"` on a `<span>` or `<div>`. |
+| `.blip-input-affix` | Text before or after the value. |
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-r` with `--chu-shape`, `--chu-shape-inner` | 4 (sm 3, lg 5) | Corner radius, as for buttons. |
-| `--chu-box-outline`, `--chu-box-top`, `--chu-box-fill` | line, sunken, surface | The well's colours. |
+| `--blip-r` with `--blip-shape`, `--blip-shape-inner` | 4 (sm 3, lg 5) | Corner radius, as for buttons. |
+| `--blip-box-outline`, `--blip-box-top`, `--blip-box-fill` | line, sunken, surface | The well's colours. |

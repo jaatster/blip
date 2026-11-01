@@ -3,100 +3,100 @@
  * default; inline puts the label in a column beside the control. Also styles a <fieldset> for groups of checkboxes,
  * radios or switches.
  *
- *   <div class="chu-field">                        (or <chu-field class="chu-field"> to wire it up, see below)
- *     <label class="chu-field-label" for="name">Player name</label>
- *     <span class="chu-box chu-input"><input id="name" required aria-describedby="name-help"></span>
- *     <p class="chu-field-help" id="name-help">Shown on the leaderboard.</p>
- *     <p class="chu-field-error" id="name-error">Pick a name of 3 letters or more.</p>
- *     <p class="chu-field-count">7/20</p>
+ *   <div class="blip-field">                        (or <blip-field class="blip-field"> to wire it up, see below)
+ *     <label class="blip-field-label" for="name">Player name</label>
+ *     <span class="blip-box blip-input"><input id="name" required aria-describedby="name-help"></span>
+ *     <p class="blip-field-help" id="name-help">Shown on the leaderboard.</p>
+ *     <p class="blip-field-error" id="name-error">Pick a name of 3 letters or more.</p>
+ *     <p class="blip-field-count">7/20</p>
  *   </div>
  *
- *   .chu-field-label         the label (a <legend> in a fieldset); a required control adds a red * after it
- *   .chu-field-help          help text, muted
- *   .chu-field-error         the error, in the danger tone after a pixel "!"; hidden while empty
- *   .chu-field-count         a character count, at the end of the row; data-state="full" at the limit
- *   data-layout="inline"    label beside the control (--chu-field-label-width, 64 pixels by default)
+ *   .blip-field-label         the label (a <legend> in a fieldset); a required control adds a red * after it
+ *   .blip-field-help          help text, muted
+ *   .blip-field-error         the error, in the danger tone after a pixel "!"; hidden while empty
+ *   .blip-field-count         a character count, at the end of the row; data-state="full" at the limit
+ *   data-layout="inline"    label beside the control (--blip-field-label-width, 64 pixels by default)
  *
- * <chu-field> (from @jaatster/blip-elements) links help, error and count to the control with aria-describedby, marks it
+ * <blip-field> (from @blip/elements) links help, error and count to the control with aria-describedby, marks it
  * aria-invalid, fills the error from the browser's message when you didn't write one, counts characters against
  * maxlength, and keeps an <output for> in step with its control.
  */
 
-@layer chu.components {
-  .chu-field {
+@layer blip.components {
+  .blip-field {
     display: grid;
     align-content: start;
-    gap: calc(2 * var(--chu-pixel));
+    gap: calc(2 * var(--blip-pixel));
     min-inline-size: 0;
     margin: 0;
     padding: 0;
     border: 0;
   }
-  .chu-field > legend { float: inline-start; inline-size: 100%; padding: 0; }
-  .chu-field > legend + * { clear: both; }
+  .blip-field > legend { float: inline-start; inline-size: 100%; padding: 0; }
+  .blip-field > legend + * { clear: both; }
 
-  .chu-field-label {
-    margin-block-end: var(--chu-pixel);
-    font-size: var(--chu-size-small);
-    font-weight: var(--chu-weight-bold);
-    line-height: var(--chu-leading-tight);
-    color: var(--chu-text);
+  .blip-field-label {
+    margin-block-end: var(--blip-pixel);
+    font-size: var(--blip-size-small);
+    font-weight: var(--blip-weight-bold);
+    line-height: var(--blip-leading-tight);
+    color: var(--blip-text);
   }
   /* Required: an asterisk, for sight only (the control itself says "required"). */
-  .chu-field:has(:required, [required]) > .chu-field-label:first-of-type::after {
+  .blip-field:has(:required, [required]) > .blip-field-label:first-of-type::after {
     content: "*" / "";
-    margin-inline-start: var(--chu-pixel);
-    color: var(--chu-danger-text);
+    margin-inline-start: var(--blip-pixel);
+    color: var(--blip-danger-text);
   }
 
-  :is(.chu-field-help, .chu-field-error, .chu-field-count) {
+  :is(.blip-field-help, .blip-field-error, .blip-field-count) {
     margin: 0;
-    font-size: var(--chu-size-small);
-    line-height: var(--chu-leading-normal);
+    font-size: var(--blip-size-small);
+    line-height: var(--blip-leading-normal);
   }
-  .chu-field-help { color: var(--chu-text-muted); }
+  .blip-field-help { color: var(--blip-text-muted); }
 
-  .chu-field-error {
+  .blip-field-error {
     display: flex;
     align-items: start;
-    gap: calc(2 * var(--chu-pixel));
-    font-weight: var(--chu-weight-bold);
-    color: var(--chu-danger-text);
+    gap: calc(2 * var(--blip-pixel));
+    font-weight: var(--blip-weight-bold);
+    color: var(--blip-danger-text);
   }
-  .chu-field-error::before {
+  .blip-field-error::before {
     content: "";
     flex: none;
-    inline-size: calc(7 * var(--chu-pixel));
-    block-size: calc(7 * var(--chu-pixel));
-    margin-block-start: round(down, (1lh - 7 * var(--chu-pixel)) / 2, var(--chu-pixel));
+    inline-size: calc(7 * var(--blip-pixel));
+    block-size: calc(7 * var(--blip-pixel));
+    margin-block-start: round(down, (1lh - 7 * var(--blip-pixel)) / 2, var(--blip-pixel));
     background: currentColor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h5v1H1zM0 1h3v3H0zM4 1h3v3H4zM0 4h7v1H0zM0 5h3v1H0zM4 5h3v1H4zM1 6h5v1H1z'/%3E%3C/svg%3E") 0 0 / 100% 100%;
   }
-  .chu-field-error:is(:empty, [hidden]) { display: none; }
+  .blip-field-error:is(:empty, [hidden]) { display: none; }
   @media (forced-colors: active) {
-    .chu-field-error::before { forced-color-adjust: none; background: CanvasText; }
+    .blip-field-error::before { forced-color-adjust: none; background: CanvasText; }
   }
 
-  .chu-field-count {
+  .blip-field-count {
     justify-self: end;
     font-variant-numeric: tabular-nums;
-    color: var(--chu-text-muted);
+    color: var(--blip-text-muted);
   }
-  .chu-field-count[data-state="full"] { font-weight: var(--chu-weight-bold); color: var(--chu-warning-text); }
+  .blip-field-count[data-state="full"] { font-weight: var(--blip-weight-bold); color: var(--blip-warning-text); }
 
   /* Inline: the label sits in its own column, centred on a control of the default height. */
-  .chu-field[data-layout="inline"] {
-    grid-template-columns: var(--chu-field-label-width, calc(64 * var(--chu-pixel))) minmax(0, 1fr);
-    column-gap: calc(8 * var(--chu-pixel));
+  .blip-field[data-layout="inline"] {
+    grid-template-columns: var(--blip-field-label-width, calc(64 * var(--blip-pixel))) minmax(0, 1fr);
+    column-gap: calc(8 * var(--blip-pixel));
   }
-  .chu-field[data-layout="inline"] > * { grid-column: 2; }
-  .chu-field[data-layout="inline"] > .chu-field-label {
+  .blip-field[data-layout="inline"] > * { grid-column: 2; }
+  .blip-field[data-layout="inline"] > .blip-field-label {
     grid-column: 1;
     grid-row: 1 / span 4;
     display: flex;
     align-items: center;
     align-self: start;
-    min-block-size: var(--chu-control-md);
+    min-block-size: var(--blip-control-md);
     margin: 0;
   }
 }

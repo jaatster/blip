@@ -1,20 +1,20 @@
 /**
- * <chu-file-drop>: drop files on the tray, or click it to browse. Picked files join a list (with multiple, they add
+ * <blip-file-drop>: drop files on the tray, or click it to browse. Picked files join a list (with multiple, they add
  * up; without it, the new file replaces the old), and each has a remove button. The files live in the native
  * <input type="file"> inside, so they go with the form. Dropped files that don't match accept are left out.
  *
- *   <chu-file-drop class="chu-file-drop">
- *     <label class="chu-box chu-file-drop-zone">
+ *   <blip-file-drop class="blip-file-drop">
+ *     <label class="blip-box blip-file-drop-zone">
  *       <input type="file" name="shots" multiple accept="image/*">
  *       <strong>Drop screenshots here</strong> <span>or click to browse</span>
  *     </label>
- *   </chu-file-drop>
+ *   </blip-file-drop>
  *
  * Attributes: remove-label (the remove buttons' name, before the file name: "Remove"). Property: files.
- * Events: chu-change { files } when the list changes; chu-reject { files } for dropped files that don't match. An
+ * Events: blip-change { files } when the list changes; blip-reject { files } for dropped files that don't match. An
  * input rendered later, or swapped by a framework, is taken up as it comes.
  */
-import { BlipElement, warn } from "@jaatster/blip-core";
+import { BlipElement, warn } from "@blip/core";
 import { both, elementsChanged, observe } from "./_dom.js";
 
 /** Does a file match an accept list (".png, image/*, application/pdf")? */
@@ -38,11 +38,11 @@ const key = (f: File) => `${f.name}/${f.size}/${f.lastModified}`;
  *
  * @summary Drop files, or click to browse.
  * @attr {string} [remove-label="Remove"] - Put before each file name on its remove button.
- * @fires {CustomEvent<{ files: File[] }>} chu-change - The list changed: files picked, dropped or removed.
- * @fires {CustomEvent<{ files: File[] }>} chu-reject - Dropped files that do not match the input's accept.
+ * @fires {CustomEvent<{ files: File[] }>} blip-change - The list changed: files picked, dropped or removed.
+ * @fires {CustomEvent<{ files: File[] }>} blip-reject - Dropped files that do not match the input's accept.
  */
 export class BlipFileDrop extends BlipElement {
-  static classes = ["chu-file-drop"];
+  static classes = ["blip-file-drop"];
 
   #files: File[] = [];
   #depth = 0;
@@ -63,8 +63,8 @@ export class BlipFileDrop extends BlipElement {
     this.#field = null;
     this.#wire();
     // An input rendered later, or swapped by a framework, is taken up when it arrives.
-    observe(this, this.signal, () => this.#wire(), (r) => elementsChanged(r) && !(r.target as Element).closest(".chu-file-drop-list"));
-    if (!this.input && this.children.length) warn("CHU-E001", "<chu-file-drop> needs an <input type=file> inside.", this);
+    observe(this, this.signal, () => this.#wire(), (r) => elementsChanged(r) && !(r.target as Element).closest(".blip-file-drop-list"));
+    if (!this.input && this.children.length) warn("BLIP-E001", "<blip-file-drop> needs an <input type=file> inside.", this);
 
     const drag = (e: DragEvent, by: number) => {
       const input = this.input;
@@ -97,15 +97,15 @@ export class BlipFileDrop extends BlipElement {
       { capture: true },
     );
     this.on(this, "click", (e) => {
-      const b = (e.target as Element).closest<HTMLButtonElement>(".chu-file-drop-remove");
+      const b = (e.target as Element).closest<HTMLButtonElement>(".blip-file-drop-remove");
       if (!b || !this.contains(b)) return;
-      const items = [...this.querySelectorAll(".chu-file-drop-item")];
-      const i = items.indexOf(b.closest(".chu-file-drop-item")!);
+      const items = [...this.querySelectorAll(".blip-file-drop-item")];
+      const i = items.indexOf(b.closest(".blip-file-drop-item")!);
       if (i < 0) return;
       this.#files.splice(i, 1);
       this.#commit();
       // Keep the keyboard in the list: the next file's button, else the previous one, else the tray.
-      const next = this.querySelectorAll<HTMLButtonElement>(".chu-file-drop-remove");
+      const next = this.querySelectorAll<HTMLButtonElement>(".blip-file-drop-remove");
       (next[i] ?? next[i - 1] ?? this.input)?.focus();
     });
   }
@@ -156,18 +156,18 @@ export class BlipFileDrop extends BlipElement {
 
   #render(): void {
     const input = this.input!;
-    let list = this.querySelector<HTMLUListElement>(".chu-file-drop-list");
+    let list = this.querySelector<HTMLUListElement>(".blip-file-drop-list");
     if (!list) {
       list = document.createElement("ul");
-      list.className = "chu-file-drop-list";
+      list.className = "blip-file-drop-list";
       this.append(list);
     }
     const remove = this.getAttribute("remove-label") ?? "Remove";
     list.replaceChildren(
       ...this.#files.map((f) => {
         const li = document.createElement("li");
-        li.className = "chu-box chu-file-drop-item";
-        li.innerHTML = '<span class="chu-file-drop-name"></span><span class="chu-file-drop-size"></span><button type="button" class="chu-box chu-file-drop-remove" data-variant="ghost"><span aria-hidden="true"></span></button>';
+        li.className = "blip-box blip-file-drop-item";
+        li.innerHTML = '<span class="blip-file-drop-name"></span><span class="blip-file-drop-size"></span><button type="button" class="blip-box blip-file-drop-remove" data-variant="ghost"><span aria-hidden="true"></span></button>';
         const [name, bytes, b] = li.children as unknown as [HTMLElement, HTMLElement, HTMLButtonElement];
         name.textContent = f.name;
         name.title = f.name;
@@ -180,10 +180,10 @@ export class BlipFileDrop extends BlipElement {
   }
 }
 
-BlipElement.define("chu-file-drop", BlipFileDrop);
+BlipElement.define("blip-file-drop", BlipFileDrop);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "chu-file-drop": BlipFileDrop;
+    "blip-file-drop": BlipFileDrop;
   }
 }

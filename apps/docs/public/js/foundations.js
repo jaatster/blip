@@ -12,12 +12,12 @@ function renderTry() {
   const text = tryText.value || "Pixel Bop";
   tryOut.textContent = text;
   tryOut.dataset.scale = tryScale?.value || "3";
-  tryOut.classList.toggle("chu-pop", !!tryPop?.checked);
+  tryOut.classList.toggle("blip-pop", !!tryPop?.checked);
   if (tryPop?.checked) tryOut.dataset.pop = text;
   else delete tryOut.dataset.pop;
 }
 tryText?.addEventListener("input", renderTry);
-tryScale?.addEventListener("chu-change", renderTry);
+tryScale?.addEventListener("blip-change", renderTry);
 tryPop?.addEventListener("change", renderTry);
 
 // ------------------------------------------------------------------ motion
@@ -37,7 +37,7 @@ for (const b of $$("[data-play]")) {
 }
 for (const b of $$(".docs-transition")) {
   b.addEventListener("click", async () => {
-    const { transition } = await import("@jaatster/blip-effects/transitions.js");
+    const { transition } = await import("@blip/effects/transitions.js");
     await transition(() => {}, { kind: b.dataset.kind });
     b.focus();
   });
@@ -70,7 +70,7 @@ if (board || $(".docs-voice")) {
   for (const k of $$(".docs-sound-key")) {
     k.addEventListener("click", () => {
       if (k.getAttribute("aria-disabled") === "true") return $(".docs-sound-toggle")?.focus();
-      if (k.dataset.sound === "blip") import("@jaatster/blip-sound").then(({ voiceRate }) => "Blip".split("").forEach((c, i) => setTimeout(() => sound.play("blip", { rate: voiceRate(c) }), i * 90)));
+      if (k.dataset.sound === "blip") import("@blip/sound").then(({ voiceRate }) => "Blip".split("").forEach((c, i) => setTimeout(() => sound.play("blip", { rate: voiceRate(c) }), i * 90)));
       else sound.play(k.dataset.sound);
     });
   }
@@ -118,8 +118,8 @@ if (icons) {
     for (const p of $$(".docs-icon-big path", detail)) p.setAttribute("d", path);
     $(".docs-icon-detail-name", detail).textContent = name;
     $(".docs-icon-detail-tags", detail).textContent = `${titles[cat] ?? cat} · ${li.dataset.tags.split(" ").join(", ")}`;
-    const svg = `<svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="${path}"/></svg>`;
-    const copies = { svg, name, element: `<chu-icon name="${name}"></chu-icon>` };
+    const svg = `<svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="${path}"/></svg>`;
+    const copies = { svg, name, element: `<blip-icon name="${name}"></blip-icon>` };
     for (const b of $$("[data-copy-kind]", detail)) b.dataset.copy = copies[b.dataset.copyKind];
     $(".docs-icon-snippet code", detail).textContent = svg;
   }

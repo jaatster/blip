@@ -1,5 +1,5 @@
 {
-  "name": "chu-stack-next",
+  "name": "blip-stack-next",
   "private": true,
   "scripts": {
     "dev": "next dev --hostname localhost --port 4614",
@@ -9,14 +9,14 @@
     "build:webpack": "next build --webpack"
   },
   "dependencies": {
-    "@jaatster/blip-blocks": "*",
-    "@jaatster/blip-components": "*",
-    "@jaatster/blip-core": "*",
-    "@jaatster/blip-effects": "*",
-    "@jaatster/blip-font": "*",
-    "@jaatster/blip-game": "*",
-    "@jaatster/blip-react": "*",
-    "@jaatster/blip-tokens": "*",
+    "@blip/blocks": "*",
+    "@blip/components": "*",
+    "@blip/core": "*",
+    "@blip/effects": "*",
+    "@blip/font": "*",
+    "@blip/game": "*",
+    "@blip/react": "*",
+    "@blip/tokens": "*",
     "next": "^16.4.3",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"

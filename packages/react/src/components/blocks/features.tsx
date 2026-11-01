@@ -1,6 +1,6 @@
 /**
  * Features: Features, FeaturesHead, FeaturesTitle, FeaturesLead, FeaturesGrid, Feature, FeatureMedia, FeatureIcon,
- * FeatureTitle, FeatureText, FeatureStat, FeatureChips and FeatureChip. CSS from @jaatster/blip-blocks (features.css).
+ * FeatureTitle, FeatureText, FeatureStat, FeatureChips and FeatureChip. CSS from @blip/blocks (features.css).
  */
 import { forwardRef } from "react";
 import type { ElementType, ReactNode } from "react";
@@ -42,10 +42,10 @@ export type FeaturesProps = NativeProps<"section">;
  *     </FeaturesGrid>
  *   </Features>
  *
- * Renders `<section class="chu-features">`.
+ * Renders `<section class="blip-features">`.
  */
 export const Features = /*#__PURE__*/ forwardRef<HTMLElement, FeaturesProps>(function Features({ className, ...rest }, ref) {
-  return <section ref={ref} className={cx("chu-features", className)} {...rest} />;
+  return <section ref={ref} className={cx("blip-features", className)} {...rest} />;
 });
 
 /** Props for {@link FeaturesHead}. */
@@ -56,13 +56,13 @@ export type FeaturesHeadProps = NativeProps<"header">;
  *
  *   <FeaturesHead><FeaturesTitle>…</FeaturesTitle><FeaturesLead>…</FeaturesLead></FeaturesHead>
  *
- * Renders `<header class="chu-features-head">`.
+ * Renders `<header class="blip-features-head">`.
  */
 export const FeaturesHead = /*#__PURE__*/ forwardRef<HTMLElement, FeaturesHeadProps>(function FeaturesHead(
   { className, ...rest },
   ref,
 ) {
-  return <header ref={ref} className={cx("chu-features-head", className)} {...rest} />;
+  return <header ref={ref} className={cx("blip-features-head", className)} {...rest} />;
 });
 
 /** Props for {@link FeaturesTitle}: a heading's own; `as` picks its level. */
@@ -73,13 +73,13 @@ export type FeaturesTitleProps<T extends ElementType = "h2"> = PolymorphicProps<
  *
  *   <FeaturesTitle id="features-title">A small world that keeps time</FeaturesTitle>
  *
- * Renders `<h2 class="chu-features-title">`.
+ * Renders `<h2 class="blip-features-title">`.
  */
 export const FeaturesTitle = /*#__PURE__*/ forwardRef(function FeaturesTitle(
   { as: Tag = "h2", className, ...rest }: FeaturesTitleProps<ElementType>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("chu-features-title", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("blip-features-title", className)} {...rest} />;
 }) as PolymorphicComponent<"h2", object>;
 
 /** Props for {@link FeaturesLead}. */
@@ -90,13 +90,13 @@ export type FeaturesLeadProps = NativeProps<"p">;
  *
  *   <FeaturesLead>Sixty short levels, made to be played a few at a time.</FeaturesLead>
  *
- * Renders `<p class="chu-features-lead">`.
+ * Renders `<p class="blip-features-lead">`.
  */
 export const FeaturesLead = /*#__PURE__*/ forwardRef<HTMLParagraphElement, FeaturesLeadProps>(function FeaturesLead(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("chu-features-lead", className)} {...rest} />;
+  return <p ref={ref} className={cx("blip-features-lead", className)} {...rest} />;
 });
 
 /** Props for {@link FeaturesGrid}. */
@@ -108,13 +108,13 @@ export type FeaturesGridProps = NativeProps<"div">;
  *
  *   <FeaturesGrid><Feature layout="lead">…</Feature><Feature tone="pink">…</Feature></FeaturesGrid>
  *
- * Renders `<div class="chu-features-grid">`.
+ * Renders `<div class="blip-features-grid">`.
  */
 export const FeaturesGrid = /*#__PURE__*/ forwardRef<HTMLDivElement, FeaturesGridProps>(function FeaturesGrid(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-features-grid", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-features-grid", className)} {...rest} />;
 });
 
 /** Own props of {@link Feature}. */
@@ -143,7 +143,7 @@ export type FeatureProps = FeatureOwnProps & NativeProps<"article", FeatureOwnPr
  *     <FeatureText>A friend can hop in or out at any moment.</FeatureText>
  *   </Feature>
  *
- * Renders `<article class="chu-box chu-feature" data-variant="soft">` (`data-variant="panel"` for lead and wide).
+ * Renders `<article class="blip-box blip-feature" data-variant="soft">` (`data-variant="panel"` for lead and wide).
  */
 export const Feature = /*#__PURE__*/ forwardRef<HTMLElement, FeatureProps>(function Feature(
   { layout, variant, tone, className, ...rest },
@@ -152,7 +152,7 @@ export const Feature = /*#__PURE__*/ forwardRef<HTMLElement, FeatureProps>(funct
   return (
     <article
       ref={ref}
-      className={cx("chu-box chu-feature", className)}
+      className={cx("blip-box blip-feature", className)}
       data-layout={layout}
       data-variant={variant ?? (layout === "lead" || layout === "wide" ? "panel" : "soft")}
       data-tone={tone}
@@ -170,13 +170,13 @@ export type FeatureMediaProps = NativeProps<"div">;
  *
  *   <FeatureMedia aria-hidden="true"><img src={shot} alt="" /></FeatureMedia>
  *
- * Renders `<div class="chu-feature-media">`.
+ * Renders `<div class="blip-feature-media">`.
  */
 export const FeatureMedia = /*#__PURE__*/ forwardRef<HTMLDivElement, FeatureMediaProps>(function FeatureMedia(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-feature-media", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-feature-media", className)} {...rest} />;
 });
 
 /** Own props of {@link FeatureIcon}. */
@@ -192,13 +192,13 @@ export type FeatureIconProps = FeatureIconOwnProps & NativeProps<"span", Feature
  *
  *   <FeatureIcon tone="pink"><Icon name="users" /></FeatureIcon>
  *
- * Renders `<span class="chu-box chu-feature-icon">`.
+ * Renders `<span class="blip-box blip-feature-icon">`.
  */
 export const FeatureIcon = /*#__PURE__*/ forwardRef<HTMLSpanElement, FeatureIconProps>(function FeatureIcon(
   { tone, className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-box chu-feature-icon", className)} data-tone={tone} {...rest} />;
+  return <span ref={ref} className={cx("blip-box blip-feature-icon", className)} data-tone={tone} {...rest} />;
 });
 
 /** Props for {@link FeatureTitle}: a heading's own; `as` picks its level. */
@@ -209,13 +209,13 @@ export type FeatureTitleProps<T extends ElementType = "h3"> = PolymorphicProps<T
  *
  *   <FeatureTitle>Couch co-op</FeatureTitle>
  *
- * Renders `<h3 class="chu-feature-title">`.
+ * Renders `<h3 class="blip-feature-title">`.
  */
 export const FeatureTitle = /*#__PURE__*/ forwardRef(function FeatureTitle(
   { as: Tag = "h3", className, ...rest }: FeatureTitleProps<ElementType>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("chu-feature-title", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("blip-feature-title", className)} {...rest} />;
 }) as PolymorphicComponent<"h3", object>;
 
 /** Props for {@link FeatureText}. */
@@ -226,13 +226,13 @@ export type FeatureTextProps = NativeProps<"p">;
  *
  *   <FeatureText>A friend can hop in or out at any moment, on one keyboard or two gamepads.</FeatureText>
  *
- * Renders `<p class="chu-feature-text">`.
+ * Renders `<p class="blip-feature-text">`.
  */
 export const FeatureText = /*#__PURE__*/ forwardRef<HTMLParagraphElement, FeatureTextProps>(function FeatureText(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("chu-feature-text", className)} {...rest} />;
+  return <p ref={ref} className={cx("blip-feature-text", className)} {...rest} />;
 });
 
 /** Own props of {@link FeatureStat}. */
@@ -252,7 +252,7 @@ export type FeatureStatProps = FeatureStatOwnProps & NativeProps<"p", FeatureSta
  *     <FeatureText>chiptune tracks, one for every hour</FeatureText>
  *   </Feature>
  *
- * Renders `<p class="chu-feature-stat chu-pop" data-pop="24">`; `data-pop` repeats the number (when the children are
+ * Renders `<p class="blip-feature-stat blip-pop" data-pop="24">`; `data-pop` repeats the number (when the children are
  * text).
  */
 export const FeatureStat = /*#__PURE__*/ forwardRef<HTMLParagraphElement, FeatureStatProps>(function FeatureStat(
@@ -262,7 +262,7 @@ export const FeatureStat = /*#__PURE__*/ forwardRef<HTMLParagraphElement, Featur
   return (
     <p
       ref={ref}
-      className={cx("chu-feature-stat chu-pop", className)}
+      className={cx("blip-feature-stat blip-pop", className)}
       data-tone={tone}
       data-pop={popText(children)}
       {...rest}
@@ -280,13 +280,13 @@ export type FeatureChipsProps = NativeProps<"ul">;
  *
  *   <FeatureChips><FeatureChip>Assist mode</FeatureChip><FeatureChip>Remap any key</FeatureChip></FeatureChips>
  *
- * Renders `<ul class="chu-feature-chips" role="list">`.
+ * Renders `<ul class="blip-feature-chips" role="list">`.
  */
 export const FeatureChips = /*#__PURE__*/ forwardRef<HTMLUListElement, FeatureChipsProps>(function FeatureChips(
   { role = "list", className, ...rest },
   ref,
 ) {
-  return <ul ref={ref} className={cx("chu-feature-chips", className)} role={role} {...rest} />;
+  return <ul ref={ref} className={cx("blip-feature-chips", className)} role={role} {...rest} />;
 });
 
 /** Own props of {@link FeatureChip}. */
@@ -302,11 +302,11 @@ export type FeatureChipProps = FeatureChipOwnProps & NativeProps<"li", FeatureCh
  *
  *   <FeatureChip>Reduced motion</FeatureChip>
  *
- * Renders `<li class="chu-box" data-variant="soft" data-tone="neutral">`.
+ * Renders `<li class="blip-box" data-variant="soft" data-tone="neutral">`.
  */
 export const FeatureChip = /*#__PURE__*/ forwardRef<HTMLLIElement, FeatureChipProps>(function FeatureChip(
   { tone = "neutral", className, ...rest },
   ref,
 ) {
-  return <li ref={ref} className={cx("chu-box", className)} data-variant="soft" data-tone={tone} {...rest} />;
+  return <li ref={ref} className={cx("blip-box", className)} data-variant="soft" data-tone={tone} {...rest} />;
 });

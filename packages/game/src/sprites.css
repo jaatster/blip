@@ -1,9 +1,9 @@
 /*
  * Sprites. The game kit's art: whole-pixel, multi-colour SVG in token colours with a one-pixel ink outline. One
- * sprite pixel is one Blip pixel, so sprites line up with every box, letter and icon, at any --chu-pixel.
+ * sprite pixel is one Blip pixel, so sprites line up with every box, letter and icon, at any --blip-pixel.
  *
- *   <chu-sprite name="coin"></chu-sprite>                                     drawn by sprites.js
- *   <chu-sprite name="potion" data-tone="blue" aria-label="Mana potion"></chu-sprite>
+ *   <blip-sprite name="coin"></blip-sprite>                                     drawn by sprites.js
+ *   <blip-sprite name="potion" data-tone="blue" aria-label="Mana potion"></blip-sprite>
  *   sprite("coin")                                                          the same SVG as a string
  *
  *   name        coin | gem | heart | heart-half | heart-empty | star | star-empty | key | potion | chest |
@@ -14,19 +14,19 @@
  * Sprites are pictures: never scaled by a fraction, never rotated. Yellow is kept for coins, stars and sparkles.
  */
 
-@layer chu.kits {
-  chu-sprite {
+@layer blip.kits {
+  blip-sprite {
     display: inline-flex;
     flex: none;
     vertical-align: middle;
     line-height: 0;
   }
 
-  .chu-sprite {
+  .blip-sprite {
     display: block;
     flex: none;
-    inline-size: calc(var(--_w) * var(--chu-pixel));
-    block-size: calc(var(--_h) * var(--chu-pixel));
+    inline-size: calc(var(--_w) * var(--blip-pixel));
+    block-size: calc(var(--_h) * var(--blip-pixel));
     overflow: visible;
     shape-rendering: crispEdges;
     /* Pictures keep their colours in Windows high contrast, as images do. */
@@ -34,34 +34,34 @@
   }
 
   /* Room for a sprite before it is drawn, so nothing moves when the script arrives. */
-  chu-sprite:empty {
-    inline-size: calc(var(--_w, 12) * var(--chu-pixel));
-    block-size: calc(var(--_h, 12) * var(--chu-pixel));
+  blip-sprite:empty {
+    inline-size: calc(var(--_w, 12) * var(--blip-pixel));
+    block-size: calc(var(--_h, 12) * var(--blip-pixel));
   }
-  chu-sprite[name="coin"] { --_w: 8; --_h: 10; }
-  chu-sprite:is([name="gem"], [name^="heart"], [name="clock"]) { --_w: 11; --_h: 10; }
-  chu-sprite[name^="star"] { --_w: 13; --_h: 12; }
-  chu-sprite[name="key"] { --_w: 14; --_h: 8; }
-  chu-sprite[name="potion"] { --_w: 11; --_h: 13; }
-  chu-sprite[name="chest"] { --_w: 15; --_h: 11; }
-  chu-sprite[name="trophy"] { --_w: 15; --_h: 13; }
-  chu-sprite[name="padlock"] { --_w: 13; --_h: 12; }
-  chu-sprite[name="pointer"] { --_w: 14; --_h: 10; }
-  chu-sprite[name="arrow"] { --_w: 10; --_h: 6; }
-  chu-sprite[name="sparkle"] { --_w: 5; --_h: 5; }
-  chu-sprite[name="sparkle-small"] { --_w: 3; --_h: 3; }
-  chu-sprite:is([name="sword"], [name="shield"]) { --_w: 13; --_h: 14; }
+  blip-sprite[name="coin"] { --_w: 8; --_h: 10; }
+  blip-sprite:is([name="gem"], [name^="heart"], [name="clock"]) { --_w: 11; --_h: 10; }
+  blip-sprite[name^="star"] { --_w: 13; --_h: 12; }
+  blip-sprite[name="key"] { --_w: 14; --_h: 8; }
+  blip-sprite[name="potion"] { --_w: 11; --_h: 13; }
+  blip-sprite[name="chest"] { --_w: 15; --_h: 11; }
+  blip-sprite[name="trophy"] { --_w: 15; --_h: 13; }
+  blip-sprite[name="padlock"] { --_w: 13; --_h: 12; }
+  blip-sprite[name="pointer"] { --_w: 14; --_h: 10; }
+  blip-sprite[name="arrow"] { --_w: 10; --_h: 6; }
+  blip-sprite[name="sparkle"] { --_w: 5; --_h: 5; }
+  blip-sprite[name="sparkle-small"] { --_w: 3; --_h: 3; }
+  blip-sprite:is([name="sword"], [name="shield"]) { --_w: 13; --_h: 14; }
 
   /* Tones: the sprite's own candy, as light, base and shade. */
-  :is(chu-sprite, .chu-sprite)[data-tone="red"] { --chu-sprite-light: var(--chu-candy-red-light); --chu-sprite-base: var(--chu-candy-red); --chu-sprite-shade: var(--chu-candy-red-shade); }
-  :is(chu-sprite, .chu-sprite)[data-tone="orange"] { --chu-sprite-light: var(--chu-candy-orange-light); --chu-sprite-base: var(--chu-candy-orange); --chu-sprite-shade: var(--chu-candy-orange-shade); }
-  :is(chu-sprite, .chu-sprite)[data-tone="yellow"] { --chu-sprite-light: var(--chu-candy-yellow-light); --chu-sprite-base: var(--chu-candy-yellow); --chu-sprite-shade: var(--chu-candy-yellow-shade); }
-  :is(chu-sprite, .chu-sprite)[data-tone="green"] { --chu-sprite-light: var(--chu-candy-green-light); --chu-sprite-base: var(--chu-candy-green); --chu-sprite-shade: var(--chu-candy-green-shade); }
-  :is(chu-sprite, .chu-sprite)[data-tone="teal"] { --chu-sprite-light: var(--chu-candy-teal-light); --chu-sprite-base: var(--chu-candy-teal); --chu-sprite-shade: var(--chu-candy-teal-shade); }
-  :is(chu-sprite, .chu-sprite)[data-tone="blue"] { --chu-sprite-light: var(--chu-candy-blue-light); --chu-sprite-base: var(--chu-candy-blue); --chu-sprite-shade: var(--chu-candy-blue-shade); }
-  :is(chu-sprite, .chu-sprite)[data-tone="purple"] { --chu-sprite-light: var(--chu-candy-purple-light); --chu-sprite-base: var(--chu-candy-purple); --chu-sprite-shade: var(--chu-candy-purple-shade); }
-  :is(chu-sprite, .chu-sprite)[data-tone="pink"] { --chu-sprite-light: var(--chu-candy-pink-light); --chu-sprite-base: var(--chu-candy-pink); --chu-sprite-shade: var(--chu-candy-pink-shade); }
-  :is(chu-sprite, .chu-sprite)[data-tone="slate"] { --chu-sprite-light: var(--chu-candy-slate-light); --chu-sprite-base: var(--chu-candy-slate); --chu-sprite-shade: var(--chu-candy-slate-shade); }
-  :is(chu-sprite, .chu-sprite)[data-tone="neutral"] { --chu-sprite-light: var(--chu-candy-cream-light); --chu-sprite-base: var(--chu-candy-cream); --chu-sprite-shade: var(--chu-candy-cream-shade); }
-  :is(chu-sprite, .chu-sprite)[data-tone="accent"] { --chu-sprite-light: var(--chu-accent-light); --chu-sprite-base: var(--chu-accent); --chu-sprite-shade: var(--chu-accent-shade); }
+  :is(blip-sprite, .blip-sprite)[data-tone="red"] { --blip-sprite-light: var(--blip-candy-red-light); --blip-sprite-base: var(--blip-candy-red); --blip-sprite-shade: var(--blip-candy-red-shade); }
+  :is(blip-sprite, .blip-sprite)[data-tone="orange"] { --blip-sprite-light: var(--blip-candy-orange-light); --blip-sprite-base: var(--blip-candy-orange); --blip-sprite-shade: var(--blip-candy-orange-shade); }
+  :is(blip-sprite, .blip-sprite)[data-tone="yellow"] { --blip-sprite-light: var(--blip-candy-yellow-light); --blip-sprite-base: var(--blip-candy-yellow); --blip-sprite-shade: var(--blip-candy-yellow-shade); }
+  :is(blip-sprite, .blip-sprite)[data-tone="green"] { --blip-sprite-light: var(--blip-candy-green-light); --blip-sprite-base: var(--blip-candy-green); --blip-sprite-shade: var(--blip-candy-green-shade); }
+  :is(blip-sprite, .blip-sprite)[data-tone="teal"] { --blip-sprite-light: var(--blip-candy-teal-light); --blip-sprite-base: var(--blip-candy-teal); --blip-sprite-shade: var(--blip-candy-teal-shade); }
+  :is(blip-sprite, .blip-sprite)[data-tone="blue"] { --blip-sprite-light: var(--blip-candy-blue-light); --blip-sprite-base: var(--blip-candy-blue); --blip-sprite-shade: var(--blip-candy-blue-shade); }
+  :is(blip-sprite, .blip-sprite)[data-tone="purple"] { --blip-sprite-light: var(--blip-candy-purple-light); --blip-sprite-base: var(--blip-candy-purple); --blip-sprite-shade: var(--blip-candy-purple-shade); }
+  :is(blip-sprite, .blip-sprite)[data-tone="pink"] { --blip-sprite-light: var(--blip-candy-pink-light); --blip-sprite-base: var(--blip-candy-pink); --blip-sprite-shade: var(--blip-candy-pink-shade); }
+  :is(blip-sprite, .blip-sprite)[data-tone="slate"] { --blip-sprite-light: var(--blip-candy-slate-light); --blip-sprite-base: var(--blip-candy-slate); --blip-sprite-shade: var(--blip-candy-slate-shade); }
+  :is(blip-sprite, .blip-sprite)[data-tone="neutral"] { --blip-sprite-light: var(--blip-candy-cream-light); --blip-sprite-base: var(--blip-candy-cream); --blip-sprite-shade: var(--blip-candy-cream-shade); }
+  :is(blip-sprite, .blip-sprite)[data-tone="accent"] { --blip-sprite-light: var(--blip-accent-light); --blip-sprite-base: var(--blip-accent); --blip-sprite-shade: var(--blip-accent-shade); }
 }

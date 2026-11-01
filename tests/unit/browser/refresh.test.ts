@@ -1,6 +1,6 @@
 /**
- * <chu-refresh>: a touch pull from the top steps the content down in whole pixels, flips the arrow past the line,
- * and on release sends chu-refresh, holds the loader until the promises handed to waitUntil() settle, says
+ * <blip-refresh>: a touch pull from the top steps the content down in whole pixels, flips the arrow past the line,
+ * and on release sends blip-refresh, holds the loader until the promises handed to waitUntil() settle, says
  * "Refreshing" then "Updated", and steps back. A pull below the line, a scroller that is not at the top, a sideways
  * swipe and a mouse drag refresh nothing; refresh() does the same as a pull.
  */
@@ -13,21 +13,21 @@ import { mount } from "../support/dom.ts";
 let style: HTMLStyleElement;
 beforeEach(() => {
   style = document.head.appendChild(Object.assign(document.createElement("style"), { textContent: inject("tokensCss") + refreshCss }));
-  document.documentElement.dataset.chuMotion = "reduce";
+  document.documentElement.dataset.blipMotion = "reduce";
 });
 afterEach(() => {
   style.remove();
-  delete document.documentElement.dataset.chuMotion;
+  delete document.documentElement.dataset.blipMotion;
 });
 
 const make = () =>
-  mount<BlipRefresh>(`<chu-refresh class="chu-refresh" style="block-size:200px"><div class="chu-refresh-scroller" tabindex="0" aria-label="Scores">${"<p style='block-size:60px;margin:0'>Score</p>".repeat(10)}</div></chu-refresh>`);
-const pull = (el: Element) => parseFloat((el as HTMLElement).style.getPropertyValue("--_chu-pull") || "0");
-const status = (el: Element) => el.querySelector(".chu-refresh-status")!.textContent;
+  mount<BlipRefresh>(`<blip-refresh class="blip-refresh" style="block-size:200px"><div class="blip-refresh-scroller" tabindex="0" aria-label="Scores">${"<p style='block-size:60px;margin:0'>Score</p>".repeat(10)}</div></blip-refresh>`);
+const pull = (el: Element) => parseFloat((el as HTMLElement).style.getPropertyValue("--_blip-pull") || "0");
+const status = (el: Element) => el.querySelector(".blip-refresh-status")!.textContent;
 
 /** One finger: down, then each move as an offset from where it went down, then up (or cancelled). */
 function finger(el: Element, moves: [number, number][], end: "touchend" | "touchcancel" | null = "touchend") {
-  const target = el.querySelector(".chu-refresh-scroller p") ?? el;
+  const target = el.querySelector(".blip-refresh-scroller p") ?? el;
   const at = (dx: number, dy: number) => new Touch({ identifier: 1, target, clientX: 100 + dx, clientY: 50 + dy });
   const send = (type: string, t: Touch, down = true) => {
     const e = new TouchEvent(type, { touches: down ? [t] : [], changedTouches: [t], bubbles: true, cancelable: true, composed: true });
@@ -42,38 +42,38 @@ function finger(el: Element, moves: [number, number][], end: "touchend" | "touch
 }
 const tick = (ms = 0) => new Promise((done) => setTimeout(done, ms));
 
-describe("chu-refresh", () => {
+describe("blip-refresh", () => {
   it("adds its arrow, its loader and a polite live region", () => {
     const el = make();
-    const indicator = el.querySelector(".chu-refresh-indicator")!;
+    const indicator = el.querySelector(".blip-refresh-indicator")!;
     expect(indicator.getAttribute("aria-hidden")).toBe("true");
-    expect(indicator.querySelector(".chu-refresh-arrow")).not.toBe(null);
-    expect(indicator.querySelector(".chu-loader")).not.toBe(null);
-    expect(el.querySelector(".chu-refresh-status")!.getAttribute("role")).toBe("status");
-    expect(el.scroller).toBe(el.querySelector(".chu-refresh-scroller"));
+    expect(indicator.querySelector(".blip-refresh-arrow")).not.toBe(null);
+    expect(indicator.querySelector(".blip-loader")).not.toBe(null);
+    expect(el.querySelector(".blip-refresh-status")!.getAttribute("role")).toBe("status");
+    expect(el.scroller).toBe(el.querySelector(".blip-refresh-scroller"));
   });
 
   it("follows a pull in whole pixels and flips the arrow past the line", () => {
     const el = make();
     finger(el, [[0, 5], [0, 81.4]], null);
     expect(pull(el)).toBe(40);
-    expect(el.getAttribute("data-chu-pull")).toBe("pulling");
-    expect(el.querySelector(".chu-refresh-label")!.textContent).toBe("Pull to refresh");
+    expect(el.getAttribute("data-blip-pull")).toBe("pulling");
+    expect(el.querySelector(".blip-refresh-label")!.textContent).toBe("Pull to refresh");
     finger(el, [], "touchend");
     const [first, mid, last] = finger(el, [[0, 5], [0, 81.4], [0, 121]], null);
     expect(first!.defaultPrevented).toBe(true);
     expect(mid!.defaultPrevented).toBe(true);
     expect(pull(el)).toBe(60);
-    expect(el.getAttribute("data-chu-pull")).toBe("ready");
+    expect(el.getAttribute("data-blip-pull")).toBe("ready");
     expect(last!.defaultPrevented).toBe(true);
-    expect(el.querySelector(".chu-refresh-label")!.textContent).toBe("Release to refresh");
+    expect(el.querySelector(".blip-refresh-label")!.textContent).toBe("Release to refresh");
   });
 
   it("refreshes on release past the line, waits for the promise, says so, and steps back", async () => {
     const el = make();
     let finish!: () => void;
     const asked: RefreshDetail[] = [];
-    el.addEventListener("chu-refresh", (e) => {
+    el.addEventListener("blip-refresh", (e) => {
       const d = (e as CustomEvent<RefreshDetail>).detail;
       asked.push(d);
       d.waitUntil(new Promise<void>((done) => (finish = done)));
@@ -81,7 +81,7 @@ describe("chu-refresh", () => {
     finger(el, [[0, 4], [0, 60], [0, 130]]);
     expect(asked).toHaveLength(1);
     expect(el.refreshing).toBe(true);
-    expect(el.getAttribute("data-chu-pull")).toBe("refreshing");
+    expect(el.getAttribute("data-blip-pull")).toBe("refreshing");
     expect(el.scroller!.getAttribute("aria-busy")).toBe("true");
     expect(status(el)).toBe("Refreshing");
     await tick(450);
@@ -94,14 +94,14 @@ describe("chu-refresh", () => {
     expect(el.refreshing).toBe(false);
     expect(status(el)).toBe("Updated");
     expect(el.scroller!.hasAttribute("aria-busy")).toBe(false);
-    expect(el.hasAttribute("data-chu-pull")).toBe(false);
+    expect(el.hasAttribute("data-blip-pull")).toBe(false);
     expect(pull(el)).toBe(0);
   });
 
   it("steps back without refreshing below the line, away from the top, sideways or cancelled", () => {
     const el = make();
     let asked = 0;
-    el.addEventListener("chu-refresh", () => asked++);
+    el.addEventListener("blip-refresh", () => asked++);
     finger(el, [[0, 4], [0, 30]]);
     expect(pull(el)).toBe(0);
     finger(el, [[0, 4], [0, 200]], "touchcancel");
@@ -117,7 +117,7 @@ describe("chu-refresh", () => {
   it("is for touch: a mouse drag does nothing", () => {
     const el = make();
     let asked = 0;
-    el.addEventListener("chu-refresh", () => asked++);
+    el.addEventListener("blip-refresh", () => asked++);
     const s = el.scroller!;
     const opts = (y: number) => ({ clientX: 100, clientY: y, bubbles: true, cancelable: true, pointerType: "mouse", pointerId: 1, isPrimary: true, buttons: 1 });
     s.dispatchEvent(new PointerEvent("pointerdown", opts(10)));
@@ -129,14 +129,14 @@ describe("chu-refresh", () => {
     s.dispatchEvent(new PointerEvent("pointerup", opts(200)));
     s.dispatchEvent(new MouseEvent("mouseup", opts(200)));
     expect(pull(el)).toBe(0);
-    expect(el.hasAttribute("data-chu-pull")).toBe(false);
+    expect(el.hasAttribute("data-blip-pull")).toBe(false);
     expect(asked).toBe(0);
   });
 
-  it("refresh() does what a pull does, once at a time, and a canceled chu-refresh does nothing", async () => {
+  it("refresh() does what a pull does, once at a time, and a canceled blip-refresh does nothing", async () => {
     const el = make();
     let asked = 0;
-    el.addEventListener("chu-refresh", () => asked++);
+    el.addEventListener("blip-refresh", () => asked++);
     const a = el.refresh();
     expect(el.refresh()).toBe(a);
     expect(status(el)).toBe("Refreshing");
@@ -144,7 +144,7 @@ describe("chu-refresh", () => {
     expect(asked).toBe(1);
     expect(status(el)).toBe("Updated");
 
-    el.addEventListener("chu-refresh", (e) => e.preventDefault());
+    el.addEventListener("blip-refresh", (e) => e.preventDefault());
     await el.refresh();
     expect(asked).toBe(2);
     expect(status(el)).toBe("Updated");
@@ -153,7 +153,7 @@ describe("chu-refresh", () => {
 
   it("says nothing is updated when the work fails", async () => {
     const el = make();
-    el.addEventListener("chu-refresh", (e) => (e as CustomEvent<RefreshDetail>).detail.waitUntil(Promise.reject(new Error("offline"))));
+    el.addEventListener("blip-refresh", (e) => (e as CustomEvent<RefreshDetail>).detail.waitUntil(Promise.reject(new Error("offline"))));
     await el.refresh();
     expect(status(el)).toBe("");
     expect(el.refreshing).toBe(false);

@@ -1,5 +1,5 @@
 /**
- * Prompts: Prompt, PromptKey, PromptButton, PromptShoulder, PromptDpad and PromptStart. CSS from @jaatster/blip-game
+ * Prompts: Prompt, PromptKey, PromptButton, PromptShoulder, PromptDpad and PromptStart. CSS from @blip/game
  * (prompt.css).
  */
 import { forwardRef } from "react";
@@ -24,10 +24,10 @@ export type PromptProps = NativeProps<"p">;
  *   <Prompt>Press <PromptButton button="a" /> to jump</Prompt>
  *   <Prompt><PromptKey>Esc</PromptKey> Pause</Prompt>
  *
- * Renders `<p class="chu-prompt">`.
+ * Renders `<p class="blip-prompt">`.
  */
 export const Prompt = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PromptProps>(function Prompt({ className, ...rest }, ref) {
-  return <p ref={ref} className={cx("chu-prompt", className)} {...rest} />;
+  return <p ref={ref} className={cx("blip-prompt", className)} {...rest} />;
 });
 
 /** Own props of {@link PromptKey}. */
@@ -48,16 +48,16 @@ export type PromptKeyProps = PromptKeyOwnProps & NativeProps<"kbd", PromptKeyOwn
  *   <PromptKey>Esc</PromptKey>
  *   <PromptKey label="Up arrow"><Icon name="arrow-up" /></PromptKey>
  *
- * Renders `<kbd class="chu-box chu-prompt-key">`, with `<span class="chu-sr-only">` after its children for a `label`.
+ * Renders `<kbd class="blip-box blip-prompt-key">`, with `<span class="blip-sr-only">` after its children for a `label`.
  */
 export const PromptKey = /*#__PURE__*/ forwardRef<HTMLElement, PromptKeyProps>(function PromptKey(
   { label, className, children, ...rest },
   ref,
 ) {
   return (
-    <kbd ref={ref} className={cx("chu-box chu-prompt-key", className)} {...rest}>
+    <kbd ref={ref} className={cx("blip-box blip-prompt-key", className)} {...rest}>
       {children}
-      {label ? <span className="chu-sr-only">{label}</span> : null}
+      {label ? <span className="blip-sr-only">{label}</span> : null}
     </kbd>
   );
 });
@@ -82,14 +82,14 @@ export type PromptButtonProps = PromptButtonOwnProps & NativeProps<"kbd", Prompt
  *   <Prompt>Press <PromptButton button="a" /> to jump</Prompt>
  *   <PromptButton tone="pink">L</PromptButton>
  *
- * Renders `<kbd class="chu-box chu-prompt-button" data-button="a">A</kbd>`.
+ * Renders `<kbd class="blip-box blip-prompt-button" data-button="a">A</kbd>`.
  */
 export const PromptButton = /*#__PURE__*/ forwardRef<HTMLElement, PromptButtonProps>(function PromptButton(
   { button, tone, className, children, ...rest },
   ref,
 ) {
   return (
-    <kbd ref={ref} className={cx("chu-box chu-prompt-button", className)} data-button={button} data-tone={tone} {...rest}>
+    <kbd ref={ref} className={cx("blip-box blip-prompt-button", className)} data-button={button} data-tone={tone} {...rest}>
       {children ?? button?.toUpperCase()}
     </kbd>
   );
@@ -111,14 +111,14 @@ export type PromptShoulderProps = PromptShoulderOwnProps & NativeProps<"kbd", Pr
  *
  *   <Prompt>Hold <PromptShoulder button="rb" /> to dash</Prompt>
  *
- * Renders `<kbd class="chu-box chu-prompt-shoulder" data-button="rb">RB</kbd>`.
+ * Renders `<kbd class="blip-box blip-prompt-shoulder" data-button="rb">RB</kbd>`.
  */
 export const PromptShoulder = /*#__PURE__*/ forwardRef<HTMLElement, PromptShoulderProps>(function PromptShoulder(
   { button, className, children, ...rest },
   ref,
 ) {
   return (
-    <kbd ref={ref} className={cx("chu-box chu-prompt-shoulder", className)} data-button={button} {...rest}>
+    <kbd ref={ref} className={cx("blip-box blip-prompt-shoulder", className)} data-button={button} {...rest}>
       {children ?? button?.toUpperCase()}
     </kbd>
   );
@@ -144,13 +144,13 @@ export type PromptDpadProps = PromptDpadOwnProps & Named & NativeProps<"span", P
  *   </Prompt>
  *   <PromptDpad aria-label="D-pad" />
  *
- * Renders `<span class="chu-prompt-dpad" role="img">`.
+ * Renders `<span class="blip-prompt-dpad" role="img">`.
  */
 export const PromptDpad = /*#__PURE__*/ forwardRef<HTMLSpanElement, PromptDpadProps>(function PromptDpad(
   { direction, className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-prompt-dpad", className)} data-dir={direction} role="img" {...rest} />;
+  return <span ref={ref} className={cx("blip-prompt-dpad", className)} data-dir={direction} role="img" {...rest} />;
 });
 
 /** Props for {@link PromptStart}. */
@@ -162,7 +162,7 @@ export type PromptStartProps = NativeProps<"p">;
  *
  *   <PromptStart>Press start</PromptStart>
  *
- * Renders `<p class="chu-prompt-start chu-display chu-pop" data-scale="2" data-pop="Press start">`; `data-pop` repeats
+ * Renders `<p class="blip-prompt-start blip-display blip-pop" data-scale="2" data-pop="Press start">`; `data-pop` repeats
  * the text (when the children are text).
  */
 export const PromptStart = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PromptStartProps>(function PromptStart(
@@ -172,7 +172,7 @@ export const PromptStart = /*#__PURE__*/ forwardRef<HTMLParagraphElement, Prompt
   return (
     <p
       ref={ref}
-      className={cx("chu-prompt-start chu-display chu-pop", className)}
+      className={cx("blip-prompt-start blip-display blip-pop", className)}
       data-scale={2}
       data-pop={popText(children)}
       {...rest}

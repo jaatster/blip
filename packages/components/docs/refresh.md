@@ -1,8 +1,8 @@
 ---
 name: Pull to refresh
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: refresh.css
-element: chu-refresh
+element: blip-refresh
 react: Refresh
 status: beta
 ---
@@ -18,18 +18,18 @@ keyboard and a screen reader; the button calls `refresh()`, which does exactly w
 ## Usage
 
 ```html
-<chu-refresh class="chu-refresh" id="scores">
-  <div class="chu-refresh-scroller" tabindex="0" aria-label="Leaderboard">
-    <ol class="chu-box chu-list" role="list">…</ol>
+<blip-refresh class="blip-refresh" id="scores">
+  <div class="blip-refresh-scroller" tabindex="0" aria-label="Leaderboard">
+    <ol class="blip-box blip-list" role="list">…</ol>
   </div>
-</chu-refresh>
-<button class="chu-box chu-button" type="button" data-variant="soft" id="refresh-scores">Refresh</button>
+</blip-refresh>
+<button class="blip-box blip-button" type="button" data-variant="soft" id="refresh-scores">Refresh</button>
 ```
 
 ```js
-import "@jaatster/blip-elements/refresh";
+import "@blip/elements/refresh";
 const scores = document.querySelector("#scores");
-scores.addEventListener("chu-refresh", (e) => e.detail.waitUntil(loadScores()));
+scores.addEventListener("blip-refresh", (e) => e.detail.waitUntil(loadScores()));
 document.querySelector("#refresh-scores").addEventListener("click", () => scores.refresh());
 ```
 
@@ -38,13 +38,13 @@ the arrow, the loader and a live region itself.
 
 ## Anatomy
 
-1. **Container**: `<chu-refresh class="chu-refresh">`, round the scroller. Nothing of its own shows at rest.
-2. **Scroller**: `.chu-refresh-scroller`, the scroll container. It keeps the browser's own pull and the page behind
+1. **Container**: `<blip-refresh class="blip-refresh">`, round the scroller. Nothing of its own shows at rest.
+2. **Scroller**: `.blip-refresh-scroller`, the scroll container. It keeps the browser's own pull and the page behind
    out of it (`overscroll-behavior-y: contain`), and steps down while pulled.
-3. **Indicator**: `.chu-refresh-indicator`, added by the element above the scroller and hidden from screen readers:
-   `.chu-refresh-arrow`, a 12-pixel ink-outlined arrow in the accent; a `.chu-loader` ring; and `.chu-refresh-label`,
+3. **Indicator**: `.blip-refresh-indicator`, added by the element above the scroller and hidden from screen readers:
+   `.blip-refresh-arrow`, a 12-pixel ink-outlined arrow in the accent; a `.blip-loader` ring; and `.blip-refresh-label`,
    a few words in small capitals.
-4. **Live region**: `.chu-refresh-status`, a visually hidden `role="status"` added by the element, which says
+4. **Live region**: `.blip-refresh-status`, a visually hidden `role="status"` added by the element, which says
    "Refreshing" and then "Updated".
 
 ## Variants
@@ -57,13 +57,13 @@ and the arrow takes the accent of the scheme and palette.
 | State | How | Look |
 |---|---|---|
 | Rest | | Nothing shows; the scroller scrolls. |
-| Pulling | `data-chu-pull="pulling"` (set by the element) | The content follows the finger at half its pace, in whole pixels, up to 40 pixels; the arrow points down: "Pull to refresh". |
-| Past the line | `data-chu-pull="ready"` | From 28 pixels down the arrow flips to point up: "Release to refresh". |
-| Refreshing | `data-chu-pull="refreshing"`, and `aria-busy="true"` on the scroller | The content holds 24 pixels down and the loader spins: "Refreshing". |
-| Done | `data-chu-pull="done"` | "Updated", while the content steps back up in four whole-pixel frames. |
+| Pulling | `data-blip-pull="pulling"` (set by the element) | The content follows the finger at half its pace, in whole pixels, up to 40 pixels; the arrow points down: "Pull to refresh". |
+| Past the line | `data-blip-pull="ready"` | From 28 pixels down the arrow flips to point up: "Release to refresh". |
+| Refreshing | `data-blip-pull="refreshing"`, and `aria-busy="true"` on the scroller | The content holds 24 pixels down and the loader spins: "Refreshing". |
+| Done | `data-blip-pull="done"` | "Updated", while the content steps back up in four whole-pixel frames. |
 
 With reduced motion the content goes straight back, and the loader holds still while the words say what is
-happening. For docs and tests, `data-chu-state="pulling"`, `"ready"`, `"refreshing"` or `"done"` draws a state.
+happening. For docs and tests, `data-blip-state="pulling"`, `"ready"`, `"refreshing"` or `"done"` draws a state.
 
 ## Accessibility
 
@@ -92,13 +92,13 @@ happening. For docs and tests, `data-chu-state="pulling"`, `"ready"`, `"refreshi
 
 ## API
 
-### `<chu-refresh>`
+### `<blip-refresh>`
 
 | Attribute, property or method | | |
 |---|---|---|
-| `refresh()` | returns a promise | Refreshes as a pull does: steps the content down, shows the loader, sends `chu-refresh`, waits, steps back. Resolves once it has stepped back. Called while a refresh runs, it returns that one. |
+| `refresh()` | returns a promise | Refreshes as a pull does: steps the content down, shows the loader, sends `blip-refresh`, waits, steps back. Resolves once it has stepped back. Called while a refresh runs, it returns that one. |
 | `refreshing` (read only) | boolean | True from the start of a refresh until it has stepped back. |
-| `scroller` (read only) | element | The scroll container: the `.chu-refresh-scroller`, else the first other element inside. |
+| `scroller` (read only) | element | The scroll container: the `.blip-refresh-scroller`, else the first other element inside. |
 | `pull-label` | string | Shown by the arrow while pulling (default "Pull to refresh"). |
 | `release-label` | string | Shown past the line (default "Release to refresh"). |
 | `refreshing-label` | string | Shown by the loader and announced (default "Refreshing"). |
@@ -106,4 +106,4 @@ happening. For docs and tests, `data-chu-state="pulling"`, `"ready"`, `"refreshi
 
 | Event | Detail | |
 |---|---|---|
-| `chu-refresh` | `{ waitUntil(promise) }` | A refresh starts. Hand `waitUntil()` the work, while the event is dispatched (call it more than once for several); the loader stays until all of it settles, and a beat at least. Cancelable: `preventDefault()` refreshes nothing. Bubbles. |
+| `blip-refresh` | `{ waitUntil(promise) }` | A refresh starts. Hand `waitUntil()` the work, while the event is dispatched (call it more than once for several); the loader stays until all of it settles, and a beat at least. Cancelable: `preventDefault()` refreshes nothing. Bubbles. |

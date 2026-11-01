@@ -3,111 +3,111 @@
  * words, actions, and a dismiss button if it can go away. Soft by default: the tone's light fill, an ink outline,
  * the tone's colour as a lip along the bottom.
  *
- *   <div class="chu-box chu-alert" data-tone="danger">
- *     <span class="chu-alert-icon" aria-hidden="true"></span>
- *     <div class="chu-alert-body">
- *       <p class="chu-alert-title">Can't reach the save server</p>
+ *   <div class="blip-box blip-alert" data-tone="danger">
+ *     <span class="blip-alert-icon" aria-hidden="true"></span>
+ *     <div class="blip-alert-body">
+ *       <p class="blip-alert-title">Can't reach the save server</p>
  *       <p>Your progress is safe on this device.</p>
- *       <div class="chu-alert-actions"><button class="chu-box chu-button" data-size="sm" data-variant="outline">Retry</button></div>
+ *       <div class="blip-alert-actions"><button class="blip-box blip-button" data-size="sm" data-variant="outline">Retry</button></div>
  *     </div>
- *     <button class="chu-box chu-button chu-alert-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
+ *     <button class="blip-box blip-button blip-alert-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button>
  *   </div>
  *
  *   data-tone      info (default) | success | warning | danger | neutral
  *   data-variant   soft (default) | candy | outline              loud to quiet
  *
  * The sign follows the tone: a disc with an i, a disc with a check, a triangle or an octagon with "!". Put an
- * <svg class="chu-icon"> inside .chu-alert-icon to use another. An alert is not a live region by itself: give
+ * <svg class="blip-icon"> inside .blip-alert-icon to use another. An alert is not a live region by itself: give
  * role="alert" (urgent) or role="status" (polite) only to one you insert in answer to something.
  */
 @import "./_feedback.css";
 
-@layer chu.components {
-  .chu-alert {
-    --_chu-glyph: var(--_chu-g-info);
+@layer blip.components {
+  .blip-alert {
+    --_blip-glyph: var(--_blip-g-info);
     display: flex;
     align-items: flex-start;
-    gap: calc(4 * var(--chu-pixel));
-    padding: calc(5 * var(--chu-pixel)) calc(5 * var(--chu-pixel)) calc(6 * var(--chu-pixel)) calc(6 * var(--chu-pixel));
+    gap: calc(4 * var(--blip-pixel));
+    padding: calc(5 * var(--blip-pixel)) calc(5 * var(--blip-pixel)) calc(6 * var(--blip-pixel)) calc(6 * var(--blip-pixel));
     /* Room for the drop, so neighbours never touch it. */
-    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
-    font-size: var(--chu-size-small);
-    line-height: var(--chu-leading-normal);
+    margin: 0 var(--blip-pixel) var(--blip-pixel) 0;
+    font-size: var(--blip-size-small);
+    line-height: var(--blip-leading-normal);
     text-align: start;
   }
-  .chu-alert[data-tone="success"] { --_chu-glyph: var(--_chu-g-success); }
-  .chu-alert[data-tone="warning"] { --_chu-glyph: var(--_chu-g-warning); }
-  .chu-alert[data-tone="danger"] { --_chu-glyph: var(--_chu-g-danger); }
+  .blip-alert[data-tone="success"] { --_blip-glyph: var(--_blip-g-success); }
+  .blip-alert[data-tone="warning"] { --_blip-glyph: var(--_blip-g-warning); }
+  .blip-alert[data-tone="danger"] { --_blip-glyph: var(--_blip-g-danger); }
 
   /* Info unless a tone is given; soft unless a tier is given. */
-  .chu-alert:not([data-tone]) {
-    --chu-tone: var(--chu-info);
-    --chu-tone-light: var(--chu-info-light);
-    --chu-tone-shade: var(--chu-info-shade);
-    --chu-tone-on: var(--chu-info-on);
-    --chu-tone-text: var(--chu-info-text);
+  .blip-alert:not([data-tone]) {
+    --blip-tone: var(--blip-info);
+    --blip-tone-light: var(--blip-info-light);
+    --blip-tone-shade: var(--blip-info-shade);
+    --blip-tone-on: var(--blip-info-on);
+    --blip-tone-text: var(--blip-info-text);
   }
-  .chu-alert:not([data-variant]) {
-    --chu-box-top: var(--chu-tone-light);
-    --chu-box-fill: var(--chu-tone-light);
-    --chu-box-bottom: var(--chu-tone);
-    --chu-box-glint: transparent;
+  .blip-alert:not([data-variant]) {
+    --blip-box-top: var(--blip-tone-light);
+    --blip-box-fill: var(--blip-tone-light);
+    --blip-box-bottom: var(--blip-tone);
+    --blip-box-glint: transparent;
   }
 
   /* Soft and candy alerts are light in every scheme, so what sits on them (text, links, ghost and outline buttons,
      the close cross, a disabled dither) takes the light roles. The box does that for data-variant="soft" and
      "candy"; the default is soft, so it takes the same roles here. */
-  .chu-alert:not([data-variant]) {
-    --chu-text: var(--chu-tone-on);
-    --chu-text-muted: var(--chu-tone-on);
-    --chu-text-inverse: var(--chu-white);
-    --chu-accent-text: var(--chu-tone-on);
-    --chu-info-text: var(--chu-tone-on);
-    --chu-success-text: var(--chu-tone-on);
-    --chu-warning-text: var(--chu-tone-on);
-    --chu-danger-text: var(--chu-tone-on);
-    --chu-link-visited: var(--chu-tone-on);
-    --chu-line: var(--chu-tone-on);
-    --chu-line-soft: var(--chu-tone);
-    --chu-surface: var(--chu-white);
-    --chu-surface-raised: var(--chu-white);
-    --chu-surface-panel: var(--chu-candy-cream);
-    --chu-surface-sunken: var(--chu-tone);
-    --chu-bg: var(--chu-tone-light);
-    --chu-disabled-dither: var(--chu-tone-light);
+  .blip-alert:not([data-variant]) {
+    --blip-text: var(--blip-tone-on);
+    --blip-text-muted: var(--blip-tone-on);
+    --blip-text-inverse: var(--blip-white);
+    --blip-accent-text: var(--blip-tone-on);
+    --blip-info-text: var(--blip-tone-on);
+    --blip-success-text: var(--blip-tone-on);
+    --blip-warning-text: var(--blip-tone-on);
+    --blip-danger-text: var(--blip-tone-on);
+    --blip-link-visited: var(--blip-tone-on);
+    --blip-line: var(--blip-tone-on);
+    --blip-line-soft: var(--blip-tone);
+    --blip-surface: var(--blip-white);
+    --blip-surface-raised: var(--blip-white);
+    --blip-surface-panel: var(--blip-candy-cream);
+    --blip-surface-sunken: var(--blip-tone);
+    --blip-bg: var(--blip-tone-light);
+    --blip-disabled-dither: var(--blip-tone-light);
   }
 
-  .chu-alert-icon {
+  .blip-alert-icon {
     flex: none;
-    inline-size: calc(12 * var(--chu-pixel));
-    block-size: calc(12 * var(--chu-pixel));
+    inline-size: calc(12 * var(--blip-pixel));
+    block-size: calc(12 * var(--blip-pixel));
   }
-  .chu-alert-icon:empty {
+  .blip-alert-icon:empty {
     background-color: currentColor;
-    mask: var(--_chu-glyph) 0 0 / 100% 100% no-repeat;
+    mask: var(--_blip-glyph) 0 0 / 100% 100% no-repeat;
   }
-  .chu-alert:is([data-variant="outline"], [data-variant="panel"]) .chu-alert-icon { color: var(--chu-tone-text); }
+  .blip-alert:is([data-variant="outline"], [data-variant="panel"]) .blip-alert-icon { color: var(--blip-tone-text); }
 
-  .chu-alert-body { flex: 1; min-inline-size: 0; }
-  .chu-alert-title {
-    font-size: var(--chu-size-body);
-    font-weight: var(--chu-weight-bold);
+  .blip-alert-body { flex: 1; min-inline-size: 0; }
+  .blip-alert-title {
+    font-size: var(--blip-size-body);
+    font-weight: var(--blip-weight-bold);
     /* One line is exactly as tall as the sign, so they line up. */
-    line-height: calc(12 * var(--chu-pixel));
+    line-height: calc(12 * var(--blip-pixel));
   }
-  .chu-alert-body > :where(p + p) { margin-block-start: calc(2 * var(--chu-pixel)); }
-  .chu-alert-actions {
+  .blip-alert-body > :where(p + p) { margin-block-start: calc(2 * var(--blip-pixel)); }
+  .blip-alert-actions {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: calc(3 * var(--chu-pixel)) calc(4 * var(--chu-pixel));
-    margin-block-start: calc(4 * var(--chu-pixel));
+    gap: calc(3 * var(--blip-pixel)) calc(4 * var(--blip-pixel));
+    margin-block-start: calc(4 * var(--blip-pixel));
   }
 
   /* The close button's cross lines up with the title. */
-  .chu-alert-close { flex: none; margin: calc(-2 * var(--chu-pixel)) calc(-2 * var(--chu-pixel)) 0 0; }
+  .blip-alert-close { flex: none; margin: calc(-2 * var(--blip-pixel)) calc(-2 * var(--blip-pixel)) 0 0; }
 
   @media (forced-colors: active) {
-    .chu-alert-icon:empty { forced-color-adjust: none; background-color: CanvasText; }
+    .blip-alert-icon:empty { forced-color-adjust: none; background-color: CanvasText; }
   }
 }

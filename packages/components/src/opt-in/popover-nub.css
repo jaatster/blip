@@ -1,29 +1,29 @@
 /*
  * Popover nub (opt-in). With it, an open popover shows its nub where the browser can tell which side the popover
  * took (anchored container queries), and the nub turns when the popover flips for lack of room. Without it, open
- * popovers have no nub, rather than a wrong one; a static one (data-chu-static) always has its nub.
+ * popovers have no nub, rather than a wrong one; a static one (data-blip-static) always has its nub.
  *
- *   <link rel="stylesheet" href="…/@jaatster/blip-components/dist/popover-nub.min.css">
+ *   <link rel="stylesheet" href="…/@blip/components/dist/popover-nub.min.css">
  *
  * Not part of components.css, and not for a bundler's CSS imports: lightningcss, which Vite 8 and Next.js 16 run on
  * CSS, cannot parse @container anchored() yet and fails the build. Load it with a <link> after components.css (or
  * popover.css), from a CDN or a copy in your public folder. Browsers without anchored container queries ignore it.
  */
 
-@layer chu.components {
+@layer blip.components {
   @supports (container-type: anchored) {
     @media not (forced-colors: active) {
-      .chu-popover { container-type: anchored; --_chu-popover-nub: block; }
+      .blip-popover { container-type: anchored; --_blip-popover-nub: block; }
     }
   }
 
   /* Flipped for lack of room: the nub flips too. */
   @container anchored(fallback: flip-block) {
-    .chu-popover:popover-open .chu-popover-nub { inset-block-start: calc(round(down, 100%, var(--chu-pixel)) - var(--chu-pixel)); rotate: none; }
-    .chu-popover[data-side="top"]:popover-open .chu-popover-nub { inset-block-start: calc(-6 * var(--chu-pixel)); rotate: 180deg; }
+    .blip-popover:popover-open .blip-popover-nub { inset-block-start: calc(round(down, 100%, var(--blip-pixel)) - var(--blip-pixel)); rotate: none; }
+    .blip-popover[data-side="top"]:popover-open .blip-popover-nub { inset-block-start: calc(-6 * var(--blip-pixel)); rotate: 180deg; }
   }
   @container anchored(fallback: flip-inline) {
-    .chu-popover[data-side="left"]:popover-open .chu-popover-nub { left: calc(-6 * var(--chu-pixel)); rotate: 90deg; }
-    .chu-popover[data-side="right"]:popover-open .chu-popover-nub { left: calc(round(down, 100%, var(--chu-pixel)) - var(--chu-pixel)); rotate: -90deg; }
+    .blip-popover[data-side="left"]:popover-open .blip-popover-nub { left: calc(-6 * var(--blip-pixel)); rotate: 90deg; }
+    .blip-popover[data-side="right"]:popover-open .blip-popover-nub { left: calc(round(down, 100%, var(--blip-pixel)) - var(--blip-pixel)); rotate: -90deg; }
   }
 }

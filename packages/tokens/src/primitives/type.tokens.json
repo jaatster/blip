@@ -11,7 +11,7 @@
         "system-ui",
         "sans-serif"
       ],
-      "$description": "Pixel Bop, in Latin, Cyrillic and Greek. Sized in whole scales: 1 em is 10 pixels, caps are 7 pixels tall. Then Pixelify Sans, emoji sized to the capitals (Blip Fallback, in @jaatster/blip-font) and the system font for other scripts."
+      "$description": "Pixel Bop, in Latin, Cyrillic and Greek. Sized in whole scales: 1 em is 10 pixels, caps are 7 pixels tall. Then Pixelify Sans, emoji sized to the capitals (Blip Fallback, in @blip/font) and the system font for other scripts."
     },
     "ui": {
       "$value": [
@@ -20,7 +20,7 @@
         "system-ui",
         "sans-serif"
       ],
-      "$description": "Pixelify Sans, a variable font from 400 to 700, in Latin, Cyrillic and Greek. Its grid is 11 pixels to the em, so at 22 px its pixels are Blip pixels. Then emoji sized to its capitals (Blip Fallback, in @jaatster/blip-font) and the system font for other scripts."
+      "$description": "Pixelify Sans, a variable font from 400 to 700, in Latin, Cyrillic and Greek. Its grid is 11 pixels to the em, so at 22 px its pixels are Blip pixels. Then emoji sized to its capitals (Blip Fallback, in @blip/font) and the system font for other scripts."
     },
     "mono": {
       "$value": [

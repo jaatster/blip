@@ -1,7 +1,7 @@
 /**
  * blip/stepped-motion: motion snaps.
  *
- * Timing functions are only steps(…), step-start, step-end or var(--chu-ease-N) (the stepped motion tokens), never
+ * Timing functions are only steps(…), step-start, step-end or var(--blip-ease-N) (the stepped motion tokens), never
  * an easing curve (ease, ease-in, ease-out, ease-in-out, linear, cubic-bezier(), linear()). Checked in
  * transition-timing-function and animation-timing-function (also inside @keyframes), and in the transition and
  * animation shorthands, where leaving the timing function out is an easing curve too (the default is ease), unless:
@@ -15,21 +15,21 @@ import { docs, layers, valueIndex, valueParser } from "../utils.js";
 
 const ruleName = "blip/stepped-motion";
 const messages = stylelint.utils.ruleMessages(ruleName, {
-  curve: (v) => `Easing curve "${v}". Motion snaps: use steps(N, jump-end), step-start, step-end or var(--chu-ease-N).`,
-  other: (v) => `"${v}" is not a stepped timing function. Use steps(N, jump-end), step-start, step-end or var(--chu-ease-N).`,
-  implicit: (prop) => `This ${prop} has no timing function, so it eases (the default is ease). Add steps(N, jump-end) or var(--chu-ease-N).`,
+  curve: (v) => `Easing curve "${v}". Motion snaps: use steps(N, jump-end), step-start, step-end or var(--blip-ease-N).`,
+  other: (v) => `"${v}" is not a stepped timing function. Use steps(N, jump-end), step-start, step-end or var(--blip-ease-N).`,
+  implicit: (prop) => `This ${prop} has no timing function, so it eases (the default is ease). Add steps(N, jump-end) or var(--blip-ease-N).`,
 });
 
 const CURVE_WORDS = new Set(["ease", "ease-in", "ease-out", "ease-in-out", "linear"]);
 const CURVE_FUNCTIONS = new Set(["cubic-bezier", "linear"]);
 const WIDE = new Set(["inherit", "initial", "unset", "revert", "revert-layer"]);
 /** Custom properties that hold durations or delays, never a timing function. */
-const TIME_VAR = /^--(?:chu-duration-|chu-delay|_?(?:chu-)?(?:dur|duration|delay|time|steps)\b)/;
+const TIME_VAR = /^--(?:blip-duration-|blip-delay|_?(?:blip-)?(?:dur|duration|delay|time|steps)\b)/;
 
 const stepped = (n) =>
   (n.type === "function" && n.value.toLowerCase() === "steps") ||
   (n.type === "word" && /^step-(?:start|end)$/i.test(n.value)) ||
-  (n.type === "function" && n.value.toLowerCase() === "var" && /^--chu-ease-/.test(n.nodes[0]?.value ?? ""));
+  (n.type === "function" && n.value.toLowerCase() === "var" && /^--blip-ease-/.test(n.nodes[0]?.value ?? ""));
 const curve = (n) => (n.type === "word" && CURVE_WORDS.has(n.value.toLowerCase())) || (n.type === "function" && CURVE_FUNCTIONS.has(n.value.toLowerCase()));
 const time = (n) => {
   if (n.type !== "word") return null;

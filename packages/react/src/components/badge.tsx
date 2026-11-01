@@ -1,5 +1,5 @@
 /**
- * Badge: Badge and BadgeAnchor. CSS from @jaatster/blip-components (badge.css).
+ * Badge: Badge and BadgeAnchor. CSS from @blip/components (badge.css).
  */
 import { forwardRef } from "react";
 import { box, cx, flag, type NativeProps, type Size, type Tone } from "../internal/props.js";
@@ -19,7 +19,7 @@ export interface BadgeOwnProps {
   /** 8, 10 (default) or 12 pixels high: small when pinned to small buttons. `data-size`. */
   size?: Size;
   /**
-   * Pinned over that corner of its parent: a `.chu-box` (a button, an avatar) or a {@link BadgeAnchor}. A pinned
+   * Pinned over that corner of its parent: a `.blip-box` (a button, an avatar) or a {@link BadgeAnchor}. A pinned
    * badge is a picture of what its parent's name says: hide it and put the real count in that name.
    * `data-position`.
    */
@@ -39,7 +39,7 @@ export type BadgeProps = BadgeOwnProps & BadgeDot & NativeProps<"span", BadgeOwn
 /**
  * A small candy box with a count, a short word or nothing at all (a dot). "3" unread on a bell, "New" by a menu item, a
  * green dot on an online friend. In a line of text it is read as text; pinned to a corner it is hidden. Remove a count
- * at zero. Renders `<span class="chu-box chu-badge">`.
+ * at zero. Renders `<span class="blip-box blip-badge">`.
  *
  *   <Badge tone="success">New</Badge>
  *   <Button iconOnly aria-label="Messages, 99+ unread">
@@ -55,7 +55,7 @@ export const Badge = /*#__PURE__*/ forwardRef<HTMLSpanElement, BadgeProps>(funct
   return (
     <span
       ref={ref}
-      className={cx("chu-box chu-badge", className)}
+      className={cx("blip-box blip-badge", className)}
       {...box({ variant, tone })}
       data-size={size}
       data-dot={flag(dot)}
@@ -70,7 +70,7 @@ export type BadgeAnchorProps = NativeProps<"span">;
 
 /**
  * A wrapper that lets a badge sit on something that is not positioned, such as an icon. Name the whole thing
- * (`role="img"` with `aria-label`, "Trophies, 2 new") and hide the badge. Renders `<span class="chu-badge-anchor">`.
+ * (`role="img"` with `aria-label`, "Trophies, 2 new") and hide the badge. Renders `<span class="blip-badge-anchor">`.
  *
  *   <BadgeAnchor role="img" aria-label="Trophies, 2 new">
  *     <Icon name="trophy" />
@@ -81,5 +81,5 @@ export const BadgeAnchor = /*#__PURE__*/ forwardRef<HTMLSpanElement, BadgeAnchor
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-badge-anchor", className)} {...rest} />;
+  return <span ref={ref} className={cx("blip-badge-anchor", className)} {...rest} />;
 });

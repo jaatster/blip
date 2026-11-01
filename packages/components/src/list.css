@@ -3,106 +3,106 @@
  * controls. Calm by design: a white panel, line-soft dividers drawn as whole pixels, and ghost boxes for rows you
  * can press, so candy stays for the actions inside them.
  *
- *   <ul class="chu-box chu-list" role="list" data-dividers>
- *     <li class="chu-list-item">
- *       <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
- *       <div class="chu-list-content">
- *         <span class="chu-list-title">Music</span>
- *         <span class="chu-list-description">Chip tunes on the title screen</span>
+ *   <ul class="blip-box blip-list" role="list" data-dividers>
+ *     <li class="blip-list-item">
+ *       <svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+ *       <div class="blip-list-content">
+ *         <span class="blip-list-title">Music</span>
+ *         <span class="blip-list-description">Chip tunes on the title screen</span>
  *       </div>
- *       <div class="chu-list-end"><button class="chu-box chu-button" data-size="sm" aria-pressed="true">On</button></div>
+ *       <div class="blip-list-end"><button class="blip-box blip-button" data-size="sm" aria-pressed="true">On</button></div>
  *     </li>
- *     <li><a class="chu-box chu-list-item" data-variant="ghost" href="/settings/controls">…</a></li>
+ *     <li><a class="blip-box blip-list-item" data-variant="ghost" href="/settings/controls">…</a></li>
  *   </ul>
  *
- *   .chu-box                             the list in a white panel (data-variant: panel by default, or soft, outline)
+ *   .blip-box                             the list in a white panel (data-variant: panel by default, or soft, outline)
  *   data-dividers                       a line-soft pixel line between rows
  *   data-density   compact                  tighter rows, for long lists and side panels
- *   a row that is a link or button      class="chu-box chu-list-item" data-variant="ghost" on the <a>/<button>, inside
+ *   a row that is a link or button      class="blip-box blip-list-item" data-variant="ghost" on the <a>/<button>, inside
  *                                       the <li>: hover fills it, focus rings it, aria-current marks the one you're on
  *
  * A row is either pressable as a whole or holds its own controls, never both: a button inside a link is invalid.
  */
 
-@layer chu.components {
-  .chu-list {
+@layer blip.components {
+  .blip-list {
     display: flex;
     flex-direction: column;
-    gap: var(--chu-pixel);
+    gap: var(--blip-pixel);
     margin: 0;
     padding: 0;
     list-style: none;
     min-inline-size: 0;
   }
   /* In a box: a white panel unless told otherwise, the rows clear of the outline and the stepped corners. */
-  .chu-list.chu-box { padding: calc(2 * var(--chu-pixel)); margin: 0 var(--chu-pixel) var(--chu-pixel) 0; }
-  .chu-list.chu-box:not([data-variant]) {
-    --chu-box-top: var(--chu-surface);
-    --chu-box-fill: var(--chu-surface);
-    --chu-box-bottom: var(--chu-surface);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
+  .blip-list.blip-box { padding: calc(2 * var(--blip-pixel)); margin: 0 var(--blip-pixel) var(--blip-pixel) 0; }
+  .blip-list.blip-box:not([data-variant]) {
+    --blip-box-top: var(--blip-surface);
+    --blip-box-fill: var(--blip-surface);
+    --blip-box-bottom: var(--blip-surface);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
   }
-  .chu-list > li { min-inline-size: 0; }
-  .chu-list[data-dividers] > li + li {
-    padding-block-start: var(--chu-pixel);
-    border-block-start: var(--chu-pixel) solid var(--chu-line-soft);
+  .blip-list > li { min-inline-size: 0; }
+  .blip-list[data-dividers] > li + li {
+    padding-block-start: var(--blip-pixel);
+    border-block-start: var(--blip-pixel) solid var(--blip-line-soft);
   }
 
-  .chu-list-item {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
-    --_pad: calc(4 * var(--chu-pixel));
+  .blip-list-item {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
+    --_pad: calc(4 * var(--blip-pixel));
     display: flex;
     align-items: center;
-    gap: var(--chu-space-6);
+    gap: var(--blip-space-6);
     box-sizing: border-box;
     inline-size: 100%;
-    min-block-size: calc(20 * var(--chu-pixel));
-    padding: var(--_pad) calc(6 * var(--chu-pixel));
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-body);
-    line-height: var(--chu-leading-tight);
+    min-block-size: calc(20 * var(--blip-pixel));
+    padding: var(--_pad) calc(6 * var(--blip-pixel));
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-body);
+    line-height: var(--blip-leading-tight);
     text-align: start;
     text-decoration: none;
     color: inherit;
   }
-  :is(a, button, label).chu-list-item { color: var(--chu-box-text); }
-  .chu-list[data-density="compact"] .chu-list-item {
-    --_pad: calc(2 * var(--chu-pixel));
-    gap: var(--chu-space-4);
-    min-block-size: calc(14 * var(--chu-pixel));
-    font-size: var(--chu-size-small);
+  :is(a, button, label).blip-list-item { color: var(--blip-box-text); }
+  .blip-list[data-density="compact"] .blip-list-item {
+    --_pad: calc(2 * var(--blip-pixel));
+    gap: var(--blip-space-4);
+    min-block-size: calc(14 * var(--blip-pixel));
+    font-size: var(--blip-size-small);
   }
 
-  .chu-list-item > :is(.chu-icon, .chu-avatar, img, svg) { flex: none; }
+  .blip-list-item > :is(.blip-icon, .blip-avatar, img, svg) { flex: none; }
   /* The title and description keep at least half the row; when the end needs more, its words wrap instead. */
-  .chu-list-content {
+  .blip-list-content {
     display: flex;
     flex-direction: column;
-    gap: var(--chu-space-1);
+    gap: var(--blip-space-1);
     flex: 1;
     min-inline-size: 50%;
   }
-  .chu-list-title { font-weight: var(--chu-weight-bold); overflow-wrap: anywhere; }
-  .chu-list-description {
-    font-size: var(--chu-size-small);
-    line-height: var(--chu-leading-tight);
-    color: var(--chu-text-muted);
+  .blip-list-title { font-weight: var(--blip-weight-bold); overflow-wrap: anywhere; }
+  .blip-list-description {
+    font-size: var(--blip-size-small);
+    line-height: var(--blip-leading-tight);
+    color: var(--blip-text-muted);
   }
-  .chu-list[data-density="compact"] .chu-list-description { font-size: var(--chu-size-caption); }
-  .chu-list-end {
+  .blip-list[data-density="compact"] .blip-list-description { font-size: var(--blip-size-caption); }
+  .blip-list-end {
     display: flex;
     flex: 0 1 auto;
     align-items: center;
-    gap: var(--chu-space-4);
+    gap: var(--blip-space-4);
     margin-inline-start: auto;
-    font-size: var(--chu-size-small);
+    font-size: var(--blip-size-small);
     font-variant-numeric: tabular-nums;
-    color: var(--chu-text-muted);
+    color: var(--blip-text-muted);
   }
 
   /* The row you are on, or a pressed row: ink text on the tone's light fill, so muted text goes ink too. */
-  .chu-list-item:is([aria-current]:not([aria-current="false"]), [aria-selected="true"], [aria-pressed="true"]) :is(.chu-list-description, .chu-list-end) { color: inherit; }
+  .blip-list-item:is([aria-current]:not([aria-current="false"]), [aria-selected="true"], [aria-pressed="true"]) :is(.blip-list-description, .blip-list-end) { color: inherit; }
 }

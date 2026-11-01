@@ -1,12 +1,12 @@
 /**
- * Attract mode, as arcade games played a demo of themselves while nobody was playing: <chu-attract> plays a short
+ * Attract mode, as arcade games played a demo of themselves while nobody was playing: <blip-attract> plays a short
  * demo of the Blip markup inside it, again and again. A pixel pointer hops to a control and presses it, and the
  * real control responds (its click() runs: a box ticks, a toast drops in, a burst pops).
  *
- *   <chu-attract label="Typing a title and saving shows a toast"
+ *   <blip-attract label="Typing a title and saving shows a toast"
  *               script="move #title; type #title 'Ship it'; move #save; press #save; poster; wait 2s">
  *     …a window, a field, a Save button, a toaster…
- *   </chu-attract>
+ *   </blip-attract>
  *
  * The script is steps split by ";", their selectors matched inside the element:
  *
@@ -20,9 +20,9 @@
  * The demo is one picture: role="img" named by label, its markup inert. Between loops it undoes every change it
  * caused, so each loop starts from the same markup (the same nodes: their listeners stay). It plays while it is on
  * screen in a shown tab, from the top each time it comes back; while less motion is asked for (the device, or
- * data-chu-motion="reduce" on <html>, which <chu-motion-toggle> sets) it shows its still frame, at once.
+ * data-blip-motion="reduce" on <html>, which <blip-motion-toggle> sets) it shows its still frame, at once.
  */
-import { BlipElement, duration, frames, pixel, reducedMotion, run, warn } from "@jaatster/blip-core";
+import { BlipElement, duration, frames, pixel, reducedMotion, run, warn } from "@blip/core";
 import { mirror } from "./_pixel.js";
 
 /**
@@ -59,16 +59,16 @@ function read(script: string, el: Element): AttractStep[] {
     if (step == "poster") steps.push({ poster: true });
     else if (typed) steps.push({ type: typed[1]!, text: typed[3]! });
     else if (VERBS.includes(verb) && verb != "type" && arg && (verb != "wait" || ms(arg, 1) >= 0)) steps.push({ [verb]: arg } as unknown as AttractStep);
-    else warn("CHU-D010", `<chu-attract> cannot read the step "${step}".`, el);
+    else warn("BLIP-D010", `<blip-attract> cannot read the step "${step}".`, el);
   }
   return steps;
 }
 
 /**
- * <chu-attract>: a short demo of the markup inside it, played by a pixel pointer from a script, looping while it is
+ * <blip-attract>: a short demo of the markup inside it, played by a pixel pointer from a script, looping while it is
  * on screen. Its markup is inert and the element is one image to assistive technology, named by label; between loops
  * every change the demo caused is undone. With less motion asked for, on the device or on the page, it shows its
- * still frame at once, and plays on when that is lifted. Show it only on a page that shows <chu-motion-toggle>.
+ * still frame at once, and plays on when that is lifted. Show it only on a page that shows <blip-motion-toggle>.
  *
  * @summary Attract mode: a short demo of the markup inside it, a pixel pointer pressing its real controls, looping.
  * @attr {string} script - The steps, split by ";": move <selector>, press <selector>, type <selector> '<text>', wait
@@ -106,9 +106,9 @@ export class BlipAttract extends BlipElement {
   protected override connected(): void {
     const el = this, { signal } = this;
     el.setAttribute("role", "img");
-    if (!el.getAttribute("aria-label")) warn("CHU-D001", "<chu-attract> has no label: the sentence that says what it shows.", el);
+    if (!el.getAttribute("aria-label")) warn("BLIP-D001", "<blip-attract> has no label: the sentence that says what it shows.", el);
     // The pointer, hidden until it has a place.
-    const ptr = el.querySelector<HTMLElement>(":scope > .chu-attract-pointer") ?? el.appendChild(Object.assign(document.createElement("span"), { className: "chu-attract-pointer", hidden: true }));
+    const ptr = el.querySelector<HTMLElement>(":scope > .blip-attract-pointer") ?? el.appendChild(Object.assign(document.createElement("span"), { className: "blip-attract-pointer", hidden: true }));
 
     // Every change in the demo, so each loop starts from its markup: not the pointer's moves, not inert, not a child
     // the page or a framework adds to the element (made inert at once).
@@ -169,11 +169,11 @@ export class BlipAttract extends BlipElement {
         Math.round((r.top - o.top - el.clientTop + r.height * (glove ? 0.5 : 0.65)) / p) - (glove ? 3 : 0),
       ];
     };
-    /** The look of what the pointer is over, forced (data-chu-state): on a field's candy box, else on the target. */
+    /** The look of what the pointer is over, forced (data-blip-state): on a field's candy box, else on the target. */
     const look = (state?: string) => {
-      const b = at?.matches(FIELDS) && at.parentElement?.matches(".chu-box") ? at.parentElement : at;
-      if (state) b?.setAttribute("data-chu-state", state);
-      else b?.removeAttribute("data-chu-state");
+      const b = at?.matches(FIELDS) && at.parentElement?.matches(".blip-box") ? at.parentElement : at;
+      if (state) b?.setAttribute("data-blip-state", state);
+      else b?.removeAttribute("data-blip-state");
     };
 
     /**
@@ -184,14 +184,14 @@ export class BlipAttract extends BlipElement {
       const verb = VERBS.find((v) => v in s), arg = verb ? String((s as Record<string, unknown>)[verb]) : "";
       const beat = duration("beat", 400, el), wait = ms(arg, beat), rest = (t: number) => run([{ at: t, do: () => {} }], { signal });
       if (verb == "wait" && wait >= 0) return void (yield rest(wait));
-      if (!verb || verb == "wait") return void ((s as { poster?: boolean }).poster && !verb || warn("CHU-D010", `<chu-attract> cannot read the step ${JSON.stringify(s)}.`, el));
+      if (!verb || verb == "wait") return void ((s as { poster?: boolean }).poster && !verb || warn("BLIP-D010", `<blip-attract> cannot read the step ${JSON.stringify(s)}.`, el));
       let t: HTMLElement | null = null;
       try {
         t = el.querySelector(arg);
       } catch {
         /* not a selector: warned below */
       }
-      if (!t) return warn("CHU-D011", `<chu-attract>: nothing in it matches the step "${verb} ${arg}".`, el);
+      if (!t) return warn("BLIP-D011", `<blip-attract>: nothing in it matches the step "${verb} ${arg}".`, el);
       if (verb == "show" || verb == "hide") return void (t.hidden = verb == "hide");
       // The pointer goes there first: in at most six even steps, a frame apart, each on a whole pixel; then a beat.
       if (t != at) look();
@@ -278,7 +278,7 @@ export class BlipAttract extends BlipElement {
       let size = `${el.clientWidth} ${el.clientHeight}`;
       const fit = new ResizeObserver(() => size != (size = `${el.clientWidth} ${el.clientHeight}`) && at && (([x, y] = aim(at)), put()));
       io.observe(el);
-      page.observe(document.documentElement, { attributeFilter: ["data-chu-motion"] });
+      page.observe(document.documentElement, { attributeFilter: ["data-blip-motion"] });
       fit.observe(el);
       this.on(document, "visibilitychange", () => !still && go());
       this.on(matchMedia("(prefers-reduced-motion: reduce)"), "change", motion);
@@ -295,10 +295,10 @@ export class BlipAttract extends BlipElement {
 }
 
 mirror(BlipAttract, [], ["script", "label", "pointer"]);
-BlipElement.define("chu-attract", BlipAttract);
+BlipElement.define("blip-attract", BlipAttract);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "chu-attract": BlipAttract;
+    "blip-attract": BlipAttract;
   }
 }

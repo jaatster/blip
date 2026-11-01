@@ -1,18 +1,18 @@
 /**
- * @jaatster/blip-sound: the TV's chip sounds (the TV spec §7, PixelSounds.java), made in the browser. Soft triangle
+ * @blip/sound: the TV's chip sounds (the TV spec §7, PixelSounds.java), made in the browser. Soft triangle
  * waves (the blip voice is a pulse), a 6 ms fade-in, a cosine fade-out over each note's second half, and a gentle
  * one-pole low-pass at about 2 kHz, rendered once into AudioBuffers. No audio files.
  *
  * Off until enabled, on a press or a key (browsers start audio only then):
  *
  *   button.onclick = () => enableSound();      // registers as Blip's sound sink: elements' sounds now play
- *   play("coin");                               // or services.sound().play("coin") from @jaatster/blip-core
+ *   play("coin");                               // or services.sound().play("coin") from @blip/core
  *   disableSound();
  *
  * Remembering the choice across visits is opt-in: rememberSound() once at start-up. Sound never depends on
  * prefers-reduced-motion.
  */
-import { provide, services, type SoundSink } from "@jaatster/blip-core";
+import { provide, services, type SoundSink } from "@blip/core";
 
 export type SoundName = "step" | "look" | "jump" | "coin" | "open" | "back" | "bump" | "blip" | "success" | "error" | "select";
 /** A note: frequency (Hz), length and start (s), volume 0 to 1, the frequency it slides to (0: none), triangle (1) or pulse (0). */

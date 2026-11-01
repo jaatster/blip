@@ -1,6 +1,6 @@
 ---
 name: Button group
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: button-group.css
 element: null
 react: ButtonGroup
@@ -18,21 +18,21 @@ groups for sets of toggles, a pager, or a main action with its menu button.
 ## Usage
 
 ```html
-<div class="chu-button-group" role="group" aria-label="Save">
-  <button class="chu-box chu-button">Save game</button>
-  <button class="chu-box chu-button" data-variant="soft">Save as…</button>
+<div class="blip-button-group" role="group" aria-label="Save">
+  <button class="blip-box blip-button">Save game</button>
+  <button class="blip-box blip-button" data-variant="soft">Save as…</button>
 </div>
 
-<div class="chu-button-group" data-attached role="group" aria-label="Text">
-  <button class="chu-box chu-button" data-variant="outline" aria-pressed="true">Bold</button>
-  <button class="chu-box chu-button" data-variant="outline" aria-pressed="false">Italic</button>
+<div class="blip-button-group" data-attached role="group" aria-label="Text">
+  <button class="blip-box blip-button" data-variant="outline" aria-pressed="true">Bold</button>
+  <button class="blip-box blip-button" data-variant="outline" aria-pressed="false">Italic</button>
 </div>
 ```
 
 ## Anatomy
 
 1. **Group**: a flex row; spaced groups wrap, attached groups don't.
-2. **Buttons**: ordinary `.chu-button`s, every tier, tone and size.
+2. **Buttons**: ordinary `.blip-button`s, every tier, tone and size.
 3. **Joints** (attached): neighbours overlap by one pixel, so they share one ink line; the corners that meet are
    square, the outer corners take radius 3 from the box's own stepped tiles.
 4. **Separator** (optional): a `<span role="separator">` draws a one-pixel soft line between sets.
@@ -59,10 +59,10 @@ over its neighbours, so its outline, lift and ring stay whole.
 - Toggles in a group are separate `aria-pressed` buttons. When only one may be on, use a
   [segmented control](segmented.md) instead: it is a radio group.
 - **Toolbars.** `role="toolbar"` promises arrow-key movement: one button is in the tab order and the arrows move
-  between them. Wire it with the shared controller from `@jaatster/blip-core`:
+  between them. Wire it with the shared controller from `@blip/core`:
 
   ```js
-  import { rovingFocus } from "@jaatster/blip-core";
+  import { rovingFocus } from "@blip/core";
   const bar = document.querySelector('[role="toolbar"]');
   rovingFocus(bar, { items: () => [...bar.querySelectorAll("button")] });
   ```
@@ -93,5 +93,5 @@ over its neighbours, so its outline, lift and ring stay whole.
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-r`, `--chu-shape`, `--chu-shape-inner` on the buttons | set by the group | Attached groups set these per position; don't override them on attached buttons. |
+| `--blip-r`, `--blip-shape`, `--blip-shape-inner` on the buttons | set by the group | Attached groups set these per position; don't override them on attached buttons. |
 | `gap` (plain CSS) | 4 pixels | Spacing in spaced groups. |

@@ -1,43 +1,43 @@
 @import "./_world.css";
 /*
  * Hero. The top of a landing page: a POP headline whose letters drop in one after another, a subhead, a candy call
- * to action and a soft second one, over the world (<chu-world> from @jaatster/blip-effects) with a strip of ground along
+ * to action and a soft second one, over the world (<blip-world> from @blip/effects) with a strip of ground along
  * the bottom. Before the world draws, or without it, the sky is the scheme's palette in hard bands, dithered where
  * they meet: never a smooth gradient.
  *
- *   <section class="chu-hero" aria-labelledby="hero-title">
- *     <chu-world parallax avoid=".chu-hero-title, .chu-hero-lead, .chu-hero-actions, .chu-hero-note"></chu-world>
- *     <div class="chu-hero-inner">
- *       <h1 class="chu-hero-title chu-display" id="hero-title">
- *         <span class="chu-sr-only">Starfall Meadow</span>
- *         <span aria-hidden="true"><span class="chu-hero-word"><span class="chu-pop chu-drop-in" data-pop="S" style="--i: 0">S</span>…</span> …</span>
+ *   <section class="blip-hero" aria-labelledby="hero-title">
+ *     <blip-world parallax avoid=".blip-hero-title, .blip-hero-lead, .blip-hero-actions, .blip-hero-note"></blip-world>
+ *     <div class="blip-hero-inner">
+ *       <h1 class="blip-hero-title blip-display" id="hero-title">
+ *         <span class="blip-sr-only">Starfall Meadow</span>
+ *         <span aria-hidden="true"><span class="blip-hero-word"><span class="blip-pop blip-drop-in" data-pop="S" style="--i: 0">S</span>…</span> …</span>
  *       </h1>
- *       <p class="chu-hero-lead">Catch the stars that fall on the meadow before sunrise.</p>
- *       <div class="chu-hero-actions">
- *         <a class="chu-box chu-button" data-size="lg" href="#wishlist">Wishlist now</a>
- *         <a class="chu-box chu-button" data-size="lg" data-variant="soft" data-tone="neutral" href="#demo">Play the demo</a>
+ *       <p class="blip-hero-lead">Catch the stars that fall on the meadow before sunrise.</p>
+ *       <div class="blip-hero-actions">
+ *         <a class="blip-box blip-button" data-size="lg" href="#wishlist">Wishlist now</a>
+ *         <a class="blip-box blip-button" data-size="lg" data-variant="soft" data-tone="neutral" href="#demo">Play the demo</a>
  *       </div>
  *     </div>
- *     <div class="chu-hero-ground"></div>
+ *     <div class="blip-hero-ground"></div>
  *   </section>
  *
- *   .chu-hero-title   Pixel Bop at the whole scale that fits: 2 below 600 px wide (medium), 3 below 1024 px (wide), then 4
- *   .chu-hero-word    keeps a word's letters together; each letter is a .chu-pop .chu-drop-in with --i, its place
+ *   .blip-hero-title   Pixel Bop at the whole scale that fits: 2 below 600 px wide (medium), 3 below 1024 px (wide), then 4
+ *   .blip-hero-word    keeps a word's letters together; each letter is a .blip-pop .blip-drop-in with --i, its place
  *                    in the line: it appears --i frames after the first, two pixels high, then lands (the TV's title)
  *   data-align="start"  text to the start side (centred by default)
- *   .chu-hero-ground  grass and dirt (--chu-hero-ground: 24 pixels); .chu-hero-scenery stands things on it
- *   --chu-hero-band   the sky bands' height in pixels (16); --chu-hero-tint, --chu-hero-drop the letters' POP colours
+ *   .blip-hero-ground  grass and dirt (--blip-hero-ground: 24 pixels); .blip-hero-scenery stands things on it
+ *   --blip-hero-band   the sky bands' height in pixels (16); --blip-hero-tint, --blip-hero-drop the letters' POP colours
  *   avoid            on the world, the parts its sun, moon, stars and clouds keep clear of: the words, never behind them
- *   .chu-hero-lead and .chu-hero-note wear a one-pixel halo in the page colour, so they read over peaks and clouds
+ *   .blip-hero-lead and .blip-hero-note wear a one-pixel halo in the page colour, so they read over peaks and clouds
  *
  * Read the headline from the hidden copy: the letters are aria-hidden so screen readers say the words, not letters.
  */
 
-@layer chu.kits {
-  .chu-hero {
-    --_p: var(--chu-pixel);
-    --_b: var(--chu-hero-band, 16);
-    --_g: var(--chu-hero-ground, 24);
+@layer blip.kits {
+  .blip-hero {
+    --_p: var(--blip-pixel);
+    --_b: var(--blip-hero-band, 16);
+    --_g: var(--blip-hero-ground, 24);
     --_row: calc(2 * var(--_p)) var(--_p) repeat-x;
     position: relative;
     isolation: isolate;
@@ -49,149 +49,149 @@
     align-content: center;
     min-block-size: calc(220 * var(--_p));
     padding: calc(28 * var(--_p)) calc(12 * var(--_p)) calc((var(--_g) + 30) * var(--_p));
-    color: var(--chu-text);
+    color: var(--blip-text);
     text-align: center;
     background:
-      linear-gradient(to right, var(--chu-blocks-sky-6) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + var(--_b)) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--chu-blocks-sky-5) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + var(--_b) - 1) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--chu-blocks-sky-5) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 2 * var(--_b)) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--chu-blocks-sky-4) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 2 * var(--_b) - 1) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--chu-blocks-sky-4) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 3 * var(--_b)) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--chu-blocks-sky-3) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 3 * var(--_b) - 1) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--chu-blocks-sky-3) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 4 * var(--_b)) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--chu-blocks-sky-2) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 4 * var(--_b) - 1) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--chu-blocks-sky-2) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 5 * var(--_b)) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--chu-blocks-sky-1) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 5 * var(--_b) - 1) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--blip-blocks-sky-6) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + var(--_b)) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--blip-blocks-sky-5) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + var(--_b) - 1) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--blip-blocks-sky-5) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 2 * var(--_b)) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--blip-blocks-sky-4) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 2 * var(--_b) - 1) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--blip-blocks-sky-4) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 3 * var(--_b)) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--blip-blocks-sky-3) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 3 * var(--_b) - 1) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--blip-blocks-sky-3) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 4 * var(--_b)) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--blip-blocks-sky-2) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 4 * var(--_b) - 1) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--blip-blocks-sky-2) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 5 * var(--_b)) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--blip-blocks-sky-1) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 5 * var(--_b) - 1) * var(--_p)) / var(--_row),
       linear-gradient(to top,
-        var(--chu-blocks-sky-6) 0 calc((var(--_g) + var(--_b)) * var(--_p)),
-        var(--chu-blocks-sky-5) 0 calc((var(--_g) + 2 * var(--_b)) * var(--_p)),
-        var(--chu-blocks-sky-4) 0 calc((var(--_g) + 3 * var(--_b)) * var(--_p)),
-        var(--chu-blocks-sky-3) 0 calc((var(--_g) + 4 * var(--_b)) * var(--_p)),
-        var(--chu-blocks-sky-2) 0 calc((var(--_g) + 5 * var(--_b)) * var(--_p)),
-        var(--chu-blocks-sky-1) 0);
+        var(--blip-blocks-sky-6) 0 calc((var(--_g) + var(--_b)) * var(--_p)),
+        var(--blip-blocks-sky-5) 0 calc((var(--_g) + 2 * var(--_b)) * var(--_p)),
+        var(--blip-blocks-sky-4) 0 calc((var(--_g) + 3 * var(--_b)) * var(--_p)),
+        var(--blip-blocks-sky-3) 0 calc((var(--_g) + 4 * var(--_b)) * var(--_p)),
+        var(--blip-blocks-sky-2) 0 calc((var(--_g) + 5 * var(--_b)) * var(--_p)),
+        var(--blip-blocks-sky-1) 0);
   }
-  .chu-hero > chu-world { position: absolute; inset: 0; z-index: -2; }
+  .blip-hero > blip-world { position: absolute; inset: 0; z-index: -2; }
   /* Until the world can draw, the hero's own banded sky shows, not a flat colour. */
-  .chu-hero > chu-world:not(:defined) { visibility: hidden; }
-  .chu-hero[data-align="start"] { text-align: start; }
+  .blip-hero > blip-world:not(:defined) { visibility: hidden; }
+  .blip-hero[data-align="start"] { text-align: start; }
 
-  .chu-hero-inner {
+  .blip-hero-inner {
     display: grid;
     justify-items: center;
-    gap: calc(6 * var(--chu-pixel));
+    gap: calc(6 * var(--blip-pixel));
     inline-size: 100%;
-    max-inline-size: calc(560 * var(--chu-pixel));
+    max-inline-size: calc(560 * var(--blip-pixel));
     margin-inline: auto;
   }
-  .chu-hero[data-align="start"] .chu-hero-inner { justify-items: start; }
+  .blip-hero[data-align="start"] .blip-hero-inner { justify-items: start; }
 
   /* The headline: a whole scale for the room there is. */
-  .chu-hero-title { --chu-scale: 2; margin: calc(2 * var(--chu-pixel)) 0; text-wrap: balance; }
-  @container (width >= 600px) { .chu-hero-title { --chu-scale: 3; } }
-  @container (width >= 1024px) { .chu-hero-title { --chu-scale: 4; } }
-  .chu-hero-word { display: inline-block; white-space: nowrap; }
-  .chu-hero-title .chu-pop {
-    --chu-pop-tint: var(--chu-hero-tint, var(--chu-accent-light));
-    --chu-pop-drop: var(--chu-hero-drop, var(--chu-accent-shade));
+  .blip-hero-title { --blip-scale: 2; margin: calc(2 * var(--blip-pixel)) 0; text-wrap: balance; }
+  @container (width >= 600px) { .blip-hero-title { --blip-scale: 3; } }
+  @container (width >= 1024px) { .blip-hero-title { --blip-scale: 4; } }
+  .blip-hero-word { display: inline-block; white-space: nowrap; }
+  .blip-hero-title .blip-pop {
+    --blip-pop-tint: var(--blip-hero-tint, var(--blip-accent-light));
+    --blip-pop-drop: var(--blip-hero-drop, var(--blip-accent-shade));
     display: inline-block;
     padding: 0;
   }
   /* Each letter waits its turn hidden, then drops in: two pixels high for a frame, then lands. */
-  .chu-hero-title .chu-drop-in {
-    --chu-delay: calc(var(--i, 0) * var(--chu-duration-frame));
+  .blip-hero-title .blip-drop-in {
+    --blip-delay: calc(var(--i, 0) * var(--blip-duration-frame));
     animation:
-      chu-hero-wait var(--chu-delay) steps(1, jump-end),
-      chu-drop-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end) var(--chu-delay) both;
+      blip-hero-wait var(--blip-delay) steps(1, jump-end),
+      blip-drop-in calc(2 * var(--blip-duration-frame)) steps(1, jump-end) var(--blip-delay) both;
   }
 
-  .chu-hero-lead {
+  .blip-hero-lead {
     max-inline-size: 46ch;
     margin: 0;
-    font-size: var(--chu-size-lead);
-    line-height: var(--chu-leading-normal);
+    font-size: var(--blip-size-lead);
+    line-height: var(--blip-leading-normal);
     text-wrap: pretty;
   }
   /* A one-pixel halo in the page colour keeps the lead and the note readable where they cross a snowy peak, the moon
      or a cloud. */
-  .chu-hero-lead, .chu-hero-note {
+  .blip-hero-lead, .blip-hero-note {
     text-shadow:
-      calc(-1 * var(--chu-pixel)) calc(-1 * var(--chu-pixel)) var(--chu-bg),
-      0 calc(-1 * var(--chu-pixel)) var(--chu-bg),
-      var(--chu-pixel) calc(-1 * var(--chu-pixel)) var(--chu-bg),
-      calc(-1 * var(--chu-pixel)) 0 var(--chu-bg),
-      var(--chu-pixel) 0 var(--chu-bg),
-      calc(-1 * var(--chu-pixel)) var(--chu-pixel) var(--chu-bg),
-      0 var(--chu-pixel) var(--chu-bg),
-      var(--chu-pixel) var(--chu-pixel) var(--chu-bg);
+      calc(-1 * var(--blip-pixel)) calc(-1 * var(--blip-pixel)) var(--blip-bg),
+      0 calc(-1 * var(--blip-pixel)) var(--blip-bg),
+      var(--blip-pixel) calc(-1 * var(--blip-pixel)) var(--blip-bg),
+      calc(-1 * var(--blip-pixel)) 0 var(--blip-bg),
+      var(--blip-pixel) 0 var(--blip-bg),
+      calc(-1 * var(--blip-pixel)) var(--blip-pixel) var(--blip-bg),
+      0 var(--blip-pixel) var(--blip-bg),
+      var(--blip-pixel) var(--blip-pixel) var(--blip-bg);
   }
-  .chu-hero-actions {
+  .blip-hero-actions {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: calc(4 * var(--chu-pixel));
-    margin-block-start: calc(4 * var(--chu-pixel));
+    gap: calc(4 * var(--blip-pixel));
+    margin-block-start: calc(4 * var(--blip-pixel));
   }
-  .chu-hero[data-align="start"] .chu-hero-actions { justify-content: start; }
-  .chu-hero-note {
+  .blip-hero[data-align="start"] .blip-hero-actions { justify-content: start; }
+  .blip-hero-note {
     margin: 0;
-    font-size: var(--chu-size-small);
-    font-weight: var(--chu-weight-bold);
+    font-size: var(--blip-size-small);
+    font-weight: var(--blip-weight-bold);
   }
 
   /* The ground: blades of grass, a light top row, grass, a darker lip, then dirt with pebbles. */
-  .chu-hero-ground {
-    --_p: var(--chu-pixel);
+  .blip-hero-ground {
+    --_p: var(--blip-pixel);
     position: absolute;
     inset-inline: 0;
     inset-block-end: 0;
     z-index: -1;
-    block-size: calc(var(--chu-hero-ground, 24) * var(--_p));
+    block-size: calc(var(--blip-hero-ground, 24) * var(--_p));
     pointer-events: none;
     background:
-      linear-gradient(to right, transparent 0 calc(7 * var(--_p)), var(--chu-world-flower-1) 0 calc(8 * var(--_p)), transparent 0 calc(20 * var(--_p)), var(--chu-world-flower-3) 0 calc(21 * var(--_p)), transparent 0 calc(33 * var(--_p)), var(--chu-world-flower-2) 0 calc(34 * var(--_p)), transparent 0) 0 var(--_p) / calc(43 * var(--_p)) var(--_p) repeat-x,
-      linear-gradient(to right, transparent 0 calc(5 * var(--_p)), var(--chu-blocks-pebble) 0 calc(7 * var(--_p)), transparent 0 calc(19 * var(--_p)), var(--chu-blocks-pebble) 0 calc(20 * var(--_p)), transparent 0) 0 calc(9 * var(--_p)) / calc(29 * var(--_p)) var(--_p) repeat-x,
-      linear-gradient(to right, transparent 0 calc(13 * var(--_p)), var(--chu-blocks-dirt-shadow) 0 calc(15 * var(--_p)), transparent 0) 0 calc(13 * var(--_p)) / calc(23 * var(--_p)) var(--_p) repeat-x,
-      linear-gradient(to right, transparent 0 calc(2 * var(--_p)), var(--chu-blocks-pebble) 0 calc(3 * var(--_p)), transparent 0) 0 calc(17 * var(--_p)) / calc(17 * var(--_p)) var(--_p) repeat-x,
-      linear-gradient(to right, transparent 0 calc(9 * var(--_p)), var(--chu-blocks-dirt-shadow) 0 calc(10 * var(--_p)), transparent 0) 0 calc(20 * var(--_p)) / calc(19 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(7 * var(--_p)), var(--blip-world-flower-1) 0 calc(8 * var(--_p)), transparent 0 calc(20 * var(--_p)), var(--blip-world-flower-3) 0 calc(21 * var(--_p)), transparent 0 calc(33 * var(--_p)), var(--blip-world-flower-2) 0 calc(34 * var(--_p)), transparent 0) 0 var(--_p) / calc(43 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(5 * var(--_p)), var(--blip-blocks-pebble) 0 calc(7 * var(--_p)), transparent 0 calc(19 * var(--_p)), var(--blip-blocks-pebble) 0 calc(20 * var(--_p)), transparent 0) 0 calc(9 * var(--_p)) / calc(29 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(13 * var(--_p)), var(--blip-blocks-dirt-shadow) 0 calc(15 * var(--_p)), transparent 0) 0 calc(13 * var(--_p)) / calc(23 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(2 * var(--_p)), var(--blip-blocks-pebble) 0 calc(3 * var(--_p)), transparent 0) 0 calc(17 * var(--_p)) / calc(17 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(9 * var(--_p)), var(--blip-blocks-dirt-shadow) 0 calc(10 * var(--_p)), transparent 0) 0 calc(20 * var(--_p)) / calc(19 * var(--_p)) var(--_p) repeat-x,
       linear-gradient(to bottom,
-        var(--chu-blocks-grass-top) 0 var(--_p),
-        var(--chu-blocks-grass) 0 calc(4 * var(--_p)),
-        var(--chu-blocks-grass-lip) 0 calc(5 * var(--_p)),
-        var(--chu-blocks-dirt) 0 calc(100% - 2 * var(--_p)),
-        var(--chu-blocks-dirt-shadow) 0);
+        var(--blip-blocks-grass-top) 0 var(--_p),
+        var(--blip-blocks-grass) 0 calc(4 * var(--_p)),
+        var(--blip-blocks-grass-lip) 0 calc(5 * var(--_p)),
+        var(--blip-blocks-dirt) 0 calc(100% - 2 * var(--_p)),
+        var(--blip-blocks-dirt-shadow) 0);
   }
-  .chu-hero-ground::before {
+  .blip-hero-ground::before {
     content: "";
     position: absolute;
     inset-inline: 0;
     inset-block-end: 100%;
     block-size: calc(2 * var(--_p));
     background:
-      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(4 * var(--_p)), transparent 0 calc(17 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 0 / calc(23 * var(--_p)) var(--_p) repeat-x,
-      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(5 * var(--_p)), transparent 0 calc(12 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(13 * var(--_p)), transparent 0 calc(16 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 var(--_p) / calc(23 * var(--_p)) var(--_p) repeat-x;
+      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--blip-blocks-grass-top) 0 calc(4 * var(--_p)), transparent 0 calc(17 * var(--_p)), var(--blip-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 0 / calc(23 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--blip-blocks-grass-top) 0 calc(5 * var(--_p)), transparent 0 calc(12 * var(--_p)), var(--blip-blocks-grass-top) 0 calc(13 * var(--_p)), transparent 0 calc(16 * var(--_p)), var(--blip-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 var(--_p) / calc(23 * var(--_p)) var(--_p) repeat-x;
   }
   /* Things that stand on the ground: sprites, blocks, a sign. */
-  .chu-hero-scenery {
+  .blip-hero-scenery {
     position: absolute;
     inset-inline: 0;
-    inset-block-end: calc(var(--chu-hero-ground, 24) * var(--chu-pixel));
+    inset-block-end: calc(var(--blip-hero-ground, 24) * var(--blip-pixel));
     z-index: -1;
     pointer-events: none;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-hero-title .chu-drop-in { animation: none; }
+    .blip-hero-title .blip-drop-in { animation: none; }
   }
   @media (forced-colors: active) {
-    .chu-hero { background: Canvas; }
+    .blip-hero { background: Canvas; }
   }
   @media (forced-colors: active), print {
-    .chu-hero-ground, .chu-hero-scenery { display: none; }
+    .blip-hero-ground, .blip-hero-scenery { display: none; }
   }
   /* On paper the world stays off (world.css), and so do its sky bands and ground: only the words and buttons print. */
   @media print {
-    .chu-hero { background: none; }
+    .blip-hero { background: none; }
   }
 }
 
-@keyframes chu-hero-wait { from, to { visibility: hidden; } }
+@keyframes blip-hero-wait { from, to { visibility: hidden; } }

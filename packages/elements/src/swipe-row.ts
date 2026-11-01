@@ -1,27 +1,27 @@
 /**
- * <chu-swipe-row>: a list row that swipes aside to show its actions. A horizontal swipe on a touch screen slides the
+ * <blip-swipe-row>: a list row that swipes aside to show its actions. A horizontal swipe on a touch screen slides the
  * face a whole pixel at a time; let go past half the actions and the row holds open, swipe all the way and the
- * first action runs (after a cancelable chu-swipe). One row in a list is open at a time, and a press elsewhere
+ * first action runs (after a cancelable blip-swipe). One row in a list is open at a time, and a press elsewhere
  * closes it. The page still scrolls: the row takes only horizontal swipes (touch-action: pan-y) and locks the axis
  * once a swipe has gone a few pixels.
  *
  *   <li>
- *     <chu-swipe-row class="chu-swipe-row">
- *       <div class="chu-swipe-row-face">
- *         <div class="chu-list-item">…</div>
- *         <button class="chu-box chu-button chu-swipe-row-more" type="button" data-variant="ghost" data-size="sm"
- *           data-icon-only aria-label="More actions"><svg class="chu-icon">…</svg></button>
+ *     <blip-swipe-row class="blip-swipe-row">
+ *       <div class="blip-swipe-row-face">
+ *         <div class="blip-list-item">…</div>
+ *         <button class="blip-box blip-button blip-swipe-row-more" type="button" data-variant="ghost" data-size="sm"
+ *           data-icon-only aria-label="More actions"><svg class="blip-icon">…</svg></button>
  *       </div>
- *       <div class="chu-swipe-row-actions" data-side="start"><button class="chu-box chu-button">Archive</button></div>
- *       <div class="chu-swipe-row-actions" data-side="end"><button class="chu-box chu-button" data-tone="danger">Delete</button></div>
- *     </chu-swipe-row>
+ *       <div class="blip-swipe-row-actions" data-side="start"><button class="blip-box blip-button">Archive</button></div>
+ *       <div class="blip-swipe-row-actions" data-side="end"><button class="blip-box blip-button" data-tone="danger">Delete</button></div>
+ *     </blip-swipe-row>
  *   </li>
  *
  * The actions are real buttons, always in the tab order: focusing one opens its side, and Escape closes the row.
  * The More button (shown where there is a fine pointer) opens and closes the row for a mouse or a keyboard.
- * Attribute: open (start or end). Methods: show(side), close(). Events: chu-open { side }, chu-close, chu-swipe.
+ * Attribute: open (start or end). Methods: show(side), close(). Events: blip-open { side }, blip-close, blip-swipe.
  */
-import { BlipElement, frames, pixel } from "@jaatster/blip-core";
+import { BlipElement, frames, pixel } from "@blip/core";
 import { both } from "./_dom.js";
 
 export type SwipeSide = "start" | "end";
@@ -42,13 +42,13 @@ export interface SwipeDetail {
  * @summary A list row that swipes aside to show its actions.
  * @attr {"start" | "end"} open - The side whose actions show; left out, the row is closed. Setting it opens that side
  * (closing any other open row in the list) or closes it. Reflects the row.
- * @fires {CustomEvent<{ side: SwipeSide }>} chu-open - The row opened on a side, however it happened.
- * @fires {CustomEvent<void>} chu-close - The row closed.
- * @fires {CustomEvent<SwipeDetail>} chu-swipe - A full swipe, before its first action runs. Cancelable:
+ * @fires {CustomEvent<{ side: SwipeSide }>} blip-open - The row opened on a side, however it happened.
+ * @fires {CustomEvent<void>} blip-close - The row closed.
+ * @fires {CustomEvent<SwipeDetail>} blip-swipe - A full swipe, before its first action runs. Cancelable:
  * preventDefault() runs nothing and leaves the row open.
  */
 export class BlipSwipeRow extends BlipElement {
-  static classes = ["chu-swipe-row"];
+  static classes = ["blip-swipe-row"];
   static observedAttributes = ["open"];
 
   /** How far the face is off its place, in CSS px: positive shows the start tray, negative the end one. */
@@ -79,13 +79,13 @@ export class BlipSwipeRow extends BlipElement {
   }
 
   get #face(): HTMLElement | null {
-    return this.querySelector(":scope > .chu-swipe-row-face");
+    return this.querySelector(":scope > .blip-swipe-row-face");
   }
   get #more(): HTMLButtonElement | null {
-    return this.querySelector(".chu-swipe-row-more");
+    return this.querySelector(".blip-swipe-row-more");
   }
   #group(side: SwipeSide): HTMLElement | null {
-    return this.querySelector(`:scope > .chu-swipe-row-actions[data-side="${side}"]`);
+    return this.querySelector(`:scope > .blip-swipe-row-actions[data-side="${side}"]`);
   }
   #buttons(side: SwipeSide): HTMLButtonElement[] {
     return [...(this.#group(side)?.querySelectorAll<HTMLButtonElement>("button:not([disabled])") ?? [])];
@@ -128,14 +128,14 @@ export class BlipSwipeRow extends BlipElement {
       const swiped = performance.now() - this.#swiped < 500;
       const pressedOpen = this.#pressedOpen && (e as MouseEvent).detail > 0;
       this.#pressedOpen = false;
-      if (swiped || (pressedOpen && !t.closest(".chu-swipe-row-more, .chu-swipe-row-actions"))) {
+      if (swiped || (pressedOpen && !t.closest(".blip-swipe-row-more, .blip-swipe-row-actions"))) {
         e.preventDefault();
         e.stopPropagation();
         if (!swiped) this.close();
         return;
       }
-      if (t.closest(".chu-swipe-row-more")) this.open ? this.close() : this.show();
-      else if (t.closest(".chu-swipe-row-actions button")) queueMicrotask(() => this.close());
+      if (t.closest(".blip-swipe-row-more")) this.open ? this.close() : this.show();
+      else if (t.closest(".blip-swipe-row-actions button")) queueMicrotask(() => this.close());
     }, { capture: true });
     this.on(document, "pointerdown", (e) => {
       if (this.open && !this.contains(e.target as Node)) this.close();
@@ -143,10 +143,10 @@ export class BlipSwipeRow extends BlipElement {
     // Keyboard and screen readers: an action that gets focus shows its side; the face's own content closes it.
     this.on(this, "focusin", (e) => {
       const t = e.target as Element;
-      const g = t.closest(".chu-swipe-row-actions");
+      const g = t.closest(".blip-swipe-row-actions");
       const side = g?.getAttribute("data-side");
       if (side === "start" || side === "end") this.open = side;
-      else if (!t.closest(".chu-swipe-row-more")) this.close();
+      else if (!t.closest(".blip-swipe-row-more")) this.close();
     });
     this.on(this, "focusout", (e) => {
       if (!this.contains((e as FocusEvent).relatedTarget as Node)) this.close();
@@ -155,7 +155,7 @@ export class BlipSwipeRow extends BlipElement {
       const k = e as KeyboardEvent;
       if (k.key !== "Escape" || !this.open || k.defaultPrevented) return;
       k.preventDefault();
-      const inside = (document.activeElement as Element | null)?.closest(".chu-swipe-row-actions");
+      const inside = (document.activeElement as Element | null)?.closest(".blip-swipe-row-actions");
       this.close();
       const more = this.#more;
       if (inside) (more?.getClientRects().length ? more : this.#face?.querySelector<HTMLElement>("a[href], button, input, select, textarea, [tabindex]"))?.focus();
@@ -178,7 +178,7 @@ export class BlipSwipeRow extends BlipElement {
 
   #closeOthers(): void {
     const list = this.closest("ul, ol, [role='list'], [role='grid']") ?? this.parentElement?.parentElement;
-    for (const row of list?.querySelectorAll<BlipSwipeRow>("chu-swipe-row[open]") ?? []) if (row !== this) row.close();
+    for (const row of list?.querySelectorAll<BlipSwipeRow>("blip-swipe-row[open]") ?? []) if (row !== this) row.close();
   }
 
   #render(): void {
@@ -189,13 +189,13 @@ export class BlipSwipeRow extends BlipElement {
   #place(x: number): void {
     const p = pixel(this);
     this.#x = Math.round(x / p) * p;
-    this.style.setProperty("--_chu-swipe-x", `${this.#x}px`);
-    this.style.setProperty("--_chu-swipe-reveal", `${Math.abs(this.#x)}px`);
-    if (this.#x) this.setAttribute("data-chu-moved", this.#sideOf(this.#x));
-    else this.removeAttribute("data-chu-moved");
+    this.style.setProperty("--_blip-swipe-x", `${this.#x}px`);
+    this.style.setProperty("--_blip-swipe-reveal", `${Math.abs(this.#x)}px`);
+    if (this.#x) this.setAttribute("data-blip-moved", this.#sideOf(this.#x));
+    else this.removeAttribute("data-blip-moved");
     const full = this.#drag?.axis === "x" && Math.abs(this.#x) >= this.#full && this.#buttons(this.#sideOf(this.#x)).length;
-    if (full) this.setAttribute("data-chu-full", this.#sideOf(this.#x));
-    else this.removeAttribute("data-chu-full");
+    if (full) this.setAttribute("data-blip-full", this.#sideOf(this.#x));
+    else this.removeAttribute("data-blip-full");
   }
 
   /** Steps the face to where `open` says, in up to four whole-pixel frames (at once with reduced motion). */
@@ -227,7 +227,7 @@ export class BlipSwipeRow extends BlipElement {
       if (d.axis === "y") return;
       this.#motion?.abort();
       this.#closeOthers();
-      this.setAttribute("data-chu-dragging", "");
+      this.setAttribute("data-blip-dragging", "");
       try {
         this.setPointerCapture(e.pointerId);
       } catch {
@@ -247,9 +247,9 @@ export class BlipSwipeRow extends BlipElement {
     this.#drag = undefined;
     if (d.axis !== "x") return;
     this.#swiped = performance.now();
-    const full = this.getAttribute("data-chu-full") as SwipeSide | null;
-    this.removeAttribute("data-chu-dragging");
-    this.removeAttribute("data-chu-full");
+    const full = this.getAttribute("data-blip-full") as SwipeSide | null;
+    this.removeAttribute("data-blip-dragging");
+    this.removeAttribute("data-blip-full");
     if (e.type === "pointercancel") return this.#settle();
     const side = this.#sideOf(this.#x);
     const past = this.#x !== 0 && Math.abs(this.#x) > Math.abs(this.#reach(side)) / 2;
@@ -273,10 +273,10 @@ export class BlipSwipeRow extends BlipElement {
   }
 }
 
-BlipElement.define("chu-swipe-row", BlipSwipeRow);
+BlipElement.define("blip-swipe-row", BlipSwipeRow);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "chu-swipe-row": BlipSwipeRow;
+    "blip-swipe-row": BlipSwipeRow;
   }
 }

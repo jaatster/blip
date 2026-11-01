@@ -1,9 +1,9 @@
-<!-- Bursts: little sprites pop out of the button and fall, a frame at a time, then go. data-chu-burst="<kind>" does it
+<!-- Bursts: little sprites pop out of the button and fall, a frame at a time, then go. data-blip-burst="<kind>" does it
      on click with no script of your own; burst(el, { kind, count }) does it from code. Nothing with reduced motion. -->
-<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel));align-items:center;padding-block:calc(16*var(--chu-pixel))">
-  <button class="chu-box chu-button" type="button" data-chu-burst="sparkle">Sparkle</button>
-  <button class="chu-box chu-button" type="button" data-tone="orange" data-chu-burst="coin">Coin</button>
-  <button class="chu-box chu-button" type="button" data-tone="purple" data-chu-burst="star">Stars</button>
-  <button class="chu-box chu-button" type="button" data-tone="pink" data-chu-burst="confetti" data-chu-burst-count="24">Confetti</button>
-  <button class="chu-box chu-button" type="button" data-tone="success" onclick="import('@jaatster/blip-effects').then(({ burst }) => { burst(this, { kind: 'coin', count: 5 }); burst(this, { kind: 'sparkle' }); })">Claim reward</button>
+<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--blip-pixel));align-items:center;padding-block:calc(16*var(--blip-pixel))">
+  <button class="blip-box blip-button" type="button" data-blip-burst="sparkle">Sparkle</button>
+  <button class="blip-box blip-button" type="button" data-tone="orange" data-blip-burst="coin">Coin</button>
+  <button class="blip-box blip-button" type="button" data-tone="purple" data-blip-burst="star">Stars</button>
+  <button class="blip-box blip-button" type="button" data-tone="pink" data-blip-burst="confetti" data-blip-burst-count="24">Confetti</button>
+  <button class="blip-box blip-button" type="button" data-tone="success" onclick="import('@blip/effects').then(({ burst }) => { burst(this, { kind: 'coin', count: 5 }); burst(this, { kind: 'sparkle' }); })">Claim reward</button>
 </div>

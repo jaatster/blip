@@ -1,5 +1,5 @@
 /**
- * @jaatster/blip-react, read from its source when the site builds: what each entry exports, every component with its
+ * @blip/react, read from its source when the site builds: what each entry exports, every component with its
  * JSDoc (summary, examples, what it renders) and its props resolved from its TypeScript types, and which component
  * page each one belongs to. The React section of a component page is made from this, so it shows the API that
  * exists, under the names it has today.
@@ -7,7 +7,7 @@
 import { componentDocs, exists, read, type Doc } from "./data";
 
 const BASE = "packages/react/src";
-const ENTRIES: Record<string, string> = { "@jaatster/blip-react": "index.ts", "@jaatster/blip-react/game": "game.ts", "@jaatster/blip-react/blocks": "blocks.ts", "@jaatster/blip-react/effects": "effects.ts", "@jaatster/blip-react/icons": "icons.tsx" };
+const ENTRIES: Record<string, string> = { "@blip/react": "index.ts", "@blip/react/game": "game.ts", "@blip/react/blocks": "blocks.ts", "@blip/react/effects": "effects.ts", "@blip/react/icons": "icons.tsx" };
 
 // ------------------------------------------------------------------ scanning TypeScript text
 
@@ -468,7 +468,7 @@ export interface ReactComponent {
   description: string;
   /** The code examples in its JSDoc. */
   examples: string[];
-  /** What it renders, as its JSDoc says: `<button class="chu-box chu-button">`. */
+  /** What it renders, as its JSDoc says: `<button class="blip-box blip-button">`. */
   renders: string | null;
   /** The custom element it wraps, for an element's wrapper. */
   tag: string | null;
@@ -521,7 +521,7 @@ function defaults(statement: string): Record<string, string> {
 }
 
 let componentsCache: ReactComponent[] | undefined;
-/** Every component @jaatster/blip-react exports, in source order, with its props. */
+/** Every component @blip/react exports, in source order, with its props. */
 export function reactComponents(): ReactComponent[] {
   if (componentsCache) return componentsCache;
   const out: ReactComponent[] = [];
@@ -546,7 +546,7 @@ export function reactComponents(): ReactComponent[] {
         propsType = split(fr[1]!, ",")[1] ?? null;
       } else if (cc) {
         propsType = split(cc[1]!, ",")[1] ?? null;
-        tagName = d.text.match(/tag:\s*"(chu-[a-z0-9-]+)"/)?.[1] ?? null;
+        tagName = d.text.match(/tag:\s*"(blip-[a-z0-9-]+)"/)?.[1] ?? null;
       } else continue;
       const res = propsType ? resolve(propsType, file) : { props: [], native: null, notes: [] };
       const defs = defaults(d.text);
@@ -563,7 +563,7 @@ export function reactComponents(): ReactComponent[] {
         description,
         examples: examplesOf(d.doc),
         renders,
-        tag: tagName ?? renders?.match(/^<(chu-[a-z0-9-]+)/)?.[1] ?? null,
+        tag: tagName ?? renders?.match(/^<(blip-[a-z0-9-]+)/)?.[1] ?? null,
         props,
         native: as ? "as" : res.native,
         as,
@@ -607,7 +607,7 @@ export function reactFunctions(): ReactFunction[] {
 
 // ------------------------------------------------------------------ which page each belongs to
 
-const UTILITY = new Set(["chu-box", "chu-display", "chu-pop", "chu-pop-in", "chu-sr-only", "chu-icon", "chu-label", "chu-outline"]);
+const UTILITY = new Set(["blip-box", "blip-display", "blip-pop", "blip-pop-in", "blip-sr-only", "blip-icon", "blip-label", "blip-outline"]);
 const cssBase = (d: Doc) => (d.meta.css && /^[a-z0-9-]+\.css$/.test(d.meta.css) ? d.meta.css.replace(/\.css$/, "") : null);
 const lcp = (a: string, b: string) => {
   let i = 0;
@@ -632,15 +632,15 @@ function byPage(): Map<string, ReactComponent[]> {
   for (const c of all) {
     let page: Doc | undefined = pages.find((d) => d.meta.react === c.name);
     if (!page && c.tag) page = pages.find((d) => (d.meta.element ?? "").split(",").map((s) => s.trim()).includes(c.tag!));
-    const classes = (c.renders?.match(/class="([^"]*)"/)?.[1] ?? "").split(/\s+/).filter((x) => x.startsWith("chu-") && !UTILITY.has(x));
+    const classes = (c.renders?.match(/class="([^"]*)"/)?.[1] ?? "").split(/\s+/).filter((x) => x.startsWith("blip-") && !UTILITY.has(x));
     if (!page && classes.length) {
-      // A part's own class (chu-alert-close) says more than a class it shares (chu-button); the longest base wins.
+      // A part's own class (blip-alert-close) says more than a class it shares (blip-button); the longest base wins.
       let best: { doc: Doc; part: boolean; len: number } | undefined;
       for (const cls of classes) {
         for (const d of pages) {
           const b = cssBase(d);
-          if (!b || !(cls === `chu-${b}` || cls.startsWith(`chu-${b}-`))) continue;
-          const part = cls !== `chu-${b}`;
+          if (!b || !(cls === `blip-${b}` || cls.startsWith(`blip-${b}-`))) continue;
+          const part = cls !== `blip-${b}`;
           const better = !best || (part && !best.part) || (part === best.part && b.length > best.len) || (part === best.part && b.length === best.len && d.meta.react && lcp(c.name, d.meta.react) > lcp(c.name, best.doc.meta.react ?? ""));
           if (better) best = { doc: d, part, len: b.length };
         }

@@ -29,8 +29,8 @@ jobs:
           .tools/venv/bin/pip install --disable-pip-version-check fonttools==4.68.0 brotli==1.2.1
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
-      - run: pnpm --filter @jaatster/blip-tests exec playwright install --with-deps chromium
-      - run: pnpm --filter @jaatster/blip-tests test:visual:update
+      - run: pnpm --filter @blip/tests exec playwright install --with-deps chromium
+      - run: pnpm --filter @blip/tests test:visual:update
       - uses: actions/upload-artifact@v7
         with:
           name: linux-baselines

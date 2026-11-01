@@ -1,40 +1,40 @@
 <!-- Bottom bar: a phone screen (a narrow frame that scrolls, so the bar sticks to its foot) with five destinations and
-     a count, a three-item bar with a dot, and the item states forced with data-chu-state. -->
-<div style="display:flex;flex-wrap:wrap;gap:calc(12*var(--chu-pixel));align-items:start">
+     a count, a three-item bar with a dot, and the item states forced with data-blip-state. -->
+<div style="display:flex;flex-wrap:wrap;gap:calc(12*var(--blip-pixel));align-items:start">
 
-  <div class="chu-box" data-variant="panel" data-chu-r="6" style="inline-size:calc(195*var(--chu-pixel));max-block-size:calc(150*var(--chu-pixel));overflow-y:auto;display:flex;flex-direction:column">
-    <div style="padding:calc(8*var(--chu-pixel)) calc(8*var(--chu-pixel)) calc(24*var(--chu-pixel));display:grid;gap:calc(4*var(--chu-pixel))">
-      <h3 class="chu-display chu-pop" data-scale="1" data-pop="Today">Today</h3>
-      <p class="chu-body">Daily challenge: clear World 3 without losing a heart.</p>
-      <p class="chu-small chu-muted">Ends in 4 hours. 1,204 players are trying it.</p>
+  <div class="blip-box" data-variant="panel" data-blip-r="6" style="inline-size:calc(195*var(--blip-pixel));max-block-size:calc(150*var(--blip-pixel));overflow-y:auto;display:flex;flex-direction:column">
+    <div style="padding:calc(8*var(--blip-pixel)) calc(8*var(--blip-pixel)) calc(24*var(--blip-pixel));display:grid;gap:calc(4*var(--blip-pixel))">
+      <h3 class="blip-display blip-pop" data-scale="1" data-pop="Today">Today</h3>
+      <p class="blip-body">Daily challenge: clear World 3 without losing a heart.</p>
+      <p class="blip-small blip-muted">Ends in 4 hours. 1,204 players are trying it.</p>
     </div>
-    <nav class="chu-box chu-bottom-bar" aria-label="Main" data-collapse="auto">
-      <ul class="chu-bottom-bar-list" role="list">
-        <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#today" aria-current="page"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v1h1v1h1v1h1v1h1v1h-1v5H7V7H5v4H2V6H1V5h1V4h1V3h1V2h1z"/></svg><span class="chu-bottom-bar-label">Today</span></a></li>
-        <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#worlds"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2h-1v1H9v1h1v1h1v1H3v4H1z"/></svg><span class="chu-bottom-bar-label">Worlds</span></a></li>
-        <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#inbox"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v1h2v1h1v3h1v2H1V6h1V3h1V2h2zM4 9h4v1H7v1H5v-1H4z"/></svg><span class="chu-bottom-bar-label">Inbox</span><span class="chu-box chu-bottom-bar-badge" data-tone="danger">3<span class="chu-sr-only"> new</span></span></a></li>
-        <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#shop"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h6v2h2v8H1V3h2zm2 1v1h2V2z"/></svg><span class="chu-bottom-bar-label">Shop</span></a></li>
-        <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#me"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg><span class="chu-bottom-bar-label">Me</span></a></li>
+    <nav class="blip-box blip-bottom-bar" aria-label="Main" data-collapse="auto">
+      <ul class="blip-bottom-bar-list" role="list">
+        <li><a class="blip-box blip-bottom-bar-item" data-variant="ghost" href="#today" aria-current="page"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v1h1v1h1v1h1v1h1v1h-1v5H7V7H5v4H2V6H1V5h1V4h1V3h1V2h1z"/></svg><span class="blip-bottom-bar-label">Today</span></a></li>
+        <li><a class="blip-box blip-bottom-bar-item" data-variant="ghost" href="#worlds"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2h-1v1H9v1h1v1h1v1H3v4H1z"/></svg><span class="blip-bottom-bar-label">Worlds</span></a></li>
+        <li><a class="blip-box blip-bottom-bar-item" data-variant="ghost" href="#inbox"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v1h2v1h1v3h1v2H1V6h1V3h1V2h2zM4 9h4v1H7v1H5v-1H4z"/></svg><span class="blip-bottom-bar-label">Inbox</span><span class="blip-box blip-bottom-bar-badge" data-tone="danger">3<span class="blip-sr-only"> new</span></span></a></li>
+        <li><a class="blip-box blip-bottom-bar-item" data-variant="ghost" href="#shop"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h6v2h2v8H1V3h2zm2 1v1h2V2z"/></svg><span class="blip-bottom-bar-label">Shop</span></a></li>
+        <li><a class="blip-box blip-bottom-bar-item" data-variant="ghost" href="#me"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg><span class="blip-bottom-bar-label">Me</span></a></li>
       </ul>
     </nav>
   </div>
 
-  <div style="display:grid;gap:calc(8*var(--chu-pixel));inline-size:calc(150*var(--chu-pixel))">
-    <nav class="chu-box chu-bottom-bar" aria-label="Studio">
-      <ul class="chu-bottom-bar-list" role="list">
-        <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#build"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zm6 0h4v4H7zM1 7h4v4H1zm6 0h4v4H7z"/></svg><span class="chu-bottom-bar-label">Build</span></a></li>
-        <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#stats" aria-current="page"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M9 1h2v7H9zM5 3h2v5H5zM1 5h2v3H1zm0 4h10v2H1z"/></svg><span class="chu-bottom-bar-label">Stats</span></a></li>
-        <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#chat"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v1h2v1h1v3h1v2H1V6h1V3h1V2h2zM4 9h4v1H7v1H5v-1H4z"/></svg><span class="chu-bottom-bar-label">Alerts</span><span class="chu-box chu-bottom-bar-badge" data-tone="danger" data-dot><span class="chu-sr-only">, new</span></span></a></li>
+  <div style="display:grid;gap:calc(8*var(--blip-pixel));inline-size:calc(150*var(--blip-pixel))">
+    <nav class="blip-box blip-bottom-bar" aria-label="Studio">
+      <ul class="blip-bottom-bar-list" role="list">
+        <li><a class="blip-box blip-bottom-bar-item" data-variant="ghost" href="#build"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zm6 0h4v4H7zM1 7h4v4H1zm6 0h4v4H7z"/></svg><span class="blip-bottom-bar-label">Build</span></a></li>
+        <li><a class="blip-box blip-bottom-bar-item" data-variant="ghost" href="#stats" aria-current="page"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M9 1h2v7H9zM5 3h2v5H5zM1 5h2v3H1zm0 4h10v2H1z"/></svg><span class="blip-bottom-bar-label">Stats</span></a></li>
+        <li><a class="blip-box blip-bottom-bar-item" data-variant="ghost" href="#chat"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v1h2v1h1v3h1v2H1V6h1V3h1V2h2zM4 9h4v1H7v1H5v-1H4z"/></svg><span class="blip-bottom-bar-label">Alerts</span><span class="blip-box blip-bottom-bar-badge" data-tone="danger" data-dot><span class="blip-sr-only">, new</span></span></a></li>
       </ul>
     </nav>
 
     <!-- States, forced. -->
-    <nav class="chu-box chu-bottom-bar" aria-label="Bottom bar states">
-      <ul class="chu-bottom-bar-list" role="list">
-        <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#rest"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg><span class="chu-bottom-bar-label">Rest</span></a></li>
-        <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#hover" data-chu-state="hover"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg><span class="chu-bottom-bar-label">Hover</span></a></li>
-        <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#focus" data-chu-state="focus"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg><span class="chu-bottom-bar-label">Focus</span></a></li>
-        <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#current" aria-current="page"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg><span class="chu-bottom-bar-label">Here</span></a></li>
+    <nav class="blip-box blip-bottom-bar" aria-label="Bottom bar states">
+      <ul class="blip-bottom-bar-list" role="list">
+        <li><a class="blip-box blip-bottom-bar-item" data-variant="ghost" href="#rest"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg><span class="blip-bottom-bar-label">Rest</span></a></li>
+        <li><a class="blip-box blip-bottom-bar-item" data-variant="ghost" href="#hover" data-blip-state="hover"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg><span class="blip-bottom-bar-label">Hover</span></a></li>
+        <li><a class="blip-box blip-bottom-bar-item" data-variant="ghost" href="#focus" data-blip-state="focus"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg><span class="blip-bottom-bar-label">Focus</span></a></li>
+        <li><a class="blip-box blip-bottom-bar-item" data-variant="ghost" href="#current" aria-current="page"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg><span class="blip-bottom-bar-label">Here</span></a></li>
       </ul>
     </nav>
   </div>

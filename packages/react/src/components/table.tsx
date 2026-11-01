@@ -1,7 +1,7 @@
 /**
  * Table: TableFrame, TableScroll, DataTable, TableCaret, TableSort, TableCheck, TableEmpty and TableLoading, the parts
  * that go inside <Table>, and <Table> itself (generated from its element, re-exported here). CSS from
- * @jaatster/blip-components (table.css). <Table> (the element's wrapper) adds sorting and selection round the markup these
+ * @blip/components (table.css). <Table> (the element's wrapper) adds sorting and selection round the markup these
  * render.
  */
 import { forwardRef } from "react";
@@ -15,7 +15,7 @@ export { Table, type TableProps } from "../generated/elements.js";
 type Named = { "aria-label": string } | { "aria-labelledby": string };
 
 /** Whole pixels, as a length. */
-const px = (n: number): string => `calc(${n} * var(--chu-pixel))`;
+const px = (n: number): string => `calc(${n} * var(--blip-pixel))`;
 
 /** The user's style over one public custom property, when it has a value. */
 function withProperty(style: CSSProperties | undefined, name: string, value?: string): CSSProperties | undefined {
@@ -27,17 +27,17 @@ export type TableFrameProps = NativeProps<"div">;
 
 /**
  * The white panel round a table, which sits a pixel inside its outline. Leave it out for a table on a card.
- * Renders `<div class="chu-box chu-table-frame">`.
+ * Renders `<div class="blip-box blip-table-frame">`.
  *
  *   <TableFrame><DataTable>…</DataTable></TableFrame>
  */
 export const TableFrame = /*#__PURE__*/ forwardRef<HTMLDivElement, TableFrameProps>(function TableFrame({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("chu-box chu-table-frame", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-box blip-table-frame", className)} {...rest} />;
 });
 
 /** Own props of {@link TableScroll}. */
 export interface TableScrollOwnProps {
-  /** Past this height, in whole pixels, the body scrolls under the sticky header. `--chu-table-max-height`. */
+  /** Past this height, in whole pixels, the body scrolls under the sticky header. `--blip-table-max-height`. */
   maxHeight?: number;
 }
 
@@ -47,7 +47,7 @@ export type TableScrollProps = TableScrollOwnProps & Named & NativeProps<"div", 
  * The table's scroll region, with a pixel scrollbar and the header stuck to its top. It scrolls across (and down, with
  * `maxHeight`) rather than squeezing the columns. A named region in the Tab order, so keyboard users scroll it with the
  * arrow keys: name it by the caption (`aria-labelledby`) or with `aria-label`. Leave it out for a short table. Renders
- * `<div class="chu-table-scroll" role="region" tabindex="0">`.
+ * `<div class="blip-table-scroll" role="region" tabindex="0">`.
  *
  *   <TableScroll aria-labelledby="scores-cap" maxHeight={120}>…</TableScroll>
  */
@@ -58,10 +58,10 @@ export const TableScroll = /*#__PURE__*/ forwardRef<HTMLDivElement, TableScrollP
   return (
     <div
       ref={ref}
-      className={cx("chu-table-scroll", className)}
+      className={cx("blip-table-scroll", className)}
       role={role}
       tabIndex={tabIndex}
-      style={withProperty(style, "--chu-table-max-height", maxHeight === undefined ? undefined : px(maxHeight))}
+      style={withProperty(style, "--blip-table-max-height", maxHeight === undefined ? undefined : px(maxHeight))}
       {...rest}
     />
   );
@@ -87,10 +87,10 @@ export type DataTableProps = DataTableOwnProps & NativeProps<"table", DataTableO
 
 /**
  * A real `<table>` for data people compare across rows and columns, calm in the white panel's tiers. Give it a
- * `<caption>`, `scope="col"` on column headers (`.chu-numeric` on number columns and their headers, `aria-sort` on
+ * `<caption>`, `scope="col"` on column headers (`.blip-numeric` on number columns and their headers, `aria-sort` on
  * the sorted one) and `scope="row"` on the cell that names each row. All round it is optional: a
- * {@link TableFrame}, a {@link TableScroll}, and `<Table>` (`<chu-table>`) to sort and select in the page. Renders
- * `<table class="chu-table">`.
+ * {@link TableFrame}, a {@link TableScroll}, and `<Table>` (`<blip-table>`) to sort and select in the page. Renders
+ * `<table class="blip-table">`.
  *
  *   <Table>
  *     <TableFrame>
@@ -98,7 +98,7 @@ export type DataTableProps = DataTableOwnProps & NativeProps<"table", DataTableO
  *         <DataTable zebra>
  *           <caption id="scores-cap">Leaderboard, this week</caption>
  *           <thead><tr><th scope="col" aria-sort="descending"><TableSort>Score</TableSort></th></tr></thead>
- *           <tbody><tr><td className="chu-numeric">98,120</td></tr></tbody>
+ *           <tbody><tr><td className="blip-numeric">98,120</td></tr></tbody>
  *         </DataTable>
  *       </TableScroll>
  *     </TableFrame>
@@ -111,7 +111,7 @@ export const DataTable = /*#__PURE__*/ forwardRef<HTMLTableElement, DataTablePro
   return (
     <table
       ref={ref}
-      className={cx("chu-table", className)}
+      className={cx("blip-table", className)}
       data-zebra={flag(zebra)}
       data-density={density}
       data-stack={flag(stack)}
@@ -127,7 +127,7 @@ export type TableCaretProps = NativeProps<"span", { children?: never }>;
 /**
  * The pixel caret of a sort button. Both carets show, muted, until its column is sorted; then the one `aria-sort` on
  * the `<th>` says. {@link TableSort} draws one; use this only in a sort button of your own. Renders `<span
- * class="chu-table-caret" aria-hidden="true">`.
+ * class="blip-table-caret" aria-hidden="true">`.
  *
  *   <TableCaret />
  */
@@ -135,7 +135,7 @@ export const TableCaret = /*#__PURE__*/ forwardRef<HTMLSpanElement, TableCaretPr
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-table-caret", className)} aria-hidden {...rest} />;
+  return <span ref={ref} className={cx("blip-table-caret", className)} aria-hidden {...rest} />;
 });
 
 /** Props for {@link TableSort}. */
@@ -144,10 +144,10 @@ export type TableSortProps = NativeProps<"button">;
 /**
  * A sortable column's header button: a ghost box filling its `<th>`, the label and a pixel caret. Put `aria-sort`
  * on the `<th>` of the sorted column only. `<Table>` sorts when it is pressed; without it, sort on the server.
- * Renders `<button class="chu-box chu-table-sort" data-variant="ghost" type="button">` ending in a
+ * Renders `<button class="blip-box blip-table-sort" data-variant="ghost" type="button">` ending in a
  * {@link TableCaret}.
  *
- *   <th scope="col" className="chu-numeric" aria-sort="descending"><TableSort>Score</TableSort></th>
+ *   <th scope="col" className="blip-numeric" aria-sort="descending"><TableSort>Score</TableSort></th>
  */
 export const TableSort = /*#__PURE__*/ forwardRef<HTMLButtonElement, TableSortProps>(function TableSort(
   { type = "button", className, children, ...rest },
@@ -156,7 +156,7 @@ export const TableSort = /*#__PURE__*/ forwardRef<HTMLButtonElement, TableSortPr
   return (
     <button
       ref={ref}
-      className={cx("chu-box chu-table-sort", className)}
+      className={cx("blip-box blip-table-sort", className)}
       {...box({ variant: "ghost" })}
       type={type}
       {...rest}
@@ -173,10 +173,10 @@ export type TableCheckProps<T extends ElementType = "td"> = PolymorphicProps<T, 
  * A cell of the narrow checkbox column, holding a small checkbox. In a body row the checkbox is named by the row's
  * header (`aria-labelledby`), and a checked row is selected. In the header, `as="th"` (it takes `scope="col"`) holds a
  * select-all box named in words, with `data-select-all` on its input for `<Table>`. Renders `<td
- * class="chu-table-check">`.
+ * class="blip-table-check">`.
  *
  *   <TableCheck>
- *     <span className="chu-box chu-checkbox" data-size="sm"><input type="checkbox" aria-labelledby="p1" /></span>
+ *     <span className="blip-box blip-checkbox" data-size="sm"><input type="checkbox" aria-labelledby="p1" /></span>
  *   </TableCheck>
  */
 export const TableCheck = /*#__PURE__*/ forwardRef(function TableCheck(
@@ -186,7 +186,7 @@ export const TableCheck = /*#__PURE__*/ forwardRef(function TableCheck(
   return (
     <Tag
       ref={ref}
-      className={cx("chu-table-check", className)}
+      className={cx("blip-table-check", className)}
       scope={scope ?? (Tag === "th" ? "col" : undefined)}
       {...rest}
     />
@@ -203,7 +203,7 @@ export type TableEmptyProps = TableEmptyOwnProps & NativeProps<"tr", TableEmptyO
 
 /**
  * A body row for no data: one cell across the table, centred and muted, saying why and what to do. The ref and
- * props are the row's; its children go in the cell. Renders `<tr class="chu-table-empty"><td colspan>`.
+ * props are the row's; its children go in the cell. Renders `<tr class="blip-table-empty"><td colspan>`.
  *
  *   <tbody><TableEmpty colSpan={3}>No friends online. Invite someone to play.</TableEmpty></tbody>
  */
@@ -212,7 +212,7 @@ export const TableEmpty = /*#__PURE__*/ forwardRef<HTMLTableRowElement, TableEmp
   ref,
 ) {
   return (
-    <tr ref={ref} className={cx("chu-table-empty", className)} {...rest}>
+    <tr ref={ref} className={cx("blip-table-empty", className)} {...rest}>
       <td colSpan={colSpan}>{children}</td>
     </tr>
   );
@@ -223,7 +223,7 @@ export type TableLoadingProps = TableEmptyProps;
 
 /**
  * A body row while data loads: one cell across the table, muted, with three stepped dots. Mark the table `busy`.
- * The ref and props are the row's; its children go in the cell. Renders `<tr class="chu-table-loading"><td colspan>`.
+ * The ref and props are the row's; its children go in the cell. Renders `<tr class="blip-table-loading"><td colspan>`.
  *
  *   <DataTable busy>…<tbody><TableLoading colSpan={3}>Loading matches</TableLoading></tbody></DataTable>
  */
@@ -232,7 +232,7 @@ export const TableLoading = /*#__PURE__*/ forwardRef<HTMLTableRowElement, TableL
   ref,
 ) {
   return (
-    <tr ref={ref} className={cx("chu-table-loading", className)} {...rest}>
+    <tr ref={ref} className={cx("blip-table-loading", className)} {...rest}>
       <td colSpan={colSpan}>{children}</td>
     </tr>
   );

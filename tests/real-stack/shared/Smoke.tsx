@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import {
   Button, Combobox, Dialog, DialogBody, DialogFooter, DialogHeader, DialogPanel, DialogTitle, Field, FieldError,
   FieldHelp, FieldLabel, Input, Tab, TabList, TabPanel, Tabs,
-} from "@jaatster/blip-react";
+} from "@blip/react";
 
 const PLACES = ["Meadow", "Crystal caves", "Castle", "Canyon", "Desert", "Docks"];
 

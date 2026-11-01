@@ -27,12 +27,12 @@ const luminance = (c: string) => contrast(rgb(c), "rgb(0, 0, 0)") * 0.05 - 0.05;
 
 describe("box: disabled", () => {
   const tones = ["", 'data-tone="danger"', 'data-tone="success"', 'data-variant="soft"', 'data-variant="soft" data-tone="info"', 'data-tone="neutral"', 'data-tone="slate"', 'data-tone="purple"', 'data-variant="outline"', 'data-variant="outline" aria-pressed="true"', 'data-variant="ghost" aria-pressed="true"', 'aria-pressed="true"'];
-  const body = tones.map((t, i) => `<button class="chu-box chu-button" ${t} id="d${i}" disabled>Save</button>`).join("");
+  const body = tones.map((t, i) => `<button class="blip-box blip-button" ${t} id="d${i}" disabled>Save</button>`).join("");
 
   it.each(SCHEMES)("%s: the dither under every disabled candy keeps its label at 4.5:1", async (scheme) => {
     const page = await boxPage(browser, assets, { body, components: ["button"], scheme });
     for (let i = 0; i < tones.length; i++) {
-      const dither = rgb(await prop(page, `#d${i}`, "--chu-box-dither"));
+      const dither = rgb(await prop(page, `#d${i}`, "--blip-box-dither"));
       const label = await page.$eval(`#d${i}`, (e) => getComputedStyle(e).color);
       expect(contrast(label, dither), `${scheme} ${tones[i] || "accent"}: label ${label} on dither ${dither}`).toBeGreaterThanOrEqual(4.5);
     }
@@ -41,8 +41,8 @@ describe("box: disabled", () => {
 
   it("is light at Night (Starlight), not the page", async () => {
     const page = await boxPage(browser, assets, { body, components: ["button"], scheme: "night" });
-    expect(luminance(await prop(page, "#d0", "--chu-box-dither"))).toBeGreaterThan(0.5);
-    expect(rgb(await prop(page, "#d0", "--chu-box-dither"))).not.toBe(rgb(await prop(page, "html", "--chu-bg")));
+    expect(luminance(await prop(page, "#d0", "--blip-box-dither"))).toBeGreaterThan(0.5);
+    expect(rgb(await prop(page, "#d0", "--blip-box-dither"))).not.toBe(rgb(await prop(page, "html", "--blip-bg")));
     await page.context().close();
   });
 });
@@ -50,21 +50,21 @@ describe("box: disabled", () => {
 describe("box: soft and candy boxes are light inside", () => {
   // A container holding a link, a field, an outline button (at rest and hovered) and a ghost button (hovered).
   const holds = (k: string) => `<p>Read the <a id="${k}-a" href="#guide">guide</a>.</p>
-    <span class="chu-box chu-input" id="${k}-in"><input id="${k}-i" value="Typed" aria-label="Name"></span>
-    <button class="chu-box chu-button" data-variant="outline" id="${k}-o">Details</button>
-    <button class="chu-box chu-button" data-variant="outline" data-chu-state="hover" id="${k}-oh">Details</button>
-    <button class="chu-box chu-button" data-variant="ghost" id="${k}-g">Skip</button>
-    <button class="chu-box chu-button" data-variant="ghost" data-chu-state="hover" id="${k}-gh">Skip</button>
-    <span class="chu-muted" id="${k}-m">Muted</span>`;
+    <span class="blip-box blip-input" id="${k}-in"><input id="${k}-i" value="Typed" aria-label="Name"></span>
+    <button class="blip-box blip-button" data-variant="outline" id="${k}-o">Details</button>
+    <button class="blip-box blip-button" data-variant="outline" data-blip-state="hover" id="${k}-oh">Details</button>
+    <button class="blip-box blip-button" data-variant="ghost" id="${k}-g">Skip</button>
+    <button class="blip-box blip-button" data-variant="ghost" data-blip-state="hover" id="${k}-gh">Skip</button>
+    <span class="blip-muted" id="${k}-m">Muted</span>`;
   const containers = {
-    "soft card": `<article class="chu-box chu-card" data-variant="soft" id="soft">${holds("soft")}</article>`,
-    "candy card": `<article class="chu-box chu-card" data-variant="candy" data-tone="teal" id="candy">${holds("candy")}</article>`,
-    "slate card": `<article class="chu-box chu-card" data-variant="soft" data-tone="slate" id="slate">${holds("slate")}</article>`,
-    "soft list": `<ul class="chu-box chu-list" data-variant="soft" role="list" id="list"><li class="chu-list-item">${holds("list")}</li></ul>`,
-    "soft window": `<section class="chu-box chu-window" data-variant="soft" aria-label="W" id="win"><div class="chu-window-body">${holds("win")}</div></section>`,
-    "soft stat": `<div class="chu-box chu-stat" data-variant="soft" data-tone="pink" id="stat">${holds("stat")}</div>`,
-    "alert (soft by default)": `<div class="chu-box chu-alert" data-tone="success" id="alert"><div class="chu-alert-body">${holds("alert")}</div></div>`,
-    "candy alert": `<div class="chu-box chu-alert" data-variant="candy" data-tone="danger" id="calert"><div class="chu-alert-body">${holds("calert")}</div></div>`,
+    "soft card": `<article class="blip-box blip-card" data-variant="soft" id="soft">${holds("soft")}</article>`,
+    "candy card": `<article class="blip-box blip-card" data-variant="candy" data-tone="teal" id="candy">${holds("candy")}</article>`,
+    "slate card": `<article class="blip-box blip-card" data-variant="soft" data-tone="slate" id="slate">${holds("slate")}</article>`,
+    "soft list": `<ul class="blip-box blip-list" data-variant="soft" role="list" id="list"><li class="blip-list-item">${holds("list")}</li></ul>`,
+    "soft window": `<section class="blip-box blip-window" data-variant="soft" aria-label="W" id="win"><div class="blip-window-body">${holds("win")}</div></section>`,
+    "soft stat": `<div class="blip-box blip-stat" data-variant="soft" data-tone="pink" id="stat">${holds("stat")}</div>`,
+    "alert (soft by default)": `<div class="blip-box blip-alert" data-tone="success" id="alert"><div class="blip-alert-body">${holds("alert")}</div></div>`,
+    "candy alert": `<div class="blip-box blip-alert" data-variant="candy" data-tone="danger" id="calert"><div class="blip-alert-body">${holds("calert")}</div></div>`,
   };
   const ids: Record<string, string> = { "soft card": "soft", "candy card": "candy", "slate card": "slate", "soft list": "list", "soft window": "win", "soft stat": "stat", "alert (soft by default)": "alert", "candy alert": "calert" };
   const body = Object.values(containers).join("");
@@ -72,35 +72,35 @@ describe("box: soft and candy boxes are light inside", () => {
   it.each(SCHEMES)("%s: links, fields and calm buttons read on every soft and candy container", async (scheme) => {
     const page = await boxPage(browser, assets, { body, components: ["button", "card", "list", "window", "stat", "alert", "input"], scheme });
     for (const [name, k] of Object.entries(ids)) {
-      const fill = rgb(await prop(page, `#${k}`, "--chu-box-fill"));
+      const fill = rgb(await prop(page, `#${k}`, "--blip-box-fill"));
       const color = (sel: string) => page.$eval(sel, (e) => getComputedStyle(e).color);
       const at = `${scheme} ${name}`;
       expect(contrast(await color(`#${k}-a`), fill), `${at}: link`).toBeGreaterThanOrEqual(4.5);
       expect(contrast(await color(`#${k}-m`), fill), `${at}: muted text`).toBeGreaterThanOrEqual(4.5);
-      expect(contrast(await color(`#${k}-i`), rgb(await prop(page, `#${k}-in`, "--chu-box-fill"))), `${at}: text in the field`).toBeGreaterThanOrEqual(4.5);
-      expect(contrast(rgb(await prop(page, `#${k}-in`, "--chu-box-outline")), fill), `${at}: the field's outline`).toBeGreaterThanOrEqual(3);
-      for (const b of ["o", "oh", "gh"]) expect(contrast(await color(`#${k}-${b}`), rgb(await prop(page, `#${k}-${b}`, "--chu-box-fill"))), `${at}: button ${b}`).toBeGreaterThanOrEqual(4.5);
-      expect(contrast(rgb(await prop(page, `#${k}-o`, "--chu-box-outline")), fill), `${at}: the outline button's outline`).toBeGreaterThanOrEqual(3);
+      expect(contrast(await color(`#${k}-i`), rgb(await prop(page, `#${k}-in`, "--blip-box-fill"))), `${at}: text in the field`).toBeGreaterThanOrEqual(4.5);
+      expect(contrast(rgb(await prop(page, `#${k}-in`, "--blip-box-outline")), fill), `${at}: the field's outline`).toBeGreaterThanOrEqual(3);
+      for (const b of ["o", "oh", "gh"]) expect(contrast(await color(`#${k}-${b}`), rgb(await prop(page, `#${k}-${b}`, "--blip-box-fill"))), `${at}: button ${b}`).toBeGreaterThanOrEqual(4.5);
+      expect(contrast(rgb(await prop(page, `#${k}-o`, "--blip-box-outline")), fill), `${at}: the outline button's outline`).toBeGreaterThanOrEqual(3);
       expect(contrast(await color(`#${k}-g`), fill), `${at}: ghost button`).toBeGreaterThanOrEqual(4.5);
     }
     await page.context().close();
   });
 
   it("not while the box itself is disabled: its dither still shows what is behind it", async () => {
-    const page = await boxPage(browser, assets, { body: '<button class="chu-box chu-button" data-variant="soft" id="b" disabled>Save</button>', components: ["button"], scheme: "night" });
-    expect(rgb(await prop(page, "#b", "--chu-box-dither"))).toBe(rgb(await prop(page, "html", "--chu-disabled-dither")));
+    const page = await boxPage(browser, assets, { body: '<button class="blip-box blip-button" data-variant="soft" id="b" disabled>Save</button>', components: ["button"], scheme: "night" });
+    expect(rgb(await prop(page, "#b", "--blip-box-dither"))).toBe(rgb(await prop(page, "html", "--blip-disabled-dither")));
     await page.context().close();
   });
 });
 
 describe("box: on reads without colour", () => {
-  const body = `<button class="chu-box chu-button" aria-pressed="true" id="on">On</button>
-    <button class="chu-box chu-button" aria-pressed="false" id="off">Off</button>
-    <button class="chu-box chu-button" data-variant="soft" aria-pressed="true" id="soft">On</button>
-    <button class="chu-box chu-button" data-variant="outline" aria-pressed="true" id="outline">On</button>
-    <button class="chu-box chu-tab" role="tab" aria-selected="true" id="tab">Tab</button>
-    <label class="chu-check"><span class="chu-box chu-checkbox" id="check"><input type="checkbox" checked></span>Music</label>
-    <button class="chu-box chu-button" aria-pressed="true" id="outer"><span class="chu-box chu-badge" id="inner">3</span></button>`;
+  const body = `<button class="blip-box blip-button" aria-pressed="true" id="on">On</button>
+    <button class="blip-box blip-button" aria-pressed="false" id="off">Off</button>
+    <button class="blip-box blip-button" data-variant="soft" aria-pressed="true" id="soft">On</button>
+    <button class="blip-box blip-button" data-variant="outline" aria-pressed="true" id="outline">On</button>
+    <button class="blip-box blip-tab" role="tab" aria-selected="true" id="tab">Tab</button>
+    <label class="blip-check"><span class="blip-box blip-checkbox" id="check"><input type="checkbox" checked></span>Music</label>
+    <button class="blip-box blip-button" aria-pressed="true" id="outer"><span class="blip-box blip-badge" id="inner">3</span></button>`;
 
   it("candy and soft boxes that are on sink their face a pixel inside the outline; others keep theirs", async () => {
     const page = await boxPage(browser, assets, { body, components: ["button", "tabs", "checkbox", "badge"], scheme: "day" });
@@ -114,48 +114,48 @@ describe("box: on reads without colour", () => {
 describe("box: on, under the pointer", () => {
   // Calm tiers show their well when hovered; one that is on keeps its tone, or its ink label would sit on the dark
   // well at Night (a chosen outline tab went blank under the pointer).
-  const body = `<div class="chu-tabs" data-variant="outline"><div class="chu-tabs-list" role="tablist" aria-label="Library">
-      <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="true" id="tab">Saves</button></div></div>
-    <button class="chu-box chu-button" data-variant="ghost" aria-pressed="true" id="ghost">Grid</button>
-    <button class="chu-box chu-button" data-variant="outline" aria-expanded="true" id="menu">Sort</button>
-    <button class="chu-box chu-button" data-variant="outline" id="off">Off</button>`;
+  const body = `<div class="blip-tabs" data-variant="outline"><div class="blip-tabs-list" role="tablist" aria-label="Library">
+      <button class="blip-box blip-tab" data-variant="outline" role="tab" aria-selected="true" id="tab">Saves</button></div></div>
+    <button class="blip-box blip-button" data-variant="ghost" aria-pressed="true" id="ghost">Grid</button>
+    <button class="blip-box blip-button" data-variant="outline" aria-expanded="true" id="menu">Sort</button>
+    <button class="blip-box blip-button" data-variant="outline" id="off">Off</button>`;
 
   it.each(SCHEMES)("%s: an on outline or ghost box keeps its tone and its label reads; one that is off shows the well", async (scheme) => {
     const page = await boxPage(browser, assets, { body, components: ["button", "tabs"], scheme });
     for (const sel of ["#tab", "#ghost", "#menu"]) {
       await page.hover(sel);
-      const fill = rgb(await prop(page, sel, "--chu-box-fill"));
-      expect(fill, sel).toBe(rgb(await prop(page, sel, "--chu-tone-light")));
+      const fill = rgb(await prop(page, sel, "--blip-box-fill"));
+      expect(fill, sel).toBe(rgb(await prop(page, sel, "--blip-tone-light")));
       const label = await page.$eval(sel, (e) => getComputedStyle(e).color);
       expect(contrast(label, fill), `${scheme} ${sel}: label ${label} on ${fill}`).toBeGreaterThanOrEqual(4.5);
     }
     await page.hover("#off");
-    expect(rgb(await prop(page, "#off", "--chu-box-fill"))).toBe(rgb(await prop(page, "#off", "--chu-surface-sunken")));
+    expect(rgb(await prop(page, "#off", "--blip-box-fill"))).toBe(rgb(await prop(page, "#off", "--blip-surface-sunken")));
     await page.context().close();
   });
 });
 
 describe("box: more contrast", () => {
   it("draws the focus ring's ink edge two pixels wide, and fills a disabled ghost so only its outline is line", async () => {
-    const body = `<button class="chu-box chu-button" data-chu-state="focus" id="f">Save</button>
-      <button class="chu-box chu-button" data-variant="ghost" disabled id="g">Skip</button>`;
+    const body = `<button class="blip-box blip-button" data-blip-state="focus" id="f">Save</button>
+      <button class="blip-box blip-button" data-variant="ghost" disabled id="g">Skip</button>`;
     const page = await boxPage(browser, assets, { body, components: ["button"], scheme: "day" });
     const shadows = async () => (await prop(page, "#f", "filter")).match(/drop-shadow/g)?.length;
     expect(await shadows()).toBe(8);
     await page.emulateMedia({ contrast: "more" });
     expect(await shadows()).toBe(12);
-    expect(rgb(await prop(page, "#g", "--chu-box-fill"))).toBe(rgb(await prop(page, "html", "--chu-surface")));
+    expect(rgb(await prop(page, "#g", "--blip-box-fill"))).toBe(rgb(await prop(page, "html", "--blip-surface")));
     await page.context().close();
   });
 });
 
 describe("box: Windows high contrast", () => {
-  const body = `<button class="chu-box chu-button" aria-pressed="true" id="on">On</button>
-    <button class="chu-box chu-button" aria-pressed="false" id="off">Off</button>
-    <button class="chu-box chu-tab" role="tab" aria-selected="true" id="tab">Tab</button>
-    <a class="chu-box chu-button" data-variant="ghost" href="#p" aria-current="page" id="current">Page</a>
-    <button class="chu-box chu-button" aria-pressed="true" disabled id="off-on">On</button>
-    <button class="chu-box chu-button" aria-busy="true" id="busy">Saving</button>
+  const body = `<button class="blip-box blip-button" aria-pressed="true" id="on">On</button>
+    <button class="blip-box blip-button" aria-pressed="false" id="off">Off</button>
+    <button class="blip-box blip-tab" role="tab" aria-selected="true" id="tab">Tab</button>
+    <a class="blip-box blip-button" data-variant="ghost" href="#p" aria-current="page" id="current">Page</a>
+    <button class="blip-box blip-button" aria-pressed="true" disabled id="off-on">On</button>
+    <button class="blip-box blip-button" aria-busy="true" id="busy">Saving</button>
     <span id="hl" style="forced-color-adjust:none;background:Highlight;color:HighlightText">x</span>`;
 
   it.each(["dark", "light"] as const)("%s theme: on, selected and current are the highlight; busy shows its dots", async (colorScheme) => {
@@ -174,14 +174,14 @@ describe("box: Windows high contrast", () => {
 describe("box: paper", () => {
   it("prints Day's colours whatever the scheme, boxes exactly as they look, and no scrim", async () => {
     const page = await boxPage(browser, assets, {
-      body: `<section data-chu-scheme="night" id="s"><button class="chu-box chu-button" id="b">Save</button></section><dialog class="chu-box chu-dialog" id="d">Saved</dialog>`,
+      body: `<section data-blip-scheme="night" id="s"><button class="blip-box blip-button" id="b">Save</button></section><dialog class="blip-box blip-dialog" id="d">Saved</dialog>`,
       components: ["button", "dialog"],
       scheme: "night",
     });
     await page.$eval("#d", (d) => (d as HTMLDialogElement).showModal());
     await page.emulateMedia({ media: "print" });
     const day = await boxPage(browser, assets, { body: "", scheme: "day" });
-    for (const name of ["--chu-bg", "--chu-text", "--chu-surface", "--chu-accent", "--chu-disabled-dither"]) {
+    for (const name of ["--blip-bg", "--blip-text", "--blip-surface", "--blip-accent", "--blip-disabled-dither"]) {
       const want = await prop(day, "html", name);
       expect(await prop(page, "html", name), name).toBe(want);
       expect(await prop(page, "#s", name), `${name} in a night section`).toBe(want);
@@ -189,7 +189,7 @@ describe("box: paper", () => {
     for (const pseudo of [undefined, "::before", "::after"]) expect(await prop(page, "#b", "print-color-adjust", pseudo), pseudo ?? "box").toBe("exact");
     expect(await prop(page, "#d", "background-image", "::backdrop")).toBe("none");
     await page.emulateMedia({ media: "screen" });
-    expect(await prop(page, "html", "--chu-bg")).not.toBe(await prop(day, "html", "--chu-bg"));
+    expect(await prop(page, "html", "--blip-bg")).not.toBe(await prop(day, "html", "--blip-bg"));
     await page.context().close();
     await day.context().close();
   });

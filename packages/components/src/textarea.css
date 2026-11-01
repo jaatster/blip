@@ -2,49 +2,49 @@
  * Textarea. Several lines of text in the same calm well as the input. It grows with its content when you ask
  * (field-sizing, where the browser has it), and otherwise the person can drag it taller by a pixel grip.
  *
- *   <span class="chu-box chu-textarea"><textarea id="bio" rows="4" maxlength="200"></textarea></span>
- *   <span class="chu-box chu-textarea" data-autogrow><textarea id="note" rows="2"></textarea></span>
+ *   <span class="blip-box blip-textarea"><textarea id="bio" rows="4" maxlength="200"></textarea></span>
+ *   <span class="blip-box blip-textarea" data-autogrow><textarea id="note" rows="2"></textarea></span>
  *
  *   data-autogrow           grow with the text, from the rows you set up to 12 lines; no grip
  *   data-size               sm | md (default) | lg       the text size and corner, as for the input
  *   data-tone               success (or any tone): a valid field's outline
  *
  * States as for the input: focus is the box's ring, aria-invalid or :user-invalid the danger outline, [readonly]
- * flat, disabled dithered. Count characters with a .chu-field-count (and <chu-field>, which keeps it up to date).
+ * flat, disabled dithered. Count characters with a .blip-field-count (and <blip-field>, which keeps it up to date).
  */
 @import "./_control.css";
 
-@layer chu.components {
-  .chu-textarea {
+@layer blip.components {
+  .blip-textarea {
     align-items: stretch;
-    padding-block: calc(3 * var(--chu-pixel)) var(--chu-pixel);
-    padding-inline-end: var(--chu-pixel);
+    padding-block: calc(3 * var(--blip-pixel)) var(--blip-pixel);
+    padding-inline-end: var(--blip-pixel);
   }
-  .chu-textarea > textarea {
-    min-block-size: calc(2lh + 2 * var(--chu-pixel));
-    padding-block-end: calc(2 * var(--chu-pixel));
-    padding-inline-end: calc(var(--_pad) - var(--chu-pixel));
-    line-height: var(--chu-leading-normal);
+  .blip-textarea > textarea {
+    min-block-size: calc(2lh + 2 * var(--blip-pixel));
+    padding-block-end: calc(2 * var(--blip-pixel));
+    padding-inline-end: calc(var(--_pad) - var(--blip-pixel));
+    line-height: var(--blip-leading-normal);
     resize: vertical;
     scrollbar-width: thin;
   }
-  .chu-textarea[data-autogrow] > textarea {
+  .blip-textarea[data-autogrow] > textarea {
     /* Content sizing ignores rows: start from them anyway (two lines where attr() can't read them). */
-    min-block-size: calc(attr(rows type(<integer>), 2) * 1lh + 2 * var(--chu-pixel));
+    min-block-size: calc(attr(rows type(<integer>), 2) * 1lh + 2 * var(--blip-pixel));
     field-sizing: content;
-    max-block-size: calc(12lh + 2 * var(--chu-pixel));
+    max-block-size: calc(12lh + 2 * var(--blip-pixel));
     resize: none;
   }
-  .chu-textarea:has(> :is([readonly], :disabled)) > textarea { resize: none; }
+  .blip-textarea:has(> :is([readonly], :disabled)) > textarea { resize: none; }
 
   /* The grip: six muted pixels stepping down into the corner. */
-  .chu-textarea > textarea::-webkit-resizer {
+  .blip-textarea > textarea::-webkit-resizer {
     background:
-      linear-gradient(var(--chu-text-muted) 0 0) right calc(1 * var(--chu-pixel)) bottom calc(5 * var(--chu-pixel)) / var(--chu-pixel) var(--chu-pixel) no-repeat,
-      linear-gradient(var(--chu-text-muted) 0 0) right calc(3 * var(--chu-pixel)) bottom calc(3 * var(--chu-pixel)) / var(--chu-pixel) var(--chu-pixel) no-repeat,
-      linear-gradient(var(--chu-text-muted) 0 0) right calc(1 * var(--chu-pixel)) bottom calc(3 * var(--chu-pixel)) / var(--chu-pixel) var(--chu-pixel) no-repeat,
-      linear-gradient(var(--chu-text-muted) 0 0) right calc(5 * var(--chu-pixel)) bottom calc(1 * var(--chu-pixel)) / var(--chu-pixel) var(--chu-pixel) no-repeat,
-      linear-gradient(var(--chu-text-muted) 0 0) right calc(3 * var(--chu-pixel)) bottom calc(1 * var(--chu-pixel)) / var(--chu-pixel) var(--chu-pixel) no-repeat,
-      linear-gradient(var(--chu-text-muted) 0 0) right calc(1 * var(--chu-pixel)) bottom calc(1 * var(--chu-pixel)) / var(--chu-pixel) var(--chu-pixel) no-repeat;
+      linear-gradient(var(--blip-text-muted) 0 0) right calc(1 * var(--blip-pixel)) bottom calc(5 * var(--blip-pixel)) / var(--blip-pixel) var(--blip-pixel) no-repeat,
+      linear-gradient(var(--blip-text-muted) 0 0) right calc(3 * var(--blip-pixel)) bottom calc(3 * var(--blip-pixel)) / var(--blip-pixel) var(--blip-pixel) no-repeat,
+      linear-gradient(var(--blip-text-muted) 0 0) right calc(1 * var(--blip-pixel)) bottom calc(3 * var(--blip-pixel)) / var(--blip-pixel) var(--blip-pixel) no-repeat,
+      linear-gradient(var(--blip-text-muted) 0 0) right calc(5 * var(--blip-pixel)) bottom calc(1 * var(--blip-pixel)) / var(--blip-pixel) var(--blip-pixel) no-repeat,
+      linear-gradient(var(--blip-text-muted) 0 0) right calc(3 * var(--blip-pixel)) bottom calc(1 * var(--blip-pixel)) / var(--blip-pixel) var(--blip-pixel) no-repeat,
+      linear-gradient(var(--blip-text-muted) 0 0) right calc(1 * var(--blip-pixel)) bottom calc(1 * var(--blip-pixel)) / var(--blip-pixel) var(--blip-pixel) no-repeat;
   }
 }

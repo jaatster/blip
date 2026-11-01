@@ -1,5 +1,5 @@
 /**
- * @jaatster/blip-core's base styles in Chromium: text follows a larger default text size set in the browser (as Chrome's
+ * @blip/core's base styles in Chromium: text follows a larger default text size set in the browser (as Chrome's
  * font settings do) and stays on whole pixels at the default; prefers-contrast: more strengthens what is soft;
  * ligatures are off whatever the font; long words hyphenate or break in titles and reading text; and layers.css puts
  * Blip between Tailwind's base and its utilities, in either import order.
@@ -27,12 +27,12 @@ const sized = (px: number, body = "") =>
     },
   });
 const SIZES = ["caption", "small", "body", "lead", "title"];
-/** The page's text size and each --chu-size-* in CSS px. */
+/** The page's text size and each --blip-size-* in CSS px. */
 const measure = (page: Page) =>
   page.evaluate((sizes) => {
     const probe = document.body.appendChild(document.createElement("span"));
     const px = (v: string) => ((probe.style.fontSize = v), parseFloat(getComputedStyle(probe).fontSize));
-    const out = { html: parseFloat(getComputedStyle(document.documentElement).fontSize), ...Object.fromEntries(sizes.map((s) => [s, px(`var(--chu-size-${s})`)])) };
+    const out = { html: parseFloat(getComputedStyle(document.documentElement).fontSize), ...Object.fromEntries(sizes.map((s) => [s, px(`var(--blip-size-${s})`)])) };
     probe.remove();
     return out;
   }, SIZES);
@@ -60,15 +60,15 @@ describe("text size", () => {
   });
 
   it("leaves the pixel and everything counted in it alone", async () => {
-    const page = await sized(24, '<div style="block-size: var(--chu-control-md); inline-size: var(--chu-space-8)"></div>');
+    const page = await sized(24, '<div style="block-size: var(--blip-control-md); inline-size: var(--blip-space-8)"></div>');
     expect(await page.evaluate(() => [getComputedStyle(document.querySelector("div")!).blockSize, getComputedStyle(document.querySelector("div")!).inlineSize])).toEqual(["40px", "16px"]);
     await page.context().close();
   });
 });
 
 describe("prefers-contrast: more", () => {
-  const body = `<p class="chu-muted">Best time 1:42</p><hr><a href="#x" id="link">Rules</a>
-    <section data-chu-scheme="night"><p class="chu-muted">At night</p><hr></section>`;
+  const body = `<p class="blip-muted">Best time 1:42</p><hr><a href="#x" id="link">Rules</a>
+    <section data-blip-scheme="night"><p class="blip-muted">At night</p><hr></section>`;
   const read = (page: Page) =>
     page.evaluate(() => {
       const css = (el: Element, p: string) => getComputedStyle(el).getPropertyValue(p).trim();
@@ -76,9 +76,9 @@ describe("prefers-contrast: more", () => {
       const link = document.getElementById("link")!;
       link.focus({ focusVisible: true } as FocusOptions);
       return {
-        day: [css(day, "--chu-text-muted"), css(day, "--chu-text"), css(day, "--chu-line-soft"), css(day, "--chu-line")],
-        night: [css(night, "--chu-text-muted"), css(night, "--chu-text"), css(night, "--chu-line-soft"), css(night, "--chu-line")],
-        muted: [getComputedStyle(document.querySelector(".chu-muted")!).color, getComputedStyle(night.querySelector(".chu-muted")!).color],
+        day: [css(day, "--blip-text-muted"), css(day, "--blip-text"), css(day, "--blip-line-soft"), css(day, "--blip-line")],
+        night: [css(night, "--blip-text-muted"), css(night, "--blip-text"), css(night, "--blip-line-soft"), css(night, "--blip-line")],
+        muted: [getComputedStyle(document.querySelector(".blip-muted")!).color, getComputedStyle(night.querySelector(".blip-muted")!).color],
         rule: [getComputedStyle(document.querySelector("hr")!).backgroundColor, getComputedStyle(night.querySelector("hr")!).backgroundColor],
         ring: getComputedStyle(link).boxShadow,
       };
@@ -111,10 +111,10 @@ describe("ligatures", () => {
   it("are off for every piece of text, form controls included, whatever the font", async () => {
     const page = await open(browser, a, {
       head: STYLES,
-      body: '<p>first file field</p><button>Fill in</button><input value="final"><p class="chu-display">fi</p><code>fi</code>',
+      body: '<p>first file field</p><button>Fill in</button><input value="final"><p class="blip-display">fi</p><code>fi</code>',
     });
     const r = await page.evaluate(() => {
-      const all = ["html", "p", "button", "input", ".chu-display", "code"].map((s) => getComputedStyle(document.querySelector(s)!).fontVariantLigatures);
+      const all = ["html", "p", "button", "input", ".blip-display", "code"].map((s) => getComputedStyle(document.querySelector(s)!).fontVariantLigatures);
       // The width of "fi" as the page sets it, and with ligatures forced off: the same, in Pixelify Sans and a serif.
       const width = (family: string, ligatures?: string) => {
         const s = document.body.appendChild(Object.assign(document.createElement("span"), { textContent: "fi fl ffi ff" }));
@@ -141,9 +141,9 @@ describe("long words", () => {
       html: 'lang="de"',
       head: STYLES,
       body: `<div style="inline-size: 120px">${tags.map((t) => (t === "li" ? `<ul><li>${word}</li></ul>` : t === "dt" || t === "dd" ? `<dl><${t}>${word}</${t}></dl>` : `<${t}>${word}</${t}>`)).join("")}
-        <div class="chu-title">${word}</div><span class="chu-lead" style="display:block">${word}</span><span class="chu-body" style="display:block">${word}</span></div>`,
+        <div class="blip-title">${word}</div><span class="blip-lead" style="display:block">${word}</span><span class="blip-body" style="display:block">${word}</span></div>`,
     });
-    const r = await page.evaluate((tags) => [...tags, ".chu-title", ".chu-lead", ".chu-body"].map((t) => {
+    const r = await page.evaluate((tags) => [...tags, ".blip-title", ".blip-lead", ".blip-body"].map((t) => {
       const e = document.querySelector<HTMLElement>(t)!, cs = getComputedStyle(e);
       return [t, cs.hyphens, cs.overflowWrap, e.scrollWidth <= e.clientWidth];
     }), tags);
@@ -163,8 +163,8 @@ describe("layers.css", () => {
     @layer base { *, ::after, ::before { box-sizing: border-box; margin: 0; padding: 0; border: 0 solid; } a { color: inherit; text-decoration: inherit; } button { background-color: transparent; font: inherit; } }
     @layer utilities { .px-12 { padding-inline: calc(var(--spacing) * 12); } .text-red-600 { color: var(--color-red-600); } .no-underline { text-decoration-line: none; } .font-bold { --tw-font-weight: 700; font-weight: 700; } }`;
   // A component of Blip's own, the way the components package layers its rules.
-  const component = "@layer chu.components { .chu-thing { padding-inline: 16px; color: var(--chu-accent-text); } }";
-  const body = '<button class="chu-box chu-thing" id="plain">Save</button><button class="chu-box chu-thing px-12 text-red-600" id="utility">Save</button><a href="#x" id="link">Rules</a><a href="#x" id="red" class="text-red-600 no-underline font-bold">Rules</a>';
+  const component = "@layer blip.components { .blip-thing { padding-inline: 16px; color: var(--blip-accent-text); } }";
+  const body = '<button class="blip-box blip-thing" id="plain">Save</button><button class="blip-box blip-thing px-12 text-red-600" id="utility">Save</button><a href="#x" id="link">Rules</a><a href="#x" id="red" class="text-red-600 no-underline font-bold">Rules</a>';
   const sheets = (order: string[]) => order.map((href) => `<link rel="stylesheet" href="${href}">`).join("");
   const read = (page: Page) =>
     page.evaluate(() => {

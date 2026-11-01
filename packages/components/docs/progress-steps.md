@@ -1,6 +1,6 @@
 ---
 name: Progress steps
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: progress-steps.css
 element: null
 react: ProgressSteps
@@ -16,19 +16,19 @@ Horizontal by default, or down the side.
 ## Usage
 
 ```html
-<div class="chu-progress-steps" data-arrow>
-  <ol class="chu-progress-steps-list" aria-label="Checkout">
-    <li class="chu-progress-steps-item" data-state="done">
-      <a href="/checkout/basket"><span class="chu-box chu-progress-steps-marker">1</span>
-        <span class="chu-progress-steps-label">Basket<span class="chu-sr-only">, done</span></span></a>
+<div class="blip-progress-steps" data-arrow>
+  <ol class="blip-progress-steps-list" aria-label="Checkout">
+    <li class="blip-progress-steps-item" data-state="done">
+      <a href="/checkout/basket"><span class="blip-box blip-progress-steps-marker">1</span>
+        <span class="blip-progress-steps-label">Basket<span class="blip-sr-only">, done</span></span></a>
     </li>
-    <li class="chu-progress-steps-item" aria-current="step">
-      <span class="chu-box chu-progress-steps-marker">2</span>
-      <span class="chu-progress-steps-label">Payment</span>
-      <span class="chu-progress-steps-hint">Card or coins</span>
+    <li class="blip-progress-steps-item" aria-current="step">
+      <span class="blip-box blip-progress-steps-marker">2</span>
+      <span class="blip-progress-steps-label">Payment</span>
+      <span class="blip-progress-steps-hint">Card or coins</span>
     </li>
-    <li class="chu-progress-steps-item">
-      <span class="chu-box chu-progress-steps-marker">3</span><span class="chu-progress-steps-label">Review</span>
+    <li class="blip-progress-steps-item">
+      <span class="blip-box blip-progress-steps-marker">3</span><span class="blip-progress-steps-label">Review</span>
     </li>
   </ol>
 </div>
@@ -36,10 +36,10 @@ Horizontal by default, or down the side.
 
 ## Anatomy
 
-1. **Steps**: `.chu-progress-steps` (a size container) around an ordered list.
-2. **Marker**: `.chu-progress-steps-marker`, a 14-pixel box with the step's number; a check replaces the number once
+1. **Steps**: `.blip-progress-steps` (a size container) around an ordered list.
+2. **Marker**: `.blip-progress-steps-marker`, a 14-pixel box with the step's number; a check replaces the number once
    the step is done.
-3. **Label**: `.chu-progress-steps-label`, upper case, bold. **Hint** (optional): `.chu-progress-steps-hint`.
+3. **Label**: `.blip-progress-steps-label`, upper case, bold. **Hint** (optional): `.blip-progress-steps-hint`.
 4. **Line**: from each step to the next; solid when the next step is reached, dashed while it is ahead.
 5. **Arrow** (`data-arrow`): the TV's pointer arrow over the current step (beside it, down the side).
 
@@ -47,7 +47,7 @@ Horizontal by default, or down the side.
 
 | Attribute | Values | Use |
 |---|---|---|
-| `data-state="done"` on a step | | Finished: green candy and a check. Say so in its text too (", done" in a `chu-sr-only` span). |
+| `data-state="done"` on a step | | Finished: green candy and a check. Say so in its text too (", done" in a `blip-sr-only` span). |
 | `aria-current="step"` | on the current step, or on its link | Sits in, in the accent (or the marker's `data-tone`). |
 | `data-orientation="vertical"` | | Down the side, hints beside the steps. For checklists and long step names. |
 | `data-arrow` | | The pointer arrow bobs over the current step for a few beats, then rests. |
@@ -96,5 +96,5 @@ further off and fold a little sooner.
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-r` with `--chu-shape`, `--chu-shape-inner` | 4 | On the marker. |
-| `--chu-tone` and friends on a marker | accent | The current step's colour. |
+| `--blip-r` with `--blip-shape`, `--blip-shape-inner` | 4 | On the marker. |
+| `--blip-tone` and friends on a marker | accent | The current step's colour. |

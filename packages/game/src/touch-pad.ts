@@ -1,14 +1,14 @@
 /**
- * <chu-touch-pad>: a pixel D-pad and A and B buttons (and Start) for playing on a touch screen. It sends real
+ * <blip-touch-pad>: a pixel D-pad and A and B buttons (and Start) for playing on a touch screen. It sends real
  * keyboard events, so a game that listens for keys plays on a phone with no change: the arrow keys from the D-pad,
  * and the keys you choose from A, B and Start. Several fingers work at once. It never takes focus.
  *
- *   <chu-touch-pad for="game" data-a="z" data-b="x" data-start="Enter"></chu-touch-pad>
+ *   <blip-touch-pad for="game" data-a="z" data-b="x" data-start="Enter"></blip-touch-pad>
  *
  * Keys go to the element named by `for`, else to the focused element (so a focused menu's own keys work), bubbling
  * up to the document. Empty, it draws its own parts; write them yourself to name them in your language.
  */
-import { BlipElement } from "@jaatster/blip-core";
+import { BlipElement } from "@blip/core";
 
 /** The legacy keyCode older games read, for the keys that are not one character. */
 const CODES: Record<string, number> = { Enter: 13, Escape: 27, " ": 32, Tab: 9, Shift: 16, Control: 17, Backspace: 8, ArrowLeft: 37, ArrowUp: 38, ArrowRight: 39, ArrowDown: 40 };
@@ -39,7 +39,7 @@ interface Held {
  * @attr {boolean} haptics - A short buzz on each press, where the device can (navigator.vibrate). "false" is off.
  */
 export class BlipTouchPad extends BlipElement {
-  static classes = ["chu-touch-pad"];
+  static classes = ["blip-touch-pad"];
 
   /** What each pointer holds down. */
   #held = new Map<number, Held>();
@@ -51,13 +51,13 @@ export class BlipTouchPad extends BlipElement {
     if (!this.hasAttribute("aria-label")) this.setAttribute("aria-label", "Game controls");
     if (!this.firstElementChild) this.#draw();
     this.on(this, "pointerdown", (e) => {
-      const ctl = (e.target as Element).closest<HTMLElement>(".chu-touch-pad-dpad, .chu-touch-pad-button");
+      const ctl = (e.target as Element).closest<HTMLElement>(".blip-touch-pad-dpad, .blip-touch-pad-button");
       if (!ctl || e.button) return;
       // Keep focus, the caret and the text where they are, and the browser's own gestures off.
       e.preventDefault();
       this.#down = e.timeStamp;
       ctl.setPointerCapture(e.pointerId);
-      const pad = ctl.matches(".chu-touch-pad-dpad") ? ctl : null;
+      const pad = ctl.matches(".blip-touch-pad-dpad") ? ctl : null;
       this.#hold(e.pointerId, pad ? this.#arm(e, pad) : ctl, pad);
     });
     // A thumb rolled across the D-pad changes direction.
@@ -73,7 +73,7 @@ export class BlipTouchPad extends BlipElement {
     this.on(this, "contextmenu", (e) => e.preventDefault());
     // A screen reader's double tap is a click with no pointer before it: a short press.
     this.on(this, "click", (e) => {
-      const el = (e.target as Element).closest<HTMLElement>(".chu-touch-pad-arm, .chu-touch-pad-button");
+      const el = (e.target as Element).closest<HTMLElement>(".blip-touch-pad-arm, .blip-touch-pad-button");
       if (!el || e.timeStamp - this.#down < 1000) return;
       const id = -1 - this.#held.size;
       this.#hold(id, el, null);
@@ -109,7 +109,7 @@ export class BlipTouchPad extends BlipElement {
     const again = [...this.#held.values()].some((h) => h.el === el);
     this.#held.set(id, { el, pad, target });
     if (!el || again) return;
-    el.toggleAttribute("data-chu-pressed", true);
+    el.toggleAttribute("data-blip-pressed", true);
     this.#send("keydown", el, target);
     if (this.flag("haptics")) navigator.vibrate?.(10);
   }
@@ -119,7 +119,7 @@ export class BlipTouchPad extends BlipElement {
     this.#held.delete(id);
     const el = held?.el;
     if (!el || [...this.#held.values()].some((h) => h.el === el)) return;
-    el.removeAttribute("data-chu-pressed");
+    el.removeAttribute("data-blip-pressed");
     this.#send("keyup", el, held.target);
   }
 
@@ -141,28 +141,28 @@ export class BlipTouchPad extends BlipElement {
       el.append(text);
       return el;
     };
-    const pad = part("chu-touch-pad-dpad");
+    const pad = part("blip-touch-pad-dpad");
     // Each arm holds an empty span for its arrow.
     for (const d in ARROWS) {
-      const arm = part("chu-box chu-touch-pad-arm", { "data-dir": d, role: "button", "aria-label": d[0]!.toUpperCase() + d.slice(1) });
+      const arm = part("blip-box blip-touch-pad-arm", { "data-dir": d, role: "button", "aria-label": d[0]!.toUpperCase() + d.slice(1) });
       arm.append(part(""));
       pad.append(arm);
     }
-    pad.append(part("chu-box chu-touch-pad-hub", { "aria-hidden": "true" }));
-    const buttons = part("chu-touch-pad-buttons");
-    for (const b of "ba") buttons.append(part("chu-box chu-touch-pad-button", { "data-button": b, role: "button" }, b.toUpperCase()));
+    pad.append(part("blip-box blip-touch-pad-hub", { "aria-hidden": "true" }));
+    const buttons = part("blip-touch-pad-buttons");
+    for (const b of "ba") buttons.append(part("blip-box blip-touch-pad-button", { "data-button": b, role: "button" }, b.toUpperCase()));
     this.append(pad);
-    if (this.hasAttribute("data-start")) this.append(part("chu-box chu-touch-pad-button", { "data-button": "start", role: "button" }, "Start"));
+    if (this.hasAttribute("data-start")) this.append(part("blip-box blip-touch-pad-button", { "data-button": "start", role: "button" }, "Start"));
     this.append(buttons);
     // Each says which key it stands for.
     for (const el of this.querySelectorAll<HTMLElement>("[role=button]")) el.setAttribute("aria-keyshortcuts", this.#key(el).replace(/^ $/, "Space"));
   }
 }
 
-BlipElement.define("chu-touch-pad", BlipTouchPad);
+BlipElement.define("blip-touch-pad", BlipTouchPad);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "chu-touch-pad": BlipTouchPad;
+    "blip-touch-pad": BlipTouchPad;
   }
 }

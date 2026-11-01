@@ -1,8 +1,8 @@
 ---
 name: Pager
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: pager.css
-element: chu-pager
+element: blip-pager
 react: Pager
 status: beta
 equivalents:
@@ -13,7 +13,7 @@ equivalents:
 # Pager
 
 A row of full-width slides you swipe between, one at a time, with pixel dots under them: the steps of a tour, the
-worlds of a game, a few featured cards. It is CSS scroll snapping, so it works without a script; `<chu-pager>` keeps
+worlds of a game, a few featured cards. It is CSS scroll snapping, so it works without a script; `<blip-pager>` keeps
 the dots in step, adds previous and next buttons and the arrow keys, and tells screen readers which slide is
 showing. It never moves by itself.
 
@@ -23,24 +23,24 @@ people compare, use a list or a grid; for views of one thing, tabs; for more tha
 ## Usage
 
 ```html
-<chu-pager class="chu-pager" aria-label="New worlds">
-  <div class="chu-pager-track" tabindex="0">
-    <section class="chu-pager-slide" id="world-1" role="group" aria-roledescription="slide" aria-label="1 of 3">…</section>
-    <section class="chu-pager-slide" id="world-2" role="group" aria-roledescription="slide" aria-label="2 of 3">…</section>
-    <section class="chu-pager-slide" id="world-3" role="group" aria-roledescription="slide" aria-label="3 of 3">…</section>
+<blip-pager class="blip-pager" aria-label="New worlds">
+  <div class="blip-pager-track" tabindex="0">
+    <section class="blip-pager-slide" id="world-1" role="group" aria-roledescription="slide" aria-label="1 of 3">…</section>
+    <section class="blip-pager-slide" id="world-2" role="group" aria-roledescription="slide" aria-label="2 of 3">…</section>
+    <section class="blip-pager-slide" id="world-3" role="group" aria-roledescription="slide" aria-label="3 of 3">…</section>
   </div>
-  <div class="chu-pager-dots">
-    <a class="chu-pager-dot" href="#world-1" aria-current="true" aria-label="Meadow"></a>
-    <a class="chu-pager-dot" href="#world-2" aria-label="Crystal caves"></a>
-    <a class="chu-pager-dot" href="#world-3" aria-label="Sky islands"></a>
+  <div class="blip-pager-dots">
+    <a class="blip-pager-dot" href="#world-1" aria-current="true" aria-label="Meadow"></a>
+    <a class="blip-pager-dot" href="#world-2" aria-label="Crystal caves"></a>
+    <a class="blip-pager-dot" href="#world-3" aria-label="Sky islands"></a>
   </div>
-</chu-pager>
+</blip-pager>
 ```
 
 **Without the script** the track scrolls sideways and snaps to each slide, never past one, and each dot is an in-page
 link that brings its slide into view. The first dot stays the current one.
 
-**With `<chu-pager>`** (from `@jaatster/blip-elements/pager.js`):
+**With `<blip-pager>`** (from `@blip/elements/pager.js`):
 
 - the current dot follows the slide as you swipe, and a dot moves to its slide without following the link;
 - previous and next buttons go at either end of the dots, dithered at the first and last slide;
@@ -48,7 +48,7 @@ link that brings its slide into view. The first dot stays the current one.
 - moved by a button, a key or a dot, the track steps across in four even jumps (at once with reduced motion);
 - the slides out of view are `inert`, so Tab and a screen reader stay on the one showing, and the track is a polite
   live region, so the slide that comes in is read out;
-- it fires `chu-page` when another slide is showing.
+- it fires `blip-page` when another slide is showing.
 
 It adds the roles and labels the markup leaves out, and the dots, if there are none.
 
@@ -56,14 +56,14 @@ It adds the roles and labels the markup leaves out, and the dots, if there are n
 
 ## Anatomy
 
-1. **Track**: `.chu-pager-track`, the scrolling row, with room round the slides for their drops and focus rings.
+1. **Track**: `.blip-pager-track`, the scrolling row, with room round the slides for their drops and focus rings.
    `tabindex="0"` lets the keyboard reach it (and scroll it without the script) when a slide has nothing to focus;
-   `<chu-pager>` adds it when it is missing. Focused, it takes the square yellow ring.
-2. **Slide**: `.chu-pager-slide`, the track's full width. Anything goes in: a card, a picture, a step of a tour.
-3. **Dots**: `.chu-pager-dots`, centred under the track.
-4. **Dot**: `.chu-pager-dot`, a link to one slide: a four-pixel dot, its corners dropped, in a 12-pixel target. The
+   `<blip-pager>` adds it when it is missing. Focused, it takes the square yellow ring.
+2. **Slide**: `.blip-pager-slide`, the track's full width. Anything goes in: a card, a picture, a step of a tour.
+3. **Dots**: `.blip-pager-dots`, centred under the track.
+4. **Dot**: `.blip-pager-dot`, a link to one slide: a four-pixel dot, its corners dropped, in a 12-pixel target. The
    current one (`aria-current="true"`) is a pill ten pixels wide, the accent inside an ink edge.
-5. **Buttons**: `.chu-pager-prev` and `.chu-pager-next`, added by `<chu-pager>`: soft, small, square buttons with
+5. **Buttons**: `.blip-pager-prev` and `.blip-pager-next`, added by `<blip-pager>`: soft, small, square buttons with
    pixel chevrons, at the ends of the dots.
 
 ## Variants
@@ -75,10 +75,10 @@ any tone or tier).
 
 | State | How | Look |
 |---|---|---|
-| Current dot | `aria-current="true"` (kept in step by `<chu-pager>`) | A wider pill: the accent, its light band on top, inside an ink edge. It reads by its shape as well as its colour. |
+| Current dot | `aria-current="true"` (kept in step by `<blip-pager>`) | A wider pill: the accent, its light band on top, inside an ink edge. It reads by its shape as well as its colour. |
 | Hover | pointer, on a dot | The dot turns the text colour. |
 | Focus | keyboard, on a dot | The square yellow ring with an ink edge, round its 12-pixel target. |
-| First or last slide | `aria-disabled="true"` on the button (set by `<chu-pager>`) | The previous or next button is dithered; it stays focusable. |
+| First or last slide | `aria-disabled="true"` on the button (set by `<blip-pager>`) | The previous or next button is dithered; it stays focusable. |
 
 ## Accessibility
 
@@ -91,7 +91,7 @@ Follows the WAI-ARIA Authoring Practices Carousel pattern, with no rotation.
 | Home, End | The first or last slide. |
 | Enter | On a dot or button: goes to its slide. |
 
-- `<chu-pager>` makes itself a region with `aria-roledescription="carousel"`: name it with `aria-label` or
+- `<blip-pager>` makes itself a region with `aria-roledescription="carousel"`: name it with `aria-label` or
   `aria-labelledby`.
 - Each slide is a group with `aria-roledescription="slide"`, labelled "2 of 4" unless it has a label of its own (its
   heading, by `aria-labelledby`). `slide-label` changes the words.
@@ -106,7 +106,7 @@ Follows the WAI-ARIA Authoring Practices Carousel pattern, with no rotation.
 ## Content
 
 - Two to seven slides. Every slide works on its own: someone may never swipe.
-- Name each dot by its slide ("Meadow"), or leave it to `<chu-pager>` ("Slide 2").
+- Name each dot by its slide ("Meadow"), or leave it to `<blip-pager>` ("Slide 2").
 - Keep the slides about the same height: the track is as tall as the tallest.
 
 ## Do and don't
@@ -118,7 +118,7 @@ Follows the WAI-ARIA Authoring Practices Carousel pattern, with no rotation.
 
 ## API
 
-### `<chu-pager>`
+### `<blip-pager>`
 
 | Attribute or property | Type | |
 |---|---|---|
@@ -133,6 +133,6 @@ Follows the WAI-ARIA Authoring Practices Carousel pattern, with no rotation.
 
 | Event | Detail | |
 |---|---|---|
-| `chu-page` | `{ index, slide }` | Another slide is showing: after a swipe, a button, a key or a dot. Bubbles. |
+| `blip-page` | `{ index, slide }` | Another slide is showing: after a swipe, a button, a key or a dot. Bubbles. |
 
 Slides and dots added later (a framework rendering them once data arrives) are wired as they come.

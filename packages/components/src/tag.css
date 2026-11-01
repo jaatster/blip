@@ -2,9 +2,9 @@
  * Tag. The TV's pill: a short upper-case label in a rounded box. A plain tag labels something (a rarity, a status);
  * a removable tag has a pixel cross; a filter chip is a toggle button.
  *
- *   <span class="chu-box chu-tag" data-tone="success">Rare</span>
- *   <span class="chu-box chu-tag">Lava zone<button class="chu-tag-remove" aria-label="Remove Lava zone"></button></span>
- *   <button class="chu-box chu-tag" data-variant="outline" aria-pressed="true">Swords</button>
+ *   <span class="blip-box blip-tag" data-tone="success">Rare</span>
+ *   <span class="blip-box blip-tag">Lava zone<button class="blip-tag-remove" aria-label="Remove Lava zone"></button></span>
+ *   <button class="blip-box blip-tag" data-variant="outline" aria-pressed="true">Swords</button>
  *
  *   data-variant   soft (default) | candy | outline | ghost     candy for a tag you act on; soft to label
  *   data-tone      accent (default) | info | success | warning | danger | a candy name | neutral
@@ -16,87 +16,87 @@
  * the room breaks as a last resort), never cut short.
  */
 
-@layer chu.components {
-  .chu-tag {
-    --chu-r: 5;
-    --chu-shape: var(--chu-shape-5);
-    --chu-shape-inner: var(--chu-shape-5-inner);
-    --chu-band-top: 2;
-    --chu-band-bottom: 2;
-    --_h: calc(14 * var(--chu-pixel));
+@layer blip.components {
+  .blip-tag {
+    --blip-r: 5;
+    --blip-shape: var(--blip-shape-5);
+    --blip-shape-inner: var(--blip-shape-5-inner);
+    --blip-band-top: 2;
+    --blip-band-bottom: 2;
+    --_h: calc(14 * var(--blip-pixel));
     display: inline-flex;
     align-items: center;
-    gap: var(--chu-space-2);
+    gap: var(--blip-space-2);
     box-sizing: border-box;
     min-block-size: var(--_h);
     max-inline-size: 100%;
-    padding: var(--chu-pixel) calc(6 * var(--chu-pixel));
-    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-caption);
-    font-weight: var(--chu-weight-bold);
+    padding: var(--blip-pixel) calc(6 * var(--blip-pixel));
+    margin: 0 var(--blip-pixel) var(--blip-pixel) 0;
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-caption);
+    font-weight: var(--blip-weight-bold);
     line-height: 1;
-    letter-spacing: var(--chu-tracking-label);
+    letter-spacing: var(--blip-tracking-label);
     text-align: center;
     text-transform: uppercase;
     text-decoration: none;
     vertical-align: middle;
   }
   /* Soft unless told otherwise: a tag labels; candy is for what you act on. */
-  .chu-tag:not([data-variant]) {
-    --chu-box-top: var(--chu-tone-light);
-    --chu-box-fill: var(--chu-tone-light);
-    --chu-box-bottom: var(--chu-tone);
-    --chu-box-glint: transparent;
+  .blip-tag:not([data-variant]) {
+    --blip-box-top: var(--blip-tone-light);
+    --blip-box-fill: var(--blip-tone-light);
+    --blip-box-bottom: var(--blip-tone);
+    --blip-box-glint: transparent;
   }
-  .chu-tag[data-size="sm"] {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
-    --chu-band-bottom: 1;
-    --_h: calc(12 * var(--chu-pixel));
-    padding-inline: calc(5 * var(--chu-pixel));
+  .blip-tag[data-size="sm"] {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
+    --blip-band-bottom: 1;
+    --_h: calc(12 * var(--blip-pixel));
+    padding-inline: calc(5 * var(--blip-pixel));
   }
-  .chu-tag[data-size="lg"] {
-    --chu-r: 6;
-    --chu-shape: var(--chu-shape-6);
-    --chu-shape-inner: var(--chu-shape-6-inner);
-    --chu-band-top: 3;
-    --chu-band-bottom: 3;
-    --_h: calc(16 * var(--chu-pixel));
-    padding-inline: calc(8 * var(--chu-pixel));
-    font-size: var(--chu-size-small);
+  .blip-tag[data-size="lg"] {
+    --blip-r: 6;
+    --blip-shape: var(--blip-shape-6);
+    --blip-shape-inner: var(--blip-shape-6-inner);
+    --blip-band-top: 3;
+    --blip-band-bottom: 3;
+    --_h: calc(16 * var(--blip-pixel));
+    padding-inline: calc(8 * var(--blip-pixel));
+    font-size: var(--blip-size-small);
   }
-  .chu-tag > .chu-icon:first-child { margin-inline-start: calc(-2 * var(--chu-pixel)); }
+  .blip-tag > .blip-icon:first-child { margin-inline-start: calc(-2 * var(--blip-pixel)); }
 
   /* The cross: a quiet button inside the tag. Hover lifts its glyph a pixel; focus is the square yellow ring. */
-  .chu-tag-remove {
+  .blip-tag-remove {
     display: grid;
     place-items: center;
     flex: none;
-    inline-size: var(--chu-target-min);
-    block-size: var(--chu-target-min);
-    margin-inline: calc(-2 * var(--chu-pixel)) calc(-4 * var(--chu-pixel));
+    inline-size: var(--blip-target-min);
+    block-size: var(--blip-target-min);
+    margin-inline: calc(-2 * var(--blip-pixel)) calc(-4 * var(--blip-pixel));
     padding: 0;
     border: 0;
     background: none;
     color: inherit;
     cursor: pointer;
   }
-  .chu-tag-remove::before {
+  .blip-tag-remove::before {
     content: "";
-    inline-size: calc(6 * var(--chu-pixel));
-    block-size: calc(6 * var(--chu-pixel));
+    inline-size: calc(6 * var(--blip-pixel));
+    block-size: calc(6 * var(--blip-pixel));
     background: currentColor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 6' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1H0zM4 0h2v1H4zM1 1h4v1H1zM2 2h2v2H2zM1 4h4v1H1zM0 5h2v1H0zM4 5h2v1H4z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   }
   @media (hover: hover) {
-    .chu-tag-remove:hover::before { translate: 0 calc(-1 * var(--chu-pixel)); }
+    .blip-tag-remove:hover::before { translate: 0 calc(-1 * var(--blip-pixel)); }
   }
-  .chu-tag-remove:active::before { translate: none; }
-  .chu-tag[data-size="sm"] > .chu-tag-remove { margin-block: calc(-1 * var(--chu-pixel)); }
+  .blip-tag-remove:active::before { translate: none; }
+  .blip-tag[data-size="sm"] > .blip-tag-remove { margin-block: calc(-1 * var(--blip-pixel)); }
 
   @media (forced-colors: active) {
-    .chu-tag-remove::before { background: ButtonText; }
+    .blip-tag-remove::before { background: ButtonText; }
   }
 }

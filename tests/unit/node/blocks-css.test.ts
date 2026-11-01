@@ -18,14 +18,14 @@ describe("blocks CSS", () => {
 
   it("leaves the world's sky bands and ground off paper", () => {
     const hero = media(read("hero.css"), "print"), cta = media(read("cta.css"), "print");
-    expect(hero).toMatch(/\.chu-hero\s*\{\s*background:\s*none/);
-    expect(hero).toMatch(/\.chu-hero-ground,\s*\.chu-hero-scenery\s*\{\s*display:\s*none/);
-    expect(cta).toMatch(/\.chu-cta:not\(\.chu-box\)\s*\{\s*background:\s*none/);
-    expect(cta).toMatch(/\.chu-cta-ground\s*\{\s*display:\s*none/);
-    expect(media(read("footer.css"), "print")).toMatch(/\.chu-footer::before,\s*\.chu-footer::after\s*\{\s*display:\s*none/);
+    expect(hero).toMatch(/\.blip-hero\s*\{\s*background:\s*none/);
+    expect(hero).toMatch(/\.blip-hero-ground,\s*\.blip-hero-scenery\s*\{\s*display:\s*none/);
+    expect(cta).toMatch(/\.blip-cta:not\(\.blip-box\)\s*\{\s*background:\s*none/);
+    expect(cta).toMatch(/\.blip-cta-ground\s*\{\s*display:\s*none/);
+    expect(media(read("footer.css"), "print")).toMatch(/\.blip-footer::before,\s*\.blip-footer::after\s*\{\s*display:\s*none/);
   });
 
   it("prints a plan's check and dash marks", () => {
-    expect(media(read("pricing.css"), "print")).toMatch(/\.chu-plan-features > li::before\s*\{\s*print-color-adjust:\s*exact/);
+    expect(media(read("pricing.css"), "print")).toMatch(/\.blip-plan-features > li::before\s*\{\s*print-color-adjust:\s*exact/);
   });
 });

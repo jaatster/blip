@@ -2,42 +2,42 @@
  * Slider. A native <input type="range"> as a chunky groove and a cream candy knob, with optional tick marks and a
  * value readout. The browser keeps the keyboard (arrows, Page Up and Down, Home, End) and the form value.
  *
- *   <div class="chu-slider-group">
- *     <input class="chu-slider" id="music" name="music" type="range" min="0" max="10" value="7" list="music-ticks">
- *     <output class="chu-box chu-slider-value" data-variant="panel" for="music" aria-hidden="true">7</output>
- *     <datalist class="chu-slider-ticks" id="music-ticks"><option value="0">0</option>…<option value="10">10</option></datalist>
+ *   <div class="blip-slider-group">
+ *     <input class="blip-slider" id="music" name="music" type="range" min="0" max="10" value="7" list="music-ticks">
+ *     <output class="blip-box blip-slider-value" data-variant="panel" for="music" aria-hidden="true">7</output>
+ *     <datalist class="blip-slider-ticks" id="music-ticks"><option value="0">0</option>…<option value="10">10</option></datalist>
  *   </div>
  *
- *   .chu-slider-group        lays out the slider, its readout and its ticks
- *   .chu-slider-value        the value, in a small panel (aria-hidden: the slider already says its value)
- *   .chu-slider-ticks        one mark per child, spread under the knob's travel; a child's text is its label
- *   --chu-slider-value       0 to 1: how much of the groove is filled. <chu-field> keeps it (and the readout) in
+ *   .blip-slider-group        lays out the slider, its readout and its ticks
+ *   .blip-slider-value        the value, in a small panel (aria-hidden: the slider already says its value)
+ *   .blip-slider-ticks        one mark per child, spread under the knob's travel; a child's text is its label
+ *   --blip-slider-value       0 to 1: how much of the groove is filled. <blip-field> keeps it (and the readout) in
  *                           step with the slider; without it the groove stays empty (Firefox fills it natively)
  *
- * The knob can't be a .chu-box (it is a pseudo-element of the input), so it is drawn here from the same tokens and
+ * The knob can't be a .blip-box (it is a pseudo-element of the input), so it is drawn here from the same tokens and
  * the same rules: a one-pixel ink outline with stepped corners, a light band and a shade band, glints, a drop. It
  * lifts on hover, sits in while pressed, takes the yellow ring on focus and is dithered when disabled.
  */
 
-@layer chu.components {
-  .chu-slider {
-    --_p: var(--chu-pixel);
-    --_v: var(--chu-slider-value, 0);
+@layer blip.components {
+  .blip-slider {
+    --_p: var(--blip-pixel);
+    --_v: var(--blip-slider-value, 0);
     --_to: right;
     --_d: 1;
     --_y: 0px;
-    --_ink: var(--chu-outline);
-    --_line: var(--chu-line);
+    --_ink: var(--blip-outline);
+    --_line: var(--blip-line);
     --_dither: transparent;
-    --_on: var(--chu-accent);
-    --_on2: var(--chu-accent-shade);
+    --_on: var(--blip-accent);
+    --_on2: var(--blip-accent-shade);
     /* The knob, 8 x 12 pixels with its drop, in a 12 x 16 box: 2 clear pixels all round for the lift and drop. */
     --_knob:
-      linear-gradient(var(--chu-white) 0 0) calc(4 * var(--_p)) calc(4 * var(--_p)) / calc(2 * var(--_p)) var(--_p) no-repeat,
-      linear-gradient(var(--chu-white) 0 0) calc(3 * var(--_p)) calc(5 * var(--_p)) / var(--_p) var(--_p) no-repeat,
-      linear-gradient(var(--chu-white) 0 0) calc(8 * var(--_p)) calc(4 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--blip-white) 0 0) calc(4 * var(--_p)) calc(4 * var(--_p)) / calc(2 * var(--_p)) var(--_p) no-repeat,
+      linear-gradient(var(--blip-white) 0 0) calc(3 * var(--_p)) calc(5 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--blip-white) 0 0) calc(8 * var(--_p)) calc(4 * var(--_p)) / var(--_p) var(--_p) no-repeat,
       repeating-conic-gradient(var(--_dither) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--_p)) calc(2 * var(--_p)),
-      linear-gradient(var(--chu-candy-cream-light) 0 calc(2 * var(--_p)), var(--chu-candy-cream) 0 calc(100% - 2 * var(--_p)), var(--chu-candy-cream-shade) 0) calc(3 * var(--_p)) calc(3 * var(--_p)) / calc(6 * var(--_p)) calc(10 * var(--_p)) no-repeat,
+      linear-gradient(var(--blip-candy-cream-light) 0 calc(2 * var(--_p)), var(--blip-candy-cream) 0 calc(100% - 2 * var(--_p)), var(--blip-candy-cream-shade) 0) calc(3 * var(--_p)) calc(3 * var(--_p)) / calc(6 * var(--_p)) calc(10 * var(--_p)) no-repeat,
       linear-gradient(var(--_ink) 0 0) calc(3 * var(--_p)) calc(2 * var(--_p)) / calc(6 * var(--_p)) calc(12 * var(--_p)) no-repeat,
       linear-gradient(var(--_ink) 0 0) calc(2 * var(--_p)) calc(3 * var(--_p)) / calc(8 * var(--_p)) calc(10 * var(--_p)) no-repeat,
       linear-gradient(var(--_ink) 0 0) calc((3 + var(--_d)) * var(--_p)) calc((2 + var(--_d)) * var(--_p)) / calc(6 * var(--_p)) calc(12 * var(--_p)) no-repeat,
@@ -45,8 +45,8 @@
     --_clip: border-box, border-box, border-box, content-box, border-box, border-box, border-box, border-box, border-box;
     /* The groove, 4 pixels high: a line outline with stepped ends, filled with candy up to the knob's middle. */
     --_track:
-      linear-gradient(to var(--_to), var(--_on2) 0 calc(5 * var(--_p) + var(--_v) * (100% - 10 * var(--_p))), var(--chu-line-soft) 0) var(--_p) var(--_p) / calc(100% - 2 * var(--_p)) var(--_p) no-repeat,
-      linear-gradient(to var(--_to), var(--_on) 0 calc(5 * var(--_p) + var(--_v) * (100% - 10 * var(--_p))), var(--chu-surface-sunken) 0) var(--_p) calc(2 * var(--_p)) / calc(100% - 2 * var(--_p)) var(--_p) no-repeat,
+      linear-gradient(to var(--_to), var(--_on2) 0 calc(5 * var(--_p) + var(--_v) * (100% - 10 * var(--_p))), var(--blip-line-soft) 0) var(--_p) var(--_p) / calc(100% - 2 * var(--_p)) var(--_p) no-repeat,
+      linear-gradient(to var(--_to), var(--_on) 0 calc(5 * var(--_p) + var(--_v) * (100% - 10 * var(--_p))), var(--blip-surface-sunken) 0) var(--_p) calc(2 * var(--_p)) / calc(100% - 2 * var(--_p)) var(--_p) no-repeat,
       linear-gradient(var(--_line) 0 0) var(--_p) 0 / calc(100% - 2 * var(--_p)) 100% no-repeat,
       linear-gradient(var(--_line) 0 0) 0 var(--_p) / 100% calc(100% - 2 * var(--_p)) no-repeat;
 
@@ -62,12 +62,12 @@
   }
 
   /* Right to left the minimum is on the right, so the groove fills from there. */
-  .chu-slider:dir(rtl) { --_to: left; }
-  .chu-slider::-webkit-slider-runnable-track { block-size: calc(4 * var(--_p)); background: var(--_track); }
-  .chu-slider::-moz-range-track { block-size: calc(4 * var(--_p)); background: var(--_track); }
-  .chu-slider::-moz-range-progress { block-size: calc(2 * var(--_p)); background: linear-gradient(var(--_on2) 0 var(--_p), var(--_on) 0); }
+  .blip-slider:dir(rtl) { --_to: left; }
+  .blip-slider::-webkit-slider-runnable-track { block-size: calc(4 * var(--_p)); background: var(--_track); }
+  .blip-slider::-moz-range-track { block-size: calc(4 * var(--_p)); background: var(--_track); }
+  .blip-slider::-moz-range-progress { block-size: calc(2 * var(--_p)); background: linear-gradient(var(--_on2) 0 var(--_p), var(--_on) 0); }
 
-  .chu-slider::-webkit-slider-thumb {
+  .blip-slider::-webkit-slider-thumb {
     box-sizing: border-box;
     inline-size: calc(12 * var(--_p));
     block-size: calc(16 * var(--_p));
@@ -80,7 +80,7 @@
     translate: 0 var(--_y);
     appearance: none;
   }
-  .chu-slider::-moz-range-thumb {
+  .blip-slider::-moz-range-thumb {
     box-sizing: border-box;
     inline-size: calc(12 * var(--_p));
     block-size: calc(16 * var(--_p));
@@ -95,63 +95,63 @@
 
   /* Hover lifts the knob a pixel (its drop grows so the shadow stays put); pressing sits it in its drop. */
   @media (hover: hover) {
-    .chu-slider:not(:disabled):hover { --_d: 2; --_y: calc(-1 * var(--_p)); }
+    .blip-slider:not(:disabled):hover { --_d: 2; --_y: calc(-1 * var(--_p)); }
   }
-  .chu-slider[data-chu-state~="hover"] { --_d: 2; --_y: calc(-1 * var(--_p)); }
-  .chu-slider:not(:disabled):active, .chu-slider[data-chu-state~="active"] { --_d: 0; --_y: 0px; }
+  .blip-slider[data-blip-state~="hover"] { --_d: 2; --_y: calc(-1 * var(--_p)); }
+  .blip-slider:not(:disabled):active, .blip-slider[data-blip-state~="active"] { --_d: 0; --_y: 0px; }
 
   /* Focus: the yellow ring with an ink edge round the knob, as on every box. */
-  .chu-slider:focus-visible { outline: 0; box-shadow: none; }
-  .chu-slider:is(:focus-visible, [data-chu-state~="focus"]) {
+  .blip-slider:focus-visible { outline: 0; box-shadow: none; }
+  .blip-slider:is(:focus-visible, [data-blip-state~="focus"]) {
     --_ring:
-      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--chu-focus)) drop-shadow(0 var(--_p) 0 var(--chu-focus))
-      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--chu-focus)) drop-shadow(var(--_p) 0 0 var(--chu-focus))
-      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--chu-focus-edge)) drop-shadow(0 var(--_p) 0 var(--chu-focus-edge))
-      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--chu-focus-edge)) drop-shadow(var(--_p) 0 0 var(--chu-focus-edge));
+      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--blip-focus)) drop-shadow(0 var(--_p) 0 var(--blip-focus))
+      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--blip-focus)) drop-shadow(var(--_p) 0 0 var(--blip-focus))
+      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--blip-focus-edge)) drop-shadow(0 var(--_p) 0 var(--blip-focus-edge))
+      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--blip-focus-edge)) drop-shadow(var(--_p) 0 0 var(--blip-focus-edge));
   }
-  .chu-slider::-webkit-slider-thumb { filter: var(--_ring, none); }
-  .chu-slider::-moz-range-thumb { filter: var(--_ring, none); }
+  .blip-slider::-webkit-slider-thumb { filter: var(--_ring, none); }
+  .blip-slider::-moz-range-thumb { filter: var(--_ring, none); }
 
   /* Disabled: the cream knob takes the cream dither, no lift, no drop; the groove goes soft. */
-  .chu-slider:disabled { --_d: 0; --_dither: var(--chu-disabled-dither-cream); --_line: var(--chu-line-soft); --_on: var(--chu-line-soft); --_on2: var(--chu-line-soft); cursor: not-allowed; }
+  .blip-slider:disabled { --_d: 0; --_dither: var(--blip-disabled-dither-cream); --_line: var(--blip-line-soft); --_on: var(--blip-line-soft); --_on2: var(--blip-line-soft); cursor: not-allowed; }
 
   /* The group: slider and readout side by side, ticks under the slider. */
-  .chu-slider-group {
+  .blip-slider-group {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    column-gap: calc(6 * var(--chu-pixel));
+    column-gap: calc(6 * var(--blip-pixel));
   }
-  .chu-slider-group > .chu-slider-ticks { grid-column: 1; }
-  .chu-slider-value {
-    --chu-r: 2;
-    --chu-shape: var(--chu-shape-2);
-    --chu-shape-inner: var(--chu-shape-2-inner);
-    min-inline-size: calc(18 * var(--chu-pixel));
-    padding: calc(2 * var(--chu-pixel)) calc(3 * var(--chu-pixel));
-    font-size: var(--chu-size-small);
-    font-weight: var(--chu-weight-bold);
-    line-height: var(--chu-leading-tight);
+  .blip-slider-group > .blip-slider-ticks { grid-column: 1; }
+  .blip-slider-value {
+    --blip-r: 2;
+    --blip-shape: var(--blip-shape-2);
+    --blip-shape-inner: var(--blip-shape-2-inner);
+    min-inline-size: calc(18 * var(--blip-pixel));
+    padding: calc(2 * var(--blip-pixel)) calc(3 * var(--blip-pixel));
+    font-size: var(--blip-size-small);
+    font-weight: var(--blip-weight-bold);
+    line-height: var(--blip-leading-tight);
     text-align: center;
     font-variant-numeric: tabular-nums;
   }
 
   /* Ticks: each child is as wide as the knob, so its mark lines up with the knob's middle at that value. */
-  .chu-slider-ticks {
+  .blip-slider-ticks {
     display: flex;
     justify-content: space-between;
-    margin: calc(-2 * var(--chu-pixel)) 0 0;
+    margin: calc(-2 * var(--blip-pixel)) 0 0;
     padding: 0;
-    font-size: var(--chu-size-caption);
-    line-height: var(--chu-leading-tight);
-    color: var(--chu-text-muted);
+    font-size: var(--blip-size-caption);
+    line-height: var(--blip-leading-tight);
+    color: var(--blip-text-muted);
   }
-  .chu-slider-ticks > * {
+  .blip-slider-ticks > * {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--chu-pixel);
-    inline-size: calc(12 * var(--chu-pixel));
+    gap: var(--blip-pixel);
+    inline-size: calc(12 * var(--blip-pixel));
     min-block-size: 0;
     padding: 0;
     white-space: nowrap;
@@ -159,18 +159,18 @@
     font: inherit;
     background: none;
   }
-  .chu-slider-ticks > ::before { content: ""; inline-size: var(--chu-pixel); block-size: calc(2 * var(--chu-pixel)); background: currentColor; }
+  .blip-slider-ticks > ::before { content: ""; inline-size: var(--blip-pixel); block-size: calc(2 * var(--blip-pixel)); background: currentColor; }
 
   /* The groove, its fill, the knob and the ticks are the value: they print, though paper drops backgrounds (the
      input's parts inherit it). */
   @media print {
-    .chu-slider, .chu-slider-ticks { print-color-adjust: exact; }
+    .blip-slider, .blip-slider-ticks { print-color-adjust: exact; }
   }
   @media (forced-colors: active) {
-    .chu-slider::-webkit-slider-runnable-track { forced-color-adjust: none; background: CanvasText; }
-    .chu-slider::-webkit-slider-thumb { forced-color-adjust: none; background: ButtonText; border: 1px solid Canvas; }
-    .chu-slider:focus-visible::-webkit-slider-thumb { filter: none; background: Highlight; }
-    .chu-slider::-moz-range-thumb { background: ButtonText; }
-    .chu-slider-ticks > ::before { forced-color-adjust: none; background: CanvasText; }
+    .blip-slider::-webkit-slider-runnable-track { forced-color-adjust: none; background: CanvasText; }
+    .blip-slider::-webkit-slider-thumb { forced-color-adjust: none; background: ButtonText; border: 1px solid Canvas; }
+    .blip-slider:focus-visible::-webkit-slider-thumb { filter: none; background: Highlight; }
+    .blip-slider::-moz-range-thumb { background: ButtonText; }
+    .blip-slider-ticks > ::before { forced-color-adjust: none; background: CanvasText; }
   }
 }

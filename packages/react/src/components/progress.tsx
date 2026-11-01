@@ -1,5 +1,5 @@
 /**
- * Progress: Progress, ProgressLabel and Meter. CSS from @jaatster/blip-components (progress.css).
+ * Progress: Progress, ProgressLabel and Meter. CSS from @blip/components (progress.css).
  */
 import { forwardRef } from "react";
 import { box, cx, type NativeProps, type Size, type Tone } from "../internal/props.js";
@@ -29,7 +29,7 @@ export type ProgressProps = ProgressOwnProps & BarName & NativeProps<"progress",
  * prop except `className` and `style` (which go to the well) are the `<progress>`'s own; its children are the
  * fallback text, equal to the value. Name it: a `<label htmlFor>` in a {@link ProgressLabel} row, `aria-label` or
  * `aria-labelledby`, and `aria-valuetext` when a number says too little ("3 of 8 files"). It is not a live region:
- * announce the start and the end, not every step. Renders `<div class="chu-box chu-progress"><progress>`.
+ * announce the start and the end, not every step. Renders `<div class="blip-box blip-progress"><progress>`.
  *
  *   <ProgressLabel><label htmlFor="load">Loading World 2</label><span>60%</span></ProgressLabel>
  *   <Progress id="load" tone="success" max={100} value={60}>60%</Progress>
@@ -40,7 +40,7 @@ export const Progress = /*#__PURE__*/ forwardRef<HTMLProgressElement, ProgressPr
   ref,
 ) {
   return (
-    <div className={cx("chu-box chu-progress", className)} style={style} {...box({ tone })} data-size={size}>
+    <div className={cx("blip-box blip-progress", className)} style={style} {...box({ tone })} data-size={size}>
       <progress ref={ref} {...rest} />
     </div>
   );
@@ -51,7 +51,7 @@ export type ProgressLabelProps = NativeProps<"div">;
 
 /**
  * The row above a bar: its name first, the value in words last. The name is a `<label htmlFor>` the bar's id; the value
- * is said the way people think of it ("3 of 8 files", "Done"). Renders `<div class="chu-progress-label">`.
+ * is said the way people think of it ("3 of 8 files", "Done"). Renders `<div class="blip-progress-label">`.
  *
  *   <ProgressLabel><label htmlFor="up">Uploading replay</label><span>3 of 8 files</span></ProgressLabel>
  */
@@ -59,7 +59,7 @@ export const ProgressLabel = /*#__PURE__*/ forwardRef<HTMLDivElement, ProgressLa
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-progress-label", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-progress-label", className)} {...rest} />;
 });
 
 /** Own props of {@link Meter}. */
@@ -79,7 +79,7 @@ export type MeterProps = MeterOwnProps & BarName & NativeProps<"meter", MeterOwn
  * An amount within a range that is not a task (health, storage, signal), as a native `<meter>`. It is drawn as candy
  * blocks in a well. The ref and every prop except `className` and `style` (which go to the well) are the `<meter>`'s
  * own; its children are the fallback text. Name it, and say the value in words nearby ("Health 2/10"): colour is never
- * the only cue. Renders `<div class="chu-box chu-meter"><meter>`.
+ * the only cue. Renders `<div class="blip-box blip-meter"><meter>`.
  *
  *   <Meter min={0} max={10} low={4} high={7} optimum={10} value={6} aria-label="Health">6 of 10</Meter>
  */
@@ -88,7 +88,7 @@ export const Meter = /*#__PURE__*/ forwardRef<HTMLMeterElement, MeterProps>(func
   ref,
 ) {
   return (
-    <div className={cx("chu-box chu-meter", className)} style={style} {...box({ tone })} data-size={size}>
+    <div className={cx("blip-box blip-meter", className)} style={style} {...box({ tone })} data-size={size}>
       <meter ref={ref} {...rest} />
     </div>
   );

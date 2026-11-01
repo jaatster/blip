@@ -1,6 +1,6 @@
 /**
  * App bar: AppBar, AppBarBrand, AppBarNav, AppBarToggle, AppBarLinks, AppBarLink and AppBarActions. CSS from
- * @jaatster/blip-components (app-bar.css). A link to the page you are on takes `current` (`aria-current="page"`); list items
+ * @blip/components (app-bar.css). A link to the page you are on takes `current` (`aria-current="page"`); list items
  * with no class of their own stay plain `<li>`s.
  */
 import { forwardRef } from "react";
@@ -23,7 +23,7 @@ export interface AppBarOwnProps {
   collapse?: "medium" | "always" | "never";
   /** Stays at the top while the page scrolls. `data-sticky`. */
   sticky?: boolean;
-  /** The bar's corners, 4 by default; 0 for a bar flush to the screen's edges. `data-chu-r`. */
+  /** The bar's corners, 4 by default; 0 for a bar flush to the screen's edges. `data-blip-r`. */
   radius?: Radius;
 }
 
@@ -47,7 +47,7 @@ export type AppBarProps = AppBarOwnProps & NativeProps<"header", AppBarOwnProps>
  *     <AppBarActions>…</AppBarActions>
  *   </AppBar>
  *
- * Renders `<header class="chu-box chu-app-bar">`, a size container (`chu-app-bar`): it folds by its own width.
+ * Renders `<header class="blip-box blip-app-bar">`, a size container (`blip-app-bar`): it folds by its own width.
  */
 export const AppBar = /*#__PURE__*/ forwardRef<HTMLElement, AppBarProps>(function AppBar(
   { collapse, sticky, radius, className, ...rest },
@@ -56,10 +56,10 @@ export const AppBar = /*#__PURE__*/ forwardRef<HTMLElement, AppBarProps>(functio
   return (
     <header
       ref={ref}
-      className={cx("chu-box chu-app-bar", className)}
+      className={cx("blip-box blip-app-bar", className)}
       data-collapse={collapse}
       data-sticky={flag(sticky)}
-      data-chu-r={radius}
+      data-blip-r={radius}
       {...rest}
     />
   );
@@ -74,16 +74,16 @@ export type AppBarBrandProps<T extends ElementType = "a"> = PolymorphicProps<T, 
  *
  *   <AppBarBrand href="/">
  *     <Icon name="star" />
- *     <span className="chu-display chu-pop" data-scale="2" data-pop="Questboard">Questboard</span>
+ *     <span className="blip-display blip-pop" data-scale="2" data-pop="Questboard">Questboard</span>
  *   </AppBarBrand>
  *
- * Renders `<a class="chu-app-bar-brand">`; with `as`, your router's link.
+ * Renders `<a class="blip-app-bar-brand">`; with `as`, your router's link.
  */
 export const AppBarBrand = /*#__PURE__*/ forwardRef(function AppBarBrand(
   { as: Tag = "a", className, ...rest }: AppBarBrandProps<ElementType>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("chu-app-bar-brand", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("blip-app-bar-brand", className)} {...rest} />;
 }) as PolymorphicComponent<"a", object>;
 
 /** Props for {@link AppBarNav}. */
@@ -94,10 +94,10 @@ export type AppBarNavProps = Named & NativeProps<"nav">;
  *
  *   <AppBarNav aria-label="Main">…</AppBarNav>
  *
- * Renders `<nav class="chu-app-bar-nav">`.
+ * Renders `<nav class="blip-app-bar-nav">`.
  */
 export const AppBarNav = /*#__PURE__*/ forwardRef<HTMLElement, AppBarNavProps>(function AppBarNav({ className, ...rest }, ref) {
-  return <nav ref={ref} className={cx("chu-app-bar-nav", className)} {...rest} />;
+  return <nav ref={ref} className={cx("blip-app-bar-nav", className)} {...rest} />;
 });
 
 /** Own props of {@link AppBarToggle}. */
@@ -120,7 +120,7 @@ export type AppBarToggleProps = AppBarToggleOwnProps & IconOnly & NativeProps<"b
  *   <AppBarToggle popoverTarget="main-links" iconOnly aria-label="Menu"><Icon name="menu" /></AppBarToggle>
  *   <AppBarToggle popoverTarget="docs-links" variant="outline"><Icon name="menu" />Menu</AppBarToggle>
  *
- * Renders `<button class="chu-box chu-button chu-app-bar-toggle" type="button" data-variant="ghost" popovertarget>`.
+ * Renders `<button class="blip-box blip-button blip-app-bar-toggle" type="button" data-variant="ghost" popovertarget>`.
  */
 export const AppBarToggle = /*#__PURE__*/ forwardRef<HTMLButtonElement, AppBarToggleProps>(function AppBarToggle(
   { variant = "ghost", iconOnly, type = "button", className, ...rest },
@@ -129,7 +129,7 @@ export const AppBarToggle = /*#__PURE__*/ forwardRef<HTMLButtonElement, AppBarTo
   return (
     <button
       ref={ref}
-      className={cx("chu-box chu-button chu-app-bar-toggle", className)}
+      className={cx("blip-box blip-button blip-app-bar-toggle", className)}
       type={type}
       data-variant={variant}
       data-icon-only={flag(iconOnly)}
@@ -147,13 +147,13 @@ export type AppBarLinksProps = NativeProps<"ul">;
  *
  *   <AppBarLinks id="main-links"><li><AppBarLink href="/live" current>Live ops</AppBarLink></li></AppBarLinks>
  *
- * Renders `<ul class="chu-box chu-app-bar-links" popover role="list">`.
+ * Renders `<ul class="blip-box blip-app-bar-links" popover role="list">`.
  */
 export const AppBarLinks = /*#__PURE__*/ forwardRef<HTMLUListElement, AppBarLinksProps>(function AppBarLinks(
   { className, ...rest },
   ref,
 ) {
-  return <ul ref={ref} className={cx("chu-box chu-app-bar-links", className)} popover="" role="list" {...rest} />;
+  return <ul ref={ref} className={cx("blip-box blip-app-bar-links", className)} popover="" role="list" {...rest} />;
 });
 
 /** Own props of {@link AppBarLink}. */
@@ -170,7 +170,7 @@ export type AppBarLinkProps<T extends ElementType = "a"> = PolymorphicProps<T, A
  *
  *   <li><AppBarLink href="/live" current>Live ops</AppBarLink></li>
  *
- * Renders `<a class="chu-box chu-app-bar-link" data-variant="ghost">`; with `as`, your router's link.
+ * Renders `<a class="blip-box blip-app-bar-link" data-variant="ghost">`; with `as`, your router's link.
  */
 export const AppBarLink = /*#__PURE__*/ forwardRef(function AppBarLink(
   { as: Tag = "a", current: isCurrent, className, ...rest }: AppBarLinkProps<ElementType>,
@@ -179,7 +179,7 @@ export const AppBarLink = /*#__PURE__*/ forwardRef(function AppBarLink(
   return (
     <Tag
       ref={ref}
-      className={cx("chu-box chu-app-bar-link", className)}
+      className={cx("blip-box blip-app-bar-link", className)}
       data-variant="ghost"
       aria-current={current(isCurrent)}
       {...rest}
@@ -195,11 +195,11 @@ export type AppBarActionsProps = NativeProps<"div">;
  *
  *   <AppBarActions><Button variant="ghost" iconOnly aria-label="Search"><Icon name="search" /></Button></AppBarActions>
  *
- * Renders `<div class="chu-app-bar-actions">`.
+ * Renders `<div class="blip-app-bar-actions">`.
  */
 export const AppBarActions = /*#__PURE__*/ forwardRef<HTMLDivElement, AppBarActionsProps>(function AppBarActions(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-app-bar-actions", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-app-bar-actions", className)} {...rest} />;
 });

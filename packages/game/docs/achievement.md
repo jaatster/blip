@@ -1,6 +1,6 @@
 ---
 name: Achievement
-package: "@jaatster/blip-game"
+package: "@blip/game"
 css: achievement.css
 element: null
 react: Achievement
@@ -15,28 +15,28 @@ It slides in four pixel steps, bumps, and a sparkle flares on the trophy three t
 ## Usage
 
 ```html
-<div class="chu-achievements" role="status">
-  <div class="chu-box chu-achievement">
-    <span class="chu-box chu-achievement-icon"><chu-sprite name="trophy"></chu-sprite><span class="chu-achievement-sparkles"></span></span>
-    <p class="chu-achievement-label">Achievement unlocked</p>
-    <p class="chu-achievement-title">Early bird</p>
-    <p class="chu-achievement-text">Catch a falling star before sunrise.</p>
-    <p class="chu-achievement-reward"><chu-sprite name="coin"></chu-sprite>+50</p>
+<div class="blip-achievements" role="status">
+  <div class="blip-box blip-achievement">
+    <span class="blip-box blip-achievement-icon"><blip-sprite name="trophy"></blip-sprite><span class="blip-achievement-sparkles"></span></span>
+    <p class="blip-achievement-label">Achievement unlocked</p>
+    <p class="blip-achievement-title">Early bird</p>
+    <p class="blip-achievement-text">Catch a falling star before sunrise.</p>
+    <p class="blip-achievement-reward"><blip-sprite name="coin"></blip-sprite>+50</p>
   </div>
 </div>
 ```
 
 ```js
 region.prepend(toast);                       // it animates in by itself
-services.sound().play("success");            // from @jaatster/blip-core, if sound is on
+services.sound().play("success");            // from @blip/core, if sound is on
 setTimeout(() => toast.remove(), 5000);
 ```
 
 ## Anatomy
 
 1. **Toast**: a candy box, slate by default, radius 4.
-2. **Icon** (`.chu-achievement-icon`): a dark well with an ink top band, holding a sprite.
-3. **Sparkles** (`.chu-achievement-sparkles`): two, small, big, small, gone.
+2. **Icon** (`.blip-achievement-icon`): a dark well with an ink top band, holding a sprite.
+3. **Sparkles** (`.blip-achievement-sparkles`): two, small, big, small, gone.
 4. **Label**, **title**, **text**, **reward**: Pixel Bop capitals in orange light, then Pixelify. The text and the
    reward each sit two pixels below the line above (4 px at the default pixel), so the lines never crowd.
 

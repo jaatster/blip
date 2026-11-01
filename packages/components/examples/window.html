@@ -1,61 +1,61 @@
 <!-- Window: a retro "System" dashboard window with a status bar, a game's pause menu, and tones. Forced states on
-     the controls use data-chu-state (docs and tests only). -->
-<div class="chu-grid" data-min="160" style="align-items:start">
-  <section class="chu-box chu-window" aria-labelledby="win-sys-title">
-    <header class="chu-window-bar">
-      <h3 class="chu-window-title chu-display chu-pop" id="win-sys-title">System</h3>
-      <div class="chu-window-controls">
-        <button class="chu-box chu-window-control" data-control="minimize" type="button" aria-label="Minimize System"><span></span></button>
-        <button class="chu-box chu-window-control" data-control="maximize" type="button" aria-label="Maximize System"><span></span></button>
-        <button class="chu-box chu-window-control" data-control="close" type="button" aria-label="Close System"><span></span></button>
+     the controls use data-blip-state (docs and tests only). -->
+<div class="blip-grid" data-min="160" style="align-items:start">
+  <section class="blip-box blip-window" aria-labelledby="win-sys-title">
+    <header class="blip-window-bar">
+      <h3 class="blip-window-title blip-display blip-pop" id="win-sys-title">System</h3>
+      <div class="blip-window-controls">
+        <button class="blip-box blip-window-control" data-control="minimize" type="button" aria-label="Minimize System"><span></span></button>
+        <button class="blip-box blip-window-control" data-control="maximize" type="button" aria-label="Maximize System"><span></span></button>
+        <button class="blip-box blip-window-control" data-control="close" type="button" aria-label="Close System"><span></span></button>
       </div>
     </header>
-    <div class="chu-window-body">
-      <dl class="chu-grid" data-min="48" data-gap="6">
-        <div class="chu-stat"><dt class="chu-stat-label">Memory</dt><dd class="chu-stat-value chu-display chu-pop" data-scale="2" data-tone="teal" data-pop="412 KB">412 KB</dd><dd class="chu-stat-delta" data-trend="up" data-tone="danger">+28 KB</dd></div>
-        <div class="chu-stat"><dt class="chu-stat-label">Frame rate</dt><dd class="chu-stat-value chu-display chu-pop" data-scale="2" data-tone="green" data-pop="60">60</dd><dd class="chu-stat-delta" data-trend="flat">Steady</dd></div>
+    <div class="blip-window-body">
+      <dl class="blip-grid" data-min="48" data-gap="6">
+        <div class="blip-stat"><dt class="blip-stat-label">Memory</dt><dd class="blip-stat-value blip-display blip-pop" data-scale="2" data-tone="teal" data-pop="412 KB">412 KB</dd><dd class="blip-stat-delta" data-trend="up" data-tone="danger">+28 KB</dd></div>
+        <div class="blip-stat"><dt class="blip-stat-label">Frame rate</dt><dd class="blip-stat-value blip-display blip-pop" data-scale="2" data-tone="green" data-pop="60">60</dd><dd class="blip-stat-delta" data-trend="flat">Steady</dd></div>
       </dl>
-      <hr class="chu-divider" data-variant="dither">
-      <ul class="chu-list" role="list" data-density="compact">
-        <li class="chu-list-item"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h3v1h1v1h1V3h2v5h-1v1H7V6h1V5H7V4H5v1H4v1h1v3H2V8H1V5h1V4h1V3h1z"/></svg><div class="chu-list-content"><span class="chu-list-title">Cloud save</span></div><div class="chu-list-end">2 min ago</div></li>
-        <li class="chu-list-item"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h8v1h1v7H9V9H8V8H4v1H3v1H1V3h1zm2 2v1H3v1h1v1h1V6h1V5H5V4zm3 1v1h1V5zm2 0v1h1V5z"/></svg><div class="chu-list-content"><span class="chu-list-title">Gamepad</span></div><div class="chu-list-end">Connected</div></li>
+      <hr class="blip-divider" data-variant="dither">
+      <ul class="blip-list" role="list" data-density="compact">
+        <li class="blip-list-item"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h3v1h1v1h1V3h2v5h-1v1H7V6h1V5H7V4H5v1H4v1h1v3H2V8H1V5h1V4h1V3h1z"/></svg><div class="blip-list-content"><span class="blip-list-title">Cloud save</span></div><div class="blip-list-end">2 min ago</div></li>
+        <li class="blip-list-item"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h8v1h1v7H9V9H8V8H4v1H3v1H1V3h1zm2 2v1H3v1h1v1h1V6h1V5H5V4zm3 1v1h1V5zm2 0v1h1V5z"/></svg><div class="blip-list-content"><span class="blip-list-title">Gamepad</span></div><div class="blip-list-end">Connected</div></li>
       </ul>
     </div>
-    <footer class="chu-window-status"><span>Ready</span><span>Pixel 2 · Day</span></footer>
+    <footer class="blip-window-status"><span>Ready</span><span>Pixel 2 · Day</span></footer>
   </section>
 
-  <section class="chu-box chu-window" data-tone="purple" aria-labelledby="win-pause-title">
-    <header class="chu-window-bar">
-      <h3 class="chu-window-title chu-display chu-pop" id="win-pause-title">Paused</h3>
-      <div class="chu-window-controls">
-        <button class="chu-box chu-window-control" data-control="close" type="button" aria-label="Close pause menu"><span></span></button>
+  <section class="blip-box blip-window" data-tone="purple" aria-labelledby="win-pause-title">
+    <header class="blip-window-bar">
+      <h3 class="blip-window-title blip-display blip-pop" id="win-pause-title">Paused</h3>
+      <div class="blip-window-controls">
+        <button class="blip-box blip-window-control" data-control="close" type="button" aria-label="Close pause menu"><span></span></button>
       </div>
     </header>
-    <div class="chu-window-body">
-      <div class="chu-stack" data-gap="4">
-        <button class="chu-box chu-button" data-width="full" type="button">Resume</button>
-        <button class="chu-box chu-button" data-width="full" data-variant="soft" type="button">Restart level</button>
-        <button class="chu-box chu-button" data-width="full" data-variant="soft" type="button">Settings</button>
-        <button class="chu-box chu-button" data-width="full" data-variant="soft" data-tone="danger" type="button">Quit to map</button>
+    <div class="blip-window-body">
+      <div class="blip-stack" data-gap="4">
+        <button class="blip-box blip-button" data-width="full" type="button">Resume</button>
+        <button class="blip-box blip-button" data-width="full" data-variant="soft" type="button">Restart level</button>
+        <button class="blip-box blip-button" data-width="full" data-variant="soft" type="button">Settings</button>
+        <button class="blip-box blip-button" data-width="full" data-variant="soft" data-tone="danger" type="button">Quit to map</button>
       </div>
     </div>
   </section>
 
-  <div class="chu-stack" data-gap="8">
-    <section class="chu-box chu-window" data-tone="green" aria-labelledby="win-saved">
-      <header class="chu-window-bar">
-        <h3 class="chu-window-title chu-display chu-pop" id="win-saved">Saved</h3>
-        <div class="chu-window-controls"><button class="chu-box chu-window-control" data-control="close" type="button" aria-label="Close Saved" data-chu-state="hover"><span></span></button></div>
+  <div class="blip-stack" data-gap="8">
+    <section class="blip-box blip-window" data-tone="green" aria-labelledby="win-saved">
+      <header class="blip-window-bar">
+        <h3 class="blip-window-title blip-display blip-pop" id="win-saved">Saved</h3>
+        <div class="blip-window-controls"><button class="blip-box blip-window-control" data-control="close" type="button" aria-label="Close Saved" data-blip-state="hover"><span></span></button></div>
       </header>
-      <div class="chu-window-body"><p>Your game was saved to slot 2.</p></div>
+      <div class="blip-window-body"><p>Your game was saved to slot 2.</p></div>
     </section>
-    <section class="chu-box chu-window" data-tone="orange" aria-labelledby="win-battery">
-      <header class="chu-window-bar">
-        <h3 class="chu-window-title chu-display chu-pop" id="win-battery">Low battery</h3>
-        <div class="chu-window-controls"><button class="chu-box chu-window-control" data-control="close" type="button" aria-label="Close Low battery" data-chu-state="focus"><span></span></button></div>
+    <section class="blip-box blip-window" data-tone="orange" aria-labelledby="win-battery">
+      <header class="blip-window-bar">
+        <h3 class="blip-window-title blip-display blip-pop" id="win-battery">Low battery</h3>
+        <div class="blip-window-controls"><button class="blip-box blip-window-control" data-control="close" type="button" aria-label="Close Low battery" data-blip-state="focus"><span></span></button></div>
       </header>
-      <div class="chu-window-body"><p>Plug in soon: 10% left.</p></div>
-      <footer class="chu-window-status"><span>Battery</span><span>10%</span></footer>
+      <div class="blip-window-body"><p>Plug in soon: 10% left.</p></div>
+      <footer class="blip-window-status"><span>Battery</span><span>10%</span></footer>
     </section>
   </div>
 </div>

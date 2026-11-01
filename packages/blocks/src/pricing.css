@@ -3,166 +3,166 @@
  * with pixel checks, and a button at the foot of each. Candy stays on what you press: the plans are panels, and the
  * featured one stands out by its ribbon, its band and its candy button.
  *
- *   <div class="chu-pricing">
- *     <article class="chu-box chu-plan" data-variant="panel" aria-labelledby="plan-standard">
- *       <h3 class="chu-plan-name" id="plan-standard">Standard</h3>
- *       <p class="chu-plan-price"><span class="chu-plan-currency">$</span><span class="chu-plan-amount">14.99</span></p>
- *       <ul class="chu-plan-features" role="list"><li>The full game</li><li>Couch co-op</li></ul>
- *       <a class="chu-box chu-button" data-variant="soft" data-width="full" href="#">Buy Standard</a>
+ *   <div class="blip-pricing">
+ *     <article class="blip-box blip-plan" data-variant="panel" aria-labelledby="plan-standard">
+ *       <h3 class="blip-plan-name" id="plan-standard">Standard</h3>
+ *       <p class="blip-plan-price"><span class="blip-plan-currency">$</span><span class="blip-plan-amount">14.99</span></p>
+ *       <ul class="blip-plan-features" role="list"><li>The full game</li><li>Couch co-op</li></ul>
+ *       <a class="blip-box blip-button" data-variant="soft" data-width="full" href="#">Buy Standard</a>
  *     </article>
- *     <article class="chu-box chu-plan" data-featured data-tone="pink" aria-labelledby="plan-deluxe">
- *       <p class="chu-box chu-plan-ribbon">Best value</p> …
- *       <a class="chu-box chu-button" data-tone="pink" data-width="full" href="#">Buy Deluxe</a>
+ *     <article class="blip-box blip-plan" data-featured data-tone="pink" aria-labelledby="plan-deluxe">
+ *       <p class="blip-box blip-plan-ribbon">Best value</p> …
+ *       <a class="blip-box blip-button" data-tone="pink" data-width="full" href="#">Buy Deluxe</a>
  *     </article>
  *   </div>
  *
  *   data-featured        the plan to pick (its data-tone, the accent by default): a raised panel (the surface, an
  *                        ink outline, a two-pixel drop) with a five-pixel band of its tone's light colour along the
  *                        top, its ribbon in its candy, and the one candy button; the other plans' buttons are soft
- *   .chu-plan-amount      Pixel Bop at scale 3 (digits, "." and "," are in the font); the currency is set smaller
- *   .chu-plan-features    a list with pixel checks; li[data-off] for what a plan leaves out (a dash, muted)
- *   --chu-plan-check      the checks' colour (the success text colour by default)
+ *   .blip-plan-amount      Pixel Bop at scale 3 (digits, "." and "," are in the font); the currency is set smaller
+ *   .blip-plan-features    a list with pixel checks; li[data-off] for what a plan leaves out (a dash, muted)
+ *   --blip-plan-check      the checks' colour (the success text colour by default)
  *
  * Plans sit three across where there is room and stack on a phone. Put the price and period in words a screen reader
  * says well: "$14.99, one time".
  */
 
-@layer chu.kits {
-  .chu-pricing {
+@layer blip.kits {
+  .blip-pricing {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(116 * var(--chu-pixel))), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(116 * var(--blip-pixel))), 1fr));
     align-items: stretch;
-    gap: calc(8 * var(--chu-pixel));
-    padding-block-start: calc(10 * var(--chu-pixel));
+    gap: calc(8 * var(--blip-pixel));
+    padding-block-start: calc(10 * var(--blip-pixel));
   }
 
-  .chu-plan {
-    --chu-r: 5;
-    --chu-shape: var(--chu-shape-5);
-    --chu-shape-inner: var(--chu-shape-5-inner);
-    --chu-band-top: 3;
-    --chu-band-bottom: 4;
+  .blip-plan {
+    --blip-r: 5;
+    --blip-shape: var(--blip-shape-5);
+    --blip-shape-inner: var(--blip-shape-5-inner);
+    --blip-band-top: 3;
+    --blip-band-bottom: 4;
     --_check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' shape-rendering='crispEdges'%3E%3Cpath d='M9 3h2v2h-1v1H9v1H8v1H7v1H6v1H4V9H3V8H2V7H1V5h2v1h1v1h1V6h1V5h1V4h1V3h1z'/%3E%3C/svg%3E");
     --_dash: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' shape-rendering='crispEdges'%3E%3Cpath d='M3 5h6v2H3z'/%3E%3C/svg%3E");
     display: grid;
     grid-template-rows: auto auto auto 1fr auto;
     align-content: start;
-    gap: calc(5 * var(--chu-pixel));
-    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
-    padding: calc(11 * var(--chu-pixel)) calc(10 * var(--chu-pixel)) calc(10 * var(--chu-pixel));
+    gap: calc(5 * var(--blip-pixel));
+    margin: 0 var(--blip-pixel) var(--blip-pixel) 0;
+    padding: calc(11 * var(--blip-pixel)) calc(10 * var(--blip-pixel)) calc(10 * var(--blip-pixel));
   }
-  .chu-plan > :is(h2, h3, h4, p, ul) { margin: 0; }
+  .blip-plan > :is(h2, h3, h4, p, ul) { margin: 0; }
 
-  .chu-plan-ribbon {
-    --chu-r: 2;
-    --chu-shape: var(--chu-shape-2);
-    --chu-shape-inner: var(--chu-shape-2-inner);
-    --chu-band-top: 2;
-    --chu-band-bottom: 2;
+  .blip-plan-ribbon {
+    --blip-r: 2;
+    --blip-shape: var(--blip-shape-2);
+    --blip-shape-inner: var(--blip-shape-2-inner);
+    --blip-band-top: 2;
+    --blip-band-bottom: 2;
     position: absolute;
-    inset-block-start: calc(-8 * var(--chu-pixel));
-    inset-inline-start: calc(9 * var(--chu-pixel));
+    inset-block-start: calc(-8 * var(--blip-pixel));
+    inset-inline-start: calc(9 * var(--blip-pixel));
     margin: 0;
-    padding: calc(2 * var(--chu-pixel)) calc(5 * var(--chu-pixel)) var(--chu-pixel);
-    font-family: var(--chu-font-display);
-    font-size: calc(10 * var(--chu-pixel));
+    padding: calc(2 * var(--blip-pixel)) calc(5 * var(--blip-pixel)) var(--blip-pixel);
+    font-family: var(--blip-font-display);
+    font-size: calc(10 * var(--blip-pixel));
     line-height: 1.2;
     text-transform: uppercase;
     white-space: nowrap;
     font-synthesis: none;
     -webkit-font-smoothing: none;
   }
-  .chu-plan-ribbon:not([data-tone]) {
-    --chu-tone: var(--chu-candy-cream);
-    --chu-tone-light: var(--chu-candy-cream-light);
-    --chu-tone-shade: var(--chu-candy-cream-shade);
-    --chu-tone-on: var(--chu-ink);
+  .blip-plan-ribbon:not([data-tone]) {
+    --blip-tone: var(--blip-candy-cream);
+    --blip-tone-light: var(--blip-candy-cream-light);
+    --blip-tone-shade: var(--blip-candy-cream-shade);
+    --blip-tone-on: var(--blip-ink);
   }
 
   /* The featured plan: a raised panel, not a slab of candy. It stands out by a band of its tone's light colour along
      the top (following the corners), its ribbon in its candy, a two-pixel drop, and its candy button. */
-  .chu-plan[data-featured] {
-    --_chu-plan-tone: var(--chu-tone);
-    --_chu-plan-light: var(--chu-tone-light);
-    --_chu-plan-shade: var(--chu-tone-shade);
-    --_chu-plan-on: var(--chu-tone-on);
-    --chu-band-top: 5;
-    --chu-drop-size: 2;
-    --chu-box-top: var(--chu-tone-light);
-    --chu-box-fill: var(--chu-surface);
-    --chu-box-bottom: var(--chu-surface);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
-    margin: 0 calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel)) 0;
-    padding-block-start: calc(13 * var(--chu-pixel));
+  .blip-plan[data-featured] {
+    --_blip-plan-tone: var(--blip-tone);
+    --_blip-plan-light: var(--blip-tone-light);
+    --_blip-plan-shade: var(--blip-tone-shade);
+    --_blip-plan-on: var(--blip-tone-on);
+    --blip-band-top: 5;
+    --blip-drop-size: 2;
+    --blip-box-top: var(--blip-tone-light);
+    --blip-box-fill: var(--blip-surface);
+    --blip-box-bottom: var(--blip-surface);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
+    margin: 0 calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel)) 0;
+    padding-block-start: calc(13 * var(--blip-pixel));
   }
-  .chu-plan[data-featured] > .chu-plan-ribbon:not([data-tone]) {
-    --chu-tone: var(--_chu-plan-tone);
-    --chu-tone-light: var(--_chu-plan-light);
-    --chu-tone-shade: var(--_chu-plan-shade);
-    --chu-tone-on: var(--_chu-plan-on);
+  .blip-plan[data-featured] > .blip-plan-ribbon:not([data-tone]) {
+    --blip-tone: var(--_blip-plan-tone);
+    --blip-tone-light: var(--_blip-plan-light);
+    --blip-tone-shade: var(--_blip-plan-shade);
+    --blip-tone-on: var(--_blip-plan-on);
   }
 
-  .chu-plan-name {
-    font-size: var(--chu-size-lead);
-    font-weight: var(--chu-weight-bold);
-    line-height: var(--chu-leading-tight);
+  .blip-plan-name {
+    font-size: var(--blip-size-lead);
+    font-weight: var(--blip-weight-bold);
+    line-height: var(--blip-leading-tight);
   }
-  .chu-plan-text { font-size: var(--chu-size-small); line-height: var(--chu-leading-normal); }
+  .blip-plan-text { font-size: var(--blip-size-small); line-height: var(--blip-leading-normal); }
 
-  .chu-plan-price {
+  .blip-plan-price {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: 0 calc(2 * var(--chu-pixel));
+    gap: 0 calc(2 * var(--blip-pixel));
   }
-  .chu-plan-amount {
-    font-family: var(--chu-font-display);
-    font-size: calc(30 * var(--chu-pixel));
+  .blip-plan-amount {
+    font-family: var(--blip-font-display);
+    font-size: calc(30 * var(--blip-pixel));
     line-height: 1.2;
     font-variant-numeric: tabular-nums;
     font-synthesis: none;
     -webkit-font-smoothing: none;
   }
-  .chu-plan-currency {
+  .blip-plan-currency {
     align-self: flex-start;
-    margin-block-start: calc(5 * var(--chu-pixel));
-    font-size: var(--chu-size-title);
-    font-weight: var(--chu-weight-bold);
+    margin-block-start: calc(5 * var(--blip-pixel));
+    font-size: var(--blip-size-title);
+    font-weight: var(--blip-weight-bold);
   }
-  .chu-plan-period { font-size: var(--chu-size-small); font-weight: var(--chu-weight-bold); }
+  .blip-plan-period { font-size: var(--blip-size-small); font-weight: var(--blip-weight-bold); }
 
-  .chu-plan-features {
+  .blip-plan-features {
     display: grid;
     align-content: start;
-    gap: calc(2 * var(--chu-pixel));
+    gap: calc(2 * var(--blip-pixel));
     padding: 0;
     list-style: none;
-    font-size: var(--chu-size-body);
-    line-height: var(--chu-leading-normal);
+    font-size: var(--blip-size-body);
+    line-height: var(--blip-leading-normal);
   }
-  .chu-plan-features > li {
+  .blip-plan-features > li {
     display: grid;
-    grid-template-columns: calc(12 * var(--chu-pixel)) 1fr;
-    gap: calc(3 * var(--chu-pixel));
+    grid-template-columns: calc(12 * var(--blip-pixel)) 1fr;
+    gap: calc(3 * var(--blip-pixel));
   }
-  .chu-plan-features > li::before {
+  .blip-plan-features > li::before {
     content: "";
-    block-size: calc(12 * var(--chu-pixel));
-    margin-block-start: round(down, (1lh - 12 * var(--chu-pixel)) / 2, var(--chu-pixel));
-    background: var(--chu-plan-check, var(--chu-success-text));
+    block-size: calc(12 * var(--blip-pixel));
+    margin-block-start: round(down, (1lh - 12 * var(--blip-pixel)) / 2, var(--blip-pixel));
+    background: var(--blip-plan-check, var(--blip-success-text));
     mask: var(--_check) 0 0 / 100% 100% no-repeat;
   }
-  .chu-plan-features > li[data-off] { color: var(--chu-text-muted); }
-  .chu-plan-features > li[data-off]::before { mask-image: var(--_dash); background: currentColor; }
+  .blip-plan-features > li[data-off] { color: var(--blip-text-muted); }
+  .blip-plan-features > li[data-off]::before { mask-image: var(--_dash); background: currentColor; }
 
-  .chu-plan > .chu-button { align-self: end; margin-block-start: calc(2 * var(--chu-pixel)); }
+  .blip-plan > .blip-button { align-self: end; margin-block-start: calc(2 * var(--blip-pixel)); }
 
   @media (forced-colors: active) {
-    .chu-plan-features > li::before { background: CanvasText; }
+    .blip-plan-features > li::before { background: CanvasText; }
   }
   /* A check or a dash says what a plan has: it prints, though paper drops backgrounds. */
   @media print {
-    .chu-plan-features > li::before { print-color-adjust: exact; }
+    .blip-plan-features > li::before { print-color-adjust: exact; }
   }
 }

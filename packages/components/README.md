@@ -1,24 +1,24 @@
-# @jaatster/blip-components
+# @blip/components
 
-Blip's core components as layered CSS (`@layer chu.components`): actions, forms, navigation, feedback and
+Blip's core components as layered CSS (`@layer blip.components`): actions, forms, navigation, feedback and
 overlays, data and layout. Native HTML first; the components that need behaviour get it from
-[@jaatster/blip-elements](../elements).
+[@blip/elements](../elements).
 
 ```sh
-npm install @jaatster/blip-components @jaatster/blip-core @jaatster/blip-tokens
+npm install @blip/components @blip/core @blip/tokens
 ```
 
 ## Use
 
 ```css
-@import "@jaatster/blip-tokens/tokens.css";
-@import "@jaatster/blip-core/core.css";
-@import "@jaatster/blip-components/components.css";   /* or one file each: @jaatster/blip-components/button.css */
+@import "@blip/tokens/tokens.css";
+@import "@blip/core/core.css";
+@import "@blip/components/components.css";   /* or one file each: @blip/components/button.css */
 ```
 
 ```html
-<button class="chu-box chu-button">Save game</button>
-<button class="chu-box chu-button" data-variant="soft" data-tone="danger" data-size="sm">Delete save</button>
+<button class="blip-box blip-button">Save game</button>
+<button class="blip-box blip-button" data-variant="soft" data-tone="danger" data-size="sm">Delete save</button>
 ```
 
 Every file parses in lightningcss (Vite 8, Next.js 16) and esbuild, but one opt-in file kept out of

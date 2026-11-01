@@ -1,29 +1,29 @@
-<!-- Rating: <chu-rating> to set a score (stars or hearts), and plain CSS to show one (any fraction, whole pixels).
+<!-- Rating: <blip-rating> to set a score (stars or hearts), and plain CSS to show one (any fraction, whole pixels).
      The preview row is forced with data-preview (docs and tests only). -->
-<div style="display:grid;grid-template-columns:max-content max-content;gap:calc(6*var(--chu-pixel)) calc(12*var(--chu-pixel));align-items:center">
-  <span class="chu-label chu-muted" id="rt-fun">How fun was it?</span>
-  <chu-rating class="chu-rating" name="fun" value="4" aria-labelledby="rt-fun"></chu-rating>
+<div style="display:grid;grid-template-columns:max-content max-content;gap:calc(6*var(--blip-pixel)) calc(12*var(--blip-pixel));align-items:center">
+  <span class="blip-label blip-muted" id="rt-fun">How fun was it?</span>
+  <blip-rating class="blip-rating" name="fun" value="4" aria-labelledby="rt-fun"></blip-rating>
 
-  <span class="chu-label chu-muted" id="rt-hard">How hard?</span>
-  <chu-rating class="chu-rating" name="hard" data-shape="heart" max="3" value="1" aria-labelledby="rt-hard"></chu-rating>
+  <span class="blip-label blip-muted" id="rt-hard">How hard?</span>
+  <blip-rating class="blip-rating" name="hard" data-shape="heart" max="3" value="1" aria-labelledby="rt-hard"></blip-rating>
 
-  <span class="chu-label chu-muted" id="rt-none">Not rated yet</span>
-  <chu-rating class="chu-rating" name="music" aria-labelledby="rt-none"></chu-rating>
+  <span class="blip-label blip-muted" id="rt-none">Not rated yet</span>
+  <blip-rating class="blip-rating" name="music" aria-labelledby="rt-none"></blip-rating>
 
-  <span class="chu-label chu-muted">Preview</span>
-  <span class="chu-rating" data-preview style="--chu-rating-value:5" role="img" aria-label="Preview of 5 out of 5"></span>
+  <span class="blip-label blip-muted">Preview</span>
+  <span class="blip-rating" data-preview style="--blip-rating-value:5" role="img" aria-label="Preview of 5 out of 5"></span>
 
-  <span class="chu-label chu-muted" id="rt-ro">Read-only</span>
-  <chu-rating class="chu-rating" value="3" readonly aria-labelledby="rt-ro"></chu-rating>
+  <span class="blip-label blip-muted" id="rt-ro">Read-only</span>
+  <blip-rating class="blip-rating" value="3" readonly aria-labelledby="rt-ro"></blip-rating>
 
-  <span class="chu-label chu-muted" id="rt-off">Disabled</span>
-  <chu-rating class="chu-rating" value="2" disabled aria-labelledby="rt-off"></chu-rating>
+  <span class="blip-label blip-muted" id="rt-off">Disabled</span>
+  <blip-rating class="blip-rating" value="2" disabled aria-labelledby="rt-off"></blip-rating>
 </div>
 
 <!-- Showing a score: no script, any fraction. -->
-<ul role="list" style="display:grid;gap:calc(4*var(--chu-pixel));margin-block-start:calc(12*var(--chu-pixel))">
-  <li style="display:flex;gap:calc(6*var(--chu-pixel));align-items:center"><span class="chu-rating" role="img" aria-label="Rated 4.5 out of 5" style="--chu-rating-value:4.5"></span><span class="chu-small">Cloud castle <span class="chu-muted">· 1,204 reviews</span></span></li>
-  <li style="display:flex;gap:calc(6*var(--chu-pixel));align-items:center"><span class="chu-rating" role="img" aria-label="Rated 3.2 out of 5" style="--chu-rating-value:3.2"></span><span class="chu-small">Coral reef <span class="chu-muted">· 388 reviews</span></span></li>
-  <li style="display:flex;gap:calc(6*var(--chu-pixel));align-items:center"><span class="chu-rating" data-shape="heart" role="img" aria-label="2 of 3 hearts left" style="--chu-rating-value:2;--chu-rating-max:3"></span><span class="chu-small">Lives left</span></li>
-  <li style="display:flex;gap:calc(6*var(--chu-pixel));align-items:center" data-chu-pixel="3"><span class="chu-rating" role="img" aria-label="Rated 5 out of 5" style="--chu-rating-value:5"></span><span class="chu-small">Three-pixel stars</span></li>
+<ul role="list" style="display:grid;gap:calc(4*var(--blip-pixel));margin-block-start:calc(12*var(--blip-pixel))">
+  <li style="display:flex;gap:calc(6*var(--blip-pixel));align-items:center"><span class="blip-rating" role="img" aria-label="Rated 4.5 out of 5" style="--blip-rating-value:4.5"></span><span class="blip-small">Cloud castle <span class="blip-muted">· 1,204 reviews</span></span></li>
+  <li style="display:flex;gap:calc(6*var(--blip-pixel));align-items:center"><span class="blip-rating" role="img" aria-label="Rated 3.2 out of 5" style="--blip-rating-value:3.2"></span><span class="blip-small">Coral reef <span class="blip-muted">· 388 reviews</span></span></li>
+  <li style="display:flex;gap:calc(6*var(--blip-pixel));align-items:center"><span class="blip-rating" data-shape="heart" role="img" aria-label="2 of 3 hearts left" style="--blip-rating-value:2;--blip-rating-max:3"></span><span class="blip-small">Lives left</span></li>
+  <li style="display:flex;gap:calc(6*var(--blip-pixel));align-items:center" data-blip-pixel="3"><span class="blip-rating" role="img" aria-label="Rated 5 out of 5" style="--blip-rating-value:5"></span><span class="blip-small">Three-pixel stars</span></li>
 </ul>

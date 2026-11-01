@@ -1,5 +1,5 @@
 /**
- * Button: Button and ButtonLink. CSS from @jaatster/blip-components (button.css).
+ * Button: Button and ButtonLink. CSS from @blip/components (button.css).
  */
 import { forwardRef } from "react";
 import type { ElementType, ReactNode } from "react";
@@ -50,7 +50,7 @@ export type ButtonProps = ButtonOptions &
  *   <Button iconOnly aria-label="Add level"><Icon name="plus" /></Button>
  *   <Button type="button" commandFor="save" command="show-modal">Save game</Button>    opens <DialogPanel id="save">
  *
- * Renders `<button class="chu-box chu-button">`. Like a native button it submits a form it sits in: give buttons
+ * Renders `<button class="blip-box blip-button">`. Like a native button it submits a form it sits in: give buttons
  * outside forms (or beside the submit button) `type="button"`.
  */
 export const Button = /*#__PURE__*/ forwardRef<HTMLButtonElement, ButtonProps>(function Button(
@@ -62,7 +62,7 @@ export const Button = /*#__PURE__*/ forwardRef<HTMLButtonElement, ButtonProps>(f
   return (
     <button
       ref={ref}
-      className={cx("chu-box chu-button", className)}
+      className={cx("blip-box blip-button", className)}
       {...buttonAttrs({ variant, tone, radius, size, fullWidth, busy, iconOnly })}
       aria-pressed={pressed}
       {...invoker}
@@ -75,8 +75,8 @@ export const Button = /*#__PURE__*/ forwardRef<HTMLButtonElement, ButtonProps>(f
 export type ButtonLinkProps<T extends ElementType = "a"> = PolymorphicProps<T, ButtonOptions & IconOnly>;
 
 /**
- * A link that must look like a button (a call to action that goes somewhere). Renders `<a class="chu-box
- * chu-button">`; with `as`, your router's link (it gets the same classes and attributes).
+ * A link that must look like a button (a call to action that goes somewhere). Renders `<a class="blip-box
+ * blip-button">`; with `as`, your router's link (it gets the same classes and attributes).
  *
  *   <ButtonLink href="/play" size="lg">Play now</ButtonLink>
  *   <ButtonLink as={NextLink} href="/play" size="lg">Play now</ButtonLink>
@@ -85,5 +85,5 @@ export const ButtonLink = /*#__PURE__*/ forwardRef(function ButtonLink(
   { as: Tag = "a", variant, tone, radius, size, fullWidth, busy, iconOnly, className, ...rest }: ButtonLinkProps<ElementType>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("chu-box chu-button", className)} {...buttonAttrs({ variant, tone, radius, size, fullWidth, busy, iconOnly })} {...rest} />;
+  return <Tag ref={ref} className={cx("blip-box blip-button", className)} {...buttonAttrs({ variant, tone, radius, size, fullWidth, busy, iconOnly })} {...rest} />;
 }) as PolymorphicComponent<"a", ButtonOptions & IconOnly>;

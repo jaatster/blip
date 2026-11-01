@@ -1,5 +1,5 @@
 {
-  "name": "chu-stack-astro",
+  "name": "blip-stack-astro",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,11 +8,11 @@
     "preview": "astro preview --port 4616"
   },
   "dependencies": {
-    "@jaatster/blip-components": "*",
-    "@jaatster/blip-core": "*",
-    "@jaatster/blip-elements": "*",
-    "@jaatster/blip-font": "*",
-    "@jaatster/blip-tokens": "*",
+    "@blip/components": "*",
+    "@blip/core": "*",
+    "@blip/elements": "*",
+    "@blip/font": "*",
+    "@blip/tokens": "*",
     "astro": "^7.4.4"
   }
 }

@@ -98,11 +98,11 @@ describe("shipped CSS parses in lightningcss and esbuild", () => {
   });
 
   for (const [pkg, files] of shipped) {
-    it(`@jaatster/blip-${pkg} parses in lightningcss`, () => {
+    it(`@blip/${pkg} parses in lightningcss`, () => {
       const failed = files.filter((f) => !(f in OPT_IN)).map((f) => lightningcss(f, readFileSync(join(REPO, f), "utf8")));
       expect(failed.filter(Boolean)).toEqual([]);
     });
-    it(`@jaatster/blip-${pkg} parses in esbuild`, () => {
+    it(`@blip/${pkg} parses in esbuild`, () => {
       const failed = files.map((f) => esbuild(f, readFileSync(join(REPO, f), "utf8")));
       expect(failed.filter(Boolean)).toEqual([]);
     });
@@ -122,9 +122,9 @@ describe("shipped CSS parses in lightningcss and esbuild", () => {
   });
 
   it("the check catches what once broke adopters' builds", () => {
-    expect(lightningcss("picker.css", ".chu-select > select::picker(select):popover-open { color: red }")).toMatch(/pseudo/i);
+    expect(lightningcss("picker.css", ".blip-select > select::picker(select):popover-open { color: red }")).toMatch(/pseudo/i);
     expect(lightningcss("anchored.css", "@container anchored(fallback: flip-block) { .a { color: red } }")).not.toBeNull();
-    expect(lightningcss("open.css", ".chu-select > select:open::picker(select) { color: red }")).toBeNull();
+    expect(lightningcss("open.css", ".blip-select > select:open::picker(select) { color: red }")).toBeNull();
     expect(esbuild("broken.css", ".a { color: red")).not.toBeNull();
   });
 });

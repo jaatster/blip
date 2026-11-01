@@ -1,28 +1,28 @@
 <!-- Choices: a title screen's menu in Pixel Bop, and a shop's list with prices. The pointer follows focus or the
-     cursor; here data-chu-state holds it on one choice in each, for the docs. -->
-<div style="display:flex;flex-wrap:wrap;gap:calc(16*var(--chu-pixel));align-items:flex-start">
-  <section class="chu-stage" data-frame aria-label="Starfall Meadow" style="display:grid;justify-items:center;align-content:start;gap:calc(8*var(--chu-pixel));inline-size:calc(190*var(--chu-pixel));padding:calc(12*var(--chu-pixel)) calc(10*var(--chu-pixel)) calc(26*var(--chu-pixel))">
-    <h3 class="chu-display chu-pop" data-scale="2" data-tone="pink" data-pop="Starfall" style="text-align:center">Starfall</h3>
-    <chu-choices>
-      <ul class="chu-choices" role="list" data-font="display">
-        <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="new">New game</button></li>
-        <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="continue" data-chu-state="focus">Continue</button></li>
-        <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="options">Options</button></li>
-        <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="credits" aria-disabled="true">Credits</button></li>
+     cursor; here data-blip-state holds it on one choice in each, for the docs. -->
+<div style="display:flex;flex-wrap:wrap;gap:calc(16*var(--blip-pixel));align-items:flex-start">
+  <section class="blip-stage" data-frame aria-label="Starfall Meadow" style="display:grid;justify-items:center;align-content:start;gap:calc(8*var(--blip-pixel));inline-size:calc(190*var(--blip-pixel));padding:calc(12*var(--blip-pixel)) calc(10*var(--blip-pixel)) calc(26*var(--blip-pixel))">
+    <h3 class="blip-display blip-pop" data-scale="2" data-tone="pink" data-pop="Starfall" style="text-align:center">Starfall</h3>
+    <blip-choices>
+      <ul class="blip-choices" role="list" data-font="display">
+        <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="new">New game</button></li>
+        <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="continue" data-blip-state="focus">Continue</button></li>
+        <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="options">Options</button></li>
+        <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="credits" aria-disabled="true">Credits</button></li>
       </ul>
-    </chu-choices>
-    <div class="chu-stage-ground"></div>
+    </blip-choices>
+    <div class="blip-stage-ground"></div>
   </section>
 
-  <section class="chu-box" data-variant="panel" data-chu-r="4" aria-labelledby="shop-title" style="display:grid;gap:calc(5*var(--chu-pixel));padding:calc(8*var(--chu-pixel)) calc(10*var(--chu-pixel)) calc(9*var(--chu-pixel)) calc(6*var(--chu-pixel))">
-    <h3 id="shop-title" class="chu-label" style="padding-inline-start:calc(17*var(--chu-pixel))">Bramble's shop <span class="chu-muted">You have 42 coins</span></h3>
-    <chu-choices>
-      <ul class="chu-choices" role="list">
-        <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="potion"><chu-sprite name="potion"></chu-sprite>Red potion <span class="chu-choice-aside">12</span></button></li>
-        <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="mana" data-chu-state="hover"><chu-sprite name="potion" data-tone="blue"></chu-sprite>Blue potion <span class="chu-choice-aside">18</span></button></li>
-        <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="shield"><chu-sprite name="shield"></chu-sprite>Lily shield <span class="chu-choice-aside">40</span></button></li>
-        <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="key" aria-disabled="true"><chu-sprite name="key" data-tone="blue"></chu-sprite>Moon key <span class="chu-choice-aside">120</span></button></li>
+  <section class="blip-box" data-variant="panel" data-blip-r="4" aria-labelledby="shop-title" style="display:grid;gap:calc(5*var(--blip-pixel));padding:calc(8*var(--blip-pixel)) calc(10*var(--blip-pixel)) calc(9*var(--blip-pixel)) calc(6*var(--blip-pixel))">
+    <h3 id="shop-title" class="blip-label" style="padding-inline-start:calc(17*var(--blip-pixel))">Bramble's shop <span class="blip-muted">You have 42 coins</span></h3>
+    <blip-choices>
+      <ul class="blip-choices" role="list">
+        <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="potion"><blip-sprite name="potion"></blip-sprite>Red potion <span class="blip-choice-aside">12</span></button></li>
+        <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="mana" data-blip-state="hover"><blip-sprite name="potion" data-tone="blue"></blip-sprite>Blue potion <span class="blip-choice-aside">18</span></button></li>
+        <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="shield"><blip-sprite name="shield"></blip-sprite>Lily shield <span class="blip-choice-aside">40</span></button></li>
+        <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="key" aria-disabled="true"><blip-sprite name="key" data-tone="blue"></blip-sprite>Moon key <span class="blip-choice-aside">120</span></button></li>
       </ul>
-    </chu-choices>
+    </blip-choices>
   </section>
 </div>

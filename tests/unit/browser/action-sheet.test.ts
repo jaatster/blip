@@ -1,6 +1,6 @@
 /**
- * <chu-action-sheet>: a modal (focus inside, the page inert) whose choice comes back as the value of the button that
- * closed it, on the dialog's returnValue, the element's and chu-close's detail; dismissed, the answer is "", never the
+ * <blip-action-sheet>: a modal (focus inside, the page inert) whose choice comes back as the value of the button that
+ * closed it, on the dialog's returnValue, the element's and blip-close's detail; dismissed, the answer is "", never the
  * one from the time before; Cancel is a choice like any other.
  */
 import { describe, expect, it } from "vitest";
@@ -13,24 +13,24 @@ const settle = (ms = 0) => new Promise((done) => setTimeout(done, ms));
 function sheet(): { el: BlipActionSheet; d: HTMLDialogElement; opener: HTMLButtonElement; button: (v: string) => HTMLButtonElement } {
   const box = mount(`<div>
     <button id="as-open" type="button" commandfor="as-t-sheet" command="show-modal">Replay 12</button>
-    <chu-action-sheet light-dismiss>
-      <dialog class="chu-box chu-drawer chu-action-sheet" id="as-t-sheet" aria-labelledby="as-t-title">
+    <blip-action-sheet light-dismiss>
+      <dialog class="blip-box blip-drawer blip-action-sheet" id="as-t-sheet" aria-labelledby="as-t-title">
         <form method="dialog">
-          <h2 class="chu-action-sheet-title" id="as-t-title">Replay 12</h2>
-          <div class="chu-action-sheet-actions">
-            <button class="chu-box chu-button" value="share">Share</button>
-            <button class="chu-box chu-button" data-tone="danger" value="delete">Delete</button>
+          <h2 class="blip-action-sheet-title" id="as-t-title">Replay 12</h2>
+          <div class="blip-action-sheet-actions">
+            <button class="blip-box blip-button" value="share">Share</button>
+            <button class="blip-box blip-button" data-tone="danger" value="delete">Delete</button>
           </div>
-          <button class="chu-box chu-button chu-action-sheet-cancel" value="cancel">Cancel</button>
+          <button class="blip-box blip-button blip-action-sheet-cancel" value="cancel">Cancel</button>
         </form>
       </dialog>
-    </chu-action-sheet></div>`);
-  const el = box.querySelector<BlipActionSheet>("chu-action-sheet")!;
+    </blip-action-sheet></div>`);
+  const el = box.querySelector<BlipActionSheet>("blip-action-sheet")!;
   const d = el.querySelector("dialog")!;
   return { el, d, opener: box.querySelector("#as-open")!, button: (v) => d.querySelector(`button[value="${v}"]`)! };
 }
 
-describe("chu-action-sheet", () => {
+describe("blip-action-sheet", () => {
   it("is a modal: focus goes inside, the page is inert, and focus comes back", async () => {
     const { el, d, opener } = sheet();
     opener.focus();
@@ -51,10 +51,10 @@ describe("chu-action-sheet", () => {
     expect(document.activeElement).toBe(opener);
   });
 
-  it("hands back the chosen value: returnValue and chu-close's detail", async () => {
+  it("hands back the chosen value: returnValue and blip-close's detail", async () => {
     const { el, d, button } = sheet();
     const seen: unknown[] = [];
-    el.addEventListener("chu-close", (e) => seen.push((e as CustomEvent).detail));
+    el.addEventListener("blip-close", (e) => seen.push((e as CustomEvent).detail));
     el.show();
     await userEvent.click(button("delete"));
     await settle(50);
@@ -67,7 +67,7 @@ describe("chu-action-sheet", () => {
   it("answers \"\" when dismissed, never the choice from last time", async () => {
     const { el, button } = sheet();
     const seen: unknown[] = [];
-    el.addEventListener("chu-close", (e) => seen.push((e as CustomEvent).detail));
+    el.addEventListener("blip-close", (e) => seen.push((e as CustomEvent).detail));
     el.show();
     await userEvent.click(button("share"));
     await settle(50);

@@ -14,7 +14,7 @@ describe("elements in CONTRACT.md", () => {
   it("lists every element the manifests define", () => {
     const listed = (rows(REPO) as string[][]).map((r) => r[0]);
     expect(listed.length).toBeGreaterThan(20);
-    for (const tag of ["<chu-dialog>", "<chu-tabs>", "<chu-world>", "<chu-icon>"]) expect(listed).toContain(`\`${tag}\``);
+    for (const tag of ["<blip-dialog>", "<blip-tabs>", "<blip-world>", "<blip-icon>"]) expect(listed).toContain(`\`${tag}\``);
   });
 
   it("is the table the script writes from the manifests", () => {

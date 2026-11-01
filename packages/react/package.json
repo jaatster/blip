@@ -1,5 +1,5 @@
 {
-  "name": "@jaatster/blip-react",
+  "name": "@blip/react",
   "version": "0.1.0",
   "description": "Typed React components for Blip: every core component and kit, rendering the system's own markup and Web Components.",
   "keywords": [
@@ -64,10 +64,10 @@
     "react": ">=18.3.0"
   },
   "dependencies": {
-    "@jaatster/blip-effects": "workspace:^",
-    "@jaatster/blip-elements": "workspace:^",
-    "@jaatster/blip-game": "workspace:^",
-    "@jaatster/blip-icons": "workspace:^"
+    "@blip/effects": "workspace:^",
+    "@blip/elements": "workspace:^",
+    "@blip/game": "workspace:^",
+    "@blip/icons": "workspace:^"
   },
   "devDependencies": {
     "@types/react": "^19.3.0",

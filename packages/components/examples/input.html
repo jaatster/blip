@@ -1,75 +1,75 @@
 <!-- Input: types and affixes, every state, sizes beside buttons of the same height. Forced states use
-     data-chu-state (docs and tests only). -->
-<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,calc(120*var(--chu-pixel))),1fr));gap:calc(8*var(--chu-pixel)) calc(12*var(--chu-pixel));align-items:start">
-  <div class="chu-field">
-    <label class="chu-field-label" for="in-name">Player name</label>
-    <span class="chu-box chu-input"><input id="in-name" type="text" placeholder="Pixel Pal" autocomplete="nickname"></span>
+     data-blip-state (docs and tests only). -->
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,calc(120*var(--blip-pixel))),1fr));gap:calc(8*var(--blip-pixel)) calc(12*var(--blip-pixel));align-items:start">
+  <div class="blip-field">
+    <label class="blip-field-label" for="in-name">Player name</label>
+    <span class="blip-box blip-input"><input id="in-name" type="text" placeholder="Pixel Pal" autocomplete="nickname"></span>
   </div>
-  <div class="chu-field">
-    <label class="chu-field-label" for="in-email">Email</label>
-    <span class="chu-box chu-input"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h10v8H1zm2 1v1h1V3zm5 0v1h1V3zM4 4v1h1V4zm3 0v1h1V4zM5 5v1h2V5z"/></svg><input id="in-email" type="email" value="pal@example.com" autocomplete="email"></span>
+  <div class="blip-field">
+    <label class="blip-field-label" for="in-email">Email</label>
+    <span class="blip-box blip-input"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h10v8H1zm2 1v1h1V3zm5 0v1h1V3zM4 4v1h1V4zm3 0v1h1V4zM5 5v1h2V5z"/></svg><input id="in-email" type="email" value="pal@example.com" autocomplete="email"></span>
   </div>
-  <div class="chu-field">
-    <label class="chu-field-label" for="in-password">Password</label>
-    <span class="chu-box chu-input"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3h1v6H2V5h1V2h1zm1 2v2h2V3zm0 4v2h2V7z"/></svg><input id="in-password" type="password" value="correct horse" autocomplete="new-password"></span>
+  <div class="blip-field">
+    <label class="blip-field-label" for="in-password">Password</label>
+    <span class="blip-box blip-input"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3h1v6H2V5h1V2h1zm1 2v2h2V3zm0 4v2h2V7z"/></svg><input id="in-password" type="password" value="correct horse" autocomplete="new-password"></span>
   </div>
-  <div class="chu-field">
-    <label class="chu-field-label" for="in-secret">Secret code</label>
-    <span class="chu-box chu-input"><input id="in-secret" type="password" value="up up down down" autocomplete="off"><button class="chu-box" data-variant="ghost" type="button" aria-label="Show code" aria-pressed="false" aria-controls="in-secret"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 3h4v1h2v1h1v2h-1v1H8v1H4V8H2V7H1V5h1V4h2zm1 1v1h2V4zM4 5v2h1V5zm3 0v2h1V5zM5 7v1h2V7z"/></svg></button></span>
+  <div class="blip-field">
+    <label class="blip-field-label" for="in-secret">Secret code</label>
+    <span class="blip-box blip-input"><input id="in-secret" type="password" value="up up down down" autocomplete="off"><button class="blip-box" data-variant="ghost" type="button" aria-label="Show code" aria-pressed="false" aria-controls="in-secret"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 3h4v1h2v1h1v2h-1v1H8v1H4V8H2V7H1V5h1V4h2zm1 1v1h2V4zM4 5v2h1V5zm3 0v2h1V5zM5 7v1h2V7z"/></svg></button></span>
   </div>
-  <div class="chu-field">
-    <label class="chu-field-label" for="in-site">Your site</label>
-    <span class="chu-box chu-input"><span class="chu-input-affix" aria-hidden="true">https://</span><input id="in-site" type="url" placeholder="pixel.example" inputmode="url"></span>
+  <div class="blip-field">
+    <label class="blip-field-label" for="in-site">Your site</label>
+    <span class="blip-box blip-input"><span class="blip-input-affix" aria-hidden="true">https://</span><input id="in-site" type="url" placeholder="pixel.example" inputmode="url"></span>
   </div>
-  <div class="chu-field">
-    <label class="chu-field-label" for="in-weight">Backpack weight</label>
-    <span class="chu-box chu-input"><input id="in-weight" type="number" value="12" min="0" max="99"><span class="chu-input-affix" aria-hidden="true">kg</span></span>
+  <div class="blip-field">
+    <label class="blip-field-label" for="in-weight">Backpack weight</label>
+    <span class="blip-box blip-input"><input id="in-weight" type="number" value="12" min="0" max="99"><span class="blip-input-affix" aria-hidden="true">kg</span></span>
   </div>
-  <div class="chu-field">
-    <label class="chu-field-label" for="in-phone">Phone</label>
-    <span class="chu-box chu-input"><input id="in-phone" type="tel" placeholder="+44 20 7946 0000" autocomplete="tel"></span>
+  <div class="blip-field">
+    <label class="blip-field-label" for="in-phone">Phone</label>
+    <span class="blip-box blip-input"><input id="in-phone" type="tel" placeholder="+44 20 7946 0000" autocomplete="tel"></span>
   </div>
-  <div class="chu-field">
-    <label class="chu-field-label" for="in-date">Birthday</label>
-    <span class="chu-box chu-input"><input id="in-date" type="date" value="2010-06-21"></span>
+  <div class="blip-field">
+    <label class="blip-field-label" for="in-date">Birthday</label>
+    <span class="blip-box blip-input"><input id="in-date" type="date" value="2010-06-21"></span>
   </div>
-  <div class="chu-field">
-    <label class="chu-field-label" for="in-time">Wake me at</label>
-    <span class="chu-box chu-input"><input id="in-time" type="time" value="07:30"></span>
-  </div>
-</div>
-
-<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,calc(120*var(--chu-pixel))),1fr));gap:calc(8*var(--chu-pixel)) calc(12*var(--chu-pixel));align-items:start;margin-block:calc(12*var(--chu-pixel))">
-  <div class="chu-field">
-    <label class="chu-field-label" for="in-focus">Focus</label>
-    <span class="chu-box chu-input" data-chu-state="focus"><input id="in-focus" type="text" value="Meadow run"></span>
-  </div>
-  <div class="chu-field">
-    <label class="chu-field-label" for="in-invalid">Invalid</label>
-    <span class="chu-box chu-input"><input id="in-invalid" type="email" value="pal@" aria-invalid="true" aria-describedby="in-invalid-error"></span>
-    <p class="chu-field-error" id="in-invalid-error">Enter an email like pal@example.com.</p>
-  </div>
-  <div class="chu-field">
-    <label class="chu-field-label" for="in-valid">Success</label>
-    <span class="chu-box chu-input" data-tone="success"><input id="in-valid" type="text" value="pixelpal" aria-describedby="in-valid-help"></span>
-    <p class="chu-field-help" id="in-valid-help">That name is free.</p>
-  </div>
-  <div class="chu-field">
-    <label class="chu-field-label" for="in-readonly">Read-only</label>
-    <span class="chu-box chu-input"><input id="in-readonly" type="text" value="PP-7731-QX" readonly></span>
-  </div>
-  <div class="chu-field">
-    <label class="chu-field-label" for="in-disabled">Disabled</label>
-    <span class="chu-box chu-input"><input id="in-disabled" type="text" value="Locked until level 5" disabled></span>
-  </div>
-  <div class="chu-field">
-    <label class="chu-field-label" for="in-empty">Placeholder</label>
-    <span class="chu-box chu-input"><input id="in-empty" type="text" placeholder="Name your save"></span>
+  <div class="blip-field">
+    <label class="blip-field-label" for="in-time">Wake me at</label>
+    <span class="blip-box blip-input"><input id="in-time" type="time" value="07:30"></span>
   </div>
 </div>
 
-<div style="display:grid;gap:calc(4*var(--chu-pixel));max-inline-size:calc(200*var(--chu-pixel))">
-  <div style="display:flex;gap:calc(4*var(--chu-pixel));align-items:center"><span class="chu-box chu-input" data-size="sm" style="flex:1"><input type="text" aria-label="Small" placeholder="Small, 16 pixels"></span><button class="chu-box chu-button" data-size="sm">Go</button></div>
-  <div style="display:flex;gap:calc(4*var(--chu-pixel));align-items:center"><span class="chu-box chu-input" style="flex:1"><input type="text" aria-label="Medium" placeholder="Medium, 20 pixels"></span><button class="chu-box chu-button">Go</button></div>
-  <div style="display:flex;gap:calc(4*var(--chu-pixel));align-items:center"><span class="chu-box chu-input" data-size="lg" style="flex:1"><input type="text" aria-label="Large" placeholder="Large, 24 pixels"></span><button class="chu-box chu-button" data-size="lg">Go</button></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,calc(120*var(--blip-pixel))),1fr));gap:calc(8*var(--blip-pixel)) calc(12*var(--blip-pixel));align-items:start;margin-block:calc(12*var(--blip-pixel))">
+  <div class="blip-field">
+    <label class="blip-field-label" for="in-focus">Focus</label>
+    <span class="blip-box blip-input" data-blip-state="focus"><input id="in-focus" type="text" value="Meadow run"></span>
+  </div>
+  <div class="blip-field">
+    <label class="blip-field-label" for="in-invalid">Invalid</label>
+    <span class="blip-box blip-input"><input id="in-invalid" type="email" value="pal@" aria-invalid="true" aria-describedby="in-invalid-error"></span>
+    <p class="blip-field-error" id="in-invalid-error">Enter an email like pal@example.com.</p>
+  </div>
+  <div class="blip-field">
+    <label class="blip-field-label" for="in-valid">Success</label>
+    <span class="blip-box blip-input" data-tone="success"><input id="in-valid" type="text" value="pixelpal" aria-describedby="in-valid-help"></span>
+    <p class="blip-field-help" id="in-valid-help">That name is free.</p>
+  </div>
+  <div class="blip-field">
+    <label class="blip-field-label" for="in-readonly">Read-only</label>
+    <span class="blip-box blip-input"><input id="in-readonly" type="text" value="PP-7731-QX" readonly></span>
+  </div>
+  <div class="blip-field">
+    <label class="blip-field-label" for="in-disabled">Disabled</label>
+    <span class="blip-box blip-input"><input id="in-disabled" type="text" value="Locked until level 5" disabled></span>
+  </div>
+  <div class="blip-field">
+    <label class="blip-field-label" for="in-empty">Placeholder</label>
+    <span class="blip-box blip-input"><input id="in-empty" type="text" placeholder="Name your save"></span>
+  </div>
+</div>
+
+<div style="display:grid;gap:calc(4*var(--blip-pixel));max-inline-size:calc(200*var(--blip-pixel))">
+  <div style="display:flex;gap:calc(4*var(--blip-pixel));align-items:center"><span class="blip-box blip-input" data-size="sm" style="flex:1"><input type="text" aria-label="Small" placeholder="Small, 16 pixels"></span><button class="blip-box blip-button" data-size="sm">Go</button></div>
+  <div style="display:flex;gap:calc(4*var(--blip-pixel));align-items:center"><span class="blip-box blip-input" style="flex:1"><input type="text" aria-label="Medium" placeholder="Medium, 20 pixels"></span><button class="blip-box blip-button">Go</button></div>
+  <div style="display:flex;gap:calc(4*var(--blip-pixel));align-items:center"><span class="blip-box blip-input" data-size="lg" style="flex:1"><input type="text" aria-label="Large" placeholder="Large, 24 pixels"></span><button class="blip-box blip-button" data-size="lg">Go</button></div>
 </div>

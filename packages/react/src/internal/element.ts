@@ -16,7 +16,7 @@
  *   that mirrors an attribute whenever the prop changes after the first render (the attribute covered the first),
  *   so a change reaches an element that reads the attribute only once (Combobox's `value`). As with attributes, a
  *   prop that does not change is never written again: a choice made in the element stays.
- * - Events: every `on…` prop listens to its chu-* event on the element, through one listener per event that calls
+ * - Events: every `on…` prop listens to its blip-* event on the element, through one listener per event that calls
  *   the latest handler. (Like any listener added after the element is in the page, it does not hear an event the
  *   element sends while it first connects.)
  * - The element's module is imported on the client the first time a wrapper mounts, so it upgrades in place; a
@@ -35,7 +35,7 @@ export type ElementProps<E extends HTMLElement, Own extends string = never> = Om
 };
 
 export interface ElementSpec {
-  /** The tag, e.g. "chu-dialog". */
+  /** The tag, e.g. "blip-dialog". */
   tag: string;
   /** The component's display name. */
   name: string;

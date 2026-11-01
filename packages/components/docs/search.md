@@ -1,6 +1,6 @@
 ---
 name: Search
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: search.css
 element: null
 react: Search
@@ -20,9 +20,9 @@ control, a select and a button it makes a filter bar.
 ```html
 <search>
   <form action="/levels">
-    <label class="chu-sr-only" for="q">Search levels</label>
-    <span class="chu-box chu-input">
-      <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+    <label class="blip-sr-only" for="q">Search levels</label>
+    <span class="blip-box blip-input">
+      <svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
       <input id="q" name="q" type="search" placeholder="Search levels" enterkeyhint="search">
     </span>
   </form>
@@ -32,7 +32,7 @@ control, a select and a button it makes a filter bar.
 ## Anatomy
 
 1. **Well**: the input's well.
-2. **Magnifier**: a 12 x 12 icon from `@jaatster/blip-icons`, muted, before the text.
+2. **Magnifier**: a 12 x 12 icon from `@blip/icons`, muted, before the text.
 3. **Clear**: the browser's own clear button, redrawn as an 8-pixel cross in a 12-pixel target. It shows while
    there is text and the field is focused or hovered.
 
@@ -48,7 +48,7 @@ As for the [input](input.md): focus ring, invalid, disabled. The cross darkens o
 
 ## Accessibility
 
-- Give it a name: a visible label, or a visually hidden one (`.chu-sr-only`) when the magnifier and placeholder make
+- Give it a name: a visible label, or a visually hidden one (`.blip-sr-only`) when the magnifier and placeholder make
   it obvious to sighted people.
 - The landmark (`<search>`, or `role="search"` on the form) lets screen reader users jump straight to it.
 - The cross is for pointers; keyboard users press Escape to clear (Chromium and Safari). Firefox has no clear button:
@@ -72,4 +72,4 @@ As for the [input](input.md): focus ring, invalid, disabled. The cross darkens o
 
 ## API
 
-No classes of its own: use `.chu-input` with `type="search"`. The clear button's look is tied to that type.
+No classes of its own: use `.blip-input` with `type="search"`. The clear button's look is tied to that type.

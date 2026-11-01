@@ -2,9 +2,9 @@
  * Switch. A real <input type="checkbox" role="switch"> as a cream candy knob on a track. Off: the knob rests at
  * the start of the calm well. On: the track fills with candy and the knob hops to the end, two pixels a step.
  *
- *   <label class="chu-check" data-layout="split">
+ *   <label class="blip-check" data-layout="split">
  *     Screen shake
- *     <span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" checked></span>
+ *     <span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box" checked></span>
  *   </label>
  *
  *   data-size               sm | md (default) | lg       9, 11 or 13 pixels high (on the track or the row)
@@ -17,75 +17,75 @@
  */
 @import "./_choice.css";
 
-@layer chu.components {
-  .chu-switch {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
+@layer blip.components {
+  .blip-switch {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
     --_steps: 4;
-    inline-size: calc((2 * var(--_n) - 3) * var(--chu-pixel));
+    inline-size: calc((2 * var(--_n) - 3) * var(--blip-pixel));
   }
-  .chu-switch:is([data-size="sm"], [data-size="sm"] > *) { --_steps: 3; --chu-r: 3; --chu-shape: var(--chu-shape-3); --chu-shape-inner: var(--chu-shape-3-inner); }
-  .chu-switch:is([data-size="lg"], [data-size="lg"] > *) { --_steps: 5; --chu-r: 5; --chu-shape: var(--chu-shape-5); --chu-shape-inner: var(--chu-shape-5-inner); }
+  .blip-switch:is([data-size="sm"], [data-size="sm"] > *) { --_steps: 3; --blip-r: 3; --blip-shape: var(--blip-shape-3); --blip-shape-inner: var(--blip-shape-3-inner); }
+  .blip-switch:is([data-size="lg"], [data-size="lg"] > *) { --_steps: 5; --blip-r: 5; --blip-shape: var(--blip-shape-5); --blip-shape-inner: var(--blip-shape-5-inner); }
 
   /* The knob: a neutral candy, the same shape as the track's end. */
-  .chu-switch > input {
-    --chu-tone: var(--chu-candy-cream);
-    --chu-tone-light: var(--chu-candy-cream-light);
-    --chu-tone-shade: var(--chu-candy-cream-shade);
-    --chu-tone-on: var(--chu-ink);
-    --chu-band-top: 2;
-    --chu-band-bottom: 2;
+  .blip-switch > input {
+    --blip-tone: var(--blip-candy-cream);
+    --blip-tone-light: var(--blip-candy-cream-light);
+    --blip-tone-shade: var(--blip-candy-cream-shade);
+    --blip-tone-on: var(--blip-ink);
+    --blip-band-top: 2;
+    --blip-band-bottom: 2;
     position: absolute;
-    inset-block-start: calc(-1 * var(--chu-pixel));
-    inset-inline-start: calc(-1 * var(--chu-pixel));
-    inline-size: calc((var(--_n) + 2) * var(--chu-pixel));
-    block-size: calc((var(--_n) + 2) * var(--chu-pixel));
+    inset-block-start: calc(-1 * var(--blip-pixel));
+    inset-inline-start: calc(-1 * var(--blip-pixel));
+    inline-size: calc((var(--_n) + 2) * var(--blip-pixel));
+    block-size: calc((var(--_n) + 2) * var(--blip-pixel));
     margin: 0;
     padding: 0;
-    border: var(--chu-pixel) solid transparent;
+    border: var(--blip-pixel) solid transparent;
     outline: 0;
     box-shadow: none;
     cursor: pointer;
     appearance: none;
-    transition: inset-inline-start var(--chu-duration-nudge) steps(var(--_steps), jump-end);
+    transition: inset-inline-start var(--blip-duration-nudge) steps(var(--_steps), jump-end);
   }
-  .chu-switch > :checked { inset-inline-start: calc((var(--_n) - 4) * var(--chu-pixel)); }
+  .blip-switch > :checked { inset-inline-start: calc((var(--_n) - 4) * var(--blip-pixel)); }
   /* The small knob is 11 pixels with its border, under the target size: a second transparent pixel all round. */
-  .chu-switch:is([data-size="sm"], [data-size="sm"] > *) > input {
-    inset-block-start: calc(-2 * var(--chu-pixel));
-    inset-inline-start: calc(-2 * var(--chu-pixel));
-    inline-size: calc((var(--_n) + 4) * var(--chu-pixel));
-    block-size: calc((var(--_n) + 4) * var(--chu-pixel));
-    border-width: calc(2 * var(--chu-pixel));
+  .blip-switch:is([data-size="sm"], [data-size="sm"] > *) > input {
+    inset-block-start: calc(-2 * var(--blip-pixel));
+    inset-inline-start: calc(-2 * var(--blip-pixel));
+    inline-size: calc((var(--_n) + 4) * var(--blip-pixel));
+    block-size: calc((var(--_n) + 4) * var(--blip-pixel));
+    border-width: calc(2 * var(--blip-pixel));
   }
-  .chu-switch:is([data-size="sm"], [data-size="sm"] > *) > :checked { inset-inline-start: calc((var(--_n) - 5) * var(--chu-pixel)); }
+  .blip-switch:is([data-size="sm"], [data-size="sm"] > *) > :checked { inset-inline-start: calc((var(--_n) - 5) * var(--blip-pixel)); }
   /* A cream knob takes the cream dither: the usual light one is almost cream. */
-  .chu-switch > input:disabled { --chu-box-dither: var(--chu-disabled-dither-cream); }
+  .blip-switch > input:disabled { --blip-box-dither: var(--blip-disabled-dither-cream); }
   /* The ring belongs to the track. */
-  .chu-switch > input:focus-visible { filter: none; }
+  .blip-switch > input:focus-visible { filter: none; }
 
   @media (hover: hover) {
-    .chu-switch > input:not(:disabled):is(:hover, .chu-check:hover > * > *) { translate: 0 calc(-1 * var(--chu-pixel)); --chu-drop-size: 2; }
+    .blip-switch > input:not(:disabled):is(:hover, .blip-check:hover > * > *) { translate: 0 calc(-1 * var(--blip-pixel)); --blip-drop-size: 2; }
   }
-  .chu-switch[data-chu-state~="hover"] > input { translate: 0 calc(-1 * var(--chu-pixel)); --chu-drop-size: 2; }
-  .chu-switch > input:not(:disabled):active, .chu-switch[data-chu-state~="active"] > input { translate: none; --chu-drop-size: 0; }
+  .blip-switch[data-blip-state~="hover"] > input { translate: 0 calc(-1 * var(--blip-pixel)); --blip-drop-size: 2; }
+  .blip-switch > input:not(:disabled):active, .blip-switch[data-blip-state~="active"] > input { translate: none; --blip-drop-size: 0; }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-switch > input { transition: none; }
+    .blip-switch > input { transition: none; }
   }
 
   @media (forced-colors: active) {
-    .chu-switch > input { forced-color-adjust: none; border: 1px solid CanvasText; background: Canvas; }
+    .blip-switch > input { forced-color-adjust: none; border: 1px solid CanvasText; background: Canvas; }
     /* The small knob's own size: its frame is drawn, so it takes no reach. */
-    .chu-switch:is([data-size="sm"], [data-size="sm"] > *) > input {
-      inset-block-start: calc(-1 * var(--chu-pixel));
-      inset-inline-start: calc(-1 * var(--chu-pixel));
-      inline-size: calc((var(--_n) + 2) * var(--chu-pixel));
-      block-size: calc((var(--_n) + 2) * var(--chu-pixel));
+    .blip-switch:is([data-size="sm"], [data-size="sm"] > *) > input {
+      inset-block-start: calc(-1 * var(--blip-pixel));
+      inset-inline-start: calc(-1 * var(--blip-pixel));
+      inline-size: calc((var(--_n) + 2) * var(--blip-pixel));
+      block-size: calc((var(--_n) + 2) * var(--blip-pixel));
       border: 1px solid CanvasText;
     }
-    .chu-switch:is([data-size="sm"], [data-size="sm"] > *) > :checked { inset-inline-start: calc((var(--_n) - 4) * var(--chu-pixel)); }
-    .chu-switch > :checked { background: Highlight; }
+    .blip-switch:is([data-size="sm"], [data-size="sm"] > *) > :checked { inset-inline-start: calc((var(--_n) - 4) * var(--blip-pixel)); }
+    .blip-switch > :checked { background: Highlight; }
   }
 }

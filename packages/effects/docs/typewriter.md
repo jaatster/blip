@@ -1,8 +1,8 @@
 ---
 name: Typewriter
-package: "@jaatster/blip-effects"
+package: "@blip/effects"
 css: text.css
-element: chu-typewriter
+element: blip-typewriter
 react: Typewriter
 status: beta
 ---
@@ -16,18 +16,18 @@ a word always at the same pitches.
 ## Usage
 
 ```html
-<chu-typewriter caret blips mood="happy">Welcome back! Your save is ready.</chu-typewriter>
+<blip-typewriter caret blips mood="happy">Welcome back! Your save is ready.</blip-typewriter>
 ```
 
 ```js
-const line = document.querySelector("chu-typewriter");
+const line = document.querySelector("blip-typewriter");
 line.text = "Level two. Good luck!";   // types the new text
 line.finish();                          // shows it all at once (a Skip button)
-line.addEventListener("chu-typewriter-done", () => next());
+line.addEventListener("blip-typewriter-done", () => next());
 ```
 
-Blips play through `services.sound()` from `@jaatster/blip-core`, so they are silent until the app turns sound on
-(`enableSound()` from `@jaatster/blip-sound`).
+Blips play through `services.sound()` from `@blip/core`, so they are silent until the app turns sound on
+(`enableSound()` from `@blip/sound`).
 
 ## Anatomy
 
@@ -43,7 +43,7 @@ blinks for six beats once the last letter is in, and stays, so a caret that says
 | `mood` | `plain` (default), `happy`, `sleepy` | Pitches the blips up or down. |
 | `caret` | | A two-pixel block: still while it types, then six blinks on the beat, then still and shown. |
 
-Style the text with any text class: `.chu-body`, `.chu-display` (with `data-scale`, 1 to 4), `.chu-title`.
+Style the text with any text class: `.blip-body`, `.blip-display` (with `data-scale`, 1 to 4), `.blip-title`.
 
 ## States
 
@@ -74,5 +74,5 @@ Style the text with any text class: `.chu-body`, `.chu-display` (with `data-scal
 | `play()` | Types from the start; returns a promise. |
 | `finish()` | Shows everything now. |
 | `blips`, `caret`, `mood` | Properties that mirror the attributes. |
-| `chu-typewriter-done` | Fires (bubbling) once per play: when the last letter is in, or on `finish()`. |
-| `--chu-duration-letter`, `--chu-duration-stop`, `--chu-duration-comma` | The timing tokens. |
+| `blip-typewriter-done` | Fires (bubbling) once per play: when the last letter is in, or on `finish()`. |
+| `--blip-duration-letter`, `--blip-duration-stop`, `--blip-duration-comma` | The timing tokens. |

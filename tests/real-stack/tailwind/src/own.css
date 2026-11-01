@@ -1,7 +1,7 @@
 /* The start page's recipe for an app's own CSS: layers.css first, rules for bare elements into the base layer. */
-@import "@jaatster/blip-core/layers.css";
+@import "@blip/core/layers.css";
 @import "./reset.css" layer(base);         /* button { … }, a { … }: under Blip */
-@import "@jaatster/blip-tokens/tokens.css";
-@import "@jaatster/blip-font/font.css";
-@import "@jaatster/blip-core/core.css";
-@import "@jaatster/blip-components/components.css";
+@import "@blip/tokens/tokens.css";
+@import "@blip/font/font.css";
+@import "@blip/core/core.css";
+@import "@blip/components/components.css";

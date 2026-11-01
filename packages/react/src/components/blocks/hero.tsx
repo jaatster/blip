@@ -1,8 +1,8 @@
 /**
  * Hero: Hero, HeroInner, HeroTitle, HeroLead, HeroActions, HeroNote, HeroScenery and HeroGround. CSS from
- * @jaatster/blip-blocks (hero.css). It stands on the world: pass a `<World>` (from @jaatster/blip-react/effects) as its first child;
+ * @blip/blocks (hero.css). It stands on the world: pass a `<World>` (from @blip/react/effects) as its first child;
  * without it, and until it draws, its own sky shows, the scheme's palette in hard bands. Its calls to action are a
- * `<ButtonLink>` (or `<Button>`) from @jaatster/blip-react.
+ * `<ButtonLink>` (or `<Button>`) from @blip/react.
  */
 import { Fragment, forwardRef } from "react";
 import type { CSSProperties, ElementType } from "react";
@@ -24,7 +24,7 @@ export type HeroProps = HeroOwnProps & NativeProps<"section", HeroOwnProps>;
  * world shows, and two actions at most. Name it by its title.
  *
  *   <Hero aria-labelledby="hero-title">
- *     <World parallax avoid=".chu-hero-title, .chu-hero-lead, .chu-hero-actions, .chu-hero-note" />
+ *     <World parallax avoid=".blip-hero-title, .blip-hero-lead, .blip-hero-actions, .blip-hero-note" />
  *     <HeroInner>
  *       <HeroTitle id="hero-title">Starfall Meadow</HeroTitle>
  *       <HeroLead>Catch the stars that fall on the meadow before the sun comes up.</HeroLead>
@@ -38,13 +38,13 @@ export type HeroProps = HeroOwnProps & NativeProps<"section", HeroOwnProps>;
  *     <HeroGround />
  *   </Hero>
  *
- * Renders `<section class="chu-hero">`.
+ * Renders `<section class="blip-hero">`.
  */
 export const Hero = /*#__PURE__*/ forwardRef<HTMLElement, HeroProps>(function Hero({ align, className, ...rest }, ref) {
   return (
     <section
       ref={ref}
-      className={cx("chu-hero", className)}
+      className={cx("blip-hero", className)}
       data-align={align === "start" ? "start" : undefined}
       {...rest}
     />
@@ -59,10 +59,10 @@ export type HeroInnerProps = NativeProps<"div">;
  *
  *   <HeroInner><HeroTitle id="hero-title">Starfall Meadow</HeroTitle>…</HeroInner>
  *
- * Renders `<div class="chu-hero-inner">`.
+ * Renders `<div class="blip-hero-inner">`.
  */
 export const HeroInner = /*#__PURE__*/ forwardRef<HTMLDivElement, HeroInnerProps>(function HeroInner({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("chu-hero-inner", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-hero-inner", className)} {...rest} />;
 });
 
 /** Own props of {@link HeroTitle}. */
@@ -81,8 +81,8 @@ export type HeroTitleProps<T extends ElementType = "h1"> = PolymorphicProps<T, H
  *
  *   <HeroTitle id="hero-title">Starfall Meadow</HeroTitle>
  *
- * Renders `<h1 class="chu-hero-title chu-display">` holding `<span class="chu-sr-only">` (the text), then `<span
- * aria-hidden="true">` with a `<span class="chu-hero-word">` per word of `<span class="chu-pop chu-drop-in"
+ * Renders `<h1 class="blip-hero-title blip-display">` holding `<span class="blip-sr-only">` (the text), then `<span
+ * aria-hidden="true">` with a `<span class="blip-hero-word">` per word of `<span class="blip-pop blip-drop-in"
  * data-pop="S" style="--i: 0">` letters.
  */
 // The public type (the cast below) requires the text; inside, it is read as it comes.
@@ -103,17 +103,17 @@ export const HeroTitle = /*#__PURE__*/ forwardRef(function HeroTitle(
       return { letters, first };
     });
   return (
-    <Tag ref={ref} className={cx("chu-hero-title chu-display", className)} {...rest}>
-      <span className="chu-sr-only">{text}</span>
+    <Tag ref={ref} className={cx("blip-hero-title blip-display", className)} {...rest}>
+      <span className="blip-sr-only">{text}</span>
       <span aria-hidden="true">
         {words.map(({ letters, first }, w) => (
           <Fragment key={w}>
             {w > 0 ? " " : null}
-            <span className="chu-hero-word">
+            <span className="blip-hero-word">
               {letters.map((letter, l) => (
                 <span
                   key={l}
-                  className="chu-pop chu-drop-in"
+                  className="blip-pop blip-drop-in"
                   data-pop={letter}
                   style={{ "--i": first + l } as CSSProperties}
                 >
@@ -137,10 +137,10 @@ export type HeroLeadProps = NativeProps<"p">;
  *
  *   <HeroLead>Catch the stars that fall on the meadow before the sun comes up.</HeroLead>
  *
- * Renders `<p class="chu-hero-lead">`.
+ * Renders `<p class="blip-hero-lead">`.
  */
 export const HeroLead = /*#__PURE__*/ forwardRef<HTMLParagraphElement, HeroLeadProps>(function HeroLead({ className, ...rest }, ref) {
-  return <p ref={ref} className={cx("chu-hero-lead", className)} {...rest} />;
+  return <p ref={ref} className={cx("blip-hero-lead", className)} {...rest} />;
 });
 
 /** Props for {@link HeroActions}. */
@@ -155,13 +155,13 @@ export type HeroActionsProps = NativeProps<"div">;
  *     <ButtonLink size="lg" variant="soft" tone="neutral" href="#demo">Play the free demo</ButtonLink>
  *   </HeroActions>
  *
- * Renders `<div class="chu-hero-actions">`.
+ * Renders `<div class="blip-hero-actions">`.
  */
 export const HeroActions = /*#__PURE__*/ forwardRef<HTMLDivElement, HeroActionsProps>(function HeroActions(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-hero-actions", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-hero-actions", className)} {...rest} />;
 });
 
 /** Props for {@link HeroNote}. */
@@ -172,10 +172,10 @@ export type HeroNoteProps = NativeProps<"p">;
  *
  *   <HeroNote>Out this spring, on desktop</HeroNote>
  *
- * Renders `<p class="chu-hero-note">`.
+ * Renders `<p class="blip-hero-note">`.
  */
 export const HeroNote = /*#__PURE__*/ forwardRef<HTMLParagraphElement, HeroNoteProps>(function HeroNote({ className, ...rest }, ref) {
-  return <p ref={ref} className={cx("chu-hero-note", className)} {...rest} />;
+  return <p ref={ref} className={cx("blip-hero-note", className)} {...rest} />;
 });
 
 /** Props for {@link HeroScenery}. */
@@ -187,13 +187,13 @@ export type HeroSceneryProps = NativeProps<"div">;
  *
  *   <HeroScenery><Sprite name="star" style={{ position: "absolute", left: "6%", bottom: 0 }} /></HeroScenery>
  *
- * Renders `<div class="chu-hero-scenery" aria-hidden="true">`.
+ * Renders `<div class="blip-hero-scenery" aria-hidden="true">`.
  */
 export const HeroScenery = /*#__PURE__*/ forwardRef<HTMLDivElement, HeroSceneryProps>(function HeroScenery(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-hero-scenery", className)} aria-hidden={true} {...rest} />;
+  return <div ref={ref} className={cx("blip-hero-scenery", className)} aria-hidden={true} {...rest} />;
 });
 
 /** Props for {@link HeroGround}. */
@@ -201,12 +201,12 @@ export type HeroGroundProps = NativeProps<"div", { children?: never }> & { child
 
 /**
  * The ground along the hero's bottom: blades of grass, grass, a lip, dirt with pebbles, flowers
- * (`--chu-hero-ground` pixels, 24). Last in the hero.
+ * (`--blip-hero-ground` pixels, 24). Last in the hero.
  *
  *   <HeroGround />
  *
- * Renders `<div class="chu-hero-ground">`.
+ * Renders `<div class="blip-hero-ground">`.
  */
 export const HeroGround = /*#__PURE__*/ forwardRef<HTMLDivElement, HeroGroundProps>(function HeroGround({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("chu-hero-ground", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-hero-ground", className)} {...rest} />;
 });

@@ -1,10 +1,10 @@
 <!-- An alarm time in a form: hours, minutes and AM/PM in the page's language. The form gets "HH:MM" on a 24-hour clock,
      whatever the wheels show. Large rows, for thumbs. -->
-<form class="chu-stack" data-gap="6" style="max-inline-size:calc(160*var(--chu-pixel))" onsubmit="event.preventDefault(); this.querySelector('output').value = 'Set for ' + new FormData(this).get('alarm')">
-  <div class="chu-stack" data-gap="2">
-    <label class="chu-field-label" for="whs-alarm">Wake me at</label>
-    <chu-wheel class="chu-box chu-wheel" id="whs-alarm" name="alarm" data-type="time" data-size="lg" minute-step="5" value="07:30"></chu-wheel>
+<form class="blip-stack" data-gap="6" style="max-inline-size:calc(160*var(--blip-pixel))" onsubmit="event.preventDefault(); this.querySelector('output').value = 'Set for ' + new FormData(this).get('alarm')">
+  <div class="blip-stack" data-gap="2">
+    <label class="blip-field-label" for="whs-alarm">Wake me at</label>
+    <blip-wheel class="blip-box blip-wheel" id="whs-alarm" name="alarm" data-type="time" data-size="lg" minute-step="5" value="07:30"></blip-wheel>
   </div>
-  <button class="chu-box chu-button">Set alarm</button>
-  <output class="chu-label chu-muted" aria-live="polite"></output>
+  <button class="blip-box blip-button">Set alarm</button>
+  <output class="blip-label blip-muted" aria-live="polite"></output>
 </form>

@@ -1,6 +1,6 @@
 ---
 name: Transitions
-package: "@jaatster/blip-effects"
+package: "@blip/effects"
 css: transitions.css
 element: null
 react: null
@@ -15,7 +15,7 @@ Full-screen changes in whole pixels: the TV's ink **dissolve**, a **dither** thr
 ## Usage
 
 ```js
-import { transition } from "@jaatster/blip-effects/transitions";
+import { transition } from "@blip/effects/transitions";
 
 await transition(() => router.show("/level-2"), { kind: "dissolve" });   // dissolve (default), dither, mosaic
 ```
@@ -29,7 +29,7 @@ promise resolves when the new screen is fully shown and rejects if the update th
 Between pages (cross-document view transitions), with no script, opt in on both pages:
 
 ```html
-<html data-chu-transition>
+<html data-blip-transition>
 <style>@view-transition { navigation: auto; }</style>
 ```
 
@@ -56,7 +56,7 @@ is CSS alone, so its cells are two pixels in CSS pixels; `transition()`'s own di
 
 - A transition never blocks input for more than about half a second.
 - Move focus to the new screen's heading or main region after the update, as for any route change.
-- The ink is `--chu-ink`; the dissolve's frames are short and never flash.
+- The ink is `--blip-ink`; the dissolve's frames are short and never flash.
 
 ## Do and don't
 
@@ -69,6 +69,6 @@ is CSS alone, so its cells are two pixels in CSS pixels; `transition()`'s own di
 | | |
 |---|---|
 | `transition(update, { kind, signal })` | Runs `update` behind a transition. Returns a promise. |
-| `html[data-chu-transition]` | Opts a page's view transitions into the CSS dither (also for view transitions other code starts). |
-| `html[data-chu-transition-run]` | Set by `transition()` while it runs. |
-| `--chu-duration-dissolve-frame`, `--chu-duration-frame` | Frame times (30 and 40 ms; 0 with reduced motion). |
+| `html[data-blip-transition]` | Opts a page's view transitions into the CSS dither (also for view transitions other code starts). |
+| `html[data-blip-transition-run]` | Set by `transition()` while it runs. |
+| `--blip-duration-dissolve-frame`, `--blip-duration-frame` | Frame times (30 and 40 ms; 0 with reduced motion). |

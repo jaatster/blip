@@ -1,6 +1,6 @@
 ---
 name: Glint
-package: "@jaatster/blip-effects"
+package: "@blip/effects"
 css: text.css
 element: null
 react: null
@@ -15,11 +15,11 @@ the box's outline, once when it appears (as a selected tile's does), then it res
 ## Usage
 
 ```html
-<button class="chu-box chu-button">Continue<span class="chu-glint" aria-hidden="true"></span></button>
-<div class="chu-box chu-tile" data-tone="red">…<span class="chu-glint" aria-hidden="true"></span></div>
+<button class="blip-box blip-button">Continue<span class="blip-glint" aria-hidden="true"></span></button>
+<div class="blip-box blip-tile" data-tone="red">…<span class="blip-glint" aria-hidden="true"></span></div>
 ```
 
-Put one `.chu-glint` span inside any `.chu-box`. It reads the box's shape, so stepped corners of any radius stay clean.
+Put one `.blip-glint` span inside any `.blip-box`. It reads the box's shape, so stepped corners of any radius stay clean.
 
 ## Anatomy
 
@@ -32,9 +32,9 @@ on the TV), the middle two white. Its point moves from the top-left corner to th
 | | |
 |---|---|
 | `data-frame="0"` to `"4"` | Holds one frame (docs, tests, screenshots). |
-| `--chu-glint-count` | How many sweeps, 4.5 seconds apart (1). Two are over in under five seconds; set `infinite` only where the person can pause it, as for `--chu-blink-count`. |
-| `--chu-glint-delay` | Staggers several glints on one screen. |
-| `--chu-glint-color`, `--chu-glint-edge` | The band's colours (white, light yellow). |
+| `--blip-glint-count` | How many sweeps, 4.5 seconds apart (1). Two are over in under five seconds; set `infinite` only where the person can pause it, as for `--blip-blink-count`. |
+| `--blip-glint-delay` | Staggers several glints on one screen. |
+| `--blip-glint-color`, `--blip-glint-edge` | The band's colours (white, light yellow). |
 
 ## States
 
@@ -56,5 +56,5 @@ seconds unless you ask for it (WCAG 2.2.2).
 
 ## API
 
-`.chu-glint` (a child of a `.chu-box`), `data-frame`, `--chu-glint-count`, `--chu-glint-delay`, `--chu-glint-color`,
-`--chu-glint-edge`.
+`.blip-glint` (a child of a `.blip-box`), `data-frame`, `--blip-glint-count`, `--blip-glint-delay`, `--blip-glint-color`,
+`--blip-glint-edge`.

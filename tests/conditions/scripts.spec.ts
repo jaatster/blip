@@ -67,10 +67,10 @@ async function inkChecks(page: Page, code: string, width: number): Promise<{ box
   const layout = await page.evaluate((section) => {
     const s = document.querySelector(section)!;
     const rect = (e: Element) => { const r = e.getBoundingClientRect(); return { x: r.x, y: r.y, w: r.width, h: r.height }; };
-    const boxes = [...s.querySelectorAll<HTMLElement>("[data-part]")].filter((e) => e.closest(".chu-box")).map((e) => {
-      const box = e.closest(".chu-box")!;
+    const boxes = [...s.querySelectorAll<HTMLElement>("[data-part]")].filter((e) => e.closest(".blip-box")).map((e) => {
+      const box = e.closest(".blip-box")!;
       const fs = parseFloat(getComputedStyle(e).fontSize);
-      return { part: e.dataset.part!, text: rect(e), box: rect(box), pixel: parseFloat(getComputedStyle(box).getPropertyValue("--chu-pixel")) || 2, fs };
+      return { part: e.dataset.part!, text: rect(e), box: rect(box), pixel: parseFloat(getComputedStyle(box).getPropertyValue("--blip-pixel")) || 2, fs };
     });
     const blocks = [...s.querySelectorAll<HTMLElement>("[data-part]")].filter((e) => e.querySelector("[data-line]")).map((e) => ({
       part: e.dataset.part!,

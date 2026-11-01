@@ -1,15 +1,15 @@
 /**
- * <chu-inventory> interaction tests, on the example's backpack: a single-select listbox of slots with one tab stop;
+ * <blip-inventory> interaction tests, on the example's backpack: a single-select listbox of slots with one tab stop;
  * Left and Right move along, Up and Down by a whole row (five columns), Home and End jump, letters jump by
- * typeahead, and Enter, Space or a click selects and fires chu-select.
+ * typeahead, and Enter, Space or a click selects and fires blip-select.
  */
 import type { StoryObj } from "@storybook/html-vite";
 import { expect } from "storybook/test";
 import { click, events, focus, focused, one, press, wait } from "../lib/play";
 
 const backpack = (root: HTMLElement) => {
-  const element = one<HTMLElement>(root, "chu-inventory");
-  const slots = () => [...element.querySelectorAll<HTMLElement>(".chu-slot")];
+  const element = one<HTMLElement>(root, "blip-inventory");
+  const slots = () => [...element.querySelectorAll<HTMLElement>(".blip-slot")];
   const slot = (label: string) => slots().find((s) => s.getAttribute("aria-label") === label)!;
   return { element, slots, slot };
 };
@@ -18,7 +18,7 @@ export const GridKeysAndSelect: StoryObj = {
   name: "Two-dimensional keys, typeahead and select",
   play: async ({ canvasElement, step }) => {
     const { element, slots, slot } = backpack(canvasElement);
-    const picked = events<{ value: string; index: number }>(element, "chu-select");
+    const picked = events<{ value: string; index: number }>(element, "blip-select");
 
     await step("A labelled listbox of options, with one tab stop", async () => {
       expect(element).toHaveAttribute("role", "listbox");

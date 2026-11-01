@@ -21,21 +21,21 @@ const SAMPLE: Record<string, string> = {
   "size-caption": "Version 0.1, last played at 18:40.",
 };
 const styles = [
-  ["chu-display", "Pixel Bop at a whole scale (data-scale 1 to 4)", `<span class="chu-display" data-scale="1">Level 2</span>`],
-  ["chu-pop", "POP: white letters, an ink outline, a tinted band and a drop", `<span class="chu-display chu-pop" data-scale="1" data-tone="pink" data-pop="Level 2">Level 2</span>`],
-  ["chu-outline", "One colour with an ink outline, for small text on pictures", `<span class="chu-outline chu-label docs-on-world">Press start</span>`],
-  ["chu-label", "Upper-case UI labels", `<span class="chu-label">Music volume</span>`],
-  ["chu-title", "Section titles", `<span class="chu-title">Your saves</span>`],
-  ["chu-lead", "An opening paragraph", `<span class="chu-lead">A cozy platformer.</span>`],
-  ["chu-body", "Body text", `<span class="chu-body">Catch the stars.</span>`],
-  ["chu-small", "Notes and table text", `<span class="chu-small">Saved a minute ago</span>`],
-  ["chu-caption", "Captions, in the muted text colour", `<span class="chu-caption">18:40</span>`],
+  ["blip-display", "Pixel Bop at a whole scale (data-scale 1 to 4)", `<span class="blip-display" data-scale="1">Level 2</span>`],
+  ["blip-pop", "POP: white letters, an ink outline, a tinted band and a drop", `<span class="blip-display blip-pop" data-scale="1" data-tone="pink" data-pop="Level 2">Level 2</span>`],
+  ["blip-outline", "One colour with an ink outline, for small text on pictures", `<span class="blip-outline blip-label docs-on-world">Press start</span>`],
+  ["blip-label", "Upper-case UI labels", `<span class="blip-label">Music volume</span>`],
+  ["blip-title", "Section titles", `<span class="blip-title">Your saves</span>`],
+  ["blip-lead", "An opening paragraph", `<span class="blip-lead">A cozy platformer.</span>`],
+  ["blip-body", "Body text", `<span class="blip-body">Catch the stars.</span>`],
+  ["blip-small", "Notes and table text", `<span class="blip-small">Saved a minute ago</span>`],
+  ["blip-caption", "Captions, in the muted text colour", `<span class="blip-caption">18:40</span>`],
 ];
 const H = (id: string, text: string) => ({ depth: 2, id, text });
 ---
 <Docs styles={["foundations"]} scripts={["foundations"]} title="Type" description="Pixel Bop, Blip's pixel display font, at its four whole scales; Pixelify Sans for UI and body text; and the type styles." headings={[H("pixel-bop", "Pixel Bop"), H("try", "Try it"), H("pixelify", "Pixelify Sans"), H("styles", "Type styles"), H("font-files", "The font files"), ...ref.headings.filter((h) => h.depth === 2)]} display>
   <header class="docs-page-head">
-    <h1 class="docs-page-title chu-display" data-scale="2">Type</h1>
+    <h1 class="docs-page-title blip-display" data-scale="2">Type</h1>
     <p class="docs-lede">Two faces. <strong>Pixel Bop</strong>, Blip's own, draws big text in bold pixel capitals on the same grid as everything else. <strong>Pixelify Sans</strong> carries labels and reading text. Both are under the SIL Open Font License.</p>
   </header>
 
@@ -46,11 +46,11 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
       {[4, 3, 2, 1].map((s) => (
         <div class="docs-bop-row">
           <span class="docs-bop-scale docs-label">Scale {s}<br /><span class="docs-num">{20 * s} px, caps {14 * s}</span></span>
-          <p class={`chu-display${s >= 2 ? " chu-pop" : ""}`} data-scale={String(s)} data-tone={s === 3 ? "pink" : s === 2 ? "teal" : undefined} data-pop={s >= 2 ? (s === 4 ? "Bop!" : s === 3 ? "Level 2" : "Game over") : undefined}>{s === 4 ? "Bop!" : s === 3 ? "Level 2" : s === 2 ? "Game over" : "The quick brown fox jumps over the lazy dog: 12:34 & (5/6)?"}</p>
+          <p class={`blip-display${s >= 2 ? " blip-pop" : ""}`} data-scale={String(s)} data-tone={s === 3 ? "pink" : s === 2 ? "teal" : undefined} data-pop={s >= 2 ? (s === 4 ? "Bop!" : s === 3 ? "Level 2" : "Game over") : undefined}>{s === 4 ? "Bop!" : s === 3 ? "Level 2" : s === 2 ? "Game over" : "The quick brown fox jumps over the lazy dog: 12:34 & (5/6)?"}</p>
         </div>
       ))}
     </div>
-    <p class="chu-display docs-bop-accents" data-scale="2" lang="en">Ærøskøbing · Łódź · Šibenik · İzmir · ȘTEFAN</p>
+    <p class="blip-display docs-bop-accents" data-scale="2" lang="en">Ærøskøbing · Łódź · Šibenik · İzmir · ȘTEFAN</p>
     <p class="docs-note">Every capital Europe writes with, from À to Ž, the figures, and the punctuation: {font.source.match(/\*\*Accented and other letters\*\* \((\d+)\)/)?.[1] ?? "97"} accented letters alone. Lower case draws as capitals, so text keeps its case for screen readers and search.</p>
   </section>
 
@@ -58,18 +58,18 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     <h2 id="try">Try it</h2>
     <div class="docs-try">
       <div class="docs-try-controls">
-        <label class="chu-field-label" for="try-text">Your text</label>
-        <span class="chu-box chu-input"><input id="try-text" type="text" value="Press start" maxlength="40" /></span>
-        <chu-segmented class="chu-box chu-segmented docs-try-scale" data-size="sm" aria-label="Scale" value="3">
-          <button class="chu-box" type="button" value="1">1</button>
-          <button class="chu-box" type="button" value="2">2</button>
-          <button class="chu-box" type="button" value="3" aria-checked="true">3</button>
-          <button class="chu-box" type="button" value="4">4</button>
-        </chu-segmented>
-        <label class="chu-check"><span class="chu-box chu-checkbox"><input type="checkbox" class="docs-try-pop" checked /></span>POP</label>
+        <label class="blip-field-label" for="try-text">Your text</label>
+        <span class="blip-box blip-input"><input id="try-text" type="text" value="Press start" maxlength="40" /></span>
+        <blip-segmented class="blip-box blip-segmented docs-try-scale" data-size="sm" aria-label="Scale" value="3">
+          <button class="blip-box" type="button" value="1">1</button>
+          <button class="blip-box" type="button" value="2">2</button>
+          <button class="blip-box" type="button" value="3" aria-checked="true">3</button>
+          <button class="blip-box" type="button" value="4">4</button>
+        </blip-segmented>
+        <label class="blip-check"><span class="blip-box blip-checkbox"><input type="checkbox" class="docs-try-pop" checked /></span>POP</label>
       </div>
       <div class="docs-try-stage" aria-live="polite" role="region" aria-label="Your text in Pixel Bop" tabindex="0">
-        <p class="chu-display chu-pop docs-try-out" data-scale="3" data-pop="Press start">Press start</p>
+        <p class="blip-display blip-pop docs-try-out" data-scale="3" data-pop="Press start">Press start</p>
       </div>
     </div>
   </section>
@@ -80,23 +80,23 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     <div class="docs-ramp">
       {ramp.map((r) => (
         <div class="docs-ramp-row">
-          <span class="docs-ramp-meta"><code class="docs-inline-code">--chu-{r.k}</code><span class="chu-muted docs-num">{r.px / 16} rem, {r.px} px</span></span>
-          <p style={`font-size:var(--chu-${r.k});${r.k === "size-title" ? "font-weight:var(--chu-weight-bold)" : ""}`}>{SAMPLE[r.k]}</p>
+          <span class="docs-ramp-meta"><code class="docs-inline-code">--blip-{r.k}</code><span class="blip-muted docs-num">{r.px / 16} rem, {r.px} px</span></span>
+          <p style={`font-size:var(--blip-${r.k});${r.k === "size-title" ? "font-weight:var(--blip-weight-bold)" : ""}`}>{SAMPLE[r.k]}</p>
         </div>
       ))}
     </div>
-    <Table label="Type tokens" head={["Token", "Value", ""]} rows={["font-display", "font-ui", "font-mono", "weight-regular", "weight-medium", "weight-bold", "leading-tight", "leading-normal", "leading-display", "leading-display-loose", "tracking-label"].filter((k) => k in t.shared).map((k) => [code(`--chu-${k}`), code(Array.isArray(t.shared[k]) ? (t.shared[k] as unknown as string[]).join(", ") : t.shared[k]), esc(desc.get(k) ?? "")])} />
+    <Table label="Type tokens" head={["Token", "Value", ""]} rows={["font-display", "font-ui", "font-mono", "weight-regular", "weight-medium", "weight-bold", "leading-tight", "leading-normal", "leading-display", "leading-display-loose", "tracking-label"].filter((k) => k in t.shared).map((k) => [code(`--blip-${k}`), code(Array.isArray(t.shared[k]) ? (t.shared[k] as unknown as string[]).join(", ") : t.shared[k]), esc(desc.get(k) ?? "")])} />
   </section>
 
   <section class="docs-section" aria-labelledby="styles">
     <h2 id="styles">Type styles</h2>
-    <p>Classes from <code class="docs-inline-code">@jaatster/blip-core</code>; nothing to add but the class.</p>
+    <p>Classes from <code class="docs-inline-code">@blip/core</code>; nothing to add but the class.</p>
     <Table label="Every type style" head={["Class", "Looks like", ""]} rows={styles.map(([c, d, html]) => [code(`.${c}`), html!, esc(d)])} class="docs-styles-table" />
   </section>
 
   <section class="docs-section docs-prose docs-reference" aria-labelledby="font-files">
     <h2 id="font-files">The font files</h2>
-    <p>From <code class="docs-inline-code">@jaatster/blip-font</code>'s own documentation.</p>
+    <p>From <code class="docs-inline-code">@blip/font</code>'s own documentation.</p>
     <Fragment set:html={ref.html} />
   </section>
 

@@ -2,13 +2,13 @@
  * Checkbox. A real <input type="checkbox"> inside a candy box: the calm well when off, candy with an ink check
  * when on, candy with an ink bar when indeterminate.
  *
- *   <label class="chu-check">
- *     <span class="chu-box chu-checkbox"><input type="checkbox" name="music" checked></span>
+ *   <label class="blip-check">
+ *     <span class="blip-box blip-checkbox"><input type="checkbox" name="music" checked></span>
  *     Music
  *   </label>
- *   <span class="chu-box chu-checkbox"><input type="checkbox" aria-label="Select level 3"></span>
+ *   <span class="blip-box blip-checkbox"><input type="checkbox" aria-label="Select level 3"></span>
  *
- *   .chu-check               the clickable row: box, then label text (.chu-check-help for a second line)
+ *   .blip-check               the clickable row: box, then label text (.blip-check-help for a second line)
  *   data-size               sm | md (default) | lg       9, 11 or 13 pixels square (on the box or the row)
  *   data-tone               any tone: the candy when checked (accent by default)
  *   data-layout="split"     on the row: label first, box at the far end (settings lists)
@@ -21,43 +21,43 @@
  */
 @import "./_choice.css";
 
-@layer chu.components {
-  .chu-checkbox {
-    --chu-r: 2;
-    --chu-shape: var(--chu-shape-2);
-    --chu-shape-inner: var(--chu-shape-2-inner);
+@layer blip.components {
+  .blip-checkbox {
+    --blip-r: 2;
+    --blip-shape: var(--blip-shape-2);
+    --blip-shape-inner: var(--blip-shape-2-inner);
     --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7' shape-rendering='crispEdges'%3E%3Cpath d='M6 0h1v1H6zM5 1h2v1H5zM0 2h1v1H0zM4 2h3v1H4zM0 3h2v1H0zM3 3h3v1H3zM0 4h5v1H0zM1 5h3v1H1zM2 6h1v1H2z'/%3E%3C/svg%3E");
-    --_gs: calc(7 * var(--chu-pixel));
+    --_gs: calc(7 * var(--blip-pixel));
   }
-  .chu-checkbox:is([data-size="sm"], [data-size="sm"] > *) {
-    --chu-r: 1;
-    --chu-shape: var(--chu-shape-1);
-    --chu-shape-inner: var(--chu-shape-1-inner);
+  .blip-checkbox:is([data-size="sm"], [data-size="sm"] > *) {
+    --blip-r: 1;
+    --blip-shape: var(--blip-shape-1);
+    --blip-shape-inner: var(--blip-shape-1-inner);
     --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5 5' shape-rendering='crispEdges'%3E%3Cpath d='M4 0h1v1H4zM3 1h2v1H3zM0 2h1v1H0zM2 2h2v1H2zM0 3h3v1H0zM1 4h1v1H1z'/%3E%3C/svg%3E");
-    --_gs: calc(5 * var(--chu-pixel));
+    --_gs: calc(5 * var(--blip-pixel));
   }
-  .chu-checkbox:is([data-size="lg"], [data-size="lg"] > *) {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
+  .blip-checkbox:is([data-size="lg"], [data-size="lg"] > *) {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
   }
 
-  /* Indeterminate: candy with a bar. data-chu-state="indeterminate" forces the look for docs and tests. */
-  .chu-checkbox:has(> :is(:indeterminate, [data-chu-state~="indeterminate"])) {
-    --chu-band-bottom: 1;
-    --chu-box-outline: var(--chu-outline);
-    --chu-box-top: var(--chu-tone-shade);
-    --chu-box-fill: var(--chu-tone);
-    --chu-box-bottom: var(--chu-tone-light);
-    --chu-box-text: var(--chu-tone-on);
+  /* Indeterminate: candy with a bar. data-blip-state="indeterminate" forces the look for docs and tests. */
+  .blip-checkbox:has(> :is(:indeterminate, [data-blip-state~="indeterminate"])) {
+    --blip-band-bottom: 1;
+    --blip-box-outline: var(--blip-outline);
+    --blip-box-top: var(--blip-tone-shade);
+    --blip-box-fill: var(--blip-tone);
+    --blip-box-bottom: var(--blip-tone-light);
+    --blip-box-text: var(--blip-tone-on);
   }
-  .chu-checkbox > :is(:indeterminate, [data-chu-state~="indeterminate"]) {
+  .blip-checkbox > :is(:indeterminate, [data-blip-state~="indeterminate"]) {
     --_g: linear-gradient(#000 0 0);
-    --_gs: calc((var(--_n) - 4) * var(--chu-pixel)) calc(3 * var(--chu-pixel));
+    --_gs: calc((var(--_n) - 4) * var(--blip-pixel)) calc(3 * var(--blip-pixel));
     background-color: currentColor;
   }
-  .chu-checkbox:has(> :is(:indeterminate, [data-chu-state~="indeterminate"]):disabled) {
-    --chu-box-text: var(--chu-tone-on);
-    --chu-box-dither: var(--chu-disabled-dither);
+  .blip-checkbox:has(> :is(:indeterminate, [data-blip-state~="indeterminate"]):disabled) {
+    --blip-box-text: var(--blip-tone-on);
+    --blip-box-dither: var(--blip-disabled-dither);
   }
 }

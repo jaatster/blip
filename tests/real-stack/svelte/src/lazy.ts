@@ -5,4 +5,4 @@ import Lazy from "./Lazy.svelte";
 import "./app.css";
 
 mount(Lazy, { target: document.getElementById("app")!, props: { bind: new URLSearchParams(location.search).get("bind") ?? "docs" } });
-setTimeout(() => import("@jaatster/blip-elements/dialog").then(() => document.documentElement.setAttribute("data-defined", "")), 200);
+setTimeout(() => import("@blip/elements/dialog").then(() => document.documentElement.setAttribute("data-defined", "")), 200);

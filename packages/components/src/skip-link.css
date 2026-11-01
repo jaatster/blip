@@ -3,7 +3,7 @@
  * top-left corner, over everything, and takes them past the navigation to the content.
  *
  *   <body>
- *     <a class="chu-box chu-skip-link" href="#main">Skip to content</a>
+ *     <a class="blip-box blip-skip-link" href="#main">Skip to content</a>
  *     …
  *     <main id="main" tabindex="-1">…</main>
  *
@@ -13,37 +13,37 @@
  * search, to the navigation)? Each appears in the same corner while it has focus.
  */
 
-@layer chu.components {
-  .chu-skip-link {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
-    --chu-band-top: 4;
-    --chu-band-bottom: 4;
+@layer blip.components {
+  .blip-skip-link {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
+    --blip-band-top: 4;
+    --blip-band-bottom: 4;
 
     position: fixed;
-    inset-block-start: var(--chu-space-4);
-    inset-inline-start: var(--chu-space-4);
-    z-index: var(--chu-layer-tooltip);
+    inset-block-start: var(--blip-space-4);
+    inset-inline-start: var(--blip-space-4);
+    z-index: var(--blip-layer-tooltip);
     display: inline-flex;
     align-items: center;
-    block-size: var(--chu-control-md);
-    padding: 0 var(--chu-space-8);
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-small);
-    font-weight: var(--chu-weight-bold);
+    block-size: var(--blip-control-md);
+    padding: 0 var(--blip-space-8);
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-small);
+    font-weight: var(--blip-weight-bold);
     line-height: 1;
-    letter-spacing: var(--chu-tracking-label);
+    letter-spacing: var(--blip-tracking-label);
     text-transform: uppercase;
     text-decoration: none;
     white-space: nowrap;
   }
 
   /* Hidden, not removed: it stays in the tab order and in the accessibility tree. */
-  .chu-skip-link:not(:focus, [data-chu-state~="focus"]) { clip-path: inset(50%); }
+  .blip-skip-link:not(:focus, [data-blip-state~="focus"]) { clip-path: inset(50%); }
 
   /* Pops in when it takes focus: one pixel low for a frame, then in place. */
-  .chu-skip-link:is(:focus, [data-chu-state~="focus"]) {
-    animation: chu-pop-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end);
+  .blip-skip-link:is(:focus, [data-blip-state~="focus"]) {
+    animation: blip-pop-in calc(2 * var(--blip-duration-frame)) steps(1, jump-end);
   }
 }

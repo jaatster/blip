@@ -3,17 +3,17 @@
  * When the bar gets narrow the links fold behind a menu button: the same list, shown as a popover (a disclosure, not a
  * menu), so it needs no script.
  *
- *   <header class="chu-box chu-app-bar">
- *     <a class="chu-app-bar-brand" href="/"><span class="chu-display chu-pop" data-scale="2" data-pop="Blip">Blip</span></a>
- *     <nav class="chu-app-bar-nav" aria-label="Main">
- *       <button class="chu-box chu-button chu-app-bar-toggle" data-variant="ghost" data-icon-only popovertarget="main-links"
- *               aria-label="Menu"><svg class="chu-icon" …></svg></button>
- *       <ul class="chu-box chu-app-bar-links" id="main-links" popover role="list">
- *         <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="/" aria-current="page">Dashboard</a></li>
+ *   <header class="blip-box blip-app-bar">
+ *     <a class="blip-app-bar-brand" href="/"><span class="blip-display blip-pop" data-scale="2" data-pop="Blip">Blip</span></a>
+ *     <nav class="blip-app-bar-nav" aria-label="Main">
+ *       <button class="blip-box blip-button blip-app-bar-toggle" data-variant="ghost" data-icon-only popovertarget="main-links"
+ *               aria-label="Menu"><svg class="blip-icon" …></svg></button>
+ *       <ul class="blip-box blip-app-bar-links" id="main-links" popover role="list">
+ *         <li><a class="blip-box blip-app-bar-link" data-variant="ghost" href="/" aria-current="page">Dashboard</a></li>
  *         …
  *       </ul>
  *     </nav>
- *     <div class="chu-app-bar-actions">…buttons, a chu-menu…</div>
+ *     <div class="blip-app-bar-actions">…buttons, a blip-menu…</div>
  *   </header>
  *
  *   aria-current="page"   the link to the page you are on: sits in, a soft chip
@@ -27,40 +27,40 @@
  * the wordmark drops to scale 1; under 360 px a brand with a mark (an icon before the wordmark) shows just the mark.
  */
 
-@layer chu.components {
-  .chu-app-bar {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
-    --chu-box-top: var(--chu-surface);
-    --chu-box-fill: var(--chu-surface);
-    --chu-box-bottom: var(--chu-surface);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
+@layer blip.components {
+  .blip-app-bar {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
+    --blip-box-top: var(--blip-surface);
+    --blip-box-fill: var(--blip-surface);
+    --blip-box-bottom: var(--blip-surface);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
 
-    container: chu-app-bar / inline-size;
-    anchor-scope: --chu-app-bar;
+    container: blip-app-bar / inline-size;
+    anchor-scope: --blip-app-bar;
     display: flex;
     align-items: center;
-    gap: var(--chu-space-6);
-    min-block-size: calc(28 * var(--chu-pixel));
-    padding: var(--chu-space-3) var(--chu-space-6);
+    gap: var(--blip-space-6);
+    min-block-size: calc(28 * var(--blip-pixel));
+    padding: var(--blip-space-3) var(--blip-space-6);
     /* Leave room for the drop. */
-    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
-    font-family: var(--chu-font-ui);
+    margin: 0 var(--blip-pixel) var(--blip-pixel) 0;
+    font-family: var(--blip-font-ui);
   }
-  .chu-app-bar[data-sticky] {
+  .blip-app-bar[data-sticky] {
     position: sticky;
-    inset-block-start: var(--chu-space-3);
-    z-index: var(--chu-layer-sticky);
+    inset-block-start: var(--blip-space-3);
+    z-index: var(--blip-layer-sticky);
   }
 
   /* The brand gives way first when space runs out, so the menu button and the actions stay whole: it takes all the
      shrinking until it has none left, and only then do the actions' labels wrap. */
-  .chu-app-bar-brand {
+  .blip-app-bar-brand {
     display: inline-flex;
     align-items: center;
-    gap: var(--chu-space-4);
+    gap: var(--blip-space-4);
     flex: 0 1000000 auto;
     min-inline-size: 0;
     overflow: hidden;
@@ -70,110 +70,110 @@
   }
 
   /* Never squeezed: if a bar holds more than fits, it runs past the end rather than under the menu button. */
-  .chu-app-bar-nav {
+  .blip-app-bar-nav {
     display: flex;
     flex: none;
     align-items: center;
   }
-  .chu-app-bar .chu-app-bar-toggle {
+  .blip-app-bar .blip-app-bar-toggle {
     display: none;
-    anchor-name: --chu-app-bar;
+    anchor-name: --blip-app-bar;
   }
 
   /* The links: in the bar, a plain row; opened from the menu button, a panel below it. */
-  .chu-app-bar-links {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
-    --chu-box-outline: transparent;
-    --chu-box-top: transparent;
-    --chu-box-fill: transparent;
-    --chu-box-bottom: transparent;
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
-    --chu-drop-size: 0;
+  .blip-app-bar-links {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
+    --blip-box-outline: transparent;
+    --blip-box-top: transparent;
+    --blip-box-fill: transparent;
+    --blip-box-bottom: transparent;
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
+    --blip-drop-size: 0;
 
     display: flex;
     align-items: center;
-    gap: var(--chu-space-2);
+    gap: var(--blip-space-2);
     inset: auto;
     margin: 0;
     padding: 0;
     overflow: visible;
     list-style: none;
   }
-  .chu-app-bar-links:popover-open {
-    --chu-box-outline: var(--chu-outline);
-    --chu-box-top: var(--chu-surface-panel);
-    --chu-box-fill: var(--chu-surface-panel);
-    --chu-box-bottom: var(--chu-surface-panel);
-    --chu-drop-size: 1;
+  .blip-app-bar-links:popover-open {
+    --blip-box-outline: var(--blip-outline);
+    --blip-box-top: var(--blip-surface-panel);
+    --blip-box-fill: var(--blip-surface-panel);
+    --blip-box-bottom: var(--blip-surface-panel);
+    --blip-drop-size: 1;
 
     position: fixed;
     /* Without anchor positioning: a sheet near the top of the screen. */
-    inset: calc(32 * var(--chu-pixel)) var(--chu-space-6) auto;
+    inset: calc(32 * var(--blip-pixel)) var(--blip-space-6) auto;
     flex-direction: column;
     align-items: stretch;
-    gap: var(--chu-pixel);
-    min-inline-size: calc(96 * var(--chu-pixel));
-    padding: var(--chu-space-3);
+    gap: var(--blip-pixel);
+    min-inline-size: calc(96 * var(--blip-pixel));
+    padding: var(--blip-space-3);
     /* Pops in: one pixel low for a frame, then in place. */
-    animation: chu-pop-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end);
+    animation: blip-pop-in calc(2 * var(--blip-duration-frame)) steps(1, jump-end);
   }
   @supports (position-area: block-end) {
-    .chu-app-bar-links:popover-open {
-      position-anchor: --chu-app-bar;
+    .blip-app-bar-links:popover-open {
+      position-anchor: --blip-app-bar;
       position-area: block-end span-inline-end;
       position-try-fallbacks: flip-inline;
       inset: auto;
-      margin-block-start: var(--chu-space-2);
+      margin-block-start: var(--blip-space-2);
     }
   }
 
-  .chu-app-bar-link {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
+  .blip-app-bar-link {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
 
     display: flex;
     align-items: center;
-    gap: var(--chu-space-3);
-    block-size: var(--chu-control-sm);
-    padding: 0 var(--chu-space-4);
-    font-size: var(--chu-size-small);
-    font-weight: var(--chu-weight-bold);
+    gap: var(--blip-space-3);
+    block-size: var(--blip-control-sm);
+    padding: 0 var(--blip-space-4);
+    font-size: var(--blip-size-small);
+    font-weight: var(--blip-weight-bold);
     line-height: 1;
-    letter-spacing: var(--chu-tracking-label);
+    letter-spacing: var(--blip-tracking-label);
     text-transform: uppercase;
     text-decoration: none;
     white-space: nowrap;
   }
 
-  .chu-app-bar-actions {
+  .blip-app-bar-actions {
     display: flex;
     align-items: center;
-    gap: var(--chu-space-3);
+    gap: var(--blip-space-3);
     margin-inline-start: auto;
   }
 
   /* ------------------------------------------------------------ folded */
 
-  .chu-app-bar[data-collapse="always"] .chu-app-bar-toggle { display: inline-flex; }
-  .chu-app-bar[data-collapse="always"] .chu-app-bar-links:not(:popover-open) { display: none; }
-  @container chu-app-bar (width < 64rem) {
-    .chu-app-bar:not([data-collapse="never"], [data-collapse="medium"]) .chu-app-bar-toggle { display: inline-flex; }
-    .chu-app-bar:not([data-collapse="never"], [data-collapse="medium"]) .chu-app-bar-links:not(:popover-open) { display: none; }
+  .blip-app-bar[data-collapse="always"] .blip-app-bar-toggle { display: inline-flex; }
+  .blip-app-bar[data-collapse="always"] .blip-app-bar-links:not(:popover-open) { display: none; }
+  @container blip-app-bar (width < 64rem) {
+    .blip-app-bar:not([data-collapse="never"], [data-collapse="medium"]) .blip-app-bar-toggle { display: inline-flex; }
+    .blip-app-bar:not([data-collapse="never"], [data-collapse="medium"]) .blip-app-bar-links:not(:popover-open) { display: none; }
   }
-  @container chu-app-bar (width < 37.5rem) {
-    .chu-app-bar[data-collapse="medium"] .chu-app-bar-toggle { display: inline-flex; }
-    .chu-app-bar[data-collapse="medium"] .chu-app-bar-links:not(:popover-open) { display: none; }
+  @container blip-app-bar (width < 37.5rem) {
+    .blip-app-bar[data-collapse="medium"] .blip-app-bar-toggle { display: inline-flex; }
+    .blip-app-bar[data-collapse="medium"] .blip-app-bar-links:not(:popover-open) { display: none; }
   }
-  @container chu-app-bar (width < 400px) {
-    .chu-app-bar-brand .chu-display { --chu-scale: 1; font-feature-settings: normal; }
+  @container blip-app-bar (width < 400px) {
+    .blip-app-bar-brand .blip-display { --blip-scale: 1; font-feature-settings: normal; }
   }
   /* Narrower still, a brand with a mark keeps just the mark; the wordmark stays as the link's name. */
-  @container chu-app-bar (width < 360px) {
-    .chu-app-bar-brand:has(> .chu-icon) > .chu-display {
+  @container blip-app-bar (width < 360px) {
+    .blip-app-bar-brand:has(> .blip-icon) > .blip-display {
       position: absolute;
       clip-path: inset(50%);
       white-space: nowrap;
@@ -181,7 +181,7 @@
   }
 
   @media (forced-colors: active) {
-    .chu-app-bar-link { border-color: Canvas; }
-    .chu-app-bar-link[aria-current="page"] { border-color: CanvasText; }
+    .blip-app-bar-link { border-color: Canvas; }
+    .blip-app-bar-link[aria-current="page"] { border-color: CanvasText; }
   }
 }

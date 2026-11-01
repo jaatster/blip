@@ -13,7 +13,7 @@
  * Where each part comes from:
  *
  *   setup      the CSS packages at their current versions, imported into the app's Tailwind CSS file inside
- *              layer(components): under Tailwind's utilities and over its reset, the order @jaatster/blip-core/layers.css
+ *              layer(components): under Tailwind's utilities and over its reset, the order @blip/core/layers.css
  *              gives a page that can import it first (the shadcn CLI adds imports after `@import "tailwindcss"`)
  *   theme      shadcn's CSS variables mapped onto Blip's scheme roles by reference (THEME below), so schemes and
  *              palettes keep working; every role named must exist in the tokens' manifest or core's CSS
@@ -21,11 +21,11 @@
  *   <page>     one item per component page in ITEMS: title, description and also-known-as names from the docs page's
  *              front matter, the file from packages/react/src/components/<page>.tsx, its imports rewritten for the
  *              app (internal helpers to @/lib/blip/*, other components to @/components/blip/*, the generated
- *              element wrappers to @jaatster/blip-react), and its dependencies read from those imports
+ *              element wrappers to @blip/react), and its dependencies read from those imports
  *
  * Components install to components/blip/<page>.tsx, beside shadcn's own components/ui/, not over them: their props
  * are Blip's, and `shadcn init` has already written a ui/button.tsx. Items depend on each other by namespace
- * (@jaatster/blip-utils), so the files work from any host once components.json maps @blip to it.
+ * (@blip/utils), so the files work from any host once components.json maps @blip to it.
  *
  * Plain Node, no dependencies. The two JSON schemas in scripts/shadcn/ are ui.shadcn.com/schema/registry.json and
  * registry-item.json as of November 2026 (refresh with curl); validate() checks every item against them before
@@ -52,13 +52,13 @@ const IMPORT_COMPONENTS = "@/components/blip";
 const IMPORT_LIB = "@/lib/blip";
 
 /** The CSS the setup item imports, in order. Each file's package becomes a dependency. */
-const CSS = ["@jaatster/blip-font/font.css", "@jaatster/blip-tokens/tokens.css", "@jaatster/blip-tokens/palettes.css", "@jaatster/blip-core/core.css", "@jaatster/blip-components/components.css"];
+const CSS = ["@blip/font/font.css", "@blip/tokens/tokens.css", "@blip/tokens/palettes.css", "@blip/core/core.css", "@blip/components/components.css"];
 /** The layer Blip goes in, inside the app's Tailwind CSS: over `base` (preflight), under `utilities`. */
 const LAYER = "components";
 
 /**
  * shadcn's variables (ui.shadcn.com/docs/theming) and the Blip scheme role each takes. By reference, so they follow
- * data-chu-scheme and data-chu-palette. Only roles whose pairs the tokens' contrast check covers.
+ * data-blip-scheme and data-blip-palette. Only roles whose pairs the tokens' contrast check covers.
  */
 export const THEME = {
   background: "bg",
@@ -96,16 +96,16 @@ export const THEME = {
   "sidebar-ring": "focus",
 };
 /** Tailwind theme variables the theme sets: the face, a one-pixel ink drop for every shadow, stepped easing. */
-const DROP = "var(--chu-pixel) var(--chu-pixel) 0 0 var(--chu-drop)";
+const DROP = "var(--blip-pixel) var(--blip-pixel) 0 0 var(--blip-drop)";
 export const TAILWIND = {
-  "font-sans": "var(--chu-font-ui)",
-  "font-heading": "var(--chu-font-ui)",
-  "font-mono": "var(--chu-font-mono)",
+  "font-sans": "var(--blip-font-ui)",
+  "font-heading": "var(--blip-font-ui)",
+  "font-mono": "var(--blip-font-mono)",
   ...Object.fromEntries(["2xs", "xs", "sm", "", "md", "lg", "xl", "2xl"].map((s) => [s ? `shadow-${s}` : "shadow", DROP])),
-  "ease-in": "var(--chu-ease-4)",
-  "ease-out": "var(--chu-ease-4)",
-  "ease-in-out": "var(--chu-ease-4)",
-  "default-transition-timing-function": "var(--chu-ease-4)",
+  "ease-in": "var(--blip-ease-4)",
+  "ease-out": "var(--blip-ease-4)",
+  "ease-in-out": "var(--blip-ease-4)",
+  "default-transition-timing-function": "var(--blip-ease-4)",
 };
 
 // ------------------------------------------------------------------ reading the repository
@@ -189,7 +189,7 @@ export function build({ root = ROOT } = {}) {
   const docs = pages(root);
   const items = new Map();
   const dep = (name) => `${NAMESPACE}/${name}`;
-  const pin = (pkg) => `@jaatster/blip-${pkg}@^${version(root, pkg)}`;
+  const pin = (pkg) => `@blip/${pkg}@^${version(root, pkg)}`;
   const docsUrl = (slug) => `${HOMEPAGE}/components/${slug}/`;
   const author = `Blip <${HOMEPAGE}>`;
 
@@ -198,7 +198,7 @@ export function build({ root = ROOT } = {}) {
   for (const f of CSS) {
     const [, pkg, ...rest] = f.split("/");
     const exp = json(root, `packages/${pkg}/package.json`).exports ?? {};
-    if (!(`./${rest.join("/")}` in exp) && !existsSync(join(root, "packages", pkg, ...rest))) fail(`setup imports ${f}, which @jaatster/blip-${pkg} does not export`);
+    if (!(`./${rest.join("/")}` in exp) && !existsSync(join(root, "packages", pkg, ...rest))) fail(`setup imports ${f}, which @blip/${pkg} does not export`);
   }
   items.set("setup", {
     name: "setup",
@@ -206,19 +206,19 @@ export function build({ root = ROOT } = {}) {
     title: "Blip setup",
     description: `Blip's CSS from npm (the faces, the tokens and palettes, the building blocks and every component), imported into your Tailwind CSS in layer(${LAYER}): over Tailwind's reset, under its utilities.`,
     author,
-    dependencies: cssPackages.map((p) => pin(p.replace("@jaatster/blip-", ""))),
+    dependencies: cssPackages.map((p) => pin(p.replace("@blip/", ""))),
     css: Object.fromEntries(CSS.map((f) => [`@import "${f}" layer(${LAYER})`, {}])),
-    docs: `Blip's CSS is imported into your Tailwind CSS file, under Tailwind's utilities. Put data-chu-scheme="day" (or "sunset", "night") on <html>: ${HOMEPAGE}/start/#shadcn`,
+    docs: `Blip's CSS is imported into your Tailwind CSS file, under Tailwind's utilities. Put data-blip-scheme="day" (or "sunset", "night") on <html>: ${HOMEPAGE}/start/#shadcn`,
     meta: { docs: `${HOMEPAGE}/start/#shadcn` },
   });
 
   // theme: shadcn's variables onto Blip's roles.
   const known = new Set(json(root, "packages/tokens/dist/json/manifest.json").map((t) => t.cssVar));
-  for (const f of readdirSync(join(root, "packages/core/src/css"))) if (f.endsWith(".css")) for (const m of read(root, `packages/core/src/css/${f}`).matchAll(/(--chu-[a-z0-9-]+)\s*:/g)) known.add(m[1]);
-  const roles = Object.fromEntries(Object.entries(THEME).map(([k, role]) => [k, `var(--chu-${role})`]));
-  const named = [...Object.values(roles), ...Object.values(TAILWIND)].flatMap((v) => [...v.matchAll(/var\((--chu-[a-z0-9-]+)\)/g)].map((m) => m[1]));
+  for (const f of readdirSync(join(root, "packages/core/src/css"))) if (f.endsWith(".css")) for (const m of read(root, `packages/core/src/css/${f}`).matchAll(/(--blip-[a-z0-9-]+)\s*:/g)) known.add(m[1]);
+  const roles = Object.fromEntries(Object.entries(THEME).map(([k, role]) => [k, `var(--blip-${role})`]));
+  const named = [...Object.values(roles), ...Object.values(TAILWIND)].flatMap((v) => [...v.matchAll(/var\((--blip-[a-z0-9-]+)\)/g)].map((m) => m[1]));
   const unknown = [...new Set(named.filter((n) => !known.has(n)))];
-  if (unknown.length) fail(`the theme maps onto ${unknown.join(", ")}, which neither the tokens' manifest nor @jaatster/blip-core defines`);
+  if (unknown.length) fail(`the theme maps onto ${unknown.join(", ")}, which neither the tokens' manifest nor @blip/core defines`);
   items.set("theme", {
     name: "theme",
     type: "registry:theme",
@@ -228,15 +228,15 @@ export function build({ root = ROOT } = {}) {
     registryDependencies: [dep("setup")],
     cssVars: {
       theme: { ...TAILWIND },
-      // The same in light and dark: Blip's scheme switches the roles (data-chu-scheme), not the .dark class.
+      // The same in light and dark: Blip's scheme switches the roles (data-blip-scheme), not the .dark class.
       light: { ...roles, radius: "0rem" },
       dark: { ...roles },
     },
     css: {
       // A variable set on :root resolves there: repeat the mapping where a scheme or palette is set on part of a page.
-      "@layer base": { "[data-chu-scheme], [data-chu-palette]": Object.fromEntries(Object.entries(roles).map(([k, v]) => [`--${k}`, v])) },
+      "@layer base": { "[data-blip-scheme], [data-blip-palette]": Object.fromEntries(Object.entries(roles).map(([k, v]) => [`--${k}`, v])) },
     },
-    docs: `shadcn's components now take Blip's colours: switch them with data-chu-scheme and data-chu-palette, not .dark. The full pixel look comes with Blip's own components (npx shadcn add ${NAMESPACE}/button).`,
+    docs: `shadcn's components now take Blip's colours: switch them with data-blip-scheme and data-blip-palette, not .dark. The full pixel look comes with Blip's own components (npx shadcn add ${NAMESPACE}/button).`,
     meta: { docs: `${HOMEPAGE}/start/#shadcn` },
   });
 
@@ -267,7 +267,7 @@ export function build({ root = ROOT } = {}) {
         to = `${IMPORT_COMPONENTS}/${sibling[1]}`;
       } else if (generated) {
         dependencies.add(pin("react"));
-        to = generated[1] === "elements" ? "@jaatster/blip-react" : `@jaatster/blip-react/${generated[1]}`;
+        to = generated[1] === "elements" ? "@blip/react" : `@blip/react/${generated[1]}`;
       } else if (blip) {
         dependencies.add(pin(blip[1]));
       } else fail(`${path} imports "${spec}": an item may import react, Blip's packages and its own helpers, nothing else`);

@@ -1,16 +1,16 @@
 /**
- * <chu-sheet>: a bottom sheet. The drawer's modal behaviour (chu-before-close, the stepped exit, focus returned,
- * light dismiss) around a <dialog class="chu-box chu-drawer chu-sheet">, plus heights to snap to and dragging.
+ * <blip-sheet>: a bottom sheet. The drawer's modal behaviour (blip-before-close, the stepped exit, focus returned,
+ * light dismiss) around a <dialog class="blip-box blip-drawer blip-sheet">, plus heights to snap to and dragging.
  *
- *   <chu-sheet light-dismiss>
- *     <dialog class="chu-box chu-drawer chu-sheet" id="route" data-snap="half full" aria-labelledby="route-title">
- *       <header class="chu-dialog-header">
- *         <button class="chu-box chu-sheet-handle" type="button" data-variant="ghost" aria-label="Resize"><span></span></button>
- *         <h2 class="chu-dialog-title" id="route-title">Route</h2>
+ *   <blip-sheet light-dismiss>
+ *     <dialog class="blip-box blip-drawer blip-sheet" id="route" data-snap="half full" aria-labelledby="route-title">
+ *       <header class="blip-dialog-header">
+ *         <button class="blip-box blip-sheet-handle" type="button" data-variant="ghost" aria-label="Resize"><span></span></button>
+ *         <h2 class="blip-dialog-title" id="route-title">Route</h2>
  *       </header>
- *       <div class="chu-dialog-body">…</div>
+ *       <div class="blip-dialog-body">…</div>
  *     </dialog>
- *   </chu-sheet>
+ *   </blip-sheet>
  *
  * data-snap on the dialog lists its heights, smallest first: content (its own height, the default), half, full, or a
  * percentage of the screen. It opens at the first. The handle steps through them (a click, Enter or Space; the arrow
@@ -18,7 +18,7 @@
  * its top, moves the sheet with the finger in whole pixels; let go, it settles at the nearest height in steps, or
  * closes (reason "drag") from below half its lowest height or after a flick down from there.
  */
-import { duration, frames, pixel } from "@jaatster/blip-core";
+import { duration, frames, pixel } from "@blip/core";
 import { Overlay } from "./_overlay.js";
 
 export interface SheetChangeDetail {
@@ -49,13 +49,13 @@ interface Drag {
 }
 
 /**
- * A bottom sheet: the drawer's modal behaviour around one <dialog class="chu-box chu-drawer chu-sheet">, with snap
+ * A bottom sheet: the drawer's modal behaviour around one <dialog class="blip-box blip-drawer blip-sheet">, with snap
  * heights (data-snap on the dialog), a grab handle that steps through them, and dragging: from the handle, the title
  * bar, or the body scrolled to its top, following the finger in whole pixels, settling at the nearest height or
  * closing when dragged or flicked down past its lowest.
  *
- * @summary A draggable bottom sheet around one <dialog class="chu-box chu-drawer chu-sheet">.
- * @fires {CustomEvent<SheetChangeDetail>} chu-change - It settled at another height, by the handle, a drag or snap.
+ * @summary A draggable bottom sheet around one <dialog class="blip-box blip-drawer blip-sheet">.
+ * @fires {CustomEvent<SheetChangeDetail>} blip-change - It settled at another height, by the handle, a drag or snap.
  */
 export class BlipSheet extends Overlay {
   #at = 0;
@@ -84,23 +84,23 @@ export class BlipSheet extends Overlay {
 
   protected connected(): void {
     // Before the overlay's own wiring, which may open it at once.
-    this.on(this, "chu-open", (e) => e.target === this && this.#set(Math.min(this.#at, this.snaps.length - 1)));
-    this.on(this, "chu-close", (e) => {
+    this.on(this, "blip-open", (e) => e.target === this && this.#set(Math.min(this.#at, this.snaps.length - 1)));
+    this.on(this, "blip-close", (e) => {
       const d = this.dialog;
       if (e.target !== this || !d) return;
       this.#run?.abort();
       this.#at = this.#off = 0;
       this.#size(d, "");
-      d.style.removeProperty("--_chu-sheet-drag");
-      d.removeAttribute("data-chu-snap");
+      d.style.removeProperty("--_blip-sheet-drag");
+      d.removeAttribute("data-blip-snap");
     });
     this.on(this, "pointerdown", (e) => {
       const d = this.dialog;
       const t = e.target as Element;
       if (!d?.open || e.button || this.#drag) return;
-      const body = t.closest(".chu-dialog-body");
+      const body = t.closest(".blip-dialog-body");
       const free = !t.closest("button, a, input, select, textarea");
-      const top = !!t.closest(".chu-sheet-handle") || (free && !!t.closest(".chu-dialog-header"));
+      const top = !!t.closest(".blip-sheet-handle") || (free && !!t.closest(".blip-dialog-header"));
       // From the body, only a finger or a pen (a mouse selects text there), only off its controls, only at its top.
       if (!top && !(free && body && e.pointerType !== "mouse" && body.scrollTop <= 0)) return;
       this.#drag = { id: e.pointerId, x: e.clientX, y: e.clientY, body: top ? null : body };
@@ -121,7 +121,7 @@ export class BlipSheet extends Overlay {
         } catch {
           /* a synthetic pointer */
         }
-        d.setAttribute("data-chu-dragging", "");
+        d.setAttribute("data-blip-dragging", "");
         return;
       }
       g.v = (e.clientY - g.ly!) / Math.max(1, e.timeStamp - g.t!);
@@ -134,7 +134,7 @@ export class BlipSheet extends Overlay {
       if (!g || e.pointerId !== g.id) return;
       this.#drag = null;
       if (!g.live) return;
-      this.dialog?.removeAttribute("data-chu-dragging");
+      this.dialog?.removeAttribute("data-blip-dragging");
       this.#moved = true;
       setTimeout(() => (this.#moved = false));
       const h = this.#visual();
@@ -161,7 +161,7 @@ export class BlipSheet extends Overlay {
     }, { passive: false });
     // The handle steps up through the heights, then back to the lowest; the click that ends a drag is not a press.
     this.on(this, "click", (e) => {
-      const h = (e.target as Element).closest(".chu-sheet-handle");
+      const h = (e.target as Element).closest(".blip-sheet-handle");
       const n = this.snaps.length;
       if (this.#moved) {
         this.#moved = false;
@@ -190,7 +190,7 @@ export class BlipSheet extends Overlay {
     if (i !== was) this.emit<SheetChangeDetail>("change", { value: this.snap });
   }
 
-  /** Rests at a height: its CSS length (responsive), data-chu-snap, and the handle's aria-expanded. */
+  /** Rests at a height: its CSS length (responsive), data-blip-snap, and the handle's aria-expanded. */
   #set(i: number): void {
     const d = this.dialog;
     if (!d) return;
@@ -198,14 +198,14 @@ export class BlipSheet extends Overlay {
     this.#at = i;
     this.#size(d, this.snap);
     this.#off = 0;
-    d.style.removeProperty("--_chu-sheet-drag");
-    d.setAttribute("data-chu-snap", this.snap);
-    if (n > 1) for (const h of d.querySelectorAll(".chu-sheet-handle")) h.setAttribute("aria-expanded", String(i === n - 1));
+    d.style.removeProperty("--_blip-sheet-drag");
+    d.setAttribute("data-blip-snap", this.snap);
+    if (n > 1) for (const h of d.querySelectorAll(".blip-sheet-handle")) h.setAttribute("aria-expanded", String(i === n - 1));
   }
 
   #size(d: HTMLDialogElement, name: string): void {
     const len = NAMED[name] ?? (name.endsWith("%") ? name : "");
-    d.style.blockSize = len && `round(down, ${len}, var(--chu-pixel))`;
+    d.style.blockSize = len && `round(down, ${len}, var(--blip-pixel))`;
   }
 
   /** How tall a height is here, in CSS px. */
@@ -230,14 +230,14 @@ export class BlipSheet extends Overlay {
     const low = Math.min(...hs);
     const v = Math.round(Math.max(0, Math.min(h, Math.max(...hs))) / p) * p;
     d.style.blockSize = `${Math.max(v, low)}px`;
-    d.style.setProperty("--_chu-sheet-drag", `${(this.#off = Math.max(0, low - v))}px`);
+    d.style.setProperty("--_blip-sheet-drag", `${(this.#off = Math.max(0, low - v))}px`);
   }
 }
 
-BlipSheet.define("chu-sheet", BlipSheet);
+BlipSheet.define("blip-sheet", BlipSheet);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "chu-sheet": BlipSheet;
+    "blip-sheet": BlipSheet;
   }
 }

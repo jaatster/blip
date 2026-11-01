@@ -12,7 +12,7 @@ Status: **draft, waiting for approval.**
 |---|---|
 | Home | `~/Work/Projects/blip`, a pnpm monorepo in its own git repo |
 | Licence | MIT for code and icons; SIL Open Font License for the font |
-| Packages | `@jaatster/blip-*` on npm (free today). Nothing is pushed or published without your go |
+| Packages | `@blip/*` on npm (free today). Nothing is pushed or published without your go |
 | Built with | W3C design tokens, plain CSS and dependency-free Web Components, plus typed React wrappers |
 | Used for | Web apps, websites, games, and native mobile (through tokens and icons) |
 | Pixel | 2 CSS px by default; one setting changes it |
@@ -28,7 +28,7 @@ Status: **draft, waiting for approval.**
 
 ## Rules the whole system keeps
 
-1. **One pixel.** Every outline, icon, letter, corner and movement is a whole number of pixels (`--chu-pixel`, 2 CSS
+1. **One pixel.** Every outline, icon, letter, corner and movement is a whole number of pixels (`--blip-pixel`, 2 CSS
    px by default). Nothing is blurred, rotated or scaled by a fraction.
 2. **Ink, never black.** The darkest colour is ink `#1A1530`, used for every outline, shadow and piece of dark text.
 3. **Candy on pastel.** Saturated, outlined things can be acted on. The world behind them is soft, dithered and
@@ -49,24 +49,24 @@ per component, so an app takes only what it uses.
 
 | Package | Contents |
 |---|---|
-| `@jaatster/blip-tokens` | Source tokens in the W3C 2025.10 format, with a resolver for the theme switches. Exports CSS variables, JS/TS with types, Kotlin (Compose), Swift, Android XML, and Figma variables |
-| `@jaatster/blip-core` | The public building blocks: the pixel unit, candy box, focus ring, dither, drop, stepped motion, reset and base styles. Also the shared behaviours (roving focus, typeahead, dismiss, anchoring), the timeline runner, and the swappable clock and random-number services |
-| `@jaatster/blip-components` | The core components as layered CSS (`@layer`), as one file or one per component |
-| `@jaatster/blip-elements` | Web Components for the core components that need behaviour (tabs, combobox, menu, toasts, command palette and more), with a Custom Elements Manifest |
-| `@jaatster/blip-react` | Typed React components for the core and every kit (`@jaatster/blip-react/game` and so on), generated from the manifest where possible |
-| `@jaatster/blip-icons` | SVG files, a sprite, JS path data, and icon components |
-| `@jaatster/blip-font` | Pixel Bop (WOFF2 and TTF) and a Pixelify Sans subset, with licences |
+| `@blip/tokens` | Source tokens in the W3C 2025.10 format, with a resolver for the theme switches. Exports CSS variables, JS/TS with types, Kotlin (Compose), Swift, Android XML, and Figma variables |
+| `@blip/core` | The public building blocks: the pixel unit, candy box, focus ring, dither, drop, stepped motion, reset and base styles. Also the shared behaviours (roving focus, typeahead, dismiss, anchoring), the timeline runner, and the swappable clock and random-number services |
+| `@blip/components` | The core components as layered CSS (`@layer`), as one file or one per component |
+| `@blip/elements` | Web Components for the core components that need behaviour (tabs, combobox, menu, toasts, command palette and more), with a Custom Elements Manifest |
+| `@blip/react` | Typed React components for the core and every kit (`@blip/react/game` and so on), generated from the manifest where possible |
+| `@blip/icons` | SVG files, a sprite, JS path data, and icon components |
+| `@blip/font` | Pixel Bop (WOFF2 and TTF) and a Pixelify Sans subset, with licences |
 
 **Kits**
 
 | Package | Contents |
 |---|---|
-| `@jaatster/blip-game` | The game UI kit: dialogue box, hearts and health bar, coin and score counter, inventory grid, button prompts, level tile, pause menu, achievement toast |
-| `@jaatster/blip-blocks` | Website blocks: hero, feature grid, pricing, CTA band, footer |
-| `@jaatster/blip-effects` | World backdrops, transitions, text effects, bursts, CRT filter, and the time-of-day engine |
-| `@jaatster/blip-sound` | The chip sounds |
+| `@blip/game` | The game UI kit: dialogue box, hearts and health bar, coin and score counter, inventory grid, button prompts, level tile, pause menu, achievement toast |
+| `@blip/blocks` | Website blocks: hero, feature grid, pricing, CTA band, footer |
+| `@blip/effects` | World backdrops, transitions, text effects, bursts, CRT filter, and the time-of-day engine |
+| `@blip/sound` | The chip sounds |
 
-**Tooling:** `@jaatster/blip-stylelint-config`, with lint rules that reject raw colours, off-grid sizes and easing curves.
+**Tooling:** `@blip/stylelint-config`, with lint rules that reject raw colours, off-grid sizes and easing curves.
 **Apps:** `docs` (the docs site) and `storybook`.
 
 ## Modular by design
@@ -76,7 +76,7 @@ per component, so an app takes only what it uses.
 - **Themes are independent switches,** each a modifier in the token resolver:
   - scheme: Day, Sunset or Night;
   - pixel size: 2, 3 or 4 px;
-  - palette: Candy by default, and eleven presets (`data-chu-palette`, `palettes.css`).
+  - palette: Candy by default, and eleven presets (`data-blip-palette`, `palettes.css`).
 
   Contrast and density can be added later. Adding a theme means adding a token file, not changing code.
 - **Packs are data, checked against one schema.** World packs (Meadow first), icon packs and palette packs can be

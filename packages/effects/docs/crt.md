@@ -1,6 +1,6 @@
 ---
 name: CRT
-package: "@jaatster/blip-effects"
+package: "@blip/effects"
 css: crt.css
 element: null
 react: null
@@ -15,11 +15,11 @@ round the edge. No blur, no curvature, no see-through wash, CSS only.
 ## Usage
 
 ```html
-<div class="chu-crt">…a game screen, a picture, a panel…</div>
-<div class="chu-crt" data-flicker>…</div>
+<div class="blip-crt">…a game screen, a picture, a panel…</div>
+<div class="blip-crt" data-flicker>…</div>
 ```
 
-Wrap the thing to filter. The effect sits over it and lets pointers through. Don't put `chu-crt` on a `.chu-box`
+Wrap the thing to filter. The effect sits over it and lets pointers through. Don't put `blip-crt` on a `.blip-box`
 itself (both use the same pseudo-elements); wrap the box.
 
 ## Anatomy
@@ -56,4 +56,4 @@ itself (both use the same pseudo-elements); wrap the box.
 
 ## API
 
-`.chu-crt`, `data-flicker`.
+`.blip-crt`, `data-flicker`.

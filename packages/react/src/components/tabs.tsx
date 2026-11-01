@@ -1,6 +1,6 @@
 /**
  * Tabs: TabList, Tab and TabPanel, the parts that go inside <Tabs>, and <Tabs> itself (generated from its element,
- * re-exported here). CSS from @jaatster/blip-components (tabs.css).
+ * re-exported here). CSS from @blip/components (tabs.css).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";
@@ -30,10 +30,10 @@ export type TabListProps = Named & NativeProps<"div">;
  *     <TabPanel hidden>…</TabPanel>
  *   </Tabs>
  *
- * Renders `<div class="chu-tabs-list" role="tablist">`.
+ * Renders `<div class="blip-tabs-list" role="tablist">`.
  */
 export const TabList = /*#__PURE__*/ forwardRef<HTMLDivElement, TabListProps>(function TabList({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("chu-tabs-list", className)} role="tablist" {...rest} />;
+  return <div ref={ref} className={cx("blip-tabs-list", className)} role="tablist" {...rest} />;
 });
 
 /** Own props of {@link Tab}. */
@@ -45,7 +45,7 @@ export interface TabOwnProps {
   variant?: Variant;
   /** A tab that keeps its own colour (inventory categories); it still sits in when selected. `data-tone`. */
   tone?: Tone;
-  /** Corner radius in pixels: 4 (sm 3, underline 2) by default. `data-chu-r`. */
+  /** Corner radius in pixels: 4 (sm 3, underline 2) by default. `data-blip-r`. */
   radius?: Radius;
   /**
    * The tab whose panel shows: it sits in. Always written (`"false"` with `tabindex="-1"` on the others, so one tab
@@ -64,9 +64,9 @@ export type TabProps = TabOwnProps & NativeProps<"button", TabOwnProps>;
  * comes from the Tabs' `size`. `aria-disabled="true"` turns it off; the arrow keys skip it.
  *
  *   <Tab variant="outline" selected>General</Tab>
- *   <Tab variant="ghost">Reports <span className="chu-muted">12</span></Tab>
+ *   <Tab variant="ghost">Reports <span className="blip-muted">12</span></Tab>
  *
- * Renders `<button class="chu-box chu-tab" type="button" role="tab" aria-selected>`.
+ * Renders `<button class="blip-box blip-tab" type="button" role="tab" aria-selected>`.
  */
 export const Tab = /*#__PURE__*/ forwardRef<HTMLButtonElement, TabProps>(function Tab(
   { variant, tone, radius, selected = false, value, type = "button", className, ...rest },
@@ -75,7 +75,7 @@ export const Tab = /*#__PURE__*/ forwardRef<HTMLButtonElement, TabProps>(functio
   return (
     <button
       ref={ref}
-      className={cx("chu-box chu-tab", className)}
+      className={cx("blip-box blip-tab", className)}
       type={type}
       {...box({ variant, tone, radius })}
       data-value={value}
@@ -89,7 +89,7 @@ export const Tab = /*#__PURE__*/ forwardRef<HTMLButtonElement, TabProps>(functio
 
 /** Own props of {@link TabPanel}. */
 export interface TabPanelOwnProps {
-  /** A framed panel: adds `chu-box` and `data-variant="panel"`. */
+  /** A framed panel: adds `blip-box` and `data-variant="panel"`. */
   framed?: boolean;
 }
 
@@ -102,7 +102,7 @@ export type TabPanelProps<T extends ElementType = "div"> = PolymorphicProps<T, T
  *
  *   <TabPanel as="section" framed hidden>…</TabPanel>
  *
- * Renders `<div class="chu-tabs-panel" role="tabpanel">` (`class="chu-box chu-tabs-panel" data-variant="panel"` framed).
+ * Renders `<div class="blip-tabs-panel" role="tabpanel">` (`class="blip-box blip-tabs-panel" data-variant="panel"` framed).
  */
 export const TabPanel = /*#__PURE__*/ forwardRef(function TabPanel(
   { as: Tag = "div", framed, className, ...rest }: TabPanelProps<ElementType>,
@@ -111,7 +111,7 @@ export const TabPanel = /*#__PURE__*/ forwardRef(function TabPanel(
   return (
     <Tag
       ref={ref}
-      className={cx(framed && "chu-box", "chu-tabs-panel", className)}
+      className={cx(framed && "blip-box", "blip-tabs-panel", className)}
       data-variant={framed ? "panel" : undefined}
       role="tabpanel"
       {...rest}

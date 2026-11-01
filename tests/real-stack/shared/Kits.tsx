@@ -1,14 +1,14 @@
 // The start page's React example imports one component from each entry. Here each is in use, with the parts it
 // needs and the kits' CSS (the start page's CSS, step 5: kits as you need them). Renders on the server too.
-import "@jaatster/blip-game/game.css";
-import "@jaatster/blip-blocks/blocks.css";
-import "@jaatster/blip-effects/effects.css";
+import "@blip/game/game.css";
+import "@blip/blocks/blocks.css";
+import "@blip/effects/effects.css";
 
-import { Button } from "@jaatster/blip-react";
-import { Dialogue, DialogueName, DialogueText, Hud, HudBar, HudLabel, HudStat } from "@jaatster/blip-react/game";
-import { Hero, HeroInner, HeroTitle } from "@jaatster/blip-react/blocks";
-import { World } from "@jaatster/blip-react/effects";
-import { Icon } from "@jaatster/blip-react/icons";
+import { Button } from "@blip/react";
+import { Dialogue, DialogueName, DialogueText, Hud, HudBar, HudLabel, HudStat } from "@blip/react/game";
+import { Hero, HeroInner, HeroTitle } from "@blip/react/blocks";
+import { World } from "@blip/react/effects";
+import { Icon } from "@blip/react/icons";
 
 export function Kits() {
   return (

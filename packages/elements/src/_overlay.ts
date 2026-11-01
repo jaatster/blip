@@ -1,18 +1,18 @@
 /**
- * The behaviour <chu-dialog> and <chu-drawer> share. Each wraps one native <dialog> and opens it as a modal, so the
+ * The behaviour <blip-dialog> and <blip-drawer> share. Each wraps one native <dialog> and opens it as a modal, so the
  * browser traps focus, makes the page inert and draws the scrim. On top of that, every way of closing (Escape, a
  * form with method="dialog", an invoker command, a press on the scrim with light-dismiss, requestClose()) first
- * fires a cancelable chu-before-close, then plays the stepped exit the CSS draws (data-chu-closing), then closes the
+ * fires a cancelable blip-before-close, then plays the stepped exit the CSS draws (data-blip-closing), then closes the
  * dialog and gives focus back to what opened it. A dialog opened or closed directly (showModal(), close()) keeps
  * the element in step.
  *
- *   <chu-dialog light-dismiss><dialog class="chu-box chu-dialog" id="save" aria-labelledby="save-title">…</dialog></chu-dialog>
- *   <button class="chu-box chu-button" commandfor="save" command="show-modal">Save game</button>
+ *   <blip-dialog light-dismiss><dialog class="blip-box blip-dialog" id="save" aria-labelledby="save-title">…</dialog></blip-dialog>
+ *   <button class="blip-box blip-button" commandfor="save" command="show-modal">Save game</button>
  */
-import { BlipElement, services, warn } from "@jaatster/blip-core";
+import { BlipElement, services, warn } from "@blip/core";
 import { isOn, unFalse } from "./_dom.js";
 
-/** Why it closed. "drag" is a bottom sheet (<chu-sheet>) dragged or flicked down past its lowest height. */
+/** Why it closed. "drag" is a bottom sheet (<blip-sheet>) dragged or flicked down past its lowest height. */
 export type CloseReason = "escape" | "backdrop" | "button" | "submit" | "api" | "drag";
 export interface CloseDetail {
   reason: CloseReason;
@@ -28,14 +28,14 @@ const outside = (el: Element, e: MouseEvent): boolean => {
 };
 
 /**
- * The modal behaviour <chu-dialog> and <chu-drawer> share, around the one native <dialog> inside the element.
+ * The modal behaviour <blip-dialog> and <blip-drawer> share, around the one native <dialog> inside the element.
  *
  * @attr {boolean} open - Opens the dialog as a modal, or closes it; reflects whether it is open. "false" is off.
  * @attr {boolean} light-dismiss - A press that starts and ends on the scrim asks to close (reason "backdrop").
- * @fires {CustomEvent<void>} chu-open - After it opens (also when opened directly with showModal()).
- * @fires {CustomEvent<CloseDetail>} chu-before-close - Before any close: Escape, the scrim, a close button, a
+ * @fires {CustomEvent<void>} blip-open - After it opens (also when opened directly with showModal()).
+ * @fires {CustomEvent<CloseDetail>} blip-before-close - Before any close: Escape, the scrim, a close button, a
  * method="dialog" submit or requestClose(). Cancelable: preventDefault() keeps it open.
- * @fires {CustomEvent<CloseDetail>} chu-close - After it has closed and given focus back.
+ * @fires {CustomEvent<CloseDetail>} blip-close - After it has closed and given focus back.
  */
 export class Overlay extends BlipElement {
   static observedAttributes = ["open"];
@@ -77,7 +77,7 @@ export class Overlay extends BlipElement {
     const mine = (e: Event) => e.target === this.dialog;
     const capture = { capture: true };
     // Escape. When the browser will not let it be cancelled (a second Escape with no click between), it closes at
-    // once, with no chu-before-close. During the exit it does nothing.
+    // once, with no blip-before-close. During the exit it does nothing.
     this.on(this, "cancel", (e) => {
       if (!mine(e)) return;
       if (this.#closing) return e.preventDefault();
@@ -140,18 +140,18 @@ export class Overlay extends BlipElement {
   show(opener?: Element | null): void {
     const d = this.dialog;
     // No children yet is a dialog still to come (it opens when it arrives); other children without one are a mistake.
-    if (!d) return void (this.children.length && warn("CHU-E010", `<${this.localName}> needs a <dialog> inside it.`, this));
+    if (!d) return void (this.children.length && warn("BLIP-E010", `<${this.localName}> needs a <dialog> inside it.`, this));
     if (d.open) return void (this.#shown || this.#opened(null));
     if (!d.isConnected) return;
     if (!d.hasAttribute("aria-labelledby") && !d.hasAttribute("aria-label")) {
-      warn("CHU-A010", "A dialog needs a name: aria-labelledby pointing at its title, or aria-label.", d);
+      warn("BLIP-A010", "A dialog needs a name: aria-labelledby pointing at its title, or aria-label.", d);
     }
     this.#before = document.activeElement;
     d.showModal();
     this.#opened((opener ?? (this.#before === document.body ? null : this.#before)) as HTMLElement | null);
   }
 
-  /** Asks to close: fires chu-before-close, which a listener may cancel. Resolves true if it closed. */
+  /** Asks to close: fires blip-before-close, which a listener may cancel. Resolves true if it closed. */
   async requestClose(returnValue?: string, reason: CloseReason = "api"): Promise<boolean> {
     if (!this.open || this.#closing) return false;
     if (!this.emit<CloseDetail>("before-close", { reason, returnValue }, true)) {
@@ -168,7 +168,7 @@ export class Overlay extends BlipElement {
     if (!d?.open || this.#closing) return;
     this.#closing = true;
     this.#reason = reason;
-    d.setAttribute("data-chu-closing", "");
+    d.setAttribute("data-blip-closing", "");
     // The exit is drawn in CSS (none with reduced motion). Wait for the dialog's own finite animations only, and
     // never long, so an endless effect on it or a spinner inside can't hold it open.
     const exits = d.getAnimations().filter((a) => a.effect?.getComputedTiming().endTime !== Infinity);
@@ -199,7 +199,7 @@ export class Overlay extends BlipElement {
 
   #closed(): void {
     const d = this.dialog;
-    d?.removeAttribute("data-chu-closing");
+    d?.removeAttribute("data-blip-closing");
     this.#closing = false;
     this.#reflect(false);
     if (!d || !this.#shown) return;

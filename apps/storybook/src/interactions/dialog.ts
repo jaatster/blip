@@ -1,6 +1,6 @@
 /**
- * <chu-dialog> interaction tests, on the example's live "Save game" dialog: it opens as a modal from its invoker
- * button, keeps focus inside (the page behind is inert), closes on Escape through a cancelable chu-before-close and
+ * <blip-dialog> interaction tests, on the example's live "Save game" dialog: it opens as a modal from its invoker
+ * button, keeps focus inside (the page behind is inert), closes on Escape through a cancelable blip-before-close and
  * gives focus back to the button that opened it; a listener can refuse the close.
  */
 import type { StoryObj } from "@storybook/html-vite";
@@ -14,7 +14,7 @@ interface CloseDetail {
 
 const saveDialog = (root: HTMLElement) => {
   const dialog = one<HTMLDialogElement>(root, "dialog#save-dialog");
-  const element = dialog.closest("chu-dialog")!;
+  const element = dialog.closest("blip-dialog")!;
   const opener = one<HTMLButtonElement>(root, 'button[commandfor="save-dialog"][command="show-modal"]');
   const button = (name: string) => [...dialog.querySelectorAll<HTMLButtonElement>("button")].find((b) => (b.getAttribute("aria-label") ?? b.textContent?.trim()) === name)!;
   return { dialog, element, opener, button };
@@ -30,7 +30,7 @@ export const FocusTrapAndEscape: StoryObj = {
   name: "Focus stays inside; Escape closes and returns focus",
   play: async ({ canvasElement, step }) => {
     const { dialog, element, opener } = saveDialog(canvasElement);
-    const closes = events<CloseDetail>(element, "chu-close");
+    const closes = events<CloseDetail>(element, "blip-close");
 
     await step("The button opens it as a modal, with focus inside", async () => {
       await openFrom(opener, dialog);
@@ -61,13 +61,13 @@ export const FocusTrapAndEscape: StoryObj = {
 };
 
 export const BeforeCloseCancel: StoryObj = {
-  name: "chu-before-close can refuse",
+  name: "blip-before-close can refuse",
   play: async ({ canvasElement, step }) => {
     const { dialog, element, opener, button } = saveDialog(canvasElement);
-    const asked = events<CloseDetail>(element, "chu-before-close");
-    const closes = events<CloseDetail>(element, "chu-close");
+    const asked = events<CloseDetail>(element, "blip-before-close");
+    const closes = events<CloseDetail>(element, "blip-close");
     let refuse = true;
-    element.addEventListener("chu-before-close", (e) => refuse && e.preventDefault());
+    element.addEventListener("blip-before-close", (e) => refuse && e.preventDefault());
 
     await step("Escape asks, is refused, and the dialog stays open", async () => {
       await openFrom(opener, dialog);

@@ -1,6 +1,6 @@
 /**
  * Footer: Footer, FooterInner, FooterBrand, FooterNav, FooterCol, FooterHeading, FooterSignup, FooterRow, FooterField
- * and FooterLegal. CSS from @jaatster/blip-blocks (footer.css).
+ * and FooterLegal. CSS from @blip/blocks (footer.css).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";
@@ -14,7 +14,7 @@ type Named = { "aria-label": string } | { "aria-labelledby": string };
 export type FooterProps = NativeProps<"footer">;
 
 /**
- * The ground the page stands on: a grass edge with blades poking up (`--chu-footer-edge` pixels deep, 14), then the
+ * The ground the page stands on: a grass edge with blades poking up (`--blip-footer-edge` pixels deep, 14), then the
  * brand, link columns, a newsletter sign-up and the legal line, on the sunken surface. Say who made the site and how
  * to reach them; link only the few things people look for at the bottom.
  *
@@ -31,7 +31,7 @@ export type FooterProps = NativeProps<"footer">;
  *         <FooterHeading id="letter">The Sherbit letter</FooterHeading>
  *         <p>One email when something ships.</p>
  *         <FooterRow>
- *           <label className="chu-sr-only" htmlFor="email">Email address</label>
+ *           <label className="blip-sr-only" htmlFor="email">Email address</label>
  *           <FooterField id="email" type="email" name="email" autoComplete="email" required />
  *           <Button type="submit">Subscribe</Button>
  *         </FooterRow>
@@ -43,10 +43,10 @@ export type FooterProps = NativeProps<"footer">;
  *     </FooterLegal>
  *   </Footer>
  *
- * Renders `<footer class="chu-footer">`.
+ * Renders `<footer class="blip-footer">`.
  */
 export const Footer = /*#__PURE__*/ forwardRef<HTMLElement, FooterProps>(function Footer({ className, ...rest }, ref) {
-  return <footer ref={ref} className={cx("chu-footer", className)} {...rest} />;
+  return <footer ref={ref} className={cx("blip-footer", className)} {...rest} />;
 });
 
 /** Props for {@link FooterInner}. */
@@ -57,13 +57,13 @@ export type FooterInnerProps = NativeProps<"div">;
  *
  *   <FooterInner><FooterBrand>…</FooterBrand><FooterNav aria-label="More">…</FooterNav></FooterInner>
  *
- * Renders `<div class="chu-footer-inner">`.
+ * Renders `<div class="blip-footer-inner">`.
  */
 export const FooterInner = /*#__PURE__*/ forwardRef<HTMLDivElement, FooterInnerProps>(function FooterInner(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-footer-inner", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-footer-inner", className)} {...rest} />;
 });
 
 /** Props for {@link FooterBrand}. */
@@ -73,17 +73,17 @@ export type FooterBrandProps = NativeProps<"div">;
  * Who made the site: the name (in POP, say) and one line about them.
  *
  *   <FooterBrand>
- *     <p className="chu-display chu-pop" data-scale="2" data-tone="pink" data-pop="Sherbit">Sherbit</p>
- *     <p className="chu-small">Tiny games about big skies.</p>
+ *     <p className="blip-display blip-pop" data-scale="2" data-tone="pink" data-pop="Sherbit">Sherbit</p>
+ *     <p className="blip-small">Tiny games about big skies.</p>
  *   </FooterBrand>
  *
- * Renders `<div class="chu-footer-brand">`.
+ * Renders `<div class="blip-footer-brand">`.
  */
 export const FooterBrand = /*#__PURE__*/ forwardRef<HTMLDivElement, FooterBrandProps>(function FooterBrand(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-footer-brand", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-footer-brand", className)} {...rest} />;
 });
 
 /** Props for {@link FooterNav}: a `<nav>` needs a name (`aria-label` or `aria-labelledby`) beside the page's own. */
@@ -94,10 +94,10 @@ export type FooterNavProps = Named & NativeProps<"nav">;
  *
  *   <FooterNav aria-label="More from Sherbit Games"><FooterCol>…</FooterCol><FooterCol>…</FooterCol></FooterNav>
  *
- * Renders `<nav class="chu-footer-nav">`.
+ * Renders `<nav class="blip-footer-nav">`.
  */
 export const FooterNav = /*#__PURE__*/ forwardRef<HTMLElement, FooterNavProps>(function FooterNav({ className, ...rest }, ref) {
-  return <nav ref={ref} className={cx("chu-footer-nav", className)} {...rest} />;
+  return <nav ref={ref} className={cx("blip-footer-nav", className)} {...rest} />;
 });
 
 /** Props for {@link FooterCol}. */
@@ -111,10 +111,10 @@ export type FooterColProps = NativeProps<"div">;
  *     <ul role="list"><li><a href="#support">Support</a></li><li><a href="#refunds">Refunds</a></li></ul>
  *   </FooterCol>
  *
- * Renders `<div class="chu-footer-col">`.
+ * Renders `<div class="blip-footer-col">`.
  */
 export const FooterCol = /*#__PURE__*/ forwardRef<HTMLDivElement, FooterColProps>(function FooterCol({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("chu-footer-col", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-footer-col", className)} {...rest} />;
 });
 
 /** Props for {@link FooterHeading}: a heading's own; `as` picks its level. */
@@ -125,13 +125,13 @@ export type FooterHeadingProps<T extends ElementType = "h2"> = PolymorphicProps<
  *
  *   <FooterHeading>Studio</FooterHeading>
  *
- * Renders `<h2 class="chu-footer-heading">`.
+ * Renders `<h2 class="blip-footer-heading">`.
  */
 export const FooterHeading = /*#__PURE__*/ forwardRef(function FooterHeading(
   { as: Tag = "h2", className, ...rest }: FooterHeadingProps<ElementType>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("chu-footer-heading", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("blip-footer-heading", className)} {...rest} />;
 }) as PolymorphicComponent<"h2", object>;
 
 /** Props for {@link FooterSignup}. */
@@ -147,13 +147,13 @@ export type FooterSignupProps = NativeProps<"form">;
  *     <FooterRow>…</FooterRow>
  *   </FooterSignup>
  *
- * Renders `<form class="chu-footer-signup">`.
+ * Renders `<form class="blip-footer-signup">`.
  */
 export const FooterSignup = /*#__PURE__*/ forwardRef<HTMLFormElement, FooterSignupProps>(function FooterSignup(
   { className, ...rest },
   ref,
 ) {
-  return <form ref={ref} className={cx("chu-footer-signup", className)} {...rest} />;
+  return <form ref={ref} className={cx("blip-footer-signup", className)} {...rest} />;
 });
 
 /** Props for {@link FooterRow}. */
@@ -164,15 +164,15 @@ export type FooterRowProps = NativeProps<"div">;
  * {@link FooterField} and the submit button.
  *
  *   <FooterRow>
- *     <label className="chu-sr-only" htmlFor="email">Email address</label>
+ *     <label className="blip-sr-only" htmlFor="email">Email address</label>
  *     <FooterField id="email" type="email" name="email" autoComplete="email" required />
  *     <Button type="submit">Subscribe</Button>
  *   </FooterRow>
  *
- * Renders `<div class="chu-footer-row">`.
+ * Renders `<div class="blip-footer-row">`.
  */
 export const FooterRow = /*#__PURE__*/ forwardRef<HTMLDivElement, FooterRowProps>(function FooterRow({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("chu-footer-row", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-footer-row", className)} {...rest} />;
 });
 
 /** Props for {@link FooterField}: the input's own; `className` and `style` go to the box around it. */
@@ -186,14 +186,14 @@ export type FooterFieldProps = NativeProps<"input", { children?: never }> & { ch
  *
  *   <FooterField id="email" type="email" name="email" autoComplete="email" placeholder="you@example.com" required />
  *
- * Renders `<span class="chu-box chu-footer-field" data-variant="outline"><input></span>`.
+ * Renders `<span class="blip-box blip-footer-field" data-variant="outline"><input></span>`.
  */
 export const FooterField = /*#__PURE__*/ forwardRef<HTMLInputElement, FooterFieldProps>(function FooterField(
   { className, style, ...rest },
   ref,
 ) {
   return (
-    <span className={cx("chu-box chu-footer-field", className)} data-variant="outline" style={style}>
+    <span className={cx("blip-box blip-footer-field", className)} data-variant="outline" style={style}>
       <input ref={ref} {...rest} />
     </span>
   );
@@ -211,11 +211,11 @@ export type FooterLegalProps = NativeProps<"div">;
  *     <ul role="list"><li><a href="#privacy">Privacy</a></li><li><a href="#terms">Terms</a></li></ul>
  *   </FooterLegal>
  *
- * Renders `<div class="chu-footer-legal">`.
+ * Renders `<div class="blip-footer-legal">`.
  */
 export const FooterLegal = /*#__PURE__*/ forwardRef<HTMLDivElement, FooterLegalProps>(function FooterLegal(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-footer-legal", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-footer-legal", className)} {...rest} />;
 });

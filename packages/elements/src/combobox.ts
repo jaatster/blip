@@ -1,24 +1,24 @@
 /**
- * <chu-combobox>: a text field with a list of suggestions, the WAI-ARIA editable combobox with list and inline
+ * <blip-combobox>: a text field with a list of suggestions, the WAI-ARIA editable combobox with list and inline
  * autocomplete. The suggestions come from a <datalist>, so without JavaScript the browser's own list still works.
  * Typing filters the list and completes the first suggestion that starts with what you typed (the completion is
  * selected, so typing on replaces it; aria-autocomplete="list" on the input turns completing off, for a value your
  * framework controls); the arrow keys move through the list; Enter takes the active suggestion; Escape closes the
  * list, then clears the field.
  *
- *   <chu-combobox class="chu-combobox">
- *     <span class="chu-box chu-input"><input id="world" name="world" list="worlds"></span>
+ *   <blip-combobox class="blip-combobox">
+ *     <span class="blip-box blip-input"><input id="world" name="world" list="worlds"></span>
  *     <datalist id="worlds"><option value="meadow">Meadow</option><option value="caves">Crystal caves</option></datalist>
- *   </chu-combobox>
+ *   </blip-combobox>
  *
  * The form value is the chosen suggestion's value ("caves"), or the text when it matches none. The input's name
  * moves to the element, so the value is sent once. The list opens in the top layer where the browser has anchor
  * positioning, so no scrolling box clips it. Options that change while you type (a list a framework renders from
  * a search) are read again as they change, and an input rendered later is wired when it arrives. Attributes: name,
  * value, open, empty-text ("No matches"), toggle-label ("Show suggestions"). Properties: value, open. Events:
- * chu-change { value }, chu-open, chu-close.
+ * blip-change { value }, blip-open, blip-close.
  */
-import { BlipElement, dismiss, warn } from "@jaatster/blip-core";
+import { BlipElement, dismiss, warn } from "@blip/core";
 import { both, isOn, observe, unFalse } from "./_dom.js";
 
 let uid = 0;
@@ -51,24 +51,24 @@ const topLayer =
  * @attr {boolean} open - The list of suggestions is showing. "false" is off.
  * @attr {string} [empty-text="No matches"] - Shown in the list when nothing matches.
  * @attr {string} [toggle-label="Show suggestions"] - The toggle button's accessible name.
- * @fires {CustomEvent<{ value: string }>} chu-change - Once per new value: a suggestion taken, the field cleared, or
+ * @fires {CustomEvent<{ value: string }>} blip-change - Once per new value: a suggestion taken, the field cleared, or
  * typed text committed.
- * @fires {CustomEvent<void>} chu-open - The list of suggestions opened.
- * @fires {CustomEvent<void>} chu-close - The list of suggestions closed.
+ * @fires {CustomEvent<void>} blip-open - The list of suggestions opened.
+ * @fires {CustomEvent<void>} blip-close - The list of suggestions closed.
  */
 export class BlipCombobox extends BlipElement {
   static formAssociated = true;
-  static classes = ["chu-combobox"];
+  static classes = ["blip-combobox"];
   static observedAttributes = ["open"];
 
   #internals = this.attachInternals();
-  #id = `chu-combobox-${++uid}`;
+  #id = `blip-combobox-${++uid}`;
   #input: HTMLInputElement | null = null;
   #data: HTMLDataListElement | null = null;
-  #toggle = make("button", "chu-box chu-combobox-toggle", { type: "button", tabindex: "-1", "data-variant": "ghost", "aria-expanded": "false" });
-  #list = make("div", "chu-combobox-list", { role: "listbox", id: `${this.#id}-list` });
-  #empty = make("p", "chu-combobox-empty", { role: "status" });
-  #popup = make("div", "chu-box chu-combobox-popup", { "data-variant": "panel", hidden: "" });
+  #toggle = make("button", "blip-box blip-combobox-toggle", { type: "button", tabindex: "-1", "data-variant": "ghost", "aria-expanded": "false" });
+  #list = make("div", "blip-combobox-list", { role: "listbox", id: `${this.#id}-list` });
+  #empty = make("p", "blip-combobox-empty", { role: "status" });
+  #popup = make("div", "blip-box blip-combobox-popup", { "data-variant": "panel", hidden: "" });
   #options: Suggestion[] = [];
   #active = -1;
   #initial: string | null = null;
@@ -76,7 +76,7 @@ export class BlipCombobox extends BlipElement {
   #last = "";
   /** The datalist's id, from the input's list attribute (the element takes the attribute off the input). */
   #listId = "";
-  /** Whether the list was open when chu-open or chu-close last went out. */
+  /** Whether the list was open when blip-open or blip-close last went out. */
   #shown = false;
   #wiring?: AbortController;
 
@@ -126,7 +126,7 @@ export class BlipCombobox extends BlipElement {
       characterData: true,
       attributeFilter: ["value", "label", "disabled", "readonly"],
     });
-    if (!this.#input && this.children.length) warn("CHU-E001", "<chu-combobox> needs an <input> inside.", this);
+    if (!this.#input && this.children.length) warn("BLIP-E001", "<blip-combobox> needs an <input> inside.", this);
     const option = (e: Event) => this.#options.findIndex((o) => o.el === (e.target as Element).closest('[role="option"]'));
     // The pointer never takes the focus from the field.
     this.on(this.#toggle, "pointerdown", (e) => e.preventDefault());
@@ -200,7 +200,7 @@ export class BlipCombobox extends BlipElement {
   #read(): void {
     const before = this.#options[this.#active]?.value;
     this.#options = [...(this.#data?.options ?? [])].map((o, i) => {
-      const el = make("div", "chu-box chu-combobox-option", { role: "option", id: `${this.#id}-${i}`, "aria-selected": "false", "data-variant": "ghost" });
+      const el = make("div", "blip-box blip-combobox-option", { role: "option", id: `${this.#id}-${i}`, "aria-selected": "false", "data-variant": "ghost" });
       el.textContent = o.label || o.value;
       return { el, value: o.value, label: el.textContent };
     });
@@ -240,10 +240,10 @@ export class BlipCombobox extends BlipElement {
     if (!input) return;
     if (off && !input.disabled) {
       input.disabled = true;
-      input.dataset.chuGroupOff = "";
-    } else if (!off && input.dataset.chuGroupOff !== undefined) {
+      input.dataset.blipGroupOff = "";
+    } else if (!off && input.dataset.blipGroupOff !== undefined) {
       input.disabled = false;
-      delete input.dataset.chuGroupOff;
+      delete input.dataset.blipGroupOff;
     }
     this.#lock();
     this.#store();
@@ -370,7 +370,7 @@ export class BlipCombobox extends BlipElement {
     for (const type of ["input", "change"]) this.#input?.dispatchEvent(new Event(type, { bubbles: true }));
   }
 
-  /** chu-change, once per new value (the browser's own change on blur may follow a choice already announced). */
+  /** blip-change, once per new value (the browser's own change on blur may follow a choice already announced). */
   #changed(): void {
     this.#store();
     const v = this.value;
@@ -380,10 +380,10 @@ export class BlipCombobox extends BlipElement {
   }
 }
 
-BlipElement.define("chu-combobox", BlipCombobox);
+BlipElement.define("blip-combobox", BlipCombobox);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "chu-combobox": BlipCombobox;
+    "blip-combobox": BlipCombobox;
   }
 }

@@ -20,11 +20,11 @@ import { HIDE_GLYPHS } from "./text.js";
 /** Leaves only the boxes' own painting: no glyphs, pictures or controls, and nothing else's paint. */
 export const BOXES_ONLY = `${HIDE_GLYPHS}
 #example :is(svg, img, canvas, video, iframe, object, embed, picture, hr) { visibility: hidden !important; }
-#example :is(input, select, textarea, progress, meter):not(.chu-box) { visibility: hidden !important; }
-html, body, #example, #example :not(.chu-box), #example :not(.chu-box)::before, #example :not(.chu-box)::after {
+#example :is(input, select, textarea, progress, meter):not(.blip-box) { visibility: hidden !important; }
+html, body, #example, #example :not(.blip-box), #example :not(.blip-box)::before, #example :not(.blip-box)::after {
   background: none !important; border-color: transparent !important; box-shadow: none !important; outline-color: transparent !important;
 }
-#example :not(.chu-box)::before, #example :not(.chu-box)::after { visibility: hidden !important; }`;
+#example :not(.blip-box)::before, #example :not(.blip-box)::after { visibility: hidden !important; }`;
 
 export interface Box {
   x: number;
@@ -48,28 +48,28 @@ export interface Box {
 export function collectBoxes(page: Page): Promise<Box[]> {
   return page.evaluate(() => {
     const root = document.getElementById("example")!;
-    const all = [...root.querySelectorAll<HTMLElement>(".chu-box")];
+    const all = [...root.querySelectorAll<HTMLElement>(".blip-box")];
     const shown = all.filter((b) => {
       const r = b.getBoundingClientRect();
       return r.width > 0 && r.height > 0 && b.checkVisibility({ visibilityProperty: true, opacityProperty: true });
     });
     const index = new Map(shown.map((b, i) => [b, i]));
-    const name = (e: Element) => `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c.startsWith("chu-") && c !== "chu-box").slice(0, 2).map((c) => `.${c}`).join("")}`;
+    const name = (e: Element) => `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c.startsWith("blip-") && c !== "blip-box").slice(0, 2).map((c) => `.${c}`).join("")}`;
     return shown.map((b) => {
       const cs = getComputedStyle(b);
       // The padding box: the box's layers are drawn from it (a switch's knob has a transparent border).
       const o = b.getBoundingClientRect(), bl = parseFloat(cs.borderLeftWidth), bt = parseFloat(cs.borderTopWidth);
       const r = { x: o.x + bl, y: o.y + bt, width: o.width - bl - parseFloat(cs.borderRightWidth), height: o.height - bt - parseFloat(cs.borderBottomWidth) };
-      const p = parseFloat(cs.getPropertyValue("--chu-pixel")) || 2;
+      const p = parseFloat(cs.getPropertyValue("--blip-pixel")) || 2;
       const before = getComputedStyle(b, "::before");
       // The drop: ::before reaches past the box by it (inset: 0 -drop -drop 0).
       const drop = Math.max(0, -parseFloat(before.right) || 0, -parseFloat(before.bottom) || 0);
       const ring = cs.filter !== "none" ? 2 * p : 0;
       const ancestors: number[] = [];
-      for (let a = b.parentElement?.closest(".chu-box"); a; a = a.parentElement?.closest(".chu-box")) if (index.has(a as HTMLElement)) ancestors.push(index.get(a as HTMLElement)!);
+      for (let a = b.parentElement?.closest(".blip-box"); a; a = a.parentElement?.closest(".blip-box")) if (index.has(a as HTMLElement)) ancestors.push(index.get(a as HTMLElement)!);
       const label = b.textContent!.trim().replace(/\s+/g, " ").slice(0, 24);
-      const state = [...b.attributes].filter((x) => /^(data-chu-state|data-variant|data-tone|aria-(pressed|selected|current|checked|disabled)|disabled)$/.test(x.name)).map((x) => (x.value ? `${x.name}=${x.value}` : x.name)).join(" ");
-      const context = b.parentElement?.closest("[class*='chu-']:not(.chu-box)");
+      const state = [...b.attributes].filter((x) => /^(data-blip-state|data-variant|data-tone|aria-(pressed|selected|current|checked|disabled)|disabled)$/.test(x.name)).map((x) => (x.value ? `${x.name}=${x.value}` : x.name)).join(" ");
+      const context = b.parentElement?.closest("[class*='blip-']:not(.blip-box)");
       return {
         x: r.x, y: r.y, w: r.width, h: r.height, p, drop, ring,
         ancestors,
@@ -98,14 +98,14 @@ export interface Render {
  */
 export async function ownersAt1x(page: Page, cdp: CDPSession, one: Render, clip: { x: number; y: number; width: number; height: number }): Promise<Int32Array> {
   await page.evaluate(() => {
-    const shown = [...document.querySelectorAll<HTMLElement>("#example .chu-box")].filter((b) => {
+    const shown = [...document.querySelectorAll<HTMLElement>("#example .blip-box")].filter((b) => {
       const r = b.getBoundingClientRect();
       return r.width > 0 && r.height > 0 && b.checkVisibility({ visibilityProperty: true, opacityProperty: true });
     });
     shown.forEach((b, i) => b.style.setProperty("--lanes-key", `rgb(0, ${(i + 1) >> 8}, ${(i + 1) & 255})`));
     const style = document.createElement("style");
     style.id = "lanes-key";
-    style.textContent = "#example .chu-box { filter: none !important; } #example .chu-box::before, #example .chu-box::after { background: var(--lanes-key) !important; }";
+    style.textContent = "#example .blip-box { filter: none !important; } #example .blip-box::before, #example .blip-box::after { background: var(--lanes-key) !important; }";
     document.head.append(style);
   });
   await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
@@ -113,7 +113,7 @@ export async function ownersAt1x(page: Page, cdp: CDPSession, one: Render, clip:
   const img = decode(Buffer.from(data, "base64"));
   await page.evaluate(() => {
     document.getElementById("lanes-key")?.remove();
-    for (const b of document.querySelectorAll<HTMLElement>("#example .chu-box")) b.style.removeProperty("--lanes-key");
+    for (const b of document.querySelectorAll<HTMLElement>("#example .blip-box")) b.style.removeProperty("--lanes-key");
   });
   await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
   const owner = new Int32Array(img.width * img.height);

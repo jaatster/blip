@@ -1,14 +1,16 @@
 # jaatster.com/blip: the docs as a Cloudflare Worker that only serves static files (Pages now runs on Workers).
-# The route sends only /blip* here; the rest of jaatster.com is its own project, untouched. The files are
-# deploy/.out, built by scripts/deploy-docs.mjs with the docs inside a blip/ folder, so request paths map straight
-# onto them. No workers.dev address: the docs live on the owner's domain only.
+# The route sends only /blip* here; the rest of jaatster.com
+# is its own project, untouched. The files are deploy/.out, built by scripts/deploy-docs.mjs with the docs inside a
+# blip/ folder, so request paths map straight onto them. No workers.dev address: the docs live on the owner's domain only.
 #
 # Deploy: node scripts/deploy-docs.mjs (or, once built: npx wrangler deploy --config deploy/cloudflare/wrangler.toml)
 name = "blip"
 compatibility_date = "2026-11-01"
 workers_dev = false
 preview_urls = false
-routes = [{ pattern = "jaatster.com/blip*", zone_name = "jaatster.com" }]
+routes = [
+  { pattern = "jaatster.com/blip*", zone_name = "jaatster.com" },
+]
 
 [assets]
 directory = "../.out"

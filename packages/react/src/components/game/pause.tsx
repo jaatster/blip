@@ -1,5 +1,5 @@
 /**
- * Pause menu: PauseMenu, PauseTitle, PauseStats and PauseHint. CSS from @jaatster/blip-game (pause.css).
+ * Pause menu: PauseMenu, PauseTitle, PauseStats and PauseHint. CSS from @blip/game (pause.css).
  */
 import { forwardRef } from "react";
 import type { ElementType, ReactNode } from "react";
@@ -35,10 +35,10 @@ export type PauseMenuProps = Named & NativeProps<"dialog">;
  *     <PauseHint><PromptKey>Esc</PromptKey> Resume</PauseHint>
  *   </PauseMenu>
  *
- * Renders `<dialog class="chu-box chu-pause">`.
+ * Renders `<dialog class="blip-box blip-pause">`.
  */
 export const PauseMenu = /*#__PURE__*/ forwardRef<HTMLDialogElement, PauseMenuProps>(function PauseMenu({ className, ...rest }, ref) {
-  return <dialog ref={ref} className={cx("chu-box chu-pause", className)} {...rest} />;
+  return <dialog ref={ref} className={cx("blip-box blip-pause", className)} {...rest} />;
 });
 
 /** Props for {@link PauseTitle}: a heading's own; `as` picks its level. */
@@ -50,7 +50,7 @@ export type PauseTitleProps<T extends ElementType = "h2"> = PolymorphicProps<T, 
  *
  *   <PauseTitle id="pause-title">Paused</PauseTitle>
  *
- * Renders `<h2 class="chu-pause-title chu-display chu-pop" data-scale="3" data-pop="Paused">`; `data-pop` repeats the
+ * Renders `<h2 class="blip-pause-title blip-display blip-pop" data-scale="3" data-pop="Paused">`; `data-pop` repeats the
  * text (when the children are text).
  */
 export const PauseTitle = /*#__PURE__*/ forwardRef(function PauseTitle(
@@ -60,7 +60,7 @@ export const PauseTitle = /*#__PURE__*/ forwardRef(function PauseTitle(
   return (
     <Tag
       ref={ref}
-      className={cx("chu-pause-title chu-display chu-pop", className)}
+      className={cx("blip-pause-title blip-display blip-pop", className)}
       data-scale={3}
       data-pop={popText(children)}
       {...rest}
@@ -78,13 +78,13 @@ export type PauseStatsProps = NativeProps<"p">;
  *
  *   <PauseStats><span><Sprite name="coin" />42 coins</span><span><Sprite name="star" />5 of 18</span></PauseStats>
  *
- * Renders `<p class="chu-pause-stats">`.
+ * Renders `<p class="blip-pause-stats">`.
  */
 export const PauseStats = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PauseStatsProps>(function PauseStats(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("chu-pause-stats", className)} {...rest} />;
+  return <p ref={ref} className={cx("blip-pause-stats", className)} {...rest} />;
 });
 
 /** Props for {@link PauseHint}. */
@@ -95,11 +95,11 @@ export type PauseHintProps = NativeProps<"p">;
  *
  *   <PauseHint><PromptKey>Esc</PromptKey> Resume</PauseHint>
  *
- * Renders `<p class="chu-pause-hint chu-prompt">`.
+ * Renders `<p class="blip-pause-hint blip-prompt">`.
  */
 export const PauseHint = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PauseHintProps>(function PauseHint(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("chu-pause-hint chu-prompt", className)} {...rest} />;
+  return <p ref={ref} className={cx("blip-pause-hint blip-prompt", className)} {...rest} />;
 });

@@ -4,100 +4,100 @@
  * bottom edge and drop show. The app bar (app-bar.css) is the site's bar, with the brand and the main links; the top
  * bar is one screen's, inside a phone app (a detail view, a settings page, an inbox), usually over a bottom bar.
  *
- *   <header class="chu-box chu-top-bar">
- *     <a class="chu-box chu-button chu-top-bar-back" data-variant="ghost" href="/inbox">
- *       <span class="chu-icon chu-top-bar-chevron" aria-hidden="true"></span><span class="chu-sr-only">Back to </span>Inbox</a>
- *     <h1 class="chu-top-bar-title">Level 3</h1>
- *     <div class="chu-top-bar-actions">
- *       <button class="chu-box chu-button" type="button" data-variant="ghost" data-icon-only aria-label="Share">…</button>
+ *   <header class="blip-box blip-top-bar">
+ *     <a class="blip-box blip-button blip-top-bar-back" data-variant="ghost" href="/inbox">
+ *       <span class="blip-icon blip-top-bar-chevron" aria-hidden="true"></span><span class="blip-sr-only">Back to </span>Inbox</a>
+ *     <h1 class="blip-top-bar-title">Level 3</h1>
+ *     <div class="blip-top-bar-actions">
+ *       <button class="blip-box blip-button" type="button" data-variant="ghost" data-icon-only aria-label="Share">…</button>
  *     </div>
  *   </header>
  *
- *   .chu-top-bar-back      a ghost button with a pixel chevron: alone (data-icon-only, aria-label="Back"), or with the
+ *   .blip-top-bar-back      a ghost button with a pixel chevron: alone (data-icon-only, aria-label="Back"), or with the
  *                          previous screen's name, cut short with an ellipsis past 48 pixels
- *   .chu-top-bar-chevron   the back button's chevron, on an empty .chu-icon span (it turns round right to left)
- *   .chu-top-bar-title     one line of Pixel Bop, centred on the bar, cut short with an ellipsis when long
- *   .chu-top-bar-actions   one or two ghost icon buttons at the end
- *   data-large             a big title under the bar: .chu-top-bar-large, straight after the bar, is the heading and
+ *   .blip-top-bar-chevron   the back button's chevron, on an empty .blip-icon span (it turns round right to left)
+ *   .blip-top-bar-title     one line of Pixel Bop, centred on the bar, cut short with an ellipsis when long
+ *   .blip-top-bar-actions   one or two ghost icon buttons at the end
+ *   data-large             a big title under the bar: .blip-top-bar-large, straight after the bar, is the heading and
  *                          scrolls up under it; the bar's own title (aria-hidden="true": a copy) steps up into the bar
  *                          as the big one goes. Put the bar at the top of its scroller. Without scroll-driven
  *                          animations the bar shows its title all along; with reduced motion it appears in one step.
  *
- *   <header class="chu-box chu-top-bar" data-large>… <span class="chu-top-bar-title" aria-hidden="true">Inbox</span> …</header>
- *   <h1 class="chu-top-bar-large">Inbox</h1>
+ *   <header class="blip-box blip-top-bar" data-large>… <span class="blip-top-bar-title" aria-hidden="true">Inbox</span> …</header>
+ *   <h1 class="blip-top-bar-large">Inbox</h1>
  *
  * The title stays centred while both sides fit; a long title gives way first, then the back button's label.
  */
 
-@layer chu.components {
-  .chu-top-bar {
-    --chu-r: 0;
-    --chu-shape: var(--chu-shape-0);
-    --chu-shape-inner: var(--chu-shape-0-inner);
-    --chu-box-top: var(--chu-surface);
-    --chu-box-fill: var(--chu-surface);
-    --chu-box-bottom: var(--chu-surface);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
+@layer blip.components {
+  .blip-top-bar {
+    --blip-r: 0;
+    --blip-shape: var(--blip-shape-0);
+    --blip-shape-inner: var(--blip-shape-0-inner);
+    --blip-box-top: var(--blip-surface);
+    --blip-box-fill: var(--blip-surface);
+    --blip-box-bottom: var(--blip-surface);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
 
     position: sticky;
     inset-block-start: 0;
-    z-index: var(--chu-layer-sticky);
+    z-index: var(--blip-layer-sticky);
     display: grid;
     grid-template-columns: minmax(min-content, 1fr) minmax(0, max-content) minmax(min-content, 1fr);
     align-items: center;
-    gap: var(--chu-space-2);
+    gap: var(--blip-space-2);
     /* As tall with a title alone as with buttons. */
-    min-block-size: calc(var(--chu-control-md) + 2 * var(--chu-space-3) + env(safe-area-inset-top, 0px));
+    min-block-size: calc(var(--blip-control-md) + 2 * var(--blip-space-3) + env(safe-area-inset-top, 0px));
     padding:
-      calc(var(--chu-space-3) + env(safe-area-inset-top, 0px))
-      calc(var(--chu-space-3) + env(safe-area-inset-right, 0px))
-      var(--chu-space-3)
-      calc(var(--chu-space-3) + env(safe-area-inset-left, 0px));
+      calc(var(--blip-space-3) + env(safe-area-inset-top, 0px))
+      calc(var(--blip-space-3) + env(safe-area-inset-right, 0px))
+      var(--blip-space-3)
+      calc(var(--blip-space-3) + env(safe-area-inset-left, 0px));
     /* Room for the drop below. */
-    margin: 0 0 var(--chu-pixel);
+    margin: 0 0 var(--blip-pixel);
     /* Flush with the screen: the outline's top and sides are cut away, leaving the bottom edge and its drop. */
-    clip-path: inset(var(--chu-pixel) var(--chu-pixel) calc(-1 * var(--chu-drop-size) * var(--chu-pixel)) var(--chu-pixel));
-    font-family: var(--chu-font-ui);
+    clip-path: inset(var(--blip-pixel) var(--blip-pixel) calc(-1 * var(--blip-drop-size) * var(--blip-pixel)) var(--blip-pixel));
+    font-family: var(--blip-font-ui);
   }
 
-  .chu-top-bar .chu-button { margin: 0; }
+  .blip-top-bar .blip-button { margin: 0; }
 
-  .chu-top-bar .chu-top-bar-back {
+  .blip-top-bar .blip-top-bar-back {
     grid-column: 1;
     justify-self: start;
     display: block;
-    max-inline-size: calc(48 * var(--chu-pixel));
-    padding-inline: var(--chu-space-2) var(--chu-space-4);
+    max-inline-size: calc(48 * var(--blip-pixel));
+    padding-inline: var(--blip-space-2) var(--blip-space-4);
     overflow: clip;
     text-align: start;
     text-overflow: ellipsis;
     white-space: nowrap;
     touch-action: manipulation;
   }
-  .chu-top-bar .chu-top-bar-back[data-icon-only] {
+  .blip-top-bar .blip-top-bar-back[data-icon-only] {
     display: grid;
     place-items: center;
     padding: 0;
   }
-  .chu-top-bar-chevron {
-    margin-inline-end: var(--chu-pixel);
+  .blip-top-bar-chevron {
+    margin-inline-end: var(--blip-pixel);
     vertical-align: middle;
     background-color: currentColor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' shape-rendering='crispEdges'%3E%3Cpath d='M7 2h1v2H7v1H6v2h1v1h1v2H7V9H6V8H5V7H4V5h1V4h1V3h1z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   }
-  .chu-top-bar-back[data-icon-only] > .chu-top-bar-chevron { margin: 0; }
-  .chu-top-bar-chevron:dir(rtl) { scale: -1 1; }
+  .blip-top-bar-back[data-icon-only] > .blip-top-bar-chevron { margin: 0; }
+  .blip-top-bar-chevron:dir(rtl) { scale: -1 1; }
 
-  .chu-top-bar-title {
+  .blip-top-bar-title {
     grid-column: 2;
     min-inline-size: 0;
     margin: 0;
     overflow: clip;
-    font-family: var(--chu-font-display);
-    font-size: calc(10 * var(--chu-pixel));
+    font-family: var(--blip-font-display);
+    font-size: calc(10 * var(--blip-pixel));
     font-weight: 400;
-    line-height: var(--chu-leading-display);
+    line-height: var(--blip-leading-display);
     letter-spacing: 0;
     text-align: center;
     text-overflow: ellipsis;
@@ -107,28 +107,28 @@
     font-smooth: never;
   }
 
-  .chu-top-bar-actions {
+  .blip-top-bar-actions {
     grid-column: 3;
     justify-self: end;
     display: flex;
     align-items: center;
-    gap: var(--chu-space-1);
+    gap: var(--blip-space-1);
   }
-  .chu-top-bar-actions > .chu-button { touch-action: manipulation; }
+  .blip-top-bar-actions > .blip-button { touch-action: manipulation; }
 
   /* The big title: the screen's heading, under the bar, on the page. */
-  .chu-top-bar-large {
+  .blip-top-bar-large {
     margin: 0;
     padding:
-      var(--chu-space-4)
-      calc(var(--chu-space-6) + env(safe-area-inset-right, 0px))
-      var(--chu-space-2)
-      calc(var(--chu-space-6) + env(safe-area-inset-left, 0px));
-    font-family: var(--chu-font-display);
-    font-size: calc(20 * var(--chu-pixel));
+      var(--blip-space-4)
+      calc(var(--blip-space-6) + env(safe-area-inset-right, 0px))
+      var(--blip-space-2)
+      calc(var(--blip-space-6) + env(safe-area-inset-left, 0px));
+    font-family: var(--blip-font-display);
+    font-size: calc(20 * var(--blip-pixel));
     font-weight: 400;
     font-feature-settings: "ss02";
-    line-height: var(--chu-leading-display);
+    line-height: var(--blip-leading-display);
     letter-spacing: 0;
     text-transform: uppercase;
     overflow-wrap: anywhere;
@@ -139,25 +139,25 @@
   /* The bar's title waits while the big one shows, then steps up into the bar, a pixel at a time, as the big one
      slides under the bar (scrolled 16 to 28 pixels). */
   @supports (animation-timeline: scroll()) {
-    .chu-top-bar[data-large] .chu-top-bar-title {
-      animation: chu-top-bar-title steps(3, jump-end) both;
+    .blip-top-bar[data-large] .blip-top-bar-title {
+      animation: blip-top-bar-title steps(3, jump-end) both;
       animation-timeline: scroll(nearest block);
-      animation-range: calc(16 * var(--chu-pixel)) calc(28 * var(--chu-pixel));
+      animation-range: calc(16 * var(--blip-pixel)) calc(28 * var(--blip-pixel));
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .chu-top-bar[data-large] .chu-top-bar-title { animation-timing-function: steps(1, jump-end); }
+    .blip-top-bar[data-large] .blip-top-bar-title { animation-timing-function: steps(1, jump-end); }
   }
-  :root[data-chu-motion="reduce"] .chu-top-bar[data-large] .chu-top-bar-title { animation-timing-function: steps(1, jump-end); }
+  :root[data-blip-motion="reduce"] .blip-top-bar[data-large] .blip-top-bar-title { animation-timing-function: steps(1, jump-end); }
 
   @media (forced-colors: active) {
-    .chu-top-bar { clip-path: none; }
-    .chu-top-bar-back { border-color: Canvas; }
-    .chu-top-bar-chevron { forced-color-adjust: none; background-color: ButtonText; }
+    .blip-top-bar { clip-path: none; }
+    .blip-top-bar-back { border-color: Canvas; }
+    .blip-top-bar-chevron { forced-color-adjust: none; background-color: ButtonText; }
   }
 }
 
-@keyframes chu-top-bar-title {
-  0% { visibility: hidden; translate: 0 calc(3 * var(--chu-pixel)); }
+@keyframes blip-top-bar-title {
+  0% { visibility: hidden; translate: 0 calc(3 * var(--blip-pixel)); }
   100% { visibility: visible; translate: 0 0; }
 }

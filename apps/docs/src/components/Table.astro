@@ -14,13 +14,13 @@ interface Props {
 }
 const { label, head, rows, caption, numeric = [], class: cls } = Astro.props;
 ---
-<div class:list={["chu-box chu-table-frame docs-table-frame", cls]}>
-  <div class="chu-table-scroll docs-table-scroll" role="region" tabindex="0" aria-label={label}>
-    <table class="chu-table docs-table" data-density="compact" data-stack>
+<div class:list={["blip-box blip-table-frame docs-table-frame", cls]}>
+  <div class="blip-table-scroll docs-table-scroll" role="region" tabindex="0" aria-label={label}>
+    <table class="blip-table docs-table" data-density="compact" data-stack>
       {caption && <caption>{caption}</caption>}
-      <thead><tr>{head.map((h, i) => <th scope="col" class={numeric.includes(i) ? "chu-numeric" : undefined}>{h || <span class="chu-sr-only">Notes</span>}</th>)}</tr></thead>
+      <thead><tr>{head.map((h, i) => <th scope="col" class={numeric.includes(i) ? "blip-numeric" : undefined}>{h || <span class="blip-sr-only">Notes</span>}</th>)}</tr></thead>
       <tbody>
-        {rows.map((r) => <tr>{r.map((c, i) => <td class={numeric.includes(i) ? "chu-numeric" : undefined} data-label={i > 0 && head[i] ? stripTags(head[i]) : undefined} set:html={c} />)}</tr>)}
+        {rows.map((r) => <tr>{r.map((c, i) => <td class={numeric.includes(i) ? "blip-numeric" : undefined} data-label={i > 0 && head[i] ? stripTags(head[i]) : undefined} set:html={c} />)}</tr>)}
       </tbody>
     </table>
   </div>

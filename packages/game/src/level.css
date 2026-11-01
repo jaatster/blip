@@ -2,97 +2,97 @@
  * Level tile. One stop on a level map: its number in Pixel Bop, the stars earned, locked with a padlock, or current
  * with an arrow bobbing over it. A button (or a link) you press, so it is a candy box.
  *
- *   <button type="button" class="chu-box chu-level" aria-label="Level 2: 2 of 3 stars">
- *     <span class="chu-level-number">2</span>
- *     <span class="chu-level-stars"><chu-sprite name="star"></chu-sprite><chu-sprite name="star"></chu-sprite><chu-sprite name="star-empty"></chu-sprite></span>
+ *   <button type="button" class="blip-box blip-level" aria-label="Level 2: 2 of 3 stars">
+ *     <span class="blip-level-number">2</span>
+ *     <span class="blip-level-stars"><blip-sprite name="star"></blip-sprite><blip-sprite name="star"></blip-sprite><blip-sprite name="star-empty"></blip-sprite></span>
  *   </button>
- *   <button type="button" class="chu-box chu-level" aria-current="step" aria-label="Level 3: you are here">
- *     <chu-sprite class="chu-level-here" name="arrow"></chu-sprite> …
+ *   <button type="button" class="blip-box blip-level" aria-current="step" aria-label="Level 3: you are here">
+ *     <blip-sprite class="blip-level-here" name="arrow"></blip-sprite> …
  *   </button>
- *   <button type="button" class="chu-box chu-level" aria-disabled="true" aria-label="Level 4: locked, clear level 3 first">
- *     <chu-sprite name="padlock"></chu-sprite>
+ *   <button type="button" class="blip-box blip-level" aria-disabled="true" aria-label="Level 4: locked, clear level 3 first">
+ *     <blip-sprite name="padlock"></blip-sprite>
  *   </button>
- *   <span class="chu-level-path" aria-hidden="true"></span>
+ *   <span class="blip-level-path" aria-hidden="true"></span>
  *
- *   aria-current="step"   where you are: the tile sits in; .chu-level-here bobs over it for five seconds, then rests
+ *   aria-current="step"   where you are: the tile sits in; .blip-level-here bobs over it for five seconds, then rests
  *   aria-disabled="true"  locked: dithered, still focusable so it can say why
  *   data-tone             the tile's candy (accent by default): a boss in danger, a bonus in purple
- *   .chu-level-map         an <ol>: each <li> a tile and the path out of it, in a row that wraps, room above for the arrow
- *   .chu-level-path        the dotted way between tiles; data-direction="down" stands it up, data-locked fades it
+ *   .blip-level-map         an <ol>: each <li> a tile and the path out of it, in a row that wraps, room above for the arrow
+ *   .blip-level-path        the dotted way between tiles; data-direction="down" stands it up, data-locked fades it
  *
  * Name every tile with its state: the stars and the padlock are pictures.
  */
 
-@layer chu.kits {
-  .chu-level {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
-    --chu-band-top: 4;
-    --chu-band-bottom: 4;
+@layer blip.kits {
+  .blip-level {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
+    --blip-band-top: 4;
+    --blip-band-bottom: 4;
     display: inline-grid;
     justify-items: center;
     align-content: center;
-    gap: var(--chu-pixel);
-    inline-size: calc(46 * var(--chu-pixel));
-    block-size: calc(44 * var(--chu-pixel));
-    padding: calc(2 * var(--chu-pixel));
-    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
+    gap: var(--blip-pixel);
+    inline-size: calc(46 * var(--blip-pixel));
+    block-size: calc(44 * var(--blip-pixel));
+    padding: calc(2 * var(--blip-pixel));
+    margin: 0 var(--blip-pixel) var(--blip-pixel) 0;
     text-decoration: none;
     vertical-align: middle;
   }
-  .chu-level-number {
-    font-family: var(--chu-font-display);
-    font-size: calc(20 * var(--chu-pixel));
+  .blip-level-number {
+    font-family: var(--blip-font-display);
+    font-size: calc(20 * var(--blip-pixel));
     line-height: 1.2;
     font-variant-numeric: tabular-nums;
     text-transform: uppercase;
     font-synthesis: none;
     -webkit-font-smoothing: none;
   }
-  .chu-level-stars { display: flex; gap: var(--chu-pixel); }
+  .blip-level-stars { display: flex; gap: var(--blip-pixel); }
 
-  .chu-level-here {
+  .blip-level-here {
     position: absolute;
-    inset-block-end: calc(100% + 3 * var(--chu-pixel));
-    inset-inline-start: round(down, 50% - 5 * var(--chu-pixel), var(--chu-pixel));
-    animation: chu-bob calc(2 * var(--chu-duration-beat)) steps(1, jump-end) 6;
+    inset-block-end: calc(100% + 3 * var(--blip-pixel));
+    inset-inline-start: round(down, 50% - 5 * var(--blip-pixel), var(--blip-pixel));
+    animation: blip-bob calc(2 * var(--blip-duration-beat)) steps(1, jump-end) 6;
     pointer-events: none;
   }
 
-  .chu-level-map {
+  .blip-level-map {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    row-gap: calc(14 * var(--chu-pixel));
+    row-gap: calc(14 * var(--blip-pixel));
     margin: 0;
-    padding: calc(12 * var(--chu-pixel)) 0 0;
+    padding: calc(12 * var(--blip-pixel)) 0 0;
     list-style: none;
   }
-  .chu-level-map > li { display: flex; align-items: center; }
-  .chu-level-path {
+  .blip-level-map > li { display: flex; align-items: center; }
+  .blip-level-path {
     flex: none;
-    inline-size: calc(var(--chu-level-path, 10) * var(--chu-pixel));
-    block-size: calc(2 * var(--chu-pixel));
-    margin-inline: var(--chu-pixel) 0;
-    background: repeating-linear-gradient(to right, var(--chu-text) 0 calc(2 * var(--chu-pixel)), transparent 0 calc(4 * var(--chu-pixel)));
+    inline-size: calc(var(--blip-level-path, 10) * var(--blip-pixel));
+    block-size: calc(2 * var(--blip-pixel));
+    margin-inline: var(--blip-pixel) 0;
+    background: repeating-linear-gradient(to right, var(--blip-text) 0 calc(2 * var(--blip-pixel)), transparent 0 calc(4 * var(--blip-pixel)));
   }
-  .chu-level-path[data-direction="down"] {
-    inline-size: calc(2 * var(--chu-pixel));
-    block-size: calc(var(--chu-level-path, 10) * var(--chu-pixel));
+  .blip-level-path[data-direction="down"] {
+    inline-size: calc(2 * var(--blip-pixel));
+    block-size: calc(var(--blip-level-path, 10) * var(--blip-pixel));
     margin: 0;
-    background: repeating-linear-gradient(to bottom, var(--chu-text) 0 calc(2 * var(--chu-pixel)), transparent 0 calc(4 * var(--chu-pixel)));
+    background: repeating-linear-gradient(to bottom, var(--blip-text) 0 calc(2 * var(--blip-pixel)), transparent 0 calc(4 * var(--blip-pixel)));
   }
-  .chu-level-path[data-locked] { --chu-text: var(--chu-line-soft); }
+  .blip-level-path[data-locked] { --blip-text: var(--blip-line-soft); }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-level-here { animation: none; }
+    .blip-level-here { animation: none; }
   }
   @media (forced-colors: active) {
-    .chu-level-path { background: repeating-linear-gradient(to right, CanvasText 0 calc(2 * var(--chu-pixel)), transparent 0 calc(4 * var(--chu-pixel))); }
+    .blip-level-path { background: repeating-linear-gradient(to right, CanvasText 0 calc(2 * var(--blip-pixel)), transparent 0 calc(4 * var(--blip-pixel))); }
   }
   /* The dotted way between tiles prints, though paper drops backgrounds. */
   @media print {
-    .chu-level-path { print-color-adjust: exact; }
+    .blip-level-path { print-color-adjust: exact; }
   }
 }

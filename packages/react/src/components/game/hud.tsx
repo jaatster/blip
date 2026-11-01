@@ -1,5 +1,5 @@
 /**
- * HUD: Hud, HudGroup, HudStat, HudLabel, HudBar and CounterIcon. CSS from @jaatster/blip-game (hud.css). Hearts and counters
+ * HUD: Hud, HudGroup, HudStat, HudLabel, HudBar and CounterIcon. CSS from @blip/game (hud.css). Hearts and counters
  * are elements: use the generated <Hearts> and <Counter> from this same entry point.
  */
 import { forwardRef } from "react";
@@ -41,10 +41,10 @@ export type HudProps = NativeProps<"div">;
  *     </HudGroup>
  *   </Hud>
  *
- * Renders `<div class="chu-hud">`.
+ * Renders `<div class="blip-hud">`.
  */
 export const Hud = /*#__PURE__*/ forwardRef<HTMLDivElement, HudProps>(function Hud({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("chu-hud", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-hud", className)} {...rest} />;
 });
 
 /** Props for {@link HudGroup}. */
@@ -55,10 +55,10 @@ export type HudGroupProps = NativeProps<"div">;
  *
  *   <HudGroup><Hearts value={3} max={5} label="Health" /><HudStat>…</HudStat></HudGroup>
  *
- * Renders `<div class="chu-hud-group">`.
+ * Renders `<div class="blip-hud-group">`.
  */
 export const HudGroup = /*#__PURE__*/ forwardRef<HTMLDivElement, HudGroupProps>(function HudGroup({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("chu-hud-group", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-hud-group", className)} {...rest} />;
 });
 
 /** Props for {@link HudStat}. */
@@ -69,10 +69,10 @@ export type HudStatProps = NativeProps<"div">;
  *
  *   <HudStat><HudLabel>HP</HudLabel><HudBar value={7} aria-label="Health" /></HudStat>
  *
- * Renders `<div class="chu-hud-stat">`.
+ * Renders `<div class="blip-hud-stat">`.
  */
 export const HudStat = /*#__PURE__*/ forwardRef<HTMLDivElement, HudStatProps>(function HudStat({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("chu-hud-stat", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-hud-stat", className)} {...rest} />;
 });
 
 /** Props for {@link HudLabel}. */
@@ -85,13 +85,13 @@ export type HudLabelProps = NativeProps<"span">;
  *
  *   <HudLabel>MP</HudLabel>
  *
- * Renders `<span class="chu-hud-label chu-display chu-pop" data-scale="1" aria-hidden="true">`.
+ * Renders `<span class="blip-hud-label blip-display blip-pop" data-scale="1" aria-hidden="true">`.
  */
 export const HudLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, HudLabelProps>(function HudLabel({ className, ...rest }, ref) {
   return (
     <span
       ref={ref}
-      className={cx("chu-hud-label chu-display chu-pop", className)}
+      className={cx("blip-hud-label blip-display blip-pop", className)}
       data-scale={1}
       aria-hidden={true}
       {...rest}
@@ -101,11 +101,11 @@ export const HudLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, HudLabelProps>
 
 /** Own props of {@link HudBar}. */
 export interface HudBarOwnProps {
-  /** The value, drawn in whole segments (rounded down) and announced. `--chu-hud-value` and `aria-valuenow`. */
+  /** The value, drawn in whole segments (rounded down) and announced. `--blip-hud-value` and `aria-valuenow`. */
   value: number;
-  /** The most it can be; 10 by default. `--chu-hud-max` and `aria-valuemax`. */
+  /** The most it can be; 10 by default. `--blip-hud-max` and `aria-valuemax`. */
   max?: number;
-  /** How many segments the bar has, each five pixels wide; 10 by default. `--chu-hud-segments`. */
+  /** How many segments the bar has, each five pixels wide; 10 by default. `--blip-hud-segments`. */
   segments?: number;
   /** The fill's colour: success (default), or any tone: `blue` for mana, `danger` when low. `data-tone`. */
   tone?: Tone;
@@ -123,8 +123,8 @@ export type HudBarProps = HudBarOwnProps & Named & NativeProps<"div", HudBarOwnP
  *   <HudBar value={5} max={8} segments={8} tone="blue" aria-label="Magic" />
  *   <HudBar value={2} tone="danger" aria-label="Health, low" />
  *
- * Renders `<div class="chu-box chu-hud-bar" role="meter" aria-valuemin="0" aria-valuemax aria-valuenow
- * style="--chu-hud-value: …">` with its `<span class="chu-hud-bar-fill">` inside.
+ * Renders `<div class="blip-box blip-hud-bar" role="meter" aria-valuemin="0" aria-valuemax aria-valuenow
+ * style="--blip-hud-value: …">` with its `<span class="blip-hud-bar-fill">` inside.
  */
 export const HudBar = /*#__PURE__*/ forwardRef<HTMLDivElement, HudBarProps>(function HudBar(
   { value, max, segments, tone, className, style, ...rest },
@@ -133,16 +133,16 @@ export const HudBar = /*#__PURE__*/ forwardRef<HTMLDivElement, HudBarProps>(func
   return (
     <div
       ref={ref}
-      className={cx("chu-box chu-hud-bar", className)}
+      className={cx("blip-box blip-hud-bar", className)}
       data-tone={tone}
       role="meter"
       aria-valuemin={0}
       aria-valuemax={max ?? 10}
       aria-valuenow={value}
-      style={withVars(style, { "--chu-hud-value": value, "--chu-hud-max": max, "--chu-hud-segments": segments })}
+      style={withVars(style, { "--blip-hud-value": value, "--blip-hud-max": max, "--blip-hud-segments": segments })}
       {...rest}
     >
-      <span className="chu-hud-bar-fill" />
+      <span className="blip-hud-bar-fill" />
     </div>
   );
 });
@@ -156,11 +156,11 @@ export type CounterIconProps = NativeProps<"span">;
  *
  *   <Counter value={gems} label="Gems"><CounterIcon><img src={gem} alt="" /></CounterIcon></Counter>
  *
- * Renders `<span class="chu-counter-icon">`.
+ * Renders `<span class="blip-counter-icon">`.
  */
 export const CounterIcon = /*#__PURE__*/ forwardRef<HTMLSpanElement, CounterIconProps>(function CounterIcon(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-counter-icon", className)} {...rest} />;
+  return <span ref={ref} className={cx("blip-counter-icon", className)} {...rest} />;
 });

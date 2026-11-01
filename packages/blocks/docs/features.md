@@ -1,6 +1,6 @@
 ---
 name: Features
-package: "@jaatster/blip-blocks"
+package: "@blip/blocks"
 css: features.css
 element: null
 react: Features
@@ -16,30 +16,30 @@ icon-heading-text cards.
 ## Usage
 
 ```html
-<section class="chu-features" aria-labelledby="features-title">
-  <header class="chu-features-head">
-    <h2 class="chu-features-title" id="features-title">A small world that keeps time</h2>
-    <p class="chu-features-lead">Sixty short levels, made to be played a few at a time.</p>
+<section class="blip-features" aria-labelledby="features-title">
+  <header class="blip-features-head">
+    <h2 class="blip-features-title" id="features-title">A small world that keeps time</h2>
+    <p class="blip-features-lead">Sixty short levels, made to be played a few at a time.</p>
   </header>
-  <div class="chu-features-grid">
-    <article class="chu-box chu-feature" data-layout="lead" data-variant="panel">
-      <div class="chu-feature-media">…a picture…</div>
-      <h3 class="chu-feature-title">A meadow that keeps time</h3>
-      <p class="chu-feature-text">The world follows your clock…</p>
+  <div class="blip-features-grid">
+    <article class="blip-box blip-feature" data-layout="lead" data-variant="panel">
+      <div class="blip-feature-media">…a picture…</div>
+      <h3 class="blip-feature-title">A meadow that keeps time</h3>
+      <p class="blip-feature-text">The world follows your clock…</p>
     </article>
-    <article class="chu-box chu-feature" data-variant="soft" data-tone="pink">
-      <span class="chu-box chu-feature-icon" data-tone="pink"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg></span>
-      <h3 class="chu-feature-title">Couch co-op</h3>
-      <p class="chu-feature-text">A friend can hop in or out at any moment.</p>
+    <article class="blip-box blip-feature" data-variant="soft" data-tone="pink">
+      <span class="blip-box blip-feature-icon" data-tone="pink"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg></span>
+      <h3 class="blip-feature-title">Couch co-op</h3>
+      <p class="blip-feature-text">A friend can hop in or out at any moment.</p>
     </article>
-    <article class="chu-box chu-feature" data-layout="stat" data-variant="soft" data-tone="blue">
-      <p class="chu-feature-stat chu-pop" data-pop="60">60</p>
-      <p class="chu-feature-text">hand-made levels in four worlds</p>
+    <article class="blip-box blip-feature" data-layout="stat" data-variant="soft" data-tone="blue">
+      <p class="blip-feature-stat blip-pop" data-pop="60">60</p>
+      <p class="blip-feature-text">hand-made levels in four worlds</p>
     </article>
-    <article class="chu-box chu-feature" data-layout="wide" data-variant="panel">
-      <span class="chu-box chu-feature-icon" data-tone="red">…</span>
+    <article class="blip-box blip-feature" data-layout="wide" data-variant="panel">
+      <span class="blip-box blip-feature-icon" data-tone="red">…</span>
       <div>…title and text…</div>
-      <ul class="chu-feature-chips" role="list"><li class="chu-box" data-variant="soft" data-tone="neutral">Assist mode</li>…</ul>
+      <ul class="blip-feature-chips" role="list"><li class="blip-box" data-variant="soft" data-tone="neutral">Assist mode</li>…</ul>
     </article>
   </div>
 </section>
@@ -47,12 +47,12 @@ icon-heading-text cards.
 
 ## Anatomy
 
-1. **Head** (`.chu-features-head`): title, lead.
-2. **Grid** (`.chu-features-grid`): one column below 600 px wide (medium), two below 1024 px (wide), then six.
-3. **Feature** (`.chu-feature`): a candy box (panel or soft) with an icon, a title and text.
-4. **Media** (`.chu-feature-media`): the lead's picture slot; it grows to fill the lead's two rows.
-5. **Stat** (`.chu-feature-stat`): Pixel Bop at scale 3, POP, and its caption.
-6. **Chips** (`.chu-feature-chips`): small soft boxes in a row.
+1. **Head** (`.blip-features-head`): title, lead.
+2. **Grid** (`.blip-features-grid`): one column below 600 px wide (medium), two below 1024 px (wide), then six.
+3. **Feature** (`.blip-feature`): a candy box (panel or soft) with an icon, a title and text.
+4. **Media** (`.blip-feature-media`): the lead's picture slot; it grows to fill the lead's two rows.
+5. **Stat** (`.blip-feature-stat`): Pixel Bop at scale 3, POP, and its caption.
+6. **Chips** (`.blip-feature-chips`): small soft boxes in a row.
 
 ## Variants
 

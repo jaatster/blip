@@ -1,8 +1,8 @@
 ---
 name: Tabs
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: tabs.css
-element: chu-tabs
+element: blip-tabs
 react: Tabs
 status: beta
 equivalents:
@@ -19,37 +19,37 @@ Views of one thing, one at a time: a row of tabs over a panel. Use tabs to switc
 ## Usage
 
 ```html
-<chu-tabs class="chu-tabs" data-variant="outline">
-  <div class="chu-tabs-list" role="tablist" aria-label="Settings">
-    <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="true">General</button>
-    <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Sound</button>
+<blip-tabs class="blip-tabs" data-variant="outline">
+  <div class="blip-tabs-list" role="tablist" aria-label="Settings">
+    <button class="blip-box blip-tab" data-variant="outline" role="tab" aria-selected="true">General</button>
+    <button class="blip-box blip-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Sound</button>
   </div>
-  <div class="chu-tabs-panel" role="tabpanel">…</div>
-  <div class="chu-tabs-panel" role="tabpanel" hidden>…</div>
-</chu-tabs>
+  <div class="blip-tabs-panel" role="tabpanel">…</div>
+  <div class="blip-tabs-panel" role="tabpanel" hidden>…</div>
+</blip-tabs>
 ```
 
-`<chu-tabs>` (from `@jaatster/blip-elements/tabs.js`) wires the ids, `aria-controls` and `aria-labelledby`, moves with the
+`<blip-tabs>` (from `@blip/elements/tabs.js`) wires the ids, `aria-controls` and `aria-labelledby`, moves with the
 arrow keys and shows the selected panel. Without it the markup still shows the selected panel, and a row too long for
 its box still scrolls.
 
 ## Anatomy
 
-1. **List**: `.chu-tabs-list`, `role="tablist"`. A row that scrolls sideways when it is too long. Paper cannot
+1. **List**: `.blip-tabs-list`, `role="tablist"`. A row that scrolls sideways when it is too long. Paper cannot
    scroll: printed, the row wraps, every tab in sight, and the scroll buttons stay off.
 2. **Tab**: a candy box, `role="tab"`, upper-case label; an icon before it or a muted count after it are fine.
-3. **Panel**: `.chu-tabs-panel`, `role="tabpanel"`. Add `chu-box` and `data-variant="panel"` when it wants a frame.
+3. **Panel**: `.blip-tabs-panel`, `role="tabpanel"`. Add `blip-box` and `data-variant="panel"` when it wants a frame.
 4. **Arrow** (`data-arrow`): the TV's pointer arrow, ink outline and accent fill, over the selected tab.
-5. **Scroll buttons**: added by `<chu-tabs>` while the row overflows; soft boxes with pixel chevrons that scroll it a
+5. **Scroll buttons**: added by `<blip-tabs>` while the row overflows; soft boxes with pixel chevrons that scroll it a
    few tabs at a time, in four steps.
 
 ## Variants
 
 | Attribute | Values | Use |
 |---|---|---|
-| `data-variant` on `.chu-tabs` | `candy` (default), `soft`, `outline`, `underline` | Candy and soft tabs rest in cream; the selected one takes the accent and sits in. Outline for dense, app-like screens. Underline for quiet page sections. Each tab carries the matching box tier: none (candy), `soft`, `outline`, or `ghost` (underline); `<chu-tabs>` fills it in when it is missing. |
-| `data-size` on `.chu-tabs` | `sm` (16 pixels high), `md` (20, default), `lg` (24) | The heights of buttons: 32, 40 and 48 CSS px at the default pixel. |
-| `data-arrow` on `.chu-tabs` | | The pointer arrow over the selected tab bobs for a few beats, then rests. It needs CSS anchor positioning; other browsers show no arrow (the selected tab still sits in). |
+| `data-variant` on `.blip-tabs` | `candy` (default), `soft`, `outline`, `underline` | Candy and soft tabs rest in cream; the selected one takes the accent and sits in. Outline for dense, app-like screens. Underline for quiet page sections. Each tab carries the matching box tier: none (candy), `soft`, `outline`, or `ghost` (underline); `<blip-tabs>` fills it in when it is missing. |
+| `data-size` on `.blip-tabs` | `sm` (16 pixels high), `md` (20, default), `lg` (24) | The heights of buttons: 32, 40 and 48 CSS px at the default pixel. |
+| `data-arrow` on `.blip-tabs` | | The pointer arrow over the selected tab bobs for a few beats, then rests. It needs CSS anchor positioning; other browsers show no arrow (the selected tab still sits in). |
 | `aria-orientation="vertical"` on the list | | Tabs down the side, the panel beside them. Under 480 px they become a scrolling row again. |
 | `data-tone` on a tab | any box tone | A tab that keeps its own colour (inventory categories). It still sits in when selected. |
 
@@ -87,7 +87,7 @@ Follows the WAI-ARIA Authoring Practices Tabs pattern.
 ## Content
 
 - One or two words per tab, written in sentence case (CSS sets upper case).
-- A count goes after the label in a muted span: `Reports <span class="chu-muted">12</span>`.
+- A count goes after the label in a muted span: `Reports <span class="blip-muted">12</span>`.
 - Two to seven tabs. More than that is a sidebar or a select.
 
 ## Do and don't
@@ -99,7 +99,7 @@ Follows the WAI-ARIA Authoring Practices Tabs pattern.
 
 ## API
 
-### `<chu-tabs>`
+### `<blip-tabs>`
 
 | Attribute or property | Type | |
 |---|---|---|
@@ -111,7 +111,7 @@ Follows the WAI-ARIA Authoring Practices Tabs pattern.
 
 | Event | Detail | |
 |---|---|---|
-| `chu-change` | `{ value, index, tab, panel }` | After the person selects a tab. Bubbles. |
+| `blip-change` | `{ value, index, tab, panel }` | After the person selects a tab. Bubbles. |
 
 Panels are paired with tabs by `aria-controls`, or by order when it is missing. Tabs and panels added or removed
 later (a framework rendering them once data arrives) are wired as they come; when the selected tab goes, the one
@@ -121,6 +121,6 @@ in its place is selected (no event).
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-r` with `--chu-shape`, `--chu-shape-inner` | 4 (sm 3, underline 2) | On `.chu-tab`. |
-| `--chu-band-top`, `--chu-band-bottom` | 4, 4 (sm 3, 3) | On `.chu-tab`; underline uses the bottom band as its bar (2). |
-| `--chu-tone`, `--chu-tone-light`, `--chu-tone-shade`, `--chu-tone-on` | accent | A custom tone on a tab. |
+| `--blip-r` with `--blip-shape`, `--blip-shape-inner` | 4 (sm 3, underline 2) | On `.blip-tab`. |
+| `--blip-band-top`, `--blip-band-bottom` | 4, 4 (sm 3, 3) | On `.blip-tab`; underline uses the bottom band as its bar (2). |
+| `--blip-tone`, `--blip-tone-light`, `--blip-tone-shade`, `--blip-tone-on` | accent | A custom tone on a tab. |

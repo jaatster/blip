@@ -1,6 +1,6 @@
 ---
 /**
- * Diagnostics: every CHU- code found in the packages' source when the site builds, where it is raised, the message,
+ * Diagnostics: every BLIP- code found in the packages' source when the site builds, where it is raised, the message,
  * and what it means. A code that appears in the source without a note here still shows, with its message.
  */
 import Docs from "../layouts/Docs.astro";
@@ -17,7 +17,7 @@ const shared = codes.filter(([c]) => NOTES[c]?.shared);
 ---
 <Docs title="Diagnostics" description="Blip's diagnostic codes: what each warning and build error means, where it comes from, and how to fix it." headings={[H("how", "How diagnostics work"), H("runtime", "In the browser"), H("build", "When the tokens build")]}>
   <header class="docs-page-head">
-    <h1 class="docs-page-title chu-display" data-scale="2">Diagnostics</h1>
+    <h1 class="docs-page-title blip-display" data-scale="2">Diagnostics</h1>
     <p class="docs-lede">Blip explains itself. In development, elements warn in the console with a code and a link here; the token build stops with a code, the file, the exact spot and the fix. These {codes.length} codes were found in the source when this site was built.</p>
   </header>
 
@@ -36,18 +36,18 @@ const shared = codes.filter(([c]) => NOTES[c]?.shared);
         {(list as typeof codes).map(([code, occ]) => {
           const note = NOTES[code];
           return (
-            <article class="chu-box docs-diag" data-variant="panel" id={code.toLowerCase()} aria-labelledby={`${code.toLowerCase()}-title`}>
+            <article class="blip-box docs-diag" data-variant="panel" id={code.toLowerCase()} aria-labelledby={`${code.toLowerCase()}-title`}>
               <header class="docs-diag-head">
                 <h3 id={`${code.toLowerCase()}-title`}><code class="docs-diag-code">{code}</code> {note?.title ?? occ[0]!.message}</h3>
-                <span class="chu-box chu-tag" data-size="sm" data-tone={code.at(-4) === "A" ? "warning" : code.startsWith("CHU-T0") && occ[0]!.file.includes("scripts") ? "danger" : "info"}>{families[code.at(-4)!] ?? "Blip"}</span>
+                <span class="blip-box blip-tag" data-size="sm" data-tone={code.at(-4) === "A" ? "warning" : code.startsWith("BLIP-T0") && occ[0]!.file.includes("scripts") ? "danger" : "info"}>{families[code.at(-4)!] ?? "Blip"}</span>
               </header>
               {note?.why && <p>{note.why}</p>}
               <ul class="docs-diag-where" role="list">
                 {occ.map((o) => (
                   <li>
                     <span class="docs-diag-msg">{o.message}</span>
-                    <span class="chu-small chu-muted"><code class="docs-inline-code">{o.file.replace(/^packages\//, "")}:{o.line}</code></span>
-                    {o.fix && <span class="chu-small"><strong>Fix:</strong> {o.fix}</span>}
+                    <span class="blip-small blip-muted"><code class="docs-inline-code">{o.file.replace(/^packages\//, "")}:{o.line}</code></span>
+                    {o.fix && <span class="blip-small"><strong>Fix:</strong> {o.fix}</span>}
                   </li>
                 ))}
               </ul>

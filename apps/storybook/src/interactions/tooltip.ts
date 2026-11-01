@@ -1,5 +1,5 @@
 /**
- * <chu-tooltip> interaction tests, on the example's live "Save" tooltip: it describes its trigger, shows after a beat
+ * <blip-tooltip> interaction tests, on the example's live "Save" tooltip: it describes its trigger, shows after a beat
  * on hover and hides when the pointer leaves, shows at once on keyboard focus, and Escape hides it while the trigger
  * keeps focus (WCAG 1.4.13: dismissable without moving).
  */
@@ -9,7 +9,7 @@ import { escape, focused, hover, one, press, unhover } from "../lib/play";
 
 const saveTip = (root: HTMLElement) => {
   const trigger = one<HTMLButtonElement>(root, "button#tip-save");
-  const tip = one<HTMLElement>(root, 'chu-tooltip[for="tip-save"]');
+  const tip = one<HTMLElement>(root, 'blip-tooltip[for="tip-save"]');
   const shown = () => tip.matches(":popover-open");
   return { trigger, tip, shown };
 };

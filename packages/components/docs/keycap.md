@@ -1,6 +1,6 @@
 ---
 name: Keycap
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: keycap.css
 element: null
 react: Keycap
@@ -18,16 +18,16 @@ to tell people which key or button to press, in text, in menus and in game promp
 ## Usage
 
 ```html
-Press <kbd class="chu-box chu-keycap">Esc</kbd> to pause.
-<kbd class="chu-keys"><kbd class="chu-box chu-keycap">Ctrl</kbd>+<kbd class="chu-box chu-keycap">K</kbd></kbd>
-<kbd class="chu-box chu-keycap" data-size="lg" data-tone="green">A</kbd> Jump
+Press <kbd class="blip-box blip-keycap">Esc</kbd> to pause.
+<kbd class="blip-keys"><kbd class="blip-box blip-keycap">Ctrl</kbd>+<kbd class="blip-box blip-keycap">K</kbd></kbd>
+<kbd class="blip-box blip-keycap" data-size="lg" data-tone="green">A</kbd> Jump
 ```
 
 ## Anatomy
 
 1. **Key**: a candy box with a one-pixel light band and a thick shade band (three pixels), radius 2.
 2. **Label**: Pixelify Sans, bold, upper case, on the key's face above the shade.
-3. **Combination** (optional): `.chu-keys`, an outer `<kbd>` holding keys with a quiet "+" between them.
+3. **Combination** (optional): `.blip-keys`, an outer `<kbd>` holding keys with a quiet "+" between them.
 
 ## Variants
 
@@ -35,7 +35,7 @@ Press <kbd class="chu-box chu-keycap">Esc</kbd> to pause.
 |---|---|---|
 | `data-size` | `sm` (10 pixels), `md` (12, default), `lg` (16) | `md` sits in body text; `lg` for prompts and shortcut sheets. With a bigger default text size, keys grow with their labels, in whole pixels. |
 | `data-tone` | `neutral`, cream (default), any tone or candy | Coloured keys for a gamepad's buttons (A green, B red, X blue, Y slate). |
-| `data-chu-pressed` | | Shows a key held down: it sits in its drop (key tests, tutorials). |
+| `data-blip-pressed` | | Shows a key held down: it sits in its drop (key tests, tutorials). |
 
 ## States
 
@@ -62,10 +62,10 @@ A keycap is a picture of a key, not a control: no hover, no focus.
 
 | Class | |
 |---|---|
-| `.chu-keycap` | The key. Use with `.chu-box` on a `<kbd>`. |
-| `.chu-keys` | The combination wrapper (an outer `<kbd>`). |
+| `.blip-keycap` | The key. Use with `.blip-box` on a `<kbd>`. |
+| `.blip-keys` | The combination wrapper (an outer `<kbd>`). |
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-band-top`, `--chu-band-bottom` | 1, 3 (lg 2, 4) | The key's light and shade bands, in pixels. |
-| `--chu-tone`, `--chu-tone-light`, `--chu-tone-shade`, `--chu-tone-on` | cream | A custom colour. |
+| `--blip-band-top`, `--blip-band-bottom` | 1, 3 (lg 2, 4) | The key's light and shade bands, in pixels. |
+| `--blip-tone`, `--blip-tone-light`, `--blip-tone-shade`, `--blip-tone-on` | cream | A custom colour. |

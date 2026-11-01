@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Blip's diagnostic codes, read from the source: every CHU-XNNN code a package raises (with `warn()`,
+ * Blip's diagnostic codes, read from the source: every BLIP-XNNN code a package raises (with `warn()`,
  * `checkName()`, `console.warn` or the token build's `problem()`), where, and with what message. The table of codes
  * in CONTRACT.md is written from this list, so it never falls behind the source.
  *
@@ -24,7 +24,7 @@ export const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
  * line here (the script fails until it has one).
  */
 export const RANGES = {
-  T: "Reading the token files and the resolver (`CHU-T003` also: a resolver with no `scheme` or `pixel` modifier; `CHU-T005` a palette that sets a token the default palette does not have), token names, types, values (colours, dimensions, durations, whole pixels, font families and weights), aliases, and contrast, in every scheme of every palette: `CHU-T060` a text pair under AA, labels on a disabled control's dither included; `CHU-T061` the focus ring under 3:1; `CHU-T062` a candy's label, and white on slate's ink dither",
+  T: "Reading the token files and the resolver (`BLIP-T003` also: a resolver with no `scheme` or `pixel` modifier; `BLIP-T005` a palette that sets a token the default palette does not have), token names, types, values (colours, dimensions, durations, whole pixels, font families and weights), aliases, and contrast, in every scheme of every palette: `BLIP-T060` a text pair under AA, labels on a disabled control's dither included; `BLIP-T061` the focus ring under 3:1; `BLIP-T062` a candy's label, and white on slate's ink dither",
   A: "Accessibility: a control or a dialog without an accessible name",
   E: "An element without the native markup it upgrades: a control, a `<dialog>`, a tooltip's trigger",
   N: "A navigation element without the parts it wires together",
@@ -84,7 +84,7 @@ export function scan(root = ROOT) {
     const comment = rel.endsWith(".py") ? /^\s*#/ : /^\s*(\*|\/\/|\/\*)/;
     lines.forEach((line, i) => {
       if (comment.test(line)) return;
-      for (const m of line.matchAll(/CHU-[A-Z]\d{3}/g)) {
+      for (const m of line.matchAll(/BLIP-[A-Z]\d{3}/g)) {
         const code = m[0];
         let message;
         let fix;
@@ -96,7 +96,7 @@ export function scan(root = ROOT) {
         } else if (at("warn") >= 0 && !line.includes("console.warn")) {
           message = literal(callArgs(line, at("warn") + "warn".length)[1]);
         } else if (line.includes("console.warn")) {
-          message = literal(callArgs(line, line.indexOf("console.warn(") + "console.warn".length)[0])?.replace(/^Blip CHU-[A-Z]\d{3}:\s*/, "");
+          message = literal(callArgs(line, line.indexOf("console.warn(") + "console.warn".length)[0])?.replace(/^Blip BLIP-[A-Z]\d{3}:\s*/, "");
         } else if (/checkName\(/.test(line)) message = "<element> has no accessible name. Add text or aria-label.";
         if (!message) continue;
         const list = codes.get(code) ?? [];
@@ -121,8 +121,8 @@ export function scan(root = ROOT) {
 
 // ------------------------------------------------------------------ who raises them
 
-/** The tags a module defines (`define("chu-x"` or `BlipElement.define("chu-x"`). */
-const tagsIn = (text) => [...text.matchAll(/define\(\s*["'](chu-[a-z0-9-]+)["']/g)].map((m) => m[1]);
+/** The tags a module defines (`define("blip-x"` or `BlipElement.define("blip-x"`). */
+const tagsIn = (text) => [...text.matchAll(/define\(\s*["'](blip-[a-z0-9-]+)["']/g)].map((m) => m[1]);
 
 /** What raises a code at this place, in words: an element's tag, a function, or the token build. */
 function raiser(root, file) {
@@ -139,13 +139,13 @@ function raiser(root, file) {
     if (tags.length) return tags.map((t) => `\`<${t}>\``).join(", ");
   }
   const pkg = file.split("/")[1];
-  if (/checkName\(/.test(text)) return `\`checkName()\` in \`@jaatster/blip-${pkg}\``;
-  return `\`@jaatster/blip-${pkg}\``;
+  if (/checkName\(/.test(text)) return `\`checkName()\` in \`@blip/${pkg}\``;
+  return `\`@blip/${pkg}\``;
 }
 
 // ------------------------------------------------------------------ the table
 
-/** "`CHU-T001` to `CHU-T004`, `CHU-T010`, `CHU-T020` and `CHU-T021`": runs of consecutive codes. */
+/** "`BLIP-T001` to `BLIP-T004`, `BLIP-T010`, `BLIP-T020` and `BLIP-T021`": runs of consecutive codes. */
 export function runs(codes) {
   const nums = codes.map((c) => ({ c, n: Number(c.slice(-3)) })).sort((a, b) => a.n - b.n);
   const out = [];
@@ -167,7 +167,7 @@ export function table(codes, root = ROOT) {
   const byPrefix = new Map();
   for (const [code, occ] of codes) {
     const p = code.at(-4);
-    if (!RANGES[p]) throw new Error(`diagnostics: ${code} (${occ[0].file}:${occ[0].line}) starts a new range, CHU-${p}. Add what it covers to RANGES in scripts/diagnostics.mjs.`);
+    if (!RANGES[p]) throw new Error(`diagnostics: ${code} (${occ[0].file}:${occ[0].line}) starts a new range, BLIP-${p}. Add what it covers to RANGES in scripts/diagnostics.mjs.`);
     const row = byPrefix.get(p) ?? { codes: [], raisers: new Set() };
     row.codes.push(code);
     for (const o of occ) row.raisers.add(raiser(root, o.file));
@@ -178,16 +178,16 @@ export function table(codes, root = ROOT) {
   return [
     "| Range | Raised by | Covers | Codes today |",
     "|---|---|---|---|",
-    ...rows.map(([p, r]) => `| \`CHU-${p}\` | ${cap([...r.raisers].join(", "))} | ${RANGES[p]} | ${runs(r.codes)} |`),
+    ...rows.map(([p, r]) => `| \`BLIP-${p}\` | ${cap([...r.raisers].join(", "))} | ${RANGES[p]} | ${runs(r.codes)} |`),
   ].join("\n");
 }
 
-/** Every code a markdown table lists, with runs ("`CHU-T001` to `CHU-T004`") expanded. */
+/** Every code a markdown table lists, with runs ("`BLIP-T001` to `BLIP-T004`") expanded. */
 export function codesIn(markdown) {
   const out = new Set();
   for (const line of markdown.split("\n").filter((l) => l.startsWith("|"))) {
-    for (const m of line.matchAll(/`CHU-([A-Z])(\d{3})` to `CHU-\1(\d{3})`/g)) for (let n = Number(m[2]); n <= Number(m[3]); n++) out.add(`CHU-${m[1]}${String(n).padStart(3, "0")}`);
-    for (const m of line.matchAll(/CHU-[A-Z]\d{3}/g)) out.add(m[0]);
+    for (const m of line.matchAll(/`BLIP-([A-Z])(\d{3})` to `BLIP-\1(\d{3})`/g)) for (let n = Number(m[2]); n <= Number(m[3]); n++) out.add(`BLIP-${m[1]}${String(n).padStart(3, "0")}`);
+    for (const m of line.matchAll(/BLIP-[A-Z]\d{3}/g)) out.add(m[0]);
   }
   return out;
 }

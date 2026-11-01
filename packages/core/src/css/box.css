@@ -9,82 +9,82 @@
  *   drop          the outline's shape again, one pixel down and to the right
  *
  * Every edge is snapped to whole pixels from the box's own top-left corner, so a box of any size has crisp corners.
- * Put `chu-box` on the element (components add it for you), then set the tier with data-variant and the colour
+ * Put `blip-box` on the element (components add it for you), then set the tier with data-variant and the colour
  * with data-tone. States follow one rule each, for every component:
  *
  *   hover      lifts one pixel, in a white     pressed    sits in its drop
  *              ring with an ink edge (the TV's)
  *   focus      yellow ring with an ink edge    selected   sits in, bands swap (light below, shade above), and
  *   disabled   dithered with a light colour               an ink shadow runs inside its top and left (candy, soft)
- *              (--chu-disabled-dither)          busy       three stepped dots replace the label
+ *              (--blip-disabled-dither)          busy       three stepped dots replace the label
  *
  * Soft and candy boxes are light in every scheme, so what sits on them (text, links, fields, calm buttons) takes the
  * light roles. In Windows high contrast, on is the system highlight. On paper, boxes print as they look.
  *
- * data-chu-state="hover focus active" forces those looks without the pointer or keyboard: for docs, tests and
+ * data-blip-state="hover focus active" forces those looks without the pointer or keyboard: for docs, tests and
  * screenshots. Never use it to show real state.
  */
 @import "./print.css";
 
-@property --_chu-dot-1 { syntax: "<length>"; inherits: false; initial-value: 0px; }
-@property --_chu-dot-2 { syntax: "<length>"; inherits: false; initial-value: 0px; }
-@property --_chu-dot-3 { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --_blip-dot-1 { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --_blip-dot-2 { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --_blip-dot-3 { syntax: "<length>"; inherits: false; initial-value: 0px; }
 
-@layer chu.core {
-  .chu-box {
-    /* Public: shape. Set --chu-r and the two matching shapes together (or use .chu-r-N / data-chu-r). */
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
+@layer blip.core {
+  .blip-box {
+    /* Public: shape. Set --blip-r and the two matching shapes together (or use .blip-r-N / data-blip-r). */
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
     /* Public: bands and drop, in pixels. */
-    --chu-band-top: 2;
-    --chu-band-bottom: 2;
-    --chu-drop-size: 1;
+    --blip-band-top: 2;
+    --blip-band-bottom: 2;
+    --blip-drop-size: 1;
     /* Public: tone. data-tone sets these four. */
-    --chu-tone: var(--chu-accent);
-    --chu-tone-light: var(--chu-accent-light);
-    --chu-tone-shade: var(--chu-accent-shade);
-    --chu-tone-on: var(--chu-accent-on);
-    --chu-tone-text: var(--chu-accent-text);
+    --blip-tone: var(--blip-accent);
+    --blip-tone-light: var(--blip-accent-light);
+    --blip-tone-shade: var(--blip-accent-shade);
+    --blip-tone-on: var(--blip-accent-on);
+    --blip-tone-text: var(--blip-accent-text);
     /* Public: what the tier paints. data-variant sets these. */
-    --chu-box-outline: var(--chu-outline);
-    --chu-box-top: var(--chu-tone-light);
-    --chu-box-fill: var(--chu-tone);
-    --chu-box-bottom: var(--chu-tone-shade);
-    --chu-box-text: var(--chu-tone-on);
-    --chu-box-glint: var(--chu-white);
-    --chu-box-dither: transparent;
+    --blip-box-outline: var(--blip-outline);
+    --blip-box-top: var(--blip-tone-light);
+    --blip-box-fill: var(--blip-tone);
+    --blip-box-bottom: var(--blip-tone-shade);
+    --blip-box-text: var(--blip-tone-on);
+    --blip-box-glint: var(--blip-white);
+    --blip-box-dither: transparent;
 
     /* Private. */
-    --_p: var(--chu-pixel);
-    --_t: calc((var(--chu-r) + 1) * var(--_p));
-    --_chu-drop: calc((var(--chu-drop-size) + var(--_chu-lift, 0)) * var(--_chu-drop-on, 1) * var(--_p));
-    --_chu-glint: max(2, round(up, var(--chu-r) * 0.7, 1));
+    --_p: var(--blip-pixel);
+    --_t: calc((var(--blip-r) + 1) * var(--_p));
+    --_blip-drop: calc((var(--blip-drop-size) + var(--_blip-lift, 0)) * var(--_blip-drop-on, 1) * var(--_p));
+    --_blip-glint: max(2, round(up, var(--blip-r) * 0.7, 1));
     /* How far the fill's two cross strips reach into its corner tiles: a pixel (none at radius 0, whose inner tiles
        are empty). Where a pixel falls between screen pixels (125%, 150% at odd positions, 175%), two layers that
        only touch would each half-cover the screen pixel on their edge and let the outline show through as a seam;
        overlapped, the strip covers it. */
-    --_chu-o: min(var(--_p), var(--_t) - var(--_p));
+    --_blip-o: min(var(--_p), var(--_t) - var(--_p));
     /* 1 while on (see the states): each box sets its own, so a box inside an "on" box keeps its own face. */
-    --_chu-sunk: 0;
+    --_blip-sunk: 0;
 
     /* Public, read-only: the fill's mask (inside the outline). A child with inset: 0 can use these with
-       mask-image: var(--chu-shape-inner) to stay inside the box (glints, pictures). */
-    --chu-box-mask-size:
+       mask-image: var(--blip-shape-inner) to stay inside the box (glints, pictures). */
+    --blip-box-mask-size:
       var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t),
-      calc(round(down, 100%, var(--_p)) - 2 * var(--_t) + 2 * var(--_chu-o)) calc(round(down, 100%, var(--_p)) - 2 * var(--_p)),
-      calc(round(down, 100%, var(--_p)) - 2 * var(--_p)) calc(round(down, 100%, var(--_p)) - 2 * var(--_t) + 2 * var(--_chu-o));
-    --chu-box-mask-position:
+      calc(round(down, 100%, var(--_p)) - 2 * var(--_t) + 2 * var(--_blip-o)) calc(round(down, 100%, var(--_p)) - 2 * var(--_p)),
+      calc(round(down, 100%, var(--_p)) - 2 * var(--_p)) calc(round(down, 100%, var(--_p)) - 2 * var(--_t) + 2 * var(--_blip-o));
+    --blip-box-mask-position:
       left 0 top 0,
       left calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)) top 0,
       left 0 top calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)),
       left calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)) top calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)),
-      left calc(var(--_t) - var(--_chu-o)) top var(--_p),
-      left var(--_p) top calc(var(--_t) - var(--_chu-o));
+      left calc(var(--_t) - var(--_blip-o)) top var(--_p),
+      left var(--_p) top calc(var(--_t) - var(--_blip-o));
 
     position: relative;
     isolation: isolate;
-    color: var(--chu-box-text);
+    color: var(--blip-box-text);
     background: none;
     /* Owned here, so an app's own button { } rule can't shadow the box or round its forced-colours border. */
     border: 0;
@@ -95,102 +95,102 @@
   /* Ink: the outline, and its copy one drop down and right. Both shapes are snapped to whole pixels, and each
      shape's cross strips reach a pixel into its corner tiles (whose last row and column are always solid), so the
      layers overlap instead of meeting edge to edge. */
-  .chu-box::before {
+  .blip-box::before {
     content: "";
     position: absolute;
-    inset: 0 calc(-1 * var(--_chu-drop)) calc(-1 * var(--_chu-drop)) 0;
+    inset: 0 calc(-1 * var(--_blip-drop)) calc(-1 * var(--_blip-drop)) 0;
     z-index: -1;
     pointer-events: none;
-    background: var(--chu-box-outline);
-    mask-image: var(--chu-shape), var(--chu-shape);
+    background: var(--blip-box-outline);
+    mask-image: var(--blip-shape), var(--blip-shape);
     mask-repeat: no-repeat;
     mask-size:
       var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t),
-      calc(round(down, 100% - var(--_chu-drop), var(--_p)) - 2 * var(--_t) + 2 * var(--_p)) round(down, 100% - var(--_chu-drop), var(--_p)),
-      round(down, 100% - var(--_chu-drop), var(--_p)) calc(round(down, 100% - var(--_chu-drop), var(--_p)) - 2 * var(--_t) + 2 * var(--_p)),
+      calc(round(down, 100% - var(--_blip-drop), var(--_p)) - 2 * var(--_t) + 2 * var(--_p)) round(down, 100% - var(--_blip-drop), var(--_p)),
+      round(down, 100% - var(--_blip-drop), var(--_p)) calc(round(down, 100% - var(--_blip-drop), var(--_p)) - 2 * var(--_t) + 2 * var(--_p)),
       var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t),
-      calc(round(down, 100% - var(--_chu-drop), var(--_p)) - 2 * var(--_t) + 2 * var(--_p)) round(down, 100% - var(--_chu-drop), var(--_p)),
-      round(down, 100% - var(--_chu-drop), var(--_p)) calc(round(down, 100% - var(--_chu-drop), var(--_p)) - 2 * var(--_t) + 2 * var(--_p));
+      calc(round(down, 100% - var(--_blip-drop), var(--_p)) - 2 * var(--_t) + 2 * var(--_p)) round(down, 100% - var(--_blip-drop), var(--_p)),
+      round(down, 100% - var(--_blip-drop), var(--_p)) calc(round(down, 100% - var(--_blip-drop), var(--_p)) - 2 * var(--_t) + 2 * var(--_p));
     mask-position:
       left 0 top 0,
-      left calc(round(down, 100% + var(--_t) - var(--_chu-drop), var(--_p)) - var(--_t)) top 0,
-      left 0 top calc(round(down, 100% + var(--_t) - var(--_chu-drop), var(--_p)) - var(--_t)),
-      left calc(round(down, 100% + var(--_t) - var(--_chu-drop), var(--_p)) - var(--_t)) top calc(round(down, 100% + var(--_t) - var(--_chu-drop), var(--_p)) - var(--_t)),
+      left calc(round(down, 100% + var(--_t) - var(--_blip-drop), var(--_p)) - var(--_t)) top 0,
+      left 0 top calc(round(down, 100% + var(--_t) - var(--_blip-drop), var(--_p)) - var(--_t)),
+      left calc(round(down, 100% + var(--_t) - var(--_blip-drop), var(--_p)) - var(--_t)) top calc(round(down, 100% + var(--_t) - var(--_blip-drop), var(--_p)) - var(--_t)),
       left calc(var(--_t) - var(--_p)) top 0,
       left 0 top calc(var(--_t) - var(--_p)),
-      left var(--_chu-drop) top var(--_chu-drop),
-      left calc(round(down, 100% + var(--_t) - var(--_chu-drop), var(--_p)) - var(--_t) + var(--_chu-drop)) top var(--_chu-drop),
-      left var(--_chu-drop) top calc(round(down, 100% + var(--_t) - var(--_chu-drop), var(--_p)) - var(--_t) + var(--_chu-drop)),
-      left calc(round(down, 100% + var(--_t) - var(--_chu-drop), var(--_p)) - var(--_t) + var(--_chu-drop)) top calc(round(down, 100% + var(--_t) - var(--_chu-drop), var(--_p)) - var(--_t) + var(--_chu-drop)),
-      left calc(var(--_t) - var(--_p) + var(--_chu-drop)) top var(--_chu-drop),
-      left var(--_chu-drop) top calc(var(--_t) - var(--_p) + var(--_chu-drop));
+      left var(--_blip-drop) top var(--_blip-drop),
+      left calc(round(down, 100% + var(--_t) - var(--_blip-drop), var(--_p)) - var(--_t) + var(--_blip-drop)) top var(--_blip-drop),
+      left var(--_blip-drop) top calc(round(down, 100% + var(--_t) - var(--_blip-drop), var(--_p)) - var(--_t) + var(--_blip-drop)),
+      left calc(round(down, 100% + var(--_t) - var(--_blip-drop), var(--_p)) - var(--_t) + var(--_blip-drop)) top calc(round(down, 100% + var(--_t) - var(--_blip-drop), var(--_p)) - var(--_t) + var(--_blip-drop)),
+      left calc(var(--_t) - var(--_p) + var(--_blip-drop)) top var(--_blip-drop),
+      left var(--_blip-drop) top calc(var(--_t) - var(--_p) + var(--_blip-drop));
   }
 
-  /* Fill: bands, glints, the disabled dither and the busy dots, inside the outline. On (--_chu-sunk: 1) it starts a
+  /* Fill: bands, glints, the disabled dither and the busy dots, inside the outline. On (--_blip-sunk: 1) it starts a
      pixel lower and further in, so the ink behind it shows as a shadow along the top and left, round the corners.
      Each glint's layer starts a pixel higher, see-through there: its top is then a stop inside its gradient, which
      the browser draws where it draws the band's own last row, not a layer's edge that only part covers the screen row
      it shares with the band (at 150% to 262.5%), so no fill shows between a white band and a white glint (cream).
      The dither's tiles are drawn unsmoothed: at 175% and 262.5% a tile is not a whole number of screen pixels, and
      smoothed, their edges let what lies under them through as a faint grid. */
-  .chu-box::after {
+  .blip-box::after {
     content: "";
     position: absolute;
-    inset: calc(var(--_chu-sunk) * var(--_p)) 0 0 calc(var(--_chu-sunk) * var(--_p));
+    inset: calc(var(--_blip-sunk) * var(--_p)) 0 0 calc(var(--_blip-sunk) * var(--_p));
     z-index: -1;
     pointer-events: none;
     background:
-      linear-gradient(var(--chu-box-text) 0 0) left calc(round(down, 50%, var(--_p)) - 4 * var(--_p)) top round(down, 50%, var(--_p)) / var(--_chu-dot-1) var(--_chu-dot-1) no-repeat,
-      linear-gradient(var(--chu-box-text) 0 0) left round(down, 50%, var(--_p)) top round(down, 50%, var(--_p)) / var(--_chu-dot-2) var(--_chu-dot-2) no-repeat,
-      linear-gradient(var(--chu-box-text) 0 0) left calc(round(down, 50%, var(--_p)) + 4 * var(--_p)) top round(down, 50%, var(--_p)) / var(--_chu-dot-3) var(--_chu-dot-3) no-repeat,
-      repeating-conic-gradient(var(--chu-box-dither) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--_p)) calc(2 * var(--_p)),
-      linear-gradient(transparent 50%, var(--chu-box-glint) 0) left calc(var(--_chu-glint) * var(--_p)) top var(--_p) / calc(2 * var(--_p)) calc(2 * var(--_p)) no-repeat,
-      linear-gradient(transparent 50%, var(--chu-box-glint) 0) left calc((var(--_chu-glint) - 1) * var(--_p)) top calc(2 * var(--_p)) / var(--_p) calc(2 * var(--_p)) no-repeat,
-      linear-gradient(transparent 50%, var(--chu-box-glint) 0) left calc(round(down, 100% + var(--_p), var(--_p)) - (var(--_chu-glint) + 1) * var(--_p)) top var(--_p) / var(--_p) calc(2 * var(--_p)) no-repeat,
+      linear-gradient(var(--blip-box-text) 0 0) left calc(round(down, 50%, var(--_p)) - 4 * var(--_p)) top round(down, 50%, var(--_p)) / var(--_blip-dot-1) var(--_blip-dot-1) no-repeat,
+      linear-gradient(var(--blip-box-text) 0 0) left round(down, 50%, var(--_p)) top round(down, 50%, var(--_p)) / var(--_blip-dot-2) var(--_blip-dot-2) no-repeat,
+      linear-gradient(var(--blip-box-text) 0 0) left calc(round(down, 50%, var(--_p)) + 4 * var(--_p)) top round(down, 50%, var(--_p)) / var(--_blip-dot-3) var(--_blip-dot-3) no-repeat,
+      repeating-conic-gradient(var(--blip-box-dither) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--_p)) calc(2 * var(--_p)),
+      linear-gradient(transparent 50%, var(--blip-box-glint) 0) left calc(var(--_blip-glint) * var(--_p)) top var(--_p) / calc(2 * var(--_p)) calc(2 * var(--_p)) no-repeat,
+      linear-gradient(transparent 50%, var(--blip-box-glint) 0) left calc((var(--_blip-glint) - 1) * var(--_p)) top calc(2 * var(--_p)) / var(--_p) calc(2 * var(--_p)) no-repeat,
+      linear-gradient(transparent 50%, var(--blip-box-glint) 0) left calc(round(down, 100% + var(--_p), var(--_p)) - (var(--_blip-glint) + 1) * var(--_p)) top var(--_p) / var(--_p) calc(2 * var(--_p)) no-repeat,
       linear-gradient(to bottom,
-        var(--chu-box-top) 0 calc((var(--chu-band-top) + 1) * var(--_p)),
-        var(--chu-box-fill) 0 calc(round(down, 100%, var(--_p)) - (var(--chu-band-bottom) + 1) * var(--_p)),
-        var(--chu-box-bottom) 0);
-    mask-image: var(--chu-shape-inner);
+        var(--blip-box-top) 0 calc((var(--blip-band-top) + 1) * var(--_p)),
+        var(--blip-box-fill) 0 calc(round(down, 100%, var(--_p)) - (var(--blip-band-bottom) + 1) * var(--_p)),
+        var(--blip-box-bottom) 0);
+    mask-image: var(--blip-shape-inner);
     mask-repeat: no-repeat;
-    mask-size: var(--chu-box-mask-size);
-    mask-position: var(--chu-box-mask-position);
+    mask-size: var(--blip-box-mask-size);
+    mask-position: var(--blip-box-mask-position);
     image-rendering: pixelated;
   }
 
   /* ------------------------------------------------------------ tiers */
 
-  .chu-box[data-variant="soft"] {
-    --chu-box-top: var(--chu-tone-light);
-    --chu-box-fill: var(--chu-tone-light);
-    --chu-box-bottom: var(--chu-tone);
-    --chu-box-glint: transparent;
+  .blip-box[data-variant="soft"] {
+    --blip-box-top: var(--blip-tone-light);
+    --blip-box-fill: var(--blip-tone-light);
+    --blip-box-bottom: var(--blip-tone);
+    --blip-box-glint: transparent;
   }
-  .chu-box[data-variant="outline"] {
-    --chu-box-outline: var(--chu-line);
-    --chu-box-top: var(--chu-surface);
-    --chu-box-fill: var(--chu-surface);
-    --chu-box-bottom: var(--chu-surface);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
-    --chu-drop-size: 0;
+  .blip-box[data-variant="outline"] {
+    --blip-box-outline: var(--blip-line);
+    --blip-box-top: var(--blip-surface);
+    --blip-box-fill: var(--blip-surface);
+    --blip-box-bottom: var(--blip-surface);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
+    --blip-drop-size: 0;
   }
-  .chu-box[data-variant="ghost"] {
-    --chu-box-outline: transparent;
-    --chu-box-top: transparent;
-    --chu-box-fill: transparent;
-    --chu-box-bottom: transparent;
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
-    --chu-drop-size: 0;
+  .blip-box[data-variant="ghost"] {
+    --blip-box-outline: transparent;
+    --blip-box-top: transparent;
+    --blip-box-fill: transparent;
+    --blip-box-bottom: transparent;
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
+    --blip-drop-size: 0;
   }
   /* A flat panel: surface fill, ink outline, no bands (cards, windows, menus). */
-  .chu-box[data-variant="panel"] {
-    --chu-box-top: var(--chu-surface);
-    --chu-box-fill: var(--chu-surface);
-    --chu-box-bottom: var(--chu-surface);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
+  .blip-box[data-variant="panel"] {
+    --blip-box-top: var(--blip-surface);
+    --blip-box-fill: var(--blip-surface);
+    --blip-box-bottom: var(--blip-surface);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
   }
 
   /* Soft and candy boxes are light in every scheme, so whatever sits on them (text, links, status words, fields,
@@ -198,74 +198,74 @@
      colour for text and lines, white surfaces, and the box's own colours for wells, dividers and what shows
      through. Not while the box is disabled, so its own dither still shows what is behind it. A component whose
      default tier is soft or candy declares the same for its default (alert.css). */
-  .chu-box:is([data-variant="soft"], [data-variant="candy"]):not(:disabled, [aria-disabled="true"]) {
-    --chu-text: var(--chu-tone-on);
-    --chu-text-muted: var(--chu-tone-on);
-    --chu-text-inverse: var(--chu-white);
-    --chu-accent-text: var(--chu-tone-on);
-    --chu-info-text: var(--chu-tone-on);
-    --chu-success-text: var(--chu-tone-on);
-    --chu-warning-text: var(--chu-tone-on);
-    --chu-danger-text: var(--chu-tone-on);
-    --chu-link-visited: var(--chu-tone-on);
-    --chu-line: var(--chu-tone-on);
-    --chu-line-soft: var(--chu-tone);
-    --chu-surface: var(--chu-white);
-    --chu-surface-raised: var(--chu-white);
-    --chu-surface-panel: var(--chu-candy-cream);
-    --chu-surface-sunken: var(--chu-tone);
-    --chu-bg: var(--chu-tone-light);
-    --chu-disabled-dither: var(--chu-tone-light);
+  .blip-box:is([data-variant="soft"], [data-variant="candy"]):not(:disabled, [aria-disabled="true"]) {
+    --blip-text: var(--blip-tone-on);
+    --blip-text-muted: var(--blip-tone-on);
+    --blip-text-inverse: var(--blip-white);
+    --blip-accent-text: var(--blip-tone-on);
+    --blip-info-text: var(--blip-tone-on);
+    --blip-success-text: var(--blip-tone-on);
+    --blip-warning-text: var(--blip-tone-on);
+    --blip-danger-text: var(--blip-tone-on);
+    --blip-link-visited: var(--blip-tone-on);
+    --blip-line: var(--blip-tone-on);
+    --blip-line-soft: var(--blip-tone);
+    --blip-surface: var(--blip-white);
+    --blip-surface-raised: var(--blip-white);
+    --blip-surface-panel: var(--blip-candy-cream);
+    --blip-surface-sunken: var(--blip-tone);
+    --blip-bg: var(--blip-tone-light);
+    --blip-disabled-dither: var(--blip-tone-light);
   }
   /* On candy, wells take the light band (ink fails AA on some shades) and dividers the shade. */
-  .chu-box[data-variant="candy"]:not(:disabled, [aria-disabled="true"]) {
-    --chu-line-soft: var(--chu-tone-shade);
-    --chu-surface-sunken: var(--chu-tone-light);
-    --chu-bg: var(--chu-tone);
-    --chu-disabled-dither: var(--chu-tone);
+  .blip-box[data-variant="candy"]:not(:disabled, [aria-disabled="true"]) {
+    --blip-line-soft: var(--blip-tone-shade);
+    --blip-surface-sunken: var(--blip-tone-light);
+    --blip-bg: var(--blip-tone);
+    --blip-disabled-dither: var(--blip-tone);
   }
   /* Slate has white labels, so what sits on it is dark. */
-  .chu-box[data-tone="slate"]:is([data-variant="soft"], [data-variant="candy"]):not(:disabled, [aria-disabled="true"]) {
-    --chu-text-inverse: var(--chu-ink);
-    --chu-surface: var(--chu-tone-shade);
-    --chu-surface-raised: var(--chu-tone-shade);
-    --chu-surface-panel: var(--chu-tone-shade);
+  .blip-box[data-tone="slate"]:is([data-variant="soft"], [data-variant="candy"]):not(:disabled, [aria-disabled="true"]) {
+    --blip-text-inverse: var(--blip-ink);
+    --blip-surface: var(--blip-tone-shade);
+    --blip-surface-raised: var(--blip-tone-shade);
+    --blip-surface-panel: var(--blip-tone-shade);
   }
 
   /* ------------------------------------------------------------ tones */
 
-  .chu-box[data-tone="info"], .chu-box[data-tone="success"], .chu-box[data-tone="warning"], .chu-box[data-tone="danger"] {
-    --chu-tone: var(--_chu-i);
-    --chu-tone-light: var(--_chu-il);
-    --chu-tone-shade: var(--_chu-is);
-    --chu-tone-on: var(--_chu-io);
-    --chu-tone-text: var(--_chu-it);
+  .blip-box[data-tone="info"], .blip-box[data-tone="success"], .blip-box[data-tone="warning"], .blip-box[data-tone="danger"] {
+    --blip-tone: var(--_blip-i);
+    --blip-tone-light: var(--_blip-il);
+    --blip-tone-shade: var(--_blip-is);
+    --blip-tone-on: var(--_blip-io);
+    --blip-tone-text: var(--_blip-it);
   }
-  .chu-box[data-tone="info"] { --_chu-i: var(--chu-info); --_chu-il: var(--chu-info-light); --_chu-is: var(--chu-info-shade); --_chu-io: var(--chu-info-on); --_chu-it: var(--chu-info-text); }
-  .chu-box[data-tone="success"] { --_chu-i: var(--chu-success); --_chu-il: var(--chu-success-light); --_chu-is: var(--chu-success-shade); --_chu-io: var(--chu-success-on); --_chu-it: var(--chu-success-text); }
-  .chu-box[data-tone="warning"] { --_chu-i: var(--chu-warning); --_chu-il: var(--chu-warning-light); --_chu-is: var(--chu-warning-shade); --_chu-io: var(--chu-warning-on); --_chu-it: var(--chu-warning-text); }
-  .chu-box[data-tone="danger"] { --_chu-i: var(--chu-danger); --_chu-il: var(--chu-danger-light); --_chu-is: var(--chu-danger-shade); --_chu-io: var(--chu-danger-on); --_chu-it: var(--chu-danger-text); }
+  .blip-box[data-tone="info"] { --_blip-i: var(--blip-info); --_blip-il: var(--blip-info-light); --_blip-is: var(--blip-info-shade); --_blip-io: var(--blip-info-on); --_blip-it: var(--blip-info-text); }
+  .blip-box[data-tone="success"] { --_blip-i: var(--blip-success); --_blip-il: var(--blip-success-light); --_blip-is: var(--blip-success-shade); --_blip-io: var(--blip-success-on); --_blip-it: var(--blip-success-text); }
+  .blip-box[data-tone="warning"] { --_blip-i: var(--blip-warning); --_blip-il: var(--blip-warning-light); --_blip-is: var(--blip-warning-shade); --_blip-io: var(--blip-warning-on); --_blip-it: var(--blip-warning-text); }
+  .blip-box[data-tone="danger"] { --_blip-i: var(--blip-danger); --_blip-il: var(--blip-danger-light); --_blip-is: var(--blip-danger-shade); --_blip-io: var(--blip-danger-on); --_blip-it: var(--blip-danger-text); }
 
   /* Raw candies: ink labels on every one but slate, which takes white. */
-  .chu-box:is([data-tone="red"], [data-tone="orange"], [data-tone="yellow"], [data-tone="green"], [data-tone="teal"], [data-tone="blue"], [data-tone="purple"], [data-tone="pink"], [data-tone="slate"], [data-tone="neutral"]) {
-    --chu-tone-on: var(--chu-ink);
-    --chu-tone-text: var(--chu-text);
+  .blip-box:is([data-tone="red"], [data-tone="orange"], [data-tone="yellow"], [data-tone="green"], [data-tone="teal"], [data-tone="blue"], [data-tone="purple"], [data-tone="pink"], [data-tone="slate"], [data-tone="neutral"]) {
+    --blip-tone-on: var(--blip-ink);
+    --blip-tone-text: var(--blip-text);
   }
-  .chu-box[data-tone="red"] { --chu-tone: var(--chu-candy-red); --chu-tone-light: var(--chu-candy-red-light); --chu-tone-shade: var(--chu-candy-red-shade); }
-  .chu-box[data-tone="orange"] { --chu-tone: var(--chu-candy-orange); --chu-tone-light: var(--chu-candy-orange-light); --chu-tone-shade: var(--chu-candy-orange-shade); }
-  .chu-box[data-tone="yellow"] { --chu-tone: var(--chu-candy-yellow); --chu-tone-light: var(--chu-candy-yellow-light); --chu-tone-shade: var(--chu-candy-yellow-shade); }
-  .chu-box[data-tone="green"] { --chu-tone: var(--chu-candy-green); --chu-tone-light: var(--chu-candy-green-light); --chu-tone-shade: var(--chu-candy-green-shade); }
-  .chu-box[data-tone="teal"] { --chu-tone: var(--chu-candy-teal); --chu-tone-light: var(--chu-candy-teal-light); --chu-tone-shade: var(--chu-candy-teal-shade); }
-  .chu-box[data-tone="blue"] { --chu-tone: var(--chu-candy-blue); --chu-tone-light: var(--chu-candy-blue-light); --chu-tone-shade: var(--chu-candy-blue-shade); }
-  .chu-box[data-tone="purple"] { --chu-tone: var(--chu-candy-purple); --chu-tone-light: var(--chu-candy-purple-light); --chu-tone-shade: var(--chu-candy-purple-shade); }
-  .chu-box[data-tone="pink"] { --chu-tone: var(--chu-candy-pink); --chu-tone-light: var(--chu-candy-pink-light); --chu-tone-shade: var(--chu-candy-pink-shade); }
-  .chu-box[data-tone="slate"] { --chu-tone: var(--chu-candy-slate); --chu-tone-light: var(--chu-candy-slate-light); --chu-tone-shade: var(--chu-candy-slate-shade); --chu-tone-on: var(--chu-white); }
-  .chu-box[data-tone="neutral"] { --chu-tone: var(--chu-candy-cream); --chu-tone-light: var(--chu-candy-cream-light); --chu-tone-shade: var(--chu-candy-cream-shade); }
+  .blip-box[data-tone="red"] { --blip-tone: var(--blip-candy-red); --blip-tone-light: var(--blip-candy-red-light); --blip-tone-shade: var(--blip-candy-red-shade); }
+  .blip-box[data-tone="orange"] { --blip-tone: var(--blip-candy-orange); --blip-tone-light: var(--blip-candy-orange-light); --blip-tone-shade: var(--blip-candy-orange-shade); }
+  .blip-box[data-tone="yellow"] { --blip-tone: var(--blip-candy-yellow); --blip-tone-light: var(--blip-candy-yellow-light); --blip-tone-shade: var(--blip-candy-yellow-shade); }
+  .blip-box[data-tone="green"] { --blip-tone: var(--blip-candy-green); --blip-tone-light: var(--blip-candy-green-light); --blip-tone-shade: var(--blip-candy-green-shade); }
+  .blip-box[data-tone="teal"] { --blip-tone: var(--blip-candy-teal); --blip-tone-light: var(--blip-candy-teal-light); --blip-tone-shade: var(--blip-candy-teal-shade); }
+  .blip-box[data-tone="blue"] { --blip-tone: var(--blip-candy-blue); --blip-tone-light: var(--blip-candy-blue-light); --blip-tone-shade: var(--blip-candy-blue-shade); }
+  .blip-box[data-tone="purple"] { --blip-tone: var(--blip-candy-purple); --blip-tone-light: var(--blip-candy-purple-light); --blip-tone-shade: var(--blip-candy-purple-shade); }
+  .blip-box[data-tone="pink"] { --blip-tone: var(--blip-candy-pink); --blip-tone-light: var(--blip-candy-pink-light); --blip-tone-shade: var(--blip-candy-pink-shade); }
+  .blip-box[data-tone="slate"] { --blip-tone: var(--blip-candy-slate); --blip-tone-light: var(--blip-candy-slate-light); --blip-tone-shade: var(--blip-candy-slate-shade); --blip-tone-on: var(--blip-white); }
+  .blip-box[data-tone="neutral"] { --blip-tone: var(--blip-candy-cream); --blip-tone-light: var(--blip-candy-cream-light); --blip-tone-shade: var(--blip-candy-cream-shade); }
 
   /* ------------------------------------------------------------ states */
 
   /* Something you can act on. */
-  .chu-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-chu-interactive]) {
+  .blip-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-blip-interactive]) {
     cursor: pointer;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
@@ -274,134 +274,134 @@
   /* Hover: lifts a pixel; its drop grows by one so the shadow stays where it was. Calm tiers show their well instead,
      except when on: an on box keeps its tone, or its ink label would sit on the dark well at Night. */
   @media (hover: hover) {
-    .chu-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-chu-interactive]):not(:disabled, [aria-disabled="true"], [aria-busy="true"], [aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):hover,
-    .chu-box[data-chu-state~="hover"] {
+    .blip-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-blip-interactive]):not(:disabled, [aria-disabled="true"], [aria-busy="true"], [aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):hover,
+    .blip-box[data-blip-state~="hover"] {
       translate: 0 calc(-1 * var(--_p));
-      --_chu-lift: 1;
+      --_blip-lift: 1;
     }
-    .chu-box:is([data-variant="outline"], [data-variant="ghost"]):is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-chu-interactive]):not(:disabled, [aria-disabled="true"], [aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):hover,
-    .chu-box:is([data-variant="outline"], [data-variant="ghost"])[data-chu-state~="hover"] {
+    .blip-box:is([data-variant="outline"], [data-variant="ghost"]):is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-blip-interactive]):not(:disabled, [aria-disabled="true"], [aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):hover,
+    .blip-box:is([data-variant="outline"], [data-variant="ghost"])[data-blip-state~="hover"] {
       translate: none;
-      --_chu-lift: 0;
-      --chu-box-outline: var(--chu-line);
-      --chu-box-top: var(--chu-surface-sunken);
-      --chu-box-fill: var(--chu-surface-sunken);
-      --chu-box-bottom: var(--chu-surface-sunken);
+      --_blip-lift: 0;
+      --blip-box-outline: var(--blip-line);
+      --blip-box-top: var(--blip-surface-sunken);
+      --blip-box-fill: var(--blip-surface-sunken);
+      --blip-box-bottom: var(--blip-surface-sunken);
     }
     /* And the TV's ring: white one pixel out, an ink edge beyond, round the box's own shape as focus is. Keyboard
        focus keeps its yellow ring; calm tiers keep their well. */
-    .chu-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-chu-interactive]):not(:disabled, [aria-disabled="true"], [aria-busy="true"], [aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked), [data-variant="outline"], [data-variant="ghost"], :focus-visible, :has(> :is(input, select, textarea):focus-visible)):hover,
-    .chu-box[data-chu-state~="hover"]:not([data-variant="outline"], [data-variant="ghost"], [data-chu-state~="focus"]) {
+    .blip-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-blip-interactive]):not(:disabled, [aria-disabled="true"], [aria-busy="true"], [aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked), [data-variant="outline"], [data-variant="ghost"], :focus-visible, [data-blip-state~="focus"], :has(> :is(input, select, textarea):focus-visible)):hover,
+    .blip-box[data-blip-state~="hover"]:not([data-variant="outline"], [data-variant="ghost"], [data-blip-state~="focus"]) {
       filter:
-        drop-shadow(0 calc(-1 * var(--_p)) 0 var(--chu-white)) drop-shadow(0 var(--_p) 0 var(--chu-white))
-        drop-shadow(calc(-1 * var(--_p)) 0 0 var(--chu-white)) drop-shadow(var(--_p) 0 0 var(--chu-white))
-        drop-shadow(0 calc(-1 * var(--_p)) 0 var(--chu-box-ring-edge, var(--chu-focus-edge))) drop-shadow(0 var(--_p) 0 var(--chu-box-ring-edge, var(--chu-focus-edge)))
-        drop-shadow(calc(-1 * var(--_p)) 0 0 var(--chu-box-ring-edge, var(--chu-focus-edge))) drop-shadow(var(--_p) 0 0 var(--chu-box-ring-edge, var(--chu-focus-edge)));
+        drop-shadow(0 calc(-1 * var(--_p)) 0 var(--blip-white)) drop-shadow(0 var(--_p) 0 var(--blip-white))
+        drop-shadow(calc(-1 * var(--_p)) 0 0 var(--blip-white)) drop-shadow(var(--_p) 0 0 var(--blip-white))
+        drop-shadow(0 calc(-1 * var(--_p)) 0 var(--blip-box-ring-edge, var(--blip-focus-edge))) drop-shadow(0 var(--_p) 0 var(--blip-box-ring-edge, var(--blip-focus-edge)))
+        drop-shadow(calc(-1 * var(--_p)) 0 0 var(--blip-box-ring-edge, var(--blip-focus-edge))) drop-shadow(var(--_p) 0 0 var(--blip-box-ring-edge, var(--blip-focus-edge)));
     }
   }
 
   /* Pressed, and selected: sits in its drop. Selected also swaps its bands, the 16-bit pushed-in look. */
-  .chu-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-chu-interactive]):not(:disabled, [aria-disabled="true"], [aria-busy="true"]):active,
-  .chu-box[data-chu-state~="active"],
-  .chu-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], [data-chu-pressed], :has(> input:checked)) {
-    translate: calc(var(--chu-drop-size) * var(--_p)) calc(var(--chu-drop-size) * var(--_p));
-    --_chu-drop-on: 0;
+  .blip-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-blip-interactive]):not(:disabled, [aria-disabled="true"], [aria-busy="true"]):active,
+  .blip-box[data-blip-state~="active"],
+  .blip-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], [data-blip-pressed], :has(> input:checked)) {
+    translate: calc(var(--blip-drop-size) * var(--_p)) calc(var(--blip-drop-size) * var(--_p));
+    --_blip-drop-on: 0;
   }
-  .chu-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):not([data-variant="ghost"], [data-variant="outline"]) {
-    --chu-box-top: var(--chu-tone-shade);
-    --chu-box-bottom: var(--chu-tone-light);
-    --chu-box-glint: transparent;
+  .blip-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):not([data-variant="ghost"], [data-variant="outline"]) {
+    --blip-box-top: var(--blip-tone-shade);
+    --blip-box-bottom: var(--blip-tone-light);
+    --blip-box-glint: transparent;
   }
   /* A second cue, so on reads at a glance and without colour: the face drops a pixel inside its outline, leaving an
      ink shadow along its top and left (one light, top left). A checkbox or radio has its glyph instead. */
-  .chu-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], label:has(> input:checked)):not([data-variant="ghost"], [data-variant="outline"]) {
-    --_chu-sunk: 1;
+  .blip-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], label:has(> input:checked)):not([data-variant="ghost"], [data-variant="outline"]) {
+    --_blip-sunk: 1;
   }
-  .chu-box:is([data-variant="ghost"], [data-variant="outline"]):is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)) {
-    --chu-box-outline: var(--chu-outline);
-    --chu-box-top: var(--chu-tone-light);
-    --chu-box-fill: var(--chu-tone-light);
-    --chu-box-bottom: var(--chu-tone-light);
-    --chu-box-text: var(--chu-tone-on);
+  .blip-box:is([data-variant="ghost"], [data-variant="outline"]):is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)) {
+    --blip-box-outline: var(--blip-outline);
+    --blip-box-top: var(--blip-tone-light);
+    --blip-box-fill: var(--blip-tone-light);
+    --blip-box-bottom: var(--blip-tone-light);
+    --blip-box-text: var(--blip-tone-on);
   }
 
   /* Focus: yellow one pixel out, ink one pixel beyond. Drawn by dilating the box's own shape, so it follows the
-     stepped corners exactly. Public: --chu-box-ring and --chu-box-ring-edge recolour the ring and its edge (default
-     --chu-focus and --chu-focus-edge), for a box on a background where yellow cannot show. */
-  .chu-box:focus-visible,
-  .chu-box[data-chu-state~="focus"],
-  .chu-box:has(> :is(input, select, textarea):focus-visible) {
+     stepped corners exactly. Public: --blip-box-ring and --blip-box-ring-edge recolour the ring and its edge (default
+     --blip-focus and --blip-focus-edge), for a box on a background where yellow cannot show. */
+  .blip-box:focus-visible,
+  .blip-box[data-blip-state~="focus"],
+  .blip-box:has(> :is(input, select, textarea):focus-visible) {
     outline: none;
     box-shadow: none;
     filter:
-      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--chu-box-ring, var(--chu-focus))) drop-shadow(0 var(--_p) 0 var(--chu-box-ring, var(--chu-focus)))
-      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--chu-box-ring, var(--chu-focus))) drop-shadow(var(--_p) 0 0 var(--chu-box-ring, var(--chu-focus)))
-      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--chu-box-ring-edge, var(--chu-focus-edge))) drop-shadow(0 var(--_p) 0 var(--chu-box-ring-edge, var(--chu-focus-edge)))
-      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--chu-box-ring-edge, var(--chu-focus-edge))) drop-shadow(var(--_p) 0 0 var(--chu-box-ring-edge, var(--chu-focus-edge)));
+      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--blip-box-ring, var(--blip-focus))) drop-shadow(0 var(--_p) 0 var(--blip-box-ring, var(--blip-focus)))
+      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--blip-box-ring, var(--blip-focus))) drop-shadow(var(--_p) 0 0 var(--blip-box-ring, var(--blip-focus)))
+      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--blip-box-ring-edge, var(--blip-focus-edge))) drop-shadow(0 var(--_p) 0 var(--blip-box-ring-edge, var(--blip-focus-edge)))
+      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--blip-box-ring-edge, var(--blip-focus-edge))) drop-shadow(var(--_p) 0 0 var(--blip-box-ring-edge, var(--blip-focus-edge)));
   }
   /* More contrast: the ink edge is two pixels, as on the square ring. */
   @media (prefers-contrast: more) {
-    .chu-box:focus-visible,
-    .chu-box[data-chu-state~="focus"],
-    .chu-box:has(> :is(input, select, textarea):focus-visible) {
+    .blip-box:focus-visible,
+    .blip-box[data-blip-state~="focus"],
+    .blip-box:has(> :is(input, select, textarea):focus-visible) {
       filter:
-        drop-shadow(0 calc(-1 * var(--_p)) 0 var(--chu-box-ring, var(--chu-focus))) drop-shadow(0 var(--_p) 0 var(--chu-box-ring, var(--chu-focus)))
-        drop-shadow(calc(-1 * var(--_p)) 0 0 var(--chu-box-ring, var(--chu-focus))) drop-shadow(var(--_p) 0 0 var(--chu-box-ring, var(--chu-focus)))
-        drop-shadow(0 calc(-1 * var(--_p)) 0 var(--chu-box-ring-edge, var(--chu-focus-edge))) drop-shadow(0 var(--_p) 0 var(--chu-box-ring-edge, var(--chu-focus-edge)))
-        drop-shadow(calc(-1 * var(--_p)) 0 0 var(--chu-box-ring-edge, var(--chu-focus-edge))) drop-shadow(var(--_p) 0 0 var(--chu-box-ring-edge, var(--chu-focus-edge)))
-        drop-shadow(0 calc(-1 * var(--_p)) 0 var(--chu-box-ring-edge, var(--chu-focus-edge))) drop-shadow(0 var(--_p) 0 var(--chu-box-ring-edge, var(--chu-focus-edge)))
-        drop-shadow(calc(-1 * var(--_p)) 0 0 var(--chu-box-ring-edge, var(--chu-focus-edge))) drop-shadow(var(--_p) 0 0 var(--chu-box-ring-edge, var(--chu-focus-edge)));
+        drop-shadow(0 calc(-1 * var(--_p)) 0 var(--blip-box-ring, var(--blip-focus))) drop-shadow(0 var(--_p) 0 var(--blip-box-ring, var(--blip-focus)))
+        drop-shadow(calc(-1 * var(--_p)) 0 0 var(--blip-box-ring, var(--blip-focus))) drop-shadow(var(--_p) 0 0 var(--blip-box-ring, var(--blip-focus)))
+        drop-shadow(0 calc(-1 * var(--_p)) 0 var(--blip-box-ring-edge, var(--blip-focus-edge))) drop-shadow(0 var(--_p) 0 var(--blip-box-ring-edge, var(--blip-focus-edge)))
+        drop-shadow(calc(-1 * var(--_p)) 0 0 var(--blip-box-ring-edge, var(--blip-focus-edge))) drop-shadow(var(--_p) 0 0 var(--blip-box-ring-edge, var(--blip-focus-edge)))
+        drop-shadow(0 calc(-1 * var(--_p)) 0 var(--blip-box-ring-edge, var(--blip-focus-edge))) drop-shadow(0 var(--_p) 0 var(--blip-box-ring-edge, var(--blip-focus-edge)))
+        drop-shadow(calc(-1 * var(--_p)) 0 0 var(--blip-box-ring-edge, var(--blip-focus-edge))) drop-shadow(var(--_p) 0 0 var(--blip-box-ring-edge, var(--blip-focus-edge)));
     }
   }
 
   /* Ghost and outline boxes show their outline and well when focused, so the ring has a shape to follow. */
-  .chu-box[data-variant="ghost"]:is(:focus-visible, [data-chu-state~="focus"]) {
-    --chu-box-outline: var(--chu-line);
-    --chu-box-top: var(--chu-surface-sunken);
-    --chu-box-fill: var(--chu-surface-sunken);
-    --chu-box-bottom: var(--chu-surface-sunken);
+  .blip-box[data-variant="ghost"]:is(:focus-visible, [data-blip-state~="focus"]) {
+    --blip-box-outline: var(--blip-line);
+    --blip-box-top: var(--blip-surface-sunken);
+    --blip-box-fill: var(--blip-surface-sunken);
+    --blip-box-bottom: var(--blip-surface-sunken);
   }
 
   /* Disabled: dithered, no lift, no drop. Disabled is dithered, never greyed. The dither is light in every scheme
      (the page colour by Day and Sunset), so the ink label still reads; cream, as light as the page, takes its own,
      and slate, with its white label, takes ink. */
-  .chu-box:is(:disabled, [aria-disabled="true"]) {
-    --chu-box-dither: var(--chu-disabled-dither);
-    --chu-drop-size: 0;
+  .blip-box:is(:disabled, [aria-disabled="true"]) {
+    --blip-box-dither: var(--blip-disabled-dither);
+    --blip-drop-size: 0;
     cursor: not-allowed;
   }
-  .chu-box[data-tone="neutral"]:is(:disabled, [aria-disabled="true"]) { --chu-box-dither: var(--chu-disabled-dither-cream); }
-  .chu-box[data-tone="slate"]:is(:disabled, [aria-disabled="true"]) { --chu-box-dither: var(--chu-ink); }
+  .blip-box[data-tone="neutral"]:is(:disabled, [aria-disabled="true"]) { --blip-box-dither: var(--blip-disabled-dither-cream); }
+  .blip-box[data-tone="slate"]:is(:disabled, [aria-disabled="true"]) { --blip-box-dither: var(--blip-ink); }
   /* Calm tiers: a soft outline round the surface, dithered. A ghost is filled too, so only its outline is soft line
      (which turns ink with more contrast), not its whole shape. */
-  .chu-box:is([data-variant="outline"], [data-variant="ghost"]):is(:disabled, [aria-disabled="true"]) {
-    --chu-box-text: var(--chu-text-muted);
-    --chu-box-outline: var(--chu-line-soft);
-    --chu-box-top: var(--chu-surface);
-    --chu-box-fill: var(--chu-surface);
-    --chu-box-bottom: var(--chu-surface);
-    --chu-box-dither: var(--chu-surface-sunken);
+  .blip-box:is([data-variant="outline"], [data-variant="ghost"]):is(:disabled, [aria-disabled="true"]) {
+    --blip-box-text: var(--blip-text-muted);
+    --blip-box-outline: var(--blip-line-soft);
+    --blip-box-top: var(--blip-surface);
+    --blip-box-fill: var(--blip-surface);
+    --blip-box-bottom: var(--blip-surface);
+    --blip-box-dither: var(--blip-surface-sunken);
   }
   /* On, they wear the tone's light under an ink label, so they take candy's light dither. */
-  .chu-box:is([data-variant="outline"], [data-variant="ghost"]):is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):is(:disabled, [aria-disabled="true"]) {
-    --chu-box-dither: var(--chu-disabled-dither);
+  .blip-box:is([data-variant="outline"], [data-variant="ghost"]):is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):is(:disabled, [aria-disabled="true"]) {
+    --blip-box-dither: var(--blip-disabled-dither);
   }
 
   /* Busy: the label hides (keeping its size) and three dots step in, one, two, three. */
-  .chu-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-chu-interactive])[aria-busy="true"] {
+  .blip-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-blip-interactive])[aria-busy="true"] {
     color: transparent;
     cursor: progress;
   }
-  .chu-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-chu-interactive])[aria-busy="true"]::after {
-    animation: chu-box-dots calc(3 * var(--chu-duration-beat, 400ms)) steps(1, jump-end) infinite;
+  .blip-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-blip-interactive])[aria-busy="true"]::after {
+    animation: blip-box-dots calc(3 * var(--blip-duration-beat, 400ms)) steps(1, jump-end) infinite;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-chu-interactive])[aria-busy="true"]::after {
+    .blip-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-blip-interactive])[aria-busy="true"]::after {
       animation: none;
-      --_chu-dot-1: calc(2 * var(--chu-pixel));
-      --_chu-dot-2: calc(2 * var(--chu-pixel));
-      --_chu-dot-3: calc(2 * var(--chu-pixel));
+      --_blip-dot-1: calc(2 * var(--blip-pixel));
+      --_blip-dot-2: calc(2 * var(--blip-pixel));
+      --_blip-dot-3: calc(2 * var(--blip-pixel));
     }
   }
 
@@ -409,45 +409,45 @@
      as in the segmented control, because the bands that show it are gone; busy keeps its label hidden and its three
      dots, in the button text colour. */
   @media (forced-colors: active) {
-    .chu-box { border: 1px solid CanvasText; translate: none !important; filter: none !important; }
-    .chu-box::before, .chu-box::after { display: none; }
-    .chu-box:is(button, a[href], [role="button"]) { border-color: ButtonText; }
-    .chu-box:focus-visible, .chu-box:has(> :is(input, select, textarea):focus-visible) { outline: var(--chu-pixel) solid Highlight; outline-offset: var(--chu-pixel); }
-    .chu-box:is(:disabled, [aria-disabled="true"]) { border-color: GrayText; color: GrayText; }
-    .chu-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-checked="true"], label:has(> input:checked)) {
+    .blip-box { border: 1px solid CanvasText; translate: none !important; filter: none !important; }
+    .blip-box::before, .blip-box::after { display: none; }
+    .blip-box:is(button, a[href], [role="button"]) { border-color: ButtonText; }
+    .blip-box:focus-visible, .blip-box:has(> :is(input, select, textarea):focus-visible) { outline: var(--blip-pixel) solid Highlight; outline-offset: var(--blip-pixel); }
+    .blip-box:is(:disabled, [aria-disabled="true"]) { border-color: GrayText; color: GrayText; }
+    .blip-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-checked="true"], label:has(> input:checked)) {
       forced-color-adjust: none;
       background: Highlight;
       color: HighlightText;
     }
-    .chu-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-checked="true"], label:has(> input:checked)):is(:disabled, [aria-disabled="true"]) { background: GrayText; color: Canvas; }
-    .chu-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-chu-interactive])[aria-busy="true"] { forced-color-adjust: none; }
-    .chu-box[aria-busy="true"]::after {
-      --chu-box-top: transparent;
-      --chu-box-fill: transparent;
-      --chu-box-bottom: transparent;
-      --chu-box-glint: transparent;
-      --chu-box-dither: transparent;
-      --chu-box-text: ButtonText;
+    .blip-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-checked="true"], label:has(> input:checked)):is(:disabled, [aria-disabled="true"]) { background: GrayText; color: Canvas; }
+    .blip-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-blip-interactive])[aria-busy="true"] { forced-color-adjust: none; }
+    .blip-box[aria-busy="true"]::after {
+      --blip-box-top: transparent;
+      --blip-box-fill: transparent;
+      --blip-box-bottom: transparent;
+      --blip-box-glint: transparent;
+      --blip-box-dither: transparent;
+      --blip-box-text: ButtonText;
       display: block;
     }
   }
 }
 
-@keyframes chu-box-dots {
-  0% { --_chu-dot-1: calc(2 * var(--chu-pixel)); --_chu-dot-2: 0px; --_chu-dot-3: 0px; }
-  33.333% { --_chu-dot-1: calc(2 * var(--chu-pixel)); --_chu-dot-2: calc(2 * var(--chu-pixel)); --_chu-dot-3: 0px; }
-  66.667%, 100% { --_chu-dot-1: calc(2 * var(--chu-pixel)); --_chu-dot-2: calc(2 * var(--chu-pixel)); --_chu-dot-3: calc(2 * var(--chu-pixel)); }
+@keyframes blip-box-dots {
+  0% { --_blip-dot-1: calc(2 * var(--blip-pixel)); --_blip-dot-2: 0px; --_blip-dot-3: 0px; }
+  33.333% { --_blip-dot-1: calc(2 * var(--blip-pixel)); --_blip-dot-2: calc(2 * var(--blip-pixel)); --_blip-dot-3: 0px; }
+  66.667%, 100% { --_blip-dot-1: calc(2 * var(--blip-pixel)); --_blip-dot-2: calc(2 * var(--blip-pixel)); --_blip-dot-3: calc(2 * var(--blip-pixel)); }
 }
 
-/* Radius: in utilities, so a class or data-chu-r beats any component's default. */
-@layer chu.utilities {
-  .chu-r-0, [data-chu-r="0"] { --chu-r: 0; --chu-shape: var(--chu-shape-0); --chu-shape-inner: var(--chu-shape-0-inner); }
-  .chu-r-1, [data-chu-r="1"] { --chu-r: 1; --chu-shape: var(--chu-shape-1); --chu-shape-inner: var(--chu-shape-1-inner); }
-  .chu-r-2, [data-chu-r="2"] { --chu-r: 2; --chu-shape: var(--chu-shape-2); --chu-shape-inner: var(--chu-shape-2-inner); }
-  .chu-r-3, [data-chu-r="3"] { --chu-r: 3; --chu-shape: var(--chu-shape-3); --chu-shape-inner: var(--chu-shape-3-inner); }
-  .chu-r-4, [data-chu-r="4"] { --chu-r: 4; --chu-shape: var(--chu-shape-4); --chu-shape-inner: var(--chu-shape-4-inner); }
-  .chu-r-5, [data-chu-r="5"] { --chu-r: 5; --chu-shape: var(--chu-shape-5); --chu-shape-inner: var(--chu-shape-5-inner); }
-  .chu-r-6, [data-chu-r="6"] { --chu-r: 6; --chu-shape: var(--chu-shape-6); --chu-shape-inner: var(--chu-shape-6-inner); }
-  .chu-r-7, [data-chu-r="7"] { --chu-r: 7; --chu-shape: var(--chu-shape-7); --chu-shape-inner: var(--chu-shape-7-inner); }
-  .chu-r-8, [data-chu-r="8"] { --chu-r: 8; --chu-shape: var(--chu-shape-8); --chu-shape-inner: var(--chu-shape-8-inner); }
+/* Radius: in utilities, so a class or data-blip-r beats any component's default. */
+@layer blip.utilities {
+  .blip-r-0, [data-blip-r="0"] { --blip-r: 0; --blip-shape: var(--blip-shape-0); --blip-shape-inner: var(--blip-shape-0-inner); }
+  .blip-r-1, [data-blip-r="1"] { --blip-r: 1; --blip-shape: var(--blip-shape-1); --blip-shape-inner: var(--blip-shape-1-inner); }
+  .blip-r-2, [data-blip-r="2"] { --blip-r: 2; --blip-shape: var(--blip-shape-2); --blip-shape-inner: var(--blip-shape-2-inner); }
+  .blip-r-3, [data-blip-r="3"] { --blip-r: 3; --blip-shape: var(--blip-shape-3); --blip-shape-inner: var(--blip-shape-3-inner); }
+  .blip-r-4, [data-blip-r="4"] { --blip-r: 4; --blip-shape: var(--blip-shape-4); --blip-shape-inner: var(--blip-shape-4-inner); }
+  .blip-r-5, [data-blip-r="5"] { --blip-r: 5; --blip-shape: var(--blip-shape-5); --blip-shape-inner: var(--blip-shape-5-inner); }
+  .blip-r-6, [data-blip-r="6"] { --blip-r: 6; --blip-shape: var(--blip-shape-6); --blip-shape-inner: var(--blip-shape-6-inner); }
+  .blip-r-7, [data-blip-r="7"] { --blip-r: 7; --blip-shape: var(--blip-shape-7); --blip-shape-inner: var(--blip-shape-7-inner); }
+  .blip-r-8, [data-blip-r="8"] { --blip-r: 8; --blip-shape: var(--blip-shape-8); --blip-shape-inner: var(--blip-shape-8-inner); }
 }

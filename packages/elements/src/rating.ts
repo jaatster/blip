@@ -1,16 +1,16 @@
 /**
- * <chu-rating>: a row of stars (or hearts) to set a score, as a radio group: the arrow keys move and set it,
+ * <blip-rating>: a row of stars (or hearts) to set a score, as a radio group: the arrow keys move and set it,
  * Space sets the focused star, and the pointer previews what a click would set. The score goes with the form.
  *
- *   <chu-rating class="chu-rating" name="fun" value="4" aria-label="How fun was it?"></chu-rating>
- *   <chu-rating class="chu-rating" data-shape="heart" max="3" value="2" readonly aria-label="Lives"></chu-rating>
+ *   <blip-rating class="blip-rating" name="fun" value="4" aria-label="How fun was it?"></blip-rating>
+ *   <blip-rating class="blip-rating" data-shape="heart" max="3" value="2" readonly aria-label="Lives"></blip-rating>
  *
  * Attributes: name, value, max (5), readonly, disabled, required, star-label (each star's name, "{n} stars" by
  * default; {n} and {max} are filled in). Properties: value, max. Events: input and change (as a native control),
- * then chu-change { value }.
+ * then blip-change { value }.
  * For a score that never changes (a review list), the plain CSS rating with role="img" needs no script.
  */
-import { BlipElement, rovingFocus, warn } from "@jaatster/blip-core";
+import { BlipElement, rovingFocus, warn } from "@blip/core";
 import { isOn, unFalse } from "./_dom.js";
 
 /**
@@ -26,13 +26,13 @@ import { isOn, unFalse } from "./_dom.js";
  * @attr {string} [required-message="Choose a rating."] - The message while required and not rated.
  * @attr {string} [star-label="{n} stars"] - Each star's name; {n} and {max} are filled in.
  * @attr {"heart"} data-shape - Hearts instead of stars.
- * @fires {CustomEvent<{ value: number }>} chu-change - A star was set by click or key (after input and change).
- * @cssprop --chu-rating-value - The score drawn (set by the element).
- * @cssprop --chu-rating-max - How many stars are drawn (set by the element).
+ * @fires {CustomEvent<{ value: number }>} blip-change - A star was set by click or key (after input and change).
+ * @cssprop --blip-rating-value - The score drawn (set by the element).
+ * @cssprop --blip-rating-max - How many stars are drawn (set by the element).
  */
 export class BlipRating extends BlipElement {
   static formAssociated = true;
-  static classes = ["chu-rating"];
+  static classes = ["blip-rating"];
   static observedAttributes = ["value", "max", "readonly", "disabled", "required"];
 
   #internals = this.attachInternals();
@@ -69,7 +69,7 @@ export class BlipRating extends BlipElement {
   }
 
   get #stars(): HTMLElement[] {
-    return [...this.querySelectorAll<HTMLElement>(":scope > .chu-rating-star")];
+    return [...this.querySelectorAll<HTMLElement>(":scope > .blip-rating-star")];
   }
   get #live(): boolean {
     return !isOn(this, "readonly") && !isOn(this, "disabled") && !this.#formOff;
@@ -78,10 +78,10 @@ export class BlipRating extends BlipElement {
   protected connected(): void {
     this.#initial ??= this.getAttribute("value");
     if (!this.getAttribute("aria-label") && !this.getAttribute("aria-labelledby") && !this.#internals.labels.length) {
-      warn("CHU-A001", "<chu-rating> has no name. Add aria-label or aria-labelledby.", this);
+      warn("BLIP-A001", "<blip-rating> has no name. Add aria-label or aria-labelledby.", this);
     }
     this.#sync();
-    const star = (e: Event) => (e.target as Element).closest<HTMLElement>(".chu-rating-star");
+    const star = (e: Event) => (e.target as Element).closest<HTMLElement>(".blip-rating-star");
     rovingFocus(this, { items: () => (this.#live ? this.#stars : []), orientation: "both", onMove: (s) => this.#set(this.#stars.indexOf(s) + 1), signal: this.signal });
     this.on(this, "click", (e) => {
       const s = star(e);
@@ -128,7 +128,7 @@ export class BlipRating extends BlipElement {
   #show(n: number): void {
     this.#preview = n;
     this.toggleAttribute("data-preview", n > 0);
-    this.style.setProperty("--chu-rating-value", String(n || this.value));
+    this.style.setProperty("--blip-rating-value", String(n || this.value));
   }
 
   /** Stars, roles, checked state, the one tab stop and the form value, from the attributes. */
@@ -142,7 +142,7 @@ export class BlipRating extends BlipElement {
       const noun = this.dataset.shape === "heart" ? "heart" : "star";
       stars = Array.from({ length: max }, (_, i) => {
         const s = document.createElement("span");
-        s.className = "chu-rating-star";
+        s.className = "blip-rating-star";
         s.setAttribute("role", "radio");
         const n = i + 1;
         s.setAttribute("aria-label", label ? label.replace("{n}", String(n)).replace("{max}", String(max)) : `${n} ${noun}${n === 1 ? "" : "s"}`);
@@ -162,7 +162,7 @@ export class BlipRating extends BlipElement {
       s.tabIndex = !off && i === Math.max(0, on - 1) ? 0 : -1;
       flag(s, "aria-disabled", off);
     });
-    this.style.setProperty("--chu-rating-max", String(max));
+    this.style.setProperty("--blip-rating-max", String(max));
     this.#show(this.#preview);
     this.#internals.setFormValue(value ? String(value) : null);
     if (isOn(this, "required") && !value) this.#internals.setValidity({ valueMissing: true }, this.getAttribute("required-message") ?? "Choose a rating.", stars[0]);
@@ -170,10 +170,10 @@ export class BlipRating extends BlipElement {
   }
 }
 
-BlipElement.define("chu-rating", BlipRating);
+BlipElement.define("blip-rating", BlipRating);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "chu-rating": BlipRating;
+    "blip-rating": BlipRating;
   }
 }

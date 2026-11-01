@@ -4,7 +4,7 @@
  * and late or replaced dialogue pages start the box from the first page.
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { provide } from "@jaatster/blip-core";
+import { provide } from "@blip/core";
 import "../../../packages/game/src/choices.ts";
 import "../../../packages/game/src/inventory.ts";
 import "../../../packages/game/src/dialogue.ts";
@@ -19,14 +19,14 @@ beforeEach(() => {
 });
 afterEach(() => restore());
 
-describe("chu-choices with choices rendered later", () => {
-  it("gives the tab stop to the first choice you can take, moves with the keys and sends chu-action", async () => {
-    const box = mount(`<chu-choices></chu-choices>`);
+describe("blip-choices with choices rendered later", () => {
+  it("gives the tab stop to the first choice you can take, moves with the keys and sends blip-action", async () => {
+    const box = mount(`<blip-choices></blip-choices>`);
     expect(box.querySelectorAll("button")).toHaveLength(0);
-    box.innerHTML = `<ul class="chu-choices" role="list">
-      <li><button class="chu-box chu-choice" value="pay" aria-disabled="true">Pay 30 coins</button></li>
-      <li><button class="chu-box chu-choice" value="trade">Trade the moon key</button></li>
-      <li><button class="chu-box chu-choice" value="later">Maybe later</button></li>
+    box.innerHTML = `<ul class="blip-choices" role="list">
+      <li><button class="blip-box blip-choice" value="pay" aria-disabled="true">Pay 30 coins</button></li>
+      <li><button class="blip-box blip-choice" value="trade">Trade the moon key</button></li>
+      <li><button class="blip-box blip-choice" value="later">Maybe later</button></li>
     </ul>`;
     await settle();
     expect([...box.querySelectorAll("button")].map((b) => b.tabIndex)).toEqual([-1, 0, -1]);
@@ -34,15 +34,15 @@ describe("chu-choices with choices rendered later", () => {
     press("ArrowDown");
     expect(focused()).toBe("Maybe later");
     const chosen = vi.fn();
-    box.addEventListener("chu-action", (e) => chosen((e as CustomEvent).detail.value));
+    box.addEventListener("blip-action", (e) => chosen((e as CustomEvent).detail.value));
     box.querySelector<HTMLButtonElement>('[value="later"]')!.click();
     expect(chosen).toHaveBeenCalledWith("later");
   });
 
   it("moves the tab stop when the choice holding it is taken away", async () => {
-    const box = mount(`<chu-choices><ul class="chu-choices" role="list">
-      <li><button class="chu-box chu-choice" value="a">A</button></li><li><button class="chu-box chu-choice" value="b">B</button></li>
-    </ul></chu-choices>`);
+    const box = mount(`<blip-choices><ul class="blip-choices" role="list">
+      <li><button class="blip-box blip-choice" value="a">A</button></li><li><button class="blip-box blip-choice" value="b">B</button></li>
+    </ul></blip-choices>`);
     expect([...box.querySelectorAll("button")].map((b) => b.tabIndex)).toEqual([0, -1]);
     box.querySelector("li")!.remove();
     await settle();
@@ -50,15 +50,15 @@ describe("chu-choices with choices rendered later", () => {
   });
 });
 
-describe("chu-inventory with slots rendered later", () => {
+describe("blip-inventory with slots rendered later", () => {
   it("makes late slots options, with one tab stop, that the keys reach", async () => {
-    const bag = mount(`<chu-inventory class="chu-inventory" aria-label="Backpack" style="--chu-inventory-columns: 3"></chu-inventory>`);
+    const bag = mount(`<blip-inventory class="blip-inventory" aria-label="Backpack" style="--blip-inventory-columns: 3"></blip-inventory>`);
     expect(bag.getAttribute("role")).toBe("listbox");
     for (const name of ["Red potion", "Moon key", "Reed sword"]) {
-      bag.insertAdjacentHTML("beforeend", `<button type="button" class="chu-box chu-slot" aria-label="${name}"></button>`);
+      bag.insertAdjacentHTML("beforeend", `<button type="button" class="blip-box blip-slot" aria-label="${name}"></button>`);
     }
     await settle();
-    const slots = [...bag.querySelectorAll<HTMLElement>(".chu-slot")];
+    const slots = [...bag.querySelectorAll<HTMLElement>(".blip-slot")];
     expect(slots.map((s) => s.getAttribute("role"))).toEqual(["option", "option", "option"]);
     expect(slots.map((s) => s.getAttribute("aria-selected"))).toEqual(["false", "false", "false"]);
     expect(slots.map((s) => s.tabIndex)).toEqual([0, -1, -1]);
@@ -68,12 +68,12 @@ describe("chu-inventory with slots rendered later", () => {
   });
 });
 
-describe("chu-dialogue with pages rendered later", () => {
+describe("blip-dialogue with pages rendered later", () => {
   it("starts from the first page once its pages arrive, and again when they are replaced", async () => {
-    const box = mount(`<chu-dialogue class="chu-box chu-dialogue" data-chu-typed="0"><div class="chu-dialogue-body"></div></chu-dialogue>`);
-    box.querySelector(".chu-dialogue-body")!.innerHTML = `<div class="chu-dialogue-text"><p>Ah, a traveller!</p><p>The bridge is out.</p></div>`;
+    const box = mount(`<blip-dialogue class="blip-box blip-dialogue" data-blip-typed="0"><div class="blip-dialogue-body"></div></blip-dialogue>`);
+    box.querySelector(".blip-dialogue-body")!.innerHTML = `<div class="blip-dialogue-text"><p>Ah, a traveller!</p><p>The bridge is out.</p></div>`;
     await settle();
-    const text = box.querySelector(".chu-dialogue-text")!;
+    const text = box.querySelector(".blip-dialogue-text")!;
     expect(text.getAttribute("aria-hidden")).toBe("true");
     expect([...text.children].map((p) => p.hasAttribute("data-current"))).toEqual([true, false]);
     // Pages replaced, as a framework re-renders them: the new first page is the one showing.
@@ -84,16 +84,16 @@ describe("chu-dialogue with pages rendered later", () => {
   });
 
   it("is named by a name tab that arrives late", async () => {
-    const box = mount(`<chu-dialogue class="chu-box chu-dialogue"></chu-dialogue>`);
-    box.insertAdjacentHTML("afterbegin", `<span class="chu-box chu-dialogue-name">Bramble</span><div class="chu-dialogue-text"><p>Hello.</p></div>`);
+    const box = mount(`<blip-dialogue class="blip-box blip-dialogue"></blip-dialogue>`);
+    box.insertAdjacentHTML("afterbegin", `<span class="blip-box blip-dialogue-name">Bramble</span><div class="blip-dialogue-text"><p>Hello.</p></div>`);
     await settle();
-    const name = box.querySelector(".chu-dialogue-name")!;
+    const name = box.querySelector(".blip-dialogue-name")!;
     expect(name.id).not.toBe("");
     expect(box.getAttribute("aria-labelledby")).toBe(name.id);
   });
 
   it("does not start again after say(), which shows its pages itself", async () => {
-    const box = mount(`<chu-dialogue class="chu-box chu-dialogue"><div class="chu-dialogue-text"><p>Hi.</p></div></chu-dialogue>`) as HTMLElement & { say(p: string[]): void; advance(): void; page: number };
+    const box = mount(`<blip-dialogue class="blip-box blip-dialogue"><div class="blip-dialogue-text"><p>Hi.</p></div></blip-dialogue>`) as HTMLElement & { say(p: string[]): void; advance(): void; page: number };
     box.say(["One.", "Two."]);
     box.advance();
     box.advance();

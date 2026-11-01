@@ -1,26 +1,26 @@
 <!-- Touch pad: a pixel D-pad and A and B (and Start) that send real key events, for playing a keyboard game on a
      phone. On a page it is fixed to the bottom of the screen and shows only on touch screens; here each one is in
      the page's flow (data-position="inline") and shown on every pointer (data-show="always"). Pressed controls sit in
-     their drops: forced here with data-chu-state (docs and tests only). -->
-<div style="display:flex;flex-direction:column;gap:calc(12*var(--chu-pixel));max-inline-size:calc(200*var(--chu-pixel))">
-  <p class="chu-label chu-muted">With Start</p>
-  <chu-touch-pad data-show="always" data-position="inline" data-start="Enter" aria-label="Game controls, with Start"></chu-touch-pad>
+     their drops: forced here with data-blip-state (docs and tests only). -->
+<div style="display:flex;flex-direction:column;gap:calc(12*var(--blip-pixel));max-inline-size:calc(200*var(--blip-pixel))">
+  <p class="blip-label blip-muted">With Start</p>
+  <blip-touch-pad data-show="always" data-position="inline" data-start="Enter" aria-label="Game controls, with Start"></blip-touch-pad>
 
-  <p class="chu-label chu-muted">Up and A held (two fingers)</p>
-  <chu-touch-pad data-show="always" data-position="inline" aria-label="Game controls, up and A held">
-    <span class="chu-touch-pad-dpad">
-      <span class="chu-box chu-touch-pad-arm" data-dir="up" role="button" aria-label="Up" data-chu-state="active"><span></span></span>
-      <span class="chu-box chu-touch-pad-arm" data-dir="right" role="button" aria-label="Right"><span></span></span>
-      <span class="chu-box chu-touch-pad-arm" data-dir="down" role="button" aria-label="Down"><span></span></span>
-      <span class="chu-box chu-touch-pad-arm" data-dir="left" role="button" aria-label="Left"><span></span></span>
-      <span class="chu-box chu-touch-pad-hub" aria-hidden="true"></span>
+  <p class="blip-label blip-muted">Up and A held (two fingers)</p>
+  <blip-touch-pad data-show="always" data-position="inline" aria-label="Game controls, up and A held">
+    <span class="blip-touch-pad-dpad">
+      <span class="blip-box blip-touch-pad-arm" data-dir="up" role="button" aria-label="Up" data-blip-state="active"><span></span></span>
+      <span class="blip-box blip-touch-pad-arm" data-dir="right" role="button" aria-label="Right"><span></span></span>
+      <span class="blip-box blip-touch-pad-arm" data-dir="down" role="button" aria-label="Down"><span></span></span>
+      <span class="blip-box blip-touch-pad-arm" data-dir="left" role="button" aria-label="Left"><span></span></span>
+      <span class="blip-box blip-touch-pad-hub" aria-hidden="true"></span>
     </span>
-    <span class="chu-touch-pad-buttons">
-      <span class="chu-box chu-touch-pad-button" data-button="b" role="button">B</span>
-      <span class="chu-box chu-touch-pad-button" data-button="a" role="button" data-chu-state="active">A</span>
+    <span class="blip-touch-pad-buttons">
+      <span class="blip-box blip-touch-pad-button" data-button="b" role="button">B</span>
+      <span class="blip-box blip-touch-pad-button" data-button="a" role="button" data-blip-state="active">A</span>
     </span>
-  </chu-touch-pad>
+  </blip-touch-pad>
 
-  <p class="chu-label chu-muted">Chunkier: data-chu-pixel="3"</p>
-  <chu-touch-pad data-show="always" data-position="inline" data-chu-pixel="3" data-a=" " data-b="Shift" aria-label="Game controls, chunky"></chu-touch-pad>
+  <p class="blip-label blip-muted">Chunkier: data-blip-pixel="3"</p>
+  <blip-touch-pad data-show="always" data-position="inline" data-blip-pixel="3" data-a=" " data-b="Shift" aria-label="Game controls, chunky"></blip-touch-pad>
 </div>

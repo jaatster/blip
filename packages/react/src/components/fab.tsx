@@ -1,6 +1,6 @@
 /**
  * Action button: FabButton, and FabMenu and FabAction, the parts of a speed dial that go inside <Fab> (generated from
- * its element, re-exported here). CSS from @jaatster/blip-components (fab.css).
+ * its element, re-exported here). CSS from @blip/components (fab.css).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";
@@ -28,13 +28,13 @@ export type FabButtonProps<T extends ElementType = "button"> = PolymorphicProps<
 
 /**
  * A screen's one main action, a candy block floating at the bottom end of the screen, inside the safe areas and clear
- * of a `BottomBar` it comes after (`--chu-fab-offset` clears anything else). An icon and a label, or the icon alone
+ * of a `BottomBar` it comes after (`--blip-fab-offset` clears anything else). An icon and a label, or the icon alone
  * with `iconOnly` and an `aria-label`. Inside `<Fab>` it is the speed dial's button.
  *
  *   <FabButton iconOnly aria-label="New level"><Icon name="plus" /></FabButton>
  *   <FabButton><Icon name="edit" />New note</FabButton>
  *
- * Renders `<button class="chu-box chu-fab" type="button">`.
+ * Renders `<button class="blip-box blip-fab" type="button">`.
  */
 export const FabButton = /*#__PURE__*/ forwardRef(function FabButton(
   { as: Tag = "button", tone, position, iconOnly, className, ...rest }: FabButtonProps<ElementType>,
@@ -43,7 +43,7 @@ export const FabButton = /*#__PURE__*/ forwardRef(function FabButton(
   return (
     <Tag
       ref={ref}
-      className={cx("chu-box chu-fab", className)}
+      className={cx("blip-box blip-fab", className)}
       type={Tag === "button" ? "button" : undefined}
       data-tone={tone}
       data-position={position}
@@ -68,17 +68,17 @@ export type FabMenuProps = Named & NativeProps<"div">;
  *     </FabMenu>
  *   </Fab>
  *
- * Renders `<div class="chu-fab-menu" role="menu" hidden>`.
+ * Renders `<div class="blip-fab-menu" role="menu" hidden>`.
  */
 export const FabMenu = /*#__PURE__*/ forwardRef<HTMLDivElement, FabMenuProps>(function FabMenu({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("chu-fab-menu", className)} role="menu" hidden {...rest} />;
+  return <div ref={ref} className={cx("blip-fab-menu", className)} role="menu" hidden {...rest} />;
 });
 
 /** Own props of {@link FabAction}. */
 export interface FabActionOwnProps {
   /** Its candy: marshmallow by default; `danger` for a destructive choice. `data-tone`. */
   tone?: Tone;
-  /** What `chu-action` reports as `detail.value` (the label otherwise). `data-value`. */
+  /** What `blip-action` reports as `detail.value` (the label otherwise). `data-value`. */
   value?: string;
 }
 
@@ -90,11 +90,11 @@ export type FabActionProps = FabActionOwnProps & NativeProps<"button", FabAction
  *
  *   <FabAction value="clip"><Icon name="image" />Clip</FabAction>
  *
- * Renders `<button class="chu-box chu-fab-action" type="button" role="menuitem">`.
+ * Renders `<button class="blip-box blip-fab-action" type="button" role="menuitem">`.
  */
 export const FabAction = /*#__PURE__*/ forwardRef<HTMLButtonElement, FabActionProps>(function FabAction(
   { tone, value, type = "button", className, ...rest },
   ref,
 ) {
-  return <button ref={ref} className={cx("chu-box chu-fab-action", className)} type={type} role="menuitem" data-tone={tone} data-value={value} {...rest} />;
+  return <button ref={ref} className={cx("blip-box blip-fab-action", className)} type={type} role="menuitem" data-tone={tone} data-value={value} {...rest} />;
 });

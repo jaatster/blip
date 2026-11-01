@@ -2,20 +2,20 @@
  * Stat. One number that matters: a label, the value big in Pixel Bop POP, and how it moved, with a pixel arrow in
  * the colour of what the move means. Put several in a <dl>; each stat is a <div> of <dt> and <dd>.
  *
- *   <dl class="chu-grid" data-min="80">
- *     <div class="chu-stat">
- *       <dt class="chu-stat-label">High score</dt>
- *       <dd class="chu-stat-value chu-display chu-pop" data-pop="98,120">98,120</dd>
- *       <dd class="chu-stat-delta" data-trend="up">+12% this week</dd>
+ *   <dl class="blip-grid" data-min="80">
+ *     <div class="blip-stat">
+ *       <dt class="blip-stat-label">High score</dt>
+ *       <dd class="blip-stat-value blip-display blip-pop" data-pop="98,120">98,120</dd>
+ *       <dd class="blip-stat-delta" data-trend="up">+12% this week</dd>
  *     </div>
  *   </dl>
  *
- *   data-trend   up | down | flat (on .chu-stat-delta)       the arrow; up is good news, down bad, flat neither
+ *   data-trend   up | down | flat (on .blip-stat-delta)       the arrow; up is good news, down bad, flat neither
  *   data-tone    success | danger | neutral (on the delta)  when down is good news (lag, deaths), say so
  *   data-scale   1 | 2 (default) | 3 | 4 (on the value)      Pixel Bop's whole scales
- *   .chu-box      on .chu-stat: the stat in its own panel (add data-variant="panel")
+ *   .blip-box      on .blip-stat: the stat in its own panel (add data-variant="panel")
  *
- * In a grid (.chu-grid), a stat is a size container and its value steps down a whole scale while the column is
+ * In a grid (.blip-grid), a stat is a size container and its value steps down a whole scale while the column is
  * narrower than five figures at its scale, so the number never breaks or runs out of its column. Give a longer
  * value a wider column (data-min on the grid) or a smaller data-scale.
  *
@@ -24,76 +24,76 @@
  * good ("+12%", "-6, fewer is better"): the arrow, the mark and the colour only repeat them.
  */
 
-@layer chu.components {
-  .chu-stat {
+@layer blip.components {
+  .blip-stat {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--chu-space-2);
+    gap: var(--blip-space-2);
     min-inline-size: 0;
     margin: 0;
   }
-  .chu-stat.chu-box { padding: calc(6 * var(--chu-pixel)) calc(8 * var(--chu-pixel)); margin: 0 var(--chu-pixel) var(--chu-pixel) 0; }
+  .blip-stat.blip-box { padding: calc(6 * var(--blip-pixel)) calc(8 * var(--blip-pixel)); margin: 0 var(--blip-pixel) var(--blip-pixel) 0; }
 
-  .chu-stat-label {
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-caption);
-    font-weight: var(--chu-weight-bold);
-    line-height: var(--chu-leading-tight);
-    letter-spacing: var(--chu-tracking-label);
+  .blip-stat-label {
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-caption);
+    font-weight: var(--blip-weight-bold);
+    line-height: var(--blip-leading-tight);
+    letter-spacing: var(--blip-tracking-label);
     text-transform: uppercase;
-    color: var(--chu-text-muted);
+    color: var(--blip-text-muted);
   }
 
-  .chu-stat-value {
+  .blip-stat-value {
     max-inline-size: 100%;
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
   }
-  .chu-stat-value:not(.chu-pop) { color: var(--chu-text); }
+  .blip-stat-value:not(.blip-pop) { color: var(--blip-text); }
   /* A grid gives each stat its width (it cannot grow to fit its number), so there it is a size container: five
      figures and a POP drop at scale 4, 3 and 2 need 286, 216 and 146 px (at the default pixel). */
-  .chu-grid > .chu-stat { container: chu-stat / inline-size; }
-  @container chu-stat (width < 286px) { .chu-stat-value[data-scale="4"] { --chu-scale: 3; font-feature-settings: "ss03"; } }
-  @container chu-stat (width < 216px) { .chu-stat-value:is([data-scale="3"], [data-scale="4"]) { --chu-scale: 2; font-feature-settings: "ss02"; } }
-  @container chu-stat (width < 146px) { .chu-stat-value:not([data-scale="1"]) { --chu-scale: 1; font-feature-settings: normal; } }
+  .blip-grid > .blip-stat { container: blip-stat / inline-size; }
+  @container blip-stat (width < 286px) { .blip-stat-value[data-scale="4"] { --blip-scale: 3; font-feature-settings: "ss03"; } }
+  @container blip-stat (width < 216px) { .blip-stat-value:is([data-scale="3"], [data-scale="4"]) { --blip-scale: 2; font-feature-settings: "ss02"; } }
+  @container blip-stat (width < 146px) { .blip-stat-value:not([data-scale="1"]) { --blip-scale: 1; font-feature-settings: normal; } }
 
-  .chu-stat-delta {
-    --_c: var(--chu-text-muted);
+  .blip-stat-delta {
+    --_c: var(--blip-text-muted);
     display: inline-flex;
     align-items: center;
-    gap: var(--chu-space-2);
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-small);
-    font-weight: var(--chu-weight-bold);
-    line-height: var(--chu-leading-tight);
+    gap: var(--blip-space-2);
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-small);
+    font-weight: var(--blip-weight-bold);
+    line-height: var(--blip-leading-tight);
     font-variant-numeric: tabular-nums;
     color: var(--_c);
   }
   /* The mark of good news (the success sign's check, 8 x 5) and of bad news (the danger sign's exclamation mark,
      2 x 6), on a canvas as tall as the arrow. A tone says what the move means, so it comes after the trend. */
-  .chu-stat-delta {
-    --_chu-stat-good: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 6' shape-rendering='crispEdges'%3E%3Cpath d='M6 1h2v1H7v1H6v1H5v1H4v1H2V5H1V4H0V3h2v1h2V3h1V2h1z'/%3E%3C/svg%3E");
-    --_chu-stat-bad: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 6' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v4H0zM0 5h2v1H0z'/%3E%3C/svg%3E");
+  .blip-stat-delta {
+    --_blip-stat-good: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 6' shape-rendering='crispEdges'%3E%3Cpath d='M6 1h2v1H7v1H6v1H5v1H4v1H2V5H1V4H0V3h2v1h2V3h1V2h1z'/%3E%3C/svg%3E");
+    --_blip-stat-bad: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 6' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v4H0zM0 5h2v1H0z'/%3E%3C/svg%3E");
   }
-  .chu-stat-delta[data-trend="up"] { --_c: var(--chu-success-text); --_m: var(--_chu-stat-good); --_mw: 8; --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h1v1H3zM2 1h3v1H2zM1 2h5v1H1zM0 3h7v1H0zM2 4h3v2H2z'/%3E%3C/svg%3E"); }
-  .chu-stat-delta[data-trend="down"] { --_c: var(--chu-danger-text); --_m: var(--_chu-stat-bad); --_mw: 2; --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath d='M2 0h3v2H2zM0 2h7v1H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z'/%3E%3C/svg%3E"); }
-  .chu-stat-delta[data-trend="flat"] { --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath d='M0 2h7v2H0z'/%3E%3C/svg%3E"); }
-  .chu-stat-delta[data-tone="success"] { --_c: var(--chu-success-text); --_m: var(--_chu-stat-good); --_mw: 8; }
-  .chu-stat-delta[data-tone="danger"] { --_c: var(--chu-danger-text); --_m: var(--_chu-stat-bad); --_mw: 2; }
-  .chu-stat-delta[data-tone="neutral"] { --_c: var(--chu-text-muted); }
+  .blip-stat-delta[data-trend="up"] { --_c: var(--blip-success-text); --_m: var(--_blip-stat-good); --_mw: 8; --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h1v1H3zM2 1h3v1H2zM1 2h5v1H1zM0 3h7v1H0zM2 4h3v2H2z'/%3E%3C/svg%3E"); }
+  .blip-stat-delta[data-trend="down"] { --_c: var(--blip-danger-text); --_m: var(--_blip-stat-bad); --_mw: 2; --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath d='M2 0h3v2H2zM0 2h7v1H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z'/%3E%3C/svg%3E"); }
+  .blip-stat-delta[data-trend="flat"] { --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath d='M0 2h7v2H0z'/%3E%3C/svg%3E"); }
+  .blip-stat-delta[data-tone="success"] { --_c: var(--blip-success-text); --_m: var(--_blip-stat-good); --_mw: 8; }
+  .blip-stat-delta[data-tone="danger"] { --_c: var(--blip-danger-text); --_m: var(--_blip-stat-bad); --_mw: 2; }
+  .blip-stat-delta[data-tone="neutral"] { --_c: var(--blip-text-muted); }
   /* The arrow first, then the mark, then the words. */
-  .chu-stat-delta[data-trend]::before,
-  .chu-stat-delta:is([data-trend="up"], [data-trend="down"], [data-tone="success"], [data-tone="danger"]):not([data-tone="neutral"])::after {
+  .blip-stat-delta[data-trend]::before,
+  .blip-stat-delta:is([data-trend="up"], [data-trend="down"], [data-tone="success"], [data-tone="danger"]):not([data-tone="neutral"])::after {
     content: "";
     flex: none;
-    block-size: calc(6 * var(--chu-pixel));
+    block-size: calc(6 * var(--blip-pixel));
     background: currentColor;
   }
-  .chu-stat-delta::before { order: -2; inline-size: calc(7 * var(--chu-pixel)); mask: var(--_g) 0 0 / 100% 100% no-repeat; }
-  .chu-stat-delta::after { order: -1; inline-size: calc(var(--_mw) * var(--chu-pixel)); mask: var(--_m) 0 0 / 100% 100% no-repeat; }
+  .blip-stat-delta::before { order: -2; inline-size: calc(7 * var(--blip-pixel)); mask: var(--_g) 0 0 / 100% 100% no-repeat; }
+  .blip-stat-delta::after { order: -1; inline-size: calc(var(--_mw) * var(--blip-pixel)); mask: var(--_m) 0 0 / 100% 100% no-repeat; }
 
   @media (forced-colors: active) {
-    .chu-stat-delta::before, .chu-stat-delta::after { background: CanvasText; }
+    .blip-stat-delta::before, .blip-stat-delta::after { background: CanvasText; }
   }
 }

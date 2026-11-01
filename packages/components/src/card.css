@@ -3,19 +3,19 @@
  * foot. A whole card can be a link that lifts; a tone puts a soft strip of colour along its top. Never put a card
  * inside a card.
  *
- *   <article class="chu-box chu-card">
- *     <div class="chu-card-media"><img src="meadow.png" alt=""></div>
- *     <header class="chu-card-header">
- *       <div><h3 class="chu-card-title">Meadow</h3><p class="chu-card-subtitle">World 1 · 8 levels</p></div>
- *       <span class="chu-box chu-tag" data-tone="success">New</span>
+ *   <article class="blip-box blip-card">
+ *     <div class="blip-card-media"><img src="meadow.png" alt=""></div>
+ *     <header class="blip-card-header">
+ *       <div><h3 class="blip-card-title">Meadow</h3><p class="blip-card-subtitle">World 1 · 8 levels</p></div>
+ *       <span class="blip-box blip-tag" data-tone="success">New</span>
  *     </header>
- *     <div class="chu-card-body"><p>…</p></div>
- *     <footer class="chu-card-footer"><button class="chu-box chu-button">Play</button></footer>
+ *     <div class="blip-card-body"><p>…</p></div>
+ *     <footer class="blip-card-footer"><button class="blip-box blip-button">Play</button></footer>
  *   </article>
  *
- *   <a class="chu-box chu-card" href="/worlds/meadow">…</a>                  the whole card is the link: it lifts
- *   <article class="chu-box chu-card" data-chu-interactive>                   a card with one main link and other
- *     … <h3 class="chu-card-title"><a class="chu-card-link" href="…">Meadow</a></h3> …   actions: the link covers the
+ *   <a class="blip-box blip-card" href="/worlds/meadow">…</a>                  the whole card is the link: it lifts
+ *   <article class="blip-box blip-card" data-blip-interactive>                   a card with one main link and other
+ *     … <h3 class="blip-card-title"><a class="blip-card-link" href="…">Meadow</a></h3> …   actions: the link covers the
  *   </article>                                                             card, the actions sit above it
  *
  *   data-variant   panel, cream (default) | soft | candy | outline        soft and candy tint the whole card
@@ -24,75 +24,75 @@
  *   data-layout    horizontal                                              picture beside the text while there is
  *                                                                          room, above it when narrow (wrap the
  *                                                                          header, body and footer in
- *                                                                          .chu-card-content)
+ *                                                                          .blip-card-content)
  *
  * The picture is any <img>, <svg>, <canvas> or <video>, framed by a one-pixel ink line and never smoothed. By
- * default it covers the frame (--chu-card-media-ratio, 16 / 9), scaled by whatever that takes. For pixel art, give the
+ * default it covers the frame (--blip-card-media-ratio, 16 / 9), scaled by whatever that takes. For pixel art, give the
  * frame data-fit="pixels" and the picture's size in its own pixels, and every art pixel comes out the same whole
  * number of Blip pixels, centred, with the sunken fill round it:
  *
- *   <div class="chu-card-media" data-fit="pixels" style="--chu-card-art-width: 64; --chu-card-art-height: 36">…</div>
+ *   <div class="blip-card-media" data-fit="pixels" style="--blip-card-art-width: 64; --blip-card-art-height: 36">…</div>
  */
 
-@layer chu.components {
-  .chu-card {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
-    --_pad: calc(8 * var(--chu-pixel));
+@layer blip.components {
+  .blip-card {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
+    --_pad: calc(8 * var(--blip-pixel));
     display: flex;
     flex-direction: column;
-    gap: var(--chu-space-6);
+    gap: var(--blip-space-6);
     box-sizing: border-box;
     min-inline-size: 0;
     padding: var(--_pad);
-    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-body);
-    line-height: var(--chu-leading-normal);
+    margin: 0 var(--blip-pixel) var(--blip-pixel) 0;
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-body);
+    line-height: var(--blip-leading-normal);
     text-align: start;
     text-decoration: none;
   }
   /* A cream panel: the TV's panel for text. */
-  .chu-card:not([data-variant]) {
-    --chu-box-top: var(--chu-surface-panel);
-    --chu-box-fill: var(--chu-surface-panel);
-    --chu-box-bottom: var(--chu-surface-panel);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
+  .blip-card:not([data-variant]) {
+    --blip-box-top: var(--blip-surface-panel);
+    --blip-box-fill: var(--blip-surface-panel);
+    --blip-box-bottom: var(--blip-surface-panel);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
   }
   /* A tone on a cream card: a three-pixel strip of its light colour along the top, following the corners. */
-  .chu-card[data-tone]:not([data-variant]) {
-    --chu-box-top: var(--chu-tone-light);
-    --chu-band-top: 3;
+  .blip-card[data-tone]:not([data-variant]) {
+    --blip-box-top: var(--blip-tone-light);
+    --blip-band-top: 3;
   }
-  .chu-card[data-size="sm"] {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
-    --_pad: calc(6 * var(--chu-pixel));
-    gap: var(--chu-space-4);
-    font-size: var(--chu-size-small);
+  .blip-card[data-size="sm"] {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
+    --_pad: calc(6 * var(--blip-pixel));
+    gap: var(--blip-space-4);
+    font-size: var(--blip-size-small);
   }
-  .chu-card[data-size="lg"] {
-    --chu-r: 5;
-    --chu-shape: var(--chu-shape-5);
-    --chu-shape-inner: var(--chu-shape-5-inner);
-    --_pad: calc(12 * var(--chu-pixel));
-    gap: var(--chu-space-8);
+  .blip-card[data-size="lg"] {
+    --blip-r: 5;
+    --blip-shape: var(--blip-shape-5);
+    --blip-shape-inner: var(--blip-shape-5-inner);
+    --_pad: calc(12 * var(--blip-pixel));
+    gap: var(--blip-space-8);
   }
-  :is(a, button).chu-card { color: var(--chu-box-text); inline-size: auto; }
+  :is(a, button).blip-card { color: var(--blip-box-text); inline-size: auto; }
 
   /* The picture: in a one-pixel ink frame, never smoothed. It sits closer to the edge than the text. */
-  .chu-card-media {
+  .blip-card-media {
     position: relative;
     overflow: hidden;
-    aspect-ratio: var(--chu-card-media-ratio, 16 / 9);
+    aspect-ratio: var(--blip-card-media-ratio, 16 / 9);
     margin: calc(-0.5 * var(--_pad)) calc(-0.5 * var(--_pad)) 0;
-    border: var(--chu-pixel) solid var(--chu-outline);
-    background: var(--chu-surface-sunken);
+    border: var(--blip-pixel) solid var(--blip-outline);
+    background: var(--blip-surface-sunken);
   }
-  .chu-card-media > :is(img, svg, canvas, video) {
+  .blip-card-media > :is(img, svg, canvas, video) {
     display: block;
     inline-size: 100%;
     block-size: 100%;
@@ -101,69 +101,69 @@
     image-rendering: pixelated;
     shape-rendering: crispEdges;
   }
-  img.chu-card-media, svg.chu-card-media { display: block; inline-size: auto; object-fit: cover; image-rendering: pixelated; shape-rendering: crispEdges; }
+  img.blip-card-media, svg.blip-card-media { display: block; inline-size: auto; object-fit: cover; image-rendering: pixelated; shape-rendering: crispEdges; }
   /* data-fit="pixels": the picture as big as fits with every art pixel a whole number of Blip pixels, the
      same across and down, in the middle of the frame (a whole number of pixels in), on the frame's sunken fill. */
-  .chu-card-media[data-fit="pixels"] { container-type: size; }
-  .chu-card-media[data-fit="pixels"] > :is(img, svg, canvas, video) {
-    --_chu-aw: var(--chu-card-art-width);
-    --_chu-ah: var(--chu-card-art-height);
-    --_chu-k: max(var(--chu-pixel), min(round(down, 100cqw, var(--_chu-aw) * var(--chu-pixel)) / var(--_chu-aw), round(down, 100cqh, var(--_chu-ah) * var(--chu-pixel)) / var(--_chu-ah)));
-    inline-size: calc(var(--_chu-k) * var(--_chu-aw));
-    block-size: calc(var(--_chu-k) * var(--_chu-ah));
-    margin-block-start: round(down, (100cqh - var(--_chu-k) * var(--_chu-ah)) / 2, var(--chu-pixel));
-    margin-inline-start: round(down, (100cqw - var(--_chu-k) * var(--_chu-aw)) / 2, var(--chu-pixel));
+  .blip-card-media[data-fit="pixels"] { container-type: size; }
+  .blip-card-media[data-fit="pixels"] > :is(img, svg, canvas, video) {
+    --_blip-aw: var(--blip-card-art-width);
+    --_blip-ah: var(--blip-card-art-height);
+    --_blip-k: max(var(--blip-pixel), min(round(down, 100cqw, var(--_blip-aw) * var(--blip-pixel)) / var(--_blip-aw), round(down, 100cqh, var(--_blip-ah) * var(--blip-pixel)) / var(--_blip-ah)));
+    inline-size: calc(var(--_blip-k) * var(--_blip-aw));
+    block-size: calc(var(--_blip-k) * var(--_blip-ah));
+    margin-block-start: round(down, (100cqh - var(--_blip-k) * var(--_blip-ah)) / 2, var(--blip-pixel));
+    margin-inline-start: round(down, (100cqw - var(--_blip-k) * var(--_blip-aw)) / 2, var(--blip-pixel));
     object-fit: fill;
   }
 
-  .chu-card-header {
+  .blip-card-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: var(--chu-space-4);
+    gap: var(--blip-space-4);
   }
-  .chu-card-header > :first-child { min-inline-size: 0; }
-  .chu-card-title {
+  .blip-card-header > :first-child { min-inline-size: 0; }
+  .blip-card-title {
     margin: 0;
-    font-size: var(--chu-size-lead);
-    font-weight: var(--chu-weight-bold);
-    line-height: var(--chu-leading-tight);
+    font-size: var(--blip-size-lead);
+    font-weight: var(--blip-weight-bold);
+    line-height: var(--blip-leading-tight);
     text-wrap: balance;
     overflow-wrap: anywhere;
   }
-  .chu-card[data-size="sm"] .chu-card-title { font-size: var(--chu-size-body); }
-  .chu-card[data-size="lg"] .chu-card-title { font-size: var(--chu-size-title); }
-  .chu-card-subtitle {
-    margin: var(--chu-space-1) 0 0;
-    font-size: var(--chu-size-small);
-    line-height: var(--chu-leading-tight);
-    color: var(--chu-text-muted);
+  .blip-card[data-size="sm"] .blip-card-title { font-size: var(--blip-size-body); }
+  .blip-card[data-size="lg"] .blip-card-title { font-size: var(--blip-size-title); }
+  .blip-card-subtitle {
+    margin: var(--blip-space-1) 0 0;
+    font-size: var(--blip-size-small);
+    line-height: var(--blip-leading-tight);
+    color: var(--blip-text-muted);
   }
-  .chu-card-body { min-inline-size: 0; }
-  .chu-card-body > * + * { margin-block-start: var(--chu-space-4); }
-  .chu-card-footer {
+  .blip-card-body { min-inline-size: 0; }
+  .blip-card-body > * + * { margin-block-start: var(--blip-space-4); }
+  .blip-card-footer {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: flex-end;
-    gap: var(--chu-space-4);
+    gap: var(--blip-space-4);
     margin-block-start: auto;
   }
 
   /* One main link that covers the card; other actions stay clickable above it. */
-  .chu-card-link { color: inherit; text-decoration: none; }
-  .chu-card-link::after { content: ""; position: absolute; inset: 0; }
-  .chu-card-link:hover { text-decoration: underline; text-decoration-thickness: var(--chu-pixel); }
-  .chu-card:has(.chu-card-link) :is(a, button, input, select, textarea, summary, label):not(.chu-card-link) { position: relative; z-index: 1; }
+  .blip-card-link { color: inherit; text-decoration: none; }
+  .blip-card-link::after { content: ""; position: absolute; inset: 0; }
+  .blip-card-link:hover { text-decoration: underline; text-decoration-thickness: var(--blip-pixel); }
+  .blip-card:has(.blip-card-link) :is(a, button, input, select, textarea, summary, label):not(.blip-card-link) { position: relative; z-index: 1; }
 
   /* Picture beside the text while both fit, above it when they don't: no breakpoint, it follows its container. */
-  .chu-card[data-layout="horizontal"] { flex-flow: row wrap; align-items: flex-start; }
-  .chu-card[data-layout="horizontal"] > .chu-card-media { flex: 1 1 calc(112 * var(--chu-pixel)); margin: 0; }
-  .chu-card-content {
+  .blip-card[data-layout="horizontal"] { flex-flow: row wrap; align-items: flex-start; }
+  .blip-card[data-layout="horizontal"] > .blip-card-media { flex: 1 1 calc(112 * var(--blip-pixel)); margin: 0; }
+  .blip-card-content {
     display: flex;
     flex-direction: column;
     gap: inherit;
-    flex: 999 1 calc(96 * var(--chu-pixel));
+    flex: 999 1 calc(96 * var(--blip-pixel));
     align-self: stretch;
     min-inline-size: 0;
   }

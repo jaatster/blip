@@ -2,10 +2,10 @@
  * Divider. A line drawn in whole pixels: solid, dashed or dithered, across or upright, with or without a label in
  * the middle. Quiet by default (line-soft); data-strong draws it in the line colour.
  *
- *   <hr class="chu-divider">
- *   <hr class="chu-divider" data-variant="dither">
- *   <hr class="chu-divider" aria-orientation="vertical">                 upright, in a row (cluster, toolbar)
- *   <div class="chu-divider" data-variant="dashed">Today</div>           a label in the middle
+ *   <hr class="blip-divider">
+ *   <hr class="blip-divider" data-variant="dither">
+ *   <hr class="blip-divider" aria-orientation="vertical">                 upright, in a row (cluster, toolbar)
+ *   <div class="blip-divider" data-variant="dashed">Today</div>           a label in the middle
  *
  *   data-variant       solid (default) | dashed | dither          a pixel line; three on, two off; a checkerboard
  *   data-strong                                                   the line colour (ink by day) instead of line-soft
@@ -15,74 +15,74 @@
  * <hr> is a separator for assistive technology; a labelled divider is a <div> whose text is read as text.
  */
 
-@layer chu.components {
-  .chu-divider {
-    --_c: var(--chu-line-soft);
-    --_w: var(--chu-pixel);
+@layer blip.components {
+  .blip-divider {
+    --_c: var(--blip-line-soft);
+    --_w: var(--blip-pixel);
     --_line: linear-gradient(var(--_c) 0 0);
     --_size: auto;
     --_repeat: repeat;
     flex: none;
     border: 0;
-    margin: var(--chu-divider-space, var(--chu-space-6)) 0;
-    color: var(--chu-text-muted);
+    margin: var(--blip-divider-space, var(--blip-space-6)) 0;
+    color: var(--blip-text-muted);
   }
-  .chu-divider[data-strong] { --_c: var(--chu-line); }
+  .blip-divider[data-strong] { --_c: var(--blip-line); }
   /* Three pixels on, two off. */
-  .chu-divider[data-variant="dashed"] {
-    --_line: linear-gradient(to right, var(--_c) 0 calc(3 * var(--chu-pixel)), transparent 0);
-    --_size: calc(5 * var(--chu-pixel)) 100%;
+  .blip-divider[data-variant="dashed"] {
+    --_line: linear-gradient(to right, var(--_c) 0 calc(3 * var(--blip-pixel)), transparent 0);
+    --_size: calc(5 * var(--blip-pixel)) 100%;
     --_repeat: repeat-x;
   }
   /* A two-pixel checkerboard, the dither of the world. */
-  .chu-divider[data-variant="dither"] {
-    --_w: calc(2 * var(--chu-pixel));
+  .blip-divider[data-variant="dither"] {
+    --_w: calc(2 * var(--blip-pixel));
     --_line: repeating-conic-gradient(var(--_c) 0 25%, transparent 0 50%);
-    --_size: calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel));
+    --_size: calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel));
   }
 
-  hr.chu-divider {
+  hr.blip-divider {
     block-size: var(--_w);
     background: var(--_line) 0 0 / var(--_size) var(--_repeat);
   }
 
-  hr.chu-divider[aria-orientation="vertical"] {
+  hr.blip-divider[aria-orientation="vertical"] {
     align-self: stretch;
     inline-size: var(--_w);
     block-size: auto;
-    min-block-size: var(--chu-space-8);
-    margin: 0 var(--chu-divider-space, var(--chu-space-4));
+    min-block-size: var(--blip-space-8);
+    margin: 0 var(--blip-divider-space, var(--blip-space-4));
   }
-  hr.chu-divider[aria-orientation="vertical"][data-variant="dashed"] {
-    --_line: linear-gradient(var(--_c) 0 calc(3 * var(--chu-pixel)), transparent 0);
-    --_size: 100% calc(5 * var(--chu-pixel));
+  hr.blip-divider[aria-orientation="vertical"][data-variant="dashed"] {
+    --_line: linear-gradient(var(--_c) 0 calc(3 * var(--blip-pixel)), transparent 0);
+    --_size: 100% calc(5 * var(--blip-pixel));
     --_repeat: repeat-y;
   }
 
   /* Labelled: a line, the label, a line. */
-  .chu-divider:not(hr) {
+  .blip-divider:not(hr) {
     display: flex;
     align-items: center;
-    gap: var(--chu-space-4);
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-caption);
-    font-weight: var(--chu-weight-bold);
+    gap: var(--blip-space-4);
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-caption);
+    font-weight: var(--blip-weight-bold);
     line-height: 1;
-    letter-spacing: var(--chu-tracking-label);
+    letter-spacing: var(--blip-tracking-label);
     text-transform: uppercase;
     white-space: nowrap;
   }
-  .chu-divider:not(hr)::before,
-  .chu-divider:not(hr)::after {
+  .blip-divider:not(hr)::before,
+  .blip-divider:not(hr)::after {
     content: "";
     flex: 1;
     block-size: var(--_w);
     background: var(--_line) 0 0 / var(--_size) var(--_repeat);
   }
-  .chu-divider:not(hr)[data-align="start"]::before,
-  .chu-divider:not(hr)[data-align="end"]::after { flex: 0 0 var(--chu-space-8); }
+  .blip-divider:not(hr)[data-align="start"]::before,
+  .blip-divider:not(hr)[data-align="end"]::after { flex: 0 0 var(--blip-space-8); }
 
   @media (forced-colors: active) {
-    .chu-divider, .chu-divider[data-strong] { --_c: CanvasText; color: CanvasText; forced-color-adjust: none; }
+    .blip-divider, .blip-divider[data-strong] { --_c: CanvasText; color: CanvasText; forced-color-adjust: none; }
   }
 }

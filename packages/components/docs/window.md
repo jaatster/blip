@@ -1,6 +1,6 @@
 ---
 name: Window
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: window.css
 element: null
 react: Window
@@ -15,30 +15,30 @@ an optional sunken status bar. For game menus, pause screens and retro dashboard
 ## Usage
 
 ```html
-<section class="chu-box chu-window" aria-labelledby="sys-title">
-  <header class="chu-window-bar">
-    <h2 class="chu-window-title chu-display chu-pop" id="sys-title">System</h2>
-    <div class="chu-window-controls">
-      <button class="chu-box chu-window-control" data-control="minimize" type="button" aria-label="Minimize System"><span></span></button>
-      <button class="chu-box chu-window-control" data-control="maximize" type="button" aria-label="Maximize System"><span></span></button>
-      <button class="chu-box chu-window-control" data-control="close" type="button" aria-label="Close System"><span></span></button>
+<section class="blip-box blip-window" aria-labelledby="sys-title">
+  <header class="blip-window-bar">
+    <h2 class="blip-window-title blip-display blip-pop" id="sys-title">System</h2>
+    <div class="blip-window-controls">
+      <button class="blip-box blip-window-control" data-control="minimize" type="button" aria-label="Minimize System"><span></span></button>
+      <button class="blip-box blip-window-control" data-control="maximize" type="button" aria-label="Maximize System"><span></span></button>
+      <button class="blip-box blip-window-control" data-control="close" type="button" aria-label="Close System"><span></span></button>
     </div>
   </header>
-  <div class="chu-window-body">…</div>
-  <footer class="chu-window-status"><span>Ready</span><span>12:30</span></footer>
+  <div class="blip-window-body">…</div>
+  <footer class="blip-window-status"><span>Ready</span><span>12:30</span></footer>
 </section>
 ```
 
 ## Anatomy
 
-1. **Panel**: the candy box, radius 4, cream body (`--chu-surface-panel`), ink outline, drop.
+1. **Panel**: the candy box, radius 4, cream body (`--blip-surface-panel`), ink outline, drop.
 2. **Title bar**: the box's own light band, 16 pixels with its ink rule, in the tone's light colour; it follows the
    stepped corners and keeps the box's glints.
-3. **Title**: `.chu-window-title`, Pixel Bop at scale 1 (with `.chu-display`), POP with `.chu-pop`.
-4. **Controls**: `.chu-window-control`, 12-pixel candy buttons (24 CSS px): cream, and red to close. The glyph is an
+3. **Title**: `.blip-window-title`, Pixel Bop at scale 1 (with `.blip-display`), POP with `.blip-pop`.
+4. **Controls**: `.blip-window-control`, 12-pixel candy buttons (24 CSS px): cream, and red to close. The glyph is an
    empty span, drawn from `data-control`.
-5. **Body**: `.chu-window-body`, padded, scrolls if the window has a height.
-6. **Status bar** (optional): `.chu-window-status`, the box's shade band, sunken, 14 pixels with an ink rule, one line.
+5. **Body**: `.blip-window-body`, padded, scrolls if the window has a height.
+6. **Status bar** (optional): `.blip-window-status`, the box's shade band, sunken, 14 pixels with an ink rule, one line.
 
 ## Variants
 
@@ -76,10 +76,10 @@ The window has none. Its controls take the box's states: hover lifts, pressed si
 
 | Class | |
 |---|---|
-| `.chu-window` | The panel. Use with `.chu-box`. |
-| `.chu-window-bar`, `.chu-window-title`, `.chu-window-controls`, `.chu-window-control`, `.chu-window-body`, `.chu-window-status` | Parts. |
+| `.blip-window` | The panel. Use with `.blip-box`. |
+| `.blip-window-bar`, `.blip-window-title`, `.blip-window-controls`, `.blip-window-control`, `.blip-window-body`, `.blip-window-status` | Parts. |
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-r` with `--chu-shape`, `--chu-shape-inner` | 4 | Corner radius. |
-| `--chu-tone`, `--chu-tone-light`, `--chu-tone-shade`, `--chu-tone-on` | accent | A custom title bar colour. |
+| `--blip-r` with `--blip-shape`, `--blip-shape-inner` | 4 | Corner radius. |
+| `--blip-tone`, `--blip-tone-light`, `--blip-tone-shade`, `--blip-tone-on` | accent | A custom title bar colour. |

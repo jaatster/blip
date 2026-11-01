@@ -2,12 +2,12 @@
 /**
  * The checks for one component or kit part, and only those: what to run while you build it.
  *
- *   pnpm qa <name>                       tabs, button, world, attract, hud, chu-counter, text…
+ *   pnpm qa <name>                       tabs, button, world, attract, hud, blip-counter, text…
  *   pnpm qa <name> --fast                without the Playwright runs (visual and accessibility)
  *   pnpm qa <name> --update-snapshots    writes its visual baselines; look at every picture before you commit them
  *
  * It finds the item by name: its docs pages (packages/<package>/docs/<name>.md, else the pages whose front matter
- * names the element <chu-name> or the stylesheet <name>.css, so `counter` finds the HUD and `text` the three text
+ * names the element <blip-name> or the stylesheet <name>.css, so `counter` finds the HUD and `text` the three text
  * effects), the stylesheets and elements their front matter names, and the examples named after them. Then:
  *
  *   files    what is missing: a docs page, an example, a stylesheet's header comment, visual baselines for this
@@ -23,7 +23,7 @@
  *
  * A check with nothing to check is skipped. A table at the end sums up; the exit code is 1 when a check fails or
  * something is missing, 2 when the name finds nothing. The Playwright runs wait for scripts/heavy.mjs's lock and use
- * the test server on CHU_TEST_PORT (4180; started when nothing is listening). They load the elements from dist, so a
+ * the test server on BLIP_TEST_PORT (4180; started when nothing is listening). They load the elements from dist, so a
  * note says which package to build when a source is newer than its build.
  */
 import { spawn } from "node:child_process";
@@ -90,9 +90,9 @@ const RESPONSIVE = [.../RESPONSIVE[^=]*=\s*\[([^\]]*)\]/.exec(read("tests/page/m
 
 /** The item: its docs pages, stylesheets, elements, modules, other scripts and examples. */
 function find(input) {
-  const name = basename(input).replace(/[<>]/g, "").replace(/\.(md|css|html|ts|js)$/, "").replace(/^chu-/, "");
+  const name = basename(input).replace(/[<>]/g, "").replace(/\.(md|css|html|ts|js)$/, "").replace(/^blip-/, "");
   let docs = DOCS.filter((d) => d.name === name);
-  if (!docs.length) docs = DOCS.filter((d) => d.tags.includes(`chu-${name}`));
+  if (!docs.length) docs = DOCS.filter((d) => d.tags.includes(`blip-${name}`));
   if (!docs.length) docs = DOCS.filter((d) => d.meta.css === `${name}.css`);
   const css = new Set();
   const tags = new Set(docs.flatMap((d) => d.tags));
@@ -102,7 +102,7 @@ function find(input) {
   }
   const code = PACKAGES.filter((p) => !["react", "tokens"].includes(p));
   for (const p of code) if (exists(`packages/${p}/src/${name}.css`)) css.add(`packages/${p}/src/${name}.css`);
-  if (ELEMENTS.has(`chu-${name}`)) tags.add(`chu-${name}`);
+  if (ELEMENTS.has(`blip-${name}`)) tags.add(`blip-${name}`);
   const modules = [...new Set([...tags].filter((t) => ELEMENTS.has(t)).map((t) => ELEMENTS.get(t).module))];
   const scripts = code.map((p) => `packages/${p}/src/${name}.ts`).filter((f) => exists(f) && !modules.includes(f));
   const examples = [];
@@ -115,7 +115,7 @@ function find(input) {
 
 /** Names that look like the one asked for, for a "did you mean". */
 function near(name) {
-  const known = new Set([...DOCS.map((d) => d.name), ...[...ELEMENTS.keys()].map((t) => t.replace(/^chu-/, ""))]);
+  const known = new Set([...DOCS.map((d) => d.name), ...[...ELEMENTS.keys()].map((t) => t.replace(/^blip-/, ""))]);
   const distance = (a, b) => {
     const row = Array.from({ length: b.length + 1 }, (_, i) => i);
     for (let i = 1; i <= a.length; i++) {
@@ -130,10 +130,10 @@ function near(name) {
 
 const item = find(names[0]);
 if (!item) {
-  const name = basename(names[0]).replace(/^chu-/, "");
+  const name = basename(names[0]).replace(/^blip-/, "");
   const like = near(name);
   console.error(`qa: nothing is called "${names[0]}": no packages/*/docs/${name}.md, packages/*/examples/${name}.html, ` +
-    `packages/*/src/${name}.css or <chu-${name}> element.`);
+    `packages/*/src/${name}.css or <blip-${name}> element.`);
   console.error(like.length ? `  Did you mean ${like.join(", ")}?` : "  Use the name of a docs page or an element: pnpm qa tabs, pnpm qa world.");
   process.exit(2);
 }
@@ -163,7 +163,7 @@ const notes = [];
 const unitFiles = (() => {
   const words = new Set([name, ...item.docs.map((d) => d.name)]);
   const patterns = [
-    ...[...words].map((w) => `chu-${esc(w)}(?![\\w-])`),
+    ...[...words].map((w) => `blip-${esc(w)}(?![\\w-])`),
     ...item.tags.map((t) => `${esc(t)}(?![\\w-])`),
     ...item.tags.filter((t) => ELEMENTS.has(t)).map((t) => `\\b${ELEMENTS.get(t).className}\\b`),
     ...[...item.modules, ...item.scripts].map((m) => esc(m.replace(/^packages\//, "").replace(/\.ts$/, "."))),
@@ -190,7 +190,7 @@ const checks = {
     for (const d of item.docs) {
       if (item.examples.some((e) => e.name === d.name)) continue;
       missing.push(`packages/${d.pkg}/examples/${d.name}.html is missing. Write it: an HTML fragment with every variant and state ` +
-        `and real content (data-chu-state="hover focus active" forces a state). It is also ${d.name}'s visual test and accessibility scan.`);
+        `and real content (data-blip-state="hover focus active" forces a state). It is also ${d.name}'s visual test and accessibility scan.`);
     }
     for (const f of item.css) {
       if (!/^\s*\/\*/.test(read(f))) missing.push(`${f} has no header comment. Start it as button.css does: what it is, its markup, its attributes and states (CONTRACT.md: the header and the docs page are its API).`);
@@ -229,7 +229,7 @@ const checks = {
       const src = Math.max(newest(`packages/${pkg}/src`, ".ts"), newest(`packages/${pkg}/src`, ".css"));
       const dist = Math.max(newest(`packages/${pkg}/dist`, ".js"), newest(`packages/${pkg}/dist`, ".css"));
       if (exists(`packages/${pkg}/dist`) ? src > dist : src > 0) {
-        notes.push(`packages/${pkg}/dist is older than its sources: the Playwright runs load its elements and the budgets measure it. Build it: pnpm --filter @jaatster/blip-${pkg} build`);
+        notes.push(`packages/${pkg}/dist is older than its sources: the Playwright runs load its elements and the budgets measure it. Build it: pnpm --filter @blip/${pkg} build`);
       }
     }
     const found = [
@@ -261,7 +261,7 @@ const checks = {
     const pkgs = [...new Set(item.tags.filter((t) => ELEMENTS.has(t)).map((t) => ELEMENTS.get(t).pkg))];
     if (!pkgs.length) return { status: "skip", summary: "no element" };
     const r = await run("scripts/cem.mjs", ["--check", ...pkgs]);
-    return { status: r.code ? "FAIL" : "ok", summary: pkgs.map((p) => `@jaatster/blip-${p}`).join(", "), details: r.code ? tail(r.out) : [], ms: r.ms };
+    return { status: r.code ? "FAIL" : "ok", summary: pkgs.map((p) => `@blip/${p}`).join(", "), details: r.code ? tail(r.out) : [], ms: r.ms };
   },
 
   async budgets() {
@@ -277,7 +277,7 @@ const checks = {
     });
     const bad = got.filter((g) => !g.ok);
     const details = bad.map((g) => `${g.w}: ${g.status}`);
-    if (bad.some((g) => g.status === "MISSING")) details.push("Not built yet: pnpm build (or pnpm --filter @jaatster/blip-<package> build).");
+    if (bad.some((g) => g.status === "MISSING")) details.push("Not built yet: pnpm build (or pnpm --filter @blip/<package> build).");
     if (bad.some((g) => g.status.startsWith("OVER"))) details.push("Make it smaller, or change the budget in scripts/budgets.mjs with a reason.");
     return { status: bad.length ? "FAIL" : "ok", summary: got.map((g) => `${g.w} ${g.status}`).join(", "), details, ms: r.ms };
   },

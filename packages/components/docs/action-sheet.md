@@ -1,8 +1,8 @@
 ---
 name: Action sheet
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: action-sheet.css
-element: chu-action-sheet
+element: blip-action-sheet
 react: ActionSheet
 status: beta
 equivalents:
@@ -20,22 +20,22 @@ button on a wide screen, use a [menu](menu.md); for a question that needs explai
 ## Usage
 
 ```html
-<button class="chu-box chu-button" commandfor="replay" command="show-modal">Replay 12</button>
+<button class="blip-box blip-button" commandfor="replay" command="show-modal">Replay 12</button>
 
-<chu-action-sheet light-dismiss>
-  <dialog class="chu-box chu-drawer chu-action-sheet" id="replay" aria-labelledby="replay-title" aria-describedby="replay-text">
+<blip-action-sheet light-dismiss>
+  <dialog class="blip-box blip-drawer blip-action-sheet" id="replay" aria-labelledby="replay-title" aria-describedby="replay-text">
     <form method="dialog">
-      <h2 class="chu-action-sheet-title" id="replay-title">Replay 12</h2>
-      <p class="chu-action-sheet-message" id="replay-text">World 3-2, saved 2 minutes ago.</p>
-      <div class="chu-action-sheet-actions">
-        <button class="chu-box chu-button" data-size="lg" data-width="full" data-variant="soft" value="share">Share</button>
-        <button class="chu-box chu-button" data-size="lg" data-width="full" data-variant="soft" value="rename">Rename</button>
-        <button class="chu-box chu-button" data-size="lg" data-width="full" data-variant="soft" data-tone="danger" value="delete">Delete</button>
+      <h2 class="blip-action-sheet-title" id="replay-title">Replay 12</h2>
+      <p class="blip-action-sheet-message" id="replay-text">World 3-2, saved 2 minutes ago.</p>
+      <div class="blip-action-sheet-actions">
+        <button class="blip-box blip-button" data-size="lg" data-width="full" data-variant="soft" value="share">Share</button>
+        <button class="blip-box blip-button" data-size="lg" data-width="full" data-variant="soft" value="rename">Rename</button>
+        <button class="blip-box blip-button" data-size="lg" data-width="full" data-variant="soft" data-tone="danger" value="delete">Delete</button>
       </div>
-      <button class="chu-box chu-button chu-action-sheet-cancel" data-size="lg" data-width="full" data-variant="soft" data-tone="neutral" value="cancel">Cancel</button>
+      <button class="blip-box blip-button blip-action-sheet-cancel" data-size="lg" data-width="full" data-variant="soft" data-tone="neutral" value="cancel">Cancel</button>
     </form>
   </dialog>
-</chu-action-sheet>
+</blip-action-sheet>
 ```
 
 ### The choice
@@ -44,8 +44,8 @@ The sheet is a `<form method="dialog">`, so each button closes it with its `valu
 platform puts it, or from the event:
 
 ```js
-const sheet = document.querySelector("chu-action-sheet");
-sheet.addEventListener("chu-close", (e) => {
+const sheet = document.querySelector("blip-action-sheet");
+sheet.addEventListener("blip-close", (e) => {
   if (e.detail.returnValue === "delete") deleteReplay();   // also sheet.returnValue, and the dialog's returnValue
 });
 ```
@@ -57,8 +57,8 @@ sheet.addEventListener("chu-close", (e) => {
 | Escape | `""` | `"escape"` |
 | The scrim (with `light-dismiss`) | `""` | `"backdrop"` |
 
-`<chu-action-sheet>` empties `returnValue` each time it opens (with `show()`, `open` or an invoker button), so a
-dismissed sheet never reports the choice from the time before. `chu-before-close` comes first and can be cancelled,
+`<blip-action-sheet>` empties `returnValue` each time it opens (with `show()`, `open` or an invoker button), so a
+dismissed sheet never reports the choice from the time before. `blip-before-close` comes first and can be cancelled,
 as on the dialog.
 
 `action-sheet.css` styles a bottom drawer: load `drawer.css` too (`components.css` has both). For the safe areas of
@@ -68,11 +68,11 @@ a phone with a notch, the page needs `viewport-fit=cover` in its viewport meta.
 
 1. **Sheet**: the drawer's raised candy box. On a phone it runs a pixel past the bottom and sides of the screen,
    square corners, so only its top edge shows the ink outline, and keeps its content clear of the safe areas.
-2. **Title** (`.chu-action-sheet-title`, optional): Pixel Bop at scale 1, centred.
-3. **Message** (`.chu-action-sheet-message`, optional): one muted line under the title.
-4. **Actions** (`.chu-action-sheet-actions`): a column of large (48 px), full-width buttons. It scrolls when there
+2. **Title** (`.blip-action-sheet-title`, optional): Pixel Bop at scale 1, centred.
+3. **Message** (`.blip-action-sheet-message`, optional): one muted line under the title.
+4. **Actions** (`.blip-action-sheet-actions`): a column of large (48 px), full-width buttons. It scrolls when there
    are too many for the screen.
-5. **Cancel** (`.chu-action-sheet-cancel`): a large, full-width, soft neutral button, below a soft rule and a gap.
+5. **Cancel** (`.blip-action-sheet-cancel`): a large, full-width, soft neutral button, below a soft rule and a gap.
 6. **Scrim**: the dialog's one-pixel ink checkerboard.
 
 ## Variants
@@ -90,8 +90,8 @@ The buttons are ordinary [buttons](button.md): soft for the choices, `data-tone=
 | State | How | Look |
 |---|---|---|
 | Opening | `showModal()`, `command="show-modal"`, `open` | On a phone, slides up in six whole-pixel steps over a glide (160 ms); wide, one pixel low for a frame, then in place. The scrim dithers in. |
-| Closing | with `<chu-action-sheet>` | The same backwards. |
-| Static | `data-chu-static` with `open` | In the page flow: docs, tests, screenshots only. |
+| Closing | with `<blip-action-sheet>` | The same backwards. |
+| Static | `data-blip-static` with `open` | In the page flow: docs, tests, screenshots only. |
 
 The buttons have the box's states: hover, pressed, focus, disabled. With reduced motion the sheet appears and goes at
 once.
@@ -121,18 +121,18 @@ the sheet is named by its title (`aria-labelledby`, or `aria-label` without one)
 ## Do and don't
 
 - **Do** keep Cancel, even with `light-dismiss`: not everyone knows the scrim closes it.
-- **Do** read the choice from `returnValue` or `chu-close`, not from a click on a button.
+- **Do** read the choice from `returnValue` or `blip-close`, not from a click on a button.
 - **Don't** put fields, links or toggles in an action sheet; use a [bottom sheet](sheet.md) or a dialog.
 - **Don't** open one action sheet from another.
 
 ## API
 
-`<chu-action-sheet>`: everything [`<chu-dialog>`](dialog.md#api) has: `open`, `light-dismiss`, `show(opener?)` (which
+`<blip-action-sheet>`: everything [`<blip-dialog>`](dialog.md#api) has: `open`, `light-dismiss`, `show(opener?)` (which
 also empties `returnValue`), `requestClose(value?)`, `close(value?)`, `returnValue`, `dialog`, and the events
-`chu-open`, `chu-before-close` (cancelable) and `chu-close` (`detail: { reason, returnValue }`).
+`blip-open`, `blip-before-close` (cancelable) and `blip-close` (`detail: { reason, returnValue }`).
 
 | Class or property | |
 |---|---|
-| `.chu-action-sheet` with `.chu-drawer` on a `<dialog class="chu-box">` | The sheet. |
-| `.chu-action-sheet-title`, `.chu-action-sheet-message`, `.chu-action-sheet-actions`, `.chu-action-sheet-cancel` | The parts. |
-| `--chu-r` with `--chu-shape`, `--chu-shape-inner`, or `data-chu-r` | Corner radius (0 at the bottom, 4 in the middle). |
+| `.blip-action-sheet` with `.blip-drawer` on a `<dialog class="blip-box">` | The sheet. |
+| `.blip-action-sheet-title`, `.blip-action-sheet-message`, `.blip-action-sheet-actions`, `.blip-action-sheet-cancel` | The parts. |
+| `--blip-r` with `--blip-shape`, `--blip-shape-inner`, or `data-blip-r` | Corner radius (0 at the bottom, 4 in the middle). |

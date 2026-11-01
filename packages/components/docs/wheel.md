@@ -1,8 +1,8 @@
 ---
 name: Wheel picker
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: wheel.css
-element: chu-wheel
+element: blip-wheel
 react: Wheel
 status: beta
 equivalents:
@@ -16,25 +16,25 @@ a shirt size. The row on the band is the value; the rows above and below fade ou
 with a finger or the mouse, turn it with the mouse wheel, or Tab to it and use the arrow keys. It settles onto a row in
 steps, and it goes with a form like an input.
 
-`<chu-wheel>` builds the wheels for a time or a date in the page's language, or one wheel per `<select>` inside it.
+`<blip-wheel>` builds the wheels for a time or a date in the page's language, or one wheel per `<select>` inside it.
 
 ## Usage
 
 ```html
-<label class="chu-field-label" for="alarm">Alarm</label>
-<chu-wheel class="chu-box chu-wheel" id="alarm" name="alarm" data-type="time" value="07:30"></chu-wheel>
+<label class="blip-field-label" for="alarm">Alarm</label>
+<blip-wheel class="blip-box blip-wheel" id="alarm" name="alarm" data-type="time" value="07:30"></blip-wheel>
 
-<label class="chu-field-label" for="born">Birthday</label>
-<chu-wheel class="chu-box chu-wheel" id="born" name="born" data-type="date" min="1900" max="2026" value="1990-05-17"></chu-wheel>
+<label class="blip-field-label" for="born">Birthday</label>
+<blip-wheel class="blip-box blip-wheel" id="born" name="born" data-type="date" min="1900" max="2026" value="1990-05-17"></blip-wheel>
 
-<label class="chu-field-label" for="size">Shirt size</label>
-<chu-wheel class="chu-box chu-wheel" id="size" name="size">
+<label class="blip-field-label" for="size">Shirt size</label>
+<blip-wheel class="blip-box blip-wheel" id="size" name="size">
   <select aria-label="Size">
     <option value="s">Small</option>
     <option value="m" selected>Medium</option>
     <option value="l">Large</option>
   </select>
-</chu-wheel>
+</blip-wheel>
 ```
 
 ### Your own wheels
@@ -42,16 +42,16 @@ steps, and it goes with a form like an input.
 Write a `<select>` for each wheel, with an `aria-label` that names it and an `<option>` for each row: its `value`
 is what the form gets, its text is what the row says, and `selected` marks where it starts (unless the wheel has a
 `value`). Without JavaScript the selects show as they are, so give them a `name` too if the form must work without
-it. Once `<chu-wheel>` runs it hides and disables them, so only the wheel's own value is sent; the same goes for an
+it. Once `<blip-wheel>` runs it hides and disables them, so only the wheel's own value is sent; the same goes for an
 `<input type="time">` or `<input type="date">` left inside a time or date wheel as a fallback. The wheels' values are
 joined with spaces ("2 mint"), so keep spaces out of the values of a wheel that has neighbours.
 
 ## Anatomy
 
 1. **Well**: the calm field box (a line outline, the surface, a sunken row along the top).
-2. **Wheel** (`.chu-wheel-column`): five rows high, one per part of the value.
-3. **Band** (`.chu-wheel-band`): a candy box behind the middle row. It is the wheel's spin button, so focus rings it.
-4. **Rows** (`.chu-wheel-option`): the row on the band in bold, in the candy's label colour; the rows next to it show
+2. **Wheel** (`.blip-wheel-column`): five rows high, one per part of the value.
+3. **Band** (`.blip-wheel-band`): a candy box behind the middle row. It is the wheel's spin button, so focus rings it.
+4. **Rows** (`.blip-wheel-option`): the row on the band in bold, in the candy's label colour; the rows next to it show
    three pixels in four, the rows beyond half.
 
 ## Variants
@@ -113,7 +113,7 @@ The language is the nearest `lang` attribute's (the page's, or one round the whe
 
 ## API
 
-`<chu-wheel>` (form-associated)
+`<blip-wheel>` (form-associated)
 
 | Attribute / property | Type | |
 |---|---|---|
@@ -131,12 +131,12 @@ The language is the nearest `lang` attribute's (the page's, or one round the whe
 |---|---|---|
 | `input` | | The value on the band changed (while it moves, too). |
 | `change` | | The wheel settled on a new value. |
-| `chu-change` | `{ value }` | After `change`. |
+| `blip-change` | `{ value }` | After `change`. |
 
 A select (or option) rendered after the element upgrades, or swapped by a framework, rebuilds the wheels.
 
 | Part | |
 |---|---|
-| `.chu-wheel-column` | One wheel; `data-key` names its part (`hour`, `minute`, `dayPeriod`, `day`, `month`, `year`, or empty for one of your own). Months and your own wheels give way when the well is too narrow, and their rows end in an ellipsis; numbers never do. |
-| `.chu-wheel-band` | Its piece of the band: the spin button. |
-| `.chu-wheel-list`, `.chu-wheel-option` | Its rows; `[data-current]` is the one on the band. |
+| `.blip-wheel-column` | One wheel; `data-key` names its part (`hour`, `minute`, `dayPeriod`, `day`, `month`, `year`, or empty for one of your own). Months and your own wheels give way when the well is too narrow, and their rows end in an ellipsis; numbers never do. |
+| `.blip-wheel-band` | Its piece of the band: the spin button. |
+| `.blip-wheel-list`, `.blip-wheel-option` | Its rows; `[data-current]` is the one on the band. |

@@ -1,22 +1,22 @@
-# @jaatster/blip-blocks
+# @blip/blocks
 
 Website blocks for landing pages: hero, features, pricing, CTA band and footer, on the dithered world or on a soft
-panel. CSS in `@layer chu.kits`, built from the core components.
+panel. CSS in `@layer blip.kits`, built from the core components.
 
 ```sh
-npm install @jaatster/blip-blocks @jaatster/blip-components
+npm install @blip/blocks @blip/components
 ```
 
 ## Use
 
 ```css
-@import "@jaatster/blip-blocks/blocks.css";    /* or one file each: @jaatster/blip-blocks/hero.css */
+@import "@blip/blocks/blocks.css";    /* or one file each: @blip/blocks/hero.css */
 ```
 
 ```html
-<section class="chu-cta" aria-labelledby="cta-title">
-  <chu-world avoid=".chu-cta-title, .chu-cta-text, .chu-cta-actions"></chu-world>   <!-- from @jaatster/blip-effects -->
-  <h2 class="chu-cta-title chu-display chu-pop" data-scale="2" data-pop="Ready?" id="cta-title">Ready?</h2>
+<section class="blip-cta" aria-labelledby="cta-title">
+  <blip-world avoid=".blip-cta-title, .blip-cta-text, .blip-cta-actions"></blip-world>   <!-- from @blip/effects -->
+  <h2 class="blip-cta-title blip-display blip-pop" data-scale="2" data-pop="Ready?" id="cta-title">Ready?</h2>
   …
 </section>
 ```

@@ -23,9 +23,9 @@ const { title, description = "Blip: a 16-bit pixel-art design system. Candy on p
 const a = assets();
 const html = await Astro.slots.render("default");
 // The elements this page's markup uses: load their modules, and nothing else.
-const tags = new Set([...html.matchAll(/<(chu-[a-z0-9-]+)[\s>/]/g)].map((m) => m[1]!));
+const tags = new Set([...html.matchAll(/<(blip-[a-z0-9-]+)[\s>/]/g)].map((m) => m[1]!));
 // Behaviour some markup asks for by attribute rather than by tag.
-const byAttribute: [RegExp, string][] = [[/data-chu-burst=/, "/chu/effects/burst.js"]];
+const byAttribute: [RegExp, string][] = [[/data-blip-burst=/, "/blip/effects/burst.js"]];
 const modules = [...new Set([...[...tags].map((t) => a.defines[t]), ...byAttribute.filter(([re]) => re.test(html)).map(([, m]) => m)].filter((m): m is string => !!m))];
 const pageTitle = title === "Blip" ? title : `${title} · Blip`;
 // The docs' own address (astro.config.mjs's site), which may have a path: /blip on jaatster.com.
@@ -69,28 +69,28 @@ const presets = Object.keys(tokens().palettes ?? {}).join(" ");
         if (/^(auto|day|sunset|night)$/.test(q.get("scheme") || "")) pref = q.get("scheme");
         if (/^[234]$/.test(q.get("pixel") || "")) px = q.get("pixel");
         if (q.has("palette")) pal = q.get("palette");
-        if (pal && presets.indexOf(pal) >= 0) d.setAttribute("data-chu-palette", pal);
+        if (pal && presets.indexOf(pal) >= 0) d.setAttribute("data-blip-palette", pal);
         var h = new Date().getHours();
-        d.setAttribute("data-chu-scheme", pref === "auto" ? (h >= 6 && h < 17 ? "day" : h >= 17 && h < 19 ? "sunset" : "night") : pref);
+        d.setAttribute("data-blip-scheme", pref === "auto" ? (h >= 6 && h < 17 ? "day" : h >= 17 && h < 19 ? "sunset" : "night") : pref);
         d.setAttribute("data-scheme-choice", pref);
-        if (px === "3" || px === "4") d.setAttribute("data-chu-pixel", px);
+        if (px === "3" || px === "4") d.setAttribute("data-blip-pixel", px);
         if (/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)) d.classList.add("mac");
         d.classList.add("js");
       })();
     </script>
     <script type="importmap" set:html={JSON.stringify(a.importMap)} />
-    <link rel="preload" href="/chu/font/dist/pixelify-sans.woff2" as="font" type="font/woff2" crossorigin />
-    {display && <link rel="preload" href="/chu/font/dist/pixel-bop.woff2" as="font" type="font/woff2" crossorigin />}
+    <link rel="preload" href="/blip/font/dist/pixelify-sans.woff2" as="font" type="font/woff2" crossorigin />
+    {display && <link rel="preload" href="/blip/font/dist/pixel-bop.woff2" as="font" type="font/woff2" crossorigin />}
     <!-- The first paint waits for the page to the footer (Chrome), so a page never shows half drawn, or changes
          (view transitions, docs.css) into a page that isn't there yet. -->
     <link rel="expect" href="#docs-footer" blocking="render" />
-    <link rel="stylesheet" href="/chu/font/font.css" />
-    <link rel="stylesheet" href="/chu/tokens/tokens.css" />
-    <link rel="stylesheet" href="/chu/tokens/palettes.css" />
-    <link rel="stylesheet" href="/chu/core/core.css" />
-    <link rel="stylesheet" href="/chu/components/components.css" />
-    <link rel="stylesheet" href="/chu/components/popover-nub.css" />
-    {kits.map((k) => <link rel="stylesheet" href={`/chu/${k}/${k}.css`} />)}
+    <link rel="stylesheet" href="/blip/font/font.css" />
+    <link rel="stylesheet" href="/blip/tokens/tokens.css" />
+    <link rel="stylesheet" href="/blip/tokens/palettes.css" />
+    <link rel="stylesheet" href="/blip/core/core.css" />
+    <link rel="stylesheet" href="/blip/components/components.css" />
+    <link rel="stylesheet" href="/blip/components/popover-nub.css" />
+    {kits.map((k) => <link rel="stylesheet" href={`/blip/${k}/${k}.css`} />)}
     <link rel="stylesheet" href="/css/docs.css" />
     {styles.map((s) => <link rel="stylesheet" href={`/css/${s}.css`} />)}
     {modules.length > 0 && a.coreModules.map((m) => <link rel="modulepreload" href={m} />)}

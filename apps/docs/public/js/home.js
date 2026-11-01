@@ -1,10 +1,10 @@
 // Home: the sky's clock and the launcher, the live options window, the rules' specimens, the sample screen and the kits.
-import { services } from "@jaatster/blip-core";
+import { services } from "@blip/core";
 
 const root = document.documentElement;
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-const toaster = () => $("chu-toaster");
+const toaster = () => $("blip-toaster");
 // Sound is the site's (site.js, window.docs.sound): the Options window's switch and the kit's button are its
 // controls (data-docs-sound), and the kit's keys wait for it.
 const play = (name, options) => window.docs?.sound?.play(name, options);
@@ -19,9 +19,9 @@ syncSound();
 
 const scheme = $(".home-scheme");
 const syncScheme = () => scheme && (scheme.value = root.dataset.schemeChoice || "auto");
-customElements.whenDefined("chu-segmented").then(syncScheme);
+customElements.whenDefined("blip-segmented").then(syncScheme);
 document.addEventListener("docs-scheme", () => { syncScheme(); tick(); });
-scheme?.addEventListener("chu-change", (e) => {
+scheme?.addEventListener("blip-change", (e) => {
   window.docs?.setScheme(e.detail.value);
   play("select");
 });
@@ -30,8 +30,8 @@ const hero = $(".home-hero");
 for (const input of $$('input[name="home-accent"]')) {
   input.addEventListener("change", () => {
     const c = input.value;
-    for (const [k, v] of [["--chu-accent", ""], ["--chu-accent-light", "-light"], ["--chu-accent-shade", "-shade"]]) {
-      if (c) hero.style.setProperty(k, `var(--chu-candy-${c}${v})`);
+    for (const [k, v] of [["--blip-accent", ""], ["--blip-accent-light", "-light"], ["--blip-accent-shade", "-shade"]]) {
+      if (c) hero.style.setProperty(k, `var(--blip-candy-${c}${v})`);
       else hero.style.removeProperty(k);
     }
     play("select");
@@ -42,8 +42,8 @@ for (const input of $$('input[name="home-accent"]')) {
 $(".home-start")?.addEventListener("click", async (e) => {
   const button = e.currentTarget;
   play("coin");
-  import("@jaatster/blip-effects/burst.js").then(({ burst }) => burst(button, { kind: "coin", count: 5 }));
-  await customElements.whenDefined("chu-toaster");
+  import("@blip/effects/burst.js").then(({ burst }) => burst(button, { kind: "coin", count: 5 }));
+  await customElements.whenDefined("blip-toaster");
   toaster()?.add({ title: "Achievement unlocked", body: "First press: you pressed a real Blip button.", tone: "success" });
 });
 
@@ -51,7 +51,7 @@ $(".home-start")?.addEventListener("click", async (e) => {
 const daytime = $(".home-daytime");
 function tick() {
   if (!daytime) return;
-  const name = { day: "Day", sunset: "Sunset", night: "Night" }[root.dataset.chuScheme] ?? "";
+  const name = { day: "Day", sunset: "Sunset", night: "Night" }[root.dataset.blipScheme] ?? "";
   daytime.textContent = (root.dataset.schemeChoice || "auto") === "auto" ? `${name}, by your clock` : name;
 }
 tick();
@@ -85,7 +85,7 @@ setTimeout(() => {
 // The tile under the pointer or the keyboard is the chosen one: it lifts in its ring, the arrow bobs over it, and its
 // name stands above the row in POP. The name is decoration (each link is named by its own label), so it is not live.
 const pick = $(".home-pick");
-const tiles = $$(".home-tiles .chu-tile");
+const tiles = $$(".home-tiles .blip-tile");
 function choose(tile) {
   if (!pick || tile.hasAttribute("data-selected")) return;
   for (const t of tiles) t.toggleAttribute("data-selected", t === tile);
@@ -116,23 +116,23 @@ const code = $(".home-switch-code");
 const stage = $("#home-stage");
 // The sample starts in the page's own scheme; the switches take it from there.
 if (stage) {
-  const start = root.dataset.chuScheme || "day";
-  stage.setAttribute("data-chu-scheme", start);
-  code.textContent = `<section data-chu-scheme="${start}">`;
+  const start = root.dataset.blipScheme || "day";
+  stage.setAttribute("data-blip-scheme", start);
+  code.textContent = `<section data-blip-scheme="${start}">`;
   const seg = $('[data-stage="home-stage"][data-attr="scheme"]');
-  customElements.whenDefined("chu-segmented").then(() => seg && (seg.value = start));
+  customElements.whenDefined("blip-segmented").then(() => seg && (seg.value = start));
 }
-document.addEventListener("chu-change", (e) => {
+document.addEventListener("blip-change", (e) => {
   if (!e.target.closest?.('[data-stage="home-stage"]')) return;
   requestAnimationFrame(() => {
-    const s = stage.getAttribute("data-chu-scheme") ?? "day", p = stage.getAttribute("data-chu-pixel");
-    code.textContent = `<section data-chu-scheme="${s}"${p ? ` data-chu-pixel="${p}"` : ""}>`;
+    const s = stage.getAttribute("data-blip-scheme") ?? "day", p = stage.getAttribute("data-blip-pixel");
+    code.textContent = `<section data-blip-scheme="${s}"${p ? ` data-blip-pixel="${p}"` : ""}>`;
   });
   play("select");
 });
 for (const b of $$(".home-sample")) {
   b.addEventListener("click", async () => {
-    await customElements.whenDefined("chu-toaster");
+    await customElements.whenDefined("blip-toaster");
     toaster()?.add({ title: b.dataset.toast, tone: b.dataset.tone === "danger" ? undefined : "info" });
     play("open");
   });

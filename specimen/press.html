@@ -1,16 +1,16 @@
 <!doctype html>
-<html lang="en" data-chu-scheme="night" data-chu-motion="reduce">
+<html lang="en" data-blip-scheme="night" data-blip-motion="reduce">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=1200">
   <title>Blip press card</title>
   <link rel="icon" href="data:,">
   <!-- The social card (1200 x 630): the docs' home hero, drawn from the same parts and the home page's own styles
-       (apps/docs/public/css/home.css). The name in Pixel Bop POP over <chu-world>, the window of options, and the
+       (apps/docs/public/css/home.css). The name in Pixel Bop POP over <blip-world>, the window of options, and the
        site's sections as candy tiles on the hill line. Time is frozen and randomness seeded, as on the test page, and
        motion is paused, so the picture is the same every time. scripts/shoot.mjs saves it as apps/docs/public/og.png.
        ?scheme=day|sunset (Night by default)  ?palette=grape (any preset) -->
-  <script type="importmap">{ "imports": { "@jaatster/blip-core": "/packages/core/dist/js/index.js", "@jaatster/blip-tokens": "/packages/tokens/dist/js/index.js" } }</script>
+  <script type="importmap">{ "imports": { "@blip/core": "/packages/core/dist/js/index.js", "@blip/tokens": "/packages/tokens/dist/js/index.js" } }</script>
   <link rel="stylesheet" href="/packages/font/font.css">
   <link rel="stylesheet" href="/packages/tokens/dist/css/tokens.css">
   <link rel="stylesheet" href="/packages/tokens/dist/css/palettes.css">
@@ -29,68 +29,68 @@
         block-size: 630px;
         min-block-size: 0;
         mask-image: none;
-        padding-block-start: var(--chu-space-12);
+        padding-block-start: var(--blip-space-12);
       }
     }
   </style>
 </head>
 <body>
-  <section class="chu-hero home-hero press" data-align="start" aria-labelledby="press-title">
-    <chu-world clouds stars avoid=".chu-hero-title, .home-lead, .home-note, .home-demo, .home-tiles .chu-tile-item"></chu-world>
+  <section class="blip-hero home-hero press" data-align="start" aria-labelledby="press-title">
+    <blip-world clouds stars avoid=".blip-hero-title, .home-lead, .home-note, .home-demo, .home-tiles .blip-tile-item"></blip-world>
     <div class="home-hero-grid">
       <div class="home-hero-copy">
-        <h1 class="chu-hero-title chu-display" id="press-title"><span class="chu-sr-only">Blip</span><span aria-hidden="true"><span class="chu-hero-word"><span class="chu-pop chu-drop-in" data-pop="C" style="--i:0">C</span><span class="chu-pop chu-drop-in" data-pop="h" style="--i:1">h</span><span class="chu-pop chu-drop-in" data-pop="u" style="--i:2">u</span><span class="chu-pop chu-drop-in" data-pop="s" style="--i:3">s</span><span class="chu-pop chu-drop-in" data-pop="k" style="--i:4">k</span><span class="chu-pop chu-drop-in" data-pop="i" style="--i:5">i</span></span></span></h1>
-        <p class="chu-hero-lead home-lead">A 16-bit design system: candy controls on a soft pixel world, one square pixel everywhere, and motion that snaps.</p>
-        <p class="chu-hero-note home-note">Tokens, CSS and Web Components, with React. No images.</p>
+        <h1 class="blip-hero-title blip-display" id="press-title"><span class="blip-sr-only">Blip</span><span aria-hidden="true"><span class="blip-hero-word"><span class="blip-pop blip-drop-in" data-pop="B" style="--i:0">B</span><span class="blip-pop blip-drop-in" data-pop="l" style="--i:1">l</span><span class="blip-pop blip-drop-in" data-pop="i" style="--i:2">i</span><span class="blip-pop blip-drop-in" data-pop="p" style="--i:3">p</span></span></span></h1>
+        <p class="blip-hero-lead home-lead">A 16-bit design system: candy controls on a soft pixel world, one square pixel everywhere, and motion that snaps.</p>
+        <p class="blip-hero-note home-note">Tokens, CSS and Web Components, with React. No images.</p>
       </div>
-      <section class="chu-box chu-window home-demo" aria-labelledby="press-demo">
-        <header class="chu-window-bar"><h2 class="chu-window-title chu-display chu-pop" id="press-demo">Options</h2></header>
-        <div class="chu-window-body home-demo-body">
+      <section class="blip-box blip-window home-demo" aria-labelledby="press-demo">
+        <header class="blip-window-bar"><h2 class="blip-window-title blip-display blip-pop" id="press-demo">Options</h2></header>
+        <div class="blip-window-body home-demo-body">
           <div class="home-demo-row">
-            <span class="chu-label">Time of day</span>
-            <span class="chu-box chu-segmented home-scheme" data-size="sm" role="radiogroup">
-              <button class="chu-box" type="button" role="radio" aria-checked="true" data-scheme="auto">Auto</button>
-              <button class="chu-box" type="button" role="radio" aria-checked="false" data-scheme="day">Day</button>
-              <button class="chu-box" type="button" role="radio" aria-checked="false" data-scheme="sunset">Sunset</button>
-              <button class="chu-box" type="button" role="radio" aria-checked="false" data-scheme="night">Night</button>
+            <span class="blip-label">Time of day</span>
+            <span class="blip-box blip-segmented home-scheme" data-size="sm" role="radiogroup">
+              <button class="blip-box" type="button" role="radio" aria-checked="true" data-scheme="auto">Auto</button>
+              <button class="blip-box" type="button" role="radio" aria-checked="false" data-scheme="day">Day</button>
+              <button class="blip-box" type="button" role="radio" aria-checked="false" data-scheme="sunset">Sunset</button>
+              <button class="blip-box" type="button" role="radio" aria-checked="false" data-scheme="night">Night</button>
             </span>
           </div>
           <div class="home-demo-row home-accents">
-            <span class="chu-label">Accent</span>
+            <span class="blip-label">Accent</span>
             <div class="home-swatches">
-              <label class="chu-box home-swatch home-swatch-auto"><input type="radio" name="accent" checked><span class="home-swatch-split"></span><span class="home-swatch-mark"></span></label>
-              <label class="chu-box home-swatch" data-tone="teal"><input type="radio" name="accent"><span class="home-swatch-mark"></span></label>
-              <label class="chu-box home-swatch" data-tone="green"><input type="radio" name="accent"><span class="home-swatch-mark"></span></label>
-              <label class="chu-box home-swatch" data-tone="purple"><input type="radio" name="accent"><span class="home-swatch-mark"></span></label>
-              <label class="chu-box home-swatch" data-tone="pink"><input type="radio" name="accent"><span class="home-swatch-mark"></span></label>
-              <label class="chu-box home-swatch" data-tone="orange"><input type="radio" name="accent"><span class="home-swatch-mark"></span></label>
+              <label class="blip-box home-swatch home-swatch-auto"><input type="radio" name="accent" checked><span class="home-swatch-split"></span><span class="home-swatch-mark"></span></label>
+              <label class="blip-box home-swatch" data-tone="teal"><input type="radio" name="accent"><span class="home-swatch-mark"></span></label>
+              <label class="blip-box home-swatch" data-tone="green"><input type="radio" name="accent"><span class="home-swatch-mark"></span></label>
+              <label class="blip-box home-swatch" data-tone="purple"><input type="radio" name="accent"><span class="home-swatch-mark"></span></label>
+              <label class="blip-box home-swatch" data-tone="pink"><input type="radio" name="accent"><span class="home-swatch-mark"></span></label>
+              <label class="blip-box home-swatch" data-tone="orange"><input type="radio" name="accent"><span class="home-swatch-mark"></span></label>
             </div>
           </div>
-          <label class="chu-check home-demo-row" data-layout="split">Chip sounds<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" checked></span></label>
-          <button class="chu-box chu-button home-start" type="button" data-variant="soft" data-width="full">Press start</button>
+          <label class="blip-check home-demo-row" data-layout="split">Chip sounds<span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box" checked></span></label>
+          <button class="blip-box blip-button home-start" type="button" data-variant="soft" data-width="full">Press start</button>
         </div>
-        <footer class="chu-window-status"><span>Every control is live</span><span class="press-daytime"></span></footer>
+        <footer class="blip-window-status"><span>Every control is live</span><span class="press-daytime"></span></footer>
       </section>
     </div>
     <nav class="home-launch" aria-label="Sections">
-      <div class="home-tiles-grid" data-chu-pixel="3">
-        <ul class="chu-tile-grid home-tiles" role="list" data-tiles="green:rocket:Get started blue:palette:Foundations purple:puzzle:Components teal:desktop:Templates pink:brush:Palette maker orange:gamepad:Kits"></ul>
+      <div class="home-tiles-grid" data-blip-pixel="3">
+        <ul class="blip-tile-grid home-tiles" role="list" data-tiles="green:rocket:Get started blue:palette:Foundations purple:puzzle:Components teal:desktop:Templates pink:brush:Palette maker orange:gamepad:Kits"></ul>
       </div>
     </nav>
-    <div class="chu-hero-scenery home-scenery" aria-hidden="true" data-scenery="coin:2:2 coin:9:6 star:16:0 sparkle-small:22:10 star:78:0 coin:86:4 sparkle:92:12"></div>
+    <div class="blip-hero-scenery home-scenery" aria-hidden="true" data-scenery="coin:2:2 coin:9:6 star:16:0 sparkle-small:22:10 star:78:0 coin:86:4 sparkle:92:12"></div>
   </section>
 
   <script type="module">
-    import { provide } from "@jaatster/blip-core";
+    import { provide } from "@blip/core";
 
     // The test page's clock and seed (tests/page/example.js), before the world loads.
     provide({ clock: () => new Date("2026-06-21T12:00:00"), seed: 42 });
 
     const root = document.documentElement;
     const q = new URLSearchParams(location.search);
-    if (/^(day|sunset|night)$/.test(q.get("scheme") ?? "")) root.dataset.chuScheme = q.get("scheme");
-    if (q.get("palette")) root.dataset.chuPalette = q.get("palette");
-    const scheme = root.dataset.chuScheme;
+    if (/^(day|sunset|night)$/.test(q.get("scheme") ?? "")) root.dataset.blipScheme = q.get("scheme");
+    if (q.get("palette")) root.dataset.blipPalette = q.get("palette");
+    const scheme = root.dataset.blipScheme;
     document.querySelector(".press-daytime").textContent = scheme[0].toUpperCase() + scheme.slice(1);
 
     // The launcher, as the home page's: each section a candy tile with its icon, its name under it, the first chosen.
@@ -101,13 +101,13 @@
       return all;
     }, []).map((t, i) => {
       const [tone, icon, name] = t.split(":");
-      return `<li class="chu-tile-item"><span class="chu-box chu-tile" data-tone="${tone}"${i === 0 ? " data-selected" : ""}><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="${path(icon)}"/></svg><span class="chu-tile-glint"></span></span><span class="chu-tile-label chu-outline">${name}</span></li>`;
+      return `<li class="blip-tile-item"><span class="blip-box blip-tile" data-tone="${tone}"${i === 0 ? " data-selected" : ""}><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="${path(icon)}"/></svg><span class="blip-tile-glint"></span></span><span class="blip-tile-label blip-outline">${name}</span></li>`;
     }).join("");
     // Things fallen on the meadow, as on the home page: where each stands along the ground, and how high it floats.
     const meadow = document.querySelector("[data-scenery]");
     meadow.innerHTML = meadow.dataset.scenery.split(" ").map((s) => {
       const [name, at, up] = s.split(":");
-      return `<chu-sprite name="${name}" style="left:calc(round(down,${at}%,var(--chu-pixel)));bottom:calc(${up}*var(--chu-pixel))"></chu-sprite>`;
+      return `<blip-sprite name="${name}" style="left:calc(round(down,${at}%,var(--blip-pixel)));bottom:calc(${up}*var(--blip-pixel))"></blip-sprite>`;
     }).join("");
 
     await import("/packages/game/dist/sprites.js");

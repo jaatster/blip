@@ -191,7 +191,7 @@ async function collect(page: Page): Promise<{ i: number; label: string; kind: st
     const root = document.getElementById("example")!;
     const out: { i: number; label: string; kind: string }[] = [];
     const kinds = new Set<string>();
-    const name = (e: Element) => `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c.startsWith("chu-") && c !== "chu-box").slice(0, 1).map((c) => `.${c}`).join("")}`;
+    const name = (e: Element) => `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c.startsWith("blip-") && c !== "blip-box").slice(0, 1).map((c) => `.${c}`).join("")}`;
     const text = (e: Element) => (e.getAttribute("aria-label") ?? e.textContent ?? "").trim().replace(/\s+/g, " ").slice(0, 24);
     const add = (el: Element, kind: string) => {
       if (out.length >= 40 || el.hasAttribute("data-lanes-t") || !el.checkVisibility() || el.matches(`:disabled, [aria-disabled='true'], ${toggle}`)) return;
@@ -199,15 +199,15 @@ async function collect(page: Page): Promise<{ i: number; label: string; kind: st
       out.push({ i: out.length, label: `${kind === "control" ? "" : `${kind} `}${name(el)} "${text(el)}"`, kind });
     };
     // Openers and other things that act: every one.
-    for (const el of root.querySelectorAll("[command], [popovertarget], chu-menu > button, chu-menu > [aria-haspopup], [onclick], [data-chu-burst]")) add(el, "opener");
-    for (const tip of root.querySelectorAll("chu-tooltip[for]")) {
+    for (const el of root.querySelectorAll("[command], [popovertarget], blip-menu > button, blip-menu > [aria-haspopup], [onclick], [data-blip-burst]")) add(el, "opener");
+    for (const tip of root.querySelectorAll("blip-tooltip[for]")) {
       const trigger = document.getElementById(tip.getAttribute("for")!);
       if (trigger) add(trigger, "tooltip");
     }
     // A disclosure and an unselected tab of each group.
     const groups = new Set<Element>();
     for (const el of root.querySelectorAll("summary")) {
-      const g = el.closest("[class*='chu-']") ?? el.parentElement!;
+      const g = el.closest("[class*='blip-']") ?? el.parentElement!;
       if (groups.has(g)) continue;
       groups.add(g);
       add(el, "summary");
@@ -217,7 +217,7 @@ async function collect(page: Page): Promise<{ i: number; label: string; kind: st
       if (tab) add(tab, "tab");
     }
     // One of each other kind of control.
-    for (const el of root.querySelectorAll("button, a[href], [role='button'], [role='menuitem'], [role='option'], [role='switch'], input[type='checkbox'], input[type='radio'], input[type='range'], label.chu-box, [data-chu-interactive]")) {
+    for (const el of root.querySelectorAll("button, a[href], [role='button'], [role='menuitem'], [role='option'], [role='switch'], input[type='checkbox'], input[type='radio'], input[type='range'], label.blip-box, [data-blip-interactive]")) {
       const kind = `${name(el)}|${el.getAttribute("role") ?? ""}|${(el as HTMLInputElement).type ?? ""}`;
       if (kinds.has(kind) || el.matches(toggle)) continue;
       kinds.add(kind);
@@ -238,11 +238,11 @@ async function toggleAt(page: Page): Promise<{ x: number; y: number } | null> {
 
 async function force(page: Page, state: string): Promise<void> {
   await page.evaluate((state) => {
-    const selector = ".chu-box:is(button, a[href], summary, label, [role='button'], [role='tab'], [role='menuitem'], [role='option'], [data-chu-interactive]), a[href], button, summary, [role='tab'], [role='menuitem'], [role='option'], .chu-box:has(> :is(input, select, textarea))";
+    const selector = ".blip-box:is(button, a[href], summary, label, [role='button'], [role='tab'], [role='menuitem'], [role='option'], [data-blip-interactive]), a[href], button, summary, [role='tab'], [role='menuitem'], [role='option'], .blip-box:has(> :is(input, select, textarea))";
     for (const el of document.getElementById("example")!.querySelectorAll<HTMLElement>(selector)) {
       if (el.matches(":disabled, [aria-disabled='true']")) continue;
-      el.dataset.lanesWas = el.getAttribute("data-chu-state") ?? "\u0000";
-      el.setAttribute("data-chu-state", `${el.getAttribute("data-chu-state") ?? ""} ${state}`.trim());
+      el.dataset.lanesWas = el.getAttribute("data-blip-state") ?? "\u0000";
+      el.setAttribute("data-blip-state", `${el.getAttribute("data-blip-state") ?? ""} ${state}`.trim());
     }
   }, state);
 }
@@ -250,8 +250,8 @@ async function force(page: Page, state: string): Promise<void> {
 async function unforce(page: Page): Promise<void> {
   await page.evaluate(() => {
     for (const el of document.querySelectorAll<HTMLElement>("[data-lanes-was]")) {
-      if (el.dataset.lanesWas === "\u0000") el.removeAttribute("data-chu-state");
-      else el.setAttribute("data-chu-state", el.dataset.lanesWas!);
+      if (el.dataset.lanesWas === "\u0000") el.removeAttribute("data-blip-state");
+      else el.setAttribute("data-blip-state", el.dataset.lanesWas!);
       delete el.dataset.lanesWas;
     }
   });
@@ -274,7 +274,7 @@ async function pause(page: Page): Promise<void> {
     be reached. */
 async function shut(page: Page): Promise<void> {
   await page.evaluate(() => {
-    for (const d of document.querySelectorAll<HTMLDialogElement>("dialog[open]:not([data-chu-static])")) d.close();
-    for (const p of document.querySelectorAll<HTMLElement>(":popover-open:not([data-chu-static])")) p.hidePopover();
+    for (const d of document.querySelectorAll<HTMLDialogElement>("dialog[open]:not([data-blip-static])")) d.close();
+    for (const p of document.querySelectorAll<HTMLElement>(":popover-open:not([data-blip-static])")) p.hidePopover();
   });
 }

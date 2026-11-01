@@ -1,6 +1,6 @@
 /**
  * Card: Card, CardMedia, CardHeader, CardTitle, CardSubtitle, CardBody, CardFooter, CardContent and CardLink. CSS from
- * @jaatster/blip-components (card.css).
+ * @blip/components (card.css).
  */
 import { forwardRef } from "react";
 import type { CSSProperties, ElementType } from "react";
@@ -21,14 +21,14 @@ export interface CardOwnProps {
   tone?: Tone;
   /** Padding 6, 8 (default) or 12 pixels, with the title size and corner radius to match. `data-size`. */
   size?: Size;
-  /** Corner radius in pixels, 0 to 8 (4 by default; small 3, large 5). `data-chu-r`. */
+  /** Corner radius in pixels, 0 to 8 (4 by default; small 3, large 5). `data-blip-r`. */
   radius?: Radius;
   /**
    * The picture beside the text while both fit, above it when they don't (it follows its container, no
    * breakpoint). Wrap the header, body and footer in a {@link CardContent}. `data-layout`.
    */
   layout?: "horizontal";
-  /** A card with one main link (a {@link CardLink} in its title) and other actions: it lifts. `data-chu-interactive`. */
+  /** A card with one main link (a {@link CardLink} in its title) and other actions: it lifts. `data-blip-interactive`. */
   interactive?: boolean;
 }
 
@@ -37,7 +37,7 @@ export type CardProps<T extends ElementType = "article"> = PolymorphicProps<T, C
 /**
  * A panel that holds one thing: a world, a player, an event. An `<article>` with a heading in the page's outline;
  * `as="a"` makes the whole card a link that lifts (keep it short, with nothing else to press inside). One thing per
- * card, never a card in a card; rows of cards go in a grid. Renders `<article class="chu-box chu-card">`.
+ * card, never a card in a card; rows of cards go in a grid. Renders `<article class="blip-box blip-card">`.
  *
  *   <Card>
  *     <CardMedia><img src="meadow.png" alt="" /></CardMedia>
@@ -57,12 +57,12 @@ export const Card = /*#__PURE__*/ forwardRef(function Card(
   return (
     <Tag
       ref={ref}
-      className={cx("chu-box chu-card", className)}
+      className={cx("blip-box blip-card", className)}
       {...box({ tone, radius })}
       data-variant={variant}
       data-size={size}
       data-layout={layout}
-      data-chu-interactive={flag(interactive)}
+      data-blip-interactive={flag(interactive)}
       {...rest}
     />
   );
@@ -76,9 +76,9 @@ export interface CardMediaOwnProps {
    * blurred). Give its size in its own pixels with `artWidth` and `artHeight`. `data-fit`.
    */
   fit?: "pixels";
-  /** With `fit="pixels"`: the picture's width in its own pixels (a 64 x 36 drawing: 64). `--chu-card-art-width`. */
+  /** With `fit="pixels"`: the picture's width in its own pixels (a 64 x 36 drawing: 64). `--blip-card-art-width`. */
   artWidth?: number;
-  /** With `fit="pixels"`: the picture's height in its own pixels (a 64 x 36 drawing: 36). `--chu-card-art-height`. */
+  /** With `fit="pixels"`: the picture's height in its own pixels (a 64 x 36 drawing: 36). `--blip-card-art-height`. */
   artHeight?: number;
 }
 
@@ -90,9 +90,9 @@ export type CardMediaProps = CardMediaFit & NativeProps<"div", CardMediaOwnProps
 
 /**
  * The card's picture in a one-pixel ink frame, never smoothed. An `<img>`, `<svg>`, `<canvas>` or `<video>`, 16:9
- * unless `--chu-card-media-ratio` says otherwise; `alt=""` when it only decorates. Pixel art takes `fit="pixels"` and
+ * unless `--blip-card-media-ratio` says otherwise; `alt=""` when it only decorates. Pixel art takes `fit="pixels"` and
  * its size in its own pixels, so every art pixel comes out the same whole number of Blip pixels. Renders `<div
- * class="chu-card-media">`.
+ * class="blip-card-media">`.
  *
  *   <CardMedia><img src="meadow.png" alt="" /></CardMedia>
  *   <CardMedia fit="pixels" artWidth={64} artHeight={36}><img src="meadow.png" alt="" width={64} height={36} /></CardMedia>
@@ -101,8 +101,8 @@ export const CardMedia = /*#__PURE__*/ forwardRef<HTMLDivElement, CardMediaProps
   { fit, artWidth, artHeight, style, className, ...rest },
   ref,
 ) {
-  const art = fit === undefined ? style : { ...style, "--chu-card-art-width": String(artWidth), "--chu-card-art-height": String(artHeight) };
-  return <div ref={ref} className={cx("chu-card-media", className)} data-fit={fit} style={art as CSSProperties | undefined} {...rest} />;
+  const art = fit === undefined ? style : { ...style, "--blip-card-art-width": String(artWidth), "--blip-card-art-height": String(artHeight) };
+  return <div ref={ref} className={cx("blip-card-media", className)} data-fit={fit} style={art as CSSProperties | undefined} {...rest} />;
 });
 
 /** Props for {@link CardHeader}. */
@@ -110,19 +110,19 @@ export type CardHeaderProps = NativeProps<"header">;
 
 /**
  * The card's header: title and subtitle at the start, anything small at the end. Wrap the title and subtitle in a
- * `<div>`; the end holds a tag or a menu button. Renders `<header class="chu-card-header">`.
+ * `<div>`; the end holds a tag or a menu button. Renders `<header class="blip-card-header">`.
  *
  *   <CardHeader><div><CardTitle>Meadow</CardTitle></div><Tag tone="success">Cleared</Tag></CardHeader>
  */
 export const CardHeader = /*#__PURE__*/ forwardRef<HTMLElement, CardHeaderProps>(function CardHeader({ className, ...rest }, ref) {
-  return <header ref={ref} className={cx("chu-card-header", className)} {...rest} />;
+  return <header ref={ref} className={cx("blip-card-header", className)} {...rest} />;
 });
 
 export type CardTitleProps<T extends ElementType = "h3"> = PolymorphicProps<T, object>;
 
 /**
  * The card's title: a few words, on a heading at the right level for the page's outline (`<h2>` to `<h4>`).
- * Renders `<h3 class="chu-card-title">`.
+ * Renders `<h3 class="blip-card-title">`.
  *
  *   <CardTitle as="h2">Pip Bloom</CardTitle>
  */
@@ -130,14 +130,14 @@ export const CardTitle = /*#__PURE__*/ forwardRef(function CardTitle(
   { as: Tag = "h3", className, ...rest }: CardTitleProps<ElementType>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("chu-card-title", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("blip-card-title", className)} {...rest} />;
 }) as PolymorphicComponent<"h3", object>;
 
 /** Props for {@link CardSubtitle}. */
 export type CardSubtitleProps = NativeProps<"p">;
 
 /**
- * One line of facts under the title. Renders `<p class="chu-card-subtitle">`.
+ * One line of facts under the title. Renders `<p class="blip-card-subtitle">`.
  *
  *   <CardSubtitle>World 1 · 8 levels</CardSubtitle>
  */
@@ -145,13 +145,13 @@ export const CardSubtitle = /*#__PURE__*/ forwardRef<HTMLParagraphElement, CardS
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("chu-card-subtitle", className)} {...rest} />;
+  return <p ref={ref} className={cx("blip-card-subtitle", className)} {...rest} />;
 });
 
 export type CardBodyProps<T extends ElementType = "div"> = PolymorphicProps<T, object>;
 
 /**
- * The card's text: a `<div>` of paragraphs, or `as="p"` for one. Renders `<div class="chu-card-body">`.
+ * The card's text: a `<div>` of paragraphs, or `as="p"` for one. Renders `<div class="blip-card-body">`.
  *
  *   <CardBody as="p">Rolling hills, slow clouds and the first boss.</CardBody>
  */
@@ -159,7 +159,7 @@ export const CardBody = /*#__PURE__*/ forwardRef(function CardBody(
   { as: Tag = "div", className, ...rest }: CardBodyProps<ElementType>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("chu-card-body", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("blip-card-body", className)} {...rest} />;
 }) as PolymorphicComponent<"div", object>;
 
 /** Props for {@link CardFooter}. */
@@ -167,12 +167,12 @@ export type CardFooterProps = NativeProps<"footer">;
 
 /**
  * The card's actions, at the end and pushed to the bottom in a row of cards: one or two, the main one in candy.
- * Renders `<footer class="chu-card-footer">`.
+ * Renders `<footer class="blip-card-footer">`.
  *
  *   <CardFooter><Button variant="soft" size="sm">Message</Button><Button size="sm">Add friend</Button></CardFooter>
  */
 export const CardFooter = /*#__PURE__*/ forwardRef<HTMLElement, CardFooterProps>(function CardFooter({ className, ...rest }, ref) {
-  return <footer ref={ref} className={cx("chu-card-footer", className)} {...rest} />;
+  return <footer ref={ref} className={cx("blip-card-footer", className)} {...rest} />;
 });
 
 /** Props for {@link CardContent}. */
@@ -180,7 +180,7 @@ export type CardContentProps = NativeProps<"div">;
 
 /**
  * The header, body and footer of a horizontal card, side by side with its picture. Renders `<div
- * class="chu-card-content">`.
+ * class="blip-card-content">`.
  *
  *   <Card layout="horizontal"><CardMedia>…</CardMedia><CardContent>…</CardContent></Card>
  */
@@ -188,7 +188,7 @@ export const CardContent = /*#__PURE__*/ forwardRef<HTMLDivElement, CardContentP
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-card-content", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-card-content", className)} {...rest} />;
 });
 
 /** Props for {@link CardLink}: a link's by default, or your router's link's with `as`. */
@@ -197,7 +197,7 @@ export type CardLinkProps<T extends ElementType = "a"> = PolymorphicProps<T, obj
 /**
  * A card's main link, in its title: its click area covers the card. Give the card `interactive`; its other buttons stay
  * their own targets above the link, so screen readers hear a short link name and every action stays reachable.
- * Renders `<a class="chu-card-link">`; with `as`, your router's link.
+ * Renders `<a class="blip-card-link">`; with `as`, your router's link.
  *
  *   <Card interactive>
  *     <CardHeader>
@@ -207,5 +207,5 @@ export type CardLinkProps<T extends ElementType = "a"> = PolymorphicProps<T, obj
  *   </Card>
  */
 export const CardLink = /*#__PURE__*/ forwardRef(function CardLink({ as: Tag = "a", className, ...rest }: CardLinkProps<ElementType>, ref) {
-  return <Tag ref={ref} className={cx("chu-card-link", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("blip-card-link", className)} {...rest} />;
 }) as PolymorphicComponent<"a", object>;

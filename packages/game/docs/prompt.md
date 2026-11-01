@@ -1,6 +1,6 @@
 ---
 name: Prompts
-package: "@jaatster/blip-game"
+package: "@blip/game"
 css: prompt.css
 element: null
 react: Prompt
@@ -15,20 +15,20 @@ line, and the title screen's blinking PRESS START. Labels, not controls.
 ## Usage
 
 ```html
-<p class="chu-prompt">Press <kbd class="chu-box chu-prompt-button" data-button="a">A</kbd> to jump</p>
-<p class="chu-prompt">Hold <kbd class="chu-box chu-prompt-shoulder" data-button="rb">RB</kbd> to dash</p>
-<p class="chu-prompt"><kbd class="chu-box chu-prompt-key">Esc</kbd> Pause</p>
-<span class="chu-prompt-dpad" data-dir="left" role="img" aria-label="D-pad left"></span>
-<p class="chu-prompt-start chu-display chu-pop" data-scale="2" data-pop="Press start">Press start</p>
+<p class="blip-prompt">Press <kbd class="blip-box blip-prompt-button" data-button="a">A</kbd> to jump</p>
+<p class="blip-prompt">Hold <kbd class="blip-box blip-prompt-shoulder" data-button="rb">RB</kbd> to dash</p>
+<p class="blip-prompt"><kbd class="blip-box blip-prompt-key">Esc</kbd> Pause</p>
+<span class="blip-prompt-dpad" data-dir="left" role="img" aria-label="D-pad left"></span>
+<p class="blip-prompt-start blip-display blip-pop" data-scale="2" data-pop="Press start">Press start</p>
 ```
 
 ## Anatomy
 
-1. **Line** (`.chu-prompt`): small bold capitals with glyphs in the flow.
-2. **Key** (`.chu-prompt-key`): a cream keycap, a top face and a front face three pixels deep, Pixel Bop capitals or an icon.
-3. **Face button** (`.chu-prompt-button`): a sixteen-pixel circle (the candy box at radius 7), the letter's six columns centred exactly.
-4. **Shoulder** (`.chu-prompt-shoulder`): a slate bumper; triggers stand taller with rounder corners.
-5. **D-pad** (`.chu-prompt-dpad`): an ink plus with a drop, slate fill, a dimple, and one arm lit in the accent.
+1. **Line** (`.blip-prompt`): small bold capitals with glyphs in the flow.
+2. **Key** (`.blip-prompt-key`): a cream keycap, a top face and a front face three pixels deep, Pixel Bop capitals or an icon.
+3. **Face button** (`.blip-prompt-button`): a sixteen-pixel circle (the candy box at radius 7), the letter's six columns centred exactly.
+4. **Shoulder** (`.blip-prompt-shoulder`): a slate bumper; triggers stand taller with rounder corners.
+5. **D-pad** (`.blip-prompt-dpad`): an ink plus with a drop, slate fill, a dimple, and one arm lit in the accent.
 
 ## Variants
 
@@ -37,7 +37,7 @@ line, and the title screen's blinking PRESS START. Labels, not controls.
 | Face button | `data-button` | `a` green, `b` red, `x` blue, `y` orange. Yellow is kept for focus, so Y is orange. `data-tone` picks any other. |
 | Shoulder | `data-button` | `lb`, `rb`, `l`, `r` (bumpers); `lt`, `rt`, `zl`, `zr` (triggers, taller). |
 | D-pad | `data-dir` | `up`, `down`, `left`, `right`, or none for the pad at rest. |
-| Key | content | A word (`Esc`, `Enter`), a letter, or an `aria-hidden` icon (`.chu-icon`) with its name in a `.chu-sr-only` span. Wide keys take a `min-inline-size`. |
+| Key | content | A word (`Esc`, `Enter`), a letter, or an `aria-hidden` icon (`.blip-icon`) with its name in a `.blip-sr-only` span. Wide keys take a `min-inline-size`. |
 
 ## States
 
@@ -48,7 +48,7 @@ motion it does not blink. Prompts have no hover, focus or pressed states; they a
 
 - Use `<kbd>` for keys and buttons: screen readers read their letters. Name an icon key with hidden text, not
   `aria-label` (it is not a role that takes one, and some screen readers ignore it there):
-  `<kbd class="chu-box chu-prompt-key"><svg class="chu-icon" aria-hidden="true">…</svg><span class="chu-sr-only">Up arrow</span></kbd>`.
+  `<kbd class="blip-box blip-prompt-key"><svg class="blip-icon" aria-hidden="true">…</svg><span class="blip-sr-only">Up arrow</span></kbd>`.
 - The D-pad is a picture: `role="img"` with `aria-label`. It prints, though browsers leave backgrounds off paper.
 - Write the line so it reads as a sentence: "Press A to jump".
 - Show the prompts for the device in use; let players choose.

@@ -1,23 +1,23 @@
 <!-- The common case: an icon-only action button after a bottom bar, so it floats clear above it. The frame stands in
      for a phone (data-position="absolute" keeps the button in it); on a real screen leave that out and the button
      floats at the bottom end of the screen, inside the safe areas. -->
-<div class="chu-box" data-variant="panel" data-chu-r="4" style="display:grid;inline-size:min(100%,calc(180*var(--chu-pixel)));block-size:calc(170*var(--chu-pixel))">
-  <div style="display:flex;flex-direction:column;overflow:auto;mask-image:var(--chu-shape-inner);mask-size:var(--chu-box-mask-size);mask-position:var(--chu-box-mask-position);mask-repeat:no-repeat">
-    <header class="chu-box chu-top-bar">
-      <h2 class="chu-top-bar-title">Chats</h2>
+<div class="blip-box" data-variant="panel" data-blip-r="4" style="display:grid;inline-size:min(100%,calc(180*var(--blip-pixel)));block-size:calc(170*var(--blip-pixel))">
+  <div style="display:flex;flex-direction:column;overflow:auto;mask-image:var(--blip-shape-inner);mask-size:var(--blip-box-mask-size);mask-position:var(--blip-box-mask-position);mask-repeat:no-repeat">
+    <header class="blip-box blip-top-bar">
+      <h2 class="blip-top-bar-title">Chats</h2>
     </header>
-    <ul class="chu-list" role="list" data-dividers aria-label="Chats" style="flex:1;padding:calc(2*var(--chu-pixel)) calc(4*var(--chu-pixel)) calc(16*var(--chu-pixel))">
-      <li><a class="chu-box chu-list-item" data-variant="ghost" href="#fab-pip"><div class="chu-list-content"><span class="chu-list-title">Pip</span><span class="chu-list-description">Race you to the end of World 2?</span></div></a></li>
-      <li><a class="chu-box chu-list-item" data-variant="ghost" href="#fab-mira"><div class="chu-list-content"><span class="chu-list-title">Mira</span><span class="chu-list-description">Found the secret door!</span></div></a></li>
-      <li><a class="chu-box chu-list-item" data-variant="ghost" href="#fab-guild"><div class="chu-list-content"><span class="chu-list-title">Guild of Coins</span><span class="chu-list-description">Raid at 8, bring hats</span></div></a></li>
+    <ul class="blip-list" role="list" data-dividers aria-label="Chats" style="flex:1;padding:calc(2*var(--blip-pixel)) calc(4*var(--blip-pixel)) calc(16*var(--blip-pixel))">
+      <li><a class="blip-box blip-list-item" data-variant="ghost" href="#fab-pip"><div class="blip-list-content"><span class="blip-list-title">Pip</span><span class="blip-list-description">Race you to the end of World 2?</span></div></a></li>
+      <li><a class="blip-box blip-list-item" data-variant="ghost" href="#fab-mira"><div class="blip-list-content"><span class="blip-list-title">Mira</span><span class="blip-list-description">Found the secret door!</span></div></a></li>
+      <li><a class="blip-box blip-list-item" data-variant="ghost" href="#fab-guild"><div class="blip-list-content"><span class="blip-list-title">Guild of Coins</span><span class="blip-list-description">Raid at 8, bring hats</span></div></a></li>
     </ul>
-    <nav class="chu-box chu-bottom-bar" aria-label="Main">
-      <ul class="chu-bottom-bar-list" role="list">
-        <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#fab-play"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 2h2v1h2v1h2v1h2v2H9v1H7v1H5v1H3z"/></svg><span class="chu-bottom-bar-label">Play</span></a></li>
-        <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#fab-chats" aria-current="page"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v1h2v1h1v3h1v2H1V6h1V3h1V2h2zM4 9h4v1H7v1H5v-1H4z"/></svg><span class="chu-bottom-bar-label">Chats</span></a></li>
-        <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#fab-me"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg><span class="chu-bottom-bar-label">Me</span></a></li>
+    <nav class="blip-box blip-bottom-bar" aria-label="Main">
+      <ul class="blip-bottom-bar-list" role="list">
+        <li><a class="blip-box blip-bottom-bar-item" data-variant="ghost" href="#fab-play"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 2h2v1h2v1h2v1h2v2H9v1H7v1H5v1H3z"/></svg><span class="blip-bottom-bar-label">Play</span></a></li>
+        <li><a class="blip-box blip-bottom-bar-item" data-variant="ghost" href="#fab-chats" aria-current="page"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v1h2v1h1v3h1v2H1V6h1V3h1V2h2zM4 9h4v1H7v1H5v-1H4z"/></svg><span class="blip-bottom-bar-label">Chats</span></a></li>
+        <li><a class="blip-box blip-bottom-bar-item" data-variant="ghost" href="#fab-me"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg><span class="blip-bottom-bar-label">Me</span></a></li>
       </ul>
     </nav>
-    <button class="chu-box chu-fab" type="button" data-position="absolute" data-icon-only aria-label="New chat"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg></button>
+    <button class="blip-box blip-fab" type="button" data-position="absolute" data-icon-only aria-label="New chat"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg></button>
   </div>
 </div>

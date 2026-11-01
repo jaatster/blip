@@ -1,6 +1,6 @@
 /**
  * Segmented control: Segment, SegmentedRadios and SegmentRadio, the parts that go inside <Segmented>, and <Segmented>
- * itself (generated from its element, re-exported here). CSS from @jaatster/blip-components (segmented.css).
+ * itself (generated from its element, re-exported here). CSS from @blip/components (segmented.css).
  */
 import { forwardRef } from "react";
 import type { ReactNode } from "react";
@@ -8,7 +8,7 @@ import { cx, flag, type NativeProps, type Size, type Tone, type IconOnly } from 
 
 export { Segmented, type SegmentedProps } from "../generated/elements.js";
 
-// Segmented: Segment goes in `Segmented` (<chu-segmented>); SegmentedRadios is the same look from native radios.
+// Segmented: Segment goes in `Segmented` (<blip-segmented>); SegmentedRadios is the same look from native radios.
 
 /** Own props of {@link Segment}. */
 export interface SegmentOwnProps {
@@ -30,7 +30,7 @@ export type SegmentProps = SegmentOwnProps &
 /**
  * One segment of a `Segmented` control: one or two words, or one icon (iconOnly, with aria-label). The element makes
  * the segments a radio group, steered by the arrow keys; `disabled` dithers one and skips it. Renders `<button
- * class="chu-box" type="button">`.
+ * class="blip-box" type="button">`.
  *
  *   <Segmented name="view" value={view} aria-label="View" onChange={change}>
  *     <Segment value="list" checked={view === "list"}>List</Segment>
@@ -44,7 +44,7 @@ export const Segment = /*#__PURE__*/ forwardRef<HTMLButtonElement, SegmentProps>
   return (
     <button
       ref={ref}
-      className={cx("chu-box", className)}
+      className={cx("blip-box", className)}
       type={type}
       value={value}
       aria-checked={checked}
@@ -57,7 +57,7 @@ export const Segment = /*#__PURE__*/ forwardRef<HTMLButtonElement, SegmentProps>
 
 /** Own props of {@link SegmentedRadios}. */
 export interface SegmentedRadiosOwnProps {
-  /** The group's name, for screen readers only: a `<legend class="chu-sr-only">`, first in the fieldset. */
+  /** The group's name, for screen readers only: a `<legend class="blip-sr-only">`, first in the fieldset. */
   legend: ReactNode;
   /** 16, 20 (default) or 24 pixels high, like buttons. `data-size`. */
   size?: Size;
@@ -69,8 +69,8 @@ export type SegmentedRadiosProps = SegmentedRadiosOwnProps & NativeProps<"fields
 
 /**
  * A segmented control with no script at all: {@link SegmentRadio}s (native radios) on the sunken rail, which the
- * browser groups and steers with the arrow keys; the checked one is candy. For buttons, a value and chu-change, use
- * `Segmented`. Renders `<fieldset class="chu-box chu-segmented">` with its `<legend class="chu-sr-only">`.
+ * browser groups and steers with the arrow keys; the checked one is candy. For buttons, a value and blip-change, use
+ * `Segmented`. Renders `<fieldset class="blip-box blip-segmented">` with its `<legend class="blip-sr-only">`.
  *
  *   <SegmentedRadios legend="View">
  *     <SegmentRadio name="view" value="list">List</SegmentRadio>
@@ -84,12 +84,12 @@ export const SegmentedRadios = /*#__PURE__*/ forwardRef<HTMLFieldSetElement, Seg
   return (
     <fieldset
       ref={ref}
-      className={cx("chu-box chu-segmented", className)}
+      className={cx("blip-box blip-segmented", className)}
       data-size={size}
       data-width={fullWidth ? "full" : undefined}
       {...rest}
     >
-      <legend className="chu-sr-only">{legend}</legend>
+      <legend className="blip-sr-only">{legend}</legend>
       {children}
     </fieldset>
   );
@@ -111,7 +111,7 @@ export type SegmentRadioProps = SegmentRadioOwnProps &
  *
  *   <SegmentRadio name="view" value="grid" defaultChecked>Grid</SegmentRadio>
  *
- * Renders `<label class="chu-box"><input type="radio">…</label>`. The ref and every native prop (name, value, checked,
+ * Renders `<label class="blip-box"><input type="radio">…</label>`. The ref and every native prop (name, value, checked,
  * onChange…) go to the `<input>`; className and style go to the label.
  */
 export const SegmentRadio = /*#__PURE__*/ forwardRef<HTMLInputElement, SegmentRadioProps>(function SegmentRadio(
@@ -119,7 +119,7 @@ export const SegmentRadio = /*#__PURE__*/ forwardRef<HTMLInputElement, SegmentRa
   ref,
 ) {
   return (
-    <label className={cx("chu-box", className)} style={style} data-tone={tone} data-icon-only={flag(iconOnly)}>
+    <label className={cx("blip-box", className)} style={style} data-tone={tone} data-icon-only={flag(iconOnly)}>
       <input ref={ref} type="radio" {...rest} />
       {children}
     </label>

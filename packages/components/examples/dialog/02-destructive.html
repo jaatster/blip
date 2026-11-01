@@ -1,18 +1,18 @@
 <!-- Something that can't be undone: role="alertdialog", the danger tone, and focus on the safe choice (autofocus). -->
-<button class="chu-box chu-button" type="button" data-variant="soft" data-tone="danger" commandfor="ds-delete" command="show-modal">Delete slot 3</button>
+<button class="blip-box blip-button" type="button" data-variant="soft" data-tone="danger" commandfor="ds-delete" command="show-modal">Delete slot 3</button>
 
-<chu-dialog>
-  <dialog class="chu-box chu-dialog" id="ds-delete" role="alertdialog" data-tone="danger" data-size="sm" aria-labelledby="ds-delete-title" aria-describedby="ds-delete-text">
+<blip-dialog>
+  <dialog class="blip-box blip-dialog" id="ds-delete" role="alertdialog" data-tone="danger" data-size="sm" aria-labelledby="ds-delete-title" aria-describedby="ds-delete-text">
     <form method="dialog">
-      <header class="chu-dialog-header">
-        <span class="chu-dialog-icon" aria-hidden="true"></span>
-        <h2 class="chu-dialog-title" id="ds-delete-title">Delete slot 3?</h2>
+      <header class="blip-dialog-header">
+        <span class="blip-dialog-icon" aria-hidden="true"></span>
+        <h2 class="blip-dialog-title" id="ds-delete-title">Delete slot 3?</h2>
       </header>
-      <div class="chu-dialog-body"><p id="ds-delete-text">World 1-4, 52 min played. You can't undo this.</p></div>
-      <footer class="chu-dialog-footer">
-        <button class="chu-box chu-button" data-variant="soft" data-tone="neutral" value="keep" autofocus>Keep it</button>
-        <button class="chu-box chu-button" data-tone="danger" value="delete">Delete</button>
+      <div class="blip-dialog-body"><p id="ds-delete-text">World 1-4, 52 min played. You can't undo this.</p></div>
+      <footer class="blip-dialog-footer">
+        <button class="blip-box blip-button" data-variant="soft" data-tone="neutral" value="keep" autofocus>Keep it</button>
+        <button class="blip-box blip-button" data-tone="danger" value="delete">Delete</button>
       </footer>
     </form>
   </dialog>
-</chu-dialog>
+</blip-dialog>

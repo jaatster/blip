@@ -1,6 +1,6 @@
 ---
 name: List
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: list.css
 element: null
 react: List
@@ -18,40 +18,40 @@ ghost boxes for rows you press, so candy stays for the actions inside them.
 ## Usage
 
 ```html
-<ul class="chu-box chu-list" role="list" data-dividers aria-label="Settings">
-  <li class="chu-list-item">
-    <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
-    <div class="chu-list-content">
-      <span class="chu-list-title" id="set-music">Music</span>
-      <span class="chu-list-description">Chip tunes on the title screen</span>
+<ul class="blip-box blip-list" role="list" data-dividers aria-label="Settings">
+  <li class="blip-list-item">
+    <svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+    <div class="blip-list-content">
+      <span class="blip-list-title" id="set-music">Music</span>
+      <span class="blip-list-description">Chip tunes on the title screen</span>
     </div>
-    <div class="chu-list-end">
-      <span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" aria-labelledby="set-music" checked></span>
+    <div class="blip-list-end">
+      <span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box" aria-labelledby="set-music" checked></span>
     </div>
   </li>
 </ul>
 
 <nav aria-label="Settings sections">
-  <ul class="chu-box chu-list" role="list">
-    <li><a class="chu-box chu-list-item" data-variant="ghost" href="/settings/general" aria-current="page">…</a></li>
+  <ul class="blip-box blip-list" role="list">
+    <li><a class="blip-box blip-list-item" data-variant="ghost" href="/settings/general" aria-current="page">…</a></li>
   </ul>
 </nav>
 ```
 
 ## Anatomy
 
-1. **List**: `<ul>` or `<ol>` with `.chu-list`; add `.chu-box` for the white panel round it.
-2. **Row**: `.chu-list-item`, on the `<li>` (a row of content), or on the `<a>`/`<button>` inside it (a row you press).
+1. **List**: `<ul>` or `<ol>` with `.blip-list`; add `.blip-box` for the white panel round it.
+2. **Row**: `.blip-list-item`, on the `<li>` (a row of content), or on the `<a>`/`<button>` inside it (a row you press).
 3. **Leading** (optional): an icon, avatar or picture, first in the row.
-4. **Content**: `.chu-list-content` with `.chu-list-title` and `.chu-list-description`.
-5. **End** (optional): `.chu-list-end`, meta text (tabular digits) or controls: a switch, a tag, a keycap, a chevron.
+4. **Content**: `.blip-list-content` with `.blip-list-title` and `.blip-list-description`.
+5. **End** (optional): `.blip-list-end`, meta text (tabular digits) or controls: a switch, a tag, a keycap, a chevron.
 6. **Dividers** (optional): one line-soft pixel between rows.
 
 ## Variants
 
 | Attribute | Values | Use |
 |---|---|---|
-| `.chu-box` on the list | `data-variant`: `panel`, white (default), `soft`, `outline` | The list in a panel. A soft list gives what sits on it the light roles (the tone's ink for text, links and lines), so it reads in every scheme. |
+| `.blip-box` on the list | `data-variant`: `panel`, white (default), `soft`, `outline` | The list in a panel. A soft list gives what sits on it the light roles (the tone's ink for text, links and lines), so it reads in every scheme. |
 | `data-dividers` | | A line between rows. Use for content rows; pressable rows read fine without. |
 | `data-density` | `compact` | Tighter rows (14 pixels min), smaller text: long lists, side panels. |
 | Row tier | `data-variant="ghost"` on a pressable row | Required on `<a>`/`<button>` rows: quiet at rest, filled on hover. |
@@ -91,9 +91,9 @@ ghost boxes for rows you press, so candy stays for the actions inside them.
 
 | Class | |
 |---|---|
-| `.chu-list` | The list. |
-| `.chu-list-item`, `.chu-list-content`, `.chu-list-title`, `.chu-list-description`, `.chu-list-end` | Parts. |
+| `.blip-list` | The list. |
+| `.blip-list-item`, `.blip-list-content`, `.blip-list-title`, `.blip-list-description`, `.blip-list-end` | Parts. |
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-r` with `--chu-shape`, `--chu-shape-inner` | 3 | The pressable row's corner radius. |
+| `--blip-r` with `--blip-shape`, `--blip-shape-inner` | 3 | The pressable row's corner radius. |

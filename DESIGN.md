@@ -2,7 +2,7 @@
 name: Blip
 description: A 16-bit pixel-art design system. Candy-coloured, ink-outlined controls on a soft dithered world, one square pixel everywhere, and motion that snaps.
 colors:
-  # The format requires a primary. It is the accent role (--chu-accent): Blue Raspberry by Day.
+  # The format requires a primary. It is the accent role (--blip-accent): Blue Raspberry by Day.
   primary: "#33A3FF"
   # Primitives: ink, white and the ten candies, each a base, a light (top band) and a shade (bottom band).
   ink: "#1A1530"
@@ -38,7 +38,7 @@ colors:
   marshmallow: "#FFF8EE"
   marshmallow-light: "#FFFFFF"
   marshmallow-shade: "#EFE3D2"
-  # Day-scheme roles. Each key is the CSS custom property --chu-<key>. Sunset and Night are in the Colors section.
+  # Day-scheme roles. Each key is the CSS custom property --blip-<key>. Sunset and Night are in the Colors section.
   bg: "#F4F7FF"
   surface: "#FFFFFF"
   surface-raised: "#FFFFFF"
@@ -145,7 +145,7 @@ rounded:
   radius-5: "10px"
   radius-6: "12px"
 spacing:
-  # Everything is counted in pixels (--chu-pixel). Values at the default 2 px pixel; they grow with data-chu-pixel.
+  # Everything is counted in pixels (--blip-pixel). Values at the default 2 px pixel; they grow with data-blip-pixel.
   pixel: "2px"
   space-0: "0px"
   space-1: "2px"
@@ -327,7 +327,7 @@ each element 3 KB).
 
 **Key Characteristics:**
 
-- One square pixel (`--chu-pixel`, 2 CSS px by default; 3 or 4 for games and TVs) measures every outline, corner,
+- One square pixel (`--blip-pixel`, 2 CSS px by default; 3 or 4 for games and TVs) measures every outline, corner,
   gap, icon, letter and move.
 - Ink (#1A1530), a deep violet, instead of black, for every outline, drop and piece of dark text; at Night the
   palette's own ink, darker than its page.
@@ -344,10 +344,10 @@ each element 3 KB).
 Ink, white and ten candies of three tones each, standing in front of the pastel palettes of a world that changes
 with the time of day.
 
-Components never use the candies directly: they use the scheme roles (`--chu-surface`, `--chu-text`, `--chu-accent`,
-`--chu-danger-text`…), so one screen works in Day, Sunset and Night. The front matter holds the primitives and the
-Day roles; a role's key is its custom property without the `--chu-` prefix (`primary`, which the format requires, is
-`--chu-accent`).
+Components never use the candies directly: they use the scheme roles (`--blip-surface`, `--blip-text`, `--blip-accent`,
+`--blip-danger-text`…), so one screen works in Day, Sunset and Night. The front matter holds the primitives and the
+Day roles; a role's key is its custom property without the `--blip-` prefix (`primary`, which the format requires, is
+`--blip-accent`).
 
 Every candy is three flat tones, never a gradient: the **base**, a **light** band for the top (the base at about
 0.65 of its saturation, full brightness) and a **shade** band for the bottom (the base at about 0.84 of its
@@ -361,14 +361,14 @@ text colour, and the ink edge of the focus ring is two pixels.
 
 ### Primary
 
-- **Blue Raspberry** (#33A3FF; light #7FC8FF, shade #1478D6; `--chu-candy-blue`): the Day accent (`--chu-accent`)
+- **Blue Raspberry** (#33A3FF; light #7FC8FF, shade #1478D6; `--blip-candy-blue`): the Day accent (`--blip-accent`)
   and the info intent in every scheme. The candy of the one main action, of what is selected or current, and of
-  progress. It is too light for text, so accent text by Day is **Deep Raspberry** (#1660B8, `--chu-accent-text`).
-- **Bubblegum** (#FF5FA2; light #FF9CC6, shade #E03A82; `--chu-candy-pink`): the Sunset accent. Accent text at
+  progress. It is too light for text, so accent text by Day is **Deep Raspberry** (#1660B8, `--blip-accent-text`).
+- **Bubblegum** (#FF5FA2; light #FF9CC6, shade #E03A82; `--blip-candy-pink`): the Sunset accent. Accent text at
   Sunset is **Deep Bubblegum** (#B0245F).
 - **Sky Soda** (#00C2FA; light #91DDFF, shade #0096C3): the Night accent, a sky blue made for the charcoal night
-  (`--chu-palette-night-accent`). Accent text at Night is **Sky Glow** (#7ED8FF).
-- **Grape Soda** (#9166FF; light #B48CFF, shade #6A3AD6; `--chu-candy-purple`): the TV's Night accent, lifted from
+  (`--blip-palette-night-accent`). Accent text at Night is **Sky Glow** (#7ED8FF).
+- **Grape Soda** (#9166FF; light #B48CFF, shade #6A3AD6; `--blip-candy-purple`): the TV's Night accent, lifted from
   its #8F5CFF so that ink labels on it pass AA; now the Grape palette's, with **Lilac Starlight** (#C9B3FF) as its
   text at Night.
 
@@ -376,44 +376,44 @@ text colour, and the ink edge of the focus ring is two pixels.
 
 The four intents. Each has its candy for fills, and a text tone that passes AA on the scheme's surfaces.
 
-- **Sour Apple** (#4CD964; light #8CF09A, shade #2FAE46; `--chu-success`): success. Text #1E7A33, and #8CF09A
+- **Sour Apple** (#4CD964; light #8CF09A, shade #2FAE46; `--blip-success`): success. Text #1E7A33, and #8CF09A
   at Night.
-- **Sherbet Orange** (#FF7A1A; light #FFAA6B, shade #D95A0A; `--chu-warning`): warning. Orange, because yellow
+- **Sherbet Orange** (#FF7A1A; light #FFAA6B, shade #D95A0A; `--blip-warning`): warning. Orange, because yellow
   is taken by focus. Text #A8460A, and #FFAA6B at Night.
-- **Gumball Red** (#FF3D4F; light #FF7A85, shade #D11F35; `--chu-danger`): danger: destructive actions, errors,
+- **Gumball Red** (#FF3D4F; light #FF7A85, shade #D11F35; `--blip-danger`): danger: destructive actions, errors,
   invalid fields. Text #B31529, and #FF9EA6 at Night.
 - **Info** is Blue Raspberry in every scheme. Text #1660B8, and #7FC8FF at Night.
 
 ### Tertiary
 
-- **Lemon Drop** (#FFCC33; light #FFE680, shade #E6A100; `--chu-focus`): the focus ring, and nothing else in an
+- **Lemon Drop** (#FFCC33; light #FFE680, shade #E6A100; `--blip-focus`): the focus ring, and nothing else in an
   interface. The game kit's coins and stars are the one exception, because they are game objects.
-- **Spearmint** (#2FD3C5; light #7BE8DE, shade #16A99C; `--chu-candy-teal`): a candy for games, decoration and
+- **Spearmint** (#2FD3C5; light #7BE8DE, shade #16A99C; `--blip-candy-teal`): a candy for games, decoration and
   data series. Never an intent.
-- **Liquorice** (#4A4562; light #726C8E, shade #332F48; `--chu-candy-slate`): a dark candy for things whose own
+- **Liquorice** (#4A4562; light #726C8E, shade #332F48; `--blip-candy-slate`): a dark candy for things whose own
   colour is black. The one candy with white labels. Not an accent.
 
 ### Neutral
 
-- **Ink** (#1A1530; `--chu-ink`): the darkest colour. Every outline (`--chu-outline`) and drop (`--chu-drop`), the
-  focus ring's edge, the dialog scrim, labels on every candy but Liquorice, and dark text (`--chu-text` by Day and
-  at Sunset). At Night `--chu-ink` is the palette's ink, **Charcoal Ink** (#0D0D0D) by default, so outlines and
+- **Ink** (#1A1530; `--blip-ink`): the darkest colour. Every outline (`--blip-outline`) and drop (`--blip-drop`), the
+  focus ring's edge, the dialog scrim, labels on every candy but Liquorice, and dark text (`--blip-text` by Day and
+  at Sunset). At Night `--blip-ink` is the palette's ink, **Charcoal Ink** (#0D0D0D) by default, so outlines and
   drops stay darker than the page.
-- **Soft Ink** (#4A4470; `--chu-ink-soft`): muted text by Day and at Sunset (`--chu-text-muted`).
-- **Glint White** (#FFFFFF; `--chu-white`): glints, POP letters, the Day surfaces (`--chu-surface`,
-  `--chu-surface-raised`) and labels on Liquorice.
-- **Marshmallow** (#FFF8EE; light #FFFFFF, shade #EFE3D2; `--chu-candy-cream`): cream panels that hold text
-  (`--chu-surface-panel` by Day and at Sunset): cards, windows, menus, the dialogue box. As the `neutral` tone it is
+- **Soft Ink** (#4A4470; `--blip-ink-soft`): muted text by Day and at Sunset (`--blip-text-muted`).
+- **Glint White** (#FFFFFF; `--blip-white`): glints, POP letters, the Day surfaces (`--blip-surface`,
+  `--blip-surface-raised`) and labels on Liquorice.
+- **Marshmallow** (#FFF8EE; light #FFFFFF, shade #EFE3D2; `--blip-candy-cream`): cream panels that hold text
+  (`--blip-surface-panel` by Day and at Sunset): cards, windows, menus, the dialogue box. As the `neutral` tone it is
   the quiet secondary button. Not an accent.
-- **Cloud** (#F4F7FF; `--chu-bg`): the Day page, taken from the cloud in the Day sky.
-- **Cloud Shade** (#E0E8FF; `--chu-surface-sunken`): wells, tracks and table stripes, and the hover fill of the
+- **Cloud** (#F4F7FF; `--blip-bg`): the Day page, taken from the cloud in the Day sky.
+- **Cloud Shade** (#E0E8FF; `--blip-surface-sunken`): wells, tracks and table stripes, and the hover fill of the
   outline and ghost tiers.
-- **Lilac Mountain** (#B9B6EA; `--chu-line-soft`): dividers and decoration only. An outline that must be seen is
-  `--chu-line` (Ink by Day).
+- **Lilac Mountain** (#B9B6EA; `--blip-line-soft`): dividers and decoration only. An outline that must be seen is
+  `--blip-line` (Ink by Day).
 
 ### Sunset and Night
 
-`data-chu-scheme="day"`, `"sunset"` or `"night"` sets a scheme on the page or on any part of it. With none set, the
+`data-blip-scheme="day"`, `"sunset"` or `"night"` sets a scheme on the page or on any part of it. With none set, the
 page follows the device: Day, or Night in dark mode. Auto follows the clock as the TV did (Day from 6:00 to 17:00,
 Sunset until 19:00, Night after). When the time of day changes, every colour changes in one step, because no mix of
 a light and a dark palette keeps all text readable: the new palette comes in through an ordered dither, a quarter of
@@ -433,7 +433,7 @@ the constant, the world is what changes. So a soft or
 candy box stays light in every scheme, and what sits on it (text, links, fields, calm buttons, menus) takes the light
 roles: ink text and lines, white surfaces, and the box's own colours for wells and dividers.
 
-| Role (`--chu-…`) | Day | Sunset | Night |
+| Role (`--blip-…`) | Day | Sunset | Night |
 |---|---|---|---|
 | `bg` | #F4F7FF | #FFE7EF | #171717 |
 | `surface` | #FFFFFF | #FFF6F8 | #202020 |
@@ -467,19 +467,19 @@ The backdrop has a palette of its own for each time of day: 28 colours each (six
 snow, trees, hills, grass, dirt and birds), and shared colours for the sun (#FFF0C2), the moon (#FFF4D6), the stars
 (#F3EFFF, #FFE9B8) and the flowers. The Day sky runs from #9FC2FF at the top to #FFE5D6 at the horizon, Sunset from
 #8E8FD8 to #FFD3A8, Night from #1B1F20 to #2B4E5E: a charcoal sky that glows faintly in the accent at the horizon.
-They are the `--chu-world-*` tokens; a scene drawn in CSS reads the current time of day's through `--chu-scene-*`.
+They are the `--blip-world-*` tokens; a scene drawn in CSS reads the current time of day's through `--blip-scene-*`.
 Night's are the palette's, so each palette has a night sky of its own. The world never uses candy and never has
 outlines.
 
 ### Palettes
 
 A palette is the accent of each time of day and Night's page: its surfaces, text, lines, ink, accent and sky. One
-attribute switches it, `data-chu-palette`, on `<html>` (or on an element that sets its own `data-chu-scheme`), with
-`@jaatster/blip-tokens/palettes.css` loaded. With none set the palette is **Candy**, Blip's own: Blue Raspberry by
+attribute switches it, `data-blip-palette`, on `<html>` (or on an element that sets its own `data-blip-scheme`), with
+`@blip/tokens/palettes.css` loaded. With none set the palette is **Candy**, Blip's own: Blue Raspberry by
 Day, Bubblegum at Sunset, and Sky Soda on charcoal at Night. The candies, the intents and the world of Day and Sunset
 are the same in every palette.
 
-| Palette | `data-chu-palette` | Accent | Night's page | After |
+| Palette | `data-blip-palette` | Accent | Night's page | After |
 |---|---|---|---|---|
 | Candy | (none) | Blue, pink, sky blue | Charcoal #171717 | |
 | Grape | `grape` | #9166FF | Indigo #22244F | The TV's own Night |
@@ -524,7 +524,7 @@ game are the exception), so it can never be mistaken for decoration. Warnings ar
 **Display Font:** Pixel Bop (with Pixelify Sans, Blip Fallback, system-ui, sans-serif)
 **Body Font:** Pixelify Sans (with Blip Fallback, system-ui, sans-serif)
 **Label/Mono Font:** labels are Pixelify Sans bold in capitals; code alone uses ui-monospace, SFMono-Regular, Menlo,
-Consolas, monospace (`--chu-font-mono`)
+Consolas, monospace (`--blip-font-mono`)
 
 **Character:** Pixel Bop is Blip's own face: bold pixel capitals on a 7-pixel grid with 2-pixel vertical
 strokes, so a word reads across a room, and tabular figures, so a clock never shifts. Pixelify Sans is the
@@ -580,9 +580,9 @@ has no lower case, and screen readers, search and copying need the real one.
 
 ## Layout
 
-The pixel is the unit of layout. `--chu-pixel` is 2 CSS px by default, and every length in Blip is a whole
-number of it: a spacing step, a radius, a control height, or `calc(N * var(--chu-pixel))`. **The pixel switch**,
-`data-chu-pixel="3"` or `"4"` on the page or on one section, makes everything inside it chunkier and still crisp (3 px
+The pixel is the unit of layout. `--blip-pixel` is 2 CSS px by default, and every length in Blip is a whole
+number of it: a spacing step, a radius, a control height, or `calc(N * var(--blip-pixel))`. **The pixel switch**,
+`data-blip-pixel="3"` or `"4"` on the page or on one section, makes everything inside it chunkier and still crisp (3 px
 for a game screen, 4 px for a TV): spacing, radii, controls, icons, Pixel Bop and the world all grow; Pixelify Sans
 keeps its size. Sizes in the front matter are given at the default 2 px pixel.
 
@@ -598,11 +598,11 @@ many equal columns as fit, each at least 192 px, 16 px apart).
 their right and below, so a drop never touches a neighbour.
 
 **Container queries, not the window.** There are three widths: compact (under 600 px), medium (from 600 px) and wide
-(from 1024 px). `--chu-breakpoint-medium` and `--chu-breakpoint-wide` are for page shells; components answer to their
+(from 1024 px). `--blip-breakpoint-medium` and `--blip-breakpoint-wide` are for page shells; components answer to their
 own container. The hero's title steps from scale 2 to 3 to 4 at 600 and 1024 px of its container. The app bar folds
 its links behind a menu button under 64rem of its own width (37.5rem with `data-collapse="medium"`: 1024 and 600 px at
 the default text size, sooner when the text is bigger). In an app shell
-(a container named `chu-shell`) the sidebar becomes a rail of icons under 1024 px and steps aside under 600 px, where
+(a container named `blip-shell`) the sidebar becomes a rail of icons under 1024 px and steps aside under 600 px, where
 the bottom bar takes over. Vertical tabs become a row again under 480 px, and a horizontal card puts its picture
 above the text once both no longer fit side by side.
 
@@ -633,17 +633,17 @@ is the one exception: it lifts two pixels, as the TV's app blocks did.
 ### Shadow Vocabulary
 
 - **Flat** (drop 0): the calm tiers (outline, ghost), wells, rows of a list or menu, segmented rails.
-- **Control** (drop 1, `--chu-drop-size: 1`): buttons, tags, cards, tiles, keycaps. The default.
+- **Control** (drop 1, `--blip-drop-size: 1`): buttons, tags, cards, tiles, keycaps. The default.
 - **Floating** (drop 2): dialogs, drawers, popovers and toasts.
-- **The drop itself** (colour `--chu-drop`, Ink): drawn by the candy box's masks, not by `box-shadow`. It is the
+- **The drop itself** (colour `--blip-drop`, Ink): drawn by the candy box's masks, not by `box-shadow`. It is the
   outline's own stepped shape again, offset by the drop size (one pixel, 2 CSS px) down and to the right, so it
   follows every corner.
-- **The focus ring** (`--chu-focus` one pixel outside the shape, `--chu-focus-edge` one pixel beyond): drawn by
+- **The focus ring** (`--blip-focus` one pixel outside the shape, `--blip-focus-edge` one pixel beyond): drawn by
   dilating the box's shape with zero-blur `drop-shadow()` filters, so it follows the stepped corners. Anything that
-  is not a box gets the square ring: `outline: var(--chu-pixel) solid var(--chu-focus); box-shadow: 0 0 0 calc(2 *
-  var(--chu-pixel)) var(--chu-focus-edge)`.
-- **The scrim** (`--chu-scrim`, Ink): behind a modal dialog or drawer, ink on every other pixel.
-- **Stacking** (the `--chu-layer-*` tokens): raised 1, sticky 100, dropdown 200, overlay 300, modal 400, toast 500,
+  is not a box gets the square ring: `outline: var(--blip-pixel) solid var(--blip-focus); box-shadow: 0 0 0 calc(2 *
+  var(--blip-pixel)) var(--blip-focus-edge)`.
+- **The scrim** (`--blip-scrim`, Ink): behind a modal dialog or drawer, ink on every other pixel.
+- **Stacking** (the `--blip-layer-*` tokens): raised 1, sticky 100, dropdown 200, overlay 300, modal 400, toast 500,
   tooltip 600.
 
 ### Named Rules
@@ -652,7 +652,7 @@ is the one exception: it lifts two pixels, as the TV's app blocks did.
 lift a pixel off it, and pressed and chosen things sit down into it. Nothing blurs and nothing glows.
 
 **The Dither Rule.** See-through is a dither, never a wash. The scrim behind a dialog is ink on every other pixel, a
-disabled control is covered by a checkerboard of a light colour (`--chu-disabled-dither`: the page colour by Day and
+disabled control is covered by a checkerboard of a light colour (`--blip-disabled-dither`: the page colour by Day and
 Sunset, the night text at Night) so its label still reads, a skeleton fills in with a dither, and the sky's gradient is
 ordered by a 4 x 4 Bayer matrix. What is behind stays legible as a shape, and colours never mix. A disabled control
 always shows its dither (a segment, bare on its sunken rail, becomes a dithered well in a soft outline), drawn
@@ -706,7 +706,7 @@ quiet, tones go by meaning, sizes come in three heights (`sm`, `md`, `lg`) where
 ### The candy box
 
 The one building block (its anatomy is under Shapes). A component is the box plus a class
-(`class="chu-box chu-button"`) that sets the box's variables: its radius, its band heights in pixels, its drop, and
+(`class="blip-box blip-button"`) that sets the box's variables: its radius, its band heights in pixels, its drop, and
 which colours its tier paints. Its tier comes from `data-variant` (candy, soft, outline, ghost, panel), its colour
 from `data-tone` (accent, info, success, warning, danger, neutral, or a candy by name), and its states from native
 attributes and ARIA. Because every component is the same box, a new one matches the rest without trying. In
@@ -741,7 +741,7 @@ off.
 ### Cards / Containers
 
 - **Corner Style:** radius 4 (8px); 3 when small, 5 when large.
-- **Background:** a cream panel by default (`--chu-surface-panel`: Marshmallow by Day and at Sunset, #2C2F66 at
+- **Background:** a cream panel by default (`--blip-surface-panel`: Marshmallow by Day and at Sunset, #2C2F66 at
   Night); the panel tier is the plain surface; soft and candy tiers tint the whole card, light in every scheme, and
   what sits on them takes the light roles; a tone on a cream card paints a 3-pixel strip of its light colour along
   the top, following the corners.
@@ -885,8 +885,8 @@ is 0 ms and every effect arrives at once.
 
 **The Pause Rule.** Ambient motion, the world's drifting clouds, flaring stars and passing birds, runs on, so it goes
 only where it adds to the look: a hero, a title or attract screen, a call to action, a game's stage. Never behind
-reading text, forms or dashboards. A page that has it shows the motion toggle (`<chu-motion-toggle>`), which sets
-`data-chu-motion="reduce"` on `<html>`: everything that moves on its own stops within a frame, where it is, and carries
+reading text, forms or dashboards. A page that has it shows the motion toggle (`<blip-motion-toggle>`), which sets
+`data-blip-motion="reduce"` on `<html>`: everything that moves on its own stops within a frame, where it is, and carries
 on when the toggle is pressed again. The choice is remembered, and it adds to the device's reduced motion, never
 overrides it.
 
@@ -894,15 +894,15 @@ overrides it.
 
 ### Do:
 
-- **Do** build every pressable thing from the candy box on native HTML (`<button class="chu-box chu-button">`),
+- **Do** build every pressable thing from the candy box on native HTML (`<button class="blip-box blip-button">`),
   choosing its tier with `data-variant` and its colour with `data-tone`.
-- **Do** colour with the scheme roles (`--chu-surface`, `--chu-text`, `--chu-accent`, `--chu-danger-text`…), so one
+- **Do** colour with the scheme roles (`--blip-surface`, `--blip-text`, `--blip-accent`, `--blip-danger-text`…), so one
   screen works in Day, Sunset and Night.
 - **Do** keep one candy button per view for the main action; use soft for the second action and outline or ghost
   in toolbars, tables and forms.
-- **Do** measure in whole pixels: `--chu-space-N` (0 to 32), `--chu-radius-N` (0 to 6), `--chu-control-sm|md|lg`
-  (32, 40, 48 px) or `calc(N * var(--chu-pixel))`.
-- **Do** set big words in Pixel Bop with `.chu-display` and `data-scale` 1 to 4; use POP for titles over the world
+- **Do** measure in whole pixels: `--blip-space-N` (0 to 32), `--blip-radius-N` (0 to 6), `--blip-control-sm|md|lg`
+  (32, 40, 48 px) or `calc(N * var(--blip-pixel))`.
+- **Do** set big words in Pixel Bop with `.blip-display` and `data-scale` 1 to 4; use POP for titles over the world
   and OUTLINE for small text over a picture.
 - **Do** write labels and headings in sentence case and let the CSS set the capitals.
 - **Do** move in `steps(n, jump-end)` with n of 6 or fewer, time it with the duration tokens (40 ms frame, 80 ms

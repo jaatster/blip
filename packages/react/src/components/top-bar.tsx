@@ -1,5 +1,5 @@
 /**
- * Top bar: TopBar, TopBarBack, TopBarTitle, TopBarActions and TopBarLarge. CSS from @jaatster/blip-components
+ * Top bar: TopBar, TopBarBack, TopBarTitle, TopBarActions and TopBarLarge. CSS from @blip/components
  * (top-bar.css). A phone screen's own bar; the site's bar is AppBar.
  */
 import { forwardRef } from "react";
@@ -24,17 +24,17 @@ export type TopBarProps = TopBarOwnProps & NativeProps<"header", TopBarOwnProps>
  * scroller, inside the notch's safe area, flush with the screen's edges. Put it first in the screen.
  *
  *   <TopBar>
- *     <TopBarBack href="/worlds"><span className="chu-sr-only">Back to </span>Worlds</TopBarBack>
+ *     <TopBarBack href="/worlds"><span className="blip-sr-only">Back to </span>Worlds</TopBarBack>
  *     <TopBarTitle>Meadow</TopBarTitle>
  *     <TopBarActions>
  *       <Button variant="ghost" iconOnly aria-label="Share"><Icon name="share" /></Button>
  *     </TopBarActions>
  *   </TopBar>
  *
- * Renders `<header class="chu-box chu-top-bar">`.
+ * Renders `<header class="blip-box blip-top-bar">`.
  */
 export const TopBar = /*#__PURE__*/ forwardRef<HTMLElement, TopBarProps>(function TopBar({ large, className, ...rest }, ref) {
-  return <header ref={ref} className={cx("chu-box chu-top-bar", className)} data-large={flag(large)} {...rest} />;
+  return <header ref={ref} className={cx("blip-box blip-top-bar", className)} data-large={flag(large)} {...rest} />;
 });
 
 /** Props for {@link TopBarBack}: a link's by default, a button's with `as="button"`, or your router's link's. */
@@ -44,18 +44,18 @@ export type TopBarBackProps<T extends ElementType = "a"> = PolymorphicProps<T, I
  * The way back: a ghost button with a pixel chevron, and the previous screen's name (cut short past 48 pixels), or the
  * chevron alone with `iconOnly` and `aria-label="Back"`. Add hidden words to a label so it reads as what it does.
  *
- *   <TopBarBack href="/worlds"><span className="chu-sr-only">Back to </span>Worlds</TopBarBack>
+ *   <TopBarBack href="/worlds"><span className="blip-sr-only">Back to </span>Worlds</TopBarBack>
  *   <TopBarBack as="button" type="button" onClick={() => history.back()} iconOnly aria-label="Back" />
  *
- * Renders `<a class="chu-box chu-button chu-top-bar-back" data-variant="ghost">` with the chevron first.
+ * Renders `<a class="blip-box blip-button blip-top-bar-back" data-variant="ghost">` with the chevron first.
  */
 export const TopBarBack = /*#__PURE__*/ forwardRef(function TopBarBack(
   { as: Tag = "a", iconOnly, className, children, ...rest }: TopBarBackProps<ElementType>,
   ref,
 ) {
   return (
-    <Tag ref={ref} className={cx("chu-box chu-button chu-top-bar-back", className)} data-variant="ghost" data-icon-only={flag(iconOnly)} {...rest}>
-      <span className="chu-icon chu-top-bar-chevron" aria-hidden="true" />
+    <Tag ref={ref} className={cx("blip-box blip-button blip-top-bar-back", className)} data-variant="ghost" data-icon-only={flag(iconOnly)} {...rest}>
+      <span className="blip-icon blip-top-bar-chevron" aria-hidden="true" />
       {children}
     </Tag>
   );
@@ -70,10 +70,10 @@ export type TopBarTitleProps<T extends ElementType = "h1"> = PolymorphicProps<T,
  *
  *   <TopBarTitle>Meadow</TopBarTitle>
  *
- * Renders `<h1 class="chu-top-bar-title">`.
+ * Renders `<h1 class="blip-top-bar-title">`.
  */
 export const TopBarTitle = /*#__PURE__*/ forwardRef(function TopBarTitle({ as: Tag = "h1", className, ...rest }: TopBarTitleProps<ElementType>, ref) {
-  return <Tag ref={ref} className={cx("chu-top-bar-title", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("blip-top-bar-title", className)} {...rest} />;
 }) as PolymorphicComponent<"h1", object>;
 
 /** Props for {@link TopBarActions}. */
@@ -84,10 +84,10 @@ export type TopBarActionsProps = NativeProps<"div">;
  *
  *   <TopBarActions><Button variant="ghost" iconOnly aria-label="Search"><Icon name="search" /></Button></TopBarActions>
  *
- * Renders `<div class="chu-top-bar-actions">`.
+ * Renders `<div class="blip-top-bar-actions">`.
  */
 export const TopBarActions = /*#__PURE__*/ forwardRef<HTMLDivElement, TopBarActionsProps>(function TopBarActions({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("chu-top-bar-actions", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-top-bar-actions", className)} {...rest} />;
 });
 
 /** Props for {@link TopBarLarge}: an `<h1>`'s by default; another heading level with `as`. */
@@ -99,8 +99,8 @@ export type TopBarLargeProps<T extends ElementType = "h1"> = PolymorphicProps<T,
  *   <TopBar large>…<TopBarTitle as="span" aria-hidden="true">Inbox</TopBarTitle>…</TopBar>
  *   <TopBarLarge>Inbox</TopBarLarge>
  *
- * Renders `<h1 class="chu-top-bar-large">`.
+ * Renders `<h1 class="blip-top-bar-large">`.
  */
 export const TopBarLarge = /*#__PURE__*/ forwardRef(function TopBarLarge({ as: Tag = "h1", className, ...rest }: TopBarLargeProps<ElementType>, ref) {
-  return <Tag ref={ref} className={cx("chu-top-bar-large", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("blip-top-bar-large", className)} {...rest} />;
 }) as PolymorphicComponent<"h1", object>;

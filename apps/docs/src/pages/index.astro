@@ -31,7 +31,7 @@ const launcher = [
 // Things fallen on the meadow, from the game kit: where each stands along the ground, and how high it floats.
 const scenery: [string, number, number][] = [["coin", 2, 2], ["coin", 9, 6], ["star", 16, 0], ["sparkle-small", 22, 10], ["star", 78, 0], ["coin", 86, 4], ["sparkle", 92, 12]];
 // What the sky keeps its sun, moon and shooting stars clear of: every word on it, the window and the launcher.
-const avoid = ".home-clock, .home-hero-copy > *, .home-demo, .home-pick, .home-tiles .chu-tile-item";
+const avoid = ".home-clock, .home-hero-copy > *, .home-demo, .home-pick, .home-tiles .blip-tile-item";
 const accents = [
   { tone: "teal", name: "Teal" },
   { tone: "green", name: "Green" },
@@ -39,76 +39,76 @@ const accents = [
   { tone: "pink", name: "Pink" },
   { tone: "orange", name: "Orange" },
 ];
-const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/font.css">
-<link rel="stylesheet" href="@jaatster/blip-tokens/tokens.css">
-<link rel="stylesheet" href="@jaatster/blip-core/core.css">
-<link rel="stylesheet" href="@jaatster/blip-components/components.css">
+const order = await codeBlock(`<link rel="stylesheet" href="@blip/font/font.css">
+<link rel="stylesheet" href="@blip/tokens/tokens.css">
+<link rel="stylesheet" href="@blip/core/core.css">
+<link rel="stylesheet" href="@blip/components/components.css">
 
-<button class="chu-box chu-button">Press start</button>`, "html", "HTML");
+<button class="blip-box blip-button">Press start</button>`, "html", "HTML");
 ---
 <Docs title="Blip" wide display kits={["game", "blocks", "effects"]} styles={["home"]} scripts={["home"]} description="Blip is an open-source 16-bit pixel-art design system: candy-coloured, ink-outlined controls on a soft dithered world, one square pixel size everywhere, and motion that snaps.">
-  <div class="chu-box home-frame">
-    <section class="chu-hero home-hero" data-align="start" aria-labelledby="home-title">
-      <chu-world parallax clouds stars events avoid={avoid}></chu-world>
+  <div class="blip-box home-frame">
+    <section class="blip-hero home-hero" data-align="start" aria-labelledby="home-title">
+      <blip-world parallax clouds stars events avoid={avoid}></blip-world>
       <div class="home-hero-grid">
         <div class="home-hero-copy">
-          <p class="home-clock docs-needs-js"><time class="home-time"><span class="home-hm chu-display chu-pop" data-pop="00:00">00:00</span><span class="home-period"></span></time><span class="home-date"></span></p>
-          <h1 class="chu-hero-title chu-display" id="home-title">
-            <span class="chu-sr-only">Blip</span>
+          <p class="home-clock docs-needs-js"><time class="home-time"><span class="home-hm blip-display blip-pop" data-pop="00:00">00:00</span><span class="home-period"></span></time><span class="home-date"></span></p>
+          <h1 class="blip-hero-title blip-display" id="home-title">
+            <span class="blip-sr-only">Blip</span>
             <span aria-hidden="true">{title.map((word, w) => (
-              <Fragment>{w > 0 && " "}<span class="chu-hero-word">{word.map(({ c, i }) => <span class="chu-pop chu-drop-in" data-pop={c} style={`--i:${i}`}>{c}</span>)}</span></Fragment>
+              <Fragment>{w > 0 && " "}<span class="blip-hero-word">{word.map(({ c, i }) => <span class="blip-pop blip-drop-in" data-pop={c} style={`--i:${i}`}>{c}</span>)}</span></Fragment>
             ))}</span>
           </h1>
-          <p class="chu-hero-lead home-lead">A 16-bit design system: candy controls on a soft pixel world, one square pixel everywhere, and motion that snaps.</p>
-          <p class="chu-hero-note home-note">Tokens, CSS and Web Components, with React. {components} components, {iconCount} icons, no images.</p>
-          <p class="home-cta"><a class="chu-box chu-button" href="/start/">Get started</a><a class="chu-box chu-button" data-variant="soft" data-tone="neutral" href="/components/">Components</a><chu-motion-toggle></chu-motion-toggle></p>
+          <p class="blip-hero-lead home-lead">A 16-bit design system: candy controls on a soft pixel world, one square pixel everywhere, and motion that snaps.</p>
+          <p class="blip-hero-note home-note">Tokens, CSS and Web Components, with React. {components} components, {iconCount} icons, no images.</p>
+          <p class="home-cta"><a class="blip-box blip-button" href="/start/">Get started</a><a class="blip-box blip-button" data-variant="soft" data-tone="neutral" href="/components/">Components</a><blip-motion-toggle></blip-motion-toggle></p>
         </div>
 
-        <section class="chu-box chu-window home-demo docs-needs-js" aria-labelledby="demo-title">
-          <header class="chu-window-bar">
-            <h2 class="chu-window-title chu-display chu-pop" id="demo-title">Options</h2>
+        <section class="blip-box blip-window home-demo docs-needs-js" aria-labelledby="demo-title">
+          <header class="blip-window-bar">
+            <h2 class="blip-window-title blip-display blip-pop" id="demo-title">Options</h2>
           </header>
-          <div class="chu-window-body home-demo-body">
+          <div class="blip-window-body home-demo-body">
             <div class="home-demo-row">
-              <span class="chu-label" id="demo-time">Time of day</span>
-              <chu-segmented class="chu-box chu-segmented home-scheme" data-size="sm" aria-labelledby="demo-time" value="auto">
-                <button class="chu-box" type="button" value="auto" aria-checked="true">Auto</button>
-                <button class="chu-box" type="button" value="day">Day</button>
-                <button class="chu-box" type="button" value="sunset">Sunset</button>
-                <button class="chu-box" type="button" value="night">Night</button>
-              </chu-segmented>
+              <span class="blip-label" id="demo-time">Time of day</span>
+              <blip-segmented class="blip-box blip-segmented home-scheme" data-size="sm" aria-labelledby="demo-time" value="auto">
+                <button class="blip-box" type="button" value="auto" aria-checked="true">Auto</button>
+                <button class="blip-box" type="button" value="day">Day</button>
+                <button class="blip-box" type="button" value="sunset">Sunset</button>
+                <button class="blip-box" type="button" value="night">Night</button>
+              </blip-segmented>
             </div>
             <fieldset class="home-demo-row home-accents">
-              <legend class="chu-label">Accent</legend>
+              <legend class="blip-label">Accent</legend>
               <div class="home-swatches">
-                <label class="chu-box home-swatch home-swatch-auto"><input type="radio" name="home-accent" value="" checked /><span class="chu-sr-only">Auto: the time of day's own, blue by day, pink at sunset, purple at night</span><span class="home-swatch-split" aria-hidden="true"></span><span class="home-swatch-mark" aria-hidden="true"></span></label>
-                {accents.map((x) => <label class="chu-box home-swatch" data-tone={x.tone}><input type="radio" name="home-accent" value={x.tone} /><span class="chu-sr-only">{x.name}</span><span class="home-swatch-mark" aria-hidden="true"></span></label>)}
+                <label class="blip-box home-swatch home-swatch-auto"><input type="radio" name="home-accent" value="" checked /><span class="blip-sr-only">Auto: the time of day's own, blue by day, pink at sunset, purple at night</span><span class="home-swatch-split" aria-hidden="true"></span><span class="home-swatch-mark" aria-hidden="true"></span></label>
+                {accents.map((x) => <label class="blip-box home-swatch" data-tone={x.tone}><input type="radio" name="home-accent" value={x.tone} /><span class="blip-sr-only">{x.name}</span><span class="home-swatch-mark" aria-hidden="true"></span></label>)}
               </div>
             </fieldset>
-            <label class="chu-check home-demo-row" data-layout="split">Chip sounds<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box home-sound" data-docs-sound /></span></label>
-            <button class="chu-box chu-button home-start" type="button" data-variant="soft" data-width="full">Press start</button>
+            <label class="blip-check home-demo-row" data-layout="split">Chip sounds<span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box home-sound" data-docs-sound /></span></label>
+            <button class="blip-box blip-button home-start" type="button" data-variant="soft" data-width="full">Press start</button>
           </div>
-          <footer class="chu-window-status"><span class="home-status">Every control here is live</span><span class="home-daytime"></span></footer>
+          <footer class="blip-window-status"><span class="home-status">Every control here is live</span><span class="home-daytime"></span></footer>
         </section>
       </div>
 
       <nav class="home-launch" aria-label="Explore">
-        <p class="home-pick chu-display chu-pop" data-tone={launcher[0]!.tone} data-pop={launcher[0]!.name} aria-hidden="true">{launcher[0]!.name}</p>
-        <chu-tile-grid class="home-tiles-grid" data-chu-pixel="3">
-          <ul class="chu-tile-grid home-tiles" role="list">
+        <p class="home-pick blip-display blip-pop" data-tone={launcher[0]!.tone} data-pop={launcher[0]!.name} aria-hidden="true">{launcher[0]!.name}</p>
+        <blip-tile-grid class="home-tiles-grid" data-blip-pixel="3">
+          <ul class="blip-tile-grid home-tiles" role="list">
             {launcher.map((t, i) => (
-              <li class="chu-tile-item">
-                <a class="chu-box chu-tile" data-tone={t.tone} href={t.href} aria-labelledby={`home-tile-${i}`} data-selected={i === 0 ? "" : undefined}><Icon name={t.icon} /><span class="chu-tile-glint"></span></a>
-                <span class="chu-tile-label chu-outline" id={`home-tile-${i}`} aria-hidden="true">{t.name}</span>
+              <li class="blip-tile-item">
+                <a class="blip-box blip-tile" data-tone={t.tone} href={t.href} aria-labelledby={`home-tile-${i}`} data-selected={i === 0 ? "" : undefined}><Icon name={t.icon} /><span class="blip-tile-glint"></span></a>
+                <span class="blip-tile-label blip-outline" id={`home-tile-${i}`} aria-hidden="true">{t.name}</span>
               </li>
             ))}
           </ul>
-        </chu-tile-grid>
+        </blip-tile-grid>
       </nav>
-      <div class="chu-hero-scenery home-scenery" aria-hidden="true">
-        {scenery.map(([name, at, up]) => <chu-sprite name={name} style={`left:calc(round(down,${at}%,var(--chu-pixel)));bottom:calc(${up}*var(--chu-pixel))`}></chu-sprite>)}
+      <div class="blip-hero-scenery home-scenery" aria-hidden="true">
+        {scenery.map(([name, at, up]) => <blip-sprite name={name} style={`left:calc(round(down,${at}%,var(--blip-pixel)));bottom:calc(${up}*var(--blip-pixel))`}></blip-sprite>)}
       </div>
-      <div class="chu-hero-ground"></div>
+      <div class="blip-hero-ground"></div>
     </section>
   </div>
 
@@ -121,12 +121,12 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
       <li class="home-rule">
         <div class="home-rule-text">
           <h3>One pixel</h3>
-          <p>Every outline, icon, letter, corner and step is a whole number of one square pixel. Change <code class="docs-inline-code">--chu-pixel</code> and the whole screen grows, still crisp.</p>
+          <p>Every outline, icon, letter, corner and step is a whole number of one square pixel. Change <code class="docs-inline-code">--blip-pixel</code> and the whole screen grows, still crisp.</p>
         </div>
         <div class="home-specimen home-px" role="img" aria-label="The same button at a pixel of 2, 3 and 4 CSS pixels: larger, and just as sharp.">
           {["2", "3", "4"].map((p) => (
-            <figure data-chu-pixel={p}>
-              <span class="chu-box chu-button" data-size="sm"><Icon name="heart" />Like</span>
+            <figure data-blip-pixel={p}>
+              <span class="blip-box blip-button" data-size="sm"><Icon name="heart" />Like</span>
               <figcaption class="docs-label">{p} px</figcaption>
             </figure>
           ))}
@@ -138,10 +138,10 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
           <p>The darkest colour is ink, a deep violet. Every outline, every drop and all dark text are ink, so even the shadows belong to the palette.</p>
         </div>
         <div class="home-specimen home-ink">
-          <div class="home-ink-swatch"><span class="chu-display" data-scale="1">Ink</span><code>#1A1530</code></div>
+          <div class="home-ink-swatch"><span class="blip-display" data-scale="1">Ink</span><code>#1A1530</code></div>
           <div class="home-ink-uses">
-            <span class="chu-box chu-button" data-variant="soft" data-tone="pink">Outline</span>
-            <span class="chu-box home-ink-drop" data-variant="panel">Drop</span>
+            <span class="blip-box blip-button" data-variant="soft" data-tone="pink">Outline</span>
+            <span class="blip-box home-ink-drop" data-variant="panel">Drop</span>
             <span class="home-ink-text">Text</span>
           </div>
         </div>
@@ -152,11 +152,11 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
           <p>Saturated, outlined things can be acted on. The world behind them is soft, dithered and has no outlines, so what you can press is never in doubt.</p>
         </div>
         <div class="home-specimen home-pastel" aria-hidden="true">
-          <chu-world clouds="none"></chu-world>
+          <blip-world clouds="none"></blip-world>
           <div class="home-pastel-row">
-            <span class="chu-box chu-button" data-tone="red" data-size="sm">Play</span>
-            <span class="chu-box chu-button" data-tone="teal" data-size="sm">Map</span>
-            <span class="chu-box chu-button" data-tone="purple" data-size="sm">Items</span>
+            <span class="blip-box blip-button" data-tone="red" data-size="sm">Play</span>
+            <span class="blip-box blip-button" data-tone="teal" data-size="sm">Map</span>
+            <span class="blip-box blip-button" data-tone="purple" data-size="sm">Items</span>
           </div>
         </div>
       </li>
@@ -166,10 +166,10 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
           <p>Focus is always the yellow ring with an ink edge, following the stepped corners. Nothing else is yellow but coins and stars; warnings are orange.</p>
         </div>
         <div class="home-specimen home-focus">
-          <span class="chu-box chu-button" data-variant="soft">Resume</span>
-          <span class="chu-box chu-button" data-variant="soft" data-chu-state="focus">Options</span>
-          <span class="chu-box chu-tag" data-tone="warning">Low battery</span>
-          <chu-sprite name="coin"></chu-sprite>
+          <span class="blip-box blip-button" data-variant="soft">Resume</span>
+          <span class="blip-box blip-button" data-variant="soft" data-blip-state="focus">Options</span>
+          <span class="blip-box blip-tag" data-tone="warning">Low battery</span>
+          <blip-sprite name="coin"></blip-sprite>
         </div>
       </li>
       <li class="home-rule">
@@ -178,8 +178,8 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
           <p>Things move in two to six even steps, a whole pixel at a time, never along a curve. With reduced motion they arrive at once.</p>
         </div>
         <div class="home-specimen home-motion">
-          <div class="home-track" aria-hidden="true"><span class="chu-box home-runner" data-tone="green"></span></div>
-          <button class="chu-box chu-button home-play" type="button" data-variant="outline" data-size="sm"><Icon name="play" />Play</button>
+          <div class="home-track" aria-hidden="true"><span class="blip-box home-runner" data-tone="green"></span></div>
+          <button class="blip-box blip-button home-play" type="button" data-variant="outline" data-size="sm"><Icon name="play" />Play</button>
         </div>
       </li>
       <li class="home-rule">
@@ -188,9 +188,9 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
           <p>A control that is off gets a light checkerboard over it, not a grey wash: the page colour by day, starlight at night. It keeps its colour, so you can still tell what it would do, and its label still reads.</p>
         </div>
         <div class="home-specimen home-dither" role="img" aria-label="A Save button, and the same button disabled: covered by a light checkerboard.">
-          <div data-chu-pixel="4" class="home-dither-row">
-            <span class="chu-box chu-button" data-size="sm">Save</span>
-            <span class="chu-box chu-button" data-size="sm" aria-disabled="true">Save</span>
+          <div data-blip-pixel="4" class="home-dither-row">
+            <span class="blip-box blip-button" data-size="sm">Save</span>
+            <span class="blip-box blip-button" data-size="sm" aria-disabled="true">Save</span>
           </div>
         </div>
       </li>
@@ -200,9 +200,9 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
           <p>No image files. Components are CSS, art is SVG, and the world at the top of this page is drawn in your browser, a pixel at a time.</p>
         </div>
         <dl class="home-specimen home-light">
-          <div class="chu-stat"><dt class="chu-stat-label">Image files</dt><dd class="chu-stat-value chu-display chu-pop" data-scale="2" data-pop="0">0</dd></div>
-          <div class="chu-stat"><dt class="chu-stat-label">The world</dt><dd class="chu-stat-value chu-display chu-pop" data-scale="2" data-tone="teal" data-pop={kb(world)}>{kb(world)}</dd></div>
-          <div class="chu-stat"><dt class="chu-stat-label">Every component</dt><dd class="chu-stat-value chu-display chu-pop" data-scale="2" data-tone="pink" data-pop={kb(componentCss)}>{kb(componentCss)}</dd></div>
+          <div class="blip-stat"><dt class="blip-stat-label">Image files</dt><dd class="blip-stat-value blip-display blip-pop" data-scale="2" data-pop="0">0</dd></div>
+          <div class="blip-stat"><dt class="blip-stat-label">The world</dt><dd class="blip-stat-value blip-display blip-pop" data-scale="2" data-tone="teal" data-pop={kb(world)}>{kb(world)}</dd></div>
+          <div class="blip-stat"><dt class="blip-stat-label">Every component</dt><dd class="blip-stat-value blip-display blip-pop" data-scale="2" data-tone="pink" data-pop={kb(componentCss)}>{kb(componentCss)}</dd></div>
         </dl>
       </li>
     </ol>
@@ -214,42 +214,42 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
       <p class="home-intro">A theme is a switch, not a fork: the scheme follows the time of day, and the pixel sets the size of everything. Set them on the page, or on one part of it, like this screen.</p>
     </div>
     <div class="home-switch-bar docs-needs-js">
-      <chu-segmented class="chu-box chu-segmented" aria-label="Scheme of the sample screen" data-stage="home-stage" data-attr="scheme" value="day">
-        <button class="chu-box" type="button" value="day" aria-checked="true"><Icon name="sun" />Day</button>
-        <button class="chu-box" type="button" value="sunset"><Icon name="sunset" />Sunset</button>
-        <button class="chu-box" type="button" value="night"><Icon name="moon" />Night</button>
-      </chu-segmented>
-      <chu-segmented class="chu-box chu-segmented" aria-label="Pixel size of the sample screen" data-stage="home-stage" data-attr="pixel" value="2">
-        <button class="chu-box" type="button" value="2" aria-checked="true">2 px</button>
-        <button class="chu-box" type="button" value="3">3 px</button>
-        <button class="chu-box" type="button" value="4">4 px</button>
-      </chu-segmented>
-      <code class="home-switch-code docs-inline-code" aria-live="polite">&lt;section data-chu-scheme="day"&gt;</code>
+      <blip-segmented class="blip-box blip-segmented" aria-label="Scheme of the sample screen" data-stage="home-stage" data-attr="scheme" value="day">
+        <button class="blip-box" type="button" value="day" aria-checked="true"><Icon name="sun" />Day</button>
+        <button class="blip-box" type="button" value="sunset"><Icon name="sunset" />Sunset</button>
+        <button class="blip-box" type="button" value="night"><Icon name="moon" />Night</button>
+      </blip-segmented>
+      <blip-segmented class="blip-box blip-segmented" aria-label="Pixel size of the sample screen" data-stage="home-stage" data-attr="pixel" value="2">
+        <button class="blip-box" type="button" value="2" aria-checked="true">2 px</button>
+        <button class="blip-box" type="button" value="3">3 px</button>
+        <button class="blip-box" type="button" value="4">4 px</button>
+      </blip-segmented>
+      <code class="home-switch-code docs-inline-code" aria-live="polite">&lt;section data-blip-scheme="day"&gt;</code>
     </div>
     <div class="home-stage-scroll docs-scroll">
-      <div class="home-stage" id="home-stage" data-chu-scheme="day">
-        <section class="chu-box home-slot" data-variant="panel" aria-labelledby="slot-title">
+      <div class="home-stage" id="home-stage" data-blip-scheme="day">
+        <section class="blip-box home-slot" data-variant="panel" aria-labelledby="slot-title">
           <header class="home-slot-head">
-            <span class="chu-box chu-avatar" data-tone="teal" aria-hidden="true"><chu-sprite name="star"></chu-sprite></span>
+            <span class="blip-box blip-avatar" data-tone="teal" aria-hidden="true"><blip-sprite name="star"></blip-sprite></span>
             <div>
-              <h3 class="chu-title" id="slot-title">Slot 2</h3>
-              <p class="chu-small chu-muted">Starfall Meadow, World 3</p>
+              <h3 class="blip-title" id="slot-title">Slot 2</h3>
+              <p class="blip-small blip-muted">Starfall Meadow, World 3</p>
             </div>
-            <span class="chu-box chu-tag" data-size="sm" data-tone="success">Saved</span>
+            <span class="blip-box blip-tag" data-size="sm" data-tone="success">Saved</span>
           </header>
           <dl class="home-slot-stats">
-            <div class="chu-stat"><dt class="chu-stat-label">Stars</dt><dd class="chu-stat-value chu-display chu-pop" data-scale="1" data-pop="42">42</dd></div>
-            <div class="chu-stat"><dt class="chu-stat-label">Coins</dt><dd class="chu-stat-value chu-display chu-pop" data-scale="1" data-tone="orange" data-pop="1204">1204</dd></div>
-            <div class="chu-stat"><dt class="chu-stat-label">Played</dt><dd class="chu-stat-value chu-display chu-pop" data-scale="1" data-tone="purple" data-pop="6:41">6:41</dd></div>
+            <div class="blip-stat"><dt class="blip-stat-label">Stars</dt><dd class="blip-stat-value blip-display blip-pop" data-scale="1" data-pop="42">42</dd></div>
+            <div class="blip-stat"><dt class="blip-stat-label">Coins</dt><dd class="blip-stat-value blip-display blip-pop" data-scale="1" data-tone="orange" data-pop="1204">1204</dd></div>
+            <div class="blip-stat"><dt class="blip-stat-label">Played</dt><dd class="blip-stat-value blip-display blip-pop" data-scale="1" data-tone="purple" data-pop="6:41">6:41</dd></div>
           </dl>
           <div>
-            <div class="chu-progress-label"><label for="slot-progress">Crystal Caves</label><span>70%</span></div>
-            <div class="chu-box chu-progress" data-tone="success"><progress id="slot-progress" max="100" value="70">70%</progress></div>
+            <div class="blip-progress-label"><label for="slot-progress">Crystal Caves</label><span>70%</span></div>
+            <div class="blip-box blip-progress" data-tone="success"><progress id="slot-progress" max="100" value="70">70%</progress></div>
           </div>
-          <label class="chu-check" data-layout="split">Save when I quit<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" checked /></span></label>
+          <label class="blip-check" data-layout="split">Save when I quit<span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box" checked /></span></label>
           <div class="home-slot-actions">
-            <button class="chu-box chu-button home-sample" type="button" data-toast="Continue: back to World 3, just before the bridge.">Continue</button>
-            <button class="chu-box chu-button home-sample" type="button" data-variant="soft" data-tone="danger" data-toast="Slot 2 kept. This screen is only a sample.">Delete save</button>
+            <button class="blip-box blip-button home-sample" type="button" data-toast="Continue: back to World 3, just before the bridge.">Continue</button>
+            <button class="blip-box blip-button home-sample" type="button" data-variant="soft" data-tone="danger" data-toast="Slot 2 kept. This screen is only a sample.">Delete save</button>
           </div>
         </section>
       </div>
@@ -264,8 +264,8 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
     <div class="home-budgets">
       {a.budgets.map((b) => (
         <div class="home-budget">
-          <div class="chu-progress-label"><span id={`budget-${b.id}`}>{b.label}</span><span class="docs-num">{kb(b.bytes)} <span class="chu-muted">of {kb(b.limit, 0)}</span></span></div>
-          <div class="chu-box chu-meter" data-size="sm"><meter min="0" max={b.limit} low={Math.round(b.limit * 0.9)} high={Math.round(b.limit * 0.98)} optimum="0" value={Math.min(b.bytes, b.limit)} aria-labelledby={`budget-${b.id}`}>{kb(b.bytes)} of {kb(b.limit, 0)}</meter></div>
+          <div class="blip-progress-label"><span id={`budget-${b.id}`}>{b.label}</span><span class="docs-num">{kb(b.bytes)} <span class="blip-muted">of {kb(b.limit, 0)}</span></span></div>
+          <div class="blip-box blip-meter" data-size="sm"><meter min="0" max={b.limit} low={Math.round(b.limit * 0.9)} high={Math.round(b.limit * 0.98)} optimum="0" value={Math.min(b.bytes, b.limit)} aria-labelledby={`budget-${b.id}`}>{kb(b.bytes)} of {kb(b.limit, 0)}</meter></div>
           <p class="docs-note">{b.note}</p>
         </div>
       ))}
@@ -279,48 +279,48 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
       <p class="home-intro">The core is small. The rest is optional: take a kit when a screen needs it.</p>
     </div>
     <div class="home-kits">
-      <section class="chu-box home-kit home-kit-game" data-variant="panel" aria-labelledby="kit-game">
+      <section class="blip-box home-kit home-kit-game" data-variant="panel" aria-labelledby="kit-game">
         <div class="home-kit-text">
           <h3 id="kit-game"><a href="/components/hud/">Game</a></h3>
           <p>HUDs, dialogue that types, choices, inventories, button prompts, pause menus and achievement toasts.</p>
         </div>
-        <div class="chu-stage home-kit-stage" data-frame aria-label="A game's HUD and a frog with something to say">
-          <div class="chu-hud">
-            <div class="chu-hud-group"><chu-hearts value="3.5" max="5" label="Health"></chu-hearts></div>
-            <div class="chu-hud-group"><chu-counter class="home-coins" value="42" pad="3" label="Coins" sound="coin"><chu-sprite name="coin"></chu-sprite></chu-counter></div>
+        <div class="blip-stage home-kit-stage" data-frame aria-label="A game's HUD and a frog with something to say">
+          <div class="blip-hud">
+            <div class="blip-hud-group"><blip-hearts value="3.5" max="5" label="Health"></blip-hearts></div>
+            <div class="blip-hud-group"><blip-counter class="home-coins" value="42" pad="3" label="Coins" sound="coin"><blip-sprite name="coin"></blip-sprite></blip-counter></div>
           </div>
-          <div class="chu-stage-ground"></div>
+          <div class="blip-stage-ground"></div>
         </div>
-        <chu-dialogue class="chu-box chu-dialogue home-frog" voice>
-          <span class="chu-box chu-dialogue-name" data-tone="green">Bramble</span>
-          <div class="chu-box chu-dialogue-portrait" data-variant="soft" data-tone="teal" aria-hidden="true"><Fragment set:html={frog()} /></div>
-          <div class="chu-dialogue-body"><div class="chu-dialogue-text"><p>Ah, a traveller! Press the coin button and I'll pay you for your time.</p></div></div>
-        </chu-dialogue>
-        <div class="docs-row"><button class="chu-box chu-button home-coin" type="button" data-size="sm" data-tone="orange"><Icon name="coin" />Add 10 coins</button><a class="chu-small" href="/templates/game/">The game menu template</a></div>
+        <blip-dialogue class="blip-box blip-dialogue home-frog" voice>
+          <span class="blip-box blip-dialogue-name" data-tone="green">Bramble</span>
+          <div class="blip-box blip-dialogue-portrait" data-variant="soft" data-tone="teal" aria-hidden="true"><Fragment set:html={frog()} /></div>
+          <div class="blip-dialogue-body"><div class="blip-dialogue-text"><p>Ah, a traveller! Press the coin button and I'll pay you for your time.</p></div></div>
+        </blip-dialogue>
+        <div class="docs-row"><button class="blip-box blip-button home-coin" type="button" data-size="sm" data-tone="orange"><Icon name="coin" />Add 10 coins</button><a class="blip-small" href="/templates/game/">The game menu template</a></div>
       </section>
 
-      <section class="chu-box home-kit home-kit-effects" data-variant="panel" aria-labelledby="kit-effects">
+      <section class="blip-box home-kit home-kit-effects" data-variant="panel" aria-labelledby="kit-effects">
         <div class="home-kit-text">
           <h3 id="kit-effects"><a href="/components/world/">Effects</a></h3>
           <p>The world, page transitions, POP and typed text, glints, bursts and a CRT filter. All opt-in, all still with reduced motion.</p>
         </div>
-        <p class="chu-display chu-pop home-kit-pop" data-scale="2" data-tone="pink" data-pop="Level clear!">Level clear!</p>
+        <p class="blip-display blip-pop home-kit-pop" data-scale="2" data-tone="pink" data-pop="Level clear!">Level clear!</p>
         <div class="docs-row">
-          <button class="chu-box chu-button" type="button" data-tone="success" data-chu-burst="coin" data-chu-burst-count="5">Claim reward</button>
-          <button class="chu-box chu-button" type="button" data-variant="soft" data-tone="purple" data-chu-burst="confetti">Celebrate</button>
+          <button class="blip-box blip-button" type="button" data-tone="success" data-blip-burst="coin" data-blip-burst-count="5">Claim reward</button>
+          <button class="blip-box blip-button" type="button" data-variant="soft" data-tone="purple" data-blip-burst="confetti">Celebrate</button>
         </div>
       </section>
 
-      <section class="chu-box home-kit home-kit-blocks" data-variant="panel" aria-labelledby="kit-blocks">
+      <section class="blip-box home-kit home-kit-blocks" data-variant="panel" aria-labelledby="kit-blocks">
         <div class="home-kit-text">
           <h3 id="kit-blocks"><a href="/components/hero/">Blocks</a></h3>
           <p>Website sections: a hero on the world, features, pricing, a call to action and a footer. The <a href="/templates/landing/">landing page template</a> is made of nothing else.</p>
         </div>
-        <article class="chu-box chu-plan home-plan" data-featured data-tone="teal" aria-labelledby="home-plan-name">
-          <p class="chu-box chu-plan-ribbon">Free</p>
-          <h4 class="chu-plan-name" id="home-plan-name">Blip</h4>
-          <p class="chu-plan-price"><span class="chu-plan-currency">$</span><span class="chu-plan-amount">0</span><span class="chu-plan-period">MIT</span></p>
-          <ul class="chu-plan-features" role="list">
+        <article class="blip-box blip-plan home-plan" data-featured data-tone="teal" aria-labelledby="home-plan-name">
+          <p class="blip-box blip-plan-ribbon">Free</p>
+          <h4 class="blip-plan-name" id="home-plan-name">Blip</h4>
+          <p class="blip-plan-price"><span class="blip-plan-currency">$</span><span class="blip-plan-amount">0</span><span class="blip-plan-period">MIT</span></p>
+          <ul class="blip-plan-features" role="list">
             <li>Every component and kit</li>
             <li>Two fonts, under the OFL</li>
             <li>{iconCount} icons</li>
@@ -328,15 +328,15 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
         </article>
       </section>
 
-      <section class="chu-box home-kit home-kit-sound" data-variant="panel" aria-labelledby="kit-sound">
+      <section class="blip-box home-kit home-kit-sound" data-variant="panel" aria-labelledby="kit-sound">
         <div class="home-kit-text">
           <h3 id="kit-sound"><a href="/foundations/sound/">Sound</a></h3>
           <p>The chip sounds, synthesised in the browser. Off until you turn them on; then the elements use them too.</p>
         </div>
         <div class="home-sounds">
-          <button class="chu-box chu-button home-sound-toggle" type="button" data-tone="slate" aria-pressed="false" data-docs-sound><Icon name="mute" class="docs-sound-off" /><Icon name="volume" class="docs-sound-on" /><span class="docs-sound-label">Sound off</span></button>
+          <button class="blip-box blip-button home-sound-toggle" type="button" data-tone="slate" aria-pressed="false" data-docs-sound><Icon name="mute" class="docs-sound-off" /><Icon name="volume" class="docs-sound-on" /><span class="docs-sound-label">Sound off</span></button>
           {[["coin", "orange"], ["jump", "green"], ["open", "blue"], ["success", "teal"], ["bump", "pink"]].map(([name, tone]) => (
-            <button class="chu-box chu-button home-play-sound" type="button" data-size="sm" data-tone={tone} data-sound={name} aria-disabled="true">{name}</button>
+            <button class="blip-box blip-button home-play-sound" type="button" data-size="sm" data-tone={tone} data-sound={name} aria-disabled="true">{name}</button>
           ))}
         </div>
       </section>
@@ -353,10 +353,10 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
       <Fragment set:html={order} />
     </div>
     <div class="docs-row">
-      <a class="chu-box chu-button" data-size="lg" href="/start/">Get started</a>
-      <a class="chu-box chu-button" data-size="lg" data-variant="soft" href="/foundations/">Read the foundations</a>
-      <span class="chu-small chu-muted">Version {version}</span>
+      <a class="blip-box blip-button" data-size="lg" href="/start/">Get started</a>
+      <a class="blip-box blip-button" data-size="lg" data-variant="soft" href="/foundations/">Read the foundations</a>
+      <span class="blip-small blip-muted">Version {version}</span>
     </div>
   </section>
-  <chu-toaster data-side="bottom" data-align="end"></chu-toaster>
+  <blip-toaster data-side="bottom" data-align="end"></blip-toaster>
 </Docs>

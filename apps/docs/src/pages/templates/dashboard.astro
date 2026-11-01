@@ -32,137 +32,137 @@ const players = [
 ] as const;
 ---
 <Template title="Dashboard template" description="A Blip dashboard: app bar, sidebar, stats, segmented charts, a sortable table and toasts." scripts={["tpl-dashboard"]}>
-  <a class="chu-box chu-skip-link" href="#dash-main">Skip to the overview</a>
+  <a class="blip-box blip-skip-link" href="#dash-main">Skip to the overview</a>
   <div class="tpl-dash">
-    <header class="chu-box chu-app-bar tpl-dash-bar" data-sticky>
-      <a class="chu-app-bar-brand" href="#dash-main"><Icon name="trophy" /><span class="chu-display chu-pop" data-scale="2" data-pop="Questboard">Questboard</span></a>
-      <nav class="chu-app-bar-nav" aria-label="Main">
-        <button class="chu-box chu-button chu-app-bar-toggle" type="button" data-variant="ghost" data-icon-only popovertarget="dash-links" aria-label="Menu"><Icon name="menu" /></button>
-        <ul class="chu-box chu-app-bar-links" id="dash-links" popover role="list">
-          <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#dash-main" aria-current="page">Live ops</a></li>
-          <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#levels-title">Studio</a></li>
-          <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#board-cap">Community</a></li>
-          <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="/templates/">Blip docs</a></li>
+    <header class="blip-box blip-app-bar tpl-dash-bar" data-sticky>
+      <a class="blip-app-bar-brand" href="#dash-main"><Icon name="trophy" /><span class="blip-display blip-pop" data-scale="2" data-pop="Questboard">Questboard</span></a>
+      <nav class="blip-app-bar-nav" aria-label="Main">
+        <button class="blip-box blip-button blip-app-bar-toggle" type="button" data-variant="ghost" data-icon-only popovertarget="dash-links" aria-label="Menu"><Icon name="menu" /></button>
+        <ul class="blip-box blip-app-bar-links" id="dash-links" popover role="list">
+          <li><a class="blip-box blip-app-bar-link" data-variant="ghost" href="#dash-main" aria-current="page">Live ops</a></li>
+          <li><a class="blip-box blip-app-bar-link" data-variant="ghost" href="#levels-title">Studio</a></li>
+          <li><a class="blip-box blip-app-bar-link" data-variant="ghost" href="#board-cap">Community</a></li>
+          <li><a class="blip-box blip-app-bar-link" data-variant="ghost" href="/templates/">Blip docs</a></li>
         </ul>
       </nav>
-      <div class="chu-app-bar-actions">
-        <button class="chu-box chu-button tpl-dash-alerts" type="button" data-variant="ghost" data-icon-only aria-label="Alerts, 3 new"><Icon name="bell" /><span class="chu-box chu-badge" data-tone="danger" data-size="sm" data-position="top-end" aria-hidden="true">3</span></button>
-        <chu-menu class="chu-menu" data-align="end">
-          <button class="chu-box chu-button" type="button" data-variant="soft" data-icon-only aria-label="Account: Mika"><Icon name="user" /></button>
-          <div class="chu-box chu-menu-list chu-pop-in" role="menu" aria-label="Account" popover>
-            <button class="chu-box chu-menu-item" type="button" role="menuitem" data-toast="Profile: Mika, live-ops lead."><Icon name="user" /><span class="chu-menu-label">Profile</span></button>
-            <button class="chu-box chu-menu-item" type="button" role="menuitem" data-toast="Settings would open here."><Icon name="settings" /><span class="chu-menu-label">Settings</span></button>
-            <div class="chu-menu-separator" role="separator"></div>
-            <a class="chu-box chu-menu-item" role="menuitem" href="/templates/"><Icon name="logout" /><span class="chu-menu-label">Back to the docs</span></a>
+      <div class="blip-app-bar-actions">
+        <button class="blip-box blip-button tpl-dash-alerts" type="button" data-variant="ghost" data-icon-only aria-label="Alerts, 3 new"><Icon name="bell" /><span class="blip-box blip-badge" data-tone="danger" data-size="sm" data-position="top-end" aria-hidden="true">3</span></button>
+        <blip-menu class="blip-menu" data-align="end">
+          <button class="blip-box blip-button" type="button" data-variant="soft" data-icon-only aria-label="Account: Mika"><Icon name="user" /></button>
+          <div class="blip-box blip-menu-list blip-pop-in" role="menu" aria-label="Account" popover>
+            <button class="blip-box blip-menu-item" type="button" role="menuitem" data-toast="Profile: Mika, live-ops lead."><Icon name="user" /><span class="blip-menu-label">Profile</span></button>
+            <button class="blip-box blip-menu-item" type="button" role="menuitem" data-toast="Settings would open here."><Icon name="settings" /><span class="blip-menu-label">Settings</span></button>
+            <div class="blip-menu-separator" role="separator"></div>
+            <a class="blip-box blip-menu-item" role="menuitem" href="/templates/"><Icon name="logout" /><span class="blip-menu-label">Back to the docs</span></a>
           </div>
-        </chu-menu>
+        </blip-menu>
       </div>
     </header>
 
-    <nav class="chu-sidebar tpl-dash-side" aria-label="Live ops" data-collapse="auto" data-arrow>
-      <h2 class="chu-sidebar-heading" id="dash-nav-title">Live ops</h2>
-      <ul class="chu-sidebar-list" role="list" aria-labelledby="dash-nav-title">
+    <nav class="blip-sidebar tpl-dash-side" aria-label="Live ops" data-collapse="auto" data-arrow>
+      <h2 class="blip-sidebar-heading" id="dash-nav-title">Live ops</h2>
+      <ul class="blip-sidebar-list" role="list" aria-labelledby="dash-nav-title">
         {nav.map((n) => (
-          <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href={n.href} aria-current={n.current ? "page" : undefined}><Icon name={n.icon} /><span class="chu-sidebar-label">{n.label}</span>{n.badge && <span class="chu-box chu-sidebar-badge" data-tone={n.tone}>{n.badge}</span>}</a></li>
+          <li><a class="blip-box blip-sidebar-item" data-variant="ghost" href={n.href} aria-current={n.current ? "page" : undefined}><Icon name={n.icon} /><span class="blip-sidebar-label">{n.label}</span>{n.badge && <span class="blip-box blip-sidebar-badge" data-tone={n.tone}>{n.badge}</span>}</a></li>
         ))}
       </ul>
-      <h2 class="chu-sidebar-heading" id="dash-nav-more">Blip</h2>
-      <ul class="chu-sidebar-list" role="list" aria-labelledby="dash-nav-more">
-        <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="/templates/"><Icon name="logout" /><span class="chu-sidebar-label">Back to the docs</span></a></li>
+      <h2 class="blip-sidebar-heading" id="dash-nav-more">Blip</h2>
+      <ul class="blip-sidebar-list" role="list" aria-labelledby="dash-nav-more">
+        <li><a class="blip-box blip-sidebar-item" data-variant="ghost" href="/templates/"><Icon name="logout" /><span class="blip-sidebar-label">Back to the docs</span></a></li>
       </ul>
     </nav>
 
     <main class="tpl-dash-main" id="dash-main" tabindex="-1">
-      <nav class="chu-breadcrumbs" data-size="sm" aria-label="Breadcrumb">
-        <ol class="chu-breadcrumbs-list">
-          <li><a class="chu-box chu-breadcrumbs-link" data-variant="ghost" href="#dash-main">Live ops</a></li>
-          <li><a class="chu-box chu-breadcrumbs-link" data-variant="ghost" href="#dash-main" aria-current="page">Overview</a></li>
+      <nav class="blip-breadcrumbs" data-size="sm" aria-label="Breadcrumb">
+        <ol class="blip-breadcrumbs-list">
+          <li><a class="blip-box blip-breadcrumbs-link" data-variant="ghost" href="#dash-main">Live ops</a></li>
+          <li><a class="blip-box blip-breadcrumbs-link" data-variant="ghost" href="#dash-main" aria-current="page">Overview</a></li>
         </ol>
       </nav>
       <div class="tpl-dash-head">
-        <h1 class="chu-display" data-scale="2">Overview</h1>
+        <h1 class="blip-display" data-scale="2">Overview</h1>
         <div class="tpl-dash-tools">
-          <chu-segmented class="chu-box chu-segmented tpl-range" data-size="sm" aria-label="Period" value="week">
-            <button class="chu-box" type="button" value="day">Today</button>
-            <button class="chu-box" type="button" value="week" aria-checked="true">This week</button>
-            <button class="chu-box" type="button" value="month">This month</button>
-          </chu-segmented>
-          <button class="chu-box chu-button tpl-export" type="button" data-variant="soft" data-size="sm"><Icon name="download" />Export</button>
+          <blip-segmented class="blip-box blip-segmented tpl-range" data-size="sm" aria-label="Period" value="week">
+            <button class="blip-box" type="button" value="day">Today</button>
+            <button class="blip-box" type="button" value="week" aria-checked="true">This week</button>
+            <button class="blip-box" type="button" value="month">This month</button>
+          </blip-segmented>
+          <button class="blip-box blip-button tpl-export" type="button" data-variant="soft" data-size="sm"><Icon name="download" />Export</button>
         </div>
       </div>
 
       <dl class="tpl-stats">
-        <div class="chu-box chu-stat" data-variant="panel"><dt class="chu-stat-label">Players online</dt><dd class="chu-stat-value chu-display">1,204</dd><dd class="chu-stat-delta" data-trend="up">+12% on last week</dd></div>
-        <div class="chu-box chu-stat" data-variant="panel"><dt class="chu-stat-label">Levels cleared</dt><dd class="chu-stat-value chu-display">8,812</dd><dd class="chu-stat-delta" data-trend="up">+4%</dd></div>
-        <div class="chu-box chu-stat" data-variant="panel"><dt class="chu-stat-label">Coins spent</dt><dd class="chu-stat-value chu-display">54K</dd><dd class="chu-stat-delta" data-trend="down">-3%</dd></div>
-        <div class="chu-box chu-stat" data-variant="panel"><dt class="chu-stat-label">Crashes</dt><dd class="chu-stat-value chu-display">7</dd><dd class="chu-stat-delta" data-trend="down" data-tone="success">-9: good news</dd></div>
+        <div class="blip-box blip-stat" data-variant="panel"><dt class="blip-stat-label">Players online</dt><dd class="blip-stat-value blip-display">1,204</dd><dd class="blip-stat-delta" data-trend="up">+12% on last week</dd></div>
+        <div class="blip-box blip-stat" data-variant="panel"><dt class="blip-stat-label">Levels cleared</dt><dd class="blip-stat-value blip-display">8,812</dd><dd class="blip-stat-delta" data-trend="up">+4%</dd></div>
+        <div class="blip-box blip-stat" data-variant="panel"><dt class="blip-stat-label">Coins spent</dt><dd class="blip-stat-value blip-display">54K</dd><dd class="blip-stat-delta" data-trend="down">-3%</dd></div>
+        <div class="blip-box blip-stat" data-variant="panel"><dt class="blip-stat-label">Crashes</dt><dd class="blip-stat-value blip-display">7</dd><dd class="blip-stat-delta" data-trend="down" data-tone="success">-9: good news</dd></div>
       </dl>
 
       <div class="tpl-dash-charts">
-        <section class="chu-box tpl-card" data-variant="panel" aria-labelledby="hours-title">
-          <div class="tpl-card-head"><h2 class="chu-title" id="hours-title">Players by hour</h2><span class="chu-small chu-muted">Today, in hundreds</span></div>
+        <section class="blip-box tpl-card" data-variant="panel" aria-labelledby="hours-title">
+          <div class="tpl-card-head"><h2 class="blip-title" id="hours-title">Players by hour</h2><span class="blip-small blip-muted">Today, in hundreds</span></div>
           <ol class="tpl-bars" role="list">
             {hours.map(([h, v]) => (
-              <li style={`--v:${v}`} data-peak={v === peak ? "" : undefined}><span class="tpl-bar" aria-hidden="true"></span><span class="tpl-bar-label" aria-hidden="true">{h}</span><span class="chu-sr-only">{h}:00, {v * 100} players</span></li>
+              <li style={`--v:${v}`} data-peak={v === peak ? "" : undefined}><span class="tpl-bar" aria-hidden="true"></span><span class="tpl-bar-label" aria-hidden="true">{h}</span><span class="blip-sr-only">{h}:00, {v * 100} players</span></li>
             ))}
           </ol>
         </section>
-        <section class="chu-box tpl-card" data-variant="panel" aria-labelledby="levels-title">
-          <div class="tpl-card-head"><h2 class="chu-title" id="levels-title">Cleared by world</h2><span class="chu-small chu-muted">Share of players</span></div>
+        <section class="blip-box tpl-card" data-variant="panel" aria-labelledby="levels-title">
+          <div class="tpl-card-head"><h2 class="blip-title" id="levels-title">Cleared by world</h2><span class="blip-small blip-muted">Share of players</span></div>
           <div class="tpl-worlds">
             {worlds.map(([w, v, tone], i) => (
               <div class="tpl-world">
-                <div class="chu-progress-label"><label for={`world-${i}`}>{w}</label><span class="docs-num">{v}%</span></div>
-                <div class="chu-box chu-progress" data-tone={tone}><progress id={`world-${i}`} max="100" value={v}>{v}%</progress></div>
+                <div class="blip-progress-label"><label for={`world-${i}`}>{w}</label><span class="docs-num">{v}%</span></div>
+                <div class="blip-box blip-progress" data-tone={tone}><progress id={`world-${i}`} max="100" value={v}>{v}%</progress></div>
               </div>
             ))}
           </div>
         </section>
       </div>
 
-      <chu-table class="tpl-board">
-        <div class="chu-box chu-table-frame">
-          <div class="chu-table-scroll" role="region" aria-labelledby="board-cap" tabindex="0">
-            <table class="chu-table" data-zebra data-stack>
+      <blip-table class="tpl-board">
+        <div class="blip-box blip-table-frame">
+          <div class="blip-table-scroll" role="region" aria-labelledby="board-cap" tabindex="0">
+            <table class="blip-table" data-zebra data-stack>
               <caption id="board-cap">Leaderboard, this week</caption>
               <thead>
                 <tr>
-                  <th scope="col" class="chu-table-check"><span class="chu-box chu-checkbox" data-size="sm" data-chu-r="1"><input type="checkbox" aria-label="Select all players" data-select-all /></span></th>
-                  <th scope="col" class="chu-numeric"><button class="chu-box chu-table-sort" data-variant="ghost" type="button">Rank<span class="chu-table-caret" aria-hidden="true"></span></button></th>
-                  <th scope="col"><button class="chu-box chu-table-sort" data-variant="ghost" type="button">Player<span class="chu-table-caret" aria-hidden="true"></span></button></th>
-                  <th scope="col"><button class="chu-box chu-table-sort" data-variant="ghost" type="button">World<span class="chu-table-caret" aria-hidden="true"></span></button></th>
-                  <th scope="col" class="chu-numeric" aria-sort="descending"><button class="chu-box chu-table-sort" data-variant="ghost" type="button">Score<span class="chu-table-caret" aria-hidden="true"></span></button></th>
-                  <th scope="col" class="chu-numeric"><button class="chu-box chu-table-sort" data-variant="ghost" type="button">Best time<span class="chu-table-caret" aria-hidden="true"></span></button></th>
+                  <th scope="col" class="blip-table-check"><span class="blip-box blip-checkbox" data-size="sm" data-blip-r="1"><input type="checkbox" aria-label="Select all players" data-select-all /></span></th>
+                  <th scope="col" class="blip-numeric"><button class="blip-box blip-table-sort" data-variant="ghost" type="button">Rank<span class="blip-table-caret" aria-hidden="true"></span></button></th>
+                  <th scope="col"><button class="blip-box blip-table-sort" data-variant="ghost" type="button">Player<span class="blip-table-caret" aria-hidden="true"></span></button></th>
+                  <th scope="col"><button class="blip-box blip-table-sort" data-variant="ghost" type="button">World<span class="blip-table-caret" aria-hidden="true"></span></button></th>
+                  <th scope="col" class="blip-numeric" aria-sort="descending"><button class="blip-box blip-table-sort" data-variant="ghost" type="button">Score<span class="blip-table-caret" aria-hidden="true"></span></button></th>
+                  <th scope="col" class="blip-numeric"><button class="blip-box blip-table-sort" data-variant="ghost" type="button">Best time<span class="blip-table-caret" aria-hidden="true"></span></button></th>
                   <th scope="col">Status</th>
                 </tr>
               </thead>
               <tbody>
                 {players.map(([name, initials, tone, world, score, scoreN, time, secs, status, statusTone], i) => (
                   <tr>
-                    <td class="chu-table-check"><span class="chu-box chu-checkbox" data-size="sm" data-chu-r="1"><input type="checkbox" aria-labelledby={`p-${i}`} /></span></td>
-                    <td class="chu-numeric" data-label="Rank">{i + 1}</td>
-                    <th scope="row" id={`p-${i}`}><span class="tpl-player"><span class="chu-box chu-avatar" data-size="sm" data-tone={tone} aria-hidden="true">{initials[0]}</span>{name}</span></th>
+                    <td class="blip-table-check"><span class="blip-box blip-checkbox" data-size="sm" data-blip-r="1"><input type="checkbox" aria-labelledby={`p-${i}`} /></span></td>
+                    <td class="blip-numeric" data-label="Rank">{i + 1}</td>
+                    <th scope="row" id={`p-${i}`}><span class="tpl-player"><span class="blip-box blip-avatar" data-size="sm" data-tone={tone} aria-hidden="true">{initials[0]}</span>{name}</span></th>
                     <td data-label="World">{world}</td>
-                    <td class="chu-numeric" data-label="Score" data-sort-value={scoreN}>{score}</td>
-                    <td class="chu-numeric" data-label="Best time" data-sort-value={secs}>{time}</td>
-                    <td data-label="Status"><span class="chu-box chu-tag" data-size="sm" data-tone={statusTone}>{status}</span></td>
+                    <td class="blip-numeric" data-label="Score" data-sort-value={scoreN}>{score}</td>
+                    <td class="blip-numeric" data-label="Best time" data-sort-value={secs}>{time}</td>
+                    <td data-label="Status"><span class="blip-box blip-tag" data-size="sm" data-tone={statusTone}>{status}</span></td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         </div>
-      </chu-table>
-      <p class="chu-small chu-muted tpl-dash-note">Questboard and its players are made up for this Blip template. The bar chart is this page's own CSS: Blip has no chart component yet.</p>
+      </blip-table>
+      <p class="blip-small blip-muted tpl-dash-note">Questboard and its players are made up for this Blip template. The bar chart is this page's own CSS: Blip has no chart component yet.</p>
     </main>
 
-    <nav class="chu-box chu-bottom-bar tpl-dash-bottom" aria-label="Live ops" data-collapse="auto">
-      <ul class="chu-bottom-bar-list" role="list">
+    <nav class="blip-box blip-bottom-bar tpl-dash-bottom" aria-label="Live ops" data-collapse="auto">
+      <ul class="blip-bottom-bar-list" role="list">
         {nav.map((n) => (
-          <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href={n.href} aria-current={n.current ? "page" : undefined}><Icon name={n.icon} /><span class="chu-bottom-bar-label">{n.label}</span>{n.badge && <span class="chu-box chu-bottom-bar-badge" data-tone={n.tone ?? "accent"}>{n.badge}<span class="chu-sr-only"> new</span></span>}</a></li>
+          <li><a class="blip-box blip-bottom-bar-item" data-variant="ghost" href={n.href} aria-current={n.current ? "page" : undefined}><Icon name={n.icon} /><span class="blip-bottom-bar-label">{n.label}</span>{n.badge && <span class="blip-box blip-bottom-bar-badge" data-tone={n.tone ?? "accent"}>{n.badge}<span class="blip-sr-only"> new</span></span>}</a></li>
         ))}
       </ul>
     </nav>
   </div>
-  <chu-toaster data-side="bottom" data-align="end"></chu-toaster>
+  <blip-toaster data-side="bottom" data-align="end"></blip-toaster>
 </Template>

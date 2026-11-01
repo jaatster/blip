@@ -1,56 +1,56 @@
 <!-- Level select: World 1 of a platformer, two levels cleared, the third current, the rest locked. -->
-<section class="chu-stage" data-frame aria-labelledby="world-1" style="max-inline-size:calc(420*var(--chu-pixel));padding:calc(10*var(--chu-pixel)) calc(14*var(--chu-pixel)) calc(34*var(--chu-pixel))">
-  <div style="display:flex;flex-wrap:wrap;gap:calc(2*var(--chu-pixel)) calc(10*var(--chu-pixel));align-items:baseline">
-    <h3 id="world-1" class="chu-display chu-pop" data-scale="2" data-pop="World 1: Meadow">World 1: Meadow</h3>
-    <p class="chu-label" style="display:inline-flex;gap:calc(3*var(--chu-pixel));align-items:center"><chu-sprite name="star"></chu-sprite>5 of 18 stars</p>
+<section class="blip-stage" data-frame aria-labelledby="world-1" style="max-inline-size:calc(420*var(--blip-pixel));padding:calc(10*var(--blip-pixel)) calc(14*var(--blip-pixel)) calc(34*var(--blip-pixel))">
+  <div style="display:flex;flex-wrap:wrap;gap:calc(2*var(--blip-pixel)) calc(10*var(--blip-pixel));align-items:baseline">
+    <h3 id="world-1" class="blip-display blip-pop" data-scale="2" data-pop="World 1: Meadow">World 1: Meadow</h3>
+    <p class="blip-label" style="display:inline-flex;gap:calc(3*var(--blip-pixel));align-items:center"><blip-sprite name="star"></blip-sprite>5 of 18 stars</p>
   </div>
-  <ol class="chu-level-map" aria-label="Levels">
+  <ol class="blip-level-map" aria-label="Levels">
     <li>
-      <button type="button" class="chu-box chu-level" aria-label="Level 1, Sprout Steps: 3 of 3 stars">
-        <span class="chu-level-number">1</span>
-        <span class="chu-level-stars"><chu-sprite name="star"></chu-sprite><chu-sprite name="star"></chu-sprite><chu-sprite name="star"></chu-sprite></span>
+      <button type="button" class="blip-box blip-level" aria-label="Level 1, Sprout Steps: 3 of 3 stars">
+        <span class="blip-level-number">1</span>
+        <span class="blip-level-stars"><blip-sprite name="star"></blip-sprite><blip-sprite name="star"></blip-sprite><blip-sprite name="star"></blip-sprite></span>
       </button>
-      <span class="chu-level-path" aria-hidden="true"></span>
+      <span class="blip-level-path" aria-hidden="true"></span>
     </li>
     <li>
-      <button type="button" class="chu-box chu-level" aria-label="Level 2, Clover Hill: 2 of 3 stars">
-        <span class="chu-level-number">2</span>
-        <span class="chu-level-stars"><chu-sprite name="star"></chu-sprite><chu-sprite name="star"></chu-sprite><chu-sprite name="star-empty"></chu-sprite></span>
+      <button type="button" class="blip-box blip-level" aria-label="Level 2, Clover Hill: 2 of 3 stars">
+        <span class="blip-level-number">2</span>
+        <span class="blip-level-stars"><blip-sprite name="star"></blip-sprite><blip-sprite name="star"></blip-sprite><blip-sprite name="star-empty"></blip-sprite></span>
       </button>
-      <span class="chu-level-path" aria-hidden="true"></span>
+      <span class="blip-level-path" aria-hidden="true"></span>
     </li>
     <li>
-      <button type="button" class="chu-box chu-level" aria-current="step" aria-label="Level 3, Puddle Path: you are here, no stars yet">
-        <chu-sprite class="chu-level-here" name="arrow"></chu-sprite>
-        <span class="chu-level-number">3</span>
-        <span class="chu-level-stars"><chu-sprite name="star-empty"></chu-sprite><chu-sprite name="star-empty"></chu-sprite><chu-sprite name="star-empty"></chu-sprite></span>
+      <button type="button" class="blip-box blip-level" aria-current="step" aria-label="Level 3, Puddle Path: you are here, no stars yet">
+        <blip-sprite class="blip-level-here" name="arrow"></blip-sprite>
+        <span class="blip-level-number">3</span>
+        <span class="blip-level-stars"><blip-sprite name="star-empty"></blip-sprite><blip-sprite name="star-empty"></blip-sprite><blip-sprite name="star-empty"></blip-sprite></span>
       </button>
-      <span class="chu-level-path" data-locked aria-hidden="true"></span>
+      <span class="blip-level-path" data-locked aria-hidden="true"></span>
     </li>
     <li>
-      <button type="button" class="chu-box chu-level" aria-disabled="true" aria-label="Level 4: locked, clear level 3 first">
-        <chu-sprite name="padlock"></chu-sprite>
+      <button type="button" class="blip-box blip-level" aria-disabled="true" aria-label="Level 4: locked, clear level 3 first">
+        <blip-sprite name="padlock"></blip-sprite>
       </button>
-      <span class="chu-level-path" data-locked aria-hidden="true"></span>
+      <span class="blip-level-path" data-locked aria-hidden="true"></span>
     </li>
     <li>
-      <button type="button" class="chu-box chu-level" data-tone="purple" aria-disabled="true" aria-label="Bonus, Hidden Grotto: locked, find the moon key">
-        <chu-sprite name="chest"></chu-sprite>
+      <button type="button" class="blip-box blip-level" data-tone="purple" aria-disabled="true" aria-label="Bonus, Hidden Grotto: locked, find the moon key">
+        <blip-sprite name="chest"></blip-sprite>
       </button>
-      <span class="chu-level-path" data-locked aria-hidden="true"></span>
+      <span class="blip-level-path" data-locked aria-hidden="true"></span>
     </li>
     <li>
-      <button type="button" class="chu-box chu-level" data-tone="danger" aria-disabled="true" aria-label="Level 5, Bramble Keep, the boss: locked">
-        <chu-sprite name="padlock"></chu-sprite>
+      <button type="button" class="blip-box blip-level" data-tone="danger" aria-disabled="true" aria-label="Level 5, Bramble Keep, the boss: locked">
+        <blip-sprite name="padlock"></blip-sprite>
       </button>
     </li>
   </ol>
-  <div class="chu-stage-ground"></div>
+  <div class="blip-stage-ground"></div>
 </section>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel));align-items:end;margin-block-start:calc(22*var(--chu-pixel))">
-  <button type="button" class="chu-box chu-level" data-chu-state="hover" aria-label="Level 1: 3 of 3 stars, hover"><span class="chu-level-number">1</span><span class="chu-level-stars"><chu-sprite name="star"></chu-sprite><chu-sprite name="star"></chu-sprite><chu-sprite name="star"></chu-sprite></span></button>
-  <button type="button" class="chu-box chu-level" data-chu-state="focus" aria-label="Level 2: 1 of 3 stars, focus"><span class="chu-level-number">2</span><span class="chu-level-stars"><chu-sprite name="star"></chu-sprite><chu-sprite name="star-empty"></chu-sprite><chu-sprite name="star-empty"></chu-sprite></span></button>
-  <button type="button" class="chu-box chu-level" data-tone="teal" aria-label="Level 12: 2 of 3 stars"><span class="chu-level-number">12</span><span class="chu-level-stars"><chu-sprite name="star"></chu-sprite><chu-sprite name="star"></chu-sprite><chu-sprite name="star-empty"></chu-sprite></span></button>
-  <button type="button" class="chu-box chu-level" data-tone="pink" aria-label="Bonus: the trophy room"><chu-sprite name="trophy"></chu-sprite></button>
+<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--blip-pixel));align-items:end;margin-block-start:calc(22*var(--blip-pixel))">
+  <button type="button" class="blip-box blip-level" data-blip-state="hover" aria-label="Level 1: 3 of 3 stars, hover"><span class="blip-level-number">1</span><span class="blip-level-stars"><blip-sprite name="star"></blip-sprite><blip-sprite name="star"></blip-sprite><blip-sprite name="star"></blip-sprite></span></button>
+  <button type="button" class="blip-box blip-level" data-blip-state="focus" aria-label="Level 2: 1 of 3 stars, focus"><span class="blip-level-number">2</span><span class="blip-level-stars"><blip-sprite name="star"></blip-sprite><blip-sprite name="star-empty"></blip-sprite><blip-sprite name="star-empty"></blip-sprite></span></button>
+  <button type="button" class="blip-box blip-level" data-tone="teal" aria-label="Level 12: 2 of 3 stars"><span class="blip-level-number">12</span><span class="blip-level-stars"><blip-sprite name="star"></blip-sprite><blip-sprite name="star"></blip-sprite><blip-sprite name="star-empty"></blip-sprite></span></button>
+  <button type="button" class="blip-box blip-level" data-tone="pink" aria-label="Bonus: the trophy room"><blip-sprite name="trophy"></blip-sprite></button>
 </div>

@@ -1,6 +1,6 @@
 /**
  * Achievement: Achievements, Achievement, AchievementIcon, AchievementLabel, AchievementTitle, AchievementText and
- * AchievementReward. CSS from @jaatster/blip-game (achievement.css).
+ * AchievementReward. CSS from @blip/game (achievement.css).
  */
 import { forwardRef } from "react";
 import { cx, type NativeProps, type Tone } from "../../internal/props.js";
@@ -15,13 +15,13 @@ export type AchievementsProps = NativeProps<"div">;
  *
  *   <Achievements>{earned.map((a) => <Achievement key={a.id}>…</Achievement>)}</Achievements>
  *
- * Renders `<div class="chu-achievements" role="status">`.
+ * Renders `<div class="blip-achievements" role="status">`.
  */
 export const Achievements = /*#__PURE__*/ forwardRef<HTMLDivElement, AchievementsProps>(function Achievements(
   { role = "status", className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-achievements", className)} role={role} {...rest} />;
+  return <div ref={ref} className={cx("blip-achievements", className)} role={role} {...rest} />;
 });
 
 /** Own props of {@link Achievement}. */
@@ -45,13 +45,13 @@ export type AchievementProps = AchievementOwnProps & NativeProps<"div", Achievem
  *     <AchievementReward><Sprite name="coin" />+50</AchievementReward>
  *   </Achievement>
  *
- * Renders `<div class="chu-box chu-achievement">`.
+ * Renders `<div class="blip-box blip-achievement">`.
  */
 export const Achievement = /*#__PURE__*/ forwardRef<HTMLDivElement, AchievementProps>(function Achievement(
   { tone, className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-box chu-achievement", className)} data-tone={tone} {...rest} />;
+  return <div ref={ref} className={cx("blip-box blip-achievement", className)} data-tone={tone} {...rest} />;
 });
 
 /** Props for {@link AchievementIcon}. */
@@ -63,16 +63,16 @@ export type AchievementIconProps = NativeProps<"span">;
  *
  *   <AchievementIcon><Sprite name="trophy" /></AchievementIcon>
  *
- * Renders `<span class="chu-box chu-achievement-icon">`, its children, then `<span class="chu-achievement-sparkles">`.
+ * Renders `<span class="blip-box blip-achievement-icon">`, its children, then `<span class="blip-achievement-sparkles">`.
  */
 export const AchievementIcon = /*#__PURE__*/ forwardRef<HTMLSpanElement, AchievementIconProps>(function AchievementIcon(
   { className, children, ...rest },
   ref,
 ) {
   return (
-    <span ref={ref} className={cx("chu-box chu-achievement-icon", className)} {...rest}>
+    <span ref={ref} className={cx("blip-box blip-achievement-icon", className)} {...rest}>
       {children}
-      <span className="chu-achievement-sparkles" />
+      <span className="blip-achievement-sparkles" />
     </span>
   );
 });
@@ -85,13 +85,13 @@ export type AchievementLabelProps = NativeProps<"p">;
  *
  *   <AchievementLabel>Achievement unlocked</AchievementLabel>
  *
- * Renders `<p class="chu-achievement-label">`.
+ * Renders `<p class="blip-achievement-label">`.
  */
 export const AchievementLabel = /*#__PURE__*/ forwardRef<HTMLParagraphElement, AchievementLabelProps>(function AchievementLabel(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("chu-achievement-label", className)} {...rest} />;
+  return <p ref={ref} className={cx("blip-achievement-label", className)} {...rest} />;
 });
 
 /** Props for {@link AchievementTitle}. */
@@ -102,13 +102,13 @@ export type AchievementTitleProps = NativeProps<"p">;
  *
  *   <AchievementTitle>Early bird</AchievementTitle>
  *
- * Renders `<p class="chu-achievement-title">`.
+ * Renders `<p class="blip-achievement-title">`.
  */
 export const AchievementTitle = /*#__PURE__*/ forwardRef<HTMLParagraphElement, AchievementTitleProps>(function AchievementTitle(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("chu-achievement-title", className)} {...rest} />;
+  return <p ref={ref} className={cx("blip-achievement-title", className)} {...rest} />;
 });
 
 /** Props for {@link AchievementText}. */
@@ -119,13 +119,13 @@ export type AchievementTextProps = NativeProps<"p">;
  *
  *   <AchievementText>Catch a falling star before sunrise.</AchievementText>
  *
- * Renders `<p class="chu-achievement-text">`.
+ * Renders `<p class="blip-achievement-text">`.
  */
 export const AchievementText = /*#__PURE__*/ forwardRef<HTMLParagraphElement, AchievementTextProps>(function AchievementText(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("chu-achievement-text", className)} {...rest} />;
+  return <p ref={ref} className={cx("blip-achievement-text", className)} {...rest} />;
 });
 
 /** Props for {@link AchievementReward}. */
@@ -136,11 +136,11 @@ export type AchievementRewardProps = NativeProps<"p">;
  *
  *   <AchievementReward><Sprite name="coin" />+50</AchievementReward>
  *
- * Renders `<p class="chu-achievement-reward">`.
+ * Renders `<p class="blip-achievement-reward">`.
  */
 export const AchievementReward = /*#__PURE__*/ forwardRef<HTMLParagraphElement, AchievementRewardProps>(function AchievementReward(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("chu-achievement-reward", className)} {...rest} />;
+  return <p ref={ref} className={cx("blip-achievement-reward", className)} {...rest} />;
 });

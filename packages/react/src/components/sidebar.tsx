@@ -1,6 +1,6 @@
 /**
  * Sidebar: Sidebar, SidebarHeading, SidebarList, SidebarItem, SidebarLabel, SidebarBadge and SidebarGroup. CSS from
- * @jaatster/blip-components (sidebar.css). A link to the page you are on takes `current` (`aria-current="page"`); list items
+ * @blip/components (sidebar.css). A link to the page you are on takes `current` (`aria-current="page"`); list items
  * with no class of their own stay plain `<li>`s.
  */
 import { forwardRef } from "react";
@@ -19,18 +19,18 @@ const current = (on: boolean | undefined) => (on ? "page" : undefined);
 
 /** Own props of {@link Sidebar}. */
 export interface SidebarOwnProps {
-  /** A framed panel: adds `chu-box` and `data-variant="panel"`. Leave it off for a sidebar on the page. */
+  /** A framed panel: adds `blip-box` and `data-variant="panel"`. Leave it off for a sidebar on the page. */
   framed?: boolean;
   /** The rail: icons only, headings turn to rules, labels show beside items on hover and focus. `data-collapsed`. */
   collapsed?: boolean;
   /**
-   * `auto`: a rail while the `chu-shell` container is under 1024 px, hidden under 600 px (where a bottom bar or the
+   * `auto`: a rail while the `blip-shell` container is under 1024 px, hidden under 600 px (where a bottom bar or the
    * app bar's menu takes over). `data-collapse`.
    */
   collapse?: "auto";
   /** The TV's pointer arrow beside the current page: it pokes for a few beats, then rests. `data-arrow`. */
   arrow?: boolean;
-  /** The open width in pixels, 120 by default; keep it over 120 (narrower reads as the rail). `--chu-sidebar-width`. */
+  /** The open width in pixels, 120 by default; keep it over 120 (narrower reads as the rail). `--blip-sidebar-width`. */
   width?: number;
 }
 
@@ -54,18 +54,18 @@ export type SidebarProps = SidebarOwnProps & Named & NativeProps<"nav", SidebarO
  *     </SidebarList>
  *   </Sidebar>
  *
- * Renders `<nav class="chu-sidebar">` (`<nav class="chu-box chu-sidebar" data-variant="panel">` when framed). Rail
+ * Renders `<nav class="blip-sidebar">` (`<nav class="blip-box blip-sidebar" data-variant="panel">` when framed). Rail
  * labels reach outside it: do not clip a rail.
  */
 export const Sidebar = /*#__PURE__*/ forwardRef<HTMLElement, SidebarProps>(function Sidebar(
   { framed, collapsed, collapse, arrow, width, className, style, ...rest },
   ref,
 ) {
-  const sized = width === undefined ? style : { ...style, "--chu-sidebar-width": `calc(${width} * var(--chu-pixel))` };
+  const sized = width === undefined ? style : { ...style, "--blip-sidebar-width": `calc(${width} * var(--blip-pixel))` };
   return (
     <nav
       ref={ref}
-      className={cx(framed && "chu-box", "chu-sidebar", className)}
+      className={cx(framed && "blip-box", "blip-sidebar", className)}
       data-variant={framed ? "panel" : undefined}
       data-collapsed={flag(collapsed)}
       data-collapse={collapse}
@@ -85,13 +85,13 @@ export type SidebarHeadingProps = NativeProps<"h2">;
  *
  *   <SidebarHeading id="nav-shop">Shop</SidebarHeading>
  *
- * Renders `<h2 class="chu-sidebar-heading">`.
+ * Renders `<h2 class="blip-sidebar-heading">`.
  */
 export const SidebarHeading = /*#__PURE__*/ forwardRef<HTMLHeadingElement, SidebarHeadingProps>(function SidebarHeading(
   { className, ...rest },
   ref,
 ) {
-  return <h2 ref={ref} className={cx("chu-sidebar-heading", className)} {...rest} />;
+  return <h2 ref={ref} className={cx("blip-sidebar-heading", className)} {...rest} />;
 });
 
 /** Props for {@link SidebarList}. */
@@ -102,13 +102,13 @@ export type SidebarListProps = NativeProps<"ul">;
  *
  *   <SidebarList aria-labelledby="nav-shop">…</SidebarList>
  *
- * Renders `<ul class="chu-sidebar-list" role="list">`.
+ * Renders `<ul class="blip-sidebar-list" role="list">`.
  */
 export const SidebarList = /*#__PURE__*/ forwardRef<HTMLUListElement, SidebarListProps>(function SidebarList(
   { className, ...rest },
   ref,
 ) {
-  return <ul ref={ref} className={cx("chu-sidebar-list", className)} role="list" {...rest} />;
+  return <ul ref={ref} className={cx("blip-sidebar-list", className)} role="list" {...rest} />;
 });
 
 /** Own props of {@link SidebarItem}. */
@@ -117,7 +117,7 @@ export interface SidebarItemOwnProps {
   current?: boolean;
   /** Off: dithered and muted, announced as a dimmed link. `role="link"` and `aria-disabled="true"`, with no `href`. */
   disabled?: boolean;
-  /** Corner radius in pixels, 3 by default. `data-chu-r`. */
+  /** Corner radius in pixels, 3 by default. `data-blip-r`. */
   radius?: Radius;
 }
 
@@ -132,7 +132,7 @@ export type SidebarItemProps<T extends ElementType = "a"> = PolymorphicProps<T, 
  *   <li><SidebarItem href="/players"><Icon name="users" /><SidebarLabel>Players</SidebarLabel></SidebarItem></li>
  *   <SidebarItem as="summary"><Icon name="settings" /><SidebarLabel>Settings</SidebarLabel></SidebarItem>
  *
- * Renders `<a class="chu-box chu-sidebar-item" data-variant="ghost">`.
+ * Renders `<a class="blip-box blip-sidebar-item" data-variant="ghost">`.
  */
 export const SidebarItem = /*#__PURE__*/ forwardRef(function SidebarItem(
   { as: Tag = "a", current: isCurrent, disabled, radius, className, ...rest }: SidebarItemProps<ElementType>,
@@ -141,9 +141,9 @@ export const SidebarItem = /*#__PURE__*/ forwardRef(function SidebarItem(
   return (
     <Tag
       ref={ref}
-      className={cx("chu-box chu-sidebar-item", className)}
+      className={cx("blip-box blip-sidebar-item", className)}
       data-variant="ghost"
-      data-chu-r={radius}
+      data-blip-r={radius}
       role={disabled ? "link" : undefined}
       aria-disabled={disabled ? true : undefined}
       aria-current={current(isCurrent)}
@@ -161,13 +161,13 @@ export type SidebarLabelProps = NativeProps<"span">;
  *
  *   <SidebarLabel>Players</SidebarLabel>
  *
- * Renders `<span class="chu-sidebar-label">`.
+ * Renders `<span class="blip-sidebar-label">`.
  */
 export const SidebarLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, SidebarLabelProps>(function SidebarLabel(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-sidebar-label", className)} {...rest} />;
+  return <span ref={ref} className={cx("blip-sidebar-label", className)} {...rest} />;
 });
 
 /** Own props of {@link SidebarBadge}. */
@@ -180,15 +180,15 @@ export type SidebarBadgeProps = SidebarBadgeOwnProps & NativeProps<"span", Sideb
  * A count at the end of an item: a soft box; on the rail, a dot. Write "999+" above 999, and add words for screen
  * readers.
  *
- *   <SidebarBadge tone="danger">5<span className="chu-sr-only"> refunds to check</span></SidebarBadge>
+ *   <SidebarBadge tone="danger">5<span className="blip-sr-only"> refunds to check</span></SidebarBadge>
  *
- * Renders `<span class="chu-box chu-sidebar-badge">`.
+ * Renders `<span class="blip-box blip-sidebar-badge">`.
  */
 export const SidebarBadge = /*#__PURE__*/ forwardRef<HTMLSpanElement, SidebarBadgeProps>(function SidebarBadge(
   { tone, radius, className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-box chu-sidebar-badge", className)} {...box({ tone, radius })} {...rest} />;
+  return <span ref={ref} className={cx("blip-box blip-sidebar-badge", className)} {...box({ tone, radius })} {...rest} />;
 });
 
 /** Props for {@link SidebarGroup}. */
@@ -203,11 +203,11 @@ export type SidebarGroupProps = NativeProps<"details">;
  *     <SidebarList>…</SidebarList>
  *   </SidebarGroup>
  *
- * Renders `<details class="chu-sidebar-group">`.
+ * Renders `<details class="blip-sidebar-group">`.
  */
 export const SidebarGroup = /*#__PURE__*/ forwardRef<HTMLDetailsElement, SidebarGroupProps>(function SidebarGroup(
   { className, ...rest },
   ref,
 ) {
-  return <details ref={ref} className={cx("chu-sidebar-group", className)} {...rest} />;
+  return <details ref={ref} className={cx("blip-sidebar-group", className)} {...rest} />;
 });

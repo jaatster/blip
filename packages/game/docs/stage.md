@@ -1,6 +1,6 @@
 ---
 name: Stage
-package: "@jaatster/blip-game"
+package: "@blip/game"
 css: stage.css
 element: null
 react: Stage
@@ -10,35 +10,35 @@ status: beta
 # Stage
 
 A game screen for a HUD, a menu or a map to sit on: a positioned frame with a pastel sky and a ground strip. Put
-`<chu-world>` from `@jaatster/blip-effects` inside for the full dithered world, with mountains, hills and clouds. Without it,
+`<blip-world>` from `@blip/effects` inside for the full dithered world, with mountains, hills and clouds. Without it,
 and before it draws, the sky is the scheme's world palette in six hard bands, stepping up from the horizon and
 dithered where they meet: never a smooth gradient.
 
 ## Usage
 
 ```html
-<section class="chu-stage" data-frame aria-label="Puddle Path">
-  <chu-world></chu-world>
-  <div class="chu-hud">…</div>
-  <div class="chu-stage-ground"></div>
+<section class="blip-stage" data-frame aria-label="Puddle Path">
+  <blip-world></blip-world>
+  <div class="blip-hud">…</div>
+  <div class="blip-stage-ground"></div>
 </section>
 ```
 
 ## Anatomy
 
-1. **Sky**: the stage's background, six bands of the nearest scheme's sky (`--chu-stage-band` pixels each, 12),
+1. **Sky**: the stage's background, six bands of the nearest scheme's sky (`--blip-stage-band` pixels each, 12),
    counted up from the ground, with a checkerboard row each way where two meet.
-2. **World** (`chu-world`, optional): fills the stage behind everything.
-3. **Ground** (`.chu-stage-ground`): blades of grass, a light top row, grass, a darker lip, then dirt with pebbles and
-   a few flowers (`--chu-stage-ground` pixels, 16).
-4. **Scrim** (`.chu-scrim`, optional): a dithered ink layer over everything, for a pause.
+2. **World** (`blip-world`, optional): fills the stage behind everything.
+3. **Ground** (`.blip-stage-ground`): blades of grass, a light top row, grass, a darker lip, then dirt with pebbles and
+   a few flowers (`--blip-stage-ground` pixels, 16).
+4. **Scrim** (`.blip-scrim`, optional): a dithered ink layer over everything, for a pause.
 
 ## Variants
 
 | Attribute | Use |
 |---|---|
 | `data-frame` | An ink edge and a drop, for a screen set into a page. |
-| `data-chu-scheme` | A stage can carry its own scheme: a night level on a day page. |
+| `data-blip-scheme` | A stage can carry its own scheme: a night level on a day page. |
 
 ## Accessibility
 
@@ -56,6 +56,6 @@ content box is under 480 px, and scale 1 under 320 px (a phone).
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-stage-band` | 12 | Each sky band's height, in pixels. |
-| `--chu-stage-ground` | 16 | The ground's height, in pixels. |
-| `--chu-stage-sky-1` … `-6`, `--chu-stage-grass`, `--chu-stage-dirt` … | the scheme's | The palette, set on each scheme root. |
+| `--blip-stage-band` | 12 | Each sky band's height, in pixels. |
+| `--blip-stage-ground` | 16 | The ground's height, in pixels. |
+| `--blip-stage-sky-1` … `-6`, `--blip-stage-grass`, `--blip-stage-dirt` … | the scheme's | The palette, set on each scheme root. |

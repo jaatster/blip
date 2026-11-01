@@ -2,65 +2,65 @@
  * Empty state. What a place shows when it has nothing in it yet: a small pixel picture, a title in Pixel Bop, a
  * line saying why it is empty or what goes here, and the action that fills it.
  *
- *   <div class="chu-empty-state">
- *     <svg class="chu-empty-state-art" viewBox="0 0 32 24" aria-hidden="true">…</svg>
- *     <h2 class="chu-empty-state-title">No saves yet</h2>
- *     <p class="chu-empty-state-text">Start a game and it will be saved here after every level.</p>
- *     <div class="chu-empty-state-actions"><button class="chu-box chu-button">New game</button></div>
+ *   <div class="blip-empty-state">
+ *     <svg class="blip-empty-state-art" viewBox="0 0 32 24" aria-hidden="true">…</svg>
+ *     <h2 class="blip-empty-state-title">No saves yet</h2>
+ *     <p class="blip-empty-state-text">Start a game and it will be saved here after every level.</p>
+ *     <div class="blip-empty-state-actions"><button class="blip-box blip-button">New game</button></div>
  *   </div>
  *
  *   data-size    sm | md (default) | lg   the picture at one, two or three pixels per unit; less or more space round it
  *
  * Draw the picture on a grid 32 units wide, in whole units, with shape-rendering="crispEdges": it is shown at
  * two pixels a unit (one when small), so it stays on the grid. Colour it with scheme roles and candies
- * (style="fill: var(--chu-outline)"), never raw colours. It says nothing a reader needs: aria-hidden="true".
+ * (style="fill: var(--blip-outline)"), never raw colours. It says nothing a reader needs: aria-hidden="true".
  */
 
-@layer chu.components {
-  .chu-empty-state {
-    --_chu-unit: 2;
+@layer blip.components {
+  .blip-empty-state {
+    --_blip-unit: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: calc(3 * var(--chu-pixel));
-    max-inline-size: calc(200 * var(--chu-pixel));
+    gap: calc(3 * var(--blip-pixel));
+    max-inline-size: calc(200 * var(--blip-pixel));
     margin-inline: auto;
-    padding: calc(12 * var(--chu-pixel)) calc(8 * var(--chu-pixel));
+    padding: calc(12 * var(--blip-pixel)) calc(8 * var(--blip-pixel));
     text-align: center;
   }
-  .chu-empty-state[data-size="sm"] { --_chu-unit: 1; gap: calc(2 * var(--chu-pixel)); padding: calc(6 * var(--chu-pixel)) calc(4 * var(--chu-pixel)); }
-  .chu-empty-state[data-size="lg"] { --_chu-unit: 3; gap: calc(4 * var(--chu-pixel)); max-inline-size: calc(240 * var(--chu-pixel)); padding: calc(16 * var(--chu-pixel)) calc(12 * var(--chu-pixel)); }
+  .blip-empty-state[data-size="sm"] { --_blip-unit: 1; gap: calc(2 * var(--blip-pixel)); padding: calc(6 * var(--blip-pixel)) calc(4 * var(--blip-pixel)); }
+  .blip-empty-state[data-size="lg"] { --_blip-unit: 3; gap: calc(4 * var(--blip-pixel)); max-inline-size: calc(240 * var(--blip-pixel)); padding: calc(16 * var(--blip-pixel)) calc(12 * var(--blip-pixel)); }
 
-  .chu-empty-state-art {
-    inline-size: calc(32 * var(--_chu-unit) * var(--chu-pixel));
+  .blip-empty-state-art {
+    inline-size: calc(32 * var(--_blip-unit) * var(--blip-pixel));
     block-size: auto;
-    margin-block-end: calc(2 * var(--_chu-unit) * var(--chu-pixel));
+    margin-block-end: calc(2 * var(--_blip-unit) * var(--blip-pixel));
     shape-rendering: crispEdges;
     overflow: visible;
   }
-  .chu-empty-state-title {
-    font-family: var(--chu-font-display);
-    font-size: calc(10 * var(--chu-pixel));
+  .blip-empty-state-title {
+    font-family: var(--blip-font-display);
+    font-size: calc(10 * var(--blip-pixel));
     font-weight: 400;
-    line-height: var(--chu-leading-display);
+    line-height: var(--blip-leading-display);
     letter-spacing: 0;
     text-transform: uppercase;
     text-wrap: balance;
     -webkit-font-smoothing: none;
     font-smooth: never;
   }
-  .chu-empty-state-text {
+  .blip-empty-state-text {
     max-inline-size: 44ch;
-    color: var(--chu-text-muted);
-    font-size: var(--chu-size-small);
-    line-height: var(--chu-leading-normal);
+    color: var(--blip-text-muted);
+    font-size: var(--blip-size-small);
+    line-height: var(--blip-leading-normal);
     text-wrap: pretty;
   }
-  .chu-empty-state-actions {
+  .blip-empty-state-actions {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: calc(4 * var(--chu-pixel));
-    margin-block-start: calc(3 * var(--chu-pixel));
+    gap: calc(4 * var(--blip-pixel));
+    margin-block-start: calc(3 * var(--blip-pixel));
   }
 }

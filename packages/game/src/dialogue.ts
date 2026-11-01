@@ -1,17 +1,17 @@
 /**
- * <chu-dialogue>: the RPG text box (see dialogue.css). One <p> per page. Each page types itself in a letter at a
+ * <blip-dialogue>: the RPG text box (see dialogue.css). One <p> per page. Each page types itself in a letter at a
  * time with the TV's rhythm (LETTER, a longer STOP after . ! ? and COMMA after a comma), voiced with a chip blip on
  * every other letter when `voice` is set. A click, Enter or Space shows the whole page at once; the next press turns
- * the page. After the last page come the choices, if there are any, or chu-done.
+ * the page. After the last page come the choices, if there are any, or blip-done.
  *
  * Screen readers get each whole page at once, from a polite live region; the typing is visual only. With reduced
  * motion the text appears whole and nothing is voiced. Pages rendered or replaced after the element upgrades start it
  * again from the first.
  *
  *   dialogue.say(["Ah, a traveller!", "The bridge is out."]);
- *   dialogue.addEventListener("chu-done", () => dialogue.hidden = true);
+ *   dialogue.addEventListener("blip-done", () => dialogue.hidden = true);
  */
-import { BlipElement, duration, reducedMotion, run, services, type Step } from "@jaatster/blip-core";
+import { BlipElement, duration, reducedMotion, run, services, type Step } from "@blip/core";
 
 interface Piece {
   node: Text;
@@ -21,7 +21,7 @@ interface Piece {
 }
 
 const LABELS = { typing: "Show all text", next: "Next", done: "Continue" } as const;
-const TEXT = ".chu-dialogue-text";
+const TEXT = ".blip-dialogue-text";
 type State = keyof typeof LABELS;
 const prepared = new WeakMap<Element, Piece[]>();
 
@@ -34,7 +34,7 @@ export function blipRate(letter: string, mood = "plain", base = 1): number {
 /**
  * The RPG text box: one <p> per page, each typed in a letter at a time with the TV's rhythm and an optional chip
  * voice. A click, Enter or Space shows the whole page, the next press turns it; after the last page come the
- * choices, if any, or chu-done. Screen readers get each whole page at once.
+ * choices, if any, or blip-done. Screen readers get each whole page at once.
  *
  * @summary The RPG dialogue box that types its pages in.
  * @attr {boolean | number} voice - A blip on every other voiced letter. Present, or a base rate such as 1.2 (higher
@@ -45,13 +45,13 @@ export function blipRate(letter: string, mood = "plain", base = 1): number {
  * @attr {string} [next-label="Next"] - The ▼ button's name when another page follows.
  * @attr {string} [done-label="Continue"] - The ▼ button's name on the last page.
  * @attr {"display"} data-font - The text in Pixel Bop at scale 1, capitals, as on the TV's speech bubble.
- * @attr {number} data-chu-typed - Freezes the first page at this many letters (docs and screenshots only).
- * @fires {CustomEvent<{ page: number; pages: number }>} chu-next - A page turned.
- * @fires {CustomEvent<void>} chu-done - The reader pressed on after the last page (and there were no choices).
+ * @attr {number} data-blip-typed - Freezes the first page at this many letters (docs and screenshots only).
+ * @fires {CustomEvent<{ page: number; pages: number }>} blip-next - A page turned.
+ * @fires {CustomEvent<void>} blip-done - The reader pressed on after the last page (and there were no choices).
  */
 export class BlipDialogue extends BlipElement {
   static override box = true;
-  static override classes = ["chu-dialogue"];
+  static override classes = ["blip-dialogue"];
 
   #page = 0;
   #pieces: Piece[] = [];
@@ -77,13 +77,13 @@ export class BlipDialogue extends BlipElement {
   protected override connected(): void {
     this.#label();
     if (!this.hasAttribute("role")) this.setAttribute("role", "group");
-    this.#live ??= this.appendChild(Object.assign(document.createElement("div"), { className: "chu-sr-only" }));
+    this.#live ??= this.appendChild(Object.assign(document.createElement("div"), { className: "blip-sr-only" }));
     this.#live.setAttribute("aria-live", "polite");
-    this.#next ??= this.appendChild(Object.assign(document.createElement("button"), { type: "button", className: "chu-dialogue-next" }));
+    this.#next ??= this.appendChild(Object.assign(document.createElement("button"), { type: "button", className: "blip-dialogue-next" }));
     // Focusable, so a click anywhere in the box keeps the keyboard here; Enter and Space then work as on the arrow.
     if (!this.hasAttribute("tabindex")) this.tabIndex = -1;
     this.on(this, "click", (e: Event) => {
-      if (!(e.target as Element).closest(".chu-dialogue-choices, a, input, select, textarea")) this.advance();
+      if (!(e.target as Element).closest(".blip-dialogue-choices, a, input, select, textarea")) this.advance();
     });
     this.on(this, "keydown", (e: KeyboardEvent) => {
       if (e.target !== this || (e.key !== "Enter" && e.key !== " ")) return;
@@ -107,8 +107,8 @@ export class BlipDialogue extends BlipElement {
   say(pages: string | string[]): void {
     let box = this.querySelector(TEXT);
     if (!box) {
-      box = Object.assign(document.createElement("div"), { className: "chu-dialogue-text" });
-      const body = this.querySelector(".chu-dialogue-body");
+      box = Object.assign(document.createElement("div"), { className: "blip-dialogue-text" });
+      const body = this.querySelector(".blip-dialogue-body");
       if (body) body.prepend(box);
       else this.insertBefore(box, this.#live ?? null);
     }
@@ -119,9 +119,9 @@ export class BlipDialogue extends BlipElement {
     this.#show(0);
   }
 
-  /** Shows the rest of a typing page; otherwise turns to the next page, or after the last sends chu-done. */
+  /** Shows the rest of a typing page; otherwise turns to the next page, or after the last sends blip-done. */
   advance(): void {
-    if (this.#typing || this.hasAttribute("data-chu-typed")) return this.#finish();
+    if (this.#typing || this.hasAttribute("data-blip-typed")) return this.#finish();
     if (this.hasAttribute("data-choosing")) return;
     if (this.#page + 1 < this.pages.length) {
       this.#show(this.#page + 1);
@@ -131,16 +131,16 @@ export class BlipDialogue extends BlipElement {
 
   /** Focuses what the reader acts on next: the choices once they show, else the next arrow. */
   override focus(options?: FocusOptions): void {
-    const choices = this.querySelector<HTMLElement>(".chu-dialogue-choices");
-    if (this.hasAttribute("data-choosing") && choices) (choices.localName === "chu-choices" ? choices : choices.querySelector("button"))?.focus(options);
+    const choices = this.querySelector<HTMLElement>(".blip-dialogue-choices");
+    if (this.hasAttribute("data-choosing") && choices) (choices.localName === "blip-choices" ? choices : choices.querySelector("button"))?.focus(options);
     else this.#next?.focus(options);
   }
 
   /** Names the box by its speaker's tab, and keeps the typing from assistive technology (the live region speaks). */
   #label(): void {
-    const name = this.querySelector(".chu-dialogue-name");
+    const name = this.querySelector(".blip-dialogue-name");
     if (name) {
-      name.id ||= `chu-dialogue-${Math.floor(services.random() * 1e9)}`;
+      name.id ||= `blip-dialogue-${Math.floor(services.random() * 1e9)}`;
       this.setAttribute("aria-labelledby", name.id);
     }
     this.querySelector(TEXT)?.setAttribute("aria-hidden", "true");
@@ -157,10 +157,10 @@ export class BlipDialogue extends BlipElement {
     if (!page) return;
     this.#prepare(page);
     const text = this.#pieces.map((p) => p.text).join("");
-    const name = this.querySelector(".chu-dialogue-name")?.textContent?.trim();
+    const name = this.querySelector(".blip-dialogue-name")?.textContent?.trim();
     // A beat later, so a live region that has just arrived is listened to.
     run([{ at: 60, do: () => this.#live && (this.#live.textContent = name ? `${name}: ${text}` : text) }], { signal: this.signal, instant: false });
-    const frozen = this.getAttribute("data-chu-typed");
+    const frozen = this.getAttribute("data-blip-typed");
     if (frozen !== null) {
       this.#reveal(Number(frozen));
       this.#state("typing");
@@ -180,7 +180,7 @@ export class BlipDialogue extends BlipElement {
         let text = node.data.replace(/\s+/g, " ");
         if (i === 0) text = text.trimStart();
         if (i === nodes.length - 1) text = text.trimEnd();
-        const rest = Object.assign(document.createElement("span"), { className: "chu-dialogue-rest" });
+        const rest = Object.assign(document.createElement("span"), { className: "blip-dialogue-rest" });
         node.after(rest);
         pieces!.push({ node, rest, text, start });
         start += text.length;
@@ -230,10 +230,10 @@ export class BlipDialogue extends BlipElement {
   #finish(): void {
     this.#typing?.abort();
     this.#typing = undefined;
-    this.removeAttribute("data-chu-typed");
+    this.removeAttribute("data-blip-typed");
     this.#reveal(this.#length);
     const last = this.#page >= this.pages.length - 1;
-    const choices = last ? this.querySelector<HTMLElement>(".chu-dialogue-choices:not([hidden])") : null;
+    const choices = last ? this.querySelector<HTMLElement>(".blip-dialogue-choices:not([hidden])") : null;
     if (!choices) return this.#state(last ? "done" : "next");
     const focused = this.contains(document.activeElement);
     this.setAttribute("data-choosing", "");
@@ -249,10 +249,10 @@ export class BlipDialogue extends BlipElement {
   }
 }
 
-BlipElement.define("chu-dialogue", BlipDialogue);
+BlipElement.define("blip-dialogue", BlipDialogue);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "chu-dialogue": BlipDialogue;
+    "blip-dialogue": BlipDialogue;
   }
 }

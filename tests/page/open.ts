@@ -23,7 +23,7 @@ export async function openExample(page: Page, example: Example, scheme: Scheme):
     if (!seeded.has(page)) {
       seeded.add(page);
       await page.addInitScript((m) => {
-        (window as unknown as { __CHU_MANIFEST__: unknown }).__CHU_MANIFEST__ = m;
+        (window as unknown as { __BLIP_MANIFEST__: unknown }).__BLIP_MANIFEST__ = m;
       }, manifest);
     }
     await page.goto(`/tests/page/example.html?example=${encodeURIComponent(id(example))}&scheme=${scheme}`);

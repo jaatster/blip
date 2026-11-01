@@ -1,22 +1,22 @@
 /*
  * Type. Big text is Pixel Bop, always on the grid and always capitals: font-size is 10 x pixel x scale, so every
- * letter pixel is a Blip pixel. Small text is Pixelify Sans on its five sizes (--chu-size-*, in rem, so they follow
+ * letter pixel is a Blip pixel. Small text is Pixelify Sans on its five sizes (--blip-size-*, in rem, so they follow
  * a larger default text size): the one thing allowed off the grid.
  *
- *   .chu-display   Pixel Bop at a whole scale (--chu-scale: 1 to 4, or data-scale)
- *   .chu-pop       POP: white letters, ink outline, a tinted lower band and a drop in the tone's shade
- *   .chu-outline   one colour with an ink outline, no drop: small text over pictures
- *   .chu-label     upper-case UI labels
- *   .chu-title, .chu-lead, .chu-body, .chu-small, .chu-caption
+ *   .blip-display   Pixel Bop at a whole scale (--blip-scale: 1 to 4, or data-scale)
+ *   .blip-pop       POP: white letters, ink outline, a tinted lower band and a drop in the tone's shade
+ *   .blip-outline   one colour with an ink outline, no drop: small text over pictures
+ *   .blip-label     upper-case UI labels
+ *   .blip-title, .blip-lead, .blip-body, .blip-small, .blip-caption
  */
 
-@layer chu.core {
-  .chu-display {
-    --chu-scale: 2;
-    font-family: var(--chu-font-display);
-    font-size: calc(10 * var(--chu-pixel) * var(--chu-scale));
+@layer blip.core {
+  .blip-display {
+    --blip-scale: 2;
+    font-family: var(--blip-font-display);
+    font-size: calc(10 * var(--blip-pixel) * var(--blip-scale));
     font-weight: 400;
-    line-height: var(--chu-leading-display);
+    line-height: var(--blip-leading-display);
     letter-spacing: 0;
     /* A score or a word in display type stays whole, even in a <p>: "120" over "4" reads as two numbers. */
     overflow-wrap: normal;
@@ -30,16 +30,16 @@
   /*
    * Rounded corners at big sizes, as on the TV: each letter enlarged with EPX (ss02, "Rounded 2x") at scales 2 and 4
    * and AdvMAME3x (ss03, "Rounded 3x") at scale 3, so every rounding step is a whole Blip pixel. Scale 1 is
-   * square. A --chu-scale set in CSS picks its set too, where the browser can compute feature values.
+   * square. A --blip-scale set in CSS picks its set too, where the browser can compute feature values.
    */
-  .chu-display[data-scale="1"] { --chu-scale: 1; font-feature-settings: normal; }
-  .chu-display[data-scale="2"] { --chu-scale: 2; font-feature-settings: "ss02"; }
-  .chu-display[data-scale="3"] { --chu-scale: 3; font-feature-settings: "ss03"; }
-  .chu-display[data-scale="4"] { --chu-scale: 4; font-feature-settings: "ss02"; }
+  .blip-display[data-scale="1"] { --blip-scale: 1; font-feature-settings: normal; }
+  .blip-display[data-scale="2"] { --blip-scale: 2; font-feature-settings: "ss02"; }
+  .blip-display[data-scale="3"] { --blip-scale: 3; font-feature-settings: "ss03"; }
+  .blip-display[data-scale="4"] { --blip-scale: 4; font-feature-settings: "ss02"; }
   @supports (font-feature-settings: "ss02" calc(1)) {
-    .chu-display:not([data-scale]) {
-      --_chu-ss03: clamp(0, 1 - (var(--chu-scale) - 3) * (var(--chu-scale) - 3), 1);
-      font-feature-settings: "ss02" calc(clamp(0, var(--chu-scale) - 1, 1) - var(--_chu-ss03)), "ss03" var(--_chu-ss03);
+    .blip-display:not([data-scale]) {
+      --_blip-ss03: clamp(0, 1 - (var(--blip-scale) - 3) * (var(--blip-scale) - 3), 1);
+      font-feature-settings: "ss02" calc(clamp(0, var(--blip-scale) - 1, 1) - var(--_blip-ss03)), "ss03" var(--_blip-ss03);
     }
   }
 
@@ -48,23 +48,23 @@
    * outline, in the tone's shade. Add data-pop="<the same text>" and the bottom two rows of every letter (rows 7
    * and 8 of the 12-row line) take a light tint of the tone, as on the TV.
    */
-  .chu-pop {
-    --chu-pop-tint: var(--chu-accent-light);
-    --chu-pop-drop: var(--chu-accent-shade);
-    --_p: var(--chu-pixel);
+  .blip-pop {
+    --blip-pop-tint: var(--blip-accent-light);
+    --blip-pop-drop: var(--blip-accent-shade);
+    --_p: var(--blip-pixel);
     position: relative;
-    color: var(--chu-white);
+    color: var(--blip-white);
     text-shadow:
-      calc(-1 * var(--_p)) calc(-1 * var(--_p)) 0 var(--chu-ink), 0 calc(-1 * var(--_p)) 0 var(--chu-ink),
-      var(--_p) calc(-1 * var(--_p)) 0 var(--chu-ink), calc(-1 * var(--_p)) 0 0 var(--chu-ink),
-      var(--_p) 0 0 var(--chu-ink), calc(-1 * var(--_p)) var(--_p) 0 var(--chu-ink),
-      0 var(--_p) 0 var(--chu-ink), var(--_p) var(--_p) 0 var(--chu-ink),
-      calc(2 * var(--_p)) 0 0 var(--chu-pop-drop), calc(2 * var(--_p)) var(--_p) 0 var(--chu-pop-drop),
-      calc(2 * var(--_p)) calc(2 * var(--_p)) 0 var(--chu-pop-drop), var(--_p) calc(2 * var(--_p)) 0 var(--chu-pop-drop),
-      0 calc(2 * var(--_p)) 0 var(--chu-pop-drop);
+      calc(-1 * var(--_p)) calc(-1 * var(--_p)) 0 var(--blip-ink), 0 calc(-1 * var(--_p)) 0 var(--blip-ink),
+      var(--_p) calc(-1 * var(--_p)) 0 var(--blip-ink), calc(-1 * var(--_p)) 0 0 var(--blip-ink),
+      var(--_p) 0 0 var(--blip-ink), calc(-1 * var(--_p)) var(--_p) 0 var(--blip-ink),
+      0 var(--_p) 0 var(--blip-ink), var(--_p) var(--_p) 0 var(--blip-ink),
+      calc(2 * var(--_p)) 0 0 var(--blip-pop-drop), calc(2 * var(--_p)) var(--_p) 0 var(--blip-pop-drop),
+      calc(2 * var(--_p)) calc(2 * var(--_p)) 0 var(--blip-pop-drop), var(--_p) calc(2 * var(--_p)) 0 var(--blip-pop-drop),
+      0 calc(2 * var(--_p)) 0 var(--blip-pop-drop);
     padding: var(--_p) calc(2 * var(--_p)) calc(2 * var(--_p)) var(--_p);
   }
-  .chu-pop[data-pop]::after {
+  .blip-pop[data-pop]::after {
     content: attr(data-pop) / "";
     position: absolute;
     inset: 0;
@@ -72,8 +72,8 @@
     color: transparent;
     text-shadow: none;
     /* Rows 7 to 11 of every 12-row line take the tint, so wrapped lines are tinted too. */
-    --_chu-line: calc(12 * var(--chu-pixel) * var(--chu-scale, 2));
-    background: repeating-linear-gradient(to bottom, transparent 0 calc(var(--_chu-line) * 7 / 12), var(--chu-pop-tint) 0 var(--_chu-line));
+    --_blip-line: calc(12 * var(--blip-pixel) * var(--blip-scale, 2));
+    background: repeating-linear-gradient(to bottom, transparent 0 calc(var(--_blip-line) * 7 / 12), var(--blip-pop-tint) 0 var(--_blip-line));
     background-origin: content-box;
     -webkit-background-clip: text;
     background-clip: text;
@@ -81,41 +81,41 @@
   }
   /* Printing ignores background-clip: text, so the tint would print as a box over the word: on paper POP is white
      letters, the ink outline and the drop. */
-  @media print { .chu-pop[data-pop]::after { content: none; } }
-  .chu-pop:is([data-tone="red"], [data-tone="danger"]) { --chu-pop-tint: var(--chu-candy-red-light); --chu-pop-drop: var(--chu-candy-red-shade); }
-  .chu-pop[data-tone="orange"], .chu-pop[data-tone="warning"] { --chu-pop-tint: var(--chu-candy-orange-light); --chu-pop-drop: var(--chu-candy-orange-shade); }
-  .chu-pop[data-tone="yellow"] { --chu-pop-tint: var(--chu-candy-yellow-light); --chu-pop-drop: var(--chu-candy-yellow-shade); }
-  .chu-pop:is([data-tone="green"], [data-tone="success"]) { --chu-pop-tint: var(--chu-candy-green-light); --chu-pop-drop: var(--chu-candy-green-shade); }
-  .chu-pop[data-tone="teal"] { --chu-pop-tint: var(--chu-candy-teal-light); --chu-pop-drop: var(--chu-candy-teal-shade); }
-  .chu-pop:is([data-tone="blue"], [data-tone="info"]) { --chu-pop-tint: var(--chu-candy-blue-light); --chu-pop-drop: var(--chu-candy-blue-shade); }
-  .chu-pop[data-tone="purple"] { --chu-pop-tint: var(--chu-candy-purple-light); --chu-pop-drop: var(--chu-candy-purple-shade); }
-  .chu-pop[data-tone="pink"] { --chu-pop-tint: var(--chu-candy-pink-light); --chu-pop-drop: var(--chu-candy-pink-shade); }
+  @media print { .blip-pop[data-pop]::after { content: none; } }
+  .blip-pop:is([data-tone="red"], [data-tone="danger"]) { --blip-pop-tint: var(--blip-candy-red-light); --blip-pop-drop: var(--blip-candy-red-shade); }
+  .blip-pop[data-tone="orange"], .blip-pop[data-tone="warning"] { --blip-pop-tint: var(--blip-candy-orange-light); --blip-pop-drop: var(--blip-candy-orange-shade); }
+  .blip-pop[data-tone="yellow"] { --blip-pop-tint: var(--blip-candy-yellow-light); --blip-pop-drop: var(--blip-candy-yellow-shade); }
+  .blip-pop:is([data-tone="green"], [data-tone="success"]) { --blip-pop-tint: var(--blip-candy-green-light); --blip-pop-drop: var(--blip-candy-green-shade); }
+  .blip-pop[data-tone="teal"] { --blip-pop-tint: var(--blip-candy-teal-light); --blip-pop-drop: var(--blip-candy-teal-shade); }
+  .blip-pop:is([data-tone="blue"], [data-tone="info"]) { --blip-pop-tint: var(--blip-candy-blue-light); --blip-pop-drop: var(--blip-candy-blue-shade); }
+  .blip-pop[data-tone="purple"] { --blip-pop-tint: var(--blip-candy-purple-light); --blip-pop-drop: var(--blip-candy-purple-shade); }
+  .blip-pop[data-tone="pink"] { --blip-pop-tint: var(--blip-candy-pink-light); --blip-pop-drop: var(--blip-candy-pink-shade); }
 
   /* OUTLINE: one colour, an ink outline, no drop. For small text that can land on any part of a picture. */
-  .chu-outline {
+  .blip-outline {
     /* stylelint-disable-next-line blip/whole-pixels -- small Pixelify Sans text takes a half-pixel outline (text may sit off the grid, AUTHORING rule 1) */
-    --_p: max(0.5px, calc(var(--chu-pixel) / 2));
-    color: var(--chu-white);
+    --_p: max(0.5px, calc(var(--blip-pixel) / 2));
+    color: var(--blip-white);
     text-shadow:
-      calc(-1 * var(--_p)) calc(-1 * var(--_p)) 0 var(--chu-ink), 0 calc(-1 * var(--_p)) 0 var(--chu-ink),
-      var(--_p) calc(-1 * var(--_p)) 0 var(--chu-ink), calc(-1 * var(--_p)) 0 0 var(--chu-ink),
-      var(--_p) 0 0 var(--chu-ink), calc(-1 * var(--_p)) var(--_p) 0 var(--chu-ink),
-      0 var(--_p) 0 var(--chu-ink), var(--_p) var(--_p) 0 var(--chu-ink);
+      calc(-1 * var(--_p)) calc(-1 * var(--_p)) 0 var(--blip-ink), 0 calc(-1 * var(--_p)) 0 var(--blip-ink),
+      var(--_p) calc(-1 * var(--_p)) 0 var(--blip-ink), calc(-1 * var(--_p)) 0 0 var(--blip-ink),
+      var(--_p) 0 0 var(--blip-ink), calc(-1 * var(--_p)) var(--_p) 0 var(--blip-ink),
+      0 var(--_p) 0 var(--blip-ink), var(--_p) var(--_p) 0 var(--blip-ink);
   }
 
-  .chu-label {
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-small);
-    font-weight: var(--chu-weight-bold);
+  .blip-label {
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-small);
+    font-weight: var(--blip-weight-bold);
     line-height: 1;
-    letter-spacing: var(--chu-tracking-label);
+    letter-spacing: var(--blip-tracking-label);
     text-transform: uppercase;
   }
-  .chu-title { font-family: var(--chu-font-ui); font-size: var(--chu-size-title); font-weight: var(--chu-weight-bold); line-height: var(--chu-leading-tight); text-wrap: balance; }
-  .chu-lead { font-size: var(--chu-size-lead); line-height: var(--chu-leading-normal); }
-  .chu-body { font-size: var(--chu-size-body); line-height: var(--chu-leading-normal); }
-  .chu-small { font-size: var(--chu-size-small); line-height: var(--chu-leading-normal); }
-  .chu-caption { font-size: var(--chu-size-caption); line-height: var(--chu-leading-normal); color: var(--chu-text-muted); }
-  .chu-muted { color: var(--chu-text-muted); }
-  .chu-numeric { font-variant-numeric: tabular-nums; }
+  .blip-title { font-family: var(--blip-font-ui); font-size: var(--blip-size-title); font-weight: var(--blip-weight-bold); line-height: var(--blip-leading-tight); text-wrap: balance; }
+  .blip-lead { font-size: var(--blip-size-lead); line-height: var(--blip-leading-normal); }
+  .blip-body { font-size: var(--blip-size-body); line-height: var(--blip-leading-normal); }
+  .blip-small { font-size: var(--blip-size-small); line-height: var(--blip-leading-normal); }
+  .blip-caption { font-size: var(--blip-size-caption); line-height: var(--blip-leading-normal); color: var(--blip-text-muted); }
+  .blip-muted { color: var(--blip-text-muted); }
+  .blip-numeric { font-variant-numeric: tabular-nums; }
 }

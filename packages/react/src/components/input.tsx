@@ -1,5 +1,5 @@
 /**
- * Input: Input, InputAffix and InputButton. CSS from @jaatster/blip-components (input.css). The ref and every native prop go
+ * Input: Input, InputAffix and InputButton. CSS from @blip/components (input.css). The ref and every native prop go
  * to the control itself, so forms, labels and refs work as on the bare element; className and style go to the
  * outermost element it renders. Combobox and NumberStepper (generated) take an {@link Input} as their field.
  */
@@ -35,7 +35,7 @@ export type InputProps = InputOwnProps & Omit<NativeProps<"input", InputOwnProps
  *   <Input id="email" name="email" type="email" autoComplete="email" />
  *   <Input id="site" type="url" placeholder="pixel.example" start={<InputAffix>https://</InputAffix>} />
  *
- * Renders `<span class="chu-box chu-input"><input></span>`, with start and end around the input. The ref and every
+ * Renders `<span class="blip-box blip-input"><input></span>`, with start and end around the input. The ref and every
  * native prop (id, name, value, onChange…) go to the `<input>`; className and style go to the well.
  */
 export const Input = /*#__PURE__*/ forwardRef<HTMLInputElement, InputProps>(function Input(
@@ -43,7 +43,7 @@ export const Input = /*#__PURE__*/ forwardRef<HTMLInputElement, InputProps>(func
   ref,
 ) {
   return (
-    <span className={cx("chu-box chu-input", className)} style={style} data-size={size} data-tone={tone}>
+    <span className={cx("blip-box blip-input", className)} style={style} data-size={size} data-tone={tone}>
       {start}
       <input ref={ref} {...rest} />
       {end}
@@ -56,7 +56,7 @@ export type InputAffixProps = NativeProps<"span">;
 
 /**
  * A little muted text before or after an input's value: "https://", "kg", "$". Screen readers skip it
- * (aria-hidden), so say the unit in the label too when it matters. Renders `<span class="chu-input-affix"
+ * (aria-hidden), so say the unit in the label too when it matters. Renders `<span class="blip-input-affix"
  * aria-hidden="true">`.
  *
  *   <Input id="weight" type="number" end={<InputAffix>kg</InputAffix>} />
@@ -65,7 +65,7 @@ export const InputAffix = /*#__PURE__*/ forwardRef<HTMLSpanElement, InputAffixPr
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-input-affix", className)} aria-hidden {...rest} />;
+  return <span ref={ref} className={cx("blip-input-affix", className)} aria-hidden {...rest} />;
 });
 
 /** Own props of {@link InputButton}. */
@@ -79,7 +79,7 @@ export type InputButtonProps = InputButtonOwnProps & Named & NativeProps<"button
 /**
  * A square ghost button inside an input's well, two pixels in from its edge: "show password". It holds one icon,
  * so it needs a name (aria-label, or aria-labelledby). Pass it as the input's start or end. Renders `<button
- * class="chu-box" data-variant="ghost" type="button">`.
+ * class="blip-box" data-variant="ghost" type="button">`.
  *
  *   <Input id="code" type={shown ? "text" : "password"} end={
  *     <InputButton aria-label="Show code" aria-controls="code" pressed={shown} onClick={toggle}>
@@ -94,7 +94,7 @@ export const InputButton = /*#__PURE__*/ forwardRef<HTMLButtonElement, InputButt
   return (
     <button
       ref={ref}
-      className={cx("chu-box", className)}
+      className={cx("blip-box", className)}
       data-variant="ghost"
       type={type}
       aria-pressed={pressed}

@@ -3,13 +3,13 @@
  * open="false" on an element defined after they render; that must read as off, as the property false does.
  */
 import { describe, expect, it } from "vitest";
-import { BlipElement } from "@jaatster/blip-core";
+import { BlipElement } from "@blip/core";
 import { mount } from "../support/dom.ts";
 
 let n = 0;
 /** Defines a fresh element (tags can't be redefined) that reads its "open" attribute with flag() when it connects. */
 function define() {
-  const tag = `chu-base-flag-${++n}`;
+  const tag = `blip-base-flag-${++n}`;
   class FlagElement extends BlipElement {
     seen: boolean | undefined;
     protected override connected(): void {

@@ -1,9 +1,9 @@
 /**
  * Foundations: the tokens drawn with Blip itself, so every swatch, size and motion follows the toolbar's scheme,
- * pixel and motion switches. Names and values come from @jaatster/blip-tokens.
+ * pixel and motion switches. Names and values come from @blip/tokens.
  */
 import type { Meta, StoryObj } from "@storybook/html-vite";
-import { schemes, shared, type SchemeName } from "@jaatster/blip-tokens";
+import { schemes, shared, type SchemeName } from "@blip/tokens";
 import { example } from "../lib/render";
 
 const meta = {
@@ -14,21 +14,21 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const px = (n: number) => `calc(${n} * var(--chu-pixel))`;
+const px = (n: number) => `calc(${n} * var(--blip-pixel))`;
 const scheme = (): SchemeName => {
-  const s = document.documentElement.dataset.chuScheme;
+  const s = document.documentElement.dataset.blipScheme;
   return s === "sunset" || s === "night" ? s : "day";
 };
 const section = (title: string, intro: string, body: string) =>
   `<section style="display:grid;gap:${px(6)};margin-block-end:${px(16)}" aria-label="${title}">
-    <h2 class="chu-title">${title}</h2>
-    <p class="chu-small chu-muted" style="max-inline-size:${px(300)}">${intro}</p>
+    <h2 class="blip-title">${title}</h2>
+    <p class="blip-small blip-muted" style="max-inline-size:${px(300)}">${intro}</p>
     ${body}
   </section>`;
 const swatch = (name: string, hex: string) =>
   `<li style="display:grid;grid-template-columns:${px(16)} 1fr;gap:${px(4)};align-items:center">
-    <span aria-hidden="true" style="inline-size:${px(16)};block-size:${px(16)};background:var(--chu-${name});box-shadow:0 0 0 var(--chu-pixel) var(--chu-ink)"></span>
-    <span class="chu-small"><code>--chu-${name}</code> <span class="chu-muted">${hex}</span></span>
+    <span aria-hidden="true" style="inline-size:${px(16)};block-size:${px(16)};background:var(--blip-${name});box-shadow:0 0 0 var(--blip-pixel) var(--blip-ink)"></span>
+    <span class="blip-small"><code>--blip-${name}</code> <span class="blip-muted">${hex}</span></span>
   </li>`;
 const list = (items: string[], min = 110) => `<ul role="list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(${px(min)},1fr));gap:${px(4)} ${px(8)}">${items.join("")}</ul>`;
 
@@ -48,9 +48,9 @@ export const Colour: Story = {
 export const Type: Story = {
   render: () =>
     example(
-      section("Pixel Bop", "Display text, all capitals, at whole scales only: data-scale 1 to 4.", [1, 2, 3, 4].map((s) => `<p class="chu-display" data-scale="${s}">Scale ${s}</p>`).join("") +
-        `<p class="chu-display chu-pop" data-scale="3" data-pop="Pop!">Pop!</p>`) +
-        section("Pixelify Sans", "UI and body text on a size ramp.", ["title", "lead", "body", "small", "caption", "label"].map((c) => `<p class="chu-${c}">${c[0]!.toUpperCase() + c.slice(1)}: the quick pixel jumps over the lazy grid.</p>`).join("")),
+      section("Pixel Bop", "Display text, all capitals, at whole scales only: data-scale 1 to 4.", [1, 2, 3, 4].map((s) => `<p class="blip-display" data-scale="${s}">Scale ${s}</p>`).join("") +
+        `<p class="blip-display blip-pop" data-scale="3" data-pop="Pop!">Pop!</p>`) +
+        section("Pixelify Sans", "UI and body text on a size ramp.", ["title", "lead", "body", "small", "caption", "label"].map((c) => `<p class="blip-${c}">${c[0]!.toUpperCase() + c.slice(1)}: the quick pixel jumps over the lazy grid.</p>`).join("")),
     ),
 };
 
@@ -58,12 +58,12 @@ export const SpaceAndShape: Story = {
   name: "Space and shape",
   render: () => {
     const space = [1, 2, 3, 4, 6, 8, 12, 16, 24, 32].map((n) =>
-      `<li style="display:flex;gap:${px(6)};align-items:center"><code class="chu-small" style="inline-size:${px(40)}">space-${n}</code><span aria-hidden="true" style="inline-size:${px(n)};block-size:${px(4)};background:var(--chu-accent)"></span><span class="chu-small chu-muted">${n} px, ${n * 2} CSS px at pixel 2</span></li>`);
-    const radius = [0, 1, 2, 3, 4, 5, 6].map((r) => `<div class="chu-box" data-variant="soft" data-chu-r="${r}" style="display:grid;place-items:center;inline-size:${px(28)};block-size:${px(20)}"><span class="chu-small">${r}</span></div>`);
-    const controls = (["sm", "md", "lg"] as const).map((s) => `<button class="chu-box chu-button" type="button" data-size="${s}">${s}</button>`);
+      `<li style="display:flex;gap:${px(6)};align-items:center"><code class="blip-small" style="inline-size:${px(40)}">space-${n}</code><span aria-hidden="true" style="inline-size:${px(n)};block-size:${px(4)};background:var(--blip-accent)"></span><span class="blip-small blip-muted">${n} px, ${n * 2} CSS px at pixel 2</span></li>`);
+    const radius = [0, 1, 2, 3, 4, 5, 6].map((r) => `<div class="blip-box" data-variant="soft" data-blip-r="${r}" style="display:grid;place-items:center;inline-size:${px(28)};block-size:${px(20)}"><span class="blip-small">${r}</span></div>`);
+    const controls = (["sm", "md", "lg"] as const).map((s) => `<button class="blip-box blip-button" type="button" data-size="${s}">${s}</button>`);
     return example(
       section("Space", "Counted in pixels: 1, 2, 3, 4, 6, 8, 12, 16, 24 and 32.", `<ul role="list" style="display:grid;gap:${px(2)}">${space.join("")}</ul>`) +
-        section("Corners", "The candy box's stepped corners, radius 0 to 6 pixels (data-chu-r).", `<div style="display:flex;flex-wrap:wrap;gap:${px(6)}">${radius.join("")}</div>`) +
+        section("Corners", "The candy box's stepped corners, radius 0 to 6 pixels (data-blip-r).", `<div style="display:flex;flex-wrap:wrap;gap:${px(6)}">${radius.join("")}</div>`) +
         section("Controls", "Control heights: 16, 20 and 24 pixels.", `<div style="display:flex;gap:${px(6)};align-items:center">${controls.join("")}</div>`),
     );
   },
@@ -73,19 +73,19 @@ export const Box: Story = {
   render: () => {
     const tiers = ["candy", "soft", "outline", "ghost"];
     const tones = ["accent", "info", "success", "warning", "danger", "neutral", "teal", "pink", "purple", "slate"];
-    const states: [string, string][] = [["Rest", ""], ["Hover", ' data-chu-state="hover"'], ["Focus", ' data-chu-state="focus"'], ["Pressed", ' data-chu-state="active"'], ["On", ' aria-pressed="true"'], ["Disabled", " disabled"], ["Busy", ' aria-busy="true"']];
+    const states: [string, string][] = [["Rest", ""], ["Hover", ' data-blip-state="hover"'], ["Focus", ' data-blip-state="focus"'], ["Pressed", ' data-blip-state="active"'], ["On", ' aria-pressed="true"'], ["Disabled", " disabled"], ["Busy", ' aria-busy="true"']];
     return example(
-      section("Tiers", "Candy is loud, for the main action; soft, outline and ghost are calmer, for dense UI. Panel is a surface.", `<div style="display:flex;flex-wrap:wrap;gap:${px(6)};align-items:center">${tiers.map((t) => `<button class="chu-box chu-button" type="button" data-variant="${t}">${t}</button>`).join("")}<div class="chu-box" data-variant="panel" style="padding:${px(6)}"><span class="chu-small">panel</span></div></div>`) +
-        section("Tones", "Meaning first (accent, info, success, warning, danger, neutral), then any candy.", `<div style="display:flex;flex-wrap:wrap;gap:${px(4)}">${tones.map((t) => `<button class="chu-box chu-button" type="button" data-tone="${t}">${t}</button>`).join("")}</div>`) +
-        section("States", "One look per state, for every component: hover lifts in the white ring, pressed sits in its drop, focus is the yellow ring, disabled is dithered, busy steps three dots.", `<div style="display:flex;flex-wrap:wrap;gap:${px(4)};align-items:center">${states.map(([n, a]) => `<button class="chu-box chu-button" type="button"${a}>${n}</button>`).join("")}</div>`),
+      section("Tiers", "Candy is loud, for the main action; soft, outline and ghost are calmer, for dense UI. Panel is a surface.", `<div style="display:flex;flex-wrap:wrap;gap:${px(6)};align-items:center">${tiers.map((t) => `<button class="blip-box blip-button" type="button" data-variant="${t}">${t}</button>`).join("")}<div class="blip-box" data-variant="panel" style="padding:${px(6)}"><span class="blip-small">panel</span></div></div>`) +
+        section("Tones", "Meaning first (accent, info, success, warning, danger, neutral), then any candy.", `<div style="display:flex;flex-wrap:wrap;gap:${px(4)}">${tones.map((t) => `<button class="blip-box blip-button" type="button" data-tone="${t}">${t}</button>`).join("")}</div>`) +
+        section("States", "One look per state, for every component: hover lifts in the white ring, pressed sits in its drop, focus is the yellow ring, disabled is dithered, busy steps three dots.", `<div style="display:flex;flex-wrap:wrap;gap:${px(4)};align-items:center">${states.map(([n, a]) => `<button class="blip-box blip-button" type="button"${a}>${n}</button>`).join("")}</div>`),
     );
   },
 };
 
 export const Motion: Story = {
   render: () => {
-    const durations = Object.entries(shared).filter(([k]) => /^duration-/.test(k)).map(([k, v]) => `<li class="chu-small"><code>--chu-${k}</code> <span class="chu-muted">${v} ms</span></li>`);
-    const demos = [["chu-bob", "Bob"], ["chu-blink", "Blink"], ["chu-bump", "Bump"], ["chu-shake", "Shake"], ["chu-pop-in", "Pop in"]].map(([c, n]) => `<span class="chu-box chu-button ${c}" data-variant="soft" style="pointer-events:none">${n}</span>`);
+    const durations = Object.entries(shared).filter(([k]) => /^duration-/.test(k)).map(([k, v]) => `<li class="blip-small"><code>--blip-${k}</code> <span class="blip-muted">${v} ms</span></li>`);
+    const demos = [["blip-bob", "Bob"], ["blip-blink", "Blink"], ["blip-bump", "Bump"], ["blip-shake", "Shake"], ["blip-pop-in", "Pop in"]].map(([c, n]) => `<span class="blip-box blip-button ${c}" data-variant="soft" style="pointer-events:none">${n}</span>`);
     return example(
       section("Motion snaps", "Everything moves through 2 to 6 even steps, never along a curve. With reduced motion (the toolbar's Motion switch, or the system setting) every duration is 0 and these stop.", `<div style="display:flex;flex-wrap:wrap;gap:${px(6)}">${demos.join("")}</div>`) +
         section("Durations", "Frame-based tokens.", list(durations, 130)),

@@ -1,7 +1,7 @@
 {
-  "name": "@jaatster/blip-icons",
+  "name": "@blip/icons",
   "version": "0.1.0",
-  "description": "Blip icons: original one-colour icons drawn on a 12 x 12 pixel grid, as SVG files, a sprite, JS path data and a <chu-icon> element.",
+  "description": "Blip icons: original one-colour icons drawn on a 12 x 12 pixel grid, as SVG files, a sprite, JS path data and a <blip-icon> element.",
   "keywords": [
     "blip",
     "pixel-art",

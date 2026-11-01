@@ -1,133 +1,133 @@
 /*
  * File drop. A tray to drop files on or click to browse, and the list of what was picked, each with a remove
  * button. The real control is a native <input type="file"> inside the tray: it opens the picker, takes the focus
- * and sends the files with the form. <chu-file-drop> (from @jaatster/blip-elements) adds dropping, the list and
+ * and sends the files with the form. <blip-file-drop> (from @blip/elements) adds dropping, the list and
  * removing; without JavaScript the browser's own file button shows in the tray.
  *
- *   <chu-file-drop class="chu-file-drop">
- *     <label class="chu-box chu-file-drop-zone">
+ *   <blip-file-drop class="blip-file-drop">
+ *     <label class="blip-box blip-file-drop-zone">
  *       <input type="file" name="shots" multiple accept="image/png, image/jpeg">
- *       <svg class="chu-icon" data-size="lg" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+ *       <svg class="blip-icon" data-size="lg" viewBox="0 0 12 12" aria-hidden="true">…</svg>
  *       <strong>Drop screenshots here</strong>
  *       <span>or click to browse. PNG or JPG.</span>
  *     </label>
- *     <ul class="chu-file-drop-list"></ul>
- *   </chu-file-drop>
+ *     <ul class="blip-file-drop-list"></ul>
+ *   </blip-file-drop>
  *
- *   .chu-file-drop-zone      the tray: the calm well; hover darkens it; while files are dragged over it
- *                           ([data-dragover] on the element, or data-chu-state="dragover") it takes the soft accent
- *   .chu-file-drop-list      the picked files: .chu-file-drop-item rows with .chu-file-drop-name, .chu-file-drop-size
- *                           and a .chu-file-drop-remove button
+ *   .blip-file-drop-zone      the tray: the calm well; hover darkens it; while files are dragged over it
+ *                           ([data-dragover] on the element, or data-blip-state="dragover") it takes the soft accent
+ *   .blip-file-drop-list      the picked files: .blip-file-drop-item rows with .blip-file-drop-name, .blip-file-drop-size
+ *                           and a .blip-file-drop-remove button
  *
  * Focus (the tray's yellow ring), invalid and disabled come from the file input inside, as for any field.
  */
 
-@layer chu.components {
-  .chu-file-drop { display: grid; gap: calc(4 * var(--chu-pixel)); min-inline-size: 0; }
+@layer blip.components {
+  .blip-file-drop { display: grid; gap: calc(4 * var(--blip-pixel)); min-inline-size: 0; }
 
-  .chu-file-drop-zone {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
-    --chu-band-top: 1;
-    --chu-band-bottom: 0;
-    --chu-drop-size: 0;
-    --chu-box-outline: var(--chu-line);
-    --chu-box-top: var(--chu-surface-sunken);
-    --chu-box-fill: var(--chu-surface);
-    --chu-box-bottom: var(--chu-surface);
-    --chu-box-text: var(--chu-text-muted);
-    --chu-box-glint: transparent;
+  .blip-file-drop-zone {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
+    --blip-band-top: 1;
+    --blip-band-bottom: 0;
+    --blip-drop-size: 0;
+    --blip-box-outline: var(--blip-line);
+    --blip-box-top: var(--blip-surface-sunken);
+    --blip-box-fill: var(--blip-surface);
+    --blip-box-bottom: var(--blip-surface);
+    --blip-box-text: var(--blip-text-muted);
+    --blip-box-glint: transparent;
     display: grid;
     justify-items: center;
     align-content: center;
-    gap: calc(2 * var(--chu-pixel));
-    min-block-size: calc(52 * var(--chu-pixel));
-    padding: calc(8 * var(--chu-pixel));
-    font-size: var(--chu-size-small);
-    line-height: var(--chu-leading-normal);
+    gap: calc(2 * var(--blip-pixel));
+    min-block-size: calc(52 * var(--blip-pixel));
+    padding: calc(8 * var(--blip-pixel));
+    font-size: var(--blip-size-small);
+    line-height: var(--blip-leading-normal);
     text-align: center;
     translate: none;
   }
-  .chu-file-drop-zone > :is(strong, b) { font-size: var(--chu-size-body); color: var(--chu-text); }
-  .chu-file-drop-zone > .chu-icon { color: var(--chu-accent-text); }
-  .chu-file-drop-zone > input[type="file"] { max-inline-size: 100%; font-size: var(--chu-size-small); color: var(--chu-text); }
+  .blip-file-drop-zone > :is(strong, b) { font-size: var(--blip-size-body); color: var(--blip-text); }
+  .blip-file-drop-zone > .blip-icon { color: var(--blip-accent-text); }
+  .blip-file-drop-zone > input[type="file"] { max-inline-size: 100%; font-size: var(--blip-size-small); color: var(--blip-text); }
   /* With the element, the input is invisible but still real: focus, keys and the form value stay its own. */
-  chu-file-drop:defined .chu-file-drop-zone > input[type="file"] { position: absolute; inset: 0; margin: 0; opacity: 0; pointer-events: none; }
+  blip-file-drop:defined .blip-file-drop-zone > input[type="file"] { position: absolute; inset: 0; margin: 0; opacity: 0; pointer-events: none; }
 
   @media (hover: hover) {
-    .chu-file-drop-zone:not(:has(> input:disabled)):hover { --chu-box-fill: var(--chu-surface-sunken); --chu-box-bottom: var(--chu-surface-sunken); }
+    .blip-file-drop-zone:not(:has(> input:disabled)):hover { --blip-box-fill: var(--blip-surface-sunken); --blip-box-bottom: var(--blip-surface-sunken); }
   }
-  .chu-file-drop-zone[data-chu-state~="hover"] { --chu-box-fill: var(--chu-surface-sunken); --chu-box-bottom: var(--chu-surface-sunken); }
+  .blip-file-drop-zone[data-blip-state~="hover"] { --blip-box-fill: var(--blip-surface-sunken); --blip-box-bottom: var(--blip-surface-sunken); }
 
   /* Files over the tray: the soft accent, an ink outline, the candy's own text. */
-  .chu-file-drop[data-dragover] > .chu-file-drop-zone,
-  .chu-file-drop-zone[data-chu-state~="dragover"] {
-    --chu-box-outline: var(--chu-outline);
-    --chu-box-top: var(--chu-tone-shade);
-    --chu-box-fill: var(--chu-tone-light);
-    --chu-box-bottom: var(--chu-tone-light);
-    --chu-box-text: var(--chu-tone-on);
+  .blip-file-drop[data-dragover] > .blip-file-drop-zone,
+  .blip-file-drop-zone[data-blip-state~="dragover"] {
+    --blip-box-outline: var(--blip-outline);
+    --blip-box-top: var(--blip-tone-shade);
+    --blip-box-fill: var(--blip-tone-light);
+    --blip-box-bottom: var(--blip-tone-light);
+    --blip-box-text: var(--blip-tone-on);
   }
-  :is(.chu-file-drop[data-dragover] > .chu-file-drop-zone, .chu-file-drop-zone[data-chu-state~="dragover"]) > :is(strong, b, .chu-icon) { color: inherit; }
+  :is(.blip-file-drop[data-dragover] > .blip-file-drop-zone, .blip-file-drop-zone[data-blip-state~="dragover"]) > :is(strong, b, .blip-icon) { color: inherit; }
 
-  .chu-file-drop-zone:has(> input:is([aria-invalid="true"], :user-invalid)) { --chu-box-outline: var(--chu-danger-text); }
-  .chu-file-drop-zone:has(> input:disabled) {
-    --chu-box-outline: var(--chu-line-soft);
-    --chu-box-dither: var(--chu-surface-sunken);
+  .blip-file-drop-zone:has(> input:is([aria-invalid="true"], :user-invalid)) { --blip-box-outline: var(--blip-danger-text); }
+  .blip-file-drop-zone:has(> input:disabled) {
+    --blip-box-outline: var(--blip-line-soft);
+    --blip-box-dither: var(--blip-surface-sunken);
     cursor: not-allowed;
   }
 
   /* The list of files. */
-  .chu-file-drop-list { display: grid; gap: calc(2 * var(--chu-pixel)); min-inline-size: 0; margin: 0; padding: 0; list-style: none; }
-  .chu-file-drop-list:empty { display: none; }
-  .chu-file-drop-item {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
-    --chu-band-top: 0;
-    --chu-band-bottom: 0;
-    --chu-drop-size: 0;
-    --chu-box-outline: var(--chu-line);
-    --chu-box-top: var(--chu-surface);
-    --chu-box-fill: var(--chu-surface);
-    --chu-box-bottom: var(--chu-surface);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
+  .blip-file-drop-list { display: grid; gap: calc(2 * var(--blip-pixel)); min-inline-size: 0; margin: 0; padding: 0; list-style: none; }
+  .blip-file-drop-list:empty { display: none; }
+  .blip-file-drop-item {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
+    --blip-band-top: 0;
+    --blip-band-bottom: 0;
+    --blip-drop-size: 0;
+    --blip-box-outline: var(--blip-line);
+    --blip-box-top: var(--blip-surface);
+    --blip-box-fill: var(--blip-surface);
+    --blip-box-bottom: var(--blip-surface);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
     display: flex;
     align-items: center;
-    gap: calc(4 * var(--chu-pixel));
+    gap: calc(4 * var(--blip-pixel));
     min-inline-size: 0;
-    min-block-size: var(--chu-control-md);
-    padding-inline: calc(5 * var(--chu-pixel)) calc(2 * var(--chu-pixel));
-    font-size: var(--chu-size-small);
+    min-block-size: var(--blip-control-md);
+    padding-inline: calc(5 * var(--blip-pixel)) calc(2 * var(--blip-pixel));
+    font-size: var(--blip-size-small);
   }
-  .chu-file-drop-name { flex: 1; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--chu-weight-bold); }
-  .chu-file-drop-size { flex: none; color: var(--chu-text-muted); font-variant-numeric: tabular-nums; }
-  .chu-file-drop-remove {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
+  .blip-file-drop-name { flex: 1; min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: var(--blip-weight-bold); }
+  .blip-file-drop-size { flex: none; color: var(--blip-text-muted); font-variant-numeric: tabular-nums; }
+  .blip-file-drop-remove {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
     display: grid;
     flex: none;
     place-items: center;
-    inline-size: var(--chu-control-sm);
-    block-size: var(--chu-control-sm);
+    inline-size: var(--blip-control-sm);
+    block-size: var(--blip-control-sm);
     margin: 0;
     padding: 0;
-    color: var(--chu-text);
+    color: var(--blip-text);
   }
-  .chu-file-drop-remove > span {
-    inline-size: calc(8 * var(--chu-pixel));
-    block-size: calc(8 * var(--chu-pixel));
+  .blip-file-drop-remove > span {
+    inline-size: calc(8 * var(--blip-pixel));
+    block-size: calc(8 * var(--blip-pixel));
     background: currentColor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1H0zM6 0h2v1H6zM0 1h3v1H0zM5 1h3v1H5zM1 2h6v1H1zM2 3h4v2H2zM1 5h6v1H1zM0 6h3v1H0zM5 6h3v1H5zM0 7h2v1H0zM6 7h2v1H6z'/%3E%3C/svg%3E") 0 0 / 100% 100%;
   }
 
   @media (forced-colors: active) {
-    .chu-file-drop[data-dragover] > .chu-file-drop-zone { border-style: dashed; }
-    chu-file-drop:defined .chu-file-drop-zone:has(> input:focus-visible) { outline: var(--chu-pixel) solid Highlight; outline-offset: var(--chu-pixel); }
-    .chu-file-drop-remove > span { forced-color-adjust: none; background: ButtonText; }
-    .chu-file-drop-remove:disabled > span { background: GrayText; }
+    .blip-file-drop[data-dragover] > .blip-file-drop-zone { border-style: dashed; }
+    blip-file-drop:defined .blip-file-drop-zone:has(> input:focus-visible) { outline: var(--blip-pixel) solid Highlight; outline-offset: var(--blip-pixel); }
+    .blip-file-drop-remove > span { forced-color-adjust: none; background: ButtonText; }
+    .blip-file-drop-remove:disabled > span { background: GrayText; }
   }
 }

@@ -1,5 +1,5 @@
 /**
- * <chu-touch-pad> (game kit): the parts it draws and names, the real key events it sends (key, code, keyCode) to its
+ * <blip-touch-pad> (game kit): the parts it draws and names, the real key events it sends (key, code, keyCode) to its
  * target or the focused element, several fingers at once, a thumb rolled across the D-pad, focus left where it was,
  * a screen reader's tap, and nothing left held down.
  */
@@ -20,7 +20,7 @@ afterEach(() => {
 
 /** A game that records the keys it hears, and a pad for it. */
 function game(attrs = 'for="game"') {
-  const root = mount(`<div><div id="game" tabindex="0"></div><chu-touch-pad data-show="always" data-position="inline" ${attrs}></chu-touch-pad></div>`);
+  const root = mount(`<div><div id="game" tabindex="0"></div><blip-touch-pad data-show="always" data-position="inline" ${attrs}></blip-touch-pad></div>`);
   const keys: string[] = [];
   const hear = (e: KeyboardEvent) => keys.push(`${e.type} ${e.key} ${e.code} ${e.keyCode}`);
   document.addEventListener("keydown", hear);
@@ -28,7 +28,7 @@ function game(attrs = 'for="game"') {
   const target = root.querySelector<HTMLElement>("#game")!;
   const seen: EventTarget[] = [];
   target.addEventListener("keydown", (e) => seen.push(e.target!));
-  const pad = root.querySelector("chu-touch-pad")!;
+  const pad = root.querySelector("blip-touch-pad")!;
   const part = (sel: string) => pad.querySelector<HTMLElement>(sel)!;
   const done = () => {
     document.removeEventListener("keydown", hear);
@@ -45,7 +45,7 @@ const touch = (type: string, el: Element, id: number, dx = 0, dy = 0) => {
   return e;
 };
 
-describe("chu-touch-pad", () => {
+describe("blip-touch-pad", () => {
   it("draws a named group: four arms, B and A, and Start only when asked for", () => {
     const { pad, done } = game('data-start=""');
     expect(pad.getAttribute("role")).toBe("group");
@@ -63,9 +63,9 @@ describe("chu-touch-pad", () => {
     const { part, keys, seen, target, done } = game('for="game" data-a=" " data-b="Shift"');
     const a = part('[data-button="a"]');
     touch("pointerdown", a, 1);
-    expect(a.hasAttribute("data-chu-pressed")).toBe(true);
+    expect(a.hasAttribute("data-blip-pressed")).toBe(true);
     touch("pointerup", a, 1);
-    expect(a.hasAttribute("data-chu-pressed")).toBe(false);
+    expect(a.hasAttribute("data-blip-pressed")).toBe(false);
     expect(keys).toEqual(["keydown   Space 32", "keyup   Space 32"]);
     expect(seen).toEqual([target]);
     done();
@@ -73,11 +73,11 @@ describe("chu-touch-pad", () => {
 
   it("takes several fingers at once: up and A held together, each let go on its own", () => {
     const { part, keys, done } = game();
-    const dpad = part(".chu-touch-pad-dpad");
+    const dpad = part(".blip-touch-pad-dpad");
     const a = part('[data-button="a"]');
     touch("pointerdown", dpad, 1, 0, -40);
     touch("pointerdown", a, 2);
-    expect(part('[data-dir="up"]').hasAttribute("data-chu-pressed")).toBe(true);
+    expect(part('[data-dir="up"]').hasAttribute("data-blip-pressed")).toBe(true);
     touch("pointerup", dpad, 1);
     touch("pointerup", a, 2);
     expect(keys).toEqual(["keydown ArrowUp ArrowUp 38", "keydown z KeyZ 90", "keyup ArrowUp ArrowUp 38", "keyup z KeyZ 90"]);
@@ -86,7 +86,7 @@ describe("chu-touch-pad", () => {
 
   it("follows a thumb rolled across the D-pad, and presses nothing on its middle", () => {
     const { part, keys, done } = game();
-    const dpad = part(".chu-touch-pad-dpad");
+    const dpad = part(".blip-touch-pad-dpad");
     touch("pointerdown", dpad, 1, -40, 0);
     touch("pointermove", dpad, 1, -38, 5);
     touch("pointermove", dpad, 1, 5, 40);
@@ -103,7 +103,7 @@ describe("chu-touch-pad", () => {
     expect(touch("pointerdown", b, 1).defaultPrevented).toBe(true);
     touch("pointerdown", b, 2);
     touch("pointerup", b, 1);
-    expect(b.hasAttribute("data-chu-pressed")).toBe(true);
+    expect(b.hasAttribute("data-blip-pressed")).toBe(true);
     touch("pointerup", b, 2);
     expect(keys).toEqual(["keydown x KeyX 88", "keyup x KeyX 88"]);
     // Without for, keys go to the focused element, which kept focus.

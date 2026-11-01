@@ -1,6 +1,6 @@
 ---
 name: Textarea
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: textarea.css
 element: null
 react: Textarea
@@ -18,13 +18,13 @@ Several lines of text, in the same calm well as the [input](input.md). It can gr
 ## Usage
 
 ```html
-<chu-field class="chu-field">
-  <label class="chu-field-label" for="bio">About you</label>
-  <span class="chu-box chu-textarea"><textarea id="bio" name="bio" rows="4" maxlength="200"></textarea></span>
-  <p class="chu-field-count"></p>
-</chu-field>
+<blip-field class="blip-field">
+  <label class="blip-field-label" for="bio">About you</label>
+  <span class="blip-box blip-textarea"><textarea id="bio" name="bio" rows="4" maxlength="200"></textarea></span>
+  <p class="blip-field-count"></p>
+</blip-field>
 
-<span class="chu-box chu-textarea" data-autogrow><textarea id="note" rows="2"></textarea></span>
+<span class="blip-box blip-textarea" data-autogrow><textarea id="note" rows="2"></textarea></span>
 ```
 
 ## Anatomy
@@ -71,5 +71,5 @@ As for the [input](input.md): focus is the ring round the well; `aria-invalid` o
 
 | Class / attribute | |
 |---|---|
-| `.chu-textarea` | The well. Markup: `class="chu-box chu-textarea"`. |
+| `.blip-textarea` | The well. Markup: `class="blip-box blip-textarea"`. |
 | `data-autogrow` | Grow with the content. |

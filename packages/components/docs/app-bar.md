@@ -1,6 +1,6 @@
 ---
 name: App bar
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: app-bar.css
 element: null
 react: AppBar
@@ -16,35 +16,35 @@ so it needs no script and no second copy of the links.
 ## Usage
 
 ```html
-<header class="chu-box chu-app-bar">
-  <a class="chu-app-bar-brand" href="/">
-    <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
-    <span class="chu-display chu-pop" data-scale="2" data-pop="Questboard">Questboard</span>
+<header class="blip-box blip-app-bar">
+  <a class="blip-app-bar-brand" href="/">
+    <svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+    <span class="blip-display blip-pop" data-scale="2" data-pop="Questboard">Questboard</span>
   </a>
-  <nav class="chu-app-bar-nav" aria-label="Main">
-    <button class="chu-box chu-button chu-app-bar-toggle" data-variant="ghost" data-icon-only popovertarget="main-links"
-            aria-label="Menu"><svg class="chu-icon" …></svg></button>
-    <ul class="chu-box chu-app-bar-links" id="main-links" popover role="list">
-      <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="/live" aria-current="page">Live ops</a></li>
-      <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="/studio">Studio</a></li>
+  <nav class="blip-app-bar-nav" aria-label="Main">
+    <button class="blip-box blip-button blip-app-bar-toggle" data-variant="ghost" data-icon-only popovertarget="main-links"
+            aria-label="Menu"><svg class="blip-icon" …></svg></button>
+    <ul class="blip-box blip-app-bar-links" id="main-links" popover role="list">
+      <li><a class="blip-box blip-app-bar-link" data-variant="ghost" href="/live" aria-current="page">Live ops</a></li>
+      <li><a class="blip-box blip-app-bar-link" data-variant="ghost" href="/studio">Studio</a></li>
     </ul>
   </nav>
-  <div class="chu-app-bar-actions">
-    <button class="chu-box chu-button" data-variant="ghost" data-icon-only aria-label="Search">…</button>
-    <chu-menu class="chu-menu" data-align="end">…an account menu…</chu-menu>
+  <div class="blip-app-bar-actions">
+    <button class="blip-box blip-button" data-variant="ghost" data-icon-only aria-label="Search">…</button>
+    <blip-menu class="blip-menu" data-align="end">…an account menu…</blip-menu>
   </div>
 </header>
 ```
 
 ## Anatomy
 
-1. **Bar**: `.chu-app-bar`, a surface panel with an ink outline and a drop. It is a size container
-   (`chu-app-bar`), so it folds by its own width wherever it sits.
-2. **Brand**: `.chu-app-bar-brand`, a link home: an optional mark (an icon) and the wordmark in Pixel Bop, POP style.
-3. **Menu button**: `.chu-app-bar-toggle`, a button with `popovertarget`, shown only when the links are folded.
-4. **Links**: `.chu-app-bar-links`, a `popover` list of `.chu-app-bar-link` ghost boxes. A row in the bar; folded, a cream
+1. **Bar**: `.blip-app-bar`, a surface panel with an ink outline and a drop. It is a size container
+   (`blip-app-bar`), so it folds by its own width wherever it sits.
+2. **Brand**: `.blip-app-bar-brand`, a link home: an optional mark (an icon) and the wordmark in Pixel Bop, POP style.
+3. **Menu button**: `.blip-app-bar-toggle`, a button with `popovertarget`, shown only when the links are folded.
+4. **Links**: `.blip-app-bar-links`, a `popover` list of `.blip-app-bar-link` ghost boxes. A row in the bar; folded, a cream
    panel under the menu button that pops in.
-5. **Actions**: `.chu-app-bar-actions`, pushed to the end: icon buttons, an account menu, one candy button at most.
+5. **Actions**: `.blip-app-bar-actions`, pushed to the end: icon buttons, an account menu, one candy button at most.
 
 ## Variants
 
@@ -56,14 +56,14 @@ so it needs no script and no second copy of the links.
 
 ### In an app shell
 
-The app bar, the sidebar and the bottom bar answer to one container named `chu-shell`:
+The app bar, the sidebar and the bottom bar answer to one container named `blip-shell`:
 
 ```html
-<div style="container: chu-shell / inline-size">
-  <header class="chu-box chu-app-bar">…</header>
-  <nav class="chu-sidebar" data-collapse="auto">…</nav>   <!-- a rail under 1024 px, gone under 600 px -->
+<div style="container: blip-shell / inline-size">
+  <header class="blip-box blip-app-bar">…</header>
+  <nav class="blip-sidebar" data-collapse="auto">…</nav>   <!-- a rail under 1024 px, gone under 600 px -->
   <main>…</main>
-  <nav class="chu-box chu-bottom-bar" data-collapse="auto">…</nav>   <!-- only under 600 px -->
+  <nav class="blip-box blip-bottom-bar" data-collapse="auto">…</nav>   <!-- only under 600 px -->
 </div>
 ```
 
@@ -111,8 +111,8 @@ The app bar, the sidebar and the bottom bar answer to one container named `chu-s
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-r` with `--chu-shape`, `--chu-shape-inner` | 4 | The bar's corners (`data-chu-r="0"` for a bar flush to the screen's edges). |
-| `--chu-box-top`, `--chu-box-fill`, `--chu-box-bottom` | `--chu-surface` | The bar's colour. |
-| `--chu-drop-size` | 1 | The bar's drop. |
+| `--blip-r` with `--blip-shape`, `--blip-shape-inner` | 4 | The bar's corners (`data-blip-r="0"` for a bar flush to the screen's edges). |
+| `--blip-box-top`, `--blip-box-fill`, `--blip-box-bottom` | `--blip-surface` | The bar's colour. |
+| `--blip-drop-size` | 1 | The bar's drop. |
 
-Container names: `chu-app-bar` (the bar), `chu-shell` (the layout around it, set by you).
+Container names: `blip-app-bar` (the bar), `blip-shell` (the layout around it, set by you).

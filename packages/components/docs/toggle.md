@@ -1,6 +1,6 @@
 ---
 name: Toggle button
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: button.css
 element: null
 react: ToggleButton
@@ -20,9 +20,9 @@ the calm tiers fill with the soft accent.
 ## Usage
 
 ```html
-<button class="chu-box chu-button" type="button" aria-pressed="false">Show grid</button>
-<button class="chu-box chu-button" data-icon-only data-tone="pink" aria-pressed="true" aria-label="Favourite">
-  <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+<button class="blip-box blip-button" type="button" aria-pressed="false">Show grid</button>
+<button class="blip-box blip-button" data-icon-only data-tone="pink" aria-pressed="true" aria-label="Favourite">
+  <svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
 </button>
 ```
 

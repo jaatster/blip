@@ -4,7 +4,7 @@
  */
 export function example(html: string): HTMLElement {
   const root = document.createElement("div");
-  root.className = "chu-sb-example";
+  root.className = "blip-sb-example";
   root.innerHTML = html;
   return root;
 }

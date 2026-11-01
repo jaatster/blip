@@ -3,13 +3,13 @@
  * nothing leaks), set-up deferred while the page is still parsing, events, classes and safe definition.
  */
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { BlipElement } from "@jaatster/blip-core";
+import { BlipElement } from "@blip/core";
 import { mount } from "../support/dom.ts";
 
 let n = 0;
 /** Defines a fresh test element (tags can't be redefined) that records its life. */
 function define(extra: { box?: boolean; classes?: string[] } = {}) {
-  const tag = `chu-test-${++n}`;
+  const tag = `blip-test-${++n}`;
   const log: string[] = [];
   class TestElement extends BlipElement {
     static override box = extra.box ?? false;
@@ -113,12 +113,12 @@ describe("BlipElement: while the page is still loading", () => {
 });
 
 describe("BlipElement: events, classes, attributes", () => {
-  it("emits chu-<name> events that bubble and are composed, with detail", () => {
+  it("emits blip-<name> events that bubble and are composed, with detail", () => {
     const { make } = define();
     const host = mount("<div></div>");
     const el = host.appendChild(make());
     const heard = vi.fn();
-    host.addEventListener("chu-change", heard);
+    host.addEventListener("blip-change", heard);
     expect(el.fire("change", { value: 3 })).toBe(true);
     const event = heard.mock.calls[0]![0] as CustomEvent;
     expect(event).toBeInstanceOf(CustomEvent);
@@ -131,17 +131,17 @@ describe("BlipElement: events, classes, attributes", () => {
   it("returns false from a cancelable event a listener refused", () => {
     const { make } = define();
     const el = mount("<div></div>").appendChild(make());
-    el.addEventListener("chu-before-close", (e) => e.preventDefault());
+    el.addEventListener("blip-before-close", (e) => e.preventDefault());
     expect(el.fire("before-close", { reason: "escape" }, true)).toBe(false);
     // Not cancelable: preventDefault does nothing.
-    el.addEventListener("chu-close", (e) => e.preventDefault());
+    el.addEventListener("blip-close", (e) => e.preventDefault());
     expect(el.fire("close")).toBe(true);
   });
 
-  it("adds chu-box and its classes when it connects", () => {
-    const { make } = define({ box: true, classes: ["chu-thing", "chu-thing-ready"] });
+  it("adds blip-box and its classes when it connects", () => {
+    const { make } = define({ box: true, classes: ["blip-thing", "blip-thing-ready"] });
     const el = mount("<div></div>").appendChild(make());
-    expect([...el.classList]).toEqual(["chu-box", "chu-thing", "chu-thing-ready"]);
+    expect([...el.classList]).toEqual(["blip-box", "blip-thing", "blip-thing-ready"]);
   });
 
   it("adds no classes by default", () => {

@@ -1,5 +1,5 @@
 /**
- * <chu-fab>: an action button that opens a speed dial, as a WAI-ARIA menu button (see components/fab.css).
+ * <blip-fab>: an action button that opens a speed dial, as a WAI-ARIA menu button (see components/fab.css).
  *
  * The button opens and closes the stack above it and says so (aria-haspopup, aria-expanded, aria-controls). Opening
  * puts focus on the first item, the one nearest the button; ArrowUp and ArrowDown move along the stack as it looks
@@ -7,16 +7,16 @@
  * Tab, a press outside or focus going elsewhere closes it where focus is. Items are read as they are, so items
  * rendered later just work.
  *
- *   <chu-fab class="chu-fab-dial">
- *     <button class="chu-box chu-fab" type="button" data-icon-only aria-label="Create">…</button>
- *     <div class="chu-fab-menu" role="menu" aria-label="Create" hidden>
- *       <button class="chu-box chu-fab-action" type="button" role="menuitem">Photo</button>
+ *   <blip-fab class="blip-fab-dial">
+ *     <button class="blip-box blip-fab" type="button" data-icon-only aria-label="Create">…</button>
+ *     <div class="blip-fab-menu" role="menu" aria-label="Create" hidden>
+ *       <button class="blip-box blip-fab-action" type="button" role="menuitem">Photo</button>
  *     </div>
- *   </chu-fab>
+ *   </blip-fab>
  *
- *   fab.addEventListener("chu-action", (e) => create(e.detail.value)); // e.preventDefault() keeps it open
+ *   fab.addEventListener("blip-action", (e) => create(e.detail.value)); // e.preventDefault() keeps it open
  */
-import { BlipElement, dismiss, warn } from "@jaatster/blip-core";
+import { BlipElement, dismiss, warn } from "@blip/core";
 import { isOn, unFalse, valueOf, watch } from "./_dom.js";
 import type { ActionDetail } from "./menu.js";
 
@@ -30,19 +30,19 @@ let uid = 0;
  * @attr {boolean} open - The stack is open; setting it opens or closes it. "false" is off.
  * @attr {"fixed" | "absolute" | "static"} [data-position="fixed"] - Floats at the bottom end of the screen, of the
  * nearest positioned box, or sits in the flow.
- * @fires {CustomEvent<ActionDetail>} chu-action - An item was chosen, before it runs. Cancelable: preventDefault()
+ * @fires {CustomEvent<ActionDetail>} blip-action - An item was chosen, before it runs. Cancelable: preventDefault()
  * keeps the stack open.
- * @fires {CustomEvent<void>} chu-open - The stack opened.
- * @fires {CustomEvent<void>} chu-close - The stack closed.
+ * @fires {CustomEvent<void>} blip-open - The stack opened.
+ * @fires {CustomEvent<void>} blip-close - The stack closed.
  */
 export class BlipFab extends BlipElement {
-  static override classes = ["chu-fab-dial"];
+  static override classes = ["blip-fab-dial"];
   static observedAttributes = ["open"];
   #quiet = false;
 
-  /** The button: the .chu-fab (or first button) child. */
+  /** The button: the .blip-fab (or first button) child. */
   get trigger(): HTMLElement | null {
-    return this.querySelector(":scope > .chu-fab") ?? this.querySelector(":scope > button");
+    return this.querySelector(":scope > .blip-fab") ?? this.querySelector(":scope > button");
   }
   /** The stack: the [role=menu] child. */
   get menu(): HTMLElement | null {
@@ -83,7 +83,7 @@ export class BlipFab extends BlipElement {
   protected override connected(): void {
     this.#sync();
     watch(this, this.signal, () => this.#sync(), { subtree: false });
-    if (!this.menu && this.children.length) warn("CHU-M001", "<chu-fab> needs a button and a [role=menu] stack inside it.", this);
+    if (!this.menu && this.children.length) warn("BLIP-M001", "<blip-fab> needs a button and a [role=menu] stack inside it.", this);
 
     this.on(this, "click", (e) => {
       const t = e.target as Element;
@@ -152,7 +152,7 @@ export class BlipFab extends BlipElement {
     const button = this.trigger;
     const menu = this.menu;
     if (!button || !menu) return;
-    const id = (menu.id ||= `chu-fab-${++uid}`);
+    const id = (menu.id ||= `blip-fab-${++uid}`);
     if (button instanceof HTMLButtonElement) button.type = "button";
     button.setAttribute("aria-haspopup", "menu");
     button.setAttribute("aria-controls", id);
@@ -162,10 +162,10 @@ export class BlipFab extends BlipElement {
   }
 }
 
-BlipElement.define("chu-fab", BlipFab);
+BlipElement.define("blip-fab", BlipFab);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "chu-fab": BlipFab;
+    "blip-fab": BlipFab;
   }
 }

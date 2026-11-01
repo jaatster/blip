@@ -1,6 +1,6 @@
 ---
 name: Divider
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: divider.css
 element: null
 react: Divider
@@ -18,10 +18,10 @@ label in the middle. Quiet by default (line-soft).
 ## Usage
 
 ```html
-<hr class="chu-divider">
-<hr class="chu-divider" data-variant="dither">
-<hr class="chu-divider" aria-orientation="vertical">
-<div class="chu-divider">Today</div>
+<hr class="blip-divider">
+<hr class="blip-divider" data-variant="dither">
+<hr class="blip-divider" aria-orientation="vertical">
+<div class="blip-divider">Today</div>
 ```
 
 ## Anatomy
@@ -63,4 +63,4 @@ None: a divider is not interactive.
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-divider-space` | 6 pixels (4 upright) | The space each side of the line. |
+| `--blip-divider-space` | 6 pixels (4 upright) | The space each side of the line. |

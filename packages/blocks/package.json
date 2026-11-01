@@ -1,5 +1,5 @@
 {
-  "name": "@jaatster/blip-blocks",
+  "name": "@blip/blocks",
   "version": "0.1.0",
   "description": "Blip website blocks: hero, feature grid, pricing, CTA band, footer.",
   "keywords": [
@@ -58,8 +58,8 @@
     "build": "node ../../scripts/build-css-package.mjs blocks && node ../../scripts/build-ts-package.mjs blocks"
   },
   "dependencies": {
-    "@jaatster/blip-core": "workspace:*",
-    "@jaatster/blip-tokens": "workspace:*",
-    "@jaatster/blip-components": "workspace:*"
+    "@blip/core": "workspace:*",
+    "@blip/tokens": "workspace:*",
+    "@blip/components": "workspace:*"
   }
 }

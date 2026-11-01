@@ -1,6 +1,6 @@
 ---
 name: Level tile
-package: "@jaatster/blip-game"
+package: "@blip/game"
 css: level.css
 element: null
 react: LevelTile
@@ -15,24 +15,24 @@ the one you're on. Tiles join into a map with dotted paths.
 ## Usage
 
 ```html
-<ol class="chu-level-map" aria-label="World 1 levels">
+<ol class="blip-level-map" aria-label="World 1 levels">
   <li>
-    <button type="button" class="chu-box chu-level" aria-label="Level 2, Clover Hill: 2 of 3 stars">
-      <span class="chu-level-number">2</span>
-      <span class="chu-level-stars"><chu-sprite name="star"></chu-sprite><chu-sprite name="star"></chu-sprite><chu-sprite name="star-empty"></chu-sprite></span>
+    <button type="button" class="blip-box blip-level" aria-label="Level 2, Clover Hill: 2 of 3 stars">
+      <span class="blip-level-number">2</span>
+      <span class="blip-level-stars"><blip-sprite name="star"></blip-sprite><blip-sprite name="star"></blip-sprite><blip-sprite name="star-empty"></blip-sprite></span>
     </button>
-    <span class="chu-level-path" aria-hidden="true"></span>
+    <span class="blip-level-path" aria-hidden="true"></span>
   </li>
   <li>
-    <button type="button" class="chu-box chu-level" aria-current="step" aria-label="Level 3, Puddle Path: you are here">
-      <chu-sprite class="chu-level-here" name="arrow"></chu-sprite>
-      <span class="chu-level-number">3</span> …
+    <button type="button" class="blip-box blip-level" aria-current="step" aria-label="Level 3, Puddle Path: you are here">
+      <blip-sprite class="blip-level-here" name="arrow"></blip-sprite>
+      <span class="blip-level-number">3</span> …
     </button>
-    <span class="chu-level-path" data-locked aria-hidden="true"></span>
+    <span class="blip-level-path" data-locked aria-hidden="true"></span>
   </li>
   <li>
-    <button type="button" class="chu-box chu-level" aria-disabled="true" aria-label="Level 4: locked, clear level 3 first">
-      <chu-sprite name="padlock"></chu-sprite>
+    <button type="button" class="blip-box blip-level" aria-disabled="true" aria-label="Level 4: locked, clear level 3 first">
+      <blip-sprite name="padlock"></blip-sprite>
     </button>
   </li>
 </ol>
@@ -40,11 +40,11 @@ the one you're on. Tiles join into a map with dotted paths.
 
 ## Anatomy
 
-1. **Tile** (`.chu-level`): a candy box, 46 x 44 pixels, radius 4.
-2. **Number** (`.chu-level-number`): Pixel Bop at scale 2, tabular.
-3. **Stars** (`.chu-level-stars`): three star sprites, full or empty.
-4. **Here** (`.chu-level-here`): the arrow sprite over the current tile.
-5. **Path** (`.chu-level-path`): dots two pixels square, two apart.
+1. **Tile** (`.blip-level`): a candy box, 46 x 44 pixels, radius 4.
+2. **Number** (`.blip-level-number`): Pixel Bop at scale 2, tabular.
+3. **Stars** (`.blip-level-stars`): three star sprites, full or empty.
+4. **Here** (`.blip-level-here`): the arrow sprite over the current tile.
+5. **Path** (`.blip-level-path`): dots two pixels square, two apart.
 
 ## Variants
 
@@ -52,8 +52,8 @@ the one you're on. Tiles join into a map with dotted paths.
 |---|---|---|
 | `data-tone` | accent (default), any tone | A boss in `danger`, a bonus in `purple`. |
 | content | number, or a sprite | A chest or trophy for bonus levels. |
-| `.chu-level-path[data-direction="down"]` | | A path that goes down to the next row. |
-| `.chu-level-path[data-locked]` | | A path not walked yet, in the soft line colour. |
+| `.blip-level-path[data-direction="down"]` | | A path that goes down to the next row. |
+| `.blip-level-path[data-locked]` | | A path not walked yet, in the soft line colour. |
 
 ## States
 
@@ -83,4 +83,4 @@ Level names are short and a little funny; put them in the name, not on the tile.
 
 | Custom property | Default | |
 |---|---|---|
-| `--chu-level-path` | 10 | A path's length in pixels. |
+| `--blip-level-path` | 10 | A path's length in pixels. |

@@ -4,104 +4,104 @@
  * drawer.css, which components.css has: the scrim, the raised panel and the stepped slide), so it is a modal
  * <dialog>: focus stays inside while it is open. From 600 px of screen width it is a compact dialog in the middle
  * instead (radius 4, 160 pixels wide), which pops in as the dialog does; data-layout="sheet" keeps it at the bottom.
- * Wrap it in <chu-action-sheet> from @jaatster/blip-elements: the choice is the value of the button that closed it.
+ * Wrap it in <blip-action-sheet> from @blip/elements: the choice is the value of the button that closed it.
  *
- *   <chu-action-sheet light-dismiss>
- *     <dialog class="chu-box chu-drawer chu-action-sheet" id="replay" aria-labelledby="replay-title" aria-describedby="replay-text">
+ *   <blip-action-sheet light-dismiss>
+ *     <dialog class="blip-box blip-drawer blip-action-sheet" id="replay" aria-labelledby="replay-title" aria-describedby="replay-text">
  *       <form method="dialog">
- *         <h2 class="chu-action-sheet-title" id="replay-title">Replay 12</h2>
- *         <p class="chu-action-sheet-message" id="replay-text">World 3-2, saved 2 minutes ago.</p>
- *         <div class="chu-action-sheet-actions">
- *           <button class="chu-box chu-button" data-size="lg" data-width="full" data-variant="soft" value="share">Share</button>
- *           <button class="chu-box chu-button" data-size="lg" data-width="full" data-variant="soft" data-tone="danger" value="delete">Delete</button>
+ *         <h2 class="blip-action-sheet-title" id="replay-title">Replay 12</h2>
+ *         <p class="blip-action-sheet-message" id="replay-text">World 3-2, saved 2 minutes ago.</p>
+ *         <div class="blip-action-sheet-actions">
+ *           <button class="blip-box blip-button" data-size="lg" data-width="full" data-variant="soft" value="share">Share</button>
+ *           <button class="blip-box blip-button" data-size="lg" data-width="full" data-variant="soft" data-tone="danger" value="delete">Delete</button>
  *         </div>
- *         <button class="chu-box chu-button chu-action-sheet-cancel" data-size="lg" data-width="full" data-variant="soft" data-tone="neutral" value="cancel">Cancel</button>
+ *         <button class="blip-box blip-button blip-action-sheet-cancel" data-size="lg" data-width="full" data-variant="soft" data-tone="neutral" value="cancel">Cancel</button>
  *       </form>
  *     </dialog>
- *   </chu-action-sheet>
+ *   </blip-action-sheet>
  *
  *   data-layout="sheet"   stays a bottom sheet on wide screens too
- *   data-chu-static        drawn in the page flow, for docs, tests and screenshots
+ *   data-blip-static        drawn in the page flow, for docs, tests and screenshots
  *
  * The buttons are large (48 px) and fill the width; the actions scroll when there are too many for the screen. The
  * sheet keeps its content clear of the bottom and side safe areas (viewport-fit=cover).
  */
 
-@layer chu.components {
-  chu-action-sheet { display: contents; }
+@layer blip.components {
+  blip-action-sheet { display: contents; }
 
-  .chu-drawer.chu-action-sheet {
-    --_chu-sx: 0;
-    --_chu-sy: 1;
+  .blip-drawer.blip-action-sheet {
+    --_blip-sx: 0;
+    --_blip-sy: 1;
     inline-size: auto;
-    max-block-size: round(down, 100% - 8 * var(--chu-pixel) - env(safe-area-inset-top, 0px), var(--chu-pixel));
-    gap: calc(4 * var(--chu-pixel));
+    max-block-size: round(down, 100% - 8 * var(--blip-pixel) - env(safe-area-inset-top, 0px), var(--blip-pixel));
+    gap: calc(4 * var(--blip-pixel));
     padding:
-      calc(8 * var(--chu-pixel))
-      calc(7 * var(--chu-pixel) + round(up, env(safe-area-inset-right, 0px), var(--chu-pixel)))
-      calc(8 * var(--chu-pixel) + round(up, env(safe-area-inset-bottom, 0px), var(--chu-pixel)))
-      calc(8 * var(--chu-pixel) + round(up, env(safe-area-inset-left, 0px), var(--chu-pixel)));
+      calc(8 * var(--blip-pixel))
+      calc(7 * var(--blip-pixel) + round(up, env(safe-area-inset-right, 0px), var(--blip-pixel)))
+      calc(8 * var(--blip-pixel) + round(up, env(safe-area-inset-bottom, 0px), var(--blip-pixel)))
+      calc(8 * var(--blip-pixel) + round(up, env(safe-area-inset-left, 0px), var(--blip-pixel)));
     text-align: center;
   }
-  .chu-drawer.chu-action-sheet:not([data-chu-static]) { inset: auto calc(-1 * var(--chu-pixel)) calc(-1 * var(--chu-pixel)); }
+  .blip-drawer.blip-action-sheet:not([data-blip-static]) { inset: auto calc(-1 * var(--blip-pixel)) calc(-1 * var(--blip-pixel)); }
 
-  .chu-action-sheet-title {
+  .blip-action-sheet-title {
     margin: 0;
-    font-family: var(--chu-font-display);
-    font-size: calc(10 * var(--chu-pixel));
+    font-family: var(--blip-font-display);
+    font-size: calc(10 * var(--blip-pixel));
     font-weight: 400;
-    line-height: var(--chu-leading-display);
+    line-height: var(--blip-leading-display);
     letter-spacing: 0;
     text-transform: uppercase;
     overflow-wrap: anywhere;
     -webkit-font-smoothing: none;
     font-smooth: never;
   }
-  .chu-action-sheet-message {
+  .blip-action-sheet-message {
     margin: 0;
-    color: var(--chu-text-muted);
-    font-size: var(--chu-size-small);
+    color: var(--blip-text-muted);
+    font-size: var(--blip-size-small);
   }
-  .chu-action-sheet-title + .chu-action-sheet-message { margin-block-start: calc(-2 * var(--chu-pixel)); }
+  .blip-action-sheet-title + .blip-action-sheet-message { margin-block-start: calc(-2 * var(--blip-pixel)); }
 
   /* The choices: a column that scrolls when it must, with room round it for the buttons' rings and drops. */
-  .chu-action-sheet-actions {
+  .blip-action-sheet-actions {
     display: flex;
     flex-direction: column;
-    gap: calc(3 * var(--chu-pixel));
+    gap: calc(3 * var(--blip-pixel));
     min-block-size: 0;
-    margin: calc(-2 * var(--chu-pixel));
-    padding: calc(2 * var(--chu-pixel));
+    margin: calc(-2 * var(--blip-pixel));
+    padding: calc(2 * var(--blip-pixel));
     overflow-y: auto;
     overscroll-behavior: contain;
   }
-  :is(.chu-action-sheet-title, .chu-action-sheet-message) + .chu-action-sheet-actions { margin-block-start: calc(2 * var(--chu-pixel)); }
-  .chu-action-sheet .chu-button[data-width="full"] { flex: none; }
+  :is(.blip-action-sheet-title, .blip-action-sheet-message) + .blip-action-sheet-actions { margin-block-start: calc(2 * var(--blip-pixel)); }
+  .blip-action-sheet .blip-button[data-width="full"] { flex: none; }
   /* Cancel, apart: below a soft rule, past the room the last button's ring and drop need. */
-  .chu-action-sheet-actions:has(+ .chu-action-sheet-cancel) {
-    padding-block-end: calc(6 * var(--chu-pixel));
-    border-block-end: var(--chu-pixel) solid var(--chu-line-soft);
+  .blip-action-sheet-actions:has(+ .blip-action-sheet-cancel) {
+    padding-block-end: calc(6 * var(--blip-pixel));
+    border-block-end: var(--blip-pixel) solid var(--blip-line-soft);
   }
-  .chu-action-sheet-cancel { margin-block-start: calc(2 * var(--chu-pixel)); }
+  .blip-action-sheet-cancel { margin-block-start: calc(2 * var(--blip-pixel)); }
 
   /* Wide: a compact dialog in the middle, popping in and out as the dialog does. */
   @media (width >= 600px) {
-    .chu-drawer.chu-action-sheet:not([data-layout="sheet"]) {
-      inline-size: round(down, min(calc(160 * var(--chu-pixel)), 100% - 16 * var(--chu-pixel)), var(--chu-pixel));
+    .blip-drawer.blip-action-sheet:not([data-layout="sheet"]) {
+      inline-size: round(down, min(calc(160 * var(--blip-pixel)), 100% - 16 * var(--blip-pixel)), var(--blip-pixel));
       margin: auto;
-      padding: calc(8 * var(--chu-pixel)) calc(7 * var(--chu-pixel)) calc(7 * var(--chu-pixel)) calc(8 * var(--chu-pixel));
+      padding: calc(8 * var(--blip-pixel)) calc(7 * var(--blip-pixel)) calc(7 * var(--blip-pixel)) calc(8 * var(--blip-pixel));
     }
-    .chu-drawer.chu-action-sheet:not([data-layout="sheet"], [data-chu-r]) { --chu-r: 4; --chu-shape: var(--chu-shape-4); --chu-shape-inner: var(--chu-shape-4-inner); }
-    .chu-drawer.chu-action-sheet:not([data-layout="sheet"], [data-chu-static]) {
+    .blip-drawer.blip-action-sheet:not([data-layout="sheet"], [data-blip-r]) { --blip-r: 4; --blip-shape: var(--blip-shape-4); --blip-shape-inner: var(--blip-shape-4-inner); }
+    .blip-drawer.blip-action-sheet:not([data-layout="sheet"], [data-blip-static]) {
       inset: 0;
       block-size: fit-content;
-      max-block-size: round(down, 100% - 16 * var(--chu-pixel), var(--chu-pixel));
+      max-block-size: round(down, 100% - 16 * var(--blip-pixel), var(--blip-pixel));
     }
-    .chu-drawer.chu-action-sheet:not([data-layout="sheet"], [data-chu-static])[open] { translate: none; animation: chu-dialog-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end); }
-    .chu-drawer.chu-action-sheet:not([data-layout="sheet"], [data-chu-static])[data-chu-closing] { animation: chu-dialog-out calc(2 * var(--chu-duration-frame)) steps(1, jump-end) forwards; }
+    .blip-drawer.blip-action-sheet:not([data-layout="sheet"], [data-blip-static])[open] { translate: none; animation: blip-dialog-in calc(2 * var(--blip-duration-frame)) steps(1, jump-end); }
+    .blip-drawer.blip-action-sheet:not([data-layout="sheet"], [data-blip-static])[data-blip-closing] { animation: blip-dialog-out calc(2 * var(--blip-duration-frame)) steps(1, jump-end) forwards; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-drawer.chu-action-sheet:not([data-layout="sheet"], [data-chu-static]):is([open], [data-chu-closing]) { animation: none; }
+    .blip-drawer.blip-action-sheet:not([data-layout="sheet"], [data-blip-static]):is([open], [data-blip-closing]) { animation: none; }
   }
 }

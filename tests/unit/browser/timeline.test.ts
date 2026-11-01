@@ -4,7 +4,7 @@
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { commands } from "vitest/browser";
-import { every, frames, reducedMotion, run, type Step } from "@jaatster/blip-core";
+import { every, frames, reducedMotion, run, type Step } from "@blip/core";
 
 /** A timeline that writes each step's name into log when it runs. */
 const timeline = (log: string[], ...steps: [at: number, name: string][]): Step[] => steps.map(([at, name]) => ({ at, do: () => log.push(name) }));

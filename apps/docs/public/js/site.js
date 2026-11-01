@@ -1,7 +1,7 @@
 // The docs' own behaviour, on top of Blip's elements: the display menu (scheme and pixel), the palette menu,
 // Auto following the clock, search through the command palette, copy buttons, the install boxes, the example
 // switches and "On this page".
-import { autoScheme, setScheme } from "@jaatster/blip-core";
+import { autoScheme, setScheme } from "@blip/core";
 
 const root = document.documentElement;
 // install: the package manager the install boxes show (INSTALL_KEY in src/lib/install.ts).
@@ -19,35 +19,35 @@ const mac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
 let stopAuto;
 function themeColor() {
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.content = getComputedStyle(root).getPropertyValue("--chu-bg").trim() || meta.content;
+  if (meta) meta.content = getComputedStyle(root).getPropertyValue("--blip-bg").trim() || meta.content;
 }
 function applyScheme(choice) {
   stopAuto?.();
   stopAuto = undefined;
   root.dataset.schemeChoice = choice;
-  root.removeAttribute("data-chu-scheme-fade");
+  root.removeAttribute("data-blip-scheme-fade");
   if (choice === "auto") stopAuto = autoScheme(root);
   else setScheme(choice, root);
   requestAnimationFrame(themeColor);
-  document.dispatchEvent(new CustomEvent("docs-scheme", { detail: { choice, scheme: root.dataset.chuScheme } }));
+  document.dispatchEvent(new CustomEvent("docs-scheme", { detail: { choice, scheme: root.dataset.blipScheme } }));
 }
 function applyPixel(px) {
-  if (px === "3" || px === "4") root.dataset.chuPixel = px;
-  else delete root.dataset.chuPixel;
+  if (px === "3" || px === "4") root.dataset.blipPixel = px;
+  else delete root.dataset.blipPixel;
 }
-root.addEventListener("chu-scheme-change", () => requestAnimationFrame(themeColor));
+root.addEventListener("blip-scheme-change", () => requestAnimationFrame(themeColor));
 
 // ------------------------------------------------------------------ palette
 
-// The palettes the menu offers, the default first (set by having no data-chu-palette).
+// The palettes the menu offers, the default first (set by having no data-blip-palette).
 const paletteMenu = document.querySelector(".docs-palette");
 const paletteItems = paletteMenu ? [...paletteMenu.querySelectorAll('[role="menuitemradio"]')] : [];
 const paletteIds = paletteItems.map((item) => item.dataset.value.split(":")[1]);
 const defaultPalette = paletteIds[0];
-const currentPalette = () => root.dataset.chuPalette || defaultPalette;
+const currentPalette = () => root.dataset.blipPalette || defaultPalette;
 function applyPalette(id) {
-  if (!id || id === defaultPalette || !paletteIds.includes(id)) delete root.dataset.chuPalette;
-  else root.dataset.chuPalette = id;
+  if (!id || id === defaultPalette || !paletteIds.includes(id)) delete root.dataset.blipPalette;
+  else root.dataset.blipPalette = id;
   requestAnimationFrame(themeColor);
   syncPalette();
   document.dispatchEvent(new CustomEvent("docs-palette", { detail: { palette: currentPalette() } }));
@@ -62,7 +62,7 @@ function syncPalette() {
 }
 if (paletteMenu) {
   syncPalette();
-  paletteMenu.addEventListener(paletteMenu.dataset.docsChoose || "chu-action", (e) => {
+  paletteMenu.addEventListener(paletteMenu.dataset.docsChoose || "blip-action", (e) => {
     const [k, v] = String(e.detail.value).split(":");
     if (k !== "palette") return;
     store.set(KEYS.palette, v === defaultPalette ? null : v);
@@ -79,7 +79,7 @@ syncPalette();
 const display = document.querySelector(".docs-display");
 function syncMenu() {
   if (!display) return;
-  const scheme = root.dataset.schemeChoice || "auto", pixel = root.dataset.chuPixel || "2";
+  const scheme = root.dataset.schemeChoice || "auto", pixel = root.dataset.blipPixel || "2";
   for (const item of display.querySelectorAll('[role="menuitemradio"]')) {
     const [k, v] = item.dataset.value.split(":");
     item.setAttribute("aria-checked", String((k === "scheme" && v === scheme) || (k === "pixel" && v === pixel)));
@@ -88,7 +88,7 @@ function syncMenu() {
 if (display) {
   syncMenu();
   // The event a chosen item fires, as the element's manifest names it (the page writes it in data-docs-choose).
-  display.addEventListener(display.dataset.docsChoose || "chu-action", (e) => {
+  display.addEventListener(display.dataset.docsChoose || "blip-action", (e) => {
     const [k, v] = String(e.detail.value).split(":");
     if (k === "scheme") {
       store.set(KEYS.scheme, v === "auto" ? null : v);
@@ -124,8 +124,8 @@ window.docs = {
 const presets = (document.querySelector("script[data-presets]")?.dataset.presets || "").split(" ").filter(Boolean);
 addEventListener("storage", (e) => {
   if (e.key === KEYS.palette) {
-    if (e.newValue && presets.includes(e.newValue)) root.dataset.chuPalette = e.newValue;
-    else delete root.dataset.chuPalette;
+    if (e.newValue && presets.includes(e.newValue)) root.dataset.blipPalette = e.newValue;
+    else delete root.dataset.blipPalette;
     requestAnimationFrame(themeColor);
     syncPalette();
   } else if (e.key === KEYS.scheme) {
@@ -144,7 +144,7 @@ if (mac) for (const k of document.querySelectorAll("[data-mod]")) k.textContent 
 // option is matched with search-match.js, which knows synonyms, sections and typos: a match takes the words typed
 // into its keywords, so the palette keeps it, shows the section it found and opens the page there; the best come
 // first in their group.
-const palette = document.querySelector("chu-command.docs-search");
+const palette = document.querySelector("blip-command.docs-search");
 const searchButton = document.querySelector(".docs-search-button");
 let index;
 let entries = [];
@@ -155,16 +155,16 @@ async function buildResults(data) {
   const items = [];
   let n = 0;
   data.groups.forEach((group, gi) => {
-    out.push(`<div class="chu-command-group" role="group" aria-labelledby="docs-search-g${gi}"><div class="chu-command-heading" id="docs-search-g${gi}">${esc(group.title)}</div>`);
+    out.push(`<div class="blip-command-group" role="group" aria-labelledby="docs-search-g${gi}"><div class="blip-command-heading" id="docs-search-g${gi}">${esc(group.title)}</div>`);
     for (const item of group.items) {
-      const icon = item.icon ? `<svg class="chu-icon" aria-hidden="true"><use href="/chu/icons/sprite.svg#chu-icon-${esc(item.icon)}"/></svg>` : "";
-      out.push(`<div class="chu-box chu-command-item" role="option" id="docs-search-o${n++}" data-value="${esc(item.url)}" data-keywords="${esc(item.keywords || "")}">${icon}<span class="chu-command-label">${esc(item.title)}</span><span class="chu-command-hint">${esc(item.hint || "")}</span></div>`);
+      const icon = item.icon ? `<svg class="blip-icon" aria-hidden="true"><use href="/blip/icons/sprite.svg#blip-icon-${esc(item.icon)}"/></svg>` : "";
+      out.push(`<div class="blip-box blip-command-item" role="option" id="docs-search-o${n++}" data-value="${esc(item.url)}" data-keywords="${esc(item.keywords || "")}">${icon}<span class="blip-command-label">${esc(item.title)}</span><span class="blip-command-hint">${esc(item.hint || "")}</span></div>`);
       items.push(item);
     }
     out.push("</div>");
   });
   list.innerHTML = out.join("");
-  entries = [...list.querySelectorAll('[role="option"]')].map((el, i) => ({ el, i, item: items[i], p: prepare(items[i]), hint: el.querySelector(".chu-command-hint") }));
+  entries = [...list.querySelectorAll('[role="option"]')].map((el, i) => ({ el, i, item: items[i], p: prepare(items[i]), hint: el.querySelector(".blip-command-hint") }));
 }
 /** Each option back as it was built: its own keywords, hint, link and place. */
 function restore() {
@@ -175,12 +175,12 @@ function restore() {
   }
   const list = palette?.querySelector('[role="listbox"]');
   const byId = (a, b) => a.id.localeCompare(b.id, undefined, { numeric: true });
-  for (const g of list?.querySelectorAll(".chu-command-group") ?? []) g.append(...[...g.querySelectorAll('[role="option"]')].sort(byId));
-  list?.append(...[...list.querySelectorAll(".chu-command-group")].sort((a, b) => byId(a.firstElementChild, b.firstElementChild)));
+  for (const g of list?.querySelectorAll(".blip-command-group") ?? []) g.append(...[...g.querySelectorAll('[role="option"]')].sort(byId));
+  list?.append(...[...list.querySelectorAll(".blip-command-group")].sort((a, b) => byId(a.firstElementChild, b.firstElementChild)));
 }
 let match;
 palette?.addEventListener("input", (e) => {
-  if (!entries.length || !match || !e.target.matches?.(".chu-command-input")) return;
+  if (!entries.length || !match || !e.target.matches?.(".blip-command-input")) return;
   const query = e.target.value;
   const found = match(query, entries.map((x) => x.p));
   const typed = query.toLowerCase().trim();
@@ -195,7 +195,7 @@ palette?.addEventListener("input", (e) => {
   // Best first in each group, and the group with the best first, so the first one shown (the one Enter opens) is
   // the best of all.
   const byEl = new Map(entries.map((x) => [x.el, x]));
-  const groups = [...palette.querySelectorAll(".chu-command-group")].map((g, n) => {
+  const groups = [...palette.querySelectorAll(".blip-command-group")].map((g, n) => {
     const opts = [...g.querySelectorAll('[role="option"]')].map((el) => byEl.get(el)).sort((a, b) => b.score - a.score || a.i - b.i);
     g.append(...opts.map((x) => x.el));
     return { g, n, best: opts[0]?.score ?? 0 };
@@ -218,7 +218,7 @@ function loadIndex() {
   return index;
 }
 if (palette && searchButton) {
-  customElements.whenDefined("chu-command").then(() => {
+  customElements.whenDefined("blip-command").then(() => {
     searchButton.setAttribute("role", "button");
     searchButton.addEventListener("click", (e) => {
       e.preventDefault();
@@ -230,7 +230,7 @@ if (palette && searchButton) {
   dialog?.addEventListener("toggle", (e) => e.newState === "open" && loadIndex());
   // Closed: the options go back to how they were built, for the next search.
   dialog?.addEventListener("close", restore);
-  palette.addEventListener(palette.dataset.docsChoose || "chu-action", (e) => {
+  palette.addEventListener(palette.dataset.docsChoose || "blip-action", (e) => {
     const url = e.detail.value;
     if (url) location.href = url;
   });
@@ -238,7 +238,7 @@ if (palette && searchButton) {
 
 // ------------------------------------------------------------------ copy
 
-const live = Object.assign(document.createElement("p"), { className: "chu-sr-only" });
+const live = Object.assign(document.createElement("p"), { className: "blip-sr-only" });
 live.setAttribute("role", "status");
 document.body.append(live);
 const labels = new WeakMap();
@@ -267,15 +267,15 @@ for (const b of document.querySelectorAll(".docs-copy")) {
 
 // Each install box (components/Install.astro) is tabs, one per package manager and the CDN. The one picked is
 // remembered, and every box on the page turns to it.
-const installs = [...document.querySelectorAll("chu-tabs.docs-install")];
+const installs = [...document.querySelectorAll("blip-tabs.docs-install")];
 function chooseInstall(id, from) {
   for (const box of installs) if (box !== from && box.querySelector(`[role="tab"][data-value="${CSS.escape(id)}"]`)) box.setAttribute("value", id);
 }
 if (installs.length) {
   const saved = store.get(KEYS.install);
   if (saved) chooseInstall(saved);
-  document.addEventListener("chu-change", (e) => {
-    const box = e.target.closest?.("chu-tabs.docs-install");
+  document.addEventListener("blip-change", (e) => {
+    const box = e.target.closest?.("blip-tabs.docs-install");
     if (!box || !e.detail?.value) return;
     store.set(KEYS.install, e.detail.value);
     chooseInstall(e.detail.value, box);
@@ -284,18 +284,18 @@ if (installs.length) {
 
 // ------------------------------------------------------------------ example switches: a scheme or a pixel for one stage
 
-document.addEventListener("chu-change", (e) => {
+document.addEventListener("blip-change", (e) => {
   const control = e.target.closest?.("[data-stage]");
   if (!control) return;
   const stage = document.getElementById(control.dataset.stage);
   const value = e.detail?.value ?? control.value;
   if (!stage) return;
   if (control.dataset.attr === "scheme") {
-    if (value === "page") stage.removeAttribute("data-chu-scheme");
-    else stage.setAttribute("data-chu-scheme", value);
+    if (value === "page") stage.removeAttribute("data-blip-scheme");
+    else stage.setAttribute("data-blip-scheme", value);
   } else if (control.dataset.attr === "pixel") {
-    if (value === "2") stage.removeAttribute("data-chu-pixel");
-    else stage.setAttribute("data-chu-pixel", value);
+    if (value === "2") stage.removeAttribute("data-blip-pixel");
+    else stage.setAttribute("data-blip-pixel", value);
   }
 });
 
@@ -320,15 +320,15 @@ if (toc && "IntersectionObserver" in window) {
 
 // Every sound control carries data-docs-sound: a switch (<input>) shows it as checked, a button as aria-pressed with
 // its .docs-sound-label and its two icons (.docs-sound-on, .docs-sound-off, docs.css). This keeps the reader's choice
-// (localStorage "blip:sound", as @jaatster/blip-sound's rememberSound uses it) and every control in step, and tells page
+// (localStorage "blip:sound", as @blip/sound's rememberSound uses it) and every control in step, and tells page
 // scripts with a "docs-sound" event. Remembered as on, the controls say on from the first paint, and the audio starts
 // at the first click or key anywhere else (browsers start audio only then); pressing a control first turns it off.
 const SOUND_KEY = "blip:sound";
 let soundWanted = store.get(SOUND_KEY) === "on";
 let soundVolume = 0.7;
-let soundLib; // @jaatster/blip-sound, once it is needed
+let soundLib; // @blip/sound, once it is needed
 let soundReady; // the last enableSound(): resolves once the audio runs
-const soundModule = async () => (soundLib ??= await import("@jaatster/blip-sound"));
+const soundModule = async () => (soundLib ??= await import("@blip/sound"));
 const isSoundControl = (t) => !!t?.closest?.("[data-docs-sound], label:has([data-docs-sound])");
 function enableAudio() {
   soundReady = soundLib.enableSound({ volume: soundVolume });

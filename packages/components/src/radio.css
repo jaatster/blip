@@ -1,11 +1,11 @@
 /*
  * Radio. A real <input type="radio"> inside a round candy box: the calm well when off, candy with an ink dot when
- * on. Group them in a fieldset (a .chu-field) with a legend; the browser gives the arrow keys.
+ * on. Group them in a fieldset (a .blip-field) with a legend; the browser gives the arrow keys.
  *
- *   <fieldset class="chu-field">
- *     <legend class="chu-field-label">Difficulty</legend>
- *     <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="level" value="easy"></span>Easy</label>
- *     <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="level" value="hard" checked></span>Hard</label>
+ *   <fieldset class="blip-field">
+ *     <legend class="blip-field-label">Difficulty</legend>
+ *     <label class="blip-check"><span class="blip-box blip-radio"><input type="radio" name="level" value="easy"></span>Easy</label>
+ *     <label class="blip-check"><span class="blip-box blip-radio"><input type="radio" name="level" value="hard" checked></span>Hard</label>
  *   </fieldset>
  *
  *   data-size               sm | md (default) | lg       9, 11 or 13 pixels (on the box or the row)
@@ -17,26 +17,26 @@
  */
 @import "./_choice.css";
 
-@layer chu.components {
-  .chu-radio {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
+@layer blip.components {
+  .blip-radio {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
     --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5 5' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h3v1H1zM0 1h5v3H0zM1 4h3v1H1z'/%3E%3C/svg%3E");
-    --_gs: calc(5 * var(--chu-pixel));
+    --_gs: calc(5 * var(--blip-pixel));
   }
-  .chu-radio:is([data-size="sm"], [data-size="sm"] > *) {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
+  .blip-radio:is([data-size="sm"], [data-size="sm"] > *) {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
     --_g: linear-gradient(#000 0 0);
-    --_gs: calc(3 * var(--chu-pixel)) calc(3 * var(--chu-pixel));
+    --_gs: calc(3 * var(--blip-pixel)) calc(3 * var(--blip-pixel));
   }
-  .chu-radio:is([data-size="lg"], [data-size="lg"] > *) {
-    --chu-r: 5;
-    --chu-shape: var(--chu-shape-5);
-    --chu-shape-inner: var(--chu-shape-5-inner);
+  .blip-radio:is([data-size="lg"], [data-size="lg"] > *) {
+    --blip-r: 5;
+    --blip-shape: var(--blip-shape-5);
+    --blip-shape-inner: var(--blip-shape-5-inner);
     --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7' shape-rendering='crispEdges'%3E%3Cpath d='M2 0h3v1H2zM1 1h5v1H1zM0 2h7v3H0zM1 5h5v1H1zM2 6h3v1H2z'/%3E%3C/svg%3E");
-    --_gs: calc(7 * var(--chu-pixel));
+    --_gs: calc(7 * var(--blip-pixel));
   }
 }

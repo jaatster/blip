@@ -1,5 +1,5 @@
 /**
- * Popover: Popover, PopoverNub, PopoverTitle and PopoverClose. CSS from @jaatster/blip-components (popover.css).
+ * Popover: Popover, PopoverNub, PopoverTitle and PopoverClose. CSS from @blip/components (popover.css).
  */
 import { forwardRef } from "react";
 import { cx, flag } from "../internal/props.js";
@@ -9,7 +9,7 @@ import type { NativeProps, Radius } from "../internal/props.js";
 type Named = { "aria-label": string } | { "aria-labelledby": string };
 
 /** The pixel cross a close button shows when it has no children (made when needed, so nothing runs on import). */
-const cross = () => <span className="chu-icon" data-glyph="close" aria-hidden="true" />;
+const cross = () => <span className="blip-icon" data-glyph="close" aria-hidden="true" />;
 
 /** Own props of {@link Popover}. */
 export interface PopoverOwnProps {
@@ -17,9 +17,9 @@ export interface PopoverOwnProps {
   side?: "bottom" | "top" | "left" | "right";
   /** For top and bottom: centred on the button (default), or lined up with its start or end edge. `data-align`. */
   align?: "center" | "start" | "end";
-  /** Corner radius in pixels, 3 by default. `data-chu-r`. */
+  /** Corner radius in pixels, 3 by default. `data-blip-r`. */
   radius?: Radius;
-  /** Drawn in the page flow, without `popover`: docs, tests and screenshots only. `data-chu-static`. */
+  /** Drawn in the page flow, without `popover`: docs, tests and screenshots only. `data-blip-static`. */
   static?: boolean;
   /** `dialog` for a popover with controls (a non-modal dialog): it then needs a name. Text needs neither. `role`. */
   role?: "dialog";
@@ -43,7 +43,7 @@ export type PopoverProps = PopoverOwnProps & PopoverRole & NativeProps<"div", Po
  *     <p>Level 12, 3,450 XP</p>
  *   </Popover>
  *
- * Renders `<div class="chu-box chu-popover" popover>`. Where the browser does not make the opener its anchor, name it
+ * Renders `<div class="blip-box blip-popover" popover>`. Where the browser does not make the opener its anchor, name it
  * yourself: `anchor-name` on the button, `position-anchor` on the popover.
  */
 export const Popover = /*#__PURE__*/ forwardRef<HTMLDivElement, PopoverProps>(function Popover(
@@ -53,12 +53,12 @@ export const Popover = /*#__PURE__*/ forwardRef<HTMLDivElement, PopoverProps>(fu
   return (
     <div
       ref={ref}
-      className={cx("chu-box chu-popover", className)}
+      className={cx("blip-box blip-popover", className)}
       popover={isStatic ? undefined : ""}
       data-side={side}
       data-align={align}
-      data-chu-r={radius}
-      data-chu-static={flag(isStatic)}
+      data-blip-r={radius}
+      data-blip-static={flag(isStatic)}
       {...rest}
     />
   );
@@ -73,13 +73,13 @@ export type PopoverNubProps = Omit<NativeProps<"span">, "children">;
  *
  *   <PopoverNub />
  *
- * Renders `<span class="chu-popover-nub" aria-hidden="true">`.
+ * Renders `<span class="blip-popover-nub" aria-hidden="true">`.
  */
 export const PopoverNub = /*#__PURE__*/ forwardRef<HTMLSpanElement, PopoverNubProps>(function PopoverNub(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-popover-nub", className)} aria-hidden="true" {...rest} />;
+  return <span ref={ref} className={cx("blip-popover-nub", className)} aria-hidden="true" {...rest} />;
 });
 
 /** Props for {@link PopoverTitle}. */
@@ -90,13 +90,13 @@ export type PopoverTitleProps = NativeProps<"p">;
  *
  *   <PopoverTitle id="profile-name">Pixel Pat</PopoverTitle>
  *
- * Renders `<p class="chu-popover-title">`.
+ * Renders `<p class="blip-popover-title">`.
  */
 export const PopoverTitle = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PopoverTitleProps>(function PopoverTitle(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("chu-popover-title", className)} {...rest} />;
+  return <p ref={ref} className={cx("blip-popover-title", className)} {...rest} />;
 });
 
 /** Own props of {@link PopoverClose}. */
@@ -114,8 +114,8 @@ export type PopoverCloseProps = PopoverCloseOwnProps & NativeProps<"button", Pop
  *
  *   <PopoverClose popoverTarget="filters" />
  *
- * Renders `<button class="chu-box chu-button chu-popover-close" type="button" popovertarget popovertargetaction="hide"
- * data-variant="ghost" data-size="sm" data-icon-only aria-label="Close">` around `<span class="chu-icon"
+ * Renders `<button class="blip-box blip-button blip-popover-close" type="button" popovertarget popovertargetaction="hide"
+ * data-variant="ghost" data-size="sm" data-icon-only aria-label="Close">` around `<span class="blip-icon"
  * data-glyph="close" aria-hidden="true">`.
  */
 export const PopoverClose = /*#__PURE__*/ forwardRef<HTMLButtonElement, PopoverCloseProps>(function PopoverClose(
@@ -134,7 +134,7 @@ export const PopoverClose = /*#__PURE__*/ forwardRef<HTMLButtonElement, PopoverC
   return (
     <button
       ref={ref}
-      className={cx("chu-box chu-button chu-popover-close", className)}
+      className={cx("blip-box blip-button blip-popover-close", className)}
       type={type}
       popoverTarget={popoverTarget}
       popoverTargetAction={popoverTargetAction}

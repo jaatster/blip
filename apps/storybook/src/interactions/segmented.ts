@@ -1,7 +1,7 @@
 /**
- * <chu-segmented> interaction tests, on the example's "View" and "Players" controls: a radio group with one tab stop;
+ * <blip-segmented> interaction tests, on the example's "View" and "Players" controls: a radio group with one tab stop;
  * the arrow keys move and choose (wrapping, skipping a disabled segment), Home and End jump, a click chooses, and
- * each choice fires input, change and chu-change.
+ * each choice fires input, change and blip-change.
  */
 import type { StoryObj } from "@storybook/html-vite";
 import { expect } from "storybook/test";
@@ -10,7 +10,7 @@ import { click, events, focus, focused, one, press } from "../lib/play";
 type Segmented = HTMLElement & { value: string };
 
 const control = (root: HTMLElement, label: string) => {
-  const element = one<Segmented>(root, `chu-segmented[aria-label="${label}"]`);
+  const element = one<Segmented>(root, `blip-segmented[aria-label="${label}"]`);
   const segment = (name: string) => [...element.querySelectorAll<HTMLButtonElement>(":scope > button")].find((b) => (b.getAttribute("aria-label") ?? b.textContent?.trim()) === name)!;
   return { element, segment };
 };
@@ -19,7 +19,7 @@ export const ArrowKeysChoose: StoryObj = {
   name: "Arrow keys and clicks choose",
   play: async ({ canvasElement, step }) => {
     const { element, segment } = control(canvasElement, "View");
-    const changes = events<{ value: string }>(element, "chu-change");
+    const changes = events<{ value: string }>(element, "blip-change");
     let nativeChanges = 0;
     element.addEventListener("change", () => nativeChanges++);
 

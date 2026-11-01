@@ -1,8 +1,8 @@
 /*
- * @jaatster/blip-font: the two faces of Blip. Both SIL Open Font License 1.1 (OFL.txt, OFL-PixelifySans.txt).
+ * @blip/font: the two faces of Blip. Both SIL Open Font License 1.1 (OFL.txt, OFL-PixelifySans.txt).
  *
  * Pixel Bop: the display face. Bold capitals on a 7-pixel grid, Latin, Cyrillic and Greek; lower case draws as
- * capitals. Set it at font-size = 10 x pixel x scale (the .chu-display class of @jaatster/blip-core does this), and turn
+ * capitals. Set it at font-size = 10 x pixel x scale (the .blip-display class of @blip/core does this), and turn
  * on its rounded enlargements at big sizes: "ss02" (Rounded 2x, EPX) at scales 2 and 4, "ss03" (Rounded 3x,
  * AdvMAME3x) at scale 3.
  *
@@ -15,7 +15,7 @@
  * together from a letter and accents (two accents stacked over a Vietnamese capital rise into the line above).
  *
  * Blip Fallback: the system's colour emoji, sized to stand as tall as Pixelify Sans's capitals. The font
- * stacks of @jaatster/blip-tokens list it after the two faces. Every browser Blip supports reads variable WOFF2
+ * stacks of @blip/tokens list it after the two faces. Every browser Blip supports reads variable WOFF2
  * and unicode-range, so each file needs one plain source.
  *
  * Scripts the faces do not draw (Chinese, Japanese, Korean and the rest) keep the system's font for their language,
@@ -25,7 +25,7 @@
  * so anything can turn it off.
  */
 
-@layer chu.reset {
+@layer blip.reset {
   :where(*) { font-size-adjust: cap-height from-font; }
 }
 

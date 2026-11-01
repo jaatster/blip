@@ -1,4 +1,4 @@
-import { Button, Tab, TabList, TabPanel, Tabs, toast } from "@jaatster/blip-react";
+import { Button, Tab, TabList, TabPanel, Tabs, toast } from "@blip/react";
 import { Smoke } from "../shared/Smoke";
 
 /** The README's Settings (its CSS is app.css, the start page's recipe for Tailwind). */
@@ -32,7 +32,7 @@ export function App() {
   return (
     <main className="p-4">
       <Utilities />
-      <h1 className="chu-display chu-pop" data-scale="3" data-pop="Level 2">Level 2</h1>
+      <h1 className="blip-display blip-pop" data-scale="3" data-pop="Level 2">Level 2</h1>
       <section id="readme" data-smoke="tabs">
         <Settings />
       </section>

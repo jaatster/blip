@@ -11,7 +11,7 @@ export interface ShadcnItem {
   type: string;
   title: string;
   description: string;
-  /** npx shadcn@latest add @jaatster/blip-<name> */
+  /** npx shadcn@latest add @blip/<name> */
   command: string;
   /** The component page it installs, for the ui items. */
   doc?: Doc;

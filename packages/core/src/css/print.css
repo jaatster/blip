@@ -5,9 +5,9 @@
  * left off.
  */
 
-@layer chu.utilities {
+@layer blip.utilities {
   @media print {
-    .chu-box, .chu-box::before, .chu-box::after { print-color-adjust: exact; }
-    .chu-scrim, .chu-box::backdrop { background: none; }
+    .blip-box, .blip-box::before, .blip-box::after { print-color-adjust: exact; }
+    .blip-scrim, .blip-box::backdrop { background: none; }
   }
 }

@@ -1,29 +1,29 @@
 /*
  * Action button. A screen's one main action as a candy block floating at the bottom end of a phone screen: New
  * message, Add level. 24 pixels (48 px) high, inside the safe areas, and clear of a bottom bar it follows. With
- * <chu-fab> it can open a speed dial: two or three labelled mini buttons stacked above it, as a menu button.
+ * <blip-fab> it can open a speed dial: two or three labelled mini buttons stacked above it, as a menu button.
  *
- *   <button class="chu-box chu-fab" type="button" data-icon-only aria-label="New level"><svg class="chu-icon" …></svg></button>
- *   <button class="chu-box chu-fab" type="button"><svg class="chu-icon" …></svg>New level</button>
+ *   <button class="blip-box blip-fab" type="button" data-icon-only aria-label="New level"><svg class="blip-icon" …></svg></button>
+ *   <button class="blip-box blip-fab" type="button"><svg class="blip-icon" …></svg>New level</button>
  *
- *   <chu-fab class="chu-fab-dial">
- *     <button class="chu-box chu-fab" type="button" data-icon-only aria-label="Create">…</button>
- *     <div class="chu-fab-menu" role="menu" aria-label="Create" hidden>
- *       <button class="chu-box chu-fab-action" type="button" role="menuitem"><svg class="chu-icon" …></svg>Photo</button>
- *       <button class="chu-box chu-fab-action" type="button" role="menuitem"><svg class="chu-icon" …></svg>Note</button>
+ *   <blip-fab class="blip-fab-dial">
+ *     <button class="blip-box blip-fab" type="button" data-icon-only aria-label="Create">…</button>
+ *     <div class="blip-fab-menu" role="menu" aria-label="Create" hidden>
+ *       <button class="blip-box blip-fab-action" type="button" role="menuitem"><svg class="blip-icon" …></svg>Photo</button>
+ *       <button class="blip-box blip-fab-action" type="button" role="menuitem"><svg class="blip-icon" …></svg>Note</button>
  *     </div>
- *   </chu-fab>
+ *   </blip-fab>
  *
  *   data-icon-only      square, one icon (needs aria-label); without it, an icon and a label: the extended button
  *   data-tone           accent (default) | info | success | warning | danger | a candy name | neutral
  *   data-position       fixed (default): the bottom end of the screen | absolute: the bottom end of the nearest
  *                       positioned box (a map, a panel) | static: in the flow, where it is written
- *   --chu-fab-offset    how far above the bottom it floats, after the safe area: 8 pixels, or clear of a bottom bar
- *                       when it comes after one (.chu-bottom-bar ~ .chu-fab); set it to clear something else
- *   .chu-fab-dial       <chu-fab>: it floats instead of its button, and holds the stack
- *   .chu-fab-menu       the speed dial's stack, role="menu": the first item sits nearest the button. Hidden until
+ *   --blip-fab-offset    how far above the bottom it floats, after the safe area: 8 pixels, or clear of a bottom bar
+ *                       when it comes after one (.blip-bottom-bar ~ .blip-fab); set it to clear something else
+ *   .blip-fab-dial       <blip-fab>: it floats instead of its button, and holds the stack
+ *   .blip-fab-menu       the speed dial's stack, role="menu": the first item sits nearest the button. Hidden until
  *                       it opens; its buttons then step up into place, one after another.
- *   .chu-fab-action     a labelled mini button, 20 pixels high: an icon and one or two words. Marshmallow candy
+ *   .blip-fab-action     a labelled mini button, 20 pixels high: an icon and one or two words. Marshmallow candy
  *                       unless data-tone says otherwise.
  *
  * A label keeps one line while it fits; then it wraps between words and the button grows taller, and a word longer
@@ -33,124 +33,124 @@
  * speed dial's button (aria-expanded="true") stays sat in.
  */
 
-@layer chu.components {
-  :is(.chu-fab, .chu-fab-dial) {
+@layer blip.components {
+  :is(.blip-fab, .blip-fab-dial) {
     position: fixed;
-    inset-block-end: calc(var(--chu-fab-offset, var(--_chu-fab-clear, var(--chu-space-8))) + env(safe-area-inset-bottom, 0px));
-    inset-inline-end: calc(var(--chu-space-8) + env(safe-area-inset-right, 0px));
-    z-index: var(--chu-layer-sticky);
+    inset-block-end: calc(var(--blip-fab-offset, var(--_blip-fab-clear, var(--blip-space-8))) + env(safe-area-inset-bottom, 0px));
+    inset-inline-end: calc(var(--blip-space-8) + env(safe-area-inset-right, 0px));
+    z-index: var(--blip-layer-sticky);
   }
-  :is(.chu-fab, .chu-fab-dial):dir(rtl) { inset-inline-end: calc(var(--chu-space-8) + env(safe-area-inset-left, 0px)); }
-  :is(.chu-fab, .chu-fab-dial)[data-position="absolute"] { position: absolute; }
-  :is(.chu-fab, .chu-fab-dial)[data-position="static"] { position: relative; inset: auto; z-index: auto; }
-  .chu-fab-dial > .chu-fab { position: relative; inset: auto; z-index: auto; }
+  :is(.blip-fab, .blip-fab-dial):dir(rtl) { inset-inline-end: calc(var(--blip-space-8) + env(safe-area-inset-left, 0px)); }
+  :is(.blip-fab, .blip-fab-dial)[data-position="absolute"] { position: absolute; }
+  :is(.blip-fab, .blip-fab-dial)[data-position="static"] { position: relative; inset: auto; z-index: auto; }
+  .blip-fab-dial > .blip-fab { position: relative; inset: auto; z-index: auto; }
 
   /* After a bottom bar, it floats above it: the bar's 30 pixels, its 3 below and a gap of 6. Not where the bar steps
      aside for a sidebar. */
-  .chu-bottom-bar ~ :is(.chu-fab, .chu-fab-dial) { --_chu-fab-clear: calc(40 * var(--chu-pixel)); }
-  @container chu-shell (width >= 600px) {
-    .chu-bottom-bar[data-collapse="auto"] ~ :is(.chu-fab, .chu-fab-dial) { --_chu-fab-clear: var(--chu-space-8); }
+  .blip-bottom-bar ~ :is(.blip-fab, .blip-fab-dial) { --_blip-fab-clear: calc(40 * var(--blip-pixel)); }
+  @container blip-shell (width >= 600px) {
+    .blip-bottom-bar[data-collapse="auto"] ~ :is(.blip-fab, .blip-fab-dial) { --_blip-fab-clear: var(--blip-space-8); }
   }
 
-  .chu-fab {
-    --chu-r: 5;
-    --chu-shape: var(--chu-shape-5);
-    --chu-shape-inner: var(--chu-shape-5-inner);
-    --chu-band-top: 5;
-    --chu-band-bottom: 4;
+  .blip-fab {
+    --blip-r: 5;
+    --blip-shape: var(--blip-shape-5);
+    --blip-shape-inner: var(--blip-shape-5-inner);
+    --blip-band-top: 5;
+    --blip-band-bottom: 4;
 
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: calc(3 * var(--chu-pixel));
-    min-block-size: var(--chu-control-lg);
-    min-inline-size: var(--chu-control-lg);
+    gap: calc(3 * var(--blip-pixel));
+    min-block-size: var(--blip-control-lg);
+    min-inline-size: var(--blip-control-lg);
     /* Never wider than the screen, inside its margins. */
-    max-inline-size: calc(100vw - 2 * var(--chu-space-8));
-    padding: calc((var(--chu-control-lg) - var(--chu-icon-md)) / 2) calc(10 * var(--chu-pixel));
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-body);
-    font-weight: var(--chu-weight-bold);
+    max-inline-size: calc(100vw - 2 * var(--blip-space-8));
+    padding: calc((var(--blip-control-lg) - var(--blip-icon-md)) / 2) calc(10 * var(--blip-pixel));
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-body);
+    font-weight: var(--blip-weight-bold);
     line-height: 1;
-    letter-spacing: var(--chu-tracking-label);
+    letter-spacing: var(--blip-tracking-label);
     text-decoration: none;
     text-transform: uppercase;
     /* A label keeps one line while it fits; then it wraps between words, and a word longer than the room breaks. */
     overflow-wrap: anywhere;
     touch-action: manipulation;
   }
-  .chu-fab[data-icon-only] {
-    inline-size: var(--chu-control-lg);
+  .blip-fab[data-icon-only] {
+    inline-size: var(--blip-control-lg);
     padding: 0;
   }
-  .chu-fab > :is(.chu-icon, chu-icon):first-child:not(:only-child) { margin-inline-start: calc(-2 * var(--chu-pixel)); }
+  .blip-fab > :is(.blip-icon, blip-icon):first-child:not(:only-child) { margin-inline-start: calc(-2 * var(--blip-pixel)); }
 
   /* The speed dial. */
-  .chu-fab-dial {
+  .blip-fab-dial {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
   }
-  .chu-fab-menu {
+  .blip-fab-menu {
     position: absolute;
-    inset-block-end: calc(100% + var(--chu-space-4));
+    inset-block-end: calc(100% + var(--blip-space-4));
     inset-inline-end: 0;
     display: flex;
     flex-direction: column-reverse;
     align-items: flex-end;
-    gap: var(--chu-space-3);
+    gap: var(--blip-space-3);
     /* As wide as its widest item (not its button), up to the screen inside its margins. */
     inline-size: max-content;
-    max-inline-size: calc(100vw - 2 * var(--chu-space-8));
+    max-inline-size: calc(100vw - 2 * var(--blip-space-8));
     margin: 0;
     padding: 0;
   }
-  .chu-fab-menu[hidden] { display: none; }
+  .blip-fab-menu[hidden] { display: none; }
 
-  .chu-fab-action {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
-    --chu-band-top: 3;
-    --chu-band-bottom: 3;
+  .blip-fab-action {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
+    --blip-band-top: 3;
+    --blip-band-bottom: 3;
 
     display: inline-flex;
     align-items: center;
-    gap: calc(3 * var(--chu-pixel));
-    min-block-size: var(--chu-control-md);
-    padding: calc((var(--chu-control-md) - var(--chu-icon-md)) / 2) calc(8 * var(--chu-pixel));
-    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-small);
-    font-weight: var(--chu-weight-bold);
+    gap: calc(3 * var(--blip-pixel));
+    min-block-size: var(--blip-control-md);
+    padding: calc((var(--blip-control-md) - var(--blip-icon-md)) / 2) calc(8 * var(--blip-pixel));
+    margin: 0 var(--blip-pixel) var(--blip-pixel) 0;
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-small);
+    font-weight: var(--blip-weight-bold);
     line-height: 1;
-    letter-spacing: var(--chu-tracking-label);
+    letter-spacing: var(--blip-tracking-label);
     text-decoration: none;
     text-transform: uppercase;
     /* A label keeps one line while it fits; then it wraps between words, and a word longer than the room breaks. */
     overflow-wrap: anywhere;
     touch-action: manipulation;
   }
-  .chu-fab-action:not([data-tone]) {
-    --chu-tone: var(--chu-candy-cream);
-    --chu-tone-light: var(--chu-candy-cream-light);
-    --chu-tone-shade: var(--chu-candy-cream-shade);
-    --chu-tone-on: var(--chu-ink);
+  .blip-fab-action:not([data-tone]) {
+    --blip-tone: var(--blip-candy-cream);
+    --blip-tone-light: var(--blip-candy-cream-light);
+    --blip-tone-shade: var(--blip-candy-cream-shade);
+    --blip-tone-on: var(--blip-ink);
   }
-  .chu-fab-action > :is(.chu-icon, chu-icon):first-child:not(:only-child) { margin-inline-start: calc(-2 * var(--chu-pixel)); }
+  .blip-fab-action > :is(.blip-icon, blip-icon):first-child:not(:only-child) { margin-inline-start: calc(-2 * var(--blip-pixel)); }
 
   /* Opening: each mini button steps up three pixels into place, a frame after the one below it. */
-  .chu-fab-menu:not([hidden]) > * { animation: chu-fab-in calc(3 * var(--chu-duration-frame)) steps(3, jump-end) backwards; }
-  .chu-fab-menu:not([hidden]) > :nth-child(2) { animation-delay: var(--chu-duration-frame); }
-  .chu-fab-menu:not([hidden]) > :nth-child(3) { animation-delay: calc(2 * var(--chu-duration-frame)); }
-  .chu-fab-menu:not([hidden]) > :nth-child(4) { animation-delay: calc(3 * var(--chu-duration-frame)); }
+  .blip-fab-menu:not([hidden]) > * { animation: blip-fab-in calc(3 * var(--blip-duration-frame)) steps(3, jump-end) backwards; }
+  .blip-fab-menu:not([hidden]) > :nth-child(2) { animation-delay: var(--blip-duration-frame); }
+  .blip-fab-menu:not([hidden]) > :nth-child(3) { animation-delay: calc(2 * var(--blip-duration-frame)); }
+  .blip-fab-menu:not([hidden]) > :nth-child(4) { animation-delay: calc(3 * var(--blip-duration-frame)); }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-fab-menu:not([hidden]) > * { animation: none; }
+    .blip-fab-menu:not([hidden]) > * { animation: none; }
   }
 }
 
-@keyframes chu-fab-in {
-  0% { visibility: hidden; translate: 0 calc(3 * var(--chu-pixel)); }
+@keyframes blip-fab-in {
+  0% { visibility: hidden; translate: 0 calc(3 * var(--blip-pixel)); }
   100% { visibility: visible; translate: 0 0; }
 }

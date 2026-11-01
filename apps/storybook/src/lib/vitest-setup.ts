@@ -5,4 +5,4 @@
  */
 import { userEvent } from "vitest/browser";
 
-(globalThis as { __chuTrustedInput?: unknown }).__chuTrustedInput = userEvent;
+(globalThis as { __blipTrustedInput?: unknown }).__blipTrustedInput = userEvent;

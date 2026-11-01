@@ -1,6 +1,6 @@
 ---
 name: Loader
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: loader.css
 element: null
 react: Loader
@@ -19,18 +19,18 @@ is working, the button's own `aria-busy`.
 ## Usage
 
 ```html
-<span class="chu-loader" role="status">Loading World 2…</span>
-<span class="chu-loader" data-size="lg" role="status"><span class="chu-sr-only">Loading</span></span>
-<span class="chu-loader" data-variant="dots" role="status">Reconnecting</span>
+<span class="blip-loader" role="status">Loading World 2…</span>
+<span class="blip-loader" data-size="lg" role="status"><span class="blip-sr-only">Loading</span></span>
+<span class="blip-loader" data-variant="dots" role="status">Reconnecting</span>
 ```
 
 ## Anatomy
 
 1. **Spinner** (the loader's `::before`): eight dots on a pixel circle, masked out of a wheel of eighths, so every dot
    is one solid colour: the lit head in the tone, two trailing dots in the tone's light colour, five dim dots in
-   `--chu-line-soft`. The wheel turns 45 degrees a step, eight steps a turn (a nudge each, 640 ms).
+   `--blip-line-soft`. The wheel turns 45 degrees a step, eight steps a turn (a nudge each, 640 ms).
 2. **Dots** (`data-variant="dots"`): three square dots, shown one, two, three on the beat.
-3. **Label**: the loader's text, small and muted. Wrap it in `.chu-sr-only` to show the spinner alone.
+3. **Label**: the loader's text, small and muted. Wrap it in `.blip-sr-only` to show the spinner alone.
 
 ## Variants
 
@@ -52,9 +52,9 @@ is working, the button's own `aria-busy`.
 - `role="status"` makes the loader a polite live region whose words are its message. A live region is only
   listened to once it is in the page: put the loader (or an empty `role="status"` container) in the page before it
   has to speak, then add the text or the loader into it.
-- **Always words.** A spinner alone means nothing to a screen reader: give it visible text or `.chu-sr-only` text.
+- **Always words.** A spinner alone means nothing to a screen reader: give it visible text or `.blip-sr-only` text.
 - **Say when it is done** ("World 2 loaded") in the same region, or move focus to what loaded, then remove the
-  loader. Mark the region that is loading `aria-busy="true"` meanwhile (on a wrapper, not on a `.chu-box`).
+  loader. Mark the region that is loading `aria-busy="true"` meanwhile (on a wrapper, not on a `.blip-box`).
 - Nothing flashes: one small dot changes at a time, in colours of the same family.
 
 Loaders are not interactive: no keys.
@@ -74,5 +74,5 @@ Loaders are not interactive: no keys.
 
 | Class or attribute | |
 |---|---|
-| `.chu-loader` | The loader; its text is the label. |
+| `.blip-loader` | The loader; its text is the label. |
 | `data-variant`, `data-size`, `data-tone` | See Variants. |

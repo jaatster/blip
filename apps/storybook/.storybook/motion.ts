@@ -1,11 +1,11 @@
 /**
- * Lets the "Reduced motion" toolbar switch reach Blip's script: @jaatster/blip-core asks
+ * Lets the "Reduced motion" toolbar switch reach Blip's script: @blip/core asks
  * matchMedia("(prefers-reduced-motion: reduce)") once and reads `.matches` whenever it needs to know, so this wraps
- * that one query to answer true while the switch is on. It must load before @jaatster/blip-core (preview.ts imports it
+ * that one query to answer true while the switch is on. It must load before @blip/core (preview.ts imports it
  * first) and imports nothing from Blip itself.
  */
 const QUERY = /prefers-reduced-motion\s*:\s*reduce/;
-const FLAG = "data-chu-reduce-motion";
+const FLAG = "data-blip-reduce-motion";
 let forced = false;
 
 if (typeof window !== "undefined" && typeof window.matchMedia === "function") {
@@ -28,6 +28,6 @@ export function setReducedMotion(on: boolean): void {
   forced = on;
   const root = document.documentElement;
   root.toggleAttribute(FLAG, on);
-  if (on) root.style.setProperty("--chu-motion", "reduce");
-  else root.style.removeProperty("--chu-motion");
+  if (on) root.style.setProperty("--blip-motion", "reduce");
+  else root.style.removeProperty("--blip-motion");
 }

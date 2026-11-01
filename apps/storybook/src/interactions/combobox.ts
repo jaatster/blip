@@ -1,5 +1,5 @@
 /**
- * <chu-combobox> interaction tests, on the example's "Start in" field: typing filters the list and completes the first
+ * <blip-combobox> interaction tests, on the example's "Start in" field: typing filters the list and completes the first
  * match (the completion selected, so typing on replaces it), Enter takes it; the arrow keys open the list and move
  * the active option; Escape closes the list, then clears the field; no match says so.
  */
@@ -11,7 +11,7 @@ type Combobox = HTMLElement & { value: string; open: boolean };
 
 const startIn = (root: HTMLElement) => {
   const input = one<HTMLInputElement>(root, "input#cb-world");
-  const element = input.closest("chu-combobox") as Combobox;
+  const element = input.closest("blip-combobox") as Combobox;
   const listbox = document.getElementById(input.getAttribute("aria-controls") ?? "")!;
   const option = (label: string) => [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].find((o) => o.textContent === label)!;
   const shown = () => [...listbox.querySelectorAll<HTMLElement>('[role="option"]')].filter((o) => !o.hidden).map((o) => o.textContent);
@@ -29,7 +29,7 @@ export const FilterAndComplete: StoryObj = {
   name: "Type to filter, Enter to take the completion",
   play: async ({ canvasElement, step }) => {
     const { input, element, shown, activeOption } = startIn(canvasElement);
-    const changes = events<{ value: string }>(element, "chu-change");
+    const changes = events<{ value: string }>(element, "blip-change");
 
     await step("The field is a combobox over its own list", async () => {
       expect(input).toHaveAttribute("role", "combobox");

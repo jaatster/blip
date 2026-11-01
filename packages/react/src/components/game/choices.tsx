@@ -1,6 +1,6 @@
 /**
  * Choices: ChoiceList, Choice and ChoiceAside, the parts that go inside <Choices>, and <Choices> itself (generated
- * from its element, re-exported here). CSS from @jaatster/blip-game (choices.css).
+ * from its element, re-exported here). CSS from @blip/game (choices.css).
  */
 import { forwardRef } from "react";
 import { cx, type NativeProps, type Variant } from "../../internal/props.js";
@@ -27,13 +27,13 @@ export type ChoiceListProps = ChoiceListOwnProps & NativeProps<"ul", ChoiceListO
  *     </ChoiceList>
  *   </Choices>
  *
- * Renders `<ul class="chu-choices" role="list">`.
+ * Renders `<ul class="blip-choices" role="list">`.
  */
 export const ChoiceList = /*#__PURE__*/ forwardRef<HTMLUListElement, ChoiceListProps>(function ChoiceList(
   { font, role = "list", className, ...rest },
   ref,
 ) {
-  return <ul ref={ref} className={cx("chu-choices", className)} role={role} data-font={font} {...rest} />;
+  return <ul ref={ref} className={cx("blip-choices", className)} role={role} data-font={font} {...rest} />;
 });
 
 /** Own props of {@link Choice}. */
@@ -53,14 +53,14 @@ export type ChoiceProps = ChoiceOwnProps & NativeProps<"button", ChoiceOwnProps>
  *   <li><Choice value="trade">Trade the moon key</Choice></li>
  *   <li><Choice value="pay" aria-disabled>Pay 30 coins <ChoiceAside>You have 12</ChoiceAside></Choice></li>
  *
- * Renders `<button type="button" class="chu-box chu-choice" data-variant="ghost">`.
+ * Renders `<button type="button" class="blip-box blip-choice" data-variant="ghost">`.
  */
 export const Choice = /*#__PURE__*/ forwardRef<HTMLButtonElement, ChoiceProps>(function Choice(
   { type = "button", variant = "ghost", className, ...rest },
   ref,
 ) {
   return (
-    <button ref={ref} type={type} className={cx("chu-box chu-choice", className)} data-variant={variant} {...rest} />
+    <button ref={ref} type={type} className={cx("blip-box blip-choice", className)} data-variant={variant} {...rest} />
   );
 });
 
@@ -72,11 +72,11 @@ export type ChoiceAsideProps = NativeProps<"span">;
  *
  *   <Choice value="potion"><Sprite name="potion" />Red potion <ChoiceAside>12</ChoiceAside></Choice>
  *
- * Renders `<span class="chu-choice-aside">`.
+ * Renders `<span class="blip-choice-aside">`.
  */
 export const ChoiceAside = /*#__PURE__*/ forwardRef<HTMLSpanElement, ChoiceAsideProps>(function ChoiceAside(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-choice-aside", className)} {...rest} />;
+  return <span ref={ref} className={cx("blip-choice-aside", className)} {...rest} />;
 });

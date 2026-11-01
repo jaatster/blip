@@ -33,7 +33,7 @@ interface Spec {
   parts: Part[];
 }
 
-const icon = (name: string) => `<svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="${iconPath(name)}"/></svg>`;
+const icon = (name: string) => `<svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="${iconPath(name)}"/></svg>`;
 
 /** Where the tags stand: rows and columns this far in from the canvas's edges. */
 const EDGE = 5;
@@ -47,7 +47,7 @@ const SPECS: Record<string, Spec> = {
     h: 52,
     x: 20,
     y: 16,
-    html: `<span class="chu-box chu-button" style="inline-size:calc(56 * var(--chu-pixel))">${icon("play")}Play</span>`,
+    html: `<span class="blip-box blip-button" style="inline-size:calc(56 * var(--blip-pixel))">${icon("play")}Play</span>`,
     parts: [
       { n: 1, at: [40, 16], side: "top" },
       { n: 2, at: [66, 18], side: "top" },
@@ -68,10 +68,10 @@ const SPECS: Record<string, Spec> = {
     h: 120,
     x: 12,
     y: 12,
-    html: `<div class="chu-scrim docs-fig-scrim"><dialog class="chu-box chu-dialog" data-tone="danger" open data-chu-static style="inline-size: calc(88 * var(--chu-pixel))">
-  <header class="chu-dialog-header"><span class="chu-dialog-icon" aria-hidden="true"></span><p class="chu-dialog-title">Quit?</p><button class="chu-box chu-button chu-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only tabindex="-1"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button></header>
-  <div class="chu-dialog-body"><p>Lose 3 stars?</p></div>
-  <footer class="chu-dialog-footer"><button class="chu-box chu-button" type="button" data-size="sm" data-variant="soft" data-tone="neutral" tabindex="-1">Stay</button><button class="chu-box chu-button" type="button" data-size="sm" data-tone="danger" tabindex="-1">Quit</button></footer>
+    html: `<div class="blip-scrim docs-fig-scrim"><dialog class="blip-box blip-dialog" data-tone="danger" open data-blip-static style="inline-size: calc(88 * var(--blip-pixel))">
+  <header class="blip-dialog-header"><span class="blip-dialog-icon" aria-hidden="true"></span><p class="blip-dialog-title">Quit?</p><button class="blip-box blip-button blip-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only tabindex="-1"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button></header>
+  <div class="blip-dialog-body"><p>Lose 3 stars?</p></div>
+  <footer class="blip-dialog-footer"><button class="blip-box blip-button" type="button" data-size="sm" data-variant="soft" data-tone="neutral" tabindex="-1">Stay</button><button class="blip-box blip-button" type="button" data-size="sm" data-tone="danger" tabindex="-1">Quit</button></footer>
 </dialog></div>`,
     parts: [
       { n: 1, at: [22, 60], side: "left" },
@@ -94,7 +94,7 @@ export function anatomyFigure(slug: string): string | null {
   const marks = spec.parts.map(({ n, at: [ax, ay], side }) => {
     // The tag's centre, in figure pixels: on its row or column, in line with the pixel it points at.
     const [tx, ty] = side === "top" ? [ax, EDGE] : side === "bottom" ? [ax, h - 1 - EDGE] : side === "left" ? [EDGE, ay] : [w - 1 - EDGE, ay];
-    return `<span class="docs-fig-lead" data-side="${side}" style="--ax:${ax};--ay:${ay};--tx:${tx};--ty:${ty}"></span><span class="chu-box chu-tag docs-fig-tag" data-size="sm" style="--tx:${tx};--ty:${ty}">${n}</span>`;
+    return `<span class="docs-fig-lead" data-side="${side}" style="--ax:${ax};--ay:${ay};--tx:${tx};--ty:${ty}"></span><span class="blip-box blip-tag docs-fig-tag" data-size="sm" style="--tx:${tx};--ty:${ty}">${n}</span>`;
   });
-  return `<figure class="docs-fig" role="img" aria-label="${esc(spec.label)}"><div class="docs-fig-canvas" style="--w:${w};--h:${h}"><div class="docs-fig-subject" data-chu-pixel="figure" inert style="--x:${x};--y:${y}">${spec.html}</div>${marks.join("")}</div></figure>`;
+  return `<figure class="docs-fig" role="img" aria-label="${esc(spec.label)}"><div class="docs-fig-canvas" style="--w:${w};--h:${h}"><div class="docs-fig-subject" data-blip-pixel="figure" inert style="--x:${x};--y:${y}">${spec.html}</div>${marks.join("")}</div></figure>`;
 }

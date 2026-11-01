@@ -109,9 +109,9 @@ export const GROUPS: Group[] = [
   { id: "data", title: "Data", icon: "table", blurb: "Things to read and compare.", names: ["card", "tile", "list", "table", "avatar", "tag", "keycap", "stat", "divider", "accordion"] },
   { id: "phone", title: "Phone", icon: "smartphone", blurb: "Made for touch: sheets, swipes, wheels and a thumb's reach.", names: ["top-bar", "fab", "sheet", "action-sheet", "swipe-row", "refresh", "pager", "wheel"] },
   { id: "layout", title: "Layout", icon: "maximize", blurb: "Spacing and frames, in whole pixels.", names: ["stack", "cluster", "grid", "window"] },
-  { id: "game", title: "Game", icon: "gamepad", blurb: "@jaatster/blip-game: HUDs, dialogue, menus.", pkg: "game" },
-  { id: "blocks", title: "Blocks", icon: "desktop", blurb: "@jaatster/blip-blocks: website sections.", pkg: "blocks" },
-  { id: "effects", title: "Effects", icon: "sparkle", blurb: "@jaatster/blip-effects: worlds, transitions, text.", pkg: "effects" },
+  { id: "game", title: "Game", icon: "gamepad", blurb: "@blip/game: HUDs, dialogue, menus.", pkg: "game" },
+  { id: "blocks", title: "Blocks", icon: "desktop", blurb: "@blip/blocks: website sections.", pkg: "blocks" },
+  { id: "effects", title: "Effects", icon: "sparkle", blurb: "@blip/effects: worlds, transitions, text.", pkg: "effects" },
 ];
 
 // Docs that are foundations, not components: shown on their foundation page.
@@ -266,7 +266,7 @@ export interface ManifestEntry {
   cssVar: string;
   type: string;
   scheme: boolean;
-  /** Set by a palette: switched by data-chu-palette (palette.*, world.night.*). */
+  /** Set by a palette: switched by data-blip-palette (palette.*, world.night.*). */
   palette?: boolean;
   description?: string;
   unit?: string;
@@ -283,7 +283,7 @@ export interface SchemeBlock {
   selector: string;
 }
 /**
- * Where tokens.css sets each scheme's roles: the selector and the at-rules round it, inside @layer chu.tokens. A
+ * Where tokens.css sets each scheme's roles: the selector and the at-rules round it, inside @layer blip.tokens. A
  * theme that sets the same roles the same way, after tokens.css, wins in exactly the same places.
  */
 export function schemeBlocks(): SchemeBlock[] {
@@ -300,7 +300,7 @@ export function schemeBlocks(): SchemeBlock[] {
     if (c === "{") {
       const prelude = css.slice(start, i).trim().replace(/\s+/g, " ");
       stack.push(prelude);
-      const scheme = prelude.match(/\[data-chu-scheme="(day|sunset|night)"\]/)?.[1] ?? (/:not\(\[data-chu-scheme\]\)/.test(prelude) ? "night" : null);
+      const scheme = prelude.match(/\[data-blip-scheme="(day|sunset|night)"\]/)?.[1] ?? (/:not\(\[data-blip-scheme\]\)/.test(prelude) ? "night" : null);
       if (scheme && !prelude.startsWith("@")) out.push({ scheme: scheme as SchemeBlock["scheme"], wrap: stack.slice(0, -1).filter((p) => !/^@layer\b/.test(p)), selector: prelude });
       start = i + 1;
     } else if (c === "}") {
@@ -400,7 +400,7 @@ export interface Occurrence {
   fix?: string;
 }
 /**
- * Every CHU-XNNN code in the packages' source and build scripts, with the message it is raised with. The scan is
+ * Every BLIP-XNNN code in the packages' source and build scripts, with the message it is raised with. The scan is
  * scripts/diagnostics.mjs's, the same one that writes CONTRACT.md's table of codes.
  */
 export const diagnostics = (): Map<string, Occurrence[]> => scanDiagnostics(ROOT) as Map<string, Occurrence[]>;
@@ -423,6 +423,6 @@ export function headingsOf(source: string): string[] {
 
 /** Bramble the frog, as the game kit's own dialogue example draws him (an inline SVG sprite). */
 export function frog(): string {
-  const m = read("packages/game/examples/dialogue.html").match(/<div class="chu-box chu-dialogue-portrait"[^>]*>(<svg[\s\S]*?<\/svg>)<\/div>/);
+  const m = read("packages/game/examples/dialogue.html").match(/<div class="blip-box blip-dialogue-portrait"[^>]*>(<svg[\s\S]*?<\/svg>)<\/div>/);
   return m?.[1] ?? "";
 }

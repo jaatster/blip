@@ -43,7 +43,7 @@ for (const d of [...pages].sort((a, b) => a.meta.name.localeCompare(b.meta.name)
 }
 const stable = pages.filter((d) => d.meta.status === "stable").length;
 const beta = pages.filter((d) => d.meta.status === "beta").length;
-const statusRows = [...byGroup].filter(([, r]) => r.stable.length + r.beta.length + r.other.length).map(([group, r]) => [esc(group), r.stable.join(", ") || '<span class="chu-muted">None yet</span>', r.beta.join(", ") || '<span class="chu-muted">None</span>']);
+const statusRows = [...byGroup].filter(([, r]) => r.stable.length + r.beta.length + r.other.length).map(([group, r]) => [esc(group), r.stable.join(", ") || '<span class="blip-muted">None yet</span>', r.beta.join(", ") || '<span class="blip-muted">None</span>']);
 const published = false; // Nothing is on npm yet (README.md, "Status"). Set this when the first release is out.
 
 const H = (id: string, text: string) => ({ depth: 2, id, text });
@@ -51,15 +51,15 @@ const headings = [H("versions", "Versions"), H("status", "Stable and beta"), H("
 ---
 <Docs title="Versions and support" description="How Blip is versioned, what stable and beta mean, how things are deprecated, which browsers it supports, where the changelogs are and where to get help." headings={headings}>
   <header class="docs-page-head">
-    <h1 class="docs-page-title chu-display" data-scale="2">Versions and support</h1>
+    <h1 class="docs-page-title blip-display" data-scale="2">Versions and support</h1>
     <p class="docs-lede">What a version number promises, which parts may still change, the browsers Blip runs in, and where to ask when something goes wrong. The rules come from <a href={repoFile("CONTRACT.md")}>CONTRACT.md</a>, the public API that semantic versioning protects.</p>
   </header>
 
   {!published && (
-    <div class="chu-box chu-alert" data-tone="info" role="note">
-      <span class="chu-alert-icon" aria-hidden="true"></span>
-      <div class="chu-alert-body">
-        <p class="chu-alert-title">Nothing is published yet</p>
+    <div class="blip-box blip-alert" data-tone="info" role="note">
+      <span class="blip-alert-icon" aria-hidden="true"></span>
+      <div class="blip-alert-body">
+        <p class="blip-alert-title">Nothing is published yet</p>
         <p>The packages are 0.x and not on npm, and the repository is not public yet: the links to it on this page are where it will be. Until then, build Blip from its source.</p>
       </div>
     </div>

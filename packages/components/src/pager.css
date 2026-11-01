@@ -1,29 +1,29 @@
 /*
  * Pager. A row of full-width slides you swipe between, one at a time, with pixel dots under them: a scroll-snap
- * track, so it works without a script, its dots in-page links to the slides. <chu-pager> keeps the current dot in
+ * track, so it works without a script, its dots in-page links to the slides. <blip-pager> keeps the current dot in
  * step as you swipe, adds previous and next buttons and the arrow keys, and says which slide is showing. It never
  * moves by itself.
  *
- *   <chu-pager class="chu-pager" aria-label="New worlds">
- *     <div class="chu-pager-track" tabindex="0">
- *       <section class="chu-pager-slide" id="world-1" role="group" aria-roledescription="slide" aria-label="1 of 3">…</section>
- *       <section class="chu-pager-slide" id="world-2" role="group" aria-roledescription="slide" aria-label="2 of 3">…</section>
+ *   <blip-pager class="blip-pager" aria-label="New worlds">
+ *     <div class="blip-pager-track" tabindex="0">
+ *       <section class="blip-pager-slide" id="world-1" role="group" aria-roledescription="slide" aria-label="1 of 3">…</section>
+ *       <section class="blip-pager-slide" id="world-2" role="group" aria-roledescription="slide" aria-label="2 of 3">…</section>
  *       …
  *     </div>
- *     <div class="chu-pager-dots">
- *       <a class="chu-pager-dot" href="#world-1" aria-current="true" aria-label="Slide 1"></a>
- *       <a class="chu-pager-dot" href="#world-2" aria-label="Slide 2"></a>
+ *     <div class="blip-pager-dots">
+ *       <a class="blip-pager-dot" href="#world-1" aria-current="true" aria-label="Slide 1"></a>
+ *       <a class="blip-pager-dot" href="#world-2" aria-label="Slide 2"></a>
  *       …
  *     </div>
- *   </chu-pager>
+ *   </blip-pager>
  *
- *   .chu-pager-track     the row: it scrolls sideways and snaps to each slide, never past one. Give it tabindex="0"
- *                        (<chu-pager> does), so the keyboard can reach it when a slide has nothing to focus.
- *   .chu-pager-slide     one slide, the track's full width: a card, a picture, a step of a tour
- *   .chu-pager-dots      the dots, centred under the track; <chu-pager> puts its buttons at either end
- *   .chu-pager-dot       a link to one slide: a small dot in a 12-pixel target, muted. aria-current="true": the
+ *   .blip-pager-track     the row: it scrolls sideways and snaps to each slide, never past one. Give it tabindex="0"
+ *                        (<blip-pager> does), so the keyboard can reach it when a slide has nothing to focus.
+ *   .blip-pager-slide     one slide, the track's full width: a card, a picture, a step of a tour
+ *   .blip-pager-dots      the dots, centred under the track; <blip-pager> puts its buttons at either end
+ *   .blip-pager-dot       a link to one slide: a small dot in a 12-pixel target, muted. aria-current="true": the
  *                        slide showing, a wider candy pill with an ink edge.
- *   .chu-pager-prev, .chu-pager-next   the buttons <chu-pager> adds: soft, small, with pixel chevrons
+ *   .blip-pager-prev, .blip-pager-next   the buttons <blip-pager> adds: soft, small, with pixel chevrons
  *
  * On paper every slide prints, one under another, without the dots and buttons.
  *
@@ -31,118 +31,118 @@
  * the dots, it steps across in four even jumps (at once with reduced motion).
  */
 
-@layer chu.components {
-  .chu-pager {
+@layer blip.components {
+  .blip-pager {
     display: grid;
-    gap: var(--chu-space-2);
+    gap: var(--blip-space-2);
     min-inline-size: 0;
   }
 
-  .chu-pager-track {
+  .blip-pager-track {
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: 100%;
-    gap: var(--chu-space-6);
+    gap: var(--blip-space-6);
     /* Room for what the slides hold: drops and focus rings. The snap lines up with it. */
-    padding: var(--chu-space-3);
-    scroll-padding-inline: var(--chu-space-3);
+    padding: var(--blip-space-3);
+    scroll-padding-inline: var(--blip-space-3);
     overflow: auto hidden;
     overscroll-behavior-inline: contain;
     scroll-snap-type: inline mandatory;
     scrollbar-width: none;
     touch-action: manipulation;
   }
-  .chu-pager-track::-webkit-scrollbar { display: none; }
-  .chu-pager-track:focus-visible {
-    outline: var(--chu-pixel) solid var(--chu-focus);
-    box-shadow: 0 0 0 calc(2 * var(--chu-pixel)) var(--chu-focus-edge);
+  .blip-pager-track::-webkit-scrollbar { display: none; }
+  .blip-pager-track:focus-visible {
+    outline: var(--blip-pixel) solid var(--blip-focus);
+    box-shadow: 0 0 0 calc(2 * var(--blip-pixel)) var(--blip-focus-edge);
   }
 
-  .chu-pager-slide {
+  .blip-pager-slide {
     min-inline-size: 0;
     scroll-snap-align: start;
     scroll-snap-stop: always;
   }
 
-  .chu-pager-dots {
+  .blip-pager-dots {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-block-size: calc(12 * var(--chu-pixel));
+    min-block-size: calc(12 * var(--blip-pixel));
   }
-  .chu-pager-dots > .chu-pager-prev { margin: 0; margin-inline: var(--chu-space-3) auto; }
-  .chu-pager-dots > .chu-pager-next { margin: 0; margin-inline: auto var(--chu-space-3); }
-  .chu-pager-dots > :is(.chu-pager-prev, .chu-pager-next) { touch-action: manipulation; }
+  .blip-pager-dots > .blip-pager-prev { margin: 0; margin-inline: var(--blip-space-3) auto; }
+  .blip-pager-dots > .blip-pager-next { margin: 0; margin-inline: auto var(--blip-space-3); }
+  .blip-pager-dots > :is(.blip-pager-prev, .blip-pager-next) { touch-action: manipulation; }
 
-  .chu-pager-dot {
+  .blip-pager-dot {
     display: grid;
     place-items: center;
-    inline-size: calc(12 * var(--chu-pixel));
-    block-size: calc(12 * var(--chu-pixel));
-    color: var(--chu-text-muted);
+    inline-size: calc(12 * var(--blip-pixel));
+    block-size: calc(12 * var(--blip-pixel));
+    color: var(--blip-text-muted);
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
   }
   /* The dot: four pixels round, its corners dropped. */
-  .chu-pager-dot::before {
+  .blip-pager-dot::before {
     content: "";
     grid-area: 1 / 1;
-    inline-size: calc(4 * var(--chu-pixel));
-    block-size: calc(4 * var(--chu-pixel));
+    inline-size: calc(4 * var(--blip-pixel));
+    block-size: calc(4 * var(--blip-pixel));
     background-color: currentColor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h2v1h1v2H3v1H1V3H0V1h1z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   }
   @media (hover: hover) {
-    .chu-pager-dot:hover { color: var(--chu-text); }
+    .blip-pager-dot:hover { color: var(--blip-text); }
   }
-  .chu-pager-dot[data-chu-state~="hover"] { color: var(--chu-text); }
+  .blip-pager-dot[data-blip-state~="hover"] { color: var(--blip-text); }
   /* The slide showing: a pill ten pixels wide, an ink edge round the accent with its light band on top. */
-  .chu-pager-dot[aria-current="true"]::before {
-    inline-size: calc(10 * var(--chu-pixel));
-    block-size: calc(6 * var(--chu-pixel));
-    background-color: var(--chu-outline);
+  .blip-pager-dot[aria-current="true"]::before {
+    inline-size: calc(10 * var(--blip-pixel));
+    block-size: calc(6 * var(--blip-pixel));
+    background-color: var(--blip-outline);
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h8v1h1v4H9v1H1V5H0V1h1z'/%3E%3C/svg%3E");
   }
-  .chu-pager-dot[aria-current="true"]::after {
+  .blip-pager-dot[aria-current="true"]::after {
     content: "";
     /* Positioned, so it paints over the masked edge (a mask makes a layer of its own). */
     position: relative;
     grid-area: 1 / 1;
-    inline-size: calc(8 * var(--chu-pixel));
-    block-size: calc(4 * var(--chu-pixel));
-    background: linear-gradient(var(--chu-accent-light) 0 var(--chu-pixel), var(--chu-accent) 0);
+    inline-size: calc(8 * var(--blip-pixel));
+    block-size: calc(4 * var(--blip-pixel));
+    background: linear-gradient(var(--blip-accent-light) 0 var(--blip-pixel), var(--blip-accent) 0);
   }
-  .chu-pager-dot:is(:focus-visible, [data-chu-state~="focus"]) {
-    outline: var(--chu-pixel) solid var(--chu-focus);
-    box-shadow: 0 0 0 calc(2 * var(--chu-pixel)) var(--chu-focus-edge);
+  .blip-pager-dot:is(:focus-visible, [data-blip-state~="focus"]) {
+    outline: var(--blip-pixel) solid var(--blip-focus);
+    box-shadow: 0 0 0 calc(2 * var(--blip-pixel)) var(--blip-focus-edge);
   }
 
-  .chu-pager-prev > .chu-icon:empty,
-  .chu-pager-next > .chu-icon:empty {
+  .blip-pager-prev > .blip-icon:empty,
+  .blip-pager-next > .blip-icon:empty {
     background-color: currentColor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' shape-rendering='crispEdges'%3E%3Cpath d='M7 2h1v2H7v1H6v2h1v1h1v2H7V9H6V8H5V7H4V5h1V4h1V3h1z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   }
-  .chu-pager-next > .chu-icon:empty,
-  .chu-pager-prev:dir(rtl) > .chu-icon:empty { scale: -1 1; }
-  .chu-pager-next:dir(rtl) > .chu-icon:empty { scale: none; }
+  .blip-pager-next > .blip-icon:empty,
+  .blip-pager-prev:dir(rtl) > .blip-icon:empty { scale: -1 1; }
+  .blip-pager-next:dir(rtl) > .blip-icon:empty { scale: none; }
 
   /* Paper cannot scroll: every slide prints, one under another, and the dots and buttons, which only move the
      track, stay off. */
   @media print {
-    .chu-pager-track {
+    .blip-pager-track {
       grid-auto-flow: row;
-      gap: var(--chu-space-4);
+      gap: var(--blip-space-4);
       overflow: visible;
       scroll-snap-type: none;
     }
-    .chu-pager-dots { display: none; }
+    .blip-pager-dots { display: none; }
   }
 
   @media (forced-colors: active) {
-    .chu-pager-dot::before { forced-color-adjust: none; background-color: LinkText; }
-    .chu-pager-dot[aria-current="true"]::before { background-color: Highlight; }
-    .chu-pager-dot[aria-current="true"]::after { display: none; }
-    .chu-pager-dot:focus-visible { outline-color: Highlight; box-shadow: none; }
-    :is(.chu-pager-prev, .chu-pager-next) > .chu-icon:empty { forced-color-adjust: none; background-color: ButtonText; }
+    .blip-pager-dot::before { forced-color-adjust: none; background-color: LinkText; }
+    .blip-pager-dot[aria-current="true"]::before { background-color: Highlight; }
+    .blip-pager-dot[aria-current="true"]::after { display: none; }
+    .blip-pager-dot:focus-visible { outline-color: Highlight; box-shadow: none; }
+    :is(.blip-pager-prev, .blip-pager-next) > .blip-icon:empty { forced-color-adjust: none; background-color: ButtonText; }
   }
 }

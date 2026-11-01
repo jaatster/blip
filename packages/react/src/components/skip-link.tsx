@@ -1,5 +1,5 @@
 /**
- * Skip link: SkipLink. CSS from @jaatster/blip-components (skip-link.css).
+ * Skip link: SkipLink. CSS from @blip/components (skip-link.css).
  */
 import { forwardRef } from "react";
 import type { ElementType, ReactNode } from "react";
@@ -24,11 +24,11 @@ export type SkipLinkProps<T extends ElementType = "a"> = PolymorphicProps<T, Ski
  *
  *   <SkipLink href="#main">Skip to content</SkipLink>
  *
- * Renders `<a class="chu-box chu-skip-link">`; with `as`, your router's link.
+ * Renders `<a class="blip-box blip-skip-link">`; with `as`, your router's link.
  */
 export const SkipLink = /*#__PURE__*/ forwardRef(function SkipLink(
   { as: Tag = "a", tone, radius, className, ...rest }: PolymorphicProps<ElementType, Partial<SkipLinkOwnProps>>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("chu-box chu-skip-link", className)} {...box({ tone, radius })} {...rest} />;
+  return <Tag ref={ref} className={cx("blip-box blip-skip-link", className)} {...box({ tone, radius })} {...rest} />;
 }) as PolymorphicComponent<"a", SkipLinkOwnProps>;

@@ -1,60 +1,60 @@
 <!-- Pull to refresh: a leaderboard at rest with its Refresh button, then the same pulled part way (the arrow points
-     down), past the line (it flips), refreshing (the loader) and stepping back (Updated). data-chu-state draws
+     down), past the line (it flips), refreshing (the loader) and stepping back (Updated). data-blip-state draws
      each state; on a touch screen the first one pulls for real. -->
-<div class="chu-grid" data-min="128" style="align-items:start">
-  <div class="chu-stack" data-gap="4">
-    <chu-refresh class="chu-refresh" id="rf-live" style="block-size:calc(96*var(--chu-pixel))">
-      <div class="chu-refresh-scroller" tabindex="0" aria-label="Leaderboard">
-        <ol class="chu-box chu-list" role="list" data-density="compact" data-dividers aria-label="Leaderboard">
-          <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Pip Bloom</span></div><div class="chu-list-end">98,120</div></li>
-          <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Juno Reed</span></div><div class="chu-list-end">87,400</div></li>
-          <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Moss Tanaka</span></div><div class="chu-list-end">80,015</div></li>
-          <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Kit Lark</span></div><div class="chu-list-end">72,960</div></li>
-          <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Ivy Ono</span></div><div class="chu-list-end">66,300</div></li>
-          <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Bo Finch</span></div><div class="chu-list-end">51,280</div></li>
+<div class="blip-grid" data-min="128" style="align-items:start">
+  <div class="blip-stack" data-gap="4">
+    <blip-refresh class="blip-refresh" id="rf-live" style="block-size:calc(96*var(--blip-pixel))">
+      <div class="blip-refresh-scroller" tabindex="0" aria-label="Leaderboard">
+        <ol class="blip-box blip-list" role="list" data-density="compact" data-dividers aria-label="Leaderboard">
+          <li class="blip-list-item"><div class="blip-list-content"><span class="blip-list-title">Pip Bloom</span></div><div class="blip-list-end">98,120</div></li>
+          <li class="blip-list-item"><div class="blip-list-content"><span class="blip-list-title">Juno Reed</span></div><div class="blip-list-end">87,400</div></li>
+          <li class="blip-list-item"><div class="blip-list-content"><span class="blip-list-title">Moss Tanaka</span></div><div class="blip-list-end">80,015</div></li>
+          <li class="blip-list-item"><div class="blip-list-content"><span class="blip-list-title">Kit Lark</span></div><div class="blip-list-end">72,960</div></li>
+          <li class="blip-list-item"><div class="blip-list-content"><span class="blip-list-title">Ivy Ono</span></div><div class="blip-list-end">66,300</div></li>
+          <li class="blip-list-item"><div class="blip-list-content"><span class="blip-list-title">Bo Finch</span></div><div class="blip-list-end">51,280</div></li>
         </ol>
       </div>
-    </chu-refresh>
-    <button class="chu-box chu-button" type="button" data-variant="soft" data-size="sm" onclick="document.getElementById('rf-live').refresh()"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 2h2v1H4v2H3v2h1v1h2V7h1V5H5V4h1V3h1V2h2v1h1v1h1v1H9v3H8v1H7v1H3V9H2V8H1V4h1V3h1z"/></svg>Refresh</button>
+    </blip-refresh>
+    <button class="blip-box blip-button" type="button" data-variant="soft" data-size="sm" onclick="document.getElementById('rf-live').refresh()"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 2h2v1H4v2H3v2h1v1h2V7h1V5H5V4h1V3h1V2h2v1h1v1h1v1H9v3H8v1H7v1H3V9H2V8H1V4h1V3h1z"/></svg>Refresh</button>
   </div>
 
-  <chu-refresh class="chu-refresh" data-chu-state="pulling" style="block-size:calc(96*var(--chu-pixel))">
-    <div class="chu-refresh-scroller" tabindex="0" aria-label="Leaderboard, pulled">
-      <ol class="chu-box chu-list" role="list" data-density="compact" data-dividers aria-label="Leaderboard, pulled">
-        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Pip Bloom</span></div><div class="chu-list-end">98,120</div></li>
-        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Juno Reed</span></div><div class="chu-list-end">87,400</div></li>
-        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Moss Tanaka</span></div><div class="chu-list-end">80,015</div></li>
+  <blip-refresh class="blip-refresh" data-blip-state="pulling" style="block-size:calc(96*var(--blip-pixel))">
+    <div class="blip-refresh-scroller" tabindex="0" aria-label="Leaderboard, pulled">
+      <ol class="blip-box blip-list" role="list" data-density="compact" data-dividers aria-label="Leaderboard, pulled">
+        <li class="blip-list-item"><div class="blip-list-content"><span class="blip-list-title">Pip Bloom</span></div><div class="blip-list-end">98,120</div></li>
+        <li class="blip-list-item"><div class="blip-list-content"><span class="blip-list-title">Juno Reed</span></div><div class="blip-list-end">87,400</div></li>
+        <li class="blip-list-item"><div class="blip-list-content"><span class="blip-list-title">Moss Tanaka</span></div><div class="blip-list-end">80,015</div></li>
       </ol>
     </div>
-  </chu-refresh>
+  </blip-refresh>
 
-  <chu-refresh class="chu-refresh" data-chu-state="ready" style="block-size:calc(96*var(--chu-pixel))">
-    <div class="chu-refresh-scroller" tabindex="0" aria-label="Leaderboard, past the line">
-      <ol class="chu-box chu-list" role="list" data-density="compact" data-dividers aria-label="Leaderboard, past the line">
-        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Pip Bloom</span></div><div class="chu-list-end">98,120</div></li>
-        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Juno Reed</span></div><div class="chu-list-end">87,400</div></li>
-        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Moss Tanaka</span></div><div class="chu-list-end">80,015</div></li>
+  <blip-refresh class="blip-refresh" data-blip-state="ready" style="block-size:calc(96*var(--blip-pixel))">
+    <div class="blip-refresh-scroller" tabindex="0" aria-label="Leaderboard, past the line">
+      <ol class="blip-box blip-list" role="list" data-density="compact" data-dividers aria-label="Leaderboard, past the line">
+        <li class="blip-list-item"><div class="blip-list-content"><span class="blip-list-title">Pip Bloom</span></div><div class="blip-list-end">98,120</div></li>
+        <li class="blip-list-item"><div class="blip-list-content"><span class="blip-list-title">Juno Reed</span></div><div class="blip-list-end">87,400</div></li>
+        <li class="blip-list-item"><div class="blip-list-content"><span class="blip-list-title">Moss Tanaka</span></div><div class="blip-list-end">80,015</div></li>
       </ol>
     </div>
-  </chu-refresh>
+  </blip-refresh>
 
-  <chu-refresh class="chu-refresh" data-chu-state="refreshing" style="block-size:calc(96*var(--chu-pixel))">
-    <div class="chu-refresh-scroller" tabindex="0" aria-label="Leaderboard, refreshing" aria-busy="true">
-      <ol class="chu-box chu-list" role="list" data-density="compact" data-dividers aria-label="Leaderboard, refreshing">
-        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Pip Bloom</span></div><div class="chu-list-end">98,120</div></li>
-        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Juno Reed</span></div><div class="chu-list-end">87,400</div></li>
-        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Moss Tanaka</span></div><div class="chu-list-end">80,015</div></li>
+  <blip-refresh class="blip-refresh" data-blip-state="refreshing" style="block-size:calc(96*var(--blip-pixel))">
+    <div class="blip-refresh-scroller" tabindex="0" aria-label="Leaderboard, refreshing" aria-busy="true">
+      <ol class="blip-box blip-list" role="list" data-density="compact" data-dividers aria-label="Leaderboard, refreshing">
+        <li class="blip-list-item"><div class="blip-list-content"><span class="blip-list-title">Pip Bloom</span></div><div class="blip-list-end">98,120</div></li>
+        <li class="blip-list-item"><div class="blip-list-content"><span class="blip-list-title">Juno Reed</span></div><div class="blip-list-end">87,400</div></li>
+        <li class="blip-list-item"><div class="blip-list-content"><span class="blip-list-title">Moss Tanaka</span></div><div class="blip-list-end">80,015</div></li>
       </ol>
     </div>
-  </chu-refresh>
+  </blip-refresh>
 
-  <chu-refresh class="chu-refresh" data-chu-state="done" style="block-size:calc(96*var(--chu-pixel))">
-    <div class="chu-refresh-scroller" tabindex="0" aria-label="Leaderboard, updated">
-      <ol class="chu-box chu-list" role="list" data-density="compact" data-dividers aria-label="Leaderboard, updated">
-        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Juno Reed</span></div><div class="chu-list-end">99,050</div></li>
-        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Pip Bloom</span></div><div class="chu-list-end">98,120</div></li>
-        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Moss Tanaka</span></div><div class="chu-list-end">80,015</div></li>
+  <blip-refresh class="blip-refresh" data-blip-state="done" style="block-size:calc(96*var(--blip-pixel))">
+    <div class="blip-refresh-scroller" tabindex="0" aria-label="Leaderboard, updated">
+      <ol class="blip-box blip-list" role="list" data-density="compact" data-dividers aria-label="Leaderboard, updated">
+        <li class="blip-list-item"><div class="blip-list-content"><span class="blip-list-title">Juno Reed</span></div><div class="blip-list-end">99,050</div></li>
+        <li class="blip-list-item"><div class="blip-list-content"><span class="blip-list-title">Pip Bloom</span></div><div class="blip-list-end">98,120</div></li>
+        <li class="blip-list-item"><div class="blip-list-content"><span class="blip-list-title">Moss Tanaka</span></div><div class="blip-list-end">80,015</div></li>
       </ol>
     </div>
-  </chu-refresh>
+  </blip-refresh>
 </div>

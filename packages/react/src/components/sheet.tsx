@@ -1,7 +1,7 @@
 /**
  * Bottom sheet: SheetPanel and SheetHandle, the parts that go inside <Sheet>, and <Sheet> itself (generated from its
  * element, re-exported here). The title bar, title, close, body and footer are the dialog's parts. CSS from
- * @jaatster/blip-components (sheet.css).
+ * @blip/components (sheet.css).
  */
 import { forwardRef } from "react";
 import { cx, flag } from "../internal/props.js";
@@ -21,9 +21,9 @@ export interface SheetPanelOwnProps {
   snap?: string;
   /** The title bar's colour: accent (default), any tone or candy. `data-tone`. */
   tone?: Tone;
-  /** Corner radius in pixels, 0 by default: the sheet is part of the screen's edge. `data-chu-r`. */
+  /** Corner radius in pixels, 0 by default: the sheet is part of the screen's edge. `data-blip-r`. */
   radius?: Radius;
-  /** Drawn in the page flow (with `open`): docs, tests and screenshots only. `data-chu-static`. */
+  /** Drawn in the page flow (with `open`): docs, tests and screenshots only. `data-blip-static`. */
   static?: boolean;
 }
 
@@ -45,7 +45,7 @@ export type SheetPanelProps = SheetPanelOwnProps & Named & NativeProps<"dialog",
  *     </SheetPanel>
  *   </Sheet>
  *
- * Renders `<dialog class="chu-box chu-drawer chu-sheet">`.
+ * Renders `<dialog class="blip-box blip-drawer blip-sheet">`.
  */
 export const SheetPanel = /*#__PURE__*/ forwardRef<HTMLDialogElement, SheetPanelProps>(function SheetPanel(
   { snap, tone, radius, static: isStatic, className, ...rest },
@@ -54,11 +54,11 @@ export const SheetPanel = /*#__PURE__*/ forwardRef<HTMLDialogElement, SheetPanel
   return (
     <dialog
       ref={ref}
-      className={cx("chu-box chu-drawer chu-sheet", className)}
+      className={cx("blip-box blip-drawer blip-sheet", className)}
       data-snap={snap}
       data-tone={tone}
-      data-chu-r={radius}
-      data-chu-static={flag(isStatic)}
+      data-blip-r={radius}
+      data-blip-static={flag(isStatic)}
       {...rest}
     />
   );
@@ -73,7 +73,7 @@ export type SheetHandleProps = Omit<NativeProps<"button">, "children">;
  *
  *   <DialogHeader><SheetHandle /><DialogTitle id="route-title">Route</DialogTitle></DialogHeader>
  *
- * Renders `<button class="chu-box chu-sheet-handle" type="button" data-variant="ghost" aria-label="Resize">` around
+ * Renders `<button class="blip-box blip-sheet-handle" type="button" data-variant="ghost" aria-label="Resize">` around
  * an empty `<span>`.
  */
 export const SheetHandle = /*#__PURE__*/ forwardRef<HTMLButtonElement, SheetHandleProps>(function SheetHandle(
@@ -83,7 +83,7 @@ export const SheetHandle = /*#__PURE__*/ forwardRef<HTMLButtonElement, SheetHand
   return (
     <button
       ref={ref}
-      className={cx("chu-box chu-sheet-handle", className)}
+      className={cx("blip-box blip-sheet-handle", className)}
       type="button"
       data-variant="ghost"
       aria-label={label}

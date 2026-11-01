@@ -3,7 +3,7 @@
 // (palette.mjs), checked in Day, Sunset and Night, and exported. What a preset keeps as it is (Candy's Day and Sunset,
 // Grape's Night) stays until a lever that moves it is turned; a failing check holds the export back until the
 // person says to go ahead anyway.
-import { makePalette, oklch, toOklch, contrast } from "/chu/tokens/palette.mjs";
+import { makePalette, oklch, toOklch, contrast } from "/blip/tokens/palette.mjs";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -18,7 +18,7 @@ const AA = 4.5;
 const kebab = (path) => path.split(".").filter((p, i, a) => !(p === "base" && i === a.length - 1)).join("-");
 /** A palette value (#RRGGBB, or an alias to a primitive such as {candy.blue.base}) as a colour, and as CSS. */
 const hexOf = (v) => (v.startsWith("{") ? data.hexes[kebab(v.slice(1, -1))] : v.toUpperCase());
-const cssOf = (v) => (v.startsWith("{") ? `var(--chu-${kebab(v.slice(1, -1))})` : v.toUpperCase());
+const cssOf = (v) => (v.startsWith("{") ? `var(--blip-${kebab(v.slice(1, -1))})` : v.toUpperCase());
 const valid = (h) => /^#[0-9a-f]{6}$/i.test(h);
 const hueGap = (a, b) => { const d = Math.abs(a - b) % 360; return d > 180 ? 360 - d : d; };
 /** The weakest of every foreground on every background: the ratio and the pair. */
@@ -144,16 +144,16 @@ const srgb = (h) => ({ colorSpace: "srgb", components: [1, 3, 5].map((i) => Math
 const failing = (c) => SCHEMES.flatMap((s) => checks(s, c).filter((x) => !x.ok).map((x) => ({ ...x, scheme: s })));
 const failText = (f) => `${data.titles[f.scheme]}: ${f.label.toLowerCase()} ${f.ratio.toFixed(2)}:1`;
 const origin = () => `from ${preset(state.from).name}${changed() ? ", changed" : ""}`;
-const CANDY = "node_modules/@jaatster/blip-tokens/src/palettes/candy.tokens.json";
+const CANDY = "node_modules/@blip/tokens/src/palettes/candy.tokens.json";
 
 function css(v, fails) {
   return [
-    `/* My Blip palette, ${origin()}. Load it after @jaatster/blip-tokens/tokens.css: a :root rule in the same layer, loaded later, wins. */`,
+    `/* My Blip palette, ${origin()}. Load it after @blip/tokens/tokens.css: a :root rule in the same layer, loaded later, wins. */`,
     ...(fails.length ? [`/* Under WCAG 2.2 AA, exported anyway: ${fails.map(failText).join("; ")}. */`] : []),
-    "@layer chu.tokens {",
+    "@layer blip.tokens {",
     "  :root {",
-    ...ordered(v).map(([path, x]) => `    --chu-${kebab(path)}: ${cssOf(x)};`),
-    ...(state.pixel !== "2" ? [`    --chu-pixel: ${state.pixel}px;`] : []),
+    ...ordered(v).map(([path, x]) => `    --blip-${kebab(path)}: ${cssOf(x)};`),
+    ...(state.pixel !== "2" ? [`    --blip-pixel: ${state.pixel}px;`] : []),
     "  }",
     "}",
   ].join("\n") + "\n";
@@ -183,7 +183,7 @@ function resolver() {
     version: "2025.10",
     modifiers: {
       palette: { contexts: { candy: [{ $ref: CANDY }], mine: [{ $ref: CANDY }, { $ref: "my-palette.tokens.json" }] }, default: "mine" },
-      pixel: { contexts: Object.fromEntries(["2", "3", "4"].map((p) => [p, [{ $ref: `node_modules/@jaatster/blip-tokens/src/pixel/${p}.tokens.json` }]])), default: state.pixel },
+      pixel: { contexts: Object.fromEntries(["2", "3", "4"].map((p) => [p, [{ $ref: `node_modules/@blip/tokens/src/pixel/${p}.tokens.json` }]])), default: state.pixel },
     },
   }, null, 2) + "\n";
 }
@@ -212,18 +212,18 @@ function levers() {
 let worldDrawn = "", worldTimer;
 function render() {
   const s = state.scheme, v = values(), c = colours(v);
-  const vars = Object.fromEntries(Object.entries({ ...data.defaults, ...v }).map(([k, x]) => [`--chu-${kebab(k)}`, cssOf(x)]));
+  const vars = Object.fromEntries(Object.entries({ ...data.defaults, ...v }).map(([k, x]) => [`--blip-${kebab(k)}`, cssOf(x)]));
   // The palette goes where each preview sets its scheme: the roles there read it.
   for (const el of [...$$("[data-strip]"), preview]) for (const [k, x] of Object.entries(vars)) el.style.setProperty(k, x);
-  preview.dataset.chuScheme = s;
-  if (state.pixel === "2") delete preview.dataset.chuPixel;
-  else preview.dataset.chuPixel = state.pixel;
+  preview.dataset.blipScheme = s;
+  if (state.pixel === "2") delete preview.dataset.blipPixel;
+  else preview.dataset.blipPixel = state.pixel;
   // A world keeps the colours it first read: a fresh one, once the levers rest, draws the new sky.
-  const sky = Object.entries(vars).filter(([k]) => k.startsWith("--chu-world-night-")).join();
+  const sky = Object.entries(vars).filter(([k]) => k.startsWith("--blip-world-night-")).join();
   if (sky !== worldDrawn) {
     worldDrawn = sky;
     clearTimeout(worldTimer);
-    worldTimer = setTimeout(() => { const w = $(".tb-night chu-world"); w?.replaceWith(w.cloneNode(true)); }, 200);
+    worldTimer = setTimeout(() => { const w = $(".tb-night blip-world"); w?.replaceWith(w.cloneNode(true)); }, 200);
   }
 
   // The cards, and what the chosen one is.
@@ -238,7 +238,7 @@ function render() {
     const id = input.dataset.lever, x = at[id];
     if (document.activeElement !== input) input.value = String(x);
     const min = Number(input.min), max = Number(input.max);
-    input.style.setProperty("--chu-slider-value", String(Math.min(1, Math.max(0, (x - min) / (max - min)))));
+    input.style.setProperty("--blip-slider-value", String(Math.min(1, Math.max(0, (x - min) / (max - min)))));
     const [shown, said] = FORMAT[id](x);
     input.nextElementSibling.textContent = shown;
     input.setAttribute("aria-valuetext", said);
@@ -252,7 +252,7 @@ function render() {
 
   // The candy worked out, in the scheme on show, and Night's page.
   const box = $(".tb-derived-box"), A = (k) => c[`palette.${s}.accent.${k}`];
-  for (const [k, x] of Object.entries({ "--chu-accent": A("base"), "--chu-accent-light": A("light"), "--chu-accent-shade": A("shade"), "--chu-accent-on": s === "night" ? c["palette.night.ink"] : data.fixed[s].ink })) box.style.setProperty(k, x);
+  for (const [k, x] of Object.entries({ "--blip-accent": A("base"), "--blip-accent-light": A("light"), "--blip-accent-shade": A("shade"), "--blip-accent-on": s === "night" ? c["palette.night.ink"] : data.fixed[s].ink })) box.style.setProperty(k, x);
   for (const k of ["light", "base", "shade", "text"]) {
     $(`[data-v="${k}"]`).textContent = A(k);
     $(`.tb-dot[data-k="${k}"]`).style.background = A(k);
@@ -265,10 +265,10 @@ function render() {
   }
 
   // What it looks like that it should not.
-  $(".tb-warnings").innerHTML = warnings(s, c).map((w) => `<div class="chu-box chu-alert tb-warn" data-tone="${w.tone}" data-warn="${w.id}"><span class="chu-alert-icon" aria-hidden="true"></span><div class="chu-alert-body"><p>${w.text}</p></div></div>`).join("");
+  $(".tb-warnings").innerHTML = warnings(s, c).map((w) => `<div class="blip-box blip-alert tb-warn" data-tone="${w.tone}" data-warn="${w.id}"><span class="blip-alert-icon" aria-hidden="true"></span><div class="blip-alert-body"><p>${w.text}</p></div></div>`).join("");
 
   const list = checks(s, c);
-  $(".tb-checks").innerHTML = list.map((x) => `<li data-pass="${x.ok}"><span class="tb-check-sample" style="color:${x.fg};background:${x.bg}">Aa</span><span>${x.label}${x.min !== AA ? ` (${x.min}:1)` : ""}</span><span class="docs-num">${x.ratio.toFixed(2)}:1</span><span class="chu-box chu-tag" data-size="sm" data-tone="${x.ok ? "success" : "danger"}">${x.ok ? "Pass" : "Fail"}</span></li>`).join("");
+  $(".tb-checks").innerHTML = list.map((x) => `<li data-pass="${x.ok}"><span class="tb-check-sample" style="color:${x.fg};background:${x.bg}">Aa</span><span>${x.label}${x.min !== AA ? ` (${x.min}:1)` : ""}</span><span class="docs-num">${x.ratio.toFixed(2)}:1</span><span class="blip-box blip-tag" data-size="sm" data-tone="${x.ok ? "success" : "danger"}">${x.ok ? "Pass" : "Fail"}</span></li>`).join("");
   const fails = failing(c), total = SCHEMES.reduce((n, sc) => n + checks(sc, c).length, 0);
   $(".tb-summary").textContent = fails.length ? `${fails.length} of ${total} checks fail: ${fails.map(failText).join("; ")}.` : `All ${total} checks pass, in Day, Sunset and Night.`;
   $(".tb-summary").dataset.pass = String(!fails.length);
@@ -280,7 +280,7 @@ function render() {
   $(".tb-blocked-list").innerHTML = fails.map((f) => `<li>${esc(failText(f))}</li>`).join("");
   $(".tb-override").checked = state.override;
   $(".tb-export").dataset.blocked = String(blocked);
-  for (const b of $$(".tb-out-actions .chu-button")) b.setAttribute("aria-disabled", String(blocked));
+  for (const b of $$(".tb-out-actions .blip-button")) b.setAttribute("aria-disabled", String(blocked));
   const held = "/* Held back: a contrast check fails (see above). Turn a lever, or say to export anyway. */\n";
   $("#tb-out-css").textContent = blocked ? held : css(v, fails);
   $("#tb-out-tokens").textContent = blocked ? held : tokensFile(v, fails);
@@ -291,12 +291,12 @@ function render() {
 // ------------------------------------------------------------------ controls
 
 const schemeControl = $(".tb-scheme"), pixelControl = $(".tb-pixel");
-customElements.whenDefined("chu-segmented").then(() => {
+customElements.whenDefined("blip-segmented").then(() => {
   schemeControl.value = state.scheme;
   pixelControl.value = state.pixel;
 });
-schemeControl.addEventListener("chu-change", (e) => { state.scheme = e.detail.value; render(); });
-pixelControl.addEventListener("chu-change", (e) => { state.pixel = e.detail.value; render(); });
+schemeControl.addEventListener("blip-change", (e) => { state.scheme = e.detail.value; render(); });
+pixelControl.addEventListener("blip-change", (e) => { state.pixel = e.detail.value; render(); });
 // Picking a palette starts from it; picking the one already chosen, once the levers have moved, starts from it again.
 for (const r of $$('input[name="tb-palette"]')) {
   r.addEventListener("click", () => {
@@ -338,7 +338,7 @@ function custom(hex) {
 $("#tb-hex").addEventListener("input", (e) => {
   let v = e.target.value.trim();
   if (!v.startsWith("#")) v = `#${v}`;
-  const wrap = e.target.closest(".chu-input");
+  const wrap = e.target.closest(".blip-input");
   if (!valid(v)) { wrap.dataset.tone = "danger"; e.target.setAttribute("aria-invalid", "true"); return; }
   delete wrap.dataset.tone;
   e.target.removeAttribute("aria-invalid");
@@ -363,7 +363,7 @@ for (const b of $$(".tb-download")) {
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     // The next step, once the files are on disk.
     $(".tb-downloaded").innerHTML = b.dataset.file.endsWith(".css")
-      ? `Downloaded ${esc(b.dataset.file)}. Load it after <code class="docs-inline-code">@jaatster/blip-tokens/tokens.css</code>.`
+      ? `Downloaded ${esc(b.dataset.file)}. Load it after <code class="docs-inline-code">@blip/tokens/tokens.css</code>.`
       : `Downloaded ${esc(b.dataset.file)}. With both JSON files beside <code class="docs-inline-code">node_modules</code>, check and build them: <code class="docs-inline-code">npx blip-tokens my-palette.resolver.json</code>.`;
   });
 }

@@ -1,7 +1,7 @@
 /**
  * Toast: Toast, ToastIcon, ToastBody, ToastTitle, ToastActions, ToastAction, ToastClose, ToastTimer and StaticToaster,
  * the parts that go inside <Toaster>, and <Toaster> itself (generated from its element, re-exported here). CSS from
- * @jaatster/blip-components (toast.css). Toasts drawn by hand, for docs and screenshots: live toasts come from toast() and
+ * @blip/components (toast.css). Toasts drawn by hand, for docs and screenshots: live toasts come from toast() and
  * <Toaster>.
  */
 import { forwardRef } from "react";
@@ -28,7 +28,7 @@ export type ToastProps = ToastOwnProps & Named & NativeProps<"div", ToastOwnProp
 /**
  * A toast drawn by hand, for a {@link StaticToaster} in docs and screenshots. Live toasts come from toast() (or a
  * `<Toaster>`'s add()), which builds this markup, announces it, times it and stacks it. A group named by its title.
- * Renders `<div class="chu-box chu-toast" role="group">`.
+ * Renders `<div class="blip-box blip-toast" role="group">`.
  *
  *   <Toast tone="success" aria-label="Achievement unlocked">
  *     <ToastIcon />
@@ -46,7 +46,7 @@ export const Toast = /*#__PURE__*/ forwardRef<HTMLDivElement, ToastProps>(functi
   ref,
 ) {
   return (
-    <div ref={ref} className={cx("chu-box chu-toast", className)} {...box({ variant, tone })} role={role} {...rest} />
+    <div ref={ref} className={cx("blip-box blip-toast", className)} {...box({ variant, tone })} role={role} {...rest} />
   );
 });
 
@@ -55,31 +55,31 @@ export type ToastIconProps = NativeProps<"span">;
 
 /**
  * The toast's sign: the tone's 12 x 12 glyph, on toasts with a tone only. Decorative. Renders `<span
- * class="chu-toast-icon" aria-hidden="true">`.
+ * class="blip-toast-icon" aria-hidden="true">`.
  *
  *   <ToastIcon />
  */
 export const ToastIcon = /*#__PURE__*/ forwardRef<HTMLSpanElement, ToastIconProps>(function ToastIcon({ className, ...rest }, ref) {
-  return <span ref={ref} className={cx("chu-toast-icon", className)} aria-hidden {...rest} />;
+  return <span ref={ref} className={cx("blip-toast-icon", className)} aria-hidden {...rest} />;
 });
 
 /** Props for {@link ToastBody}. */
 export type ToastBodyProps = NativeProps<"div">;
 
 /**
- * The toast's content column: title, text, action. Renders `<div class="chu-toast-body">`.
+ * The toast's content column: title, text, action. Renders `<div class="blip-toast-body">`.
  *
  *   <ToastBody><ToastTitle>Level clear!</ToastTitle><p>3 of 3 stars, 2:41.</p></ToastBody>
  */
 export const ToastBody = /*#__PURE__*/ forwardRef<HTMLDivElement, ToastBodyProps>(function ToastBody({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("chu-toast-body", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-toast-body", className)} {...rest} />;
 });
 
 /** Props for {@link ToastTitle}. */
 export type ToastTitleProps = NativeProps<"p">;
 
 /**
- * The toast's title, first and short: "Saved to slot 2", not "Success!". Renders `<p class="chu-toast-title">`.
+ * The toast's title, first and short: "Saved to slot 2", not "Success!". Renders `<p class="blip-toast-title">`.
  *
  *   <ToastTitle>Saved to slot 2</ToastTitle>
  */
@@ -87,14 +87,14 @@ export const ToastTitle = /*#__PURE__*/ forwardRef<HTMLParagraphElement, ToastTi
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("chu-toast-title", className)} {...rest} />;
+  return <p ref={ref} className={cx("blip-toast-title", className)} {...rest} />;
 });
 
 /** Props for {@link ToastActions}. */
 export type ToastActionsProps = NativeProps<"div">;
 
 /**
- * The row holding the toast's one action. Renders `<div class="chu-toast-actions">`.
+ * The row holding the toast's one action. Renders `<div class="blip-toast-actions">`.
  *
  *   <ToastActions><ToastAction>Undo</ToastAction></ToastActions>
  */
@@ -102,7 +102,7 @@ export const ToastActions = /*#__PURE__*/ forwardRef<HTMLDivElement, ToastAction
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-toast-actions", className)} {...rest} />;
+  return <div ref={ref} className={cx("blip-toast-actions", className)} {...rest} />;
 });
 
 /** Props for {@link ToastAction}. */
@@ -110,7 +110,7 @@ export type ToastActionProps = NativeProps<"button">;
 
 /**
  * The toast's action: a small outline button named for what it does ("Undo", "View", "Try again"). The toast
- * leaves, so it must also be reachable another way. Renders `<button class="chu-box chu-button chu-toast-action"
+ * leaves, so it must also be reachable another way. Renders `<button class="blip-box blip-button blip-toast-action"
  * type="button" data-size="sm" data-variant="outline">`.
  *
  *   <ToastAction onClick={undo}>Undo</ToastAction>
@@ -122,7 +122,7 @@ export const ToastAction = /*#__PURE__*/ forwardRef<HTMLButtonElement, ToastActi
   return (
     <button
       ref={ref}
-      className={cx("chu-box chu-button chu-toast-action", className)}
+      className={cx("blip-box blip-button blip-toast-action", className)}
       type={type}
       {...box({ variant: "outline" })}
       data-size="sm"
@@ -136,7 +136,7 @@ export type ToastCloseProps = NativeProps<"button", { children?: never }>;
 
 /**
  * The toast's dismiss button: a ghost icon button with the pixel cross, named "Dismiss" unless you name it
- * otherwise. Renders `<button class="chu-box chu-button chu-toast-close" type="button" data-variant="ghost"
+ * otherwise. Renders `<button class="blip-box blip-button blip-toast-close" type="button" data-variant="ghost"
  * data-size="sm" data-icon-only aria-label="Dismiss">` holding the cross.
  *
  *   <ToastClose />
@@ -148,7 +148,7 @@ export const ToastClose = /*#__PURE__*/ forwardRef<HTMLButtonElement, ToastClose
   return (
     <button
       ref={ref}
-      className={cx("chu-box chu-button chu-toast-close", className)}
+      className={cx("blip-box blip-button blip-toast-close", className)}
       type={type}
       {...box({ variant: "ghost" })}
       data-size="sm"
@@ -156,7 +156,7 @@ export const ToastClose = /*#__PURE__*/ forwardRef<HTMLButtonElement, ToastClose
       aria-label={label}
       {...rest}
     >
-      <span className="chu-icon" data-glyph="close" aria-hidden />
+      <span className="blip-icon" data-glyph="close" aria-hidden />
     </button>
   );
 });
@@ -167,7 +167,7 @@ export type ToastTimerProps = NativeProps<"span", { children?: never }>;
 /**
  * The countdown: a two-pixel strip over the toast's bottom band that steps down in eight whole-pixel steps. Leave
  * it out of a toast that stays (danger toasts stay until dismissed). In a static toaster it holds still, full.
- * Renders `<span class="chu-toast-timer" aria-hidden="true">`.
+ * Renders `<span class="blip-toast-timer" aria-hidden="true">`.
  *
  *   <ToastTimer />
  */
@@ -175,7 +175,7 @@ export const ToastTimer = /*#__PURE__*/ forwardRef<HTMLSpanElement, ToastTimerPr
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("chu-toast-timer", className)} aria-hidden {...rest} />;
+  return <span ref={ref} className={cx("blip-toast-timer", className)} aria-hidden {...rest} />;
 });
 
 /** Props for {@link StaticToaster}. */
@@ -184,7 +184,7 @@ export type StaticToasterProps = Named & NativeProps<"div">;
 /**
  * Toasts in the page flow instead of a corner, for docs and screenshots: nothing times out, nothing is announced.
  * A region, so give each its own name. For real toasts, put a `<Toaster>` in your layout and call toast(). Renders
- * `<div class="chu-toaster" data-chu-static role="region">`.
+ * `<div class="blip-toaster" data-blip-static role="region">`.
  *
  *   <StaticToaster aria-label="Notifications, example">
  *     <Toast aria-label="Saved to slot 2">
@@ -197,5 +197,5 @@ export const StaticToaster = /*#__PURE__*/ forwardRef<HTMLDivElement, StaticToas
   { role = "region", className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("chu-toaster", className)} data-chu-static="" role={role} {...rest} />;
+  return <div ref={ref} className={cx("blip-toaster", className)} data-blip-static="" role={role} {...rest} />;
 });

@@ -8,7 +8,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "The modal behaviour <chu-dialog> and <chu-drawer> share, around the one native <dialog> inside the element.",
+          "description": "The modal behaviour <blip-dialog> and <blip-drawer> share, around the one native <dialog> inside the element.",
           "name": "Overlay",
           "members": [
             {
@@ -81,7 +81,7 @@
                   }
                 }
               ],
-              "description": "Asks to close: fires chu-before-close, which a listener may cancel. Resolves true if it closed."
+              "description": "Asks to close: fires blip-before-close, which a listener may cancel. Resolves true if it closed."
             },
             {
               "kind": "method",
@@ -116,21 +116,21 @@
                 "text": "CustomEvent<void>"
               },
               "description": "After it opens (also when opened directly with showModal()).",
-              "name": "chu-open"
+              "name": "blip-open"
             },
             {
               "type": {
                 "text": "CustomEvent<CloseDetail>"
               },
               "description": "Before any close: Escape, the scrim, a close button, a method=\"dialog\" submit or requestClose(). Cancelable: preventDefault() keeps it open.",
-              "name": "chu-before-close"
+              "name": "blip-before-close"
             },
             {
               "type": {
                 "text": "CustomEvent<CloseDetail>"
               },
               "description": "After it has closed and given focus back.",
-              "name": "chu-close"
+              "name": "blip-close"
             }
           ],
           "attributes": [
@@ -152,7 +152,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           }
         }
       ],
@@ -173,7 +173,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "An action sheet: the dialog's modal behaviour around one <dialog class=\"chu-box chu-drawer chu-action-sheet\">. The\nchoice comes back as the value of the button that closed it (returnValue, and chu-close's detail.returnValue); it is\nempty when the sheet was dismissed, since each opening starts with an empty returnValue.",
+          "description": "An action sheet: the dialog's modal behaviour around one <dialog class=\"blip-box blip-drawer blip-action-sheet\">. The\nchoice comes back as the value of the button that closed it (returnValue, and blip-close's detail.returnValue); it is\nempty when the sheet was dismissed, since each opening starts with an empty returnValue.",
           "name": "BlipActionSheet",
           "members": [
             {
@@ -262,7 +262,7 @@
                   }
                 }
               ],
-              "description": "Asks to close: fires chu-before-close, which a listener may cancel. Resolves true if it closed.",
+              "description": "Asks to close: fires blip-before-close, which a listener may cancel. Resolves true if it closed.",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -303,8 +303,8 @@
             "name": "Overlay",
             "module": "src/_overlay.ts"
           },
-          "summary": "A modal column of choices around one <dialog class=\"chu-box chu-drawer chu-action-sheet\">.",
-          "tagName": "chu-action-sheet",
+          "summary": "A modal column of choices around one <dialog class=\"blip-box blip-drawer blip-action-sheet\">.",
+          "tagName": "blip-action-sheet",
           "customElement": true,
           "attributes": [
             {
@@ -337,7 +337,7 @@
                 "text": "CustomEvent<void>"
               },
               "description": "After it opens (also when opened directly with showModal()).",
-              "name": "chu-open",
+              "name": "blip-open",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -348,7 +348,7 @@
                 "text": "CustomEvent<CloseDetail>"
               },
               "description": "Before any close: Escape, the scrim, a close button, a method=\"dialog\" submit or requestClose(). Cancelable: preventDefault() keeps it open.",
-              "name": "chu-before-close",
+              "name": "blip-before-close",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -359,7 +359,7 @@
                 "text": "CustomEvent<CloseDetail>"
               },
               "description": "After it has closed and given focus back.",
-              "name": "chu-close",
+              "name": "blip-close",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -379,7 +379,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-action-sheet",
+          "name": "blip-action-sheet",
           "declaration": {
             "name": "BlipActionSheet",
             "module": "src/action-sheet.ts"
@@ -447,21 +447,21 @@
                 "text": "CustomEvent<{ value: string }>"
               },
               "description": "Once per new value: a suggestion taken, the field cleared, or typed text committed.",
-              "name": "chu-change"
+              "name": "blip-change"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "The list of suggestions opened.",
-              "name": "chu-open"
+              "name": "blip-open"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "The list of suggestions closed.",
-              "name": "chu-close"
+              "name": "blip-close"
             }
           ],
           "attributes": [
@@ -507,10 +507,10 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "A text field with a list of suggestions.",
-          "tagName": "chu-combobox",
+          "tagName": "blip-combobox",
           "customElement": true
         }
       ],
@@ -525,7 +525,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-combobox",
+          "name": "blip-combobox",
           "declaration": {
             "name": "BlipCombobox",
             "module": "src/combobox.ts"
@@ -602,21 +602,21 @@
                 "text": "CustomEvent<ActionDetail>"
               },
               "description": "An option was chosen (Enter or a click), before it runs. Cancelable: preventDefault() keeps the palette open.",
-              "name": "chu-action"
+              "name": "blip-action"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "The palette opened.",
-              "name": "chu-open"
+              "name": "blip-open"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "The palette closed.",
-              "name": "chu-close"
+              "name": "blip-close"
             }
           ],
           "attributes": [
@@ -639,10 +639,10 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "A command palette: search and run commands from the keyboard.",
-          "tagName": "chu-command",
+          "tagName": "blip-command",
           "customElement": true
         }
       ],
@@ -665,7 +665,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-command",
+          "name": "blip-command",
           "declaration": {
             "name": "BlipCommand",
             "module": "src/command.ts"
@@ -679,14 +679,14 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A native <dialog> with Blip's manners: opened as a modal, every close through a cancelable chu-before-close\nand the stepped exit, focus returned to the opener, and an optional light dismiss.",
+          "description": "A native <dialog> with Blip's manners: opened as a modal, every close through a cancelable blip-before-close\nand the stepped exit, focus returned to the opener, and an optional light dismiss.",
           "name": "BlipDialog",
           "superclass": {
             "name": "Overlay",
             "module": "src/_overlay.ts"
           },
-          "summary": "A modal dialog around one <dialog class=\"chu-box chu-dialog\">.",
-          "tagName": "chu-dialog",
+          "summary": "A modal dialog around one <dialog class=\"blip-box blip-dialog\">.",
+          "tagName": "blip-dialog",
           "customElement": true,
           "attributes": [
             {
@@ -800,7 +800,7 @@
                   }
                 }
               ],
-              "description": "Asks to close: fires chu-before-close, which a listener may cancel. Resolves true if it closed.",
+              "description": "Asks to close: fires blip-before-close, which a listener may cancel. Resolves true if it closed.",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -843,7 +843,7 @@
                 "text": "CustomEvent<void>"
               },
               "description": "After it opens (also when opened directly with showModal()).",
-              "name": "chu-open",
+              "name": "blip-open",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -854,7 +854,7 @@
                 "text": "CustomEvent<CloseDetail>"
               },
               "description": "Before any close: Escape, the scrim, a close button, a method=\"dialog\" submit or requestClose(). Cancelable: preventDefault() keeps it open.",
-              "name": "chu-before-close",
+              "name": "blip-before-close",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -865,7 +865,7 @@
                 "text": "CustomEvent<CloseDetail>"
               },
               "description": "After it has closed and given focus back.",
-              "name": "chu-close",
+              "name": "blip-close",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -901,7 +901,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-dialog",
+          "name": "blip-dialog",
           "declaration": {
             "name": "BlipDialog",
             "module": "src/dialog.ts"
@@ -915,14 +915,14 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A side sheet: the same modal behaviour as <chu-dialog> around a <dialog class=\"chu-box chu-drawer\">, which slides in\nand out from its data-side in six whole-pixel steps.",
+          "description": "A side sheet: the same modal behaviour as <blip-dialog> around a <dialog class=\"blip-box blip-drawer\">, which slides in\nand out from its data-side in six whole-pixel steps.",
           "name": "BlipDrawer",
           "superclass": {
             "name": "Overlay",
             "module": "src/_overlay.ts"
           },
-          "summary": "A modal side sheet around one <dialog class=\"chu-box chu-drawer\">.",
-          "tagName": "chu-drawer",
+          "summary": "A modal side sheet around one <dialog class=\"blip-box blip-drawer\">.",
+          "tagName": "blip-drawer",
           "customElement": true,
           "attributes": [
             {
@@ -1036,7 +1036,7 @@
                   }
                 }
               ],
-              "description": "Asks to close: fires chu-before-close, which a listener may cancel. Resolves true if it closed.",
+              "description": "Asks to close: fires blip-before-close, which a listener may cancel. Resolves true if it closed.",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -1079,7 +1079,7 @@
                 "text": "CustomEvent<void>"
               },
               "description": "After it opens (also when opened directly with showModal()).",
-              "name": "chu-open",
+              "name": "blip-open",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -1090,7 +1090,7 @@
                 "text": "CustomEvent<CloseDetail>"
               },
               "description": "Before any close: Escape, the scrim, a close button, a method=\"dialog\" submit or requestClose(). Cancelable: preventDefault() keeps it open.",
-              "name": "chu-before-close",
+              "name": "blip-before-close",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -1101,7 +1101,7 @@
                 "text": "CustomEvent<CloseDetail>"
               },
               "description": "After it has closed and given focus back.",
-              "name": "chu-close",
+              "name": "blip-close",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -1121,7 +1121,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-drawer",
+          "name": "blip-drawer",
           "declaration": {
             "name": "BlipDrawer",
             "module": "src/drawer.ts"
@@ -1144,7 +1144,7 @@
               "type": {
                 "text": "HTMLElement | null"
               },
-              "description": "The button: the .chu-fab (or first button) child.",
+              "description": "The button: the .blip-fab (or first button) child.",
               "readonly": true
             },
             {
@@ -1201,21 +1201,21 @@
                 "text": "CustomEvent<ActionDetail>"
               },
               "description": "An item was chosen, before it runs. Cancelable: preventDefault() keeps the stack open.",
-              "name": "chu-action"
+              "name": "blip-action"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "The stack opened.",
-              "name": "chu-open"
+              "name": "blip-open"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "The stack closed.",
-              "name": "chu-close"
+              "name": "blip-close"
             }
           ],
           "attributes": [
@@ -1238,10 +1238,10 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "An action button that opens a short stack of actions.",
-          "tagName": "chu-fab",
+          "tagName": "blip-fab",
           "customElement": true
         }
       ],
@@ -1256,7 +1256,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-fab",
+          "name": "blip-fab",
           "declaration": {
             "name": "BlipFab",
             "module": "src/fab.ts"
@@ -1292,16 +1292,16 @@
               "type": {
                 "text": "\"inline\""
               },
-              "description": "The label beside the control (--chu-field-label-width, 64 pixels by default).",
+              "description": "The label beside the control (--blip-field-label-width, 64 pixels by default).",
               "name": "data-layout"
             }
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "A form field that wires its words to its control.",
-          "tagName": "chu-field",
+          "tagName": "blip-field",
           "customElement": true
         }
       ],
@@ -1316,7 +1316,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-field",
+          "name": "blip-field",
           "declaration": {
             "name": "BlipField",
             "module": "src/field.ts"
@@ -1357,14 +1357,14 @@
                 "text": "CustomEvent<{ files: File[] }>"
               },
               "description": "The list changed: files picked, dropped or removed.",
-              "name": "chu-change"
+              "name": "blip-change"
             },
             {
               "type": {
                 "text": "CustomEvent<{ files: File[] }>"
               },
               "description": "Dropped files that do not match the input's accept.",
-              "name": "chu-reject"
+              "name": "blip-reject"
             }
           ],
           "attributes": [
@@ -1379,10 +1379,10 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "Drop files, or click to browse.",
-          "tagName": "chu-file-drop",
+          "tagName": "blip-file-drop",
           "customElement": true
         }
       ],
@@ -1397,7 +1397,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-file-drop",
+          "name": "blip-file-drop",
           "declaration": {
             "name": "BlipFileDrop",
             "module": "src/file-drop.ts"
@@ -1483,21 +1483,21 @@
                 "text": "CustomEvent<ActionDetail>"
               },
               "description": "An item was chosen, before it runs. Cancelable: preventDefault() keeps the menu open and the item unchanged.",
-              "name": "chu-action"
+              "name": "blip-action"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "The menu opened.",
-              "name": "chu-open"
+              "name": "blip-open"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "The menu closed.",
-              "name": "chu-close"
+              "name": "blip-close"
             }
           ],
           "attributes": [
@@ -1520,10 +1520,10 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "A menu button and its list of actions.",
-          "tagName": "chu-menu",
+          "tagName": "blip-menu",
           "customElement": true
         }
       ],
@@ -1538,7 +1538,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-menu",
+          "name": "blip-menu",
           "declaration": {
             "name": "BlipMenu",
             "module": "src/menu.ts"
@@ -1570,7 +1570,7 @@
                 "text": "CustomEvent<{ value: string }>"
               },
               "description": "The value was committed (the input's change).",
-              "name": "chu-change"
+              "name": "blip-change"
             }
           ],
           "attributes": [
@@ -1593,10 +1593,10 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "A number field with step buttons.",
-          "tagName": "chu-number",
+          "tagName": "blip-number",
           "customElement": true
         }
       ],
@@ -1611,7 +1611,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-number",
+          "name": "blip-number",
           "declaration": {
             "name": "BlipNumber",
             "module": "src/number.ts"
@@ -1681,7 +1681,7 @@
                 "text": "CustomEvent<PageDetail>"
               },
               "description": "Another slide is showing, after a swipe, a button, a key or a dot.",
-              "name": "chu-page"
+              "name": "blip-page"
             }
           ],
           "attributes": [
@@ -1712,10 +1712,10 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "Slides you swipe between, with dots.",
-          "tagName": "chu-pager",
+          "tagName": "blip-pager",
           "customElement": true
         }
       ],
@@ -1730,7 +1730,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-pager",
+          "name": "blip-pager",
           "declaration": {
             "name": "BlipPager",
             "module": "src/pager.ts"
@@ -1749,11 +1749,11 @@
           "cssProperties": [
             {
               "description": "The score drawn (set by the element).",
-              "name": "--chu-rating-value"
+              "name": "--blip-rating-value"
             },
             {
               "description": "How many stars are drawn (set by the element).",
-              "name": "--chu-rating-max"
+              "name": "--blip-rating-max"
             }
           ],
           "members": [
@@ -1822,7 +1822,7 @@
                 "text": "CustomEvent<{ value: number }>"
               },
               "description": "A star was set by click or key (after input and change).",
-              "name": "chu-change"
+              "name": "blip-change"
             }
           ],
           "attributes": [
@@ -1897,10 +1897,10 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "Set a score with stars or hearts.",
-          "tagName": "chu-rating",
+          "tagName": "blip-rating",
           "customElement": true
         }
       ],
@@ -1915,7 +1915,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-rating",
+          "name": "blip-rating",
           "declaration": {
             "name": "BlipRating",
             "module": "src/rating.ts"
@@ -1929,7 +1929,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Pull to refresh, round a scroll container: pull down from its top past the line and let go, and the loader shows\nuntil the chu-refresh listeners' promises settle. Announced politely. Touch only: pair it with a Refresh button\nthat calls refresh().",
+          "description": "Pull to refresh, round a scroll container: pull down from its top past the line and let go, and the loader shows\nuntil the blip-refresh listeners' promises settle. Announced politely. Touch only: pair it with a Refresh button\nthat calls refresh().",
           "name": "BlipRefresh",
           "members": [
             {
@@ -1947,7 +1947,7 @@
               "type": {
                 "text": "HTMLElement | null"
               },
-              "description": "The scroll container: the .chu-refresh-scroller, else the first other element inside.",
+              "description": "The scroll container: the .blip-refresh-scroller, else the first other element inside.",
               "readonly": true
             },
             {
@@ -1958,7 +1958,7 @@
                   "text": "Promise<void>"
                 }
               },
-              "description": "Refreshes as a pull does: steps the content down, shows the loader, sends chu-refresh, waits, steps back."
+              "description": "Refreshes as a pull does: steps the content down, shows the loader, sends blip-refresh, waits, steps back."
             }
           ],
           "events": [
@@ -1967,7 +1967,7 @@
                 "text": "CustomEvent<RefreshDetail>"
               },
               "description": "A refresh starts: hand detail.waitUntil() the work to wait for. Cancelable: preventDefault() refreshes nothing and steps back.",
-              "name": "chu-refresh"
+              "name": "blip-refresh"
             }
           ],
           "attributes": [
@@ -2006,10 +2006,10 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "Pull down from the top of a scroller to refresh it.",
-          "tagName": "chu-refresh",
+          "tagName": "blip-refresh",
           "customElement": true
         }
       ],
@@ -2024,7 +2024,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-refresh",
+          "name": "blip-refresh",
           "declaration": {
             "name": "BlipRefresh",
             "module": "src/refresh.ts"
@@ -2115,7 +2115,7 @@
                 "text": "CustomEvent<{ value: string }>"
               },
               "description": "A segment was chosen by click or key (after input and change).",
-              "name": "chu-change"
+              "name": "blip-change"
             }
           ],
           "attributes": [
@@ -2182,10 +2182,10 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "One choice from a row of buttons.",
-          "tagName": "chu-segmented",
+          "tagName": "blip-segmented",
           "customElement": true
         }
       ],
@@ -2200,7 +2200,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-segmented",
+          "name": "blip-segmented",
           "declaration": {
             "name": "BlipSegmented",
             "module": "src/segmented.ts"
@@ -2214,7 +2214,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A bottom sheet: the drawer's modal behaviour around one <dialog class=\"chu-box chu-drawer chu-sheet\">, with snap\nheights (data-snap on the dialog), a grab handle that steps through them, and dragging: from the handle, the title\nbar, or the body scrolled to its top, following the finger in whole pixels, settling at the nearest height or\nclosing when dragged or flicked down past its lowest.",
+          "description": "A bottom sheet: the drawer's modal behaviour around one <dialog class=\"blip-box blip-drawer blip-sheet\">, with snap\nheights (data-snap on the dialog), a grab handle that steps through them, and dragging: from the handle, the title\nbar, or the body scrolled to its top, following the finger in whole pixels, settling at the nearest height or\nclosing when dragged or flicked down past its lowest.",
           "name": "BlipSheet",
           "members": [
             {
@@ -2320,7 +2320,7 @@
                   }
                 }
               ],
-              "description": "Asks to close: fires chu-before-close, which a listener may cancel. Resolves true if it closed.",
+              "description": "Asks to close: fires blip-before-close, which a listener may cancel. Resolves true if it closed.",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -2363,14 +2363,14 @@
                 "text": "CustomEvent<SheetChangeDetail>"
               },
               "description": "It settled at another height, by the handle, a drag or snap.",
-              "name": "chu-change"
+              "name": "blip-change"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "After it opens (also when opened directly with showModal()).",
-              "name": "chu-open",
+              "name": "blip-open",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -2381,7 +2381,7 @@
                 "text": "CustomEvent<CloseDetail>"
               },
               "description": "Before any close: Escape, the scrim, a close button, a method=\"dialog\" submit or requestClose(). Cancelable: preventDefault() keeps it open.",
-              "name": "chu-before-close",
+              "name": "blip-before-close",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -2392,7 +2392,7 @@
                 "text": "CustomEvent<CloseDetail>"
               },
               "description": "After it has closed and given focus back.",
-              "name": "chu-close",
+              "name": "blip-close",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -2403,8 +2403,8 @@
             "name": "Overlay",
             "module": "src/_overlay.ts"
           },
-          "summary": "A draggable bottom sheet around one <dialog class=\"chu-box chu-drawer chu-sheet\">.",
-          "tagName": "chu-sheet",
+          "summary": "A draggable bottom sheet around one <dialog class=\"blip-box blip-drawer blip-sheet\">.",
+          "tagName": "blip-sheet",
           "customElement": true,
           "attributes": [
             {
@@ -2444,7 +2444,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-sheet",
+          "name": "blip-sheet",
           "declaration": {
             "name": "BlipSheet",
             "module": "src/sheet.ts"
@@ -2504,21 +2504,21 @@
                 "text": "CustomEvent<{ side: SwipeSide }>"
               },
               "description": "The row opened on a side, however it happened.",
-              "name": "chu-open"
+              "name": "blip-open"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "The row closed.",
-              "name": "chu-close"
+              "name": "blip-close"
             },
             {
               "type": {
                 "text": "CustomEvent<SwipeDetail>"
               },
               "description": "A full swipe, before its first action runs. Cancelable: preventDefault() runs nothing and leaves the row open.",
-              "name": "chu-swipe"
+              "name": "blip-swipe"
             }
           ],
           "attributes": [
@@ -2533,10 +2533,10 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "A list row that swipes aside to show its actions.",
-          "tagName": "chu-swipe-row",
+          "tagName": "blip-swipe-row",
           "customElement": true
         }
       ],
@@ -2551,7 +2551,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-swipe-row",
+          "name": "blip-swipe-row",
           "declaration": {
             "name": "BlipSwipeRow",
             "module": "src/swipe-row.ts"
@@ -2565,7 +2565,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Sorting and row selection for the .chu-table inside it. Light DOM: the table reads and looks the same without it.",
+          "description": "Sorting and row selection for the .blip-table inside it. Light DOM: the table reads and looks the same without it.",
           "name": "BlipTable",
           "members": [
             {
@@ -2609,22 +2609,22 @@
                 "text": "CustomEvent<{ column: number; direction: SortDirection; header: HTMLTableCellElement }>"
               },
               "description": "Before sorting. Cancelable: preventDefault() refuses it (sort on a server, then set aria-sort yourself).",
-              "name": "chu-sort"
+              "name": "blip-sort"
             },
             {
               "type": {
                 "text": "CustomEvent<{ rows: HTMLTableRowElement[] }>"
               },
               "description": "After any row checkbox changes; rows are the selected <tr>s.",
-              "name": "chu-select"
+              "name": "blip-select"
             }
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "Sorting and row selection for a table.",
-          "tagName": "chu-table",
+          "tagName": "blip-table",
           "customElement": true
         }
       ],
@@ -2639,7 +2639,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-table",
+          "name": "blip-table",
           "declaration": {
             "name": "BlipTable",
             "module": "src/table.ts"
@@ -2680,7 +2680,7 @@
               "type": {
                 "text": "string"
               },
-              "description": "The selected tab's value. Setting it selects that tab (no chu-change).",
+              "description": "The selected tab's value. Setting it selects that tab (no blip-change).",
               "attribute": "value"
             },
             {
@@ -2689,7 +2689,7 @@
               "type": {
                 "text": "number"
               },
-              "description": "The index of the selected tab, or -1. Setting it selects that tab (no chu-change)."
+              "description": "The index of the selected tab, or -1. Setting it selects that tab (no blip-change)."
             }
           ],
           "events": [
@@ -2698,7 +2698,7 @@
                 "text": "CustomEvent<TabsChangeDetail>"
               },
               "description": "After the person selects a tab.",
-              "name": "chu-change"
+              "name": "blip-change"
             }
           ],
           "attributes": [
@@ -2707,7 +2707,7 @@
               "type": {
                 "text": "string"
               },
-              "description": "The selected tab's value: its data-value, else its value attribute, else its label. Setting it selects that tab (no chu-change); it follows the person's choice.",
+              "description": "The selected tab's value: its data-value, else its value attribute, else its label. Setting it selects that tab (no blip-change); it follows the person's choice.",
               "fieldName": "value"
             },
             {
@@ -2736,10 +2736,10 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "Tabs: one panel at a time.",
-          "tagName": "chu-tabs",
+          "tagName": "blip-tabs",
           "customElement": true
         }
       ],
@@ -2754,7 +2754,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-tabs",
+          "name": "blip-tabs",
           "declaration": {
             "name": "BlipTabs",
             "module": "src/tabs.ts"
@@ -2814,7 +2814,7 @@
                 "text": "CustomEvent<{ tile: HTMLElement }>"
               },
               "description": "Before the selection moves. Cancelable: preventDefault() keeps the old one.",
-              "name": "chu-select"
+              "name": "blip-select"
             }
           ],
           "attributes": [
@@ -2829,10 +2829,10 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "A grid of tiles moved through with the arrow keys.",
-          "tagName": "chu-tile-grid",
+          "tagName": "blip-tile-grid",
           "customElement": true
         }
       ],
@@ -2847,7 +2847,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-tile-grid",
+          "name": "blip-tile-grid",
           "declaration": {
             "name": "BlipTileGrid",
             "module": "src/tile-grid.ts"
@@ -2866,7 +2866,7 @@
           "cssProperties": [
             {
               "description": "A toast's countdown (set by the element on each toast).",
-              "name": "--chu-toast-duration"
+              "name": "--blip-toast-duration"
             }
           ],
           "members": [
@@ -2943,10 +2943,10 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "The region that shows toasts.",
-          "tagName": "chu-toaster",
+          "tagName": "blip-toaster",
           "customElement": true
         },
         {
@@ -2965,7 +2965,7 @@
               }
             }
           ],
-          "description": "Shows a toast in the page's toaster, adding one to <body> if there is none. A toaster in a <chu-attract> demo is\nthe demo's own, never the page's."
+          "description": "Shows a toast in the page's toaster, adding one to <body> if there is none. A toaster in a <blip-attract> demo is\nthe demo's own, never the page's."
         }
       ],
       "exports": [
@@ -2979,7 +2979,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-toaster",
+          "name": "blip-toaster",
           "declaration": {
             "name": "BlipToaster",
             "module": "src/toast.ts"
@@ -3049,14 +3049,14 @@
                 "text": "CustomEvent<void>"
               },
               "description": "It showed.",
-              "name": "chu-open"
+              "name": "blip-open"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "It closed.",
-              "name": "chu-close"
+              "name": "blip-close"
             }
           ],
           "attributes": [
@@ -3087,10 +3087,10 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "A short description that shows on hover and focus.",
-          "tagName": "chu-tooltip",
+          "tagName": "blip-tooltip",
           "customElement": true
         }
       ],
@@ -3105,7 +3105,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-tooltip",
+          "name": "blip-tooltip",
           "declaration": {
             "name": "BlipTooltip",
             "module": "src/tooltip.ts"
@@ -3145,7 +3145,7 @@
                 "text": "CustomEvent<{ value: string }>"
               },
               "description": "A wheel settled on a new value (after input and change).",
-              "name": "chu-change"
+              "name": "blip-change"
             }
           ],
           "attributes": [
@@ -3232,10 +3232,10 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@jaatster/blip-core"
+            "package": "@blip/core"
           },
           "summary": "Wheels of options: a time, a date or your own.",
-          "tagName": "chu-wheel",
+          "tagName": "blip-wheel",
           "customElement": true
         }
       ],
@@ -3250,7 +3250,7 @@
         },
         {
           "kind": "custom-element-definition",
-          "name": "chu-wheel",
+          "name": "blip-wheel",
           "declaration": {
             "name": "BlipWheel",
             "module": "src/wheel.ts"

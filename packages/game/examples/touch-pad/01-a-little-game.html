@@ -1,13 +1,13 @@
 <!-- A little game that only knows keys: Left and Right move the coin, z (A) makes it hop. The touch pad under it sends
      those keys to the stage named by for, so it plays the same with a keyboard (focus the stage) or a thumb. -->
-<div class="chu-stack" data-gap="6" style="max-inline-size:calc(200*var(--chu-pixel))">
-  <section class="chu-stage" data-frame id="tps-game" tabindex="0" aria-label="Coin hop: Left and Right move the coin, z hops"
-           style="block-size:calc(64*var(--chu-pixel));--tps-x:0"
-           onkeydown="const step = { ArrowLeft: -8, ArrowRight: 8 }[event.key], coin = this.querySelector('chu-sprite');
+<div class="blip-stack" data-gap="6" style="max-inline-size:calc(200*var(--blip-pixel))">
+  <section class="blip-stage" data-frame id="tps-game" tabindex="0" aria-label="Coin hop: Left and Right move the coin, z hops"
+           style="block-size:calc(64*var(--blip-pixel));--tps-x:0"
+           onkeydown="const step = { ArrowLeft: -8, ArrowRight: 8 }[event.key], coin = this.querySelector('blip-sprite');
                       if (step) { event.preventDefault(); this.style.setProperty('--tps-x', Math.max(0, Math.min(160, +this.style.getPropertyValue('--tps-x') + step))); }
-                      else if (event.key === 'z' && !event.repeat) { coin.classList.remove('chu-bump'); void coin.offsetWidth; coin.classList.add('chu-bump'); }">
-    <chu-sprite name="coin" style="position:absolute;inset-block-end:calc(18*var(--chu-pixel));inset-inline-start:calc((8 + var(--tps-x)) * var(--chu-pixel))"></chu-sprite>
-    <div class="chu-stage-ground"></div>
+                      else if (event.key === 'z' && !event.repeat) { coin.classList.remove('blip-bump'); void coin.offsetWidth; coin.classList.add('blip-bump'); }">
+    <blip-sprite name="coin" style="position:absolute;inset-block-end:calc(18*var(--blip-pixel));inset-inline-start:calc((8 + var(--tps-x)) * var(--blip-pixel))"></blip-sprite>
+    <div class="blip-stage-ground"></div>
   </section>
-  <chu-touch-pad for="tps-game" data-show="always" data-position="inline" aria-label="Coin hop controls"></chu-touch-pad>
+  <blip-touch-pad for="tps-game" data-show="always" data-position="inline" aria-label="Coin hop controls"></blip-touch-pad>
 </div>

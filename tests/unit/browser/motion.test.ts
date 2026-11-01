@@ -1,10 +1,10 @@
 /**
- * @jaatster/blip-core's motion helpers against a real browser: reduced motion follows the person's setting (emulated
+ * @blip/core's motion helpers against a real browser: reduced motion follows the person's setting (emulated
  * here as Playwright does), durations come from the tokens, and the pixel is read from CSS.
  */
 import { afterEach, beforeAll, describe, expect, inject, it } from "vitest";
 import { commands } from "vitest/browser";
-import { duration, pixel, reducedMotion, steps } from "@jaatster/blip-core";
+import { duration, pixel, reducedMotion, steps } from "@blip/core";
 
 let tokens: HTMLStyleElement;
 beforeAll(() => {
@@ -12,7 +12,7 @@ beforeAll(() => {
 });
 afterEach(async () => {
   tokens.remove();
-  document.documentElement.removeAttribute("data-chu-pixel");
+  document.documentElement.removeAttribute("data-blip-pixel");
   await commands.emulateMedia("no-preference");
 });
 
@@ -57,20 +57,20 @@ describe("duration", () => {
 
   it("reads seconds as well as milliseconds", () => {
     const el = document.body.appendChild(document.createElement("div"));
-    el.style.setProperty("--chu-duration-test", "0.25s");
+    el.style.setProperty("--blip-duration-test", "0.25s");
     expect(duration("test", 0, el)).toBe(250);
     el.remove();
   });
 });
 
 describe("pixel", () => {
-  it("is 2 CSS px by default, and follows data-chu-pixel on the page or a section", () => {
+  it("is 2 CSS px by default, and follows data-blip-pixel on the page or a section", () => {
     document.head.append(tokens);
     expect(pixel()).toBe(2);
     const section = document.body.appendChild(document.createElement("section"));
-    section.dataset.chuPixel = "4";
+    section.dataset.blipPixel = "4";
     expect(pixel(section)).toBe(4);
-    document.documentElement.dataset.chuPixel = "3";
+    document.documentElement.dataset.blipPixel = "3";
     expect(pixel()).toBe(3);
     section.remove();
   });

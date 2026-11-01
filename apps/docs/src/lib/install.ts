@@ -23,7 +23,7 @@ export interface InstallLine {
   comment?: string;
 }
 
-const full = (p: string) => (p.startsWith("@") ? p : `@jaatster/blip-${p}`);
+const full = (p: string) => (p.startsWith("@") ? p : `@blip/${p}`);
 
 /** The lines for one package manager, their comments lined up after the longest command. */
 export function commands(manager: Exclude<Manager, "cdn">, lines: InstallLine[]): string {

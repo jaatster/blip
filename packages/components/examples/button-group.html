@@ -1,72 +1,72 @@
 <!-- Button group: spaced and attached, toggles in a bar, a toolbar-like row with separators, a pager, and the
-     button states inside an attached group. Forced states use data-chu-state (docs and tests only). -->
-<div style="display:grid;gap:calc(8*var(--chu-pixel));justify-items:start">
-  <div class="chu-button-group" role="group" aria-label="Save">
-    <button class="chu-box chu-button">Save game</button>
-    <button class="chu-box chu-button" data-variant="soft">Save as…</button>
-    <button class="chu-box chu-button" data-variant="ghost">Cancel</button>
+     button states inside an attached group. Forced states use data-blip-state (docs and tests only). -->
+<div style="display:grid;gap:calc(8*var(--blip-pixel));justify-items:start">
+  <div class="blip-button-group" role="group" aria-label="Save">
+    <button class="blip-box blip-button">Save game</button>
+    <button class="blip-box blip-button" data-variant="soft">Save as…</button>
+    <button class="blip-box blip-button" data-variant="ghost">Cancel</button>
   </div>
 
-  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel));align-items:center">
-    <div class="chu-button-group" data-attached role="group" aria-label="Zoom, small">
-      <button class="chu-box chu-button" data-size="sm" data-variant="soft" aria-label="Zoom out">−</button>
-      <button class="chu-box chu-button" data-size="sm" data-variant="soft" aria-label="Reset zoom, 100%">100%</button>
-      <button class="chu-box chu-button" data-size="sm" data-variant="soft" aria-label="Zoom in">+</button>
+  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--blip-pixel));align-items:center">
+    <div class="blip-button-group" data-attached role="group" aria-label="Zoom, small">
+      <button class="blip-box blip-button" data-size="sm" data-variant="soft" aria-label="Zoom out">−</button>
+      <button class="blip-box blip-button" data-size="sm" data-variant="soft" aria-label="Reset zoom, 100%">100%</button>
+      <button class="blip-box blip-button" data-size="sm" data-variant="soft" aria-label="Zoom in">+</button>
     </div>
-    <div class="chu-button-group" data-attached role="group" aria-label="Play">
-      <button class="chu-box chu-button">Play</button>
-      <button class="chu-box chu-button" data-icon-only aria-label="More ways to play"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4h8v1H9v1H8v1H7v1H5V7H4V6H3V5H2z"/></svg></button>
+    <div class="blip-button-group" data-attached role="group" aria-label="Play">
+      <button class="blip-box blip-button">Play</button>
+      <button class="blip-box blip-button" data-icon-only aria-label="More ways to play"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 4h8v1H9v1H8v1H7v1H5V7H4V6H3V5H2z"/></svg></button>
     </div>
-    <div class="chu-button-group" data-attached role="group" aria-label="Volume, large">
-      <button class="chu-box chu-button" data-size="lg" data-tone="neutral">Quiet</button>
-      <button class="chu-box chu-button" data-size="lg" data-tone="neutral">Loud</button>
+    <div class="blip-button-group" data-attached role="group" aria-label="Volume, large">
+      <button class="blip-box blip-button" data-size="lg" data-tone="neutral">Quiet</button>
+      <button class="blip-box blip-button" data-size="lg" data-tone="neutral">Loud</button>
     </div>
   </div>
 
   <!-- A formatting bar: toggles that sit in when on (aria-pressed), then a choice of three, then actions. -->
-  <div class="chu-box" data-variant="panel" data-chu-r="4" style="padding:calc(3*var(--chu-pixel))">
-    <div class="chu-button-group" role="group" aria-label="Message style" style="gap:calc(2*var(--chu-pixel))">
-      <div class="chu-button-group" data-attached role="group" aria-label="Text">
-        <button class="chu-box chu-button" data-size="sm" data-variant="outline" aria-pressed="true">Bold</button>
-        <button class="chu-box chu-button" data-size="sm" data-variant="outline" aria-pressed="false">Italic</button>
-        <button class="chu-box chu-button" data-size="sm" data-variant="outline" aria-pressed="false">Wavy</button>
+  <div class="blip-box" data-variant="panel" data-blip-r="4" style="padding:calc(3*var(--blip-pixel))">
+    <div class="blip-button-group" role="group" aria-label="Message style" style="gap:calc(2*var(--blip-pixel))">
+      <div class="blip-button-group" data-attached role="group" aria-label="Text">
+        <button class="blip-box blip-button" data-size="sm" data-variant="outline" aria-pressed="true">Bold</button>
+        <button class="blip-box blip-button" data-size="sm" data-variant="outline" aria-pressed="false">Italic</button>
+        <button class="blip-box blip-button" data-size="sm" data-variant="outline" aria-pressed="false">Wavy</button>
       </div>
       <span role="separator" aria-orientation="vertical"></span>
-      <div class="chu-button-group" data-attached role="group" aria-label="Speed">
-        <button class="chu-box chu-button" data-size="sm" data-variant="outline" aria-pressed="false">Slow</button>
-        <button class="chu-box chu-button" data-size="sm" data-variant="outline" aria-pressed="true">Normal</button>
-        <button class="chu-box chu-button" data-size="sm" data-variant="outline" aria-pressed="false">Fast</button>
+      <div class="blip-button-group" data-attached role="group" aria-label="Speed">
+        <button class="blip-box blip-button" data-size="sm" data-variant="outline" aria-pressed="false">Slow</button>
+        <button class="blip-box blip-button" data-size="sm" data-variant="outline" aria-pressed="true">Normal</button>
+        <button class="blip-box blip-button" data-size="sm" data-variant="outline" aria-pressed="false">Fast</button>
       </div>
       <span role="separator" aria-orientation="vertical"></span>
-      <button class="chu-box chu-button" data-size="sm" data-variant="ghost">Preview</button>
-      <button class="chu-box chu-button" data-size="sm" data-tone="success">Send</button>
+      <button class="blip-box blip-button" data-size="sm" data-variant="ghost">Preview</button>
+      <button class="blip-box blip-button" data-size="sm" data-tone="success">Send</button>
     </div>
   </div>
 
   <nav aria-label="Pages of levels">
-    <div class="chu-button-group" data-attached>
-      <a class="chu-box chu-button" data-variant="soft" data-tone="neutral" href="#page-1">Back</a>
-      <a class="chu-box chu-button" data-variant="soft" data-tone="neutral" href="#page-1">1</a>
-      <a class="chu-box chu-button" data-variant="soft" aria-current="page" href="#page-2">2</a>
-      <a class="chu-box chu-button" data-variant="soft" data-tone="neutral" href="#page-3">3</a>
-      <a class="chu-box chu-button" data-variant="soft" data-tone="neutral" href="#page-3">Next</a>
+    <div class="blip-button-group" data-attached>
+      <a class="blip-box blip-button" data-variant="soft" data-tone="neutral" href="#page-1">Back</a>
+      <a class="blip-box blip-button" data-variant="soft" data-tone="neutral" href="#page-1">1</a>
+      <a class="blip-box blip-button" data-variant="soft" aria-current="page" href="#page-2">2</a>
+      <a class="blip-box blip-button" data-variant="soft" data-tone="neutral" href="#page-3">3</a>
+      <a class="blip-box blip-button" data-variant="soft" data-tone="neutral" href="#page-3">Next</a>
     </div>
   </nav>
 
-  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel));align-items:center">
-    <span class="chu-label chu-muted">States</span>
-    <div class="chu-button-group" data-attached role="group" aria-label="States in a group">
-      <button class="chu-box chu-button">Rest</button>
-      <button class="chu-box chu-button" data-chu-state="hover">Hover</button>
-      <button class="chu-box chu-button" data-chu-state="focus">Focus</button>
-      <button class="chu-box chu-button" data-chu-state="active">Pressed</button>
-      <button class="chu-box chu-button" aria-pressed="true">On</button>
-      <button class="chu-box chu-button" disabled>Disabled</button>
+  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--blip-pixel));align-items:center">
+    <span class="blip-label blip-muted">States</span>
+    <div class="blip-button-group" data-attached role="group" aria-label="States in a group">
+      <button class="blip-box blip-button">Rest</button>
+      <button class="blip-box blip-button" data-blip-state="hover">Hover</button>
+      <button class="blip-box blip-button" data-blip-state="focus">Focus</button>
+      <button class="blip-box blip-button" data-blip-state="active">Pressed</button>
+      <button class="blip-box blip-button" aria-pressed="true">On</button>
+      <button class="blip-box blip-button" disabled>Disabled</button>
     </div>
   </div>
 
-  <div class="chu-button-group" data-attached data-width="full" role="group" aria-label="Answer" style="inline-size:min(100%,calc(180*var(--chu-pixel)))">
-    <button class="chu-box chu-button" data-tone="success">Yes</button>
-    <button class="chu-box chu-button" data-tone="danger">No</button>
+  <div class="blip-button-group" data-attached data-width="full" role="group" aria-label="Answer" style="inline-size:min(100%,calc(180*var(--blip-pixel)))">
+    <button class="blip-box blip-button" data-tone="success">Yes</button>
+    <button class="blip-box blip-button" data-tone="danger">No</button>
   </div>
 </div>

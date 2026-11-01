@@ -8,7 +8,7 @@ its own. They assert on measurements, not screenshots, so they run the same on m
 
 | Lane | File | Guards |
 |---|---|---|
-| Contrast | `contrast.spec.ts` | Every run of text against the pixels under its glyphs (shot with the glyphs and without), by Day, Sunset and Night: at rest, with every control forced to hover, focus, active and visited (`data-chu-state`), and with real keyboard focus on what is selected, current, pressed or checked. 4.5:1, or 3:1 for large text; POP and OUTLINE text against its outline. A progress bar's, meter's or rating's filled part against its empty part: 3:1 in lightness. |
+| Contrast | `contrast.spec.ts` | Every run of text against the pixels under its glyphs (shot with the glyphs and without), by Day, Sunset and Night: at rest, with every control forced to hover, focus, active and visited (`data-blip-state`), and with real keyboard focus on what is selected, current, pressed or checked. 4.5:1, or 3:1 for large text; POP and OUTLINE text against its outline. A progress bar's, meter's or rating's filled part against its empty part: 3:1 in lightness. |
 | Seams | `seams.spec.ts` | Each candy box's own pixels on one page switched between device pixel ratios: no blended pixel at 100%, 200% and 300%; no seam (a blend where the box is one colour all round) at 125%, 150% (also at odd positions), 175% and 262.5%. |
 | Forced colours | `forced-colours.spec.ts` | Windows high contrast, dark and light: every pressed, selected, current or checked control looks different from the same control off; a busy control looks different from not busy, and shows a cue where it hides its label. |
 | Right to left | `rtl.spec.ts` | `dir="rtl"` and `lang="ar"`: no sideways overflow; progress, meters, ratings and sliders fill from the right; a drawer's end is the left edge; every directional glyph the docs place at a start or end turns round; the layout mirrors. |
@@ -23,13 +23,13 @@ Build the packages first (`pnpm build` at the root): the test page loads their `
 stylesheets from `src`.
 
 ```sh
-pnpm --filter @jaatster/blip-tests test:conditions                                  # every lane
-pnpm --filter @jaatster/blip-tests test:conditions contrast                         # one lane: its file name
-pnpm --filter @jaatster/blip-tests test:conditions print -g "components/table"      # one example in one lane
+pnpm --filter @blip/tests test:conditions                                  # every lane
+pnpm --filter @blip/tests test:conditions contrast                         # one lane: its file name
+pnpm --filter @blip/tests test:conditions print -g "components/table"      # one example in one lane
 ```
 
 Each test is one example (fixtures are `conditions/<name>`). A failure lists every problem on its own line, with the
-conditions it fails under in brackets: `[night focus] button.chu-tab "Weapons": rgb(26, 21, 48) on #1b1c40, 1.08:1`.
+conditions it fails under in brackets: `[night focus] button.blip-tab "Weapons": rgb(26, 21, 48) on #1b1c40, 1.08:1`.
 Each test is annotated with what it measured. The lanes use Chromium's DevTools protocol (device pixel ratio, PDFs,
 default text size, which font draws a character), so they run in Chromium only.
 

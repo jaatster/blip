@@ -5,156 +5,156 @@
  * at a time; elsewhere it follows the value and the gaps still show. With no value, a progress bar is indeterminate:
  * two lit blocks in every six march along a block a step. Right to left, it fills and marches from the right.
  *
- *   <div class="chu-progress-label"><label for="load">Loading World 2</label><span>60%</span></div>
- *   <div class="chu-box chu-progress" data-tone="success"><progress id="load" max="100" value="60">60%</progress></div>
+ *   <div class="blip-progress-label"><label for="load">Loading World 2</label><span>60%</span></div>
+ *   <div class="blip-box blip-progress" data-tone="success"><progress id="load" max="100" value="60">60%</progress></div>
  *
- *   <div class="chu-box chu-meter"><meter min="0" max="10" low="4" high="7" optimum="10" value="6" aria-label="Health">6 of 10</meter></div>
+ *   <div class="blip-box blip-meter"><meter min="0" max="10" low="4" high="7" optimum="10" value="6" aria-label="Health">6 of 10</meter></div>
  *
  *   data-tone      accent (default) | info | success | warning | danger | a candy name       progress fill
  *   data-size      sm | md (default) | lg            wells 7, 8 or 12 pixels high; blocks 3, 4 or 6 wide
- *   .chu-meter      the fill takes its colour from the value: green when good, orange when low, red when worse
+ *   .blip-meter      the fill takes its colour from the value: green when good, orange when low, red when worse
  *                  (the meter's low, high and optimum). data-tone fixes one colour instead.
  *
  * The well is as wide as its container, rounded down to whole blocks. Name every bar: a <label for>, aria-label
  * or aria-labelledby, and aria-valuetext when a number alone says too little ("3 of 8 files").
  */
 
-@layer chu.components {
+@layer blip.components {
   /* Empty blocks: the HUD's slate shade by Day and at Sunset, the palette's page at Night (lighter than the ink
      between the blocks). At least 3:1 against every intent's and accent's fill in its scheme, so filled and empty
      read in greyscale too. Set where the scheme is set, so the nearest scheme wins. */
-  :root, [data-chu-scheme] { --_chu-progress-slot: var(--chu-candy-slate-shade); }
+  :root, [data-blip-scheme] { --_blip-progress-slot: var(--blip-candy-slate-shade); }
   /* On screen only: on paper every scheme prints Day's, as the roles do (tokens.css). */
   @media screen {
-    [data-chu-scheme="night"] { --_chu-progress-slot: var(--chu-palette-night-bg); }
+    [data-blip-scheme="night"] { --_blip-progress-slot: var(--blip-palette-night-bg); }
   }
   @media screen and (prefers-color-scheme: dark) {
-    :root:not([data-chu-scheme]) { --_chu-progress-slot: var(--chu-palette-night-bg); }
+    :root:not([data-blip-scheme]) { --_blip-progress-slot: var(--blip-palette-night-bg); }
   }
 
-  :is(.chu-progress, .chu-meter) {
-    --_chu-b: 5;
-    --_chu-h: 4;
-    --_chu-slot: var(--_chu-progress-slot);
-    --_chu-from: left;
-    --_chu-to: right;
-    --chu-r: 2;
-    --chu-shape: var(--chu-shape-2);
-    --chu-shape-inner: var(--chu-shape-2-inner);
-    --chu-drop-size: 0;
-    --chu-box-top: var(--chu-surface-sunken);
-    --chu-box-fill: var(--chu-surface-sunken);
-    --chu-box-bottom: var(--chu-surface-sunken);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
+  :is(.blip-progress, .blip-meter) {
+    --_blip-b: 5;
+    --_blip-h: 4;
+    --_blip-slot: var(--_blip-progress-slot);
+    --_blip-from: left;
+    --_blip-to: right;
+    --blip-r: 2;
+    --blip-shape: var(--blip-shape-2);
+    --blip-shape-inner: var(--blip-shape-2-inner);
+    --blip-drop-size: 0;
+    --blip-box-top: var(--blip-surface-sunken);
+    --blip-box-fill: var(--blip-surface-sunken);
+    --blip-box-bottom: var(--blip-surface-sunken);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
     display: flex;
     /* One outline pixel and one gap pixel each side, and a whole number of blocks between. */
-    inline-size: calc(round(down, 100% - 3 * var(--chu-pixel), var(--_chu-b) * var(--chu-pixel)) + 3 * var(--chu-pixel));
+    inline-size: calc(round(down, 100% - 3 * var(--blip-pixel), var(--_blip-b) * var(--blip-pixel)) + 3 * var(--blip-pixel));
     max-inline-size: 100%;
-    padding: calc(2 * var(--chu-pixel));
+    padding: calc(2 * var(--blip-pixel));
   }
-  :is(.chu-progress, .chu-meter)[data-size="sm"] { --_chu-b: 4; --_chu-h: 3; }
-  :is(.chu-progress, .chu-meter)[data-size="lg"] { --_chu-b: 7; --_chu-h: 8; }
+  :is(.blip-progress, .blip-meter)[data-size="sm"] { --_blip-b: 4; --_blip-h: 3; }
+  :is(.blip-progress, .blip-meter)[data-size="lg"] { --_blip-b: 7; --_blip-h: 8; }
   /* Liquorice is the dark candy: its empty blocks are cream instead. */
-  :is(.chu-progress, .chu-meter)[data-tone="slate"] { --_chu-slot: var(--chu-candy-cream); }
+  :is(.blip-progress, .blip-meter)[data-tone="slate"] { --_blip-slot: var(--blip-candy-cream); }
   /* Right to left: the blocks, the fill and the march start at the right. */
-  :is(.chu-progress, .chu-meter):dir(rtl) { --_chu-from: right; --_chu-to: left; }
+  :is(.blip-progress, .blip-meter):dir(rtl) { --_blip-from: right; --_blip-to: left; }
 
-  :is(.chu-progress, .chu-meter) > :is(progress, meter) {
-    --_chu-candy: linear-gradient(var(--chu-tone-light) 0 var(--chu-pixel), var(--chu-tone) 0 calc(100% - var(--chu-pixel)), var(--chu-tone-shade) 0);
+  :is(.blip-progress, .blip-meter) > :is(progress, meter) {
+    --_blip-candy: linear-gradient(var(--blip-tone-light) 0 var(--blip-pixel), var(--blip-tone) 0 calc(100% - var(--blip-pixel)), var(--blip-tone-shade) 0);
     appearance: none;
     display: block;
     flex: 1;
     inline-size: 100%;
-    block-size: calc(var(--_chu-h) * var(--chu-pixel));
+    block-size: calc(var(--_blip-h) * var(--blip-pixel));
     margin: 0;
     padding: 0;
     border: 0;
     border-radius: 0;
-    background: var(--_chu-slot);
+    background: var(--_blip-slot);
     color: inherit;
     /* The gaps between blocks, counted from the start. */
-    mask: repeating-linear-gradient(to var(--_chu-to), var(--chu-ink) 0 calc((var(--_chu-b) - 1) * var(--chu-pixel)), transparent 0 calc(var(--_chu-b) * var(--chu-pixel)));
+    mask: repeating-linear-gradient(to var(--_blip-to), var(--blip-ink) 0 calc((var(--_blip-b) - 1) * var(--blip-pixel)), transparent 0 calc(var(--_blip-b) * var(--blip-pixel)));
   }
 
   /* The fill, through the browser's own parts. */
-  .chu-progress > progress::-webkit-progress-bar { background: transparent; }
-  .chu-progress > progress::-webkit-progress-value { background: var(--_chu-candy); }
-  .chu-progress > progress::-moz-progress-bar { background: var(--_chu-candy); }
+  .blip-progress > progress::-webkit-progress-bar { background: transparent; }
+  .blip-progress > progress::-webkit-progress-value { background: var(--_blip-candy); }
+  .blip-progress > progress::-moz-progress-bar { background: var(--_blip-candy); }
 
   /* Where CSS can read the value: draw the fill here instead, rounded down to whole blocks. */
   @supports (inline-size: attr(x type(<length>), 0px)) {
-    .chu-progress > progress:not(:indeterminate) {
+    .blip-progress > progress:not(:indeterminate) {
       background:
-        var(--_chu-candy) var(--_chu-from) 0 / round(down, attr(value type(<number>), 0) / attr(max type(<number>), 1) * 100% + var(--chu-pixel), var(--_chu-b) * var(--chu-pixel)) 100% no-repeat,
-        var(--_chu-slot);
+        var(--_blip-candy) var(--_blip-from) 0 / round(down, attr(value type(<number>), 0) / attr(max type(<number>), 1) * 100% + var(--blip-pixel), var(--_blip-b) * var(--blip-pixel)) 100% no-repeat,
+        var(--_blip-slot);
     }
-    .chu-progress > progress::-webkit-progress-value { background: transparent; }
-    .chu-progress > progress::-moz-progress-bar { background: transparent; }
+    .blip-progress > progress::-webkit-progress-value { background: transparent; }
+    .blip-progress > progress::-moz-progress-bar { background: transparent; }
   }
 
   /* Indeterminate: two lit blocks in every six, marching a block a step. */
-  .chu-progress > progress:indeterminate {
+  .blip-progress > progress:indeterminate {
     background:
-      repeating-linear-gradient(to var(--_chu-to), transparent 0 calc(2 * var(--_chu-b) * var(--chu-pixel)), var(--_chu-slot) 0 calc(6 * var(--_chu-b) * var(--chu-pixel))) var(--_chu-from) 0 / auto no-repeat,
-      var(--_chu-candy);
-    background-size: calc(100% + 6 * var(--_chu-b) * var(--chu-pixel)) 100%, auto;
-    animation: chu-progress-march calc(6 * var(--chu-duration-slide)) steps(6, jump-end) infinite;
+      repeating-linear-gradient(to var(--_blip-to), transparent 0 calc(2 * var(--_blip-b) * var(--blip-pixel)), var(--_blip-slot) 0 calc(6 * var(--_blip-b) * var(--blip-pixel))) var(--_blip-from) 0 / auto no-repeat,
+      var(--_blip-candy);
+    background-size: calc(100% + 6 * var(--_blip-b) * var(--blip-pixel)) 100%, auto;
+    animation: blip-progress-march calc(6 * var(--blip-duration-slide)) steps(6, jump-end) infinite;
   }
-  .chu-progress > progress:indeterminate::-moz-progress-bar { background: transparent; }
+  .blip-progress > progress:indeterminate::-moz-progress-bar { background: transparent; }
 
   /* Meter: the level picks the colour. Chrome and Safari show the level only through these parts, so each
      part paints its own candy. */
-  .chu-meter > meter::-webkit-meter-bar { block-size: calc(var(--_chu-h) * var(--chu-pixel)); background: transparent; border: 0; border-radius: 0; }
-  .chu-meter > meter::-webkit-meter-optimum-value,
-  .chu-meter > meter::-webkit-meter-suboptimum-value,
-  .chu-meter > meter::-webkit-meter-even-less-good-value {
-    block-size: calc(var(--_chu-h) * var(--chu-pixel));
-    background: linear-gradient(var(--chu-tone-light) 0 var(--chu-pixel), var(--chu-tone) 0 calc(100% - var(--chu-pixel)), var(--chu-tone-shade) 0);
+  .blip-meter > meter::-webkit-meter-bar { block-size: calc(var(--_blip-h) * var(--blip-pixel)); background: transparent; border: 0; border-radius: 0; }
+  .blip-meter > meter::-webkit-meter-optimum-value,
+  .blip-meter > meter::-webkit-meter-suboptimum-value,
+  .blip-meter > meter::-webkit-meter-even-less-good-value {
+    block-size: calc(var(--_blip-h) * var(--blip-pixel));
+    background: linear-gradient(var(--blip-tone-light) 0 var(--blip-pixel), var(--blip-tone) 0 calc(100% - var(--blip-pixel)), var(--blip-tone-shade) 0);
   }
-  .chu-meter:not([data-tone]) > meter::-webkit-meter-optimum-value { --chu-tone: var(--chu-success); --chu-tone-light: var(--chu-success-light); --chu-tone-shade: var(--chu-success-shade); }
-  .chu-meter:not([data-tone]) > meter::-webkit-meter-suboptimum-value { --chu-tone: var(--chu-warning); --chu-tone-light: var(--chu-warning-light); --chu-tone-shade: var(--chu-warning-shade); }
-  .chu-meter:not([data-tone]) > meter::-webkit-meter-even-less-good-value { --chu-tone: var(--chu-danger); --chu-tone-light: var(--chu-danger-light); --chu-tone-shade: var(--chu-danger-shade); }
-  .chu-meter > meter::-moz-meter-bar { background: var(--_chu-candy); }
-  .chu-meter:not([data-tone]) > meter:-moz-meter-optimum { --chu-tone: var(--chu-success); --chu-tone-light: var(--chu-success-light); --chu-tone-shade: var(--chu-success-shade); }
-  .chu-meter:not([data-tone]) > meter:-moz-meter-sub-optimum { --chu-tone: var(--chu-warning); --chu-tone-light: var(--chu-warning-light); --chu-tone-shade: var(--chu-warning-shade); }
-  .chu-meter:not([data-tone]) > meter:-moz-meter-sub-sub-optimum { --chu-tone: var(--chu-danger); --chu-tone-light: var(--chu-danger-light); --chu-tone-shade: var(--chu-danger-shade); }
+  .blip-meter:not([data-tone]) > meter::-webkit-meter-optimum-value { --blip-tone: var(--blip-success); --blip-tone-light: var(--blip-success-light); --blip-tone-shade: var(--blip-success-shade); }
+  .blip-meter:not([data-tone]) > meter::-webkit-meter-suboptimum-value { --blip-tone: var(--blip-warning); --blip-tone-light: var(--blip-warning-light); --blip-tone-shade: var(--blip-warning-shade); }
+  .blip-meter:not([data-tone]) > meter::-webkit-meter-even-less-good-value { --blip-tone: var(--blip-danger); --blip-tone-light: var(--blip-danger-light); --blip-tone-shade: var(--blip-danger-shade); }
+  .blip-meter > meter::-moz-meter-bar { background: var(--_blip-candy); }
+  .blip-meter:not([data-tone]) > meter:-moz-meter-optimum { --blip-tone: var(--blip-success); --blip-tone-light: var(--blip-success-light); --blip-tone-shade: var(--blip-success-shade); }
+  .blip-meter:not([data-tone]) > meter:-moz-meter-sub-optimum { --blip-tone: var(--blip-warning); --blip-tone-light: var(--blip-warning-light); --blip-tone-shade: var(--blip-warning-shade); }
+  .blip-meter:not([data-tone]) > meter:-moz-meter-sub-sub-optimum { --blip-tone: var(--blip-danger); --blip-tone-light: var(--blip-danger-light); --blip-tone-shade: var(--blip-danger-shade); }
   /* One fixed colour: snapped to whole blocks where CSS can read the value. */
   @supports (inline-size: attr(x type(<length>), 0px)) {
-    .chu-meter[data-tone] > meter {
+    .blip-meter[data-tone] > meter {
       background:
-        var(--_chu-candy) var(--_chu-from) 0 / round(down, (attr(value type(<number>), 0) - attr(min type(<number>), 0)) / (attr(max type(<number>), 1) - attr(min type(<number>), 0)) * 100% + var(--chu-pixel), var(--_chu-b) * var(--chu-pixel)) 100% no-repeat,
-        var(--_chu-slot);
+        var(--_blip-candy) var(--_blip-from) 0 / round(down, (attr(value type(<number>), 0) - attr(min type(<number>), 0)) / (attr(max type(<number>), 1) - attr(min type(<number>), 0)) * 100% + var(--blip-pixel), var(--_blip-b) * var(--blip-pixel)) 100% no-repeat,
+        var(--_blip-slot);
     }
-    .chu-meter[data-tone] > meter::-webkit-meter-optimum-value,
-    .chu-meter[data-tone] > meter::-webkit-meter-suboptimum-value,
-    .chu-meter[data-tone] > meter::-webkit-meter-even-less-good-value { background: transparent; }
-    .chu-meter[data-tone] > meter::-moz-meter-bar { background: transparent; }
+    .blip-meter[data-tone] > meter::-webkit-meter-optimum-value,
+    .blip-meter[data-tone] > meter::-webkit-meter-suboptimum-value,
+    .blip-meter[data-tone] > meter::-webkit-meter-even-less-good-value { background: transparent; }
+    .blip-meter[data-tone] > meter::-moz-meter-bar { background: transparent; }
   }
 
-  .chu-progress-label {
+  .blip-progress-label {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    gap: calc(4 * var(--chu-pixel));
-    margin-block-end: calc(2 * var(--chu-pixel));
-    font-size: var(--chu-size-small);
-    font-weight: var(--chu-weight-bold);
+    gap: calc(4 * var(--blip-pixel));
+    margin-block-end: calc(2 * var(--blip-pixel));
+    font-size: var(--blip-size-small);
+    font-weight: var(--blip-weight-bold);
   }
-  .chu-progress-label > :not(:first-child) { font-weight: var(--chu-weight-regular); color: var(--chu-text-muted); font-variant-numeric: tabular-nums; }
+  .blip-progress-label > :not(:first-child) { font-weight: var(--blip-weight-regular); color: var(--blip-text-muted); font-variant-numeric: tabular-nums; }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-progress > progress:indeterminate { animation: none; }
+    .blip-progress > progress:indeterminate { animation: none; }
   }
   @media (forced-colors: active) {
-    :is(.chu-progress, .chu-meter) > :is(progress, meter) { forced-color-adjust: none; --_chu-slot: GrayText; --_chu-candy: linear-gradient(Highlight 0 0); }
-    .chu-meter > meter::-webkit-meter-optimum-value,
-    .chu-meter > meter::-webkit-meter-suboptimum-value,
-    .chu-meter > meter::-webkit-meter-even-less-good-value { background: Highlight; }
+    :is(.blip-progress, .blip-meter) > :is(progress, meter) { forced-color-adjust: none; --_blip-slot: GrayText; --_blip-candy: linear-gradient(Highlight 0 0); }
+    .blip-meter > meter::-webkit-meter-optimum-value,
+    .blip-meter > meter::-webkit-meter-suboptimum-value,
+    .blip-meter > meter::-webkit-meter-even-less-good-value { background: Highlight; }
   }
 }
 
-@keyframes chu-progress-march {
-  from { background-position: var(--_chu-from) calc(-6 * var(--_chu-b) * var(--chu-pixel)) top 0, 0 0; }
-  to { background-position: var(--_chu-from) 0 top 0, 0 0; }
+@keyframes blip-progress-march {
+  from { background-position: var(--_blip-from) calc(-6 * var(--_blip-b) * var(--blip-pixel)) top 0, 0 0; }
+  to { background-position: var(--_blip-from) 0 top 0, 0 0; }
 }

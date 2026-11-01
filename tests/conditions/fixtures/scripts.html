@@ -1,117 +1,117 @@
 <!-- Other scripts: the same text-bearing parts in Russian, Greek, Vietnamese, Chinese, Japanese, Arabic and Hebrew,
      for the scripts lane (tests/conditions/scripts.spec.ts). Each block of more than one line has one span per line
      (data-line), so the lane can find each line's ink and check that no line reaches into the one above. -->
-<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:calc(16*var(--chu-pixel))">
-<section lang="ru" dir="ltr" data-script="ru" aria-label="Russian" style="display:grid;gap:calc(8*var(--chu-pixel));align-content:start;padding:calc(6*var(--chu-pixel));outline:var(--chu-pixel) dashed var(--chu-line-soft)">
-  <p class="chu-display" data-scale="1" data-part="display 1"><span data-line="1">Игра</span><br><span data-line="2">окончена</span></p><p class="chu-display" data-scale="2" data-part="display 2"><span data-line="1">Игра</span><br><span data-line="2">окончена</span></p><p class="chu-display" data-scale="3" data-part="display 3"><span data-line="1">Игра</span><br><span data-line="2">окончена</span></p><p class="chu-display" data-scale="4" data-part="display 4"><span data-line="1">Игра</span><br><span data-line="2">окончена</span></p>
-  <h2 class="chu-title" data-part="title"><span data-line="1">Настройки игрока</span><br><span data-line="2">и звука</span></h2>
-  <p class="chu-lead" data-part="lead"><span data-line="1">Соберите все монеты</span><br><span data-line="2">до конца таймера.</span></p>
-  <p class="chu-body" data-part="body"><span data-line="1">Вы прошли первый мир</span><br><span data-line="2">без единой ошибки и</span><br><span data-line="3">получили три звезды.</span></p>
-  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel));align-items:center">
-    <span class="chu-label" data-part="label">Громкость музыки</span>
-    <button class="chu-box chu-button" type="button" data-part="button">Сохранить игру</button>
-    <span class="chu-box chu-tag" data-part="tag">Пройдено</span>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:calc(16*var(--blip-pixel))">
+<section lang="ru" dir="ltr" data-script="ru" aria-label="Russian" style="display:grid;gap:calc(8*var(--blip-pixel));align-content:start;padding:calc(6*var(--blip-pixel));outline:var(--blip-pixel) dashed var(--blip-line-soft)">
+  <p class="blip-display" data-scale="1" data-part="display 1"><span data-line="1">Игра</span><br><span data-line="2">окончена</span></p><p class="blip-display" data-scale="2" data-part="display 2"><span data-line="1">Игра</span><br><span data-line="2">окончена</span></p><p class="blip-display" data-scale="3" data-part="display 3"><span data-line="1">Игра</span><br><span data-line="2">окончена</span></p><p class="blip-display" data-scale="4" data-part="display 4"><span data-line="1">Игра</span><br><span data-line="2">окончена</span></p>
+  <h2 class="blip-title" data-part="title"><span data-line="1">Настройки игрока</span><br><span data-line="2">и звука</span></h2>
+  <p class="blip-lead" data-part="lead"><span data-line="1">Соберите все монеты</span><br><span data-line="2">до конца таймера.</span></p>
+  <p class="blip-body" data-part="body"><span data-line="1">Вы прошли первый мир</span><br><span data-line="2">без единой ошибки и</span><br><span data-line="3">получили три звезды.</span></p>
+  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--blip-pixel));align-items:center">
+    <span class="blip-label" data-part="label">Громкость музыки</span>
+    <button class="blip-box blip-button" type="button" data-part="button">Сохранить игру</button>
+    <span class="blip-box blip-tag" data-part="tag">Пройдено</span>
   </div>
-  <div class="chu-tabs-list" role="tablist" aria-label="Russian"><button class="chu-box chu-tab" role="tab" aria-selected="true" data-part="tab">Управление</button></div>
-  <article class="chu-box chu-card"><header class="chu-card-header"><h3 class="chu-card-title" data-part="card title">Настройки</h3></header><p class="chu-small">Вы прошли первый мир</p></article>
-  <div class="chu-box chu-table-frame"><div class="chu-table-scroll"><table class="chu-table"><thead><tr><th scope="col" data-part="table heading">Игрок</th></tr></thead><tbody><tr><td data-part="table cell">Екатерина Смирнова</td></tr></tbody></table></div></div>
-  <span class="chu-box chu-input"><input data-part="input" value="Анастасия Иванова" aria-label="Russian"></span>
-  <div class="chu-toaster" data-chu-static role="region" aria-label="Russian"><div class="chu-box chu-toast" data-tone="success" role="group" aria-label="Russian"><span class="chu-toast-icon" aria-hidden="true"></span><div class="chu-toast-body"><p class="chu-toast-title" data-part="toast title">Достижение получено</p><p>Соберите все монеты</p></div></div></div>
+  <div class="blip-tabs-list" role="tablist" aria-label="Russian"><button class="blip-box blip-tab" role="tab" aria-selected="true" data-part="tab">Управление</button></div>
+  <article class="blip-box blip-card"><header class="blip-card-header"><h3 class="blip-card-title" data-part="card title">Настройки</h3></header><p class="blip-small">Вы прошли первый мир</p></article>
+  <div class="blip-box blip-table-frame"><div class="blip-table-scroll"><table class="blip-table"><thead><tr><th scope="col" data-part="table heading">Игрок</th></tr></thead><tbody><tr><td data-part="table cell">Екатерина Смирнова</td></tr></tbody></table></div></div>
+  <span class="blip-box blip-input"><input data-part="input" value="Анастасия Иванова" aria-label="Russian"></span>
+  <div class="blip-toaster" data-blip-static role="region" aria-label="Russian"><div class="blip-box blip-toast" data-tone="success" role="group" aria-label="Russian"><span class="blip-toast-icon" aria-hidden="true"></span><div class="blip-toast-body"><p class="blip-toast-title" data-part="toast title">Достижение получено</p><p>Соберите все монеты</p></div></div></div>
 </section>
-<section lang="el" dir="ltr" data-script="el" aria-label="Greek" style="display:grid;gap:calc(8*var(--chu-pixel));align-content:start;padding:calc(6*var(--chu-pixel));outline:var(--chu-pixel) dashed var(--chu-line-soft)">
-  <p class="chu-display" data-scale="1" data-part="display 1"><span data-line="1">Τέλος</span><br><span data-line="2">παιχνιδιού</span></p><p class="chu-display" data-scale="2" data-part="display 2"><span data-line="1">Τέλος</span><br><span data-line="2">παιχνιδιού</span></p><p class="chu-display" data-scale="3" data-part="display 3"><span data-line="1">Τέλος</span><br><span data-line="2">παιχνιδιού</span></p><p class="chu-display" data-scale="4" data-part="display 4"><span data-line="1">Τέλος</span><br><span data-line="2">παιχνιδιού</span></p>
-  <h2 class="chu-title" data-part="title"><span data-line="1">Ρυθμίσεις παίκτη</span><br><span data-line="2">και ήχου</span></h2>
-  <p class="chu-lead" data-part="lead"><span data-line="1">Μάζεψε όλα τα νομίσματα</span><br><span data-line="2">πριν τελειώσει ο χρόνος.</span></p>
-  <p class="chu-body" data-part="body"><span data-line="1">Τελείωσες τον πρώτο κόσμο</span><br><span data-line="2">χωρίς καμία ζημιά και</span><br><span data-line="3">πήρες τρία αστέρια.</span></p>
-  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel));align-items:center">
-    <span class="chu-label" data-part="label">Ένταση μουσικής</span>
-    <button class="chu-box chu-button" type="button" data-part="button">Αποθήκευση παιχνιδιού</button>
-    <span class="chu-box chu-tag" data-part="tag">Ολοκληρώθηκε</span>
+<section lang="el" dir="ltr" data-script="el" aria-label="Greek" style="display:grid;gap:calc(8*var(--blip-pixel));align-content:start;padding:calc(6*var(--blip-pixel));outline:var(--blip-pixel) dashed var(--blip-line-soft)">
+  <p class="blip-display" data-scale="1" data-part="display 1"><span data-line="1">Τέλος</span><br><span data-line="2">παιχνιδιού</span></p><p class="blip-display" data-scale="2" data-part="display 2"><span data-line="1">Τέλος</span><br><span data-line="2">παιχνιδιού</span></p><p class="blip-display" data-scale="3" data-part="display 3"><span data-line="1">Τέλος</span><br><span data-line="2">παιχνιδιού</span></p><p class="blip-display" data-scale="4" data-part="display 4"><span data-line="1">Τέλος</span><br><span data-line="2">παιχνιδιού</span></p>
+  <h2 class="blip-title" data-part="title"><span data-line="1">Ρυθμίσεις παίκτη</span><br><span data-line="2">και ήχου</span></h2>
+  <p class="blip-lead" data-part="lead"><span data-line="1">Μάζεψε όλα τα νομίσματα</span><br><span data-line="2">πριν τελειώσει ο χρόνος.</span></p>
+  <p class="blip-body" data-part="body"><span data-line="1">Τελείωσες τον πρώτο κόσμο</span><br><span data-line="2">χωρίς καμία ζημιά και</span><br><span data-line="3">πήρες τρία αστέρια.</span></p>
+  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--blip-pixel));align-items:center">
+    <span class="blip-label" data-part="label">Ένταση μουσικής</span>
+    <button class="blip-box blip-button" type="button" data-part="button">Αποθήκευση παιχνιδιού</button>
+    <span class="blip-box blip-tag" data-part="tag">Ολοκληρώθηκε</span>
   </div>
-  <div class="chu-tabs-list" role="tablist" aria-label="Greek"><button class="chu-box chu-tab" role="tab" aria-selected="true" data-part="tab">Χειρισμός</button></div>
-  <article class="chu-box chu-card"><header class="chu-card-header"><h3 class="chu-card-title" data-part="card title">Ρυθμίσεις</h3></header><p class="chu-small">Τελείωσες τον πρώτο κόσμο</p></article>
-  <div class="chu-box chu-table-frame"><div class="chu-table-scroll"><table class="chu-table"><thead><tr><th scope="col" data-part="table heading">Παίκτης</th></tr></thead><tbody><tr><td data-part="table cell">Μαρία Κωνσταντίνου</td></tr></tbody></table></div></div>
-  <span class="chu-box chu-input"><input data-part="input" value="Γιώργος Παπαδόπουλος" aria-label="Greek"></span>
-  <div class="chu-toaster" data-chu-static role="region" aria-label="Greek"><div class="chu-box chu-toast" data-tone="success" role="group" aria-label="Greek"><span class="chu-toast-icon" aria-hidden="true"></span><div class="chu-toast-body"><p class="chu-toast-title" data-part="toast title">Επίτευγμα ξεκλειδώθηκε</p><p>Μάζεψε όλα τα νομίσματα</p></div></div></div>
+  <div class="blip-tabs-list" role="tablist" aria-label="Greek"><button class="blip-box blip-tab" role="tab" aria-selected="true" data-part="tab">Χειρισμός</button></div>
+  <article class="blip-box blip-card"><header class="blip-card-header"><h3 class="blip-card-title" data-part="card title">Ρυθμίσεις</h3></header><p class="blip-small">Τελείωσες τον πρώτο κόσμο</p></article>
+  <div class="blip-box blip-table-frame"><div class="blip-table-scroll"><table class="blip-table"><thead><tr><th scope="col" data-part="table heading">Παίκτης</th></tr></thead><tbody><tr><td data-part="table cell">Μαρία Κωνσταντίνου</td></tr></tbody></table></div></div>
+  <span class="blip-box blip-input"><input data-part="input" value="Γιώργος Παπαδόπουλος" aria-label="Greek"></span>
+  <div class="blip-toaster" data-blip-static role="region" aria-label="Greek"><div class="blip-box blip-toast" data-tone="success" role="group" aria-label="Greek"><span class="blip-toast-icon" aria-hidden="true"></span><div class="blip-toast-body"><p class="blip-toast-title" data-part="toast title">Επίτευγμα ξεκλειδώθηκε</p><p>Μάζεψε όλα τα νομίσματα</p></div></div></div>
 </section>
-<section lang="vi" dir="ltr" data-script="vi" aria-label="Vietnamese" style="display:grid;gap:calc(8*var(--chu-pixel));align-content:start;padding:calc(6*var(--chu-pixel));outline:var(--chu-pixel) dashed var(--chu-line-soft)">
-  <p class="chu-display" data-scale="1" data-part="display 1"><span data-line="1">Tiếng Việt</span><br><span data-line="2">Đến nơi</span></p><p class="chu-display" data-scale="2" data-part="display 2"><span data-line="1">Tiếng Việt</span><br><span data-line="2">Đến nơi</span></p><p class="chu-display" data-scale="3" data-part="display 3"><span data-line="1">Tiếng Việt</span><br><span data-line="2">Đến nơi</span></p><p class="chu-display" data-scale="4" data-part="display 4"><span data-line="1">Tiếng Việt</span><br><span data-line="2">Đến nơi</span></p>
-  <h2 class="chu-title" data-part="title"><span data-line="1">Cài đặt người chơi</span><br><span data-line="2">và âm thanh</span></h2>
-  <p class="chu-lead" data-part="lead"><span data-line="1">Thu thập mọi đồng xu</span><br><span data-line="2">trước khi hết giờ.</span></p>
-  <p class="chu-body" data-part="body"><span data-line="1">Bạn đã vượt qua thế giới</span><br><span data-line="2">thứ nhất mà không bị</span><br><span data-line="3">thương một lần nào.</span></p>
-  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel));align-items:center">
-    <span class="chu-label" data-part="label">Âm lượng nhạc nền</span>
-    <button class="chu-box chu-button" type="button" data-part="button">Lưu trò chơi</button>
-    <span class="chu-box chu-tag" data-part="tag">Hoàn thành</span>
+<section lang="vi" dir="ltr" data-script="vi" aria-label="Vietnamese" style="display:grid;gap:calc(8*var(--blip-pixel));align-content:start;padding:calc(6*var(--blip-pixel));outline:var(--blip-pixel) dashed var(--blip-line-soft)">
+  <p class="blip-display" data-scale="1" data-part="display 1"><span data-line="1">Tiếng Việt</span><br><span data-line="2">Đến nơi</span></p><p class="blip-display" data-scale="2" data-part="display 2"><span data-line="1">Tiếng Việt</span><br><span data-line="2">Đến nơi</span></p><p class="blip-display" data-scale="3" data-part="display 3"><span data-line="1">Tiếng Việt</span><br><span data-line="2">Đến nơi</span></p><p class="blip-display" data-scale="4" data-part="display 4"><span data-line="1">Tiếng Việt</span><br><span data-line="2">Đến nơi</span></p>
+  <h2 class="blip-title" data-part="title"><span data-line="1">Cài đặt người chơi</span><br><span data-line="2">và âm thanh</span></h2>
+  <p class="blip-lead" data-part="lead"><span data-line="1">Thu thập mọi đồng xu</span><br><span data-line="2">trước khi hết giờ.</span></p>
+  <p class="blip-body" data-part="body"><span data-line="1">Bạn đã vượt qua thế giới</span><br><span data-line="2">thứ nhất mà không bị</span><br><span data-line="3">thương một lần nào.</span></p>
+  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--blip-pixel));align-items:center">
+    <span class="blip-label" data-part="label">Âm lượng nhạc nền</span>
+    <button class="blip-box blip-button" type="button" data-part="button">Lưu trò chơi</button>
+    <span class="blip-box blip-tag" data-part="tag">Hoàn thành</span>
   </div>
-  <div class="chu-tabs-list" role="tablist" aria-label="Vietnamese"><button class="chu-box chu-tab" role="tab" aria-selected="true" data-part="tab">Điều khiển</button></div>
-  <article class="chu-box chu-card"><header class="chu-card-header"><h3 class="chu-card-title" data-part="card title">Thế giới</h3></header><p class="chu-small">Bạn đã vượt qua thế giới</p></article>
-  <div class="chu-box chu-table-frame"><div class="chu-table-scroll"><table class="chu-table"><thead><tr><th scope="col" data-part="table heading">Người chơi</th></tr></thead><tbody><tr><td data-part="table cell">Trần Thị Hương</td></tr></tbody></table></div></div>
-  <span class="chu-box chu-input"><input data-part="input" value="Nguyễn Văn Đức" aria-label="Vietnamese"></span>
-  <div class="chu-toaster" data-chu-static role="region" aria-label="Vietnamese"><div class="chu-box chu-toast" data-tone="success" role="group" aria-label="Vietnamese"><span class="chu-toast-icon" aria-hidden="true"></span><div class="chu-toast-body"><p class="chu-toast-title" data-part="toast title">Đã mở khóa thành tích</p><p>Thu thập mọi đồng xu</p></div></div></div>
+  <div class="blip-tabs-list" role="tablist" aria-label="Vietnamese"><button class="blip-box blip-tab" role="tab" aria-selected="true" data-part="tab">Điều khiển</button></div>
+  <article class="blip-box blip-card"><header class="blip-card-header"><h3 class="blip-card-title" data-part="card title">Thế giới</h3></header><p class="blip-small">Bạn đã vượt qua thế giới</p></article>
+  <div class="blip-box blip-table-frame"><div class="blip-table-scroll"><table class="blip-table"><thead><tr><th scope="col" data-part="table heading">Người chơi</th></tr></thead><tbody><tr><td data-part="table cell">Trần Thị Hương</td></tr></tbody></table></div></div>
+  <span class="blip-box blip-input"><input data-part="input" value="Nguyễn Văn Đức" aria-label="Vietnamese"></span>
+  <div class="blip-toaster" data-blip-static role="region" aria-label="Vietnamese"><div class="blip-box blip-toast" data-tone="success" role="group" aria-label="Vietnamese"><span class="blip-toast-icon" aria-hidden="true"></span><div class="blip-toast-body"><p class="blip-toast-title" data-part="toast title">Đã mở khóa thành tích</p><p>Thu thập mọi đồng xu</p></div></div></div>
 </section>
-<section lang="zh" dir="ltr" data-script="zh" aria-label="Chinese" style="display:grid;gap:calc(8*var(--chu-pixel));align-content:start;padding:calc(6*var(--chu-pixel));outline:var(--chu-pixel) dashed var(--chu-line-soft)">
-  <p class="chu-display" data-scale="1" data-part="display 1"><span data-line="1">游戏</span><br><span data-line="2">结束</span></p><p class="chu-display" data-scale="2" data-part="display 2"><span data-line="1">游戏</span><br><span data-line="2">结束</span></p><p class="chu-display" data-scale="3" data-part="display 3"><span data-line="1">游戏</span><br><span data-line="2">结束</span></p><p class="chu-display" data-scale="4" data-part="display 4"><span data-line="1">游戏</span><br><span data-line="2">结束</span></p>
-  <h2 class="chu-title" data-part="title"><span data-line="1">玩家设置</span><br><span data-line="2">和声音</span></h2>
-  <p class="chu-lead" data-part="lead"><span data-line="1">在计时器结束前</span><br><span data-line="2">收集所有金币。</span></p>
-  <p class="chu-body" data-part="body"><span data-line="1">你在第一世界中</span><br><span data-line="2">没有受到任何伤害，</span><br><span data-line="3">获得了三颗星。</span></p>
-  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel));align-items:center">
-    <span class="chu-label" data-part="label">音乐音量</span>
-    <button class="chu-box chu-button" type="button" data-part="button">保存游戏</button>
-    <span class="chu-box chu-tag" data-part="tag">已完成</span>
+<section lang="zh" dir="ltr" data-script="zh" aria-label="Chinese" style="display:grid;gap:calc(8*var(--blip-pixel));align-content:start;padding:calc(6*var(--blip-pixel));outline:var(--blip-pixel) dashed var(--blip-line-soft)">
+  <p class="blip-display" data-scale="1" data-part="display 1"><span data-line="1">游戏</span><br><span data-line="2">结束</span></p><p class="blip-display" data-scale="2" data-part="display 2"><span data-line="1">游戏</span><br><span data-line="2">结束</span></p><p class="blip-display" data-scale="3" data-part="display 3"><span data-line="1">游戏</span><br><span data-line="2">结束</span></p><p class="blip-display" data-scale="4" data-part="display 4"><span data-line="1">游戏</span><br><span data-line="2">结束</span></p>
+  <h2 class="blip-title" data-part="title"><span data-line="1">玩家设置</span><br><span data-line="2">和声音</span></h2>
+  <p class="blip-lead" data-part="lead"><span data-line="1">在计时器结束前</span><br><span data-line="2">收集所有金币。</span></p>
+  <p class="blip-body" data-part="body"><span data-line="1">你在第一世界中</span><br><span data-line="2">没有受到任何伤害，</span><br><span data-line="3">获得了三颗星。</span></p>
+  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--blip-pixel));align-items:center">
+    <span class="blip-label" data-part="label">音乐音量</span>
+    <button class="blip-box blip-button" type="button" data-part="button">保存游戏</button>
+    <span class="blip-box blip-tag" data-part="tag">已完成</span>
   </div>
-  <div class="chu-tabs-list" role="tablist" aria-label="Chinese"><button class="chu-box chu-tab" role="tab" aria-selected="true" data-part="tab">控制</button></div>
-  <article class="chu-box chu-card"><header class="chu-card-header"><h3 class="chu-card-title" data-part="card title">设置</h3></header><p class="chu-small">你在第一世界中</p></article>
-  <div class="chu-box chu-table-frame"><div class="chu-table-scroll"><table class="chu-table"><thead><tr><th scope="col" data-part="table heading">玩家</th></tr></thead><tbody><tr><td data-part="table cell">李娜</td></tr></tbody></table></div></div>
-  <span class="chu-box chu-input"><input data-part="input" value="张伟" aria-label="Chinese"></span>
-  <div class="chu-toaster" data-chu-static role="region" aria-label="Chinese"><div class="chu-box chu-toast" data-tone="success" role="group" aria-label="Chinese"><span class="chu-toast-icon" aria-hidden="true"></span><div class="chu-toast-body"><p class="chu-toast-title" data-part="toast title">成就已解锁</p><p>在计时器结束前</p></div></div></div>
+  <div class="blip-tabs-list" role="tablist" aria-label="Chinese"><button class="blip-box blip-tab" role="tab" aria-selected="true" data-part="tab">控制</button></div>
+  <article class="blip-box blip-card"><header class="blip-card-header"><h3 class="blip-card-title" data-part="card title">设置</h3></header><p class="blip-small">你在第一世界中</p></article>
+  <div class="blip-box blip-table-frame"><div class="blip-table-scroll"><table class="blip-table"><thead><tr><th scope="col" data-part="table heading">玩家</th></tr></thead><tbody><tr><td data-part="table cell">李娜</td></tr></tbody></table></div></div>
+  <span class="blip-box blip-input"><input data-part="input" value="张伟" aria-label="Chinese"></span>
+  <div class="blip-toaster" data-blip-static role="region" aria-label="Chinese"><div class="blip-box blip-toast" data-tone="success" role="group" aria-label="Chinese"><span class="blip-toast-icon" aria-hidden="true"></span><div class="blip-toast-body"><p class="blip-toast-title" data-part="toast title">成就已解锁</p><p>在计时器结束前</p></div></div></div>
 </section>
-<section lang="ja" dir="ltr" data-script="ja" aria-label="Japanese" style="display:grid;gap:calc(8*var(--chu-pixel));align-content:start;padding:calc(6*var(--chu-pixel));outline:var(--chu-pixel) dashed var(--chu-line-soft)">
-  <p class="chu-display" data-scale="1" data-part="display 1"><span data-line="1">ゲーム</span><br><span data-line="2">オーバー</span></p><p class="chu-display" data-scale="2" data-part="display 2"><span data-line="1">ゲーム</span><br><span data-line="2">オーバー</span></p><p class="chu-display" data-scale="3" data-part="display 3"><span data-line="1">ゲーム</span><br><span data-line="2">オーバー</span></p><p class="chu-display" data-scale="4" data-part="display 4"><span data-line="1">ゲーム</span><br><span data-line="2">オーバー</span></p>
-  <h2 class="chu-title" data-part="title"><span data-line="1">プレイヤー設定</span><br><span data-line="2">とサウンド</span></h2>
-  <p class="chu-lead" data-part="lead"><span data-line="1">タイマーが終わる前に</span><br><span data-line="2">コインを集めよう。</span></p>
-  <p class="chu-body" data-part="body"><span data-line="1">ノーダメージで</span><br><span data-line="2">ワールド1をクリアして</span><br><span data-line="3">星を三つ手に入れた。</span></p>
-  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel));align-items:center">
-    <span class="chu-label" data-part="label">音楽の音量</span>
-    <button class="chu-box chu-button" type="button" data-part="button">ゲームを保存</button>
-    <span class="chu-box chu-tag" data-part="tag">クリア</span>
+<section lang="ja" dir="ltr" data-script="ja" aria-label="Japanese" style="display:grid;gap:calc(8*var(--blip-pixel));align-content:start;padding:calc(6*var(--blip-pixel));outline:var(--blip-pixel) dashed var(--blip-line-soft)">
+  <p class="blip-display" data-scale="1" data-part="display 1"><span data-line="1">ゲーム</span><br><span data-line="2">オーバー</span></p><p class="blip-display" data-scale="2" data-part="display 2"><span data-line="1">ゲーム</span><br><span data-line="2">オーバー</span></p><p class="blip-display" data-scale="3" data-part="display 3"><span data-line="1">ゲーム</span><br><span data-line="2">オーバー</span></p><p class="blip-display" data-scale="4" data-part="display 4"><span data-line="1">ゲーム</span><br><span data-line="2">オーバー</span></p>
+  <h2 class="blip-title" data-part="title"><span data-line="1">プレイヤー設定</span><br><span data-line="2">とサウンド</span></h2>
+  <p class="blip-lead" data-part="lead"><span data-line="1">タイマーが終わる前に</span><br><span data-line="2">コインを集めよう。</span></p>
+  <p class="blip-body" data-part="body"><span data-line="1">ノーダメージで</span><br><span data-line="2">ワールド1をクリアして</span><br><span data-line="3">星を三つ手に入れた。</span></p>
+  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--blip-pixel));align-items:center">
+    <span class="blip-label" data-part="label">音楽の音量</span>
+    <button class="blip-box blip-button" type="button" data-part="button">ゲームを保存</button>
+    <span class="blip-box blip-tag" data-part="tag">クリア</span>
   </div>
-  <div class="chu-tabs-list" role="tablist" aria-label="Japanese"><button class="chu-box chu-tab" role="tab" aria-selected="true" data-part="tab">操作</button></div>
-  <article class="chu-box chu-card"><header class="chu-card-header"><h3 class="chu-card-title" data-part="card title">設定</h3></header><p class="chu-small">ノーダメージで</p></article>
-  <div class="chu-box chu-table-frame"><div class="chu-table-scroll"><table class="chu-table"><thead><tr><th scope="col" data-part="table heading">プレイヤー</th></tr></thead><tbody><tr><td data-part="table cell">佐藤花子</td></tr></tbody></table></div></div>
-  <span class="chu-box chu-input"><input data-part="input" value="山田太郎" aria-label="Japanese"></span>
-  <div class="chu-toaster" data-chu-static role="region" aria-label="Japanese"><div class="chu-box chu-toast" data-tone="success" role="group" aria-label="Japanese"><span class="chu-toast-icon" aria-hidden="true"></span><div class="chu-toast-body"><p class="chu-toast-title" data-part="toast title">実績を解除しました</p><p>タイマーが終わる前に</p></div></div></div>
+  <div class="blip-tabs-list" role="tablist" aria-label="Japanese"><button class="blip-box blip-tab" role="tab" aria-selected="true" data-part="tab">操作</button></div>
+  <article class="blip-box blip-card"><header class="blip-card-header"><h3 class="blip-card-title" data-part="card title">設定</h3></header><p class="blip-small">ノーダメージで</p></article>
+  <div class="blip-box blip-table-frame"><div class="blip-table-scroll"><table class="blip-table"><thead><tr><th scope="col" data-part="table heading">プレイヤー</th></tr></thead><tbody><tr><td data-part="table cell">佐藤花子</td></tr></tbody></table></div></div>
+  <span class="blip-box blip-input"><input data-part="input" value="山田太郎" aria-label="Japanese"></span>
+  <div class="blip-toaster" data-blip-static role="region" aria-label="Japanese"><div class="blip-box blip-toast" data-tone="success" role="group" aria-label="Japanese"><span class="blip-toast-icon" aria-hidden="true"></span><div class="blip-toast-body"><p class="blip-toast-title" data-part="toast title">実績を解除しました</p><p>タイマーが終わる前に</p></div></div></div>
 </section>
-<section lang="ar" dir="rtl" data-script="ar" aria-label="Arabic" style="display:grid;gap:calc(8*var(--chu-pixel));align-content:start;padding:calc(6*var(--chu-pixel));outline:var(--chu-pixel) dashed var(--chu-line-soft)">
-  <p class="chu-display" data-scale="1" data-part="display 1"><span data-line="1">انتهت</span><br><span data-line="2">اللعبة</span></p><p class="chu-display" data-scale="2" data-part="display 2"><span data-line="1">انتهت</span><br><span data-line="2">اللعبة</span></p><p class="chu-display" data-scale="3" data-part="display 3"><span data-line="1">انتهت</span><br><span data-line="2">اللعبة</span></p><p class="chu-display" data-scale="4" data-part="display 4"><span data-line="1">انتهت</span><br><span data-line="2">اللعبة</span></p>
-  <h2 class="chu-title" data-part="title"><span data-line="1">إعدادات اللاعب</span><br><span data-line="2">والصوت</span></h2>
-  <p class="chu-lead" data-part="lead"><span data-line="1">اجمع كل العملات</span><br><span data-line="2">قبل انتهاء الوقت.</span></p>
-  <p class="chu-body" data-part="body"><span data-line="1">أنهيت العالم الأول</span><br><span data-line="2">دون أي ضرر وحصلت</span><br><span data-line="3">على ثلاث نجوم.</span></p>
-  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel));align-items:center">
-    <span class="chu-label" data-part="label">مستوى صوت الموسيقى</span>
-    <button class="chu-box chu-button" type="button" data-part="button">حفظ اللعبة</button>
-    <span class="chu-box chu-tag" data-part="tag">مكتمل</span>
+<section lang="ar" dir="rtl" data-script="ar" aria-label="Arabic" style="display:grid;gap:calc(8*var(--blip-pixel));align-content:start;padding:calc(6*var(--blip-pixel));outline:var(--blip-pixel) dashed var(--blip-line-soft)">
+  <p class="blip-display" data-scale="1" data-part="display 1"><span data-line="1">انتهت</span><br><span data-line="2">اللعبة</span></p><p class="blip-display" data-scale="2" data-part="display 2"><span data-line="1">انتهت</span><br><span data-line="2">اللعبة</span></p><p class="blip-display" data-scale="3" data-part="display 3"><span data-line="1">انتهت</span><br><span data-line="2">اللعبة</span></p><p class="blip-display" data-scale="4" data-part="display 4"><span data-line="1">انتهت</span><br><span data-line="2">اللعبة</span></p>
+  <h2 class="blip-title" data-part="title"><span data-line="1">إعدادات اللاعب</span><br><span data-line="2">والصوت</span></h2>
+  <p class="blip-lead" data-part="lead"><span data-line="1">اجمع كل العملات</span><br><span data-line="2">قبل انتهاء الوقت.</span></p>
+  <p class="blip-body" data-part="body"><span data-line="1">أنهيت العالم الأول</span><br><span data-line="2">دون أي ضرر وحصلت</span><br><span data-line="3">على ثلاث نجوم.</span></p>
+  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--blip-pixel));align-items:center">
+    <span class="blip-label" data-part="label">مستوى صوت الموسيقى</span>
+    <button class="blip-box blip-button" type="button" data-part="button">حفظ اللعبة</button>
+    <span class="blip-box blip-tag" data-part="tag">مكتمل</span>
   </div>
-  <div class="chu-tabs-list" role="tablist" aria-label="Arabic"><button class="chu-box chu-tab" role="tab" aria-selected="true" data-part="tab">التحكم</button></div>
-  <article class="chu-box chu-card"><header class="chu-card-header"><h3 class="chu-card-title" data-part="card title">الإعدادات</h3></header><p class="chu-small">أنهيت العالم الأول</p></article>
-  <div class="chu-box chu-table-frame"><div class="chu-table-scroll"><table class="chu-table"><thead><tr><th scope="col" data-part="table heading">اللاعب</th></tr></thead><tbody><tr><td data-part="table cell">فاطمة الزهراء</td></tr></tbody></table></div></div>
-  <span class="chu-box chu-input"><input data-part="input" value="محمد العلي" aria-label="Arabic"></span>
-  <div class="chu-toaster" data-chu-static role="region" aria-label="Arabic"><div class="chu-box chu-toast" data-tone="success" role="group" aria-label="Arabic"><span class="chu-toast-icon" aria-hidden="true"></span><div class="chu-toast-body"><p class="chu-toast-title" data-part="toast title">تم فتح الإنجاز</p><p>اجمع كل العملات</p></div></div></div>
+  <div class="blip-tabs-list" role="tablist" aria-label="Arabic"><button class="blip-box blip-tab" role="tab" aria-selected="true" data-part="tab">التحكم</button></div>
+  <article class="blip-box blip-card"><header class="blip-card-header"><h3 class="blip-card-title" data-part="card title">الإعدادات</h3></header><p class="blip-small">أنهيت العالم الأول</p></article>
+  <div class="blip-box blip-table-frame"><div class="blip-table-scroll"><table class="blip-table"><thead><tr><th scope="col" data-part="table heading">اللاعب</th></tr></thead><tbody><tr><td data-part="table cell">فاطمة الزهراء</td></tr></tbody></table></div></div>
+  <span class="blip-box blip-input"><input data-part="input" value="محمد العلي" aria-label="Arabic"></span>
+  <div class="blip-toaster" data-blip-static role="region" aria-label="Arabic"><div class="blip-box blip-toast" data-tone="success" role="group" aria-label="Arabic"><span class="blip-toast-icon" aria-hidden="true"></span><div class="blip-toast-body"><p class="blip-toast-title" data-part="toast title">تم فتح الإنجاز</p><p>اجمع كل العملات</p></div></div></div>
 </section>
-<section lang="he" dir="rtl" data-script="he" aria-label="Hebrew" style="display:grid;gap:calc(8*var(--chu-pixel));align-content:start;padding:calc(6*var(--chu-pixel));outline:var(--chu-pixel) dashed var(--chu-line-soft)">
-  <p class="chu-display" data-scale="1" data-part="display 1"><span data-line="1">המשחק</span><br><span data-line="2">נגמר</span></p><p class="chu-display" data-scale="2" data-part="display 2"><span data-line="1">המשחק</span><br><span data-line="2">נגמר</span></p><p class="chu-display" data-scale="3" data-part="display 3"><span data-line="1">המשחק</span><br><span data-line="2">נגמר</span></p><p class="chu-display" data-scale="4" data-part="display 4"><span data-line="1">המשחק</span><br><span data-line="2">נגמר</span></p>
-  <h2 class="chu-title" data-part="title"><span data-line="1">הגדרות שחקן</span><br><span data-line="2">וצליל</span></h2>
-  <p class="chu-lead" data-part="lead"><span data-line="1">אספו את כל המטבעות</span><br><span data-line="2">לפני שהזמן נגמר.</span></p>
-  <p class="chu-body" data-part="body"><span data-line="1">סיימת את העולם הראשון</span><br><span data-line="2">בלי שום נזק</span><br><span data-line="3">וקיבלת שלושה כוכבים.</span></p>
-  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel));align-items:center">
-    <span class="chu-label" data-part="label">עוצמת המוזיקה</span>
-    <button class="chu-box chu-button" type="button" data-part="button">שמור משחק</button>
-    <span class="chu-box chu-tag" data-part="tag">הושלם</span>
+<section lang="he" dir="rtl" data-script="he" aria-label="Hebrew" style="display:grid;gap:calc(8*var(--blip-pixel));align-content:start;padding:calc(6*var(--blip-pixel));outline:var(--blip-pixel) dashed var(--blip-line-soft)">
+  <p class="blip-display" data-scale="1" data-part="display 1"><span data-line="1">המשחק</span><br><span data-line="2">נגמר</span></p><p class="blip-display" data-scale="2" data-part="display 2"><span data-line="1">המשחק</span><br><span data-line="2">נגמר</span></p><p class="blip-display" data-scale="3" data-part="display 3"><span data-line="1">המשחק</span><br><span data-line="2">נגמר</span></p><p class="blip-display" data-scale="4" data-part="display 4"><span data-line="1">המשחק</span><br><span data-line="2">נגמר</span></p>
+  <h2 class="blip-title" data-part="title"><span data-line="1">הגדרות שחקן</span><br><span data-line="2">וצליל</span></h2>
+  <p class="blip-lead" data-part="lead"><span data-line="1">אספו את כל המטבעות</span><br><span data-line="2">לפני שהזמן נגמר.</span></p>
+  <p class="blip-body" data-part="body"><span data-line="1">סיימת את העולם הראשון</span><br><span data-line="2">בלי שום נזק</span><br><span data-line="3">וקיבלת שלושה כוכבים.</span></p>
+  <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--blip-pixel));align-items:center">
+    <span class="blip-label" data-part="label">עוצמת המוזיקה</span>
+    <button class="blip-box blip-button" type="button" data-part="button">שמור משחק</button>
+    <span class="blip-box blip-tag" data-part="tag">הושלם</span>
   </div>
-  <div class="chu-tabs-list" role="tablist" aria-label="Hebrew"><button class="chu-box chu-tab" role="tab" aria-selected="true" data-part="tab">שליטה</button></div>
-  <article class="chu-box chu-card"><header class="chu-card-header"><h3 class="chu-card-title" data-part="card title">הגדרות</h3></header><p class="chu-small">סיימת את העולם הראשון</p></article>
-  <div class="chu-box chu-table-frame"><div class="chu-table-scroll"><table class="chu-table"><thead><tr><th scope="col" data-part="table heading">שחקן</th></tr></thead><tbody><tr><td data-part="table cell">שרה לוי</td></tr></tbody></table></div></div>
-  <span class="chu-box chu-input"><input data-part="input" value="דוד כהן" aria-label="Hebrew"></span>
-  <div class="chu-toaster" data-chu-static role="region" aria-label="Hebrew"><div class="chu-box chu-toast" data-tone="success" role="group" aria-label="Hebrew"><span class="chu-toast-icon" aria-hidden="true"></span><div class="chu-toast-body"><p class="chu-toast-title" data-part="toast title">הישג נפתח</p><p>אספו את כל המטבעות</p></div></div></div>
+  <div class="blip-tabs-list" role="tablist" aria-label="Hebrew"><button class="blip-box blip-tab" role="tab" aria-selected="true" data-part="tab">שליטה</button></div>
+  <article class="blip-box blip-card"><header class="blip-card-header"><h3 class="blip-card-title" data-part="card title">הגדרות</h3></header><p class="blip-small">סיימת את העולם הראשון</p></article>
+  <div class="blip-box blip-table-frame"><div class="blip-table-scroll"><table class="blip-table"><thead><tr><th scope="col" data-part="table heading">שחקן</th></tr></thead><tbody><tr><td data-part="table cell">שרה לוי</td></tr></tbody></table></div></div>
+  <span class="blip-box blip-input"><input data-part="input" value="דוד כהן" aria-label="Hebrew"></span>
+  <div class="blip-toaster" data-blip-static role="region" aria-label="Hebrew"><div class="blip-box blip-toast" data-tone="success" role="group" aria-label="Hebrew"><span class="blip-toast-icon" aria-hidden="true"></span><div class="blip-toast-body"><p class="blip-toast-title" data-part="toast title">הישג נפתח</p><p>אספו את כל המטבעות</p></div></div></div>
 </section>
 </div>

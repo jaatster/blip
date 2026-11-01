@@ -1,5 +1,5 @@
 {
-  "name": "chu-stack-vue",
+  "name": "blip-stack-vue",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,11 +8,11 @@
     "preview": "vite preview --port 4612 --strictPort"
   },
   "dependencies": {
-    "@jaatster/blip-components": "*",
-    "@jaatster/blip-core": "*",
-    "@jaatster/blip-elements": "*",
-    "@jaatster/blip-font": "*",
-    "@jaatster/blip-tokens": "*",
+    "@blip/components": "*",
+    "@blip/core": "*",
+    "@blip/elements": "*",
+    "@blip/font": "*",
+    "@blip/tokens": "*",
     "vue": "^3.5.44"
   },
   "devDependencies": {

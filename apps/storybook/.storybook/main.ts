@@ -14,7 +14,7 @@ const config: StorybookConfig = {
   framework: { name: "@storybook/html-vite", options: {} },
   stories: ["../src/**/*.mdx", "../src/**/*.stories.ts"],
   addons: ["@storybook/addon-docs", "@storybook/addon-a11y", "@storybook/addon-vitest"],
-  // The fonts, for Storybook's own UI (manager-head.html); the stories get them through @jaatster/blip-font.
+  // The fonts, for Storybook's own UI (manager-head.html); the stories get them through @blip/font.
   staticDirs: [{ from: "../../../packages/font/dist", to: "/blip-fonts" }],
   core: { disableTelemetry: true, disableWhatsNewNotifications: true },
   docs: { defaultName: "Docs" },

@@ -1,104 +1,104 @@
 /*
  * Combobox. A text field with a list of suggestions that filters as you type and completes the first match.
- * <chu-combobox> (from @jaatster/blip-elements) builds the list from a <datalist>, so without JavaScript the browser's
+ * <blip-combobox> (from @blip/elements) builds the list from a <datalist>, so without JavaScript the browser's
  * own suggestions still work.
  *
- *   <chu-combobox class="chu-combobox" name="world">
- *     <span class="chu-box chu-input"><input id="world" list="worlds" autocomplete="off"></span>
+ *   <blip-combobox class="blip-combobox" name="world">
+ *     <span class="blip-box blip-input"><input id="world" list="worlds" autocomplete="off"></span>
  *     <datalist id="worlds"><option value="meadow">Meadow</option><option value="caves">Crystal caves</option></datalist>
- *   </chu-combobox>
+ *   </blip-combobox>
  *
  * What the element adds (all public parts):
- *   .chu-combobox-toggle     a ghost button with a pixel chevron that opens and closes the list
- *   .chu-combobox-popup      the menu: a panel box under the field (above it when there is no room below)
- *   .chu-combobox-list       the listbox inside it, which scrolls
- *   .chu-combobox-option     each suggestion: a ghost box; the active one (aria-selected) is the focus yellow
- *   .chu-combobox-empty      shown when nothing matches (the element's empty-text)
+ *   .blip-combobox-toggle     a ghost button with a pixel chevron that opens and closes the list
+ *   .blip-combobox-popup      the menu: a panel box under the field (above it when there is no room below)
+ *   .blip-combobox-list       the listbox inside it, which scrolls
+ *   .blip-combobox-option     each suggestion: a ghost box; the active one (aria-selected) is the focus yellow
+ *   .blip-combobox-empty      shown when nothing matches (the element's empty-text)
  *
  * The field's states (focus ring, invalid, disabled) are the input's. The popup pops in a pixel low for a frame.
  */
 @import "./_control.css";
 
-@layer chu.components {
-  .chu-combobox { position: relative; display: block; anchor-scope: --chu-combobox; }
-  .chu-combobox > .chu-input { anchor-name: --chu-combobox; }
+@layer blip.components {
+  .blip-combobox { position: relative; display: block; anchor-scope: --blip-combobox; }
+  .blip-combobox > .blip-input { anchor-name: --blip-combobox; }
 
-  .chu-combobox-toggle {
+  .blip-combobox-toggle {
     --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 4' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h7v1H0zM1 1h5v1H1zM2 2h3v1H2zM3 3h1v1H3z'/%3E%3C/svg%3E");
-    --_gs: calc(7 * var(--chu-pixel)) calc(4 * var(--chu-pixel));
+    --_gs: calc(7 * var(--blip-pixel)) calc(4 * var(--blip-pixel));
   }
-  .chu-combobox-toggle[aria-expanded="true"] > span { scale: 1 -1; }
+  .blip-combobox-toggle[aria-expanded="true"] > span { scale: 1 -1; }
 
-  .chu-combobox-popup {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
-    --chu-box-fill: var(--chu-surface-panel);
-    --chu-box-top: var(--chu-surface-panel);
-    --chu-box-bottom: var(--chu-surface-panel);
+  .blip-combobox-popup {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
+    --blip-box-fill: var(--blip-surface-panel);
+    --blip-box-top: var(--blip-surface-panel);
+    --blip-box-bottom: var(--blip-surface-panel);
     position: absolute;
-    inset-block-start: calc(100% + 2 * var(--chu-pixel));
+    inset-block-start: calc(100% + 2 * var(--blip-pixel));
     inset-inline: 0;
-    z-index: var(--chu-layer-dropdown);
-    padding: calc(2 * var(--chu-pixel));
-    animation: chu-pop-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end) both;
+    z-index: var(--blip-layer-dropdown);
+    padding: calc(2 * var(--blip-pixel));
+    animation: blip-pop-in calc(2 * var(--blip-duration-frame)) steps(1, jump-end) both;
   }
-  .chu-combobox-popup[hidden] { display: none; }
+  .blip-combobox-popup[hidden] { display: none; }
   /* With anchors the element puts the popup in the top layer (popover), so scrolling boxes never clip it. */
   @supports (position-try-fallbacks: flip-block) and (anchor-scope: all) {
-    .chu-combobox-popup {
-      position-anchor: --chu-combobox;
+    .blip-combobox-popup {
+      position-anchor: --blip-combobox;
       inset: auto;
       top: anchor(bottom);
       left: anchor(left);
       right: anchor(right);
       inline-size: auto;
       block-size: auto;
-      margin: calc(2 * var(--chu-pixel)) 0;
+      margin: calc(2 * var(--blip-pixel)) 0;
       overflow: visible;
       position-try-fallbacks: flip-block;
     }
   }
 
-  .chu-combobox-list {
+  .blip-combobox-list {
     display: grid;
-    max-block-size: calc(98 * var(--chu-pixel));
+    max-block-size: calc(98 * var(--blip-pixel));
     margin: 0;
     padding: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
   }
-  .chu-combobox-option {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
+  .blip-combobox-option {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
     display: flex;
     align-items: center;
-    min-block-size: calc(14 * var(--chu-pixel));
-    padding-inline: calc(5 * var(--chu-pixel));
-    font-size: var(--chu-size-body);
-    line-height: var(--chu-leading-tight);
+    min-block-size: calc(14 * var(--blip-pixel));
+    padding-inline: calc(5 * var(--blip-pixel));
+    font-size: var(--blip-size-body);
+    line-height: var(--blip-leading-tight);
   }
-  .chu-combobox-option[hidden] { display: none; }
+  .blip-combobox-option[hidden] { display: none; }
   /* The active option is where the keyboard is: the focus yellow, as on the TV's menus. */
-  .chu-combobox-option[aria-selected="true"] {
-    --chu-band-top: 2;
-    --chu-band-bottom: 2;
-    --chu-box-outline: var(--chu-outline);
-    --chu-box-top: var(--chu-candy-yellow-light);
-    --chu-box-fill: var(--chu-focus);
-    --chu-box-bottom: var(--chu-candy-yellow-shade);
-    --chu-box-text: var(--chu-ink);
-    --chu-box-glint: var(--chu-white);
+  .blip-combobox-option[aria-selected="true"] {
+    --blip-band-top: 2;
+    --blip-band-bottom: 2;
+    --blip-box-outline: var(--blip-outline);
+    --blip-box-top: var(--blip-candy-yellow-light);
+    --blip-box-fill: var(--blip-focus);
+    --blip-box-bottom: var(--blip-candy-yellow-shade);
+    --blip-box-text: var(--blip-ink);
+    --blip-box-glint: var(--blip-white);
   }
-  .chu-combobox-option mark { background: none; color: inherit; font-weight: var(--chu-weight-bold); }
-  .chu-combobox-empty { margin: 0; padding: calc(3 * var(--chu-pixel)) calc(5 * var(--chu-pixel)); font-size: var(--chu-size-small); color: var(--chu-text-muted); }
+  .blip-combobox-option mark { background: none; color: inherit; font-weight: var(--blip-weight-bold); }
+  .blip-combobox-empty { margin: 0; padding: calc(3 * var(--blip-pixel)) calc(5 * var(--blip-pixel)); font-size: var(--blip-size-small); color: var(--blip-text-muted); }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-combobox-popup { animation: none; }
+    .blip-combobox-popup { animation: none; }
   }
   @media (forced-colors: active) {
-    .chu-combobox-option[aria-selected="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText; }
+    .blip-combobox-option[aria-selected="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText; }
   }
 }

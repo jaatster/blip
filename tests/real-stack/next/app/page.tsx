@@ -1,5 +1,5 @@
 // A Server Component: Blip's components render on the server here, and the client parts hydrate.
-import { Tab, TabList, TabPanel, Tabs } from "@jaatster/blip-react";
+import { Tab, TabList, TabPanel, Tabs } from "@blip/react";
 import { Kits } from "../shared/Kits";
 import { Settings } from "./settings";
 import { Smoke } from "./smoke";
@@ -7,7 +7,7 @@ import { Smoke } from "./smoke";
 export default function Home() {
   return (
     <main>
-      <h1 className="chu-display chu-pop" data-scale="3" data-pop="Level 2">Level 2</h1>
+      <h1 className="blip-display blip-pop" data-scale="3" data-pop="Level 2">Level 2</h1>
       <section id="readme" data-smoke="tabs">
         <Settings />
       </section>

@@ -1,19 +1,19 @@
 /**
- * <chu-wheel>: one or more wheels of options with a candy band across the middle, as on a phone's time picker.
+ * <blip-wheel>: one or more wheels of options with a candy band across the middle, as on a phone's time picker.
  * Each wheel is a spin button (the arrow keys, Page Up and Down, Home and End); a mouse wheel, a drag or a finger
  * turns it, and it settles onto a row in steps. Form-associated: the value goes with the form.
  *
- *   <chu-wheel class="chu-box chu-wheel" name="alarm" data-type="time" value="07:30" aria-label="Alarm"></chu-wheel>
- *   <chu-wheel class="chu-box chu-wheel" name="born" data-type="date" value="1990-05-17" min="1900"></chu-wheel>
- *   <chu-wheel class="chu-box chu-wheel" name="size" aria-label="Size">
+ *   <blip-wheel class="blip-box blip-wheel" name="alarm" data-type="time" value="07:30" aria-label="Alarm"></blip-wheel>
+ *   <blip-wheel class="blip-box blip-wheel" name="born" data-type="date" value="1990-05-17" min="1900"></blip-wheel>
+ *   <blip-wheel class="blip-box blip-wheel" name="size" aria-label="Size">
  *     <select aria-label="Size"><option value="s">Small</option><option value="m" selected>Medium</option></select>
- *   </chu-wheel>
+ *   </blip-wheel>
  *
  * Custom wheels come from <select> children (a plain select without JavaScript): one wheel per select, one row per
  * option. The element hides and disables the selects it reads, and any <input> left inside as a fallback, so only the
- * wheel's own value is sent. Events: input as the middle row changes, change when it settles, then chu-change.
+ * wheel's own value is sent. Events: input as the middle row changes, change when it settles, then blip-change.
  */
-import { BlipElement, frames, reducedMotion } from "@jaatster/blip-core";
+import { BlipElement, frames, reducedMotion } from "@blip/core";
 import { unFalse, watch } from "./_dom.js";
 
 type Options = { v: string; t: string }[];
@@ -54,12 +54,12 @@ const el = (cls: string, parent: Element) => parent.appendChild(Object.assign(do
  * @attr {number} min - The first year on the wheel (date). Default: a hundred years ago.
  * @attr {number} max - The last year on the wheel (date). Default: twenty years ahead.
  * @attr {boolean} disabled - Switched off (also follows a disabled fieldset). "false" is off.
- * @fires {CustomEvent<{ value: string }>} chu-change - A wheel settled on a new value (after input and change).
+ * @fires {CustomEvent<{ value: string }>} blip-change - A wheel settled on a new value (after input and change).
  */
 export class BlipWheel extends BlipElement {
   static formAssociated = true;
   static box = true;
-  static classes = ["chu-wheel"];
+  static classes = ["blip-wheel"];
   static observedAttributes = ["value", "disabled"];
 
   #internals = this.attachInternals();
@@ -186,13 +186,13 @@ export class BlipWheel extends BlipElement {
     }
     for (const w of this.#wheels) w.band.parentElement!.remove();
     this.#wheels = specs.map(([key, label, opts]) => {
-      const col = el("chu-wheel-column", this);
+      const col = el("blip-wheel-column", this);
       col.dataset.key = key;
-      const band = el("chu-box chu-wheel-band", col);
-      const list = el("chu-wheel-list", col);
+      const band = el("blip-box blip-wheel-band", col);
+      const list = el("blip-wheel-list", col);
       Object.assign(band, { role: "spinbutton", ariaLabel: label });
       list.ariaHidden = "true";
-      for (const o of opts) el("chu-wheel-option", list).textContent = o.t;
+      for (const o of opts) el("blip-wheel-option", list).textContent = o.t;
       return { key, band, list, opts, i: 0, n: opts.length, at: 0 };
     });
     this.#initial ??= this.getAttribute("value") ?? start;
@@ -247,7 +247,7 @@ export class BlipWheel extends BlipElement {
   #show(w: Wheel, i: number, at?: number): void {
     w.i = Math.min(w.n - 1, Math.max(0, i));
     w.at = at ?? w.i;
-    w.list.style.setProperty("--_chu-wheel-at", "" + w.at);
+    w.list.style.setProperty("--_blip-wheel-at", "" + w.at);
     [...w.list.children].forEach((r, k) => r.toggleAttribute("data-current", k === w.i));
     // The built wheels count in numbers (a minute, a year); custom wheels count rows. The words are the value text.
     const o = w.opts;
@@ -276,7 +276,7 @@ export class BlipWheel extends BlipElement {
     w.band.focus();
     w.stop?.abort();
     const col = w.band.parentElement!;
-    const tapped = (e.target as Element).closest(".chu-wheel-option");
+    const tapped = (e.target as Element).closest(".blip-wheel-option");
     const r = (w.list.firstElementChild as HTMLElement).offsetHeight || 32;
     const from = w.at;
     let lastY = e.clientY;
@@ -306,7 +306,7 @@ export class BlipWheel extends BlipElement {
     for (const type of ["pointerup", "pointercancel"]) col.addEventListener(type, end as EventListener, { signal });
   }
 
-  /** Sends input when the value changed, and change and chu-change when it is committed. */
+  /** Sends input when the value changed, and change and blip-change when it is committed. */
   #changed(commit: boolean): void {
     this.#days();
     const v = this.#value();
@@ -333,10 +333,10 @@ export class BlipWheel extends BlipElement {
   }
 }
 
-BlipElement.define("chu-wheel", BlipWheel);
+BlipElement.define("blip-wheel", BlipWheel);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "chu-wheel": BlipWheel;
+    "blip-wheel": BlipWheel;
   }
 }

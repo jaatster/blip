@@ -1,5 +1,5 @@
 /**
- * Select: Select and SelectOption. CSS from @jaatster/blip-components (select.css). The ref and every native prop go to the
+ * Select: Select and SelectOption. CSS from @blip/components (select.css). The ref and every native prop go to the
  * control itself, so forms, labels and refs work as on the bare element; className and style go to the outermost
  * element it renders.
  */
@@ -27,7 +27,7 @@ export type SelectProps = SelectOwnProps & NativeProps<"select", SelectOwnProps>
  *     <SelectOption value="caves">Crystal caves</SelectOption>
  *   </Select>
  *
- * Renders `<span class="chu-box chu-select"><select></span>`. The ref and every native prop (name, value, onChange,
+ * Renders `<span class="blip-box blip-select"><select></span>`. The ref and every native prop (name, value, onChange,
  * the options as children…) go to the `<select>`; className and style go to the well.
  */
 export const Select = /*#__PURE__*/ forwardRef<HTMLSelectElement, SelectProps>(function Select(
@@ -35,7 +35,7 @@ export const Select = /*#__PURE__*/ forwardRef<HTMLSelectElement, SelectProps>(f
   ref,
 ) {
   return (
-    <span className={cx("chu-box chu-select", className)} style={style} data-size={size} data-tone={tone}>
+    <span className={cx("blip-box blip-select", className)} style={style} data-size={size} data-tone={tone}>
       <select ref={ref} {...rest} />
     </span>
   );
@@ -47,7 +47,7 @@ export type SelectOptionProps = NativeProps<"option">;
 /**
  * An option of a {@link Select}. In the customisable select's menu the row with the keyboard or pointer is a candy
  * box in the focus yellow (a plain `<option>` is a flat bar), and the chosen one has a pixel check. Renders
- * `<option class="chu-box">`.
+ * `<option class="blip-box">`.
  *
  *   <SelectOption value="caves">Crystal caves</SelectOption>
  */
@@ -55,5 +55,5 @@ export const SelectOption = /*#__PURE__*/ forwardRef<HTMLOptionElement, SelectOp
   { className, ...rest },
   ref,
 ) {
-  return <option ref={ref} className={cx("chu-box", className)} {...rest} />;
+  return <option ref={ref} className={cx("blip-box", className)} {...rest} />;
 });

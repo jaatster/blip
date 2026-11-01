@@ -1,153 +1,153 @@
 /*
  * Menu. A short list of actions that drops from a button: the TV's cream panel, with the yellow FOCUS row on the item
  * you are on. Items can carry an icon, a shortcut (on the keycap component's keys), a check or a dot, or open a
- * submenu; separators and labelled groups divide them. <chu-menu> adds the keyboard (arrows, typeahead, Escape),
+ * submenu; separators and labelled groups divide them. <blip-menu> adds the keyboard (arrows, typeahead, Escape),
  * focus return and placement.
  *
- *   <chu-menu class="chu-menu">
- *     <button class="chu-box chu-button" data-variant="soft">Options</button>
- *     <div class="chu-box chu-menu-list chu-pop-in" role="menu" popover aria-label="Options">
- *       <button class="chu-box chu-menu-item" role="menuitem" aria-keyshortcuts="Control+S">
- *         <svg class="chu-icon" …></svg><span class="chu-menu-label">Save</span>
- *         <span class="chu-menu-shortcut" aria-hidden="true"><kbd class="chu-box chu-keycap" data-size="sm">Ctrl</kbd><kbd class="chu-box chu-keycap" data-size="sm">S</kbd></span>
+ *   <blip-menu class="blip-menu">
+ *     <button class="blip-box blip-button" data-variant="soft">Options</button>
+ *     <div class="blip-box blip-menu-list blip-pop-in" role="menu" popover aria-label="Options">
+ *       <button class="blip-box blip-menu-item" role="menuitem" aria-keyshortcuts="Control+S">
+ *         <svg class="blip-icon" …></svg><span class="blip-menu-label">Save</span>
+ *         <span class="blip-menu-shortcut" aria-hidden="true"><kbd class="blip-box blip-keycap" data-size="sm">Ctrl</kbd><kbd class="blip-box blip-keycap" data-size="sm">S</kbd></span>
  *       </button>
- *       <div class="chu-menu-separator" role="separator"></div>
+ *       <div class="blip-menu-separator" role="separator"></div>
  *       <div role="group" aria-labelledby="sort-by">
- *         <div class="chu-menu-heading" id="sort-by">Sort by</div>
- *         <button class="chu-box chu-menu-item" role="menuitemradio" aria-checked="true"><span class="chu-menu-label">Name</span></button>
+ *         <div class="blip-menu-heading" id="sort-by">Sort by</div>
+ *         <button class="blip-box blip-menu-item" role="menuitemradio" aria-checked="true"><span class="blip-menu-label">Name</span></button>
  *       </div>
- *       <button class="chu-box chu-menu-item" role="menuitem" data-tone="danger"><span class="chu-menu-label">Delete</span></button>
+ *       <button class="blip-box blip-menu-item" role="menuitem" data-tone="danger"><span class="blip-menu-label">Delete</span></button>
  *     </div>
- *   </chu-menu>
+ *   </blip-menu>
  *
  *   role="menuitemcheckbox" | "menuitemradio" with aria-checked   a check, or a dot, in a gutter before the label
- *   aria-haspopup="menu" on an item    a chevron: it opens a submenu (a chu-menu nested in the list)
+ *   aria-haspopup="menu" on an item    a chevron: it opens a submenu (a blip-menu nested in the list)
  *   data-tone="danger"                 a destructive item: red text until it is focused
  *   aria-disabled="true"               dithered; the arrow keys pass it
- *   data-align                         on .chu-menu: start (default) | end, which edge of its button it lines up with
+ *   data-align                         on .blip-menu: start (default) | end, which edge of its button it lines up with
  *   aria-expanded="true"               on the button, while its menu is open: sits in
  *
  * Yellow means focus: the focused item is the yellow row and nothing else in a menu is yellow. Keep the label span:
  * it carries the check and the chevron.
  */
 
-@layer chu.components {
-  .chu-menu { display: inline-block; }
+@layer blip.components {
+  .blip-menu { display: inline-block; }
   /* A submenu's host takes no room: its item and its list belong to the parent list. */
-  .chu-menu-list > .chu-menu { display: contents; }
+  .blip-menu-list > .blip-menu { display: contents; }
 
   /* The button sits in while its menu is open. */
-  .chu-menu > .chu-box[aria-expanded="true"]:not(.chu-menu-item) {
-    --chu-drop-size: 0;
+  .blip-menu > .blip-box[aria-expanded="true"]:not(.blip-menu-item) {
+    --blip-drop-size: 0;
     translate: none;
-    --chu-box-top: var(--chu-tone-shade);
-    --chu-box-bottom: var(--chu-tone-light);
-    --chu-box-glint: transparent;
+    --blip-box-top: var(--blip-tone-shade);
+    --blip-box-bottom: var(--blip-tone-light);
+    --blip-box-glint: transparent;
   }
-  .chu-menu > .chu-box:is([data-variant="ghost"], [data-variant="outline"])[aria-expanded="true"]:not(.chu-menu-item) {
-    --chu-box-outline: var(--chu-outline);
-    --chu-box-top: var(--chu-tone-light);
-    --chu-box-fill: var(--chu-tone-light);
-    --chu-box-bottom: var(--chu-tone-light);
-    --chu-box-text: var(--chu-tone-on);
+  .blip-menu > .blip-box:is([data-variant="ghost"], [data-variant="outline"])[aria-expanded="true"]:not(.blip-menu-item) {
+    --blip-box-outline: var(--blip-outline);
+    --blip-box-top: var(--blip-tone-light);
+    --blip-box-fill: var(--blip-tone-light);
+    --blip-box-bottom: var(--blip-tone-light);
+    --blip-box-text: var(--blip-tone-on);
   }
 
   /* ------------------------------------------------------------ the panel */
 
-  .chu-menu-list {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
-    --chu-box-top: var(--chu-surface-panel);
-    --chu-box-fill: var(--chu-surface-panel);
-    --chu-box-bottom: var(--chu-surface-panel);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
+  .blip-menu-list {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
+    --blip-box-top: var(--blip-surface-panel);
+    --blip-box-fill: var(--blip-surface-panel);
+    --blip-box-bottom: var(--blip-surface-panel);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
     --_gutter: 0px;
 
     display: flex;
     flex-direction: column;
-    min-inline-size: calc(80 * var(--chu-pixel));
-    max-inline-size: calc(160 * var(--chu-pixel));
-    padding: var(--chu-space-3);
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-small);
+    min-inline-size: calc(80 * var(--blip-pixel));
+    max-inline-size: calc(160 * var(--blip-pixel));
+    padding: var(--blip-space-3);
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-small);
   }
-  .chu-menu-list[popover] {
+  .blip-menu-list[popover] {
     position: fixed;
     inset: auto;
-    z-index: var(--chu-layer-dropdown);
+    z-index: var(--blip-layer-dropdown);
     margin: 0;
     overflow: visible;
   }
-  .chu-menu-list[popover]:not(:popover-open) { display: none; }
+  .blip-menu-list[popover]:not(:popover-open) { display: none; }
   @supports (position-area: block-end) {
-    .chu-menu-list[popover] {
+    .blip-menu-list[popover] {
       position-area: block-end span-inline-end;
       position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
-      margin-block: var(--chu-space-2);
-      min-inline-size: max(calc(80 * var(--chu-pixel)), anchor-size(inline));
+      margin-block: var(--blip-space-2);
+      min-inline-size: max(calc(80 * var(--blip-pixel)), anchor-size(inline));
     }
-    .chu-menu[data-align="end"] > .chu-menu-list[popover] { position-area: block-end span-inline-start; }
+    .blip-menu[data-align="end"] > .blip-menu-list[popover] { position-area: block-end span-inline-start; }
     /* A submenu opens beside its item, its first item level with it. */
-    .chu-menu-list .chu-menu > .chu-menu-list[popover] {
+    .blip-menu-list .blip-menu > .blip-menu-list[popover] {
       position-area: inline-end span-block-end;
-      margin-block: calc(-1 * var(--chu-space-3)) 0;
-      margin-inline: var(--chu-space-1) 0;
-      min-inline-size: calc(80 * var(--chu-pixel));
+      margin-block: calc(-1 * var(--blip-space-3)) 0;
+      margin-inline: var(--blip-space-1) 0;
+      min-inline-size: calc(80 * var(--blip-pixel));
     }
   }
 
   /* ------------------------------------------------------------ items */
 
-  .chu-menu-item {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
-    --chu-band-top: 2;
-    --chu-band-bottom: 2;
+  .blip-menu-item {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
+    --blip-band-top: 2;
+    --blip-band-bottom: 2;
     /* At rest an item is just its text. */
-    --chu-box-outline: transparent;
-    --chu-box-top: transparent;
-    --chu-box-fill: transparent;
-    --chu-box-bottom: transparent;
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
-    --chu-drop-size: 0;
+    --blip-box-outline: transparent;
+    --blip-box-top: transparent;
+    --blip-box-fill: transparent;
+    --blip-box-bottom: transparent;
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
+    --blip-drop-size: 0;
 
     display: flex;
     align-items: center;
-    gap: var(--chu-space-4);
+    gap: var(--blip-space-4);
     inline-size: 100%;
-    min-block-size: calc(14 * var(--chu-pixel));
-    padding-block: var(--chu-space-1);
-    padding-inline: calc(var(--chu-space-4) + var(--_gutter)) var(--chu-space-4);
+    min-block-size: calc(14 * var(--blip-pixel));
+    padding-block: var(--blip-space-1);
+    padding-inline: calc(var(--blip-space-4) + var(--_gutter)) var(--blip-space-4);
     translate: none;
-    font-weight: var(--chu-weight-medium);
-    line-height: var(--chu-leading-tight);
+    font-weight: var(--blip-weight-medium);
+    line-height: var(--blip-leading-tight);
     text-align: start;
     text-decoration: none;
     white-space: nowrap;
   }
-  .chu-menu-item[data-tone="danger"] { --chu-box-text: var(--chu-danger-text); }
-  .chu-menu-item[aria-disabled="true"] {
-    --chu-box-text: var(--chu-text-muted);
-    --chu-box-dither: var(--chu-surface-sunken);
+  .blip-menu-item[data-tone="danger"] { --blip-box-text: var(--blip-danger-text); }
+  .blip-menu-item[aria-disabled="true"] {
+    --blip-box-text: var(--blip-text-muted);
+    --blip-box-dither: var(--blip-surface-sunken);
   }
   /* The FOCUS row: the TV's yellow highlight, a candy box of its own. It is the focus indicator, so no ring. */
-  .chu-menu-item:is(:focus, [data-chu-state~="focus"]) {
-    --chu-box-outline: var(--chu-outline);
-    --chu-box-top: var(--chu-candy-yellow-light);
-    --chu-box-fill: var(--chu-focus);
-    --chu-box-bottom: var(--chu-candy-yellow-shade);
-    --chu-box-text: var(--chu-ink);
-    --chu-box-glint: var(--chu-white);
+  .blip-menu-item:is(:focus, [data-blip-state~="focus"]) {
+    --blip-box-outline: var(--blip-outline);
+    --blip-box-top: var(--blip-candy-yellow-light);
+    --blip-box-fill: var(--blip-focus);
+    --blip-box-bottom: var(--blip-candy-yellow-shade);
+    --blip-box-text: var(--blip-ink);
+    --blip-box-glint: var(--blip-white);
     outline: none;
     box-shadow: none;
     filter: none;
   }
 
-  .chu-menu-label {
+  .blip-menu-label {
     flex: 1;
     min-inline-size: 0;
     overflow: hidden;
@@ -155,77 +155,77 @@
   }
 
   /* Checkable items: a gutter before every label in the list, and a check (8 x 5) or a dot (4 x 4) in it. */
-  .chu-menu-list:has(> [aria-checked], > [role="group"] > [aria-checked]) > :is(.chu-menu-item, [role="group"], .chu-menu) { --_gutter: calc(10 * var(--chu-pixel)); }
-  .chu-menu-item[aria-checked="true"] > .chu-menu-label::before {
+  .blip-menu-list:has(> [aria-checked], > [role="group"] > [aria-checked]) > :is(.blip-menu-item, [role="group"], .blip-menu) { --_gutter: calc(10 * var(--blip-pixel)); }
+  .blip-menu-item[aria-checked="true"] > .blip-menu-label::before {
     content: "";
     position: absolute;
-    inset-block-start: calc(50% - 3 * var(--chu-pixel));
-    inset-inline-start: var(--chu-space-4);
-    inline-size: calc(8 * var(--chu-pixel));
-    block-size: calc(5 * var(--chu-pixel));
+    inset-block-start: calc(50% - 3 * var(--blip-pixel));
+    inset-inline-start: var(--blip-space-4);
+    inline-size: calc(8 * var(--blip-pixel));
+    block-size: calc(5 * var(--blip-pixel));
     background-color: currentColor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 5' shape-rendering='crispEdges'%3E%3Cpath d='M6 0h2v1H7v1H6v1H5v1H4v1H2V4H1V3H0V2h2v1h2V2h1V1h1z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   }
-  .chu-menu-item[role="menuitemradio"][aria-checked="true"] > .chu-menu-label::before {
-    inset-block-start: calc(50% - 2 * var(--chu-pixel));
-    inset-inline-start: calc(6 * var(--chu-pixel));
-    inline-size: calc(4 * var(--chu-pixel));
-    block-size: calc(4 * var(--chu-pixel));
+  .blip-menu-item[role="menuitemradio"][aria-checked="true"] > .blip-menu-label::before {
+    inset-block-start: calc(50% - 2 * var(--blip-pixel));
+    inset-inline-start: calc(6 * var(--blip-pixel));
+    inline-size: calc(4 * var(--blip-pixel));
+    block-size: calc(4 * var(--blip-pixel));
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h2v1h1v2H3v1H1V3H0V1h1z'/%3E%3C/svg%3E");
   }
 
   /* An item that opens a submenu: a chevron (5 x 7) at its end. */
-  .chu-menu-item[aria-haspopup]:not([aria-haspopup="false"]) { padding-inline-end: calc(12 * var(--chu-pixel)); }
-  .chu-menu-item[aria-haspopup]:not([aria-haspopup="false"]) > .chu-menu-label::after {
+  .blip-menu-item[aria-haspopup]:not([aria-haspopup="false"]) { padding-inline-end: calc(12 * var(--blip-pixel)); }
+  .blip-menu-item[aria-haspopup]:not([aria-haspopup="false"]) > .blip-menu-label::after {
     content: "";
     position: absolute;
-    inset-block-start: calc(50% - 4 * var(--chu-pixel));
-    inset-inline-end: var(--chu-space-4);
-    inline-size: calc(5 * var(--chu-pixel));
-    block-size: calc(7 * var(--chu-pixel));
+    inset-block-start: calc(50% - 4 * var(--blip-pixel));
+    inset-inline-end: var(--blip-space-4);
+    inline-size: calc(5 * var(--blip-pixel));
+    block-size: calc(7 * var(--blip-pixel));
     background-color: currentColor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5 7' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1h1v1h1v1h1v1H4v1H3v1H2v1H0V6h1V5h1V4h1V3H2V2H1V1H0z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   }
-  .chu-menu-item[aria-haspopup]:dir(rtl) > .chu-menu-label::after { scale: -1 1; }
+  .blip-menu-item[aria-haspopup]:dir(rtl) > .blip-menu-label::after { scale: -1 1; }
   /* Its submenu is open: the item keeps a quiet mark while the focus is over there. */
-  .chu-menu-item[aria-expanded="true"]:not(:focus, [data-chu-state~="focus"]) {
-    --chu-box-outline: var(--chu-line-soft);
-    --chu-box-top: var(--chu-surface-sunken);
-    --chu-box-fill: var(--chu-surface-sunken);
-    --chu-box-bottom: var(--chu-surface-sunken);
+  .blip-menu-item[aria-expanded="true"]:not(:focus, [data-blip-state~="focus"]) {
+    --blip-box-outline: var(--blip-line-soft);
+    --blip-box-top: var(--blip-surface-sunken);
+    --blip-box-fill: var(--blip-surface-sunken);
+    --blip-box-bottom: var(--blip-surface-sunken);
   }
 
   /* Shortcuts, drawn with the keycap component (keycap.css). */
-  .chu-menu-shortcut {
+  .blip-menu-shortcut {
     display: inline-flex;
-    gap: var(--chu-space-1);
+    gap: var(--blip-space-1);
     margin-inline-start: auto;
-    padding-inline-start: var(--chu-space-6);
+    padding-inline-start: var(--blip-space-6);
   }
 
-  .chu-menu-separator {
+  .blip-menu-separator {
     flex: none;
-    block-size: var(--chu-pixel);
-    margin: var(--chu-space-2) var(--chu-space-4);
-    background: repeating-linear-gradient(to right, var(--chu-line-soft) 0 var(--chu-space-2), transparent 0 var(--chu-space-3));
+    block-size: var(--blip-pixel);
+    margin: var(--blip-space-2) var(--blip-space-4);
+    background: repeating-linear-gradient(to right, var(--blip-line-soft) 0 var(--blip-space-2), transparent 0 var(--blip-space-3));
   }
-  .chu-menu-heading {
-    padding-block: var(--chu-space-3) var(--chu-space-1);
-    padding-inline: calc(var(--chu-space-4) + var(--_gutter)) var(--chu-space-4);
-    font-size: var(--chu-size-caption);
-    font-weight: var(--chu-weight-bold);
-    line-height: var(--chu-leading-tight);
-    letter-spacing: var(--chu-tracking-label);
+  .blip-menu-heading {
+    padding-block: var(--blip-space-3) var(--blip-space-1);
+    padding-inline: calc(var(--blip-space-4) + var(--_gutter)) var(--blip-space-4);
+    font-size: var(--blip-size-caption);
+    font-weight: var(--blip-weight-bold);
+    line-height: var(--blip-leading-tight);
+    letter-spacing: var(--blip-tracking-label);
     text-transform: uppercase;
-    color: var(--chu-text-muted);
+    color: var(--blip-text-muted);
   }
-  .chu-menu-list [role="group"] { display: flex; flex-direction: column; }
+  .blip-menu-list [role="group"] { display: flex; flex-direction: column; }
 
   @media (forced-colors: active) {
-    .chu-menu-item { border-color: Canvas; }
-    .chu-menu-item:is(:focus, [data-chu-state~="focus"]) { outline: var(--chu-pixel) solid Highlight; outline-offset: calc(-1 * var(--chu-pixel)); }
-    .chu-menu-label::before,
-    .chu-menu-label::after { forced-color-adjust: none; background-color: currentColor; }
-    .chu-menu-separator { background: CanvasText; }
+    .blip-menu-item { border-color: Canvas; }
+    .blip-menu-item:is(:focus, [data-blip-state~="focus"]) { outline: var(--blip-pixel) solid Highlight; outline-offset: calc(-1 * var(--blip-pixel)); }
+    .blip-menu-label::before,
+    .blip-menu-label::after { forced-color-adjust: none; background-color: currentColor; }
+    .blip-menu-separator { background: CanvasText; }
   }
 }

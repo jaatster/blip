@@ -5,15 +5,15 @@
  * the middle hills), NEAR (the near hills, bushes and tufts) and GROUND (grass, a grass lip over the dirt, pebbles,
  * flowers).
  *
- *   <div style="position: relative"><chu-world scheme="day" parallax></chu-world> ...content... </div>
- *   <chu-world avoid=".chu-hero-title, .chu-hero-lead"></chu-world>   // the sun and moon keep clear of the words
+ *   <div style="position: relative"><blip-world scheme="day" parallax></blip-world> ...content... </div>
+ *   <blip-world avoid=".blip-hero-title, .blip-hero-lead"></blip-world>   // the sun and moon keep clear of the words
  *   drawWorld(canvas.getContext("2d"), "night");        // the TV's 320 x 180 picture
  *
  * At 320 x 180 the picture is the TV's, pixel for pixel. Bigger worlds keep the TV's composition in the middle and
  * carry on to the sides in 350-pixel periods of the same landscape; taller ones stretch the sky. Colours are the
- * --chu-world-* tokens, so a palette pack can repaint the world.
+ * --blip-world-* tokens, so a palette pack can repaint the world.
  */
-import { BlipElement, duration, every, pixel, reducedMotion, run, schemeAt, seeded, services, warn, type Scheme } from "@jaatster/blip-core";
+import { BlipElement, duration, every, pixel, reducedMotion, run, schemeAt, seeded, services, warn, type Scheme } from "@blip/core";
 import { SPARKLE, abgr, device, later, mirror, on, pixelCanvas, rgb, sprite } from "./_pixel.js";
 
 export type WorldLayer = "sky" | "peaks" | "hills" | "near" | "ground";
@@ -66,11 +66,11 @@ const enum S {
   GRASS_E, GRASS_D, DIRT, DIRT_S, PEB, BIRD, SUN, MOON, CRATER, GLOW, STAR, STAR_WARM, TRAIL, FLOWER = 38, WHITE = 42, SPARK,
 }
 
-/** The world's colours for a time of day, from the --chu-world-* tokens at an element. */
+/** The world's colours for a time of day, from the --blip-world-* tokens at an element. */
 export function worldPalette(scheme: Scheme, from: Element = document.documentElement): number[] {
   const style = getComputedStyle(from);
-  const names = [...SLOTS.map((s) => `--chu-world-${scheme}-${s}`), ...SHARED.map((s) => `--chu-world-${s}`), "--chu-white", "--chu-candy-yellow-light"];
-  if (!style.getPropertyValue(names[0]!).trim()) warn("CHU-W001", "No world colours: load @jaatster/blip-tokens/tokens.css.", from);
+  const names = [...SLOTS.map((s) => `--blip-world-${scheme}-${s}`), ...SHARED.map((s) => `--blip-world-${s}`), "--blip-white", "--blip-candy-yellow-light"];
+  if (!style.getPropertyValue(names[0]!).trim()) warn("BLIP-W001", "No world colours: load @blip/tokens/tokens.css.", from);
   return names.map((n) => rgb(style.getPropertyValue(n)));
 }
 
@@ -334,16 +334,16 @@ export function drawWorld(ctx: CanvasRenderingContext2D | OffscreenCanvasRenderi
 const isScheme = (s: string | null): s is Scheme => s === "day" || s === "sunset" || s === "night";
 
 /**
- * <chu-world>: the world as a backdrop filling its positioned container. Each world pixel is the page's pixel
- * (--chu-pixel) times `zoom`, made a whole number of device pixels; the canvas is drawn at the world's own resolution
+ * <blip-world>: the world as a backdrop filling its positioned container. Each world pixel is the page's pixel
+ * (--blip-pixel) times `zoom`, made a whole number of device pixels; the canvas is drawn at the world's own resolution
  * and scaled up crisply, and only redrawn when its size, its screen or its time of day changes.
  *
  * Attributes: scheme (day, sunset, night, auto, or left out to follow the page), parallax, clouds (drift; "none"
  * for none), stars (stars flare at night), events (birds by day, a shooting star at night), zoom, avoid (a selector
  * list of what the sun, the moon, the stars, the clouds and shooting stars keep clear of).
  *
- * Its motion pauses at once while the person asks for less, on their device or on the page (data-chu-motion="reduce"
- * on <html>, which <chu-motion-toggle> sets), and carries on from there when they no longer do.
+ * Its motion pauses at once while the person asks for less, on their device or on the page (data-blip-motion="reduce"
+ * on <html>, which <blip-motion-toggle> sets), and carries on from there when they no longer do.
  *
  * @summary The dithered world backdrop: sky, mountains, hills and meadow, for Day, Sunset and Night.
  * @attr {"day" | "sunset" | "night" | "auto"} scheme - The time of day; "auto" follows the clock. Left out, the
@@ -355,12 +355,12 @@ const isScheme = (s: string | null): s is Scheme => s === "day" || s === "sunset
  * @attr {boolean} stars - Stars flare now and then at night. "false" is off.
  * @attr {boolean} events - Now and then a flock of birds by day, a shooting star at night. "false" is off.
  * @attr {number} [zoom=1] - Page pixels per world pixel, a whole number.
- * @attr {string} avoid - A selector list of things the sky keeps clear of (".chu-hero-title, .chu-hero-lead"), matched in
+ * @attr {string} avoid - A selector list of things the sky keeps clear of (".blip-hero-title, .blip-hero-lead"), matched in
  * the world's container (its parent, or the nearest ancestor that holds a match). The sun, the moon and shooting stars
  * go where they cross none of those boxes: the nearest clear place in their lane of the sky, else the same place across
  * the sky if that is clear, else out of sight. Stars and clouds that would sit behind them are left out. Whole pixels,
  * the same every time, and looked at again when anything resizes.
- * @cssprop --chu-pixel - The world pixel (times zoom).
+ * @cssprop --blip-pixel - The world pixel (times zoom).
  */
 export class BlipWorld extends BlipElement {
   static observedAttributes = ["scheme", "parallax", "clouds", "stars", "events", "zoom", "avoid"];
@@ -391,10 +391,10 @@ export class BlipWorld extends BlipElement {
 
   protected override connected(): void {
     const el = this, { signal } = this, html = document.documentElement;
-    el.querySelector(":scope > .chu-world-stage")?.remove();
-    const stage = el.appendChild(Object.assign(document.createElement("div"), { className: "chu-world-stage" }));
-    const things = Object.assign(document.createElement("div"), { className: "chu-world-things" });
-    const layers = LAYERS.map((name) => Object.assign(pixelCanvas(), { className: `chu-world-${name}` }));
+    el.querySelector(":scope > .blip-world-stage")?.remove();
+    const stage = el.appendChild(Object.assign(document.createElement("div"), { className: "blip-world-stage" }));
+    const things = Object.assign(document.createElement("div"), { className: "blip-world-things" });
+    const layers = LAYERS.map((name) => Object.assign(pixelCanvas(), { className: `blip-world-${name}` }));
     stage.append(layers[0]!, things, ...layers.slice(1));
     el.setAttribute("aria-hidden", "true");
 
@@ -418,7 +418,7 @@ export class BlipWorld extends BlipElement {
       const a = el.getAttribute("scheme");
       if (isScheme(a)) return a;
       if (a === "auto") return schemeAt(services.now());
-      const v = getComputedStyle(el).getPropertyValue("--_chu-world-scheme").trim();
+      const v = getComputedStyle(el).getPropertyValue("--_blip-world-scheme").trim();
       return isScheme(v) ? v : "day";
     };
     /** CSS pixels per world pixel (a whole number of device pixels), and the world's size in world pixels. */
@@ -428,8 +428,8 @@ export class BlipWorld extends BlipElement {
     };
     /** Puts a sprite's top-left corner at world pixel (x, y). */
     const place = (c: HTMLElement, x: number, y: number) => void (c.style.translate = `${x * s}px ${y * s}px`);
-    /** Sets one of world.css's private properties (--_chu-world-*) on an element. */
-    const prop = (e: HTMLElement, name: string, v: number | string) => e.style.setProperty(`--_chu-world-${name}`, `${v}`);
+    /** Sets one of world.css's private properties (--_blip-world-*) on an element. */
+    const prop = (e: HTMLElement, name: string, v: number | string) => e.style.setProperty(`--_blip-world-${name}`, `${v}`);
     /** Lays a canvas out a device pixel to a canvas pixel; world.css scales it up by the world pixel's whole number of
         device pixels. */
     const size = (c: HTMLCanvasElement) => (Object.assign(c.style, { width: `${c.width / dpr}px`, height: `${c.height / dpr}px` }), c);
@@ -447,7 +447,7 @@ export class BlipWorld extends BlipElement {
           if (found.length) return found;
         }
       } catch {
-        warn("CHU-W002", `avoid="${list}" is not a selector list.`, el);
+        warn("BLIP-W002", `avoid="${list}" is not a selector list.`, el);
       }
       return [];
     };
@@ -679,17 +679,17 @@ export class BlipWorld extends BlipElement {
     }
     const watch = new ResizeObserver(watched);
     const seen = new IntersectionObserver((entries) => void (visible = !!entries.at(-1)?.isIntersecting));
-    // Following the page: its motion setting (data-chu-motion), its scheme switches, Auto's minute ticks (stepped, as
-    // the page's palette is), its pixel, and its palette (data-chu-palette), whose night sky is its own.
+    // Following the page: its motion setting (data-blip-motion), its scheme switches, Auto's minute ticks (stepped, as
+    // the page's palette is), its pixel, and its palette (data-blip-palette), whose night sky is its own.
     const page = new MutationObserver((records) => {
       pause();
-      check(html.hasAttribute("data-chu-scheme-fade"));
-      if (records.some((r) => r.attributeName === "data-chu-palette")) draw();
-      else if (records.some((r) => r.attributeName === "data-chu-pixel") && measure().join(" ") !== drawn) redraw();
+      check(html.hasAttribute("data-blip-scheme-fade"));
+      if (records.some((r) => r.attributeName === "data-blip-palette")) draw();
+      else if (records.some((r) => r.attributeName === "data-blip-pixel") && measure().join(" ") !== drawn) redraw();
     });
     resize.observe(el);
     seen.observe(el);
-    page.observe(html, { attributes: true, subtree: true, attributeFilter: ["data-chu-scheme", "data-chu-pixel", "data-chu-motion", "data-chu-palette"] });
+    page.observe(html, { attributes: true, subtree: true, attributeFilter: ["data-blip-scheme", "data-blip-pixel", "data-blip-motion", "data-blip-palette"] });
     // The device's reduced motion, as the page's; dark mode, and the window moving to a screen with another device
     // pixel ratio (and back): draw again, in that screen's whole device pixels.
     this.on(matchMedia("(prefers-reduced-motion: reduce)"), "change", pause);
@@ -721,10 +721,10 @@ export class BlipWorld extends BlipElement {
 }
 
 mirror(BlipWorld, ["parallax", "stars", "events"], ["clouds", "zoom", "avoid"]);
-BlipElement.define("chu-world", BlipWorld);
+BlipElement.define("blip-world", BlipWorld);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "chu-world": BlipWorld;
+    "blip-world": BlipWorld;
   }
 }

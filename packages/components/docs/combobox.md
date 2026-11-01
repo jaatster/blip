@@ -1,8 +1,8 @@
 ---
 name: Combobox
-package: "@jaatster/blip-components"
+package: "@blip/components"
 css: combobox.css
-element: chu-combobox
+element: blip-combobox
 react: Combobox
 status: beta
 equivalents:
@@ -21,14 +21,14 @@ as on the TV. The suggestions come from a `<datalist>`, so without JavaScript th
 ## Usage
 
 ```html
-<label class="chu-field-label" for="world">Start in</label>
-<chu-combobox class="chu-combobox" value="caves">
-  <span class="chu-box chu-input"><input id="world" name="world" list="worlds"></span>
+<label class="blip-field-label" for="world">Start in</label>
+<blip-combobox class="blip-combobox" value="caves">
+  <span class="blip-box blip-input"><input id="world" name="world" list="worlds"></span>
   <datalist id="worlds">
     <option value="meadow">Meadow</option>
     <option value="caves">Crystal caves</option>
   </datalist>
-</chu-combobox>
+</blip-combobox>
 ```
 
 The form value is the chosen suggestion's `value` ("caves"), or the typed text when it matches none. The element
@@ -37,19 +37,19 @@ moves the input's `name` to itself, so the value is sent once.
 ## Anatomy
 
 1. **Field**: the input's well, with the text input.
-2. **Toggle** (`.chu-combobox-toggle`): a ghost box with a pixel chevron; it flips while the list is open.
-3. **Popup** (`.chu-combobox-popup`): a panel box under the field. Where the browser has anchor positioning (with
+2. **Toggle** (`.blip-combobox-toggle`): a ghost box with a pixel chevron; it flips while the list is open.
+3. **Popup** (`.blip-combobox-popup`): a panel box under the field. Where the browser has anchor positioning (with
    `anchor-scope`) it opens in the top layer (a `popover`), so scrolling boxes and dialogs never clip it, and flips
    above the field when there is no room below. Elsewhere it is placed absolutely under the field.
-4. **List** (`.chu-combobox-list`, a `listbox`) and **options** (`.chu-combobox-option`): ghost boxes; the active one
+4. **List** (`.blip-combobox-list`, a `listbox`) and **options** (`.blip-combobox-option`): ghost boxes; the active one
    is yellow candy with ink text.
-5. **No match** (`.chu-combobox-empty`): a muted line when the filter leaves nothing.
+5. **No match** (`.blip-combobox-empty`): a muted line when the filter leaves nothing.
 
 ## Variants
 
 | Attribute | Values | Use |
 |---|---|---|
-| `data-size` (on `.chu-input`) | `sm`, `md` (default), `lg` | As for the input. |
+| `data-size` (on `.blip-input`) | `sm`, `md` (default), `lg` | As for the input. |
 | `open` | | Shows the list. The element sets and clears it; set it yourself for docs and tests. |
 | `aria-autocomplete="list"` on the input | | Filters without completing the text, for a value your framework controls (React's `value`, Vue's `v-model`). Left out, the element writes `both`. |
 
@@ -93,7 +93,7 @@ from the field. A click or tap outside, or focus moving elsewhere, closes the li
 
 ## API
 
-`<chu-combobox>` (form-associated)
+`<blip-combobox>` (form-associated)
 
 | Attribute / property | Type | |
 |---|---|---|
@@ -109,8 +109,8 @@ from the field. A click or tap outside, or focus moving elsewhere, closes the li
 
 | Event | Detail | |
 |---|---|---|
-| `chu-change` | `{ value }` | Once per new value: a suggestion taken, the field cleared, or typed text committed. |
-| `chu-open`, `chu-close` | | The list opened or closed. |
+| `blip-change` | `{ value }` | Once per new value: a suggestion taken, the field cleared, or typed text committed. |
+| `blip-open`, `blip-close` | | The list opened or closed. |
 
 Taking a suggestion (or clearing with Escape) also fires `input` and `change` on the field, as typing and leaving it
 would; typed text fires the browser's own `change` when the field loses focus. The completion comes a moment after
@@ -120,4 +120,4 @@ it arrives.
 
 | Part | |
 |---|---|
-| `.chu-combobox-toggle`, `.chu-combobox-popup`, `.chu-combobox-list`, `.chu-combobox-option`, `.chu-combobox-empty` | Added by the element. |
+| `.blip-combobox-toggle`, `.blip-combobox-popup`, `.blip-combobox-list`, `.blip-combobox-option`, `.blip-combobox-empty` | Added by the element. |

@@ -1,90 +1,90 @@
 /*
  * Tooltip. A small chip that names or explains the thing you point at or focus: the inverse of the page (ink with
- * white text by day, starlight with ink text at night), with a pixel nub pointing at its trigger. <chu-tooltip>
- * (from @jaatster/blip-elements) shows it on hover after a beat and on keyboard focus at once, hides it on Escape,
+ * white text by day, starlight with ink text at night), with a pixel nub pointing at its trigger. <blip-tooltip>
+ * (from @blip/elements) shows it on hover after a beat and on keyboard focus at once, hides it on Escape,
  * links it with aria-describedby, and places it with CSS anchor positioning (its trigger is the popover's source),
  * or by script where the browser does not anchor it.
  *
- *   <button class="chu-box chu-button" id="save-btn">Save</button>
- *   <chu-tooltip for="save-btn">Saves to slot 2. Ctrl+S</chu-tooltip>
+ *   <button class="blip-box blip-button" id="save-btn">Save</button>
+ *   <blip-tooltip for="save-btn">Saves to slot 2. Ctrl+S</blip-tooltip>
  *
  * The markup it makes, also usable on its own:
  *
- *   <span class="chu-box chu-tooltip" role="tooltip" data-side="top">Saves to slot 2<span class="chu-tooltip-nub" aria-hidden="true"></span></span>
+ *   <span class="blip-box blip-tooltip" role="tooltip" data-side="top">Saves to slot 2<span class="blip-tooltip-nub" aria-hidden="true"></span></span>
  *
  *   data-side        top (default) | bottom | left | right        where it sits; the nub points the other way
- *   --_chu-nub-x      where the nub sits along the top or bottom edge, when the chip was pushed back on screen
- *   data-chu-static   drawn in the page flow, for docs, tests and screenshots
+ *   --_blip-nub-x      where the nub sits along the top or bottom edge, when the chip was pushed back on screen
+ *   data-blip-static   drawn in the page flow, for docs, tests and screenshots
  *
  * Only text: never put links or buttons in a tooltip (use a popover). Never put anything people need only here.
  */
 @import "./_feedback.css";
 
-@layer chu.components {
-  .chu-tooltip {
-    --chu-r: 2;
-    --chu-shape: var(--chu-shape-2);
-    --chu-shape-inner: var(--chu-shape-2-inner);
-    --chu-drop-size: 1;
-    --chu-box-top: var(--chu-text);
-    --chu-box-fill: var(--chu-text);
-    --chu-box-bottom: var(--chu-text);
-    --chu-box-text: var(--chu-text-inverse);
-    --chu-box-glint: transparent;
-    --_chu-gap: calc(5 * var(--chu-pixel));
+@layer blip.components {
+  .blip-tooltip {
+    --blip-r: 2;
+    --blip-shape: var(--blip-shape-2);
+    --blip-shape-inner: var(--blip-shape-2-inner);
+    --blip-drop-size: 1;
+    --blip-box-top: var(--blip-text);
+    --blip-box-fill: var(--blip-text);
+    --blip-box-bottom: var(--blip-text);
+    --blip-box-text: var(--blip-text-inverse);
+    --blip-box-glint: transparent;
+    --_blip-gap: calc(5 * var(--blip-pixel));
     position: fixed;
     inset: auto;
-    margin: 0 0 var(--_chu-gap);
+    margin: 0 0 var(--_blip-gap);
     inline-size: max-content;
-    max-inline-size: round(down, min(calc(110 * var(--chu-pixel)), 100vw - 8 * var(--chu-pixel)), var(--chu-pixel));
-    padding: calc(2 * var(--chu-pixel)) calc(4 * var(--chu-pixel)) calc(3 * var(--chu-pixel));
+    max-inline-size: round(down, min(calc(110 * var(--blip-pixel)), 100vw - 8 * var(--blip-pixel)), var(--blip-pixel));
+    padding: calc(2 * var(--blip-pixel)) calc(4 * var(--blip-pixel)) calc(3 * var(--blip-pixel));
     overflow: visible;
-    color: var(--chu-box-text);
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-caption);
-    font-weight: var(--chu-weight-medium);
-    line-height: calc(8 * var(--chu-pixel));
+    color: var(--blip-box-text);
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-caption);
+    font-weight: var(--blip-weight-medium);
+    line-height: calc(8 * var(--blip-pixel));
     text-align: start;
     text-transform: none;
     letter-spacing: 0;
     white-space: normal;
     position-area: top;
   }
-  .chu-tooltip[data-side="bottom"] { margin: var(--_chu-gap) 0 0; position-area: bottom; }
-  .chu-tooltip[data-side="left"] { margin: 0 var(--_chu-gap) 0 0; position-area: left; }
-  .chu-tooltip[data-side="right"] { margin: 0 0 0 var(--_chu-gap); position-area: right; }
-  .chu-tooltip:popover-open { animation: chu-pop-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end); }
+  .blip-tooltip[data-side="bottom"] { margin: var(--_blip-gap) 0 0; position-area: bottom; }
+  .blip-tooltip[data-side="left"] { margin: 0 var(--_blip-gap) 0 0; position-area: left; }
+  .blip-tooltip[data-side="right"] { margin: 0 0 0 var(--_blip-gap); position-area: right; }
+  .blip-tooltip:popover-open { animation: blip-pop-in calc(2 * var(--blip-duration-frame)) steps(1, jump-end); }
   /* Drawn in the flow, it gives way in a row too narrow for it (a phone), wrapping its words sooner. */
-  .chu-tooltip[data-chu-static] { display: inline-block; position: relative; inline-size: fit-content; vertical-align: top; }
+  .blip-tooltip[data-blip-static] { display: inline-block; position: relative; inline-size: fit-content; vertical-align: top; }
 
   /* The nub, drawn pointing down in the top of a 7 x 7 pixel square and turned in quarter turns. */
-  .chu-tooltip-nub {
+  .blip-tooltip-nub {
     position: absolute;
-    top: calc(round(down, 100%, var(--chu-pixel)) - var(--chu-pixel));
-    left: var(--_chu-nub-x, calc(round(down, 50%, var(--chu-pixel)) - 3 * var(--chu-pixel)));
-    inline-size: calc(7 * var(--chu-pixel));
-    block-size: calc(7 * var(--chu-pixel));
-    background: var(--chu-box-outline);
-    mask: var(--_chu-g-nub) 0 0 / 100% calc(4 * var(--chu-pixel)) no-repeat;
+    top: calc(round(down, 100%, var(--blip-pixel)) - var(--blip-pixel));
+    left: var(--_blip-nub-x, calc(round(down, 50%, var(--blip-pixel)) - 3 * var(--blip-pixel)));
+    inline-size: calc(7 * var(--blip-pixel));
+    block-size: calc(7 * var(--blip-pixel));
+    background: var(--blip-box-outline);
+    mask: var(--_blip-g-nub) 0 0 / 100% calc(4 * var(--blip-pixel)) no-repeat;
     pointer-events: none;
   }
-  .chu-tooltip-nub::before {
+  .blip-tooltip-nub::before {
     content: "";
     position: absolute;
     inset: 0;
-    background: var(--chu-box-fill);
-    mask: var(--_chu-g-nub-fill) 0 0 / 100% calc(4 * var(--chu-pixel)) no-repeat;
+    background: var(--blip-box-fill);
+    mask: var(--_blip-g-nub-fill) 0 0 / 100% calc(4 * var(--blip-pixel)) no-repeat;
   }
-  .chu-tooltip[data-side="bottom"] .chu-tooltip-nub { top: calc(-6 * var(--chu-pixel)); rotate: 180deg; }
-  .chu-tooltip:is([data-side="left"], [data-side="right"]) .chu-tooltip-nub { top: calc(round(down, 50%, var(--chu-pixel)) - 3 * var(--chu-pixel)); }
-  .chu-tooltip[data-side="left"] .chu-tooltip-nub { left: calc(round(down, 100%, var(--chu-pixel)) - var(--chu-pixel)); rotate: -90deg; }
-  .chu-tooltip[data-side="right"] .chu-tooltip-nub { left: calc(-6 * var(--chu-pixel)); rotate: 90deg; }
+  .blip-tooltip[data-side="bottom"] .blip-tooltip-nub { top: calc(-6 * var(--blip-pixel)); rotate: 180deg; }
+  .blip-tooltip:is([data-side="left"], [data-side="right"]) .blip-tooltip-nub { top: calc(round(down, 50%, var(--blip-pixel)) - 3 * var(--blip-pixel)); }
+  .blip-tooltip[data-side="left"] .blip-tooltip-nub { left: calc(round(down, 100%, var(--blip-pixel)) - var(--blip-pixel)); rotate: -90deg; }
+  .blip-tooltip[data-side="right"] .blip-tooltip-nub { left: calc(-6 * var(--blip-pixel)); rotate: 90deg; }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-tooltip:popover-open { animation: none; }
+    .blip-tooltip:popover-open { animation: none; }
   }
   @media (forced-colors: active) {
-    .chu-tooltip { background: Canvas; color: CanvasText; }
-    .chu-tooltip-nub { display: none; }
+    .blip-tooltip { background: Canvas; color: CanvasText; }
+    .blip-tooltip-nub { display: none; }
   }
 }

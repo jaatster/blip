@@ -3,109 +3,109 @@
  * one frame at a time, when it opens. Give every <details> in a group the same name and only one stays open (the
  * native exclusive accordion); leave the name off to let several open.
  *
- *   <div class="chu-accordion">
- *     <details class="chu-accordion-item" name="faq" open>
- *       <summary class="chu-box chu-accordion-summary">Can I play offline?<span class="chu-accordion-chevron"></span></summary>
- *       <div class="chu-accordion-panel"><p>Yes. …</p></div>
+ *   <div class="blip-accordion">
+ *     <details class="blip-accordion-item" name="faq" open>
+ *       <summary class="blip-box blip-accordion-summary">Can I play offline?<span class="blip-accordion-chevron"></span></summary>
+ *       <div class="blip-accordion-panel"><p>Yes. …</p></div>
  *     </details>
  *     …
  *   </div>
  *
  *   data-variant   panel, white (default) | soft | candy | outline | ghost   on the summary: the row's tier
  *   data-tone      any tone, on the summary                                 soft and candy summaries
- *   .chu-box        on the panel: the answer in a cream box under its question
+ *   .blip-box        on the panel: the answer in a cream box under its question
  *
  * The chevron is an empty span: it is drawn, never read. States come from the box: hover lifts, pressed sits in,
  * focus is the yellow ring. The browser gives summaries their expanded state and Enter and Space.
  */
 
-@layer chu.components {
-  .chu-accordion {
+@layer blip.components {
+  .blip-accordion {
     display: flex;
     flex-direction: column;
-    gap: var(--chu-space-4);
+    gap: var(--blip-space-4);
     min-inline-size: 0;
   }
 
-  .chu-accordion-summary {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
-    --chu-band-top: 2;
-    --chu-band-bottom: 3;
+  .blip-accordion-summary {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
+    --blip-band-top: 2;
+    --blip-band-bottom: 3;
     display: flex;
     align-items: center;
-    gap: var(--chu-space-6);
+    gap: var(--blip-space-6);
     box-sizing: border-box;
-    min-block-size: var(--chu-control-md);
-    padding-block: calc(3 * var(--chu-pixel)) calc(4 * var(--chu-pixel));
-    padding-inline: calc(8 * var(--chu-pixel)) calc(6 * var(--chu-pixel));
-    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-body);
-    font-weight: var(--chu-weight-bold);
-    line-height: var(--chu-leading-tight);
+    min-block-size: var(--blip-control-md);
+    padding-block: calc(3 * var(--blip-pixel)) calc(4 * var(--blip-pixel));
+    padding-inline: calc(8 * var(--blip-pixel)) calc(6 * var(--blip-pixel));
+    margin: 0 var(--blip-pixel) var(--blip-pixel) 0;
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-body);
+    font-weight: var(--blip-weight-bold);
+    line-height: var(--blip-leading-tight);
     text-align: start;
     list-style: none;
   }
-  .chu-accordion-summary::-webkit-details-marker { display: none; }
-  .chu-accordion-summary:not([data-variant]) {
-    --chu-box-top: var(--chu-surface);
-    --chu-box-fill: var(--chu-surface);
-    --chu-box-bottom: var(--chu-surface-sunken);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
+  .blip-accordion-summary::-webkit-details-marker { display: none; }
+  .blip-accordion-summary:not([data-variant]) {
+    --blip-box-top: var(--blip-surface);
+    --blip-box-fill: var(--blip-surface);
+    --blip-box-bottom: var(--blip-surface-sunken);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
   }
 
   /* The chevron: along the line when closed (right, left right to left), down when open, through one in-between
      frame. */
-  .chu-accordion-chevron {
+  .blip-accordion-chevron {
     flex: none;
-    inline-size: calc(7 * var(--chu-pixel));
-    block-size: calc(7 * var(--chu-pixel));
+    inline-size: calc(7 * var(--blip-pixel));
+    block-size: calc(7 * var(--blip-pixel));
     margin-inline-start: auto;
     background: currentColor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h2v1H1zM2 1h2v1H2zM3 2h2v1H3zM4 3h2v1H4zM3 4h2v1H3zM2 5h2v1H2zM1 6h2v1H1z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   }
-  .chu-accordion-chevron:dir(rtl) { scale: -1 1; }
-  [open] > .chu-accordion-summary > .chu-accordion-chevron {
+  .blip-accordion-chevron:dir(rtl) { scale: -1 1; }
+  [open] > .blip-accordion-summary > .blip-accordion-chevron {
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7' shape-rendering='crispEdges'%3E%3Cpath d='M0 1h1v1H0zM6 1h1v1H6zM0 2h2v1H0zM5 2h2v1H5zM1 3h2v1H1zM4 3h2v1H4zM2 4h3v1H2zM3 5h1v1H3z'/%3E%3C/svg%3E");
-    animation: chu-accordion-turn calc(2 * var(--chu-duration-frame)) steps(1, jump-end);
+    animation: blip-accordion-turn calc(2 * var(--blip-duration-frame)) steps(1, jump-end);
   }
 
-  .chu-accordion-panel {
-    padding: var(--chu-space-4) calc(8 * var(--chu-pixel)) var(--chu-space-6);
-    font-size: var(--chu-size-body);
-    line-height: var(--chu-leading-normal);
+  .blip-accordion-panel {
+    padding: var(--blip-space-4) calc(8 * var(--blip-pixel)) var(--blip-space-6);
+    font-size: var(--blip-size-body);
+    line-height: var(--blip-leading-normal);
   }
-  .chu-accordion-panel > * + * { margin-block-start: var(--chu-space-4); }
+  .blip-accordion-panel > * + * { margin-block-start: var(--blip-space-4); }
   /* The answer in a cream box, tucked under its question. */
-  .chu-accordion-panel.chu-box {
-    --chu-r: 3;
-    --chu-shape: var(--chu-shape-3);
-    --chu-shape-inner: var(--chu-shape-3-inner);
-    margin-block: var(--chu-space-3) var(--chu-pixel);
-    margin-inline: calc(6 * var(--chu-pixel)) var(--chu-pixel);
-    padding: calc(6 * var(--chu-pixel)) calc(8 * var(--chu-pixel));
+  .blip-accordion-panel.blip-box {
+    --blip-r: 3;
+    --blip-shape: var(--blip-shape-3);
+    --blip-shape-inner: var(--blip-shape-3-inner);
+    margin-block: var(--blip-space-3) var(--blip-pixel);
+    margin-inline: calc(6 * var(--blip-pixel)) var(--blip-pixel);
+    padding: calc(6 * var(--blip-pixel)) calc(8 * var(--blip-pixel));
   }
-  .chu-accordion-panel.chu-box:not([data-variant]) {
-    --chu-box-top: var(--chu-surface-panel);
-    --chu-box-fill: var(--chu-surface-panel);
-    --chu-box-bottom: var(--chu-surface-panel);
-    --chu-box-text: var(--chu-text);
-    --chu-box-glint: transparent;
+  .blip-accordion-panel.blip-box:not([data-variant]) {
+    --blip-box-top: var(--blip-surface-panel);
+    --blip-box-fill: var(--blip-surface-panel);
+    --blip-box-bottom: var(--blip-surface-panel);
+    --blip-box-text: var(--blip-text);
+    --blip-box-glint: transparent;
   }
-  [open] > .chu-accordion-panel { animation: chu-pop-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end) both; }
+  [open] > .blip-accordion-panel { animation: blip-pop-in calc(2 * var(--blip-duration-frame)) steps(1, jump-end) both; }
 
   @media (prefers-reduced-motion: reduce) {
-    [open] > .chu-accordion-summary > .chu-accordion-chevron, [open] > .chu-accordion-panel { animation: none; }
+    [open] > .blip-accordion-summary > .blip-accordion-chevron, [open] > .blip-accordion-panel { animation: none; }
   }
   @media (forced-colors: active) {
-    .chu-accordion-chevron { background: ButtonText; }
+    .blip-accordion-chevron { background: ButtonText; }
   }
 }
 
 /* The in-between frame: the chevron pointing down and right, held for the animation, then the open (down) frame. */
-@keyframes chu-accordion-turn {
+@keyframes blip-accordion-turn {
   0%, 100% { mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7' shape-rendering='crispEdges'%3E%3Cpath d='M4 1h2v3H4zM1 4h5v2H1z'/%3E%3C/svg%3E"); }
 }

@@ -18,14 +18,14 @@ afterAll(() => browser?.close());
 const text = Array.from({ length: 12 }, (_, i) => `<p>Line ${i + 1}: the double jump no longer drops you through thin floors.</p>`).join("");
 
 describe("print: an open dialog prints its whole body", () => {
-  const body = `<dialog class="chu-box chu-dialog" open data-chu-static id="held" aria-label="Notes" style="max-block-size:calc(110*var(--chu-pixel))">
-      <header class="chu-dialog-header"><h2 class="chu-dialog-title">Notes</h2></header>
-      <div class="chu-dialog-body" id="held-body">${text}</div>
+  const body = `<dialog class="blip-box blip-dialog" open data-blip-static id="held" aria-label="Notes" style="max-block-size:calc(110*var(--blip-pixel))">
+      <header class="blip-dialog-header"><h2 class="blip-dialog-title">Notes</h2></header>
+      <div class="blip-dialog-body" id="held-body">${text}</div>
     </dialog>
-    <dialog class="chu-box chu-dialog" id="modal" aria-label="Notes">
-      <header class="chu-dialog-header"><h2 class="chu-dialog-title">Notes</h2></header>
-      <div class="chu-dialog-body" id="modal-body">${text}${text}</div>
-      <footer class="chu-dialog-footer"><button class="chu-box chu-button">Close</button></footer>
+    <dialog class="blip-box blip-dialog" id="modal" aria-label="Notes">
+      <header class="blip-dialog-header"><h2 class="blip-dialog-title">Notes</h2></header>
+      <div class="blip-dialog-body" id="modal-body">${text}${text}</div>
+      <footer class="blip-dialog-footer"><button class="blip-box blip-button">Close</button></footer>
     </dialog>`;
   const measure = (page: Page, id: string) => page.$eval(`#${id}`, (b) => {
     const d = b.closest("dialog")!.getBoundingClientRect(), r = b.getBoundingClientRect();
@@ -49,23 +49,23 @@ describe("print: an open dialog prints its whole body", () => {
 });
 
 describe("print: a tab row prints wrapped", () => {
-  const tabs = Array.from({ length: 8 }, (_, i) => `<button class="chu-box chu-tab" data-variant="soft" role="tab" aria-selected="${i === 0}">World ${i + 1}</button>`).join("");
-  const row = (overflow: boolean, id: string) => `<div class="chu-tabs" data-variant="soft" ${overflow ? "data-overflow" : ""} id="${id}" style="inline-size:300px">
-      <div class="chu-tabs-list" role="tablist" aria-label="Worlds">${tabs}</div>
-      <span class="chu-box chu-tabs-scroll" data-dir="start" data-variant="soft" aria-hidden="true"><span></span></span>
-      <span class="chu-box chu-tabs-scroll" data-dir="end" data-variant="soft" aria-hidden="true"><span></span></span>
+  const tabs = Array.from({ length: 8 }, (_, i) => `<button class="blip-box blip-tab" data-variant="soft" role="tab" aria-selected="${i === 0}">World ${i + 1}</button>`).join("");
+  const row = (overflow: boolean, id: string) => `<div class="blip-tabs" data-variant="soft" ${overflow ? "data-overflow" : ""} id="${id}" style="inline-size:300px">
+      <div class="blip-tabs-list" role="tablist" aria-label="Worlds">${tabs}</div>
+      <span class="blip-box blip-tabs-scroll" data-dir="start" data-variant="soft" aria-hidden="true"><span></span></span>
+      <span class="blip-box blip-tabs-scroll" data-dir="end" data-variant="soft" aria-hidden="true"><span></span></span>
     </div>`;
   // With the element's data-overflow (it keeps it when it cannot measure again before printing), and without (no script).
   const body = `${row(true, "marked")}<div style="block-size:40px"></div>${row(false, "plain")}`;
   const measure = (page: Page, id: string) => page.$eval(`#${id}`, (t) => {
-    const list = t.querySelector<HTMLElement>(".chu-tabs-list")!, box = t.getBoundingClientRect();
+    const list = t.querySelector<HTMLElement>(".blip-tabs-list")!, box = t.getBoundingClientRect();
     const out = [...list.children].filter((tab) => { const r = tab.getBoundingClientRect(); return r.left < box.left - 8 || r.right > box.right + 8; }).length;
     return {
       scrolls: list.scrollWidth > list.clientWidth + 1,
       tabsOutside: out,
       // A new row starts left of where the last tab started.
       rows: 1 + [...list.children].filter((tab, i, all) => i > 0 && tab.getBoundingClientRect().left < all[i - 1]!.getBoundingClientRect().left).length,
-      buttons: [...t.querySelectorAll(".chu-tabs-scroll")].map((b) => getComputedStyle(b).display).join(" "),
+      buttons: [...t.querySelectorAll(".blip-tabs-scroll")].map((b) => getComputedStyle(b).display).join(" "),
     };
   });
 

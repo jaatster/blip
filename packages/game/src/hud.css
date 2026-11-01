@@ -2,121 +2,121 @@
  * HUD. The heads-up display over a game: hearts, segmented health and mana bars, coin and score counters, a timer.
  * Numbers are Pixel Bop's tabular digits in POP (white, ink outline, a drop), so they read on any part of the world.
  *
- *   <div class="chu-hud">
- *     <div class="chu-hud-group">
- *       <chu-hearts value="3.5" max="5" label="Health"></chu-hearts>
- *       <div class="chu-hud-stat">
- *         <span class="chu-hud-label chu-display chu-pop" data-scale="1" aria-hidden="true">MP</span>
- *         <div class="chu-box chu-hud-bar" data-tone="blue" role="meter" aria-label="Magic" aria-valuemin="0"
- *              aria-valuemax="8" aria-valuenow="5" style="--chu-hud-value: 5; --chu-hud-max: 8; --chu-hud-segments: 8">
- *           <span class="chu-hud-bar-fill"></span>
+ *   <div class="blip-hud">
+ *     <div class="blip-hud-group">
+ *       <blip-hearts value="3.5" max="5" label="Health"></blip-hearts>
+ *       <div class="blip-hud-stat">
+ *         <span class="blip-hud-label blip-display blip-pop" data-scale="1" aria-hidden="true">MP</span>
+ *         <div class="blip-box blip-hud-bar" data-tone="blue" role="meter" aria-label="Magic" aria-valuemin="0"
+ *              aria-valuemax="8" aria-valuenow="5" style="--blip-hud-value: 5; --blip-hud-max: 8; --blip-hud-segments: 8">
+ *           <span class="blip-hud-bar-fill"></span>
  *         </div>
  *       </div>
  *     </div>
- *     <chu-counter value="42" pad="3" label="Coins" sound="coin"><chu-sprite name="coin"></chu-sprite></chu-counter>
+ *     <blip-counter value="42" pad="3" label="Coins" sound="coin"><blip-sprite name="coin"></blip-sprite></blip-counter>
  *   </div>
  *
- *   .chu-hud, .chu-hud-group  rows that wrap; groups keep together
- *   .chu-hud-stat            a label beside its bar or number
- *   chu-hearts               full, half and empty hearts (hud.js; sprites.js draws them)
- *   .chu-hud-bar             a segmented meter: --chu-hud-value of --chu-hud-max, in --chu-hud-segments whole segments
+ *   .blip-hud, .blip-hud-group  rows that wrap; groups keep together
+ *   .blip-hud-stat            a label beside its bar or number
+ *   blip-hearts               full, half and empty hearts (hud.js; sprites.js draws them)
+ *   .blip-hud-bar             a segmented meter: --blip-hud-value of --blip-hud-max, in --blip-hud-segments whole segments
  *                           (default 10), rounded down; data-tone colours the fill (success by default)
- *   chu-counter              counts to its value a whole step a frame; data-low (set from `low`) turns it red
+ *   blip-counter              counts to its value a whole step a frame; data-low (set from `low`) turns it red
  *
- * A bar is a meter: keep aria-valuenow equal to --chu-hud-value when you change it.
+ * A bar is a meter: keep aria-valuenow equal to --blip-hud-value when you change it.
  */
 
-@layer chu.kits {
-  .chu-hud {
+@layer blip.kits {
+  .blip-hud {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: calc(4 * var(--chu-pixel)) calc(12 * var(--chu-pixel));
-    padding: calc(6 * var(--chu-pixel)) calc(8 * var(--chu-pixel));
+    gap: calc(4 * var(--blip-pixel)) calc(12 * var(--blip-pixel));
+    padding: calc(6 * var(--blip-pixel)) calc(8 * var(--blip-pixel));
   }
-  .chu-hud-group {
+  .blip-hud-group {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: calc(4 * var(--chu-pixel)) calc(10 * var(--chu-pixel));
+    gap: calc(4 * var(--blip-pixel)) calc(10 * var(--blip-pixel));
   }
   /* The last group keeps to the far side, even when it wraps onto a row of its own. */
-  .chu-hud-group:last-child:not(:first-child) { margin-inline-start: auto; }
-  .chu-hud-stat {
+  .blip-hud-group:last-child:not(:first-child) { margin-inline-start: auto; }
+  .blip-hud-stat {
     display: inline-flex;
     align-items: center;
-    gap: calc(3 * var(--chu-pixel));
+    gap: calc(3 * var(--blip-pixel));
   }
-  .chu-hud-label { white-space: nowrap; }
+  .blip-hud-label { white-space: nowrap; }
 
-  chu-hearts, .chu-hearts {
+  blip-hearts, .blip-hearts {
     display: inline-flex;
     flex-wrap: wrap;
-    gap: var(--chu-pixel);
+    gap: var(--blip-pixel);
     vertical-align: middle;
   }
 
-  chu-counter, .chu-counter {
+  blip-counter, .blip-counter {
     display: inline-flex;
     align-items: center;
-    gap: calc(3 * var(--chu-pixel));
+    gap: calc(3 * var(--blip-pixel));
     vertical-align: middle;
   }
-  .chu-counter-value { white-space: nowrap; }
-  :is(chu-counter, .chu-counter)[data-low] .chu-counter-value {
-    --chu-pop-tint: var(--chu-candy-red-light);
-    --chu-pop-drop: var(--chu-candy-red-shade);
+  .blip-counter-value { white-space: nowrap; }
+  :is(blip-counter, .blip-counter)[data-low] .blip-counter-value {
+    --blip-pop-tint: var(--blip-candy-red-light);
+    --blip-pop-drop: var(--blip-candy-red-shade);
   }
 
   /* The bar: a slate track in a candy box, segments five pixels wide with ink between, filled in whole segments. */
-  .chu-hud-bar {
-    --chu-r: 1;
-    --chu-shape: var(--chu-shape-1);
-    --chu-shape-inner: var(--chu-shape-1-inner);
-    --chu-hud-value: 0;
-    --chu-hud-max: 10;
-    --chu-hud-segments: 10;
-    --chu-box-top: var(--chu-candy-slate-shade);
-    --chu-box-fill: var(--chu-candy-slate-shade);
-    --chu-box-bottom: var(--chu-candy-slate-shade);
-    --chu-box-glint: transparent;
+  .blip-hud-bar {
+    --blip-r: 1;
+    --blip-shape: var(--blip-shape-1);
+    --blip-shape-inner: var(--blip-shape-1-inner);
+    --blip-hud-value: 0;
+    --blip-hud-max: 10;
+    --blip-hud-segments: 10;
+    --blip-box-top: var(--blip-candy-slate-shade);
+    --blip-box-fill: var(--blip-candy-slate-shade);
+    --blip-box-bottom: var(--blip-candy-slate-shade);
+    --blip-box-glint: transparent;
     display: inline-block;
     vertical-align: middle;
-    inline-size: calc((var(--chu-hud-segments) * 6 + 1) * var(--chu-pixel));
-    block-size: calc(7 * var(--chu-pixel));
-    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
+    inline-size: calc((var(--blip-hud-segments) * 6 + 1) * var(--blip-pixel));
+    block-size: calc(7 * var(--blip-pixel));
+    margin: 0 var(--blip-pixel) var(--blip-pixel) 0;
   }
-  .chu-hud-bar:not([data-tone]) {
-    --chu-tone: var(--chu-success);
-    --chu-tone-light: var(--chu-success-light);
-    --chu-tone-shade: var(--chu-success-shade);
+  .blip-hud-bar:not([data-tone]) {
+    --blip-tone: var(--blip-success);
+    --blip-tone-light: var(--blip-success-light);
+    --blip-tone-shade: var(--blip-success-shade);
   }
-  .chu-hud-bar-fill {
+  .blip-hud-bar-fill {
     position: absolute;
-    inset-block: var(--chu-pixel);
-    inset-inline-start: var(--chu-pixel);
-    inline-size: max(0px, calc(clamp(0, round(down, var(--chu-hud-value) / var(--chu-hud-max) * var(--chu-hud-segments), 1), var(--chu-hud-segments)) * 6 * var(--chu-pixel) - var(--chu-pixel)));
+    inset-block: var(--blip-pixel);
+    inset-inline-start: var(--blip-pixel);
+    inline-size: max(0px, calc(clamp(0, round(down, var(--blip-hud-value) / var(--blip-hud-max) * var(--blip-hud-segments), 1), var(--blip-hud-segments)) * 6 * var(--blip-pixel) - var(--blip-pixel)));
     background:
-      linear-gradient(to right, transparent 0 var(--chu-pixel), var(--chu-white) 0 calc(2 * var(--chu-pixel)), transparent 0) 0 0 / calc(6 * var(--chu-pixel)) var(--chu-pixel) repeat-x,
-      linear-gradient(to bottom, var(--chu-tone-light) 0 var(--chu-pixel), var(--chu-tone) 0 calc(100% - var(--chu-pixel)), var(--chu-tone-shade) 0);
+      linear-gradient(to right, transparent 0 var(--blip-pixel), var(--blip-white) 0 calc(2 * var(--blip-pixel)), transparent 0) 0 0 / calc(6 * var(--blip-pixel)) var(--blip-pixel) repeat-x,
+      linear-gradient(to bottom, var(--blip-tone-light) 0 var(--blip-pixel), var(--blip-tone) 0 calc(100% - var(--blip-pixel)), var(--blip-tone-shade) 0);
   }
   /* The gaps, over full and empty segments alike. */
-  .chu-hud-bar-fill::before {
+  .blip-hud-bar-fill::before {
     content: "";
     position: absolute;
     inset-block: 0;
     inset-inline-start: 0;
-    inline-size: calc((var(--chu-hud-segments) * 6 - 1) * var(--chu-pixel));
-    background: repeating-linear-gradient(to right, transparent 0 calc(5 * var(--chu-pixel)), var(--chu-ink) 0 calc(6 * var(--chu-pixel)));
+    inline-size: calc((var(--blip-hud-segments) * 6 - 1) * var(--blip-pixel));
+    background: repeating-linear-gradient(to right, transparent 0 calc(5 * var(--blip-pixel)), var(--blip-ink) 0 calc(6 * var(--blip-pixel)));
   }
 
   /* A bar's fill is its value: it prints, though paper drops backgrounds. */
   @media print {
-    .chu-hud-bar-fill, .chu-hud-bar-fill::before { print-color-adjust: exact; }
+    .blip-hud-bar-fill, .blip-hud-bar-fill::before { print-color-adjust: exact; }
   }
   @media (forced-colors: active) {
-    .chu-hud-bar-fill { background: Highlight; forced-color-adjust: none; }
-    .chu-hud-bar-fill::before { background: repeating-linear-gradient(to right, transparent 0 calc(5 * var(--chu-pixel)), Canvas 0 calc(6 * var(--chu-pixel))); }
+    .blip-hud-bar-fill { background: Highlight; forced-color-adjust: none; }
+    .blip-hud-bar-fill::before { background: repeating-linear-gradient(to right, transparent 0 calc(5 * var(--blip-pixel)), Canvas 0 calc(6 * var(--blip-pixel))); }
   }
 }

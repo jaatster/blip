@@ -17,7 +17,7 @@ function fields(text) {
   return { whole, parts };
 }
 
-/** The words typed, as they were typed ("--chu-accent" stays one word). */
+/** The words typed, as they were typed ("--blip-accent" stays one word). */
 export const queryWords = (query) => norm(query).split(/[^a-z0-9-]+/).filter(Boolean);
 
 /** Letters to change, add, remove or swap to turn a into b: past max, max + 1. */

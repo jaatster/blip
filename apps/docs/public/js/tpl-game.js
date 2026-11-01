@@ -1,5 +1,5 @@
 // Game menu template: press start, the main menu, options, a level with a HUD, a frog who wants coins, and pause.
-import { transition } from "@jaatster/blip-effects/transitions.js";
+import { transition } from "@blip/effects/transitions.js";
 
 const $ = (s, r = document) => r.querySelector(s);
 const game = $(".tpl-game");
@@ -12,7 +12,7 @@ async function show(screen, kind = "dither") {
   await transition(() => {
     game.dataset.screen = screen;
   }, { kind });
-  const focus = { title: ".tpl-press-start", menu: ".tpl-main-choices .chu-choice:not([aria-disabled='true'])", level: ".tpl-frog" }[screen];
+  const focus = { title: ".tpl-press-start", menu: ".tpl-main-choices .blip-choice:not([aria-disabled='true'])", level: ".tpl-frog" }[screen];
   const el = $(focus);
   if (screen === "level") startLevel();
   else stopClock();
@@ -36,7 +36,7 @@ document.addEventListener("keydown", (e) => {
 // ------------------------------------------------------------------ menu and options
 
 const options = $(".tpl-options"), menuPanel = $(".tpl-menu-panel");
-$(".tpl-main-choices").addEventListener("chu-action", (e) => {
+$(".tpl-main-choices").addEventListener("blip-action", (e) => {
   const v = e.detail.value;
   if (v === "new") {
     play("success");
@@ -52,11 +52,11 @@ $(".tpl-options-done").addEventListener("click", () => {
   play("back");
   options.hidden = true;
   menuPanel.hidden = false;
-  $(".tpl-main-choices .chu-choice[value='options']").focus();
+  $(".tpl-main-choices .blip-choice[value='options']").focus();
 });
 const time = $(".tpl-time");
-customElements.whenDefined("chu-segmented").then(() => (time.value = document.documentElement.dataset.schemeChoice || "auto"));
-time.addEventListener("chu-change", (e) => {
+customElements.whenDefined("blip-segmented").then(() => (time.value = document.documentElement.dataset.schemeChoice || "auto"));
+time.addEventListener("blip-change", (e) => {
   window.docs?.setScheme?.(e.detail.value);
   play("select");
 });
@@ -86,12 +86,12 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && !pause.open) {
     e.preventDefault();
     openPause();
-  } else if (e.key === " " && !pause.open && !e.target.closest?.("button, input, chu-dialogue")) {
+  } else if (e.key === " " && !pause.open && !e.target.closest?.("button, input, blip-dialogue")) {
     e.preventDefault();
     addCoin();
   }
 });
-frog.addEventListener("chu-action", (e) => {
+frog.addEventListener("blip-action", (e) => {
   const have = Number(coins.value);
   if (e.detail.value === "pay") {
     if (have >= 30) {
@@ -104,7 +104,7 @@ frog.addEventListener("chu-action", (e) => {
     }
   } else frog.say("Suit yourself. I'll be here, by the water.");
 });
-frog.addEventListener("chu-done", () => frog.say(["Still here? The coins won't collect themselves.", "I could patch the bridge for thirty. Fair?"]));
+frog.addEventListener("blip-done", () => frog.say(["Still here? The coins won't collect themselves.", "I could patch the bridge for thirty. Fair?"]));
 
 // ------------------------------------------------------------------ pause
 
@@ -115,7 +115,7 @@ function openPause() {
   pause.showModal();
 }
 $(".tpl-pause-button").addEventListener("click", openPause);
-pause.addEventListener("chu-action", (e) => {
+pause.addEventListener("blip-action", (e) => {
   const v = e.detail.value;
   pause.close();
   if (v === "title") show("title");

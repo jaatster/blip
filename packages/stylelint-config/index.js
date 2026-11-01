@@ -1,8 +1,8 @@
 /**
- * @jaatster/blip-stylelint-config: the shareable config.
+ * @blip/stylelint-config: the shareable config.
  *
  *   // stylelint.config.mjs
- *   export default { extends: ["@jaatster/blip-stylelint-config"] };
+ *   export default { extends: ["@blip/stylelint-config"] };
  *
  * Turns on the four Blip rules (see README.md). Combine it with any other config; it sets nothing else.
  */

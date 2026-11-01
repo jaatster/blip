@@ -1,5 +1,5 @@
 {
-  "name": "chu-stack-tailwind",
+  "name": "blip-stack-tailwind",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,11 +8,11 @@
     "preview": "vite preview --port 4615 --strictPort"
   },
   "dependencies": {
-    "@jaatster/blip-components": "*",
-    "@jaatster/blip-core": "*",
-    "@jaatster/blip-font": "*",
-    "@jaatster/blip-react": "*",
-    "@jaatster/blip-tokens": "*",
+    "@blip/components": "*",
+    "@blip/core": "*",
+    "@blip/font": "*",
+    "@blip/react": "*",
+    "@blip/tokens": "*",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },

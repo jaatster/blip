@@ -2,7 +2,7 @@
 /**
  * The docs shell, from the system's own navigation: the app bar on top, the section's sidebar at the side (a drawer
  * on narrower screens), "On this page" on wide ones, and the bottom bar on phones. All of it answers to the
- * chu-shell container, as the app bar's docs describe.
+ * blip-shell container, as the app bar's docs describe.
  */
 import Base from "./Base.astro";
 import AppBar from "../components/AppBar.astro";
@@ -36,13 +36,13 @@ const sidebar = !wide && section && groups.length > 0;
 const toc = headings.filter((h) => h.depth === 2).length > 2;
 ---
 <Base title={title} description={description} kits={kits} styles={styles} scripts={scripts} display={display} bodyClass={bodyClass}>
-  <a class="chu-box chu-skip-link" href="#main">Skip to content</a>
+  <a class="blip-box blip-skip-link" href="#main">Skip to content</a>
   <div class="docs-shell" data-layout={sidebar ? (toc ? "side toc" : "side") : "wide"}>
     <div class="docs-top"><AppBar /></div>
     {sidebar && section && <Sidebar section={section} />}
     <main id="main" tabindex="-1" class="docs-main">
       {sidebar && section && (
-        <button class="chu-box chu-button docs-nav-toggle" type="button" data-variant="soft" data-tone="neutral" data-size="sm" popovertarget="docs-nav">
+        <button class="blip-box blip-button docs-nav-toggle" type="button" data-variant="soft" data-tone="neutral" data-size="sm" popovertarget="docs-nav">
           <Icon name="list" />{section.id === "components" ? "All components" : `${section.title}: all pages`}
         </button>
       )}

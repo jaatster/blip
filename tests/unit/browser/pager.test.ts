@@ -1,7 +1,7 @@
 /**
- * <chu-pager>: a WAI-ARIA carousel that never moves by itself. It names the region and the slides, adds the
+ * <blip-pager>: a WAI-ARIA carousel that never moves by itself. It names the region and the slides, adds the
  * previous and next buttons, keeps the current dot in step with the track (swiped, or moved by a button, a key or a
- * dot), makes the slides out of view inert, and says which slide is showing with chu-page.
+ * dot), makes the slides out of view inert, and says which slide is showing with blip-page.
  */
 import { describe, expect, it } from "vitest";
 import type { BlipPager, PageDetail } from "../../../packages/elements/src/pager.ts";
@@ -10,28 +10,28 @@ import { mount, press } from "../support/dom.ts";
 
 // The pager's own CSS is not loaded here: just enough of it to make the track a row of 200 px slides.
 const PAGER = `
-  <chu-pager aria-label="Worlds" style="display:block;width:200px">
-    <div class="chu-pager-track" style="display:grid;grid-auto-flow:column;grid-auto-columns:100%;overflow:auto hidden;width:200px">
-      <section class="chu-pager-slide" id="pg-a">Meadow <a href="#x">Play</a></section>
-      <section class="chu-pager-slide" id="pg-b">Caves</section>
-      <section class="chu-pager-slide" id="pg-c" aria-label="Sky islands">Sky</section>
+  <blip-pager aria-label="Worlds" style="display:block;width:200px">
+    <div class="blip-pager-track" style="display:grid;grid-auto-flow:column;grid-auto-columns:100%;overflow:auto hidden;width:200px">
+      <section class="blip-pager-slide" id="pg-a">Meadow <a href="#x">Play</a></section>
+      <section class="blip-pager-slide" id="pg-b">Caves</section>
+      <section class="blip-pager-slide" id="pg-c" aria-label="Sky islands">Sky</section>
     </div>
-    <div class="chu-pager-dots">
-      <a class="chu-pager-dot" href="#pg-a" aria-current="true" aria-label="Meadow"></a>
-      <a class="chu-pager-dot" href="#pg-b" aria-label="Caves"></a>
-      <a class="chu-pager-dot" href="#pg-c" aria-label="Sky islands"></a>
+    <div class="blip-pager-dots">
+      <a class="blip-pager-dot" href="#pg-a" aria-current="true" aria-label="Meadow"></a>
+      <a class="blip-pager-dot" href="#pg-b" aria-label="Caves"></a>
+      <a class="blip-pager-dot" href="#pg-c" aria-label="Sky islands"></a>
     </div>
-  </chu-pager>`;
+  </blip-pager>`;
 
 const pages = (el: Element) => {
   const seen: number[] = [];
-  el.addEventListener("chu-page", (e) => seen.push((e as CustomEvent<PageDetail>).detail.index));
+  el.addEventListener("blip-page", (e) => seen.push((e as CustomEvent<PageDetail>).detail.index));
   return seen;
 };
 const wait = (ms: number) => new Promise((done) => setTimeout(done, ms));
-const current = (pager: BlipPager) => [...pager.querySelectorAll(".chu-pager-dot")].findIndex((d) => d.getAttribute("aria-current") === "true");
+const current = (pager: BlipPager) => [...pager.querySelectorAll(".blip-pager-dot")].findIndex((d) => d.getAttribute("aria-current") === "true");
 
-describe("<chu-pager>", () => {
+describe("<blip-pager>", () => {
   it("is a carousel of labelled slides, with a polite track and buttons at the ends of the dots", () => {
     const pager = mount<BlipPager>(PAGER);
     expect(pager.getAttribute("role")).toBe("region");
@@ -43,10 +43,10 @@ describe("<chu-pager>", () => {
       ["group", "slide", "2 of 3"],
       ["group", "slide", "Sky islands"],
     ]);
-    const dots = pager.querySelector(".chu-pager-dots")!;
+    const dots = pager.querySelector(".blip-pager-dots")!;
     const prev = dots.firstElementChild as HTMLButtonElement;
     const next = dots.lastElementChild as HTMLButtonElement;
-    expect([prev.className, prev.getAttribute("aria-label"), prev.getAttribute("aria-disabled")]).toEqual(["chu-box chu-button chu-pager-prev", "Previous slide", "true"]);
+    expect([prev.className, prev.getAttribute("aria-label"), prev.getAttribute("aria-disabled")]).toEqual(["blip-box blip-button blip-pager-prev", "Previous slide", "true"]);
     expect([next.getAttribute("aria-label"), next.getAttribute("aria-disabled"), next.getAttribute("aria-controls")]).toEqual(["Next slide", "false", pager.track!.id]);
     expect(pager.slides.map((s) => s.inert)).toEqual([false, true, true]);
   });
@@ -54,16 +54,16 @@ describe("<chu-pager>", () => {
   it("moves with its buttons in steps, then shows the slide: its dot, the ends, the others inert", async () => {
     const pager = mount<BlipPager>(PAGER);
     const seen = pages(pager);
-    pager.querySelector<HTMLButtonElement>(".chu-pager-next")!.click();
+    pager.querySelector<HTMLButtonElement>(".blip-pager-next")!.click();
     expect(pager.index).toBe(1);
     expect(current(pager)).toBe(1);
     expect(pager.slides.map((s) => s.inert)).toEqual([true, false, true]);
     await wait(300);
     expect(pager.track!.scrollLeft).toBe(200);
-    pager.querySelector<HTMLButtonElement>(".chu-pager-next")!.click();
+    pager.querySelector<HTMLButtonElement>(".blip-pager-next")!.click();
     await wait(300);
-    expect(pager.querySelector(".chu-pager-next")!.getAttribute("aria-disabled")).toBe("true");
-    pager.querySelector<HTMLButtonElement>(".chu-pager-next")!.click();
+    expect(pager.querySelector(".blip-pager-next")!.getAttribute("aria-disabled")).toBe("true");
+    pager.querySelector<HTMLButtonElement>(".blip-pager-next")!.click();
     expect(seen).toEqual([1, 2]);
   });
 
@@ -80,7 +80,7 @@ describe("<chu-pager>", () => {
   it("a dot moves there without following the link; the arrow keys, Home and End move along", async () => {
     const pager = mount<BlipPager>(PAGER);
     const seen = pages(pager);
-    const dots = [...pager.querySelectorAll<HTMLElement>(".chu-pager-dot")];
+    const dots = [...pager.querySelectorAll<HTMLElement>(".blip-pager-dot")];
     const click = new MouseEvent("click", { bubbles: true, cancelable: true });
     dots[2]!.dispatchEvent(click);
     expect(click.defaultPrevented).toBe(true);

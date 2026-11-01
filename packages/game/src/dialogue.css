@@ -1,89 +1,89 @@
 /*
  * Dialogue. The RPG text box: a cream candy panel whose text types itself in, a page at a time.
  *
- *   <chu-dialogue class="chu-box chu-dialogue" voice>
- *     <span class="chu-box chu-dialogue-name">Bramble</span>
- *     <div class="chu-box chu-dialogue-portrait" data-variant="soft" data-tone="teal"><svg>…</svg></div>
- *     <div class="chu-dialogue-body">
- *       <div class="chu-dialogue-text">
+ *   <blip-dialogue class="blip-box blip-dialogue" voice>
+ *     <span class="blip-box blip-dialogue-name">Bramble</span>
+ *     <div class="blip-box blip-dialogue-portrait" data-variant="soft" data-tone="teal"><svg>…</svg></div>
+ *     <div class="blip-dialogue-body">
+ *       <div class="blip-dialogue-text">
  *         <p>Ah, a traveller! The bridge washed out in last night's storm.</p>
  *         <p>I could patch it up for you, for thirty coins.</p>
  *       </div>
- *       <chu-choices class="chu-dialogue-choices"><ul class="chu-choices" role="list">…</ul></chu-choices>
+ *       <blip-choices class="blip-dialogue-choices"><ul class="blip-choices" role="list">…</ul></blip-choices>
  *     </div>
- *   </chu-dialogue>
+ *   </blip-dialogue>
  *
  *   data-tone              the panel: cream by default, or any tone
  *   data-font="display"    the text in Pixel Bop at scale 1, capitals, as on the TV's speech bubble
- *   .chu-dialogue-name      the speaker's tab, in Pixel Bop; its data-tone gives each speaker a colour
- *   .chu-dialogue-portrait  a framed slot for a portrait (36 x 36 pixels, --chu-dialogue-portrait)
- *   .chu-dialogue-text      one child per page; without JavaScript every page shows, in order
- *   .chu-dialogue-choices   shown once the last page has typed (choices.css)
- *   .chu-dialogue-next      the blinking ▼, added by the element: a real button ("Show all text", "Next", "Continue")
+ *   .blip-dialogue-name      the speaker's tab, in Pixel Bop; its data-tone gives each speaker a colour
+ *   .blip-dialogue-portrait  a framed slot for a portrait (36 x 36 pixels, --blip-dialogue-portrait)
+ *   .blip-dialogue-text      one child per page; without JavaScript every page shows, in order
+ *   .blip-dialogue-choices   shown once the last page has typed (choices.css)
+ *   .blip-dialogue-next      the blinking ▼, added by the element: a real button ("Show all text", "Next", "Continue")
  *
- * With the element the box is as tall as its fullest page (at least three lines, --chu-dialogue-lines), so it never
- * jumps while pages turn. data-chu-typed="40" stops the first page at 40 letters: for docs and screenshots only.
+ * With the element the box is as tall as its fullest page (at least three lines, --blip-dialogue-lines), so it never
+ * jumps while pages turn. data-blip-typed="40" stops the first page at 40 letters: for docs and screenshots only.
  */
 
-@layer chu.kits {
-  .chu-dialogue {
-    --chu-r: 4;
-    --chu-shape: var(--chu-shape-4);
-    --chu-shape-inner: var(--chu-shape-4-inner);
-    --chu-band-top: 3;
-    --chu-band-bottom: 3;
+@layer blip.kits {
+  .blip-dialogue {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
+    --blip-band-top: 3;
+    --blip-band-bottom: 3;
     /* The ▼, from the arrow sprite (scripts/masks.mjs). */
     --_arrow-ink: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h8v1h-8zM0 1h10v1h-10zM1 2h8v1h-8zM2 3h6v1h-6zM3 4h4v1h-4zM4 5h2v1h-2z'/%3E%3C/svg%3E");
     --_arrow-fill: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' shape-rendering='crispEdges'%3E%3Cpath d='M1 1h8v1h-8zM2 2h6v1h-6zM3 3h4v1h-4zM4 4h2v1h-2z'/%3E%3C/svg%3E");
 
     display: flex;
     align-items: flex-start;
-    gap: calc(6 * var(--chu-pixel));
-    padding-block: calc(11 * var(--chu-pixel)) calc(12 * var(--chu-pixel));
-    padding-inline: calc(8 * var(--chu-pixel)) calc(12 * var(--chu-pixel));
+    gap: calc(6 * var(--blip-pixel));
+    padding-block: calc(11 * var(--blip-pixel)) calc(12 * var(--blip-pixel));
+    padding-inline: calc(8 * var(--blip-pixel)) calc(12 * var(--blip-pixel));
     /* Room above for the name tab, and below and right for the drop. */
-    margin: calc(9 * var(--chu-pixel)) var(--chu-pixel) var(--chu-pixel) 0;
-    font-family: var(--chu-font-ui);
-    font-size: var(--chu-size-lead);
-    font-weight: var(--chu-weight-medium);
-    line-height: var(--chu-leading-normal);
+    margin: calc(9 * var(--blip-pixel)) var(--blip-pixel) var(--blip-pixel) 0;
+    font-family: var(--blip-font-ui);
+    font-size: var(--blip-size-lead);
+    font-weight: var(--blip-weight-medium);
+    line-height: var(--blip-leading-normal);
     text-align: start;
   }
-  .chu-dialogue:not([data-tone]) {
+  .blip-dialogue:not([data-tone]) {
     /* A cream panel is a light island in every scheme: text, lines and wells inside take their light values. */
-    --chu-text: var(--chu-ink);
-    --chu-text-muted: var(--chu-ink-soft);
-    --chu-line: var(--chu-ink);
-    --chu-line-soft: var(--chu-candy-cream-shade);
-    --chu-surface: var(--chu-white);
-    --chu-surface-sunken: var(--chu-candy-cream-shade);
-    --chu-bg: var(--chu-candy-cream);
+    --blip-text: var(--blip-ink);
+    --blip-text-muted: var(--blip-ink-soft);
+    --blip-line: var(--blip-ink);
+    --blip-line-soft: var(--blip-candy-cream-shade);
+    --blip-surface: var(--blip-white);
+    --blip-surface-sunken: var(--blip-candy-cream-shade);
+    --blip-bg: var(--blip-candy-cream);
     color-scheme: light;
-    --chu-tone: var(--chu-candy-cream);
-    --chu-tone-light: var(--chu-candy-cream-light);
-    --chu-tone-shade: var(--chu-candy-cream-shade);
-    --chu-tone-on: var(--chu-ink);
-    --chu-tone-text: var(--chu-ink);
+    --blip-tone: var(--blip-candy-cream);
+    --blip-tone-light: var(--blip-candy-cream-light);
+    --blip-tone-shade: var(--blip-candy-cream-shade);
+    --blip-tone-on: var(--blip-ink);
+    --blip-tone-text: var(--blip-ink);
   }
-  .chu-dialogue:not(:has(> .chu-dialogue-name)) {
+  .blip-dialogue:not(:has(> .blip-dialogue-name)) {
     margin-block-start: 0;
-    padding-block-start: calc(8 * var(--chu-pixel));
+    padding-block-start: calc(8 * var(--blip-pixel));
   }
 
   /* The speaker's tab: a small candy box riding the top edge. */
-  .chu-dialogue-name {
-    --chu-r: 2;
-    --chu-shape: var(--chu-shape-2);
-    --chu-shape-inner: var(--chu-shape-2-inner);
-    --chu-band-top: 2;
-    --chu-band-bottom: 2;
+  .blip-dialogue-name {
+    --blip-r: 2;
+    --blip-shape: var(--blip-shape-2);
+    --blip-shape-inner: var(--blip-shape-2-inner);
+    --blip-band-top: 2;
+    --blip-band-bottom: 2;
     position: absolute;
-    inset-block-start: calc(-9 * var(--chu-pixel));
-    inset-inline-start: calc(10 * var(--chu-pixel));
+    inset-block-start: calc(-9 * var(--blip-pixel));
+    inset-inline-start: calc(10 * var(--blip-pixel));
     /* Pixel Bop caps sit two rows down in their twelve-row line, so the top pads one more than the bottom. */
-    padding: calc(2 * var(--chu-pixel)) calc(5 * var(--chu-pixel)) var(--chu-pixel);
-    font-family: var(--chu-font-display);
-    font-size: calc(10 * var(--chu-pixel));
+    padding: calc(2 * var(--blip-pixel)) calc(5 * var(--blip-pixel)) var(--blip-pixel);
+    font-family: var(--blip-font-display);
+    font-size: calc(10 * var(--blip-pixel));
     font-weight: 400;
     line-height: 1.2;
     letter-spacing: 0;
@@ -93,44 +93,44 @@
     -webkit-font-smoothing: none;
   }
 
-  .chu-dialogue-portrait {
-    --chu-r: 2;
-    --chu-shape: var(--chu-shape-2);
-    --chu-shape-inner: var(--chu-shape-2-inner);
-    --chu-band-top: 2;
-    --chu-band-bottom: 3;
+  .blip-dialogue-portrait {
+    --blip-r: 2;
+    --blip-shape: var(--blip-shape-2);
+    --blip-shape-inner: var(--blip-shape-2-inner);
+    --blip-band-top: 2;
+    --blip-band-bottom: 3;
     display: grid;
     flex: none;
     place-items: end center;
-    inline-size: calc(var(--chu-dialogue-portrait, 36) * var(--chu-pixel));
-    block-size: calc(var(--chu-dialogue-portrait, 36) * var(--chu-pixel));
-    margin-block-start: calc(-3 * var(--chu-pixel));
-    padding: var(--chu-pixel);
+    inline-size: calc(var(--blip-dialogue-portrait, 36) * var(--blip-pixel));
+    block-size: calc(var(--blip-dialogue-portrait, 36) * var(--blip-pixel));
+    margin-block-start: calc(-3 * var(--blip-pixel));
+    padding: var(--blip-pixel);
   }
-  .chu-dialogue-portrait > * { grid-area: 1 / 1; }
+  .blip-dialogue-portrait > * { grid-area: 1 / 1; }
 
-  .chu-dialogue-body {
+  .blip-dialogue-body {
     display: grid;
     flex: 1;
-    gap: calc(4 * var(--chu-pixel));
+    gap: calc(4 * var(--blip-pixel));
     min-inline-size: 0;
   }
 
-  .chu-dialogue-text {
+  .blip-dialogue-text {
     display: grid;
-    min-block-size: calc(var(--chu-dialogue-lines, 3) * 1lh);
+    min-block-size: calc(var(--blip-dialogue-lines, 3) * 1lh);
   }
-  .chu-dialogue-text > * { margin: 0; }
-  .chu-dialogue-text > * + * { margin-block-start: 0.5lh; }
+  .blip-dialogue-text > * { margin: 0; }
+  .blip-dialogue-text > * + * { margin-block-start: 0.5lh; }
   /* Upgraded: the pages share one cell, so the box takes the fullest page's height. */
-  chu-dialogue:defined .chu-dialogue-text > * { grid-area: 1 / 1; margin: 0; }
-  chu-dialogue:defined .chu-dialogue-text > :not([data-current]) { visibility: hidden; }
+  blip-dialogue:defined .blip-dialogue-text > * { grid-area: 1 / 1; margin: 0; }
+  blip-dialogue:defined .blip-dialogue-text > :not([data-current]) { visibility: hidden; }
   /* Letters still to come keep their place, so words never jump to the next line as they type. */
-  .chu-dialogue-rest { visibility: hidden; }
+  .blip-dialogue-rest { visibility: hidden; }
 
-  .chu-dialogue[data-font="display"] .chu-dialogue-text {
-    font-family: var(--chu-font-display);
-    font-size: calc(10 * var(--chu-pixel));
+  .blip-dialogue[data-font="display"] .blip-dialogue-text {
+    font-family: var(--blip-font-display);
+    font-size: calc(10 * var(--blip-pixel));
     font-weight: 400;
     /* Fourteen pixels a line: the twelve-pixel line plus a pixel above and below, all on the grid. */
     line-height: 1.4;
@@ -140,55 +140,55 @@
     -webkit-font-smoothing: none;
   }
 
-  .chu-dialogue-choices { margin-block-start: var(--chu-pixel); }
-  .chu-dialogue[data-choosing] .chu-dialogue-text { min-block-size: 0; }
-  chu-dialogue:defined:not([data-choosing]) .chu-dialogue-choices { display: none; }
-  .chu-dialogue[data-choosing] .chu-dialogue-choices { animation: chu-pop-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end) both; }
+  .blip-dialogue-choices { margin-block-start: var(--blip-pixel); }
+  .blip-dialogue[data-choosing] .blip-dialogue-text { min-block-size: 0; }
+  blip-dialogue:defined:not([data-choosing]) .blip-dialogue-choices { display: none; }
+  .blip-dialogue[data-choosing] .blip-dialogue-choices { animation: blip-pop-in calc(2 * var(--blip-duration-frame)) steps(1, jump-end) both; }
 
   /* Next: a ▼ in the accent, blinking on the beat once a page has typed. */
-  .chu-dialogue-next {
+  .blip-dialogue-next {
     position: absolute;
-    inset-inline-end: calc(4 * var(--chu-pixel));
-    inset-block-end: calc(2 * var(--chu-pixel));
-    inline-size: calc(14 * var(--chu-pixel));
-    block-size: calc(12 * var(--chu-pixel));
+    inset-inline-end: calc(4 * var(--blip-pixel));
+    inset-block-end: calc(2 * var(--blip-pixel));
+    inline-size: calc(14 * var(--blip-pixel));
+    block-size: calc(12 * var(--blip-pixel));
     padding: 0;
     border: 0;
     background: none;
     color: inherit;
     cursor: pointer;
   }
-  .chu-dialogue-next::before,
-  .chu-dialogue-next::after {
+  .blip-dialogue-next::before,
+  .blip-dialogue-next::after {
     content: "";
     position: absolute;
-    inset-inline-start: calc(2 * var(--chu-pixel));
-    inset-block-start: calc(3 * var(--chu-pixel));
-    inline-size: calc(10 * var(--chu-pixel));
-    block-size: calc(6 * var(--chu-pixel));
+    inset-inline-start: calc(2 * var(--blip-pixel));
+    inset-block-start: calc(3 * var(--blip-pixel));
+    inline-size: calc(10 * var(--blip-pixel));
+    block-size: calc(6 * var(--blip-pixel));
     mask: var(--_arrow-ink) 0 0 / 100% 100% no-repeat;
-    background: var(--chu-ink);
+    background: var(--blip-ink);
     /* Blinks for six beats once a page has typed, then stays (WCAG 2.2.2). */
-    animation: none calc(2 * var(--chu-duration-beat)) steps(1, jump-end) 6;
+    animation: none calc(2 * var(--blip-duration-beat)) steps(1, jump-end) 6;
   }
-  .chu-dialogue-next::after {
+  .blip-dialogue-next::after {
     mask-image: var(--_arrow-fill);
     background:
-      linear-gradient(var(--chu-white) 0 0) var(--chu-pixel) var(--chu-pixel) / var(--chu-pixel) var(--chu-pixel) no-repeat,
-      linear-gradient(var(--chu-accent-light) 0 0) 0 var(--chu-pixel) / 100% var(--chu-pixel) no-repeat,
-      linear-gradient(to right, var(--chu-accent) 0 calc(5 * var(--chu-pixel)), var(--chu-accent-shade) 0);
+      linear-gradient(var(--blip-white) 0 0) var(--blip-pixel) var(--blip-pixel) / var(--blip-pixel) var(--blip-pixel) no-repeat,
+      linear-gradient(var(--blip-accent-light) 0 0) 0 var(--blip-pixel) / 100% var(--blip-pixel) no-repeat,
+      linear-gradient(to right, var(--blip-accent) 0 calc(5 * var(--blip-pixel)), var(--blip-accent-shade) 0);
   }
-  .chu-dialogue-next[data-state="typing"]::before,
-  .chu-dialogue-next[data-state="typing"]::after { visibility: hidden; }
-  .chu-dialogue-next:is([data-state="next"], [data-state="done"])::before,
-  .chu-dialogue-next:is([data-state="next"], [data-state="done"])::after { animation-name: chu-blink; }
+  .blip-dialogue-next[data-state="typing"]::before,
+  .blip-dialogue-next[data-state="typing"]::after { visibility: hidden; }
+  .blip-dialogue-next:is([data-state="next"], [data-state="done"])::before,
+  .blip-dialogue-next:is([data-state="next"], [data-state="done"])::after { animation-name: blip-blink; }
 
   @media (prefers-reduced-motion: reduce) {
-    .chu-dialogue-next[data-state]::before, .chu-dialogue-next[data-state]::after, .chu-dialogue[data-choosing] .chu-dialogue-choices { animation: none; }
+    .blip-dialogue-next[data-state]::before, .blip-dialogue-next[data-state]::after, .blip-dialogue[data-choosing] .blip-dialogue-choices { animation: none; }
   }
   @media (forced-colors: active) {
-    .chu-dialogue-name, .chu-dialogue-portrait { border-color: CanvasText; }
-    .chu-dialogue-next::before { background: CanvasText; }
-    .chu-dialogue-next::after { background: ButtonText; }
+    .blip-dialogue-name, .blip-dialogue-portrait { border-color: CanvasText; }
+    .blip-dialogue-next::before { background: CanvasText; }
+    .blip-dialogue-next::after { background: ButtonText; }
   }
 }

@@ -172,7 +172,7 @@ function links(node) {
   return { ids, tags, refIds, refTags };
 }
 
-/** A short name from a comment: "States, forced with data-chu-state: ..." -> "States". */
+/** A short name from a comment: "States, forced with data-blip-state: ..." -> "States". */
 function nameFromComment(comment) {
   const t = comment.replace(/\s+/g, " ").trim();
   const m = /^(.{2,40}?)(?:[:.;,(]|\s[-–]\s|$)/.exec(t);
@@ -186,11 +186,11 @@ function nameFromInside(node, byId) {
   const by = attr(node, "aria-labelledby");
   if (by && byId.has(by.split(/\s+/)[0])) return ownText(byId.get(by.split(/\s+/)[0]));
   const first = (node.childNodes ?? []).find((c) => c.attrs);
-  if (first && (HEADING.test(first.nodeName) || /\bchu-label\b/.test(attr(first, "class") ?? "")) && ownText(first).length <= 40) return ownText(first);
+  if (first && (HEADING.test(first.nodeName) || /\bblip-label\b/.test(attr(first, "class") ?? "")) && ownText(first).length <= 40) return ownText(first);
   return undefined;
 }
-const isStatic = (node) => [...walk(node)].some((n) => n.attrs && (n.attrs.some((a) => a.name === "data-chu-static") || (n.attrs.some((a) => a.name === "inert") && n.attrs.some((a) => a.name === "aria-hidden"))));
-const isLive = (node) => [...walk(node)].some((n) => /^chu-/.test(n.nodeName ?? "") || n.attrs?.some((a) => a.name.startsWith("on") || a.name === "commandfor" || a.name === "popovertarget"));
+const isStatic = (node) => [...walk(node)].some((n) => n.attrs && (n.attrs.some((a) => a.name === "data-blip-static") || (n.attrs.some((a) => a.name === "inert") && n.attrs.some((a) => a.name === "aria-hidden"))));
+const isLive = (node) => [...walk(node)].some((n) => /^blip-/.test(n.nodeName ?? "") || n.attrs?.some((a) => a.name.startsWith("on") || a.name === "commandfor" || a.name === "popovertarget"));
 /** A short top-level paragraph or heading before a block captions it ("Wide", "Medium: 800 px"). */
 const isCaption = (n) => HEADING.test(n.nodeName) || (n.nodeName === "p" && text(n).length <= 80 && !(n.childNodes ?? []).some((c) => c.attrs && !["span", "em", "strong", "b", "i"].includes(c.nodeName)));
 
@@ -303,7 +303,7 @@ for (const ex of examples) {
   const base = slug(title);
   const storiesFile = join(OUT, `${base}.stories.ts`);
   const exampleRel = rel(storiesFile, ex.file);
-  const meta = { example: posix(relative(ROOT, ex.file)), docs: doc ? posix(relative(ROOT, doc.file)) : null, package: `@jaatster/blip-${doc?.pkg ?? ex.pkg}`, element: doc?.front.element ?? null, status: doc?.front.status ?? null };
+  const meta = { example: posix(relative(ROOT, ex.file)), docs: doc ? posix(relative(ROOT, doc.file)) : null, package: `@blip/${doc?.pkg ?? ex.pkg}`, element: doc?.front.element ?? null, status: doc?.front.status ?? null };
 
   const exclude = known.filter((k) => k.example === key).map((k) => k.target);
   const sections = WHOLE.has(key) ? [] : sectionsOf(html);

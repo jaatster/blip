@@ -1,5 +1,5 @@
 /**
- * <chu-tabs> interaction tests, on the example's own markup: automatic activation follows the arrow keys (skipping the
+ * <blip-tabs> interaction tests, on the example's own markup: automatic activation follows the arrow keys (skipping the
  * disabled tab, wrapping round, Home and End), manual activation moves focus and waits for Enter or Space, and Tab
  * comes back to the selected tab.
  */
@@ -12,14 +12,14 @@ const tabsNamed = (root: HTMLElement, label: string) => {
   const tabs = [...list.querySelectorAll<HTMLElement>('[role="tab"]')];
   const tab = (name: string) => tabs.find((t) => t.textContent?.trim().startsWith(name))!;
   const panel = (t: HTMLElement) => document.getElementById(t.getAttribute("aria-controls") ?? "")!;
-  return { list, element: list.closest("chu-tabs")!, tabs, tab, panel };
+  return { list, element: list.closest("blip-tabs")!, tabs, tab, panel };
 };
 
 export const ArrowKeysSelect: StoryObj = {
   name: "Arrow keys select (automatic)",
   play: async ({ canvasElement, step }) => {
     const { element, tabs, tab, panel } = tabsNamed(canvasElement, "Settings");
-    const changes = events<{ value: string; index: number }>(element, "chu-change");
+    const changes = events<{ value: string; index: number }>(element, "blip-change");
 
     await step("Tabs and panels are wired to each other", async () => {
       for (const t of tabs) {

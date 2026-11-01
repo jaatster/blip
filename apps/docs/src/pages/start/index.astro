@@ -29,48 +29,48 @@ const cdn = `${cdnStylesheets()}
 <script type="importmap">
 {
   "imports": {
-    "@jaatster/blip-core": "${cdnUrl("core", "dist/js/index.js")}",
-    "@jaatster/blip-elements/": "${cdnUrl("elements", "dist/")}",
-    "@jaatster/blip-effects/": "${cdnUrl("effects", "dist/")}",
-    "@jaatster/blip-sound": "${cdnUrl("sound", "dist/index.js")}"
+    "@blip/core": "${cdnUrl("core", "dist/js/index.js")}",
+    "@blip/elements/": "${cdnUrl("elements", "dist/")}",
+    "@blip/effects/": "${cdnUrl("effects", "dist/")}",
+    "@blip/sound": "${cdnUrl("sound", "dist/index.js")}"
   }
 }
 </script>
 <script type="module">
-  import "@jaatster/blip-elements/tabs.js";
-  import "@jaatster/blip-elements/menu.js";
+  import "@blip/elements/tabs.js";
+  import "@blip/elements/menu.js";
 </script>`;
 const cssOrder = await codeBlock(`/* 1. The faces: Pixel Bop and Pixelify Sans */
-@import "@jaatster/blip-font/font.css";
+@import "@blip/font/font.css";
 /* 2. The tokens: every colour, size and duration, three schemes, three pixel sizes */
-@import "@jaatster/blip-tokens/tokens.css";
+@import "@blip/tokens/tokens.css";
 /* 3. The building blocks: the candy box, type, icons, motion, the page itself */
-@import "@jaatster/blip-core/core.css";
-/* 4. The components: all of them, or one file each (@jaatster/blip-components/button.css) */
-@import "@jaatster/blip-components/components.css";
+@import "@blip/core/core.css";
+/* 4. The components: all of them, or one file each (@blip/components/button.css) */
+@import "@blip/components/components.css";
 /* 5. Kits, as you need them */
-@import "@jaatster/blip-game/game.css";
-@import "@jaatster/blip-blocks/blocks.css";
-@import "@jaatster/blip-effects/effects.css";`, "css", "CSS");
+@import "@blip/game/game.css";
+@import "@blip/blocks/blocks.css";
+@import "@blip/effects/effects.css";`, "css", "CSS");
 // The layer order as tokens.css declares it, and the order layers.css sets for a page with Tailwind: read from the
 // packages, so this page says what they do.
 const tokenLayers = read("packages/tokens/dist/css/tokens.css").match(/^@layer [^;{]+;/m)?.[0] ?? "";
 const layers = await codeBlock(`${tokenLayers}
 
 /* Your own CSS, outside the layers, always wins: */
-.checkout .chu-button { --chu-tone: var(--chu-candy-green); }`, "css", "CSS");
+.checkout .blip-button { --blip-tone: var(--blip-candy-green); }`, "css", "CSS");
 const layersFile = read("packages/core/src/css/layers.css").replace(/\/\*[\s\S]*?\*\/\s*/g, "").trim();
 const tailwind = await codeBlock(`/* app.css */
-@import "@jaatster/blip-core/layers.css";   /* first */
+@import "@blip/core/layers.css";   /* first */
 @import "tailwindcss";
-@import "@jaatster/blip-font/font.css";
-@import "@jaatster/blip-tokens/tokens.css";
-@import "@jaatster/blip-core/core.css";
-@import "@jaatster/blip-components/components.css";`, "css", "CSS");
-const layersCode = await codeBlock(layersFile, "css", "@jaatster/blip-core/layers.css");
-const ownCss = await codeBlock(`@import "@jaatster/blip-core/layers.css";
+@import "@blip/font/font.css";
+@import "@blip/tokens/tokens.css";
+@import "@blip/core/core.css";
+@import "@blip/components/components.css";`, "css", "CSS");
+const layersCode = await codeBlock(layersFile, "css", "@blip/core/layers.css");
+const ownCss = await codeBlock(`@import "@blip/core/layers.css";
 @import "./reset.css" layer(base);         /* button { … }, a { … }: under Blip */
-@import "@jaatster/blip-tokens/tokens.css";
+@import "@blip/tokens/tokens.css";
 /* … */`, "css", "CSS");
 // shadcn/ui: the registry's items and what they write, from scripts/registry.mjs (lib/shadcn.ts).
 const registryItems = shadcnItems();
@@ -86,8 +86,8 @@ const shadcnCss = await codeBlock(`@import "tailwindcss";
 @import "shadcn/tailwind.css";
 ${setupImports().join(";\n")};`, "css", "CSS, after npx shadcn add");
 const shadcnUse = await codeBlock(`<!doctype html>
-<html lang="en" data-chu-scheme="day">   <!-- or sunset, night; data-chu-palette="grape" for a preset -->`, "html", "index.html");
-const themeRows = Object.entries(THEME_MAP).map(([v, role]) => [code(`--${v}`), code(`--chu-${role}`)]);
+<html lang="en" data-blip-scheme="day">   <!-- or sunset, night; data-blip-palette="grape" for a preset -->`, "html", "index.html");
+const themeRows = Object.entries(THEME_MAP).map(([v, role]) => [code(`--${v}`), code(`--blip-${role}`)]);
 const buttonProps = [
   [code('variant="default"'), `the default, ${code('variant="candy"')}`],
   [code('variant="secondary"'), code('variant="soft"')],
@@ -104,45 +104,45 @@ const itemRows = registryItems.map((i) => [
   i.files.length ? i.files.map((f) => code(f.split("/").pop())).join(" ") : esc(i.type === "registry:theme" ? "variables in your CSS file" : "packages, and imports in your CSS file"),
 ]);
 const scripts = fontSection("Supported scripts", "Character set");
-const elements = await codeBlock(`// One element at a time: each module defines its tag and imports only @jaatster/blip-core.
-import "@jaatster/blip-elements/tabs";
-import "@jaatster/blip-elements/menu";
-import "@jaatster/blip-elements/toast";
+const elements = await codeBlock(`// One element at a time: each module defines its tag and imports only @blip/core.
+import "@blip/elements/tabs";
+import "@blip/elements/menu";
+import "@blip/elements/toast";
 
 // Or every element at once.
-import "@jaatster/blip-elements";`, "js", "JavaScript");
-const upgrade = await codeBlock(`<chu-tabs class="chu-tabs" data-variant="outline">
-  <div class="chu-tabs-list" role="tablist" aria-label="Settings">
-    <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="true">General</button>
-    <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Sound</button>
+import "@blip/elements";`, "js", "JavaScript");
+const upgrade = await codeBlock(`<blip-tabs class="blip-tabs" data-variant="outline">
+  <div class="blip-tabs-list" role="tablist" aria-label="Settings">
+    <button class="blip-box blip-tab" data-variant="outline" role="tab" aria-selected="true">General</button>
+    <button class="blip-box blip-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Sound</button>
   </div>
-  <div class="chu-tabs-panel" role="tabpanel">…</div>
-  <div class="chu-tabs-panel" role="tabpanel" hidden>…</div>
-</chu-tabs>`, "html", "HTML");
+  <div class="blip-tabs-panel" role="tabpanel">…</div>
+  <div class="blip-tabs-panel" role="tabpanel" hidden>…</div>
+</blip-tabs>`, "html", "HTML");
 // One component from each entry, with the entry that exports it today (the build stops if one is gone).
 const reactNames = [["Button", "Tabs"], ["Dialogue", "Hud"], ["Hero"], ["World"], ["Icon"]];
 const reactImports = reactNames.map((names) => {
   const entries = names.map((n) => reactEntryFor(n));
-  if (entries.some((e) => !e) || new Set(entries).size > 1) throw new Error(`docs: the start page imports ${names.join(", ")} from @jaatster/blip-react, which no longer exports them that way`);
+  if (entries.some((e) => !e) || new Set(entries).size > 1) throw new Error(`docs: the start page imports ${names.join(", ")} from @blip/react, which no longer exports them that way`);
   return `import { ${names.join(", ")} } from "${entries[0]}";`;
 });
-const react = await codeBlock(`import "@jaatster/blip-font/font.css";
-import "@jaatster/blip-tokens/tokens.css";
-import "@jaatster/blip-core/core.css";
-import "@jaatster/blip-components/components.css";
+const react = await codeBlock(`import "@blip/font/font.css";
+import "@blip/tokens/tokens.css";
+import "@blip/core/core.css";
+import "@blip/components/components.css";
 
 ${reactImports.join("\n")}`, "tsx", "TSX");
-const vue = await codeBlock(`// vite.config.ts: let Vue leave chu-* tags to the browser
-vue({ template: { compilerOptions: { isCustomElement: (tag) => tag.startsWith("chu-") } } })`, "ts", "Vue");
+const vue = await codeBlock(`// vite.config.ts: let Vue leave blip-* tags to the browser
+vue({ template: { compilerOptions: { isCustomElement: (tag) => tag.startsWith("blip-") } } })`, "ts", "Vue");
 const defineFirst = await codeBlock(`// main.ts: define the elements, then mount
-import "@jaatster/blip-elements/dialog";
-import "@jaatster/blip-elements/tabs";
+import "@blip/elements/dialog";
+import "@blip/elements/tabs";
 import { createApp } from "vue";
 import App from "./App.vue";
 
 createApp(App).mount("#app");`, "ts", "Vue");
-const vueBoolean = await codeBlock(`<chu-dialog :open="open || undefined" @chu-close="open = false">…</chu-dialog>`, "html", "Vue");
-const svelteBoolean = await codeBlock(`<chu-dialog open={open || undefined} onpp-close={() => (open = false)}>…</chu-dialog>`, "html", "Svelte");
+const vueBoolean = await codeBlock(`<blip-dialog :open="open || undefined" @blip-close="open = false">…</blip-dialog>`, "html", "Vue");
+const svelteBoolean = await codeBlock(`<blip-dialog open={open || undefined} onpp-close={() => (open = false)}>…</blip-dialog>`, "html", "Svelte");
 const booleans = booleanAttributes();
 // Which boolean attributes the elements read as off when they say "false" (their manifests say so).
 const offNames = [...new Set(booleans.flatMap((b) => b.falseIsOff))].sort();
@@ -155,34 +155,34 @@ const offNote = allOff
     : " So a dialog defined after mounting, bound to <code class=\"docs-inline-code\">false</code>, opens on load.";
 const angular = await codeBlock(`@Component({ selector: "app-settings", schemas: [CUSTOM_ELEMENTS_SCHEMA], templateUrl: "./settings.html" })
 export class SettingsComponent {}`, "ts", "Angular");
-const schemes = await codeBlock(`<html data-chu-scheme="night" data-chu-pixel="3">   <!-- the whole page -->
-<section data-chu-scheme="day">…</section>           <!-- one part of it -->
-<div class="game-screen" data-chu-pixel="4">…</div>  <!-- a bigger pixel for a TV or a game -->`, "html", "HTML");
+const schemes = await codeBlock(`<html data-blip-scheme="night" data-blip-pixel="3">   <!-- the whole page -->
+<section data-blip-scheme="day">…</section>           <!-- one part of it -->
+<div class="game-screen" data-blip-pixel="4">…</div>  <!-- a bigger pixel for a TV or a game -->`, "html", "HTML");
 const resolver = await codeBlock(`{
   "modifiers": {
     "scheme": { "contexts": { "day": […], "sunset": […], "night": […] }, "default": "day" },
     "pixel":  { "contexts": { "2": […], "3": […], "4": […] }, "default": "2" }
   }
-}`, "json", "@jaatster/blip-tokens/resolver");
-const auto = await codeBlock(`import { autoScheme, setScheme, schemeAt } from "@jaatster/blip-core";
+}`, "json", "@blip/tokens/resolver");
+const auto = await codeBlock(`import { autoScheme, setScheme, schemeAt } from "@blip/core";
 
 const stop = autoScheme();              // follow the clock on <html>: Day, Sunset, Night
 setScheme("night", panel);              // or pin one part of the page
 schemeAt(new Date("2026-06-01T18:00")); // "sunset"
 stop();                                 // stop following`, "js", "JavaScript");
-const motion = await codeBlock(`import { reducedMotion, duration, run } from "@jaatster/blip-core";
+const motion = await codeBlock(`import { reducedMotion, duration, run } from "@blip/core";
 
 if (!reducedMotion()) burstConfetti();
 const ms = duration("glide", 160);       // 0 with reduced motion
 await run([{ at: 0, do: up }, { at: 40, do: down }], { signal }); // runs at once with reduced motion`, "js", "JavaScript");
 // A warning as the console shows it: an accessible-name code and its message, read from the source.
-const named = diagnostics().get("CHU-A001") ?? [];
+const named = diagnostics().get("BLIP-A001") ?? [];
 const sample = named.find((o) => o.file.endsWith("segmented.ts")) ?? named[0];
 const diag = await codeBlock(`// On by default on localhost. Turn them on or off yourself:
 globalThis.BLIP_DIAGNOSTICS = true;
 ${sample ? `
-// Blip CHU-A001: ${sample.message}
-//   https://jaatster.com/blip/diagnostics/#chu-a001` : ""}`, "js", "Console");
+// Blip BLIP-A001: ${sample.message}
+//   https://jaatster.com/blip/diagnostics/#blip-a001` : ""}`, "js", "Console");
 
 const docsByElement = new Map<string, { name: string; url: string }>();
 for (const d of componentDocs()) for (const t of (d.meta.element ?? "").split(",").map((s) => s.trim()).filter(Boolean)) docsByElement.set(t, { name: d.meta.name, url: d.url });
@@ -190,21 +190,21 @@ const elementRows = Object.entries(a.defines)
   .sort(([x], [y]) => x.localeCompare(y))
   .map(([tag, mod]) => {
     const pkg = mod.split("/")[2];
-    const spec = `@jaatster/blip-${pkg}/${mod.split("/").pop()!.replace(/\.js$/, "")}`;
-    const d = docsByElement.get(tag) ?? (tag === "chu-icon" ? { name: "Icons", url: "/foundations/icons/" } : undefined);
+    const spec = `@blip/${pkg}/${mod.split("/").pop()!.replace(/\.js$/, "")}`;
+    const d = docsByElement.get(tag) ?? (tag === "blip-icon" ? { name: "Icons", url: "/foundations/icons/" } : undefined);
     return [code(`<${tag}>`), code(spec), d ? `<a href="${d.url}">${esc(d.name)}</a>` : ""];
   });
 ---
 <Docs title="Get started" description="Install Blip, load its CSS in order, add elements where you need behaviour, and switch schemes and pixel sizes." headings={headings}>
   <header class="docs-page-head">
-    <h1 class="docs-page-title chu-display" data-scale="2">Get started</h1>
+    <h1 class="docs-page-title blip-display" data-scale="2">Get started</h1>
     <p class="docs-lede">Blip is plain CSS and dependency-free Web Components, with typed React wrappers on top. Four stylesheets give you every component; an element module adds behaviour only where a component needs it.</p>
   </header>
 
-  <div class="chu-box chu-alert" data-tone="info" role="note">
-    <span class="chu-alert-icon" aria-hidden="true"></span>
-    <div class="chu-alert-body">
-      <p class="chu-alert-title">Version {v} is not on npm yet</p>
+  <div class="blip-box blip-alert" data-tone="info" role="note">
+    <span class="blip-alert-icon" aria-hidden="true"></span>
+    <div class="blip-alert-body">
+      <p class="blip-alert-title">Version {v} is not on npm yet</p>
       <p>Until it is published, build the packages from <a href={REPO}>the repository on GitHub</a> (<code class="docs-inline-code">pnpm install</code>, then <code class="docs-inline-code">pnpm build</code>) and link them. The commands below are how installing will work.</p>
     </div>
   </div>
@@ -223,16 +223,16 @@ const elementRows = Object.entries(a.defines)
     <Fragment set:html={cssOrder} />
     <p>The tokens file declares the layers. Anything you write outside them comes last:</p>
     <Fragment set:html={layers} />
-    <p class="docs-note">Every component is also its own file (<code class="docs-inline-code">@jaatster/blip-components/tabs.css</code>), for an app that wants only a few. They all need the tokens and core first.</p>
+    <p class="docs-note">Every component is also its own file (<code class="docs-inline-code">@blip/components/tabs.css</code>), for an app that wants only a few. They all need the tokens and core first.</p>
   </section>
 
   <section class="docs-section" aria-labelledby="tailwind">
     <h2 id="tailwind">With Tailwind or your own CSS</h2>
-    <p>Blip's rules are all in layers named <code class="docs-inline-code">chu</code>. Tailwind CSS v4 puts its own in layers too, and whichever loads first goes under the other: Blip's components then beat Tailwind's utility classes, or Tailwind's reset (preflight) strips Blip's buttons. <code class="docs-inline-code">@jaatster/blip-core/layers.css</code> sets one order for both. Import it first:</p>
+    <p>Blip's rules are all in layers named <code class="docs-inline-code">blip</code>. Tailwind CSS v4 puts its own in layers too, and whichever loads first goes under the other: Blip's components then beat Tailwind's utility classes, or Tailwind's reset (preflight) strips Blip's buttons. <code class="docs-inline-code">@blip/core/layers.css</code> sets one order for both. Import it first:</p>
     <Fragment set:html={tailwind} />
     <p>Tailwind's theme and reset go under all of Blip, and its components and utilities over it: <code class="docs-inline-code">className="mt-8"</code> moves a Blip button, and the reset leaves it alone. Once layers.css is first, the other imports can come in any order. It is two lines:</p>
     <Fragment set:html={layersCode} />
-    <p>Your own CSS outside any layer beats every layer, Blip's included, which is right for your own classes. Rules for bare elements (a reset, <code class="docs-inline-code">button {"{ … }"}</code>, <code class="docs-inline-code">a {"{ … }"}</code>) would restyle Blip's components too: import them into the base layer, under Blip. That covers everything a component sets, and boxes also clear any corner rounding or shadow. A size a component leaves to its content, such as a <code class="docs-inline-code">min-height</code> on every button, still applies, so leave Blip's parts out of it with <code class="docs-inline-code">:not(.chu-box)</code>.</p>
+    <p>Your own CSS outside any layer beats every layer, Blip's included, which is right for your own classes. Rules for bare elements (a reset, <code class="docs-inline-code">button {"{ … }"}</code>, <code class="docs-inline-code">a {"{ … }"}</code>) would restyle Blip's components too: import them into the base layer, under Blip. That covers everything a component sets, and boxes also clear any corner rounding or shadow. A size a component leaves to its content, such as a <code class="docs-inline-code">min-height</code> on every button, still applies, so leave Blip's parts out of it with <code class="docs-inline-code">:not(.blip-box)</code>.</p>
     <Fragment set:html={ownCss} />
   </section>
 
@@ -248,11 +248,11 @@ const elementRows = Object.entries(a.defines)
     <Fragment set:html={shadcnUse} />
 
     <h3 id="shadcn-theme">What the theme does, and what it doesn't</h3>
-    <p><code class="docs-inline-code">{SHADCN_NAMESPACE}/theme</code> sets shadcn's variables to Blip's scheme roles by reference, so the colours follow <code class="docs-inline-code">data-chu-scheme</code> and <code class="docs-inline-code">data-chu-palette</code>, on the page or on any part of it. Borders and inputs take the ink line, the ring is the focus yellow, the radius is 0, every shadow is a one-pixel ink drop, the text is Pixelify Sans, and transitions step.</p>
+    <p><code class="docs-inline-code">{SHADCN_NAMESPACE}/theme</code> sets shadcn's variables to Blip's scheme roles by reference, so the colours follow <code class="docs-inline-code">data-blip-scheme</code> and <code class="docs-inline-code">data-blip-palette</code>, on the page or on any part of it. Borders and inputs take the ink line, the ring is the focus yellow, the radius is 0, every shadow is a one-pixel ink drop, the text is Pixelify Sans, and transitions step.</p>
     <p>That is as far as variables go. shadcn's own components stay shadcn's: square, flat and in Blip's colours, but without the stepped corners, the light and shade bands, the dithered disabled state or the snapping pop-in, and with their own translucent focus halo and fading, zooming animations. A style can also bypass the variables (Nova's card outline is the text colour at 10%). The full pixel look comes with Blip's components, whose props are Blip's:</p>
     <Table label="shadcn's Button props and Blip's" head={["shadcn's Button", "Blip's Button"]} rows={buttonProps} />
     <details class="docs-react-more">
-      <summary class="chu-box chu-button" data-variant="outline" data-size="sm"><span class="docs-when-closed">Show the theme's variables</span><span class="docs-when-open">Hide the theme's variables</span></summary>
+      <summary class="blip-box blip-button" data-variant="outline" data-size="sm"><span class="docs-when-closed">Show the theme's variables</span><span class="docs-when-open">Hide the theme's variables</span></summary>
       <Table label="shadcn's variables and the Blip roles they take" head={["shadcn", "Blip"]} rows={themeRows} />
     </details>
 
@@ -272,14 +272,14 @@ const elementRows = Object.entries(a.defines)
 
   <section class="docs-section" aria-labelledby="react">
     <h2 id="react">React</h2>
-    <p><code class="docs-inline-code">@jaatster/blip-react</code> wraps every component in a typed React component that renders the same markup and loads its element. Load the CSS once at the top of the app, as for plain HTML. Kits have their own entry points, so the core stays small.</p>
+    <p><code class="docs-inline-code">@blip/react</code> wraps every component in a typed React component that renders the same markup and loads its element. Load the CSS once at the top of the app, as for plain HTML. Kits have their own entry points, so the core stays small.</p>
     <Fragment set:html={react} />
     <p>It works with React 18.3 and 19, and renders on the server; an element's module loads on the client when its component first mounts. Every component's page shows its React example, its parts and its props, read from the package's source.</p>
   </section>
 
   <section class="docs-section" aria-labelledby="frameworks">
     <h2 id="frameworks">Frameworks</h2>
-    <p>Blip is HTML, CSS and custom elements, so any framework can use it: load the CSS, write the markup, import the elements a page uses. Two need to be told that <code class="docs-inline-code">chu-*</code> tags are custom elements.</p>
+    <p>Blip is HTML, CSS and custom elements, so any framework can use it: load the CSS, write the markup, import the elements a page uses. Two need to be told that <code class="docs-inline-code">blip-*</code> tags are custom elements.</p>
     <Fragment set:html={vue} />
     <Fragment set:html={angular} />
     <p class="docs-note">Svelte, Solid, Lit, Astro and plain HTML need no setting. This site is plain Astro pages with an import map: no client framework.</p>

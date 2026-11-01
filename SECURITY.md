@@ -11,7 +11,7 @@ Report them privately through GitHub's security advisories:
 
 Tell us, as far as you can:
 
-- the package and version (`@jaatster/blip-elements@0.1.0`), or the commit;
+- the package and version (`@blip/elements@0.1.0`), or the commit;
 - what the problem is and what an attacker could do with it;
 - how to reproduce it: the smallest markup, script or token file that shows it;
 - whether it is already known or public anywhere.
@@ -31,11 +31,11 @@ would leave people exposed (see [CONTRACT.md](CONTRACT.md)).
 
 ## Scope
 
-In scope: the published `@jaatster/blip-*` packages (the CSS, the elements, the React wrappers, the effects and sound
+In scope: the published `@blip/*` packages (the CSS, the elements, the React wrappers, the effects and sound
 modules), and the build tools that run on your machine when you build from source (`packages/*/scripts`,
 `scripts/`).
 
 Out of scope: problems that need an attacker to control your page's own scripts or styles already; content you pass
 to Blip as HTML from an untrusted source without sanitising it; the docs site's hosting; and vulnerabilities in
 development dependencies that do not reach the published packages (please report those to their maintainers).
-Blip's packages have no runtime dependencies outside `@jaatster/blip-*`.
+Blip's packages have no runtime dependencies outside `@blip/*`.

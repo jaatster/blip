@@ -87,7 +87,7 @@ function onControls(page: Page): Promise<Control[]> {
   return page.evaluate(() => {
     const root = document.getElementById("example")!;
     const control = "button, a[href], summary, input, [tabindex], [role='button'], [role='tab'], [role='option'], [role='menuitem'], [role='menuitemradio'], [role='menuitemcheckbox'], [role='radio'], [role='checkbox'], [role='switch'], [role='treeitem'], [role='gridcell'], [role='row']";
-    const name = (e: Element) => `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c.startsWith("chu-") && c !== "chu-box").slice(0, 2).map((c) => `.${c}`).join("")}`;
+    const name = (e: Element) => `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c.startsWith("blip-") && c !== "blip-box").slice(0, 2).map((c) => `.${c}`).join("")}`;
     const label = (e: Element) => (e.getAttribute("aria-label") ?? e.textContent ?? "").trim().replace(/\s+/g, " ").slice(0, 24);
     const found: { el: Element; box: Element; attr: string; value: string }[] = [];
     // A control that paints nothing of its own (a rating's star, a transparent radio over a drawing) shows its state
@@ -108,7 +108,7 @@ function onControls(page: Page): Promise<Control[]> {
     // A checked checkbox or radio drawn by a box (its own, or the one around it); one whose look a script draws
     // elsewhere (a rating's stars) has no box and is left out.
     for (const el of root.querySelectorAll<HTMLInputElement>("input:is([type='checkbox'], [type='radio']):checked")) {
-      const box = el.closest(".chu-box");
+      const box = el.closest(".blip-box");
       if (box && root.contains(box)) found.push({ el, box, attr: "checked", value: "" });
     }
     const out: { i: number; where: string; state: string; rect: { x: number; y: number; w: number; h: number } }[] = [];
@@ -153,14 +153,14 @@ function busyControls(page: Page): Promise<{ i: number; where: string; hidden: b
   return page.evaluate(() => {
     const root = document.getElementById("example")!;
     // Controls only: a region marked busy while it loads (a card of skeletons, a table) shows its own loading parts.
-    return [...root.querySelectorAll<HTMLElement>(":is(button, a[href], summary, label, input, [role='button'], [role='tab'], [role='menuitem'], [role='option'], [role='switch'], [data-chu-interactive])[aria-busy='true']")]
+    return [...root.querySelectorAll<HTMLElement>(":is(button, a[href], summary, label, input, [role='button'], [role='tab'], [role='menuitem'], [role='option'], [role='switch'], [data-blip-interactive])[aria-busy='true']")]
       .filter((el) => el.checkVisibility() && el.getBoundingClientRect().width >= 8)
       .map((el, i) => {
         el.dataset.lanesBusy = String(i);
         const r = el.getBoundingClientRect();
         return {
           i,
-          where: `${el.tagName.toLowerCase()}${[...el.classList].filter((c) => c.startsWith("chu-") && c !== "chu-box").slice(0, 2).map((c) => `.${c}`).join("")} "${el.textContent!.trim().slice(0, 24)}"`,
+          where: `${el.tagName.toLowerCase()}${[...el.classList].filter((c) => c.startsWith("blip-") && c !== "blip-box").slice(0, 2).map((c) => `.${c}`).join("")} "${el.textContent!.trim().slice(0, 24)}"`,
           hidden: /^rgba\([^)]*,\s*0\)$|^transparent$/.test(getComputedStyle(el).color) && !!el.textContent!.trim(),
           rect: { x: r.x, y: r.y, w: r.width, h: r.height },
         };

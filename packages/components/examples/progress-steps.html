@@ -1,60 +1,60 @@
 <!-- Progress steps: a checkout wizard (done steps are links back, the arrow over the current step), the same in a
      narrow box, a first-run checklist down the side, and a wizard just started. -->
-<div style="display:grid;gap:calc(12*var(--chu-pixel));max-inline-size:calc(360*var(--chu-pixel))">
+<div style="display:grid;gap:calc(12*var(--blip-pixel));max-inline-size:calc(360*var(--blip-pixel))">
 
-  <div class="chu-progress-steps" data-arrow>
-    <ol class="chu-progress-steps-list" aria-label="Checkout">
-      <li class="chu-progress-steps-item" data-state="done">
-        <a href="#basket"><span class="chu-box chu-progress-steps-marker">1</span><span class="chu-progress-steps-label">Basket<span class="chu-sr-only">, done</span></span><span class="chu-progress-steps-hint">3 items</span></a>
+  <div class="blip-progress-steps" data-arrow>
+    <ol class="blip-progress-steps-list" aria-label="Checkout">
+      <li class="blip-progress-steps-item" data-state="done">
+        <a href="#basket"><span class="blip-box blip-progress-steps-marker">1</span><span class="blip-progress-steps-label">Basket<span class="blip-sr-only">, done</span></span><span class="blip-progress-steps-hint">3 items</span></a>
       </li>
-      <li class="chu-progress-steps-item" data-state="done">
-        <a href="#delivery"><span class="chu-box chu-progress-steps-marker">2</span><span class="chu-progress-steps-label">Delivery<span class="chu-sr-only">, done</span></span><span class="chu-progress-steps-hint">Next-day</span></a>
+      <li class="blip-progress-steps-item" data-state="done">
+        <a href="#delivery"><span class="blip-box blip-progress-steps-marker">2</span><span class="blip-progress-steps-label">Delivery<span class="blip-sr-only">, done</span></span><span class="blip-progress-steps-hint">Next-day</span></a>
       </li>
-      <li class="chu-progress-steps-item" aria-current="step">
-        <span class="chu-box chu-progress-steps-marker">3</span><span class="chu-progress-steps-label">Payment</span><span class="chu-progress-steps-hint">Card or coins</span>
+      <li class="blip-progress-steps-item" aria-current="step">
+        <span class="blip-box blip-progress-steps-marker">3</span><span class="blip-progress-steps-label">Payment</span><span class="blip-progress-steps-hint">Card or coins</span>
       </li>
-      <li class="chu-progress-steps-item">
-        <span class="chu-box chu-progress-steps-marker">4</span><span class="chu-progress-steps-label">Review</span><span class="chu-progress-steps-hint">Check and pay</span>
+      <li class="blip-progress-steps-item">
+        <span class="blip-box blip-progress-steps-marker">4</span><span class="blip-progress-steps-label">Review</span><span class="blip-progress-steps-hint">Check and pay</span>
       </li>
     </ol>
   </div>
 
-  <div style="inline-size:calc(140*var(--chu-pixel))">
-    <div class="chu-progress-steps">
-      <ol class="chu-progress-steps-list" aria-label="Checkout">
-        <li class="chu-progress-steps-item" data-state="done"><span class="chu-box chu-progress-steps-marker">1</span><span class="chu-progress-steps-label">Basket<span class="chu-sr-only">, done</span></span></li>
-        <li class="chu-progress-steps-item" aria-current="step"><span class="chu-box chu-progress-steps-marker">2</span><span class="chu-progress-steps-label">Delivery</span></li>
-        <li class="chu-progress-steps-item"><span class="chu-box chu-progress-steps-marker">3</span><span class="chu-progress-steps-label">Payment</span></li>
-        <li class="chu-progress-steps-item"><span class="chu-box chu-progress-steps-marker">4</span><span class="chu-progress-steps-label">Review</span></li>
+  <div style="inline-size:calc(140*var(--blip-pixel))">
+    <div class="blip-progress-steps">
+      <ol class="blip-progress-steps-list" aria-label="Checkout">
+        <li class="blip-progress-steps-item" data-state="done"><span class="blip-box blip-progress-steps-marker">1</span><span class="blip-progress-steps-label">Basket<span class="blip-sr-only">, done</span></span></li>
+        <li class="blip-progress-steps-item" aria-current="step"><span class="blip-box blip-progress-steps-marker">2</span><span class="blip-progress-steps-label">Delivery</span></li>
+        <li class="blip-progress-steps-item"><span class="blip-box blip-progress-steps-marker">3</span><span class="blip-progress-steps-label">Payment</span></li>
+        <li class="blip-progress-steps-item"><span class="blip-box blip-progress-steps-marker">4</span><span class="blip-progress-steps-label">Review</span></li>
       </ol>
     </div>
   </div>
 
-  <div class="chu-box" data-variant="panel" style="padding:calc(8*var(--chu-pixel))">
-    <h3 class="chu-title" style="margin-block-end:calc(6*var(--chu-pixel))">Set up your studio</h3>
-    <div class="chu-progress-steps" data-orientation="vertical" data-arrow>
-      <ol class="chu-progress-steps-list" aria-label="Studio setup">
-        <li class="chu-progress-steps-item" data-state="done">
-          <span class="chu-box chu-progress-steps-marker">1</span><span class="chu-progress-steps-label">Create your account<span class="chu-sr-only">, done</span></span><span class="chu-progress-steps-hint">Signed in as mika@example.com</span>
+  <div class="blip-box" data-variant="panel" style="padding:calc(8*var(--blip-pixel))">
+    <h3 class="blip-title" style="margin-block-end:calc(6*var(--blip-pixel))">Set up your studio</h3>
+    <div class="blip-progress-steps" data-orientation="vertical" data-arrow>
+      <ol class="blip-progress-steps-list" aria-label="Studio setup">
+        <li class="blip-progress-steps-item" data-state="done">
+          <span class="blip-box blip-progress-steps-marker">1</span><span class="blip-progress-steps-label">Create your account<span class="blip-sr-only">, done</span></span><span class="blip-progress-steps-hint">Signed in as mika@example.com</span>
         </li>
-        <li class="chu-progress-steps-item" aria-current="step">
-          <span class="chu-box chu-progress-steps-marker">2</span><span class="chu-progress-steps-label">Name your game</span><span class="chu-progress-steps-hint">You can change it later.</span>
+        <li class="blip-progress-steps-item" aria-current="step">
+          <span class="blip-box blip-progress-steps-marker">2</span><span class="blip-progress-steps-label">Name your game</span><span class="blip-progress-steps-hint">You can change it later.</span>
         </li>
-        <li class="chu-progress-steps-item">
-          <span class="chu-box chu-progress-steps-marker">3</span><span class="chu-progress-steps-label">Build your first level</span><span class="chu-progress-steps-hint">Start from a template or a blank map.</span>
+        <li class="blip-progress-steps-item">
+          <span class="blip-box blip-progress-steps-marker">3</span><span class="blip-progress-steps-label">Build your first level</span><span class="blip-progress-steps-hint">Start from a template or a blank map.</span>
         </li>
-        <li class="chu-progress-steps-item">
-          <span class="chu-box chu-progress-steps-marker">4</span><span class="chu-progress-steps-label">Invite testers</span>
+        <li class="blip-progress-steps-item">
+          <span class="blip-box blip-progress-steps-marker">4</span><span class="blip-progress-steps-label">Invite testers</span>
         </li>
       </ol>
     </div>
   </div>
 
-  <div class="chu-progress-steps">
-    <ol class="chu-progress-steps-list" aria-label="New world">
-      <li class="chu-progress-steps-item" aria-current="step"><span class="chu-box chu-progress-steps-marker" data-tone="pink">1</span><span class="chu-progress-steps-label">Theme</span></li>
-      <li class="chu-progress-steps-item"><span class="chu-box chu-progress-steps-marker">2</span><span class="chu-progress-steps-label">Size</span></li>
-      <li class="chu-progress-steps-item"><span class="chu-box chu-progress-steps-marker">3</span><span class="chu-progress-steps-label">Music</span></li>
+  <div class="blip-progress-steps">
+    <ol class="blip-progress-steps-list" aria-label="New world">
+      <li class="blip-progress-steps-item" aria-current="step"><span class="blip-box blip-progress-steps-marker" data-tone="pink">1</span><span class="blip-progress-steps-label">Theme</span></li>
+      <li class="blip-progress-steps-item"><span class="blip-box blip-progress-steps-marker">2</span><span class="blip-progress-steps-label">Size</span></li>
+      <li class="blip-progress-steps-item"><span class="blip-box blip-progress-steps-marker">3</span><span class="blip-progress-steps-label">Music</span></li>
     </ol>
   </div>
 </div>

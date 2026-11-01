@@ -36,7 +36,7 @@ export function editJson(file: string, change: (json: any) => void): void {
   writeFileSync(file, JSON.stringify(json, null, 2));
 }
 
-/** A copy of @jaatster/blip-tokens' build: its script, resolver and sources (no dist). */
+/** A copy of @blip/tokens' build: its script, resolver and sources (no dist). */
 export function tokensCopy(): { dir: string; build: (...args: string[]) => Run; remove: () => void } {
   const { dir, remove } = tempDir("tokens");
   const from = join(REPO, "packages/tokens");
@@ -45,7 +45,7 @@ export function tokensCopy(): { dir: string; build: (...args: string[]) => Run; 
 }
 
 /**
- * A copy of @jaatster/blip-icons laid out as in the repo (packages/icons under a root with node_modules and the base
+ * A copy of @blip/icons laid out as in the repo (packages/icons under a root with node_modules and the base
  * tsconfig), so the whole build can run: esbuild and tsc resolve through a link to the repo's node_modules.
  * `sources` replaces src/*.icons; leave it out to keep the real icon set. `extra` adds files to src.
  */
