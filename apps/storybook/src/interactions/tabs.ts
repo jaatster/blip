@@ -19,7 +19,7 @@ export const ArrowKeysSelect: StoryObj = {
   name: "Arrow keys select (automatic)",
   play: async ({ canvasElement, step }) => {
     const { element, tabs, tab, panel } = tabsNamed(canvasElement, "Settings");
-    const changes = events<{ index: number }>(element, "pp-change");
+    const changes = events<{ value: string; index: number }>(element, "pp-change");
 
     await step("Tabs and panels are wired to each other", async () => {
       for (const t of tabs) {
@@ -37,7 +37,7 @@ export const ArrowKeysSelect: StoryObj = {
       expect(tab("General")).toHaveAttribute("aria-selected", "false");
       expect(panel(tab("Sound"))).toBeVisible();
       expect(panel(tab("General"))).not.toBeVisible();
-      expect(changes.at(-1)?.index).toBe(1);
+      expect(changes.at(-1)).toMatchObject({ value: "Sound", index: 1 });
     });
 
     await step("End skips the disabled tab; ArrowRight wraps to the first", async () => {
@@ -54,7 +54,7 @@ export const ArrowKeysSelect: StoryObj = {
       await focused(tab("Controls"));
       await press("{Home}");
       await focused(tab("General"));
-      expect(element).toHaveAttribute("selected", "0");
+      expect(element).toHaveAttribute("value", "General");
     });
   },
 };

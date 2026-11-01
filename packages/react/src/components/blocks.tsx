@@ -52,7 +52,7 @@ export type HeroProps = HeroOwnProps & NativeProps<"section", HeroOwnProps>;
  *
  * Renders `<section class="pp-hero">`.
  */
-export const Hero = forwardRef<HTMLElement, HeroProps>(function Hero({ align, className, ...rest }, ref) {
+export const Hero = /*#__PURE__*/ forwardRef<HTMLElement, HeroProps>(function Hero({ align, className, ...rest }, ref) {
   return (
     <section
       ref={ref}
@@ -73,7 +73,7 @@ export type HeroInnerProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-hero-inner">`.
  */
-export const HeroInner = forwardRef<HTMLDivElement, HeroInnerProps>(function HeroInner({ className, ...rest }, ref) {
+export const HeroInner = /*#__PURE__*/ forwardRef<HTMLDivElement, HeroInnerProps>(function HeroInner({ className, ...rest }, ref) {
   return <div ref={ref} className={cx("pp-hero-inner", className)} {...rest} />;
 });
 
@@ -97,7 +97,7 @@ export type HeroTitleProps<T extends ElementType = "h1"> = PolymorphicProps<T, H
  * data-pop="S" style="--i: 0">` letters.
  */
 // The public type (the cast below) requires the text; inside, it is read as it comes.
-export const HeroTitle = forwardRef(function HeroTitle(
+export const HeroTitle = /*#__PURE__*/ forwardRef(function HeroTitle(
   { as: Tag = "h1", className, children, ...rest }: PolymorphicProps<ElementType, Partial<HeroTitleOwnProps>>,
   ref,
 ) {
@@ -150,7 +150,7 @@ export type HeroLeadProps = NativeProps<"p">;
  *
  * Renders `<p class="pp-hero-lead">`.
  */
-export const HeroLead = forwardRef<HTMLParagraphElement, HeroLeadProps>(function HeroLead({ className, ...rest }, ref) {
+export const HeroLead = /*#__PURE__*/ forwardRef<HTMLParagraphElement, HeroLeadProps>(function HeroLead({ className, ...rest }, ref) {
   return <p ref={ref} className={cx("pp-hero-lead", className)} {...rest} />;
 });
 
@@ -168,7 +168,7 @@ export type HeroActionsProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-hero-actions">`.
  */
-export const HeroActions = forwardRef<HTMLDivElement, HeroActionsProps>(function HeroActions(
+export const HeroActions = /*#__PURE__*/ forwardRef<HTMLDivElement, HeroActionsProps>(function HeroActions(
   { className, ...rest },
   ref,
 ) {
@@ -185,7 +185,7 @@ export type HeroNoteProps = NativeProps<"p">;
  *
  * Renders `<p class="pp-hero-note">`.
  */
-export const HeroNote = forwardRef<HTMLParagraphElement, HeroNoteProps>(function HeroNote({ className, ...rest }, ref) {
+export const HeroNote = /*#__PURE__*/ forwardRef<HTMLParagraphElement, HeroNoteProps>(function HeroNote({ className, ...rest }, ref) {
   return <p ref={ref} className={cx("pp-hero-note", className)} {...rest} />;
 });
 
@@ -200,7 +200,7 @@ export type HeroSceneryProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-hero-scenery" aria-hidden="true">`.
  */
-export const HeroScenery = forwardRef<HTMLDivElement, HeroSceneryProps>(function HeroScenery(
+export const HeroScenery = /*#__PURE__*/ forwardRef<HTMLDivElement, HeroSceneryProps>(function HeroScenery(
   { className, ...rest },
   ref,
 ) {
@@ -218,7 +218,7 @@ export type HeroGroundProps = NativeProps<"div", { children?: never }> & { child
  *
  * Renders `<div class="pp-hero-ground">`.
  */
-export const HeroGround = forwardRef<HTMLDivElement, HeroGroundProps>(function HeroGround({ className, ...rest }, ref) {
+export const HeroGround = /*#__PURE__*/ forwardRef<HTMLDivElement, HeroGroundProps>(function HeroGround({ className, ...rest }, ref) {
   return <div ref={ref} className={cx("pp-hero-ground", className)} {...rest} />;
 });
 
@@ -240,7 +240,7 @@ export type FeaturesProps = NativeProps<"section">;
  *       <FeaturesLead>Sixty short levels, made to be played a few at a time.</FeaturesLead>
  *     </FeaturesHead>
  *     <FeaturesGrid>
- *       <Feature size="lead">
+ *       <Feature layout="lead">
  *         <FeatureMedia aria-hidden="true">…a picture…</FeatureMedia>
  *         <FeatureTitle>A meadow that keeps time</FeatureTitle>
  *         <FeatureText>The world follows your clock.</FeatureText>
@@ -250,7 +250,7 @@ export type FeaturesProps = NativeProps<"section">;
  *         <FeatureTitle>Couch co-op</FeatureTitle>
  *         <FeatureText>A friend can hop in or out at any moment.</FeatureText>
  *       </Feature>
- *       <Feature size="stat" tone="blue">
+ *       <Feature layout="stat" tone="blue">
  *         <FeatureStat>60</FeatureStat>
  *         <FeatureText>hand-made levels in four worlds</FeatureText>
  *       </Feature>
@@ -259,7 +259,7 @@ export type FeaturesProps = NativeProps<"section">;
  *
  * Renders `<section class="pp-features">`.
  */
-export const Features = forwardRef<HTMLElement, FeaturesProps>(function Features({ className, ...rest }, ref) {
+export const Features = /*#__PURE__*/ forwardRef<HTMLElement, FeaturesProps>(function Features({ className, ...rest }, ref) {
   return <section ref={ref} className={cx("pp-features", className)} {...rest} />;
 });
 
@@ -273,7 +273,7 @@ export type FeaturesHeadProps = NativeProps<"header">;
  *
  * Renders `<header class="pp-features-head">`.
  */
-export const FeaturesHead = forwardRef<HTMLElement, FeaturesHeadProps>(function FeaturesHead(
+export const FeaturesHead = /*#__PURE__*/ forwardRef<HTMLElement, FeaturesHeadProps>(function FeaturesHead(
   { className, ...rest },
   ref,
 ) {
@@ -290,7 +290,7 @@ export type FeaturesTitleProps<T extends ElementType = "h2"> = PolymorphicProps<
  *
  * Renders `<h2 class="pp-features-title">`.
  */
-export const FeaturesTitle = forwardRef(function FeaturesTitle(
+export const FeaturesTitle = /*#__PURE__*/ forwardRef(function FeaturesTitle(
   { as: Tag = "h2", className, ...rest }: FeaturesTitleProps<ElementType>,
   ref,
 ) {
@@ -307,7 +307,7 @@ export type FeaturesLeadProps = NativeProps<"p">;
  *
  * Renders `<p class="pp-features-lead">`.
  */
-export const FeaturesLead = forwardRef<HTMLParagraphElement, FeaturesLeadProps>(function FeaturesLead(
+export const FeaturesLead = /*#__PURE__*/ forwardRef<HTMLParagraphElement, FeaturesLeadProps>(function FeaturesLead(
   { className, ...rest },
   ref,
 ) {
@@ -321,11 +321,11 @@ export type FeaturesGridProps = NativeProps<"div">;
  * The features' grid: one column below 600 pixels wide, two below 1024, then six; its order is the reading order at
  * every width. Lead with the feature that makes the product different.
  *
- *   <FeaturesGrid><Feature size="lead">…</Feature><Feature tone="pink">…</Feature></FeaturesGrid>
+ *   <FeaturesGrid><Feature layout="lead">…</Feature><Feature tone="pink">…</Feature></FeaturesGrid>
  *
  * Renders `<div class="pp-features-grid">`.
  */
-export const FeaturesGrid = forwardRef<HTMLDivElement, FeaturesGridProps>(function FeaturesGrid(
+export const FeaturesGrid = /*#__PURE__*/ forwardRef<HTMLDivElement, FeaturesGridProps>(function FeaturesGrid(
   { className, ...rest },
   ref,
 ) {
@@ -335,10 +335,11 @@ export const FeaturesGrid = forwardRef<HTMLDivElement, FeaturesGridProps>(functi
 /** Own props of {@link Feature}. */
 export interface FeatureOwnProps {
   /**
-   * Its size in the wide grid: `lead` (four of six columns, two rows, a picture on top; one per grid), `stat` (a big
-   * number and its caption), `wide` (the whole row, side by side), or left out for a tile (two columns). `data-size`.
+   * Its place in the wide grid: `lead` (four of six columns, two rows, a picture on top; one per grid), `stat` (a big
+   * number and its caption), `wide` (the whole row, side by side), or left out for a tile (two columns).
+   * `data-layout`.
    */
-  size?: "lead" | "stat" | "wide";
+  layout?: "lead" | "stat" | "wide";
   /** The tier: a panel (the default for lead and wide) or soft candy (the default for tiles, stats). `data-variant`. */
   variant?: "panel" | "soft";
   /** A soft feature's candy; vary them. `data-tone`. */
@@ -358,16 +359,16 @@ export type FeatureProps = FeatureOwnProps & NativeProps<"article", FeatureOwnPr
  *
  * Renders `<article class="pp-box pp-feature" data-variant="soft">` (`data-variant="panel"` for lead and wide).
  */
-export const Feature = forwardRef<HTMLElement, FeatureProps>(function Feature(
-  { size, variant, tone, className, ...rest },
+export const Feature = /*#__PURE__*/ forwardRef<HTMLElement, FeatureProps>(function Feature(
+  { layout, variant, tone, className, ...rest },
   ref,
 ) {
   return (
     <article
       ref={ref}
       className={cx("pp-box pp-feature", className)}
-      data-size={size}
-      data-variant={variant ?? (size === "lead" || size === "wide" ? "panel" : "soft")}
+      data-layout={layout}
+      data-variant={variant ?? (layout === "lead" || layout === "wide" ? "panel" : "soft")}
       data-tone={tone}
       {...rest}
     />
@@ -385,7 +386,7 @@ export type FeatureMediaProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-feature-media">`.
  */
-export const FeatureMedia = forwardRef<HTMLDivElement, FeatureMediaProps>(function FeatureMedia(
+export const FeatureMedia = /*#__PURE__*/ forwardRef<HTMLDivElement, FeatureMediaProps>(function FeatureMedia(
   { className, ...rest },
   ref,
 ) {
@@ -406,7 +407,7 @@ export type FeatureIconProps = FeatureIconOwnProps & NativeProps<"span", Feature
  *
  * Renders `<span class="pp-box pp-feature-icon">`.
  */
-export const FeatureIcon = forwardRef<HTMLSpanElement, FeatureIconProps>(function FeatureIcon(
+export const FeatureIcon = /*#__PURE__*/ forwardRef<HTMLSpanElement, FeatureIconProps>(function FeatureIcon(
   { tone, className, ...rest },
   ref,
 ) {
@@ -423,7 +424,7 @@ export type FeatureTitleProps<T extends ElementType = "h3"> = PolymorphicProps<T
  *
  * Renders `<h3 class="pp-feature-title">`.
  */
-export const FeatureTitle = forwardRef(function FeatureTitle(
+export const FeatureTitle = /*#__PURE__*/ forwardRef(function FeatureTitle(
   { as: Tag = "h3", className, ...rest }: FeatureTitleProps<ElementType>,
   ref,
 ) {
@@ -440,7 +441,7 @@ export type FeatureTextProps = NativeProps<"p">;
  *
  * Renders `<p class="pp-feature-text">`.
  */
-export const FeatureText = forwardRef<HTMLParagraphElement, FeatureTextProps>(function FeatureText(
+export const FeatureText = /*#__PURE__*/ forwardRef<HTMLParagraphElement, FeatureTextProps>(function FeatureText(
   { className, ...rest },
   ref,
 ) {
@@ -458,7 +459,7 @@ export type FeatureStatProps = FeatureStatOwnProps & NativeProps<"p", FeatureSta
  * A stat feature's one honest number, in Pixel Bop at scale 3, POP. Its caption follows in a {@link FeatureText}, so
  * the two read as one: "60 hand-made levels in four worlds".
  *
- *   <Feature size="stat" tone="purple">
+ *   <Feature layout="stat" tone="purple">
  *     <FeatureStat tone="purple">24</FeatureStat>
  *     <FeatureText>chiptune tracks, one for every hour</FeatureText>
  *   </Feature>
@@ -466,7 +467,7 @@ export type FeatureStatProps = FeatureStatOwnProps & NativeProps<"p", FeatureSta
  * Renders `<p class="pp-feature-stat pp-pop" data-pop="24">`; `data-pop` repeats the number (when the children are
  * text).
  */
-export const FeatureStat = forwardRef<HTMLParagraphElement, FeatureStatProps>(function FeatureStat(
+export const FeatureStat = /*#__PURE__*/ forwardRef<HTMLParagraphElement, FeatureStatProps>(function FeatureStat(
   { tone, className, children, ...rest },
   ref,
 ) {
@@ -493,7 +494,7 @@ export type FeatureChipsProps = NativeProps<"ul">;
  *
  * Renders `<ul class="pp-feature-chips" role="list">`.
  */
-export const FeatureChips = forwardRef<HTMLUListElement, FeatureChipsProps>(function FeatureChips(
+export const FeatureChips = /*#__PURE__*/ forwardRef<HTMLUListElement, FeatureChipsProps>(function FeatureChips(
   { role = "list", className, ...rest },
   ref,
 ) {
@@ -514,7 +515,7 @@ export type FeatureChipProps = FeatureChipOwnProps & NativeProps<"li", FeatureCh
  *
  * Renders `<li class="pp-box" data-variant="soft" data-tone="neutral">`.
  */
-export const FeatureChip = forwardRef<HTMLLIElement, FeatureChipProps>(function FeatureChip(
+export const FeatureChip = /*#__PURE__*/ forwardRef<HTMLLIElement, FeatureChipProps>(function FeatureChip(
   { tone = "neutral", className, ...rest },
   ref,
 ) {
@@ -554,7 +555,7 @@ export type PricingProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-pricing">`.
  */
-export const Pricing = forwardRef<HTMLDivElement, PricingProps>(function Pricing({ className, ...rest }, ref) {
+export const Pricing = /*#__PURE__*/ forwardRef<HTMLDivElement, PricingProps>(function Pricing({ className, ...rest }, ref) {
   return <div ref={ref} className={cx("pp-pricing", className)} {...rest} />;
 });
 
@@ -595,7 +596,7 @@ export type PlanProps = PlanOwnProps & NativeProps<"article", { featured?: boole
  * Renders `<article class="pp-box pp-plan" data-variant="panel">`, or `<article class="pp-box pp-plan"
  * data-featured>`.
  */
-export const Plan = forwardRef<HTMLElement, PlanProps>(function Plan({ featured, tone, className, ...rest }, ref) {
+export const Plan = /*#__PURE__*/ forwardRef<HTMLElement, PlanProps>(function Plan({ featured, tone, className, ...rest }, ref) {
   return (
     <article
       ref={ref}
@@ -619,7 +620,7 @@ export type PlanRibbonProps = NativeProps<"p">;
  *
  * Renders `<p class="pp-box pp-plan-ribbon">`.
  */
-export const PlanRibbon = forwardRef<HTMLParagraphElement, PlanRibbonProps>(function PlanRibbon(
+export const PlanRibbon = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PlanRibbonProps>(function PlanRibbon(
   { className, ...rest },
   ref,
 ) {
@@ -636,7 +637,7 @@ export type PlanNameProps<T extends ElementType = "h3"> = PolymorphicProps<T, ob
  *
  * Renders `<h3 class="pp-plan-name">`.
  */
-export const PlanName = forwardRef(function PlanName(
+export const PlanName = /*#__PURE__*/ forwardRef(function PlanName(
   { as: Tag = "h3", className, ...rest }: PlanNameProps<ElementType>,
   ref,
 ) {
@@ -656,7 +657,7 @@ export type PlanPriceProps = NativeProps<"p">;
  *
  * Renders `<p class="pp-plan-price">`.
  */
-export const PlanPrice = forwardRef<HTMLParagraphElement, PlanPriceProps>(function PlanPrice(
+export const PlanPrice = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PlanPriceProps>(function PlanPrice(
   { className, ...rest },
   ref,
 ) {
@@ -673,7 +674,7 @@ export type PlanCurrencyProps = NativeProps<"span">;
  *
  * Renders `<span class="pp-plan-currency">`.
  */
-export const PlanCurrency = forwardRef<HTMLSpanElement, PlanCurrencyProps>(function PlanCurrency(
+export const PlanCurrency = /*#__PURE__*/ forwardRef<HTMLSpanElement, PlanCurrencyProps>(function PlanCurrency(
   { className, ...rest },
   ref,
 ) {
@@ -690,7 +691,7 @@ export type PlanAmountProps = NativeProps<"span">;
  *
  * Renders `<span class="pp-plan-amount">`.
  */
-export const PlanAmount = forwardRef<HTMLSpanElement, PlanAmountProps>(function PlanAmount(
+export const PlanAmount = /*#__PURE__*/ forwardRef<HTMLSpanElement, PlanAmountProps>(function PlanAmount(
   { className, ...rest },
   ref,
 ) {
@@ -707,7 +708,7 @@ export type PlanPeriodProps = NativeProps<"span">;
  *
  * Renders `<span class="pp-plan-period">`.
  */
-export const PlanPeriod = forwardRef<HTMLSpanElement, PlanPeriodProps>(function PlanPeriod(
+export const PlanPeriod = /*#__PURE__*/ forwardRef<HTMLSpanElement, PlanPeriodProps>(function PlanPeriod(
   { className, ...rest },
   ref,
 ) {
@@ -724,7 +725,7 @@ export type PlanTextProps = NativeProps<"p">;
  *
  * Renders `<p class="pp-plan-text">`.
  */
-export const PlanText = forwardRef<HTMLParagraphElement, PlanTextProps>(function PlanText({ className, ...rest }, ref) {
+export const PlanText = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PlanTextProps>(function PlanText({ className, ...rest }, ref) {
   return <p ref={ref} className={cx("pp-plan-text", className)} {...rest} />;
 });
 
@@ -742,7 +743,7 @@ export type PlanFeaturesProps = NativeProps<"ul">;
  *
  * Renders `<ul class="pp-plan-features" role="list">`.
  */
-export const PlanFeatures = forwardRef<HTMLUListElement, PlanFeaturesProps>(function PlanFeatures(
+export const PlanFeatures = /*#__PURE__*/ forwardRef<HTMLUListElement, PlanFeaturesProps>(function PlanFeatures(
   { role = "list", className, ...rest },
   ref,
 ) {
@@ -764,7 +765,7 @@ export type PlanFeatureProps = PlanFeatureOwnProps & NativeProps<"li", PlanFeatu
  *
  * Renders `<li>`, or `<li data-off>`.
  */
-export const PlanFeature = forwardRef<HTMLLIElement, PlanFeatureProps>(function PlanFeature({ off, ...rest }, ref) {
+export const PlanFeature = /*#__PURE__*/ forwardRef<HTMLLIElement, PlanFeatureProps>(function PlanFeature({ off, ...rest }, ref) {
   return <li ref={ref} data-off={flag(off)} {...rest} />;
 });
 
@@ -807,7 +808,7 @@ export type CtaBandProps = CtaBandOwnProps & NativeProps<"section", CtaBandOwnPr
  *
  * Renders `<section class="pp-cta">`, or `<section class="pp-box pp-cta" data-variant="soft">` with `variant`.
  */
-export const CtaBand = forwardRef<HTMLElement, CtaBandProps>(function CtaBand(
+export const CtaBand = /*#__PURE__*/ forwardRef<HTMLElement, CtaBandProps>(function CtaBand(
   { variant, candy, tone, className, ...rest },
   ref,
 ) {
@@ -842,7 +843,7 @@ export type CtaTitleProps<T extends ElementType = "h2"> = PolymorphicProps<T, Ct
  * Renders `<h2 class="pp-cta-title pp-display pp-pop" data-scale="2" data-pop="…">` (`data-pop` repeats the text,
  * when the children are text), or `<h2 class="pp-cta-title pp-display" data-scale="1">` with `boxed`.
  */
-export const CtaTitle = forwardRef(function CtaTitle(
+export const CtaTitle = /*#__PURE__*/ forwardRef(function CtaTitle(
   { as: Tag = "h2", boxed, candy, className, children, ...rest }: CtaTitleProps<ElementType>,
   ref,
 ) {
@@ -870,7 +871,7 @@ export type CtaTextProps = NativeProps<"p">;
  *
  * Renders `<p class="pp-cta-text">`.
  */
-export const CtaText = forwardRef<HTMLParagraphElement, CtaTextProps>(function CtaText({ className, ...rest }, ref) {
+export const CtaText = /*#__PURE__*/ forwardRef<HTMLParagraphElement, CtaTextProps>(function CtaText({ className, ...rest }, ref) {
   return <p ref={ref} className={cx("pp-cta-text", className)} {...rest} />;
 });
 
@@ -884,7 +885,7 @@ export type CtaActionsProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-cta-actions">`.
  */
-export const CtaActions = forwardRef<HTMLDivElement, CtaActionsProps>(function CtaActions(
+export const CtaActions = /*#__PURE__*/ forwardRef<HTMLDivElement, CtaActionsProps>(function CtaActions(
   { className, ...rest },
   ref,
 ) {
@@ -901,7 +902,7 @@ export type CtaNoteProps = NativeProps<"p">;
  *
  * Renders `<p class="pp-cta-note">`.
  */
-export const CtaNote = forwardRef<HTMLParagraphElement, CtaNoteProps>(function CtaNote({ className, ...rest }, ref) {
+export const CtaNote = /*#__PURE__*/ forwardRef<HTMLParagraphElement, CtaNoteProps>(function CtaNote({ className, ...rest }, ref) {
   return <p ref={ref} className={cx("pp-cta-note", className)} {...rest} />;
 });
 
@@ -915,7 +916,7 @@ export type CtaGroundProps = NativeProps<"div", { children?: never }> & { childr
  *
  * Renders `<div class="pp-cta-ground">`.
  */
-export const CtaGround = forwardRef<HTMLDivElement, CtaGroundProps>(function CtaGround({ className, ...rest }, ref) {
+export const CtaGround = /*#__PURE__*/ forwardRef<HTMLDivElement, CtaGroundProps>(function CtaGround({ className, ...rest }, ref) {
   return <div ref={ref} className={cx("pp-cta-ground", className)} {...rest} />;
 });
 
@@ -958,7 +959,7 @@ export type FooterProps = NativeProps<"footer">;
  *
  * Renders `<footer class="pp-footer">`.
  */
-export const Footer = forwardRef<HTMLElement, FooterProps>(function Footer({ className, ...rest }, ref) {
+export const Footer = /*#__PURE__*/ forwardRef<HTMLElement, FooterProps>(function Footer({ className, ...rest }, ref) {
   return <footer ref={ref} className={cx("pp-footer", className)} {...rest} />;
 });
 
@@ -972,7 +973,7 @@ export type FooterInnerProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-footer-inner">`.
  */
-export const FooterInner = forwardRef<HTMLDivElement, FooterInnerProps>(function FooterInner(
+export const FooterInner = /*#__PURE__*/ forwardRef<HTMLDivElement, FooterInnerProps>(function FooterInner(
   { className, ...rest },
   ref,
 ) {
@@ -992,7 +993,7 @@ export type FooterBrandProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-footer-brand">`.
  */
-export const FooterBrand = forwardRef<HTMLDivElement, FooterBrandProps>(function FooterBrand(
+export const FooterBrand = /*#__PURE__*/ forwardRef<HTMLDivElement, FooterBrandProps>(function FooterBrand(
   { className, ...rest },
   ref,
 ) {
@@ -1009,7 +1010,7 @@ export type FooterNavProps = Named & NativeProps<"nav">;
  *
  * Renders `<nav class="pp-footer-nav">`.
  */
-export const FooterNav = forwardRef<HTMLElement, FooterNavProps>(function FooterNav({ className, ...rest }, ref) {
+export const FooterNav = /*#__PURE__*/ forwardRef<HTMLElement, FooterNavProps>(function FooterNav({ className, ...rest }, ref) {
   return <nav ref={ref} className={cx("pp-footer-nav", className)} {...rest} />;
 });
 
@@ -1026,7 +1027,7 @@ export type FooterColProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-footer-col">`.
  */
-export const FooterCol = forwardRef<HTMLDivElement, FooterColProps>(function FooterCol({ className, ...rest }, ref) {
+export const FooterCol = /*#__PURE__*/ forwardRef<HTMLDivElement, FooterColProps>(function FooterCol({ className, ...rest }, ref) {
   return <div ref={ref} className={cx("pp-footer-col", className)} {...rest} />;
 });
 
@@ -1040,7 +1041,7 @@ export type FooterHeadingProps<T extends ElementType = "h2"> = PolymorphicProps<
  *
  * Renders `<h2 class="pp-footer-heading">`.
  */
-export const FooterHeading = forwardRef(function FooterHeading(
+export const FooterHeading = /*#__PURE__*/ forwardRef(function FooterHeading(
   { as: Tag = "h2", className, ...rest }: FooterHeadingProps<ElementType>,
   ref,
 ) {
@@ -1062,7 +1063,7 @@ export type FooterSignupProps = NativeProps<"form">;
  *
  * Renders `<form class="pp-footer-signup">`.
  */
-export const FooterSignup = forwardRef<HTMLFormElement, FooterSignupProps>(function FooterSignup(
+export const FooterSignup = /*#__PURE__*/ forwardRef<HTMLFormElement, FooterSignupProps>(function FooterSignup(
   { className, ...rest },
   ref,
 ) {
@@ -1084,7 +1085,7 @@ export type FooterRowProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-footer-row">`.
  */
-export const FooterRow = forwardRef<HTMLDivElement, FooterRowProps>(function FooterRow({ className, ...rest }, ref) {
+export const FooterRow = /*#__PURE__*/ forwardRef<HTMLDivElement, FooterRowProps>(function FooterRow({ className, ...rest }, ref) {
   return <div ref={ref} className={cx("pp-footer-row", className)} {...rest} />;
 });
 
@@ -1101,7 +1102,7 @@ export type FooterFieldProps = NativeProps<"input", { children?: never }> & { ch
  *
  * Renders `<span class="pp-box pp-footer-field" data-variant="outline"><input></span>`.
  */
-export const FooterField = forwardRef<HTMLInputElement, FooterFieldProps>(function FooterField(
+export const FooterField = /*#__PURE__*/ forwardRef<HTMLInputElement, FooterFieldProps>(function FooterField(
   { className, style, ...rest },
   ref,
 ) {
@@ -1126,7 +1127,7 @@ export type FooterLegalProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-footer-legal">`.
  */
-export const FooterLegal = forwardRef<HTMLDivElement, FooterLegalProps>(function FooterLegal(
+export const FooterLegal = /*#__PURE__*/ forwardRef<HTMLDivElement, FooterLegalProps>(function FooterLegal(
   { className, ...rest },
   ref,
 ) {

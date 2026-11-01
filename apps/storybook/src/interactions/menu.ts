@@ -22,7 +22,7 @@ export const KeyboardPath: StoryObj = {
   name: "Open, rove, typeahead, Escape",
   play: async ({ canvasElement, step }) => {
     const { element, button, list, item, open } = levelMenu(canvasElement);
-    const chosen = events<{ value: string; checked?: boolean }>(element, "pp-select");
+    const chosen = events<{ value: string; checked?: boolean }>(element, "pp-action");
 
     await step("The button is wired as a menu button", async () => {
       expect(button).toHaveAttribute("aria-haspopup", "menu");
@@ -83,7 +83,7 @@ export const SubmenuAndChoose: StoryObj = {
   name: "Submenu, then Enter chooses",
   play: async ({ canvasElement, step }) => {
     const { element, button, item, open } = levelMenu(canvasElement);
-    const chosen = events<{ value: string }>(element, "pp-select");
+    const chosen = events<{ value: string }>(element, "pp-action");
     const sub = item("Export").closest("pp-menu")!;
     const subList = sub.querySelector<HTMLElement>(':scope > [role="menu"]')!;
     const subItem = (label: string) => [...subList.querySelectorAll<HTMLElement>('[role="menuitem"]')].find((i) => i.textContent?.trim() === label)!;

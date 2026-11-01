@@ -9,24 +9,31 @@
  *     <p class="pp-field-count"></p>
  *   </pp-field>
  *
- * - Help, error and count are added to the control's aria-describedby (the group's, for a role="group" field).
- * - The error shows when the browser finds the control invalid (on submit, or when a changed value is checked),
- *   and the control (or the pp-segmented / pp-rating) gets aria-invalid; it goes away once the value is valid or
- *   the form is reset. Its words: a hidden error's own text, else the browser's message. An error already showing
- *   in the page (from the server) stays until the value changes. Errors are read out politely.
+ * - Help, a showing error and count are added to the control's aria-describedby (the group's, for a role="group"
+ *   field), and taken out when they go. Parts rendered later or taken away (by a framework) are wired as they come.
+ * - The browser's checks: when it finds the control invalid (on submit, or when a changed value is checked), the
+ *   error shows and the control (or the pp-segmented / pp-rating) gets aria-invalid; both go once the value is valid
+ *   or the form is reset. The words: a hidden error's own text, else the browser's message.
+ * - Your own errors are yours: an error that shows with your words (from the server, or your framework's state)
+ *   stays until you change it, and the field marks the control invalid while it shows. An aria-invalid you write
+ *   stays too: the field only ever takes away the aria-invalid it wrote.
+ * - Every error that comes up is read out politely, once.
  * - The count shows "12/200" against maxlength; a screen reader hears how many are left once typing pauses
  *   (count-text: "{left} characters left").
  * - An <output for> follows its control, and a range control's --pp-slider-value fills the slider's groove.
  */
 import { PixelElement } from "@jaatster/blip-core";
+import { elementsChanged } from "./_dom.js";
 
 let uid = 0;
 const id = (el: Element) => el.id || (el.id = `pp-field-${++uid}`);
+const words = (el: Element | null) => el?.textContent?.trim() ?? "";
 type Control = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
 
 /**
  * Wires a field's label, help, error and count to its control (aria-describedby, aria-invalid, live messages), so
- * nothing has to be wired by hand.
+ * nothing has to be wired by hand. Parts rendered later or taken away are wired as they come, and the page's own
+ * errors and aria-invalid are left as the page wrote them.
  *
  * @summary A form field that wires its words to its control.
  * @attr {string} [count-text="{left} characters left"] - What screen readers hear once typing pauses in a field
@@ -37,87 +44,61 @@ type Control = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
 export class PixelField extends PixelElement {
   static classes = ["pp-field"];
 
-  /** A hidden error's words, read on the first connect (later the element holds whatever is showing). */
-  #written: string | undefined;
+  #controls: Control[] = [];
+  #group: HTMLElement | null = null;
+  #target: Element | null = null;
+  #error: HTMLElement | null = null;
+  #count: HTMLElement | null = null;
+  /** Controls whose aria-invalid the field wrote: the only ones it takes it away from. */
+  #marked = new WeakSet<Element>();
+  /** Errors hidden with words when first seen: the words for the browser's message. */
+  #held = new WeakSet<Element>();
+  #heldShown = false;
+  /** Ids the field put in the description. */
+  #added = new Set<string>();
+  /** The words the field last wrote into the error, and the last error read out. */
+  #wrote = "";
+  #said = "";
+  /** The browser finds a control invalid, with this message. */
+  #invalid = false;
+  #message = "";
+  #live?: HTMLElement;
+  #observer?: MutationObserver;
+  #timer?: ReturnType<typeof setTimeout>;
 
   protected connected(): void {
-    const controls = [...this.querySelectorAll<Control>("input:not([type=hidden]), select, textarea")];
-    const group = this.querySelector<HTMLElement>("pp-segmented, pp-rating");
-    const target = this.getAttribute("role") ? this : (group ?? controls[0]);
-    if (!target) return;
-    const error = this.querySelector<HTMLElement>(".pp-field-error");
-    const count = this.querySelector<HTMLElement>(".pp-field-count");
-    // A hidden error holds the words to use. A visible one is an error already (from the server): it shows until
-    // the value changes, then the browser's messages take over.
-    const first = this.#written === undefined;
-    const text = error?.textContent?.trim() ?? "";
-    if (first) this.#written = error?.hidden ? text : "";
-    const written = this.#written ?? "";
-    const showing = first ? !!text && !error?.hidden : !!error?.textContent;
-    if (error) {
-      error.hidden = false;
-      error.setAttribute("aria-live", "polite");
-    }
-    let live: HTMLElement | null = null;
-
-    if (count) {
-      count.setAttribute("aria-hidden", "true");
-      live = count.nextElementSibling?.matches(".pp-field-count-live") ? (count.nextElementSibling as HTMLElement) : null;
-      if (!live) {
-        live = Object.assign(document.createElement("span"), { className: "pp-sr-only pp-field-count-live" });
-        live.setAttribute("aria-live", "polite");
-        count.after(live);
-      }
-    }
-    const described = new Set((target.getAttribute("aria-describedby") ?? "").split(/\s+/).filter(Boolean));
-    for (const part of [this.querySelector(".pp-field-help"), error, count]) if (part) described.add(id(part));
-    target.setAttribute("aria-describedby", [...described].join(" "));
-
-    // Shown means it has words; emptied, it hides itself (CSS :empty) and adds nothing to the description.
-    const invalid = (on: boolean, message = "") => {
-      for (const c of [...controls, ...(group ? [group] : [])]) on ? c.setAttribute("aria-invalid", "true") : c.removeAttribute("aria-invalid");
-      if (error) error.textContent = on ? written || message : "";
-    };
-    if (showing && !written && error) {
-      // The page's own error: show it as it is until the value changes.
-      for (const c of [...controls, ...(group ? [group] : [])]) c.setAttribute("aria-invalid", "true");
-    } else invalid(showing);
-
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    const update = (typing = false) => {
-      const c = controls[0];
-      if (count && c && "maxLength" in c && c.maxLength > 0) {
-        const n = c.value.length;
-        const left = c.maxLength - n;
-        count.textContent = `${n}/${c.maxLength}`;
-        count.dataset.state = left <= 0 ? "full" : "";
-        clearTimeout(timer);
-        if (typing) timer = setTimeout(() => (live!.textContent = (this.getAttribute("count-text") ?? "{left} characters left").replace("{left}", String(left))), 700);
-      }
-      for (const out of this.querySelectorAll("output")) {
-        const from = controls.find((x) => out.htmlFor.contains(x.id));
-        if (from) out.value = from.value;
-      }
-      for (const r of controls) {
-        if (r instanceof HTMLInputElement && r.type === "range") {
-          const min = Number(r.min || 0);
-          const max = Number(r.max || 100);
-          r.style.setProperty("--pp-slider-value", String(max > min ? (Number(r.value) - min) / (max - min) : 0));
-        }
-      }
-    };
-    update();
-    this.signal.addEventListener("abort", () => clearTimeout(timer), { once: true });
+    // One polite live region for the field: errors as they come up, and the count after a pause.
+    this.#live ??= Object.assign(document.createElement("span"), { className: "pp-sr-only pp-field-live" });
+    this.#live.setAttribute("aria-live", "polite");
+    if (this.#live.parentElement !== this) this.append(this.#live);
+    this.#parts();
+    this.#update();
+    this.#render(true);
+    const observer = (this.#observer = new MutationObserver((records) => {
+      if (this.#settle(records)) this.#render();
+    }));
+    observer.observe(this, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ["aria-invalid", "aria-describedby", "hidden"] });
+    this.signal.addEventListener("abort", () => {
+      observer.disconnect();
+      clearTimeout(this.#timer);
+    }, { once: true });
 
     const valid = (el: EventTarget | null) => (el as { validity?: ValidityState } | null)?.validity?.valid !== false;
     // invalid doesn't bubble: listen while it comes down.
-    this.on(this, "invalid", (e) => invalid(true, (e.target as Control).validationMessage), { capture: true });
+    this.on(this, "invalid", (e) => {
+      this.#invalid = true;
+      this.#message = (e.target as Control).validationMessage;
+      this.#render();
+    }, { capture: true });
     this.on(this, "input", (e) => {
-      update(e.target === controls[0]);
-      if (valid(e.target) && controls.every(valid) && valid(group)) invalid(false);
+      this.#update(e.target === this.#controls[0]);
+      if (this.#invalid && this.#controls.every(valid) && valid(this.#group)) {
+        this.#invalid = false;
+        this.#render();
+      }
     });
     this.on(this, "change", (e) => {
-      update();
+      this.#update();
       (e.target as Control).checkValidity?.();
     });
     // A form reset changes values without events: look again once it is done.
@@ -125,10 +106,123 @@ export class PixelField extends PixelElement {
     if (form) {
       this.on(form, "reset", () =>
         setTimeout(() => {
-          update();
-          invalid(false);
+          this.#update();
+          this.#invalid = false;
+          this.#render();
         }),
       );
+    }
+  }
+
+  /** Takes in the page's changes: an aria-invalid it wrote is its own from then on, and parts that came or went are
+      found again. True if anything the field shows depends on them. */
+  #settle(records: MutationRecord[] = this.#observer?.takeRecords() ?? []): boolean {
+    let changed = false;
+    let again = false;
+    for (const r of records) {
+      const t = r.target;
+      if (r.type === "attributes" && r.attributeName === "aria-invalid") {
+        this.#marked.delete(t as Element);
+        changed = true;
+      } else if (r.type === "attributes" && r.attributeName === "aria-describedby") changed ||= t === this.#target;
+      else if (elementsChanged(r) && t !== this.#live) again = true;
+      else if (this.#error?.contains(t)) changed = true;
+    }
+    if (again) this.#parts();
+    return changed || again;
+  }
+
+  /** Finds the parts there are now. */
+  #parts(): void {
+    this.#controls = [...this.querySelectorAll<Control>("input:not([type=hidden]), select, textarea")];
+    this.#group = this.querySelector<HTMLElement>("pp-segmented, pp-rating");
+    const target = this.getAttribute("role") ? this : (this.#group ?? this.#controls[0] ?? null);
+    if (target !== this.#target && this.#target) this.#describe(this.#target, []);
+    this.#target = target;
+    const error = this.querySelector<HTMLElement>(".pp-field-error");
+    if (error !== this.#error) {
+      this.#error = error;
+      this.#wrote = "";
+      this.#heldShown = false;
+      if (error?.hidden && words(error)) this.#held.add(error);
+    }
+    this.#count = this.querySelector<HTMLElement>(".pp-field-count");
+    this.#count?.setAttribute("aria-hidden", "true");
+  }
+
+  /** Links these parts to the target, keeping the page's own ids and taking out parts that went. */
+  #describe(target: Element, parts: string[]): void {
+    const ids = (target.getAttribute("aria-describedby") ?? "").split(/\s+/).filter((i) => i && !(this.#added.has(i) && !parts.includes(i)));
+    const added = new Set([...this.#added].filter((i) => parts.includes(i)));
+    for (const p of parts) {
+      if (ids.includes(p)) continue;
+      ids.push(p);
+      added.add(p);
+    }
+    this.#added = added;
+    if (ids.length) target.setAttribute("aria-describedby", ids.join(" "));
+    else target.removeAttribute("aria-describedby");
+  }
+
+  /** The error, the description and aria-invalid as they should be now; a new error is read out (not on the first
+      look: what is on the page when it loads is read with the page). */
+  #render(silent = false): void {
+    this.#settle();
+    const error = this.#error;
+    if (error && this.#held.has(error)) {
+      // A hidden error holds the words for the browser's message: shown while the browser finds the control invalid.
+      if (this.#invalid) error.hidden = false;
+      else if (this.#heldShown) error.hidden = true;
+      this.#heldShown = this.#invalid;
+    } else if (error && (!words(error) || words(error) === this.#wrote)) {
+      // An empty error is the field's to fill with the browser's message. Words the page wrote are left alone.
+      const message = this.#invalid ? this.#message : "";
+      if (error.textContent !== message) error.textContent = message;
+      this.#wrote = message;
+    }
+    const said = error && !error.hidden ? words(error) : "";
+    const target = this.#target;
+    if (target) this.#describe(target, [this.querySelector(".pp-field-help"), said ? error : null, this.#count].filter((p): p is Element => !!p).map(id));
+    const invalid = this.#invalid || !!said;
+    for (const c of [...this.#controls, ...(this.#group ? [this.#group] : [])]) {
+      if (invalid && c.getAttribute("aria-invalid") !== "true") {
+        c.setAttribute("aria-invalid", "true");
+        this.#marked.add(c);
+      } else if (!invalid && this.#marked.has(c)) {
+        c.removeAttribute("aria-invalid");
+        this.#marked.delete(c);
+      }
+    }
+    if (said !== this.#said) {
+      this.#said = said;
+      if (said && !silent && this.#live) this.#live.textContent = said;
+    }
+    // What the field just changed is its own: not news.
+    this.#observer?.takeRecords();
+  }
+
+  /** The count, outputs and slider fills, from the values. */
+  #update(typing = false): void {
+    const c = this.#controls[0];
+    const count = this.#count;
+    if (count && c && "maxLength" in c && c.maxLength > 0) {
+      const n = c.value.length;
+      const left = c.maxLength - n;
+      count.textContent = `${n}/${c.maxLength}`;
+      count.dataset.state = left <= 0 ? "full" : "";
+      clearTimeout(this.#timer);
+      if (typing) this.#timer = setTimeout(() => (this.#live!.textContent = (this.getAttribute("count-text") ?? "{left} characters left").replace("{left}", String(left))), 700);
+    }
+    for (const out of this.querySelectorAll("output")) {
+      const from = this.#controls.find((x) => out.htmlFor.contains(x.id));
+      if (from) out.value = from.value;
+    }
+    for (const r of this.#controls) {
+      if (r instanceof HTMLInputElement && r.type === "range") {
+        const min = Number(r.min || 0);
+        const max = Number(r.max || 100);
+        r.style.setProperty("--pp-slider-value", String(max > min ? (Number(r.value) - min) / (max - min) : 0));
+      }
     }
   }
 }

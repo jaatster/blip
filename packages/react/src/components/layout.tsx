@@ -23,7 +23,7 @@ export type StackProps<T extends ElementType = "div"> = PolymorphicProps<T, Stac
  *
  *   <Stack gap={4} align="start">…</Stack>
  */
-export const Stack = forwardRef(function Stack({ as: Tag = "div", gap, align, className, ...rest }: StackProps<ElementType>, ref) {
+export const Stack = /*#__PURE__*/ forwardRef(function Stack({ as: Tag = "div", gap, align, className, ...rest }: StackProps<ElementType>, ref) {
   return <Tag ref={ref} className={cx("pp-stack", className)} data-gap={gap} data-align={align} {...rest} />;
 }) as PolymorphicComponent<"div", StackOwnProps>;
 
@@ -50,7 +50,7 @@ export type ClusterProps<T extends ElementType = "div"> = PolymorphicProps<T, Cl
  *   <Cluster justify="between">…</Cluster>
  *   <Cluster switch><Button variant="soft">Cancel</Button><Button>Save game</Button></Cluster>
  */
-export const Cluster = forwardRef(function Cluster({ as: Tag = "div", gap, justify, align, switch: wrapSwitch, className, ...rest }: ClusterProps<ElementType>, ref) {
+export const Cluster = /*#__PURE__*/ forwardRef(function Cluster({ as: Tag = "div", gap, justify, align, switch: wrapSwitch, className, ...rest }: ClusterProps<ElementType>, ref) {
   return <Tag ref={ref} className={cx("pp-cluster", className)} data-gap={gap} data-justify={justify} data-align={align} data-switch={flag(wrapSwitch)} {...rest} />;
 }) as PolymorphicComponent<"div", ClusterOwnProps>;
 
@@ -72,6 +72,6 @@ export type GridProps<T extends ElementType = "div"> = PolymorphicProps<T, GridO
  *
  *   <Grid as="ul" role="list" min={128}>…cards…</Grid>
  */
-export const Grid = forwardRef(function Grid({ as: Tag = "div", min, gap, fill, className, ...rest }: GridProps<ElementType>, ref) {
+export const Grid = /*#__PURE__*/ forwardRef(function Grid({ as: Tag = "div", min, gap, fill, className, ...rest }: GridProps<ElementType>, ref) {
   return <Tag ref={ref} className={cx("pp-grid", className)} data-min={min} data-gap={gap} data-fill={flag(fill)} {...rest} />;
 }) as PolymorphicComponent<"div", GridOwnProps>;

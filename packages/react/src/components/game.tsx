@@ -46,7 +46,7 @@ export type AchievementsProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-achievements" role="status">`.
  */
-export const Achievements = forwardRef<HTMLDivElement, AchievementsProps>(function Achievements(
+export const Achievements = /*#__PURE__*/ forwardRef<HTMLDivElement, AchievementsProps>(function Achievements(
   { role = "status", className, ...rest },
   ref,
 ) {
@@ -75,7 +75,7 @@ export type AchievementProps = AchievementOwnProps & NativeProps<"div", Achievem
  *
  * Renders `<div class="pp-box pp-achievement">`.
  */
-export const Achievement = forwardRef<HTMLDivElement, AchievementProps>(function Achievement(
+export const Achievement = /*#__PURE__*/ forwardRef<HTMLDivElement, AchievementProps>(function Achievement(
   { tone, className, ...rest },
   ref,
 ) {
@@ -93,7 +93,7 @@ export type AchievementIconProps = NativeProps<"span">;
  *
  * Renders `<span class="pp-box pp-achievement-icon">`, its children, then `<span class="pp-achievement-sparkles">`.
  */
-export const AchievementIcon = forwardRef<HTMLSpanElement, AchievementIconProps>(function AchievementIcon(
+export const AchievementIcon = /*#__PURE__*/ forwardRef<HTMLSpanElement, AchievementIconProps>(function AchievementIcon(
   { className, children, ...rest },
   ref,
 ) {
@@ -115,7 +115,7 @@ export type AchievementLabelProps = NativeProps<"p">;
  *
  * Renders `<p class="pp-achievement-label">`.
  */
-export const AchievementLabel = forwardRef<HTMLParagraphElement, AchievementLabelProps>(function AchievementLabel(
+export const AchievementLabel = /*#__PURE__*/ forwardRef<HTMLParagraphElement, AchievementLabelProps>(function AchievementLabel(
   { className, ...rest },
   ref,
 ) {
@@ -132,7 +132,7 @@ export type AchievementTitleProps = NativeProps<"p">;
  *
  * Renders `<p class="pp-achievement-title">`.
  */
-export const AchievementTitle = forwardRef<HTMLParagraphElement, AchievementTitleProps>(function AchievementTitle(
+export const AchievementTitle = /*#__PURE__*/ forwardRef<HTMLParagraphElement, AchievementTitleProps>(function AchievementTitle(
   { className, ...rest },
   ref,
 ) {
@@ -149,7 +149,7 @@ export type AchievementTextProps = NativeProps<"p">;
  *
  * Renders `<p class="pp-achievement-text">`.
  */
-export const AchievementText = forwardRef<HTMLParagraphElement, AchievementTextProps>(function AchievementText(
+export const AchievementText = /*#__PURE__*/ forwardRef<HTMLParagraphElement, AchievementTextProps>(function AchievementText(
   { className, ...rest },
   ref,
 ) {
@@ -166,7 +166,7 @@ export type AchievementRewardProps = NativeProps<"p">;
  *
  * Renders `<p class="pp-achievement-reward">`.
  */
-export const AchievementReward = forwardRef<HTMLParagraphElement, AchievementRewardProps>(function AchievementReward(
+export const AchievementReward = /*#__PURE__*/ forwardRef<HTMLParagraphElement, AchievementRewardProps>(function AchievementReward(
   { className, ...rest },
   ref,
 ) {
@@ -192,7 +192,7 @@ export type LevelMapProps = NativeProps<"ol">;
  *
  * Renders `<ol class="pp-level-map">`.
  */
-export const LevelMap = forwardRef<HTMLOListElement, LevelMapProps>(function LevelMap({ className, ...rest }, ref) {
+export const LevelMap = /*#__PURE__*/ forwardRef<HTMLOListElement, LevelMapProps>(function LevelMap({ className, ...rest }, ref) {
   return <ol ref={ref} className={cx("pp-level-map", className)} {...rest} />;
 });
 
@@ -231,7 +231,7 @@ export type LevelTileProps<T extends ElementType = "button"> = PolymorphicProps<
  * Renders `<button type="button" class="pp-box pp-level">`.
  */
 // The public type (the cast below) requires the name; inside, only the options are read.
-export const LevelTile = forwardRef(function LevelTile(
+export const LevelTile = /*#__PURE__*/ forwardRef(function LevelTile(
   {
     as: Tag = "button",
     type,
@@ -266,7 +266,7 @@ export type LevelNumberProps = NativeProps<"span">;
  *
  * Renders `<span class="pp-level-number">`.
  */
-export const LevelNumber = forwardRef<HTMLSpanElement, LevelNumberProps>(function LevelNumber(
+export const LevelNumber = /*#__PURE__*/ forwardRef<HTMLSpanElement, LevelNumberProps>(function LevelNumber(
   { className, ...rest },
   ref,
 ) {
@@ -283,7 +283,7 @@ export type LevelStarsProps = NativeProps<"span">;
  *
  * Renders `<span class="pp-level-stars">`.
  */
-export const LevelStars = forwardRef<HTMLSpanElement, LevelStarsProps>(function LevelStars(
+export const LevelStars = /*#__PURE__*/ forwardRef<HTMLSpanElement, LevelStarsProps>(function LevelStars(
   { className, ...rest },
   ref,
 ) {
@@ -308,7 +308,7 @@ export type LevelPathProps = LevelPathOwnProps & NativeProps<"span", LevelPathOw
  *
  * Renders `<span class="pp-level-path" aria-hidden="true">`.
  */
-export const LevelPath = forwardRef<HTMLSpanElement, LevelPathProps>(function LevelPath(
+export const LevelPath = /*#__PURE__*/ forwardRef<HTMLSpanElement, LevelPathProps>(function LevelPath(
   { direction, locked, className, ...rest },
   ref,
 ) {
@@ -341,7 +341,7 @@ export type PauseMenuProps = Named & NativeProps<"dialog">;
  *   <PauseMenu ref={pause} aria-labelledby="pause-title" onClose={resume}>
  *     <PauseTitle id="pause-title">Paused</PauseTitle>
  *     <PauseStats><span><Sprite name="coin" />42 coins</span><span><Sprite name="clock" />12:40</span></PauseStats>
- *     <Choices onChoice={(e) => e.detail.value === "resume" && pause.current?.close()}>
+ *     <Choices onAction={(e) => e.detail.value === "resume" && pause.current?.close()}>
  *       <ChoiceList font="display">
  *         <li><Choice value="resume">Resume</Choice></li>
  *         <li><Choice value="quit">Quit to map</Choice></li>
@@ -352,7 +352,7 @@ export type PauseMenuProps = Named & NativeProps<"dialog">;
  *
  * Renders `<dialog class="pp-box pp-pause">`.
  */
-export const PauseMenu = forwardRef<HTMLDialogElement, PauseMenuProps>(function PauseMenu({ className, ...rest }, ref) {
+export const PauseMenu = /*#__PURE__*/ forwardRef<HTMLDialogElement, PauseMenuProps>(function PauseMenu({ className, ...rest }, ref) {
   return <dialog ref={ref} className={cx("pp-box pp-pause", className)} {...rest} />;
 });
 
@@ -368,7 +368,7 @@ export type PauseTitleProps<T extends ElementType = "h2"> = PolymorphicProps<T, 
  * Renders `<h2 class="pp-pause-title pp-display pp-pop" data-scale="3" data-pop="Paused">`; `data-pop` repeats the
  * text (when the children are text).
  */
-export const PauseTitle = forwardRef(function PauseTitle(
+export const PauseTitle = /*#__PURE__*/ forwardRef(function PauseTitle(
   { as: Tag = "h2", className, children, ...rest }: PauseTitleProps<ElementType>,
   ref,
 ) {
@@ -395,7 +395,7 @@ export type PauseStatsProps = NativeProps<"p">;
  *
  * Renders `<p class="pp-pause-stats">`.
  */
-export const PauseStats = forwardRef<HTMLParagraphElement, PauseStatsProps>(function PauseStats(
+export const PauseStats = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PauseStatsProps>(function PauseStats(
   { className, ...rest },
   ref,
 ) {
@@ -412,7 +412,7 @@ export type PauseHintProps = NativeProps<"p">;
  *
  * Renders `<p class="pp-pause-hint pp-prompt">`.
  */
-export const PauseHint = forwardRef<HTMLParagraphElement, PauseHintProps>(function PauseHint(
+export const PauseHint = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PauseHintProps>(function PauseHint(
   { className, ...rest },
   ref,
 ) {
@@ -436,7 +436,7 @@ export type PromptProps = NativeProps<"p">;
  *
  * Renders `<p class="pp-prompt">`.
  */
-export const Prompt = forwardRef<HTMLParagraphElement, PromptProps>(function Prompt({ className, ...rest }, ref) {
+export const Prompt = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PromptProps>(function Prompt({ className, ...rest }, ref) {
   return <p ref={ref} className={cx("pp-prompt", className)} {...rest} />;
 });
 
@@ -459,7 +459,7 @@ export type PromptKeyProps = PromptKeyOwnProps & NativeProps<"kbd", PromptKeyOwn
  *
  * Renders `<kbd class="pp-box pp-prompt-key">`, with `<span class="pp-sr-only">` after its children for a `label`.
  */
-export const PromptKey = forwardRef<HTMLElement, PromptKeyProps>(function PromptKey(
+export const PromptKey = /*#__PURE__*/ forwardRef<HTMLElement, PromptKeyProps>(function PromptKey(
   { label, className, children, ...rest },
   ref,
 ) {
@@ -492,7 +492,7 @@ export type PromptButtonProps = PromptButtonOwnProps & NativeProps<"kbd", Prompt
  *
  * Renders `<kbd class="pp-box pp-prompt-button" data-button="a">A</kbd>`.
  */
-export const PromptButton = forwardRef<HTMLElement, PromptButtonProps>(function PromptButton(
+export const PromptButton = /*#__PURE__*/ forwardRef<HTMLElement, PromptButtonProps>(function PromptButton(
   { button, tone, className, children, ...rest },
   ref,
 ) {
@@ -520,7 +520,7 @@ export type PromptShoulderProps = PromptShoulderOwnProps & NativeProps<"kbd", Pr
  *
  * Renders `<kbd class="pp-box pp-prompt-shoulder" data-button="rb">RB</kbd>`.
  */
-export const PromptShoulder = forwardRef<HTMLElement, PromptShoulderProps>(function PromptShoulder(
+export const PromptShoulder = /*#__PURE__*/ forwardRef<HTMLElement, PromptShoulderProps>(function PromptShoulder(
   { button, className, children, ...rest },
   ref,
 ) {
@@ -552,7 +552,7 @@ export type PromptDpadProps = PromptDpadOwnProps & Named & NativeProps<"span", P
  *
  * Renders `<span class="pp-prompt-dpad" role="img">`.
  */
-export const PromptDpad = forwardRef<HTMLSpanElement, PromptDpadProps>(function PromptDpad(
+export const PromptDpad = /*#__PURE__*/ forwardRef<HTMLSpanElement, PromptDpadProps>(function PromptDpad(
   { direction, className, ...rest },
   ref,
 ) {
@@ -571,7 +571,7 @@ export type PromptStartProps = NativeProps<"p">;
  * Renders `<p class="pp-prompt-start pp-display pp-pop" data-scale="2" data-pop="Press start">`; `data-pop` repeats
  * the text (when the children are text).
  */
-export const PromptStart = forwardRef<HTMLParagraphElement, PromptStartProps>(function PromptStart(
+export const PromptStart = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PromptStartProps>(function PromptStart(
   { className, children, ...rest },
   ref,
 ) {
@@ -615,7 +615,7 @@ export type StageProps<T extends ElementType = "section"> = PolymorphicProps<T, 
  *
  * Renders `<section class="pp-stage">`; `as="div"` for a small one inside something else (a feature's picture).
  */
-export const Stage = forwardRef(function Stage(
+export const Stage = /*#__PURE__*/ forwardRef(function Stage(
   { as: Tag = "section", frame, scheme, className, ...rest }: StageProps<ElementType>,
   ref,
 ) {
@@ -641,7 +641,7 @@ export type StageGroundProps = StageGroundOwnProps & NativeProps<"div", StageGro
  *
  * Renders `<div class="pp-stage-ground">`.
  */
-export const StageGround = forwardRef<HTMLDivElement, StageGroundProps>(function StageGround(
+export const StageGround = /*#__PURE__*/ forwardRef<HTMLDivElement, StageGroundProps>(function StageGround(
   { height, className, style, ...rest },
   ref,
 ) {
@@ -671,7 +671,7 @@ export type StageScrimProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-scrim">`.
  */
-export const StageScrim = forwardRef<HTMLDivElement, StageScrimProps>(function StageScrim({ className, ...rest }, ref) {
+export const StageScrim = /*#__PURE__*/ forwardRef<HTMLDivElement, StageScrimProps>(function StageScrim({ className, ...rest }, ref) {
   return <div ref={ref} className={cx("pp-scrim", className)} {...rest} />;
 });
 
@@ -704,7 +704,7 @@ export type HudProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-hud">`.
  */
-export const Hud = forwardRef<HTMLDivElement, HudProps>(function Hud({ className, ...rest }, ref) {
+export const Hud = /*#__PURE__*/ forwardRef<HTMLDivElement, HudProps>(function Hud({ className, ...rest }, ref) {
   return <div ref={ref} className={cx("pp-hud", className)} {...rest} />;
 });
 
@@ -718,7 +718,7 @@ export type HudGroupProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-hud-group">`.
  */
-export const HudGroup = forwardRef<HTMLDivElement, HudGroupProps>(function HudGroup({ className, ...rest }, ref) {
+export const HudGroup = /*#__PURE__*/ forwardRef<HTMLDivElement, HudGroupProps>(function HudGroup({ className, ...rest }, ref) {
   return <div ref={ref} className={cx("pp-hud-group", className)} {...rest} />;
 });
 
@@ -732,7 +732,7 @@ export type HudStatProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-hud-stat">`.
  */
-export const HudStat = forwardRef<HTMLDivElement, HudStatProps>(function HudStat({ className, ...rest }, ref) {
+export const HudStat = /*#__PURE__*/ forwardRef<HTMLDivElement, HudStatProps>(function HudStat({ className, ...rest }, ref) {
   return <div ref={ref} className={cx("pp-hud-stat", className)} {...rest} />;
 });
 
@@ -748,7 +748,7 @@ export type HudLabelProps = NativeProps<"span">;
  *
  * Renders `<span class="pp-hud-label pp-display pp-pop" data-scale="1" aria-hidden="true">`.
  */
-export const HudLabel = forwardRef<HTMLSpanElement, HudLabelProps>(function HudLabel({ className, ...rest }, ref) {
+export const HudLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, HudLabelProps>(function HudLabel({ className, ...rest }, ref) {
   return (
     <span
       ref={ref}
@@ -786,7 +786,7 @@ export type HudBarProps = HudBarOwnProps & Named & NativeProps<"div", HudBarOwnP
  * Renders `<div class="pp-box pp-hud-bar" role="meter" aria-valuemin="0" aria-valuemax aria-valuenow
  * style="--pp-hud-value: …">` with its `<span class="pp-hud-bar-fill">` inside.
  */
-export const HudBar = forwardRef<HTMLDivElement, HudBarProps>(function HudBar(
+export const HudBar = /*#__PURE__*/ forwardRef<HTMLDivElement, HudBarProps>(function HudBar(
   { value, max, segments, tone, className, style, ...rest },
   ref,
 ) {
@@ -818,7 +818,7 @@ export type CounterIconProps = NativeProps<"span">;
  *
  * Renders `<span class="pp-counter-icon">`.
  */
-export const CounterIcon = forwardRef<HTMLSpanElement, CounterIconProps>(function CounterIcon(
+export const CounterIcon = /*#__PURE__*/ forwardRef<HTMLSpanElement, CounterIconProps>(function CounterIcon(
   { className, ...rest },
   ref,
 ) {
@@ -859,7 +859,7 @@ export type DialogueNameProps = DialogueNameOwnProps & NativeProps<"span", Dialo
  *
  * Renders `<span class="pp-box pp-dialogue-name">`.
  */
-export const DialogueName = forwardRef<HTMLSpanElement, DialogueNameProps>(function DialogueName(
+export const DialogueName = /*#__PURE__*/ forwardRef<HTMLSpanElement, DialogueNameProps>(function DialogueName(
   { tone, className, ...rest },
   ref,
 ) {
@@ -881,7 +881,7 @@ export type DialoguePortraitProps = DialoguePortraitOwnProps & NativeProps<"div"
  *
  * Renders `<div class="pp-box pp-dialogue-portrait" data-variant="soft">`.
  */
-export const DialoguePortrait = forwardRef<HTMLDivElement, DialoguePortraitProps>(function DialoguePortrait(
+export const DialoguePortrait = /*#__PURE__*/ forwardRef<HTMLDivElement, DialoguePortraitProps>(function DialoguePortrait(
   { tone, className, ...rest },
   ref,
 ) {
@@ -907,7 +907,7 @@ export type DialogueBodyProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-dialogue-body">`.
  */
-export const DialogueBody = forwardRef<HTMLDivElement, DialogueBodyProps>(function DialogueBody(
+export const DialogueBody = /*#__PURE__*/ forwardRef<HTMLDivElement, DialogueBodyProps>(function DialogueBody(
   { className, ...rest },
   ref,
 ) {
@@ -927,7 +927,7 @@ export type DialogueTextProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-dialogue-text">`.
  */
-export const DialogueText = forwardRef<HTMLDivElement, DialogueTextProps>(function DialogueText(
+export const DialogueText = /*#__PURE__*/ forwardRef<HTMLDivElement, DialogueTextProps>(function DialogueText(
   { className, ...rest },
   ref,
 ) {
@@ -950,7 +950,7 @@ export type ChoiceListProps = ChoiceListOwnProps & NativeProps<"ul", ChoiceListO
  * side for the white glove that points at the choice under the cursor or the keyboard. One {@link Choice} in each
  * `<li>`; keep the safe one last.
  *
- *   <Choices onChoice={(e) => start(e.detail.value)}>
+ *   <Choices onAction={(e) => start(e.detail.value)}>
  *     <ChoiceList font="display">
  *       <li><Choice value="new">New game</Choice></li>
  *       <li><Choice value="continue">Continue</Choice></li>
@@ -959,7 +959,7 @@ export type ChoiceListProps = ChoiceListOwnProps & NativeProps<"ul", ChoiceListO
  *
  * Renders `<ul class="pp-choices" role="list">`.
  */
-export const ChoiceList = forwardRef<HTMLUListElement, ChoiceListProps>(function ChoiceList(
+export const ChoiceList = /*#__PURE__*/ forwardRef<HTMLUListElement, ChoiceListProps>(function ChoiceList(
   { font, role = "list", className, ...rest },
   ref,
 ) {
@@ -984,7 +984,7 @@ export type ChoiceProps = ChoiceOwnProps & NativeProps<"button", ChoiceOwnProps>
  *
  * Renders `<button type="button" class="pp-box pp-choice" data-variant="ghost">`.
  */
-export const Choice = forwardRef<HTMLButtonElement, ChoiceProps>(function Choice(
+export const Choice = /*#__PURE__*/ forwardRef<HTMLButtonElement, ChoiceProps>(function Choice(
   { type = "button", variant = "ghost", className, ...rest },
   ref,
 ) {
@@ -1003,7 +1003,7 @@ export type ChoiceAsideProps = NativeProps<"span">;
  *
  * Renders `<span class="pp-choice-aside">`.
  */
-export const ChoiceAside = forwardRef<HTMLSpanElement, ChoiceAsideProps>(function ChoiceAside(
+export const ChoiceAside = /*#__PURE__*/ forwardRef<HTMLSpanElement, ChoiceAsideProps>(function ChoiceAside(
   { className, ...rest },
   ref,
 ) {
@@ -1047,7 +1047,7 @@ export type SlotProps<T extends ElementType = "button"> = PolymorphicProps<T, Sl
  * Renders `<button type="button" class="pp-box pp-slot" data-variant="soft">`; `as="span"` for a picture of a slot
  * outside the grid (beside the selected item's details).
  */
-export const Slot = forwardRef(function Slot(
+export const Slot = /*#__PURE__*/ forwardRef(function Slot(
   {
     as: Tag = "button",
     type,
@@ -1087,7 +1087,7 @@ export type SlotCountProps = NativeProps<"span">;
  *
  * Renders `<span class="pp-slot-count pp-display pp-pop" data-scale="1" aria-hidden="true">`.
  */
-export const SlotCount = forwardRef<HTMLSpanElement, SlotCountProps>(function SlotCount({ className, ...rest }, ref) {
+export const SlotCount = /*#__PURE__*/ forwardRef<HTMLSpanElement, SlotCountProps>(function SlotCount({ className, ...rest }, ref) {
   return (
     <span
       ref={ref}
@@ -1114,7 +1114,7 @@ export type SlotTagProps = SlotTagOwnProps & NativeProps<"span", SlotTagOwnProps
  *
  * Renders `<span class="pp-box pp-slot-tag" aria-hidden="true">`.
  */
-export const SlotTag = forwardRef<HTMLSpanElement, SlotTagProps>(function SlotTag({ tone, className, ...rest }, ref) {
+export const SlotTag = /*#__PURE__*/ forwardRef<HTMLSpanElement, SlotTagProps>(function SlotTag({ tone, className, ...rest }, ref) {
   return (
     <span ref={ref} className={cx("pp-box pp-slot-tag", className)} data-tone={tone} aria-hidden={true} {...rest} />
   );

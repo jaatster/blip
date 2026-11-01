@@ -3,7 +3,8 @@
  * button-group.css, link.css).
  */
 import { forwardRef } from "react";
-import type { ReactNode } from "react";
+import type { ElementType, ReactNode } from "react";
+import type { PolymorphicComponent, PolymorphicProps } from "../internal/polymorphic.js";
 import { box, cx, flag, type BoxProps, type NativeProps, type Size } from "../internal/props.js";
 
 /** What every button takes besides its tier, tone and radius. */
@@ -61,7 +62,7 @@ export type ButtonProps = ButtonOptions &
  * Renders `<button class="pp-box pp-button">`. Like a native button it submits a form it sits in: give buttons
  * outside forms (or beside the submit button) `type="button"`.
  */
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+export const Button = /*#__PURE__*/ forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   { variant, tone, radius, size, fullWidth, busy, iconOnly, pressed, commandFor, command, className, ...rest },
   ref,
 ) {
@@ -79,21 +80,22 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   );
 });
 
-/** Props for {@link ButtonLink}. */
-export type ButtonLinkProps = ButtonOptions & IconOnly & { href: string; children?: ReactNode } & NativeProps<"a", ButtonOptions & { iconOnly?: boolean }>;
+/** Props for {@link ButtonLink}: a link's by default, or your router's link's with `as`. */
+export type ButtonLinkProps<T extends ElementType = "a"> = PolymorphicProps<T, ButtonOptions & IconOnly>;
 
 /**
  * A link that must look like a button (a call to action that goes somewhere). Renders `<a class="pp-box
- * pp-button">`.
+ * pp-button">`; with `as`, your router's link (it gets the same classes and attributes).
  *
  *   <ButtonLink href="/play" size="lg">Play now</ButtonLink>
+ *   <ButtonLink as={NextLink} href="/play" size="lg">Play now</ButtonLink>
  */
-export const ButtonLink = forwardRef<HTMLAnchorElement, ButtonLinkProps>(function ButtonLink(
-  { variant, tone, radius, size, fullWidth, busy, iconOnly, className, ...rest },
+export const ButtonLink = /*#__PURE__*/ forwardRef(function ButtonLink(
+  { as: Tag = "a", variant, tone, radius, size, fullWidth, busy, iconOnly, className, ...rest }: ButtonLinkProps<ElementType>,
   ref,
 ) {
-  return <a ref={ref} className={cx("pp-box pp-button", className)} {...buttonAttrs({ variant, tone, radius, size, fullWidth, busy, iconOnly })} {...rest} />;
-});
+  return <Tag ref={ref} className={cx("pp-box pp-button", className)} {...buttonAttrs({ variant, tone, radius, size, fullWidth, busy, iconOnly })} {...rest} />;
+}) as PolymorphicComponent<"a", ButtonOptions & IconOnly>;
 
 /** Props for {@link ToggleButton}. */
 export type ToggleButtonProps = Omit<ButtonProps, "pressed"> & {
@@ -108,7 +110,7 @@ export type ToggleButtonProps = Omit<ButtonProps, "pressed"> & {
  *
  *   <ToggleButton pressed={grid} onClick={() => setGrid(!grid)}>Show grid</ToggleButton>
  */
-export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(function ToggleButton({ type = "button", ...props }, ref) {
+export const ToggleButton = /*#__PURE__*/ forwardRef<HTMLButtonElement, ToggleButtonProps>(function ToggleButton({ type = "button", ...props }, ref) {
   return <Button ref={ref} type={type} {...(props as ButtonProps)} />;
 });
 
@@ -131,7 +133,7 @@ export type ButtonGroupProps = ButtonGroupOwnProps & NativeProps<"div", ButtonGr
  *     <ToggleButton variant="outline" pressed={italic}>Italic</ToggleButton>
  *   </ButtonGroup>
  */
-export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(function ButtonGroup({ attached, fullWidth, className, role = "group", ...rest }, ref) {
+export const ButtonGroup = /*#__PURE__*/ forwardRef<HTMLDivElement, ButtonGroupProps>(function ButtonGroup({ attached, fullWidth, className, role = "group", ...rest }, ref) {
   return <div ref={ref} className={cx("pp-button-group", className)} role={role} data-attached={flag(attached)} data-width={fullWidth ? "full" : undefined} {...rest} />;
 });
 
@@ -145,20 +147,21 @@ export interface LinkOwnProps {
    */
   external?: string | true;
 }
-export type LinkProps = LinkOwnProps & NativeProps<"a", LinkOwnProps>;
+/** Props for {@link Link}: a link's by default, or your router's link's with `as`. */
+export type LinkProps<T extends ElementType = "a"> = PolymorphicProps<T, LinkOwnProps>;
 
 /**
  * Words that go somewhere: underlined, in the accent's text colour; focus paints it yellow with ink letters.
- * Renders `<a class="pp-link">`. For a router's own link component, give it `className="pp-link"` (and the same
- * data attributes): the class is all the styling.
+ * Renders `<a class="pp-link">`; with `as`, your router's link (the class is all the styling).
  *
  *   <Link href="/rules">house rules</Link>
  *   <Link standalone href="/levels">All levels</Link>
  *   <Link href="https://example.com/wiki" target="_blank" rel="noopener" external>Wiki</Link>
+ *   <Link as={RouterLink} to="/rules">house rules</Link>
  */
-export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link({ standalone, external, className, ...rest }, ref) {
+export const Link = /*#__PURE__*/ forwardRef(function Link({ as: Tag = "a", standalone, external, className, ...rest }: LinkProps<ElementType>, ref) {
   return (
-    <a
+    <Tag
       ref={ref}
       className={cx("pp-link", className)}
       data-variant={standalone ? "standalone" : undefined}
@@ -166,4 +169,4 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(function Link({ sta
       {...rest}
     />
   );
-});
+}) as PolymorphicComponent<"a", LinkOwnProps>;

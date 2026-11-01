@@ -2,8 +2,9 @@
  * <pp-combobox>: a text field with a list of suggestions, the WAI-ARIA editable combobox with list and inline
  * autocomplete. The suggestions come from a <datalist>, so without JavaScript the browser's own list still works.
  * Typing filters the list and completes the first suggestion that starts with what you typed (the completion is
- * selected, so typing on replaces it); the arrow keys move through the list; Enter takes the active suggestion;
- * Escape closes the list, then clears the field.
+ * selected, so typing on replaces it; aria-autocomplete="list" on the input turns completing off, for a value your
+ * framework controls); the arrow keys move through the list; Enter takes the active suggestion; Escape closes the
+ * list, then clears the field.
  *
  *   <pp-combobox class="pp-combobox">
  *     <span class="pp-box pp-input"><input id="world" name="world" list="worlds"></span>
@@ -12,10 +13,13 @@
  *
  * The form value is the chosen suggestion's value ("caves"), or the text when it matches none. The input's name
  * moves to the element, so the value is sent once. The list opens in the top layer where the browser has anchor
- * positioning, so no scrolling box clips it. Attributes: name, value, open, empty-text ("No matches"),
- * toggle-label ("Show suggestions"). Properties: value, open. Event: pp-change { value }.
+ * positioning, so no scrolling box clips it. Options that change while you type (a list a framework renders from
+ * a search) are read again as they change, and an input rendered later is wired when it arrives. Attributes: name,
+ * value, open, empty-text ("No matches"), toggle-label ("Show suggestions"). Properties: value, open. Events:
+ * pp-change { value }, pp-open, pp-close.
  */
 import { PixelElement, dismiss, warn } from "@jaatster/blip-core";
+import { both, isOn, observe, unFalse } from "./_dom.js";
 
 let uid = 0;
 interface Suggestion {
@@ -29,6 +33,9 @@ const make = (tag: string, className: string, attrs: Record<string, string> = {}
   for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v);
   return el;
 };
+/** Writes the text as typing does, past the record of it a framework may keep on the input (React does, for a
+    controlled input), so the input event that follows reaches the framework as a change. */
+const type = (input: HTMLInputElement, text: string): boolean => Reflect.set(HTMLInputElement.prototype, "value", text, input);
 /** The top layer, positioned by CSS anchors scoped to each combobox: only where all of that exists (the same test
     as the stylesheet's @supports). Elsewhere the list is placed absolutely under the field. */
 const topLayer =
@@ -41,11 +48,13 @@ const topLayer =
  * @summary A text field with a list of suggestions.
  * @attr {string} name - The form field name; taken from the input when left out.
  * @attr {string} value - The starting value (a suggestion's value, or text). The value property is the current one.
- * @attr {boolean} open - The list of suggestions is showing.
+ * @attr {boolean} open - The list of suggestions is showing. "false" is off.
  * @attr {string} [empty-text="No matches"] - Shown in the list when nothing matches.
  * @attr {string} [toggle-label="Show suggestions"] - The toggle button's accessible name.
  * @fires {CustomEvent<{ value: string }>} pp-change - Once per new value: a suggestion taken, the field cleared, or
  * typed text committed.
+ * @fires {CustomEvent<void>} pp-open - The list of suggestions opened.
+ * @fires {CustomEvent<void>} pp-close - The list of suggestions closed.
  */
 export class PixelCombobox extends PixelElement {
   static formAssociated = true;
@@ -65,6 +74,11 @@ export class PixelCombobox extends PixelElement {
   #initial: string | null = null;
   #pending: string | undefined;
   #last = "";
+  /** The datalist's id, from the input's list attribute (the element takes the attribute off the input). */
+  #listId = "";
+  /** Whether the list was open when pp-open or pp-close last went out. */
+  #shown = false;
+  #wiring?: AbortController;
 
   /** The form value: the matching suggestion's value, or the text. */
   get value(): string {
@@ -82,10 +96,11 @@ export class PixelCombobox extends PixelElement {
     this.#last = this.value;
   }
   get open(): boolean {
-    return this.hasAttribute("open");
+    return isOn(this, "open");
   }
   set open(v: boolean) {
-    this.toggleAttribute("open", v);
+    if (v) this.setAttribute("open", "");
+    else this.removeAttribute("open");
   }
   get form(): HTMLFormElement | null {
     return this.#internals.form;
@@ -99,16 +114,61 @@ export class PixelCombobox extends PixelElement {
   }
 
   protected connected(): void {
-    const input = (this.#input = this.querySelector("input"));
-    if (!input) return warn("PP-E001", "<pp-combobox> needs an <input> inside.", this);
-    this.#data ??= input.list ?? this.querySelector("datalist");
+    this.#input = null;
+    this.#wire();
+    // Content rendered later is wired as it comes: an input, a datalist, and options that change as you type. The
+    // page may switch the field on or off later too: the toggle and the form value follow.
+    observe(this, this.signal, () => {
+      this.#wire();
+      this.#lock();
+      if (this.#locked()) this.#close();
+    }, (r) => (r.type === "childList" ? !this.#popup.contains(r.target) : r.target === this.#input ? r.attributeName !== "value" : !!r.target.parentElement?.closest("datalist")), {
+      characterData: true,
+      attributeFilter: ["value", "label", "disabled", "readonly"],
+    });
+    if (!this.#input && this.children.length) warn("PP-E001", "<pp-combobox> needs an <input> inside.", this);
+    const option = (e: Event) => this.#options.findIndex((o) => o.el === (e.target as Element).closest('[role="option"]'));
+    // The pointer never takes the focus from the field.
+    this.on(this.#toggle, "pointerdown", (e) => e.preventDefault());
+    this.on(this.#popup, "pointerdown", (e) => e.preventDefault());
+    this.on(this.#toggle, "click", () => {
+      if (this.#locked()) return;
+      if (this.open) this.#close();
+      else this.#show();
+      this.#input?.focus();
+    });
+    this.on(this.#list, "pointermove", (e) => {
+      const i = option(e);
+      if (i >= 0 && i !== this.#active) this.#activate(i);
+    });
+    this.on(this.#list, "click", (e) => this.#accept(option(e)));
+    dismiss(this, { onDismiss: () => this.#close(), signal: this.signal });
+    this.attributeChangedCallback();
+  }
+
+  /** Wires the input there is now (once per input) and reads the suggestions again. */
+  #wire(): void {
+    const input = this.querySelector("input");
+    const id = this.#listId || input?.getAttribute("list") || "";
+    const data = (id ? document.getElementById(id) : null) ?? this.querySelector("datalist");
+    this.#data = data instanceof HTMLDataListElement ? data : null;
+    this.#read();
+    if (input && input !== this.#input) this.#setup(input);
+  }
+
+  /** Makes the input the combobox: ARIA, the toggle beside it, the popup, its keys, and the form value. */
+  #setup(input: HTMLInputElement): void {
+    this.#wiring?.abort();
+    const signal = both(this.signal, (this.#wiring = new AbortController()).signal);
+    this.#input = input;
+    this.#listId ||= input.getAttribute("list") ?? "";
     input.removeAttribute("list");
     if (input.name) {
       if (!this.hasAttribute("name")) this.setAttribute("name", input.name);
       input.removeAttribute("name");
     }
     const listId = this.#list.id;
-    for (const [k, v] of Object.entries({ role: "combobox", "aria-autocomplete": "both", "aria-expanded": "false", "aria-controls": listId })) input.setAttribute(k, v);
+    for (const [k, v] of Object.entries({ role: "combobox", "aria-autocomplete": input.getAttribute("aria-autocomplete") ?? "both", "aria-expanded": String(this.open), "aria-controls": listId })) input.setAttribute(k, v);
     if (!input.hasAttribute("autocomplete")) input.autocomplete = "off";
     if (!this.#toggle.firstChild) this.#toggle.append(document.createElement("span"));
     this.#toggle.setAttribute("aria-label", this.getAttribute("toggle-label") ?? "Show suggestions");
@@ -118,13 +178,6 @@ export class PixelCombobox extends PixelElement {
     this.#popup.replaceChildren(this.#list, this.#empty);
     input.parentElement?.append(this.#toggle);
     this.append(this.#popup);
-
-    this.#options = [...(this.#data?.options ?? [])].map((o, i) => {
-      const el = make("div", "pp-box pp-combobox-option", { role: "option", id: `${this.#id}-${i}`, "aria-selected": "false", "data-variant": "ghost" });
-      el.textContent = o.label || o.value;
-      return { el, value: o.value, label: el.textContent };
-    });
-    this.#list.replaceChildren(...this.#options.map((o) => o.el));
 
     if (this.#pending !== undefined) {
       this.value = this.#pending;
@@ -138,37 +191,33 @@ export class PixelCombobox extends PixelElement {
     this.#last = this.value;
     this.#lock();
 
-    const option = (e: Event) => this.#options.findIndex((o) => o.el === (e.target as Element).closest('[role="option"]'));
-    this.on(input, "input", (e) => this.#typed(e));
-    this.on(input, "keydown", (e) => this.#key(e as KeyboardEvent));
-    this.on(input, "change", () => this.#changed());
-    // The pointer never takes the focus from the field.
-    this.on(this.#toggle, "pointerdown", (e) => e.preventDefault());
-    this.on(this.#popup, "pointerdown", (e) => e.preventDefault());
-    this.on(this.#toggle, "click", () => {
-      if (this.#locked()) return;
-      if (this.open) this.#close();
-      else this.#show();
-      input.focus();
-    });
-    this.on(this.#list, "pointermove", (e) => {
-      const i = option(e);
-      if (i >= 0 && i !== this.#active) this.#activate(i);
-    });
-    this.on(this.#list, "click", (e) => this.#accept(option(e)));
-    dismiss(this, { onDismiss: () => this.#close(), signal: this.signal });
-    // The page may switch the field on or off later: keep the toggle and the form value in step.
-    const watch = new MutationObserver(() => {
-      this.#lock();
-      this.#store();
-      if (this.#locked()) this.#close();
-    });
-    watch.observe(input, { attributes: true, attributeFilter: ["disabled", "readonly"] });
-    this.signal.addEventListener("abort", () => watch.disconnect(), { once: true });
-    this.attributeChangedCallback();
+    input.addEventListener("input", (e) => this.#typed(e), { signal });
+    input.addEventListener("keydown", (e) => this.#key(e), { signal });
+    input.addEventListener("change", () => this.#changed(), { signal });
   }
 
-  attributeChangedCallback(): void {
+  /** The suggestions, from the datalist. While the list is open it is filtered again, and the active one kept. */
+  #read(): void {
+    const before = this.#options[this.#active]?.value;
+    this.#options = [...(this.#data?.options ?? [])].map((o, i) => {
+      const el = make("div", "pp-box pp-combobox-option", { role: "option", id: `${this.#id}-${i}`, "aria-selected": "false", "data-variant": "ghost" });
+      el.textContent = o.label || o.value;
+      return { el, value: o.value, label: el.textContent };
+    });
+    this.#list.replaceChildren(...this.#options.map((o) => o.el));
+    if (!this.#input) return;
+    if (this.open) {
+      // Filtered by what was typed: the text, less a completion still selected at its end.
+      const { value, selectionStart: from, selectionEnd: to } = this.#input;
+      this.#filter(to === value.length && from! < to ? value.slice(0, from!) : value);
+      this.#activate(this.#options.findIndex((o) => o.value === before && !o.el.hidden));
+    }
+    // The text may name a suggestion now (or no longer): the form value follows.
+    this.#store();
+  }
+
+  attributeChangedCallback(name?: string, _old?: string | null, value?: string | null): void {
+    if (name && unFalse(this, name, value ?? null)) return;
     const open = this.open && !!this.#input;
     if (topLayer && this.#popup.popover) {
       if (this.#popup.isConnected) this.#popup.togglePopover(open);
@@ -177,6 +226,9 @@ export class PixelCombobox extends PixelElement {
     this.#input?.setAttribute("aria-expanded", String(open));
     this.#toggle.setAttribute("aria-expanded", String(open));
     if (!open) this.#activate(-1);
+    if (open === this.#shown) return;
+    this.#shown = open;
+    this.emit(open ? "open" : "close");
   }
 
   formResetCallback(): void {
@@ -235,24 +287,27 @@ export class PixelCombobox extends PixelElement {
     this.open = false;
   }
 
-  /** Typing: filter, open, and complete the first suggestion that starts with the text. */
+  /** Typing: filter and open. Then, once the input event has reached the page (so a framework hears what was
+      typed), complete the first suggestion that starts with the text, unless the input says aria-autocomplete="list". */
   #typed(e: Event): void {
     if (!(e instanceof InputEvent)) return; // our own events
     const input = this.#input!;
     const text = input.value;
     const shown = this.#filter(text);
     this.open = true;
-    let active = -1;
-    if (text && e.inputType.startsWith("insert") && !e.isComposing && input.selectionEnd === text.length) {
-      const hit = shown.find((o) => o.label.toLowerCase().startsWith(text.toLowerCase()));
-      if (hit) {
-        input.value = text + hit.label.slice(text.length);
-        input.setSelectionRange(text.length, hit.label.length, "backward");
-        active = this.#options.indexOf(hit);
-      }
-    }
-    this.#activate(active);
+    this.#activate(-1);
     this.#store();
+    if (!text || !e.inputType.startsWith("insert") || e.isComposing || input.selectionEnd !== text.length || input.getAttribute("aria-autocomplete") === "list") return;
+    // A task later: a person's keystroke runs microtasks between listeners, so a framework's root listener would
+    // otherwise hear the completion instead of what was typed.
+    setTimeout(() => {
+      const hit = shown.find((o) => o.label.toLowerCase().startsWith(text.toLowerCase()));
+      if (!hit || input.value !== text) return;
+      input.value = text + hit.label.slice(text.length);
+      input.setSelectionRange(text.length, hit.label.length, "backward");
+      this.#activate(this.#options.indexOf(hit));
+      this.#store();
+    });
   }
 
   #key(e: KeyboardEvent): void {
@@ -280,7 +335,7 @@ export class PixelCombobox extends PixelElement {
         this.#close();
       } else if (this.#input!.value) {
         e.preventDefault();
-        this.#input!.value = "";
+        type(this.#input!, "");
         this.#store(true);
       }
     } else if (e.key === "Tab") this.#close();
@@ -301,7 +356,7 @@ export class PixelCombobox extends PixelElement {
     const o = this.#options[i];
     const input = this.#input;
     if (!o || !input || this.#locked()) return;
-    input.value = o.label;
+    type(input, o.label);
     input.setSelectionRange(o.label.length, o.label.length);
     this.#close();
     this.#store(true);

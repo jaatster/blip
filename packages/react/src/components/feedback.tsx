@@ -51,7 +51,7 @@ export type AlertProps = AlertOwnProps & NativeProps<"div", AlertOwnProps>;
  *     <AlertClose onClick={dismiss} />
  *   </Alert>
  */
-export const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
+export const Alert = /*#__PURE__*/ forwardRef<HTMLDivElement, AlertProps>(function Alert(
   { tone, variant, radius, className, ...rest },
   ref,
 ) {
@@ -68,7 +68,7 @@ export type AlertIconProps = NativeProps<"span">;
  *
  *   <AlertIcon />
  */
-export const AlertIcon = forwardRef<HTMLSpanElement, AlertIconProps>(function AlertIcon({ className, ...rest }, ref) {
+export const AlertIcon = /*#__PURE__*/ forwardRef<HTMLSpanElement, AlertIconProps>(function AlertIcon({ className, ...rest }, ref) {
   return <span ref={ref} className={cx("pp-alert-icon", className)} aria-hidden {...rest} />;
 });
 
@@ -80,7 +80,7 @@ export type AlertBodyProps = NativeProps<"div">;
  *
  *   <AlertBody><AlertTitle>Backup complete</AlertTitle><p>All three save slots are backed up.</p></AlertBody>
  */
-export const AlertBody = forwardRef<HTMLDivElement, AlertBodyProps>(function AlertBody({ className, ...rest }, ref) {
+export const AlertBody = /*#__PURE__*/ forwardRef<HTMLDivElement, AlertBodyProps>(function AlertBody({ className, ...rest }, ref) {
   return <div ref={ref} className={cx("pp-alert-body", className)} {...rest} />;
 });
 
@@ -93,7 +93,7 @@ export type AlertTitleProps = NativeProps<"p">;
  *
  *   <AlertTitle><span className="pp-sr-only">Warning: </span>Storage almost full</AlertTitle>
  */
-export const AlertTitle = forwardRef<HTMLParagraphElement, AlertTitleProps>(function AlertTitle(
+export const AlertTitle = /*#__PURE__*/ forwardRef<HTMLParagraphElement, AlertTitleProps>(function AlertTitle(
   { className, ...rest },
   ref,
 ) {
@@ -109,7 +109,7 @@ export type AlertActionsProps = NativeProps<"div">;
  *
  *   <AlertActions><Button type="button" size="sm" variant="outline">Free up space</Button></AlertActions>
  */
-export const AlertActions = forwardRef<HTMLDivElement, AlertActionsProps>(function AlertActions(
+export const AlertActions = /*#__PURE__*/ forwardRef<HTMLDivElement, AlertActionsProps>(function AlertActions(
   { className, ...rest },
   ref,
 ) {
@@ -128,7 +128,7 @@ export type AlertCloseProps = NativeProps<"button", { children?: never }>;
  *
  *   <AlertClose onClick={() => setShown(false)} />
  */
-export const AlertClose = forwardRef<HTMLButtonElement, AlertCloseProps>(function AlertClose(
+export const AlertClose = /*#__PURE__*/ forwardRef<HTMLButtonElement, AlertCloseProps>(function AlertClose(
   { type = "button", "aria-label": label = "Dismiss", className, ...rest },
   ref,
 ) {
@@ -177,7 +177,7 @@ export type ProgressProps = ProgressOwnProps & BarName & NativeProps<"progress",
  *   <Progress id="load" tone="success" max={100} value={60}>60%</Progress>
  *   <Progress aria-label="Finding a match">Searching</Progress>
  */
-export const Progress = forwardRef<HTMLProgressElement, ProgressProps>(function Progress(
+export const Progress = /*#__PURE__*/ forwardRef<HTMLProgressElement, ProgressProps>(function Progress(
   { tone, size, className, style, ...rest },
   ref,
 ) {
@@ -197,7 +197,7 @@ export type ProgressLabelProps = NativeProps<"div">;
  *
  *   <ProgressLabel><label htmlFor="up">Uploading replay</label><span>3 of 8 files</span></ProgressLabel>
  */
-export const ProgressLabel = forwardRef<HTMLDivElement, ProgressLabelProps>(function ProgressLabel(
+export const ProgressLabel = /*#__PURE__*/ forwardRef<HTMLDivElement, ProgressLabelProps>(function ProgressLabel(
   { className, ...rest },
   ref,
 ) {
@@ -224,7 +224,7 @@ export type MeterProps = MeterOwnProps & BarName & NativeProps<"meter", MeterOwn
  *
  *   <Meter min={0} max={10} low={4} high={7} optimum={10} value={6} aria-label="Health">6 of 10</Meter>
  */
-export const Meter = forwardRef<HTMLMeterElement, MeterProps>(function Meter(
+export const Meter = /*#__PURE__*/ forwardRef<HTMLMeterElement, MeterProps>(function Meter(
   { tone, size, className, style, ...rest },
   ref,
 ) {
@@ -263,7 +263,7 @@ export type LoaderProps = LoaderOwnProps & NativeProps<"span", LoaderOwnProps>;
  *   <Loader size="lg"><span className="pp-sr-only">Loading</span></Loader>
  *   <Loader variant="dots" tone="warning">Reconnecting</Loader>
  */
-export const Loader = forwardRef<HTMLSpanElement, LoaderProps>(function Loader(
+export const Loader = /*#__PURE__*/ forwardRef<HTMLSpanElement, LoaderProps>(function Loader(
   { variant, size, tone, role = "status", className, ...rest },
   ref,
 ) {
@@ -307,7 +307,7 @@ export type SkeletonProps<T extends ElementType = "span"> = PolymorphicProps<T, 
  *     </div>
  *   </div>
  */
-export const Skeleton = forwardRef(function Skeleton(
+export const Skeleton = /*#__PURE__*/ forwardRef(function Skeleton(
   { as: Tag = "span", shape, size, style, className, ...rest }: SkeletonProps<ElementType>,
   ref,
 ) {
@@ -326,8 +326,11 @@ export const Skeleton = forwardRef(function Skeleton(
 
 /** Own props of {@link EmptyState}. */
 export interface EmptyStateOwnProps {
-  /** Medium (default), or small in panels, cards and sidebars: the picture at a pixel a unit. `data-size`. */
-  size?: "sm" | "md";
+  /**
+   * The picture at one, two (default) or three pixels a unit: small in panels, cards and sidebars, large on a screen
+   * of its own. `data-size`.
+   */
+  size?: Size;
 }
 export type EmptyStateProps = EmptyStateOwnProps & NativeProps<"div", EmptyStateOwnProps>;
 
@@ -343,7 +346,7 @@ export type EmptyStateProps = EmptyStateOwnProps & NativeProps<"div", EmptyState
  *     <EmptyStateActions><Button>New game</Button></EmptyStateActions>
  *   </EmptyState>
  */
-export const EmptyState = forwardRef<HTMLDivElement, EmptyStateProps>(function EmptyState(
+export const EmptyState = /*#__PURE__*/ forwardRef<HTMLDivElement, EmptyStateProps>(function EmptyState(
   { size, className, ...rest },
   ref,
 ) {
@@ -364,7 +367,7 @@ export type EmptyStateArtProps = EmptyStateArtOwnProps & NativeProps<"svg", Empt
  *
  *   <EmptyStateArt viewBox="0 0 32 24"><path style={{ fill: "var(--pp-outline)" }} d="M1 4h3v1H1z" /></EmptyStateArt>
  */
-export const EmptyStateArt = forwardRef<SVGSVGElement, EmptyStateArtProps>(function EmptyStateArt(
+export const EmptyStateArt = /*#__PURE__*/ forwardRef<SVGSVGElement, EmptyStateArtProps>(function EmptyStateArt(
   { className, ...rest },
   ref,
 ) {
@@ -379,7 +382,7 @@ export type EmptyStateTitleProps<T extends ElementType = "h2"> = PolymorphicProp
  *
  *   <EmptyStateTitle as="h3">No items</EmptyStateTitle>
  */
-export const EmptyStateTitle = forwardRef(function EmptyStateTitle(
+export const EmptyStateTitle = /*#__PURE__*/ forwardRef(function EmptyStateTitle(
   { as: Tag = "h2", className, ...rest }: EmptyStateTitleProps<ElementType>,
   ref,
 ) {
@@ -395,7 +398,7 @@ export type EmptyStateTextProps = NativeProps<"p">;
  *
  *   <EmptyStateText>Open chests to fill your bag.</EmptyStateText>
  */
-export const EmptyStateText = forwardRef<HTMLParagraphElement, EmptyStateTextProps>(function EmptyStateText(
+export const EmptyStateText = /*#__PURE__*/ forwardRef<HTMLParagraphElement, EmptyStateTextProps>(function EmptyStateText(
   { className, ...rest },
   ref,
 ) {
@@ -411,7 +414,7 @@ export type EmptyStateActionsProps = NativeProps<"div">;
  *
  *   <EmptyStateActions><Button>New game</Button><Button variant="ghost">Load from file</Button></EmptyStateActions>
  */
-export const EmptyStateActions = forwardRef<HTMLDivElement, EmptyStateActionsProps>(function EmptyStateActions(
+export const EmptyStateActions = /*#__PURE__*/ forwardRef<HTMLDivElement, EmptyStateActionsProps>(function EmptyStateActions(
   { className, ...rest },
   ref,
 ) {
@@ -429,8 +432,8 @@ export interface BadgeOwnProps {
   tone?: Tone;
   /** Candy (default), or soft and outline for quieter labels in dense lists. `data-variant`. */
   variant?: "candy" | "soft" | "outline";
-  /** 8 or 10 (default) pixels high: small when pinned to small buttons. `data-size`. */
-  size?: "sm" | "md";
+  /** 8, 10 (default) or 12 pixels high: small when pinned to small buttons. `data-size`. */
+  size?: Size;
   /**
    * Pinned over that corner of its parent: a `.pp-box` (a button, an avatar) or a {@link BadgeAnchor}. A pinned
    * badge is a picture of what its parent's name says: hide it and put the real count in that name.
@@ -460,7 +463,7 @@ export type BadgeProps = BadgeOwnProps & BadgeDot & NativeProps<"span", BadgeOwn
  *   </Button>
  *   <Badge dot tone="success" role="img" aria-label="Online" />
  */
-export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
+export const Badge = /*#__PURE__*/ forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
   { tone, variant, size, position, dot, className, ...rest },
   ref,
 ) {
@@ -489,7 +492,7 @@ export type BadgeAnchorProps = NativeProps<"span">;
  *     <Badge tone="success" size="sm" position="top-end" aria-hidden>2</Badge>
  *   </BadgeAnchor>
  */
-export const BadgeAnchor = forwardRef<HTMLSpanElement, BadgeAnchorProps>(function BadgeAnchor(
+export const BadgeAnchor = /*#__PURE__*/ forwardRef<HTMLSpanElement, BadgeAnchorProps>(function BadgeAnchor(
   { className, ...rest },
   ref,
 ) {
@@ -526,7 +529,7 @@ export type ToastProps = ToastOwnProps & Named & NativeProps<"div", ToastOwnProp
  *     <ToastTimer />
  *   </Toast>
  */
-export const Toast = forwardRef<HTMLDivElement, ToastProps>(function Toast(
+export const Toast = /*#__PURE__*/ forwardRef<HTMLDivElement, ToastProps>(function Toast(
   { tone, variant, role = "group", className, ...rest },
   ref,
 ) {
@@ -544,7 +547,7 @@ export type ToastIconProps = NativeProps<"span">;
  *
  *   <ToastIcon />
  */
-export const ToastIcon = forwardRef<HTMLSpanElement, ToastIconProps>(function ToastIcon({ className, ...rest }, ref) {
+export const ToastIcon = /*#__PURE__*/ forwardRef<HTMLSpanElement, ToastIconProps>(function ToastIcon({ className, ...rest }, ref) {
   return <span ref={ref} className={cx("pp-toast-icon", className)} aria-hidden {...rest} />;
 });
 
@@ -556,7 +559,7 @@ export type ToastBodyProps = NativeProps<"div">;
  *
  *   <ToastBody><ToastTitle>Level clear!</ToastTitle><p>3 of 3 stars, 2:41.</p></ToastBody>
  */
-export const ToastBody = forwardRef<HTMLDivElement, ToastBodyProps>(function ToastBody({ className, ...rest }, ref) {
+export const ToastBody = /*#__PURE__*/ forwardRef<HTMLDivElement, ToastBodyProps>(function ToastBody({ className, ...rest }, ref) {
   return <div ref={ref} className={cx("pp-toast-body", className)} {...rest} />;
 });
 
@@ -568,7 +571,7 @@ export type ToastTitleProps = NativeProps<"p">;
  *
  *   <ToastTitle>Saved to slot 2</ToastTitle>
  */
-export const ToastTitle = forwardRef<HTMLParagraphElement, ToastTitleProps>(function ToastTitle(
+export const ToastTitle = /*#__PURE__*/ forwardRef<HTMLParagraphElement, ToastTitleProps>(function ToastTitle(
   { className, ...rest },
   ref,
 ) {
@@ -583,7 +586,7 @@ export type ToastActionsProps = NativeProps<"div">;
  *
  *   <ToastActions><ToastAction>Undo</ToastAction></ToastActions>
  */
-export const ToastActions = forwardRef<HTMLDivElement, ToastActionsProps>(function ToastActions(
+export const ToastActions = /*#__PURE__*/ forwardRef<HTMLDivElement, ToastActionsProps>(function ToastActions(
   { className, ...rest },
   ref,
 ) {
@@ -600,7 +603,7 @@ export type ToastActionProps = NativeProps<"button">;
  *
  *   <ToastAction onClick={undo}>Undo</ToastAction>
  */
-export const ToastAction = forwardRef<HTMLButtonElement, ToastActionProps>(function ToastAction(
+export const ToastAction = /*#__PURE__*/ forwardRef<HTMLButtonElement, ToastActionProps>(function ToastAction(
   { type = "button", className, ...rest },
   ref,
 ) {
@@ -626,7 +629,7 @@ export type ToastCloseProps = NativeProps<"button", { children?: never }>;
  *
  *   <ToastClose />
  */
-export const ToastClose = forwardRef<HTMLButtonElement, ToastCloseProps>(function ToastClose(
+export const ToastClose = /*#__PURE__*/ forwardRef<HTMLButtonElement, ToastCloseProps>(function ToastClose(
   { type = "button", "aria-label": label = "Dismiss", className, ...rest },
   ref,
 ) {
@@ -656,7 +659,7 @@ export type ToastTimerProps = NativeProps<"span", { children?: never }>;
  *
  *   <ToastTimer />
  */
-export const ToastTimer = forwardRef<HTMLSpanElement, ToastTimerProps>(function ToastTimer(
+export const ToastTimer = /*#__PURE__*/ forwardRef<HTMLSpanElement, ToastTimerProps>(function ToastTimer(
   { className, ...rest },
   ref,
 ) {
@@ -678,7 +681,7 @@ export type StaticToasterProps = Named & NativeProps<"div">;
  *     </Toast>
  *   </StaticToaster>
  */
-export const StaticToaster = forwardRef<HTMLDivElement, StaticToasterProps>(function StaticToaster(
+export const StaticToaster = /*#__PURE__*/ forwardRef<HTMLDivElement, StaticToasterProps>(function StaticToaster(
   { role = "region", className, ...rest },
   ref,
 ) {

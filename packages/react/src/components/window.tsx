@@ -39,7 +39,7 @@ export type WindowProps<T extends ElementType = "section"> = PolymorphicProps<T,
  *     <WindowStatus><span>Ready</span><span>12:30</span></WindowStatus>
  *   </Window>
  */
-export const Window = forwardRef(function Window(
+export const Window = /*#__PURE__*/ forwardRef(function Window(
   { as: Tag = "section", tone, variant, radius, className, ...rest }: WindowProps<ElementType>,
   ref,
 ) {
@@ -55,7 +55,7 @@ export type WindowBarProps = NativeProps<"header">;
  *
  *   <WindowBar><WindowTitle id="pause-title">Paused</WindowTitle></WindowBar>
  */
-export const WindowBar = forwardRef<HTMLElement, WindowBarProps>(function WindowBar({ className, ...rest }, ref) {
+export const WindowBar = /*#__PURE__*/ forwardRef<HTMLElement, WindowBarProps>(function WindowBar({ className, ...rest }, ref) {
   return <header ref={ref} className={cx("pp-window-bar", className)} {...rest} />;
 });
 
@@ -67,7 +67,7 @@ export type WindowTitleProps<T extends ElementType = "h2"> = PolymorphicProps<T,
  *
  *   <WindowTitle as="h3" id="win-saved">Saved</WindowTitle>
  */
-export const WindowTitle = forwardRef(function WindowTitle(
+export const WindowTitle = /*#__PURE__*/ forwardRef(function WindowTitle(
   { as: Tag = "h2", className, ...rest }: WindowTitleProps<ElementType>,
   ref,
 ) {
@@ -82,7 +82,7 @@ export type WindowControlsProps = NativeProps<"div">;
  *
  *   <WindowControls><WindowControl control="close" aria-label="Close pause menu" onClick={resume} /></WindowControls>
  */
-export const WindowControls = forwardRef<HTMLDivElement, WindowControlsProps>(function WindowControls(
+export const WindowControls = /*#__PURE__*/ forwardRef<HTMLDivElement, WindowControlsProps>(function WindowControls(
   { className, ...rest },
   ref,
 ) {
@@ -114,7 +114,7 @@ export type WindowControlProps = WindowControlOwnProps &
  *
  *   <WindowControl control="close" aria-label="Close System" onClick={close} />
  */
-export const WindowControl = forwardRef<HTMLButtonElement, WindowControlProps>(function WindowControl(
+export const WindowControl = /*#__PURE__*/ forwardRef<HTMLButtonElement, WindowControlProps>(function WindowControl(
   { control, tone, type = "button", className, ...rest },
   ref,
 ) {
@@ -140,7 +140,7 @@ export type WindowBodyProps = NativeProps<"div">;
  *
  *   <WindowBody><p>Your game was saved to slot 2.</p></WindowBody>
  */
-export const WindowBody = forwardRef<HTMLDivElement, WindowBodyProps>(function WindowBody({ className, ...rest }, ref) {
+export const WindowBody = /*#__PURE__*/ forwardRef<HTMLDivElement, WindowBodyProps>(function WindowBody({ className, ...rest }, ref) {
   return <div ref={ref} className={cx("pp-window-body", className)} {...rest} />;
 });
 
@@ -153,7 +153,7 @@ export type WindowStatusProps = NativeProps<"footer">;
  *
  *   <WindowStatus><span>Battery</span><span>10%</span></WindowStatus>
  */
-export const WindowStatus = forwardRef<HTMLElement, WindowStatusProps>(function WindowStatus(
+export const WindowStatus = /*#__PURE__*/ forwardRef<HTMLElement, WindowStatusProps>(function WindowStatus(
   { className, ...rest },
   ref,
 ) {

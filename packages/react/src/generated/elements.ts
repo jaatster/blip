@@ -2,12 +2,12 @@
 // change the element's JSDoc, run `pnpm cem` at the repository root, then build this package.
 "use client";
 import type { PixelCombobox } from "@jaatster/blip-elements/combobox";
-import type { CommandSelectDetail, PixelCommand } from "@jaatster/blip-elements/command";
+import type { ActionDetail, PixelCommand } from "@jaatster/blip-elements/command";
 import type { CloseDetail, PixelDialog } from "@jaatster/blip-elements/dialog";
 import type { PixelDrawer } from "@jaatster/blip-elements/drawer";
 import type { PixelField } from "@jaatster/blip-elements/field";
 import type { PixelFileDrop } from "@jaatster/blip-elements/file-drop";
-import type { MenuSelectDetail, PixelMenu } from "@jaatster/blip-elements/menu";
+import type { PixelMenu } from "@jaatster/blip-elements/menu";
 import type { PixelNumber } from "@jaatster/blip-elements/number";
 import type { PixelRating } from "@jaatster/blip-elements/rating";
 import type { PixelSegmented } from "@jaatster/blip-elements/segmented";
@@ -19,9 +19,9 @@ import type { PixelTooltip } from "@jaatster/blip-elements/tooltip";
 import { createComponent, type ElementProps, type NoChildren } from "../internal/element.js";
 
 /** Props for {@link Combobox}: `<pp-combobox>`. */
-export type ComboboxProps = ElementProps<PixelCombobox, "open" | "name" | "value" | "emptyText" | "toggleLabel" | "onChange"> & {
+export type ComboboxProps = ElementProps<PixelCombobox, "open" | "name" | "value" | "emptyText" | "toggleLabel" | "onChange" | "onOpen" | "onClose"> & {
   /**
-   * The list of suggestions is showing.
+   * The list of suggestions is showing. "false" is off.
    * Attribute `open`.
    */
   open?: boolean;
@@ -52,6 +52,16 @@ export type ComboboxProps = ElementProps<PixelCombobox, "open" | "name" | "value
    * Event `pp-change`.
    */
   onChange?: (event: CustomEvent<{ value: string }>) => void;
+  /**
+   * The list of suggestions opened.
+   * Event `pp-open`.
+   */
+  onOpen?: (event: CustomEvent<void>) => void;
+  /**
+   * The list of suggestions closed.
+   * Event `pp-close`.
+   */
+  onClose?: (event: CustomEvent<void>) => void;
 };
 
 /**
@@ -64,7 +74,7 @@ export type ComboboxProps = ElementProps<PixelCombobox, "open" | "name" | "value
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/components/docs/combobox.md
  */
-export const Combobox = createComponent<PixelCombobox, ComboboxProps>({
+export const Combobox = /*#__PURE__*/ createComponent<PixelCombobox, ComboboxProps>({
   tag: "pp-combobox",
   name: "Combobox",
   load: () => import("@jaatster/blip-elements/combobox"),
@@ -76,11 +86,16 @@ export const Combobox = createComponent<PixelCombobox, ComboboxProps>({
     emptyText: ["empty-text"],
     toggleLabel: ["toggle-label"],
   },
-  events: { onChange: "pp-change" },
+  events: { onChange: "pp-change", onOpen: "pp-open", onClose: "pp-close" },
 });
 
 /** Props for {@link CommandPalette}: `<pp-command>`. */
-export type CommandPaletteProps = ElementProps<PixelCommand, "shortcut" | "onSelect"> & {
+export type CommandPaletteProps = ElementProps<PixelCommand, "open" | "shortcut" | "onAction" | "onOpen" | "onClose"> & {
+  /**
+   * The palette is open; setting it opens (with an empty search) or closes it. Reflects the palette. "false" is off.
+   * Attribute `open`.
+   */
+  open?: boolean;
   /**
    * The keys that open and close it ("mod+k", "ctrl+shift+p", "/"); "" for none.
    * Attribute `shortcut`.
@@ -88,10 +103,20 @@ export type CommandPaletteProps = ElementProps<PixelCommand, "shortcut" | "onSel
    */
   shortcut?: string;
   /**
-   * An option was chosen (Enter or a click). Cancelable: preventDefault() keeps the palette open.
-   * Event `pp-select`.
+   * An option was chosen (Enter or a click), before it runs. Cancelable: preventDefault() keeps the palette open.
+   * Event `pp-action`.
    */
-  onSelect?: (event: CustomEvent<CommandSelectDetail>) => void;
+  onAction?: (event: CustomEvent<ActionDetail>) => void;
+  /**
+   * The palette opened.
+   * Event `pp-open`.
+   */
+  onOpen?: (event: CustomEvent<void>) => void;
+  /**
+   * The palette closed.
+   * Event `pp-close`.
+   */
+  onClose?: (event: CustomEvent<void>) => void;
 };
 
 /**
@@ -104,20 +129,21 @@ export type CommandPaletteProps = ElementProps<PixelCommand, "shortcut" | "onSel
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/components/docs/command.md
  */
-export const CommandPalette = createComponent<PixelCommand, CommandPaletteProps>({
+export const CommandPalette = /*#__PURE__*/ createComponent<PixelCommand, CommandPaletteProps>({
   tag: "pp-command",
   name: "CommandPalette",
   load: () => import("@jaatster/blip-elements/command"),
   attributes: {
+    open: ["open", "open", true],
     shortcut: ["shortcut"],
   },
-  events: { onSelect: "pp-select" },
+  events: { onAction: "pp-action", onOpen: "pp-open", onClose: "pp-close" },
 });
 
 /** Props for {@link Dialog}: `<pp-dialog>`. */
 export type DialogProps = ElementProps<PixelDialog, "open" | "lightDismiss" | "onOpen" | "onBeforeClose" | "onClose"> & {
   /**
-   * Opens the dialog as a modal, or closes it; reflects whether it is open.
+   * Opens the dialog as a modal, or closes it; reflects whether it is open. "false" is off.
    * Attribute `open`.
    */
   open?: boolean;
@@ -153,7 +179,7 @@ export type DialogProps = ElementProps<PixelDialog, "open" | "lightDismiss" | "o
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/components/docs/dialog.md
  */
-export const Dialog = createComponent<PixelDialog, DialogProps>({
+export const Dialog = /*#__PURE__*/ createComponent<PixelDialog, DialogProps>({
   tag: "pp-dialog",
   name: "Dialog",
   load: () => import("@jaatster/blip-elements/dialog"),
@@ -167,7 +193,7 @@ export const Dialog = createComponent<PixelDialog, DialogProps>({
 /** Props for {@link Drawer}: `<pp-drawer>`. */
 export type DrawerProps = ElementProps<PixelDrawer, "open" | "lightDismiss" | "onOpen" | "onBeforeClose" | "onClose"> & {
   /**
-   * Opens the dialog as a modal, or closes it; reflects whether it is open.
+   * Opens the dialog as a modal, or closes it; reflects whether it is open. "false" is off.
    * Attribute `open`.
    */
   open?: boolean;
@@ -203,7 +229,7 @@ export type DrawerProps = ElementProps<PixelDrawer, "open" | "lightDismiss" | "o
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/components/docs/drawer.md
  */
-export const Drawer = createComponent<PixelDrawer, DrawerProps>({
+export const Drawer = /*#__PURE__*/ createComponent<PixelDrawer, DrawerProps>({
   tag: "pp-drawer",
   name: "Drawer",
   load: () => import("@jaatster/blip-elements/drawer"),
@@ -233,13 +259,14 @@ export type FieldProps = ElementProps<PixelField, "countText" | "layout"> & {
  * A form field that wires its words to its control.
  *
  * Wires a field's label, help, error and count to its control (aria-describedby, aria-invalid, live messages), so
- * nothing has to be wired by hand.
+ * nothing has to be wired by hand. Parts rendered later or taken away are wired as they come, and the page's own
+ * errors and aria-invalid are left as the page wrote them.
  *
  * Renders `<pp-field class="pp-field">` (@jaatster/blip-elements/field, loaded on the client when it first
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/components/docs/field.md
  */
-export const Field = createComponent<PixelField, FieldProps>({
+export const Field = /*#__PURE__*/ createComponent<PixelField, FieldProps>({
   tag: "pp-field",
   name: "Field",
   load: () => import("@jaatster/blip-elements/field"),
@@ -280,7 +307,7 @@ export type FileDropProps = ElementProps<PixelFileDrop, "removeLabel" | "onChang
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/components/docs/file-drop.md
  */
-export const FileDrop = createComponent<PixelFileDrop, FileDropProps>({
+export const FileDrop = /*#__PURE__*/ createComponent<PixelFileDrop, FileDropProps>({
   tag: "pp-file-drop",
   name: "FileDrop",
   load: () => import("@jaatster/blip-elements/file-drop"),
@@ -292,17 +319,33 @@ export const FileDrop = createComponent<PixelFileDrop, FileDropProps>({
 });
 
 /** Props for {@link Menu}: `<pp-menu>`. */
-export type MenuProps = ElementProps<PixelMenu, "align" | "onSelect"> & {
+export type MenuProps = ElementProps<PixelMenu, "open" | "align" | "onAction" | "onOpen" | "onClose"> & {
   /**
-   * Lines the menu up with the end of its button instead of the start.
+   * The menu is open; setting it opens or closes the menu. Reflects the menu. "false" is off.
+   * Attribute `open`.
+   */
+  open?: boolean;
+  /**
+   * Lines the menu up with the start or the end of its button.
    * Attribute `data-align`.
+   * @default "start"
    */
-  align?: "end";
+  align?: "start" | "end";
   /**
-   * Before an item runs. Cancelable: preventDefault() keeps the menu open and the item unchanged.
-   * Event `pp-select`.
+   * An item was chosen, before it runs. Cancelable: preventDefault() keeps the menu open and the item unchanged.
+   * Event `pp-action`.
    */
-  onSelect?: (event: CustomEvent<MenuSelectDetail>) => void;
+  onAction?: (event: CustomEvent<ActionDetail>) => void;
+  /**
+   * The menu opened.
+   * Event `pp-open`.
+   */
+  onOpen?: (event: CustomEvent<void>) => void;
+  /**
+   * The menu closed.
+   * Event `pp-close`.
+   */
+  onClose?: (event: CustomEvent<void>) => void;
 };
 
 /**
@@ -315,15 +358,16 @@ export type MenuProps = ElementProps<PixelMenu, "align" | "onSelect"> & {
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/components/docs/menu.md
  */
-export const Menu = createComponent<PixelMenu, MenuProps>({
+export const Menu = /*#__PURE__*/ createComponent<PixelMenu, MenuProps>({
   tag: "pp-menu",
   name: "Menu",
   load: () => import("@jaatster/blip-elements/menu"),
   className: "pp-menu",
   attributes: {
+    open: ["open", "open", true],
     align: ["data-align"],
   },
-  events: { onSelect: "pp-select" },
+  events: { onAction: "pp-action", onOpen: "pp-open", onClose: "pp-close" },
 });
 
 /** Props for {@link NumberStepper}: `<pp-number>`. */
@@ -357,7 +401,7 @@ export type NumberStepperProps = ElementProps<PixelNumber, "decreaseLabel" | "in
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/components/docs/number.md
  */
-export const NumberStepper = createComponent<PixelNumber, NumberStepperProps>({
+export const NumberStepper = /*#__PURE__*/ createComponent<PixelNumber, NumberStepperProps>({
   tag: "pp-number",
   name: "NumberStepper",
   load: () => import("@jaatster/blip-elements/number"),
@@ -383,17 +427,17 @@ export type RatingProps = ElementProps<PixelRating, "value" | "max" | "readOnly"
    */
   max?: number;
   /**
-   * Shows the score; it cannot be changed (it stays in the tab order).
+   * Shows the score; it cannot be changed (it stays in the tab order). "false" is off.
    * Attribute `readonly`.
    */
   readOnly?: boolean;
   /**
-   * Switched off (also follows a disabled fieldset).
+   * Switched off (also follows a disabled fieldset). "false" is off.
    * Attribute `disabled`.
    */
   disabled?: boolean;
   /**
-   * Invalid while the score is 0.
+   * Invalid while the score is 0. "false" is off.
    * Attribute `required`.
    */
   required?: boolean;
@@ -435,7 +479,7 @@ export type RatingProps = ElementProps<PixelRating, "value" | "max" | "readOnly"
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/components/docs/rating.md
  */
-export const Rating = createComponent<PixelRating, RatingProps>({
+export const Rating = /*#__PURE__*/ createComponent<PixelRating, RatingProps>({
   tag: "pp-rating",
   name: "Rating",
   load: () => import("@jaatster/blip-elements/rating"),
@@ -456,19 +500,19 @@ export const Rating = createComponent<PixelRating, RatingProps>({
 });
 
 /** Props for {@link Segmented}: `<pp-segmented>`. */
-export type SegmentedProps = ElementProps<PixelSegmented, "value" | "disabled" | "required" | "name" | "requiredMessage" | "size" | "width" | "tone" | "onChange"> & {
+export type SegmentedProps = ElementProps<PixelSegmented, "value" | "disabled" | "required" | "name" | "requiredMessage" | "size" | "fullWidth" | "tone" | "onChange"> & {
   /**
    * The chosen button's value. Setting it chooses that button.
    * Attribute `value`.
    */
   value?: string;
   /**
-   * Disables every segment (also follows a disabled fieldset).
+   * Disables every segment (also follows a disabled fieldset). "false" is off.
    * Attribute `disabled`.
    */
   disabled?: boolean;
   /**
-   * Invalid until something is chosen.
+   * Invalid until something is chosen. "false" is off.
    * Attribute `required`.
    */
   required?: boolean;
@@ -484,15 +528,16 @@ export type SegmentedProps = ElementProps<PixelSegmented, "value" | "disabled" |
    */
   requiredMessage?: string;
   /**
-   * 16 or 24 pixels high instead of 20, like buttons.
+   * 16, 20 or 24 pixels high, like buttons.
    * Attribute `data-size`.
+   * @default "md"
    */
-  size?: "sm" | "lg";
+  size?: "sm" | "md" | "lg";
   /**
    * Fills its container; the segments share the width.
-   * Attribute `data-width`.
+   * Attribute `data-width="full"`.
    */
-  width?: "full";
+  fullWidth?: boolean;
   /**
    * The chosen segment's candy.
    * Attribute `data-tone`.
@@ -515,7 +560,7 @@ export type SegmentedProps = ElementProps<PixelSegmented, "value" | "disabled" |
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/components/docs/segmented.md
  */
-export const Segmented = createComponent<PixelSegmented, SegmentedProps>({
+export const Segmented = /*#__PURE__*/ createComponent<PixelSegmented, SegmentedProps>({
   tag: "pp-segmented",
   name: "Segmented",
   load: () => import("@jaatster/blip-elements/segmented"),
@@ -527,7 +572,7 @@ export const Segmented = createComponent<PixelSegmented, SegmentedProps>({
     name: ["name"],
     requiredMessage: ["required-message"],
     size: ["data-size"],
-    width: ["data-width"],
+    fullWidth: ["data-width", undefined, false, "full"],
     tone: ["data-tone"],
   },
   events: { onChange: "pp-change" },
@@ -556,7 +601,7 @@ export type TableProps = ElementProps<PixelTable, "onSort" | "onSelect"> & {
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/components/docs/table.md
  */
-export const Table = createComponent<PixelTable, TableProps>({
+export const Table = /*#__PURE__*/ createComponent<PixelTable, TableProps>({
   tag: "pp-table",
   name: "Table",
   load: () => import("@jaatster/blip-elements/table"),
@@ -564,12 +609,12 @@ export const Table = createComponent<PixelTable, TableProps>({
 });
 
 /** Props for {@link Tabs}: `<pp-tabs>`. */
-export type TabsProps = ElementProps<PixelTabs, "selected" | "activation" | "variant" | "size" | "onChange"> & {
+export type TabsProps = ElementProps<PixelTabs, "value" | "activation" | "variant" | "size" | "selectedIndex" | "onChange"> & {
   /**
-   * The selected tab's index. Setting it selects that tab (no pp-change).
-   * Attribute `selected`.
+   * The selected tab's value: its data-value, else its value attribute, else its label. Setting it selects that tab (no pp-change); it follows the person's choice.
+   * Attribute `value`.
    */
-  selected?: number;
+  value?: string;
   /**
    * Select on focus, or only on Enter, Space and click.
    * Attribute `activation`.
@@ -582,10 +627,16 @@ export type TabsProps = ElementProps<PixelTabs, "selected" | "activation" | "var
    */
   variant?: "soft" | "outline" | "underline";
   /**
-   * Smaller tabs: 16 pixels high instead of 20.
+   * 16, 20 or 24 pixels high, like buttons.
    * Attribute `data-size`.
+   * @default "md"
    */
-  size?: "sm";
+  size?: "sm" | "md" | "lg";
+  /**
+   * The index of the selected tab, or -1. Setting it selects that tab (no pp-change).
+   * Property `selectedIndex`.
+   */
+  selectedIndex?: number;
   /**
    * After the person selects a tab.
    * Event `pp-change`.
@@ -597,23 +648,25 @@ export type TabsProps = ElementProps<PixelTabs, "selected" | "activation" | "var
  * Tabs: one panel at a time.
  *
  * WAI-ARIA tabs over the tabs markup: ids and ARIA wired, one tab in the tab order, the arrow keys, Home and End,
- * the selected panel shown, and stepped scroll buttons for a row that overflows.
+ * the selected panel shown, and stepped scroll buttons for a row that overflows. Tabs and panels added or removed
+ * later are wired as they come.
  *
  * Renders `<pp-tabs class="pp-tabs">` (@jaatster/blip-elements/tabs, loaded on the client when it first
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/components/docs/tabs.md
  */
-export const Tabs = createComponent<PixelTabs, TabsProps>({
+export const Tabs = /*#__PURE__*/ createComponent<PixelTabs, TabsProps>({
   tag: "pp-tabs",
   name: "Tabs",
   load: () => import("@jaatster/blip-elements/tabs"),
   className: "pp-tabs",
   attributes: {
-    selected: ["selected", "selected", true],
+    value: ["value", "value", true],
     activation: ["activation"],
     variant: ["data-variant"],
     size: ["data-size"],
   },
+  properties: ["selectedIndex"],
   events: { onChange: "pp-change" },
 });
 
@@ -641,7 +694,7 @@ export type TileGridProps = ElementProps<PixelTileGrid, "selection" | "onSelect"
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/components/docs/tile.md
  */
-export const TileGrid = createComponent<PixelTileGrid, TileGridProps>({
+export const TileGrid = /*#__PURE__*/ createComponent<PixelTileGrid, TileGridProps>({
   tag: "pp-tile-grid",
   name: "TileGrid",
   load: () => import("@jaatster/blip-elements/tile-grid"),
@@ -652,13 +705,19 @@ export const TileGrid = createComponent<PixelTileGrid, TileGridProps>({
 });
 
 /** Props for {@link Toaster}: `<pp-toaster>`. */
-export type ToasterProps = ElementProps<PixelToaster, "placement" | "max" | "dismissLabel"> & {
+export type ToasterProps = ElementProps<PixelToaster, "side" | "align" | "max" | "dismissLabel"> & {
   /**
-   * Where the toasts come up.
-   * Attribute `data-placement`.
-   * @default "bottom-end"
+   * The edge of the screen the toasts come up at.
+   * Attribute `data-side`.
+   * @default "bottom"
    */
-  placement?: "bottom-end" | "bottom-center" | "top-end" | "top-center";
+  side?: "bottom" | "top";
+  /**
+   * Where along that edge.
+   * Attribute `data-align`.
+   * @default "end"
+   */
+  align?: "start" | "center" | "end";
   /**
    * How many toasts show at once; the rest wait their turn.
    * Attribute `max`.
@@ -683,51 +742,69 @@ export type ToasterProps = ElementProps<PixelToaster, "placement" | "max" | "dis
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/components/docs/toast.md
  */
-export const Toaster = createComponent<PixelToaster, ToasterProps>({
+export const Toaster = /*#__PURE__*/ createComponent<PixelToaster, ToasterProps>({
   tag: "pp-toaster",
   name: "Toaster",
   load: () => import("@jaatster/blip-elements/toast"),
   className: "pp-toaster",
   attributes: {
-    placement: ["data-placement"],
+    side: ["data-side"],
+    align: ["data-align"],
     max: ["max", "max", true],
     dismissLabel: ["dismiss-label"],
   },
 });
 
 /** Props for {@link Tooltip}: `<pp-tooltip>`. */
-export type TooltipProps = ElementProps<PixelTooltip, "htmlFor" | "placement"> & {
+export type TooltipProps = ElementProps<PixelTooltip, "open" | "htmlFor" | "side" | "onOpen" | "onClose"> & {
+  /**
+   * It is showing; setting it shows or closes it. Reflects the tooltip. "false" is off.
+   * Attribute `open`.
+   */
+  open?: boolean;
   /**
    * The trigger's id; left out, the element just before the tooltip.
    * Attribute `for`.
    */
   htmlFor?: string;
   /**
-   * The side it prefers.
-   * Attribute `placement`.
+   * The side it prefers. While it shows on the other side for want of room, data-side says so; it goes back when it closes.
+   * Attribute `data-side`.
    * @default "top"
    */
-  placement?: "top" | "bottom" | "left" | "right";
+  side?: "top" | "bottom" | "left" | "right";
+  /**
+   * It showed.
+   * Event `pp-open`.
+   */
+  onOpen?: (event: CustomEvent<void>) => void;
+  /**
+   * It closed.
+   * Event `pp-close`.
+   */
+  onClose?: (event: CustomEvent<void>) => void;
 };
 
 /**
  * A short description that shows on hover and focus.
  *
  * A tooltip for any trigger, following the WAI-ARIA tooltip pattern and WCAG 1.4.13: it describes its trigger,
- * shows after a beat on hover and at once on keyboard focus, stays while the pointer moves onto it, and hides on
+ * shows after a beat on hover and at once on keyboard focus, stays while the pointer moves onto it, and closes on
  * Escape. It sits in the top layer and takes the other side when there is no room.
  *
  * Renders `<pp-tooltip class="pp-box pp-tooltip">` (@jaatster/blip-elements/tooltip, loaded on the client when it first
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/components/docs/tooltip.md
  */
-export const Tooltip = createComponent<PixelTooltip, TooltipProps>({
+export const Tooltip = /*#__PURE__*/ createComponent<PixelTooltip, TooltipProps>({
   tag: "pp-tooltip",
   name: "Tooltip",
   load: () => import("@jaatster/blip-elements/tooltip"),
   className: "pp-box pp-tooltip",
   attributes: {
+    open: ["open", "open", true],
     htmlFor: ["for", "htmlFor"],
-    placement: ["placement", "placement", true],
+    side: ["data-side"],
   },
+  events: { onOpen: "pp-open", onClose: "pp-close" },
 });

@@ -6,18 +6,18 @@
  * field, filters the options as you type (every word must match the label or data-keywords), hides empty groups and
  * shows the empty state, moves the active option with the arrow keys (aria-activedescendant, so focus stays in the
  * field), follows the pointer, and runs the active option on Enter or a click. A click on the scrim closes it; the
- * dialog gives focus back to whatever had it.
+ * dialog gives focus back to whatever had it. Options rendered later (results a framework fetches as you type) are
+ * given ids and filtered as they arrive.
  *
  *   <pp-command shortcut="mod+k">…</pp-command>
- *   palette.addEventListener("pp-select", (e) => go(e.detail.value)); // e.preventDefault() keeps it open
+ *   palette.addEventListener("pp-action", (e) => go(e.detail.value)); // e.preventDefault() keeps it open
+ *   palette.open = true;                                              // or <pp-command open>
  */
 import { PixelElement, warn } from "@jaatster/blip-core";
+import { both, isOn, unFalse, valueOf, watch } from "./_dom.js";
+import type { ActionDetail } from "./menu.js";
 
-export interface CommandSelectDetail {
-  item: HTMLElement;
-  /** The option's data-value, or its label. */
-  value: string;
-}
+export type { ActionDetail } from "./menu.js";
 
 const OPTION = '[role="option"]';
 const mac = typeof navigator !== "undefined" && /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
@@ -29,12 +29,24 @@ let uid = 0;
  *
  * @summary A command palette: search and run commands from the keyboard.
  * @attr {string} [shortcut="mod+k"] - The keys that open and close it ("mod+k", "ctrl+shift+p", "/"); "" for none.
- * @fires {CustomEvent<CommandSelectDetail>} pp-select - An option was chosen (Enter or a click). Cancelable:
- * preventDefault() keeps the palette open.
+ * @attr {boolean} open - The palette is open; setting it opens (with an empty search) or closes it. Reflects the
+ * palette. "false" is off.
+ * @fires {CustomEvent<ActionDetail>} pp-action - An option was chosen (Enter or a click), before it runs.
+ * Cancelable: preventDefault() keeps the palette open.
+ * @fires {CustomEvent<void>} pp-open - The palette opened.
+ * @fires {CustomEvent<void>} pp-close - The palette closed.
  */
 export class PixelCommand extends PixelElement {
+  static observedAttributes = ["open"];
   #active: HTMLElement | null = null;
   #showing = false;
+  #quiet = false;
+  #shown = false;
+  #id = "";
+  #n = 0;
+  /** The dialog, field and list wired now, and what aborts their wiring when one goes. */
+  #parts: (Element | null)[] = [];
+  #wiring?: AbortController;
 
   get dialog(): HTMLDialogElement | null {
     return this.querySelector("dialog");
@@ -45,19 +57,31 @@ export class PixelCommand extends PixelElement {
   get options(): HTMLElement[] {
     return [...this.querySelectorAll<HTMLElement>(OPTION)];
   }
+  /** True while the palette is open; setting it opens or closes it. */
   get open(): boolean {
     return !!this.dialog?.open;
+  }
+  set open(value: boolean) {
+    if (value) this.show();
+    else this.close();
+  }
+
+  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+    if (unFalse(this, name, value) || this.#quiet || !this.isConnected) return;
+    if (isOn(this, "open")) this.show();
+    else this.close();
   }
 
   /** Opens the palette with an empty search. */
   show(): void {
     const dialog = this.dialog;
-    if (!dialog || dialog.open) return;
+    if (!dialog?.isConnected || dialog.open) return;
     this.#reset();
     this.#showing = true;
     dialog.showModal();
     this.input?.focus();
   }
+  /** Closes it; the dialog gives focus back to whatever had it. */
   close(): void {
     this.dialog?.close();
   }
@@ -74,7 +98,9 @@ export class PixelCommand extends PixelElement {
     this.#filter();
   }
 
-  #filter(): void {
+  /** Shows the options that match what is typed. The first becomes active, unless `keep` and the active one still
+      shows (options that arrived while typing don't move it). */
+  #filter(keep = false): void {
     const words = (this.input?.value ?? "").toLowerCase().split(/\s+/).filter(Boolean);
     let count = 0;
     for (const o of this.options) {
@@ -87,7 +113,9 @@ export class PixelCommand extends PixelElement {
     if (empty) empty.hidden = count > 0;
     const status = this.querySelector('[role="status"]');
     if (status) status.textContent = words.length ? `${count} ${count === 1 ? "result" : "results"}` : "";
-    this.#activate(this.#visible()[0] ?? null);
+    const visible = this.#visible();
+    if (keep && this.#active && visible.includes(this.#active)) this.#activate(this.#active, false);
+    else this.#activate(visible[0] ?? null, !keep);
   }
 
   #activate(option: HTMLElement | null, scroll = true): void {
@@ -101,7 +129,7 @@ export class PixelCommand extends PixelElement {
 
   #choose(option: HTMLElement): void {
     if (option.getAttribute("aria-disabled") === "true") return;
-    if (this.emit<CommandSelectDetail>("select", { item: option, value: option.dataset.value ?? this.#label(option) }, true)) this.close();
+    if (this.emit<ActionDetail>("action", { item: option, value: valueOf(option, this.#label(option)) }, true)) this.close();
   }
 
   /** Does this key press match the shortcut attribute ("mod+k", "ctrl+shift+p", "/")? */
@@ -119,29 +147,56 @@ export class PixelCommand extends PixelElement {
   }
 
   protected override connected(): void {
-    const dialog = this.dialog;
-    const input = this.input;
-    const list = this.querySelector<HTMLElement>('[role="listbox"]');
-    if (!dialog || !input || !list) return warn("PP-C001", "<pp-command> needs a <dialog> with an input and a [role=listbox] inside it.", this);
-    const id = `pp-command-${++uid}`;
-    list.id ||= `${id}-list`;
-    this.options.forEach((o, i) => (o.id ||= `${id}-option-${i}`));
-    Object.entries({ role: "combobox", "aria-expanded": "true", "aria-autocomplete": "list", "aria-controls": list.id, autocomplete: "off" }).forEach(([k, v]) => input.setAttribute(k, v));
-
+    this.#parts = [];
+    this.#wire();
+    // Parts rendered later, and options that come and go as results arrive, are wired as they come.
+    watch(this, this.signal, () => this.#wire());
+    if (!this.dialog && this.children.length) warn("PP-C001", "<pp-command> needs a <dialog> with an input and a [role=listbox] inside it.", this);
     this.on(document, "keydown", (e) => {
       if (e.defaultPrevented || !this.#matches(e)) return;
       e.preventDefault();
       if (this.open) this.close();
       else this.show();
     });
-    // Opened some other way (a commandfor button, showModal()): start fresh. (show() has already; the toggle event
-    // comes a task later, and must not wipe what was typed since.)
-    this.on(dialog, "toggle", (e) => {
-      if (e.newState === "open" && !this.#showing) this.#reset();
+  }
+
+  /** Wires the dialog, field and list there are now (once per set), gives new options ids, and filters again. */
+  #wire(): void {
+    const dialog = this.dialog;
+    const input = this.input;
+    const list = this.querySelector<HTMLElement>('[role="listbox"]');
+    if (!dialog || !input || !list) return;
+    this.#id ||= `pp-command-${++uid}`;
+    list.id ||= `${this.#id}-list`;
+    for (const o of this.options) o.id ||= `${this.#id}-option-${this.#n++}`;
+    if (this.#parts[0] !== dialog || this.#parts[1] !== input || this.#parts[2] !== list) this.#listen(dialog, input, list);
+    this.#filter(true);
+  }
+
+  #listen(dialog: HTMLDialogElement, input: HTMLInputElement, list: HTMLElement): void {
+    this.#wiring?.abort();
+    this.#parts = [dialog, input, list];
+    const signal = both(this.signal, (this.#wiring = new AbortController()).signal);
+    const listen = (target: EventTarget, type: string, fn: (e: KeyboardEvent & MouseEvent) => void) => target.addEventListener(type, fn as EventListener, { signal });
+    Object.entries({ role: "combobox", "aria-expanded": "true", "aria-autocomplete": "list", "aria-controls": list.id, autocomplete: "off" }).forEach(([k, v]) => input.setAttribute(k, v));
+    // Opened or closed any way (show(), a commandfor button, showModal(), Escape): reflected, announced, and opened
+    // fresh. (show() has reset it already; what was typed since must stay.)
+    const opened = new MutationObserver(() => {
+      const open = dialog.open;
+      if (open === this.#shown) return;
+      this.#shown = open;
+      if (open && !this.#showing) this.#reset();
       this.#showing = false;
+      this.#quiet = true;
+      if (open) this.setAttribute("open", "");
+      else this.removeAttribute("open");
+      this.#quiet = false;
+      this.emit(open ? "open" : "close");
     });
-    this.on(input, "input", () => this.#filter());
-    this.on(input, "keydown", (e) => {
+    opened.observe(dialog, { attributes: true, attributeFilter: ["open"] });
+    signal.addEventListener("abort", () => opened.disconnect(), { once: true });
+    listen(input, "input", () => this.#filter());
+    listen(input, "keydown", (e) => {
       const visible = this.#visible();
       const i = visible.indexOf(this.#active as HTMLElement);
       if (e.key === "ArrowDown" || e.key === "ArrowUp") {
@@ -152,21 +207,21 @@ export class PixelCommand extends PixelElement {
         this.#choose(this.#active);
       }
     });
-    this.on(list, "click", (e) => {
+    listen(list, "click", (e) => {
       const option = (e.target as Element).closest<HTMLElement>(OPTION);
       if (option) this.#choose(option);
     });
-    this.on(list, "pointermove", (e) => {
+    listen(list, "pointermove", (e) => {
       const option = (e.target as Element).closest<HTMLElement>(OPTION);
       if (option && option !== this.#active && option.getAttribute("aria-disabled") !== "true") this.#activate(option, false);
     });
     // A click on the scrim (outside the panel) closes it, where closedby="any" is not supported.
-    this.on(dialog, "click", (e) => {
+    listen(dialog, "click", (e) => {
       if (e.target !== dialog) return;
       const r = dialog.getBoundingClientRect();
       if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) this.close();
     });
-    this.#filter();
+    if (isOn(this, "open") && !dialog.open) this.show();
   }
 }
 
@@ -175,9 +230,5 @@ PixelElement.define("pp-command", PixelCommand);
 declare global {
   interface HTMLElementTagNameMap {
     "pp-command": PixelCommand;
-  }
-  interface HTMLElementEventMap {
-    /** From pp-menu and pp-command: an item was chosen. Cancelable. */
-    "pp-select": CustomEvent<{ item: HTMLElement; value: string; checked?: boolean }>;
   }
 }

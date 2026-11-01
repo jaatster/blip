@@ -10,6 +10,7 @@
  *   <button class="pp-box pp-button" commandfor="save" command="show-modal">Save game</button>
  */
 import { PixelElement, services, warn } from "@jaatster/blip-core";
+import { isOn, unFalse } from "./_dom.js";
 
 export type CloseReason = "escape" | "backdrop" | "button" | "submit" | "api";
 export interface CloseDetail {
@@ -28,7 +29,7 @@ const outside = (el: Element, e: MouseEvent): boolean => {
 /**
  * The modal behaviour <pp-dialog> and <pp-drawer> share, around the one native <dialog> inside the element.
  *
- * @attr {boolean} open - Opens the dialog as a modal, or closes it; reflects whether it is open.
+ * @attr {boolean} open - Opens the dialog as a modal, or closes it; reflects whether it is open. "false" is off.
  * @attr {boolean} light-dismiss - A press that starts and ends on the scrim asks to close (reason "backdrop").
  * @fires {CustomEvent<void>} pp-open - After it opens (also when opened directly with showModal()).
  * @fires {CustomEvent<CloseDetail>} pp-before-close - Before any close: Escape, the scrim, a close button, a
@@ -63,9 +64,9 @@ export class Overlay extends PixelElement {
     return this.dialog?.returnValue ?? "";
   }
 
-  attributeChangedCallback(_name: string, _old: string | null, value: string | null): void {
-    if (this.#quiet || !this.isConnected) return;
-    if (value !== null) this.show();
+  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+    if (unFalse(this, name, value) || this.#quiet || !this.isConnected) return;
+    if (isOn(this, "open")) this.show();
     else void this.close();
   }
 
@@ -110,16 +111,21 @@ export class Overlay extends PixelElement {
       this.#down = mine(e) && outside(e.target as Element, e as PointerEvent);
     });
     this.on(this, "click", (e) => {
-      if (this.#down && mine(e) && this.flag("light-dismiss") && outside(e.target as Element, e as MouseEvent)) void this.requestClose(undefined, "backdrop");
+      if (this.#down && mine(e) && isOn(this, "light-dismiss") && outside(e.target as Element, e as MouseEvent)) void this.requestClose(undefined, "backdrop");
       this.#down = false;
     });
-    // A dialog opened without this element (showModal(), or the app's own code) is still tracked.
+    // A dialog opened without this element (showModal(), or the app's own code) is still tracked, and one rendered
+    // after this element (by a framework) opens if the open attribute asks for it.
+    let seen = this.dialog;
     const watch = new MutationObserver(() => {
-      if (this.dialog?.open && !this.#shown) this.#opened(null);
+      const d = this.dialog;
+      if (d?.open && !this.#shown) this.#opened(null);
+      else if (d && d !== seen && !d.open && isOn(this, "open")) this.show(this.#opener);
+      seen = d;
     });
-    watch.observe(this, { subtree: true, attributeFilter: ["open"] });
+    watch.observe(this, { subtree: true, childList: true, attributeFilter: ["open"] });
     this.signal.addEventListener("abort", () => watch.disconnect(), { once: true });
-    if (this.flag("open")) this.show(this.#opener);
+    if (isOn(this, "open")) this.show(this.#opener);
   }
 
   /** Moved or removed while open: the dialog leaves the top layer, so close it; the open attribute reopens it, for
@@ -132,7 +138,8 @@ export class Overlay extends PixelElement {
   /** Opens the dialog as a modal. `opener` gets focus back when it closes (by default, whatever has focus now). */
   show(opener?: Element | null): void {
     const d = this.dialog;
-    if (!d) return warn("PP-E010", `<${this.localName}> needs a <dialog> inside it.`, this);
+    // No children yet is a dialog still to come (it opens when it arrives); other children without one are a mistake.
+    if (!d) return void (this.children.length && warn("PP-E010", `<${this.localName}> needs a <dialog> inside it.`, this));
     if (d.open) return void (this.#shown || this.#opened(null));
     if (!d.isConnected) return;
     if (!d.hasAttribute("aria-labelledby") && !d.hasAttribute("aria-label")) {
@@ -208,7 +215,8 @@ export class Overlay extends PixelElement {
 
   #reflect(open: boolean): void {
     this.#quiet = true;
-    this.toggleAttribute("open", open);
+    if (open) this.setAttribute("open", "");
+    else this.removeAttribute("open");
     this.#quiet = false;
   }
 }

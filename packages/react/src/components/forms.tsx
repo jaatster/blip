@@ -39,7 +39,7 @@ export type FieldLabelProps<T extends ElementType = "label"> = PolymorphicProps<
  *   <FieldLabel htmlFor="name">Player name</FieldLabel>
  *   <FieldLabel as="span" id="fun-label">How fun was it?</FieldLabel>
  */
-export const FieldLabel = forwardRef(function FieldLabel(
+export const FieldLabel = /*#__PURE__*/ forwardRef(function FieldLabel(
   { as: Tag = "label", className, ...rest }: FieldLabelProps<ElementType>,
   ref,
 ) {
@@ -56,7 +56,7 @@ export type FieldHelpProps = NativeProps<"p">;
  *
  *   <FieldHelp>Shown on the leaderboard.</FieldHelp>
  */
-export const FieldHelp = forwardRef<HTMLParagraphElement, FieldHelpProps>(function FieldHelp(
+export const FieldHelp = /*#__PURE__*/ forwardRef<HTMLParagraphElement, FieldHelpProps>(function FieldHelp(
   { className, ...rest },
   ref,
 ) {
@@ -70,13 +70,15 @@ export type FieldErrorProps = NativeProps<"p">;
  * The error: bold, in the danger tone, after a pixel "!"; hidden while empty. Say how to fix it ("Enter an email
  * like pal@example.com"), never just "Invalid". In a `Field`, write the words with `hidden`: the element shows them
  * when the browser finds the value invalid, marks the control aria-invalid and reads the error out, and clears both
- * once the value is valid (with no words it shows the browser's message). Without the element, show it yourself,
- * name it in the control's aria-describedby and set aria-invalid on the control. Renders `<p
- * class="pp-field-error">`.
+ * once the value is valid (with no words it shows the browser's message). Your own error (a server's answer in your
+ * state) can be rendered when you have one: the `Field` links it, marks the control while it shows and reads it out,
+ * and leaves it, and any aria-invalid you set, to you. Without the element, show it yourself, name it in the
+ * control's aria-describedby and set aria-invalid on the control. Renders `<p class="pp-field-error">`.
  *
  *   <FieldError hidden>Enter an email like pal@example.com.</FieldError>
+ *   {serverError && <FieldError>{serverError}</FieldError>}
  */
-export const FieldError = forwardRef<HTMLParagraphElement, FieldErrorProps>(function FieldError(
+export const FieldError = /*#__PURE__*/ forwardRef<HTMLParagraphElement, FieldErrorProps>(function FieldError(
   { className, ...rest },
   ref,
 ) {
@@ -98,7 +100,7 @@ export type FieldCountProps = FieldCountOwnProps & NativeProps<"p", FieldCountOw
  *   <FieldCount />
  *   <FieldCount full>200/200</FieldCount>
  */
-export const FieldCount = forwardRef<HTMLParagraphElement, FieldCountProps>(function FieldCount(
+export const FieldCount = /*#__PURE__*/ forwardRef<HTMLParagraphElement, FieldCountProps>(function FieldCount(
   { full, className, ...rest },
   ref,
 ) {
@@ -125,7 +127,7 @@ export type FieldSetProps = FieldSetOwnProps & NativeProps<"fieldset", FieldSetO
  *     <FieldHelp id="map-help">Hidden things stay hidden until you find them.</FieldHelp>
  *   </FieldSet>
  */
-export const FieldSet = forwardRef<HTMLFieldSetElement, FieldSetProps>(function FieldSet(
+export const FieldSet = /*#__PURE__*/ forwardRef<HTMLFieldSetElement, FieldSetProps>(function FieldSet(
   { legend, inline, className, children, ...rest },
   ref,
 ) {
@@ -155,7 +157,7 @@ export type PlainFieldProps = PlainFieldOwnProps & NativeProps<"div", PlainField
  *     <FieldError id="clan-error">Tags are 2 to 4 letters.</FieldError>
  *   </PlainField>
  */
-export const PlainField = forwardRef<HTMLDivElement, PlainFieldProps>(function PlainField(
+export const PlainField = /*#__PURE__*/ forwardRef<HTMLDivElement, PlainFieldProps>(function PlainField(
   { inline, className, ...rest },
   ref,
 ) {
@@ -189,7 +191,7 @@ export type InputProps = InputOwnProps & Omit<NativeProps<"input", InputOwnProps
  * Renders `<span class="pp-box pp-input"><input></span>`, with start and end around the input. The ref and every
  * native prop (id, name, value, onChange…) go to the `<input>`; className and style go to the well.
  */
-export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
+export const Input = /*#__PURE__*/ forwardRef<HTMLInputElement, InputProps>(function Input(
   { size, tone, start, end, className, style, ...rest },
   ref,
 ) {
@@ -212,7 +214,7 @@ export type InputAffixProps = NativeProps<"span">;
  *
  *   <Input id="weight" type="number" end={<InputAffix>kg</InputAffix>} />
  */
-export const InputAffix = forwardRef<HTMLSpanElement, InputAffixProps>(function InputAffix(
+export const InputAffix = /*#__PURE__*/ forwardRef<HTMLSpanElement, InputAffixProps>(function InputAffix(
   { className, ...rest },
   ref,
 ) {
@@ -237,7 +239,7 @@ export type InputButtonProps = InputButtonOwnProps & Named & NativeProps<"button
  *     </InputButton>
  *   } />
  */
-export const InputButton = forwardRef<HTMLButtonElement, InputButtonProps>(function InputButton(
+export const InputButton = /*#__PURE__*/ forwardRef<HTMLButtonElement, InputButtonProps>(function InputButton(
   { pressed, type = "button", className, ...rest },
   ref,
 ) {
@@ -277,7 +279,7 @@ export type TextareaProps = TextareaOwnProps & Omit<NativeProps<"textarea", Text
  * Renders `<span class="pp-box pp-textarea"><textarea></span>`. The ref and every native prop (rows, value,
  * onChange…) go to the `<textarea>`; className and style go to the well.
  */
-export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
+export const Textarea = /*#__PURE__*/ forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
   { size, tone, autoGrow, className, style, ...rest },
   ref,
 ) {
@@ -317,7 +319,7 @@ export type SelectProps = SelectOwnProps & NativeProps<"select", SelectOwnProps>
  * Renders `<span class="pp-box pp-select"><select></span>`. The ref and every native prop (name, value, onChange,
  * the options as children…) go to the `<select>`; className and style go to the well.
  */
-export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
+export const Select = /*#__PURE__*/ forwardRef<HTMLSelectElement, SelectProps>(function Select(
   { size, tone, className, style, ...rest },
   ref,
 ) {
@@ -338,7 +340,7 @@ export type SelectOptionProps = NativeProps<"option">;
  *
  *   <SelectOption value="caves">Crystal caves</SelectOption>
  */
-export const SelectOption = forwardRef<HTMLOptionElement, SelectOptionProps>(function SelectOption(
+export const SelectOption = /*#__PURE__*/ forwardRef<HTMLOptionElement, SelectOptionProps>(function SelectOption(
   { className, ...rest },
   ref,
 ) {
@@ -371,7 +373,7 @@ const magnifier = "M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v
  * Renders `<span class="pp-box pp-input"><svg class="pp-icon"></svg><input type="search"></span>`. The ref and
  * every native prop go to the `<input>`; className and style go to the well.
  */
-export const Search = forwardRef<HTMLInputElement, SearchProps>(function Search(
+export const Search = /*#__PURE__*/ forwardRef<HTMLInputElement, SearchProps>(function Search(
   { size, enterKeyHint = "search", className, style, ...rest },
   ref,
 ) {
@@ -453,7 +455,7 @@ export type CheckboxProps = ChoiceOptions & ChoiceName & Omit<NativeProps<"input
  * has children. The ref and every native prop (name, checked, onChange…) go to the `<input>`; className and style go
  * to the outermost element.
  */
-export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox(
+export const Checkbox = /*#__PURE__*/ forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox(
   { size, tone, split, className, style, children, ...rest },
   ref,
 ) {
@@ -475,7 +477,7 @@ export type RadioProps = ChoiceOptions & ChoiceName & Omit<NativeProps<"input", 
  * children. The ref and every native prop (name, value, checked, onChange…) go to the `<input>`; className and
  * style go to the outermost element.
  */
-export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
+export const Radio = /*#__PURE__*/ forwardRef<HTMLInputElement, RadioProps>(function Radio(
   { size, tone, split, className, style, children, ...rest },
   ref,
 ) {
@@ -498,7 +500,7 @@ export type RadioGroupProps = FieldSetProps;
  *     <Radio name="level" value="hard">Hard</Radio>
  *   </RadioGroup>
  */
-export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(function RadioGroup(props, ref) {
+export const RadioGroup = /*#__PURE__*/ forwardRef<HTMLFieldSetElement, RadioGroupProps>(function RadioGroup(props, ref) {
   return <FieldSet ref={ref} {...props} />;
 });
 
@@ -519,7 +521,7 @@ export type SwitchProps = ChoiceOptions &
  * `<label class="pp-check">` when it has children. The ref and every native prop (name, checked, onChange…) go to
  * the `<input>`; className and style go to the outermost element.
  */
-export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
+export const Switch = /*#__PURE__*/ forwardRef<HTMLInputElement, SwitchProps>(function Switch(
   { size, tone, split, className, style, children, ...rest },
   ref,
 ) {
@@ -538,7 +540,7 @@ export type CheckHelpProps = NativeProps<"p">;
  *   <Radio name="level" value="story" aria-describedby="story-help">Story</Radio>
  *   <CheckHelp id="story-help">Enemies go easy. Enjoy the view.</CheckHelp>
  */
-export const CheckHelp = forwardRef<HTMLParagraphElement, CheckHelpProps>(function CheckHelp(
+export const CheckHelp = /*#__PURE__*/ forwardRef<HTMLParagraphElement, CheckHelpProps>(function CheckHelp(
   { className, ...rest },
   ref,
 ) {
@@ -575,7 +577,7 @@ export type SliderProps = SliderOwnProps & Omit<NativeProps<"input", SliderOwnPr
  * Renders `<input class="pp-slider" type="range">`. The ref and every native prop (min, max, step, value,
  * onChange…) go to it.
  */
-export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
+export const Slider = /*#__PURE__*/ forwardRef<HTMLInputElement, SliderProps>(function Slider(
   { fill, className, style, ...rest },
   ref,
 ) {
@@ -601,7 +603,7 @@ export type SliderGroupProps = NativeProps<"div">;
  *     <SliderValue htmlFor="sfx">40</SliderValue>
  *   </SliderGroup>
  */
-export const SliderGroup = forwardRef<HTMLDivElement, SliderGroupProps>(function SliderGroup(
+export const SliderGroup = /*#__PURE__*/ forwardRef<HTMLDivElement, SliderGroupProps>(function SliderGroup(
   { className, ...rest },
   ref,
 ) {
@@ -618,7 +620,7 @@ export type SliderValueProps = NativeProps<"output">;
  *
  *   <SliderValue htmlFor="music">7</SliderValue>
  */
-export const SliderValue = forwardRef<HTMLOutputElement, SliderValueProps>(function SliderValue(
+export const SliderValue = /*#__PURE__*/ forwardRef<HTMLOutputElement, SliderValueProps>(function SliderValue(
   { className, ...rest },
   ref,
 ) {
@@ -640,7 +642,7 @@ export type SliderTicksProps<T extends ElementType = "datalist"> = PolymorphicPr
  *     <option value="1">Dim</option><option value="2">Normal</option><option value="3">Bright</option>
  *   </SliderTicks>
  */
-export const SliderTicks = forwardRef(function SliderTicks(
+export const SliderTicks = /*#__PURE__*/ forwardRef(function SliderTicks(
   { as: Tag = "datalist", className, ...rest }: SliderTicksProps<ElementType>,
   ref,
 ) {
@@ -667,7 +669,7 @@ export type FileDropZoneProps = NativeProps<"label">;
  *     </FileDropZone>
  *   </FileDrop>
  */
-export const FileDropZone = forwardRef<HTMLLabelElement, FileDropZoneProps>(function FileDropZone(
+export const FileDropZone = /*#__PURE__*/ forwardRef<HTMLLabelElement, FileDropZoneProps>(function FileDropZone(
   { className, ...rest },
   ref,
 ) {
@@ -684,7 +686,7 @@ export type FileDropListProps = NativeProps<"ul">;
  *
  *   <FileDropList aria-label="Screenshots to send" />
  */
-export const FileDropList = forwardRef<HTMLUListElement, FileDropListProps>(function FileDropList(
+export const FileDropList = /*#__PURE__*/ forwardRef<HTMLUListElement, FileDropListProps>(function FileDropList(
   { className, ...rest },
   ref,
 ) {
@@ -707,7 +709,7 @@ export type FileDropItemProps = NativeProps<"li">;
  *     </FileDropItem>
  *   </FileDropList>
  */
-export const FileDropItem = forwardRef<HTMLLIElement, FileDropItemProps>(function FileDropItem(
+export const FileDropItem = /*#__PURE__*/ forwardRef<HTMLLIElement, FileDropItemProps>(function FileDropItem(
   { className, ...rest },
   ref,
 ) {
@@ -723,7 +725,7 @@ export type FileDropNameProps = NativeProps<"span">;
  *
  *   <FileDropName title="castle-sunset.png">castle-sunset.png</FileDropName>
  */
-export const FileDropName = forwardRef<HTMLSpanElement, FileDropNameProps>(function FileDropName(
+export const FileDropName = /*#__PURE__*/ forwardRef<HTMLSpanElement, FileDropNameProps>(function FileDropName(
   { className, ...rest },
   ref,
 ) {
@@ -738,7 +740,7 @@ export type FileDropSizeProps = NativeProps<"span">;
  *
  *   <FileDropSize>1.2 MB</FileDropSize>
  */
-export const FileDropSize = forwardRef<HTMLSpanElement, FileDropSizeProps>(function FileDropSize(
+export const FileDropSize = /*#__PURE__*/ forwardRef<HTMLSpanElement, FileDropSizeProps>(function FileDropSize(
   { className, ...rest },
   ref,
 ) {
@@ -755,7 +757,7 @@ export type FileDropRemoveProps = Named & Omit<NativeProps<"button">, "children"
  *
  *   <FileDropRemove aria-label="Remove castle-sunset.png" onClick={remove} />
  */
-export const FileDropRemove = forwardRef<HTMLButtonElement, FileDropRemoveProps>(function FileDropRemove(
+export const FileDropRemove = /*#__PURE__*/ forwardRef<HTMLButtonElement, FileDropRemoveProps>(function FileDropRemove(
   { type = "button", className, ...rest },
   ref,
 ) {
@@ -790,7 +792,7 @@ export type RatingDisplayProps = RatingDisplayOwnProps &
  *   <RatingDisplay value={4.5} aria-label="Rated 4.5 out of 5" />
  *   <RatingDisplay value={2} max={3} shape="heart" aria-label="2 of 3 hearts left" />
  */
-export const RatingDisplay = forwardRef<HTMLSpanElement, RatingDisplayProps>(function RatingDisplay(
+export const RatingDisplay = /*#__PURE__*/ forwardRef<HTMLSpanElement, RatingDisplayProps>(function RatingDisplay(
   { value, max, shape, className, style, ...rest },
   ref,
 ) {
@@ -834,7 +836,7 @@ export type SegmentProps = SegmentOwnProps &
  *     <Segment value="grid" checked={view === "grid"}>Grid</Segment>
  *   </Segmented>
  */
-export const Segment = forwardRef<HTMLButtonElement, SegmentProps>(function Segment(
+export const Segment = /*#__PURE__*/ forwardRef<HTMLButtonElement, SegmentProps>(function Segment(
   { value, checked, tone, iconOnly, type = "button", className, ...rest },
   ref,
 ) {
@@ -873,7 +875,7 @@ export type SegmentedRadiosProps = SegmentedRadiosOwnProps & NativeProps<"fields
  *     <SegmentRadio name="view" value="grid" defaultChecked>Grid</SegmentRadio>
  *   </SegmentedRadios>
  */
-export const SegmentedRadios = forwardRef<HTMLFieldSetElement, SegmentedRadiosProps>(function SegmentedRadios(
+export const SegmentedRadios = /*#__PURE__*/ forwardRef<HTMLFieldSetElement, SegmentedRadiosProps>(function SegmentedRadios(
   { legend, size, fullWidth, className, children, ...rest },
   ref,
 ) {
@@ -909,7 +911,7 @@ export type SegmentRadioProps = SegmentRadioOwnProps &
  * Renders `<label class="pp-box"><input type="radio">…</label>`. The ref and every native prop (name, value, checked,
  * onChange…) go to the `<input>`; className and style go to the label.
  */
-export const SegmentRadio = forwardRef<HTMLInputElement, SegmentRadioProps>(function SegmentRadio(
+export const SegmentRadio = /*#__PURE__*/ forwardRef<HTMLInputElement, SegmentRadioProps>(function SegmentRadio(
   { tone, iconOnly, className, style, children, ...rest },
   ref,
 ) {

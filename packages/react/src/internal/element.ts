@@ -4,12 +4,12 @@
  * same in React 18 and 19:
  *
  * - Attributes are written as attributes, in the first render, so they are there when the element connects (it
- *   reads its settings then) and in server-rendered HTML. Booleans are present ("") or absent; numbers become
- *   text. React 19 would assign a prop as a property whenever the element has one by that name, which runs a
- *   setter before the element is connected (a dialog's `open` would never open it) or throws on a getter-only one,
- *   so on the client a name that is also a property is written in another case ("Open"): HTML attribute names
- *   ignore case, so the browser stores `open`, and React 19 keeps it an attribute. Server HTML keeps the plain
- *   name, and hydration matches the two without a warning.
+ *   reads its settings then) and in server-rendered HTML. Booleans are present ("", or a switch's one value, as
+ *   `fullWidth` writes data-width="full") or absent; numbers become text. React 19 would assign a prop as a property
+ *   whenever the element has one by that name, which runs a setter before the element is connected (a dialog's
+ *   `open` would never open it) or throws on a getter-only one, so on the client a name that is also a property is
+ *   written in another case ("Open"): HTML attribute names ignore case, so the browser stores `open`, and React 19
+ *   keeps it an attribute. Server HTML keeps the plain name, and hydration matches the two without a warning.
  * - Properties are assigned once the element is defined (an element still waiting for its definition is left
  *   alone, so its class keeps its accessors), and only when the value differs from the element's own: a property
  *   only the element has (DropText's `text`) on the first render and whenever it changes, and a writable property
@@ -43,8 +43,11 @@ export interface ElementSpec {
   className?: string;
   /** Imports the module that defines the element. */
   load?: () => Promise<unknown>;
-  /** prop -> [attribute, writable property kept in step after the first render, the attribute is also a property name]. */
-  attributes?: Readonly<Record<string, readonly [attribute: string, property?: string, shadowed?: boolean]>>;
+  /**
+   * prop -> [attribute, writable property kept in step after the first render, the attribute is also a property name,
+   * the value a boolean prop writes when true (a switch such as data-width="full"; "" otherwise)].
+   */
+  attributes?: Readonly<Record<string, readonly [attribute: string, property?: string, shadowed?: boolean, on?: string]>>;
   /** Props that are only properties. */
   properties?: readonly string[];
   /** prop -> event name. */
@@ -59,10 +62,11 @@ const react19 = Number.parseInt(version, 10) >= 19;
 const client = typeof document !== "undefined";
 const useClientLayoutEffect = client ? useLayoutEffect : useEffect;
 
-/** An attribute's value as React should write it: booleans present or absent, everything else as text. */
-function serialize(value: unknown): string | undefined {
+/** An attribute's value as React should write it: booleans present (or a switch's value) or absent, everything else
+    as text. */
+function serialize(value: unknown, on = ""): string | undefined {
   if (value === undefined || value === null || value === false) return undefined;
-  if (value === true) return "";
+  if (value === true) return on;
   return String(value);
 }
 
@@ -103,7 +107,7 @@ export function createComponent<E extends HTMLElement, P extends object>(spec: E
       const value = props[key];
       const attr = attributes[key];
       if (attr) {
-        dom[attributeKey(attr[0], attr[2])] = serialize(value);
+        dom[attributeKey(attr[0], attr[2])] = serialize(value, attr[3]);
         if (attr[1]) wanted.push([attr[1], value, true]);
       } else if (properties.has(key)) {
         wanted.push([key, value, false]);

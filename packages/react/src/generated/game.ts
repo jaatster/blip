@@ -9,12 +9,12 @@ import type { PixelSprite } from "@jaatster/blip-game/sprites";
 import { createComponent, type ElementProps, type NoChildren } from "../internal/element.js";
 
 /** Props for {@link Choices}: `<pp-choices>`. */
-export type ChoicesProps = ElementProps<PixelChoices, "onChoice"> & {
+export type ChoicesProps = ElementProps<PixelChoices, "onAction"> & {
   /**
    * A choice was clicked or pressed.
-   * Event `pp-choice`.
+   * Event `pp-action`.
    */
-  onChoice?: (event: CustomEvent<ChoiceDetail>) => void;
+  onAction?: (event: CustomEvent<ChoiceDetail>) => void;
 };
 
 /**
@@ -27,17 +27,17 @@ export type ChoicesProps = ElementProps<PixelChoices, "onChoice"> & {
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/game/docs/choices.md
  */
-export const Choices = createComponent<PixelChoices, ChoicesProps>({
+export const Choices = /*#__PURE__*/ createComponent<PixelChoices, ChoicesProps>({
   tag: "pp-choices",
   name: "Choices",
   load: () => import("@jaatster/blip-game/choices"),
-  events: { onChoice: "pp-choice" },
+  events: { onAction: "pp-action" },
 });
 
 /** Props for {@link Dialogue}: `<pp-dialogue>`. */
 export type DialogueProps = ElementProps<PixelDialogue, "voice" | "mood" | "speed" | "typingLabel" | "nextLabel" | "doneLabel" | "font" | "onNext" | "onDone"> & {
   /**
-   * A blip on every other voiced letter. Present, or a base rate such as 1.2 (higher for smaller characters).
+   * A blip on every other voiced letter. Present, or a base rate such as 1.2 (higher for smaller characters). "false" is off.
    * Attribute `voice`.
    */
   voice?: boolean | number;
@@ -99,7 +99,7 @@ export type DialogueProps = ElementProps<PixelDialogue, "voice" | "mood" | "spee
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/game/docs/dialogue.md
  */
-export const Dialogue = createComponent<PixelDialogue, DialogueProps>({
+export const Dialogue = /*#__PURE__*/ createComponent<PixelDialogue, DialogueProps>({
   tag: "pp-dialogue",
   name: "Dialogue",
   load: () => import("@jaatster/blip-game/dialogue"),
@@ -149,7 +149,7 @@ export type CounterProps = ElementProps<PixelCounter, "value" | "label" | "pad" 
    */
   sound?: string;
   /**
-   * Never announced: for a ticking timer or a busy score.
+   * Never announced: for a ticking timer or a busy score. "false" is off.
    * Attribute `quiet`.
    */
   quiet?: boolean;
@@ -165,7 +165,7 @@ export type CounterProps = ElementProps<PixelCounter, "value" | "label" | "pad" 
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/game/docs/hud.md
  */
-export const Counter = createComponent<PixelCounter, CounterProps>({
+export const Counter = /*#__PURE__*/ createComponent<PixelCounter, CounterProps>({
   tag: "pp-counter",
   name: "Counter",
   load: () => import("@jaatster/blip-game/hud"),
@@ -200,7 +200,7 @@ export type HeartsProps = ElementProps<PixelHearts, "value" | "max" | "label" | 
    */
   label?: string;
   /**
-   * Never announced.
+   * Never announced. "false" is off.
    * Attribute `quiet`.
    */
   quiet?: boolean;
@@ -216,7 +216,7 @@ export type HeartsProps = ElementProps<PixelHearts, "value" | "max" | "label" | 
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/game/docs/hud.md
  */
-export const Hearts = createComponent<PixelHearts, HeartsProps>({
+export const Hearts = /*#__PURE__*/ createComponent<PixelHearts, HeartsProps>({
   tag: "pp-hearts",
   name: "Hearts",
   load: () => import("@jaatster/blip-game/hud"),
@@ -249,7 +249,7 @@ export type InventoryProps = ElementProps<PixelInventory, "onSelect"> & {
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/game/docs/inventory.md
  */
-export const Inventory = createComponent<PixelInventory, InventoryProps>({
+export const Inventory = /*#__PURE__*/ createComponent<PixelInventory, InventoryProps>({
   tag: "pp-inventory",
   name: "Inventory",
   load: () => import("@jaatster/blip-game/inventory"),
@@ -281,7 +281,7 @@ export type SpriteProps = ElementProps<PixelSprite, "name" | "tone" | "children"
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/game/docs/sprites.md
  */
-export const Sprite = createComponent<PixelSprite, SpriteProps>({
+export const Sprite = /*#__PURE__*/ createComponent<PixelSprite, SpriteProps>({
   tag: "pp-sprite",
   name: "Sprite",
   load: () => import("@jaatster/blip-game/sprites"),

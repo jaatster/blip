@@ -7,7 +7,7 @@ import type { StoryObj } from "@storybook/html-vite";
 import { expect, waitFor } from "storybook/test";
 import { click, escape, focus, hover, one, unhover, wait } from "../lib/play";
 
-type Toaster = HTMLElement & { add(options: { title: string; body?: string; tone?: string; duration?: number }): { el: HTMLElement; closed: Promise<void> } };
+type Toaster = HTMLElement & { add(options: { title: string; body?: string; tone?: string; duration?: number }): { close(): void; closed: Promise<void> } };
 
 const live = (root: HTMLElement) => {
   const toaster = one<Toaster>(root, "pp-toaster");
@@ -43,12 +43,13 @@ export const AnnounceAndPause: StoryObj = {
     });
 
     await step("Hovering pauses every countdown; leaving resumes it", async () => {
-      const quick = toaster.add({ title: "Quick tip", duration: 700 });
-      await hover(quick.el);
+      toaster.add({ title: "Quick tip", duration: 700 });
+      const quick = toast("Quick tip")!;
+      await hover(quick);
       await waitFor(() => expect(toaster).toHaveAttribute("data-paused"));
       await wait(1000);
       expect(toast("Quick tip")).toBeVisible(); // its 700 ms ran out while paused, and it is still here
-      await unhover(quick.el);
+      await unhover(quick);
       await waitFor(() => expect(toaster).not.toHaveAttribute("data-paused"));
       await waitFor(() => expect(toast("Quick tip")).toBeUndefined(), { timeout: 3000 });
     });

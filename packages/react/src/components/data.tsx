@@ -77,7 +77,7 @@ export type CardProps<T extends ElementType = "article"> = PolymorphicProps<T, C
  *   </Card>
  *   <Card as="a" href="/worlds/meadow">…</Card>
  */
-export const Card = forwardRef(function Card(
+export const Card = /*#__PURE__*/ forwardRef(function Card(
   { as: Tag = "article", variant, tone, size, radius, layout, interactive, className, ...rest }: CardProps<ElementType>,
   ref,
 ) {
@@ -95,18 +95,39 @@ export const Card = forwardRef(function Card(
   );
 }) as PolymorphicComponent<"article", CardOwnProps>;
 
+/** Own props of {@link CardMedia}. */
+export interface CardMediaOwnProps {
+  /**
+   * `pixels`: pixel art, as big as fits with every art pixel the same whole number of Blip pixels across and
+   * down, in the middle of the frame (a cover picture is scaled by fractions, and its pixels come out uneven and
+   * blurred). Give its size in its own pixels with `artWidth` and `artHeight`. `data-fit`.
+   */
+  fit?: "pixels";
+  /** With `fit="pixels"`: the picture's width in its own pixels (a 64 x 36 drawing: 64). `--pp-card-art-width`. */
+  artWidth?: number;
+  /** With `fit="pixels"`: the picture's height in its own pixels (a 64 x 36 drawing: 36). `--pp-card-art-height`. */
+  artHeight?: number;
+}
+/** Pixel art needs its size: `fit="pixels"` comes with `artWidth` and `artHeight`. */
+type CardMediaFit = { fit?: undefined; artWidth?: never; artHeight?: never } | { fit: "pixels"; artWidth: number; artHeight: number };
 /** Props for {@link CardMedia}. */
-export type CardMediaProps = NativeProps<"div">;
+export type CardMediaProps = CardMediaFit & NativeProps<"div", CardMediaOwnProps>;
 
 /**
  * The card's picture in a one-pixel ink frame, never smoothed. An `<img>`, `<svg>`, `<canvas>` or `<video>`, 16:9
- * unless `--pp-card-media-ratio` says otherwise; `alt=""` when it only decorates. Renders `<div
+ * unless `--pp-card-media-ratio` says otherwise; `alt=""` when it only decorates. Pixel art takes `fit="pixels"` and
+ * its size in its own pixels, so every art pixel comes out the same whole number of Blip pixels. Renders `<div
  * class="pp-card-media">`.
  *
  *   <CardMedia><img src="meadow.png" alt="" /></CardMedia>
+ *   <CardMedia fit="pixels" artWidth={64} artHeight={36}><img src="meadow.png" alt="" width={64} height={36} /></CardMedia>
  */
-export const CardMedia = forwardRef<HTMLDivElement, CardMediaProps>(function CardMedia({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("pp-card-media", className)} {...rest} />;
+export const CardMedia = /*#__PURE__*/ forwardRef<HTMLDivElement, CardMediaProps>(function CardMedia(
+  { fit, artWidth, artHeight, style, className, ...rest },
+  ref,
+) {
+  const art = fit === undefined ? style : { ...style, "--pp-card-art-width": String(artWidth), "--pp-card-art-height": String(artHeight) };
+  return <div ref={ref} className={cx("pp-card-media", className)} data-fit={fit} style={art as CSSProperties | undefined} {...rest} />;
 });
 
 /** Props for {@link CardHeader}. */
@@ -118,7 +139,7 @@ export type CardHeaderProps = NativeProps<"header">;
  *
  *   <CardHeader><div><CardTitle>Meadow</CardTitle></div><Tag tone="success">Cleared</Tag></CardHeader>
  */
-export const CardHeader = forwardRef<HTMLElement, CardHeaderProps>(function CardHeader({ className, ...rest }, ref) {
+export const CardHeader = /*#__PURE__*/ forwardRef<HTMLElement, CardHeaderProps>(function CardHeader({ className, ...rest }, ref) {
   return <header ref={ref} className={cx("pp-card-header", className)} {...rest} />;
 });
 
@@ -130,7 +151,7 @@ export type CardTitleProps<T extends ElementType = "h3"> = PolymorphicProps<T, o
  *
  *   <CardTitle as="h2">Pip Bloom</CardTitle>
  */
-export const CardTitle = forwardRef(function CardTitle(
+export const CardTitle = /*#__PURE__*/ forwardRef(function CardTitle(
   { as: Tag = "h3", className, ...rest }: CardTitleProps<ElementType>,
   ref,
 ) {
@@ -145,7 +166,7 @@ export type CardSubtitleProps = NativeProps<"p">;
  *
  *   <CardSubtitle>World 1 · 8 levels</CardSubtitle>
  */
-export const CardSubtitle = forwardRef<HTMLParagraphElement, CardSubtitleProps>(function CardSubtitle(
+export const CardSubtitle = /*#__PURE__*/ forwardRef<HTMLParagraphElement, CardSubtitleProps>(function CardSubtitle(
   { className, ...rest },
   ref,
 ) {
@@ -159,7 +180,7 @@ export type CardBodyProps<T extends ElementType = "div"> = PolymorphicProps<T, o
  *
  *   <CardBody as="p">Rolling hills, slow clouds and the first boss.</CardBody>
  */
-export const CardBody = forwardRef(function CardBody(
+export const CardBody = /*#__PURE__*/ forwardRef(function CardBody(
   { as: Tag = "div", className, ...rest }: CardBodyProps<ElementType>,
   ref,
 ) {
@@ -175,7 +196,7 @@ export type CardFooterProps = NativeProps<"footer">;
  *
  *   <CardFooter><Button variant="soft" size="sm">Message</Button><Button size="sm">Add friend</Button></CardFooter>
  */
-export const CardFooter = forwardRef<HTMLElement, CardFooterProps>(function CardFooter({ className, ...rest }, ref) {
+export const CardFooter = /*#__PURE__*/ forwardRef<HTMLElement, CardFooterProps>(function CardFooter({ className, ...rest }, ref) {
   return <footer ref={ref} className={cx("pp-card-footer", className)} {...rest} />;
 });
 
@@ -188,20 +209,20 @@ export type CardContentProps = NativeProps<"div">;
  *
  *   <Card layout="horizontal"><CardMedia>…</CardMedia><CardContent>…</CardContent></Card>
  */
-export const CardContent = forwardRef<HTMLDivElement, CardContentProps>(function CardContent(
+export const CardContent = /*#__PURE__*/ forwardRef<HTMLDivElement, CardContentProps>(function CardContent(
   { className, ...rest },
   ref,
 ) {
   return <div ref={ref} className={cx("pp-card-content", className)} {...rest} />;
 });
 
-/** Props for {@link CardLink}. */
-export type CardLinkProps = NativeProps<"a">;
+/** Props for {@link CardLink}: a link's by default, or your router's link's with `as`. */
+export type CardLinkProps<T extends ElementType = "a"> = PolymorphicProps<T, object>;
 
 /**
  * A card's main link, in its title: its click area covers the card. Give the card `interactive`; its other buttons stay
- * their own targets above the link, so screen readers hear a short link name and every action stays reachable. For a
- * router's link component, give it `className="pp-card-link"`. Renders `<a class="pp-card-link">`.
+ * their own targets above the link, so screen readers hear a short link name and every action stays reachable.
+ * Renders `<a class="pp-card-link">`; with `as`, your router's link.
  *
  *   <Card interactive>
  *     <CardHeader>
@@ -210,9 +231,9 @@ export type CardLinkProps = NativeProps<"a">;
  *     <CardFooter><Button size="sm">Continue</Button></CardFooter>
  *   </Card>
  */
-export const CardLink = forwardRef<HTMLAnchorElement, CardLinkProps>(function CardLink({ className, ...rest }, ref) {
-  return <a ref={ref} className={cx("pp-card-link", className)} {...rest} />;
-});
+export const CardLink = /*#__PURE__*/ forwardRef(function CardLink({ as: Tag = "a", className, ...rest }: CardLinkProps<ElementType>, ref) {
+  return <Tag ref={ref} className={cx("pp-card-link", className)} {...rest} />;
+}) as PolymorphicComponent<"a", object>;
 
 /* -------------------------------------------------------------------------------------------------- tile */
 
@@ -239,7 +260,7 @@ export type TileProps<T extends ElementType = "button"> = PolymorphicProps<T, Ti
  *     <TileLabel id="t-sword">Iron sword</TileLabel>
  *   </TileItem>
  */
-export const Tile = forwardRef(function Tile(
+export const Tile = /*#__PURE__*/ forwardRef(function Tile(
   { as: Tag = "button", variant, tone, size, pressed, className, ...rest }: TileProps<ElementType>,
   ref,
 ) {
@@ -264,7 +285,7 @@ export type TileGlintProps = NativeProps<"span", { children?: never }>;
  *
  *   <Tile tone="green" aria-labelledby="app-play"><Icon name="play" /><TileGlint /></Tile>
  */
-export const TileGlint = forwardRef<HTMLSpanElement, TileGlintProps>(function TileGlint({ className, ...rest }, ref) {
+export const TileGlint = /*#__PURE__*/ forwardRef<HTMLSpanElement, TileGlintProps>(function TileGlint({ className, ...rest }, ref) {
   return <span ref={ref} className={cx("pp-tile-glint", className)} {...rest} />;
 });
 
@@ -287,7 +308,7 @@ export type TileItemProps<T extends ElementType = "li"> = PolymorphicProps<T, Ti
  *     <TileLabel id="app-1" boxed>Play</TileLabel>
  *   </TileItem>
  */
-export const TileItem = forwardRef(function TileItem(
+export const TileItem = /*#__PURE__*/ forwardRef(function TileItem(
   { as: Tag = "li", label, className, ...rest }: TileItemProps<ElementType>,
   ref,
 ) {
@@ -308,7 +329,7 @@ export type TileLabelProps = TileLabelOwnProps & NativeProps<"span", TileLabelOw
  *
  *   <TileLabel id="t-sword">Iron sword</TileLabel>
  */
-export const TileLabel = forwardRef<HTMLSpanElement, TileLabelProps>(function TileLabel(
+export const TileLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, TileLabelProps>(function TileLabel(
   { boxed, className, ...rest },
   ref,
 ) {
@@ -334,7 +355,7 @@ export type TileListProps<T extends ElementType = "ul"> = PolymorphicProps<T, Ti
  *     </TileList>
  *   </TileGrid>
  */
-export const TileList = forwardRef(function TileList(
+export const TileList = /*#__PURE__*/ forwardRef(function TileList(
   { as: Tag = "ul", size, role, className, ...rest }: TileListProps<ElementType>,
   ref,
 ) {
@@ -374,7 +395,7 @@ export type ListProps<T extends ElementType = "ul"> = PolymorphicProps<T, ListOw
  *     <ListItem>…</ListItem>
  *   </List>
  */
-export const List = forwardRef(function List(
+export const List = /*#__PURE__*/ forwardRef(function List(
   { as: Tag = "ul", boxed, variant, dividers, density, role, className, ...rest }: ListProps<ElementType>,
   ref,
 ) {
@@ -415,7 +436,7 @@ export type ListItemProps<T extends ElementType = "li"> = PolymorphicProps<T, Li
  *   </ListItem>
  *   <li><ListItem as="a" href="/settings/general" aria-current="page">…</ListItem></li>
  */
-export const ListItem = forwardRef(function ListItem(
+export const ListItem = /*#__PURE__*/ forwardRef(function ListItem(
   { as: Tag = "li", radius, type, className, ...rest }: ListItemProps<ElementType>,
   ref,
 ) {
@@ -439,7 +460,7 @@ export type ListContentProps<T extends ElementType = "div"> = PolymorphicProps<T
  *
  *   <ListContent><ListTitle>Cloud save</ListTitle><ListDescription>Synced 2 min ago</ListDescription></ListContent>
  */
-export const ListContent = forwardRef(function ListContent(
+export const ListContent = /*#__PURE__*/ forwardRef(function ListContent(
   { as: Tag = "div", className, ...rest }: ListContentProps<ElementType>,
   ref,
 ) {
@@ -454,7 +475,7 @@ export type ListTitleProps = NativeProps<"span">;
  *
  *   <ListTitle id="set-music">Music</ListTitle>
  */
-export const ListTitle = forwardRef<HTMLSpanElement, ListTitleProps>(function ListTitle({ className, ...rest }, ref) {
+export const ListTitle = /*#__PURE__*/ forwardRef<HTMLSpanElement, ListTitleProps>(function ListTitle({ className, ...rest }, ref) {
   return <span ref={ref} className={cx("pp-list-title", className)} {...rest} />;
 });
 
@@ -466,7 +487,7 @@ export type ListDescriptionProps = NativeProps<"span">;
  *
  *   <ListDescription>Chip tunes on the title screen</ListDescription>
  */
-export const ListDescription = forwardRef<HTMLSpanElement, ListDescriptionProps>(function ListDescription(
+export const ListDescription = /*#__PURE__*/ forwardRef<HTMLSpanElement, ListDescriptionProps>(function ListDescription(
   { className, ...rest },
   ref,
 ) {
@@ -481,7 +502,7 @@ export type ListEndProps<T extends ElementType = "div"> = PolymorphicProps<T, ob
  *
  *   <ListEnd>98,120</ListEnd>
  */
-export const ListEnd = forwardRef(function ListEnd(
+export const ListEnd = /*#__PURE__*/ forwardRef(function ListEnd(
   { as: Tag = "div", className, ...rest }: ListEndProps<ElementType>,
   ref,
 ) {
@@ -499,7 +520,7 @@ export type TableFrameProps = NativeProps<"div">;
  *
  *   <TableFrame><DataTable>…</DataTable></TableFrame>
  */
-export const TableFrame = forwardRef<HTMLDivElement, TableFrameProps>(function TableFrame({ className, ...rest }, ref) {
+export const TableFrame = /*#__PURE__*/ forwardRef<HTMLDivElement, TableFrameProps>(function TableFrame({ className, ...rest }, ref) {
   return <div ref={ref} className={cx("pp-box pp-table-frame", className)} {...rest} />;
 });
 
@@ -518,7 +539,7 @@ export type TableScrollProps = TableScrollOwnProps & Named & NativeProps<"div", 
  *
  *   <TableScroll aria-labelledby="scores-cap" maxHeight={120}>…</TableScroll>
  */
-export const TableScroll = forwardRef<HTMLDivElement, TableScrollProps>(function TableScroll(
+export const TableScroll = /*#__PURE__*/ forwardRef<HTMLDivElement, TableScrollProps>(function TableScroll(
   { maxHeight, role = "region", tabIndex = 0, style, className, ...rest },
   ref,
 ) {
@@ -570,7 +591,7 @@ export type DataTableProps = DataTableOwnProps & NativeProps<"table", DataTableO
  *     </TableFrame>
  *   </Table>
  */
-export const DataTable = forwardRef<HTMLTableElement, DataTableProps>(function DataTable(
+export const DataTable = /*#__PURE__*/ forwardRef<HTMLTableElement, DataTableProps>(function DataTable(
   { zebra, density, stack, busy, className, ...rest },
   ref,
 ) {
@@ -597,7 +618,7 @@ export type TableCaretProps = NativeProps<"span", { children?: never }>;
  *
  *   <TableCaret />
  */
-export const TableCaret = forwardRef<HTMLSpanElement, TableCaretProps>(function TableCaret(
+export const TableCaret = /*#__PURE__*/ forwardRef<HTMLSpanElement, TableCaretProps>(function TableCaret(
   { className, ...rest },
   ref,
 ) {
@@ -615,7 +636,7 @@ export type TableSortProps = NativeProps<"button">;
  *
  *   <th scope="col" className="pp-numeric" aria-sort="descending"><TableSort>Score</TableSort></th>
  */
-export const TableSort = forwardRef<HTMLButtonElement, TableSortProps>(function TableSort(
+export const TableSort = /*#__PURE__*/ forwardRef<HTMLButtonElement, TableSortProps>(function TableSort(
   { type = "button", className, children, ...rest },
   ref,
 ) {
@@ -645,7 +666,7 @@ export type TableCheckProps<T extends ElementType = "td"> = PolymorphicProps<T, 
  *     <span className="pp-box pp-checkbox" data-size="sm"><input type="checkbox" aria-labelledby="p1" /></span>
  *   </TableCheck>
  */
-export const TableCheck = forwardRef(function TableCheck(
+export const TableCheck = /*#__PURE__*/ forwardRef(function TableCheck(
   { as: Tag = "td", scope, className, ...rest }: TableCheckProps<ElementType>,
   ref,
 ) {
@@ -672,7 +693,7 @@ export type TableEmptyProps = TableEmptyOwnProps & NativeProps<"tr", TableEmptyO
  *
  *   <tbody><TableEmpty colSpan={3}>No friends online. Invite someone to play.</TableEmpty></tbody>
  */
-export const TableEmpty = forwardRef<HTMLTableRowElement, TableEmptyProps>(function TableEmpty(
+export const TableEmpty = /*#__PURE__*/ forwardRef<HTMLTableRowElement, TableEmptyProps>(function TableEmpty(
   { colSpan, className, children, ...rest },
   ref,
 ) {
@@ -692,7 +713,7 @@ export type TableLoadingProps = TableEmptyProps;
  *
  *   <DataTable busy>…<tbody><TableLoading colSpan={3}>Loading matches</TableLoading></tbody></DataTable>
  */
-export const TableLoading = forwardRef<HTMLTableRowElement, TableLoadingProps>(function TableLoading(
+export const TableLoading = /*#__PURE__*/ forwardRef<HTMLTableRowElement, TableLoadingProps>(function TableLoading(
   { colSpan, className, children, ...rest },
   ref,
 ) {
@@ -724,7 +745,7 @@ export type AvatarProps = AvatarOwnProps & NativeProps<"span", AvatarOwnProps>;
  *   <Avatar tone="pink"><img src="pip.png" alt="Pip Bloom" /></Avatar>
  *   <Avatar tone="teal" role="img" aria-label="Kit Moss">KM</Avatar>
  */
-export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(function Avatar(
+export const Avatar = /*#__PURE__*/ forwardRef<HTMLSpanElement, AvatarProps>(function Avatar(
   { size, tone, radius, className, ...rest },
   ref,
 ) {
@@ -759,7 +780,7 @@ export type AvatarStatusProps = AvatarStatusOwnProps & Named & NativeProps<"span
  *     <AvatarStatus tone="success" aria-label="Online" />
  *   </Avatar>
  */
-export const AvatarStatus = forwardRef<HTMLSpanElement, AvatarStatusProps>(function AvatarStatus(
+export const AvatarStatus = /*#__PURE__*/ forwardRef<HTMLSpanElement, AvatarStatusProps>(function AvatarStatus(
   { tone, variant, role = "img", className, ...rest },
   ref,
 ) {
@@ -787,7 +808,7 @@ export type AvatarGroupProps = Named & NativeProps<"div">;
  *     <Avatar tone="neutral" role="img" aria-label="3 more">+3</Avatar>
  *   </AvatarGroup>
  */
-export const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(function AvatarGroup(
+export const AvatarGroup = /*#__PURE__*/ forwardRef<HTMLDivElement, AvatarGroupProps>(function AvatarGroup(
   { role = "group", className, ...rest },
   ref,
 ) {
@@ -824,7 +845,7 @@ export type TagProps<T extends ElementType = "span"> = PolymorphicProps<T, TagOw
  *   <Tag tone="orange">Lava zone<TagRemove aria-label="Remove Lava zone" onClick={remove} /></Tag>
  *   <Tag as="button" variant="outline" pressed={swords} onClick={toggle}>Swords</Tag>
  */
-export const Tag = forwardRef(function Tag(
+export const Tag = /*#__PURE__*/ forwardRef(function Tag(
   { as: Pill = "span", variant, tone, size, radius, pressed, type, className, ...rest }: TagProps<ElementType>,
   ref,
 ) {
@@ -851,7 +872,7 @@ export type TagRemoveProps = Named & NativeProps<"button", { children?: never }>
  *
  *   <Tag tone="teal">Co-op<TagRemove aria-label="Remove Co-op" onClick={remove} /></Tag>
  */
-export const TagRemove = forwardRef<HTMLButtonElement, TagRemoveProps>(function TagRemove(
+export const TagRemove = /*#__PURE__*/ forwardRef<HTMLButtonElement, TagRemoveProps>(function TagRemove(
   { type = "button", className, ...rest },
   ref,
 ) {
@@ -883,7 +904,7 @@ export type KeycapProps = KeycapOwnProps & NativeProps<"kbd", KeycapOwnProps>;
  *   <p>Press <Keycap>Esc</Keycap> to pause.</p>
  *   <Keycap size="lg" tone="green">A</Keycap>
  */
-export const Keycap = forwardRef<HTMLElement, KeycapProps>(function Keycap(
+export const Keycap = /*#__PURE__*/ forwardRef<HTMLElement, KeycapProps>(function Keycap(
   { size, tone, pressed, className, ...rest },
   ref,
 ) {
@@ -908,7 +929,7 @@ export type KeysProps = NativeProps<"kbd">;
  *
  *   <Keys><Keycap>Ctrl</Keycap>+<Keycap>K</Keycap></Keys>
  */
-export const Keys = forwardRef<HTMLElement, KeysProps>(function Keys({ className, ...rest }, ref) {
+export const Keys = /*#__PURE__*/ forwardRef<HTMLElement, KeysProps>(function Keys({ className, ...rest }, ref) {
   return <kbd ref={ref} className={cx("pp-keys", className)} {...rest} />;
 });
 
@@ -936,7 +957,7 @@ export type StatProps = StatOwnProps & NativeProps<"div", StatOwnProps>;
  *     </Stat>
  *   </Grid>
  */
-export const Stat = forwardRef<HTMLDivElement, StatProps>(function Stat({ variant, tone, className, ...rest }, ref) {
+export const Stat = /*#__PURE__*/ forwardRef<HTMLDivElement, StatProps>(function Stat({ variant, tone, className, ...rest }, ref) {
   return (
     <div
       ref={ref}
@@ -956,7 +977,7 @@ export type StatLabelProps = NativeProps<"dt">;
  *
  *   <StatLabel>Levels cleared</StatLabel>
  */
-export const StatLabel = forwardRef<HTMLElement, StatLabelProps>(function StatLabel({ className, ...rest }, ref) {
+export const StatLabel = /*#__PURE__*/ forwardRef<HTMLElement, StatLabelProps>(function StatLabel({ className, ...rest }, ref) {
   return <dt ref={ref} className={cx("pp-stat-label", className)} {...rest} />;
 });
 
@@ -983,7 +1004,7 @@ export type StatValueProps = StatValueOwnProps & NativeProps<"dd", StatValueOwnP
  *   <StatValue scale={3} tone="green" pop>42</StatValue>
  *   <StatValue>12:30</StatValue>
  */
-export const StatValue = forwardRef<HTMLElement, StatValueProps>(function StatValue(
+export const StatValue = /*#__PURE__*/ forwardRef<HTMLElement, StatValueProps>(function StatValue(
   { scale, tone, pop, className, children, ...rest },
   ref,
 ) {
@@ -1005,20 +1026,29 @@ export const StatValue = forwardRef<HTMLElement, StatValueProps>(function StatVa
 
 /** Own props of {@link StatDelta}. */
 export interface StatDeltaOwnProps {
-  /** The pixel arrow before the words: up (reads success green), down (danger red) or flat (muted). `data-trend`. */
+  /**
+   * The pixel arrow before the words, and the mark after it: up is good news (success green, a check), down bad
+   * (danger red, an exclamation mark), flat neither (muted, no mark). `data-trend`.
+   */
   trend?: "up" | "down" | "flat";
-  /** When down is good news (lag, lives lost) or up is bad, say so: success, danger or neutral. `data-tone`. */
+  /**
+   * What the move means when the arrow's usual meaning is wrong: `success` when down is good news (lag, lives lost),
+   * `danger` when up is bad, `neutral` when it is neither (coins spent). The colour and the mark follow it.
+   * `data-tone`.
+   */
   tone?: "success" | "danger" | "neutral";
 }
 export type StatDeltaProps = StatDeltaOwnProps & NativeProps<"dd", StatDeltaOwnProps>;
 
 /**
- * How the value moved, in words that carry the change. Say its sign and what it compares to ("+12% vs last week", "-6,
- * fewer is better"); the arrow and colour repeat the words. Renders `<dd class="pp-stat-delta">`.
+ * How the value moved, in words that carry the change. The words must say its sign, what it compares to, and whether
+ * it is good or bad news wherever the number alone does not ("+12% vs last week", "-6, fewer is better", "+12 ms,
+ * slower"). The arrow, the mark (a check for good news, an exclamation mark for bad) and the colour repeat the words
+ * and are not read out. Renders `<dd class="pp-stat-delta">`.
  *
  *   <StatDelta trend="down" tone="success">-6, fewer is better</StatDelta>
  */
-export const StatDelta = forwardRef<HTMLElement, StatDeltaProps>(function StatDelta(
+export const StatDelta = /*#__PURE__*/ forwardRef<HTMLElement, StatDeltaProps>(function StatDelta(
   { trend, tone, className, ...rest },
   ref,
 ) {
@@ -1054,7 +1084,7 @@ export type DividerProps<T extends ElementType = "hr"> = PolymorphicProps<T, Div
  *   <Divider orientation="vertical" />
  *   <Divider as="div" align="start">Saved games</Divider>
  */
-export const Divider = forwardRef(function Divider(
+export const Divider = /*#__PURE__*/ forwardRef(function Divider(
   { as: Tag = "hr", variant, strong, align, orientation, className, ...rest }: DividerProps<ElementType>,
   ref,
 ) {
@@ -1088,7 +1118,7 @@ export type AccordionProps = NativeProps<"div">;
  *     </AccordionItem>
  *   </Accordion>
  */
-export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(function Accordion({ className, ...rest }, ref) {
+export const Accordion = /*#__PURE__*/ forwardRef<HTMLDivElement, AccordionProps>(function Accordion({ className, ...rest }, ref) {
   return <div ref={ref} className={cx("pp-accordion", className)} {...rest} />;
 });
 
@@ -1104,7 +1134,7 @@ export type AccordionItemProps = NativeProps<"details">;
  *     <AccordionPanel boxed><p>The game saves at every checkpoint flag.</p></AccordionPanel>
  *   </AccordionItem>
  */
-export const AccordionItem = forwardRef<HTMLDetailsElement, AccordionItemProps>(function AccordionItem(
+export const AccordionItem = /*#__PURE__*/ forwardRef<HTMLDetailsElement, AccordionItemProps>(function AccordionItem(
   { className, ...rest },
   ref,
 ) {
@@ -1120,7 +1150,7 @@ export type AccordionChevronProps = NativeProps<"span", { children?: never }>;
  *
  *   <AccordionChevron />
  */
-export const AccordionChevron = forwardRef<HTMLSpanElement, AccordionChevronProps>(function AccordionChevron(
+export const AccordionChevron = /*#__PURE__*/ forwardRef<HTMLSpanElement, AccordionChevronProps>(function AccordionChevron(
   { className, ...rest },
   ref,
 ) {
@@ -1148,7 +1178,7 @@ export type AccordionSummaryProps = AccordionSummaryOwnProps & NativeProps<"summ
  *
  *   <AccordionSummary variant="soft" tone="teal">Sound</AccordionSummary>
  */
-export const AccordionSummary = forwardRef<HTMLElement, AccordionSummaryProps>(function AccordionSummary(
+export const AccordionSummary = /*#__PURE__*/ forwardRef<HTMLElement, AccordionSummaryProps>(function AccordionSummary(
   { variant, tone, radius, className, children, ...rest },
   ref,
 ) {
@@ -1181,7 +1211,7 @@ export type AccordionPanelProps = AccordionPanelOwnProps & NativeProps<"div", Ac
  *
  *   <AccordionPanel boxed><p>Yes: Settings, then Controls.</p></AccordionPanel>
  */
-export const AccordionPanel = forwardRef<HTMLDivElement, AccordionPanelProps>(function AccordionPanel(
+export const AccordionPanel = /*#__PURE__*/ forwardRef<HTMLDivElement, AccordionPanelProps>(function AccordionPanel(
   { boxed, radius, className, ...rest },
   ref,
 ) {

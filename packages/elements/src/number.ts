@@ -9,9 +9,10 @@
  *   </pp-number>
  *
  * Attributes: decrease-label, increase-label (the buttons' names). Event: pp-change { value } when the value is
- * committed (the input's change).
+ * committed (the input's change). An input rendered later, or swapped by a framework, gets the buttons as it comes.
  */
 import { PixelElement, warn } from "@jaatster/blip-core";
+import { both, elementsChanged, observe } from "./_dom.js";
 
 const button = (step: string, label: string): HTMLButtonElement => {
   const b = document.createElement("button");
@@ -39,21 +40,20 @@ export class PixelNumber extends PixelElement {
 
   #down = button("down", "Decrease");
   #up = button("up", "Increase");
+  /** The input wired now, and what aborts its wiring when it goes. */
+  #field: HTMLInputElement | null = null;
+  #wiring?: AbortController;
 
   get input(): HTMLInputElement | null {
     return this.querySelector("input");
   }
 
   protected connected(): void {
-    const input = this.input;
-    if (!input) return warn("PP-E001", "<pp-number> needs an <input type=number> inside.", this);
-    this.#down.setAttribute("aria-label", this.getAttribute("decrease-label") ?? "Decrease");
-    this.#up.setAttribute("aria-label", this.getAttribute("increase-label") ?? "Increase");
-    if (input.id) for (const b of [this.#down, this.#up]) b.setAttribute("aria-controls", input.id);
-    input.before(this.#down);
-    input.after(this.#up);
-    this.#update();
-
+    this.#field = null;
+    this.#wire();
+    // An input rendered later, or swapped by a framework, gets the buttons when it arrives.
+    observe(this, this.signal, () => this.#wire(), elementsChanged);
+    if (!this.input && this.children.length) warn("PP-E001", "<pp-number> needs an <input type=number> inside.", this);
     for (const [b, dir] of [[this.#down, -1], [this.#up, 1]] as const) {
       this.on(b, "pointerdown", (e) => {
         if (e.button !== 0) return;
@@ -65,22 +65,40 @@ export class PixelNumber extends PixelElement {
         if (e.detail === 0 && this.#step(dir)) this.#commit();
       });
     }
-    this.on(input, "input", () => this.#update());
-    this.on(input, "change", () => {
+  }
+
+  /** Puts the buttons round the input there is now and listens to it (once per input). */
+  #wire(): void {
+    const input = this.input;
+    if (!input || input === this.#field) return;
+    this.#wiring?.abort();
+    this.#field = input;
+    const signal = both(this.signal, (this.#wiring = new AbortController()).signal);
+    this.#down.setAttribute("aria-label", this.getAttribute("decrease-label") ?? "Decrease");
+    this.#up.setAttribute("aria-label", this.getAttribute("increase-label") ?? "Increase");
+    for (const b of [this.#down, this.#up]) {
+      if (input.id) b.setAttribute("aria-controls", input.id);
+      else b.removeAttribute("aria-controls");
+    }
+    if (input.previousElementSibling !== this.#down) input.before(this.#down);
+    if (input.nextElementSibling !== this.#up) input.after(this.#up);
+    this.#update();
+    input.addEventListener("input", () => this.#update(), { signal });
+    input.addEventListener("change", () => {
       this.#update();
       this.emit("change", { value: input.value });
-    });
-    this.on(input, "keydown", (e) => {
+    }, { signal });
+    input.addEventListener("keydown", (e) => {
       const dir = e.key === "PageUp" ? 1 : e.key === "PageDown" ? -1 : 0;
       if (!dir) return;
       e.preventDefault();
       if (this.#step(dir, 10)) this.#commit();
-    });
+    }, { signal });
     // A form reset changes the value without an event: look again once it is done.
-    if (input.form) this.on(input.form, "reset", () => setTimeout(() => this.#update()));
-    const watch = new MutationObserver(() => this.#update());
-    watch.observe(input, { attributes: true, attributeFilter: ["disabled", "readonly", "min", "max"] });
-    this.signal.addEventListener("abort", () => watch.disconnect(), { once: true });
+    if (input.form) input.form.addEventListener("reset", () => setTimeout(() => this.#update()), { signal });
+    const watchInput = new MutationObserver(() => this.#update());
+    watchInput.observe(input, { attributes: true, attributeFilter: ["disabled", "readonly", "min", "max"] });
+    signal.addEventListener("abort", () => watchInput.disconnect(), { once: true });
   }
 
   /** One step (or n), clamped by the input; true if the value changed. Fires input like typing does. */

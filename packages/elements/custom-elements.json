@@ -139,7 +139,7 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "Opens the dialog as a modal, or closes it; reflects whether it is open.",
+              "description": "Opens the dialog as a modal, or closes it; reflects whether it is open. \"false\" is off.",
               "fieldName": "open"
             },
             {
@@ -228,6 +228,20 @@
               },
               "description": "Once per new value: a suggestion taken, the field cleared, or typed text committed.",
               "name": "pp-change"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<void>"
+              },
+              "description": "The list of suggestions opened.",
+              "name": "pp-open"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<void>"
+              },
+              "description": "The list of suggestions closed.",
+              "name": "pp-close"
             }
           ],
           "attributes": [
@@ -236,7 +250,7 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "The list of suggestions is showing.",
+              "description": "The list of suggestions is showing. \"false\" is off.",
               "fieldName": "open"
             },
             {
@@ -338,7 +352,8 @@
               "type": {
                 "text": "boolean"
               },
-              "readonly": true
+              "description": "True while the palette is open; setting it opens or closes it.",
+              "attribute": "open"
             },
             {
               "kind": "method",
@@ -357,19 +372,42 @@
                 "type": {
                   "text": "void"
                 }
-              }
+              },
+              "description": "Closes it; the dialog gives focus back to whatever had it."
             }
           ],
           "events": [
             {
               "type": {
-                "text": "CustomEvent<CommandSelectDetail>"
+                "text": "CustomEvent<ActionDetail>"
               },
-              "description": "An option was chosen (Enter or a click). Cancelable: preventDefault() keeps the palette open.",
-              "name": "pp-select"
+              "description": "An option was chosen (Enter or a click), before it runs. Cancelable: preventDefault() keeps the palette open.",
+              "name": "pp-action"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<void>"
+              },
+              "description": "The palette opened.",
+              "name": "pp-open"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<void>"
+              },
+              "description": "The palette closed.",
+              "name": "pp-close"
             }
           ],
           "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "The palette is open; setting it opens (with an empty search) or closes it. Reflects the palette. \"false\" is off.",
+              "fieldName": "open"
+            },
             {
               "type": {
                 "text": "string"
@@ -389,6 +427,14 @@
         }
       ],
       "exports": [
+        {
+          "kind": "js",
+          "name": "ActionDetail",
+          "declaration": {
+            "name": "ActionDetail",
+            "module": "./menu.js"
+          }
+        },
         {
           "kind": "js",
           "name": "PixelCommand",
@@ -428,7 +474,7 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "Opens the dialog as a modal, or closes it; reflects whether it is open.",
+              "description": "Opens the dialog as a modal, or closes it; reflects whether it is open. \"false\" is off.",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -664,7 +710,7 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "Opens the dialog as a modal, or closes it; reflects whether it is open.",
+              "description": "Opens the dialog as a modal, or closes it; reflects whether it is open. \"false\" is off.",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -869,7 +915,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Wires a field's label, help, error and count to its control (aria-describedby, aria-invalid, live messages), so\nnothing has to be wired by hand.",
+          "description": "Wires a field's label, help, error and count to its control (aria-describedby, aria-invalid, live messages), so\nnothing has to be wired by hand. Parts rendered later or taken away are wired as they come, and the page's own\nerrors and aria-invalid are left as the page wrote them.",
           "name": "PixelField",
           "attributes": [
             {
@@ -1046,7 +1092,8 @@
               "type": {
                 "text": "boolean"
               },
-              "readonly": true
+              "description": "True while the menu is open; setting it opens or closes it.",
+              "attribute": "open"
             },
             {
               "kind": "method",
@@ -1072,25 +1119,48 @@
                   "text": "void"
                 }
               },
-              "description": "Closes the menu and gives focus back to its button."
+              "description": "Closes the menu; focus goes back to its button if it was in the menu."
             }
           ],
           "events": [
             {
               "type": {
-                "text": "CustomEvent<MenuSelectDetail>"
+                "text": "CustomEvent<ActionDetail>"
               },
-              "description": "Before an item runs. Cancelable: preventDefault() keeps the menu open and the item unchanged.",
-              "name": "pp-select"
+              "description": "An item was chosen, before it runs. Cancelable: preventDefault() keeps the menu open and the item unchanged.",
+              "name": "pp-action"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<void>"
+              },
+              "description": "The menu opened.",
+              "name": "pp-open"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<void>"
+              },
+              "description": "The menu closed.",
+              "name": "pp-close"
             }
           ],
           "attributes": [
             {
+              "name": "open",
               "type": {
-                "text": "\"end\""
+                "text": "boolean"
               },
-              "description": "Lines the menu up with the end of its button instead of the start.",
-              "name": "data-align"
+              "description": "The menu is open; setting it opens or closes the menu. Reflects the menu. \"false\" is off.",
+              "fieldName": "open"
+            },
+            {
+              "type": {
+                "text": "\"start\" | \"end\""
+              },
+              "description": "Lines the menu up with the start or the end of its button.",
+              "name": "data-align",
+              "default": "\"start\""
             }
           ],
           "superclass": {
@@ -1304,21 +1374,21 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "Shows the score; it cannot be changed (it stays in the tab order)."
+              "description": "Shows the score; it cannot be changed (it stays in the tab order). \"false\" is off."
             },
             {
               "name": "disabled",
               "type": {
                 "text": "boolean"
               },
-              "description": "Switched off (also follows a disabled fieldset)."
+              "description": "Switched off (also follows a disabled fieldset). \"false\" is off."
             },
             {
               "name": "required",
               "type": {
                 "text": "boolean"
               },
-              "description": "Invalid while the score is 0."
+              "description": "Invalid while the score is 0. \"false\" is off."
             },
             {
               "type": {
@@ -1479,7 +1549,7 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "Disables every segment (also follows a disabled fieldset).",
+              "description": "Disables every segment (also follows a disabled fieldset). \"false\" is off.",
               "fieldName": "disabled"
             },
             {
@@ -1487,7 +1557,7 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "Invalid until something is chosen."
+              "description": "Invalid until something is chosen. \"false\" is off."
             },
             {
               "type": {
@@ -1506,10 +1576,11 @@
             },
             {
               "type": {
-                "text": "\"sm\" | \"lg\""
+                "text": "\"sm\" | \"md\" | \"lg\""
               },
-              "description": "16 or 24 pixels high instead of 20, like buttons.",
-              "name": "data-size"
+              "description": "16, 20 or 24 pixels high, like buttons.",
+              "name": "data-size",
+              "default": "\"md\""
             },
             {
               "type": {
@@ -1648,7 +1719,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "WAI-ARIA tabs over the tabs markup: ids and ARIA wired, one tab in the tab order, the arrow keys, Home and End,\nthe selected panel shown, and stepped scroll buttons for a row that overflows.",
+          "description": "WAI-ARIA tabs over the tabs markup: ids and ARIA wired, one tab in the tab order, the arrow keys, Home and End,\nthe selected panel shown, and stepped scroll buttons for a row that overflows. Tabs and panels added or removed\nlater are wired as they come.",
           "name": "PixelTabs",
           "members": [
             {
@@ -1671,12 +1742,20 @@
             },
             {
               "kind": "field",
-              "name": "selected",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "The selected tab's value. Setting it selects that tab (no pp-change).",
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "selectedIndex",
               "type": {
                 "text": "number"
               },
-              "description": "The index of the selected tab, or -1. Setting it selects that tab (no pp-change).",
-              "attribute": "selected"
+              "description": "The index of the selected tab, or -1. Setting it selects that tab (no pp-change)."
             }
           ],
           "events": [
@@ -1690,12 +1769,12 @@
           ],
           "attributes": [
             {
-              "name": "selected",
+              "name": "value",
               "type": {
-                "text": "number"
+                "text": "string"
               },
-              "description": "The selected tab's index. Setting it selects that tab (no pp-change).",
-              "fieldName": "selected"
+              "description": "The selected tab's value: its data-value, else its value attribute, else its label. Setting it selects that tab (no pp-change); it follows the person's choice.",
+              "fieldName": "value"
             },
             {
               "type": {
@@ -1714,10 +1793,11 @@
             },
             {
               "type": {
-                "text": "\"sm\""
+                "text": "\"sm\" | \"md\" | \"lg\""
               },
-              "description": "Smaller tabs: 16 pixels high instead of 20.",
-              "name": "data-size"
+              "description": "16, 20 or 24 pixels high, like buttons.",
+              "name": "data-size",
+              "default": "\"md\""
             }
           ],
           "superclass": {
@@ -1887,11 +1967,19 @@
           "attributes": [
             {
               "type": {
-                "text": "\"bottom-end\" | \"bottom-center\" | \"top-end\" | \"top-center\""
+                "text": "\"bottom\" | \"top\""
               },
-              "description": "Where the toasts come up.",
-              "name": "data-placement",
-              "default": "\"bottom-end\""
+              "description": "The edge of the screen the toasts come up at.",
+              "name": "data-side",
+              "default": "\"bottom\""
+            },
+            {
+              "type": {
+                "text": "\"start\" | \"center\" | \"end\""
+              },
+              "description": "Where along that edge.",
+              "name": "data-align",
+              "default": "\"end\""
             },
             {
               "type": {
@@ -1979,7 +2067,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A tooltip for any trigger, following the WAI-ARIA tooltip pattern and WCAG 1.4.13: it describes its trigger,\nshows after a beat on hover and at once on keyboard focus, stays while the pointer moves onto it, and hides on\nEscape. It sits in the top layer and takes the other side when there is no room.",
+          "description": "A tooltip for any trigger, following the WAI-ARIA tooltip pattern and WCAG 1.4.13: it describes its trigger,\nshows after a beat on hover and at once on keyboard focus, stays while the pointer moves onto it, and closes on\nEscape. It sits in the top layer and takes the other side when there is no room.",
           "name": "PixelTooltip",
           "members": [
             {
@@ -1993,12 +2081,12 @@
             },
             {
               "kind": "field",
-              "name": "placement",
+              "name": "open",
               "type": {
-                "text": "Side"
+                "text": "boolean"
               },
-              "description": "The side it prefers.",
-              "attribute": "placement"
+              "description": "True while it shows; setting it shows or closes it.",
+              "attribute": "open"
             },
             {
               "kind": "method",
@@ -2012,32 +2100,55 @@
             },
             {
               "kind": "method",
-              "name": "hide",
+              "name": "close",
               "return": {
                 "type": {
                   "text": "void"
                 }
               },
-              "description": "Hides it now."
+              "description": "Closes it now."
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<void>"
+              },
+              "description": "It showed.",
+              "name": "pp-open"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<void>"
+              },
+              "description": "It closed.",
+              "name": "pp-close"
             }
           ],
           "attributes": [
             {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "It is showing; setting it shows or closes it. Reflects the tooltip. \"false\" is off.",
+              "fieldName": "open"
+            },
+            {
+              "name": "for",
               "type": {
                 "text": "string"
               },
               "description": "The trigger's id; left out, the element just before the tooltip.",
-              "name": "for",
               "fieldName": "htmlFor"
             },
             {
+              "name": "data-side",
               "type": {
                 "text": "\"top\" | \"bottom\" | \"left\" | \"right\""
               },
-              "description": "The side it prefers.",
-              "name": "placement",
-              "default": "\"top\"",
-              "fieldName": "placement"
+              "description": "The side it prefers. While it shows on the other side for want of room, data-side says so; it goes back when it closes.",
+              "default": "\"top\""
             }
           ],
           "superclass": {

@@ -36,7 +36,7 @@ export type DropTextProps = ElementProps<PixelDropText, "pop" | "scale" | "tone"
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/effects/docs/drop-text.md
  */
-export const DropText = createComponent<PixelDropText, DropTextProps>({
+export const DropText = /*#__PURE__*/ createComponent<PixelDropText, DropTextProps>({
   tag: "pp-drop-text",
   name: "DropText",
   load: () => import("@jaatster/blip-effects/text"),
@@ -52,12 +52,12 @@ export const DropText = createComponent<PixelDropText, DropTextProps>({
 /** Props for {@link Typewriter}: `<pp-typewriter>`. */
 export type TypewriterProps = ElementProps<PixelTypewriter, "blips" | "caret" | "mood" | "scale" | "text" | "onTypewriterDone" | "children"> & TextChildren & {
   /**
-   * Voices every other letter with the chip blip (through services.sound()).
+   * Voices every other letter with the chip blip (through services.sound()). "false" is off.
    * Attribute `blips`.
    */
   blips?: boolean;
   /**
-   * A two-pixel block after the typed text that blinks on the beat.
+   * A two-pixel block after the typed text: still while it types, then it blinks for six beats once the last letter is in, and stays. "false" is off.
    * Attribute `caret`.
    */
   caret?: boolean;
@@ -92,7 +92,7 @@ export type TypewriterProps = ElementProps<PixelTypewriter, "blips" | "caret" | 
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/effects/docs/typewriter.md
  */
-export const Typewriter = createComponent<PixelTypewriter, TypewriterProps>({
+export const Typewriter = /*#__PURE__*/ createComponent<PixelTypewriter, TypewriterProps>({
   tag: "pp-typewriter",
   name: "Typewriter",
   load: () => import("@jaatster/blip-effects/text"),
@@ -115,33 +115,33 @@ export type WorldProps = ElementProps<PixelWorld, "scheme" | "parallax" | "cloud
    */
   scheme?: "day" | "sunset" | "night" | "auto";
   /**
-   * The layers slide against the pointer, a whole pixel at a time, and lift a little as the world scrolls past.
+   * The layers slide against the pointer, a whole pixel at a time, and lift a little as the world scrolls past. "false" is off.
    * Attribute `parallax`.
    */
   parallax?: boolean;
   /**
-   * Present (or "drift"): the clouds drift, a whole pixel at a time. "none": no clouds. Left out: still clouds.
+   * Present (or "drift"): the clouds drift, a whole pixel at a time. "none": no clouds. Left out (or "false"): still clouds.
    * Attribute `clouds`.
    */
   clouds?: "drift" | "none";
   /**
-   * Stars flare now and then at night.
+   * Stars flare now and then at night. "false" is off.
    * Attribute `stars`.
    */
   stars?: boolean;
   /**
-   * Now and then a flock of birds by day, a shooting star at night.
+   * Now and then a flock of birds by day, a shooting star at night. "false" is off.
    * Attribute `events`.
    */
   events?: boolean;
   /**
-   * World pixels per page pixel, a whole number.
+   * Page pixels per world pixel, a whole number.
    * Attribute `zoom`.
    * @default 1
    */
   zoom?: number;
   /**
-   * A selector list of things the sky keeps clear of (".pp-hero-title, .pp-hero-lead"), matched in the world's container (its parent, or the nearest ancestor that holds a match). The sun, the moon, flaring stars and shooting stars go where they cross none of those boxes: the nearest clear place in their lane of the sky, else the same place across the sky if that is clear, else out of sight. Whole pixels, the same every time, and looked at again when anything resizes.
+   * A selector list of things the sky keeps clear of (".pp-hero-title, .pp-hero-lead"), matched in the world's container (its parent, or the nearest ancestor that holds a match). The sun, the moon and shooting stars go where they cross none of those boxes: the nearest clear place in their lane of the sky, else the same place across the sky if that is clear, else out of sight. Stars and clouds that would sit behind them are left out. Whole pixels, the same every time, and looked at again when anything resizes.
    * Attribute `avoid`.
    */
   avoid?: string;
@@ -151,18 +151,18 @@ export type WorldProps = ElementProps<PixelWorld, "scheme" | "parallax" | "cloud
  * The dithered world backdrop: sky, mountains, hills and meadow, for Day, Sunset and Night.
  *
  * <pp-world>: the world as a backdrop filling its positioned container. Each world pixel is the page's pixel
- * (--pp-pixel) times `zoom`, a whole number of CSS pixels; the canvas is drawn at the world's own resolution and
- * scaled up crisply, and only redrawn when its size or its time of day changes.
+ * (--pp-pixel) times `zoom`, made a whole number of device pixels; the canvas is drawn at the world's own resolution
+ * and scaled up crisply, and only redrawn when its size, its screen or its time of day changes.
  *
  * Attributes: scheme (day, sunset, night, auto, or left out to follow the page), parallax, clouds (drift; "none"
  * for none), stars (stars flare at night), events (birds by day, a shooting star at night), zoom, avoid (a selector
- * list of what the sun, moon, flares and shooting stars keep clear of).
+ * list of what the sun, the moon, the stars, the clouds and shooting stars keep clear of).
  *
  * Renders `<pp-world>` (@jaatster/blip-effects/world, loaded on the client when it first
  * mounts). The ref is the element.
  * @see https://github.com/jaatster/blip/blob/main/packages/effects/docs/world.md
  */
-export const World = createComponent<PixelWorld, WorldProps>({
+export const World = /*#__PURE__*/ createComponent<PixelWorld, WorldProps>({
   tag: "pp-world",
   name: "World",
   load: () => import("@jaatster/blip-effects/world"),

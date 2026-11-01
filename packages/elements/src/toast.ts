@@ -3,7 +3,7 @@
  *
  *   import { toast } from "@jaatster/blip-elements/toast";
  *   const t = toast({ title: "Achievement unlocked", body: "First Flight", tone: "success", action: { label: "View", onClick: openTrophies } });
- *   t.close();
+ *   t.close();                     // or wait: await t.closed
  *
  * toast() uses the first <pp-toaster> in the page, or adds one to the end of <body>. The toaster is a labelled
  * region ("Notifications") holding two live regions made when it connects, so every toast is announced: politely,
@@ -13,8 +13,8 @@
  * announced from live regions put inside it, and wait behind its scrim until it closes. Escape closes the focused
  * toast. Danger toasts stay until dismissed. Never put the only copy of something important in a toast: it leaves.
  *
- * Attributes: data-placement (bottom-end, bottom-center, top-end, top-center), max (default 3), dismiss-label
- * (default "Dismiss"), aria-label (default "Notifications").
+ * Attributes: data-side (bottom, the default, or top) and data-align (end, the default, center or start) say where
+ * toasts come up; max (default 3), dismiss-label (default "Dismiss"), aria-label (default "Notifications").
  */
 import { PixelElement, services } from "@jaatster/blip-core";
 
@@ -35,10 +35,9 @@ export interface ToastOptions {
   /** How it is announced. Default: "assertive" for danger, "polite" otherwise. */
   live?: "polite" | "assertive";
 }
+/** What toast() and add() return, the same from @jaatster/blip-elements and @jaatster/blip-react. */
 export interface ToastHandle {
-  /** The toast's element. */
-  readonly el: HTMLElement;
-  /** Closes it now. */
+  /** Closes it now (one still waiting its turn never shows). */
   close(): void;
   /** Settles once it has gone. */
   readonly closed: Promise<void>;
@@ -89,8 +88,8 @@ const button = (cls: string, variant: string, text = ""): HTMLButtonElement => {
  * with toast() or add(); they stack, wait their turn past max, and pause while hovered, focused or behind a modal.
  *
  * @summary The region that shows toasts.
- * @attr {"bottom-end" | "bottom-center" | "top-end" | "top-center"} [data-placement="bottom-end"] - Where the
- * toasts come up.
+ * @attr {"bottom" | "top"} [data-side="bottom"] - The edge of the screen the toasts come up at.
+ * @attr {"start" | "center" | "end"} [data-align="end"] - Where along that edge.
  * @attr {number} [max=3] - How many toasts show at once; the rest wait their turn.
  * @attr {string} [dismiss-label="Dismiss"] - Each toast's close button's accessible name.
  * @attr {string} [aria-label="Notifications"] - The region's name.
@@ -208,7 +207,7 @@ export class PixelToaster extends PixelElement {
     el.hidden = true;
     this.append(el);
     this.#fill();
-    return { el, close: () => this.#dismiss(item), closed };
+    return { close: () => void this.#dismiss(item), closed };
   }
 
   /** Shows waiting toasts while there is room. */

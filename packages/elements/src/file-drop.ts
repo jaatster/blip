@@ -11,9 +11,11 @@
  *   </pp-file-drop>
  *
  * Attributes: remove-label (the remove buttons' name, before the file name: "Remove"). Property: files.
- * Events: pp-change { files } when the list changes; pp-reject { files } for dropped files that don't match.
+ * Events: pp-change { files } when the list changes; pp-reject { files } for dropped files that don't match. An
+ * input rendered later, or swapped by a framework, is taken up as it comes.
  */
 import { PixelElement, warn } from "@jaatster/blip-core";
+import { both, elementsChanged, observe } from "./_dom.js";
 
 /** Does a file match an accept list (".png, image/*, application/pdf")? */
 const accepts = (accept: string, f: File): boolean =>
@@ -45,6 +47,9 @@ export class PixelFileDrop extends PixelElement {
   #files: File[] = [];
   #depth = 0;
   #own = false;
+  /** The input wired now, and what aborts its wiring when it goes. */
+  #field: HTMLInputElement | null = null;
+  #wiring?: AbortController;
 
   get input(): HTMLInputElement | null {
     return this.querySelector('input[type="file"]');
@@ -55,13 +60,15 @@ export class PixelFileDrop extends PixelElement {
   }
 
   protected connected(): void {
-    const input = this.input;
-    if (!input) return warn("PP-E001", "<pp-file-drop> needs an <input type=file> inside.", this);
-    this.#files = [...(input.files ?? [])];
-    this.#render();
+    this.#field = null;
+    this.#wire();
+    // An input rendered later, or swapped by a framework, is taken up when it arrives.
+    observe(this, this.signal, () => this.#wire(), (r) => elementsChanged(r) && !(r.target as Element).closest(".pp-file-drop-list"));
+    if (!this.input && this.children.length) warn("PP-E001", "<pp-file-drop> needs an <input type=file> inside.", this);
 
     const drag = (e: DragEvent, by: number) => {
-      if (!e.dataTransfer?.types.includes("Files") || input.matches(":disabled")) return;
+      const input = this.input;
+      if (!input || !e.dataTransfer?.types.includes("Files") || input.matches(":disabled")) return;
       e.preventDefault();
       e.dataTransfer.dropEffect = "copy";
       this.#depth = Math.max(0, this.#depth + by);
@@ -74,7 +81,7 @@ export class PixelFileDrop extends PixelElement {
       const files = (e as DragEvent).dataTransfer?.files;
       this.#depth = 0;
       this.removeAttribute("data-dragover");
-      if (!files?.length || input.matches(":disabled")) return;
+      if (!files?.length || !this.input || this.input.matches(":disabled")) return;
       e.preventDefault();
       this.#add([...files]);
     });
@@ -83,20 +90,12 @@ export class PixelFileDrop extends PixelElement {
       this,
       "change",
       (e) => {
-        if (e.target !== input || this.#own) return;
+        const input = this.input;
+        if (!input || e.target !== input || this.#own) return;
         this.#add([...(input.files ?? [])], true);
       },
       { capture: true },
     );
-    // A form reset empties the input without an event: read it again once the reset is done.
-    if (input.form) {
-      this.on(input.form, "reset", () =>
-        setTimeout(() => {
-          this.#files = [...(input.files ?? [])];
-          this.#render();
-        }),
-      );
-    }
     this.on(this, "click", (e) => {
       const b = (e.target as Element).closest<HTMLButtonElement>(".pp-file-drop-remove");
       if (!b || !this.contains(b)) return;
@@ -107,8 +106,25 @@ export class PixelFileDrop extends PixelElement {
       this.#commit();
       // Keep the keyboard in the list: the next file's button, else the previous one, else the tray.
       const next = this.querySelectorAll<HTMLButtonElement>(".pp-file-drop-remove");
-      (next[i] ?? next[i - 1] ?? input).focus();
+      (next[i] ?? next[i - 1] ?? this.input)?.focus();
     });
+  }
+
+  /** Reads the files of the input there is now (once per input) and draws the list. */
+  #wire(): void {
+    const input = this.input;
+    if (!input || input === this.#field) return;
+    this.#wiring?.abort();
+    this.#field = input;
+    const signal = both(this.signal, (this.#wiring = new AbortController()).signal);
+    this.#files = [...(input.files ?? [])];
+    this.#render();
+    // A form reset empties the input without an event: read it again once the reset is done.
+    input.form?.addEventListener("reset", () =>
+      setTimeout(() => {
+        this.#files = [...(input.files ?? [])];
+        this.#render();
+      }), { signal });
   }
 
   #add(list: File[], picked = false): void {

@@ -5,17 +5,21 @@
  * (aria-haspopup, aria-expanded, aria-controls), puts focus on the first item when the menu opens (the last with
  * ArrowUp), moves with the arrow keys, Home, End and typeahead, focuses the item under the pointer, toggles checkbox
  * and radio items, opens nested submenus with ArrowRight (ArrowLeft closes them), closes on Tab, and returns focus to
- * the button. It lines the menu up with CSS anchor positioning, or measures where that is missing.
+ * the button. It lines the menu up with CSS anchor positioning, or measures where that is missing. Items are read
+ * as they are, so items rendered later just work; a button or list rendered later is wired when it arrives.
  *
- *   menu.addEventListener("pp-select", (e) => run(e.detail.value)); // e.preventDefault() keeps the menu open
+ *   menu.addEventListener("pp-action", (e) => run(e.detail.value)); // e.preventDefault() keeps the menu open
+ *   menu.open = true;                                               // or <pp-menu open>
  */
 import { PixelElement, rovingFocus, typeahead, pixel, warn } from "@jaatster/blip-core";
+import { both, isOn, unFalse, valueOf, watch } from "./_dom.js";
 
-export interface MenuSelectDetail {
+/** What pp-action reports: the item chosen in a menu or a command palette. */
+export interface ActionDetail {
   item: HTMLElement;
-  /** The item's data-value, or its label. */
+  /** The item's data-value, else its value, else its label. */
   value: string;
-  /** The new state of a checkbox or radio item. */
+  /** The new state of a checkbox or radio menu item. */
   checked?: boolean;
 }
 
@@ -28,14 +32,22 @@ let uid = 0;
  * checkbox and radio items, and nested submenus.
  *
  * @summary A menu button and its list of actions.
- * @attr {"end"} data-align - Lines the menu up with the end of its button instead of the start.
- * @fires {CustomEvent<MenuSelectDetail>} pp-select - Before an item runs. Cancelable: preventDefault() keeps the
- * menu open and the item unchanged.
+ * @attr {boolean} open - The menu is open; setting it opens or closes the menu. Reflects the menu. "false" is off.
+ * @attr {"start" | "end"} [data-align="start"] - Lines the menu up with the start or the end of its button.
+ * @fires {CustomEvent<ActionDetail>} pp-action - An item was chosen, before it runs. Cancelable: preventDefault()
+ * keeps the menu open and the item unchanged.
+ * @fires {CustomEvent<void>} pp-open - The menu opened.
+ * @fires {CustomEvent<void>} pp-close - The menu closed.
  */
 export class PixelMenu extends PixelElement {
   static override classes = ["pp-menu"];
+  static observedAttributes = ["open"];
   #last = false;
   #tab = false;
+  #quiet = false;
+  /** The button and list wired now, and what aborts their wiring when either goes. */
+  #pair: [HTMLElement | null, HTMLElement | null] = [null, null];
+  #wiring?: AbortController;
 
   /** The button: the first button (or [aria-haspopup]) child. */
   get trigger(): HTMLElement | null {
@@ -50,20 +62,31 @@ export class PixelMenu extends PixelElement {
     const menu = this.menu;
     return menu ? [...menu.querySelectorAll<HTMLElement>(ITEM)].filter((el) => el.closest('[role="menu"]') === menu) : [];
   }
+  /** True while the menu is open; setting it opens or closes it. */
   get open(): boolean {
     return !!this.menu?.matches(":popover-open");
+  }
+  set open(value: boolean) {
+    if (value) this.show();
+    else this.close();
+  }
+
+  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+    if (unFalse(this, name, value) || this.#quiet || !this.isConnected) return;
+    if (isOn(this, "open")) this.show();
+    else this.close();
   }
 
   /** Opens the menu and focuses its first item (or its last). */
   show(last = false): void {
     this.#last = last;
+    const menu = this.menu;
     if (this.open) this.#focusEnd();
-    else this.menu?.showPopover();
+    else if (menu?.isConnected) menu.showPopover();
   }
-  /** Closes the menu and gives focus back to its button. */
+  /** Closes the menu; focus goes back to its button if it was in the menu. */
   close(): void {
     if (this.open) this.menu!.hidePopover();
-    this.trigger?.focus();
   }
 
   #enabled(): HTMLElement[] {
@@ -76,10 +99,28 @@ export class PixelMenu extends PixelElement {
   }
 
   protected override connected(): void {
+    this.#pair = [null, null];
+    this.#wire();
+    // A button or list rendered later (or swapped) is wired when it arrives. Items are read as they are.
+    watch(this, this.signal, () => this.#wire(), { subtree: false });
+    if (!this.menu && this.children.length) warn("PP-M001", "<pp-menu> needs a button and a [role=menu] list inside it.", this);
+    if (!anchored) {
+      const again = () => this.open && this.#place();
+      this.on(window, "resize", again);
+      this.on(window, "scroll", again, { capture: true, passive: true });
+    }
+  }
+
+  /** Wires the button and the list there are now, once per pair. */
+  #wire(): void {
     const button = this.trigger;
     const menu = this.menu;
-    if (!button || !menu) return warn("PP-M001", "<pp-menu> needs a button and a [role=menu] list inside it.", this);
-    const signal = this.signal;
+    if (button === this.#pair[0] && menu === this.#pair[1]) return;
+    this.#wiring?.abort();
+    this.#pair = [button, menu];
+    if (!button || !menu) return;
+    const signal = both(this.signal, (this.#wiring = new AbortController()).signal);
+    const listen = (target: EventTarget, type: string, fn: (e: KeyboardEvent & PointerEvent & ToggleEvent) => void) => target.addEventListener(type, fn as EventListener, { signal });
     const id = (menu.id ||= `pp-menu-${++uid}`);
     const sub = !!this.parentElement?.closest('[role="menu"]');
     const rtl = () => getComputedStyle(this).direction === "rtl";
@@ -88,7 +129,7 @@ export class PixelMenu extends PixelElement {
     button.setAttribute("aria-controls", id);
     button.setAttribute("aria-expanded", String(this.open));
     if (button instanceof HTMLButtonElement) button.popoverTargetElement = menu;
-    else this.on(button, "click", () => (this.open ? menu.hidePopover() : this.show()));
+    else listen(button, "click", () => (this.open ? menu.hidePopover() : this.show()));
     // Unique names, so CSS anchor positioning can line this pair up.
     button.style.setProperty("anchor-name", `--${id}`);
     menu.style.setProperty("position-anchor", `--${id}`);
@@ -101,16 +142,20 @@ export class PixelMenu extends PixelElement {
       signal,
     });
 
-    this.on(button, "keydown", (e) => {
+    listen(button, "keydown", (e) => {
       if (e.key === (sub ? (rtl() ? "ArrowLeft" : "ArrowRight") : "ArrowDown") || (!sub && e.key === "ArrowUp")) {
         e.preventDefault();
         this.show(e.key === "ArrowUp");
       }
     });
 
-    this.on(menu, "toggle", (e) => {
+    listen(menu, "toggle", (e) => {
       const open = e.newState === "open";
       button.setAttribute("aria-expanded", String(open));
+      this.#quiet = true;
+      if (open) this.setAttribute("open", "");
+      else this.removeAttribute("open");
+      this.#quiet = false;
       if (open) {
         if (!anchored) this.#place();
         this.#focusEnd();
@@ -118,16 +163,17 @@ export class PixelMenu extends PixelElement {
         const active = document.activeElement;
         if (!active || active === document.body || menu.contains(active)) button.focus();
       }
+      this.emit(open ? "open" : "close");
     });
 
-    this.on(menu, "click", (e) => {
+    listen(menu, "click", (e) => {
       const item = (e.target as Element).closest<HTMLElement>(ITEM);
       if (!item || !this.items.includes(item) || item.matches('[aria-haspopup]:not([aria-haspopup="false"])')) return;
       if (item.getAttribute("aria-disabled") === "true") return e.preventDefault();
       this.#activate(item, true);
     });
 
-    this.on(menu, "keydown", (e) => {
+    listen(menu, "keydown", (e) => {
       const item = document.activeElement as HTMLElement;
       if (!this.items.includes(item)) return;
       this.#tab = e.key === "Tab";
@@ -145,30 +191,26 @@ export class PixelMenu extends PixelElement {
     });
 
     // Leaving the menu (Tab, a click elsewhere) closes it.
-    this.on(menu, "focusout", (e) => {
-      const to = e.relatedTarget as Node | null;
+    listen(menu, "focusout", (e) => {
+      const to = (e as unknown as FocusEvent).relatedTarget as Node | null;
       if (to && !menu.contains(to) && (to !== button || this.#tab) && this.open) menu.hidePopover();
       this.#tab = false;
     });
 
     // The item under the pointer takes the focus, so the yellow row follows the pointer as well as the keys.
-    this.on(menu, "pointermove", (e) => {
+    listen(menu, "pointermove", (e) => {
       const item = (e.target as Element).closest<HTMLElement>(ITEM);
       if (item && item !== document.activeElement && this.#enabled().includes(item)) item.focus();
     });
 
-    if (!anchored) {
-      const again = () => this.open && this.#place();
-      this.on(window, "resize", again);
-      this.on(window, "scroll", again, { capture: true, passive: true });
-    }
+    if (isOn(this, "open") && !this.open) this.show();
   }
 
   #activate(item: HTMLElement, close: boolean): void {
     const role = item.getAttribute("role");
     const checked = role === "menuitemcheckbox" ? item.getAttribute("aria-checked") !== "true" : role === "menuitemradio" ? true : undefined;
-    const value = item.dataset.value ?? (item.querySelector(".pp-menu-label") ?? item).textContent?.trim() ?? "";
-    if (!this.emit<MenuSelectDetail>("select", { item, value, checked }, true)) return;
+    const value = valueOf(item, (item.querySelector(".pp-menu-label") ?? item).textContent?.trim());
+    if (!this.emit<ActionDetail>("action", { item, value, checked }, true)) return;
     if (role === "menuitemradio") {
       for (const radio of (item.closest('[role="group"]') ?? this.menu!).querySelectorAll('[role="menuitemradio"]')) radio.setAttribute("aria-checked", String(radio === item));
     } else if (checked !== undefined) item.setAttribute("aria-checked", String(checked));
@@ -202,7 +244,7 @@ declare global {
     "pp-menu": PixelMenu;
   }
   interface HTMLElementEventMap {
-    /** From pp-menu and pp-command: an item was chosen. Cancelable. */
-    "pp-select": CustomEvent<{ item: HTMLElement; value: string; checked?: boolean }>;
+    /** From pp-menu and pp-command: an item was chosen to run. Cancelable. */
+    "pp-action": CustomEvent<ActionDetail>;
   }
 }

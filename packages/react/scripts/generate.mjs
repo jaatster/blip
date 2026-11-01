@@ -37,6 +37,11 @@ const OVERRIDES = {
   "pp-typewriter": { textChildren: true },
   "pp-icon": { skip: true },
 };
+/**
+ * Attributes that are a switch with one value: a boolean prop that writes that value when true. `data-width="full"`
+ * is `fullWidth`, as on Button and ButtonGroup: one name for one idea.
+ */
+const SWITCHES = { "data-width": ["fullWidth", "full"] };
 /** Names that are DOM globals in a detail type, never imported. */
 const GLOBALS = new Set(["CustomEvent", "Event", "HTMLElement", "HTMLButtonElement", "HTMLTableCellElement", "HTMLTableRowElement", "HTMLInputElement", "File", "FileList", "Element", "Array", "Record", "Promise", "Partial", "Readonly"]);
 
@@ -106,7 +111,11 @@ function generate(pkg, pages) {
   };
 
   const imports = new Map(); // module specifier -> Set of names
-  const need = (spec, name) => (imports.get(spec) ?? imports.set(spec, new Set()).get(spec)).add(name);
+  // A name is imported once, from the first module that gives it (pp-menu and pp-command share ActionDetail).
+  const need = (spec, name) => {
+    if ([...imports].some(([other, names]) => other !== spec && names.has(name))) return;
+    (imports.get(spec) ?? imports.set(spec, new Set()).get(spec)).add(name);
+  };
   const blocks = [];
   const names = [];
   let helpers = new Set(["createComponent", "type ElementProps"]);
@@ -138,13 +147,15 @@ function generate(pkg, pages) {
       const attrSpec = {};
       for (const a of d.attributes ?? []) {
         if (a.name === "role" || a.name.startsWith("aria-") || a.name.startsWith("data-pp-")) continue;
-        const prop = a.name.startsWith("data-") ? camel(a.name.slice(5)) : (FIELD_FOR[a.name] ?? camel(a.name));
+        const toggle = SWITCHES[a.name];
+        const prop = toggle?.[0] ?? (a.name.startsWith("data-") ? camel(a.name.slice(5)) : (FIELD_FOR[a.name] ?? camel(a.name)));
         const field = a.fieldName ? members.find((m) => m.kind === "field" && m.name === a.fieldName) : undefined;
         const writable = field && !field.readonly ? field.name : undefined;
         const shadowed = members.some((m) => m.name === a.name);
-        const type = typeOf((a.type?.text ?? field?.type?.text ?? "string").replace(/\s*\|\s*/g, " | "));
-        props.push({ prop, type, doc: [a.description, `Attribute \`${a.name}\`.`, a.default !== undefined ? `@default ${a.default}` : undefined] });
-        attrSpec[prop] = [a.name, writable, shadowed];
+        const type = toggle ? "boolean" : typeOf((a.type?.text ?? field?.type?.text ?? "string").replace(/\s*\|\s*/g, " | "));
+        const written = toggle ? `Attribute \`${a.name}="${toggle[1]}"\`.` : `Attribute \`${a.name}\`.`;
+        props.push({ prop, type, doc: [a.description, written, a.default !== undefined ? `@default ${a.default}` : undefined] });
+        attrSpec[prop] = [a.name, writable, shadowed, toggle?.[1]];
       }
       const propSpec = [];
       for (const m of members) {
@@ -185,10 +196,11 @@ function generate(pkg, pages) {
       if (classes.length) specLines.push(`  className: ${JSON.stringify(classes.join(" "))},`);
       if (Object.keys(attrSpec).length) {
         specLines.push(`  attributes: {`);
-        for (const [prop, [attr, writable, shadowed]] of Object.entries(attrSpec)) {
+        for (const [prop, [attr, writable, shadowed, on]] of Object.entries(attrSpec)) {
           const tuple = [JSON.stringify(attr)];
-          if (writable || shadowed) tuple.push(writable ? JSON.stringify(writable) : "undefined");
-          if (shadowed) tuple.push("true");
+          if (writable || shadowed || on) tuple.push(writable ? JSON.stringify(writable) : "undefined");
+          if (shadowed || on) tuple.push(shadowed ? "true" : "false");
+          if (on) tuple.push(JSON.stringify(on));
           specLines.push(`    ${/^[a-z][a-zA-Z0-9]*$/.test(prop) ? prop : JSON.stringify(prop)}: [${tuple.join(", ")}],`);
         }
         specLines.push(`  },`);
@@ -197,7 +209,8 @@ function generate(pkg, pages) {
       if (Object.keys(eventSpec).length) specLines.push(`  events: { ${Object.entries(eventSpec).map(([p, e]) => `${p}: ${JSON.stringify(e)}`).join(", ")} },`);
       if (o.empty) specLines.push(`  empty: true,`);
       if (o.textChildren) specLines.push(`  textChildren: true,`);
-      out += `export const ${name} = createComponent<${d.name}, ${name}Props>({\n${specLines.join("\n")}\n});\n`;
+      // Pure, so a bundler drops the wrappers an app does not use.
+      out += `export const ${name} = /*#__PURE__*/ createComponent<${d.name}, ${name}Props>({\n${specLines.join("\n")}\n});\n`;
       blocks.push(out);
       names.push([name, d.tagName]);
     }

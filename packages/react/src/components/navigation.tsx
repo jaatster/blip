@@ -9,7 +9,7 @@ import { forwardRef } from "react";
 import type { CSSProperties, ElementType, ReactNode } from "react";
 import type { PolymorphicComponent, PolymorphicProps } from "../internal/polymorphic.js";
 import { box, cx, flag } from "../internal/props.js";
-import type { BoxProps, NativeProps, Radius, Tone, Variant } from "../internal/props.js";
+import type { BoxProps, NativeProps, Radius, Size, Tone, Variant } from "../internal/props.js";
 import type { IconOnly } from "./actions.js";
 
 /** A landmark, list or group needs a name: `aria-label`, or `aria-labelledby` pointing at its heading. */
@@ -56,7 +56,7 @@ export type AppBarProps = AppBarOwnProps & NativeProps<"header", AppBarOwnProps>
  *
  * Renders `<header class="pp-box pp-app-bar">`, a size container (`pp-app-bar`): it folds by its own width.
  */
-export const AppBar = forwardRef<HTMLElement, AppBarProps>(function AppBar(
+export const AppBar = /*#__PURE__*/ forwardRef<HTMLElement, AppBarProps>(function AppBar(
   { collapse, sticky, radius, className, ...rest },
   ref,
 ) {
@@ -72,8 +72,8 @@ export const AppBar = forwardRef<HTMLElement, AppBarProps>(function AppBar(
   );
 });
 
-/** Props for {@link AppBarBrand}. */
-export type AppBarBrandProps = NativeProps<"a">;
+/** Props for {@link AppBarBrand}: a link's by default, or your router's link's with `as`. */
+export type AppBarBrandProps<T extends ElementType = "a"> = PolymorphicProps<T, object>;
 
 /**
  * A link home: an optional mark (an icon) and the wordmark in Pixel Bop, POP style. Under 400 px the wordmark drops
@@ -84,14 +84,14 @@ export type AppBarBrandProps = NativeProps<"a">;
  *     <span className="pp-display pp-pop" data-scale="2" data-pop="Questboard">Questboard</span>
  *   </AppBarBrand>
  *
- * Renders `<a class="pp-app-bar-brand">`.
+ * Renders `<a class="pp-app-bar-brand">`; with `as`, your router's link.
  */
-export const AppBarBrand = forwardRef<HTMLAnchorElement, AppBarBrandProps>(function AppBarBrand(
-  { className, ...rest },
+export const AppBarBrand = /*#__PURE__*/ forwardRef(function AppBarBrand(
+  { as: Tag = "a", className, ...rest }: AppBarBrandProps<ElementType>,
   ref,
 ) {
-  return <a ref={ref} className={cx("pp-app-bar-brand", className)} {...rest} />;
-});
+  return <Tag ref={ref} className={cx("pp-app-bar-brand", className)} {...rest} />;
+}) as PolymorphicComponent<"a", object>;
 
 /** Props for {@link AppBarNav}. */
 export type AppBarNavProps = Named & NativeProps<"nav">;
@@ -103,7 +103,7 @@ export type AppBarNavProps = Named & NativeProps<"nav">;
  *
  * Renders `<nav class="pp-app-bar-nav">`.
  */
-export const AppBarNav = forwardRef<HTMLElement, AppBarNavProps>(function AppBarNav({ className, ...rest }, ref) {
+export const AppBarNav = /*#__PURE__*/ forwardRef<HTMLElement, AppBarNavProps>(function AppBarNav({ className, ...rest }, ref) {
   return <nav ref={ref} className={cx("pp-app-bar-nav", className)} {...rest} />;
 });
 
@@ -128,7 +128,7 @@ export type AppBarToggleProps = AppBarToggleOwnProps & IconOnly & NativeProps<"b
  *
  * Renders `<button class="pp-box pp-button pp-app-bar-toggle" type="button" data-variant="ghost" popovertarget>`.
  */
-export const AppBarToggle = forwardRef<HTMLButtonElement, AppBarToggleProps>(function AppBarToggle(
+export const AppBarToggle = /*#__PURE__*/ forwardRef<HTMLButtonElement, AppBarToggleProps>(function AppBarToggle(
   { variant = "ghost", iconOnly, type = "button", className, ...rest },
   ref,
 ) {
@@ -155,7 +155,7 @@ export type AppBarLinksProps = NativeProps<"ul">;
  *
  * Renders `<ul class="pp-box pp-app-bar-links" popover role="list">`.
  */
-export const AppBarLinks = forwardRef<HTMLUListElement, AppBarLinksProps>(function AppBarLinks(
+export const AppBarLinks = /*#__PURE__*/ forwardRef<HTMLUListElement, AppBarLinksProps>(function AppBarLinks(
   { className, ...rest },
   ref,
 ) {
@@ -167,22 +167,22 @@ export interface AppBarLinkOwnProps {
   /** The page you are on: sits in, an accent-light chip; it stays marked in the folded list. `aria-current="page"`. */
   current?: boolean;
 }
-/** Props for {@link AppBarLink}. */
-export type AppBarLinkProps = AppBarLinkOwnProps & NativeProps<"a", AppBarLinkOwnProps>;
+/** Props for {@link AppBarLink}: a link's by default, or your router's link's with `as`. */
+export type AppBarLinkProps<T extends ElementType = "a"> = PolymorphicProps<T, AppBarLinkOwnProps>;
 
 /**
  * One of the main links: a ghost box, upper case. One or two words, the same links in the same order at every width.
  *
  *   <li><AppBarLink href="/live" current>Live ops</AppBarLink></li>
  *
- * Renders `<a class="pp-box pp-app-bar-link" data-variant="ghost">`.
+ * Renders `<a class="pp-box pp-app-bar-link" data-variant="ghost">`; with `as`, your router's link.
  */
-export const AppBarLink = forwardRef<HTMLAnchorElement, AppBarLinkProps>(function AppBarLink(
-  { current: isCurrent, className, ...rest },
+export const AppBarLink = /*#__PURE__*/ forwardRef(function AppBarLink(
+  { as: Tag = "a", current: isCurrent, className, ...rest }: AppBarLinkProps<ElementType>,
   ref,
 ) {
   return (
-    <a
+    <Tag
       ref={ref}
       className={cx("pp-box pp-app-bar-link", className)}
       data-variant="ghost"
@@ -190,7 +190,7 @@ export const AppBarLink = forwardRef<HTMLAnchorElement, AppBarLinkProps>(functio
       {...rest}
     />
   );
-});
+}) as PolymorphicComponent<"a", AppBarLinkOwnProps>;
 
 /** Props for {@link AppBarActions}. */
 export type AppBarActionsProps = NativeProps<"div">;
@@ -202,7 +202,7 @@ export type AppBarActionsProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-app-bar-actions">`.
  */
-export const AppBarActions = forwardRef<HTMLDivElement, AppBarActionsProps>(function AppBarActions(
+export const AppBarActions = /*#__PURE__*/ forwardRef<HTMLDivElement, AppBarActionsProps>(function AppBarActions(
   { className, ...rest },
   ref,
 ) {
@@ -250,7 +250,7 @@ export type SidebarProps = SidebarOwnProps & Named & NativeProps<"nav", SidebarO
  * Renders `<nav class="pp-sidebar">` (`<nav class="pp-box pp-sidebar" data-variant="panel">` when framed). Rail
  * labels reach outside it: do not clip a rail.
  */
-export const Sidebar = forwardRef<HTMLElement, SidebarProps>(function Sidebar(
+export const Sidebar = /*#__PURE__*/ forwardRef<HTMLElement, SidebarProps>(function Sidebar(
   { framed, collapsed, collapse, arrow, width, className, style, ...rest },
   ref,
 ) {
@@ -280,7 +280,7 @@ export type SidebarHeadingProps = NativeProps<"h2">;
  *
  * Renders `<h2 class="pp-sidebar-heading">`.
  */
-export const SidebarHeading = forwardRef<HTMLHeadingElement, SidebarHeadingProps>(function SidebarHeading(
+export const SidebarHeading = /*#__PURE__*/ forwardRef<HTMLHeadingElement, SidebarHeadingProps>(function SidebarHeading(
   { className, ...rest },
   ref,
 ) {
@@ -297,7 +297,7 @@ export type SidebarListProps = NativeProps<"ul">;
  *
  * Renders `<ul class="pp-sidebar-list" role="list">`.
  */
-export const SidebarList = forwardRef<HTMLUListElement, SidebarListProps>(function SidebarList(
+export const SidebarList = /*#__PURE__*/ forwardRef<HTMLUListElement, SidebarListProps>(function SidebarList(
   { className, ...rest },
   ref,
 ) {
@@ -326,7 +326,7 @@ export type SidebarItemProps<T extends ElementType = "a"> = PolymorphicProps<T, 
  *
  * Renders `<a class="pp-box pp-sidebar-item" data-variant="ghost">`.
  */
-export const SidebarItem = forwardRef(function SidebarItem(
+export const SidebarItem = /*#__PURE__*/ forwardRef(function SidebarItem(
   { as: Tag = "a", current: isCurrent, disabled, radius, className, ...rest }: SidebarItemProps<ElementType>,
   ref,
 ) {
@@ -355,7 +355,7 @@ export type SidebarLabelProps = NativeProps<"span">;
  *
  * Renders `<span class="pp-sidebar-label">`.
  */
-export const SidebarLabel = forwardRef<HTMLSpanElement, SidebarLabelProps>(function SidebarLabel(
+export const SidebarLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, SidebarLabelProps>(function SidebarLabel(
   { className, ...rest },
   ref,
 ) {
@@ -375,7 +375,7 @@ export type SidebarBadgeProps = SidebarBadgeOwnProps & NativeProps<"span", Sideb
  *
  * Renders `<span class="pp-box pp-sidebar-badge">`.
  */
-export const SidebarBadge = forwardRef<HTMLSpanElement, SidebarBadgeProps>(function SidebarBadge(
+export const SidebarBadge = /*#__PURE__*/ forwardRef<HTMLSpanElement, SidebarBadgeProps>(function SidebarBadge(
   { tone, radius, className, ...rest },
   ref,
 ) {
@@ -396,7 +396,7 @@ export type SidebarGroupProps = NativeProps<"details">;
  *
  * Renders `<details class="pp-sidebar-group">`.
  */
-export const SidebarGroup = forwardRef<HTMLDetailsElement, SidebarGroupProps>(function SidebarGroup(
+export const SidebarGroup = /*#__PURE__*/ forwardRef<HTMLDetailsElement, SidebarGroupProps>(function SidebarGroup(
   { className, ...rest },
   ref,
 ) {
@@ -407,8 +407,8 @@ export const SidebarGroup = forwardRef<HTMLDetailsElement, SidebarGroupProps>(fu
 
 /** Own props of {@link Breadcrumbs}. */
 export interface BreadcrumbsOwnProps {
-  /** `sm`: 12-pixel crumbs for dense headers and dashboards; 14 by default. `data-size`. */
-  size?: "sm" | "md";
+  /** 12-, 14- (default) or 16-pixel crumbs; `sm` for dense headers and dashboards. `data-size`. */
+  size?: Size;
 }
 /** Props for {@link Breadcrumbs}. */
 export type BreadcrumbsProps = BreadcrumbsOwnProps & NativeProps<"nav", BreadcrumbsOwnProps>;
@@ -427,7 +427,7 @@ export type BreadcrumbsProps = BreadcrumbsOwnProps & NativeProps<"nav", Breadcru
  *
  * Renders `<nav class="pp-breadcrumbs" aria-label="Breadcrumb">`.
  */
-export const Breadcrumbs = forwardRef<HTMLElement, BreadcrumbsProps>(function Breadcrumbs(
+export const Breadcrumbs = /*#__PURE__*/ forwardRef<HTMLElement, BreadcrumbsProps>(function Breadcrumbs(
   {
     size,
     "aria-labelledby": labelledBy,
@@ -459,7 +459,7 @@ export type BreadcrumbsListProps = NativeProps<"ol">;
  *
  * Renders `<ol class="pp-breadcrumbs-list">`.
  */
-export const BreadcrumbsList = forwardRef<HTMLOListElement, BreadcrumbsListProps>(function BreadcrumbsList(
+export const BreadcrumbsList = /*#__PURE__*/ forwardRef<HTMLOListElement, BreadcrumbsListProps>(function BreadcrumbsList(
   { className, ...rest },
   ref,
 ) {
@@ -491,7 +491,7 @@ export type BreadcrumbsLinkProps<T extends ElementType = "a"> = PolymorphicProps
  *
  * Renders `<a class="pp-box pp-breadcrumbs-link" data-variant="ghost">`.
  */
-export const BreadcrumbsLink = forwardRef(function BreadcrumbsLink(
+export const BreadcrumbsLink = /*#__PURE__*/ forwardRef(function BreadcrumbsLink(
   { as: Tag = "a", current: isCurrent, radius, className, ...rest }: BreadcrumbsLinkProps<ElementType>,
   ref,
 ) {
@@ -512,8 +512,8 @@ export const BreadcrumbsLink = forwardRef(function BreadcrumbsLink(
 
 /** Own props of {@link Pagination}. */
 export interface PaginationOwnProps {
-  /** `sm`: 16-pixel pages, for tables; 20 by default. `data-size`. */
-  size?: "sm" | "md";
+  /** 16-, 20- (default) or 24-pixel pages; `sm` under tables. `data-size`. */
+  size?: Size;
   /** Always the compact "3 / 12"; without it, only while the nav is under 360 px wide. `data-compact`. */
   compact?: boolean;
 }
@@ -539,7 +539,7 @@ export type PaginationProps = PaginationOwnProps & Named & NativeProps<"nav", Pa
  *
  * Renders `<nav class="pp-pagination">`, a size container that takes the width it is given.
  */
-export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagination(
+export const Pagination = /*#__PURE__*/ forwardRef<HTMLElement, PaginationProps>(function Pagination(
   { size, compact, className, ...rest },
   ref,
 ) {
@@ -558,7 +558,7 @@ export type PaginationListProps = NativeProps<"ul">;
  *
  * Renders `<ul class="pp-pagination-list" role="list">`.
  */
-export const PaginationList = forwardRef<HTMLUListElement, PaginationListProps>(function PaginationList(
+export const PaginationList = /*#__PURE__*/ forwardRef<HTMLUListElement, PaginationListProps>(function PaginationList(
   { className, ...rest },
   ref,
 ) {
@@ -577,13 +577,10 @@ export interface PaginationArrowOwnProps extends BoxProps {
   /** The words ("Previous", "Prev", "Next", or a game's own), in the `<span>` that carries the chevron. */
   children?: ReactNode;
 }
-/** Props for {@link PaginationPrev}. */
-export type PaginationPrevProps = PaginationArrowOwnProps &
-  IconOnly &
-  Reachable &
-  NativeProps<"a", PaginationArrowOwnProps>;
+/** Props for {@link PaginationPrev}: a link's by default, or your router's link's with `as`. */
+export type PaginationPrevProps<T extends ElementType = "a"> = PolymorphicProps<T, PaginationArrowOwnProps & IconOnly & Reachable>;
 /** Props for {@link PaginationNext}. */
-export type PaginationNextProps = PaginationPrevProps;
+export type PaginationNextProps<T extends ElementType = "a"> = PaginationPrevProps<T>;
 
 const arrowAttrs = ({ variant, tone, radius, iconOnly, disabled }: PaginationArrowOwnProps) => ({
   ...box({ variant, tone, radius }),
@@ -599,14 +596,14 @@ const arrowAttrs = ({ variant, tone, radius, iconOnly, disabled }: PaginationArr
  *   <li><PaginationPrev variant="ghost" disabled>Previous</PaginationPrev></li>
  *   <li><PaginationPrev iconOnly aria-label="Previous page" href="?page=4">Previous</PaginationPrev></li>
  *
- * Renders `<a class="pp-box pp-pagination-prev" rel="prev"><span>…</span></a>`.
+ * Renders `<a class="pp-box pp-pagination-prev" rel="prev"><span>…</span></a>`; with `as`, your router's link.
  */
-export const PaginationPrev = forwardRef<HTMLAnchorElement, PaginationPrevProps>(function PaginationPrev(
-  { variant, tone, radius, iconOnly, disabled, rel = disabled ? undefined : "prev", className, children, ...rest },
+export const PaginationPrev = /*#__PURE__*/ forwardRef(function PaginationPrev(
+  { as: Tag = "a", variant, tone, radius, iconOnly, disabled, rel = disabled ? undefined : "prev", className, children, ...rest }: PaginationPrevProps<ElementType>,
   ref,
 ) {
   return (
-    <a
+    <Tag
       ref={ref}
       className={cx("pp-box pp-pagination-prev", className)}
       {...arrowAttrs({ variant, tone, radius, iconOnly, disabled })}
@@ -614,23 +611,23 @@ export const PaginationPrev = forwardRef<HTMLAnchorElement, PaginationPrevProps>
       {...rest}
     >
       <span>{children}</span>
-    </a>
+    </Tag>
   );
-});
+}) as PolymorphicComponent<"a", PaginationArrowOwnProps & IconOnly & Reachable>;
 
 /**
  * On a page: a box with an upper-case label and a pixel chevron. `rel="next"` unless it is disabled.
  *
  *   <li><PaginationNext variant="ghost" href="?page=6">Next</PaginationNext></li>
  *
- * Renders `<a class="pp-box pp-pagination-next" rel="next"><span>…</span></a>`.
+ * Renders `<a class="pp-box pp-pagination-next" rel="next"><span>…</span></a>`; with `as`, your router's link.
  */
-export const PaginationNext = forwardRef<HTMLAnchorElement, PaginationNextProps>(function PaginationNext(
-  { variant, tone, radius, iconOnly, disabled, rel = disabled ? undefined : "next", className, children, ...rest },
+export const PaginationNext = /*#__PURE__*/ forwardRef(function PaginationNext(
+  { as: Tag = "a", variant, tone, radius, iconOnly, disabled, rel = disabled ? undefined : "next", className, children, ...rest }: PaginationNextProps<ElementType>,
   ref,
 ) {
   return (
-    <a
+    <Tag
       ref={ref}
       className={cx("pp-box pp-pagination-next", className)}
       {...arrowAttrs({ variant, tone, radius, iconOnly, disabled })}
@@ -638,17 +635,17 @@ export const PaginationNext = forwardRef<HTMLAnchorElement, PaginationNextProps>
       {...rest}
     >
       <span>{children}</span>
-    </a>
+    </Tag>
   );
-});
+}) as PolymorphicComponent<"a", PaginationArrowOwnProps & IconOnly & Reachable>;
 
 /** Own props of {@link PaginationPage}. */
 export interface PaginationPageOwnProps extends BoxProps {
   /** The page you are on: the accent, sitting in (outline: an accent-light fill). `aria-current="page"`. */
   current?: boolean;
 }
-/** Props for {@link PaginationPage}. */
-export type PaginationPageProps = PaginationPageOwnProps & Named & NativeProps<"a", PaginationPageOwnProps>;
+/** Props for {@link PaginationPage}: a link's by default, or your router's link's with `as`. */
+export type PaginationPageProps<T extends ElementType = "a"> = PolymorphicProps<T, PaginationPageOwnProps & Named>;
 
 /**
  * A page: a square box with its number in tabular figures. Name it in full (`aria-label="Page 5"`, or a game's
@@ -656,14 +653,14 @@ export type PaginationPageProps = PaginationPageOwnProps & Named & NativeProps<"
  *
  *   <li><PaginationPage variant="outline" href="?page=5" aria-label="Page 5" current>5</PaginationPage></li>
  *
- * Renders `<a class="pp-box pp-pagination-page">`.
+ * Renders `<a class="pp-box pp-pagination-page">`; with `as`, your router's link.
  */
-export const PaginationPage = forwardRef<HTMLAnchorElement, PaginationPageProps>(function PaginationPage(
-  { variant, tone, radius, current: isCurrent, className, ...rest },
+export const PaginationPage = /*#__PURE__*/ forwardRef(function PaginationPage(
+  { as: Tag = "a", variant, tone, radius, current: isCurrent, className, ...rest }: PolymorphicProps<ElementType, PaginationPageOwnProps>,
   ref,
 ) {
   return (
-    <a
+    <Tag
       ref={ref}
       className={cx("pp-box pp-pagination-page", className)}
       {...box({ variant, tone, radius })}
@@ -671,7 +668,7 @@ export const PaginationPage = forwardRef<HTMLAnchorElement, PaginationPageProps>
       {...rest}
     />
   );
-});
+}) as PolymorphicComponent<"a", PaginationPageOwnProps & Named>;
 
 /** Props for {@link PaginationGap}. */
 export type PaginationGapProps = Omit<NativeProps<"li">, "children">;
@@ -683,7 +680,7 @@ export type PaginationGapProps = Omit<NativeProps<"li">, "children">;
  *
  * Renders `<li class="pp-pagination-gap" aria-hidden="true">`.
  */
-export const PaginationGap = forwardRef<HTMLLIElement, PaginationGapProps>(function PaginationGap(
+export const PaginationGap = /*#__PURE__*/ forwardRef<HTMLLIElement, PaginationGapProps>(function PaginationGap(
   { className, ...rest },
   ref,
 ) {
@@ -715,7 +712,7 @@ export type PaginationStatusProps = PaginationStatusOwnProps &
  * Renders `<li class="pp-pagination-status"><span class="pp-sr-only">Page</span> 5 <span aria-hidden="true">/</span>
  * <span class="pp-sr-only">of</span> 16</li>`.
  */
-export const PaginationStatus = forwardRef<HTMLLIElement, PaginationStatusProps>(function PaginationStatus(
+export const PaginationStatus = /*#__PURE__*/ forwardRef<HTMLLIElement, PaginationStatusProps>(function PaginationStatus(
   { page, total, label = "Page", of = "of", className, ...rest },
   ref,
 ) {
@@ -763,7 +760,7 @@ export type ProgressStepsProps = ProgressStepsOwnProps & NativeProps<"div", Prog
  * Renders `<div class="pp-progress-steps">`, a size container: under 480 px the hints step aside, under 300 px only
  * the current step keeps its label on screen.
  */
-export const ProgressSteps = forwardRef<HTMLDivElement, ProgressStepsProps>(function ProgressSteps(
+export const ProgressSteps = /*#__PURE__*/ forwardRef<HTMLDivElement, ProgressStepsProps>(function ProgressSteps(
   { orientation, arrow, className, ...rest },
   ref,
 ) {
@@ -788,7 +785,7 @@ export type ProgressStepsListProps = Named & NativeProps<"ol">;
  *
  * Renders `<ol class="pp-progress-steps-list">`.
  */
-export const ProgressStepsList = forwardRef<HTMLOListElement, ProgressStepsListProps>(function ProgressStepsList(
+export const ProgressStepsList = /*#__PURE__*/ forwardRef<HTMLOListElement, ProgressStepsListProps>(function ProgressStepsList(
   { className, ...rest },
   ref,
 ) {
@@ -815,7 +812,7 @@ export type ProgressStepsItemProps = ProgressStepsItemOwnProps & NativeProps<"li
  *
  * Renders `<li class="pp-progress-steps-item">`.
  */
-export const ProgressStepsItem = forwardRef<HTMLLIElement, ProgressStepsItemProps>(function ProgressStepsItem(
+export const ProgressStepsItem = /*#__PURE__*/ forwardRef<HTMLLIElement, ProgressStepsItemProps>(function ProgressStepsItem(
   { done, current: isCurrent, className, ...rest },
   ref,
 ) {
@@ -843,7 +840,7 @@ export type ProgressStepsMarkerProps = ProgressStepsMarkerOwnProps & NativeProps
  *
  * Renders `<span class="pp-box pp-progress-steps-marker">`.
  */
-export const ProgressStepsMarker = forwardRef<HTMLSpanElement, ProgressStepsMarkerProps>(function ProgressStepsMarker(
+export const ProgressStepsMarker = /*#__PURE__*/ forwardRef<HTMLSpanElement, ProgressStepsMarkerProps>(function ProgressStepsMarker(
   { tone, radius, className, ...rest },
   ref,
 ) {
@@ -862,7 +859,7 @@ export type ProgressStepsLabelProps = NativeProps<"span">;
  *
  * Renders `<span class="pp-progress-steps-label">`.
  */
-export const ProgressStepsLabel = forwardRef<HTMLSpanElement, ProgressStepsLabelProps>(function ProgressStepsLabel(
+export const ProgressStepsLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, ProgressStepsLabelProps>(function ProgressStepsLabel(
   { className, ...rest },
   ref,
 ) {
@@ -879,7 +876,7 @@ export type ProgressStepsHintProps = NativeProps<"span">;
  *
  * Renders `<span class="pp-progress-steps-hint">`.
  */
-export const ProgressStepsHint = forwardRef<HTMLSpanElement, ProgressStepsHintProps>(function ProgressStepsHint(
+export const ProgressStepsHint = /*#__PURE__*/ forwardRef<HTMLSpanElement, ProgressStepsHintProps>(function ProgressStepsHint(
   { className, ...rest },
   ref,
 ) {
@@ -919,7 +916,7 @@ export type BottomBarProps = BottomBarOwnProps & Named & NativeProps<"nav", Bott
  *
  * Renders `<nav class="pp-box pp-bottom-bar">`.
  */
-export const BottomBar = forwardRef<HTMLElement, BottomBarProps>(function BottomBar(
+export const BottomBar = /*#__PURE__*/ forwardRef<HTMLElement, BottomBarProps>(function BottomBar(
   { collapse, radius, className, ...rest },
   ref,
 ) {
@@ -944,7 +941,7 @@ export type BottomBarListProps = NativeProps<"ul">;
  *
  * Renders `<ul class="pp-bottom-bar-list" role="list">`.
  */
-export const BottomBarList = forwardRef<HTMLUListElement, BottomBarListProps>(function BottomBarList(
+export const BottomBarList = /*#__PURE__*/ forwardRef<HTMLUListElement, BottomBarListProps>(function BottomBarList(
   { className, ...rest },
   ref,
 ) {
@@ -958,8 +955,8 @@ export interface BottomBarItemOwnProps {
   /** Corner radius in pixels, 4 by default. `data-pp-r`. */
   radius?: Radius;
 }
-/** Props for {@link BottomBarItem}. */
-export type BottomBarItemProps = BottomBarItemOwnProps & NativeProps<"a", BottomBarItemOwnProps>;
+/** Props for {@link BottomBarItem}: a link's by default, or your router's link's with `as`. */
+export type BottomBarItemProps<T extends ElementType = "a"> = PolymorphicProps<T, BottomBarItemOwnProps>;
 
 /**
  * A destination: a ghost box, a 12 x 12 icon over a small upper-case {@link BottomBarLabel} (always visible; the icon
@@ -967,14 +964,14 @@ export type BottomBarItemProps = BottomBarItemOwnProps & NativeProps<"a", Bottom
  *
  *   <li><BottomBarItem href="/" current><Icon name="home" /><BottomBarLabel>Today</BottomBarLabel></BottomBarItem></li>
  *
- * Renders `<a class="pp-box pp-bottom-bar-item" data-variant="ghost">`.
+ * Renders `<a class="pp-box pp-bottom-bar-item" data-variant="ghost">`; with `as`, your router's link.
  */
-export const BottomBarItem = forwardRef<HTMLAnchorElement, BottomBarItemProps>(function BottomBarItem(
-  { current: isCurrent, radius, className, ...rest },
+export const BottomBarItem = /*#__PURE__*/ forwardRef(function BottomBarItem(
+  { as: Tag = "a", current: isCurrent, radius, className, ...rest }: BottomBarItemProps<ElementType>,
   ref,
 ) {
   return (
-    <a
+    <Tag
       ref={ref}
       className={cx("pp-box pp-bottom-bar-item", className)}
       data-variant="ghost"
@@ -983,7 +980,7 @@ export const BottomBarItem = forwardRef<HTMLAnchorElement, BottomBarItemProps>(f
       {...rest}
     />
   );
-});
+}) as PolymorphicComponent<"a", BottomBarItemOwnProps>;
 
 /** Props for {@link BottomBarLabel}. */
 export type BottomBarLabelProps = NativeProps<"span">;
@@ -995,7 +992,7 @@ export type BottomBarLabelProps = NativeProps<"span">;
  *
  * Renders `<span class="pp-bottom-bar-label">`.
  */
-export const BottomBarLabel = forwardRef<HTMLSpanElement, BottomBarLabelProps>(function BottomBarLabel(
+export const BottomBarLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, BottomBarLabelProps>(function BottomBarLabel(
   { className, ...rest },
   ref,
 ) {
@@ -1020,7 +1017,7 @@ export type BottomBarBadgeProps = BottomBarBadgeOwnProps & NativeProps<"span", B
  *
  * Renders `<span class="pp-box pp-bottom-bar-badge">`.
  */
-export const BottomBarBadge = forwardRef<HTMLSpanElement, BottomBarBadgeProps>(function BottomBarBadge(
+export const BottomBarBadge = /*#__PURE__*/ forwardRef<HTMLSpanElement, BottomBarBadgeProps>(function BottomBarBadge(
   { tone, dot, className, ...rest },
   ref,
 ) {
@@ -1044,8 +1041,8 @@ export interface SkipLinkOwnProps extends Pick<BoxProps, "tone" | "radius"> {
   /** Where it goes, in words: "Skip to content", not "Skip". */
   children: ReactNode;
 }
-/** Props for {@link SkipLink}. */
-export type SkipLinkProps = SkipLinkOwnProps & NativeProps<"a", SkipLinkOwnProps>;
+/** Props for {@link SkipLink}: a link's by default, or your router's link's with `as`. */
+export type SkipLinkProps<T extends ElementType = "a"> = PolymorphicProps<T, SkipLinkOwnProps>;
 
 /**
  * The first stop for keyboard users: out of sight until it takes focus, then a candy chip pops in at the top-left
@@ -1053,14 +1050,14 @@ export type SkipLinkProps = SkipLinkOwnProps & NativeProps<"a", SkipLinkOwnProps
  *
  *   <SkipLink href="#main">Skip to content</SkipLink>
  *
- * Renders `<a class="pp-box pp-skip-link">`.
+ * Renders `<a class="pp-box pp-skip-link">`; with `as`, your router's link.
  */
-export const SkipLink = forwardRef<HTMLAnchorElement, SkipLinkProps>(function SkipLink(
-  { tone, radius, className, ...rest },
+export const SkipLink = /*#__PURE__*/ forwardRef(function SkipLink(
+  { as: Tag = "a", tone, radius, className, ...rest }: PolymorphicProps<ElementType, Partial<SkipLinkOwnProps>>,
   ref,
 ) {
-  return <a ref={ref} className={cx("pp-box pp-skip-link", className)} {...box({ tone, radius })} {...rest} />;
-});
+  return <Tag ref={ref} className={cx("pp-box pp-skip-link", className)} {...box({ tone, radius })} {...rest} />;
+}) as PolymorphicComponent<"a", SkipLinkOwnProps>;
 
 // ---------------------------------------------------------------------------------------------- tabs (pp-tabs)
 
@@ -1069,12 +1066,13 @@ export type TabListProps = Named & NativeProps<"div">;
 
 /**
  * The row of tabs, first inside `<Tabs>`, which wires the ids, keeps one tab in the tab order, moves with the arrow
- * keys and shows the selected panel. Name it. `aria-orientation="vertical"` puts the tabs down the side.
+ * keys and shows the selected panel. Name it. `aria-orientation="vertical"` puts the tabs down the side. Tabs and
+ * panels rendered later (after data arrives) are wired as they come.
  *
- *   <Tabs variant="outline">
+ *   <Tabs variant="outline" value={tab} onChange={(e) => setTab(e.detail.value)}>
  *     <TabList aria-label="Settings">
- *       <Tab variant="outline" selected>General</Tab>
- *       <Tab variant="outline">Sound</Tab>
+ *       <Tab variant="outline" value="general" selected>General</Tab>
+ *       <Tab variant="outline" value="sound">Sound</Tab>
  *     </TabList>
  *     <TabPanel>…</TabPanel>
  *     <TabPanel hidden>…</TabPanel>
@@ -1082,7 +1080,7 @@ export type TabListProps = Named & NativeProps<"div">;
  *
  * Renders `<div class="pp-tabs-list" role="tablist">`.
  */
-export const TabList = forwardRef<HTMLDivElement, TabListProps>(function TabList({ className, ...rest }, ref) {
+export const TabList = /*#__PURE__*/ forwardRef<HTMLDivElement, TabListProps>(function TabList({ className, ...rest }, ref) {
   return <div ref={ref} className={cx("pp-tabs-list", className)} role="tablist" {...rest} />;
 });
 
@@ -1102,6 +1100,8 @@ export interface TabOwnProps {
    * is in the tab order); `<Tabs>` keeps both in step as the person moves. `aria-selected`.
    */
   selected?: boolean;
+  /** What `<Tabs>` reports as `detail.value` and selects by its `value` (the label otherwise). `data-value`. */
+  value?: string;
 }
 /** Props for {@link Tab}. */
 export type TabProps = TabOwnProps & NativeProps<"button", TabOwnProps>;
@@ -1115,8 +1115,8 @@ export type TabProps = TabOwnProps & NativeProps<"button", TabOwnProps>;
  *
  * Renders `<button class="pp-box pp-tab" type="button" role="tab" aria-selected>`.
  */
-export const Tab = forwardRef<HTMLButtonElement, TabProps>(function Tab(
-  { variant, tone, radius, selected = false, type = "button", className, ...rest },
+export const Tab = /*#__PURE__*/ forwardRef<HTMLButtonElement, TabProps>(function Tab(
+  { variant, tone, radius, selected = false, value, type = "button", className, ...rest },
   ref,
 ) {
   return (
@@ -1125,6 +1125,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(function Tab(
       className={cx("pp-box pp-tab", className)}
       type={type}
       {...box({ variant, tone, radius })}
+      data-value={value}
       role="tab"
       aria-selected={selected}
       tabIndex={selected ? undefined : -1}
@@ -1149,7 +1150,7 @@ export type TabPanelProps<T extends ElementType = "div"> = PolymorphicProps<T, T
  *
  * Renders `<div class="pp-tabs-panel" role="tabpanel">` (`class="pp-box pp-tabs-panel" data-variant="panel"` framed).
  */
-export const TabPanel = forwardRef(function TabPanel(
+export const TabPanel = /*#__PURE__*/ forwardRef(function TabPanel(
   { as: Tag = "div", framed, className, ...rest }: TabPanelProps<ElementType>,
   ref,
 ) {
@@ -1194,7 +1195,7 @@ export type MenuListProps = MenuListOwnProps & Named & NativeProps<"div", MenuLi
  * Renders `<div class="pp-box pp-menu-list pp-pop-in" role="menu" popover>`. A submenu is a `<Menu>` in the list,
  * its button a {@link MenuItem}.
  */
-export const MenuList = forwardRef<HTMLDivElement, MenuListProps>(function MenuList(
+export const MenuList = /*#__PURE__*/ forwardRef<HTMLDivElement, MenuListProps>(function MenuList(
   { radius, className, ...rest },
   ref,
 ) {
@@ -1221,7 +1222,7 @@ export interface MenuItemOwnProps {
   checked?: boolean;
   /** A destructive item: red text until it is focused. Confirm what it does, and put it last. `data-tone`. */
   tone?: "danger";
-  /** What `pp-select` reports as `detail.value` (the label otherwise), so code need not read labels. `data-value`. */
+  /** What `pp-action` reports as `detail.value` (the label otherwise), so code need not read labels. `data-value`. */
   value?: string;
   /** Corner radius in pixels, 3 by default. `data-pp-r`. */
   radius?: Radius;
@@ -1243,7 +1244,7 @@ export type MenuItemProps<T extends ElementType = "button"> = PolymorphicProps<T
  *
  * Renders `<button class="pp-box pp-menu-item" type="button" role="menuitem">`.
  */
-export const MenuItem = forwardRef(function MenuItem(
+export const MenuItem = /*#__PURE__*/ forwardRef(function MenuItem(
   { as: Tag = "button", kind, checked, tone, value, radius, className, ...rest }: MenuItemProps<ElementType>,
   ref,
 ) {
@@ -1273,7 +1274,7 @@ export type MenuLabelProps = NativeProps<"span">;
  *
  * Renders `<span class="pp-menu-label">`.
  */
-export const MenuLabel = forwardRef<HTMLSpanElement, MenuLabelProps>(function MenuLabel({ className, ...rest }, ref) {
+export const MenuLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, MenuLabelProps>(function MenuLabel({ className, ...rest }, ref) {
   return <span ref={ref} className={cx("pp-menu-label", className)} {...rest} />;
 });
 
@@ -1291,7 +1292,7 @@ export type MenuShortcutProps = NativeProps<"span">;
  *
  * Renders `<span class="pp-menu-shortcut" aria-hidden="true">`.
  */
-export const MenuShortcut = forwardRef<HTMLSpanElement, MenuShortcutProps>(function MenuShortcut(
+export const MenuShortcut = /*#__PURE__*/ forwardRef<HTMLSpanElement, MenuShortcutProps>(function MenuShortcut(
   { className, ...rest },
   ref,
 ) {
@@ -1308,7 +1309,7 @@ export type MenuSeparatorProps = Omit<NativeProps<"div">, "children">;
  *
  * Renders `<div class="pp-menu-separator" role="separator">`.
  */
-export const MenuSeparator = forwardRef<HTMLDivElement, MenuSeparatorProps>(function MenuSeparator(
+export const MenuSeparator = /*#__PURE__*/ forwardRef<HTMLDivElement, MenuSeparatorProps>(function MenuSeparator(
   { className, ...rest },
   ref,
 ) {
@@ -1329,7 +1330,7 @@ export type MenuGroupProps = Named & NativeProps<"div">;
  *
  * Renders `<div role="group">`.
  */
-export const MenuGroup = forwardRef<HTMLDivElement, MenuGroupProps>(function MenuGroup({ className, ...rest }, ref) {
+export const MenuGroup = /*#__PURE__*/ forwardRef<HTMLDivElement, MenuGroupProps>(function MenuGroup({ className, ...rest }, ref) {
   return <div ref={ref} className={className} role="group" {...rest} />;
 });
 
@@ -1343,7 +1344,7 @@ export type MenuHeadingProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-menu-heading">`.
  */
-export const MenuHeading = forwardRef<HTMLDivElement, MenuHeadingProps>(function MenuHeading(
+export const MenuHeading = /*#__PURE__*/ forwardRef<HTMLDivElement, MenuHeadingProps>(function MenuHeading(
   { className, ...rest },
   ref,
 ) {
@@ -1365,7 +1366,7 @@ export type CommandPanelProps<T extends ElementType = "dialog"> = PolymorphicPro
  * `<CommandPalette>`, which opens it with the shortcut, filters as you type and moves the yellow row. A click on the
  * scrim closes it (`closedby="any"`). Name it, and give it an id for a button that opens it.
  *
- *   <CommandPalette onSelect={(e) => go(e.detail.value)}>
+ *   <CommandPalette onAction={(e) => go(e.detail.value)}>
  *     <CommandPanel id="palette" aria-label="Command palette">
  *       <CommandSearch>
  *         <Icon name="search" /><CommandInput aria-label="Search pages and actions" placeholder="Search…" />
@@ -1385,7 +1386,7 @@ export type CommandPanelProps<T extends ElementType = "dialog"> = PolymorphicPro
  *
  * Renders `<dialog class="pp-box pp-command pp-pop-in" closedby="any">`.
  */
-export const CommandPanel = forwardRef(function CommandPanel(
+export const CommandPanel = /*#__PURE__*/ forwardRef(function CommandPanel(
   // The name is required by CommandPanelProps; inside, the props are just passed on.
   { as: Tag = "dialog", radius, className, ...rest }: PolymorphicProps<ElementType, CommandPanelOwnProps>,
   ref,
@@ -1411,7 +1412,7 @@ export type CommandSearchProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-command-search">`.
  */
-export const CommandSearch = forwardRef<HTMLDivElement, CommandSearchProps>(function CommandSearch(
+export const CommandSearch = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandSearchProps>(function CommandSearch(
   { className, ...rest },
   ref,
 ) {
@@ -1430,7 +1431,7 @@ export type CommandInputProps = Named & NativeProps<"input">;
  *
  * Renders `<input class="pp-command-input" type="text">`.
  */
-export const CommandInput = forwardRef<HTMLInputElement, CommandInputProps>(function CommandInput(
+export const CommandInput = /*#__PURE__*/ forwardRef<HTMLInputElement, CommandInputProps>(function CommandInput(
   { type = "text", className, ...rest },
   ref,
 ) {
@@ -1447,7 +1448,7 @@ export type CommandResultsProps = Named & NativeProps<"div">;
  *
  * Renders `<div class="pp-command-results" role="listbox">`.
  */
-export const CommandResults = forwardRef<HTMLDivElement, CommandResultsProps>(function CommandResults(
+export const CommandResults = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandResultsProps>(function CommandResults(
   { className, ...rest },
   ref,
 ) {
@@ -1466,7 +1467,7 @@ export type CommandGroupProps = Named & NativeProps<"div">;
  *
  * Renders `<div class="pp-command-group" role="group">`.
  */
-export const CommandGroup = forwardRef<HTMLDivElement, CommandGroupProps>(function CommandGroup(
+export const CommandGroup = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandGroupProps>(function CommandGroup(
   { className, ...rest },
   ref,
 ) {
@@ -1483,7 +1484,7 @@ export type CommandHeadingProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-command-heading">`.
  */
-export const CommandHeading = forwardRef<HTMLDivElement, CommandHeadingProps>(function CommandHeading(
+export const CommandHeading = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandHeadingProps>(function CommandHeading(
   { className, ...rest },
   ref,
 ) {
@@ -1492,7 +1493,7 @@ export const CommandHeading = forwardRef<HTMLDivElement, CommandHeadingProps>(fu
 
 /** Own props of {@link CommandItem}. */
 export interface CommandItemOwnProps {
-  /** What `pp-select` reports as `detail.value` (the label otherwise): a path, an action's name. `data-value`. */
+  /** What `pp-action` reports as `detail.value` (the label otherwise): a path, an action's name. `data-value`. */
   value?: string;
   /** More words the filter matches, space-separated ("home dashboard" finds Overview). `data-keywords`. */
   keywords?: string;
@@ -1513,7 +1514,7 @@ export type CommandItemProps = CommandItemOwnProps & NativeProps<"div", CommandI
  *
  * Renders `<div class="pp-box pp-command-item" role="option">`.
  */
-export const CommandItem = forwardRef<HTMLDivElement, CommandItemProps>(function CommandItem(
+export const CommandItem = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandItemProps>(function CommandItem(
   { value, keywords, radius, className, ...rest },
   ref,
 ) {
@@ -1534,13 +1535,13 @@ export const CommandItem = forwardRef<HTMLDivElement, CommandItemProps>(function
 export type CommandLabelProps = NativeProps<"span">;
 
 /**
- * A result's name, as the visible navigation says it ("Players", "New level"); the filter and `pp-select` read it.
+ * A result's name, as the visible navigation says it ("Players", "New level"); the filter and `pp-action` read it.
  *
  *   <CommandLabel>Levels</CommandLabel>
  *
  * Renders `<span class="pp-command-label">`.
  */
-export const CommandLabel = forwardRef<HTMLSpanElement, CommandLabelProps>(function CommandLabel(
+export const CommandLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, CommandLabelProps>(function CommandLabel(
   { className, ...rest },
   ref,
 ) {
@@ -1557,7 +1558,7 @@ export type CommandHintProps = NativeProps<"span">;
  *
  * Renders `<span class="pp-command-hint">`.
  */
-export const CommandHint = forwardRef<HTMLSpanElement, CommandHintProps>(function CommandHint(
+export const CommandHint = /*#__PURE__*/ forwardRef<HTMLSpanElement, CommandHintProps>(function CommandHint(
   { className, ...rest },
   ref,
 ) {
@@ -1576,7 +1577,7 @@ export type CommandShortcutProps = NativeProps<"span">;
  *
  * Renders `<span class="pp-command-shortcut" aria-hidden="true">`.
  */
-export const CommandShortcut = forwardRef<HTMLSpanElement, CommandShortcutProps>(function CommandShortcut(
+export const CommandShortcut = /*#__PURE__*/ forwardRef<HTMLSpanElement, CommandShortcutProps>(function CommandShortcut(
   { className, ...rest },
   ref,
 ) {
@@ -1594,7 +1595,7 @@ export type CommandEmptyProps = NativeProps<"p">;
  *
  * Renders `<p class="pp-command-empty" hidden>`.
  */
-export const CommandEmpty = forwardRef<HTMLParagraphElement, CommandEmptyProps>(function CommandEmpty(
+export const CommandEmpty = /*#__PURE__*/ forwardRef<HTMLParagraphElement, CommandEmptyProps>(function CommandEmpty(
   { hidden = true, className, ...rest },
   ref,
 ) {
@@ -1612,7 +1613,7 @@ export type CommandStatusProps = Omit<NativeProps<"p">, "children">;
  *
  * Renders `<p class="pp-sr-only" role="status">`.
  */
-export const CommandStatus = forwardRef<HTMLParagraphElement, CommandStatusProps>(function CommandStatus(
+export const CommandStatus = /*#__PURE__*/ forwardRef<HTMLParagraphElement, CommandStatusProps>(function CommandStatus(
   { className, ...rest },
   ref,
 ) {
@@ -1630,7 +1631,7 @@ export type CommandFooterProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-command-footer" aria-hidden="true">`.
  */
-export const CommandFooter = forwardRef<HTMLDivElement, CommandFooterProps>(function CommandFooter(
+export const CommandFooter = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandFooterProps>(function CommandFooter(
   { className, ...rest },
   ref,
 ) {

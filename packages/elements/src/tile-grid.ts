@@ -12,9 +12,11 @@
  *
  *   pp-select   { tile }: before the selection moves; cancel it to keep the old one.
  *
- * Tab lands on the selected (or current) tile, or the first one.
+ * Tab lands on the selected (or current) tile, or the first one. Tiles added or removed later (by a framework) keep
+ * one Tab stop between them.
  */
 import { PixelElement, rovingFocus } from "@jaatster/blip-core";
+import { watch } from "./_dom.js";
 
 const SELECTED = '[aria-pressed="true"], [aria-current]:not([aria-current="false"]), [aria-selected="true"]';
 
@@ -42,10 +44,16 @@ export class PixelTileGrid extends PixelElement {
     return [...this.querySelectorAll<HTMLElement>(".pp-tile")].filter((t) => t.matches("button, a[href], [tabindex]"));
   }
 
+  #stop: HTMLElement | null = null;
+
   protected override connected(): void {
-    const tiles = this.tiles;
-    const start = tiles.find((t) => t.matches(SELECTED)) ?? tiles[0];
-    for (const t of tiles) t.tabIndex = t === start ? 0 : -1;
+    this.#stop = null;
+    this.#keepStop();
+    // Tiles rendered later (or taken away): one Tab stop still, where it was if that tile is still here.
+    watch(this, this.signal, () => this.#keepStop());
+    this.on(this, "focusin", (e) => {
+      if (this.tiles.includes(e.target as HTMLElement)) this.#stop = e.target as HTMLElement;
+    });
 
     const enabled = () => this.tiles.filter((t) => !t.hasAttribute("disabled") && t.getAttribute("aria-disabled") !== "true");
     const roving = rovingFocus(this, {
@@ -80,6 +88,14 @@ export class PixelTileGrid extends PixelElement {
       const tile = (e.target as Element).closest?.<HTMLElement>(".pp-tile");
       if (this.selection === "single" && tile && enabled().includes(tile)) this.select(tile);
     });
+  }
+
+  /** One tile in the tab order: the one that had the stop, else the selected one, else the first. */
+  #keepStop(): void {
+    const tiles = this.tiles;
+    const stop = (this.#stop && tiles.includes(this.#stop) ? this.#stop : null) ?? tiles.find((t) => t.matches(SELECTED)) ?? tiles[0] ?? null;
+    this.#stop = stop;
+    for (const t of tiles) t.tabIndex = t === stop ? 0 : -1;
   }
 
   /** Selects a tile (aria-pressed in "single", aria-current in "follow"). Returns false if refused. */

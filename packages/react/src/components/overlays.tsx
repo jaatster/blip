@@ -10,8 +10,8 @@ import type { Intent, NativeProps, Radius, Size, Tone } from "../internal/props.
 /** A dialog needs a name: `aria-labelledby` pointing at its title, or `aria-label`. */
 type Named = { "aria-label": string } | { "aria-labelledby": string };
 
-/** The pixel cross a close button shows when it has no children. */
-const cross = <span className="pp-icon" data-glyph="close" aria-hidden="true" />;
+/** The pixel cross a close button shows when it has no children (made when needed, so nothing runs on import). */
+const cross = () => <span className="pp-icon" data-glyph="close" aria-hidden="true" />;
 
 /** Invoker attributes, spread because React's DOM types do not list them yet. */
 const invoker = (target: string | undefined, command: string) =>
@@ -60,7 +60,7 @@ export type DialogPanelProps = DialogPanelOwnProps & Named & DialogRole & Native
  *
  * Renders `<dialog class="pp-box pp-dialog">`.
  */
-export const DialogPanel = forwardRef<HTMLDialogElement, DialogPanelProps>(function DialogPanel(
+export const DialogPanel = /*#__PURE__*/ forwardRef<HTMLDialogElement, DialogPanelProps>(function DialogPanel(
   { size, tone, radius, static: isStatic, className, ...rest },
   ref,
 ) {
@@ -89,7 +89,7 @@ export type DialogHeaderProps = NativeProps<"header">;
  *
  * Renders `<header class="pp-dialog-header">`.
  */
-export const DialogHeader = forwardRef<HTMLElement, DialogHeaderProps>(function DialogHeader(
+export const DialogHeader = /*#__PURE__*/ forwardRef<HTMLElement, DialogHeaderProps>(function DialogHeader(
   { className, ...rest },
   ref,
 ) {
@@ -107,7 +107,7 @@ export type DialogTitleProps = NativeProps<"h2">;
  *
  * Renders `<h2 class="pp-dialog-title">`.
  */
-export const DialogTitle = forwardRef<HTMLHeadingElement, DialogTitleProps>(function DialogTitle(
+export const DialogTitle = /*#__PURE__*/ forwardRef<HTMLHeadingElement, DialogTitleProps>(function DialogTitle(
   { className, ...rest },
   ref,
 ) {
@@ -125,7 +125,7 @@ export type DialogIconProps = Omit<NativeProps<"span">, "children">;
  *
  * Renders `<span class="pp-dialog-icon" aria-hidden="true">`.
  */
-export const DialogIcon = forwardRef<HTMLSpanElement, DialogIconProps>(function DialogIcon(
+export const DialogIcon = /*#__PURE__*/ forwardRef<HTMLSpanElement, DialogIconProps>(function DialogIcon(
   { className, ...rest },
   ref,
 ) {
@@ -155,7 +155,7 @@ export type DialogCloseProps = DialogCloseOwnProps & NativeProps<"button", Dialo
  * data-variant="ghost" data-size="sm" data-icon-only aria-label="Close">` around `<span class="pp-icon"
  * data-glyph="close" aria-hidden="true">`.
  */
-export const DialogClose = forwardRef<HTMLButtonElement, DialogCloseProps>(function DialogClose(
+export const DialogClose = /*#__PURE__*/ forwardRef<HTMLButtonElement, DialogCloseProps>(function DialogClose(
   {
     commandFor,
     type = commandFor === undefined ? undefined : "button",
@@ -180,7 +180,7 @@ export const DialogClose = forwardRef<HTMLButtonElement, DialogCloseProps>(funct
       aria-labelledby={labelledBy}
       {...rest}
     >
-      {children ?? cross}
+      {children ?? cross()}
     </button>
   );
 });
@@ -196,7 +196,7 @@ export type DialogBodyProps = NativeProps<"div">;
  *
  * Renders `<div class="pp-dialog-body">`.
  */
-export const DialogBody = forwardRef<HTMLDivElement, DialogBodyProps>(function DialogBody({ className, ...rest }, ref) {
+export const DialogBody = /*#__PURE__*/ forwardRef<HTMLDivElement, DialogBodyProps>(function DialogBody({ className, ...rest }, ref) {
   return <div ref={ref} className={cx("pp-dialog-body", className)} {...rest} />;
 });
 
@@ -213,7 +213,7 @@ export type DialogFooterProps = NativeProps<"footer">;
  *
  * Renders `<footer class="pp-dialog-footer">`.
  */
-export const DialogFooter = forwardRef<HTMLElement, DialogFooterProps>(function DialogFooter(
+export const DialogFooter = /*#__PURE__*/ forwardRef<HTMLElement, DialogFooterProps>(function DialogFooter(
   { className, ...rest },
   ref,
 ) {
@@ -224,8 +224,12 @@ export const DialogFooter = forwardRef<HTMLElement, DialogFooterProps>(function 
 
 /** Own props of {@link DrawerSheet}. */
 export interface DrawerSheetOwnProps {
-  /** The edge it slides in from: right (default), left for navigation, bottom for share sheets. `data-side`. */
-  side?: "right" | "left" | "bottom";
+  /**
+   * The edge it slides in from: end (default) for settings and details, start for navigation, bottom for share
+   * sheets. End and start follow the text: the right and the left in left-to-right text, the other way round in
+   * right-to-left. `data-side`.
+   */
+  side?: "end" | "start" | "bottom";
   /** 128, 160 (default) or 224 pixels across; a bottom sheet is as tall as its content, up to 85%. `data-size`. */
   size?: Size;
   /** The title bar's colour: accent (default), any tone or candy. `data-tone`. */
@@ -244,7 +248,7 @@ export type DrawerSheetProps = DrawerSheetOwnProps & Named & NativeProps<"dialog
  * {@link DialogClose}, {@link DialogBody}, {@link DialogFooter}). Inside `<Drawer>`; name it by its title.
  *
  *   <Drawer lightDismiss>
- *     <DrawerSheet id="settings" side="right" aria-labelledby="settings-title">
+ *     <DrawerSheet id="settings" side="end" aria-labelledby="settings-title">
  *       <DialogHeader>
  *         <DialogTitle id="settings-title">Settings</DialogTitle>
  *         <form method="dialog"><DialogClose /></form>
@@ -255,7 +259,7 @@ export type DrawerSheetProps = DrawerSheetOwnProps & Named & NativeProps<"dialog
  *
  * Renders `<dialog class="pp-box pp-drawer">`.
  */
-export const DrawerSheet = forwardRef<HTMLDialogElement, DrawerSheetProps>(function DrawerSheet(
+export const DrawerSheet = /*#__PURE__*/ forwardRef<HTMLDialogElement, DrawerSheetProps>(function DrawerSheet(
   { side, size, tone, radius, static: isStatic, className, ...rest },
   ref,
 ) {
@@ -308,7 +312,7 @@ export type PopoverProps = PopoverOwnProps & PopoverRole & NativeProps<"div", Po
  * Renders `<div class="pp-box pp-popover" popover>`. Where the browser does not make the opener its anchor, name it
  * yourself: `anchor-name` on the button, `position-anchor` on the popover.
  */
-export const Popover = forwardRef<HTMLDivElement, PopoverProps>(function Popover(
+export const Popover = /*#__PURE__*/ forwardRef<HTMLDivElement, PopoverProps>(function Popover(
   { side, align, radius, static: isStatic, className, ...rest },
   ref,
 ) {
@@ -337,7 +341,7 @@ export type PopoverNubProps = Omit<NativeProps<"span">, "children">;
  *
  * Renders `<span class="pp-popover-nub" aria-hidden="true">`.
  */
-export const PopoverNub = forwardRef<HTMLSpanElement, PopoverNubProps>(function PopoverNub(
+export const PopoverNub = /*#__PURE__*/ forwardRef<HTMLSpanElement, PopoverNubProps>(function PopoverNub(
   { className, ...rest },
   ref,
 ) {
@@ -354,7 +358,7 @@ export type PopoverTitleProps = NativeProps<"p">;
  *
  * Renders `<p class="pp-popover-title">`.
  */
-export const PopoverTitle = forwardRef<HTMLParagraphElement, PopoverTitleProps>(function PopoverTitle(
+export const PopoverTitle = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PopoverTitleProps>(function PopoverTitle(
   { className, ...rest },
   ref,
 ) {
@@ -379,7 +383,7 @@ export type PopoverCloseProps = PopoverCloseOwnProps & NativeProps<"button", Pop
  * data-variant="ghost" data-size="sm" data-icon-only aria-label="Close">` around `<span class="pp-icon"
  * data-glyph="close" aria-hidden="true">`.
  */
-export const PopoverClose = forwardRef<HTMLButtonElement, PopoverCloseProps>(function PopoverClose(
+export const PopoverClose = /*#__PURE__*/ forwardRef<HTMLButtonElement, PopoverCloseProps>(function PopoverClose(
   {
     popoverTarget,
     popoverTargetAction = popoverTarget === undefined ? undefined : "hide",
@@ -406,7 +410,7 @@ export const PopoverClose = forwardRef<HTMLButtonElement, PopoverCloseProps>(fun
       aria-labelledby={labelledBy}
       {...rest}
     >
-      {children ?? cross}
+      {children ?? cross()}
     </button>
   );
 });
@@ -432,7 +436,7 @@ export type TooltipChipProps = TooltipChipOwnProps & NativeProps<"span", Tooltip
  *
  * Renders `<span class="pp-box pp-tooltip" role="tooltip">`.
  */
-export const TooltipChip = forwardRef<HTMLSpanElement, TooltipChipProps>(function TooltipChip(
+export const TooltipChip = /*#__PURE__*/ forwardRef<HTMLSpanElement, TooltipChipProps>(function TooltipChip(
   { side, static: isStatic, className, ...rest },
   ref,
 ) {
@@ -459,7 +463,7 @@ export type TooltipNubProps = Omit<NativeProps<"span">, "children">;
  *
  * Renders `<span class="pp-tooltip-nub" aria-hidden="true">`.
  */
-export const TooltipNub = forwardRef<HTMLSpanElement, TooltipNubProps>(function TooltipNub(
+export const TooltipNub = /*#__PURE__*/ forwardRef<HTMLSpanElement, TooltipNubProps>(function TooltipNub(
   { className, ...rest },
   ref,
 ) {

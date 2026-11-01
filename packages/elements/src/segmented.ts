@@ -9,9 +9,11 @@
  *
  * Attributes: name, value, disabled, required. Properties: value, disabled. Events: input and change (as a native
  * control), then pp-change { value }.
- * Write aria-checked="true" on the chosen button too, so it looks chosen before the script runs.
+ * Write aria-checked="true" on the chosen button too, so it looks chosen before the script runs. Buttons added or
+ * removed later (by a framework) are wired as they come.
  */
 import { PixelElement, rovingFocus, warn } from "@jaatster/blip-core";
+import { isOn, unFalse, watch } from "./_dom.js";
 
 /**
  * One choice from a few buttons, as a radio group: the arrow keys move and choose. Form-associated: the chosen
@@ -20,10 +22,10 @@ import { PixelElement, rovingFocus, warn } from "@jaatster/blip-core";
  * @summary One choice from a row of buttons.
  * @attr {string} name - The form field name.
  * @attr {string} value - The chosen button's value. Setting it chooses that button.
- * @attr {boolean} disabled - Disables every segment (also follows a disabled fieldset).
- * @attr {boolean} required - Invalid until something is chosen.
+ * @attr {boolean} disabled - Disables every segment (also follows a disabled fieldset). "false" is off.
+ * @attr {boolean} required - Invalid until something is chosen. "false" is off.
  * @attr {string} [required-message="Choose one."] - The message while required and nothing is chosen.
- * @attr {"sm" | "lg"} data-size - 16 or 24 pixels high instead of 20, like buttons.
+ * @attr {"sm" | "md" | "lg"} [data-size="md"] - 16, 20 or 24 pixels high, like buttons.
  * @attr {"full"} data-width - Fills its container; the segments share the width.
  * @attr {"accent" | "info" | "success" | "warning" | "danger" | "neutral" | "red" | "orange" | "yellow" | "green" | "teal" |
  * "blue" | "purple" | "pink" | "slate"} data-tone - The chosen segment's candy.
@@ -44,10 +46,11 @@ export class PixelSegmented extends PixelElement {
     this.setAttribute("value", v);
   }
   get disabled(): boolean {
-    return this.hasAttribute("disabled");
+    return isOn(this, "disabled");
   }
   set disabled(v: boolean) {
-    this.toggleAttribute("disabled", v);
+    if (v) this.setAttribute("disabled", "");
+    else this.removeAttribute("disabled");
   }
   get form(): HTMLFormElement | null {
     return this.#internals.form;
@@ -80,6 +83,8 @@ export class PixelSegmented extends PixelElement {
       warn("PP-A001", "<pp-segmented> has no name. Add aria-label or aria-labelledby.", this);
     }
     this.#sync();
+    // Buttons rendered later (or taken away) get their role, state and place in the tab order as they come.
+    watch(this, this.signal, () => this.#sync(), { subtree: false });
     rovingFocus(this, { items: () => this.items, orientation: "both", onMove: (b) => this.#choose(b as HTMLButtonElement), signal: this.signal });
     this.on(this, "click", (e) => {
       const b = (e.target as Element).closest("button");
@@ -87,7 +92,8 @@ export class PixelSegmented extends PixelElement {
     });
   }
 
-  attributeChangedCallback(): void {
+  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+    if (name !== "value" && unFalse(this, name, value)) return;
     if (this.isConnected && this.#initial !== null) this.#sync();
   }
 
@@ -132,7 +138,7 @@ export class PixelSegmented extends PixelElement {
     const stop = chosen && !chosen.disabled ? chosen : items.find((b) => !b.disabled);
     for (const b of items) b.tabIndex = b === stop ? 0 : -1;
     this.#internals.setFormValue(value || null);
-    if (this.hasAttribute("required") && !value) this.#internals.setValidity({ valueMissing: true }, this.getAttribute("required-message") ?? "Choose one.", items[0]);
+    if (isOn(this, "required") && !value) this.#internals.setValidity({ valueMissing: true }, this.getAttribute("required-message") ?? "Choose one.", items[0]);
     else this.#internals.setValidity({});
   }
 }

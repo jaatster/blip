@@ -48,7 +48,24 @@ to `type="button"`; `Button` keeps the native default, so give it `type="button"
 
 Subpaths: `@jaatster/blip-react` (core components), `@jaatster/blip-react/game`, `@jaatster/blip-react/blocks`,
 `@jaatster/blip-react/effects` and `@jaatster/blip-react/icons`. The package is ESM, has no side effects, and every
-component is its own export, so a bundler keeps only what you use.
+component is a pure call (`/*#__PURE__*/`), so a bundler keeps only what you use: a page with just a `Button` gets
+the button, and one with `Tabs` gets the tabs' parts and their element, nothing else.
+
+One name for one idea, everywhere: `fullWidth` fills the container (`data-width="full"`); `size` is `sm`, `md` or
+`lg`; `layout` places a part in its grid (a `Feature`'s `lead`, `stat` or `wide`); `side` and `align` place things
+(a drawer's `side` is `end`, `start` or `bottom`, following the text); `open` opens, with `onOpen` and `onClose`;
+`onAction` hears an item chosen to run (Menu, CommandPalette, Choices) and `onSelect` a selection that changed
+(Table, TileGrid, Inventory).
+
+**Router links.** Every part that is a link takes `as`, and then the props of what you give it: `ButtonLink`,
+`Link`, `CardLink`, `AppBarBrand`, `AppBarLink`, `SidebarItem`, `BreadcrumbsLink`, `PaginationPrev`,
+`PaginationNext`, `PaginationPage`, `BottomBarItem`, `SkipLink` and `ListItem`.
+
+```tsx
+import NextLink from "next/link";
+<AppBarLink as={NextLink} href="/live" current>Live ops</AppBarLink>
+<ButtonLink as={RouterLink} to="/play" size="lg">Play now</ButtonLink>
+```
 
 ## Web Components
 
@@ -65,11 +82,16 @@ Blip's custom elements. Their wrappers are generated from the Custom Elements Ma
   </DialogPanel>
 </Dialog>
 
-<Tabs activation="manual" onChange={(e) => setTab(e.detail.index)}>
-  <TabList aria-label="Settings"><Tab selected>General</Tab><Tab>Sound</Tab></TabList>
+<Tabs value={tab} onChange={(e) => setTab(e.detail.value)}>
+  <TabList aria-label="Settings"><Tab value="general" selected>General</Tab><Tab value="sound">Sound</Tab></TabList>
   <TabPanel>…</TabPanel>
   <TabPanel hidden>…</TabPanel>
 </Tabs>
+
+<Combobox>
+  <Input aria-label="Place" list="places" value={query} onChange={(e) => setQuery(e.target.value)} aria-autocomplete="list" />
+  <datalist id="places">{places.map((p) => <option key={p} value={p} />)}</datalist>
+</Combobox>
 ```
 
 - **Attributes** are written as attributes in the first render, so the element has them when it connects and they
@@ -84,6 +106,9 @@ Blip's custom elements. Their wrappers are generated from the Custom Elements Ma
 - **Loading**: each wrapper imports its element's module on the client when it first mounts, so it upgrades in
   place (until then the markup already reads and looks right). Nothing runs on the server. To define elements
   yourself, import `@jaatster/blip-elements` (or a single element) as usual: they are defined once.
+- **Content you render later** is wired as it arrives: tabs that come with their data, options your search fills in,
+  an error from your server (a `Field` links it, reads it out and leaves your `aria-invalid` alone). A `Combobox`
+  whose input you control takes `aria-autocomplete="list"`, so it filters without completing the text you own.
 - **Refs** point at the element: `ref.current.show()`, `ref.current.requestClose()`.
 - With React 19, a name that is both an attribute and a property of the element (`open`, `value`, `label`) is
   still written as an attribute: React 19 would otherwise assign the property before the element connects (a
@@ -91,7 +116,9 @@ Blip's custom elements. Their wrappers are generated from the Custom Elements Ma
 - Server rendering: light-DOM elements rewrite their own content when they upgrade. When you hydrate, let the
   wrappers load the elements (the default, after hydration) rather than defining them before.
 
-`toast()` is exported too: it loads the toaster on first use. Call it from an event handler or effect.
+`toast()` is exported too, and returns the same handle as `@jaatster/blip-elements` at once: `const saving =
+toast("Saving…"); saving.close();`. The toaster loads as soon as `toast` is imported in the browser. Call it from an
+event handler or effect, never while rendering.
 
 ## Components
 

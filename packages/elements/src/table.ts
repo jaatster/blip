@@ -17,8 +17,12 @@
  * .pp-table-check cells of the body) and shows "some" (indeterminate) when only some are checked. The CSS marks a
  * row with a checked box as selected.
  *   pp-select   { rows }: the selected <tr>s, after any change.
+ *
+ * Rows a framework adds, removes or changes later are taken in: "select all" follows them, and a table this element
+ * sorted stays sorted (a sort you did yourself, by cancelling pp-sort, is left alone).
  */
 import { PixelElement } from "@jaatster/blip-core";
+import { observe } from "./_dom.js";
 
 export type SortDirection = "ascending" | "descending";
 
@@ -33,6 +37,9 @@ export type SortDirection = "ascending" | "descending";
  */
 export class PixelTable extends PixelElement {
   #live?: HTMLElement;
+  /** The sort this element applied to each table (column and direction), kept while the header still says so. */
+  #sorted = new WeakMap<HTMLTableElement, { th: HTMLTableCellElement; direction: SortDirection }>();
+  #observer?: MutationObserver;
 
   protected override connected(): void {
     this.on(this, "click", (e) => {
@@ -48,6 +55,18 @@ export class PixelTable extends PixelElement {
       this.emit("select", { rows: this.#boxes(table).filter((b) => b.checked).map((b) => b.closest("tr")) });
     });
     for (const table of this.querySelectorAll("table")) this.#sync(table);
+    // Rows that come, go or change later: select-all follows them, and a sort this element made is applied again.
+    this.#observer = observe(this, this.signal, () => {
+      for (const table of this.querySelectorAll("table")) {
+        this.#sync(table);
+        const sorted = this.#sorted.get(table);
+        if (sorted && sorted.th.isConnected && sorted.th.getAttribute("aria-sort") === sorted.direction) this.#order(table, sorted.th.cellIndex, sorted.direction);
+        else this.#sorted.delete(table);
+      }
+    }, (r) => !!(r.target instanceof Element ? r.target : r.target.parentElement)?.closest("table") || [...r.addedNodes].some((n) => n instanceof Element && n.matches("table, :has(table)")), {
+      characterData: true,
+      attributeFilter: ["data-sort-value"],
+    });
   }
 
   protected override disconnected(): void {
@@ -62,26 +81,37 @@ export class PixelTable extends PixelElement {
     if (!table || !body) return false;
     const dir: SortDirection = direction ?? (th.getAttribute("aria-sort") === "ascending" ? "descending" : "ascending");
     const column = th.cellIndex;
-    if (!this.emit("sort", { column, direction: dir, header: th }, true)) return false;
+    if (!this.emit("sort", { column, direction: dir, header: th }, true)) {
+      this.#sorted.delete(table);
+      return false;
+    }
+    this.#order(table, column, dir);
+    for (const h of th.parentElement?.children ?? []) if (h !== th) h.removeAttribute("aria-sort");
+    th.setAttribute("aria-sort", dir);
+    this.#sorted.set(table, { th, direction: dir });
+    this.#say(`Sorted by ${th.textContent?.trim()}, ${dir}`);
+    return true;
+  }
 
+  /** Puts the first body's rows in order by a column, moving only when the order changes. */
+  #order(table: HTMLTableElement, column: number, dir: SortDirection): void {
+    const body = table.tBodies[0];
+    if (!body) return;
     const collator = new Intl.Collator(undefined, { numeric: true, sensitivity: "base" });
     const key = (row: HTMLTableRowElement) => {
       const cell = row.cells[column];
       return (cell?.dataset.sortValue ?? cell?.textContent ?? "").trim();
     };
     const num = (s: string) => (/^[-+]?[\d,]*\.?\d+$/.test(s) ? Number(s.replace(/,/g, "")) : NaN);
-    const rows = [...body.rows].filter((r) => !r.matches(".pp-table-empty, .pp-table-loading"));
-    rows.sort((a, b) => {
+    const now = [...body.rows].filter((r) => !r.matches(".pp-table-empty, .pp-table-loading"));
+    const rows = [...now].sort((a, b) => {
       const x = key(a), y = key(b), nx = num(x), ny = num(y);
       const order = Number.isNaN(nx) || Number.isNaN(ny) ? collator.compare(x, y) : nx - ny;
       return dir === "ascending" ? order : -order;
     });
-    body.append(...rows);
-
-    for (const h of th.parentElement?.children ?? []) if (h !== th) h.removeAttribute("aria-sort");
-    th.setAttribute("aria-sort", dir);
-    this.#say(`Sorted by ${th.textContent?.trim()}, ${dir}`);
-    return true;
+    if (rows.some((r, i) => r !== now[i])) body.append(...rows);
+    // Moving the rows is this element's own change, not news.
+    this.#observer?.takeRecords();
   }
 
   /** The selected rows of every table inside. */

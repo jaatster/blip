@@ -74,7 +74,7 @@ export const ChoicesAfterTheLastPage: StoryObj = {
     const box = boxes(canvasElement)[1]!;
     const { next } = parts(box);
     const choices = box.querySelector<HTMLElement>("pp-choices")!;
-    const picked = events<{ value: string }>(choices, "pp-choice");
+    const picked = events<{ item: HTMLElement; value: string; index: number; label: string }>(choices, "pp-action");
     const choice = (value: string) => choices.querySelector<HTMLButtonElement>(`button[value="${value}"]`)!;
 
     await step("Finishing the page shows the choices and hides the arrow", async () => {
@@ -95,7 +95,7 @@ export const ChoicesAfterTheLastPage: StoryObj = {
 
     await step("Enter takes a choice", async () => {
       await press("{Enter}");
-      expect(picked.at(-1)).toMatchObject({ value: "trade" });
+      expect(picked.at(-1)).toMatchObject({ item: choice("trade"), value: "trade", index: 1, label: "Trade the moon key" });
     });
   },
 };

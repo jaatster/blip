@@ -3,37 +3,52 @@
  *
  * Wires the ids and aria-controls/aria-labelledby, keeps one tab in the tab order, moves with the arrow keys, Home and
  * End (roving focus), selects on focus (automatic) or on Enter and Space (activation="manual"), shows the selected
- * panel, and adds two buttons that scroll an overflowing row a few tabs at a time, in steps.
+ * panel, and adds two buttons that scroll an overflowing row a few tabs at a time, in steps. Tabs and panels added
+ * or removed later (by a framework, after data arrives) are wired as they come.
  *
- *   <pp-tabs data-variant="outline" activation="manual">…</pp-tabs>
- *   tabs.selected = 2;
- *   tabs.addEventListener("pp-change", (e) => console.log(e.detail.index));
+ *   <pp-tabs data-variant="outline" activation="manual" value="sound">…</pp-tabs>
+ *   tabs.value = "display";
+ *   tabs.addEventListener("pp-change", (e) => console.log(e.detail.value, e.detail.index));
  */
 import { PixelElement, rovingFocus, frames, duration, pixel, warn } from "@jaatster/blip-core";
+import { both, valueOf, watch } from "./_dom.js";
 
 export interface TabsChangeDetail {
+  /** The tab's value: its data-value, else its value attribute, else its label. */
+  value: string;
   index: number;
   tab: HTMLElement;
   panel: HTMLElement | null;
 }
 
 const TIER: Record<string, string> = { soft: "soft", outline: "outline", underline: "ghost" };
+const enabled = (t: Element) => t.getAttribute("aria-disabled") !== "true" && !t.hasAttribute("disabled");
 let uid = 0;
 
 /**
  * WAI-ARIA tabs over the tabs markup: ids and ARIA wired, one tab in the tab order, the arrow keys, Home and End,
- * the selected panel shown, and stepped scroll buttons for a row that overflows.
+ * the selected panel shown, and stepped scroll buttons for a row that overflows. Tabs and panels added or removed
+ * later are wired as they come.
  *
  * @summary Tabs: one panel at a time.
- * @attr {number} selected - The selected tab's index. Setting it selects that tab (no pp-change).
+ * @attr {string} value - The selected tab's value: its data-value, else its value attribute, else its label.
+ * Setting it selects that tab (no pp-change); it follows the person's choice.
  * @attr {"auto" | "manual"} [activation="auto"] - Select on focus, or only on Enter, Space and click.
  * @attr {"soft" | "outline" | "underline"} data-variant - The tabs' tier; each tab gets the matching box variant.
- * @attr {"sm"} data-size - Smaller tabs: 16 pixels high instead of 20.
+ * @attr {"sm" | "md" | "lg"} [data-size="md"] - 16, 20 or 24 pixels high, like buttons.
  * @fires {CustomEvent<TabsChangeDetail>} pp-change - After the person selects a tab.
  */
 export class PixelTabs extends PixelElement {
   static override classes = ["pp-tabs"];
-  static observedAttributes = ["selected"];
+  static observedAttributes = ["value"];
+
+  #id = "";
+  #n = 0;
+  #quiet = false;
+  /** The tab list wired now, and what aborts its wiring when it goes. */
+  #list: HTMLElement | null = null;
+  #wiring?: AbortController;
+  #update?: () => void;
 
   /** The tab list: the first [role=tablist] child. */
   get list(): HTMLElement | null {
@@ -45,21 +60,33 @@ export class PixelTabs extends PixelElement {
     return [...(this.list?.children ?? [])].filter((el): el is HTMLElement => el.getAttribute("role") === "tab");
   }
 
+  /** The selected tab's value. Setting it selects that tab (no pp-change). */
+  get value(): string {
+    const tab = this.tabs[this.selectedIndex];
+    return tab ? valueOf(tab) : (this.getAttribute("value") ?? "");
+  }
+  set value(v: string) {
+    this.setAttribute("value", v);
+  }
+
   /** The index of the selected tab, or -1. Setting it selects that tab (no pp-change). */
-  get selected(): number {
+  get selectedIndex(): number {
     return this.tabs.findIndex((t) => t.getAttribute("aria-selected") === "true");
   }
-  set selected(index: number) {
+  set selectedIndex(index: number) {
     const tab = this.tabs[index];
     if (tab) this.#select(tab);
   }
 
   attributeChangedCallback(_name: string, _old: string | null, value: string | null): void {
-    if (value !== null && Number(value) !== this.selected) this.selected = Number(value);
+    if (this.#quiet || value === null) return;
+    const tab = this.tabs.find((t) => valueOf(t) === value);
+    if (tab) this.#select(tab);
   }
 
   #panel(tab: HTMLElement): HTMLElement | null {
-    return document.getElementById(tab.getAttribute("aria-controls") ?? "");
+    const id = tab.getAttribute("aria-controls");
+    return id ? document.getElementById(id) : null;
   }
 
   #select(tab: HTMLElement, user = false): void {
@@ -72,32 +99,65 @@ export class PixelTabs extends PixelElement {
       const p = this.#panel(t);
       if (p) p.hidden = !on;
     }
-    const index = tabs.indexOf(tab);
-    this.setAttribute("selected", String(index));
-    if (user) this.emit<TabsChangeDetail>("change", { index, tab, panel: this.#panel(tab) });
+    const value = valueOf(tab);
+    this.#quiet = true;
+    this.setAttribute("value", value);
+    this.#quiet = false;
+    if (user) this.emit<TabsChangeDetail>("change", { value, index: tabs.indexOf(tab), tab, panel: this.#panel(tab) });
   }
 
   protected override connected(): void {
+    this.#list = null;
+    this.#wire();
+    // Children rendered later (or taken away) are wired as they come.
+    watch(this, this.signal, () => this.#wire());
+    // A row of other children with no tab list is a mistake; no children yet is content still to come.
+    if (!this.list && [...this.children].some((c) => !c.matches(".pp-tabs-scroll"))) warn("PP-N001", "<pp-tabs> needs a [role=tablist] child.", this);
+  }
+
+  /** Wires what is there now: ids, ARIA, tiers and pairs, one selected tab, its panel shown. Runs again whenever
+      tabs or panels come or go. */
+  #wire(): void {
     const list = this.list;
-    if (!list) return warn("PP-N001", "<pp-tabs> needs a [role=tablist] child.", this);
-    const signal = this.signal;
-    const id = this.id || `pp-tabs-${++uid}`;
-    const panels = [...this.querySelectorAll<HTMLElement>(':scope > [role="tabpanel"]')];
-    const tier = TIER[this.dataset.variant ?? ""];
-    const vertical = list.getAttribute("aria-orientation") === "vertical";
+    if (list !== this.#list) {
+      this.#wiring?.abort();
+      this.#wiring = undefined;
+      this.#list = list;
+      if (list) this.#listen(list, both(this.signal, (this.#wiring = new AbortController()).signal));
+    }
     const tabs = this.tabs;
-    tabs.forEach((tab, i) => {
-      tab.id ||= `${id}-tab-${i}`;
+    if (!list || !tabs.length) return;
+    const id = (this.#id ||= this.id || `pp-tabs-${++uid}`);
+    const tier = TIER[this.dataset.variant ?? ""];
+    // Pair each tab with a panel: its aria-controls, else the next panel no tab has claimed, in order.
+    const panels = [...this.querySelectorAll<HTMLElement>(':scope > [role="tabpanel"]')];
+    const claimed = new Set(tabs.map((t) => this.#panel(t)).filter((p): p is HTMLElement => !!p && panels.includes(p)));
+    const free = panels.filter((p) => !claimed.has(p));
+    for (const tab of tabs) {
+      tab.id ||= `${id}-tab-${this.#n++}`;
       if (tier && !tab.dataset.variant) tab.dataset.variant = tier;
-      const panel = this.#panel(tab) ?? panels[i];
-      if (!panel) return;
-      panel.id ||= `${id}-panel-${i}`;
+      let panel = this.#panel(tab);
+      if (!panel || !panels.includes(panel)) panel = free.shift() ?? null;
+      if (!panel) continue;
+      panel.id ||= `${id}-panel-${this.#n++}`;
       tab.setAttribute("aria-controls", panel.id);
       panel.setAttribute("aria-labelledby", tab.id);
       if (!panel.hasAttribute("tabindex")) panel.tabIndex = 0;
-    });
+    }
+    // One selected tab: the one the value names, else the one marked selected, else the first that can be used.
+    const want = this.getAttribute("value");
+    const pick =
+      (want !== null ? tabs.find((t) => valueOf(t) === want) : undefined) ??
+      tabs.find((t) => t.getAttribute("aria-selected") === "true") ??
+      tabs.find(enabled) ??
+      tabs[0]!;
+    this.#select(pick);
+    this.#update?.();
+  }
 
-    const enabled = (t: Element) => t.getAttribute("aria-disabled") !== "true" && !t.hasAttribute("disabled");
+  /** The keys, clicks and scroll buttons of one tab list, until it goes. */
+  #listen(list: HTMLElement, signal: AbortSignal): void {
+    const vertical = list.getAttribute("aria-orientation") === "vertical";
     const pick = (tab: HTMLElement) => enabled(tab) && this.#select(tab, true);
     rovingFocus(list, {
       items: () => this.tabs,
@@ -105,17 +165,14 @@ export class PixelTabs extends PixelElement {
       onMove: (tab) => this.getAttribute("activation") !== "manual" && pick(tab),
       signal,
     });
-    this.on(list, "click", (e) => {
+    list.addEventListener("click", (e) => {
       const tab = (e.target as Element).closest<HTMLElement>('[role="tab"]');
       if (tab && this.tabs.includes(tab)) pick(tab);
-    });
+    }, { signal });
     // Coming back into the list lands on the selected tab, even after arrowing elsewhere (manual activation).
-    this.on(list, "focusout", (e) => {
+    list.addEventListener("focusout", (e) => {
       if (!list.contains(e.relatedTarget as Node | null)) this.tabs.forEach((t) => (t.tabIndex = t.getAttribute("aria-selected") === "true" ? 0 : -1));
-    });
-
-    const first = tabs[Number(this.getAttribute("selected") ?? NaN)] ?? tabs.find((t) => t.getAttribute("aria-selected") === "true") ?? tabs.find(enabled);
-    if (first) this.#select(first);
+    }, { signal });
     if (!vertical) this.#overflow(list, signal);
   }
 
@@ -131,28 +188,31 @@ export class PixelTabs extends PixelElement {
         b.append(document.createElement("span"));
         this.append(b);
       }
-      this.on(b, "click", () => {
+      b.addEventListener("click", () => {
         // A few tabs at a time, in four steps of whole pixels.
         const px = pixel(this);
         const step = Math.max(px, Math.round((list.clientWidth * 0.6) / 4 / px) * px);
         const sign = (dir === "end" ? 1 : -1) * (getComputedStyle(list).direction === "rtl" ? -1 : 1);
         frames(4, duration("frame", 40), () => list.scrollBy(sign * step, 0), { signal });
-      });
+      }, { signal });
       return b;
     });
-    const update = () => {
+    const update = (this.#update = () => {
       const max = list.scrollWidth - list.clientWidth;
       const x = Math.abs(list.scrollLeft);
       this.toggleAttribute("data-overflow", max > 1);
       buttons[0]!.setAttribute("aria-disabled", String(x < 1));
       buttons[1]!.setAttribute("aria-disabled", String(x > max - 1));
-    };
+    });
     const observer = new ResizeObserver(update);
     observer.observe(list);
-    signal.addEventListener("abort", () => observer.disconnect(), { once: true });
-    this.on(list, "scroll", update, { passive: true });
+    signal.addEventListener("abort", () => {
+      observer.disconnect();
+      if (this.#update === update) this.#update = undefined;
+    }, { once: true });
+    list.addEventListener("scroll", update, { passive: true, signal });
     // Start with the selected tab in view, without scrolling the page.
-    const tab = this.tabs[this.selected];
+    const tab = this.tabs[this.selectedIndex];
     if (tab && tab.offsetLeft + tab.offsetWidth > list.clientWidth) list.scrollLeft = tab.offsetLeft - list.clientWidth / 2;
   }
 }
@@ -162,8 +222,5 @@ PixelElement.define("pp-tabs", PixelTabs);
 declare global {
   interface HTMLElementTagNameMap {
     "pp-tabs": PixelTabs;
-  }
-  interface HTMLElementEventMap {
-    "pp-change": CustomEvent<TabsChangeDetail>;
   }
 }

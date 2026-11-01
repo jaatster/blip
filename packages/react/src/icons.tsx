@@ -19,7 +19,7 @@ export type { IconName } from "@jaatster/blip-icons";
 export { icons } from "@jaatster/blip-icons";
 
 /** Every icon name, in the order of the set. */
-export const iconNames = Object.keys(icons) as IconName[];
+export const iconNames = /*#__PURE__*/ Object.keys(icons) as IconName[];
 
 /** Own props of {@link Icon}. */
 export interface IconOwnProps {
@@ -36,7 +36,7 @@ export interface IconOwnProps {
 export type IconProps = IconOwnProps & Omit<SVGProps<SVGSVGElement>, keyof IconOwnProps | "ref" | "viewBox" | "children">;
 
 /** One 12 x 12 pixel icon in the current text colour. */
-export const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon({ name, size, label, className, ...rest }, ref) {
+export const Icon = /*#__PURE__*/ forwardRef<SVGSVGElement, IconProps>(function Icon({ name, size, label, className, ...rest }, ref) {
   const px = size === "lg" ? 48 : 24;
   const named = label?.trim();
   return (

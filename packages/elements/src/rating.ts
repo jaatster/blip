@@ -11,6 +11,7 @@
  * For a score that never changes (a review list), the plain CSS rating with role="img" needs no script.
  */
 import { PixelElement, rovingFocus, warn } from "@jaatster/blip-core";
+import { isOn, unFalse } from "./_dom.js";
 
 /**
  * A row of stars (or hearts) to set a score, as a radio group. Form-associated: the score goes with the form.
@@ -19,9 +20,9 @@ import { PixelElement, rovingFocus, warn } from "@jaatster/blip-core";
  * @attr {string} name - The form field name.
  * @attr {number} value - The score, 0 to max. 0 is "not rated" (nothing is sent).
  * @attr {number} [max=5] - How many stars.
- * @attr {boolean} readonly - Shows the score; it cannot be changed (it stays in the tab order).
- * @attr {boolean} disabled - Switched off (also follows a disabled fieldset).
- * @attr {boolean} required - Invalid while the score is 0.
+ * @attr {boolean} readonly - Shows the score; it cannot be changed (it stays in the tab order). "false" is off.
+ * @attr {boolean} disabled - Switched off (also follows a disabled fieldset). "false" is off.
+ * @attr {boolean} required - Invalid while the score is 0. "false" is off.
  * @attr {string} [required-message="Choose a rating."] - The message while required and not rated.
  * @attr {string} [star-label="{n} stars"] - Each star's name; {n} and {max} are filled in.
  * @attr {"heart"} data-shape - Hearts instead of stars.
@@ -71,7 +72,7 @@ export class PixelRating extends PixelElement {
     return [...this.querySelectorAll<HTMLElement>(":scope > .pp-rating-star")];
   }
   get #live(): boolean {
-    return !this.hasAttribute("readonly") && !this.hasAttribute("disabled") && !this.#formOff;
+    return !isOn(this, "readonly") && !isOn(this, "disabled") && !this.#formOff;
   }
 
   protected connected(): void {
@@ -100,7 +101,8 @@ export class PixelRating extends PixelElement {
     this.on(this, "pointerleave", () => this.#show(0));
   }
 
-  attributeChangedCallback(): void {
+  attributeChangedCallback(name: string, _old: string | null, value: string | null): void {
+    if (name !== "value" && name !== "max" && unFalse(this, name, value)) return;
     if (this.isConnected) this.#sync();
   }
 
@@ -151,8 +153,8 @@ export class PixelRating extends PixelElement {
     const on = Math.round(value);
     if (!this.hasAttribute("role")) this.setAttribute("role", "radiogroup");
     const flag = (el: Element, name: string, on: boolean) => (on ? el.setAttribute(name, "true") : el.removeAttribute(name));
-    const off = this.hasAttribute("disabled") || this.#formOff;
-    flag(this, "aria-readonly", this.hasAttribute("readonly"));
+    const off = isOn(this, "disabled") || this.#formOff;
+    flag(this, "aria-readonly", isOn(this, "readonly"));
     flag(this, "aria-disabled", off);
     stars.forEach((s, i) => {
       s.setAttribute("aria-checked", String(i + 1 === on));
@@ -163,7 +165,7 @@ export class PixelRating extends PixelElement {
     this.style.setProperty("--pp-rating-max", String(max));
     this.#show(this.#preview);
     this.#internals.setFormValue(value ? String(value) : null);
-    if (this.hasAttribute("required") && !value) this.#internals.setValidity({ valueMissing: true }, this.getAttribute("required-message") ?? "Choose a rating.", stars[0]);
+    if (isOn(this, "required") && !value) this.#internals.setValidity({ valueMissing: true }, this.getAttribute("required-message") ?? "Choose a rating.", stars[0]);
     else this.#internals.setValidity({});
   }
 }

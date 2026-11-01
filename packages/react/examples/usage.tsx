@@ -1,12 +1,16 @@
 // Type-checked as a consumer would write it (pnpm --filter @jaatster/blip-react typecheck, against React 19 and React 18
 // types): imports go through the package's own exports, so this checks the published types. The expected errors at
 // the end must stay errors: those are the mistakes the types refuse.
-import { useRef, useState } from "react";
+import { forwardRef, useRef, useState, type ComponentPropsWithoutRef } from "react";
 import {
   Alert,
   AlertBody,
   AlertIcon,
   AlertTitle,
+  AppBarBrand,
+  AppBarLink,
+  BottomBarItem,
+  BreadcrumbsLink,
   Button,
   ButtonGroup,
   ButtonLink,
@@ -14,6 +18,8 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  CardLink,
+  CardMedia,
   CardTitle,
   Checkbox,
   Cluster,
@@ -25,6 +31,8 @@ import {
   DialogHeader,
   DialogPanel,
   DialogTitle,
+  Drawer,
+  DrawerSheet,
   Field,
   FieldError,
   FieldHelp,
@@ -36,10 +44,15 @@ import {
   MenuItem,
   MenuLabel,
   MenuList,
+  PaginationNext,
+  PaginationPage,
+  PaginationPrev,
   Progress,
   Rating,
   Segment,
   Segmented,
+  SidebarItem,
+  SkipLink,
   Stack,
   Tab,
   TabList,
@@ -59,10 +72,15 @@ import {
   toast,
   type Tone,
 } from "@jaatster/blip-react";
-import { Choice, ChoiceList, Counter, Dialogue, DialogueName, DialogueText, Hearts, HudBar, Inventory, Slot, Sprite } from "@jaatster/blip-react/game";
-import { CtaActions, CtaBand, CtaText, CtaTitle, Hero, HeroActions, HeroInner, HeroLead, HeroTitle } from "@jaatster/blip-react/blocks";
+import { Choice, ChoiceList, Choices, Counter, Dialogue, DialogueName, DialogueText, Hearts, HudBar, Inventory, Slot, Sprite } from "@jaatster/blip-react/game";
+import { CtaActions, CtaBand, CtaText, CtaTitle, Feature, FeaturesGrid, FeatureTitle, Hero, HeroActions, HeroInner, HeroLead, HeroTitle } from "@jaatster/blip-react/blocks";
 import { DropText, Typewriter, World } from "@jaatster/blip-react/effects";
 import { Icon, type IconName } from "@jaatster/blip-react/icons";
+
+/** A router's own link (as React Router's): it takes `to` and renders an anchor. Link parts take it with `as`. */
+const RouterLink = forwardRef<HTMLAnchorElement, { to: string } & Omit<ComponentPropsWithoutRef<"a">, "href">>(function RouterLink({ to, ...rest }, ref) {
+  return <a ref={ref} href={to} {...rest} />;
+});
 
 export function Actions() {
   const [bold, setBold] = useState(false);
@@ -71,17 +89,23 @@ export function Actions() {
   return (
     <Stack gap={4}>
       <Cluster justify="between">
-        <Button onClick={() => void toast({ title: "Saved", tone: "success" })}>Save game</Button>
+        <Button onClick={() => toast({ title: "Saved", tone: "success" })}>Save game</Button>
+        <Button type="button" onClick={() => toast("Saving…").close()}>
+          Save quietly
+        </Button>
         <Button variant="soft" tone={tone} size="sm" type="button">
           Delete save
         </Button>
         <Button iconOnly aria-label="Add level" id="add">
           <Icon name="plus" />
         </Button>
-        <Tooltip htmlFor="add" placement="bottom">
+        <Tooltip htmlFor="add" side="bottom">
           Adds a level after this one
         </Tooltip>
         <ButtonLink href="/play" size="lg">
+          Play now
+        </ButtonLink>
+        <ButtonLink as={RouterLink} to="/play" fullWidth>
           Play now
         </ButtonLink>
       </Cluster>
@@ -114,7 +138,7 @@ export function Forms() {
       <Checkbox name="music" defaultChecked>
         Music
       </Checkbox>
-      <Segmented name="view" value={view} size="sm" aria-label="View" onChange={(e) => setView(e.detail.value)}>
+      <Segmented name="view" value={view} size="sm" fullWidth aria-label="View" onChange={(e) => setView(e.detail.value)}>
         <Segment value="list">List</Segment>
         <Segment value="grid" checked>
           Grid
@@ -149,15 +173,17 @@ export function Overlays() {
       <Button type="button" onClick={() => dialog.current?.show()}>
         Open from script
       </Button>
-      <Tabs activation="manual" variant="outline" onChange={(e) => console.log(e.detail.index, e.detail.tab)}>
+      <Tabs activation="manual" variant="outline" size="lg" value="sound" onChange={(e) => console.log(e.detail.value, e.detail.index, e.detail.tab)}>
         <TabList aria-label="Settings">
-          <Tab selected>General</Tab>
-          <Tab>Sound</Tab>
+          <Tab value="general" selected>
+            General
+          </Tab>
+          <Tab value="sound">Sound</Tab>
         </TabList>
         <TabPanel>…</TabPanel>
         <TabPanel hidden>…</TabPanel>
       </Tabs>
-      <Menu onSelect={(e) => console.log(e.detail.value, e.detail.checked)}>
+      <Menu open={false} align="end" onAction={(e) => console.log(e.detail.value, e.detail.checked)} onClose={() => console.log("closed")}>
         <Button variant="soft">Level</Button>
         <MenuList aria-label="Level">
           <MenuItem value="duplicate">
@@ -168,7 +194,7 @@ export function Overlays() {
           </MenuItem>
         </MenuList>
       </Menu>
-      <Toaster placement="top-center" max={2} />
+      <Toaster side="top" align="center" max={2} />
     </>
   );
 }
@@ -231,11 +257,13 @@ export function Game() {
           <p>Ah, a traveller!</p>
         </DialogueText>
       </Dialogue>
-      <ChoiceList>
-        <li>
-          <Choice>Yes</Choice>
-        </li>
-      </ChoiceList>
+      <Choices onAction={(e) => console.log(e.detail.item.value, e.detail.value, e.detail.index, e.detail.label)}>
+        <ChoiceList>
+          <li>
+            <Choice>Yes</Choice>
+          </li>
+        </ChoiceList>
+      </Choices>
       <Inventory aria-label="Backpack" onSelect={(e) => console.log(e.detail.index, e.detail.value)}>
         <Slot rarity="rare" aria-label="Mana potion">
           <Sprite name="potion" tone="blue" />
@@ -247,6 +275,53 @@ export function Game() {
       <Typewriter mood="sleepy" blips onTypewriterDone={() => console.log("typed")}>
         Hello there!
       </Typewriter>
+    </>
+  );
+}
+
+// Every link part renders your router's link with `as`, and takes that link's props.
+export function Routed() {
+  return (
+    <>
+      <SkipLink href="#main">Skip to content</SkipLink>
+      <AppBarBrand as={RouterLink} to="/">
+        Questboard
+      </AppBarBrand>
+      <AppBarLink as={RouterLink} to="/live" current>
+        Live ops
+      </AppBarLink>
+      <SidebarItem as={RouterLink} to="/players">
+        Players
+      </SidebarItem>
+      <BreadcrumbsLink as={RouterLink} to="/worlds">
+        Worlds
+      </BreadcrumbsLink>
+      <PaginationPrev as={RouterLink} to="?page=4">
+        Previous
+      </PaginationPrev>
+      <PaginationPage as={RouterLink} to="?page=5" aria-label="Page 5" current>
+        5
+      </PaginationPage>
+      <PaginationNext as={RouterLink} to="?page=6">
+        Next
+      </PaginationNext>
+      <BottomBarItem as={RouterLink} to="/">
+        Today
+      </BottomBarItem>
+      <CardLink as={RouterLink} to="/worlds/night-woods">
+        Night woods
+      </CardLink>
+      <CardMedia fit="pixels" artWidth={64} artHeight={36}>
+        <img src="meadow.png" alt="" width={64} height={36} />
+      </CardMedia>
+      <Drawer lightDismiss>
+        <DrawerSheet id="settings" side="start" aria-labelledby="settings-title">
+          <DialogTitle id="settings-title">Settings</DialogTitle>
+        </DrawerSheet>
+      </Drawer>
+      <Link as={RouterLink} to="/rules" standalone>
+        House rules
+      </Link>
     </>
   );
 }
@@ -266,6 +341,11 @@ export function Landing() {
           </HeroActions>
         </HeroInner>
       </Hero>
+      <FeaturesGrid>
+        <Feature layout="lead">
+          <FeatureTitle>One world</FeatureTitle>
+        </Feature>
+      </FeaturesGrid>
       <CtaBand variant="soft" tone="purple">
         <CtaTitle boxed>Ready?</CtaTitle>
         <CtaText>It is free.</CtaText>
@@ -299,8 +379,20 @@ export function Refused() {
       <ToggleButton>Grid</ToggleButton>
       {/* @ts-expect-error: World draws its own content */}
       <World>text</World>
-      {/* @ts-expect-error: placement is top, bottom, left or right */}
-      <Tooltip placement="middle" />
+      {/* @ts-expect-error: a side is top, bottom, left or right */}
+      <Tooltip side="middle" />
+      {/* @ts-expect-error: pixel art needs its size in its own pixels */}
+      <CardMedia fit="pixels" />
+      {/* @ts-expect-error: a drawer's sides follow the text: end and start, not right and left */}
+      <DrawerSheet side="right" aria-label="Settings" />
+      {/* @ts-expect-error: a feature's place in the grid is its layout, not a size */}
+      <Feature size="lead" />
+      {/* @ts-expect-error: a router's link needs what that link needs (here, to) */}
+      <AppBarLink as={RouterLink}>Live ops</AppBarLink>
+      {/* @ts-expect-error: a page needs its full name */}
+      <PaginationPage href="?page=5">5</PaginationPage>
+      {/* @ts-expect-error: menus and palettes say an item ran with onAction, not onSelect */}
+      <Menu onSelect={(e: CustomEvent<{ value: string }>) => e} />
       {/* @ts-expect-error: pp-change carries a number here */}
       <Rating onChange={(e: CustomEvent<{ value: string }>) => e} />
       {/* @ts-expect-error: a tab list needs a name */}
