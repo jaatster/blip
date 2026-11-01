@@ -33,7 +33,8 @@ under a legend. `<pp-field>` wires it all up, so nothing has to be linked by han
 ```
 
 Without the element, write the links yourself: `aria-describedby` on the control naming the help and error, and
-`aria-invalid="true"` while the error shows.
+`aria-invalid="true"` while the error shows. With it, write your own errors and `aria-invalid` as you like (a
+framework's state is fine): the field links them and leaves them to you.
 
 ## Anatomy
 
@@ -61,14 +62,18 @@ Without the element, write the links yourself: `aria-describedby` on the control
 
 What `<pp-field>` does:
 
-- Adds the help, error and count to the control's `aria-describedby` (keeping any ids already there). For a group
-  (`role="group"` on the field), they describe the group.
+- Adds the help, a showing error and the count to the control's `aria-describedby` (keeping any ids already there),
+  and takes each out when it goes. For a group (`role="group"` on the field), they describe the group. Parts your
+  framework renders later, or takes away (an error shown only after the server answers), are linked as they come.
 - Shows the error when the browser finds the control invalid (on submit, or when a changed value is checked) and
   marks the control (or the `pp-segmented` / `pp-rating`) `aria-invalid="true"`; clears both once the value is
   valid, or the form is reset. The words: write them in the error with `hidden` to use them as the message without
-  showing them at load; with none, the browser's own message is used. An error written in the page without `hidden`
-  (from the server) shows at once.
-- Makes the error a polite live region, so a new error is read out without moving focus.
+  showing them at load; with none, the browser's own message is used.
+- Your own errors are yours. An error that shows with your words (from the server, or your framework's state) stays
+  until you change or remove it, and the control is marked invalid while it shows. An `aria-invalid` you write
+  stays too: the field only ever takes away the `aria-invalid` it wrote itself.
+- Reads out every error as it comes up, once, from a polite live region of its own, without moving focus (an error
+  already on the page when it loads is read with the page).
 - Counts characters against `maxlength`. The count is part of the control's description (read as "12/200" when
   the field is focused); while typing, the visible count is hidden from screen readers and, after a pause, a polite
   message says how many are left (`count-text`, default "{left} characters left").

@@ -14,7 +14,7 @@
  *
  *   data-variant  on .pp-tabs: candy (default) | soft | outline | underline. Each tab carries the matching box tier
  *                 (none, soft, outline, ghost for underline); <pp-tabs> fills it in when it is missing.
- *   data-size     on .pp-tabs: sm | md (default)
+ *   data-size     on .pp-tabs: sm | md (default) | lg      tabs 32, 40 or 48 px high, like buttons
  *   data-arrow    on .pp-tabs: the TV's pointer arrow over the selected tab (where anchor positioning is supported)
  *   aria-orientation="vertical" on the list: tabs down the side, the panel beside them (a row again under 480 px)
  *   aria-selected="true", or aria-current="page" for tabs that are links: sits in
@@ -39,6 +39,7 @@
     font-family: var(--pp-font-ui);
   }
   .pp-tabs[data-size="sm"] { --_h: var(--pp-control-sm); }
+  .pp-tabs[data-size="lg"] { --_h: var(--pp-control-lg); }
 
   .pp-tabs-list {
     position: relative;
@@ -86,8 +87,8 @@
     --pp-tone-shade: var(--pp-candy-cream-shade);
     --pp-tone-on: var(--pp-ink);
   }
-  /* Cream is too close to the page for the usual dither: a disabled cream tab dithers with the soft line. */
-  .pp-tabs:not([data-variant="outline"], [data-variant="underline"]) > .pp-tabs-list > .pp-tab:not([aria-selected="true"], [aria-current="page"], [data-tone]):is(:disabled, [aria-disabled="true"]) { --pp-box-dither: var(--pp-line-soft); }
+  /* Cream is too close to the page for the usual dither: a disabled cream tab takes the cream one. */
+  .pp-tabs:not([data-variant="outline"], [data-variant="underline"]) > .pp-tabs-list > .pp-tab:not([aria-selected="true"], [aria-current="page"], [data-tone]):is(:disabled, [aria-disabled="true"]) { --pp-box-dither: var(--pp-disabled-dither-cream); }
   .pp-tabs[data-size="sm"] > .pp-tabs-list > .pp-tab {
     --pp-r: 3;
     --pp-shape: var(--pp-shape-3);
@@ -97,6 +98,15 @@
     gap: var(--pp-space-2);
     padding: 0 var(--pp-space-6);
     font-size: var(--pp-size-caption);
+  }
+  .pp-tabs[data-size="lg"] > .pp-tabs-list > .pp-tab {
+    --pp-r: 5;
+    --pp-shape: var(--pp-shape-5);
+    --pp-shape-inner: var(--pp-shape-5-inner);
+    --pp-band-top: 5;
+    --pp-band-bottom: 4;
+    padding: 0 calc(10 * var(--pp-pixel));
+    font-size: var(--pp-size-body);
   }
 
   .pp-tabs-panel {
@@ -121,14 +131,22 @@
     padding: 0 var(--pp-space-6);
   }
   .pp-tabs[data-variant="underline"] > .pp-tabs-list > .pp-tab:not([aria-selected="true"], [aria-current="page"]) { --pp-box-text: var(--pp-text-muted); }
+  /* Disabled, it stays bare like its neighbours, only dithered: a disabled ghost's soft outline would show through its
+     empty fill, too dark under the muted label at Sunset. */
+  .pp-tabs[data-variant="underline"] > .pp-tabs-list > .pp-tab:is(:disabled, [aria-disabled="true"]) { --pp-box-outline: transparent; }
   .pp-tabs[data-variant="underline"] > .pp-tabs-list:not([aria-orientation="vertical"]) > .pp-tab:is([aria-selected="true"], [aria-current="page"]) {
-    --pp-box-bottom: var(--pp-accent-text);
-    --pp-box-text: var(--pp-text);
-  }
-  .pp-tabs[data-variant="underline"] > .pp-tabs-list:not([aria-orientation="vertical"]) > .pp-tab:is([aria-selected="true"], [aria-current="page"]):not(:focus-visible, [data-pp-state~="focus"]) {
     --pp-box-outline: transparent;
     --pp-box-top: transparent;
     --pp-box-fill: transparent;
+    --pp-box-bottom: var(--pp-accent-text);
+    --pp-box-text: var(--pp-text);
+  }
+  /* With focus, the well every focused ghost shows (not a selected ghost's tone chip, too light for the scheme's text
+     at Night), so the ring has a shape to follow; the bar stays. */
+  .pp-tabs[data-variant="underline"] > .pp-tabs-list:not([aria-orientation="vertical"]) > .pp-tab:is([aria-selected="true"], [aria-current="page"]):is(:focus-visible, [data-pp-state~="focus"]) {
+    --pp-box-outline: var(--pp-line);
+    --pp-box-top: var(--pp-surface-sunken);
+    --pp-box-fill: var(--pp-surface-sunken);
   }
 
   /* ------------------------------------------------------------ the arrow */

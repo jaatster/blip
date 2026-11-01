@@ -112,8 +112,8 @@
   .pp-slider::-webkit-slider-thumb { filter: var(--_ring, none); }
   .pp-slider::-moz-range-thumb { filter: var(--_ring, none); }
 
-  /* Disabled: the knob dithered with the page, no lift, no drop; the groove goes soft. */
-  .pp-slider:disabled { --_d: 0; --_dither: var(--pp-line-soft); --_line: var(--pp-line-soft); --_on: var(--pp-line-soft); --_on2: var(--pp-line-soft); cursor: not-allowed; }
+  /* Disabled: the cream knob takes the cream dither, no lift, no drop; the groove goes soft. */
+  .pp-slider:disabled { --_d: 0; --_dither: var(--pp-disabled-dither-cream); --_line: var(--pp-line-soft); --_on: var(--pp-line-soft); --_on2: var(--pp-line-soft); cursor: not-allowed; }
 
   /* The group: slider and readout side by side, ticks under the slider. */
   .pp-slider-group {
@@ -161,6 +161,11 @@
   }
   .pp-slider-ticks > ::before { content: ""; inline-size: var(--pp-pixel); block-size: calc(2 * var(--pp-pixel)); background: currentColor; }
 
+  /* The groove, its fill, the knob and the ticks are the value: they print, though paper drops backgrounds (the
+     input's parts inherit it). */
+  @media print {
+    .pp-slider, .pp-slider-ticks { print-color-adjust: exact; }
+  }
   @media (forced-colors: active) {
     .pp-slider::-webkit-slider-runnable-track { forced-color-adjust: none; background: CanvasText; }
     .pp-slider::-webkit-slider-thumb { forced-color-adjust: none; background: ButtonText; border: 1px solid Canvas; }

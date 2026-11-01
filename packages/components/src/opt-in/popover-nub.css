@@ -1,0 +1,29 @@
+/*
+ * Popover nub (opt-in). With it, an open popover shows its nub where the browser can tell which side the popover
+ * took (anchored container queries), and the nub turns when the popover flips for lack of room. Without it, open
+ * popovers have no nub, rather than a wrong one; a static one (data-pp-static) always has its nub.
+ *
+ *   <link rel="stylesheet" href="…/@jaatster/blip-components/dist/popover-nub.min.css">
+ *
+ * Not part of components.css, and not for a bundler's CSS imports: lightningcss, which Vite 8 and Next.js 16 run on
+ * CSS, cannot parse @container anchored() yet and fails the build. Load it with a <link> after components.css (or
+ * popover.css), from a CDN or a copy in your public folder. Browsers without anchored container queries ignore it.
+ */
+
+@layer pp.components {
+  @supports (container-type: anchored) {
+    @media not (forced-colors: active) {
+      .pp-popover { container-type: anchored; --_pp-popover-nub: block; }
+    }
+  }
+
+  /* Flipped for lack of room: the nub flips too. */
+  @container anchored(fallback: flip-block) {
+    .pp-popover:popover-open .pp-popover-nub { inset-block-start: calc(round(down, 100%, var(--pp-pixel)) - var(--pp-pixel)); rotate: none; }
+    .pp-popover[data-side="top"]:popover-open .pp-popover-nub { inset-block-start: calc(-6 * var(--pp-pixel)); rotate: 180deg; }
+  }
+  @container anchored(fallback: flip-inline) {
+    .pp-popover[data-side="left"]:popover-open .pp-popover-nub { left: calc(-6 * var(--pp-pixel)); rotate: 90deg; }
+    .pp-popover[data-side="right"]:popover-open .pp-popover-nub { left: calc(round(down, 100%, var(--pp-pixel)) - var(--pp-pixel)); rotate: -90deg; }
+  }
+}

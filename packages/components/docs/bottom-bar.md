@@ -34,8 +34,9 @@ Put it last in the page (or in the app shell), after the content: it sticks to t
 
 1. **Bar**: `.pp-bottom-bar`, a surface panel with stepped corners, floating a few pixels above the bottom edge and the
    safe area.
-2. **Item**: `.pp-bottom-bar-item`, a ghost box filling an equal share: a 12 x 12 icon over a small upper-case label.
-3. **Label**: `.pp-bottom-bar-label`, cut with an ellipsis if it is too long.
+2. **Item**: `.pp-bottom-bar-item`, a ghost box as wide as its label plus an even share of the room left: a 12 x 12
+   icon over a small upper-case label, set tight (no tracking) so five fit across a 320 px phone.
+3. **Label**: `.pp-bottom-bar-label`, cut with an ellipsis only if the labels cannot fit even so.
 4. **Badge**: `.pp-bottom-bar-badge`, a small candy box on the icon's corner with a count; empty or `data-dot`, a dot.
 
 ## Variants
@@ -70,7 +71,8 @@ Put it last in the page (or in the app shell), after the content: it sticks to t
 
 ## Content
 
-- Three to five destinations; one word each, sentence case (CSS sets upper case).
+- Three to five destinations; one word each, sentence case (CSS sets upper case). Five words of up to eight letters
+  fit at 320 px ("Overview", "Activity"); longer words, as in German, fit five across from 360 px, or four at 320.
 - The same icons and names as the sidebar.
 
 ## Do and don't

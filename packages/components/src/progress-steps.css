@@ -23,8 +23,10 @@
  *   data-orientation="vertical"  steps down the side, hints beside them
  *   data-arrow                   the TV's pointer arrow bobs over the current step
  *
- * Under 480 px the hints step aside; under 300 px only the current step keeps its label (the others stay readable
- * to screen readers). Done steps can be links back; the current and upcoming steps are text.
+ * Under 480 px the hints step aside. A label with a word too long for its step folds away (readable to screen readers
+ * still), wherever that happens. The current step always keeps its label, which may take its whole step (broken onto
+ * more lines only if it must), so the labels either side of it fold a little sooner. Done steps can be links back;
+ * the current and upcoming steps are text.
  */
 
 @layer pp.components {
@@ -112,6 +114,7 @@
     line-height: var(--pp-leading-tight);
     letter-spacing: var(--pp-tracking-label);
     text-transform: uppercase;
+    overflow-wrap: anywhere;
   }
   .pp-progress-steps-item:not([data-state="done"], [aria-current="step"], :has(> [aria-current="step"])) .pp-progress-steps-label { color: var(--pp-text-muted); }
   .pp-progress-steps-item > a:hover .pp-progress-steps-label {
@@ -123,6 +126,7 @@
     font-size: var(--pp-size-caption);
     line-height: var(--pp-leading-tight);
     color: var(--pp-text-muted);
+    overflow-wrap: anywhere;
   }
 
   /* The line to the next step: solid once that step is reached, dashed while it is ahead. */
@@ -220,19 +224,32 @@
 
   /* ------------------------------------------------------------ narrow */
 
+  /* Side by side, a label may take its step's width but for a pixel each side, so neighbours never touch. The current
+     step's label, which never folds, may take all of it before a word breaks, so the labels either side of it keep
+     a pixel inside their steps' padding. */
+  .pp-progress-steps:not([data-orientation="vertical"]) .pp-progress-steps-label { margin-inline: calc(-1 * var(--pp-pixel)); }
+  .pp-progress-steps:not([data-orientation="vertical"]) .pp-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"])) .pp-progress-steps-label { margin-inline: calc(-2 * var(--pp-pixel)); }
+  .pp-progress-steps:not([data-orientation="vertical"]) .pp-progress-steps-item:has(+ :is([aria-current="step"], :has(> [aria-current="step"]))) .pp-progress-steps-label,
+  .pp-progress-steps:not([data-orientation="vertical"]) .pp-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"])) + .pp-progress-steps-item .pp-progress-steps-label { margin-inline: var(--pp-pixel); }
   @container (width < 480px) {
     .pp-progress-steps:not([data-orientation="vertical"]) .pp-progress-steps-hint { display: none; }
   }
-  @container (width < 300px) {
+  /* A label that does not fit its step folds away, where the browser can tell (a label whose word runs past its own
+     box has a scroll timeline; one that fits has none). It keeps its box, only clipped, so folding it never changes
+     whether it fits. Elsewhere long words break instead. */
+  @supports (animation-timeline: scroll()) {
     .pp-progress-steps:not([data-orientation="vertical"]) .pp-progress-steps-item:not([aria-current="step"], :has(> [aria-current="step"])) .pp-progress-steps-label {
-      position: absolute;
-      clip-path: inset(50%);
-      white-space: nowrap;
+      justify-self: stretch;
+      overflow-wrap: normal;
+      overflow-x: hidden;
+      /* Cut short, if animations are switched off and it cannot fold. */
+      text-overflow: ellipsis;
+      /* Room for accents above the capitals, which the scroll box would clip. */
+      margin-block: calc(-1 * var(--pp-pixel));
+      padding-block: var(--pp-pixel);
+      animation: pp-progress-steps-fold steps(1, jump-end) both;
+      animation-timeline: scroll(self inline);
     }
-    /* The one label left may be wider than its step: it runs over, kept inside the row at the ends. */
-    .pp-progress-steps:not([data-orientation="vertical"]) .pp-progress-steps-label { white-space: nowrap; }
-    .pp-progress-steps:not([data-orientation="vertical"]) .pp-progress-steps-item:first-child .pp-progress-steps-label { justify-self: start; }
-    .pp-progress-steps:not([data-orientation="vertical"]) .pp-progress-steps-item:last-child .pp-progress-steps-label { justify-self: end; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -245,3 +262,5 @@
     .pp-progress-steps-item:is([aria-current="step"], :has(> [aria-current="step"])) .pp-progress-steps-marker { border-width: var(--pp-pixel); }
   }
 }
+
+@keyframes pp-progress-steps-fold { from, to { clip-path: inset(50%); } }

@@ -1,6 +1,6 @@
 /*
- * Rating. A row of pixel stars (or hearts): yellow candy with an ink outline for the score, sunken wells for the
- * rest. Shown with CSS alone; <pp-rating> (from @jaatster/blip-elements) makes it a form control you can set.
+ * Rating. A row of pixel stars (or hearts): yellow candy with an ink outline for the score, sunken wells in a soft
+ * line for the rest. Shown with CSS alone; <pp-rating> (from @jaatster/blip-elements) makes it a form control you can set.
  *
  *   A score, no JavaScript (halves and other fractions fill whole pixels):
  *   <span class="pp-rating" role="img" aria-label="Rated 3.5 out of 5" style="--pp-rating-value: 3.5"></span>
@@ -12,7 +12,7 @@
  *   --pp-rating-max         how many stars, 5 by default (the element sets it from max)
  *   data-shape="heart"      red pixel hearts instead of stars
  *   [data-preview]          set by the element while the pointer is over a star: the stars it would set go pale
- *   aria-disabled="true"    dithered with the page
+ *   aria-disabled="true"    dithered with a light colour (--pp-disabled-dither)
  *
  * Each star is 12 pixels wide (11 and a gap). For bigger stars, raise the pixel (data-pp-pixel). The stars of the
  * element are its radios: the one with the keyboard shows the square yellow focus ring.
@@ -49,7 +49,9 @@
     --_inner: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10' shape-rendering='crispEdges'%3E%3Cpath d='M1 1h3v1H1zM7 1h3v1H7zM1 2h4v1H1zM6 2h4v1H6zM1 3h9v2H1zM2 5h7v1H2zM3 6h5v1H3zM4 7h3v1H4zM5 8h1v1H5z'/%3E%3C/svg%3E");
   }
 
-  /* Ink outlines (soft lines on the empty ones) behind, fills in front, both cut from the glyph, one per cell. */
+  /* Ink outlines behind, fills in front, both cut from the glyph, one per cell. An empty star has no ink outline,
+     only the soft line, so filled and empty differ in lightness as well as hue (the outline by Day and at Sunset,
+     the fill at Night). */
   .pp-rating::before,
   .pp-rating::after {
     content: "";
@@ -59,7 +61,7 @@
     pointer-events: none;
     mask: var(--_shape) 0 0 / var(--_w) var(--_h) repeat-x;
   }
-  .pp-rating::before { background: linear-gradient(var(--pp-outline) 0 0) var(--_from) 0 / var(--_fill) 100% no-repeat, var(--pp-line); }
+  .pp-rating::before { background: linear-gradient(var(--pp-outline) 0 0) var(--_from) 0 / var(--_fill) 100% no-repeat, var(--pp-line-soft); }
   .pp-rating::after {
     mask-image: var(--_inner);
     background:
@@ -73,7 +75,7 @@
       linear-gradient(var(--_cl) 0 0) var(--_from) 0 / var(--_fill) 100% no-repeat,
       var(--pp-surface-sunken);
   }
-  .pp-rating[aria-disabled="true"] { --_dither: var(--pp-bg); }
+  .pp-rating[aria-disabled="true"] { --_dither: var(--pp-disabled-dither); }
   /* Right to left: the first star is on the right, so the score fills from there. */
   .pp-rating:dir(rtl) { --_from: right; }
 
@@ -82,6 +84,10 @@
   .pp-rating:is([aria-readonly="true"], [aria-disabled="true"]) > .pp-rating-star { cursor: default; }
   .pp-rating[aria-disabled="true"] > .pp-rating-star { cursor: not-allowed; }
 
+  /* The stars are the score: they print, though paper drops backgrounds. */
+  @media print {
+    .pp-rating::before, .pp-rating::after { print-color-adjust: exact; }
+  }
   @media (forced-colors: active) {
     .pp-rating::before, .pp-rating::after { forced-color-adjust: none; }
     .pp-rating::before { background: linear-gradient(CanvasText 0 0) var(--_from) 0 / var(--_fill) 100% no-repeat, GrayText; }

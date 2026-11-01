@@ -33,10 +33,20 @@ its top.
 A whole card as a link: `<a class="pp-box pp-card" href="/worlds/meadow">…</a>`. A card with one main link and other
 actions: put `data-pp-interactive` on the card and `class="pp-card-link"` on the link in its title.
 
+Pixel art that must stay crisp, at whole multiples of its pixels:
+
+```html
+<div class="pp-card-media" data-fit="pixels" style="--pp-card-art-width: 64; --pp-card-art-height: 36">
+  <img src="meadow.png" alt="" width="64" height="36">
+</div>
+```
+
 ## Anatomy
 
 1. **Panel**: the candy box as a cream panel (`--pp-surface-panel`), one-pixel ink outline, stepped corners, a drop.
-2. **Media** (optional): `.pp-card-media`, a picture in a one-pixel ink frame, 16:9 by default, never smoothed.
+2. **Media** (optional): `.pp-card-media`, a picture in a one-pixel ink frame, 16:9 by default, never smoothed. It
+   covers the frame, scaled by whatever that takes; with `data-fit="pixels"` it is scaled so every art pixel is the
+   same whole number of Blip pixels, and centred on the frame's sunken fill.
 3. **Header**: `.pp-card-header`, the title (`.pp-card-title`) and subtitle (`.pp-card-subtitle`) at the start,
    anything small (a tag, a menu button) at the end.
 4. **Body**: `.pp-card-body`, text.
@@ -46,10 +56,11 @@ actions: put `data-pp-interactive` on the card and `class="pp-card-link"` on the
 
 | Attribute | Values | Use |
 |---|---|---|
-| `data-variant` | `panel`, cream (default), `soft`, `candy`, `outline` | Soft and candy tint the whole card (text inside takes the box's ink); outline is flat, for dense pages. `panel` set explicitly is the white panel. |
+| `data-variant` | `panel`, cream (default), `soft`, `candy`, `outline` | Soft and candy tint the whole card, and give what sits on it the light roles (the tone's ink for text, links and lines; white fields), so it reads in every scheme; outline is flat, for dense pages. `panel` set explicitly is the white panel. |
 | `data-tone` | any tone or candy | On a cream card: a three-pixel strip of its light colour along the top, following the corners. With soft or candy: the card's colour. |
 | `data-size` | `sm`, `md` (default), `lg` | Padding 6, 8 or 12 pixels, title size, corner radius 3, 4, 5. |
 | `data-layout` | `horizontal` | The picture beside the text while both fit, above it when they don't (no breakpoint: it follows its container). Wrap the header, body and footer in `.pp-card-content`. |
+| `data-fit="pixels"` (on `.pp-card-media`) | | Pixel art: the picture as big as fits with each art pixel a whole number of Blip pixels, the same across and down, in the middle of the frame. Give its size in art pixels with `--pp-card-art-width` and `--pp-card-art-height`. A cover picture is scaled by fractions (5.9 CSS px per art pixel across, 3.4 down, say) and its pixels come out uneven and blurred. |
 
 ## States
 
@@ -93,6 +104,7 @@ A card that is only content has no states.
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-card-media-ratio` | `16 / 9` | The picture's aspect ratio. Pixel art stays crisp at whole-number scales. |
+| `--pp-card-media-ratio` | `16 / 9` | The frame's aspect ratio. |
+| `--pp-card-art-width`, `--pp-card-art-height` | (none) | With `data-fit="pixels"`, required: the picture's size in its own pixels (a 64 x 36 drawing: 64 and 36). |
 | `--pp-r` with `--pp-shape`, `--pp-shape-inner` | 4 (sm 3, lg 5) | Corner radius in pixels. |
 | `--pp-band-top` | 2 (3 with a tone) | The tone strip's height, in pixels, less one. |

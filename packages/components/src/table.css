@@ -30,8 +30,9 @@
  *                              carets show, muted
  *   .pp-table-empty, .pp-table-loading   a whole-width row for no data, or while data loads (stepped dots)
  *   .pp-table-scroll           a keyboard-scrollable region with a pixel scrollbar; the header sticks to its top;
- *                              set --pp-table-max-height to make it scroll down as well as across. While there is
- *                              more to one side, that edge dithers out (_scroll.css)
+ *                              set --pp-table-max-height to make it scroll down as well as across (on paper it
+ *                              prints every row). While there is more to one side, that edge dithers out
+ *                              (_scroll.css)
  *   data-stack                 under 576 px (36rem) of its scroll region each row stacks: its heading (th[scope=row],
  *                              or the first cell), then label and value pairs, each label from the cell's data-label:
  *                              <td data-label="Score" class="pp-numeric">98,120</td>
@@ -67,6 +68,10 @@
     overflow: auto;
     overscroll-behavior-inline: contain;
     container-type: inline-size;
+  }
+  /* Paper cannot scroll: a table prints every row. */
+  @media print {
+    .pp-table-scroll { max-block-size: none; overflow: visible; }
   }
   /* In a frame, the focus ring is the yellow pixel just inside the frame's own ink outline. */
   .pp-table-frame > .pp-table-scroll:focus-visible { box-shadow: none; }

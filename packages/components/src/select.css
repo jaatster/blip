@@ -67,7 +67,9 @@
         linear-gradient(#000 0 0) var(--_p) calc(2 * var(--_p)) / 100% calc(100% - 2 * var(--_p)) no-repeat;
       mask-clip: no-clip;
     }
-    .pp-select > select::picker(select):popover-open { animation: pp-pop-in calc(2 * var(--pp-duration-frame)) steps(1, jump-end) both; }
+    /* :open on the select, not :popover-open on the picker: a pseudo-class after a pseudo-element fails to parse in
+       lightningcss (Vite 8, Next.js 16). */
+    .pp-select > select:open::picker(select) { animation: pp-pop-in calc(2 * var(--pp-duration-frame)) steps(1, jump-end) both; }
 
     .pp-select option {
       gap: calc(3 * var(--pp-pixel));
@@ -117,7 +119,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .pp-select > select::picker(select) { animation: none; }
+    .pp-select > select:open::picker(select) { animation: none; }
   }
 
   /* Windows high contrast drops gradient backgrounds: keep the chevron by drawing the select in system colours

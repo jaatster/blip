@@ -38,7 +38,8 @@
     gap: var(--pp-space-6);
     box-sizing: border-box;
     min-block-size: var(--pp-control-md);
-    padding: calc(3 * var(--pp-pixel)) calc(6 * var(--pp-pixel)) calc(4 * var(--pp-pixel)) calc(8 * var(--pp-pixel));
+    padding-block: calc(3 * var(--pp-pixel)) calc(4 * var(--pp-pixel));
+    padding-inline: calc(8 * var(--pp-pixel)) calc(6 * var(--pp-pixel));
     margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
     font-family: var(--pp-font-ui);
     font-size: var(--pp-size-body);
@@ -56,7 +57,8 @@
     --pp-box-glint: transparent;
   }
 
-  /* The chevron: right when closed, down when open, through one in-between frame. */
+  /* The chevron: along the line when closed (right, left right to left), down when open, through one in-between
+     frame. */
   .pp-accordion-chevron {
     flex: none;
     inline-size: calc(7 * var(--pp-pixel));
@@ -82,7 +84,8 @@
     --pp-r: 3;
     --pp-shape: var(--pp-shape-3);
     --pp-shape-inner: var(--pp-shape-3-inner);
-    margin: var(--pp-space-3) var(--pp-pixel) var(--pp-pixel) calc(6 * var(--pp-pixel));
+    margin-block: var(--pp-space-3) var(--pp-pixel);
+    margin-inline: calc(6 * var(--pp-pixel)) var(--pp-pixel);
     padding: calc(6 * var(--pp-pixel)) calc(8 * var(--pp-pixel));
   }
   .pp-accordion-panel.pp-box:not([data-variant]) {

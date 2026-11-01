@@ -30,7 +30,9 @@ steps of a flow, progress steps.
 1. **Well**: a candy box, radius 2, ink outline, the sunken surface, no drop. As wide as its container, rounded down
    to whole blocks, so the row never ends in a sliver.
 2. **Blocks**: one-pixel gaps cut the bar into blocks. Filled blocks are candy (light top row, base, shade bottom
-   row); empty ones are the dim `--pp-line-soft`.
+   row); empty ones are dark, as in the game's HUD: Liquorice's shade by Day and at Sunset, the deepest indigo at
+   Night (cream under the Liquorice candy, which is dark itself). Filled and empty differ by at least 3:1 in
+   lightness for every tone in every scheme, so the bar reads in greyscale and to colour-blind eyes.
 3. **Label row** (`.pp-progress-label`, optional): the name at the start, the value in words at the end.
 
 ## Variants
@@ -48,6 +50,7 @@ steps of a flow, progress steps.
 | Determinate | `value` (and `max`) | Filled blocks up to the value. Where CSS can read the value (typed `attr()`), the fill moves a whole block at a time; elsewhere it follows the value exactly and the gaps still show. |
 | Indeterminate | no `value` | Two lit blocks in every six march along one block a step (six steps a cycle). Still with reduced motion. |
 | Complete | `value` equal to `max` | Every block filled; say "Done" in the label. |
+| Right to left | `dir="rtl"` on the page or a parent | Fills from the right, and the indeterminate blocks march leftwards. |
 
 ## Accessibility
 

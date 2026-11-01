@@ -80,6 +80,17 @@
     appearance: none;
   }
   :where(.pp-input, .pp-textarea) > :where(input, textarea)::placeholder { color: var(--pp-text-muted); opacity: 1; }
+  /* More contrast makes muted text the text colour, and a placeholder would pass for typed text: it gets a dashed
+     line under it as well, which typed text never has. */
+  @media (prefers-contrast: more) {
+    :where(.pp-input, .pp-textarea) > :where(input, textarea)::placeholder {
+      text-decoration-line: underline;
+      text-decoration-style: dashed;
+      text-decoration-thickness: var(--pp-pixel);
+      text-underline-offset: calc(2 * var(--pp-pixel));
+      text-decoration-skip-ink: none;
+    }
+  }
   :where(.pp-input, .pp-textarea, .pp-select) > :where(input, textarea, select):where(:disabled) { cursor: not-allowed; opacity: 1; -webkit-text-fill-color: currentColor; }
   /* Autofill keeps the well's own colours (the browser's tint would arrive after a very long wait). */
   :where(.pp-input, .pp-textarea) > :where(:autofill) { transition: background-color 0s 600000s, color 0s 600000s; }

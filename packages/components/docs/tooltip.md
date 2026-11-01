@@ -20,7 +20,7 @@ its trigger. Text only: anything with links or buttons is a [popover](popover.md
 <pp-tooltip for="save-btn">Save to slot 2 (Ctrl+S)</pp-tooltip>
 
 <span class="pp-box pp-input"><input id="name" aria-label="Player name"></span>
-<pp-tooltip for="name" placement="right">3 to 12 letters or numbers. Shown on leaderboards.</pp-tooltip>
+<pp-tooltip for="name" data-side="right">3 to 12 letters or numbers. Shown on leaderboards.</pp-tooltip>
 ```
 
 Without `for`, a `<pp-tooltip>` belongs to the element just before it.
@@ -36,8 +36,7 @@ Without `for`, a `<pp-tooltip>` belongs to the element just before it.
 
 | Attribute | Values | Use |
 |---|---|---|
-| `placement` (element) | `top` (default), `bottom`, `left`, `right` | The side it prefers; it takes the other side when there is no room. |
-| `data-side` (CSS) | `top`, `bottom`, `left`, `right` | Where it is (set by the element; set it yourself for static chips). |
+| `data-side` | `top` (default), `bottom`, `left`, `right` | The side it prefers. When there is no room, it takes the other side while it shows, and `data-side` says so; on a static chip, where it is drawn. |
 
 ## States
 
@@ -82,8 +81,10 @@ there is no pop-in; the waits stay (they are not motion).
 
 ## API
 
-`<pp-tooltip>`: attributes `for` (the trigger's id) and `placement`; properties `htmlFor`, `placement`; methods
-`show()`, `hide()`. It becomes the chip: it gets `pp-box pp-tooltip`, `role="tooltip"`, an id if it has none,
+`<pp-tooltip>`: attributes `for` (the trigger's id), `data-side` and `open` (showing; set it to show it); properties
+`htmlFor` and `open`; methods `show()` and `close()`; events `pp-open` and `pp-close`. A trigger rendered after the
+tooltip, or replaced by a framework, is found again and described as it arrives. It becomes the chip: it gets
+`pp-box pp-tooltip`, `role="tooltip"`, an id if it has none,
 `popover="manual"` (the top layer, above dialogs) and the nub. It shows itself with its trigger as the popover's
 source, so where the browser anchors a popover to its source, CSS anchor positioning places it; where not (it
 checks on the first show), it places itself with script. It follows scrolling and resizing either way, and never

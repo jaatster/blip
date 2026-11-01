@@ -51,7 +51,7 @@ The candy box, from the outside in, then what it holds:
 | Focus | keyboard | Yellow ring one pixel out, ink one pixel beyond, following the stepped corners. |
 | Pressed | `:active` | Sits in its drop. |
 | On | `aria-pressed="true"` | Sits in, bands swap (shade on top, light below): the pushed-in look. |
-| Disabled | `disabled` or `aria-disabled="true"` | Dithered with the page colour. No lift, no drop. |
+| Disabled | `disabled` or `aria-disabled="true"` | Dithered with a light colour (`--pp-disabled-dither`). No lift, no drop. |
 | Busy | `aria-busy="true"` | The label hides, keeping its width; three dots step in, one, two, three. |
 
 ## Accessibility

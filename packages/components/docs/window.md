@@ -46,7 +46,7 @@ an optional sunken status bar. For game menus, pause screens and retro dashboard
 |---|---|---|
 | `data-tone` | `accent` (default), any tone or candy | The title bar's colour: `success` for done, `warning` for a heads-up, `danger` for an error. |
 | `data-control` | `close`, `minimize`, `maximize` | The control's glyph. Close is red unless given a tone. |
-| `data-variant` | cream panel (default), `soft`, `candy` | A whole-window tint, for a small game dialog. |
+| `data-variant` | cream panel (default), `soft`, `candy` | A whole-window tint, for a small game dialog. What sits on it takes the light roles (the tone's ink for text, links and lines; white fields), so it reads in every scheme. |
 
 ## States
 

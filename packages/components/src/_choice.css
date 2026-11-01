@@ -106,7 +106,7 @@
     --pp-box-outline: var(--pp-danger-text);
   }
 
-  /* Disabled: dithered. Unchecked goes soft like the calm tiers; checked keeps its candy under the page's dither. */
+  /* Disabled: dithered. Unchecked goes soft like the calm tiers; checked keeps its candy under the light dither. */
   :where(.pp-checkbox, .pp-radio, .pp-switch):where(:has(> :disabled)) {
     --pp-box-outline: var(--pp-line-soft);
     --pp-box-text: var(--pp-text-muted);
@@ -115,7 +115,7 @@
   :where(.pp-checkbox, .pp-radio, .pp-switch):where(:has(> :checked:disabled)) {
     --pp-box-outline: var(--pp-outline);
     --pp-box-text: var(--pp-tone-on);
-    --pp-box-dither: var(--pp-bg);
+    --pp-box-dither: var(--pp-disabled-dither);
   }
 
   /* Windows high contrast: the system draws the real control; the box shows where the focus is. */

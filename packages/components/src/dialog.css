@@ -78,13 +78,17 @@
     /* Starts at the outline row: three pixels of bar, a small button's height, three pixels, the rule. */
     min-block-size: calc(24 * var(--pp-pixel));
     margin: calc(-1 * (var(--pp-r) + 1) * var(--pp-pixel)) var(--pp-pixel) 0;
-    padding: calc(4 * var(--pp-pixel)) calc(3 * var(--pp-pixel)) calc(3 * var(--pp-pixel)) calc(7 * var(--pp-pixel));
+    padding-block: calc(4 * var(--pp-pixel)) calc(3 * var(--pp-pixel));
+    padding-inline: calc(7 * var(--pp-pixel)) calc(3 * var(--pp-pixel));
     /* The bar's colour below the corners; the box's top band paints the corners themselves. */
     background: linear-gradient(var(--pp-tone-light) 0 0) 0 calc((var(--pp-r) + 1) * var(--pp-pixel)) / 100% 100% no-repeat;
     border-block-end: var(--pp-pixel) solid var(--pp-outline);
     color: var(--pp-tone-on);
     /* What sits on the bar is light in every scheme. */
     --pp-text: var(--pp-ink);
+    --pp-text-muted: var(--pp-ink);
+    --pp-accent-text: var(--pp-ink);
+    --pp-disabled-dither: var(--pp-tone-light);
     --pp-line: var(--pp-ink);
     --pp-surface: var(--pp-white);
     --pp-surface-sunken: var(--pp-tone);
@@ -119,6 +123,8 @@
     padding: calc(6 * var(--pp-pixel)) calc(7 * var(--pp-pixel));
     overflow: auto;
     overscroll-behavior: contain;
+    /* A word too long for the line breaks rather than make the body scroll sideways. */
+    overflow-wrap: break-word;
   }
   .pp-dialog-body > :where(* + *) { margin-block-start: calc(4 * var(--pp-pixel)); }
   /* The overflow cue's rule (_scroll.css) takes its pixel from the padding, so a body that fits moves nothing. */

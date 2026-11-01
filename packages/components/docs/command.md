@@ -39,7 +39,7 @@ fast path, never as the only path: everything in it should also be reachable fro
 ```
 
 ```js
-document.querySelector("pp-command").addEventListener("pp-select", (e) => go(e.detail.value));
+document.querySelector("pp-command").addEventListener("pp-action", (e) => go(e.detail.value));
 ```
 
 `<pp-command>` (from `@jaatster/blip-elements/command.js`) makes the field a combobox over the listbox, filters as you
@@ -64,7 +64,7 @@ it traps focus, closes on Escape and gives focus back to whatever had it.
 |---|---|---|
 | `shortcut` on `pp-command` | `mod+k` (default), any `ctrl`, `meta`, `alt`, `shift`, `mod` and a key, or `""` for none | `mod` is Cmd on a Mac, Ctrl elsewhere. A bare key (`/`) never fires while someone is typing in a field. |
 | `data-keywords` on a result | words | More words the filter matches ("dashboard" finds Overview). |
-| `data-value` on a result | text | What `pp-select` reports; the label otherwise. |
+| `data-value` on a result | text | What `pp-action` reports; the label otherwise. |
 | `aria-disabled="true"` on a result | | Dithered, passed by the arrow keys, never runs. Say why in its hint. |
 
 ## States
@@ -117,14 +117,17 @@ over a listbox, inside a modal dialog.
 | Attribute, property or method | | |
 |---|---|---|
 | `shortcut` | attribute | The key that opens it (default `mod+k`). |
-| `open` (read only) | boolean | Whether the palette is open. |
+| `open` (attribute and property) | boolean | Opens (with an empty search) or closes the palette; reflects whether it is open. |
 | `show()` | | Opens it with an empty search. |
 | `close()` | | Closes it. |
 | `dialog`, `input`, `options` (read only) | | The parts. |
 
 | Event | Detail | |
 |---|---|---|
-| `pp-select` | `{ item, value }` | A result was chosen (Enter or a click). Cancelable: `preventDefault()` keeps the palette open. Bubbles. |
+| `pp-action` | `{ item, value }` | A result was chosen (Enter or a click), before it runs. Cancelable: `preventDefault()` keeps the palette open. Bubbles. |
+| `pp-open`, `pp-close` | | The palette opened or closed, however it happened. |
+
+Results rendered later (fetched as the person types) get ids and are filtered as they arrive.
 
 A `<button commandfor="…" command="show-modal">` opens the dialog natively; the element starts it with an empty
 search either way.

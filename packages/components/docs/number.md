@@ -86,6 +86,8 @@ steps while held. Without JavaScript it is a plain number field.
 |---|---|---|
 | `pp-change` | `{ value }` | The value was committed (the input's `change`). |
 
+An input rendered after the element, or swapped by a framework, gets the buttons when it arrives.
+
 | Part | |
 |---|---|
 | `.pp-number-step[data-step="down"]`, `.pp-number-step[data-step="up"]` | The buttons the element adds. |

@@ -44,7 +44,7 @@ its box still scrolls.
 | Attribute | Values | Use |
 |---|---|---|
 | `data-variant` on `.pp-tabs` | `candy` (default), `soft`, `outline`, `underline` | Candy and soft tabs rest in cream; the selected one takes the accent and sits in. Outline for dense, app-like screens. Underline for quiet page sections. Each tab carries the matching box tier: none (candy), `soft`, `outline`, or `ghost` (underline); `<pp-tabs>` fills it in when it is missing. |
-| `data-size` on `.pp-tabs` | `sm` (16 px high), `md` (20, default) | Pixel heights: 32 and 40 CSS px at the default pixel. |
+| `data-size` on `.pp-tabs` | `sm` (16 pixels high), `md` (20, default), `lg` (24) | The heights of buttons: 32, 40 and 48 CSS px at the default pixel. |
 | `data-arrow` on `.pp-tabs` | | The pointer arrow over the selected tab bobs for a few beats, then rests. It needs CSS anchor positioning; other browsers show no arrow (the selected tab still sits in). |
 | `aria-orientation="vertical"` on the list | | Tabs down the side, the panel beside them. Under 480 px they become a scrolling row again. |
 | `data-tone` on a tab | any box tone | A tab that keeps its own colour (inventory categories). It still sits in when selected. |
@@ -54,7 +54,7 @@ its box still scrolls.
 | State | How | Look |
 |---|---|---|
 | Hover | pointer | Lifts a pixel. Outline and underline tabs fill with the sunken surface. |
-| Focus | keyboard | The yellow ring with an ink edge, following the stepped corners. |
+| Focus | keyboard | The yellow ring with an ink edge, following the stepped corners. An underline tab shows its outline and the sunken well inside the ring, selected or not; a selected one keeps its bar. |
 | Selected | `aria-selected="true"`, or `aria-current="page"` on link tabs | Candy and soft: the accent, sitting in with its bands swapped. Outline: accent-light fill, ink outline. Underline: ink text over a two-pixel bar in the accent text colour, its ends stepped by the box's corners. |
 | Disabled | `aria-disabled="true"` | Dithered. The arrow keys skip it. Keep it focusable only if it explains why it is off. |
 
@@ -99,16 +99,19 @@ Follows the WAI-ARIA Authoring Practices Tabs pattern.
 
 | Attribute or property | Type | |
 |---|---|---|
-| `selected` | number | The selected tab's index. Setting it selects that tab (no event). |
+| `value` | string | The selected tab's value: its `data-value`, else its `value`, else its label. Setting it selects that tab (no event); it follows the person's choice. Set before the tabs arrive, it selects the tab once it does. |
+| `selectedIndex` (property) | number | The selected tab's index, or -1. Setting it selects that tab (no event). |
 | `activation` | `"auto"` (default) or `"manual"` | Select on focus, or only on Enter, Space and click. |
 | `tabs` (read only) | `HTMLElement[]` | The tabs, in order. |
 | `list` (read only) | `HTMLElement` | The tab list. |
 
 | Event | Detail | |
 |---|---|---|
-| `pp-change` | `{ index, tab, panel }` | After the person selects a tab. Bubbles. |
+| `pp-change` | `{ value, index, tab, panel }` | After the person selects a tab. Bubbles. |
 
-Panels are paired with tabs by `aria-controls`, or by order when it is missing.
+Panels are paired with tabs by `aria-controls`, or by order when it is missing. Tabs and panels added or removed
+later (a framework rendering them once data arrives) are wired as they come; when the selected tab goes, the one
+in its place is selected (no event).
 
 ### Custom properties
 

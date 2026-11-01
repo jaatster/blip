@@ -18,10 +18,12 @@
  *
  *   aria-current="page"   the link to the page you are on: sits in, a soft chip
  *   data-sticky           stays at the top while the page scrolls
- *   data-collapse         when the links fold: under 1024 px (default) | medium (under 600 px, for a few short
+ *   data-collapse         when the links fold: under 64rem (default) | medium (under 37.5rem, for a few short
  *                         links) | always | never
  *
- * The bar is its own container, so it folds by its own width, in a sidebar layout or a phone frame alike. Under 400 px
+ * The bar is its own container, so it folds by its own width, in a sidebar layout or a phone frame alike. The fold
+ * widths are in rem: 1024 and 600 px at the default text size, wider with a bigger one, whose links need more room,
+ * so the bar folds sooner rather than overflow. Under 400 px
  * the wordmark drops to scale 1; under 360 px a brand with a mark (an icon before the wordmark) shows just the mark.
  */
 
@@ -157,11 +159,11 @@
 
   .pp-app-bar[data-collapse="always"] .pp-app-bar-toggle { display: inline-flex; }
   .pp-app-bar[data-collapse="always"] .pp-app-bar-links:not(:popover-open) { display: none; }
-  @container pp-app-bar (width < 1024px) {
+  @container pp-app-bar (width < 64rem) {
     .pp-app-bar:not([data-collapse="never"], [data-collapse="medium"]) .pp-app-bar-toggle { display: inline-flex; }
     .pp-app-bar:not([data-collapse="never"], [data-collapse="medium"]) .pp-app-bar-links:not(:popover-open) { display: none; }
   }
-  @container pp-app-bar (width < 600px) {
+  @container pp-app-bar (width < 37.5rem) {
     .pp-app-bar[data-collapse="medium"] .pp-app-bar-toggle { display: inline-flex; }
     .pp-app-bar[data-collapse="medium"] .pp-app-bar-links:not(:popover-open) { display: none; }
   }

@@ -19,7 +19,7 @@
  *   aria-current="page"      the page you are on: sits in
  *   aria-disabled="true"     previous or next with nowhere to go (drop the href, add role="link"): dithered
  *   data-icon-only           on previous or next: the chevron alone; give the link aria-label
- *   data-size="sm"           on the nav: 16-pixel pages, for tables
+ *   data-size                on the nav: sm (16-pixel pages, for tables) | md (20, default) | lg (24)
  *   data-compact             on the nav: always "3 / 12". Without it, only when the nav is under 360 px wide.
  */
 
@@ -37,6 +37,10 @@
   .pp-pagination[data-size="sm"] {
     --_h: var(--pp-control-sm);
     font-size: var(--pp-size-caption);
+  }
+  .pp-pagination[data-size="lg"] {
+    --_h: var(--pp-control-lg);
+    font-size: var(--pp-size-body);
   }
 
   .pp-pagination-list {
@@ -86,6 +90,14 @@
     --pp-band-bottom: 2;
     padding: 0 var(--pp-space-3);
   }
+  .pp-pagination[data-size="lg"] :is(.pp-pagination-page, .pp-pagination-prev, .pp-pagination-next) {
+    --pp-r: 5;
+    --pp-shape: var(--pp-shape-5);
+    --pp-shape-inner: var(--pp-shape-5-inner);
+    --pp-band-top: 4;
+    --pp-band-bottom: 4;
+    padding: 0 var(--pp-space-6);
+  }
 
   .pp-pagination-prev,
   .pp-pagination-next {
@@ -112,7 +124,8 @@
   .pp-pagination-next:dir(rtl) > span::after { scale: -1 1; }
   .pp-pagination-prev:dir(rtl) > span::before { scale: none; }
   :is(.pp-pagination-prev, .pp-pagination-next)[data-icon-only] { padding: 0; }
-  :is(.pp-pagination-prev, .pp-pagination-next)[data-icon-only] > span { font-size: 0; gap: 0; }
+  /* The arrow alone. font-size-adjust off too: with it (from @jaatster/blip-font), Chrome draws 0-size text at full size. */
+  :is(.pp-pagination-prev, .pp-pagination-next)[data-icon-only] > span { font-size: 0; font-size-adjust: none; gap: 0; }
 
   /* A gap in the numbers: three pixel dots. */
   .pp-pagination-gap {

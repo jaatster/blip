@@ -26,7 +26,12 @@
  *                                                                          header, body and footer in
  *                                                                          .pp-card-content)
  *
- * The picture is any <img>, <svg>, <canvas> or <video>, framed by a one-pixel ink line and never smoothed.
+ * The picture is any <img>, <svg>, <canvas> or <video>, framed by a one-pixel ink line and never smoothed. By
+ * default it covers the frame (--pp-card-media-ratio, 16 / 9), scaled by whatever that takes. For pixel art, give the
+ * frame data-fit="pixels" and the picture's size in its own pixels, and every art pixel comes out the same whole
+ * number of Blip pixels, centred, with the sunken fill round it:
+ *
+ *   <div class="pp-card-media" data-fit="pixels" style="--pp-card-art-width: 64; --pp-card-art-height: 36">…</div>
  */
 
 @layer pp.components {
@@ -61,8 +66,6 @@
     --pp-box-top: var(--pp-tone-light);
     --pp-band-top: 3;
   }
-  /* On soft and candy tiers, text inside takes the box's ink: the scheme's muted text is too light on pastel at night. */
-  .pp-card:is([data-variant="soft"], [data-variant="candy"]) { --pp-text: var(--pp-box-text); --pp-text-muted: var(--pp-box-text); }
   .pp-card[data-size="sm"] {
     --pp-r: 3;
     --pp-shape: var(--pp-shape-3);
@@ -99,6 +102,19 @@
     shape-rendering: crispEdges;
   }
   img.pp-card-media, svg.pp-card-media { display: block; inline-size: auto; object-fit: cover; image-rendering: pixelated; shape-rendering: crispEdges; }
+  /* data-fit="pixels": the picture as big as fits with every art pixel a whole number of Blip pixels, the
+     same across and down, in the middle of the frame (a whole number of pixels in), on the frame's sunken fill. */
+  .pp-card-media[data-fit="pixels"] { container-type: size; }
+  .pp-card-media[data-fit="pixels"] > :is(img, svg, canvas, video) {
+    --_pp-aw: var(--pp-card-art-width);
+    --_pp-ah: var(--pp-card-art-height);
+    --_pp-k: max(var(--pp-pixel), min(round(down, 100cqw, var(--_pp-aw) * var(--pp-pixel)) / var(--_pp-aw), round(down, 100cqh, var(--_pp-ah) * var(--pp-pixel)) / var(--_pp-ah)));
+    inline-size: calc(var(--_pp-k) * var(--_pp-aw));
+    block-size: calc(var(--_pp-k) * var(--_pp-ah));
+    margin-block-start: round(down, (100cqh - var(--_pp-k) * var(--_pp-ah)) / 2, var(--pp-pixel));
+    margin-inline-start: round(down, (100cqw - var(--_pp-k) * var(--_pp-aw)) / 2, var(--pp-pixel));
+    object-fit: fill;
+  }
 
   .pp-card-header {
     display: flex;
@@ -113,6 +129,7 @@
     font-weight: var(--pp-weight-bold);
     line-height: var(--pp-leading-tight);
     text-wrap: balance;
+    overflow-wrap: anywhere;
   }
   .pp-card[data-size="sm"] .pp-card-title { font-size: var(--pp-size-body); }
   .pp-card[data-size="lg"] .pp-card-title { font-size: var(--pp-size-title); }

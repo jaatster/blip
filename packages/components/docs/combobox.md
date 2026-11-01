@@ -47,6 +47,7 @@ moves the input's `name` to itself, so the value is sent once.
 |---|---|---|
 | `data-size` (on `.pp-input`) | `sm`, `md` (default), `lg` | As for the input. |
 | `open` | | Shows the list. The element sets and clears it; set it yourself for docs and tests. |
+| `aria-autocomplete="list"` on the input | | Filters without completing the text, for a value your framework controls (React's `value`, Vue's `v-model`). Left out, the element writes `both`. |
 
 ## States
 
@@ -104,9 +105,13 @@ from the field. A click or tap outside, or focus moving elsewhere, closes the li
 | Event | Detail | |
 |---|---|---|
 | `pp-change` | `{ value }` | Once per new value: a suggestion taken, the field cleared, or typed text committed. |
+| `pp-open`, `pp-close` | | The list opened or closed. |
 
 Taking a suggestion (or clearing with Escape) also fires `input` and `change` on the field, as typing and leaving it
-would; typed text fires the browser's own `change` when the field loses focus.
+would; typed text fires the browser's own `change` when the field loses focus. The completion comes a moment after
+the keystroke, so a framework's `input` listener hears what was typed. The datalist is read again whenever its
+options change (a list your app fetches as the person types), and an input rendered after the element is wired when
+it arrives.
 
 | Part | |
 |---|---|

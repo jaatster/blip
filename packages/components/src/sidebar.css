@@ -42,7 +42,8 @@
     gap: var(--pp-space-2);
     flex: none;
     inline-size: var(--pp-sidebar-width);
-    padding: var(--pp-space-6) var(--pp-space-4) var(--pp-space-6) var(--pp-space-8);
+    padding-block: var(--pp-space-6);
+    padding-inline: var(--pp-space-8) var(--pp-space-4);
     font-family: var(--pp-font-ui);
     font-size: var(--pp-size-small);
   }
@@ -119,8 +120,10 @@
     display: inline-grid;
     place-items: center;
     flex: none;
-    min-inline-size: calc(10 * var(--pp-pixel));
-    block-size: calc(10 * var(--pp-pixel));
+    /* Ten pixels, or 5/3 of its text size if that is more (a bigger default text size), so the count fits. */
+    --_pp-badge-size: max(calc(10 * var(--pp-pixel)), round(up, calc(5 / 3) * var(--pp-size-caption), var(--pp-pixel)));
+    min-inline-size: var(--_pp-badge-size);
+    block-size: var(--_pp-badge-size);
     padding: 0 var(--pp-space-2);
     font-size: var(--pp-size-caption);
     font-weight: var(--pp-weight-bold);
@@ -235,7 +238,9 @@
       inline-size: calc(6 * var(--pp-pixel));
       block-size: calc(6 * var(--pp-pixel));
       padding: 0;
+      /* A dot: no count. font-size-adjust off too: with it (from @jaatster/blip-font), Chrome draws 0-size text at full size. */
       font-size: 0;
+      font-size-adjust: none;
     }
     @media (forced-colors: active) {
       .pp-sidebar-item:is(:hover, :focus-visible) > .pp-sidebar-label { border: 1px solid CanvasText; }

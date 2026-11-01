@@ -21,8 +21,10 @@
  *   Segments: [aria-checked="true"] or a checked radio is chosen; disabled (or a disabled radio) is dithered;
  *   data-icon-only for one icon (needs aria-label).
  *
- * Focus is the box's yellow ring on the segment that has the keyboard.
+ * Focus is the box's yellow ring on the segment that has the keyboard. Segments too long for the container scroll,
+ * as a tab row does, and the edge with more beyond it dithers out (_scroll.css).
  */
+@import "./_scroll.css";
 
 @layer pp.components {
   .pp-segmented {
@@ -43,6 +45,7 @@
     gap: var(--pp-pixel);
     block-size: var(--_h);
     min-inline-size: 0;
+    max-inline-size: 100%;
     margin: 0;
     padding: calc(2 * var(--pp-pixel));
     border: 0;
@@ -52,6 +55,32 @@
   .pp-segmented[data-size="lg"] { --pp-r: 5; --pp-shape: var(--pp-shape-5); --pp-shape-inner: var(--pp-shape-5-inner); --_h: var(--pp-control-lg); }
   .pp-segmented[data-width="full"] { display: flex; }
   .pp-segmented[data-width="full"] > .pp-box { flex: 1 1 0; }
+
+  /* Segments too long for the container never push past it. Where the browser can tell the row overflows
+     (scroll-driven animations), it scrolls, as a tab row does; meanwhile its rail is drawn on its own background,
+     which stays put while the segments scroll (the box's stepped rail would scroll away with them): square ends,
+     cut off like the edge of a screen. Elsewhere the segments wrap onto another row. */
+  @supports (animation-timeline: scroll()) {
+    .pp-segmented {
+      /* How much each side fades: --_pp-s and --_pp-e (start, end) from the cue, put on the left and right. */
+      --_pp-s: 0;
+      --_pp-e: 0;
+      --_pp-l: var(--_pp-s);
+      --_pp-r: var(--_pp-e);
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+      mask:
+        linear-gradient(#000 0 0) calc(var(--_pp-l) * var(--_pp-fade)) 0 / calc(100% - (var(--_pp-l) + var(--_pp-r)) * var(--_pp-fade)) 100% no-repeat,
+        var(--_pp-fade-start) 0 0 / calc(var(--_pp-l) * var(--_pp-fade)) calc(2 * var(--pp-pixel)) repeat-y,
+        var(--_pp-fade-end) 100% 0 / calc(var(--_pp-r) * var(--_pp-fade)) calc(2 * var(--pp-pixel)) repeat-y;
+      animation: pp-segmented-scrolling steps(1, jump-end) both, pp-scroll-cue steps(1, jump-end) both;
+      animation-timeline: scroll(self inline);
+    }
+    .pp-segmented:dir(rtl) { --_pp-l: var(--_pp-e); --_pp-r: var(--_pp-s); }
+    /* The segment with the keyboard shows its whole ring. */
+    .pp-segmented:has(:focus-visible) { mask: none; }
+  }
 
   /* A segment: quiet at rest, a calm raised well on hover, candy that sits in when chosen. */
   .pp-segmented > .pp-box {
@@ -113,14 +142,34 @@
     --pp-box-text: var(--pp-tone-on);
   }
 
-  .pp-segmented > .pp-box:has(> input:disabled) { --pp-box-dither: var(--pp-bg); cursor: not-allowed; }
+  .pp-segmented > .pp-box:has(> input:disabled) { --pp-box-dither: var(--pp-disabled-dither); cursor: not-allowed; }
   .pp-segmented > .pp-box:is(:disabled, [aria-disabled="true"], :has(> input:disabled)):not([aria-checked="true"], :has(> input:checked)) {
     --pp-box-text: var(--pp-text-muted);
     --pp-box-dither: var(--pp-surface-sunken);
   }
 
+  /* No scroll-driven animations: the segments that do not fit wrap onto another row (after the segment's own rules). */
+  @supports not (animation-timeline: scroll()) {
+    .pp-segmented { flex-wrap: wrap; block-size: auto; min-block-size: var(--_h); }
+    .pp-segmented > .pp-box { min-block-size: calc(var(--_h) - 4 * var(--pp-pixel)); white-space: normal; overflow-wrap: anywhere; }
+  }
+
   @media (forced-colors: active) {
     .pp-segmented > .pp-box:is([aria-checked="true"], :has(> input:checked)) { forced-color-adjust: none; border-color: CanvasText; background: Highlight; color: HighlightText; }
     .pp-segmented > label:has(> input:focus-visible) { outline: var(--pp-pixel) solid Highlight; outline-offset: var(--pp-pixel); }
+  }
+}
+
+/* While the row scrolls (a scroller with nothing to scroll has no timeline): the rail on the element itself, its line
+   an outline drawn inside the edge, so it stays over the segments that scroll under it. */
+@keyframes pp-segmented-scrolling {
+  from, to {
+    --pp-box-outline: transparent;
+    --pp-box-top: transparent;
+    --pp-box-fill: transparent;
+    --pp-box-bottom: transparent;
+    background: var(--pp-surface-sunken);
+    outline: var(--pp-pixel) solid var(--pp-line);
+    outline-offset: calc(-1 * var(--pp-pixel));
   }
 }

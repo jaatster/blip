@@ -10,12 +10,14 @@
  *     </div>
  *   </dl>
  *
- *   data-trend   up | down | flat (on .pp-stat-delta)       the arrow; up reads green, down red, flat muted
+ *   data-trend   up | down | flat (on .pp-stat-delta)       the arrow; up is good news, down bad, flat neither
  *   data-tone    success | danger | neutral (on the delta)  when down is good news (lag, deaths), say so
  *   data-scale   1 | 2 (default) | 3 | 4 (on the value)      Pixel Bop's whole scales
  *   .pp-box      on .pp-stat: the stat in its own panel (add data-variant="panel")
  *
- * The arrow and colour repeat the sign; the text carries it ("+12%", "-3"), so colour is never the only cue.
+ * Good and bad news differ in shape as well as colour: after the arrow, good news (green) has the success sign's
+ * check and bad news (red) the danger sign's exclamation mark. The words must say both, the move and whether it is
+ * good ("+12%", "-6, fewer is better"): the arrow, the mark and the colour only repeat them.
  */
 
 @layer pp.components {
@@ -28,8 +30,6 @@
     margin: 0;
   }
   .pp-stat.pp-box { padding: calc(6 * var(--pp-pixel)) calc(8 * var(--pp-pixel)); margin: 0 var(--pp-pixel) var(--pp-pixel) 0; }
-  /* On soft and candy tiers, text inside takes the box's ink: the scheme's muted text is too light on pastel at night. */
-  .pp-stat.pp-box:not([data-variant="panel"], [data-variant="outline"], [data-variant="ghost"]) { --pp-text: var(--pp-box-text); --pp-text-muted: var(--pp-box-text); --pp-success-text: var(--pp-box-text); --pp-danger-text: var(--pp-box-text); }
 
   .pp-stat-label {
     font-family: var(--pp-font-ui);
@@ -60,22 +60,30 @@
     font-variant-numeric: tabular-nums;
     color: var(--_c);
   }
-  .pp-stat-delta[data-trend="up"] { --_c: var(--pp-success-text); --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h1v1H3zM2 1h3v1H2zM1 2h5v1H1zM0 3h7v1H0zM2 4h3v2H2z'/%3E%3C/svg%3E"); }
-  .pp-stat-delta[data-trend="down"] { --_c: var(--pp-danger-text); --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath d='M2 0h3v2H2zM0 2h7v1H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z'/%3E%3C/svg%3E"); }
+  /* The mark of good news (the success sign's check, 8 x 5) and of bad news (the danger sign's exclamation mark,
+     2 x 6), on a canvas as tall as the arrow. A tone says what the move means, so it comes after the trend. */
+  .pp-stat-delta {
+    --_pp-stat-good: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 6' shape-rendering='crispEdges'%3E%3Cpath d='M6 1h2v1H7v1H6v1H5v1H4v1H2V5H1V4H0V3h2v1h2V3h1V2h1z'/%3E%3C/svg%3E");
+    --_pp-stat-bad: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 6' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v4H0zM0 5h2v1H0z'/%3E%3C/svg%3E");
+  }
+  .pp-stat-delta[data-trend="up"] { --_c: var(--pp-success-text); --_m: var(--_pp-stat-good); --_mw: 8; --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h1v1H3zM2 1h3v1H2zM1 2h5v1H1zM0 3h7v1H0zM2 4h3v2H2z'/%3E%3C/svg%3E"); }
+  .pp-stat-delta[data-trend="down"] { --_c: var(--pp-danger-text); --_m: var(--_pp-stat-bad); --_mw: 2; --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath d='M2 0h3v2H2zM0 2h7v1H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z'/%3E%3C/svg%3E"); }
   .pp-stat-delta[data-trend="flat"] { --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 6' shape-rendering='crispEdges'%3E%3Cpath d='M0 2h7v2H0z'/%3E%3C/svg%3E"); }
-  .pp-stat-delta[data-tone="success"] { --_c: var(--pp-success-text); }
-  .pp-stat-delta[data-tone="danger"] { --_c: var(--pp-danger-text); }
+  .pp-stat-delta[data-tone="success"] { --_c: var(--pp-success-text); --_m: var(--_pp-stat-good); --_mw: 8; }
+  .pp-stat-delta[data-tone="danger"] { --_c: var(--pp-danger-text); --_m: var(--_pp-stat-bad); --_mw: 2; }
   .pp-stat-delta[data-tone="neutral"] { --_c: var(--pp-text-muted); }
-  .pp-stat-delta[data-trend]::before {
+  /* The arrow first, then the mark, then the words. */
+  .pp-stat-delta[data-trend]::before,
+  .pp-stat-delta:is([data-trend="up"], [data-trend="down"], [data-tone="success"], [data-tone="danger"]):not([data-tone="neutral"])::after {
     content: "";
     flex: none;
-    inline-size: calc(7 * var(--pp-pixel));
     block-size: calc(6 * var(--pp-pixel));
     background: currentColor;
-    mask: var(--_g) 0 0 / 100% 100% no-repeat;
   }
+  .pp-stat-delta::before { order: -2; inline-size: calc(7 * var(--pp-pixel)); mask: var(--_g) 0 0 / 100% 100% no-repeat; }
+  .pp-stat-delta::after { order: -1; inline-size: calc(var(--_mw) * var(--pp-pixel)); mask: var(--_m) 0 0 / 100% 100% no-repeat; }
 
   @media (forced-colors: active) {
-    .pp-stat-delta[data-trend]::before { background: CanvasText; }
+    .pp-stat-delta::before, .pp-stat-delta::after { background: CanvasText; }
   }
 }

@@ -24,7 +24,7 @@
  *   aria-haspopup="menu" on an item    a chevron: it opens a submenu (a pp-menu nested in the list)
  *   data-tone="danger"                 a destructive item: red text until it is focused
  *   aria-disabled="true"               dithered; the arrow keys pass it
- *   data-align="end"                   on .pp-menu: the menu lines up with the end of its button
+ *   data-align                         on .pp-menu: start (default) | end, which edge of its button it lines up with
  *   aria-expanded="true"               on the button, while its menu is open: sits in
  *
  * Yellow means focus: the focused item is the yellow row and nothing else in a menu is yellow. Keep the label span:
@@ -188,7 +188,7 @@
   }
   .pp-menu-item[aria-haspopup]:dir(rtl) > .pp-menu-label::after { scale: -1 1; }
   /* Its submenu is open: the item keeps a quiet mark while the focus is over there. */
-  .pp-menu-item[aria-expanded="true"]:not(:focus) {
+  .pp-menu-item[aria-expanded="true"]:not(:focus, [data-pp-state~="focus"]) {
     --pp-box-outline: var(--pp-line-soft);
     --pp-box-top: var(--pp-surface-sunken);
     --pp-box-fill: var(--pp-surface-sunken);

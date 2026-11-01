@@ -53,8 +53,11 @@ Horizontal by default, or down the side.
 | `data-arrow` | | The pointer arrow bobs over the current step for a few beats, then rests. |
 | `data-tone` on a marker | any tone | The current step's colour. |
 
-Under 480 px the hints step aside; under 300 px only the current step keeps its label on screen (the others stay in the
-accessibility tree).
+Under 480 px the hints step aside. Labels wrap, and words break at their hyphens where the page's language allows; a
+label with a word still too long for its step folds away wherever that happens, not at a set width (it stays in the
+accessibility tree), where the browser can tell (scroll-driven animations); elsewhere the word breaks instead. The
+current step always keeps its label and may use its whole step for it, so the labels either side of it keep a little
+further off and fold a little sooner.
 
 ## States
 

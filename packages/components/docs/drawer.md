@@ -9,7 +9,7 @@ status: stable
 
 # Drawer
 
-A side sheet: a modal panel that slides in from the right, the left or the bottom edge, for settings, a map, a
+A side sheet: a modal panel that slides in from the end, the start or the bottom edge, for settings, a map, a
 cart, a share sheet. It is a [dialog](dialog.md) that lives at an edge, so it has the dialog's parts, keyboard and
 events. For a short choice in the middle of the screen, use a dialog; for something that should stay open while the
 page is used, a sidebar.
@@ -20,7 +20,7 @@ page is used, a sidebar.
 <button class="pp-box pp-button" commandfor="settings" command="show-modal">Settings</button>
 
 <pp-drawer light-dismiss>
-  <dialog class="pp-box pp-drawer" id="settings" data-side="right" aria-labelledby="settings-title">
+  <dialog class="pp-box pp-drawer" id="settings" data-side="end" aria-labelledby="settings-title">
     <header class="pp-dialog-header">
       <h2 class="pp-dialog-title" id="settings-title">Settings</h2>
       <form method="dialog"><button class="pp-box pp-button pp-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button></form>
@@ -36,7 +36,7 @@ page is used, a sidebar.
 ## Anatomy
 
 1. **Sheet**: a candy box, raised, square corners. It runs one pixel past the screen on the sides it touches, so
-   only its inner edge shows the ink outline. A left sheet casts its two-pixel drop onto the page.
+   only its inner edge shows the ink outline. A sheet on the left edge casts its two-pixel drop onto the page.
 2. **Title bar, title, close, body, footer**: the dialog's parts (`.pp-dialog-header` and so on). The body scrolls,
    with the dialog's cue while there is more below: an ink rule over the footer and a dithered fade.
 3. **Scrim**: the dialog's one-pixel ink checkerboard.
@@ -45,7 +45,7 @@ page is used, a sidebar.
 
 | Attribute | Values | Use |
 |---|---|---|
-| `data-side` | `right` (default), `left`, `bottom` | Right for settings and details, left for navigation, bottom for share sheets and pickers on phones. |
+| `data-side` | `end` (default), `start`, `bottom` | End for settings and details, start for navigation, bottom for share sheets and pickers on phones. End and start follow the text: the right and the left edge in left-to-right text, the left and the right in right-to-left text (`dir="rtl"`), and the sheet slides in from its own edge. |
 | `data-size` | `sm` (128 pixels), `md` (160, default), `lg` (224) | Width of a side sheet; a bottom sheet is as tall as its content, up to 85% of the screen. |
 | `data-tone` | `accent` (default), any tone or candy | The title bar. |
 

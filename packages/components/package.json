@@ -42,7 +42,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "node ../../scripts/build-css-package.mjs components"
+    "build": "node ../../scripts/build-css-package.mjs components && node ../../scripts/bundle-css.mjs src/opt-in/popover-nub.css dist/popover-nub.css"
   },
   "dependencies": {
     "@jaatster/blip-core": "workspace:*",

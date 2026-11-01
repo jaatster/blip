@@ -46,8 +46,6 @@
     --pp-box-bottom: var(--pp-surface-panel);
     --pp-box-text: var(--pp-text);
   }
-  /* On soft and candy tiers, text inside takes the box's ink: the scheme's muted text is too light on pastel at night. */
-  .pp-window:is([data-variant="soft"], [data-variant="candy"]) { --pp-text: var(--pp-box-text); --pp-text-muted: var(--pp-box-text); }
   /* With a status bar, the shade band becomes it: sunken, 13 rows including the outline's. */
   .pp-window:has(> .pp-window-status) { --pp-band-bottom: 12; }
   .pp-window:not([data-variant]):has(> .pp-window-status) { --pp-box-bottom: var(--pp-surface-sunken); }
@@ -60,7 +58,8 @@
     box-sizing: border-box;
     block-size: calc(16 * var(--pp-pixel));
     margin-inline: var(--pp-pixel);
-    padding: var(--pp-pixel) calc(3 * var(--pp-pixel)) 0 calc(6 * var(--pp-pixel));
+    padding-block: var(--pp-pixel) 0;
+    padding-inline: calc(6 * var(--pp-pixel)) calc(3 * var(--pp-pixel));
     border-block-end: var(--pp-pixel) solid var(--pp-outline);
   }
   .pp-window-title {

@@ -42,7 +42,7 @@ The example's picture (an open, empty cardboard box with dust above it) is in
 
 | Attribute | Values | Use |
 |---|---|---|
-| `data-size` | `md` (default), `sm` | Small in panels, cards and sidebars: the picture at one pixel a unit, less space round it. |
+| `data-size` | `sm`, `md` (default), `lg` | The picture at one, two or three pixels a unit, with the space round it to match: small in panels, cards and sidebars, large on a screen of its own. |
 
 ## States
 
@@ -77,4 +77,4 @@ Empty states are static. Replace the whole thing with the content when there is 
 |---|---|
 | `.pp-empty-state` | The block, centred in its container. |
 | `.pp-empty-state-art`, `.pp-empty-state-title`, `.pp-empty-state-text`, `.pp-empty-state-actions` | The parts. |
-| `data-size` | `sm` or `md`. |
+| `data-size` | `sm`, `md` or `lg`. |

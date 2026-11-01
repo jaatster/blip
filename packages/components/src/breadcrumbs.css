@@ -13,7 +13,7 @@
  *   aria-current="page"   the last crumb, the page you are on: a soft chip that sits in
  *   <span>…</span>        a long label inside a crumb is cut to --pp-breadcrumbs-max with an ellipsis
  *   a pp-menu in an item  the middle of a long trail, folded behind a "more" button
- *   data-size="sm"        on the nav: 12-pixel crumbs for dense headers
+ *   data-size             on the nav: sm (12-pixel crumbs, for dense headers) | md (14, default) | lg (16)
  *
  * Crumbs are ghost boxes: hover fills them, focus is the yellow ring. Right to left, the chevrons turn round.
  */
@@ -28,6 +28,10 @@
   .pp-breadcrumbs[data-size="sm"] {
     --_h: calc(12 * var(--pp-pixel));
     font-size: var(--pp-size-caption);
+  }
+  .pp-breadcrumbs[data-size="lg"] {
+    --_h: calc(16 * var(--pp-pixel));
+    font-size: var(--pp-size-body);
   }
 
   .pp-breadcrumbs-list {
@@ -73,8 +77,13 @@
     text-decoration: none;
     white-space: nowrap;
   }
-  /* Links back up the trail read as links; the page you are on is ink on its chip. */
+  /* Links back up the trail read as links; the page you are on is ink on its chip. Hovered or focused, a crumb
+     shows the ghost's sunken well, where the link colour is too light at Sunset: there it takes the scheme's text. */
   .pp-breadcrumbs-link:not([aria-current="page"]) { --pp-box-text: var(--pp-accent-text); }
+  .pp-breadcrumbs-link:not([aria-current="page"]):is(:focus-visible, [data-pp-state]) { --pp-box-text: var(--pp-text); }
+  @media (hover: hover) {
+    .pp-breadcrumbs-link:not([aria-current="page"]):hover { --pp-box-text: var(--pp-text); }
+  }
   .pp-breadcrumbs-link[aria-current="page"] { font-weight: var(--pp-weight-bold); }
   .pp-breadcrumbs-link > span {
     overflow: hidden;

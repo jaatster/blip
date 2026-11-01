@@ -43,8 +43,6 @@
     --pp-box-text: var(--pp-text);
     --pp-box-glint: transparent;
   }
-  /* On soft and candy tiers, text inside takes the box's ink: the scheme's muted text is too light on pastel at night. */
-  .pp-list.pp-box:is([data-variant="soft"], [data-variant="candy"]) { --pp-text: var(--pp-box-text); --pp-text-muted: var(--pp-box-text); }
   .pp-list > li { min-inline-size: 0; }
   .pp-list[data-dividers] > li + li {
     padding-block-start: var(--pp-pixel);

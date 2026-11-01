@@ -1,8 +1,9 @@
 /*
  * Progress and meter. A native <progress> or <meter> inside an ink-outlined well, drawn as a row of candy blocks
- * with one-pixel gaps: filled blocks in the tone, empty ones dim. Where the browser can read the value in CSS
- * (typed attr()), the fill moves a whole block at a time; elsewhere it follows the value and the gaps still show.
- * With no value, a progress bar is indeterminate: two lit blocks in every six march along a block a step.
+ * with one-pixel gaps: filled blocks in the tone, empty ones dark, as in the game's HUD, so the two differ in
+ * lightness as well as hue. Where the browser can read the value in CSS (typed attr()), the fill moves a whole block
+ * at a time; elsewhere it follows the value and the gaps still show. With no value, a progress bar is indeterminate:
+ * two lit blocks in every six march along a block a step. Right to left, it fills and marches from the right.
  *
  *   <div class="pp-progress-label"><label for="load">Loading World 2</label><span>60%</span></div>
  *   <div class="pp-box pp-progress" data-tone="success"><progress id="load" max="100" value="60">60%</progress></div>
@@ -19,10 +20,24 @@
  */
 
 @layer pp.components {
+  /* Empty blocks: the HUD's slate shade by Day and at Sunset, the deepest indigo at Night. At least 3:1 against
+     every intent's and accent's fill in its scheme, so filled and empty read in greyscale too. Set where the scheme
+     is set, so the nearest scheme wins. */
+  :root, [data-pp-scheme] { --_pp-progress-slot: var(--pp-candy-slate-shade); }
+  /* On screen only: on paper every scheme prints Day's, as the roles do (tokens.css). */
+  @media screen {
+    [data-pp-scheme="night"] { --_pp-progress-slot: var(--pp-deep-1); }
+  }
+  @media screen and (prefers-color-scheme: dark) {
+    :root:not([data-pp-scheme]) { --_pp-progress-slot: var(--pp-deep-1); }
+  }
+
   :is(.pp-progress, .pp-meter) {
     --_pp-b: 5;
     --_pp-h: 4;
-    --_pp-slot: var(--pp-line-soft);
+    --_pp-slot: var(--_pp-progress-slot);
+    --_pp-from: left;
+    --_pp-to: right;
     --pp-r: 2;
     --pp-shape: var(--pp-shape-2);
     --pp-shape-inner: var(--pp-shape-2-inner);
@@ -40,6 +55,10 @@
   }
   :is(.pp-progress, .pp-meter)[data-size="sm"] { --_pp-b: 4; --_pp-h: 3; }
   :is(.pp-progress, .pp-meter)[data-size="lg"] { --_pp-b: 7; --_pp-h: 8; }
+  /* Liquorice is the dark candy: its empty blocks are cream instead. */
+  :is(.pp-progress, .pp-meter)[data-tone="slate"] { --_pp-slot: var(--pp-candy-cream); }
+  /* Right to left: the blocks, the fill and the march start at the right. */
+  :is(.pp-progress, .pp-meter):dir(rtl) { --_pp-from: right; --_pp-to: left; }
 
   :is(.pp-progress, .pp-meter) > :is(progress, meter) {
     --_pp-candy: linear-gradient(var(--pp-tone-light) 0 var(--pp-pixel), var(--pp-tone) 0 calc(100% - var(--pp-pixel)), var(--pp-tone-shade) 0);
@@ -54,8 +73,8 @@
     border-radius: 0;
     background: var(--_pp-slot);
     color: inherit;
-    /* The gaps between blocks. */
-    mask: repeating-linear-gradient(to right, var(--pp-ink) 0 calc((var(--_pp-b) - 1) * var(--pp-pixel)), transparent 0 calc(var(--_pp-b) * var(--pp-pixel)));
+    /* The gaps between blocks, counted from the start. */
+    mask: repeating-linear-gradient(to var(--_pp-to), var(--pp-ink) 0 calc((var(--_pp-b) - 1) * var(--pp-pixel)), transparent 0 calc(var(--_pp-b) * var(--pp-pixel)));
   }
 
   /* The fill, through the browser's own parts. */
@@ -67,7 +86,7 @@
   @supports (inline-size: attr(x type(<length>), 0px)) {
     .pp-progress > progress:not(:indeterminate) {
       background:
-        var(--_pp-candy) 0 0 / round(down, attr(value type(<number>), 0) / attr(max type(<number>), 1) * 100% + var(--pp-pixel), var(--_pp-b) * var(--pp-pixel)) 100% no-repeat,
+        var(--_pp-candy) var(--_pp-from) 0 / round(down, attr(value type(<number>), 0) / attr(max type(<number>), 1) * 100% + var(--pp-pixel), var(--_pp-b) * var(--pp-pixel)) 100% no-repeat,
         var(--_pp-slot);
     }
     .pp-progress > progress::-webkit-progress-value { background: transparent; }
@@ -77,7 +96,7 @@
   /* Indeterminate: two lit blocks in every six, marching a block a step. */
   .pp-progress > progress:indeterminate {
     background:
-      repeating-linear-gradient(to right, transparent 0 calc(2 * var(--_pp-b) * var(--pp-pixel)), var(--_pp-slot) 0 calc(6 * var(--_pp-b) * var(--pp-pixel))) 0 0 / auto no-repeat,
+      repeating-linear-gradient(to var(--_pp-to), transparent 0 calc(2 * var(--_pp-b) * var(--pp-pixel)), var(--_pp-slot) 0 calc(6 * var(--_pp-b) * var(--pp-pixel))) var(--_pp-from) 0 / auto no-repeat,
       var(--_pp-candy);
     background-size: calc(100% + 6 * var(--_pp-b) * var(--pp-pixel)) 100%, auto;
     animation: pp-progress-march calc(6 * var(--pp-duration-slide)) steps(6, jump-end) infinite;
@@ -104,7 +123,7 @@
   @supports (inline-size: attr(x type(<length>), 0px)) {
     .pp-meter[data-tone] > meter {
       background:
-        var(--_pp-candy) 0 0 / round(down, (attr(value type(<number>), 0) - attr(min type(<number>), 0)) / (attr(max type(<number>), 1) - attr(min type(<number>), 0)) * 100% + var(--pp-pixel), var(--_pp-b) * var(--pp-pixel)) 100% no-repeat,
+        var(--_pp-candy) var(--_pp-from) 0 / round(down, (attr(value type(<number>), 0) - attr(min type(<number>), 0)) / (attr(max type(<number>), 1) - attr(min type(<number>), 0)) * 100% + var(--pp-pixel), var(--_pp-b) * var(--pp-pixel)) 100% no-repeat,
         var(--_pp-slot);
     }
     .pp-meter[data-tone] > meter::-webkit-meter-optimum-value,
@@ -136,6 +155,6 @@
 }
 
 @keyframes pp-progress-march {
-  from { background-position: calc(-6 * var(--_pp-b) * var(--pp-pixel)) 0, 0 0; }
-  to { background-position: 0 0, 0 0; }
+  from { background-position: var(--_pp-from) calc(-6 * var(--_pp-b) * var(--pp-pixel)) top 0, 0 0; }
+  to { background-position: var(--_pp-from) 0 top 0, 0 0; }
 }

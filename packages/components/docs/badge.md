@@ -35,8 +35,8 @@ button, an avatar or an icon. For labels people act on or remove, use a tag.
 
 ## Anatomy
 
-1. **Box**: a candy box, radius 2, one-pixel bands and drop, 10 pixels high (8 when small). At least as wide as it
-   is high, so a single digit is square.
+1. **Box**: a candy box, radius 2, one-pixel bands and drop, 10 pixels high (8 when small, 12 when large), more with
+   a bigger default text size, so the count always fits. At least as wide as it is high, so a single digit is square.
 2. **Text**: Pixelify Sans, caption size, bold, upper case, tabular digits.
 3. **Dot** (`data-dot`): a 6-pixel candy box with no text.
 
@@ -46,7 +46,7 @@ button, an avatar or an icon. For labels people act on or remove, use a tag.
 |---|---|---|
 | `data-tone` | `accent` (default), `info`, `success`, `warning`, `danger`, `neutral`, any candy name | `danger` for unread counts and errors, `success` for new and online. |
 | `data-variant` | `candy` (default), `soft`, `outline` | Soft and outline for quieter labels in dense lists. Outline badges keep the tone in their text and outline (the tone's text colour). |
-| `data-size` | `sm` (8 pixels), `md` (10, default) | Small when pinned to small buttons. |
+| `data-size` | `sm` (8 pixels), `md` (10, default), `lg` (12) | Small when pinned to small buttons, large beside large ones. |
 | `data-dot` | | No text: status, or "something new here". |
 | `data-position` | `top-end`, `top-start`, `bottom-end`, `bottom-start` | Pinned over that corner of its parent: a button or avatar (any `.pp-box`), or a `.pp-badge-anchor` round an icon. |
 

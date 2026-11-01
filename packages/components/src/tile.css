@@ -1,6 +1,7 @@
 /*
  * Tile. The TV's app block: a square candy box with a white glyph in an ink outline, its label below. Selected, it
- * lifts two pixels inside a ring (white, with an ink edge) and an arrow bobs above it; a glint can sweep across it.
+ * lifts two pixels inside a ring (white, with an ink edge), an arrow bobs above it for six beats, and a glint can
+ * sweep across it once.
  * Tiles live in a .pp-tile-grid of .pp-tile-item cells: a launcher, an inventory, a level select.
  *
  *   <ul class="pp-tile-grid" role="list">
@@ -17,7 +18,7 @@
  *   data-variant     candy (default) | soft | outline | ghost          outline makes an empty slot
  *   data-size        sm | md (default) | lg       20, 28 (the TV's block) or 36 pixels; on the tile or the grid
  *   selected         aria-pressed, aria-selected or aria-checked "true", aria-current, or data-selected (looks only)
- *   .pp-tile-glint   an empty span in the tile: a white glint sweeps across it while selected, every 4.5 s
+ *   .pp-tile-glint   an empty span in the tile: a white glint sweeps across it once when it is selected
  *   data-label="tooltip"   on the item: its label shows only while its tile is hovered, focused or selected
  *
  * Hover lifts a pixel and pressed sits in its drop, from the box. Selected lifts two pixels, as on the TV, and the
@@ -72,8 +73,10 @@
   }
   .pp-tile > img { inline-size: calc(12 * var(--pp-pixel)); image-rendering: pixelated; }
 
-  /* Selected: up two pixels, its own bands kept (it is lifted, not pushed in), a ring round the box. */
+  /* Selected: up two pixels, its own bands kept (it is lifted, not pushed in, so its face does not sink either), a
+     ring round the box. */
   .pp-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) {
+    --_pp-sunk: 0;
     translate: 0 calc(-2 * var(--pp-pixel));
     filter:
       drop-shadow(0 calc(-1 * var(--pp-pixel)) 0 var(--_ring)) drop-shadow(0 var(--pp-pixel) 0 var(--_ring))
@@ -103,7 +106,8 @@
       /* Five positions across the glint's square, the first and last just catching the corners. */
       --_step: calc((var(--_n) - 8) / 2 * var(--pp-pixel));
       --_x: calc(4 * var(--pp-pixel) + var(--_pp-glint) * var(--_step));
-      animation: pp-tile-glint calc(11.25 * var(--pp-duration-beat)) steps(1, jump-end) infinite;
+      /* Once, as it is selected, and then it rests hidden: nothing moves for more than five seconds (WCAG 2.2.2). */
+      animation: pp-tile-glint calc(11.25 * var(--pp-duration-beat)) steps(1, jump-end) forwards;
     }
     .pp-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) > .pp-tile-glint::before,
     .pp-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]) > .pp-tile-glint::after {
@@ -122,19 +126,20 @@
   }
 
   /* An item: the tile, room above it for the arrow, its label below. Cells are whole pixels wide and the tile
-     sits a whole number of pixels in, so the arrow centres on it exactly. */
+     sits a whole number of pixels in, so the arrow centres on it exactly. With a bigger default text size the cells
+     widen with their labels' text (an even number of pixels), so a label still breaks between words. */
   .pp-tile-item {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--pp-space-3);
-    inline-size: var(--pp-tile-cell, calc(40 * var(--pp-pixel)));
+    inline-size: var(--pp-tile-cell, max(calc(40 * var(--pp-pixel)), round(up, calc(20 / 3) * var(--pp-size-caption), calc(2 * var(--pp-pixel)))));
     padding-block-start: calc(13 * var(--pp-pixel));
     margin: 0;
   }
-  .pp-tile-grid[data-size="sm"], .pp-tile-item:has(> .pp-tile[data-size="sm"]) { --pp-tile-cell: calc(32 * var(--pp-pixel)); }
-  .pp-tile-grid[data-size="lg"], .pp-tile-item:has(> .pp-tile[data-size="lg"]) { --pp-tile-cell: calc(48 * var(--pp-pixel)); }
+  .pp-tile-grid[data-size="sm"], .pp-tile-item:has(> .pp-tile[data-size="sm"]) { --pp-tile-cell: max(calc(32 * var(--pp-pixel)), round(up, calc(16 / 3) * var(--pp-size-caption), calc(2 * var(--pp-pixel)))); }
+  .pp-tile-grid[data-size="lg"], .pp-tile-item:has(> .pp-tile[data-size="lg"]) { --pp-tile-cell: max(calc(48 * var(--pp-pixel)), round(up, 8 * var(--pp-size-caption), calc(2 * var(--pp-pixel)))); }
   .pp-tile-item > .pp-tile { margin: 0; }
 
   .pp-tile-label {
@@ -143,7 +148,8 @@
     font-size: var(--pp-size-caption);
     font-weight: var(--pp-weight-bold);
     line-height: var(--pp-leading-tight);
-    letter-spacing: var(--pp-tracking-label);
+    /* Set tight, as the bottom bar's are: a word as long as "Foundations" fits a cell at any text size. */
+    letter-spacing: var(--pp-tracking-none);
     text-align: center;
     text-transform: uppercase;
     overflow-wrap: anywhere;
@@ -185,14 +191,15 @@
       var(--pp-outline);
     background-repeat: no-repeat;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h10v2H0zM1 2h8v1H1zM2 3h6v1H2zM3 4h4v1H3zM4 5h2v1H4z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
-    animation: pp-bob calc(2 * var(--pp-duration-beat)) steps(1, jump-end) infinite;
+    /* Six beats, then it rests, as the tabs' and steps' arrows do. */
+    animation: pp-bob calc(2 * var(--pp-duration-beat)) steps(1, jump-end) 6;
   }
   .pp-tile-item:has(> .pp-tile:is([aria-pressed="true"], [aria-selected="true"], [aria-checked="true"], [aria-current]:not([aria-current="false"]), [data-selected]):is(:focus-visible, [data-pp-state~="focus"]))::before { --_fill: var(--pp-focus); }
 
   /* A grid of tiles: fixed cells, as many as fit. */
   .pp-tile-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, var(--pp-tile-cell, calc(40 * var(--pp-pixel))));
+    grid-template-columns: repeat(auto-fill, var(--pp-tile-cell, max(calc(40 * var(--pp-pixel)), round(up, calc(20 / 3) * var(--pp-size-caption), calc(2 * var(--pp-pixel))))));
     gap: var(--pp-space-2) 0;
     margin: 0;
     padding: 0;
@@ -210,7 +217,7 @@
   }
 }
 
-/* Five frames 80 ms apart (the TV's glint), then nothing until the next sweep. */
+/* Five frames 80 ms apart (the TV's glint), then hidden for the rest of the 4.5 s, where it stays. */
 @keyframes pp-tile-glint {
   0% { --_pp-glint: 0; visibility: visible; }
   1.7777% { --_pp-glint: 1; }

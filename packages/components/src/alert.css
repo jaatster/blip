@@ -54,18 +54,28 @@
     --pp-box-glint: transparent;
   }
 
-  /* Soft and candy alerts are light in every scheme, so what sits on them (text, links, ghost and outline
-     buttons, the close cross, a disabled dither) takes the light roles. */
-  .pp-alert:not([data-variant="outline"], [data-variant="panel"], [data-variant="ghost"]) {
-    --pp-text: var(--pp-ink);
-    --pp-text-muted: var(--pp-ink);
-    --pp-line: var(--pp-ink);
+  /* Soft and candy alerts are light in every scheme, so what sits on them (text, links, ghost and outline buttons,
+     the close cross, a disabled dither) takes the light roles. The box does that for data-variant="soft" and
+     "candy"; the default is soft, so it takes the same roles here. */
+  .pp-alert:not([data-variant]) {
+    --pp-text: var(--pp-tone-on);
+    --pp-text-muted: var(--pp-tone-on);
+    --pp-text-inverse: var(--pp-white);
+    --pp-accent-text: var(--pp-tone-on);
+    --pp-info-text: var(--pp-tone-on);
+    --pp-success-text: var(--pp-tone-on);
+    --pp-warning-text: var(--pp-tone-on);
+    --pp-danger-text: var(--pp-tone-on);
+    --pp-link-visited: var(--pp-tone-on);
+    --pp-line: var(--pp-tone-on);
+    --pp-line-soft: var(--pp-tone);
     --pp-surface: var(--pp-white);
+    --pp-surface-raised: var(--pp-white);
+    --pp-surface-panel: var(--pp-candy-cream);
     --pp-surface-sunken: var(--pp-tone);
-    --pp-accent-text: var(--pp-ink);
     --pp-bg: var(--pp-tone-light);
+    --pp-disabled-dither: var(--pp-tone-light);
   }
-  .pp-alert[data-variant="candy"] { --pp-surface-sunken: var(--pp-tone-shade); --pp-bg: var(--pp-tone); }
 
   .pp-alert-icon {
     flex: none;

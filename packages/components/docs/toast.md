@@ -17,13 +17,13 @@ what is on screen belongs in an [alert](alert.md) next to it.
 ## Usage
 
 ```html
-<pp-toaster data-placement="bottom-end"></pp-toaster>
+<pp-toaster data-side="bottom" data-align="end"></pp-toaster>
 <script type="module">
   import { toast } from "@jaatster/blip-elements/toast";
   toast({ title: "Achievement unlocked", body: "First Flight: clear World 1 without taking a hit.", tone: "success",
           action: { label: "View", onClick: () => openTrophies() } });
   const saving = toast("Saved to slot 2");   // a string is just a title
-  saving.close();                           // or wait: await saving.closed
+  saving.close();                           // at once; or wait: await saving.closed
 </script>
 ```
 
@@ -50,7 +50,8 @@ own in the page early (in the HTML) so its live regions exist before the first m
 | `variant` | `data-variant` | `soft` (default), `candy` | Candy for celebrations ("Level clear!"). |
 | `duration` | `--pp-toast-duration` | ms; `0` stays | Default: 5 s, or 60 ms a character when longer; danger stays until dismissed. |
 | `live` | | `polite`, `assertive` | Default: assertive for danger, polite for the rest. |
-| | `data-placement` (toaster) | `bottom-end` (default), `bottom-center`, `top-end`, `top-center` | Where they stack. |
+| | `data-side` (toaster) | `bottom` (default), `top` | The edge of the screen they come up at. |
+| | `data-align` (toaster) | `end` (default), `center`, `start` | Where along that edge. |
 | | `max` (toaster) | number, default 3 | How many show at once; the rest wait their turn. |
 
 ## States
@@ -92,6 +93,7 @@ With reduced motion they appear and go at once; the timer still steps (it is a c
 - Title first and short: "Saved to slot 2", not "Your game has been successfully saved".
 - At most one action, named for what it does ("Undo", "View", "Try again").
 - No "Success!" titles: say what succeeded.
+- Long words break onto the next line, at their hyphens where the page's `lang` allows; a toast never grows wider.
 
 ## Do and don't
 
@@ -102,11 +104,13 @@ With reduced motion they appear and go at once; the timer still steps (it is a c
 
 ## API
 
-`<pp-toaster>`: attributes `data-placement`, `max`, `dismiss-label` (default "Dismiss"), `aria-label` (default
-"Notifications"). Method `add(options | title)` returns a handle.
+`<pp-toaster>`: attributes `data-side`, `data-align`, `max`, `dismiss-label` (default "Dismiss"), `aria-label`
+(default "Notifications"). Method `add(options | title)` returns a handle.
 
 `toast(options | title): ToastHandle` with `options` `{ title, body?, tone?, variant?, action?: { label, onClick? },
-duration?, live? }`. The handle is `{ el, close(), closed: Promise<void> }`.
+duration?, live? }`. The handle is `{ close(), closed: Promise<void> }`, returned at once, the same from
+`@jaatster/blip-react`: `close()` works straight away (a toast still waiting its turn never shows), and `closed` settles
+once it has gone.
 
 | Class or property | |
 |---|---|

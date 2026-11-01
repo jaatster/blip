@@ -31,6 +31,22 @@ script, open it with `popover.showPopover({ source: button })` so the button is 
 the anchor yourself: `style="anchor-name: --profile"` on the button and `style="position-anchor: --profile"` on the
 popover.
 
+### The nub of an open popover (opt-in)
+
+An open popover flips to the other side of its button when there is no room, and only an anchored container query
+can tell which side it took. Those queries live in a file of their own, `popover-nub.css`: with it, an open popover
+shows its nub and turns it when it flips; without it, an open popover has no nub, rather than one pointing the wrong
+way. (Static popovers, `data-pp-static`, always have theirs.)
+
+```html
+<link rel="stylesheet" href="…/@jaatster/blip-components/dist/popover-nub.min.css">
+```
+
+Load it with a `<link>` after `components.css` (or `popover.css`): from a CDN, or a copy in your public folder. Do
+not import it through your bundler: lightningcss, which Vite 8 and Next.js 16 run on all CSS (Next.js in development
+too), cannot parse `@container anchored()` yet and fails the build; `components.css` builds with it. Browsers
+without anchored container queries ignore the file.
+
 ## Anatomy
 
 1. **Panel**: a candy box, raised, radius 3, ink outline, a two-pixel drop.
@@ -43,7 +59,7 @@ popover.
 
 | Attribute | Values | Use |
 |---|---|---|
-| `data-side` | `bottom` (default), `top`, `left`, `right` | Which side of the button it opens on. When there is no room it flips to the other side, and the nub flips with it. |
+| `data-side` | `bottom` (default), `top`, `left`, `right` | Which side of the button it opens on. When there is no room it flips to the other side, and (with `popover-nub.css`) the nub flips with it. |
 | `data-align` | `center` (default), `start`, `end` | For top and bottom: centred on the button, or lined up with its start or end edge (use near the screen's edges). The nub follows. |
 
 ## States
@@ -51,11 +67,12 @@ popover.
 | State | How | Look |
 |---|---|---|
 | Opening | `popovertarget`, `showPopover()` | One pixel low for a frame, then in place (the pop-in). |
-| Flipped | not enough room | On the other side, nub turned to match. |
+| Flipped | not enough room | On the other side; with `popover-nub.css`, the nub turned to match. |
 | Static | `data-pp-static` | In the page flow: docs, tests, screenshots only. |
 
-Where the browser cannot tell which side the popover took (no anchored container queries), the nub is hidden rather
-than pointing the wrong way. Without anchor positioning at all, the popover opens in the middle of the screen.
+Where nothing can tell which side the popover took (`popover-nub.css` not loaded, or a browser without anchored
+container queries), an open popover's nub is hidden rather than pointing the wrong way. Without anchor positioning at
+all, the popover opens in the middle of the screen.
 
 ## Accessibility
 
@@ -92,6 +109,7 @@ than pointing the wrong way. Without anchor positioning at all, the popover open
 | `.pp-popover-title`, `.pp-popover-close` | Optional title line; optional close button (`popovertargetaction="hide"`). |
 | `data-side`, `data-align` | Placement (see Variants). |
 | `data-pp-static` | Drawn in the page flow. |
+| `@jaatster/blip-components/popover-nub.css` | Opt-in: the nub on open popovers, turned when they flip. Not in `components.css`; load it with a `<link>`. |
 
 | Custom property | Default | |
 |---|---|---|

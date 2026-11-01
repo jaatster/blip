@@ -1,10 +1,10 @@
 /*
- * Drawer. A side sheet: a native <dialog> that comes in from the right, the left or the bottom edge, a whole
+ * Drawer. A side sheet: a native <dialog> that comes in from the end, the start or the bottom edge, a whole
  * pixel-snapped sixth of its size per step (six steps over a glide), over the same dithered scrim as the dialog.
  * It is a dialog, so it uses the dialog's parts (header, title, close, body, footer) and the same element
  * behaviour: wrap it in <pp-drawer> from @jaatster/blip-elements for the stepped exit, pp-before-close and light dismiss.
  *
- *   <dialog class="pp-box pp-drawer" id="settings" data-side="right" aria-labelledby="settings-title">
+ *   <dialog class="pp-box pp-drawer" id="settings" data-side="end" aria-labelledby="settings-title">
  *     <header class="pp-dialog-header">
  *       <h2 class="pp-dialog-title" id="settings-title">Settings</h2>
  *       <form method="dialog"><button class="pp-box pp-button pp-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button></form>
@@ -13,7 +13,8 @@
  *     <footer class="pp-dialog-footer">…</footer>
  *   </dialog>
  *
- *   data-side        right (default) | left | bottom
+ *   data-side        end (default) | start | bottom      end and start follow the text: the right and the left in
+ *                                                      left-to-right text, the other way round right to left
  *   data-size        sm | md (default) | lg      128, 160 or 224 pixels across (bottom: up to 85% of the height)
  *   data-pp-static   drawn in the page flow, for docs, tests and screenshots
  *
@@ -31,10 +32,13 @@
 
   .pp-drawer {
     --_pp-w: 160;
+    /* Which way it slides: --_pp-sx across (1 towards the end), --_pp-sy down; --_pp-dir is -1 right to left. */
     --_pp-sx: 1;
     --_pp-sy: 0;
+    --_pp-dir: 1;
     position: fixed;
-    inset: calc(-1 * var(--pp-pixel)) calc(-1 * var(--pp-pixel)) calc(-1 * var(--pp-pixel)) auto;
+    inset: calc(-1 * var(--pp-pixel));
+    inset-inline-start: auto;
     inline-size: calc(round(down, min(calc(var(--_pp-w) * var(--pp-pixel)), 100% - 16 * var(--pp-pixel)), var(--pp-pixel)) + var(--pp-pixel));
     block-size: auto;
     max-inline-size: none;
@@ -49,17 +53,19 @@
   .pp-drawer[open] {
     display: flex;
     flex-direction: column;
-    translate: calc(var(--_pp-sx) * round(var(--_pp-slide) * 100%, var(--pp-pixel))) calc(var(--_pp-sy) * round(var(--_pp-slide) * 100%, var(--pp-pixel)));
+    translate: calc(var(--_pp-sx) * var(--_pp-dir) * round(var(--_pp-slide) * 100%, var(--pp-pixel))) calc(var(--_pp-sy) * round(var(--_pp-slide) * 100%, var(--pp-pixel)));
   }
+  .pp-drawer:dir(rtl) { --_pp-dir: -1; }
   .pp-drawer > form { display: contents; }
   .pp-drawer:not([data-pp-r]) { --pp-r: 0; --pp-shape: var(--pp-shape-0); --pp-shape-inner: var(--pp-shape-0-inner); }
   .pp-drawer:not([data-variant]) { --pp-drop-size: 2; }
   .pp-drawer[data-size="sm"] { --_pp-w: 128; }
   .pp-drawer[data-size="lg"] { --_pp-w: 224; }
 
-  .pp-drawer[data-side="left"] {
+  .pp-drawer[data-side="start"] {
     --_pp-sx: -1;
-    inset: calc(-1 * var(--pp-pixel)) auto calc(-1 * var(--pp-pixel)) calc(-1 * var(--pp-pixel));
+    inset: calc(-1 * var(--pp-pixel));
+    inset-inline-end: auto;
   }
   .pp-drawer[data-side="bottom"] {
     --_pp-sx: 0;

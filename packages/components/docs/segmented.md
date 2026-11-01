@@ -37,7 +37,10 @@ With no JavaScript at all (native radios; the browser groups them and steers wit
 
 ## Anatomy
 
-1. **Rail**: a calm box, sunken fill, line outline, no drop, the control's height (16, 20 or 24 pixels).
+1. **Rail**: a calm box, sunken fill, line outline, no drop, the control's height (16, 20 or 24 pixels). Never wider
+   than its container: segments that do not fit scroll inside it, as a tab row does, and the edge with more beyond it
+   dithers out. While it scrolls, the rail has square ends, like a strip cut off by the edge of the screen (where the
+   browser has no scroll-driven animations, the segments wrap onto a second row instead).
 2. **Segments**: boxes two pixels inside the rail, upper-case bold labels like buttons, or one icon.
 3. **Chosen segment**: candy (the accent, or its `data-tone`) with bands swapped: the pushed-in look.
 
@@ -46,7 +49,7 @@ With no JavaScript at all (native radios; the browser groups them and steers wit
 | Attribute | Values | Use |
 |---|---|---|
 | `data-size` | `sm`, `md` (default), `lg` | Matches button heights, so it sits in a row with buttons and fields. |
-| `data-width="full"` | | Fills its container; segments share the width equally. |
+| `data-width="full"` | | Fills its container; segments share the width equally (scrolling when their labels need more). |
 | `data-tone` (on a segment) | any tone | The chosen segment's candy. |
 | `data-icon-only` (on a segment) | | One icon; needs `aria-label`. |
 
@@ -97,14 +100,16 @@ With no JavaScript at all (native radios; the browser groups them and steers wit
 |---|---|---|
 | `name` | string | The form field name. |
 | `value` | string | The chosen button's `value`. Setting it chooses that button. |
-| `disabled` | boolean | Disables every segment (also follows a disabled fieldset). |
-| `required` | boolean | Invalid until something is chosen (`required-message` sets the text). |
+| `disabled` | boolean | Disables every segment (also follows a disabled fieldset). `"false"` is off. |
+| `required` | boolean | Invalid until something is chosen (`required-message` sets the text). `"false"` is off. |
 | `items` (property) | `HTMLButtonElement[]` | The segments. |
 | `form`, `validity`, `validationMessage`, `checkValidity()`, `reportValidity()` | | As on native controls. |
 
 | Event | Detail | |
 |---|---|---|
 | `pp-change` | `{ value }` | A segment was chosen by click or key, after `input` and `change` (as a native control fires them). None of them are sent when the value is set from script. |
+
+Segments added or removed later (by a framework) get their role, state and place in the tab order as they come.
 
 | Custom property | Default | |
 |---|---|---|

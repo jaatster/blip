@@ -30,7 +30,7 @@ Press <kbd class="pp-box pp-keycap">Esc</kbd> to pause.
 
 | Attribute | Values | Use |
 |---|---|---|
-| `data-size` | `sm` (10 pixels), `md` (12, default), `lg` (16) | `md` sits in body text; `lg` for prompts and shortcut sheets. |
+| `data-size` | `sm` (10 pixels), `md` (12, default), `lg` (16) | `md` sits in body text; `lg` for prompts and shortcut sheets. With a bigger default text size, keys grow with their labels, in whole pixels. |
 | `data-tone` | `neutral`, cream (default), any tone or candy | Coloured keys for a gamepad's buttons (A green, B red, X blue, Y slate). |
 | `data-pp-pressed` | | Shows a key held down: it sits in its drop (key tests, tutorials). |
 

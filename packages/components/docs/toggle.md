@@ -11,7 +11,8 @@ status: beta
 
 A button that stays on until it is pressed again: "Show grid", "Mute music", a favourite heart. It is a
 [button](button.md) with `aria-pressed`, so it needs no stylesheet of its own: on, it sits in its drop with its bands
-swapped (the 16-bit pushed-in look); the calm tiers fill with the soft accent.
+swapped and a one-pixel ink shadow inside its top and left (the 16-bit pushed-in look, which reads without colour);
+the calm tiers fill with the soft accent.
 
 ## Usage
 
@@ -32,8 +33,8 @@ button.addEventListener("click", () => {
 ## Anatomy
 
 As for [Button](button.md). The state is drawn by the box: off is the button's rest look, on is "sits in": no drop,
-shade band on top and light band below (candy and soft), or the tone's light fill with an ink outline (outline and
-ghost).
+shade band on top and light band below, and the face a pixel lower inside its outline, so a one-pixel ink shadow runs
+along its top and left (candy and soft); or the tone's light fill with an ink outline (outline and ghost).
 
 ## Variants
 
@@ -47,7 +48,7 @@ ghost).
 | State | Look |
 |---|---|
 | Off | The button at rest; hover lifts, press sits in. |
-| On | Sits in, bands swapped (candy, soft); soft accent fill, ink outline (outline, ghost). |
+| On | Sits in, bands swapped, a one-pixel ink shadow inside its top and left (candy, soft); soft accent fill, ink outline (outline, ghost). |
 | Focus | The yellow ring, on or off. |
 | Disabled | Dithered, keeping its on or off look. |
 

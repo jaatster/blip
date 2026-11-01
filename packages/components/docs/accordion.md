@@ -32,8 +32,8 @@ button with a pixel chevron that steps round, one frame at a time, when it opens
 
 1. **Item**: a `<details>` (`.pp-accordion-item`).
 2. **Summary**: `.pp-box.pp-accordion-summary`, a full-width box button: white with a sunken shade band.
-3. **Chevron**: `.pp-accordion-chevron`, an empty span: right when closed, down when open, through one in-between
-   frame (two frames, 80 ms).
+3. **Chevron**: `.pp-accordion-chevron`, an empty span: pointing along the line when closed (right, or left right to
+   left), down when open, through one in-between frame (two frames, 80 ms).
 4. **Panel**: `.pp-accordion-panel`, the answer. Plain text under its question, or with `.pp-box` a cream box tucked
    under it. It pops in a pixel as it opens.
 

@@ -92,3 +92,5 @@ shows in the tray.
 |---|---|---|
 | `pp-change` | `{ files }` | The list changed (picked, dropped or removed). The input also fires `input` and `change`. |
 | `pp-reject` | `{ files }` | Dropped files that didn't match `accept`. |
+
+An input rendered after the element, or swapped by a framework, is taken up when it arrives.

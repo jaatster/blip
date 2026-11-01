@@ -51,8 +51,8 @@
     transition: inset-inline-start var(--pp-duration-nudge) steps(var(--_steps), jump-end);
   }
   .pp-switch > :checked { inset-inline-start: calc((var(--_n) - 4) * var(--pp-pixel)); }
-  /* A cream knob dithers with the soft line: the page colour is almost cream. */
-  .pp-switch > input:disabled { --pp-box-dither: var(--pp-line-soft); }
+  /* A cream knob takes the cream dither: the usual light one is almost cream. */
+  .pp-switch > input:disabled { --pp-box-dither: var(--pp-disabled-dither-cream); }
   /* The ring belongs to the track. */
   .pp-switch > input:focus-visible { filter: none; }
 

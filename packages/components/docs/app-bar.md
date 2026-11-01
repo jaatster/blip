@@ -50,7 +50,7 @@ so it needs no script and no second copy of the links.
 
 | Attribute | Values | Use |
 |---|---|---|
-| `data-collapse` | none (default: folds under 1024 px), `medium` (folds under 600 px), `always`, `never` | Pick the width at which the links stop fitting. `medium` suits a site with three short links. |
+| `data-collapse` | none (default: folds under 64rem), `medium` (folds under 37.5rem), `always`, `never` | Pick the width at which the links stop fitting. `medium` suits a site with three short links. In rem, so 1024 and 600 px at the default text size, and wider with a bigger one, whose links need more room. |
 | `data-sticky` | | Stays at the top while the page scrolls. |
 | `data-scale` on the wordmark | `1`, `2` | Under 400 px the wordmark drops to scale 1; under 360 px a brand with a mark shows only the mark (the wordmark stays as the link's name). |
 

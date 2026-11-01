@@ -62,7 +62,7 @@ nested in the list, its button a menu item:
 | `aria-checked` | `true`, `false` | A check (8 x 5) or a dot (4 x 4) in the gutter. |
 | `aria-haspopup="menu"` on an item | | A chevron at its end: it opens a submenu. |
 | `data-tone="danger"` on an item | | A destructive item: red text until it is focused. Confirm what it does. |
-| `data-align="end"` on `.pp-menu` | | The menu lines up with the end of its button (a "more" button at the end of a row). |
+| `data-align` on `.pp-menu` | `start` (default), `end` | Which edge of its button the menu lines up with: `end` for a "more" button at the end of a row. |
 
 ## States
 
@@ -116,17 +116,21 @@ Follows the WAI-ARIA Authoring Practices Menu Button pattern.
 
 ### `<pp-menu>`
 
-| Property or method | | |
+| Attribute, property or method | | |
 |---|---|---|
-| `open` (read only) | boolean | Whether the menu is open. |
+| `open` (attribute and property) | boolean | Opens or closes the menu; reflects whether it is open. |
 | `show(last?)` | | Opens it and focuses the first item (the last with `true`). |
-| `close()` | | Closes it and focuses the button. |
+| `close()` | | Closes it; focus goes back to the button if it was in the menu. |
 | `trigger`, `menu`, `items` (read only) | | The button, the list, and this menu's items (not its submenus'). |
-| `data-align="end"` | attribute | Line up with the end of the button. |
+| `data-align` | attribute | `start` (default) or `end`: the edge of the button the menu lines up with. |
 
 | Event | Detail | |
 |---|---|---|
-| `pp-select` | `{ item, value, checked? }` | Before an item runs. `value` is its `data-value` or label; `checked` is the new state of a checkbox or radio item. Cancelable: `preventDefault()` keeps the menu open and the item unchanged. Bubbles. |
+| `pp-action` | `{ item, value, checked? }` | An item was chosen, before it runs. `value` is its `data-value`, else its `value`, else its label; `checked` is the new state of a checkbox or radio item. Cancelable: `preventDefault()` keeps the menu open and the item unchanged. Bubbles. |
+| `pp-open`, `pp-close` | | The menu opened or closed, however it happened. |
+
+Items are read as they are, so items rendered later just work; a button or list rendered after the element is
+wired when it arrives.
 
 Placement uses CSS anchor positioning (below the button, flipping above or to the other side when there is no room);
 where that is missing, the element measures and places the menu itself.

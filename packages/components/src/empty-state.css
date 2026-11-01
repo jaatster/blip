@@ -9,7 +9,7 @@
  *     <div class="pp-empty-state-actions"><button class="pp-box pp-button">New game</button></div>
  *   </div>
  *
- *   data-size    sm | md (default)        the picture at one or two pixels per unit; less space around
+ *   data-size    sm | md (default) | lg   the picture at one, two or three pixels per unit; less or more space round it
  *
  * Draw the picture on a grid 32 units wide, in whole units, with shape-rendering="crispEdges": it is shown at
  * two pixels a unit (one when small), so it stays on the grid. Colour it with scheme roles and candies
@@ -29,6 +29,7 @@
     text-align: center;
   }
   .pp-empty-state[data-size="sm"] { --_pp-unit: 1; gap: calc(2 * var(--pp-pixel)); padding: calc(6 * var(--pp-pixel)) calc(4 * var(--pp-pixel)); }
+  .pp-empty-state[data-size="lg"] { --_pp-unit: 3; gap: calc(4 * var(--pp-pixel)); max-inline-size: calc(240 * var(--pp-pixel)); padding: calc(16 * var(--pp-pixel)) calc(12 * var(--pp-pixel)); }
 
   .pp-empty-state-art {
     inline-size: calc(32 * var(--_pp-unit) * var(--pp-pixel));

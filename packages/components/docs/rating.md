@@ -31,7 +31,7 @@ Setting one:
 ## Anatomy
 
 1. **Stars**: 11 x 11 pixel stars 12 pixels apart (hearts 11 x 10). On: yellow candy (a light band, the base, a shade
-   band) with an ink outline. Off: a sunken well with a line outline.
+   band) with an ink outline. Off: a sunken well with only the soft line round it, no ink.
 2. **Score**: the fill stops at `--pp-rating-value` stars, rounded down to a whole pixel, so 3.5 fills half a star.
 3. **Radios** (element): one transparent `.pp-rating-star` per star, over the drawing.
 
@@ -50,7 +50,7 @@ Setting one:
 | Preview | pointer over a star (`data-preview`) | The stars a click would set go pale yellow. |
 | Focus | keyboard | The square yellow ring with an ink edge round that star. |
 | Read-only | `readonly` | The score shows; one tab stop (on the current star) so it can be reached; it can't change. |
-| Disabled | `disabled` | Dithered with the page; not focusable. |
+| Disabled | `disabled` | Dithered with a light colour (`--pp-disabled-dither`); not focusable. |
 
 ## Accessibility
 
@@ -59,7 +59,8 @@ Setting one:
   development without one) of `radio`s named "1 star", "2 stars"… (`star-label` translates: "{n} of {max}"). Only the
   current star, or the first, is in the tab order. Read-only sets `aria-readonly` and keeps that one tab stop;
   disabled sets `aria-disabled` and has none. Right to left, the stars fill from the right.
-- Not colour alone: on stars are filled, off stars are hollow wells.
+- Not colour alone: on stars are filled and drawn in ink, off stars are pale wells in the soft line. In greyscale the
+  ink outline tells them apart by Day and at Sunset (8:1 and more), the fill at Night (10:1).
 - Touch doesn't preview; it sets on tap.
 - Windows high contrast: system colours for the outlines and the fill.
 
@@ -89,8 +90,8 @@ Setting one:
 | `name` | string | The form field name. |
 | `value` | number | The score, 0 to `max`. 0 is "not rated" (nothing is sent). |
 | `max` | number | How many stars (5). |
-| `readonly`, `disabled` | boolean | Show only; switched off (also follows a disabled fieldset). |
-| `required` | boolean | Invalid while 0 (`required-message` sets the text). |
+| `readonly`, `disabled` | boolean | Show only; switched off (also follows a disabled fieldset). `"false"` is off. |
+| `required` | boolean | Invalid while 0 (`required-message` sets the text). `"false"` is off. |
 | `star-label` | string | Each star's name; `{n}` and `{max}` are filled in. |
 | `form`, `validity`, `validationMessage`, `checkValidity()`, `reportValidity()` | | As on native controls. |
 

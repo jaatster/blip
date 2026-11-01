@@ -105,6 +105,8 @@ With reduced motion it opens and closes at once.
 - Title: the question or the task ("Delete slot 2?", "Save game"), in a few words.
 - Buttons say what happens ("Delete", "Keep it"), never "OK" and "Cancel" for a destructive choice.
 - One sentence of consequence for confirmations ("You can't undo this.").
+- Long words (German compounds, file names, links) break onto the next line, at their hyphens where the page's
+  `lang` allows, rather than widen the dialog or make its body scroll sideways.
 
 ## Do and don't
 
@@ -119,7 +121,7 @@ With reduced motion it opens and closes at once.
 
 | Member | |
 |---|---|
-| `open` (attribute and property) | Opens or closes it; reflects the state. |
+| `open` (attribute and property) | Opens or closes it; reflects the state. `open="false"` is closed (the element takes it off). Set before the `<dialog>` is rendered, it opens the dialog when it arrives. |
 | `light-dismiss` (attribute) | A press that starts and ends on the scrim asks to close (`reason: "backdrop"`). |
 | `show(opener?)` | Opens it as a modal. `opener` gets focus back afterwards (default: what has focus now). |
 | `requestClose(returnValue?)` | Asks to close; resolves `true` if it closed. |

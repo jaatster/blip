@@ -12,7 +12,7 @@
  *
  *   data-tone       accent (default) | info | success | warning | danger | neutral | a candy name
  *   data-variant    candy (default) | soft | outline
- *   data-size       sm | md (default)              8 or 10 pixels high
+ *   data-size       sm | md (default) | lg         8, 10 or 12 pixels high (taller if the text is)
  *   data-dot        no text: a 6-pixel candy dot (status, "something new")
  *   data-position   top-end | top-start | bottom-end | bottom-start      pinned over the parent's corner
  *
@@ -29,16 +29,21 @@
     --pp-band-top: 1;
     --pp-band-bottom: 1;
     --_pp-h: 10;
+    /* As many times its text size as at the default (20 px for 12 px text), if that is taller: a bigger default text
+       size gets a bigger badge, in whole pixels, so the count never spills onto the outline. A dot stays a dot. */
+    --_pp-badge-font: var(--pp-size-caption);
+    --_pp-badge-em: calc(5 / 3);
+    --_pp-badge-size: max(calc(var(--_pp-h) * var(--pp-pixel)), round(up, var(--_pp-badge-em) * var(--_pp-badge-font), var(--pp-pixel)));
     display: inline-flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    min-inline-size: calc(var(--_pp-h) * var(--pp-pixel));
-    block-size: calc(var(--_pp-h) * var(--pp-pixel));
+    min-inline-size: var(--_pp-badge-size);
+    block-size: var(--_pp-badge-size);
     padding: 0 calc(3 * var(--pp-pixel));
     margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
     font-family: var(--pp-font-ui);
-    font-size: var(--pp-size-caption);
+    font-size: var(--_pp-badge-font);
     font-weight: var(--pp-weight-bold);
     line-height: 1;
     letter-spacing: var(--pp-tracking-label);
@@ -48,9 +53,11 @@
     vertical-align: middle;
   }
   .pp-badge[data-variant="outline"] { --pp-box-text: var(--pp-tone-text); --pp-box-outline: var(--pp-tone-text); }
-  .pp-badge[data-size="sm"] { --_pp-h: 8; --pp-band-top: 0; --pp-band-bottom: 1; padding: 0 calc(2 * var(--pp-pixel)); }
+  .pp-badge[data-size="sm"] { --_pp-h: 8; --_pp-badge-em: calc(4 / 3); --pp-band-top: 0; --pp-band-bottom: 1; padding: 0 calc(2 * var(--pp-pixel)); }
+  .pp-badge[data-size="lg"] { --_pp-h: 12; --_pp-badge-font: var(--pp-size-small); --_pp-badge-em: calc(12 / 7); padding: 0 calc(4 * var(--pp-pixel)); }
   .pp-badge[data-dot] {
     --_pp-h: 6;
+    --_pp-badge-em: 0;
     --pp-r: 1;
     --pp-shape: var(--pp-shape-1);
     --pp-shape-inner: var(--pp-shape-1-inner);
@@ -60,7 +67,9 @@
     inline-size: calc(6 * var(--pp-pixel));
     min-inline-size: 0;
     padding: 0;
+    /* No text: font-size-adjust (from @jaatster/blip-font) makes Chrome draw 0-size text at full size, so it goes too. */
     font-size: 0;
+    font-size-adjust: none;
   }
 
   /* Pinned over a corner of its parent (any positioned box: a button, an avatar, a .pp-badge-anchor). */

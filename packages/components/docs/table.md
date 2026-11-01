@@ -131,7 +131,7 @@ better stacked: add `data-stack` to the table and `data-label` to each cell that
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-table-max-height` | none | On `.pp-table-scroll`: past this height the body scrolls under the sticky header. |
+| `--pp-table-max-height` | none | On `.pp-table-scroll`: past this height the body scrolls under the sticky header. Printed, the table shows every row. |
 | `--pp-table-header-bg` | `--pp-surface` | The sticky header's fill (set it to the page's colour for a frameless table on the page). |
 
 ### `<pp-table>`
@@ -148,3 +148,6 @@ better stacked: add `data-stack` to the table and `data-label` to each cell that
 
 Sorting reads a cell's `data-sort-value`, or its text: numbers ("98,120", "-6") compare as numbers, anything else
 in the reader's language with digits in order. Sortable tables need one header row without column spans.
+
+Rows your framework adds, removes or changes later are taken in: select-all follows them, and a table the element
+sorted stays sorted (no event, nothing announced). A sort you did yourself, by cancelling `pp-sort`, is left alone.

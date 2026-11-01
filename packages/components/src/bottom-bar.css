@@ -47,9 +47,11 @@
     padding: 0;
     list-style: none;
   }
+  /* Each destination takes its label's width and an even share of the room left over, so a long label gets room a
+     short one does not need; only when five do not fit even so are labels cut short. */
   .pp-bottom-bar-list > li {
     display: flex;
-    flex: 1 1 0;
+    flex: 1 1 auto;
     min-inline-size: 0;
   }
 
@@ -69,7 +71,8 @@
     font-size: var(--pp-size-caption);
     font-weight: var(--pp-weight-bold);
     line-height: 1;
-    letter-spacing: var(--pp-tracking-label);
+    /* Set tight, without the labels' half-pixel tracking: five have to fit across a 320 px phone. */
+    letter-spacing: var(--pp-tracking-none);
     text-transform: uppercase;
     text-decoration: none;
   }
@@ -94,8 +97,10 @@
     inset-inline-start: calc(50% + var(--pp-space-3));
     display: grid;
     place-items: center;
-    min-inline-size: calc(10 * var(--pp-pixel));
-    block-size: calc(10 * var(--pp-pixel));
+    /* Ten pixels, or 5/3 of its text size if that is more (a bigger default text size), so the count fits. */
+    --_pp-badge-size: max(calc(10 * var(--pp-pixel)), round(up, calc(5 / 3) * var(--pp-size-caption), var(--pp-pixel)));
+    min-inline-size: var(--_pp-badge-size);
+    block-size: var(--_pp-badge-size);
     padding: 0 var(--pp-space-2);
     letter-spacing: 0;
     font-variant-numeric: tabular-nums;

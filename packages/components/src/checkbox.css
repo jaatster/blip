@@ -58,6 +58,6 @@
   }
   .pp-checkbox:has(> :is(:indeterminate, [data-pp-state~="indeterminate"]):disabled) {
     --pp-box-text: var(--pp-tone-on);
-    --pp-box-dither: var(--pp-bg);
+    --pp-box-dither: var(--pp-disabled-dither);
   }
 }

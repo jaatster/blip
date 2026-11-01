@@ -49,7 +49,7 @@ ghost boxes for rows you press, so candy stays for the actions inside them.
 
 | Attribute | Values | Use |
 |---|---|---|
-| `.pp-box` on the list | `data-variant`: `panel`, white (default), `soft`, `outline` | The list in a panel. |
+| `.pp-box` on the list | `data-variant`: `panel`, white (default), `soft`, `outline` | The list in a panel. A soft list gives what sits on it the light roles (the tone's ink for text, links and lines), so it reads in every scheme. |
 | `data-dividers` | | A line between rows. Use for content rows; pressable rows read fine without. |
 | `data-density` | `compact` | Tighter rows (14 pixels min), smaller text: long lists, side panels. |
 | Row tier | `data-variant="ghost"` on a pressable row | Required on `<a>`/`<button>` rows: quiet at rest, filled on hover. |

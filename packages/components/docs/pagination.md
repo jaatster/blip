@@ -47,7 +47,7 @@ Write both the numbers and the status: CSS shows whichever fits.
 | `data-variant` on pages | none (candy), `soft`, `outline`, `ghost` | Outline for lists and tables. Candy or soft for games: pages rest in cream and the current page takes the accent. |
 | `data-tone` on previous and next | any tone | `neutral` for cream arrows next to candy pages. |
 | `data-icon-only` on previous or next | | Just the chevron; give the link `aria-label` ("Previous page"). |
-| `data-size` on the nav | `sm` (16 px), md (20, default) | `sm` under tables. |
+| `data-size` on the nav | `sm` (16 pixels), `md` (20, default), `lg` (24) | `sm` under tables, `lg` beside large buttons (a game's world select). |
 | `data-compact` on the nav | | Always "3 / 12". Without it, the numbers turn into the status when the nav is under 360 px wide. |
 
 ## States

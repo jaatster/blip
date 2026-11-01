@@ -48,7 +48,7 @@ A long trail can fold its middle into a menu:
 
 | Attribute | Values | Use |
 |---|---|---|
-| `data-size` | `sm` (12 px high), md (14, default) | `sm` for dense headers and dashboards. |
+| `data-size` | `sm` (12 pixels high), `md` (14, default), `lg` (16) | `sm` for dense headers and dashboards, `lg` for a page's own header. |
 | `<span>` inside a crumb | | A long label is cut to `--pp-breadcrumbs-max` with an ellipsis; the full text is still its name. |
 | A `pp-menu` in an item | | The middle of a long trail behind a "more" button: keep the first crumb, the last two, and fold the rest. |
 | An icon-only crumb | `aria-label` | A home mark instead of "Home". |
@@ -57,8 +57,8 @@ A long trail can fold its middle into a menu:
 
 | State | How | Look |
 |---|---|---|
-| Hover | pointer | Fills with the sunken surface and shows its outline. |
-| Focus | keyboard | The yellow ring. |
+| Hover | pointer | Fills with the sunken surface and shows its outline; the label turns the scheme's text colour, which reads on that well in every scheme (the link colour falls short at Sunset). |
+| Focus | keyboard | The yellow ring round the same well and label. |
 | Current | `aria-current="page"` | A soft chip (accent light, ink outline), ink bold text. |
 
 ## Accessibility

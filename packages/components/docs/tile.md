@@ -39,9 +39,10 @@ inventories, level and world pickers: a few big things to choose between, each b
 4. **Label**: `.pp-tile-label`, upper case, centred under the tile; it names the tile (`aria-labelledby`) and is
    `aria-hidden` itself, so screen readers hear it once, as the button's name.
 5. **Ring**: drawn round the box's own shape when selected: one pixel of white, one of ink.
-6. **Arrow**: the TV's 10 x 6 pointer over the selected tile, white with an ink outline, bobbing on the beat.
+6. **Arrow**: the TV's 10 x 6 pointer over the selected tile, white with an ink outline, bobbing on the beat for six
+   beats (under five seconds), then resting.
 7. **Glint** (optional): `.pp-tile-glint`, an empty span; a white band with light candy edges sweeps across in five
-   frames every 4.5 seconds while the tile is selected.
+   frames once, as the tile is selected.
 8. **Grid**: `.pp-tile-grid`, as many fixed cells as fit.
 
 ## Variants
@@ -60,7 +61,7 @@ inventories, level and world pickers: a few big things to choose between, each b
 | Hover | pointer | Lifts one pixel (from the box). |
 | Focus | keyboard | The yellow ring. |
 | Pressed | `:active` | Sits in its drop. |
-| Selected | `aria-pressed="true"`, `aria-selected="true"`, `aria-checked="true"`, `aria-current`, or `data-selected` (looks only) | Lifts two pixels, keeps its bands, white ring with an ink edge; the arrow bobs above it; the glint sweeps. |
+| Selected | `aria-pressed="true"`, `aria-selected="true"`, `aria-checked="true"`, `aria-current`, or `data-selected` (looks only) | Lifts two pixels, keeps its bands, white ring with an ink edge; the arrow bobs above it six times; the glint sweeps once. Nothing moves for more than five seconds. |
 | Selected with focus | both | The ring and the arrow turn focus yellow: the TV's look, where the selected block is the focused one. |
 | Disabled | `disabled` or `aria-disabled="true"` | Dithered. Arrow keys skip it. |
 
@@ -107,7 +108,7 @@ inventories, level and world pickers: a few big things to choose between, each b
 |---|---|---|
 | `--pp-tile-glyph` | `--pp-white` | The glyph's colour. |
 | `--pp-tile-ring` | `--pp-white` | The selection ring's and arrow's colour (focus turns them yellow). |
-| `--pp-tile-cell` | 40 pixels (32, 48) | A cell's width; keep it even so the arrow centres on whole pixels. |
+| `--pp-tile-cell` | 40 pixels (32, 48), or 5rem (4, 6) if that is wider | A cell's width; keep it an even number of pixels so the arrow centres on whole pixels. The default widens with a bigger default text size, so a label still breaks between words. |
 | `--pp-tone`, `--pp-tone-light`, `--pp-tone-shade`, `--pp-tone-on` | accent | A custom candy. |
 
 ### `<pp-tile-grid>`
@@ -122,3 +123,6 @@ inventories, level and world pickers: a few big things to choose between, each b
 | Event | Detail | |
 |---|---|---|
 | `pp-select` | `{ tile }` | Before the selection moves. Cancelable: `preventDefault()` keeps the old one. |
+
+Tiles added or removed later keep one Tab stop between them: the tile that had it, else the selected one, else the
+first.
