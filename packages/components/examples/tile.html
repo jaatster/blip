@@ -1,89 +1,89 @@
-<!-- Tile: an inventory with <pp-tile-grid> (arrow keys, one selected), every state, sizes, tiers, and a TV-style
-     launcher whose names show only for the active tile. Forced states use data-pp-state (docs and tests only). -->
-<h3 class="pp-label pp-muted" id="inv-title" style="margin-block-end:calc(2*var(--pp-pixel))">Inventory</h3>
-<pp-tile-grid selection="single">
-  <ul class="pp-tile-grid" role="list" aria-labelledby="inv-title">
-    <li class="pp-tile-item">
-      <button class="pp-box pp-tile" data-tone="red" aria-pressed="true" aria-labelledby="inv-1"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M8 1h3v2h-1v1H9v1H8v1H7v1H6v1h1v2H6V9H4v1H3v1H1V9h1V8h1V7H2V5h1v1h1V5h1V4h1V3h1V2h1z"/></svg><span class="pp-tile-glint"></span></button>
-      <span class="pp-tile-label" id="inv-1" aria-hidden="true">Iron sword</span>
+<!-- Tile: an inventory with <chu-tile-grid> (arrow keys, one selected), every state, sizes, tiers, and a TV-style
+     launcher whose names show only for the active tile. Forced states use data-chu-state (docs and tests only). -->
+<h3 class="chu-label chu-muted" id="inv-title" style="margin-block-end:calc(2*var(--chu-pixel))">Inventory</h3>
+<chu-tile-grid selection="single">
+  <ul class="chu-tile-grid" role="list" aria-labelledby="inv-title">
+    <li class="chu-tile-item">
+      <button class="chu-box chu-tile" data-tone="red" aria-pressed="true" aria-labelledby="inv-1"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M8 1h3v2h-1v1H9v1H8v1H7v1H6v1h1v2H6V9H4v1H3v1H1V9h1V8h1V7H2V5h1v1h1V5h1V4h1V3h1V2h1z"/></svg><span class="chu-tile-glint"></span></button>
+      <span class="chu-tile-label" id="inv-1" aria-hidden="true">Iron sword</span>
     </li>
-    <li class="pp-tile-item">
-      <button class="pp-box pp-tile" data-tone="blue" aria-pressed="false" aria-labelledby="inv-2"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v6h-1v1H9v1H8v1H7v1H5v-1H4V9H3V8H2V7H1zm4 2v1H4v2h1v1h2V6h1V4H7V3z"/></svg><span class="pp-tile-glint"></span></button>
-      <span class="pp-tile-label" id="inv-2" aria-hidden="true">Shield</span>
+    <li class="chu-tile-item">
+      <button class="chu-box chu-tile" data-tone="blue" aria-pressed="false" aria-labelledby="inv-2"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v6h-1v1H9v1H8v1H7v1H5v-1H4V9H3V8H2V7H1zm4 2v1H4v2h1v1h2V6h1V4H7V3z"/></svg><span class="chu-tile-glint"></span></button>
+      <span class="chu-tile-label" id="inv-2" aria-hidden="true">Shield</span>
     </li>
-    <li class="pp-tile-item">
-      <button class="pp-box pp-tile" data-tone="pink" aria-pressed="false" aria-labelledby="inv-3"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v2H7v1h2v1h1v1h1v4h-1v1H2v-1H1V6h1V5h1V4h2V3H4zM3 7v2h1V7z"/></svg><span class="pp-tile-glint"></span></button>
-      <span class="pp-tile-label" id="inv-3" aria-hidden="true">Potion ×3</span>
+    <li class="chu-tile-item">
+      <button class="chu-box chu-tile" data-tone="pink" aria-pressed="false" aria-labelledby="inv-3"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v2H7v1h2v1h1v1h1v4h-1v1H2v-1H1V6h1V5h1V4h2V3H4zM3 7v2h1V7z"/></svg><span class="chu-tile-glint"></span></button>
+      <span class="chu-tile-label" id="inv-3" aria-hidden="true">Potion ×3</span>
     </li>
-    <li class="pp-tile-item">
-      <button class="pp-box pp-tile" data-tone="orange" aria-pressed="false" aria-labelledby="inv-4"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1h3v1h1v1h1v2h1v1h1v1h1v1h1v1h-1v1H9V9H8V8H7v2H6V9H5V8h1V7H3V6H2V5H1V2h1zm1 2v2h2V3z"/></svg><span class="pp-tile-glint"></span></button>
-      <span class="pp-tile-label" id="inv-4" aria-hidden="true">Old key</span>
+    <li class="chu-tile-item">
+      <button class="chu-box chu-tile" data-tone="orange" aria-pressed="false" aria-labelledby="inv-4"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 1h3v1h1v1h1v2h1v1h1v1h1v1h1v1h-1v1H9V9H8V8H7v2H6V9H5V8h1V7H3V6H2V5H1V2h1zm1 2v2h2V3z"/></svg><span class="chu-tile-glint"></span></button>
+      <span class="chu-tile-label" id="inv-4" aria-hidden="true">Old key</span>
     </li>
-    <li class="pp-tile-item">
-      <button class="pp-box pp-tile" data-tone="purple" aria-pressed="false" aria-labelledby="inv-5"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3h6v1h1v1h1v1h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V5h1V4h1zm1 1v1h1V4zm3 0v1h1V4zM4 6v2h1V6zm3 0v2h1V6z"/></svg><span class="pp-tile-glint"></span></button>
-      <span class="pp-tile-label" id="inv-5" aria-hidden="true">Gem</span>
+    <li class="chu-tile-item">
+      <button class="chu-box chu-tile" data-tone="purple" aria-pressed="false" aria-labelledby="inv-5"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 3h6v1h1v1h1v1h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V5h1V4h1zm1 1v1h1V4zm3 0v1h1V4zM4 6v2h1V6zm3 0v2h1V6z"/></svg><span class="chu-tile-glint"></span></button>
+      <span class="chu-tile-label" id="inv-5" aria-hidden="true">Gem</span>
     </li>
-    <li class="pp-tile-item">
-      <button class="pp-box pp-tile" data-tone="yellow" aria-pressed="false" aria-labelledby="inv-6"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v1h1v6H9v1H8v1H4v-1H3V9H2V3h1V2h1zm3 2v6h1V3z"/></svg><span class="pp-tile-glint"></span></button>
-      <span class="pp-tile-label" id="inv-6" aria-hidden="true">120 coins</span>
+    <li class="chu-tile-item">
+      <button class="chu-box chu-tile" data-tone="yellow" aria-pressed="false" aria-labelledby="inv-6"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v1h1v6H9v1H8v1H4v-1H3V9H2V3h1V2h1zm3 2v6h1V3z"/></svg><span class="chu-tile-glint"></span></button>
+      <span class="chu-tile-label" id="inv-6" aria-hidden="true">120 coins</span>
     </li>
-    <li class="pp-tile-item">
-      <button class="pp-box pp-tile" data-tone="green" aria-pressed="false" aria-labelledby="inv-7"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h2v8H3v1H2v1H1V3h1V2h1zm7 0h1v8h-1v1H9v1H6V2h1v1h2V2h1z"/></svg><span class="pp-tile-glint"></span></button>
-      <span class="pp-tile-label" id="inv-7" aria-hidden="true">Map</span>
+    <li class="chu-tile-item">
+      <button class="chu-box chu-tile" data-tone="green" aria-pressed="false" aria-labelledby="inv-7"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h2v8H3v1H2v1H1V3h1V2h1zm7 0h1v8h-1v1H9v1H6V2h1v1h2V2h1z"/></svg><span class="chu-tile-glint"></span></button>
+      <span class="chu-tile-label" id="inv-7" aria-hidden="true">Map</span>
     </li>
-    <li class="pp-tile-item">
-      <button class="pp-box pp-tile" data-tone="teal" aria-disabled="true" aria-labelledby="inv-8"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3h1v6H2V5h1V2h1zm1 2v2h2V3zm0 4v2h2V7z"/></svg></button>
-      <span class="pp-tile-label" id="inv-8" aria-hidden="true">Locked</span>
+    <li class="chu-tile-item">
+      <button class="chu-box chu-tile" data-tone="teal" aria-disabled="true" aria-labelledby="inv-8"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3h1v6H2V5h1V2h1zm1 2v2h2V3zm0 4v2h2V7z"/></svg></button>
+      <span class="chu-tile-label" id="inv-8" aria-hidden="true">Locked</span>
     </li>
-    <li class="pp-tile-item">
-      <span class="pp-box pp-tile" data-variant="outline" role="img" aria-labelledby="inv-9"></span>
-      <span class="pp-tile-label pp-muted" id="inv-9" aria-hidden="true">Empty</span>
-    </li>
-  </ul>
-</pp-tile-grid>
-
-<div class="pp-tile-grid" style="margin-block-start:calc(10*var(--pp-pixel))">
-  <div class="pp-tile-item"><span class="pp-box pp-tile" data-tone="red"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></span><span class="pp-tile-label">Rest</span></div>
-  <div class="pp-tile-item"><span class="pp-box pp-tile" data-tone="red" data-pp-state="hover"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></span><span class="pp-tile-label">Hover</span></div>
-  <div class="pp-tile-item"><span class="pp-box pp-tile" data-tone="red" data-pp-state="focus"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></span><span class="pp-tile-label">Focus</span></div>
-  <div class="pp-tile-item"><span class="pp-box pp-tile" data-tone="red" data-pp-state="active"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></span><span class="pp-tile-label">Pressed</span></div>
-  <div class="pp-tile-item"><span class="pp-box pp-tile" data-tone="red" data-selected><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></span><span class="pp-tile-label">Selected</span></div>
-  <div class="pp-tile-item"><span class="pp-box pp-tile" data-tone="red" data-selected data-pp-state="focus"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></span><span class="pp-tile-label">Selected, focus</span></div>
-  <div class="pp-tile-item"><span class="pp-box pp-tile" data-tone="red" aria-disabled="true"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></span><span class="pp-tile-label">Disabled</span></div>
-</div>
-
-<div class="pp-tile-grid" style="margin-block-start:calc(6*var(--pp-pixel));align-items:end">
-  <div class="pp-tile-item"><span class="pp-box pp-tile" data-size="sm" data-tone="green"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg></span><span class="pp-tile-label">Small</span></div>
-  <div class="pp-tile-item"><span class="pp-box pp-tile" data-tone="green"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg></span><span class="pp-tile-label">Medium</span></div>
-  <div class="pp-tile-item"><span class="pp-box pp-tile" data-size="lg" data-tone="green"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg></span><span class="pp-tile-label">Large</span></div>
-  <div class="pp-tile-item"><span class="pp-box pp-tile" data-tone="green" data-variant="soft"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg></span><span class="pp-tile-label">Soft</span></div>
-  <div class="pp-tile-item"><span class="pp-box pp-tile" data-tone="green" data-variant="soft" data-selected><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg></span><span class="pp-tile-label">Soft, selected</span></div>
-  <div class="pp-tile-item"><span class="pp-box pp-tile" data-variant="outline"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg></span><span class="pp-tile-label">Outline</span></div>
-  <div class="pp-tile-item"><span class="pp-box pp-tile" data-variant="outline" data-selected><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg></span><span class="pp-tile-label">Outline, selected</span></div>
-</div>
-
-<h3 class="pp-label pp-muted" id="apps-title" style="margin-block:calc(10*var(--pp-pixel)) calc(2*var(--pp-pixel))">Launcher: names show for the active tile</h3>
-<pp-tile-grid selection="follow">
-  <ul class="pp-tile-grid" role="list" aria-labelledby="apps-title" data-size="lg">
-    <li class="pp-tile-item" data-label="tooltip">
-      <a class="pp-box pp-tile" data-tone="green" href="#play" aria-current="true" aria-labelledby="app-1"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 2h2v1h2v1h2v1h2v2H9v1H7v1H5v1H3z"/></svg><span class="pp-tile-glint"></span></a>
-      <span class="pp-box pp-tile-label" id="app-1" aria-hidden="true">Play</span>
-    </li>
-    <li class="pp-tile-item" data-label="tooltip">
-      <a class="pp-box pp-tile" data-tone="pink" href="#music" aria-labelledby="app-2"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h7v7H9v1H6V7h1V6h1V3H5v7H4v1H1V9h1V8h1z"/></svg><span class="pp-tile-glint"></span></a>
-      <span class="pp-box pp-tile-label" id="app-2" aria-hidden="true">Music</span>
-    </li>
-    <li class="pp-tile-item" data-label="tooltip">
-      <a class="pp-box pp-tile" data-tone="blue" href="#shop" aria-labelledby="app-3"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h6v2h2v8H1V3h2zm2 1v1h2V2z"/></svg><span class="pp-tile-glint"></span></a>
-      <span class="pp-box pp-tile-label" id="app-3" aria-hidden="true">Shop</span>
-    </li>
-    <li class="pp-tile-item" data-label="tooltip">
-      <a class="pp-box pp-tile" data-tone="purple" href="#trophies" aria-labelledby="app-4"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v3h-1v1H9v1H8v1H7v2h2v2H3V9h2V7H4V6H3V5H2V4H1zm1 1v2h1V2zm7 0v2h1V2z"/></svg><span class="pp-tile-glint"></span></a>
-      <span class="pp-box pp-tile-label" id="app-4" aria-hidden="true">Trophies</span>
-    </li>
-    <li class="pp-tile-item" data-label="tooltip">
-      <a class="pp-box pp-tile" data-tone="slate" href="#settings" aria-labelledby="app-5"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v2h1V2h2v2h-1v1h1v2h-1v1h1v2H9V9H8v2H4V9H3v1H1V8h1V7H1V5h1V4H1V2h2v1h1zm1 3v1H4v2h1v1h2V7h1V5H7V4z"/></svg><span class="pp-tile-glint"></span></a>
-      <span class="pp-box pp-tile-label" id="app-5" aria-hidden="true">Settings</span>
+    <li class="chu-tile-item">
+      <span class="chu-box chu-tile" data-variant="outline" role="img" aria-labelledby="inv-9"></span>
+      <span class="chu-tile-label chu-muted" id="inv-9" aria-hidden="true">Empty</span>
     </li>
   </ul>
-</pp-tile-grid>
+</chu-tile-grid>
+
+<div class="chu-tile-grid" style="margin-block-start:calc(10*var(--chu-pixel))">
+  <div class="chu-tile-item"><span class="chu-box chu-tile" data-tone="red"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></span><span class="chu-tile-label">Rest</span></div>
+  <div class="chu-tile-item"><span class="chu-box chu-tile" data-tone="red" data-chu-state="hover"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></span><span class="chu-tile-label">Hover</span></div>
+  <div class="chu-tile-item"><span class="chu-box chu-tile" data-tone="red" data-chu-state="focus"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></span><span class="chu-tile-label">Focus</span></div>
+  <div class="chu-tile-item"><span class="chu-box chu-tile" data-tone="red" data-chu-state="active"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></span><span class="chu-tile-label">Pressed</span></div>
+  <div class="chu-tile-item"><span class="chu-box chu-tile" data-tone="red" data-selected><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></span><span class="chu-tile-label">Selected</span></div>
+  <div class="chu-tile-item"><span class="chu-box chu-tile" data-tone="red" data-selected data-chu-state="focus"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></span><span class="chu-tile-label">Selected, focus</span></div>
+  <div class="chu-tile-item"><span class="chu-box chu-tile" data-tone="red" aria-disabled="true"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></span><span class="chu-tile-label">Disabled</span></div>
+</div>
+
+<div class="chu-tile-grid" style="margin-block-start:calc(6*var(--chu-pixel));align-items:end">
+  <div class="chu-tile-item"><span class="chu-box chu-tile" data-size="sm" data-tone="green"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg></span><span class="chu-tile-label">Small</span></div>
+  <div class="chu-tile-item"><span class="chu-box chu-tile" data-tone="green"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg></span><span class="chu-tile-label">Medium</span></div>
+  <div class="chu-tile-item"><span class="chu-box chu-tile" data-size="lg" data-tone="green"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg></span><span class="chu-tile-label">Large</span></div>
+  <div class="chu-tile-item"><span class="chu-box chu-tile" data-tone="green" data-variant="soft"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg></span><span class="chu-tile-label">Soft</span></div>
+  <div class="chu-tile-item"><span class="chu-box chu-tile" data-tone="green" data-variant="soft" data-selected><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg></span><span class="chu-tile-label">Soft, selected</span></div>
+  <div class="chu-tile-item"><span class="chu-box chu-tile" data-variant="outline"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg></span><span class="chu-tile-label">Outline</span></div>
+  <div class="chu-tile-item"><span class="chu-box chu-tile" data-variant="outline" data-selected><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg></span><span class="chu-tile-label">Outline, selected</span></div>
+</div>
+
+<h3 class="chu-label chu-muted" id="apps-title" style="margin-block:calc(10*var(--chu-pixel)) calc(2*var(--chu-pixel))">Launcher: names show for the active tile</h3>
+<chu-tile-grid selection="follow">
+  <ul class="chu-tile-grid" role="list" aria-labelledby="apps-title" data-size="lg">
+    <li class="chu-tile-item" data-label="tooltip">
+      <a class="chu-box chu-tile" data-tone="green" href="#play" aria-current="true" aria-labelledby="app-1"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 2h2v1h2v1h2v1h2v2H9v1H7v1H5v1H3z"/></svg><span class="chu-tile-glint"></span></a>
+      <span class="chu-box chu-tile-label" id="app-1" aria-hidden="true">Play</span>
+    </li>
+    <li class="chu-tile-item" data-label="tooltip">
+      <a class="chu-box chu-tile" data-tone="pink" href="#music" aria-labelledby="app-2"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h7v7H9v1H6V7h1V6h1V3H5v7H4v1H1V9h1V8h1z"/></svg><span class="chu-tile-glint"></span></a>
+      <span class="chu-box chu-tile-label" id="app-2" aria-hidden="true">Music</span>
+    </li>
+    <li class="chu-tile-item" data-label="tooltip">
+      <a class="chu-box chu-tile" data-tone="blue" href="#shop" aria-labelledby="app-3"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h6v2h2v8H1V3h2zm2 1v1h2V2z"/></svg><span class="chu-tile-glint"></span></a>
+      <span class="chu-box chu-tile-label" id="app-3" aria-hidden="true">Shop</span>
+    </li>
+    <li class="chu-tile-item" data-label="tooltip">
+      <a class="chu-box chu-tile" data-tone="purple" href="#trophies" aria-labelledby="app-4"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v3h-1v1H9v1H8v1H7v2h2v2H3V9h2V7H4V6H3V5H2V4H1zm1 1v2h1V2zm7 0v2h1V2z"/></svg><span class="chu-tile-glint"></span></a>
+      <span class="chu-box chu-tile-label" id="app-4" aria-hidden="true">Trophies</span>
+    </li>
+    <li class="chu-tile-item" data-label="tooltip">
+      <a class="chu-box chu-tile" data-tone="slate" href="#settings" aria-labelledby="app-5"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v2h1V2h2v2h-1v1h1v2h-1v1h1v2H9V9H8v2H4V9H3v1H1V8h1V7H1V5h1V4H1V2h2v1h1zm1 3v1H4v2h1v1h2V7h1V5H7V4z"/></svg><span class="chu-tile-glint"></span></a>
+      <span class="chu-box chu-tile-label" id="app-5" aria-hidden="true">Settings</span>
+    </li>
+  </ul>
+</chu-tile-grid>

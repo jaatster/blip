@@ -2,7 +2,7 @@
 name: Inventory
 package: "@jaatster/blip-game"
 css: inventory.css
-element: pp-inventory
+element: chu-inventory
 react: Inventory
 status: beta
 ---
@@ -15,37 +15,37 @@ Pair it with a panel that describes the selected item.
 ## Usage
 
 ```html
-<pp-inventory class="pp-inventory" aria-label="Backpack" style="--pp-inventory-columns: 5">
-  <button type="button" class="pp-box pp-slot" data-variant="soft" aria-label="Red potion, 3">
-    <pp-sprite name="potion"></pp-sprite>
-    <span class="pp-slot-count pp-display pp-pop" data-scale="1" aria-hidden="true">3</span>
+<chu-inventory class="chu-inventory" aria-label="Backpack" style="--chu-inventory-columns: 5">
+  <button type="button" class="chu-box chu-slot" data-variant="soft" aria-label="Red potion, 3">
+    <chu-sprite name="potion"></chu-sprite>
+    <span class="chu-slot-count chu-display chu-pop" data-scale="1" aria-hidden="true">3</span>
   </button>
-  <button type="button" class="pp-box pp-slot" data-variant="soft" data-rarity="rare"
+  <button type="button" class="chu-box chu-slot" data-variant="soft" data-rarity="rare"
           aria-selected="true" aria-label="Moon key, rare">
-    <pp-sprite name="key" data-tone="blue"></pp-sprite>
+    <chu-sprite name="key" data-tone="blue"></chu-sprite>
   </button>
-  <button type="button" class="pp-box pp-slot" data-variant="soft" data-rarity="uncommon"
+  <button type="button" class="chu-box chu-slot" data-variant="soft" data-rarity="uncommon"
           aria-label="Reed sword, uncommon, equipped">
-    <pp-sprite name="sword" data-tone="green"></pp-sprite>
-    <span class="pp-box pp-slot-tag" data-tone="neutral" aria-hidden="true">E</span>
+    <chu-sprite name="sword" data-tone="green"></chu-sprite>
+    <span class="chu-box chu-slot-tag" data-tone="neutral" aria-hidden="true">E</span>
   </button>
-  <button type="button" class="pp-box pp-slot" data-variant="outline" aria-label="Empty"></button>
-</pp-inventory>
+  <button type="button" class="chu-box chu-slot" data-variant="outline" aria-label="Empty"></button>
+</chu-inventory>
 ```
 
 ```js
 import "@jaatster/blip-game/inventory";
-bag.addEventListener("pp-select", (e) => showDetails(e.detail.item));
+bag.addEventListener("chu-select", (e) => showDetails(e.detail.item));
 ```
 
 Slots a framework renders after the element upgrades become options and join the keys as they arrive.
 
 ## Anatomy
 
-1. **Grid** (`.pp-inventory`): `--pp-inventory-columns` slots across; each slot `--pp-inventory-slot` pixels square (24).
-2. **Slot** (`.pp-slot`): a soft candy box, radius 3, holding one sprite.
-3. **Count** (`.pp-slot-count`): Pixel Bop digits in POP, bottom corner.
-4. **Tag** (`.pp-slot-tag`): a tiny candy label on the top corner: "E" for equipped, "New".
+1. **Grid** (`.chu-inventory`): `--chu-inventory-columns` slots across; each slot `--chu-inventory-slot` pixels square (24).
+2. **Slot** (`.chu-slot`): a soft candy box, radius 3, holding one sprite.
+3. **Count** (`.chu-slot-count`): Pixel Bop digits in POP, bottom corner.
+4. **Tag** (`.chu-slot-tag`): a tiny candy label on the top corner: "E" for equipped, "New".
 
 ## Variants
 
@@ -67,7 +67,7 @@ Slots a framework renders after the element upgrades become options and join the
 
 ## Accessibility
 
-- `pp-inventory` is a single-select `listbox`; each slot is a `<button role="option">` with `aria-selected`.
+- `chu-inventory` is a single-select `listbox`; each slot is a `<button role="option">` with `aria-selected`.
 - **Keyboard:** one slot is in the tab order. **Left** and **Right** move along, **Up** and **Down** move a whole row
   (however many columns the grid has at its current width), **Home** and **End** jump to the ends, typing a letter
   jumps to the next item whose name starts with it, **Enter** or **Space** selects.
@@ -89,8 +89,8 @@ Item names in sentence case; counts as plain numbers. Keep descriptions for the 
 |---|---|
 | `slots` | The slots, in order. |
 | `selected` | The selected slot, if any. |
-| `select(slotOrIndex)` | Selects a slot and sends `pp-select`. |
+| `select(slotOrIndex)` | Selects a slot and sends `chu-select`. |
 
 | Event | `detail` | When |
 |---|---|---|
-| `pp-select` | `{ item, index, value }` | A slot was selected; `value` is its `value`, `data-value` or name. |
+| `chu-select` | `{ item, index, value }` | A slot was selected; `value` is its `value`, `data-value` or name. |

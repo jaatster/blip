@@ -1,138 +1,138 @@
 /*
  * Stage. A game screen for a HUD, a menu or a map to sit on: a positioned frame with a pastel sky and a ground strip.
- * Put <pp-world> from @jaatster/blip-effects inside for the full dithered world. Without it, and before it draws, the
+ * Put <chu-world> from @jaatster/blip-effects inside for the full dithered world. Without it, and before it draws, the
  * sky is the scheme's world palette in hard bands, dithered where they meet: never a smooth gradient.
  *
- *   <section class="pp-stage" data-frame aria-label="Puddle Path">
- *     <pp-world></pp-world>
- *     <div class="pp-hud">…</div>
- *     <div class="pp-stage-ground"></div>
+ *   <section class="chu-stage" data-frame aria-label="Puddle Path">
+ *     <chu-world></chu-world>
+ *     <div class="chu-hud">…</div>
+ *     <div class="chu-stage-ground"></div>
  *   </section>
  *
- *   .pp-stage-ground       grass, a lip, and dirt with pebbles along the bottom (--pp-stage-ground: 16 pixels)
- *   --pp-stage-band        each sky band's height in pixels (12), counted up from the horizon
+ *   .chu-stage-ground       grass, a lip, and dirt with pebbles along the bottom (--chu-stage-ground: 16 pixels)
+ *   --chu-stage-band        each sky band's height in pixels (12), counted up from the horizon
  *   data-frame             an ink edge and a drop, for a screen set into a page
- *   .pp-stage > .pp-scrim  the dithered ink scrim over everything: a pause, a menu
- *   data-pp-scheme         a stage can carry its own scheme, like any element
+ *   .chu-stage > .chu-scrim  the dithered ink scrim over everything: a pause, a menu
+ *   data-chu-scheme         a stage can carry its own scheme, like any element
  *
  * A stage is a size container (it takes the width it is given; it cannot grow to fit its content). On a narrow one,
  * display text on it steps down a whole scale: at most 2 when its content box is under 480 px, and 1 under 320 px
  * (a phone).
  */
 
-@layer pp.kits {
+@layer chu.kits {
   /* The world palette of the nearest scheme, set where the scheme is set so the closest one wins. */
-  :root, [data-pp-scheme="day"] {
-    --pp-stage-sky-1: var(--pp-world-day-sky-1); --pp-stage-sky-2: var(--pp-world-day-sky-2); --pp-stage-sky-3: var(--pp-world-day-sky-3);
-    --pp-stage-sky-4: var(--pp-world-day-sky-4); --pp-stage-sky-5: var(--pp-world-day-sky-5); --pp-stage-sky-6: var(--pp-world-day-sky-6);
-    --pp-stage-grass-top: var(--pp-world-day-grass-top); --pp-stage-grass: var(--pp-world-day-grass); --pp-stage-grass-lip: var(--pp-world-day-grass-lip);
-    --pp-stage-dirt: var(--pp-world-day-dirt); --pp-stage-dirt-shadow: var(--pp-world-day-dirt-shadow); --pp-stage-pebble: var(--pp-world-day-dirt-pebble);
+  :root, [data-chu-scheme="day"] {
+    --chu-stage-sky-1: var(--chu-world-day-sky-1); --chu-stage-sky-2: var(--chu-world-day-sky-2); --chu-stage-sky-3: var(--chu-world-day-sky-3);
+    --chu-stage-sky-4: var(--chu-world-day-sky-4); --chu-stage-sky-5: var(--chu-world-day-sky-5); --chu-stage-sky-6: var(--chu-world-day-sky-6);
+    --chu-stage-grass-top: var(--chu-world-day-grass-top); --chu-stage-grass: var(--chu-world-day-grass); --chu-stage-grass-lip: var(--chu-world-day-grass-lip);
+    --chu-stage-dirt: var(--chu-world-day-dirt); --chu-stage-dirt-shadow: var(--chu-world-day-dirt-shadow); --chu-stage-pebble: var(--chu-world-day-dirt-pebble);
   }
-  [data-pp-scheme="sunset"] {
-    --pp-stage-sky-1: var(--pp-world-sunset-sky-1); --pp-stage-sky-2: var(--pp-world-sunset-sky-2); --pp-stage-sky-3: var(--pp-world-sunset-sky-3);
-    --pp-stage-sky-4: var(--pp-world-sunset-sky-4); --pp-stage-sky-5: var(--pp-world-sunset-sky-5); --pp-stage-sky-6: var(--pp-world-sunset-sky-6);
-    --pp-stage-grass-top: var(--pp-world-sunset-grass-top); --pp-stage-grass: var(--pp-world-sunset-grass); --pp-stage-grass-lip: var(--pp-world-sunset-grass-lip);
-    --pp-stage-dirt: var(--pp-world-sunset-dirt); --pp-stage-dirt-shadow: var(--pp-world-sunset-dirt-shadow); --pp-stage-pebble: var(--pp-world-sunset-dirt-pebble);
+  [data-chu-scheme="sunset"] {
+    --chu-stage-sky-1: var(--chu-world-sunset-sky-1); --chu-stage-sky-2: var(--chu-world-sunset-sky-2); --chu-stage-sky-3: var(--chu-world-sunset-sky-3);
+    --chu-stage-sky-4: var(--chu-world-sunset-sky-4); --chu-stage-sky-5: var(--chu-world-sunset-sky-5); --chu-stage-sky-6: var(--chu-world-sunset-sky-6);
+    --chu-stage-grass-top: var(--chu-world-sunset-grass-top); --chu-stage-grass: var(--chu-world-sunset-grass); --chu-stage-grass-lip: var(--chu-world-sunset-grass-lip);
+    --chu-stage-dirt: var(--chu-world-sunset-dirt); --chu-stage-dirt-shadow: var(--chu-world-sunset-dirt-shadow); --chu-stage-pebble: var(--chu-world-sunset-dirt-pebble);
   }
-  [data-pp-scheme="night"] {
-    --pp-stage-sky-1: var(--pp-world-night-sky-1); --pp-stage-sky-2: var(--pp-world-night-sky-2); --pp-stage-sky-3: var(--pp-world-night-sky-3);
-    --pp-stage-sky-4: var(--pp-world-night-sky-4); --pp-stage-sky-5: var(--pp-world-night-sky-5); --pp-stage-sky-6: var(--pp-world-night-sky-6);
-    --pp-stage-grass-top: var(--pp-world-night-grass-top); --pp-stage-grass: var(--pp-world-night-grass); --pp-stage-grass-lip: var(--pp-world-night-grass-lip);
-    --pp-stage-dirt: var(--pp-world-night-dirt); --pp-stage-dirt-shadow: var(--pp-world-night-dirt-shadow); --pp-stage-pebble: var(--pp-world-night-dirt-pebble);
+  [data-chu-scheme="night"] {
+    --chu-stage-sky-1: var(--chu-world-night-sky-1); --chu-stage-sky-2: var(--chu-world-night-sky-2); --chu-stage-sky-3: var(--chu-world-night-sky-3);
+    --chu-stage-sky-4: var(--chu-world-night-sky-4); --chu-stage-sky-5: var(--chu-world-night-sky-5); --chu-stage-sky-6: var(--chu-world-night-sky-6);
+    --chu-stage-grass-top: var(--chu-world-night-grass-top); --chu-stage-grass: var(--chu-world-night-grass); --chu-stage-grass-lip: var(--chu-world-night-grass-lip);
+    --chu-stage-dirt: var(--chu-world-night-dirt); --chu-stage-dirt-shadow: var(--chu-world-night-dirt-shadow); --chu-stage-pebble: var(--chu-world-night-dirt-pebble);
   }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-pp-scheme]) {
-      --pp-stage-sky-1: var(--pp-world-night-sky-1); --pp-stage-sky-2: var(--pp-world-night-sky-2); --pp-stage-sky-3: var(--pp-world-night-sky-3);
-      --pp-stage-sky-4: var(--pp-world-night-sky-4); --pp-stage-sky-5: var(--pp-world-night-sky-5); --pp-stage-sky-6: var(--pp-world-night-sky-6);
-      --pp-stage-grass-top: var(--pp-world-night-grass-top); --pp-stage-grass: var(--pp-world-night-grass); --pp-stage-grass-lip: var(--pp-world-night-grass-lip);
-      --pp-stage-dirt: var(--pp-world-night-dirt); --pp-stage-dirt-shadow: var(--pp-world-night-dirt-shadow); --pp-stage-pebble: var(--pp-world-night-dirt-pebble);
+    :root:not([data-chu-scheme]) {
+      --chu-stage-sky-1: var(--chu-world-night-sky-1); --chu-stage-sky-2: var(--chu-world-night-sky-2); --chu-stage-sky-3: var(--chu-world-night-sky-3);
+      --chu-stage-sky-4: var(--chu-world-night-sky-4); --chu-stage-sky-5: var(--chu-world-night-sky-5); --chu-stage-sky-6: var(--chu-world-night-sky-6);
+      --chu-stage-grass-top: var(--chu-world-night-grass-top); --chu-stage-grass: var(--chu-world-night-grass); --chu-stage-grass-lip: var(--chu-world-night-grass-lip);
+      --chu-stage-dirt: var(--chu-world-night-dirt); --chu-stage-dirt-shadow: var(--chu-world-night-dirt-shadow); --chu-stage-pebble: var(--chu-world-night-dirt-pebble);
     }
   }
 
-  .pp-stage {
-    --_p: var(--pp-pixel);
-    --_b: var(--pp-stage-band, 12);
-    --_g: var(--pp-stage-ground, 16);
+  .chu-stage {
+    --_p: var(--chu-pixel);
+    --_b: var(--chu-stage-band, 12);
+    --_g: var(--chu-stage-ground, 16);
     --_row: calc(2 * var(--_p)) var(--_p) repeat-x;
-    container: pp-stage / inline-size;
+    container: chu-stage / inline-size;
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    color: var(--pp-text);
+    color: var(--chu-text);
     /* Six bands up from the horizon. Where two meet, each pokes a checkerboard row into the other. */
     background:
-      linear-gradient(to right, var(--pp-stage-sky-6) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + var(--_b)) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--pp-stage-sky-5) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + var(--_b) - 1) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--pp-stage-sky-5) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 2 * var(--_b)) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--pp-stage-sky-4) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 2 * var(--_b) - 1) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--pp-stage-sky-4) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 3 * var(--_b)) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--pp-stage-sky-3) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 3 * var(--_b) - 1) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--pp-stage-sky-3) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 4 * var(--_b)) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--pp-stage-sky-2) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 4 * var(--_b) - 1) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--pp-stage-sky-2) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 5 * var(--_b)) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--pp-stage-sky-1) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 5 * var(--_b) - 1) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--chu-stage-sky-6) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + var(--_b)) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--chu-stage-sky-5) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + var(--_b) - 1) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--chu-stage-sky-5) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 2 * var(--_b)) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--chu-stage-sky-4) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 2 * var(--_b) - 1) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--chu-stage-sky-4) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 3 * var(--_b)) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--chu-stage-sky-3) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 3 * var(--_b) - 1) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--chu-stage-sky-3) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 4 * var(--_b)) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--chu-stage-sky-2) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 4 * var(--_b) - 1) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--chu-stage-sky-2) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 5 * var(--_b)) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--chu-stage-sky-1) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 5 * var(--_b) - 1) * var(--_p)) / var(--_row),
       linear-gradient(to top,
-        var(--pp-stage-sky-6) 0 calc((var(--_g) + var(--_b)) * var(--_p)),
-        var(--pp-stage-sky-5) 0 calc((var(--_g) + 2 * var(--_b)) * var(--_p)),
-        var(--pp-stage-sky-4) 0 calc((var(--_g) + 3 * var(--_b)) * var(--_p)),
-        var(--pp-stage-sky-3) 0 calc((var(--_g) + 4 * var(--_b)) * var(--_p)),
-        var(--pp-stage-sky-2) 0 calc((var(--_g) + 5 * var(--_b)) * var(--_p)),
-        var(--pp-stage-sky-1) 0);
+        var(--chu-stage-sky-6) 0 calc((var(--_g) + var(--_b)) * var(--_p)),
+        var(--chu-stage-sky-5) 0 calc((var(--_g) + 2 * var(--_b)) * var(--_p)),
+        var(--chu-stage-sky-4) 0 calc((var(--_g) + 3 * var(--_b)) * var(--_p)),
+        var(--chu-stage-sky-3) 0 calc((var(--_g) + 4 * var(--_b)) * var(--_p)),
+        var(--chu-stage-sky-2) 0 calc((var(--_g) + 5 * var(--_b)) * var(--_p)),
+        var(--chu-stage-sky-1) 0);
   }
-  .pp-stage:not(:has(> .pp-stage-ground)) { --_g: 0; }
-  .pp-stage[data-frame] {
-    box-shadow: 0 0 0 var(--_p) var(--pp-outline), var(--_p) var(--_p) 0 var(--_p) var(--pp-drop);
+  .chu-stage:not(:has(> .chu-stage-ground)) { --_g: 0; }
+  .chu-stage[data-frame] {
+    box-shadow: 0 0 0 var(--_p) var(--chu-outline), var(--_p) var(--_p) 0 var(--_p) var(--chu-drop);
     margin: var(--_p) calc(2 * var(--_p)) calc(2 * var(--_p)) var(--_p);
   }
-  .pp-stage > pp-world { position: absolute; inset: 0; z-index: -1; }
+  .chu-stage > chu-world { position: absolute; inset: 0; z-index: -1; }
   /* Until the world can draw, the stage's own banded sky shows, not a flat colour. */
-  .pp-stage > pp-world:not(:defined) { visibility: hidden; }
-  .pp-stage > .pp-scrim { position: absolute; inset: 0; }
+  .chu-stage > chu-world:not(:defined) { visibility: hidden; }
+  .chu-stage > .chu-scrim { position: absolute; inset: 0; }
 
   /* Display text never breaks inside a word or number: on a narrow stage it steps down a whole scale instead. */
-  @container pp-stage (width < 480px) { .pp-display:is([data-scale="3"], [data-scale="4"]) { --pp-scale: 2; font-feature-settings: "ss02"; } }
-  @container pp-stage (width < 320px) { .pp-display:not([data-scale="1"]) { --pp-scale: 1; font-feature-settings: normal; } }
+  @container chu-stage (width < 480px) { .chu-display:is([data-scale="3"], [data-scale="4"]) { --chu-scale: 2; font-feature-settings: "ss02"; } }
+  @container chu-stage (width < 320px) { .chu-display:not([data-scale="1"]) { --chu-scale: 1; font-feature-settings: normal; } }
 
   /* The ground: a light top row, grass, a darker lip, then dirt with pebbles; blades of grass poke up above it. */
-  .pp-stage-ground {
-    --_p: var(--pp-pixel);
+  .chu-stage-ground {
+    --_p: var(--chu-pixel);
     position: absolute;
     inset-inline: 0;
     inset-block-end: 0;
     z-index: -1;
-    block-size: calc(var(--pp-stage-ground, 16) * var(--_p));
+    block-size: calc(var(--chu-stage-ground, 16) * var(--_p));
     pointer-events: none;
     background:
-      linear-gradient(to right, transparent 0 calc(7 * var(--_p)), var(--pp-world-flower-1) 0 calc(8 * var(--_p)), transparent 0 calc(20 * var(--_p)), var(--pp-world-flower-3) 0 calc(21 * var(--_p)), transparent 0) 0 var(--_p) / calc(31 * var(--_p)) var(--_p) repeat-x,
-      linear-gradient(to right, transparent 0 calc(5 * var(--_p)), var(--pp-stage-pebble) 0 calc(7 * var(--_p)), transparent 0 calc(19 * var(--_p)), var(--pp-stage-pebble) 0 calc(20 * var(--_p)), transparent 0) 0 calc(8 * var(--_p)) / calc(29 * var(--_p)) var(--_p) repeat-x,
-      linear-gradient(to right, transparent 0 calc(13 * var(--_p)), var(--pp-stage-dirt-shadow) 0 calc(15 * var(--_p)), transparent 0) 0 calc(11 * var(--_p)) / calc(23 * var(--_p)) var(--_p) repeat-x,
-      linear-gradient(to right, transparent 0 calc(2 * var(--_p)), var(--pp-stage-pebble) 0 calc(3 * var(--_p)), transparent 0) 0 calc(13 * var(--_p)) / calc(17 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(7 * var(--_p)), var(--chu-world-flower-1) 0 calc(8 * var(--_p)), transparent 0 calc(20 * var(--_p)), var(--chu-world-flower-3) 0 calc(21 * var(--_p)), transparent 0) 0 var(--_p) / calc(31 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(5 * var(--_p)), var(--chu-stage-pebble) 0 calc(7 * var(--_p)), transparent 0 calc(19 * var(--_p)), var(--chu-stage-pebble) 0 calc(20 * var(--_p)), transparent 0) 0 calc(8 * var(--_p)) / calc(29 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(13 * var(--_p)), var(--chu-stage-dirt-shadow) 0 calc(15 * var(--_p)), transparent 0) 0 calc(11 * var(--_p)) / calc(23 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(2 * var(--_p)), var(--chu-stage-pebble) 0 calc(3 * var(--_p)), transparent 0) 0 calc(13 * var(--_p)) / calc(17 * var(--_p)) var(--_p) repeat-x,
       linear-gradient(to bottom,
-        var(--pp-stage-grass-top) 0 var(--_p),
-        var(--pp-stage-grass) 0 calc(4 * var(--_p)),
-        var(--pp-stage-grass-lip) 0 calc(5 * var(--_p)),
-        var(--pp-stage-dirt) 0 calc(100% - 2 * var(--_p)),
-        var(--pp-stage-dirt-shadow) 0);
+        var(--chu-stage-grass-top) 0 var(--_p),
+        var(--chu-stage-grass) 0 calc(4 * var(--_p)),
+        var(--chu-stage-grass-lip) 0 calc(5 * var(--_p)),
+        var(--chu-stage-dirt) 0 calc(100% - 2 * var(--_p)),
+        var(--chu-stage-dirt-shadow) 0);
   }
-  .pp-stage-ground::before {
+  .chu-stage-ground::before {
     content: "";
     position: absolute;
     inset-inline: 0;
     inset-block-end: 100%;
     block-size: calc(2 * var(--_p));
     background:
-      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--pp-stage-grass-top) 0 calc(4 * var(--_p)), transparent 0 calc(17 * var(--_p)), var(--pp-stage-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 0 / calc(23 * var(--_p)) var(--_p) repeat-x,
-      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--pp-stage-grass-top) 0 calc(5 * var(--_p)), transparent 0 calc(12 * var(--_p)), var(--pp-stage-grass-top) 0 calc(13 * var(--_p)), transparent 0 calc(16 * var(--_p)), var(--pp-stage-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 var(--_p) / calc(23 * var(--_p)) var(--_p) repeat-x;
+      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--chu-stage-grass-top) 0 calc(4 * var(--_p)), transparent 0 calc(17 * var(--_p)), var(--chu-stage-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 0 / calc(23 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--chu-stage-grass-top) 0 calc(5 * var(--_p)), transparent 0 calc(12 * var(--_p)), var(--chu-stage-grass-top) 0 calc(13 * var(--_p)), transparent 0 calc(16 * var(--_p)), var(--chu-stage-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 var(--_p) / calc(23 * var(--_p)) var(--_p) repeat-x;
   }
 
   @media (forced-colors: active) {
-    .pp-stage { background: Canvas; }
-    .pp-stage-ground { background: CanvasText; forced-color-adjust: none; }
-    .pp-stage-ground::before { display: none; }
+    .chu-stage { background: Canvas; }
+    .chu-stage-ground { background: CanvasText; forced-color-adjust: none; }
+    .chu-stage-ground::before { display: none; }
   }
   /* On paper: no sky and no ground (and no world: world.css), only what stands on the stage. */
   @media print {
-    .pp-stage { background: none; }
-    .pp-stage-ground { display: none; }
+    .chu-stage { background: none; }
+    .chu-stage-ground { display: none; }
   }
 }

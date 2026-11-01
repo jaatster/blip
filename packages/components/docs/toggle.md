@@ -20,9 +20,9 @@ the calm tiers fill with the soft accent.
 ## Usage
 
 ```html
-<button class="pp-box pp-button" type="button" aria-pressed="false">Show grid</button>
-<button class="pp-box pp-button" data-icon-only data-tone="pink" aria-pressed="true" aria-label="Favourite">
-  <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+<button class="chu-box chu-button" type="button" aria-pressed="false">Show grid</button>
+<button class="chu-box chu-button" data-icon-only data-tone="pink" aria-pressed="true" aria-label="Favourite">
+  <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
 </button>
 ```
 

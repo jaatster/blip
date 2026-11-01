@@ -1,12 +1,12 @@
 /**
- * blip/known-tokens: every var(--pp-…) names something that exists.
+ * blip/known-tokens: every var(--chu-…) names something that exists.
  *
- * A --pp-* custom property read with var() must be a token from @jaatster/blip-tokens (its manifest.json), a public
+ * A --chu-* custom property read with var() must be a token from @jaatster/blip-tokens (its manifest.json), a public
  * property of a Blip package (public-properties.json: the properties the packages declare, register with
  * @property, or document in their CSS headers and docs), or declared in the same stylesheet. Anything else is a typo
  * or an undocumented hook, and the message suggests the nearest names. Private names (--_*) are not checked.
  *
- * Options: true, or [true, { allow: ["--pp-my-thing", "/^--pp-app-/"] }].
+ * Options: true, or [true, { allow: ["--chu-my-thing", "/^--chu-app-/"] }].
  */
 import { createRequire } from "node:module";
 import stylelint from "stylelint";
@@ -47,7 +47,7 @@ const rule = (primary, secondary = {}) => (root, result) => {
   const local = new Set();
   // (A walker stops when its callback returns false: keep these as statements.)
   root.walkDecls((d) => {
-    if (d.prop.startsWith("--pp-")) local.add(d.prop);
+    if (d.prop.startsWith("--chu-")) local.add(d.prop);
   });
   root.walkAtRules("property", (a) => {
     local.add(a.params.trim());
@@ -58,7 +58,7 @@ const rule = (primary, secondary = {}) => (root, result) => {
     valueParser(decl.value).walk((n) => {
       if (n.type !== "function" || n.value.toLowerCase() !== "var") return;
       const name = n.nodes[0]?.value ?? "";
-      if (!name.startsWith("--pp-") || KNOWN.has(name) || local.has(name) || matches(secondary?.allow, name)) return;
+      if (!name.startsWith("--chu-") || KNOWN.has(name) || local.has(name) || matches(secondary?.allow, name)) return;
       const index = at + n.nodes[0].sourceIndex;
       stylelint.utils.report({ result, ruleName, node: decl, message: messages.unknown(name, nearest(name, KNOWN)), word: name, index, endIndex: index + name.length });
     });

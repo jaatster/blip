@@ -67,8 +67,8 @@ describe("tokens build: a clean build", () => {
   });
 
   it("only points var() at custom properties it declares", () => {
-    const declared = new Set([...css.matchAll(/(--pp-[\w-]+):/g)].map((m) => m[1]));
-    const used = new Set([...css.matchAll(/var\((--pp-[\w-]+)\)/g)].map((m) => m[1]));
+    const declared = new Set([...css.matchAll(/(--chu-[\w-]+):/g)].map((m) => m[1]));
+    const used = new Set([...css.matchAll(/var\((--chu-[\w-]+)\)/g)].map((m) => m[1]));
     expect([...used].filter((name) => !declared.has(name))).toEqual([]);
   });
 
@@ -78,14 +78,14 @@ describe("tokens build: a clean build", () => {
     const shared = manifest.filter((t) => !t.scheme && t.name !== "pixel").map((t) => t.name).sort();
     expect(Object.keys(tokens.shared).sort()).toEqual(shared);
     for (const scheme of ["day", "sunset", "night"]) expect(Object.keys(tokens.schemes[scheme]).sort(), scheme).toEqual(roles);
-    for (const t of manifest) expect(t.cssVar).toBe(`--pp-${t.name}`);
+    for (const t of manifest) expect(t.cssVar).toBe(`--chu-${t.name}`);
 
     const js = await import(pathToFileURL(join(copy.dir, "dist/js/index.js")).href);
     expect(js.shared).toEqual(tokens.shared);
     expect(js.schemes).toEqual(tokens.schemes);
     expect(js.pixel).toEqual(tokens.pixel);
     expect(js.schemeNames).toEqual(["day", "sunset", "night"]);
-    expect(js.cssVar("surface-raised")).toBe("var(--pp-surface-raised)");
+    expect(js.cssVar("surface-raised")).toBe("var(--chu-surface-raised)");
     expect(js.px("space-4")).toBe(8);
     expect(js.px("space-4", 3)).toBe(12);
   });
@@ -105,7 +105,7 @@ describe("tokens build: a clean build", () => {
     const day = read(copy, "android/res/values/blip_colors.xml");
     const night = read(copy, "android/res/values-night/blip_colors.xml");
     for (const t of roles) {
-      const name = `pp_${t.name.replaceAll("-", "_")}`;
+      const name = `chu_${t.name.replaceAll("-", "_")}`;
       expect(day, name).toContain(`<color name="${name}">`);
       expect(night, name).toContain(`<color name="${name}">`);
     }
@@ -146,23 +146,23 @@ describe("tokens build: the resolver", () => {
     const css = read(copy, "css/tokens.css");
     expect(new Set([schemes.day.bg, schemes.sunset.bg, schemes.night.bg]).size).toBe(3);
     // Day is the default: on :root and on its attribute. Night also answers the device's dark mode.
-    expect(css).toMatch(/:root, \[data-pp-scheme="day"\] \{[^}]*--pp-scheme: day;/);
-    expect(css).toMatch(/\[data-pp-scheme="night"\] \{[^}]*--pp-scheme: night;/);
-    expect(css).toMatch(/@media screen and \(prefers-color-scheme: dark\) \{\s*:root:not\(\[data-pp-scheme\]\) \{/);
+    expect(css).toMatch(/:root, \[data-chu-scheme="day"\] \{[^}]*--chu-scheme: day;/);
+    expect(css).toMatch(/\[data-chu-scheme="night"\] \{[^}]*--chu-scheme: night;/);
+    expect(css).toMatch(/@media screen and \(prefers-color-scheme: dark\) \{\s*:root:not\(\[data-chu-scheme\]\) \{/);
   });
 
   it("prints in Day: the other schemes and the dark mode are for screens", () => {
     const css = read(copy, "css/tokens.css");
-    expect(css).toMatch(/\n  :root, \[data-pp-scheme="day"\] \{/);
-    for (const scheme of ["sunset", "night"]) expect(css).toContain(`@media screen { [data-pp-scheme="${scheme}"] {`);
-    expect(css).not.toMatch(/\n  \[data-pp-scheme="(sunset|night)"\]/);
+    expect(css).toMatch(/\n  :root, \[data-chu-scheme="day"\] \{/);
+    for (const scheme of ["sunset", "night"]) expect(css).toContain(`@media screen { [data-chu-scheme="${scheme}"] {`);
+    expect(css).not.toMatch(/\n  \[data-chu-scheme="(sunset|night)"\]/);
   });
 
   it("gives sizes in px in tokens.json: the type sizes, rem in CSS, at the 16 px default", () => {
     const { shared } = json(copy, "json/tokens.json");
     const css = read(copy, "css/tokens.css");
     expect([shared["size-caption"], shared["size-body"], shared["size-title"]]).toEqual([12, 16, 22]);
-    expect(css).toContain("--pp-size-body: 1rem;");
+    expect(css).toContain("--chu-size-body: 1rem;");
     expect(shared["breakpoint-medium"]).toBe(600);
   });
 
@@ -181,11 +181,11 @@ describe("tokens build: the resolver", () => {
   it("takes the pixel size from the pixel context", () => {
     const css = read(copy, "css/tokens.css");
     expect(json(copy, "json/tokens.json").pixel).toEqual({ 2: 2, 3: 3, 4: 4 });
-    expect(css).toContain("--pp-pixel: 2px;");
-    expect(css).toContain('[data-pp-pixel="3"] { --pp-pixel: 3px; }');
-    expect(css).toContain('[data-pp-pixel="4"] { --pp-pixel: 4px; }');
+    expect(css).toContain("--chu-pixel: 2px;");
+    expect(css).toContain('[data-chu-pixel="3"] { --chu-pixel: 3px; }');
+    expect(css).toContain('[data-chu-pixel="4"] { --chu-pixel: 4px; }');
     // Sizes counted in pixels follow the pixel wherever it changes.
-    expect(css).toMatch(/:root, \[data-pp-pixel\] \{[^}]*--pp-space-4: calc\(4 \* var\(--pp-pixel\)\);/);
+    expect(css).toMatch(/:root, \[data-chu-pixel\] \{[^}]*--chu-space-4: calc\(4 \* var\(--chu-pixel\)\);/);
   });
 
   it("zeroes every duration under reduced motion", () => {
@@ -228,16 +228,16 @@ describe("tokens build: errors stop the build", () => {
   const DAY = "src/schemes/day.tokens.json";
   const COLOR = "src/primitives/color.tokens.json";
   const cases: { name: string; file: string; change?: (j: any) => void; raw?: string; code: string; spot: string; says: RegExp }[] = [
-    { name: "an alias to a token that does not exist", file: DAY, change: (j) => (j.bg.$value = "{world.day.nope}"), code: "PP-T051", spot: `${DAY} at /bg`, says: /"bg" points at "\{world\.day\.nope\}", which does not exist/ },
-    { name: "an alias cycle", file: DAY, change: (j) => ((j.bg.$value = "{surface.base}"), (j.surface.base.$value = "{bg}")), code: "PP-T050", spot: `${DAY} at /bg`, says: /Alias cycle: bg -> surface\.base -> bg/ },
-    { name: "an alias to a token of another type", file: DAY, change: (j) => (j.bg.$value = "{space.4}"), code: "PP-T052", spot: `${DAY} at /bg`, says: /"bg" is a color but points at a number/ },
-    { name: "a colour in the wrong form", file: COLOR, change: (j) => (j.white.$value = "#FFFFFF"), code: "PP-T030", spot: `${COLOR} at /white`, says: /A colour must be \{ colorSpace: "srgb"/ },
-    { name: "a hex that is not 6 digits", file: COLOR, change: (j) => (j.white.$value.hex = "#FFF"), code: "PP-T031", spot: `${COLOR} at /white`, says: /"#FFF" is not a 6-digit hex colour/ },
-    { name: "a hex that disagrees with its components", file: COLOR, change: (j) => (j.white.$value.hex = "#FF0000"), code: "PP-T032", spot: `${COLOR} at /white`, says: /hex #FF0000 and components \[1,1,1\] disagree/ },
-    { name: "an unknown $type", file: COLOR, change: (j) => (j.white.$type = "colour"), code: "PP-T021", spot: `${COLOR} at /white`, says: /Unknown \$type "colour"/ },
-    { name: "a size off the pixel grid", file: "src/primitives/size.tokens.json", change: (j) => (j.space["3"].$value = 2.5), code: "PP-T043", spot: "src/primitives/size.tokens.json at /space/3", says: /2\.5 pixels is off the grid/ },
-    { name: "a name with a dot", file: COLOR, change: (j) => (j["bad.name"] = { $value: srgb("#336699") }), code: "PP-T010", spot: COLOR, says: /"bad\.name" is not a valid token name/ },
-    { name: "a source that is not JSON", file: COLOR, raw: "{ not json", code: "PP-T001", spot: COLOR, says: /Could not read JSON/ },
+    { name: "an alias to a token that does not exist", file: DAY, change: (j) => (j.bg.$value = "{world.day.nope}"), code: "CHU-T051", spot: `${DAY} at /bg`, says: /"bg" points at "\{world\.day\.nope\}", which does not exist/ },
+    { name: "an alias cycle", file: DAY, change: (j) => ((j.bg.$value = "{surface.base}"), (j.surface.base.$value = "{bg}")), code: "CHU-T050", spot: `${DAY} at /bg`, says: /Alias cycle: bg -> surface\.base -> bg/ },
+    { name: "an alias to a token of another type", file: DAY, change: (j) => (j.bg.$value = "{space.4}"), code: "CHU-T052", spot: `${DAY} at /bg`, says: /"bg" is a color but points at a number/ },
+    { name: "a colour in the wrong form", file: COLOR, change: (j) => (j.white.$value = "#FFFFFF"), code: "CHU-T030", spot: `${COLOR} at /white`, says: /A colour must be \{ colorSpace: "srgb"/ },
+    { name: "a hex that is not 6 digits", file: COLOR, change: (j) => (j.white.$value.hex = "#FFF"), code: "CHU-T031", spot: `${COLOR} at /white`, says: /"#FFF" is not a 6-digit hex colour/ },
+    { name: "a hex that disagrees with its components", file: COLOR, change: (j) => (j.white.$value.hex = "#FF0000"), code: "CHU-T032", spot: `${COLOR} at /white`, says: /hex #FF0000 and components \[1,1,1\] disagree/ },
+    { name: "an unknown $type", file: COLOR, change: (j) => (j.white.$type = "colour"), code: "CHU-T021", spot: `${COLOR} at /white`, says: /Unknown \$type "colour"/ },
+    { name: "a size off the pixel grid", file: "src/primitives/size.tokens.json", change: (j) => (j.space["3"].$value = 2.5), code: "CHU-T043", spot: "src/primitives/size.tokens.json at /space/3", says: /2\.5 pixels is off the grid/ },
+    { name: "a name with a dot", file: COLOR, change: (j) => (j["bad.name"] = { $value: srgb("#336699") }), code: "CHU-T010", spot: COLOR, says: /"bad\.name" is not a valid token name/ },
+    { name: "a source that is not JSON", file: COLOR, raw: "{ not json", code: "CHU-T001", spot: COLOR, says: /Could not read JSON/ },
   ];
 
   it.each(cases)("$code: $name", ({ file, change, raw, code, spot, says }) => {
@@ -257,26 +257,26 @@ describe("tokens build: errors stop the build", () => {
     }
   });
 
-  it("PP-T002: a resolver of another version", () => {
+  it("CHU-T002: a resolver of another version", () => {
     const copy = tokensCopy();
     try {
       editJson(join(copy.dir, "blip.resolver.json"), (j) => (j.version = "2024.1"));
       const run = copy.build("--check");
       expect(run.status).toBe(1);
-      expect(run.stderr).toContain("PP-T002  blip.resolver.json at /version");
+      expect(run.stderr).toContain("CHU-T002  blip.resolver.json at /version");
       expect(run.stderr).toContain('Set "version": "2025.10".');
     } finally {
       copy.remove();
     }
   });
 
-  it("PP-T004: a modifier whose default is not one of its contexts", () => {
+  it("CHU-T004: a modifier whose default is not one of its contexts", () => {
     const copy = tokensCopy();
     try {
       editJson(join(copy.dir, "blip.resolver.json"), (j) => (j.modifiers.scheme.default = "dusk"));
       const run = copy.build("--check");
       expect(run.status).toBe(1);
-      expect(run.stderr).toContain("PP-T004  blip.resolver.json at /modifiers/scheme/default");
+      expect(run.stderr).toContain("CHU-T004  blip.resolver.json at /modifiers/scheme/default");
       expect(run.stderr).toContain("Use one of: day, sunset, night.");
     } finally {
       copy.remove();
@@ -290,8 +290,8 @@ describe("tokens build: errors stop the build", () => {
       const run = copy.build("--check");
       expect(run.status).toBe(1);
       expect(run.stderr).toMatch(/Blip tokens: \d+ problems/);
-      expect(run.stderr).toContain("PP-T031");
-      expect(run.stderr).toContain("PP-T021");
+      expect(run.stderr).toContain("CHU-T031");
+      expect(run.stderr).toContain("CHU-T021");
     } finally {
       copy.remove();
     }
@@ -299,14 +299,14 @@ describe("tokens build: errors stop the build", () => {
 });
 
 describe("tokens build: the contrast gate", () => {
-  it("PP-T060: fails on a text pair below WCAG AA, naming the scheme, the pair and the ratio", () => {
+  it("CHU-T060: fails on a text pair below WCAG AA, naming the scheme, the pair and the ratio", () => {
     const copy = tokensCopy();
     try {
       // Muted text as light as the page: unreadable.
       editJson(join(copy.dir, "src/schemes/day.tokens.json"), (j) => (j.text.muted.$value = "{white}"));
       const run = copy.build("--check");
       expect(run.status).toBe(1);
-      expect(run.stderr).toContain("PP-T060  src/schemes/day.tokens.json at /text/muted");
+      expect(run.stderr).toContain("CHU-T060  src/schemes/day.tokens.json at /text/muted");
       expect(run.stderr).toMatch(/day: text\.muted #FFFFFF on surface\.base #FFFFFF is 1\.00:1; it needs 4\.5:1\./);
       expect(run.stderr).toContain("WCAG 2.2 AA");
       // Only day changed: the other schemes still pass.
@@ -316,7 +316,7 @@ describe("tokens build: the contrast gate", () => {
     }
   });
 
-  it("PP-T060: holds candy labels to 4.5:1 too", () => {
+  it("CHU-T060: holds candy labels to 4.5:1 too", () => {
     const copy = tokensCopy();
     try {
       editJson(join(copy.dir, "src/schemes/night.tokens.json"), (j) => (j.danger.on.$value = "{candy.red.base}"));
@@ -328,14 +328,14 @@ describe("tokens build: the contrast gate", () => {
     }
   });
 
-  it("PP-T060: holds a candy's label to 4.5:1 on the dither over it when disabled", () => {
+  it("CHU-T060: holds a candy's label to 4.5:1 on the dither over it when disabled", () => {
     const copy = tokensCopy();
     try {
       // The page colour at Night as the dither: the ink label all but vanishes.
       editJson(join(copy.dir, "src/schemes/night.tokens.json"), (j) => (j.disabled.dither.$value = "{palette.night.bg}"));
       const run = copy.build("--check");
       expect(run.status).toBe(1);
-      expect(run.stderr).toContain("PP-T060  src/schemes/night.tokens.json at /disabled/dither");
+      expect(run.stderr).toContain("CHU-T060  src/schemes/night.tokens.json at /disabled/dither");
       expect(run.stderr).toMatch(/night: ink\.base #0D0D0D on disabled\.dither #171717 is 1\.08:1; it needs 4\.5:1\./);
       expect(run.stderr).toMatch(/night: accent\.on #0D0D0D on disabled\.dither #171717 is 1\.08:1/);
       // Every palette's Night fails the same way, each named; Day and Sunset are untouched.
@@ -346,26 +346,26 @@ describe("tokens build: the contrast gate", () => {
     }
   });
 
-  it("PP-T060: holds the neutral (cream) label to 4.5:1 on cream's own dither", () => {
+  it("CHU-T060: holds the neutral (cream) label to 4.5:1 on cream's own dither", () => {
     const copy = tokensCopy();
     try {
       editJson(join(copy.dir, "src/schemes/night.tokens.json"), (j) => (j.disabled["dither-cream"].$value = "{world.night.sky.2}"));
       const run = copy.build("--check");
       expect(run.status).toBe(1);
-      expect(run.stderr).toContain("PP-T060  src/schemes/night.tokens.json at /disabled/dither-cream");
+      expect(run.stderr).toContain("CHU-T060  src/schemes/night.tokens.json at /disabled/dither-cream");
       expect(run.stderr).toMatch(/night: ink\.base #0D0D0D on disabled\.dither-cream #222628 is 1\.27:1/);
     } finally {
       copy.remove();
     }
   });
 
-  it("PP-T061: fails when neither the yellow ring nor its ink edge stands out from the page", () => {
+  it("CHU-T061: fails when neither the yellow ring nor its ink edge stands out from the page", () => {
     const copy = tokensCopy();
     try {
       editJson(join(copy.dir, "src/schemes/day.tokens.json"), (j) => ((j.focus.base.$value = "{world.day.cloud.body}"), (j.focus.edge.$value = "{world.day.cloud.body}")));
       const run = copy.build("--check");
       expect(run.status).toBe(1);
-      expect(run.stderr).toContain("PP-T061  src/schemes/day.tokens.json at /focus");
+      expect(run.stderr).toContain("CHU-T061  src/schemes/day.tokens.json at /focus");
       expect(run.stderr).toMatch(/day: the focus ring is 1\.00:1 against the page\./);
     } finally {
       copy.remove();
@@ -396,22 +396,22 @@ describe("tokens build: palettes", () => {
     expect([day.ink, sunset.ink]).toEqual(["#1A1530", "#1A1530"]);
     expect(night.outline).toBe(night.ink);
     expect(tokens.shared.ink).toBeUndefined();
-    expect(css).toMatch(/\[data-pp-scheme="night"\] \{[^}]*--pp-ink: var\(--pp-palette-night-ink\);/);
+    expect(css).toMatch(/\[data-chu-scheme="night"\] \{[^}]*--chu-ink: var\(--chu-palette-night-ink\);/);
   });
 
   it("puts each preset in palettes.css on its attribute, setting only custom properties tokens.css has", () => {
     const presets = Object.keys(tokens.palettes);
     expect(presets).toEqual(["grape", "ember", "azure", "mint", "bubblegum", "dracula", "nord", "catppuccin", "gruvbox", "tokyo-night", "rose-pine"]);
-    const declared = new Set([...css.matchAll(/(--pp-[\w-]+):/g)].map((m) => m[1]));
+    const declared = new Set([...css.matchAll(/(--chu-[\w-]+):/g)].map((m) => m[1]));
     for (const p of presets) {
-      const block = new RegExp(`:root\\[data-pp-palette="${p}"\\], \\[data-pp-palette="${p}"\\] \\{([^}]*)\\}`).exec(palettes)?.[1] ?? "";
-      const names = [...block.matchAll(/(--pp-[\w-]+):/g)].map((m) => m[1]);
+      const block = new RegExp(`:root\\[data-chu-palette="${p}"\\], \\[data-chu-palette="${p}"\\] \\{([^}]*)\\}`).exec(palettes)?.[1] ?? "";
+      const names = [...block.matchAll(/(--chu-[\w-]+):/g)].map((m) => m[1]);
       expect(names.length, p).toBeGreaterThan(20);
-      expect(names.filter((n) => !declared.has(n) || !/^--pp-(palette|world-night)-/.test(n)), p).toEqual([]);
+      expect(names.filter((n) => !declared.has(n) || !/^--chu-(palette|world-night)-/.test(n)), p).toEqual([]);
     }
     // The schemes read the palette, so a preset recolours them where they are declared.
-    expect(css).toMatch(/\[data-pp-scheme="night"\] \{[^}]*--pp-bg: var\(--pp-palette-night-bg\);/);
-    expect(css).toMatch(/:root, \[data-pp-scheme="day"\] \{[^}]*--pp-accent: var\(--pp-palette-day-accent\);/);
+    expect(css).toMatch(/\[data-chu-scheme="night"\] \{[^}]*--chu-bg: var\(--chu-palette-night-bg\);/);
+    expect(css).toMatch(/:root, \[data-chu-scheme="day"\] \{[^}]*--chu-accent: var\(--chu-palette-day-accent\);/);
   });
 
   it("resolves every scheme in every preset, in the JSON and the JS module", async () => {
@@ -450,19 +450,19 @@ describe("tokens build: palettes", () => {
       expect(planted.build().status).toBe(0);
       const built = json(planted, "json/tokens.json");
       expect(built.palettes.mint.schemes.night["scene-sky-1"]).toBe(built.schemes.night["scene-sky-1"]);
-      expect(read(planted, "css/palettes.css")).not.toMatch(/\[data-pp-palette="mint"\] \{[^}]*--pp-world-night/);
+      expect(read(planted, "css/palettes.css")).not.toMatch(/\[data-chu-palette="mint"\] \{[^}]*--chu-world-night/);
     } finally {
       planted.remove();
     }
   });
 
-  it("PP-T060: checks a preset's contrast in every scheme, pointing at the preset's own file", () => {
+  it("CHU-T060: checks a preset's contrast in every scheme, pointing at the preset's own file", () => {
     const planted = tokensCopy();
     try {
       editJson(join(planted.dir, "src/palettes/ember.tokens.json"), (j) => (j.palette.night.text.muted.$value = srgb("#555555")));
       const run = planted.build("--check");
       expect(run.status).toBe(1);
-      expect(run.stderr).toContain("PP-T060  src/palettes/ember.tokens.json at /palette/night/text/muted");
+      expect(run.stderr).toContain("CHU-T060  src/palettes/ember.tokens.json at /palette/night/text/muted");
       expect(run.stderr).toMatch(/night \(ember\): text\.muted #555555 on bg #1E1E1E is 2\.24:1; it needs 4\.5:1\./);
       expect(run.stderr).not.toMatch(/^ {4}(day|sunset|night)( \((?!ember)[a-z-]+\))?: /m);
     } finally {
@@ -470,13 +470,13 @@ describe("tokens build: palettes", () => {
     }
   });
 
-  it("PP-T005: a preset that sets a token the default palette does not have", () => {
+  it("CHU-T005: a preset that sets a token the default palette does not have", () => {
     const planted = tokensCopy();
     try {
       editJson(join(planted.dir, "src/palettes/ember.tokens.json"), (j) => (j.palette.night.glow = { $value: srgb("#FF9900") }));
       const run = planted.build("--check");
       expect(run.status).toBe(1);
-      expect(run.stderr).toContain("PP-T005  src/palettes/ember.tokens.json at /palette/night/glow");
+      expect(run.stderr).toContain("CHU-T005  src/palettes/ember.tokens.json at /palette/night/glow");
       expect(run.stderr).toContain('Palette "ember" sets "palette.night.glow", which the default palette does not have.');
       expect(run.stderr).toMatch(/Fix: \S/);
     } finally {

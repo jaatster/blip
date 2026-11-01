@@ -3,106 +3,106 @@
  * controls. Calm by design: a white panel, line-soft dividers drawn as whole pixels, and ghost boxes for rows you
  * can press, so candy stays for the actions inside them.
  *
- *   <ul class="pp-box pp-list" role="list" data-dividers>
- *     <li class="pp-list-item">
- *       <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
- *       <div class="pp-list-content">
- *         <span class="pp-list-title">Music</span>
- *         <span class="pp-list-description">Chip tunes on the title screen</span>
+ *   <ul class="chu-box chu-list" role="list" data-dividers>
+ *     <li class="chu-list-item">
+ *       <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+ *       <div class="chu-list-content">
+ *         <span class="chu-list-title">Music</span>
+ *         <span class="chu-list-description">Chip tunes on the title screen</span>
  *       </div>
- *       <div class="pp-list-end"><button class="pp-box pp-button" data-size="sm" aria-pressed="true">On</button></div>
+ *       <div class="chu-list-end"><button class="chu-box chu-button" data-size="sm" aria-pressed="true">On</button></div>
  *     </li>
- *     <li><a class="pp-box pp-list-item" data-variant="ghost" href="/settings/controls">…</a></li>
+ *     <li><a class="chu-box chu-list-item" data-variant="ghost" href="/settings/controls">…</a></li>
  *   </ul>
  *
- *   .pp-box                             the list in a white panel (data-variant: panel by default, or soft, outline)
+ *   .chu-box                             the list in a white panel (data-variant: panel by default, or soft, outline)
  *   data-dividers                       a line-soft pixel line between rows
  *   data-density   compact                  tighter rows, for long lists and side panels
- *   a row that is a link or button      class="pp-box pp-list-item" data-variant="ghost" on the <a>/<button>, inside
+ *   a row that is a link or button      class="chu-box chu-list-item" data-variant="ghost" on the <a>/<button>, inside
  *                                       the <li>: hover fills it, focus rings it, aria-current marks the one you're on
  *
  * A row is either pressable as a whole or holds its own controls, never both: a button inside a link is invalid.
  */
 
-@layer pp.components {
-  .pp-list {
+@layer chu.components {
+  .chu-list {
     display: flex;
     flex-direction: column;
-    gap: var(--pp-pixel);
+    gap: var(--chu-pixel);
     margin: 0;
     padding: 0;
     list-style: none;
     min-inline-size: 0;
   }
   /* In a box: a white panel unless told otherwise, the rows clear of the outline and the stepped corners. */
-  .pp-list.pp-box { padding: calc(2 * var(--pp-pixel)); margin: 0 var(--pp-pixel) var(--pp-pixel) 0; }
-  .pp-list.pp-box:not([data-variant]) {
-    --pp-box-top: var(--pp-surface);
-    --pp-box-fill: var(--pp-surface);
-    --pp-box-bottom: var(--pp-surface);
-    --pp-box-text: var(--pp-text);
-    --pp-box-glint: transparent;
+  .chu-list.chu-box { padding: calc(2 * var(--chu-pixel)); margin: 0 var(--chu-pixel) var(--chu-pixel) 0; }
+  .chu-list.chu-box:not([data-variant]) {
+    --chu-box-top: var(--chu-surface);
+    --chu-box-fill: var(--chu-surface);
+    --chu-box-bottom: var(--chu-surface);
+    --chu-box-text: var(--chu-text);
+    --chu-box-glint: transparent;
   }
-  .pp-list > li { min-inline-size: 0; }
-  .pp-list[data-dividers] > li + li {
-    padding-block-start: var(--pp-pixel);
-    border-block-start: var(--pp-pixel) solid var(--pp-line-soft);
+  .chu-list > li { min-inline-size: 0; }
+  .chu-list[data-dividers] > li + li {
+    padding-block-start: var(--chu-pixel);
+    border-block-start: var(--chu-pixel) solid var(--chu-line-soft);
   }
 
-  .pp-list-item {
-    --pp-r: 3;
-    --pp-shape: var(--pp-shape-3);
-    --pp-shape-inner: var(--pp-shape-3-inner);
-    --_pad: calc(4 * var(--pp-pixel));
+  .chu-list-item {
+    --chu-r: 3;
+    --chu-shape: var(--chu-shape-3);
+    --chu-shape-inner: var(--chu-shape-3-inner);
+    --_pad: calc(4 * var(--chu-pixel));
     display: flex;
     align-items: center;
-    gap: var(--pp-space-6);
+    gap: var(--chu-space-6);
     box-sizing: border-box;
     inline-size: 100%;
-    min-block-size: calc(20 * var(--pp-pixel));
-    padding: var(--_pad) calc(6 * var(--pp-pixel));
-    font-family: var(--pp-font-ui);
-    font-size: var(--pp-size-body);
-    line-height: var(--pp-leading-tight);
+    min-block-size: calc(20 * var(--chu-pixel));
+    padding: var(--_pad) calc(6 * var(--chu-pixel));
+    font-family: var(--chu-font-ui);
+    font-size: var(--chu-size-body);
+    line-height: var(--chu-leading-tight);
     text-align: start;
     text-decoration: none;
     color: inherit;
   }
-  :is(a, button, label).pp-list-item { color: var(--pp-box-text); }
-  .pp-list[data-density="compact"] .pp-list-item {
-    --_pad: calc(2 * var(--pp-pixel));
-    gap: var(--pp-space-4);
-    min-block-size: calc(14 * var(--pp-pixel));
-    font-size: var(--pp-size-small);
+  :is(a, button, label).chu-list-item { color: var(--chu-box-text); }
+  .chu-list[data-density="compact"] .chu-list-item {
+    --_pad: calc(2 * var(--chu-pixel));
+    gap: var(--chu-space-4);
+    min-block-size: calc(14 * var(--chu-pixel));
+    font-size: var(--chu-size-small);
   }
 
-  .pp-list-item > :is(.pp-icon, .pp-avatar, img, svg) { flex: none; }
+  .chu-list-item > :is(.chu-icon, .chu-avatar, img, svg) { flex: none; }
   /* The title and description keep at least half the row; when the end needs more, its words wrap instead. */
-  .pp-list-content {
+  .chu-list-content {
     display: flex;
     flex-direction: column;
-    gap: var(--pp-space-1);
+    gap: var(--chu-space-1);
     flex: 1;
     min-inline-size: 50%;
   }
-  .pp-list-title { font-weight: var(--pp-weight-bold); overflow-wrap: anywhere; }
-  .pp-list-description {
-    font-size: var(--pp-size-small);
-    line-height: var(--pp-leading-tight);
-    color: var(--pp-text-muted);
+  .chu-list-title { font-weight: var(--chu-weight-bold); overflow-wrap: anywhere; }
+  .chu-list-description {
+    font-size: var(--chu-size-small);
+    line-height: var(--chu-leading-tight);
+    color: var(--chu-text-muted);
   }
-  .pp-list[data-density="compact"] .pp-list-description { font-size: var(--pp-size-caption); }
-  .pp-list-end {
+  .chu-list[data-density="compact"] .chu-list-description { font-size: var(--chu-size-caption); }
+  .chu-list-end {
     display: flex;
     flex: 0 1 auto;
     align-items: center;
-    gap: var(--pp-space-4);
+    gap: var(--chu-space-4);
     margin-inline-start: auto;
-    font-size: var(--pp-size-small);
+    font-size: var(--chu-size-small);
     font-variant-numeric: tabular-nums;
-    color: var(--pp-text-muted);
+    color: var(--chu-text-muted);
   }
 
   /* The row you are on, or a pressed row: ink text on the tone's light fill, so muted text goes ink too. */
-  .pp-list-item:is([aria-current]:not([aria-current="false"]), [aria-selected="true"], [aria-pressed="true"]) :is(.pp-list-description, .pp-list-end) { color: inherit; }
+  .chu-list-item:is([aria-current]:not([aria-current="false"]), [aria-selected="true"], [aria-pressed="true"]) :is(.chu-list-description, .chu-list-end) { color: inherit; }
 }

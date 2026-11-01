@@ -150,7 +150,7 @@ export function Forms() {
 }
 
 export function Overlays() {
-  const dialog = useRef<HTMLElementTagNameMap["pp-dialog"]>(null);
+  const dialog = useRef<HTMLElementTagNameMap["chu-dialog"]>(null);
   return (
     <>
       <Button type="button" commandFor="save" command="show-modal">
@@ -269,7 +269,7 @@ export function Game() {
           <Sprite name="potion" tone="blue" />
         </Slot>
       </Inventory>
-      <DropText className="pp-display pp-pop" scale={3} tone="pink" pop>
+      <DropText className="chu-display chu-pop" scale={3} tone="pink" pop>
         Blip
       </DropText>
       <Typewriter mood="sleepy" blips onTypewriterDone={() => console.log("typed")}>
@@ -330,7 +330,7 @@ export function Landing() {
   return (
     <>
       <Hero>
-        <World scheme="auto" parallax clouds="drift" avoid=".pp-hero-title, .pp-hero-lead, .pp-hero-actions" />
+        <World scheme="auto" parallax clouds="drift" avoid=".chu-hero-title, .chu-hero-lead, .chu-hero-actions" />
         <HeroInner>
           <HeroTitle>Blip</HeroTitle>
           <HeroLead>Candy on pastel.</HeroLead>
@@ -393,7 +393,7 @@ export function Refused() {
       <PaginationPage href="?page=5">5</PaginationPage>
       {/* @ts-expect-error: menus and palettes say an item ran with onAction, not onSelect */}
       <Menu onSelect={(e: CustomEvent<{ value: string }>) => e} />
-      {/* @ts-expect-error: pp-change carries a number here */}
+      {/* @ts-expect-error: chu-change carries a number here */}
       <Rating onChange={(e: CustomEvent<{ value: string }>) => e} />
       {/* @ts-expect-error: a tab list needs a name */}
       <TabList>

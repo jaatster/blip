@@ -3,111 +3,111 @@
  * words, actions, and a dismiss button if it can go away. Soft by default: the tone's light fill, an ink outline,
  * the tone's colour as a lip along the bottom.
  *
- *   <div class="pp-box pp-alert" data-tone="danger">
- *     <span class="pp-alert-icon" aria-hidden="true"></span>
- *     <div class="pp-alert-body">
- *       <p class="pp-alert-title">Can't reach the save server</p>
+ *   <div class="chu-box chu-alert" data-tone="danger">
+ *     <span class="chu-alert-icon" aria-hidden="true"></span>
+ *     <div class="chu-alert-body">
+ *       <p class="chu-alert-title">Can't reach the save server</p>
  *       <p>Your progress is safe on this device.</p>
- *       <div class="pp-alert-actions"><button class="pp-box pp-button" data-size="sm" data-variant="outline">Retry</button></div>
+ *       <div class="chu-alert-actions"><button class="chu-box chu-button" data-size="sm" data-variant="outline">Retry</button></div>
  *     </div>
- *     <button class="pp-box pp-button pp-alert-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button>
+ *     <button class="chu-box chu-button chu-alert-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
  *   </div>
  *
  *   data-tone      info (default) | success | warning | danger | neutral
  *   data-variant   soft (default) | candy | outline              loud to quiet
  *
  * The sign follows the tone: a disc with an i, a disc with a check, a triangle or an octagon with "!". Put an
- * <svg class="pp-icon"> inside .pp-alert-icon to use another. An alert is not a live region by itself: give
+ * <svg class="chu-icon"> inside .chu-alert-icon to use another. An alert is not a live region by itself: give
  * role="alert" (urgent) or role="status" (polite) only to one you insert in answer to something.
  */
 @import "./_feedback.css";
 
-@layer pp.components {
-  .pp-alert {
-    --_pp-glyph: var(--_pp-g-info);
+@layer chu.components {
+  .chu-alert {
+    --_chu-glyph: var(--_chu-g-info);
     display: flex;
     align-items: flex-start;
-    gap: calc(4 * var(--pp-pixel));
-    padding: calc(5 * var(--pp-pixel)) calc(5 * var(--pp-pixel)) calc(6 * var(--pp-pixel)) calc(6 * var(--pp-pixel));
+    gap: calc(4 * var(--chu-pixel));
+    padding: calc(5 * var(--chu-pixel)) calc(5 * var(--chu-pixel)) calc(6 * var(--chu-pixel)) calc(6 * var(--chu-pixel));
     /* Room for the drop, so neighbours never touch it. */
-    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
-    font-size: var(--pp-size-small);
-    line-height: var(--pp-leading-normal);
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
+    font-size: var(--chu-size-small);
+    line-height: var(--chu-leading-normal);
     text-align: start;
   }
-  .pp-alert[data-tone="success"] { --_pp-glyph: var(--_pp-g-success); }
-  .pp-alert[data-tone="warning"] { --_pp-glyph: var(--_pp-g-warning); }
-  .pp-alert[data-tone="danger"] { --_pp-glyph: var(--_pp-g-danger); }
+  .chu-alert[data-tone="success"] { --_chu-glyph: var(--_chu-g-success); }
+  .chu-alert[data-tone="warning"] { --_chu-glyph: var(--_chu-g-warning); }
+  .chu-alert[data-tone="danger"] { --_chu-glyph: var(--_chu-g-danger); }
 
   /* Info unless a tone is given; soft unless a tier is given. */
-  .pp-alert:not([data-tone]) {
-    --pp-tone: var(--pp-info);
-    --pp-tone-light: var(--pp-info-light);
-    --pp-tone-shade: var(--pp-info-shade);
-    --pp-tone-on: var(--pp-info-on);
-    --pp-tone-text: var(--pp-info-text);
+  .chu-alert:not([data-tone]) {
+    --chu-tone: var(--chu-info);
+    --chu-tone-light: var(--chu-info-light);
+    --chu-tone-shade: var(--chu-info-shade);
+    --chu-tone-on: var(--chu-info-on);
+    --chu-tone-text: var(--chu-info-text);
   }
-  .pp-alert:not([data-variant]) {
-    --pp-box-top: var(--pp-tone-light);
-    --pp-box-fill: var(--pp-tone-light);
-    --pp-box-bottom: var(--pp-tone);
-    --pp-box-glint: transparent;
+  .chu-alert:not([data-variant]) {
+    --chu-box-top: var(--chu-tone-light);
+    --chu-box-fill: var(--chu-tone-light);
+    --chu-box-bottom: var(--chu-tone);
+    --chu-box-glint: transparent;
   }
 
   /* Soft and candy alerts are light in every scheme, so what sits on them (text, links, ghost and outline buttons,
      the close cross, a disabled dither) takes the light roles. The box does that for data-variant="soft" and
      "candy"; the default is soft, so it takes the same roles here. */
-  .pp-alert:not([data-variant]) {
-    --pp-text: var(--pp-tone-on);
-    --pp-text-muted: var(--pp-tone-on);
-    --pp-text-inverse: var(--pp-white);
-    --pp-accent-text: var(--pp-tone-on);
-    --pp-info-text: var(--pp-tone-on);
-    --pp-success-text: var(--pp-tone-on);
-    --pp-warning-text: var(--pp-tone-on);
-    --pp-danger-text: var(--pp-tone-on);
-    --pp-link-visited: var(--pp-tone-on);
-    --pp-line: var(--pp-tone-on);
-    --pp-line-soft: var(--pp-tone);
-    --pp-surface: var(--pp-white);
-    --pp-surface-raised: var(--pp-white);
-    --pp-surface-panel: var(--pp-candy-cream);
-    --pp-surface-sunken: var(--pp-tone);
-    --pp-bg: var(--pp-tone-light);
-    --pp-disabled-dither: var(--pp-tone-light);
+  .chu-alert:not([data-variant]) {
+    --chu-text: var(--chu-tone-on);
+    --chu-text-muted: var(--chu-tone-on);
+    --chu-text-inverse: var(--chu-white);
+    --chu-accent-text: var(--chu-tone-on);
+    --chu-info-text: var(--chu-tone-on);
+    --chu-success-text: var(--chu-tone-on);
+    --chu-warning-text: var(--chu-tone-on);
+    --chu-danger-text: var(--chu-tone-on);
+    --chu-link-visited: var(--chu-tone-on);
+    --chu-line: var(--chu-tone-on);
+    --chu-line-soft: var(--chu-tone);
+    --chu-surface: var(--chu-white);
+    --chu-surface-raised: var(--chu-white);
+    --chu-surface-panel: var(--chu-candy-cream);
+    --chu-surface-sunken: var(--chu-tone);
+    --chu-bg: var(--chu-tone-light);
+    --chu-disabled-dither: var(--chu-tone-light);
   }
 
-  .pp-alert-icon {
+  .chu-alert-icon {
     flex: none;
-    inline-size: calc(12 * var(--pp-pixel));
-    block-size: calc(12 * var(--pp-pixel));
+    inline-size: calc(12 * var(--chu-pixel));
+    block-size: calc(12 * var(--chu-pixel));
   }
-  .pp-alert-icon:empty {
+  .chu-alert-icon:empty {
     background-color: currentColor;
-    mask: var(--_pp-glyph) 0 0 / 100% 100% no-repeat;
+    mask: var(--_chu-glyph) 0 0 / 100% 100% no-repeat;
   }
-  .pp-alert:is([data-variant="outline"], [data-variant="panel"]) .pp-alert-icon { color: var(--pp-tone-text); }
+  .chu-alert:is([data-variant="outline"], [data-variant="panel"]) .chu-alert-icon { color: var(--chu-tone-text); }
 
-  .pp-alert-body { flex: 1; min-inline-size: 0; }
-  .pp-alert-title {
-    font-size: var(--pp-size-body);
-    font-weight: var(--pp-weight-bold);
+  .chu-alert-body { flex: 1; min-inline-size: 0; }
+  .chu-alert-title {
+    font-size: var(--chu-size-body);
+    font-weight: var(--chu-weight-bold);
     /* One line is exactly as tall as the sign, so they line up. */
-    line-height: calc(12 * var(--pp-pixel));
+    line-height: calc(12 * var(--chu-pixel));
   }
-  .pp-alert-body > :where(p + p) { margin-block-start: calc(2 * var(--pp-pixel)); }
-  .pp-alert-actions {
+  .chu-alert-body > :where(p + p) { margin-block-start: calc(2 * var(--chu-pixel)); }
+  .chu-alert-actions {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: calc(3 * var(--pp-pixel)) calc(4 * var(--pp-pixel));
-    margin-block-start: calc(4 * var(--pp-pixel));
+    gap: calc(3 * var(--chu-pixel)) calc(4 * var(--chu-pixel));
+    margin-block-start: calc(4 * var(--chu-pixel));
   }
 
   /* The close button's cross lines up with the title. */
-  .pp-alert-close { flex: none; margin: calc(-2 * var(--pp-pixel)) calc(-2 * var(--pp-pixel)) 0 0; }
+  .chu-alert-close { flex: none; margin: calc(-2 * var(--chu-pixel)) calc(-2 * var(--chu-pixel)) 0 0; }
 
   @media (forced-colors: active) {
-    .pp-alert-icon:empty { forced-color-adjust: none; background-color: CanvasText; }
+    .chu-alert-icon:empty { forced-color-adjust: none; background-color: CanvasText; }
   }
 }

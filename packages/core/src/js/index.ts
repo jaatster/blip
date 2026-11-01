@@ -1,5 +1,5 @@
 /** @jaatster/blip-core: building blocks shared by every Blip element and kit. */
-export { PixelElement } from "./element.js";
+export { BlipElement } from "./element.js";
 export { provide, services, seeded, type Services, type SoundSink } from "./services.js";
 export { reducedMotion, steps, duration, pixel } from "./motion.js";
 export { run, frames, every, type Step } from "./timeline.js";

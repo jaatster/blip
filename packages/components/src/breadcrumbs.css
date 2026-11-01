@@ -2,98 +2,98 @@
  * Breadcrumbs. Where this page sits: links back up the trail, pixel chevrons between them, and the page you are on
  * sitting in at the end.
  *
- *   <nav class="pp-breadcrumbs" aria-label="Breadcrumb">
- *     <ol class="pp-breadcrumbs-list">
- *       <li><a class="pp-box pp-breadcrumbs-link" data-variant="ghost" href="/">Home</a></li>
- *       <li><a class="pp-box pp-breadcrumbs-link" data-variant="ghost" href="/worlds">Worlds</a></li>
- *       <li><a class="pp-box pp-breadcrumbs-link" data-variant="ghost" href="/worlds/2" aria-current="page">World 2</a></li>
+ *   <nav class="chu-breadcrumbs" aria-label="Breadcrumb">
+ *     <ol class="chu-breadcrumbs-list">
+ *       <li><a class="chu-box chu-breadcrumbs-link" data-variant="ghost" href="/">Home</a></li>
+ *       <li><a class="chu-box chu-breadcrumbs-link" data-variant="ghost" href="/worlds">Worlds</a></li>
+ *       <li><a class="chu-box chu-breadcrumbs-link" data-variant="ghost" href="/worlds/2" aria-current="page">World 2</a></li>
  *     </ol>
  *   </nav>
  *
  *   aria-current="page"   the last crumb, the page you are on: a soft chip that sits in
- *   <span>…</span>        a long label inside a crumb is cut to --pp-breadcrumbs-max with an ellipsis
- *   a pp-menu in an item  the middle of a long trail, folded behind a "more" button
+ *   <span>…</span>        a long label inside a crumb is cut to --chu-breadcrumbs-max with an ellipsis
+ *   a chu-menu in an item  the middle of a long trail, folded behind a "more" button
  *   data-size             on the nav: sm (12-pixel crumbs, for dense headers) | md (14, default) | lg (16)
  *
  * Crumbs are ghost boxes: hover fills them, focus is the yellow ring. Right to left, the chevrons turn round.
  */
 
-@layer pp.components {
-  .pp-breadcrumbs {
-    --pp-breadcrumbs-max: calc(80 * var(--pp-pixel));
-    --_h: calc(14 * var(--pp-pixel));
-    font-family: var(--pp-font-ui);
-    font-size: var(--pp-size-small);
+@layer chu.components {
+  .chu-breadcrumbs {
+    --chu-breadcrumbs-max: calc(80 * var(--chu-pixel));
+    --_h: calc(14 * var(--chu-pixel));
+    font-family: var(--chu-font-ui);
+    font-size: var(--chu-size-small);
   }
-  .pp-breadcrumbs[data-size="sm"] {
-    --_h: calc(12 * var(--pp-pixel));
-    font-size: var(--pp-size-caption);
+  .chu-breadcrumbs[data-size="sm"] {
+    --_h: calc(12 * var(--chu-pixel));
+    font-size: var(--chu-size-caption);
   }
-  .pp-breadcrumbs[data-size="lg"] {
-    --_h: calc(16 * var(--pp-pixel));
-    font-size: var(--pp-size-body);
+  .chu-breadcrumbs[data-size="lg"] {
+    --_h: calc(16 * var(--chu-pixel));
+    font-size: var(--chu-size-body);
   }
 
-  .pp-breadcrumbs-list {
+  .chu-breadcrumbs-list {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--pp-space-1) var(--pp-space-2);
+    gap: var(--chu-space-1) var(--chu-space-2);
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  .pp-breadcrumbs-list > li {
+  .chu-breadcrumbs-list > li {
     display: flex;
     align-items: center;
-    gap: var(--pp-space-2);
+    gap: var(--chu-space-2);
     min-inline-size: 0;
   }
 
   /* The separator: a one-pixel chevron, 4 x 7. */
-  .pp-breadcrumbs-list > li + li::before {
+  .chu-breadcrumbs-list > li + li::before {
     content: "";
     flex: none;
-    inline-size: calc(4 * var(--pp-pixel));
-    block-size: calc(7 * var(--pp-pixel));
-    background-color: var(--pp-text-muted);
+    inline-size: calc(4 * var(--chu-pixel));
+    block-size: calc(7 * var(--chu-pixel));
+    background-color: var(--chu-text-muted);
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 7' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1h1v1h1v1h1v1H3v1H2v1H1v1H0V6h1V5h1V4h1V3H2V2H1V1H0z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   }
-  .pp-breadcrumbs-list > li:dir(rtl)::before { scale: -1 1; }
+  .chu-breadcrumbs-list > li:dir(rtl)::before { scale: -1 1; }
 
-  .pp-breadcrumbs-link {
-    --pp-r: 3;
-    --pp-shape: var(--pp-shape-3);
-    --pp-shape-inner: var(--pp-shape-3-inner);
+  .chu-breadcrumbs-link {
+    --chu-r: 3;
+    --chu-shape: var(--chu-shape-3);
+    --chu-shape-inner: var(--chu-shape-3-inner);
 
     display: inline-flex;
     align-items: center;
-    gap: var(--pp-space-2);
+    gap: var(--chu-space-2);
     min-inline-size: 0;
     block-size: var(--_h);
-    padding: 0 var(--pp-space-4);
-    font-weight: var(--pp-weight-medium);
+    padding: 0 var(--chu-space-4);
+    font-weight: var(--chu-weight-medium);
     line-height: 1;
     text-decoration: none;
     white-space: nowrap;
   }
   /* Links back up the trail read as links; the page you are on is ink on its chip. Hovered or focused, a crumb
      shows the ghost's sunken well, where the link colour is too light at Sunset: there it takes the scheme's text. */
-  .pp-breadcrumbs-link:not([aria-current="page"]) { --pp-box-text: var(--pp-accent-text); }
-  .pp-breadcrumbs-link:not([aria-current="page"]):is(:focus-visible, [data-pp-state]) { --pp-box-text: var(--pp-text); }
+  .chu-breadcrumbs-link:not([aria-current="page"]) { --chu-box-text: var(--chu-accent-text); }
+  .chu-breadcrumbs-link:not([aria-current="page"]):is(:focus-visible, [data-chu-state]) { --chu-box-text: var(--chu-text); }
   @media (hover: hover) {
-    .pp-breadcrumbs-link:not([aria-current="page"]):hover { --pp-box-text: var(--pp-text); }
+    .chu-breadcrumbs-link:not([aria-current="page"]):hover { --chu-box-text: var(--chu-text); }
   }
-  .pp-breadcrumbs-link[aria-current="page"] { font-weight: var(--pp-weight-bold); }
-  .pp-breadcrumbs-link > span {
+  .chu-breadcrumbs-link[aria-current="page"] { font-weight: var(--chu-weight-bold); }
+  .chu-breadcrumbs-link > span {
     overflow: hidden;
-    max-inline-size: var(--pp-breadcrumbs-max);
+    max-inline-size: var(--chu-breadcrumbs-max);
     text-overflow: ellipsis;
   }
 
   @media (forced-colors: active) {
-    .pp-breadcrumbs-list > li + li::before { forced-color-adjust: none; background-color: CanvasText; }
-    .pp-breadcrumbs-link { border-color: Canvas; }
-    .pp-breadcrumbs-link[aria-current="page"] { border-color: CanvasText; }
+    .chu-breadcrumbs-list > li + li::before { forced-color-adjust: none; background-color: CanvasText; }
+    .chu-breadcrumbs-link { border-color: Canvas; }
+    .chu-breadcrumbs-link[aria-current="page"] { border-color: CanvasText; }
   }
 }

@@ -15,16 +15,16 @@ afterEach(() => style.remove());
 describe("achievement", () => {
   for (const pixel of [2, 3, 4]) {
     it(`puts two pixels between the title and the description at a ${pixel} px pixel`, () => {
-      const card = mount(`<div data-pp-pixel="${pixel}"><div class="pp-box pp-achievement">
-        <span class="pp-box pp-achievement-icon"></span>
-        <p class="pp-achievement-label">Achievement unlocked</p>
-        <p class="pp-achievement-title">Early bird</p>
-        <p class="pp-achievement-text">Catch a falling star before sunrise.</p>
-        <p class="pp-achievement-reward">+50</p>
+      const card = mount(`<div data-chu-pixel="${pixel}"><div class="chu-box chu-achievement">
+        <span class="chu-box chu-achievement-icon"></span>
+        <p class="chu-achievement-label">Achievement unlocked</p>
+        <p class="chu-achievement-title">Early bird</p>
+        <p class="chu-achievement-text">Catch a falling star before sunrise.</p>
+        <p class="chu-achievement-reward">+50</p>
       </div></div>`);
       const box = (sel: string) => card.querySelector(sel)!.getBoundingClientRect();
-      expect(box(".pp-achievement-text").top - box(".pp-achievement-title").bottom).toBeCloseTo(2 * pixel, 1);
-      expect(box(".pp-achievement-reward").top - box(".pp-achievement-text").bottom).toBeCloseTo(2 * pixel, 1);
+      expect(box(".chu-achievement-text").top - box(".chu-achievement-title").bottom).toBeCloseTo(2 * pixel, 1);
+      expect(box(".chu-achievement-reward").top - box(".chu-achievement-text").bottom).toBeCloseTo(2 * pixel, 1);
     });
   }
 });

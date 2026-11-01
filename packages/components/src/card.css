@@ -3,19 +3,19 @@
  * foot. A whole card can be a link that lifts; a tone puts a soft strip of colour along its top. Never put a card
  * inside a card.
  *
- *   <article class="pp-box pp-card">
- *     <div class="pp-card-media"><img src="meadow.png" alt=""></div>
- *     <header class="pp-card-header">
- *       <div><h3 class="pp-card-title">Meadow</h3><p class="pp-card-subtitle">World 1 · 8 levels</p></div>
- *       <span class="pp-box pp-tag" data-tone="success">New</span>
+ *   <article class="chu-box chu-card">
+ *     <div class="chu-card-media"><img src="meadow.png" alt=""></div>
+ *     <header class="chu-card-header">
+ *       <div><h3 class="chu-card-title">Meadow</h3><p class="chu-card-subtitle">World 1 · 8 levels</p></div>
+ *       <span class="chu-box chu-tag" data-tone="success">New</span>
  *     </header>
- *     <div class="pp-card-body"><p>…</p></div>
- *     <footer class="pp-card-footer"><button class="pp-box pp-button">Play</button></footer>
+ *     <div class="chu-card-body"><p>…</p></div>
+ *     <footer class="chu-card-footer"><button class="chu-box chu-button">Play</button></footer>
  *   </article>
  *
- *   <a class="pp-box pp-card" href="/worlds/meadow">…</a>                  the whole card is the link: it lifts
- *   <article class="pp-box pp-card" data-pp-interactive>                   a card with one main link and other
- *     … <h3 class="pp-card-title"><a class="pp-card-link" href="…">Meadow</a></h3> …   actions: the link covers the
+ *   <a class="chu-box chu-card" href="/worlds/meadow">…</a>                  the whole card is the link: it lifts
+ *   <article class="chu-box chu-card" data-chu-interactive>                   a card with one main link and other
+ *     … <h3 class="chu-card-title"><a class="chu-card-link" href="…">Meadow</a></h3> …   actions: the link covers the
  *   </article>                                                             card, the actions sit above it
  *
  *   data-variant   panel, cream (default) | soft | candy | outline        soft and candy tint the whole card
@@ -24,75 +24,75 @@
  *   data-layout    horizontal                                              picture beside the text while there is
  *                                                                          room, above it when narrow (wrap the
  *                                                                          header, body and footer in
- *                                                                          .pp-card-content)
+ *                                                                          .chu-card-content)
  *
  * The picture is any <img>, <svg>, <canvas> or <video>, framed by a one-pixel ink line and never smoothed. By
- * default it covers the frame (--pp-card-media-ratio, 16 / 9), scaled by whatever that takes. For pixel art, give the
+ * default it covers the frame (--chu-card-media-ratio, 16 / 9), scaled by whatever that takes. For pixel art, give the
  * frame data-fit="pixels" and the picture's size in its own pixels, and every art pixel comes out the same whole
  * number of Blip pixels, centred, with the sunken fill round it:
  *
- *   <div class="pp-card-media" data-fit="pixels" style="--pp-card-art-width: 64; --pp-card-art-height: 36">…</div>
+ *   <div class="chu-card-media" data-fit="pixels" style="--chu-card-art-width: 64; --chu-card-art-height: 36">…</div>
  */
 
-@layer pp.components {
-  .pp-card {
-    --pp-r: 4;
-    --pp-shape: var(--pp-shape-4);
-    --pp-shape-inner: var(--pp-shape-4-inner);
-    --_pad: calc(8 * var(--pp-pixel));
+@layer chu.components {
+  .chu-card {
+    --chu-r: 4;
+    --chu-shape: var(--chu-shape-4);
+    --chu-shape-inner: var(--chu-shape-4-inner);
+    --_pad: calc(8 * var(--chu-pixel));
     display: flex;
     flex-direction: column;
-    gap: var(--pp-space-6);
+    gap: var(--chu-space-6);
     box-sizing: border-box;
     min-inline-size: 0;
     padding: var(--_pad);
-    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
-    font-family: var(--pp-font-ui);
-    font-size: var(--pp-size-body);
-    line-height: var(--pp-leading-normal);
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
+    font-family: var(--chu-font-ui);
+    font-size: var(--chu-size-body);
+    line-height: var(--chu-leading-normal);
     text-align: start;
     text-decoration: none;
   }
   /* A cream panel: the TV's panel for text. */
-  .pp-card:not([data-variant]) {
-    --pp-box-top: var(--pp-surface-panel);
-    --pp-box-fill: var(--pp-surface-panel);
-    --pp-box-bottom: var(--pp-surface-panel);
-    --pp-box-text: var(--pp-text);
-    --pp-box-glint: transparent;
+  .chu-card:not([data-variant]) {
+    --chu-box-top: var(--chu-surface-panel);
+    --chu-box-fill: var(--chu-surface-panel);
+    --chu-box-bottom: var(--chu-surface-panel);
+    --chu-box-text: var(--chu-text);
+    --chu-box-glint: transparent;
   }
   /* A tone on a cream card: a three-pixel strip of its light colour along the top, following the corners. */
-  .pp-card[data-tone]:not([data-variant]) {
-    --pp-box-top: var(--pp-tone-light);
-    --pp-band-top: 3;
+  .chu-card[data-tone]:not([data-variant]) {
+    --chu-box-top: var(--chu-tone-light);
+    --chu-band-top: 3;
   }
-  .pp-card[data-size="sm"] {
-    --pp-r: 3;
-    --pp-shape: var(--pp-shape-3);
-    --pp-shape-inner: var(--pp-shape-3-inner);
-    --_pad: calc(6 * var(--pp-pixel));
-    gap: var(--pp-space-4);
-    font-size: var(--pp-size-small);
+  .chu-card[data-size="sm"] {
+    --chu-r: 3;
+    --chu-shape: var(--chu-shape-3);
+    --chu-shape-inner: var(--chu-shape-3-inner);
+    --_pad: calc(6 * var(--chu-pixel));
+    gap: var(--chu-space-4);
+    font-size: var(--chu-size-small);
   }
-  .pp-card[data-size="lg"] {
-    --pp-r: 5;
-    --pp-shape: var(--pp-shape-5);
-    --pp-shape-inner: var(--pp-shape-5-inner);
-    --_pad: calc(12 * var(--pp-pixel));
-    gap: var(--pp-space-8);
+  .chu-card[data-size="lg"] {
+    --chu-r: 5;
+    --chu-shape: var(--chu-shape-5);
+    --chu-shape-inner: var(--chu-shape-5-inner);
+    --_pad: calc(12 * var(--chu-pixel));
+    gap: var(--chu-space-8);
   }
-  :is(a, button).pp-card { color: var(--pp-box-text); inline-size: auto; }
+  :is(a, button).chu-card { color: var(--chu-box-text); inline-size: auto; }
 
   /* The picture: in a one-pixel ink frame, never smoothed. It sits closer to the edge than the text. */
-  .pp-card-media {
+  .chu-card-media {
     position: relative;
     overflow: hidden;
-    aspect-ratio: var(--pp-card-media-ratio, 16 / 9);
+    aspect-ratio: var(--chu-card-media-ratio, 16 / 9);
     margin: calc(-0.5 * var(--_pad)) calc(-0.5 * var(--_pad)) 0;
-    border: var(--pp-pixel) solid var(--pp-outline);
-    background: var(--pp-surface-sunken);
+    border: var(--chu-pixel) solid var(--chu-outline);
+    background: var(--chu-surface-sunken);
   }
-  .pp-card-media > :is(img, svg, canvas, video) {
+  .chu-card-media > :is(img, svg, canvas, video) {
     display: block;
     inline-size: 100%;
     block-size: 100%;
@@ -101,69 +101,69 @@
     image-rendering: pixelated;
     shape-rendering: crispEdges;
   }
-  img.pp-card-media, svg.pp-card-media { display: block; inline-size: auto; object-fit: cover; image-rendering: pixelated; shape-rendering: crispEdges; }
+  img.chu-card-media, svg.chu-card-media { display: block; inline-size: auto; object-fit: cover; image-rendering: pixelated; shape-rendering: crispEdges; }
   /* data-fit="pixels": the picture as big as fits with every art pixel a whole number of Blip pixels, the
      same across and down, in the middle of the frame (a whole number of pixels in), on the frame's sunken fill. */
-  .pp-card-media[data-fit="pixels"] { container-type: size; }
-  .pp-card-media[data-fit="pixels"] > :is(img, svg, canvas, video) {
-    --_pp-aw: var(--pp-card-art-width);
-    --_pp-ah: var(--pp-card-art-height);
-    --_pp-k: max(var(--pp-pixel), min(round(down, 100cqw, var(--_pp-aw) * var(--pp-pixel)) / var(--_pp-aw), round(down, 100cqh, var(--_pp-ah) * var(--pp-pixel)) / var(--_pp-ah)));
-    inline-size: calc(var(--_pp-k) * var(--_pp-aw));
-    block-size: calc(var(--_pp-k) * var(--_pp-ah));
-    margin-block-start: round(down, (100cqh - var(--_pp-k) * var(--_pp-ah)) / 2, var(--pp-pixel));
-    margin-inline-start: round(down, (100cqw - var(--_pp-k) * var(--_pp-aw)) / 2, var(--pp-pixel));
+  .chu-card-media[data-fit="pixels"] { container-type: size; }
+  .chu-card-media[data-fit="pixels"] > :is(img, svg, canvas, video) {
+    --_chu-aw: var(--chu-card-art-width);
+    --_chu-ah: var(--chu-card-art-height);
+    --_chu-k: max(var(--chu-pixel), min(round(down, 100cqw, var(--_chu-aw) * var(--chu-pixel)) / var(--_chu-aw), round(down, 100cqh, var(--_chu-ah) * var(--chu-pixel)) / var(--_chu-ah)));
+    inline-size: calc(var(--_chu-k) * var(--_chu-aw));
+    block-size: calc(var(--_chu-k) * var(--_chu-ah));
+    margin-block-start: round(down, (100cqh - var(--_chu-k) * var(--_chu-ah)) / 2, var(--chu-pixel));
+    margin-inline-start: round(down, (100cqw - var(--_chu-k) * var(--_chu-aw)) / 2, var(--chu-pixel));
     object-fit: fill;
   }
 
-  .pp-card-header {
+  .chu-card-header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: var(--pp-space-4);
+    gap: var(--chu-space-4);
   }
-  .pp-card-header > :first-child { min-inline-size: 0; }
-  .pp-card-title {
+  .chu-card-header > :first-child { min-inline-size: 0; }
+  .chu-card-title {
     margin: 0;
-    font-size: var(--pp-size-lead);
-    font-weight: var(--pp-weight-bold);
-    line-height: var(--pp-leading-tight);
+    font-size: var(--chu-size-lead);
+    font-weight: var(--chu-weight-bold);
+    line-height: var(--chu-leading-tight);
     text-wrap: balance;
     overflow-wrap: anywhere;
   }
-  .pp-card[data-size="sm"] .pp-card-title { font-size: var(--pp-size-body); }
-  .pp-card[data-size="lg"] .pp-card-title { font-size: var(--pp-size-title); }
-  .pp-card-subtitle {
-    margin: var(--pp-space-1) 0 0;
-    font-size: var(--pp-size-small);
-    line-height: var(--pp-leading-tight);
-    color: var(--pp-text-muted);
+  .chu-card[data-size="sm"] .chu-card-title { font-size: var(--chu-size-body); }
+  .chu-card[data-size="lg"] .chu-card-title { font-size: var(--chu-size-title); }
+  .chu-card-subtitle {
+    margin: var(--chu-space-1) 0 0;
+    font-size: var(--chu-size-small);
+    line-height: var(--chu-leading-tight);
+    color: var(--chu-text-muted);
   }
-  .pp-card-body { min-inline-size: 0; }
-  .pp-card-body > * + * { margin-block-start: var(--pp-space-4); }
-  .pp-card-footer {
+  .chu-card-body { min-inline-size: 0; }
+  .chu-card-body > * + * { margin-block-start: var(--chu-space-4); }
+  .chu-card-footer {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: flex-end;
-    gap: var(--pp-space-4);
+    gap: var(--chu-space-4);
     margin-block-start: auto;
   }
 
   /* One main link that covers the card; other actions stay clickable above it. */
-  .pp-card-link { color: inherit; text-decoration: none; }
-  .pp-card-link::after { content: ""; position: absolute; inset: 0; }
-  .pp-card-link:hover { text-decoration: underline; text-decoration-thickness: var(--pp-pixel); }
-  .pp-card:has(.pp-card-link) :is(a, button, input, select, textarea, summary, label):not(.pp-card-link) { position: relative; z-index: 1; }
+  .chu-card-link { color: inherit; text-decoration: none; }
+  .chu-card-link::after { content: ""; position: absolute; inset: 0; }
+  .chu-card-link:hover { text-decoration: underline; text-decoration-thickness: var(--chu-pixel); }
+  .chu-card:has(.chu-card-link) :is(a, button, input, select, textarea, summary, label):not(.chu-card-link) { position: relative; z-index: 1; }
 
   /* Picture beside the text while both fit, above it when they don't: no breakpoint, it follows its container. */
-  .pp-card[data-layout="horizontal"] { flex-flow: row wrap; align-items: flex-start; }
-  .pp-card[data-layout="horizontal"] > .pp-card-media { flex: 1 1 calc(112 * var(--pp-pixel)); margin: 0; }
-  .pp-card-content {
+  .chu-card[data-layout="horizontal"] { flex-flow: row wrap; align-items: flex-start; }
+  .chu-card[data-layout="horizontal"] > .chu-card-media { flex: 1 1 calc(112 * var(--chu-pixel)); margin: 0; }
+  .chu-card-content {
     display: flex;
     flex-direction: column;
     gap: inherit;
-    flex: 999 1 calc(96 * var(--pp-pixel));
+    flex: 999 1 calc(96 * var(--chu-pixel));
     align-self: stretch;
     min-inline-size: 0;
   }

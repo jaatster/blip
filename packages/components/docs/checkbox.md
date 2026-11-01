@@ -19,12 +19,12 @@ off, candy with an ink pixel check when on, candy with an ink bar when only some
 ## Usage
 
 ```html
-<label class="pp-check">
-  <span class="pp-box pp-checkbox"><input type="checkbox" name="music" checked></span>
+<label class="chu-check">
+  <span class="chu-box chu-checkbox"><input type="checkbox" name="music" checked></span>
   Music
 </label>
 
-<span class="pp-box pp-checkbox"><input type="checkbox" aria-label="Select level 3"></span>
+<span class="chu-box chu-checkbox"><input type="checkbox" aria-label="Select level 3"></span>
 ```
 
 ## Anatomy
@@ -33,8 +33,8 @@ off, candy with an ink pixel check when on, candy with an ink bar when only some
    that sits in (shade row on top, light row below), ink outline.
 2. **Glyph**: a 7 x 7 pixel check (5 x 5 small), or a bar when indeterminate, in ink.
 3. **Input**: the native checkbox, invisible, covering the box and one pixel more (a 26 px target).
-4. **Row** (`.pp-check`): a `<label>` with the box and its text.
-5. **Help** (optional): a `<p class="pp-check-help" id="…">` right after the row, lined up under the words, linked
+4. **Row** (`.chu-check`): a `<label>` with the box and its text.
+5. **Help** (optional): a `<p class="chu-check-help" id="…">` right after the row, lined up under the words, linked
    from the input with `aria-describedby` so it describes the option instead of lengthening its name.
 
 ## Variants
@@ -52,15 +52,15 @@ off, candy with an ink pixel check when on, candy with an ink bar when only some
 | Hover | pointer on the box or its row | The well darkens. |
 | Focus | keyboard | The yellow ring round the box. |
 | Checked | `checked` | Candy, sits in, ink check. |
-| Indeterminate | `input.indeterminate = true` (script only) | Candy, sits in, ink bar. `data-pp-state="indeterminate"` forces the look in docs. |
+| Indeterminate | `input.indeterminate = true` (script only) | Candy, sits in, ink bar. `data-chu-state="indeterminate"` forces the look in docs. |
 | Invalid | `aria-invalid="true"`, or `:user-invalid` after a try | Danger outline; pair with an error. |
 | Disabled | `disabled` | Dithered; the row's text is muted. |
 
 ## Accessibility
 
 - It's a native checkbox: Space toggles it, screen readers announce it, forms send it.
-- Wrap it in a `<label class="pp-check">` (the whole row is clickable), or give it `aria-label`.
-- A list of checkboxes is a `<fieldset class="pp-field">` with a `<legend>`.
+- Wrap it in a `<label class="chu-check">` (the whole row is clickable), or give it `aria-label`.
+- A list of checkboxes is a `<fieldset class="chu-field">` with a `<legend>`.
 - A "select all" box is indeterminate while some are checked; point it at the others with `aria-controls`.
 - Windows high contrast shows the system checkbox.
 
@@ -83,9 +83,9 @@ off, candy with an ink pixel check when on, candy with an ink bar when only some
 
 | Class | |
 |---|---|
-| `.pp-checkbox` | The box. Markup: `class="pp-box pp-checkbox"` on a `<span>` around the input. |
-| `.pp-check`, `.pp-check-help` | The row and an option's help after it (shared with radio and switch). |
+| `.chu-checkbox` | The box. Markup: `class="chu-box chu-checkbox"` on a `<span>` around the input. |
+| `.chu-check`, `.chu-check-help` | The row and an option's help after it (shared with radio and switch). |
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-tone`, `--pp-tone-light`, `--pp-tone-shade`, `--pp-tone-on` | accent | The checked candy (or `data-tone`). |
+| `--chu-tone`, `--chu-tone-light`, `--chu-tone-shade`, `--chu-tone-on` | accent | The checked candy (or `data-tone`). |

@@ -179,7 +179,7 @@ describe("icons build: a clean build of the real set plus two test icons", () =>
     const svgs = readdirSync(join(copy.pkg, "dist/svg")).map((f) => f.replace(/\.svg$/, "")).sort();
     expect(svgs).toEqual(icons.map((i) => i.name).sort());
     const sprite = readFileSync(join(copy.pkg, "dist/sprite.svg"), "utf8");
-    for (const i of icons) expect(sprite).toContain(`<symbol id="pp-icon-${i.name}" viewBox="0 0 12 12"`);
+    for (const i of icons) expect(sprite).toContain(`<symbol id="chu-icon-${i.name}" viewBox="0 0 12 12"`);
     const ring = readFileSync(join(copy.pkg, "dist/svg/test-ring.svg"), "utf8");
     expect(ring).toContain('viewBox="0 0 12 12"');
     expect(ring).toContain('shape-rendering="crispEdges"');

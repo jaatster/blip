@@ -1,15 +1,15 @@
 /* Icons are drawn on a 12 x 12 pixel grid, in one colour (currentColor). At the default pixel they are 24 CSS px. */
 
-@layer pp.core {
-  .pp-icon {
+@layer chu.core {
+  .chu-icon {
     display: inline-block;
-    inline-size: calc(12 * var(--pp-pixel));
-    block-size: calc(12 * var(--pp-pixel));
+    inline-size: calc(12 * var(--chu-pixel));
+    block-size: calc(12 * var(--chu-pixel));
     flex: none;
     fill: currentColor;
     shape-rendering: crispEdges;
     vertical-align: middle;
   }
-  pp-icon { display: inline-flex; vertical-align: middle; }
-  .pp-icon[data-size="lg"] { inline-size: calc(24 * var(--pp-pixel)); block-size: calc(24 * var(--pp-pixel)); }
+  chu-icon { display: inline-flex; vertical-align: middle; }
+  .chu-icon[data-size="lg"] { inline-size: calc(24 * var(--chu-pixel)); block-size: calc(24 * var(--chu-pixel)); }
 }

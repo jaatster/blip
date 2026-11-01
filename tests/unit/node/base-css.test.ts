@@ -27,12 +27,12 @@ const sized = (px: number, body = "") =>
     },
   });
 const SIZES = ["caption", "small", "body", "lead", "title"];
-/** The page's text size and each --pp-size-* in CSS px. */
+/** The page's text size and each --chu-size-* in CSS px. */
 const measure = (page: Page) =>
   page.evaluate((sizes) => {
     const probe = document.body.appendChild(document.createElement("span"));
     const px = (v: string) => ((probe.style.fontSize = v), parseFloat(getComputedStyle(probe).fontSize));
-    const out = { html: parseFloat(getComputedStyle(document.documentElement).fontSize), ...Object.fromEntries(sizes.map((s) => [s, px(`var(--pp-size-${s})`)])) };
+    const out = { html: parseFloat(getComputedStyle(document.documentElement).fontSize), ...Object.fromEntries(sizes.map((s) => [s, px(`var(--chu-size-${s})`)])) };
     probe.remove();
     return out;
   }, SIZES);
@@ -60,15 +60,15 @@ describe("text size", () => {
   });
 
   it("leaves the pixel and everything counted in it alone", async () => {
-    const page = await sized(24, '<div style="block-size: var(--pp-control-md); inline-size: var(--pp-space-8)"></div>');
+    const page = await sized(24, '<div style="block-size: var(--chu-control-md); inline-size: var(--chu-space-8)"></div>');
     expect(await page.evaluate(() => [getComputedStyle(document.querySelector("div")!).blockSize, getComputedStyle(document.querySelector("div")!).inlineSize])).toEqual(["40px", "16px"]);
     await page.context().close();
   });
 });
 
 describe("prefers-contrast: more", () => {
-  const body = `<p class="pp-muted">Best time 1:42</p><hr><a href="#x" id="link">Rules</a>
-    <section data-pp-scheme="night"><p class="pp-muted">At night</p><hr></section>`;
+  const body = `<p class="chu-muted">Best time 1:42</p><hr><a href="#x" id="link">Rules</a>
+    <section data-chu-scheme="night"><p class="chu-muted">At night</p><hr></section>`;
   const read = (page: Page) =>
     page.evaluate(() => {
       const css = (el: Element, p: string) => getComputedStyle(el).getPropertyValue(p).trim();
@@ -76,9 +76,9 @@ describe("prefers-contrast: more", () => {
       const link = document.getElementById("link")!;
       link.focus({ focusVisible: true } as FocusOptions);
       return {
-        day: [css(day, "--pp-text-muted"), css(day, "--pp-text"), css(day, "--pp-line-soft"), css(day, "--pp-line")],
-        night: [css(night, "--pp-text-muted"), css(night, "--pp-text"), css(night, "--pp-line-soft"), css(night, "--pp-line")],
-        muted: [getComputedStyle(document.querySelector(".pp-muted")!).color, getComputedStyle(night.querySelector(".pp-muted")!).color],
+        day: [css(day, "--chu-text-muted"), css(day, "--chu-text"), css(day, "--chu-line-soft"), css(day, "--chu-line")],
+        night: [css(night, "--chu-text-muted"), css(night, "--chu-text"), css(night, "--chu-line-soft"), css(night, "--chu-line")],
+        muted: [getComputedStyle(document.querySelector(".chu-muted")!).color, getComputedStyle(night.querySelector(".chu-muted")!).color],
         rule: [getComputedStyle(document.querySelector("hr")!).backgroundColor, getComputedStyle(night.querySelector("hr")!).backgroundColor],
         ring: getComputedStyle(link).boxShadow,
       };
@@ -111,10 +111,10 @@ describe("ligatures", () => {
   it("are off for every piece of text, form controls included, whatever the font", async () => {
     const page = await open(browser, a, {
       head: STYLES,
-      body: '<p>first file field</p><button>Fill in</button><input value="final"><p class="pp-display">fi</p><code>fi</code>',
+      body: '<p>first file field</p><button>Fill in</button><input value="final"><p class="chu-display">fi</p><code>fi</code>',
     });
     const r = await page.evaluate(() => {
-      const all = ["html", "p", "button", "input", ".pp-display", "code"].map((s) => getComputedStyle(document.querySelector(s)!).fontVariantLigatures);
+      const all = ["html", "p", "button", "input", ".chu-display", "code"].map((s) => getComputedStyle(document.querySelector(s)!).fontVariantLigatures);
       // The width of "fi" as the page sets it, and with ligatures forced off: the same, in Pixelify Sans and a serif.
       const width = (family: string, ligatures?: string) => {
         const s = document.body.appendChild(Object.assign(document.createElement("span"), { textContent: "fi fl ffi ff" }));
@@ -141,9 +141,9 @@ describe("long words", () => {
       html: 'lang="de"',
       head: STYLES,
       body: `<div style="inline-size: 120px">${tags.map((t) => (t === "li" ? `<ul><li>${word}</li></ul>` : t === "dt" || t === "dd" ? `<dl><${t}>${word}</${t}></dl>` : `<${t}>${word}</${t}>`)).join("")}
-        <div class="pp-title">${word}</div><span class="pp-lead" style="display:block">${word}</span><span class="pp-body" style="display:block">${word}</span></div>`,
+        <div class="chu-title">${word}</div><span class="chu-lead" style="display:block">${word}</span><span class="chu-body" style="display:block">${word}</span></div>`,
     });
-    const r = await page.evaluate((tags) => [...tags, ".pp-title", ".pp-lead", ".pp-body"].map((t) => {
+    const r = await page.evaluate((tags) => [...tags, ".chu-title", ".chu-lead", ".chu-body"].map((t) => {
       const e = document.querySelector<HTMLElement>(t)!, cs = getComputedStyle(e);
       return [t, cs.hyphens, cs.overflowWrap, e.scrollWidth <= e.clientWidth];
     }), tags);
@@ -163,8 +163,8 @@ describe("layers.css", () => {
     @layer base { *, ::after, ::before { box-sizing: border-box; margin: 0; padding: 0; border: 0 solid; } a { color: inherit; text-decoration: inherit; } button { background-color: transparent; font: inherit; } }
     @layer utilities { .px-12 { padding-inline: calc(var(--spacing) * 12); } .text-red-600 { color: var(--color-red-600); } .no-underline { text-decoration-line: none; } .font-bold { --tw-font-weight: 700; font-weight: 700; } }`;
   // A component of Blip's own, the way the components package layers its rules.
-  const component = "@layer pp.components { .pp-thing { padding-inline: 16px; color: var(--pp-accent-text); } }";
-  const body = '<button class="pp-box pp-thing" id="plain">Save</button><button class="pp-box pp-thing px-12 text-red-600" id="utility">Save</button><a href="#x" id="link">Rules</a><a href="#x" id="red" class="text-red-600 no-underline font-bold">Rules</a>';
+  const component = "@layer chu.components { .chu-thing { padding-inline: 16px; color: var(--chu-accent-text); } }";
+  const body = '<button class="chu-box chu-thing" id="plain">Save</button><button class="chu-box chu-thing px-12 text-red-600" id="utility">Save</button><a href="#x" id="link">Rules</a><a href="#x" id="red" class="text-red-600 no-underline font-bold">Rules</a>';
   const sheets = (order: string[]) => order.map((href) => `<link rel="stylesheet" href="${href}">`).join("");
   const read = (page: Page) =>
     page.evaluate(() => {

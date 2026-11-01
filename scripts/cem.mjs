@@ -32,9 +32,9 @@ export function problems(pkg, manifest) {
     for (const d of mod.declarations ?? []) {
       if (!d.customElement) continue;
       const at = `packages/${pkg}/${mod.path}: ${d.name}`;
-      if (!d.tagName) out.push(`${at} has no tag name. Register it with PixelElement.define("pp-…", ${d.name}) or add @tag.`);
+      if (!d.tagName) out.push(`${at} has no tag name. Register it with BlipElement.define("chu-…", ${d.name}) or add @tag.`);
       if (!d.summary && !d.description) out.push(`${at} has no description. Add a JSDoc comment above the class.`);
-      for (const e of d.events ?? []) if (!e.name) out.push(`${at} has an event without a name. Write @fires {Type} pp-name - What it means.`);
+      for (const e of d.events ?? []) if (!e.name) out.push(`${at} has an event without a name. Write @fires {Type} chu-name - What it means.`);
       for (const a of d.attributes ?? []) if (!a.type) out.push(`${at}: attribute "${a.name}" has no type. Write @attr {string} ${a.name} - What it does.`);
     }
   }

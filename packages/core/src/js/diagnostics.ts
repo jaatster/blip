@@ -2,7 +2,7 @@
  * Diagnostics: warnings with a code and a docs link, for people and agents. On when
  * globalThis.BLIP_DIAGNOSTICS is true, or on localhost; production builds can turn them off by setting it false.
  *
- *   warn("PP-A001", "An icon-only button needs aria-label.", el);
+ *   warn("CHU-A001", "An icon-only button needs aria-label.", el);
  */
 const seen = new Set<string>();
 
@@ -21,7 +21,7 @@ export function warn(code: string, message: string, el?: Element): void {
 }
 
 /** Common checks any element can run when it connects. */
-export function checkName(el: Element, code = "PP-A001"): void {
+export function checkName(el: Element, code = "CHU-A001"): void {
   const named = el.getAttribute("aria-label") || el.getAttribute("aria-labelledby") || el.textContent?.trim();
   if (!named) warn(code, `<${el.localName}> has no accessible name. Add text or aria-label.`, el);
 }

@@ -1,6 +1,6 @@
 # @jaatster/blip-components
 
-Blip's core components as layered CSS (`@layer pp.components`): actions, forms, navigation, feedback and
+Blip's core components as layered CSS (`@layer chu.components`): actions, forms, navigation, feedback and
 overlays, data and layout. Native HTML first; the components that need behaviour get it from
 [@jaatster/blip-elements](../elements).
 
@@ -17,8 +17,8 @@ npm install @jaatster/blip-components @jaatster/blip-core @jaatster/blip-tokens
 ```
 
 ```html
-<button class="pp-box pp-button">Save game</button>
-<button class="pp-box pp-button" data-variant="soft" data-tone="danger" data-size="sm">Delete save</button>
+<button class="chu-box chu-button">Save game</button>
+<button class="chu-box chu-button" data-variant="soft" data-tone="danger" data-size="sm">Delete save</button>
 ```
 
 Every file parses in lightningcss (Vite 8, Next.js 16) and esbuild, but one opt-in file kept out of

@@ -10,7 +10,7 @@
  * component made by createComponent() (src/internal/element.ts). Element and detail types are imported, type only,
  * from the element packages. Change an element's JSDoc, run `pnpm cem`, and build: the wrappers follow.
  *
- * pp-icon is not wrapped: <Icon> (src/icons.tsx) draws the SVG itself, so it renders on the server too.
+ * chu-icon is not wrapped: <Icon> (src/icons.tsx) draws the SVG itself, so it renders on the server too.
  */
 import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -26,16 +26,16 @@ const REPO = "https://github.com/jaatster/blip/blob/main/packages";
  * docs require that the element does not add itself.
  */
 const OVERRIDES = {
-  "pp-command": { name: "CommandPalette" },
-  "pp-number": { name: "NumberStepper" },
-  "pp-segmented": { classes: ["pp-box", "pp-segmented"] },
-  "pp-rating": { empty: true },
-  "pp-sprite": { empty: true },
-  "pp-hearts": { empty: true },
-  "pp-world": { empty: true },
-  "pp-drop-text": { textChildren: true },
-  "pp-typewriter": { textChildren: true },
-  "pp-icon": { skip: true },
+  "chu-command": { name: "CommandPalette" },
+  "chu-number": { name: "NumberStepper" },
+  "chu-segmented": { classes: ["chu-box", "chu-segmented"] },
+  "chu-rating": { empty: true },
+  "chu-sprite": { empty: true },
+  "chu-hearts": { empty: true },
+  "chu-world": { empty: true },
+  "chu-drop-text": { textChildren: true },
+  "chu-typewriter": { textChildren: true },
+  "chu-icon": { skip: true },
 };
 /**
  * Attributes that are a switch with one value: a boolean prop that writes that value when true. `data-width="full"`
@@ -46,7 +46,7 @@ const SWITCHES = { "data-width": ["fullWidth", "full"] };
 const GLOBALS = new Set(["CustomEvent", "Event", "HTMLElement", "HTMLButtonElement", "HTMLTableCellElement", "HTMLTableRowElement", "HTMLInputElement", "File", "FileList", "Element", "Array", "Record", "Promise", "Partial", "Readonly"]);
 
 /**
- * The classes an element puts on itself when it connects (`static box = true` adds pp-box, `static classes`), read
+ * The classes an element puts on itself when it connects (`static box = true` adds chu-box, `static classes`), read
  * from its source. The wrapper renders them from the start, so the markup is styled before the element upgrades
  * and in server HTML, and React keeps them when className changes.
  */
@@ -63,7 +63,7 @@ function hostClasses(source, className) {
     }
   }
   const body = source.slice(start, end);
-  const classes = /static (?:override )?box = true/.test(body) ? ["pp-box"] : [];
+  const classes = /static (?:override )?box = true/.test(body) ? ["chu-box"] : [];
   const list = /static (?:override )?classes(?::[^=]+)? = \[([^\]]*)\]/.exec(body)?.[1] ?? "";
   for (const m of list.matchAll(/"([^"]+)"/g)) classes.push(m[1]);
   return classes;
@@ -111,7 +111,7 @@ function generate(pkg, pages) {
   };
 
   const imports = new Map(); // module specifier -> Set of names
-  // A name is imported once, from the first module that gives it (pp-menu and pp-command share ActionDetail).
+  // A name is imported once, from the first module that gives it (chu-menu and chu-command share ActionDetail).
   const need = (spec, name) => {
     if ([...imports].some(([other, names]) => other !== spec && names.has(name))) return;
     (imports.get(spec) ?? imports.set(spec, new Set()).get(spec)).add(name);
@@ -125,7 +125,7 @@ function generate(pkg, pages) {
       if (!d.customElement || !d.tagName) continue;
       const o = OVERRIDES[d.tagName] ?? {};
       if (o.skip) continue;
-      const name = o.name ?? pascal(d.tagName.replace(/^pp-/, ""));
+      const name = o.name ?? pascal(d.tagName.replace(/^chu-/, ""));
       const spec = `@jaatster/blip-${pkg}/${mod.path.replace(/^src\//, "").replace(/\.ts$/, "")}`;
       need(spec, d.name);
       // A type is imported from the element's own module, else from another public module of the package that
@@ -146,7 +146,7 @@ function generate(pkg, pages) {
       const props = [];
       const attrSpec = {};
       for (const a of d.attributes ?? []) {
-        if (a.name === "role" || a.name.startsWith("aria-") || a.name.startsWith("data-pp-")) continue;
+        if (a.name === "role" || a.name.startsWith("aria-") || a.name.startsWith("data-chu-")) continue;
         const toggle = SWITCHES[a.name];
         const prop = toggle?.[0] ?? (a.name.startsWith("data-") ? camel(a.name.slice(5)) : (FIELD_FOR[a.name] ?? camel(a.name)));
         const field = a.fieldName ? members.find((m) => m.kind === "field" && m.name === a.fieldName) : undefined;
@@ -166,7 +166,7 @@ function generate(pkg, pages) {
       }
       const eventSpec = {};
       for (const e of d.events ?? []) {
-        const prop = `on${pascal(e.name.replace(/^pp-/, ""))}`;
+        const prop = `on${pascal(e.name.replace(/^chu-/, ""))}`;
         props.push({ prop, type: `(event: ${typeOf(e.type?.text ?? "CustomEvent")}) => void`, doc: [e.description, `Event \`${e.name}\`.`] });
         eventSpec[prop] = e.name;
       }

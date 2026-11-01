@@ -1,95 +1,95 @@
-<!-- Drawer: each side drawn statically (data-pp-static) inside a small "screen" with the scrim, then live ones in
-     <pp-drawer>. The static screens clip the sheet's off-screen pixel like a real screen edge does. -->
-<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--pp-pixel));align-items:flex-start">
-  <div class="pp-scrim" style="display:flex;justify-content:flex-end;inline-size:calc(200*var(--pp-pixel));block-size:calc(150*var(--pp-pixel));overflow:clip;outline:var(--pp-pixel) solid var(--pp-line-soft)">
-    <dialog class="pp-box pp-drawer" data-side="end" data-size="sm" open data-pp-static aria-labelledby="ex-settings-title" style="margin-block:calc(-1*var(--pp-pixel));margin-inline-end:calc(-1*var(--pp-pixel))">
-      <header class="pp-dialog-header">
-        <h2 class="pp-dialog-title" id="ex-settings-title">Settings</h2>
-        <button class="pp-box pp-button pp-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button>
+<!-- Drawer: each side drawn statically (data-chu-static) inside a small "screen" with the scrim, then live ones in
+     <chu-drawer>. The static screens clip the sheet's off-screen pixel like a real screen edge does. -->
+<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel));align-items:flex-start">
+  <div class="chu-scrim" style="display:flex;justify-content:flex-end;inline-size:calc(200*var(--chu-pixel));block-size:calc(150*var(--chu-pixel));overflow:clip;outline:var(--chu-pixel) solid var(--chu-line-soft)">
+    <dialog class="chu-box chu-drawer" data-side="end" data-size="sm" open data-chu-static aria-labelledby="ex-settings-title" style="margin-block:calc(-1*var(--chu-pixel));margin-inline-end:calc(-1*var(--chu-pixel))">
+      <header class="chu-dialog-header">
+        <h2 class="chu-dialog-title" id="ex-settings-title">Settings</h2>
+        <button class="chu-box chu-button chu-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
       </header>
-      <div class="pp-dialog-body">
-        <label class="pp-check" data-layout="split">Music<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box" checked></span></label>
-        <label class="pp-check" data-layout="split">Sound effects<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box" checked></span></label>
-        <label class="pp-check" data-layout="split">Screen shake<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box"></span></label>
+      <div class="chu-dialog-body">
+        <label class="chu-check" data-layout="split">Music<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" checked></span></label>
+        <label class="chu-check" data-layout="split">Sound effects<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" checked></span></label>
+        <label class="chu-check" data-layout="split">Screen shake<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box"></span></label>
       </div>
     </dialog>
   </div>
 
-  <div class="pp-scrim" style="display:flex;inline-size:calc(200*var(--pp-pixel));block-size:calc(150*var(--pp-pixel));overflow:clip;outline:var(--pp-pixel) solid var(--pp-line-soft)">
-    <dialog class="pp-box pp-drawer" data-side="start" data-size="sm" data-tone="teal" open data-pp-static aria-labelledby="ex-map-title" style="margin-block:calc(-1*var(--pp-pixel));margin-inline-start:calc(-1*var(--pp-pixel))">
-      <header class="pp-dialog-header">
-        <h2 class="pp-dialog-title" id="ex-map-title">World map</h2>
-        <button class="pp-box pp-button pp-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button>
+  <div class="chu-scrim" style="display:flex;inline-size:calc(200*var(--chu-pixel));block-size:calc(150*var(--chu-pixel));overflow:clip;outline:var(--chu-pixel) solid var(--chu-line-soft)">
+    <dialog class="chu-box chu-drawer" data-side="start" data-size="sm" data-tone="teal" open data-chu-static aria-labelledby="ex-map-title" style="margin-block:calc(-1*var(--chu-pixel));margin-inline-start:calc(-1*var(--chu-pixel))">
+      <header class="chu-dialog-header">
+        <h2 class="chu-dialog-title" id="ex-map-title">World map</h2>
+        <button class="chu-box chu-button chu-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
       </header>
-      <div class="pp-dialog-body">
-        <p class="pp-small">1 Meadow: 24 of 24 stars</p>
-        <p class="pp-small">2 Dunes: 18 of 24 stars</p>
-        <p class="pp-small">3 Crystal Caves: 2 of 24 stars</p>
+      <div class="chu-dialog-body">
+        <p class="chu-small">1 Meadow: 24 of 24 stars</p>
+        <p class="chu-small">2 Dunes: 18 of 24 stars</p>
+        <p class="chu-small">3 Crystal Caves: 2 of 24 stars</p>
       </div>
     </dialog>
   </div>
 
-  <div class="pp-scrim" style="display:flex;flex-direction:column;justify-content:flex-end;inline-size:calc(200*var(--pp-pixel));block-size:calc(150*var(--pp-pixel));overflow:clip;outline:var(--pp-pixel) solid var(--pp-line-soft)">
-    <dialog class="pp-box pp-drawer" data-side="bottom" open data-pp-static aria-labelledby="ex-share-title" style="inline-size:auto;margin-inline:calc(-1*var(--pp-pixel));margin-block-end:calc(-1*var(--pp-pixel))">
-      <header class="pp-dialog-header">
-        <h2 class="pp-dialog-title" id="ex-share-title">Share replay</h2>
-        <button class="pp-box pp-button pp-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button>
+  <div class="chu-scrim" style="display:flex;flex-direction:column;justify-content:flex-end;inline-size:calc(200*var(--chu-pixel));block-size:calc(150*var(--chu-pixel));overflow:clip;outline:var(--chu-pixel) solid var(--chu-line-soft)">
+    <dialog class="chu-box chu-drawer" data-side="bottom" open data-chu-static aria-labelledby="ex-share-title" style="inline-size:auto;margin-inline:calc(-1*var(--chu-pixel));margin-block-end:calc(-1*var(--chu-pixel))">
+      <header class="chu-dialog-header">
+        <h2 class="chu-dialog-title" id="ex-share-title">Share replay</h2>
+        <button class="chu-box chu-button chu-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
       </header>
-      <footer class="pp-dialog-footer" style="justify-content:flex-start;padding-block-start:calc(6*var(--pp-pixel))">
-        <button class="pp-box pp-button" type="button" data-size="sm">Copy link</button>
-        <button class="pp-box pp-button" type="button" data-size="sm" data-variant="soft">Save video</button>
+      <footer class="chu-dialog-footer" style="justify-content:flex-start;padding-block-start:calc(6*var(--chu-pixel))">
+        <button class="chu-box chu-button" type="button" data-size="sm">Copy link</button>
+        <button class="chu-box chu-button" type="button" data-size="sm" data-variant="soft">Save video</button>
       </footer>
     </dialog>
   </div>
 </div>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--pp-pixel));align-items:center;margin-block-start:calc(8*var(--pp-pixel))">
-  <span class="pp-label pp-muted">Live</span>
-  <button class="pp-box pp-button" type="button" commandfor="settings-drawer" command="show-modal">Settings</button>
-  <button class="pp-box pp-button" type="button" data-variant="soft" commandfor="map-drawer" command="show-modal">World map</button>
-  <button class="pp-box pp-button" type="button" data-variant="soft" commandfor="share-drawer" command="show-modal">Share replay</button>
+<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--chu-pixel));align-items:center;margin-block-start:calc(8*var(--chu-pixel))">
+  <span class="chu-label chu-muted">Live</span>
+  <button class="chu-box chu-button" type="button" commandfor="settings-drawer" command="show-modal">Settings</button>
+  <button class="chu-box chu-button" type="button" data-variant="soft" commandfor="map-drawer" command="show-modal">World map</button>
+  <button class="chu-box chu-button" type="button" data-variant="soft" commandfor="share-drawer" command="show-modal">Share replay</button>
 </div>
 
-<pp-drawer light-dismiss>
-  <dialog class="pp-box pp-drawer" id="settings-drawer" data-side="end" aria-labelledby="settings-drawer-title">
-    <header class="pp-dialog-header">
-      <h2 class="pp-dialog-title" id="settings-drawer-title">Settings</h2>
-      <form method="dialog"><button class="pp-box pp-button pp-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button></form>
+<chu-drawer light-dismiss>
+  <dialog class="chu-box chu-drawer" id="settings-drawer" data-side="end" aria-labelledby="settings-drawer-title">
+    <header class="chu-dialog-header">
+      <h2 class="chu-dialog-title" id="settings-drawer-title">Settings</h2>
+      <form method="dialog"><button class="chu-box chu-button chu-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button></form>
     </header>
-    <div class="pp-dialog-body">
-      <label class="pp-check" data-layout="split">Music<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box" checked></span></label>
-      <label class="pp-check" data-layout="split">Sound effects<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box" checked></span></label>
-      <label class="pp-check" data-layout="split">Screen shake<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box"></span></label>
+    <div class="chu-dialog-body">
+      <label class="chu-check" data-layout="split">Music<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" checked></span></label>
+      <label class="chu-check" data-layout="split">Sound effects<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" checked></span></label>
+      <label class="chu-check" data-layout="split">Screen shake<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box"></span></label>
     </div>
-    <footer class="pp-dialog-footer"><form method="dialog"><button class="pp-box pp-button">Done</button></form></footer>
+    <footer class="chu-dialog-footer"><form method="dialog"><button class="chu-box chu-button">Done</button></form></footer>
   </dialog>
-</pp-drawer>
+</chu-drawer>
 
-<pp-drawer light-dismiss>
-  <dialog class="pp-box pp-drawer" id="map-drawer" data-side="start" data-tone="teal" aria-labelledby="map-drawer-title">
-    <header class="pp-dialog-header">
-      <h2 class="pp-dialog-title" id="map-drawer-title">World map</h2>
-      <form method="dialog"><button class="pp-box pp-button pp-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button></form>
+<chu-drawer light-dismiss>
+  <dialog class="chu-box chu-drawer" id="map-drawer" data-side="start" data-tone="teal" aria-labelledby="map-drawer-title">
+    <header class="chu-dialog-header">
+      <h2 class="chu-dialog-title" id="map-drawer-title">World map</h2>
+      <form method="dialog"><button class="chu-box chu-button chu-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button></form>
     </header>
-    <div class="pp-dialog-body">
+    <div class="chu-dialog-body">
       <p>1 Meadow: 24 of 24 stars</p>
       <p>2 Dunes: 18 of 24 stars</p>
       <p>3 Crystal Caves: 2 of 24 stars</p>
     </div>
   </dialog>
-</pp-drawer>
+</chu-drawer>
 
-<pp-drawer light-dismiss>
-  <dialog class="pp-box pp-drawer" id="share-drawer" data-side="bottom" aria-labelledby="share-drawer-title">
+<chu-drawer light-dismiss>
+  <dialog class="chu-box chu-drawer" id="share-drawer" data-side="bottom" aria-labelledby="share-drawer-title">
     <form method="dialog">
-      <header class="pp-dialog-header">
-        <h2 class="pp-dialog-title" id="share-drawer-title">Share replay</h2>
-        <button class="pp-box pp-button pp-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button>
+      <header class="chu-dialog-header">
+        <h2 class="chu-dialog-title" id="share-drawer-title">Share replay</h2>
+        <button class="chu-box chu-button chu-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
       </header>
-      <footer class="pp-dialog-footer" style="justify-content:flex-start;padding-block-start:calc(6*var(--pp-pixel))">
-        <button class="pp-box pp-button" value="link">Copy link</button>
-        <button class="pp-box pp-button" data-variant="soft" value="video">Save video</button>
+      <footer class="chu-dialog-footer" style="justify-content:flex-start;padding-block-start:calc(6*var(--chu-pixel))">
+        <button class="chu-box chu-button" value="link">Copy link</button>
+        <button class="chu-box chu-button" data-variant="soft" value="video">Save video</button>
       </footer>
     </form>
   </dialog>
-</pp-drawer>
+</chu-drawer>

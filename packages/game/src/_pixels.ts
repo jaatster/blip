@@ -36,13 +36,13 @@ const MAPS: Record<string, [string, string]> = {
 };
 
 const PALETTE: Record<string, string> = {
-  o: "--pp-ink", w: "--pp-white",
-  y: "--pp-candy-yellow-light", Y: "--pp-candy-yellow", d: "--pp-candy-yellow-shade",
-  g: "--pp-candy-slate-light", G: "--pp-candy-slate", h: "--pp-candy-slate-shade",
-  n: "--pp-candy-orange-light", N: "--pp-candy-orange", m: "--pp-candy-orange-shade",
-  k: "--pp-candy-cream", K: "--pp-candy-cream-shade",
-  b: "--pp-candy-blue-light", B: "--pp-candy-blue", v: "--pp-candy-blue-shade",
-  r: "--pp-candy-red-light", R: "--pp-candy-red", x: "--pp-candy-red-shade",
+  o: "--chu-ink", w: "--chu-white",
+  y: "--chu-candy-yellow-light", Y: "--chu-candy-yellow", d: "--chu-candy-yellow-shade",
+  g: "--chu-candy-slate-light", G: "--chu-candy-slate", h: "--chu-candy-slate-shade",
+  n: "--chu-candy-orange-light", N: "--chu-candy-orange", m: "--chu-candy-orange-shade",
+  k: "--chu-candy-cream", K: "--chu-candy-cream-shade",
+  b: "--chu-candy-blue-light", B: "--chu-candy-blue", v: "--chu-candy-blue-shade",
+  r: "--chu-candy-red-light", R: "--chu-candy-red", x: "--chu-candy-red-shade",
 };
 const TONE: Record<string, [string, string]> = { l: ["light", "-light"], c: ["base", ""], s: ["shade", "-shade"] };
 
@@ -80,18 +80,18 @@ export function paths(rows: readonly string[]): Map<string, string> {
   return out;
 }
 
-const candy = (tone: string, part: string) => (tone === "accent" ? `--pp-accent${part}` : `--pp-candy-${tone === "neutral" ? "cream" : tone}${part}`);
+const candy = (tone: string, part: string) => (tone === "accent" ? `--chu-accent${part}` : `--chu-candy-${tone === "neutral" ? "cream" : tone}${part}`);
 
 /** The CSS colour for a pixel key in a sprite whose default tone is `tone`. */
 export function colour(key: string, tone: string): string {
   const t = TONE[key];
-  if (t) return `var(--pp-sprite-${t[0]}, var(${candy(tone, t[1])}))`;
-  return `var(${PALETTE[key] ?? "--pp-ink"})`;
+  if (t) return `var(--chu-sprite-${t[0]}, var(${candy(tone, t[1])}))`;
+  return `var(${PALETTE[key] ?? "--chu-ink"})`;
 }
 
 /**
  * A sprite as an SVG string: whole pixels, token colours, an ink outline. One sprite pixel is one Blip pixel
- * (sprites.css sizes it from --pp-pixel). Unknown names give an empty string.
+ * (sprites.css sizes it from --chu-pixel). Unknown names give an empty string.
  *
  *   sprite("coin")                      sprite("potion", { tone: "blue", label: "Mana potion" })
  */
@@ -102,5 +102,5 @@ export function sprite(name: string, options: { tone?: string; label?: string } 
   const a11y = options.label ? `role="img" aria-label="${options.label.replace(/[&"<]/g, (c) => `&#${c.charCodeAt(0)};`)}"` : `aria-hidden="true"`;
   let body = "";
   for (const [key, d] of paths(rows)) body += `<path fill="${colour(key, tone)}" d="${d}"/>`;
-  return `<svg class="pp-sprite" data-sprite="${name}"${options.tone ? ` data-tone="${options.tone}"` : ""} viewBox="0 0 ${w} ${h}" width="${2 * w}" height="${2 * h}" style="--_w:${w};--_h:${h}" shape-rendering="crispEdges" focusable="false" ${a11y}>${body}</svg>`;
+  return `<svg class="chu-sprite" data-sprite="${name}"${options.tone ? ` data-tone="${options.tone}"` : ""} viewBox="0 0 ${w} ${h}" width="${2 * w}" height="${2 * h}" style="--_w:${w};--_h:${h}" shape-rendering="crispEdges" focusable="false" ${a11y}>${body}</svg>`;
 }

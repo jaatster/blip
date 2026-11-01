@@ -2,7 +2,7 @@
 name: World
 package: "@jaatster/blip-effects"
 css: world.css
-element: pp-world
+element: chu-world
 react: World
 status: beta
 ---
@@ -19,18 +19,18 @@ an empty state.
 
 ```html
 <section style="position: relative">
-  <pp-world scheme="day" parallax avoid="h1"></pp-world>
-  <h1 class="pp-display pp-pop" data-scale="3" data-pop="Blip">Blip</h1>
+  <chu-world scheme="day" parallax avoid="h1"></chu-world>
+  <h1 class="chu-display chu-pop" data-scale="3" data-pop="Blip">Blip</h1>
 </section>
 ```
 
 ```js
-import "@jaatster/blip-effects/world";                         // defines <pp-world>
+import "@jaatster/blip-effects/world";                         // defines <chu-world>
 import { drawWorld } from "@jaatster/blip-effects/world";
 drawWorld(canvas.getContext("2d"), "night");               // the TV's 320 x 180 picture, for a game or a poster
 ```
 
-`<pp-world>` fills its positioned container (`position: absolute; inset: 0`). The container becomes its own stacking
+`<chu-world>` fills its positioned container (`position: absolute; inset: 0`). The container becomes its own stacking
 context, so the world sits behind the container's content and in front of its background.
 
 ### Where its motion belongs
@@ -42,9 +42,9 @@ where it pulls the eye from the work. A page whose world moves shows the [motion
 pauses all of it at once and remembers the choice (WCAG 2.2.2, Pause, Stop, Hide):
 
 ```html
-<pp-world parallax clouds stars events avoid="h1"></pp-world>
+<chu-world parallax clouds stars events avoid="h1"></chu-world>
 …
-<pp-motion-toggle></pp-motion-toggle>
+<chu-motion-toggle></chu-motion-toggle>
 ```
 
 ### Keeping the sky clear of the words
@@ -54,8 +54,8 @@ selector list of what they keep clear of, matched in the world's container (its 
 holds a match):
 
 ```html
-<section class="pp-hero" aria-labelledby="hero-title">
-  <pp-world parallax avoid=".pp-hero-title, .pp-hero-lead, .pp-hero-actions, .pp-hero-note"></pp-world>
+<section class="chu-hero" aria-labelledby="hero-title">
+  <chu-world parallax avoid=".chu-hero-title, .chu-hero-lead, .chu-hero-actions, .chu-hero-note"></chu-world>
   …
 </section>
 ```
@@ -102,12 +102,12 @@ mountains stay in view.
 
 | Attribute | Values | |
 |---|---|---|
-| `scheme` | `day`, `sunset`, `night`, `auto`, or left out | Left out, the world follows the page's scheme (`data-pp-scheme`, or the device's dark mode), stepping its palette over a minute when the page's Auto changes. `auto` follows the clock itself (Day 6:00 to 17:00, Sunset to 19:00, Night after; `services.now()`), and steps through six mixed palettes, ten seconds apart, when the time of day changes; the sun, moon and stars switch halfway. |
+| `scheme` | `day`, `sunset`, `night`, `auto`, or left out | Left out, the world follows the page's scheme (`data-chu-scheme`, or the device's dark mode), stepping its palette over a minute when the page's Auto changes. `auto` follows the clock itself (Day 6:00 to 17:00, Sunset to 19:00, Night after; `services.now()`), and steps through six mixed palettes, ten seconds apart, when the time of day changes; the sun, moon and stars switch halfway. |
 | `parallax` | | The layers slide against the pointer, 0 to 4 pixels a step (the sky stays put), and lift a little as the world scrolls past. Two steps a move, each on a whole pixel, even when a move is cut short by the next. |
 | `clouds` | absent, present (`drift`), `none` | Absent (or `"false"`): still clouds, as on the TV's Home. Present: they drift right at a tenth of their size in pixels a second, a whole pixel at a time, as on the screensaver, for as long as the page is open: show the motion toggle. `none`: no clouds. |
 | `stars` | | At night, a real star flares now and then: small, big, small, gone (at most two). It runs on: show the motion toggle. |
 | `events` | | A few seconds in, then every one to two minutes: by day and at sunset a flock of three crosses the sky in a loose V, flapping; at night a shooting star streaks down and left in nine frames. It runs on: show the motion toggle. |
-| `zoom` | a whole number, default `1` | World pixel = zoom x `--pp-pixel`, made a whole number of device pixels. `zoom="2"` at full screen is the TV's own scale. |
+| `zoom` | a whole number, default `1` | World pixel = zoom x `--chu-pixel`, made a whole number of device pixels. `zoom="2"` at full screen is the TV's own scale. |
 | `avoid` | a selector list, default none | What the sun, the moon, the stars, clouds and shooting stars keep clear of: matched in the world's container, each box with a five-pixel margin. See above. |
 
 ## States
@@ -124,10 +124,10 @@ mountains stay in view.
 ## Accessibility
 
 - The world is decoration: it is `aria-hidden` and takes no pointer events. Put any meaning in the content.
-- Text on the world: use POP (`.pp-pop`) for big text and OUTLINE (`.pp-outline`) for small text, which read on every
+- Text on the world: use POP (`.chu-pop`) for big text and OUTLINE (`.chu-outline`) for small text, which read on every
   sky, or a one-pixel halo in the page colour, as the hero's lead and the call to action's text wear. Plain text
   needs a panel behind it. Name the text in `avoid`, so no moon, star or cloud sits behind it.
-- Motion is small and slow, stops with reduced motion, and pauses at once with `data-pp-motion="reduce"` on `<html>`,
+- Motion is small and slow, stops with reduced motion, and pauses at once with `data-chu-motion="reduce"` on `<html>`,
   which the [motion toggle](motion-toggle.md) sets. With `clouds`, `stars` or `events` the motion runs on, so the
   page must offer that pause (WCAG 2.2.2): show the toggle.
 
@@ -149,5 +149,5 @@ mountains stay in view.
 |---|---|---|
 | `scheme`, `parallax`, `clouds`, `stars`, `events`, `zoom`, `avoid` | properties | Mirror the attributes (`scheme` reads `inherit` when left out). |
 | `drawWorld(ctx, scheme, w = 320, h = 180, options)` | function | Draws the world into a 2D context at (0, 0). Options: `palette`, `from` (an element whose tokens to read), `features` (which time of day's sun, moon and stars), `clouds` (default `true`), `layer` (`sky`, `peaks`, `hills`, `near`, `ground`), `avoid` (boxes in world pixels, `[x0, y0, x1, y1]`, that the sun, the moon, the stars and the clouds keep clear of). |
-| `worldPalette(scheme, from?)` | function | The 44 colours (0xRRGGBB) from the `--pp-world-*` tokens. A palette pack repaints the world by overriding them. |
-| `--pp-pixel` | custom property | The world pixel (times `zoom`). |
+| `worldPalette(scheme, from?)` | function | The 44 colours (0xRRGGBB) from the `--chu-world-*` tokens. A palette pack repaints the world by overriding them. |
+| `--chu-pixel` | custom property | The world pixel (times `zoom`). |

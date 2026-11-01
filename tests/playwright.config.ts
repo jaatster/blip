@@ -15,7 +15,7 @@
  */
 import { defineConfig } from "@playwright/test";
 
-const PORT = Number(process.env.PP_TEST_PORT ?? 4180);
+const PORT = Number(process.env.CHU_TEST_PORT ?? 4180);
 
 export default defineConfig({
   timeout: 60_000,

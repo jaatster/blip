@@ -4,16 +4,16 @@
  * drop, rows that light up in the focus yellow, and a pixel check by the chosen one. Elsewhere the browser's own
  * list opens, in the scheme's colours.
  *
- *   <span class="pp-box pp-select">
+ *   <span class="chu-box chu-select">
  *     <select id="world" name="world">
- *       <option class="pp-box" value="meadow">Meadow</option>
- *       <option class="pp-box" value="caves" selected>Crystal caves</option>
+ *       <option class="chu-box" value="meadow">Meadow</option>
+ *       <option class="chu-box" value="caves" selected>Crystal caves</option>
  *     </select>
  *   </span>
  *
  *   data-size               sm | md (default) | lg       as for the input
  *   data-tone               success (or any tone): a valid field's outline
- *   option.pp-box           each row is a candy box, so the highlighted one gets the box's corners and bands
+ *   option.chu-box           each row is a candy box, so the highlighted one gets the box's corners and bands
  *                           (without the class it is a flat yellow bar)
  *
  * Keyboard and states are the browser's: the box draws the focus ring; aria-invalid or :user-invalid is the
@@ -21,44 +21,44 @@
  */
 @import "./_control.css";
 
-@layer pp.components {
-  .pp-select { padding-inline-end: 0; cursor: pointer; }
-  .pp-select:has(> select:disabled) { cursor: not-allowed; }
+@layer chu.components {
+  .chu-select { padding-inline-end: 0; cursor: pointer; }
+  .chu-select:has(> select:disabled) { cursor: not-allowed; }
 
   /* The chevron: four rows of pixels (7, 5, 3, 1), drawn in the text colour at the end of the control. */
-  .pp-select > select {
-    --_y: calc(var(--_h) / 2 - 2 * var(--pp-pixel));
-    padding-inline-end: calc(var(--_pad) + 10 * var(--pp-pixel));
+  .chu-select > select {
+    --_y: calc(var(--_h) / 2 - 2 * var(--chu-pixel));
+    padding-inline-end: calc(var(--_pad) + 10 * var(--chu-pixel));
     cursor: inherit;
     background:
-      linear-gradient(currentColor 0 0) right var(--_pad) top var(--_y) / calc(7 * var(--pp-pixel)) var(--pp-pixel) no-repeat,
-      linear-gradient(currentColor 0 0) right calc(var(--_pad) + var(--pp-pixel)) top calc(var(--_y) + var(--pp-pixel)) / calc(5 * var(--pp-pixel)) var(--pp-pixel) no-repeat,
-      linear-gradient(currentColor 0 0) right calc(var(--_pad) + 2 * var(--pp-pixel)) top calc(var(--_y) + 2 * var(--pp-pixel)) / calc(3 * var(--pp-pixel)) var(--pp-pixel) no-repeat,
-      linear-gradient(currentColor 0 0) right calc(var(--_pad) + 3 * var(--pp-pixel)) top calc(var(--_y) + 3 * var(--pp-pixel)) / var(--pp-pixel) var(--pp-pixel) no-repeat;
+      linear-gradient(currentColor 0 0) right var(--_pad) top var(--_y) / calc(7 * var(--chu-pixel)) var(--chu-pixel) no-repeat,
+      linear-gradient(currentColor 0 0) right calc(var(--_pad) + var(--chu-pixel)) top calc(var(--_y) + var(--chu-pixel)) / calc(5 * var(--chu-pixel)) var(--chu-pixel) no-repeat,
+      linear-gradient(currentColor 0 0) right calc(var(--_pad) + 2 * var(--chu-pixel)) top calc(var(--_y) + 2 * var(--chu-pixel)) / calc(3 * var(--chu-pixel)) var(--chu-pixel) no-repeat,
+      linear-gradient(currentColor 0 0) right calc(var(--_pad) + 3 * var(--chu-pixel)) top calc(var(--_y) + 3 * var(--chu-pixel)) / var(--chu-pixel) var(--chu-pixel) no-repeat;
   }
-  .pp-select > select:dir(rtl) { background-position-x: left var(--_pad), left calc(var(--_pad) + var(--pp-pixel)), left calc(var(--_pad) + 2 * var(--pp-pixel)), left calc(var(--_pad) + 3 * var(--pp-pixel)); }
+  .chu-select > select:dir(rtl) { background-position-x: left var(--_pad), left calc(var(--_pad) + var(--chu-pixel)), left calc(var(--_pad) + 2 * var(--chu-pixel)), left calc(var(--_pad) + 3 * var(--chu-pixel)); }
   /* The browser's own list, in the scheme's colours where it allows. */
-  .pp-select option { background-color: var(--pp-surface); color: var(--pp-text); }
+  .chu-select option { background-color: var(--chu-surface); color: var(--chu-text); }
 
   /* The customisable select: the picker is a Blip menu. */
   @supports (appearance: base-select) {
-    .pp-select > select,
-    .pp-select > select::picker(select) { appearance: base-select; }
-    .pp-select > select { display: flex; align-items: center; }
-    .pp-select > select::picker-icon { display: none; }
+    .chu-select > select,
+    .chu-select > select::picker(select) { appearance: base-select; }
+    .chu-select > select { display: flex; align-items: center; }
+    .chu-select > select::picker-icon { display: none; }
 
-    .pp-select > select::picker(select) {
-      --_p: var(--pp-pixel);
+    .chu-select > select::picker(select) {
+      --_p: var(--chu-pixel);
       min-inline-size: calc(anchor-size(self-inline) + var(--_pad));
       max-block-size: calc(120 * var(--_p));
       margin: calc(2 * var(--_p)) 0;
       margin-inline-start: calc(-1 * var(--_pad));
       padding: var(--_p);
-      border: var(--_p) solid var(--pp-outline);
-      background: var(--pp-surface-panel);
-      color: var(--pp-text);
-      box-shadow: var(--_p) var(--_p) 0 var(--pp-drop);
-      font-family: var(--pp-font-ui);
+      border: var(--_p) solid var(--chu-outline);
+      background: var(--chu-surface-panel);
+      color: var(--chu-text);
+      box-shadow: var(--_p) var(--_p) 0 var(--chu-drop);
+      font-family: var(--chu-font-ui);
       /* A one-pixel stepped corner, and the drop's shape one pixel down and right. */
       mask:
         linear-gradient(#000 0 0) var(--_p) 0 / calc(100% - 2 * var(--_p)) 100% no-repeat,
@@ -69,69 +69,69 @@
     }
     /* :open on the select, not :popover-open on the picker: a pseudo-class after a pseudo-element fails to parse in
        lightningcss (Vite 8, Next.js 16). */
-    .pp-select > select:open::picker(select) { animation: pp-pop-in calc(2 * var(--pp-duration-frame)) steps(1, jump-end) both; }
+    .chu-select > select:open::picker(select) { animation: chu-pop-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end) both; }
 
-    .pp-select option {
-      gap: calc(3 * var(--pp-pixel));
-      min-block-size: calc(14 * var(--pp-pixel));
-      padding: 0 calc(5 * var(--pp-pixel)) 0 calc(3 * var(--pp-pixel));
+    .chu-select option {
+      gap: calc(3 * var(--chu-pixel));
+      min-block-size: calc(14 * var(--chu-pixel));
+      padding: 0 calc(5 * var(--chu-pixel)) 0 calc(3 * var(--chu-pixel));
       background: none;
-      color: var(--pp-box-text);
-      font-size: var(--pp-size-body);
+      color: var(--chu-box-text);
+      font-size: var(--chu-size-body);
       outline: 0;
       box-shadow: none;
     }
-    .pp-select option::checkmark {
+    .chu-select option::checkmark {
       content: "";
-      inline-size: calc(7 * var(--pp-pixel));
-      block-size: calc(7 * var(--pp-pixel));
+      inline-size: calc(7 * var(--chu-pixel));
+      block-size: calc(7 * var(--chu-pixel));
       background: currentColor;
       mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7' shape-rendering='crispEdges'%3E%3Cpath d='M6 0h1v1H6zM5 1h2v1H5zM0 2h1v1H0zM4 2h3v1H4zM0 3h2v1H0zM3 3h3v1H3zM0 4h5v1H0zM1 5h3v1H1zM2 6h1v1H2z'/%3E%3C/svg%3E") 0 0 / 100% 100%;
     }
-    .pp-select option:disabled { color: var(--pp-text-muted); }
-    .pp-select option:not(.pp-box):is(:focus-visible, :hover):not(:disabled) { background: var(--pp-focus); color: var(--pp-ink); }
+    .chu-select option:disabled { color: var(--chu-text-muted); }
+    .chu-select option:not(.chu-box):is(:focus-visible, :hover):not(:disabled) { background: var(--chu-focus); color: var(--chu-ink); }
 
     /* Each row a candy box: invisible at rest, the focus yellow when it has the keyboard or the pointer. */
-    .pp-select option.pp-box {
-      --pp-r: 3;
-      --pp-shape: var(--pp-shape-3);
-      --pp-shape-inner: var(--pp-shape-3-inner);
-      --pp-drop-size: 0;
-      --pp-box-outline: transparent;
-      --pp-box-top: transparent;
-      --pp-box-fill: transparent;
-      --pp-box-bottom: transparent;
-      --pp-box-text: var(--pp-text);
-      --pp-box-glint: transparent;
+    .chu-select option.chu-box {
+      --chu-r: 3;
+      --chu-shape: var(--chu-shape-3);
+      --chu-shape-inner: var(--chu-shape-3-inner);
+      --chu-drop-size: 0;
+      --chu-box-outline: transparent;
+      --chu-box-top: transparent;
+      --chu-box-fill: transparent;
+      --chu-box-bottom: transparent;
+      --chu-box-text: var(--chu-text);
+      --chu-box-glint: transparent;
     }
-    .pp-select option.pp-box:is(:focus-visible, :hover):not(:disabled) {
-      --pp-band-top: 2;
-      --pp-band-bottom: 2;
-      --pp-box-outline: var(--pp-outline);
-      --pp-box-top: var(--pp-candy-yellow-light);
-      --pp-box-fill: var(--pp-focus);
-      --pp-box-bottom: var(--pp-candy-yellow-shade);
-      --pp-box-text: var(--pp-ink);
-      --pp-box-glint: var(--pp-white);
+    .chu-select option.chu-box:is(:focus-visible, :hover):not(:disabled) {
+      --chu-band-top: 2;
+      --chu-band-bottom: 2;
+      --chu-box-outline: var(--chu-outline);
+      --chu-box-top: var(--chu-candy-yellow-light);
+      --chu-box-fill: var(--chu-focus);
+      --chu-box-bottom: var(--chu-candy-yellow-shade);
+      --chu-box-text: var(--chu-ink);
+      --chu-box-glint: var(--chu-white);
       filter: none;
     }
-    .pp-select option.pp-box:disabled { --pp-box-dither: transparent; }
+    .chu-select option.chu-box:disabled { --chu-box-dither: transparent; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .pp-select > select:open::picker(select) { animation: none; }
+    .chu-select > select:open::picker(select) { animation: none; }
   }
 
   /* Windows high contrast drops gradient backgrounds: keep the chevron by drawing the select in system colours
      ourselves (the list and the picker go back to the system's). */
   @media (forced-colors: active) {
-    .pp-select > select { forced-color-adjust: none; color: CanvasText; }
-    .pp-select > select:disabled { color: GrayText; }
-    .pp-select > select :is(option, optgroup) { forced-color-adjust: auto; }
+    .chu-select > select { forced-color-adjust: none; color: CanvasText; }
+    .chu-select > select:disabled { color: GrayText; }
+    .chu-select > select :is(option, optgroup) { forced-color-adjust: auto; }
   }
   @supports (appearance: base-select) {
     @media (forced-colors: active) {
-      .pp-select > select::picker(select) { forced-color-adjust: auto; }
+      .chu-select > select::picker(select) { forced-color-adjust: auto; }
     }
   }
 }

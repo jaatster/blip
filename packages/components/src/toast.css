@@ -1,170 +1,170 @@
 /*
  * Toast. A short message that floats in a corner and leaves on its own: a sign, a title, a few words, an
- * action, a dismiss button, and a stepped pixel bar that counts down until it goes. <pp-toaster> (from
+ * action, a dismiss button, and a stepped pixel bar that counts down until it goes. <chu-toaster> (from
  * @jaatster/blip-elements) makes them, stacks them, announces them and pauses them while you point at or focus one.
  *
- *   <pp-toaster data-side="bottom" data-align="end"></pp-toaster>
+ *   <chu-toaster data-side="bottom" data-align="end"></chu-toaster>
  *   toast({ title: "Achievement unlocked", body: "First Flight", tone: "success", action: { label: "View" } })
  *
  * The markup it makes, also usable on its own:
  *
- *   <div class="pp-box pp-toast" data-tone="success">
- *     <span class="pp-toast-icon" aria-hidden="true"></span>
- *     <div class="pp-toast-body">
- *       <p class="pp-toast-title">Achievement unlocked</p>
+ *   <div class="chu-box chu-toast" data-tone="success">
+ *     <span class="chu-toast-icon" aria-hidden="true"></span>
+ *     <div class="chu-toast-body">
+ *       <p class="chu-toast-title">Achievement unlocked</p>
  *       <p>First Flight: clear World 1 without a hit.</p>
- *       <div class="pp-toast-actions"><button class="pp-box pp-button" data-size="sm" data-variant="outline">View</button></div>
+ *       <div class="chu-toast-actions"><button class="chu-box chu-button" data-size="sm" data-variant="outline">View</button></div>
  *     </div>
- *     <button class="pp-box pp-button pp-toast-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button>
- *     <span class="pp-toast-timer" aria-hidden="true"></span>
+ *     <button class="chu-box chu-button chu-toast-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
+ *     <span class="chu-toast-timer" aria-hidden="true"></span>
  *   </div>
  *
  *   data-tone        none: a raised panel | info | success | warning | danger      soft fill in the tone
  *   data-variant     soft (default with a tone) | candy                             candy is louder
- *   .pp-toaster      data-side: bottom (default) | top; data-align: end (default) | center | start
- *   data-pp-static   on .pp-toaster: in the page flow, for docs and screenshots
+ *   .chu-toaster      data-side: bottom (default) | top; data-align: end (default) | center | start
+ *   data-chu-static   on .chu-toaster: in the page flow, for docs and screenshots
  *
- * The timer bar steps down in eight whole-pixel steps over --pp-toast-duration and stops while the toaster has
- * data-paused; --pp-toast-timer (on a toast or the toaster) recolours it. Toasts come up from their edge (six
+ * The timer bar steps down in eight whole-pixel steps over --chu-toast-duration and stops while the toaster has
+ * data-paused; --chu-toast-timer (on a toast or the toaster) recolours it. Toasts come up from their edge (six
  * pixels, two, then in place) and drop back out the same way.
  */
 @import "./_feedback.css";
 
-@property --_pp-toast-left { syntax: "<number>"; inherits: false; initial-value: 8; }
+@property --_chu-toast-left { syntax: "<number>"; inherits: false; initial-value: 8; }
 
-@layer pp.components {
-  .pp-toaster {
-    --_pp-dir: 1;
+@layer chu.components {
+  .chu-toaster {
+    --_chu-dir: 1;
     position: fixed;
-    z-index: var(--pp-layer-toast);
-    inset-block-end: calc(8 * var(--pp-pixel));
-    inset-inline-end: calc(8 * var(--pp-pixel));
+    z-index: var(--chu-layer-toast);
+    inset-block-end: calc(8 * var(--chu-pixel));
+    inset-inline-end: calc(8 * var(--chu-pixel));
     display: flex;
     flex-direction: column;
-    gap: calc(3 * var(--pp-pixel));
-    inline-size: round(down, min(calc(170 * var(--pp-pixel)), 100% - 16 * var(--pp-pixel)), var(--pp-pixel));
+    gap: calc(3 * var(--chu-pixel));
+    inline-size: round(down, min(calc(170 * var(--chu-pixel)), 100% - 16 * var(--chu-pixel)), var(--chu-pixel));
     pointer-events: none;
   }
-  .pp-toaster[data-align="center"] { inset-inline: 0; margin-inline: auto; }
-  .pp-toaster[data-align="start"] { inset-inline: calc(8 * var(--pp-pixel)) auto; }
-  .pp-toaster[data-side="top"] {
-    --_pp-dir: -1;
-    inset-block: calc(8 * var(--pp-pixel)) auto;
+  .chu-toaster[data-align="center"] { inset-inline: 0; margin-inline: auto; }
+  .chu-toaster[data-align="start"] { inset-inline: calc(8 * var(--chu-pixel)) auto; }
+  .chu-toaster[data-side="top"] {
+    --_chu-dir: -1;
+    inset-block: calc(8 * var(--chu-pixel)) auto;
     flex-direction: column-reverse;
   }
-  .pp-toaster[data-pp-static] { position: relative; inset: auto; z-index: auto; margin: 0; }
+  .chu-toaster[data-chu-static] { position: relative; inset: auto; z-index: auto; margin: 0; }
 
-  .pp-toast {
-    --_pp-glyph: var(--_pp-g-info);
-    --pp-drop-size: 2;
+  .chu-toast {
+    --_chu-glyph: var(--_chu-g-info);
+    --chu-drop-size: 2;
     display: flex;
     align-items: flex-start;
-    gap: calc(3 * var(--pp-pixel));
-    padding: calc(4 * var(--pp-pixel)) calc(4 * var(--pp-pixel)) calc(6 * var(--pp-pixel)) calc(5 * var(--pp-pixel));
-    margin: 0 calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel)) 0;
-    font-size: var(--pp-size-small);
-    line-height: var(--pp-leading-normal);
+    gap: calc(3 * var(--chu-pixel));
+    padding: calc(4 * var(--chu-pixel)) calc(4 * var(--chu-pixel)) calc(6 * var(--chu-pixel)) calc(5 * var(--chu-pixel));
+    margin: 0 calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel)) 0;
+    font-size: var(--chu-size-small);
+    line-height: var(--chu-leading-normal);
     text-align: start;
     pointer-events: auto;
   }
-  .pp-toast[hidden] { display: none; }
-  .pp-toast[data-tone="success"] { --_pp-glyph: var(--_pp-g-success); }
-  .pp-toast[data-tone="warning"] { --_pp-glyph: var(--_pp-g-warning); }
-  .pp-toast[data-tone="danger"] { --_pp-glyph: var(--_pp-g-danger); }
+  .chu-toast[hidden] { display: none; }
+  .chu-toast[data-tone="success"] { --_chu-glyph: var(--_chu-g-success); }
+  .chu-toast[data-tone="warning"] { --_chu-glyph: var(--_chu-g-warning); }
+  .chu-toast[data-tone="danger"] { --_chu-glyph: var(--_chu-g-danger); }
 
   /* No tone: a raised panel in the scheme's colours. A tone: its soft fill. */
-  .pp-toast:not([data-tone]):not([data-variant]) {
-    --pp-box-top: var(--pp-surface-raised);
-    --pp-box-fill: var(--pp-surface-raised);
-    --pp-box-bottom: var(--pp-surface-raised);
-    --pp-box-text: var(--pp-text);
-    --pp-box-glint: transparent;
+  .chu-toast:not([data-tone]):not([data-variant]) {
+    --chu-box-top: var(--chu-surface-raised);
+    --chu-box-fill: var(--chu-surface-raised);
+    --chu-box-bottom: var(--chu-surface-raised);
+    --chu-box-text: var(--chu-text);
+    --chu-box-glint: transparent;
   }
-  .pp-toast[data-tone]:not([data-variant]) {
-    --pp-box-top: var(--pp-tone-light);
-    --pp-box-fill: var(--pp-tone-light);
-    --pp-box-bottom: var(--pp-tone);
-    --pp-box-glint: transparent;
+  .chu-toast[data-tone]:not([data-variant]) {
+    --chu-box-top: var(--chu-tone-light);
+    --chu-box-fill: var(--chu-tone-light);
+    --chu-box-bottom: var(--chu-tone);
+    --chu-box-glint: transparent;
   }
   /* Toned toasts are light in every scheme, so what sits on them (text, links, the action and the close cross, a
      disabled dither) takes the light roles. The box does that for data-variant="soft" and "candy"; a toned toast is
      soft by default, so it takes the same roles here. */
-  .pp-toast[data-tone]:not([data-variant]) {
-    --pp-text: var(--pp-tone-on);
-    --pp-text-muted: var(--pp-tone-on);
-    --pp-text-inverse: var(--pp-white);
-    --pp-accent-text: var(--pp-tone-on);
-    --pp-info-text: var(--pp-tone-on);
-    --pp-success-text: var(--pp-tone-on);
-    --pp-warning-text: var(--pp-tone-on);
-    --pp-danger-text: var(--pp-tone-on);
-    --pp-link-visited: var(--pp-tone-on);
-    --pp-line: var(--pp-tone-on);
-    --pp-line-soft: var(--pp-tone);
-    --pp-surface: var(--pp-white);
-    --pp-surface-raised: var(--pp-white);
-    --pp-surface-panel: var(--pp-candy-cream);
-    --pp-surface-sunken: var(--pp-tone);
-    --pp-bg: var(--pp-tone-light);
-    --pp-disabled-dither: var(--pp-tone-light);
+  .chu-toast[data-tone]:not([data-variant]) {
+    --chu-text: var(--chu-tone-on);
+    --chu-text-muted: var(--chu-tone-on);
+    --chu-text-inverse: var(--chu-white);
+    --chu-accent-text: var(--chu-tone-on);
+    --chu-info-text: var(--chu-tone-on);
+    --chu-success-text: var(--chu-tone-on);
+    --chu-warning-text: var(--chu-tone-on);
+    --chu-danger-text: var(--chu-tone-on);
+    --chu-link-visited: var(--chu-tone-on);
+    --chu-line: var(--chu-tone-on);
+    --chu-line-soft: var(--chu-tone);
+    --chu-surface: var(--chu-white);
+    --chu-surface-raised: var(--chu-white);
+    --chu-surface-panel: var(--chu-candy-cream);
+    --chu-surface-sunken: var(--chu-tone);
+    --chu-bg: var(--chu-tone-light);
+    --chu-disabled-dither: var(--chu-tone-light);
   }
 
-  .pp-toast-icon { flex: none; inline-size: calc(12 * var(--pp-pixel)); block-size: calc(12 * var(--pp-pixel)); }
-  .pp-toast-icon:empty { background-color: currentColor; mask: var(--_pp-glyph) 0 0 / 100% 100% no-repeat; }
-  .pp-toast:not([data-tone]) .pp-toast-icon { color: var(--pp-accent-text); }
+  .chu-toast-icon { flex: none; inline-size: calc(12 * var(--chu-pixel)); block-size: calc(12 * var(--chu-pixel)); }
+  .chu-toast-icon:empty { background-color: currentColor; mask: var(--_chu-glyph) 0 0 / 100% 100% no-repeat; }
+  .chu-toast:not([data-tone]) .chu-toast-icon { color: var(--chu-accent-text); }
 
-  .pp-toast-body { flex: 1; min-inline-size: 0; }
-  .pp-toast-title { font-weight: var(--pp-weight-bold); line-height: calc(12 * var(--pp-pixel)); }
-  .pp-toast-actions {
+  .chu-toast-body { flex: 1; min-inline-size: 0; }
+  .chu-toast-title { font-weight: var(--chu-weight-bold); line-height: calc(12 * var(--chu-pixel)); }
+  .chu-toast-actions {
     display: flex;
     flex-wrap: wrap;
-    gap: calc(3 * var(--pp-pixel));
-    margin-block-start: calc(3 * var(--pp-pixel));
+    gap: calc(3 * var(--chu-pixel));
+    margin-block-start: calc(3 * var(--chu-pixel));
   }
-  .pp-toast-close { flex: none; margin: calc(-2 * var(--pp-pixel)) calc(-1 * var(--pp-pixel)) 0 0; }
+  .chu-toast-close { flex: none; margin: calc(-2 * var(--chu-pixel)) calc(-1 * var(--chu-pixel)) 0 0; }
 
   /* The countdown: a strip over the bottom band, inside the corners, eight steps from full to empty. */
-  .pp-toast-timer {
-    --_pp-in: calc((var(--pp-r) + 1) * var(--pp-pixel));
+  .chu-toast-timer {
+    --_chu-in: calc((var(--chu-r) + 1) * var(--chu-pixel));
     position: absolute;
-    inset-block-end: var(--pp-pixel);
-    inset-inline-start: var(--_pp-in);
-    block-size: calc(2 * var(--pp-pixel));
-    inline-size: round(down, (100% - 2 * var(--_pp-in)) * var(--_pp-toast-left) / 8, var(--pp-pixel));
-    background: var(--pp-toast-timer, var(--_pp-timer));
+    inset-block-end: var(--chu-pixel);
+    inset-inline-start: var(--_chu-in);
+    block-size: calc(2 * var(--chu-pixel));
+    inline-size: round(down, (100% - 2 * var(--_chu-in)) * var(--_chu-toast-left) / 8, var(--chu-pixel));
+    background: var(--chu-toast-timer, var(--_chu-timer));
     pointer-events: none;
   }
-  .pp-toast { --_pp-timer: var(--pp-tone-shade); }
-  .pp-toast:not([data-tone]) { --_pp-timer: var(--pp-accent); }
-  .pp-toast[data-variant="candy"] { --_pp-timer: var(--pp-tone-light); }
-  .pp-toaster:not([data-pp-static]) .pp-toast-timer {
-    animation: pp-toast-timer var(--pp-toast-duration, 0ms) steps(8, jump-end) forwards;
+  .chu-toast { --_chu-timer: var(--chu-tone-shade); }
+  .chu-toast:not([data-tone]) { --_chu-timer: var(--chu-accent); }
+  .chu-toast[data-variant="candy"] { --_chu-timer: var(--chu-tone-light); }
+  .chu-toaster:not([data-chu-static]) .chu-toast-timer {
+    animation: chu-toast-timer var(--chu-toast-duration, 0ms) steps(8, jump-end) forwards;
   }
-  .pp-toaster[data-paused] .pp-toast-timer { animation-play-state: paused; }
+  .chu-toaster[data-paused] .chu-toast-timer { animation-play-state: paused; }
 
   /* Arriving and leaving: up from the toaster's edge, back out the same way. */
-  .pp-toaster:not([data-pp-static]) > .pp-toast { animation: pp-toast-in var(--pp-duration-pop) steps(1, jump-end); }
-  .pp-toaster > .pp-toast[data-pp-leaving] { animation: pp-toast-out var(--pp-duration-pop) steps(1, jump-end) forwards; }
+  .chu-toaster:not([data-chu-static]) > .chu-toast { animation: chu-toast-in var(--chu-duration-pop) steps(1, jump-end); }
+  .chu-toaster > .chu-toast[data-chu-leaving] { animation: chu-toast-out var(--chu-duration-pop) steps(1, jump-end) forwards; }
 
   @media (prefers-reduced-motion: reduce) {
-    .pp-toaster:not([data-pp-static]) > .pp-toast, .pp-toaster > .pp-toast[data-pp-leaving] { animation: none; }
+    .chu-toaster:not([data-chu-static]) > .chu-toast, .chu-toaster > .chu-toast[data-chu-leaving] { animation: none; }
   }
 
   @media (forced-colors: active) {
-    .pp-toaster > .pp-toast { background: Canvas; }
-    .pp-toast-icon:empty { forced-color-adjust: none; background-color: CanvasText; }
-    .pp-toast-timer { forced-color-adjust: none; background: Highlight; }
+    .chu-toaster > .chu-toast { background: Canvas; }
+    .chu-toast-icon:empty { forced-color-adjust: none; background-color: CanvasText; }
+    .chu-toast-timer { forced-color-adjust: none; background: Highlight; }
   }
 }
 
-@keyframes pp-toast-timer { from { --_pp-toast-left: 8; } to { --_pp-toast-left: 0; } }
-@keyframes pp-toast-in {
-  0% { translate: 0 calc(var(--_pp-dir) * 6 * var(--pp-pixel)); }
-  33.333% { translate: 0 calc(var(--_pp-dir) * 2 * var(--pp-pixel)); }
+@keyframes chu-toast-timer { from { --_chu-toast-left: 8; } to { --_chu-toast-left: 0; } }
+@keyframes chu-toast-in {
+  0% { translate: 0 calc(var(--_chu-dir) * 6 * var(--chu-pixel)); }
+  33.333% { translate: 0 calc(var(--_chu-dir) * 2 * var(--chu-pixel)); }
   66.667%, 100% { translate: 0 0; }
 }
-@keyframes pp-toast-out {
-  0% { translate: 0 calc(var(--_pp-dir) * 2 * var(--pp-pixel)); }
-  33.333% { translate: 0 calc(var(--_pp-dir) * 6 * var(--pp-pixel)); }
-  66.667%, 100% { translate: 0 calc(var(--_pp-dir) * 6 * var(--pp-pixel)); visibility: hidden; }
+@keyframes chu-toast-out {
+  0% { translate: 0 calc(var(--_chu-dir) * 2 * var(--chu-pixel)); }
+  33.333% { translate: 0 calc(var(--_chu-dir) * 6 * var(--chu-pixel)); }
+  66.667%, 100% { translate: 0 calc(var(--_chu-dir) * 6 * var(--chu-pixel)); visibility: hidden; }
 }

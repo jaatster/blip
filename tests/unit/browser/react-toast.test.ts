@@ -12,7 +12,7 @@ vi.mock("@jaatster/blip-elements/toast", async () => {
 });
 const { toast } = await import("../../../packages/react/src/toast.ts");
 
-const shown = () => [...document.querySelectorAll(".pp-toast")].filter((t) => !(t as HTMLElement).hidden).map((t) => t.getAttribute("aria-label"));
+const shown = () => [...document.querySelectorAll(".chu-toast")].filter((t) => !(t as HTMLElement).hidden).map((t) => t.getAttribute("aria-label"));
 
 describe("@jaatster/blip-react toast()", () => {
   it("returns { close, closed } at once while the toaster loads; closed then, the toast never shows", async () => {
@@ -36,6 +36,6 @@ describe("@jaatster/blip-react toast()", () => {
     expect(shown()).toEqual(["Copied"]);
     handle.close();
     await handle.closed;
-    document.querySelector("pp-toaster")?.remove();
+    document.querySelector("chu-toaster")?.remove();
   });
 });

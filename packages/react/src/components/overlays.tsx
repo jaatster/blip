@@ -11,13 +11,13 @@ import type { Intent, NativeProps, Radius, Size, Tone } from "../internal/props.
 type Named = { "aria-label": string } | { "aria-labelledby": string };
 
 /** The pixel cross a close button shows when it has no children (made when needed, so nothing runs on import). */
-const cross = () => <span className="pp-icon" data-glyph="close" aria-hidden="true" />;
+const cross = () => <span className="chu-icon" data-glyph="close" aria-hidden="true" />;
 
 /** Invoker attributes, spread because React's DOM types do not list them yet. */
 const invoker = (target: string | undefined, command: string) =>
   target === undefined ? {} : { commandfor: target, command };
 
-// -------------------------------------------------------------------------------------------- dialog (pp-dialog)
+// -------------------------------------------------------------------------------------------- dialog (chu-dialog)
 
 /** Own props of {@link DialogPanel}. */
 export interface DialogPanelOwnProps {
@@ -25,9 +25,9 @@ export interface DialogPanelOwnProps {
   size?: Size;
   /** The title bar's colour: accent (default) or an intent; `danger` for destructive confirmations. `data-tone`. */
   tone?: "accent" | Intent;
-  /** Corner radius in pixels, 4 by default; the title bar follows it. `data-pp-r`. */
+  /** Corner radius in pixels, 4 by default; the title bar follows it. `data-chu-r`. */
   radius?: Radius;
-  /** Drawn in the page flow, out of the top layer (with `open`): docs, tests and screenshots only. `data-pp-static`. */
+  /** Drawn in the page flow, out of the top layer (with `open`): docs, tests and screenshots only. `data-chu-static`. */
   static?: boolean;
   /**
    * `alertdialog`: a confirmation that interrupts. It then needs `aria-describedby` on its message; add a
@@ -42,7 +42,7 @@ export type DialogPanelProps = DialogPanelOwnProps & Named & DialogRole & Native
 
 /**
  * The dialog itself: a native `<dialog>` drawn as a raised panel with a title bar, over a dithered ink scrim. Inside
- * `<Dialog>`, which opens it as a modal, runs every close through `pp-before-close` and gives focus back. Name it by
+ * `<Dialog>`, which opens it as a modal, runs every close through `chu-before-close` and gives focus back. Name it by
  * its title, and give it the id its buttons point at.
  *
  *   <Dialog lightDismiss>
@@ -58,7 +58,7 @@ export type DialogPanelProps = DialogPanelOwnProps & Named & DialogRole & Native
  *     </DialogPanel>
  *   </Dialog>
  *
- * Renders `<dialog class="pp-box pp-dialog">`.
+ * Renders `<dialog class="chu-box chu-dialog">`.
  */
 export const DialogPanel = /*#__PURE__*/ forwardRef<HTMLDialogElement, DialogPanelProps>(function DialogPanel(
   { size, tone, radius, static: isStatic, className, ...rest },
@@ -67,11 +67,11 @@ export const DialogPanel = /*#__PURE__*/ forwardRef<HTMLDialogElement, DialogPan
   return (
     <dialog
       ref={ref}
-      className={cx("pp-box pp-dialog", className)}
+      className={cx("chu-box chu-dialog", className)}
       data-size={size}
       data-tone={tone}
-      data-pp-r={radius}
-      data-pp-static={flag(isStatic)}
+      data-chu-r={radius}
+      data-chu-static={flag(isStatic)}
       {...rest}
     />
   );
@@ -87,13 +87,13 @@ export type DialogHeaderProps = NativeProps<"header">;
  *
  *   <DialogHeader><DialogTitle id="save-title">Save game</DialogTitle><DialogClose commandFor="save" /></DialogHeader>
  *
- * Renders `<header class="pp-dialog-header">`.
+ * Renders `<header class="chu-dialog-header">`.
  */
 export const DialogHeader = /*#__PURE__*/ forwardRef<HTMLElement, DialogHeaderProps>(function DialogHeader(
   { className, ...rest },
   ref,
 ) {
-  return <header ref={ref} className={cx("pp-dialog-header", className)} {...rest} />;
+  return <header ref={ref} className={cx("chu-dialog-header", className)} {...rest} />;
 });
 
 /** Props for {@link DialogTitle}. */
@@ -105,13 +105,13 @@ export type DialogTitleProps = NativeProps<"h2">;
  *
  *   <DialogTitle id="save-title">Save game</DialogTitle>
  *
- * Renders `<h2 class="pp-dialog-title">`.
+ * Renders `<h2 class="chu-dialog-title">`.
  */
 export const DialogTitle = /*#__PURE__*/ forwardRef<HTMLHeadingElement, DialogTitleProps>(function DialogTitle(
   { className, ...rest },
   ref,
 ) {
-  return <h2 ref={ref} className={cx("pp-dialog-title", className)} {...rest} />;
+  return <h2 ref={ref} className={cx("chu-dialog-title", className)} {...rest} />;
 });
 
 /** Props for {@link DialogIcon}. */
@@ -123,13 +123,13 @@ export type DialogIconProps = Omit<NativeProps<"span">, "children">;
  *
  *   <DialogHeader><DialogIcon /><DialogTitle id="delete-title">Delete slot 2?</DialogTitle></DialogHeader>
  *
- * Renders `<span class="pp-dialog-icon" aria-hidden="true">`.
+ * Renders `<span class="chu-dialog-icon" aria-hidden="true">`.
  */
 export const DialogIcon = /*#__PURE__*/ forwardRef<HTMLSpanElement, DialogIconProps>(function DialogIcon(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-dialog-icon", className)} aria-hidden="true" {...rest} />;
+  return <span ref={ref} className={cx("chu-dialog-icon", className)} aria-hidden="true" {...rest} />;
 });
 
 /** Own props of {@link DialogClose}. */
@@ -151,8 +151,8 @@ export type DialogCloseProps = DialogCloseOwnProps & NativeProps<"button", Dialo
  *   <DialogClose commandFor="save" value="cancel" />
  *   <form method="dialog"><DialogClose /></form>
  *
- * Renders `<button class="pp-box pp-button pp-dialog-close" type="button" commandfor command="close"
- * data-variant="ghost" data-size="sm" data-icon-only aria-label="Close">` around `<span class="pp-icon"
+ * Renders `<button class="chu-box chu-button chu-dialog-close" type="button" commandfor command="close"
+ * data-variant="ghost" data-size="sm" data-icon-only aria-label="Close">` around `<span class="chu-icon"
  * data-glyph="close" aria-hidden="true">`.
  */
 export const DialogClose = /*#__PURE__*/ forwardRef<HTMLButtonElement, DialogCloseProps>(function DialogClose(
@@ -170,7 +170,7 @@ export const DialogClose = /*#__PURE__*/ forwardRef<HTMLButtonElement, DialogClo
   return (
     <button
       ref={ref}
-      className={cx("pp-box pp-button pp-dialog-close", className)}
+      className={cx("chu-box chu-button chu-dialog-close", className)}
       type={type}
       {...invoker(commandFor, "close")}
       data-variant="ghost"
@@ -194,10 +194,10 @@ export type DialogBodyProps = NativeProps<"div">;
  *
  *   <DialogBody><p>Choose a slot. Saving over a slot replaces what's in it.</p></DialogBody>
  *
- * Renders `<div class="pp-dialog-body">`.
+ * Renders `<div class="chu-dialog-body">`.
  */
 export const DialogBody = /*#__PURE__*/ forwardRef<HTMLDivElement, DialogBodyProps>(function DialogBody({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("pp-dialog-body", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-dialog-body", className)} {...rest} />;
 });
 
 /** Props for {@link DialogFooter}. */
@@ -211,16 +211,16 @@ export type DialogFooterProps = NativeProps<"footer">;
  *     <Button tone="danger" value="delete">Delete</Button>
  *   </DialogFooter>
  *
- * Renders `<footer class="pp-dialog-footer">`.
+ * Renders `<footer class="chu-dialog-footer">`.
  */
 export const DialogFooter = /*#__PURE__*/ forwardRef<HTMLElement, DialogFooterProps>(function DialogFooter(
   { className, ...rest },
   ref,
 ) {
-  return <footer ref={ref} className={cx("pp-dialog-footer", className)} {...rest} />;
+  return <footer ref={ref} className={cx("chu-dialog-footer", className)} {...rest} />;
 });
 
-// -------------------------------------------------------------------------------------------- drawer (pp-drawer)
+// -------------------------------------------------------------------------------------------- drawer (chu-drawer)
 
 /** Own props of {@link DrawerSheet}. */
 export interface DrawerSheetOwnProps {
@@ -234,9 +234,9 @@ export interface DrawerSheetOwnProps {
   size?: Size;
   /** The title bar's colour: accent (default), any tone or candy. `data-tone`. */
   tone?: Tone;
-  /** Corner radius in pixels, 0 by default: the sheet is part of the screen's edge. `data-pp-r`. */
+  /** Corner radius in pixels, 0 by default: the sheet is part of the screen's edge. `data-chu-r`. */
   radius?: Radius;
-  /** Drawn in the page flow (with `open`): docs, tests and screenshots only. `data-pp-static`. */
+  /** Drawn in the page flow (with `open`): docs, tests and screenshots only. `data-chu-static`. */
   static?: boolean;
 }
 /** Props for {@link DrawerSheet}. */
@@ -257,7 +257,7 @@ export type DrawerSheetProps = DrawerSheetOwnProps & Named & NativeProps<"dialog
  *     </DrawerSheet>
  *   </Drawer>
  *
- * Renders `<dialog class="pp-box pp-drawer">`.
+ * Renders `<dialog class="chu-box chu-drawer">`.
  */
 export const DrawerSheet = /*#__PURE__*/ forwardRef<HTMLDialogElement, DrawerSheetProps>(function DrawerSheet(
   { side, size, tone, radius, static: isStatic, className, ...rest },
@@ -266,12 +266,12 @@ export const DrawerSheet = /*#__PURE__*/ forwardRef<HTMLDialogElement, DrawerShe
   return (
     <dialog
       ref={ref}
-      className={cx("pp-box pp-drawer", className)}
+      className={cx("chu-box chu-drawer", className)}
       data-side={side}
       data-size={size}
       data-tone={tone}
-      data-pp-r={radius}
-      data-pp-static={flag(isStatic)}
+      data-chu-r={radius}
+      data-chu-static={flag(isStatic)}
       {...rest}
     />
   );
@@ -285,9 +285,9 @@ export interface PopoverOwnProps {
   side?: "bottom" | "top" | "left" | "right";
   /** For top and bottom: centred on the button (default), or lined up with its start or end edge. `data-align`. */
   align?: "center" | "start" | "end";
-  /** Corner radius in pixels, 3 by default. `data-pp-r`. */
+  /** Corner radius in pixels, 3 by default. `data-chu-r`. */
   radius?: Radius;
-  /** Drawn in the page flow, without `popover`: docs, tests and screenshots only. `data-pp-static`. */
+  /** Drawn in the page flow, without `popover`: docs, tests and screenshots only. `data-chu-static`. */
   static?: boolean;
   /** `dialog` for a popover with controls (a non-modal dialog): it then needs a name. Text needs neither. `role`. */
   role?: "dialog";
@@ -309,7 +309,7 @@ export type PopoverProps = PopoverOwnProps & PopoverRole & NativeProps<"div", Po
  *     <p>Level 12, 3,450 XP</p>
  *   </Popover>
  *
- * Renders `<div class="pp-box pp-popover" popover>`. Where the browser does not make the opener its anchor, name it
+ * Renders `<div class="chu-box chu-popover" popover>`. Where the browser does not make the opener its anchor, name it
  * yourself: `anchor-name` on the button, `position-anchor` on the popover.
  */
 export const Popover = /*#__PURE__*/ forwardRef<HTMLDivElement, PopoverProps>(function Popover(
@@ -319,12 +319,12 @@ export const Popover = /*#__PURE__*/ forwardRef<HTMLDivElement, PopoverProps>(fu
   return (
     <div
       ref={ref}
-      className={cx("pp-box pp-popover", className)}
+      className={cx("chu-box chu-popover", className)}
       popover={isStatic ? undefined : ""}
       data-side={side}
       data-align={align}
-      data-pp-r={radius}
-      data-pp-static={flag(isStatic)}
+      data-chu-r={radius}
+      data-chu-static={flag(isStatic)}
       {...rest}
     />
   );
@@ -339,13 +339,13 @@ export type PopoverNubProps = Omit<NativeProps<"span">, "children">;
  *
  *   <PopoverNub />
  *
- * Renders `<span class="pp-popover-nub" aria-hidden="true">`.
+ * Renders `<span class="chu-popover-nub" aria-hidden="true">`.
  */
 export const PopoverNub = /*#__PURE__*/ forwardRef<HTMLSpanElement, PopoverNubProps>(function PopoverNub(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-popover-nub", className)} aria-hidden="true" {...rest} />;
+  return <span ref={ref} className={cx("chu-popover-nub", className)} aria-hidden="true" {...rest} />;
 });
 
 /** Props for {@link PopoverTitle}. */
@@ -356,13 +356,13 @@ export type PopoverTitleProps = NativeProps<"p">;
  *
  *   <PopoverTitle id="profile-name">Pixel Pat</PopoverTitle>
  *
- * Renders `<p class="pp-popover-title">`.
+ * Renders `<p class="chu-popover-title">`.
  */
 export const PopoverTitle = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PopoverTitleProps>(function PopoverTitle(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("pp-popover-title", className)} {...rest} />;
+  return <p ref={ref} className={cx("chu-popover-title", className)} {...rest} />;
 });
 
 /** Own props of {@link PopoverClose}. */
@@ -379,8 +379,8 @@ export type PopoverCloseProps = PopoverCloseOwnProps & NativeProps<"button", Pop
  *
  *   <PopoverClose popoverTarget="filters" />
  *
- * Renders `<button class="pp-box pp-button pp-popover-close" type="button" popovertarget popovertargetaction="hide"
- * data-variant="ghost" data-size="sm" data-icon-only aria-label="Close">` around `<span class="pp-icon"
+ * Renders `<button class="chu-box chu-button chu-popover-close" type="button" popovertarget popovertargetaction="hide"
+ * data-variant="ghost" data-size="sm" data-icon-only aria-label="Close">` around `<span class="chu-icon"
  * data-glyph="close" aria-hidden="true">`.
  */
 export const PopoverClose = /*#__PURE__*/ forwardRef<HTMLButtonElement, PopoverCloseProps>(function PopoverClose(
@@ -399,7 +399,7 @@ export const PopoverClose = /*#__PURE__*/ forwardRef<HTMLButtonElement, PopoverC
   return (
     <button
       ref={ref}
-      className={cx("pp-box pp-button pp-popover-close", className)}
+      className={cx("chu-box chu-button chu-popover-close", className)}
       type={type}
       popoverTarget={popoverTarget}
       popoverTargetAction={popoverTargetAction}
@@ -421,7 +421,7 @@ export const PopoverClose = /*#__PURE__*/ forwardRef<HTMLButtonElement, PopoverC
 export interface TooltipChipOwnProps {
   /** Where it sits by its trigger: top (default), bottom, left or right; the nub points the other way. `data-side`. */
   side?: "top" | "bottom" | "left" | "right";
-  /** Drawn in the page flow, beside its trigger: docs, tests and screenshots. `data-pp-static`. */
+  /** Drawn in the page flow, beside its trigger: docs, tests and screenshots. `data-chu-static`. */
   static?: boolean;
 }
 /** Props for {@link TooltipChip}. */
@@ -434,7 +434,7 @@ export type TooltipChipProps = TooltipChipOwnProps & NativeProps<"span", Tooltip
  *
  *   <TooltipChip side="bottom" static>Settings (S)<TooltipNub /></TooltipChip>
  *
- * Renders `<span class="pp-box pp-tooltip" role="tooltip">`.
+ * Renders `<span class="chu-box chu-tooltip" role="tooltip">`.
  */
 export const TooltipChip = /*#__PURE__*/ forwardRef<HTMLSpanElement, TooltipChipProps>(function TooltipChip(
   { side, static: isStatic, className, ...rest },
@@ -443,10 +443,10 @@ export const TooltipChip = /*#__PURE__*/ forwardRef<HTMLSpanElement, TooltipChip
   return (
     <span
       ref={ref}
-      className={cx("pp-box pp-tooltip", className)}
+      className={cx("chu-box chu-tooltip", className)}
       role="tooltip"
       data-side={side}
-      data-pp-static={flag(isStatic)}
+      data-chu-static={flag(isStatic)}
       {...rest}
     />
   );
@@ -461,11 +461,11 @@ export type TooltipNubProps = Omit<NativeProps<"span">, "children">;
  *
  *   <TooltipNub />
  *
- * Renders `<span class="pp-tooltip-nub" aria-hidden="true">`.
+ * Renders `<span class="chu-tooltip-nub" aria-hidden="true">`.
  */
 export const TooltipNub = /*#__PURE__*/ forwardRef<HTMLSpanElement, TooltipNubProps>(function TooltipNub(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-tooltip-nub", className)} aria-hidden="true" {...rest} />;
+  return <span ref={ref} className={cx("chu-tooltip-nub", className)} aria-hidden="true" {...rest} />;
 });

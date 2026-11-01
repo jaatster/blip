@@ -1,8 +1,8 @@
 ---
 name: Icons
 package: "@jaatster/blip-icons"
-css: "@jaatster/blip-core (.pp-icon)"
-element: pp-icon
+css: "@jaatster/blip-core (.chu-icon)"
+element: chu-icon
 react: Icon
 status: beta
 ---
@@ -21,13 +21,13 @@ Every form below draws the same paths. Pick the one that suits the page.
 `<use>` must come from the same origin as the page). Each symbol carries its own viewBox, colour and crisp edges.
 
 ```html
-<svg class="pp-icon" aria-hidden="true"><use href="/assets/sprite.svg#pp-icon-heart"/></svg>
+<svg class="chu-icon" aria-hidden="true"><use href="/assets/sprite.svg#chu-icon-heart"/></svg>
 ```
 
 **Inline SVG.** No request at all. Copy a file from `@jaatster/blip-icons/svg/` or paste its path:
 
 ```html
-<svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg>
+<svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg>
 ```
 
 **JavaScript.** `iconSvg` returns the same markup as a string; `icons` holds the path data, typed by `IconName`.
@@ -43,15 +43,15 @@ ctx.scale(pixel, pixel);
 ctx.fill(new Path2D(icons.heart));
 ```
 
-**Element.** `<pp-icon>` renders the inline SVG in light DOM and keeps it in step with its attributes. If the page
+**Element.** `<chu-icon>` renders the inline SVG in light DOM and keeps it in step with its attributes. If the page
 already holds the `<svg>` (rendered on the server), the element adopts it, so the icon shows before the script runs.
 
 ```html
 <script type="module">import "@jaatster/blip-icons/element";</script>
 
-<pp-icon name="bell"></pp-icon>
-<pp-icon name="heart" label="Liked"></pp-icon>
-<pp-icon name="gamepad" data-size="lg"></pp-icon>
+<chu-icon name="bell"></chu-icon>
+<chu-icon name="heart" label="Liked"></chu-icon>
+<chu-icon name="gamepad" data-size="lg"></chu-icon>
 ```
 
 **React.** `@jaatster/blip-react` will export `<Icon name="heart" label="Liked" />`, generated from the same data.
@@ -68,7 +68,7 @@ icon with its category, tags and path, for search, docs and the Figma library. D
 | default | 12 x 12 | 24 |
 | `data-size="lg"` | 24 x 24 | 48 |
 
-Sizes follow `--pp-pixel`: on a section with a 3 px pixel an icon is 36 CSS px. The default suits text, buttons and
+Sizes follow `--chu-pixel`: on a section with a 3 px pixel an icon is 36 CSS px. The default suits text, buttons and
 lists; `lg` is for empty states, feature tiles and game HUDs. Never set a size that is not a whole number of pixels:
 an icon at 30 px blurs.
 
@@ -81,15 +81,15 @@ only for focus, coins and stars.
 ## Accessibility
 
 - **Decorative by default.** An icon next to text that says the same thing is `aria-hidden="true"`; that is what
-  `iconSvg`, `<pp-icon>` and the sprite example produce.
-- **Meaningful on its own?** Give it a label: `iconSvg(name, { label })` or `<pp-icon label="…">` makes it
+  `iconSvg`, `<chu-icon>` and the sprite example produce.
+- **Meaningful on its own?** Give it a label: `iconSvg(name, { label })` or `<chu-icon label="…">` makes it
   `role="img"` with that name.
 - **Icon-only buttons** name the button, not the icon: `<button aria-label="Delete save">` with a hidden `trash`.
   Name the action, not the picture.
 - **Never the only signal.** Info, success, warning and error differ in shape (circle, circle, triangle, octagon) as
   well as colour, and always come with words.
 - **High contrast.** `currentColor` follows Windows' system colours with no extra CSS.
-- **Targets.** An icon is 24 CSS px; anything you can press is a button, at least `--pp-target-min`.
+- **Targets.** An icon is 24 CSS px; anything you can press is a button, at least `--chu-target-min`.
 
 ## Categories
 
@@ -222,21 +222,21 @@ and read without its name?
 | Export | What |
 |---|---|
 | `@jaatster/blip-icons` | `icons` (name to path data, frozen), `type IconName`, `iconSvg(name, options)` |
-| `@jaatster/blip-icons/element` | Defines `<pp-icon>` (class `PixelIcon`) |
-| `@jaatster/blip-icons/sprite.svg` | Every icon as `<symbol id="pp-icon-<name>">` |
+| `@jaatster/blip-icons/element` | Defines `<chu-icon>` (class `BlipIcon`) |
+| `@jaatster/blip-icons/sprite.svg` | Every icon as `<symbol id="chu-icon-<name>">` |
 | `@jaatster/blip-icons/svg/<name>.svg` | One file per icon, 24 x 24 |
 | `@jaatster/blip-icons/icons.json` | `categories` and `icons` (`name`, `category`, `tags`, `path`) |
 
-`iconSvg(name, { label?, size?, class? })` returns `<svg class="pp-icon …">` with a `viewBox="0 0 12 12"`, a
+`iconSvg(name, { label?, size?, class? })` returns `<svg class="chu-icon …">` with a `viewBox="0 0 12 12"`, a
 24 x 24 (or 48 x 48) size for pages without the core CSS, and `aria-hidden="true"` unless it has a label. It throws
 a `RangeError` for a name that is not an icon.
 
-| `<pp-icon>` | |
+| `<chu-icon>` | |
 |---|---|
-| `name` attribute and property | The icon. An unknown name draws nothing and warns once (`PP-I001`). |
+| `name` attribute and property | The icon. An unknown name draws nothing and warns once (`CHU-I001`). |
 | `label` attribute and property | Its accessible name. Without one the icon is hidden from assistive technology. |
 | `data-size="lg"` | Twice the size. |
 
-The element has no events and no listeners: it only draws. The `.pp-icon` class (size, colour, crisp edges) lives
+The element has no events and no listeners: it only draws. The `.chu-icon` class (size, colour, crisp edges) lives
 in `@jaatster/blip-core`. All the icons together are about 5.6 KB gzipped as JavaScript; the element adds under 1 KB.
 Icons are MIT licensed.

@@ -8,7 +8,7 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "The modal behaviour <pp-dialog> and <pp-drawer> share, around the one native <dialog> inside the element.",
+          "description": "The modal behaviour <chu-dialog> and <chu-drawer> share, around the one native <dialog> inside the element.",
           "name": "Overlay",
           "members": [
             {
@@ -81,7 +81,7 @@
                   }
                 }
               ],
-              "description": "Asks to close: fires pp-before-close, which a listener may cancel. Resolves true if it closed."
+              "description": "Asks to close: fires chu-before-close, which a listener may cancel. Resolves true if it closed."
             },
             {
               "kind": "method",
@@ -116,21 +116,21 @@
                 "text": "CustomEvent<void>"
               },
               "description": "After it opens (also when opened directly with showModal()).",
-              "name": "pp-open"
+              "name": "chu-open"
             },
             {
               "type": {
                 "text": "CustomEvent<CloseDetail>"
               },
               "description": "Before any close: Escape, the scrim, a close button, a method=\"dialog\" submit or requestClose(). Cancelable: preventDefault() keeps it open.",
-              "name": "pp-before-close"
+              "name": "chu-before-close"
             },
             {
               "type": {
                 "text": "CustomEvent<CloseDetail>"
               },
               "description": "After it has closed and given focus back.",
-              "name": "pp-close"
+              "name": "chu-close"
             }
           ],
           "attributes": [
@@ -151,7 +151,7 @@
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           }
         }
@@ -174,7 +174,7 @@
         {
           "kind": "class",
           "description": "The WAI-ARIA editable combobox with list and inline autocomplete, over a text input and a <datalist>.\nForm-associated: the form value is the chosen suggestion's value, or the text when it matches none.",
-          "name": "PixelCombobox",
+          "name": "BlipCombobox",
           "members": [
             {
               "kind": "field",
@@ -227,21 +227,21 @@
                 "text": "CustomEvent<{ value: string }>"
               },
               "description": "Once per new value: a suggestion taken, the field cleared, or typed text committed.",
-              "name": "pp-change"
+              "name": "chu-change"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "The list of suggestions opened.",
-              "name": "pp-open"
+              "name": "chu-open"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "The list of suggestions closed.",
-              "name": "pp-close"
+              "name": "chu-close"
             }
           ],
           "attributes": [
@@ -286,28 +286,28 @@
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "A text field with a list of suggestions.",
-          "tagName": "pp-combobox",
+          "tagName": "chu-combobox",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PixelCombobox",
+          "name": "BlipCombobox",
           "declaration": {
-            "name": "PixelCombobox",
+            "name": "BlipCombobox",
             "module": "src/combobox.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-combobox",
+          "name": "chu-combobox",
           "declaration": {
-            "name": "PixelCombobox",
+            "name": "BlipCombobox",
             "module": "src/combobox.ts"
           }
         }
@@ -320,7 +320,7 @@
         {
           "kind": "class",
           "description": "A command palette over the command markup: a modal <dialog> holding a combobox and a listbox of grouped options.\nA shortcut opens it, typing filters, the arrow keys move, Enter or a click runs the active option.",
-          "name": "PixelCommand",
+          "name": "BlipCommand",
           "members": [
             {
               "kind": "field",
@@ -382,21 +382,21 @@
                 "text": "CustomEvent<ActionDetail>"
               },
               "description": "An option was chosen (Enter or a click), before it runs. Cancelable: preventDefault() keeps the palette open.",
-              "name": "pp-action"
+              "name": "chu-action"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "The palette opened.",
-              "name": "pp-open"
+              "name": "chu-open"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "The palette closed.",
-              "name": "pp-close"
+              "name": "chu-close"
             }
           ],
           "attributes": [
@@ -418,11 +418,11 @@
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "A command palette: search and run commands from the keyboard.",
-          "tagName": "pp-command",
+          "tagName": "chu-command",
           "customElement": true
         }
       ],
@@ -437,17 +437,17 @@
         },
         {
           "kind": "js",
-          "name": "PixelCommand",
+          "name": "BlipCommand",
           "declaration": {
-            "name": "PixelCommand",
+            "name": "BlipCommand",
             "module": "src/command.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-command",
+          "name": "chu-command",
           "declaration": {
-            "name": "PixelCommand",
+            "name": "BlipCommand",
             "module": "src/command.ts"
           }
         }
@@ -459,14 +459,14 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A native <dialog> with Blip's manners: opened as a modal, every close through a cancelable pp-before-close\nand the stepped exit, focus returned to the opener, and an optional light dismiss.",
-          "name": "PixelDialog",
+          "description": "A native <dialog> with Blip's manners: opened as a modal, every close through a cancelable chu-before-close\nand the stepped exit, focus returned to the opener, and an optional light dismiss.",
+          "name": "BlipDialog",
           "superclass": {
             "name": "Overlay",
             "module": "src/_overlay.ts"
           },
-          "summary": "A modal dialog around one <dialog class=\"pp-box pp-dialog\">.",
-          "tagName": "pp-dialog",
+          "summary": "A modal dialog around one <dialog class=\"chu-box chu-dialog\">.",
+          "tagName": "chu-dialog",
           "customElement": true,
           "attributes": [
             {
@@ -580,7 +580,7 @@
                   }
                 }
               ],
-              "description": "Asks to close: fires pp-before-close, which a listener may cancel. Resolves true if it closed.",
+              "description": "Asks to close: fires chu-before-close, which a listener may cancel. Resolves true if it closed.",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -623,7 +623,7 @@
                 "text": "CustomEvent<void>"
               },
               "description": "After it opens (also when opened directly with showModal()).",
-              "name": "pp-open",
+              "name": "chu-open",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -634,7 +634,7 @@
                 "text": "CustomEvent<CloseDetail>"
               },
               "description": "Before any close: Escape, the scrim, a close button, a method=\"dialog\" submit or requestClose(). Cancelable: preventDefault() keeps it open.",
-              "name": "pp-before-close",
+              "name": "chu-before-close",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -645,7 +645,7 @@
                 "text": "CustomEvent<CloseDetail>"
               },
               "description": "After it has closed and given focus back.",
-              "name": "pp-close",
+              "name": "chu-close",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -673,17 +673,17 @@
         },
         {
           "kind": "js",
-          "name": "PixelDialog",
+          "name": "BlipDialog",
           "declaration": {
-            "name": "PixelDialog",
+            "name": "BlipDialog",
             "module": "src/dialog.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-dialog",
+          "name": "chu-dialog",
           "declaration": {
-            "name": "PixelDialog",
+            "name": "BlipDialog",
             "module": "src/dialog.ts"
           }
         }
@@ -695,14 +695,14 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "A side sheet: the same modal behaviour as <pp-dialog> around a <dialog class=\"pp-box pp-drawer\">, which slides in\nand out from its data-side in six whole-pixel steps.",
-          "name": "PixelDrawer",
+          "description": "A side sheet: the same modal behaviour as <chu-dialog> around a <dialog class=\"chu-box chu-drawer\">, which slides in\nand out from its data-side in six whole-pixel steps.",
+          "name": "BlipDrawer",
           "superclass": {
             "name": "Overlay",
             "module": "src/_overlay.ts"
           },
-          "summary": "A modal side sheet around one <dialog class=\"pp-box pp-drawer\">.",
-          "tagName": "pp-drawer",
+          "summary": "A modal side sheet around one <dialog class=\"chu-box chu-drawer\">.",
+          "tagName": "chu-drawer",
           "customElement": true,
           "attributes": [
             {
@@ -816,7 +816,7 @@
                   }
                 }
               ],
-              "description": "Asks to close: fires pp-before-close, which a listener may cancel. Resolves true if it closed.",
+              "description": "Asks to close: fires chu-before-close, which a listener may cancel. Resolves true if it closed.",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -859,7 +859,7 @@
                 "text": "CustomEvent<void>"
               },
               "description": "After it opens (also when opened directly with showModal()).",
-              "name": "pp-open",
+              "name": "chu-open",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -870,7 +870,7 @@
                 "text": "CustomEvent<CloseDetail>"
               },
               "description": "Before any close: Escape, the scrim, a close button, a method=\"dialog\" submit or requestClose(). Cancelable: preventDefault() keeps it open.",
-              "name": "pp-before-close",
+              "name": "chu-before-close",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -881,7 +881,7 @@
                 "text": "CustomEvent<CloseDetail>"
               },
               "description": "After it has closed and given focus back.",
-              "name": "pp-close",
+              "name": "chu-close",
               "inheritedFrom": {
                 "name": "Overlay",
                 "module": "src/_overlay.ts"
@@ -893,17 +893,17 @@
       "exports": [
         {
           "kind": "js",
-          "name": "PixelDrawer",
+          "name": "BlipDrawer",
           "declaration": {
-            "name": "PixelDrawer",
+            "name": "BlipDrawer",
             "module": "src/drawer.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-drawer",
+          "name": "chu-drawer",
           "declaration": {
-            "name": "PixelDrawer",
+            "name": "BlipDrawer",
             "module": "src/drawer.ts"
           }
         }
@@ -916,7 +916,7 @@
         {
           "kind": "class",
           "description": "Wires a field's label, help, error and count to its control (aria-describedby, aria-invalid, live messages), so\nnothing has to be wired by hand. Parts rendered later or taken away are wired as they come, and the page's own\nerrors and aria-invalid are left as the page wrote them.",
-          "name": "PixelField",
+          "name": "BlipField",
           "attributes": [
             {
               "type": {
@@ -937,33 +937,33 @@
               "type": {
                 "text": "\"inline\""
               },
-              "description": "The label beside the control (--pp-field-label-width, 64 pixels by default).",
+              "description": "The label beside the control (--chu-field-label-width, 64 pixels by default).",
               "name": "data-layout"
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "A form field that wires its words to its control.",
-          "tagName": "pp-field",
+          "tagName": "chu-field",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PixelField",
+          "name": "BlipField",
           "declaration": {
-            "name": "PixelField",
+            "name": "BlipField",
             "module": "src/field.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-field",
+          "name": "chu-field",
           "declaration": {
-            "name": "PixelField",
+            "name": "BlipField",
             "module": "src/field.ts"
           }
         }
@@ -976,7 +976,7 @@
         {
           "kind": "class",
           "description": "A tray to drop files on, or click to browse. The files live in the native <input type=\"file\"> inside, so they go\nwith the form; each picked file gets a row with a remove button.",
-          "name": "PixelFileDrop",
+          "name": "BlipFileDrop",
           "members": [
             {
               "kind": "field",
@@ -1002,14 +1002,14 @@
                 "text": "CustomEvent<{ files: File[] }>"
               },
               "description": "The list changed: files picked, dropped or removed.",
-              "name": "pp-change"
+              "name": "chu-change"
             },
             {
               "type": {
                 "text": "CustomEvent<{ files: File[] }>"
               },
               "description": "Dropped files that do not match the input's accept.",
-              "name": "pp-reject"
+              "name": "chu-reject"
             }
           ],
           "attributes": [
@@ -1023,28 +1023,28 @@
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "Drop files, or click to browse.",
-          "tagName": "pp-file-drop",
+          "tagName": "chu-file-drop",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PixelFileDrop",
+          "name": "BlipFileDrop",
           "declaration": {
-            "name": "PixelFileDrop",
+            "name": "BlipFileDrop",
             "module": "src/file-drop.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-file-drop",
+          "name": "chu-file-drop",
           "declaration": {
-            "name": "PixelFileDrop",
+            "name": "BlipFileDrop",
             "module": "src/file-drop.ts"
           }
         }
@@ -1057,7 +1057,7 @@
         {
           "kind": "class",
           "description": "A WAI-ARIA menu button: a button and a [role=menu] popover list, with focus management, arrow keys, typeahead,\ncheckbox and radio items, and nested submenus.",
-          "name": "PixelMenu",
+          "name": "BlipMenu",
           "members": [
             {
               "kind": "field",
@@ -1128,21 +1128,21 @@
                 "text": "CustomEvent<ActionDetail>"
               },
               "description": "An item was chosen, before it runs. Cancelable: preventDefault() keeps the menu open and the item unchanged.",
-              "name": "pp-action"
+              "name": "chu-action"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "The menu opened.",
-              "name": "pp-open"
+              "name": "chu-open"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "The menu closed.",
-              "name": "pp-close"
+              "name": "chu-close"
             }
           ],
           "attributes": [
@@ -1164,28 +1164,28 @@
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "A menu button and its list of actions.",
-          "tagName": "pp-menu",
+          "tagName": "chu-menu",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PixelMenu",
+          "name": "BlipMenu",
           "declaration": {
-            "name": "PixelMenu",
+            "name": "BlipMenu",
             "module": "src/menu.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-menu",
+          "name": "chu-menu",
           "declaration": {
-            "name": "PixelMenu",
+            "name": "BlipMenu",
             "module": "src/menu.ts"
           }
         }
@@ -1198,7 +1198,7 @@
         {
           "kind": "class",
           "description": "A number field with a pixel minus and plus. The <input type=\"number\"> inside stays the real control; the buttons\nare for pointers and touch, and step faster while held.",
-          "name": "PixelNumber",
+          "name": "BlipNumber",
           "members": [
             {
               "kind": "field",
@@ -1215,7 +1215,7 @@
                 "text": "CustomEvent<{ value: string }>"
               },
               "description": "The value was committed (the input's change).",
-              "name": "pp-change"
+              "name": "chu-change"
             }
           ],
           "attributes": [
@@ -1237,28 +1237,28 @@
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "A number field with step buttons.",
-          "tagName": "pp-number",
+          "tagName": "chu-number",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PixelNumber",
+          "name": "BlipNumber",
           "declaration": {
-            "name": "PixelNumber",
+            "name": "BlipNumber",
             "module": "src/number.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-number",
+          "name": "chu-number",
           "declaration": {
-            "name": "PixelNumber",
+            "name": "BlipNumber",
             "module": "src/number.ts"
           }
         }
@@ -1271,15 +1271,15 @@
         {
           "kind": "class",
           "description": "A row of stars (or hearts) to set a score, as a radio group. Form-associated: the score goes with the form.",
-          "name": "PixelRating",
+          "name": "BlipRating",
           "cssProperties": [
             {
               "description": "The score drawn (set by the element).",
-              "name": "--pp-rating-value"
+              "name": "--chu-rating-value"
             },
             {
               "description": "How many stars are drawn (set by the element).",
-              "name": "--pp-rating-max"
+              "name": "--chu-rating-max"
             }
           ],
           "members": [
@@ -1348,7 +1348,7 @@
                 "text": "CustomEvent<{ value: number }>"
               },
               "description": "A star was set by click or key (after input and change).",
-              "name": "pp-change"
+              "name": "chu-change"
             }
           ],
           "attributes": [
@@ -1422,28 +1422,28 @@
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "Set a score with stars or hearts.",
-          "tagName": "pp-rating",
+          "tagName": "chu-rating",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PixelRating",
+          "name": "BlipRating",
           "declaration": {
-            "name": "PixelRating",
+            "name": "BlipRating",
             "module": "src/rating.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-rating",
+          "name": "chu-rating",
           "declaration": {
-            "name": "PixelRating",
+            "name": "BlipRating",
             "module": "src/rating.ts"
           }
         }
@@ -1456,7 +1456,7 @@
         {
           "kind": "class",
           "description": "One choice from a few buttons, as a radio group: the arrow keys move and choose. Form-associated: the chosen\nbutton's value goes with the form.",
-          "name": "PixelSegmented",
+          "name": "BlipSegmented",
           "members": [
             {
               "kind": "field",
@@ -1532,7 +1532,7 @@
                 "text": "CustomEvent<{ value: string }>"
               },
               "description": "A segment was chosen by click or key (after input and change).",
-              "name": "pp-change"
+              "name": "chu-change"
             }
           ],
           "attributes": [
@@ -1598,28 +1598,28 @@
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "One choice from a row of buttons.",
-          "tagName": "pp-segmented",
+          "tagName": "chu-segmented",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PixelSegmented",
+          "name": "BlipSegmented",
           "declaration": {
-            "name": "PixelSegmented",
+            "name": "BlipSegmented",
             "module": "src/segmented.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-segmented",
+          "name": "chu-segmented",
           "declaration": {
-            "name": "PixelSegmented",
+            "name": "BlipSegmented",
             "module": "src/segmented.ts"
           }
         }
@@ -1631,8 +1631,8 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "Sorting and row selection for the .pp-table inside it. Light DOM: the table reads and looks the same without it.",
-          "name": "PixelTable",
+          "description": "Sorting and row selection for the .chu-table inside it. Light DOM: the table reads and looks the same without it.",
+          "name": "BlipTable",
           "members": [
             {
               "kind": "method",
@@ -1675,39 +1675,39 @@
                 "text": "CustomEvent<{ column: number; direction: SortDirection; header: HTMLTableCellElement }>"
               },
               "description": "Before sorting. Cancelable: preventDefault() refuses it (sort on a server, then set aria-sort yourself).",
-              "name": "pp-sort"
+              "name": "chu-sort"
             },
             {
               "type": {
                 "text": "CustomEvent<{ rows: HTMLTableRowElement[] }>"
               },
               "description": "After any row checkbox changes; rows are the selected <tr>s.",
-              "name": "pp-select"
+              "name": "chu-select"
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "Sorting and row selection for a table.",
-          "tagName": "pp-table",
+          "tagName": "chu-table",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PixelTable",
+          "name": "BlipTable",
           "declaration": {
-            "name": "PixelTable",
+            "name": "BlipTable",
             "module": "src/table.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-table",
+          "name": "chu-table",
           "declaration": {
-            "name": "PixelTable",
+            "name": "BlipTable",
             "module": "src/table.ts"
           }
         }
@@ -1720,7 +1720,7 @@
         {
           "kind": "class",
           "description": "WAI-ARIA tabs over the tabs markup: ids and ARIA wired, one tab in the tab order, the arrow keys, Home and End,\nthe selected panel shown, and stepped scroll buttons for a row that overflows. Tabs and panels added or removed\nlater are wired as they come.",
-          "name": "PixelTabs",
+          "name": "BlipTabs",
           "members": [
             {
               "kind": "field",
@@ -1746,7 +1746,7 @@
               "type": {
                 "text": "string"
               },
-              "description": "The selected tab's value. Setting it selects that tab (no pp-change).",
+              "description": "The selected tab's value. Setting it selects that tab (no chu-change).",
               "attribute": "value"
             },
             {
@@ -1755,7 +1755,7 @@
               "type": {
                 "text": "number"
               },
-              "description": "The index of the selected tab, or -1. Setting it selects that tab (no pp-change)."
+              "description": "The index of the selected tab, or -1. Setting it selects that tab (no chu-change)."
             }
           ],
           "events": [
@@ -1764,7 +1764,7 @@
                 "text": "CustomEvent<TabsChangeDetail>"
               },
               "description": "After the person selects a tab.",
-              "name": "pp-change"
+              "name": "chu-change"
             }
           ],
           "attributes": [
@@ -1773,7 +1773,7 @@
               "type": {
                 "text": "string"
               },
-              "description": "The selected tab's value: its data-value, else its value attribute, else its label. Setting it selects that tab (no pp-change); it follows the person's choice.",
+              "description": "The selected tab's value: its data-value, else its value attribute, else its label. Setting it selects that tab (no chu-change); it follows the person's choice.",
               "fieldName": "value"
             },
             {
@@ -1801,28 +1801,28 @@
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "Tabs: one panel at a time.",
-          "tagName": "pp-tabs",
+          "tagName": "chu-tabs",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PixelTabs",
+          "name": "BlipTabs",
           "declaration": {
-            "name": "PixelTabs",
+            "name": "BlipTabs",
             "module": "src/tabs.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-tabs",
+          "name": "chu-tabs",
           "declaration": {
-            "name": "PixelTabs",
+            "name": "BlipTabs",
             "module": "src/tabs.ts"
           }
         }
@@ -1835,7 +1835,7 @@
         {
           "kind": "class",
           "description": "A grid of tiles as one Tab stop: the arrow keys move in two dimensions, Home and End jump to the ends, disabled\ntiles are skipped. Optionally it keeps the selection.",
-          "name": "PixelTileGrid",
+          "name": "BlipTileGrid",
           "members": [
             {
               "kind": "field",
@@ -1880,7 +1880,7 @@
                 "text": "CustomEvent<{ tile: HTMLElement }>"
               },
               "description": "Before the selection moves. Cancelable: preventDefault() keeps the old one.",
-              "name": "pp-select"
+              "name": "chu-select"
             }
           ],
           "attributes": [
@@ -1894,28 +1894,28 @@
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "A grid of tiles moved through with the arrow keys.",
-          "tagName": "pp-tile-grid",
+          "tagName": "chu-tile-grid",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PixelTileGrid",
+          "name": "BlipTileGrid",
           "declaration": {
-            "name": "PixelTileGrid",
+            "name": "BlipTileGrid",
             "module": "src/tile-grid.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-tile-grid",
+          "name": "chu-tile-grid",
           "declaration": {
-            "name": "PixelTileGrid",
+            "name": "BlipTileGrid",
             "module": "src/tile-grid.ts"
           }
         }
@@ -1928,11 +1928,11 @@
         {
           "kind": "class",
           "description": "The corner where toasts come up: a labelled region with live regions, so every toast is announced. Show toasts\nwith toast() or add(); they stack, wait their turn past max, and pause while hovered, focused or behind a modal.",
-          "name": "PixelToaster",
+          "name": "BlipToaster",
           "cssProperties": [
             {
               "description": "A toast's countdown (set by the element on each toast).",
-              "name": "--pp-toast-duration"
+              "name": "--chu-toast-duration"
             }
           ],
           "members": [
@@ -2008,11 +2008,11 @@
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "The region that shows toasts.",
-          "tagName": "pp-toaster",
+          "tagName": "chu-toaster",
           "customElement": true
         },
         {
@@ -2031,23 +2031,23 @@
               }
             }
           ],
-          "description": "Shows a toast in the page's toaster, adding one to <body> if there is none. A toaster in a <pp-attract> demo is\nthe demo's own, never the page's."
+          "description": "Shows a toast in the page's toaster, adding one to <body> if there is none. A toaster in a <chu-attract> demo is\nthe demo's own, never the page's."
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PixelToaster",
+          "name": "BlipToaster",
           "declaration": {
-            "name": "PixelToaster",
+            "name": "BlipToaster",
             "module": "src/toast.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-toaster",
+          "name": "chu-toaster",
           "declaration": {
-            "name": "PixelToaster",
+            "name": "BlipToaster",
             "module": "src/toast.ts"
           }
         },
@@ -2068,7 +2068,7 @@
         {
           "kind": "class",
           "description": "A tooltip for any trigger, following the WAI-ARIA tooltip pattern and WCAG 1.4.13: it describes its trigger,\nshows after a beat on hover and at once on keyboard focus, stays while the pointer moves onto it, and closes on\nEscape. It sits in the top layer and takes the other side when there is no room.",
-          "name": "PixelTooltip",
+          "name": "BlipTooltip",
           "members": [
             {
               "kind": "field",
@@ -2115,14 +2115,14 @@
                 "text": "CustomEvent<void>"
               },
               "description": "It showed.",
-              "name": "pp-open"
+              "name": "chu-open"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "It closed.",
-              "name": "pp-close"
+              "name": "chu-close"
             }
           ],
           "attributes": [
@@ -2152,28 +2152,28 @@
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "A short description that shows on hover and focus.",
-          "tagName": "pp-tooltip",
+          "tagName": "chu-tooltip",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PixelTooltip",
+          "name": "BlipTooltip",
           "declaration": {
-            "name": "PixelTooltip",
+            "name": "BlipTooltip",
             "module": "src/tooltip.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-tooltip",
+          "name": "chu-tooltip",
           "declaration": {
-            "name": "PixelTooltip",
+            "name": "BlipTooltip",
             "module": "src/tooltip.ts"
           }
         }

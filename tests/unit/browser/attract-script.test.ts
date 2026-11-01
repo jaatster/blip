@@ -1,12 +1,12 @@
 /**
- * <pp-attract>: the script reader and the still frame. A script is steps split by ";" (not inside quotes); each step
+ * <chu-attract>: the script reader and the still frame. A script is steps split by ";" (not inside quotes); each step
  * becomes an object, as the steps property takes them. A step it cannot read, or whose selector matches nothing in
  * it, is reported with its text and left out, and never throws. With less motion asked for, the demo shows its still
  * frame at once: the state once the step marked poster is done, or the end without one; when motion is allowed
  * again, its markup comes back first.
  */
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
-import type { PixelAttract } from "../../../packages/effects/src/attract.ts";
+import type { BlipAttract } from "../../../packages/effects/src/attract.ts";
 import { mount } from "../support/dom.ts";
 
 const html = document.documentElement;
@@ -14,18 +14,18 @@ beforeAll(async () => {
   await import("../../../packages/effects/src/attract.ts");
 });
 afterEach(() => {
-  delete html.dataset.ppMotion;
+  delete html.dataset.chuMotion;
   vi.restoreAllMocks();
 });
 
-const demo = (script: string, inner = "") => mount<PixelAttract>(`<pp-attract label="A demo" script="${script.replace(/"/g, "&quot;")}">${inner}</pp-attract>`);
+const demo = (script: string, inner = "") => mount<BlipAttract>(`<chu-attract label="A demo" script="${script.replace(/"/g, "&quot;")}">${inner}</chu-attract>`);
 /** The console's Blip warnings, from now on. */
 const warnings = () => {
   const spy = vi.spyOn(console, "warn").mockImplementation(() => {});
   return () => spy.mock.calls.map((c) => String(c[0]));
 };
 /** The demo has set itself up (it waits for the elements inside and the fonts). */
-const ready = (el: PixelAttract) => expect.poll(() => el.querySelector(".pp-attract-pointer")?.hidden).toBe(false);
+const ready = (el: BlipAttract) => expect.poll(() => el.querySelector(".chu-attract-pointer")?.hidden).toBe(false);
 
 describe("the script", () => {
   it("reads each verb into a step, with poster on its own", () => {
@@ -54,7 +54,7 @@ describe("the script", () => {
     const el = demo(`move #a; jump #b; type #c; wait soon; press; move #d`);
     expect(() => el.steps).not.toThrow();
     expect(el.steps).toEqual([{ move: "#a" }, { move: "#d" }]);
-    const lines = said().filter((l) => l.includes("PP-D010"));
+    const lines = said().filter((l) => l.includes("CHU-D010"));
     for (const step of ["jump #b", "type #c", "wait soon", "press"]) expect(lines.some((l) => l.includes(`"${step}"`)), step).toBe(true);
   });
 
@@ -69,24 +69,24 @@ describe("the script", () => {
 
 describe("the still frame", () => {
   const markup = `
-    <span class="pp-box pp-input"><input id="f"></span>
+    <span class="chu-box chu-input"><input id="f"></span>
     <button id="b" type="button" onclick="this.dataset.clicked = 'yes'">Save</button>
     <p id="late" hidden>Later</p>`;
 
   it("is the state once the step marked poster is done: typed, pressed (its click ran), nothing after", async () => {
-    html.dataset.ppMotion = "reduce";
+    html.dataset.chuMotion = "reduce";
     const el = demo(`move #f; type #f 'Hi'; press #b; poster; show #late`, markup);
     await ready(el);
     expect(el.querySelector<HTMLInputElement>("#f")!.value).toBe("Hi");
     expect(el.querySelector<HTMLElement>("#b")!.dataset.clicked).toBe("yes");
     expect(el.querySelector<HTMLElement>("#late")!.hidden).toBe(true);
     // The pointer rests on what it pressed, which shows the hover look; the field it left does not.
-    expect(el.querySelector("#b")!.getAttribute("data-pp-state")).toBe("hover");
-    expect(el.querySelector(".pp-input")!.hasAttribute("data-pp-state")).toBe(false);
+    expect(el.querySelector("#b")!.getAttribute("data-chu-state")).toBe("hover");
+    expect(el.querySelector(".chu-input")!.hasAttribute("data-chu-state")).toBe(false);
   });
 
   it("is the end without a poster", async () => {
-    html.dataset.ppMotion = "reduce";
+    html.dataset.chuMotion = "reduce";
     const el = demo(`type #f 'Hi'; press #b; show #late`, markup);
     await ready(el);
     expect(el.querySelector<HTMLElement>("#late")!.hidden).toBe(false);
@@ -94,15 +94,15 @@ describe("the still frame", () => {
 
   it("skips a step whose selector matches nothing, says so with the step, and shows the rest", async () => {
     const said = warnings();
-    html.dataset.ppMotion = "reduce";
+    html.dataset.chuMotion = "reduce";
     const el = demo(`press #nowhere-to-be-found; show #late`, markup);
     await ready(el);
     expect(el.querySelector<HTMLElement>("#late")!.hidden).toBe(false);
-    expect(said().some((l) => l.includes("PP-D011") && l.includes('"press #nowhere-to-be-found"'))).toBe(true);
+    expect(said().some((l) => l.includes("CHU-D011") && l.includes('"press #nowhere-to-be-found"'))).toBe(true);
   });
 
   it("follows the steps property", async () => {
-    html.dataset.ppMotion = "reduce";
+    html.dataset.chuMotion = "reduce";
     const el = demo(`show #late`, markup);
     await ready(el);
     el.steps = [{ type: "#f", text: "Yo", poster: true }, { show: "#late" }];
@@ -111,10 +111,10 @@ describe("the still frame", () => {
   });
 
   it("gives its markup back when motion is allowed again, field values included", async () => {
-    html.dataset.ppMotion = "reduce";
+    html.dataset.chuMotion = "reduce";
     const el = demo(`type #f 'Hi'; press #b; show #late`, markup);
     await ready(el);
-    delete html.dataset.ppMotion;
+    delete html.dataset.chuMotion;
     await expect.poll(() => el.querySelector<HTMLInputElement>("#f")!.value).toBe("");
     expect(el.querySelector<HTMLElement>("#b")!.dataset.clicked).toBeUndefined();
     expect(el.querySelector<HTMLElement>("#late")!.hidden).toBe(true);

@@ -9,12 +9,12 @@
  *
  * The lock is a directory in the system's temporary folder, named from this checkout's path (another checkout or
  * worktree has its own), holding owner.json: the pid, the job and when it started. mkdir is atomic, so two jobs never
- * both get it. A lock is stale, and taken over, when its pid is dead or it is older than PP_HEAVY_MAX_MINUTES (60).
+ * both get it. A lock is stale, and taken over, when its pid is dead or it is older than CHU_HEAVY_MAX_MINUTES (60).
  * While another job holds it, this prints "waiting for <job> (pid N)…" once (again if the holder changes) and polls.
  *
  * With nothing else running the command starts at once and nothing is printed: the same output, the same exit code
  * (or signal). The lock goes when the command ends, when this is interrupted (Ctrl+C reaches the command too; SIGTERM
- * and SIGHUP are passed on to it) and on exit. A heavy job started inside one (PP_HEAVY_HELD is set) runs at once, so
+ * and SIGHUP are passed on to it) and on exit. A heavy job started inside one (CHU_HEAVY_HELD is set) runs at once, so
  * nesting never deadlocks.
  *
  * Also importable: `await heavy("qa tabs")` waits for the lock and returns the function that releases it.
@@ -30,7 +30,7 @@ const ROOT = realpathSync(join(dirname(fileURLToPath(import.meta.url)), ".."));
 /** The lock: one per checkout. */
 export const LOCK = join(tmpdir(), `blip-heavy-${createHash("sha256").update(ROOT).digest("hex").slice(0, 12)}`);
 const OWNER = join(LOCK, "owner.json");
-const MAX_AGE = Number(process.env.PP_HEAVY_MAX_MINUTES || 60) * 60_000;
+const MAX_AGE = Number(process.env.CHU_HEAVY_MAX_MINUTES || 60) * 60_000;
 /** How long a lock may stay without its owner.json (it is written straight after the mkdir) before it is stale. */
 const MAKING = 10_000;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -70,7 +70,7 @@ function stale(h) {
  * `signals` is false (the command line below waits for its command instead), on SIGINT, SIGTERM and SIGHUP.
  */
 export async function heavy(job, { signals = true } = {}) {
-  if (process.env.PP_HEAVY_HELD) return () => {};
+  if (process.env.CHU_HEAVY_HELD) return () => {};
   let said = "";
   for (;;) {
     try {
@@ -108,12 +108,12 @@ export async function heavy(job, { signals = true } = {}) {
     said = line;
     await sleep(400 + Math.random() * 300);
   }
-  process.env.PP_HEAVY_HELD = "1";
+  process.env.CHU_HEAVY_HELD = "1";
   let held = true;
   const release = () => {
     if (!held) return;
     held = false;
-    delete process.env.PP_HEAVY_HELD;
+    delete process.env.CHU_HEAVY_HELD;
     try {
       if (holder()?.pid === process.pid) rmSync(LOCK, { recursive: true, force: true });
     } catch {}

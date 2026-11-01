@@ -3,6 +3,8 @@
 **A 16-bit pixel-art design system: candy controls on a soft pixel world, one square pixel everywhere, and motion
 that snaps.**
 
+Blip is the Indian ice lolly: crushed ice and bright syrup on a stick.
+
 > **Status: 0.x, not published yet.** Nothing is on npm, the CDN links below will work once it is, and the
 > public API can still change between minor versions (see [CONTRACT.md](CONTRACT.md), and
 > [Versions and support](https://jaatster.com/blip/versions/) for what stable and beta mean). Until the first release,
@@ -63,24 +65,24 @@ tabs.
   <script type="module">import "@jaatster/blip-elements/tabs.js";</script>
 </head>
 <body>
-  <h1 class="pp-display pp-pop" data-scale="3" data-pop="Level 2">Level 2</h1>
-  <button class="pp-box pp-button" type="button">Press start</button>
-  <button class="pp-box pp-button" type="button" data-variant="soft" data-tone="neutral">Options</button>
+  <h1 class="chu-display chu-pop" data-scale="3" data-pop="Level 2">Level 2</h1>
+  <button class="chu-box chu-button" type="button">Press start</button>
+  <button class="chu-box chu-button" type="button" data-variant="soft" data-tone="neutral">Options</button>
 
-  <pp-tabs class="pp-tabs">
-    <div class="pp-tabs-list" role="tablist" aria-label="Settings">
-      <button class="pp-box pp-tab" role="tab" aria-selected="true">General</button>
-      <button class="pp-box pp-tab" role="tab" aria-selected="false" tabindex="-1">Sound</button>
+  <chu-tabs class="chu-tabs">
+    <div class="chu-tabs-list" role="tablist" aria-label="Settings">
+      <button class="chu-box chu-tab" role="tab" aria-selected="true">General</button>
+      <button class="chu-box chu-tab" role="tab" aria-selected="false" tabindex="-1">Sound</button>
     </div>
-    <div class="pp-tabs-panel" role="tabpanel">Music, screen shake, big text.</div>
-    <div class="pp-tabs-panel" role="tabpanel" hidden>Chip sounds are off until you turn them on.</div>
-  </pp-tabs>
+    <div class="chu-tabs-panel" role="tabpanel">Music, screen shake, big text.</div>
+    <div class="chu-tabs-panel" role="tabpanel" hidden>Chip sounds are off until you turn them on.</div>
+  </chu-tabs>
 </body>
 </html>
 ```
 
-Add `data-pp-scheme="sunset"` or `"night"` to `<html>` (or to any section) to pin a scheme; with none, the page
-follows the device. Add `data-pp-pixel="3"` or `"4"` to make a part of the page chunkier. Until the packages are
+Add `data-chu-scheme="sunset"` or `"night"` to `<html>` (or to any section) to pin a scheme; with none, the page
+follows the device. Add `data-chu-pixel="3"` or `"4"` to make a part of the page chunkier. Until the packages are
 published, point the same paths at your own build (`packages/*/dist`, served by `node scripts/serve.mjs`).
 
 ### npm
@@ -102,8 +104,8 @@ npm install @jaatster/blip-elements @jaatster/blip-icons     # behaviour and ico
 import "@jaatster/blip-elements/tabs";   // one element at a time, or "@jaatster/blip-elements" for all of them
 ```
 
-Every file puts its rules in a cascade layer (`pp.reset`, `pp.tokens`, `pp.base`, `pp.core`, `pp.components`,
-`pp.kits`, `pp.utilities`), so your own CSS, outside the layers, wins without `!important`. With Tailwind CSS v4 or
+Every file puts its rules in a cascade layer (`chu.reset`, `chu.tokens`, `chu.base`, `chu.core`, `chu.components`,
+`chu.kits`, `chu.utilities`), so your own CSS, outside the layers, wins without `!important`. With Tailwind CSS v4 or
 other layered CSS, import `@jaatster/blip-core/layers.css` first: it puts Tailwind's reset under Blip and its
 utilities over it ([Get started](https://jaatster.com/blip/start/#tailwind) has the whole recipe, and notes for Vue and
 Svelte).
@@ -150,10 +152,10 @@ runtime dependencies outside `@jaatster/blip-*` (React is a peer of the React pa
 |---|---|---|---|
 | **Core** | | | |
 | `@jaatster/blip-tokens` | Every colour, size, duration and type value in the W3C DTCG 2025.10 format, with a resolver for the scheme and the pixel; exported as CSS, JS and TypeScript, Kotlin (Compose), Swift, Android XML and Figma variables | `tokens.css` 4 KB | 3.76 KB |
-| `@jaatster/blip-core` | The building blocks: the pixel, the candy box, type, stepped motion and base styles; `PixelElement`, roving focus, typeahead, dismiss, timelines, the scheme clock and swappable services | CSS 6 KB, JS 3 KB | 5.45 KB, 2.60 KB |
+| `@jaatster/blip-core` | The building blocks: the pixel, the candy box, type, stepped motion and base styles; `BlipElement`, roving focus, typeahead, dismiss, timelines, the scheme clock and swappable services | CSS 6 KB, JS 3 KB | 5.45 KB, 2.60 KB |
 | `@jaatster/blip-components` | The 53 core components as layered CSS: one file, or one per component | 30 KB, all of it | 25.23 KB |
 | `@jaatster/blip-elements` | 15 light-DOM Web Components for the components that need behaviour, with a Custom Elements Manifest | 3 KB each | 0.82 to 2.48 KB |
-| `@jaatster/blip-icons` | 188 original icons on a 12 x 12 grid: SVG files, a sprite, JS path data and `<pp-icon>` | 6 KB, all the path data | 5.59 KB |
+| `@jaatster/blip-icons` | 188 original icons on a 12 x 12 grid: SVG files, a sprite, JS path data and `<chu-icon>` | 6 KB, all the path data | 5.59 KB |
 | `@jaatster/blip-font` | Pixel Bop, the display face (WOFF2 and TTF), and a Latin subset of Pixelify Sans | Pixel Bop 15 KB (file size) | 8.52 KB |
 | `@jaatster/blip-react` | Typed React components for every component and kit | none: no side effects, one export each | |
 | **Kits** | | | |
@@ -175,7 +177,7 @@ Seven rules, kept everywhere. They are why a screen made of Blip parts looks lik
 its reason in [DESIGN.md](DESIGN.md); the build and the lint rules check most of them.
 
 1. **One pixel.** Every outline, icon, letter, corner and movement is a whole number of one square pixel
-   (`--pp-pixel`, 2 CSS px by default). Nothing is blurred, rotated or scaled by a fraction.
+   (`--chu-pixel`, 2 CSS px by default). Nothing is blurred, rotated or scaled by a fraction.
 2. **Ink, never black.** The darkest colour is ink, `#1A1530`, a deep violet: every outline, drop and piece of dark
    text.
 3. **Candy on pastel.** Saturated, outlined things can be acted on. The world behind them is soft, dithered and has
@@ -201,7 +203,7 @@ Newer features are used where the browser has them, and everything works without
   **anchored container queries** and the opt-in `popover-nub.css`, an open popover's nub turns when it flips.
 - **The customisable select** (`appearance: base-select`) turns a native select's picker into a Blip menu;
   elsewhere the browser's own list opens, in the scheme's colours.
-- **Invoker commands** (`commandfor` and `command`) open and close dialogs natively; elsewhere `<pp-dialog>` handles
+- **Invoker commands** (`commandfor` and `command`) open and close dialogs natively; elsewhere `<chu-dialog>` handles
   them.
 - **Cross-document view transitions** let the effects kit dither one page into the next; elsewhere pages change
   at once.

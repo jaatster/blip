@@ -54,7 +54,8 @@ its own icons on the same grid, and a world backdrop that follows the time of da
 
 ## Brand Commitments
 
-- The name is **Blip**. Its pixel display font is **Pixel Bop**. UI and body text use **Pixelify Sans** (OFL).
+- The name is **Blip**. Blip is the Indian ice lolly: crushed ice and bright syrup on a stick. Its pixel
+  display font is **Pixel Bop**. UI and body text use **Pixelify Sans** (OFL).
 - No mascot in the universal system.
 - The incumbent rules from the TV are binding: every pixel the same size, ink never black, candy on pastel, motion
   snaps, yellow means focus.

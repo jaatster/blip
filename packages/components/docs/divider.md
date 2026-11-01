@@ -18,10 +18,10 @@ label in the middle. Quiet by default (line-soft).
 ## Usage
 
 ```html
-<hr class="pp-divider">
-<hr class="pp-divider" data-variant="dither">
-<hr class="pp-divider" aria-orientation="vertical">
-<div class="pp-divider">Today</div>
+<hr class="chu-divider">
+<hr class="chu-divider" data-variant="dither">
+<hr class="chu-divider" aria-orientation="vertical">
+<div class="chu-divider">Today</div>
 ```
 
 ## Anatomy
@@ -63,4 +63,4 @@ None: a divider is not interactive.
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-divider-space` | 6 pixels (4 upright) | The space each side of the line. |
+| `--chu-divider-space` | 6 pixels (4 upright) | The space each side of the line. |

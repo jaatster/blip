@@ -69,7 +69,7 @@ export async function transition(update: () => void | Promise<void>, options: Tr
     const mask = (v: Float32Array, show: (x: number) => boolean) => (cells(v, show), `url(${canvas.toDataURL()})`);
     let old: Keyframe[], now: Keyframe[];
     // The run's marker also keeps transitions.css's dither (the one between pages) out of the way.
-    root.dataset.ppTransitionRun = run;
+    root.dataset.chuTransitionRun = run;
     if (mosaic) {
       old = [...filters.map((filter, f) => ({ offset: half(f), filter, opacity: 1 })), { offset: 0.5, filter: filters[n - 1], opacity: 0 }];
       now = [{ offset: 0, filter: filters[n - 1], opacity: 0 }, ...filters.map((_, f) => ({ offset: 0.5 + half(f), filter: filters[n - 1 - f], opacity: 1 })), { offset: 1, filter: "none", opacity: 1 }];
@@ -96,14 +96,14 @@ export async function transition(update: () => void | Promise<void>, options: Tr
       // Nothing of this run may touch a later view transition.
       running.forEach((a) => a.cancel());
       signal?.removeEventListener("abort", skip);
-      if (root.dataset.ppTransitionRun === run) delete root.dataset.ppTransitionRun;
+      if (root.dataset.chuTransitionRun === run) delete root.dataset.chuTransitionRun;
     }
     return;
   }
 
   // No view transitions: ink over the whole screen from an overlay while it changes. The ink takes the pointer, so
   // nothing hidden under it can be pressed.
-  const layer = overlay(true), opts = { signal }, ink = abgr(rgb(getComputedStyle(root).getPropertyValue("--pp-ink")));
+  const layer = overlay(true), opts = { signal }, ink = abgr(rgb(getComputedStyle(root).getPropertyValue("--chu-ink")));
   canvas.style.cssText = `image-rendering:pixelated;max-inline-size:none;width:${cols * size}px;height:${rows * size}px`;
   layer.append(canvas);
   try {
@@ -120,17 +120,17 @@ export async function transition(update: () => void | Promise<void>, options: Tr
  * outside <body>, so an update that replaces the body keeps them.
  */
 function blocks(sizes: number[]): string[] {
-  let svg = document.getElementById("pp-mosaic") as Element | null;
+  let svg = document.getElementById("chu-mosaic") as Element | null;
   if (!svg) {
     svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.id = "pp-mosaic";
+    svg.id = "chu-mosaic";
     svg.setAttribute("aria-hidden", "true");
     svg.setAttribute("style", "position:absolute;width:0;height:0");
     document.documentElement.append(svg);
   }
   const host = svg;
   return sizes.map((b) => {
-    const id = `pp-mosaic-${b}`;
+    const id = `chu-mosaic-${b}`;
     if (!document.getElementById(id)) {
       // An even block takes a 2 x 2 sample from its middle, an odd one a single pixel; dilating it fills the block.
       const odd = b % 2, at = odd ? (b - 1) / 2 : b / 2 - 1;

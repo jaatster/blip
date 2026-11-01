@@ -12,12 +12,12 @@ function renderTry() {
   const text = tryText.value || "Pixel Bop";
   tryOut.textContent = text;
   tryOut.dataset.scale = tryScale?.value || "3";
-  tryOut.classList.toggle("pp-pop", !!tryPop?.checked);
+  tryOut.classList.toggle("chu-pop", !!tryPop?.checked);
   if (tryPop?.checked) tryOut.dataset.pop = text;
   else delete tryOut.dataset.pop;
 }
 tryText?.addEventListener("input", renderTry);
-tryScale?.addEventListener("pp-change", renderTry);
+tryScale?.addEventListener("chu-change", renderTry);
 tryPop?.addEventListener("change", renderTry);
 
 // ------------------------------------------------------------------ motion
@@ -126,8 +126,8 @@ if (icons) {
     for (const p of $$(".docs-icon-big path", detail)) p.setAttribute("d", path);
     $(".docs-icon-detail-name", detail).textContent = name;
     $(".docs-icon-detail-tags", detail).textContent = `${titles[cat] ?? cat} · ${li.dataset.tags.split(" ").join(", ")}`;
-    const svg = `<svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="${path}"/></svg>`;
-    const copies = { svg, name, element: `<pp-icon name="${name}"></pp-icon>` };
+    const svg = `<svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="${path}"/></svg>`;
+    const copies = { svg, name, element: `<chu-icon name="${name}"></chu-icon>` };
     for (const b of $$("[data-copy-kind]", detail)) b.dataset.copy = copies[b.dataset.copyKind];
     $(".docs-icon-snippet code", detail).textContent = svg;
   }

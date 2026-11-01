@@ -2,21 +2,21 @@
  * Drawer. A side sheet: a native <dialog> that comes in from the end, the start or the bottom edge, a whole
  * pixel-snapped sixth of its size per step (six steps over a glide), over the same dithered scrim as the dialog.
  * It is a dialog, so it uses the dialog's parts (header, title, close, body, footer) and the same element
- * behaviour: wrap it in <pp-drawer> from @jaatster/blip-elements for the stepped exit, pp-before-close and light dismiss.
+ * behaviour: wrap it in <chu-drawer> from @jaatster/blip-elements for the stepped exit, chu-before-close and light dismiss.
  *
- *   <dialog class="pp-box pp-drawer" id="settings" data-side="end" aria-labelledby="settings-title">
- *     <header class="pp-dialog-header">
- *       <h2 class="pp-dialog-title" id="settings-title">Settings</h2>
- *       <form method="dialog"><button class="pp-box pp-button pp-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button></form>
+ *   <dialog class="chu-box chu-drawer" id="settings" data-side="end" aria-labelledby="settings-title">
+ *     <header class="chu-dialog-header">
+ *       <h2 class="chu-dialog-title" id="settings-title">Settings</h2>
+ *       <form method="dialog"><button class="chu-box chu-button chu-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button></form>
  *     </header>
- *     <div class="pp-dialog-body">…</div>
- *     <footer class="pp-dialog-footer">…</footer>
+ *     <div class="chu-dialog-body">…</div>
+ *     <footer class="chu-dialog-footer">…</footer>
  *   </dialog>
  *
  *   data-side        end (default) | start | bottom      end and start follow the text: the right and the left in
  *                                                      left-to-right text, the other way round right to left
  *   data-size        sm | md (default) | lg      128, 160 or 224 pixels across (bottom: up to 85% of the height)
- *   data-pp-static   drawn in the page flow, for docs, tests and screenshots
+ *   data-chu-static   drawn in the page flow, for docs, tests and screenshots
  *
  * The sheet runs one pixel past the screen on the sides it touches, so only its inner edge shows an outline.
  * Square corners: it is part of the screen's edge, not a card floating on it.
@@ -25,68 +25,68 @@
 
 /* How far out the sheet is, 0 to 1; the slide animates it in six steps and the sheet's translate rounds it to whole
    pixels. */
-@property --_pp-slide { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --_chu-slide { syntax: "<number>"; inherits: false; initial-value: 0; }
 
-@layer pp.components {
-  pp-drawer { display: contents; }
+@layer chu.components {
+  chu-drawer { display: contents; }
 
-  .pp-drawer {
-    --_pp-w: 160;
-    /* Which way it slides: --_pp-sx across (1 towards the end), --_pp-sy down; --_pp-dir is -1 right to left. */
-    --_pp-sx: 1;
-    --_pp-sy: 0;
-    --_pp-dir: 1;
+  .chu-drawer {
+    --_chu-w: 160;
+    /* Which way it slides: --_chu-sx across (1 towards the end), --_chu-sy down; --_chu-dir is -1 right to left. */
+    --_chu-sx: 1;
+    --_chu-sy: 0;
+    --_chu-dir: 1;
     position: fixed;
-    inset: calc(-1 * var(--pp-pixel));
+    inset: calc(-1 * var(--chu-pixel));
     inset-inline-start: auto;
-    inline-size: calc(round(down, min(calc(var(--_pp-w) * var(--pp-pixel)), 100% - 16 * var(--pp-pixel)), var(--pp-pixel)) + var(--pp-pixel));
+    inline-size: calc(round(down, min(calc(var(--_chu-w) * var(--chu-pixel)), 100% - 16 * var(--chu-pixel)), var(--chu-pixel)) + var(--chu-pixel));
     block-size: auto;
     max-inline-size: none;
     max-block-size: none;
     margin: 0;
-    padding: calc((var(--pp-r) + 1) * var(--pp-pixel)) 0;
+    padding: calc((var(--chu-r) + 1) * var(--chu-pixel)) 0;
     overflow: visible;
-    color: var(--pp-box-text);
-    font-size: var(--pp-size-body);
-    line-height: var(--pp-leading-normal);
+    color: var(--chu-box-text);
+    font-size: var(--chu-size-body);
+    line-height: var(--chu-leading-normal);
   }
-  .pp-drawer[open] {
+  .chu-drawer[open] {
     display: flex;
     flex-direction: column;
-    translate: calc(var(--_pp-sx) * var(--_pp-dir) * round(var(--_pp-slide) * 100%, var(--pp-pixel))) calc(var(--_pp-sy) * round(var(--_pp-slide) * 100%, var(--pp-pixel)));
+    translate: calc(var(--_chu-sx) * var(--_chu-dir) * round(var(--_chu-slide) * 100%, var(--chu-pixel))) calc(var(--_chu-sy) * round(var(--_chu-slide) * 100%, var(--chu-pixel)));
   }
-  .pp-drawer:dir(rtl) { --_pp-dir: -1; }
-  .pp-drawer > form { display: contents; }
-  .pp-drawer:not([data-pp-r]) { --pp-r: 0; --pp-shape: var(--pp-shape-0); --pp-shape-inner: var(--pp-shape-0-inner); }
-  .pp-drawer:not([data-variant]) { --pp-drop-size: 2; }
-  .pp-drawer[data-size="sm"] { --_pp-w: 128; }
-  .pp-drawer[data-size="lg"] { --_pp-w: 224; }
+  .chu-drawer:dir(rtl) { --_chu-dir: -1; }
+  .chu-drawer > form { display: contents; }
+  .chu-drawer:not([data-chu-r]) { --chu-r: 0; --chu-shape: var(--chu-shape-0); --chu-shape-inner: var(--chu-shape-0-inner); }
+  .chu-drawer:not([data-variant]) { --chu-drop-size: 2; }
+  .chu-drawer[data-size="sm"] { --_chu-w: 128; }
+  .chu-drawer[data-size="lg"] { --_chu-w: 224; }
 
-  .pp-drawer[data-side="start"] {
-    --_pp-sx: -1;
-    inset: calc(-1 * var(--pp-pixel));
+  .chu-drawer[data-side="start"] {
+    --_chu-sx: -1;
+    inset: calc(-1 * var(--chu-pixel));
     inset-inline-end: auto;
   }
-  .pp-drawer[data-side="bottom"] {
-    --_pp-sx: 0;
-    --_pp-sy: 1;
-    inset: auto calc(-1 * var(--pp-pixel)) calc(-1 * var(--pp-pixel));
+  .chu-drawer[data-side="bottom"] {
+    --_chu-sx: 0;
+    --_chu-sy: 1;
+    inset: auto calc(-1 * var(--chu-pixel)) calc(-1 * var(--chu-pixel));
     inline-size: auto;
-    max-block-size: round(down, 85%, var(--pp-pixel));
+    max-block-size: round(down, 85%, var(--chu-pixel));
   }
 
   /* In and out: six steps, each a whole pixel-snapped sixth of the sheet. */
-  .pp-drawer[open] { animation: pp-drawer-in var(--pp-duration-glide) steps(6, jump-end); }
-  .pp-drawer[open]::backdrop { animation-duration: var(--pp-duration-glide); }
-  .pp-drawer[data-pp-closing] { animation: pp-drawer-out var(--pp-duration-glide) steps(6, jump-end) forwards; }
-  .pp-drawer[data-pp-closing]::backdrop { animation-duration: var(--pp-duration-glide); }
+  .chu-drawer[open] { animation: chu-drawer-in var(--chu-duration-glide) steps(6, jump-end); }
+  .chu-drawer[open]::backdrop { animation-duration: var(--chu-duration-glide); }
+  .chu-drawer[data-chu-closing] { animation: chu-drawer-out var(--chu-duration-glide) steps(6, jump-end) forwards; }
+  .chu-drawer[data-chu-closing]::backdrop { animation-duration: var(--chu-duration-glide); }
 
-  .pp-drawer[data-pp-static] { position: relative; inset: auto; margin: 0; z-index: auto; translate: none; animation: none; }
+  .chu-drawer[data-chu-static] { position: relative; inset: auto; margin: 0; z-index: auto; translate: none; animation: none; }
 
   @media (prefers-reduced-motion: reduce) {
-    .pp-drawer:is([open], [data-pp-closing]) { animation: none; }
+    .chu-drawer:is([open], [data-chu-closing]) { animation: none; }
   }
 }
 
-@keyframes pp-drawer-in { from { --_pp-slide: 1; } to { --_pp-slide: 0; } }
-@keyframes pp-drawer-out { from { --_pp-slide: 0; } to { --_pp-slide: 1; } }
+@keyframes chu-drawer-in { from { --_chu-slide: 1; } to { --_chu-slide: 0; } }
+@keyframes chu-drawer-out { from { --_chu-slide: 0; } to { --_chu-slide: 1; } }

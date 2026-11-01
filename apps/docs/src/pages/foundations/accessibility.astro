@@ -27,7 +27,7 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
 ---
 <Docs styles={["foundations"]} scripts={["foundations"]} title="Accessibility" description="What Blip does for accessibility by itself (contrast checked at build, the focus ring, keyboard patterns, reduced motion, high contrast) and what it asks of you." headings={[H("floor", "The floor"), H("contrast", "Contrast"), H("focus", "Focus"), H("keyboard", "Keyboard"), H("motion", "Motion and time"), H("high-contrast", "High contrast"), H("you", "What is still yours")]}>
   <header class="docs-page-head">
-    <h1 class="docs-page-title pp-display" data-scale="2">Accessibility</h1>
+    <h1 class="docs-page-title chu-display" data-scale="2">Accessibility</h1>
     <p class="docs-lede">WCAG 2.2 AA is the floor, and most of it is built in: the colours are checked when the tokens build, focus is impossible to miss, every component has a keyboard path, and motion stops when someone asks it to.</p>
   </header>
 
@@ -35,7 +35,7 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     <h2 id="floor">The floor</h2>
     <ul class="docs-list">
       <li><strong>{checked.length} text pairs</strong> are measured in three schemes every time the tokens build, and one below AA stops the build.</li>
-      <li><strong>{target} CSS px</strong> is the smallest target anything you can press may have (<code class="docs-inline-code">--pp-target-min</code>).</li>
+      <li><strong>{target} CSS px</strong> is the smallest target anything you can press may have (<code class="docs-inline-code">--chu-target-min</code>).</li>
       <li><strong>{keyRows.length} components</strong> document a keyboard map, each following its WAI-ARIA Authoring Practices pattern.</li>
       <li><strong>0 ms</strong> is every duration with reduced motion on, so nothing moves that was not asked to.</li>
     </ul>
@@ -52,9 +52,9 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     <p>Focus is the yellow ring with an ink edge, one pixel each, following the stepped corners of whatever has it. Nothing else is yellow, so it is never confused with decoration, and the ink edge keeps it visible on any colour.</p>
     <div class="docs-row">
       {rings.map((s) => (
-        <div class="pp-box docs-ring" data-variant="panel" data-pp-scheme={s.id}>
-          <span class="pp-box pp-button" data-size="sm" data-variant="soft" data-pp-state="focus">{s.title}</span>
-          <span class="pp-small docs-num">{ratio(s.r)} against the page</span>
+        <div class="chu-box docs-ring" data-variant="panel" data-chu-scheme={s.id}>
+          <span class="chu-box chu-button" data-size="sm" data-variant="soft" data-chu-state="focus">{s.title}</span>
+          <span class="chu-small docs-num">{ratio(s.r)} against the page</span>
         </div>
       ))}
     </div>
@@ -70,7 +70,7 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     <h2 id="motion">Motion and time</h2>
     <ul class="docs-list">
       <li>With <code class="docs-inline-code">prefers-reduced-motion</code>, every duration token is 0 ms: no drifting clouds, dropping letters, bursts or page dissolves. Waits, like a tooltip's delay, stay.</li>
-      <li>Motion that runs on by itself (the world's drifting clouds, flaring stars and passing birds) only goes where it adds to the look, never behind reading text, and always beside <a href="/components/motion-toggle/"><code class="docs-inline-code">&lt;pp-motion-toggle&gt;</code></a>: pressed, it pauses all of it at once and remembers the choice (WCAG 2.2.2).</li>
+      <li>Motion that runs on by itself (the world's drifting clouds, flaring stars and passing birds) only goes where it adds to the look, never behind reading text, and always beside <a href="/components/motion-toggle/"><code class="docs-inline-code">&lt;chu-motion-toggle&gt;</code></a>: pressed, it pauses all of it at once and remembers the choice (WCAG 2.2.2).</li>
       <li>Anything that blinks or bobs stops after six beats, under five seconds (WCAG 2.2.2).</li>
       <li>Toasts pause while the pointer or the keyboard is on them, while the tab is hidden and while a dialog is open; errors stay until dismissed (WCAG 2.2.1).</li>
       <li>Sound is off until someone turns it on, plays only for what they did, and never carries meaning alone.</li>
@@ -85,7 +85,7 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
   <section class="docs-section" aria-labelledby="you">
     <h2 id="you">What is still yours</h2>
     <ul class="docs-list">
-      <li>Names: label every field, and name icon-only buttons for their action ("Delete save", not "Trash"). In development, Blip warns when an element has none (<a href="/diagnostics/#pp-a001">PP-A001</a>, <a href="/diagnostics/#pp-a010">PP-A010</a>).</li>
+      <li>Names: label every field, and name icon-only buttons for their action ("Delete save", not "Trash"). In development, Blip warns when an element has none (<a href="/diagnostics/#chu-a001">CHU-A001</a>, <a href="/diagnostics/#chu-a010">CHU-A010</a>).</li>
       <li>Structure: one <code class="docs-inline-code">h1</code>, headings in order, landmarks, and a skip link first.</li>
       <li>Words: errors that say what went wrong and how to fix it, and buttons named for what they do.</li>
       <li>Focus after change: move focus to the new screen's heading or main region after a route change or a transition.</li>

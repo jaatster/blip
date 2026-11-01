@@ -15,29 +15,29 @@ sign-up and the legal line, on the sunken surface so every colour is a checked s
 ## Usage
 
 ```html
-<footer class="pp-footer">
-  <div class="pp-footer-inner">
-    <div class="pp-footer-brand">
-      <p class="pp-display pp-pop" data-scale="2" data-tone="pink" data-pop="Sherbit">Sherbit</p>
-      <p class="pp-small">Tiny games about big skies.</p>
+<footer class="chu-footer">
+  <div class="chu-footer-inner">
+    <div class="chu-footer-brand">
+      <p class="chu-display chu-pop" data-scale="2" data-tone="pink" data-pop="Sherbit">Sherbit</p>
+      <p class="chu-small">Tiny games about big skies.</p>
     </div>
-    <nav class="pp-footer-nav" aria-label="More from Sherbit Games">
-      <div class="pp-footer-col">
-        <h2 class="pp-footer-heading">Studio</h2>
+    <nav class="chu-footer-nav" aria-label="More from Sherbit Games">
+      <div class="chu-footer-col">
+        <h2 class="chu-footer-heading">Studio</h2>
         <ul role="list"><li><a href="#about">About us</a></li><li><a href="#jobs">Jobs</a></li></ul>
       </div>
     </nav>
-    <form class="pp-footer-signup" action="/subscribe" method="post" aria-labelledby="letter">
-      <h2 class="pp-footer-heading" id="letter">The Sherbit letter</h2>
+    <form class="chu-footer-signup" action="/subscribe" method="post" aria-labelledby="letter">
+      <h2 class="chu-footer-heading" id="letter">The Sherbit letter</h2>
       <p>One email when something ships.</p>
-      <div class="pp-footer-row">
-        <label class="pp-sr-only" for="email">Email address</label>
-        <span class="pp-box pp-footer-field" data-variant="outline"><input id="email" type="email" name="email" autocomplete="email" required></span>
-        <button class="pp-box pp-button" type="submit">Subscribe</button>
+      <div class="chu-footer-row">
+        <label class="chu-sr-only" for="email">Email address</label>
+        <span class="chu-box chu-footer-field" data-variant="outline"><input id="email" type="email" name="email" autocomplete="email" required></span>
+        <button class="chu-box chu-button" type="submit">Subscribe</button>
       </div>
     </form>
   </div>
-  <div class="pp-footer-legal">
+  <div class="chu-footer-legal">
     <p>© 2026 Sherbit Games.</p>
     <ul role="list"><li><a href="#privacy">Privacy</a></li><li><a href="#terms">Terms</a></li></ul>
   </div>
@@ -48,10 +48,10 @@ sign-up and the legal line, on the sunken surface so every colour is a checked s
 
 1. **Edge** (the footer's `::before` and `::after`): blades of grass above the top, grass, a lip, dirt with pebbles,
    and a dithered row down into the footer.
-2. **Inner** (`.pp-footer-inner`): brand, links and sign-up side by side from 1024 px wide; stacked below.
-3. **Columns** (`.pp-footer-col`): a heading and a list of links.
-4. **Field** (`.pp-footer-field`): an outline candy box around a text input.
-5. **Legal** (`.pp-footer-legal`): small print and policy links over a soft line.
+2. **Inner** (`.chu-footer-inner`): brand, links and sign-up side by side from 1024 px wide; stacked below.
+3. **Columns** (`.chu-footer-col`): a heading and a list of links.
+4. **Field** (`.chu-footer-field`): an outline candy box around a text input.
+5. **Legal** (`.chu-footer-legal`): small print and policy links over a soft line.
 
 ## States
 
@@ -82,4 +82,4 @@ Three columns of four links or fewer. The sign-up promise in one line, and keep 
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-footer-edge` | 14 | The ground edge's depth, in pixels. |
+| `--chu-footer-edge` | 14 | The ground edge's depth, in pixels. |

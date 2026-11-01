@@ -15,11 +15,11 @@ the box's outline, once when it appears (as a selected tile's does), then it res
 ## Usage
 
 ```html
-<button class="pp-box pp-button">Continue<span class="pp-glint" aria-hidden="true"></span></button>
-<div class="pp-box pp-tile" data-tone="red">…<span class="pp-glint" aria-hidden="true"></span></div>
+<button class="chu-box chu-button">Continue<span class="chu-glint" aria-hidden="true"></span></button>
+<div class="chu-box chu-tile" data-tone="red">…<span class="chu-glint" aria-hidden="true"></span></div>
 ```
 
-Put one `.pp-glint` span inside any `.pp-box`. It reads the box's shape, so stepped corners of any radius stay clean.
+Put one `.chu-glint` span inside any `.chu-box`. It reads the box's shape, so stepped corners of any radius stay clean.
 
 ## Anatomy
 
@@ -32,9 +32,9 @@ on the TV), the middle two white. Its point moves from the top-left corner to th
 | | |
 |---|---|
 | `data-frame="0"` to `"4"` | Holds one frame (docs, tests, screenshots). |
-| `--pp-glint-count` | How many sweeps, 4.5 seconds apart (1). Two are over in under five seconds; set `infinite` only where the person can pause it, as for `--pp-blink-count`. |
-| `--pp-glint-delay` | Staggers several glints on one screen. |
-| `--pp-glint-color`, `--pp-glint-edge` | The band's colours (white, light yellow). |
+| `--chu-glint-count` | How many sweeps, 4.5 seconds apart (1). Two are over in under five seconds; set `infinite` only where the person can pause it, as for `--chu-blink-count`. |
+| `--chu-glint-delay` | Staggers several glints on one screen. |
+| `--chu-glint-color`, `--chu-glint-edge` | The band's colours (white, light yellow). |
 
 ## States
 
@@ -56,5 +56,5 @@ seconds unless you ask for it (WCAG 2.2.2).
 
 ## API
 
-`.pp-glint` (a child of a `.pp-box`), `data-frame`, `--pp-glint-count`, `--pp-glint-delay`, `--pp-glint-color`,
-`--pp-glint-edge`.
+`.chu-glint` (a child of a `.chu-box`), `data-frame`, `--chu-glint-count`, `--chu-glint-delay`, `--chu-glint-color`,
+`--chu-glint-edge`.

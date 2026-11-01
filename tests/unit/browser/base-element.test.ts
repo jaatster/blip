@@ -1,16 +1,16 @@
 /**
- * PixelElement's flag(): a boolean attribute is on when it is present and not "false". Vue, Svelte and React write
+ * BlipElement's flag(): a boolean attribute is on when it is present and not "false". Vue, Svelte and React write
  * open="false" on an element defined after they render; that must read as off, as the property false does.
  */
 import { describe, expect, it } from "vitest";
-import { PixelElement } from "@jaatster/blip-core";
+import { BlipElement } from "@jaatster/blip-core";
 import { mount } from "../support/dom.ts";
 
 let n = 0;
 /** Defines a fresh element (tags can't be redefined) that reads its "open" attribute with flag() when it connects. */
 function define() {
-  const tag = `pp-base-flag-${++n}`;
-  class FlagElement extends PixelElement {
+  const tag = `chu-base-flag-${++n}`;
+  class FlagElement extends BlipElement {
     seen: boolean | undefined;
     protected override connected(): void {
       this.seen = this.flag("open");
@@ -19,7 +19,7 @@ function define() {
       return this.flag(name);
     }
   }
-  return { tag, define: () => PixelElement.define(tag, FlagElement) };
+  return { tag, define: () => BlipElement.define(tag, FlagElement) };
 }
 
 describe("flag()", () => {

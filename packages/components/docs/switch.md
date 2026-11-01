@@ -19,9 +19,9 @@ of the calm well; on, the track fills with candy and the knob hops to the end, t
 ## Usage
 
 ```html
-<label class="pp-check" data-layout="split">
+<label class="chu-check" data-layout="split">
   Screen shake
-  <span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box" name="shake"></span>
+  <span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" name="shake"></span>
 </label>
 ```
 
@@ -30,8 +30,8 @@ of the calm well; on, the track fills with candy and the knob hops to the end, t
 1. **Track**: the calm well, 19 x 11 pixels (15 x 9 small, 23 x 13 large), radius 4. On: candy that sits in.
 2. **Knob**: the input itself, a neutral cream candy box the track's height, with its own drop. A transparent pixel
    of border makes its target 26 px without changing its look.
-3. **Row**: a `.pp-check` label; `data-layout="split"` puts the words first and the switch at the far end. Help goes
-   after the row in a `.pp-check-help`, linked with `aria-describedby`.
+3. **Row**: a `.chu-check` label; `data-layout="split"` puts the words first and the switch at the far end. Help goes
+   after the row in a `.chu-check-help`, linked with `aria-describedby`.
 
 ## Variants
 
@@ -79,8 +79,8 @@ With reduced motion the knob jumps straight to its place.
 
 | Class | |
 |---|---|
-| `.pp-switch` | The track. Markup: `class="pp-box pp-switch"` on a `<span>`; the input inside also has `class="pp-box"`. |
+| `.chu-switch` | The track. Markup: `class="chu-box chu-switch"` on a `<span>`; the input inside also has `class="chu-box"`. |
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-tone`, `--pp-tone-light`, `--pp-tone-shade`, `--pp-tone-on` | accent | The track's candy when on (or `data-tone`). |
+| `--chu-tone`, `--chu-tone-light`, `--chu-tone-shade`, `--chu-tone-on` | accent | The track's candy when on (or `data-tone`). |

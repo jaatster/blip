@@ -54,12 +54,12 @@ const withBlip: Decorator = (story, { globals }) => {
   stopAuto = undefined;
   const scheme = String(globals.scheme ?? "day");
   if (scheme === "auto") {
-    delete root.dataset.ppScheme;
+    delete root.dataset.chuScheme;
     stopAuto = core.autoScheme(root, { fade: false });
-  } else root.dataset.ppScheme = scheme;
+  } else root.dataset.chuScheme = scheme;
   const pixel = String(globals.pixel ?? "2");
-  if (pixel === "2") delete root.dataset.ppPixel;
-  else root.dataset.ppPixel = pixel;
+  if (pixel === "2") delete root.dataset.chuPixel;
+  else root.dataset.chuPixel = pixel;
   setReducedMotion(globals.motion === "reduce");
   restore?.();
   restore = core.provide({ seed: SEED, ...(testing ? { clock: () => new Date(FROZEN) } : {}) });

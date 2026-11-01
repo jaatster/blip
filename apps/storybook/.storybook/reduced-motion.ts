@@ -1,15 +1,15 @@
 /**
  * The "Reduced motion" toolbar switch. A page cannot turn on prefers-reduced-motion for itself, so Storybook copies
  * every `@media (prefers-reduced-motion: reduce)` block of Blip's CSS into a container style query that the
- * switch turns on (`--pp-motion: reduce` on <html>), and wraps every `no-preference` block so the switch turns it off.
- * Rules for :root inside those blocks (the duration tokens) are copied for `:root[data-pp-reduce-motion]`, because
+ * switch turns on (`--chu-motion: reduce` on <html>), and wraps every `no-preference` block so the switch turns it off.
+ * Rules for :root inside those blocks (the duration tokens) are copied for `:root[data-chu-reduce-motion]`, because
  * the root has no container to query. Script reads the same switch through motion.ts.
  */
 import type { Plugin } from "vite";
 
 const QUERY = /@media\s*\(\s*prefers-reduced-motion\s*:\s*(reduce|no-preference)\s*\)\s*\{/g;
-const SWITCH = "--pp-motion: reduce";
-export const ROOT_FLAG = "data-pp-reduce-motion";
+const SWITCH = "--chu-motion: reduce";
+export const ROOT_FLAG = "data-chu-reduce-motion";
 
 /** The index of the brace that closes the one at `open`, skipping strings and comments. */
 function closing(css: string, open: number): number {

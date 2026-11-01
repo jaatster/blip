@@ -3,166 +3,166 @@
  * with pixel checks, and a button at the foot of each. Candy stays on what you press: the plans are panels, and the
  * featured one stands out by its ribbon, its band and its candy button.
  *
- *   <div class="pp-pricing">
- *     <article class="pp-box pp-plan" data-variant="panel" aria-labelledby="plan-standard">
- *       <h3 class="pp-plan-name" id="plan-standard">Standard</h3>
- *       <p class="pp-plan-price"><span class="pp-plan-currency">$</span><span class="pp-plan-amount">14.99</span></p>
- *       <ul class="pp-plan-features" role="list"><li>The full game</li><li>Couch co-op</li></ul>
- *       <a class="pp-box pp-button" data-variant="soft" data-width="full" href="#">Buy Standard</a>
+ *   <div class="chu-pricing">
+ *     <article class="chu-box chu-plan" data-variant="panel" aria-labelledby="plan-standard">
+ *       <h3 class="chu-plan-name" id="plan-standard">Standard</h3>
+ *       <p class="chu-plan-price"><span class="chu-plan-currency">$</span><span class="chu-plan-amount">14.99</span></p>
+ *       <ul class="chu-plan-features" role="list"><li>The full game</li><li>Couch co-op</li></ul>
+ *       <a class="chu-box chu-button" data-variant="soft" data-width="full" href="#">Buy Standard</a>
  *     </article>
- *     <article class="pp-box pp-plan" data-featured data-tone="pink" aria-labelledby="plan-deluxe">
- *       <p class="pp-box pp-plan-ribbon">Best value</p> …
- *       <a class="pp-box pp-button" data-tone="pink" data-width="full" href="#">Buy Deluxe</a>
+ *     <article class="chu-box chu-plan" data-featured data-tone="pink" aria-labelledby="plan-deluxe">
+ *       <p class="chu-box chu-plan-ribbon">Best value</p> …
+ *       <a class="chu-box chu-button" data-tone="pink" data-width="full" href="#">Buy Deluxe</a>
  *     </article>
  *   </div>
  *
  *   data-featured        the plan to pick (its data-tone, the accent by default): a raised panel (the surface, an
  *                        ink outline, a two-pixel drop) with a five-pixel band of its tone's light colour along the
  *                        top, its ribbon in its candy, and the one candy button; the other plans' buttons are soft
- *   .pp-plan-amount      Pixel Bop at scale 3 (digits, "." and "," are in the font); the currency is set smaller
- *   .pp-plan-features    a list with pixel checks; li[data-off] for what a plan leaves out (a dash, muted)
- *   --pp-plan-check      the checks' colour (the success text colour by default)
+ *   .chu-plan-amount      Pixel Bop at scale 3 (digits, "." and "," are in the font); the currency is set smaller
+ *   .chu-plan-features    a list with pixel checks; li[data-off] for what a plan leaves out (a dash, muted)
+ *   --chu-plan-check      the checks' colour (the success text colour by default)
  *
  * Plans sit three across where there is room and stack on a phone. Put the price and period in words a screen reader
  * says well: "$14.99, one time".
  */
 
-@layer pp.kits {
-  .pp-pricing {
+@layer chu.kits {
+  .chu-pricing {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(116 * var(--pp-pixel))), 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(116 * var(--chu-pixel))), 1fr));
     align-items: stretch;
-    gap: calc(8 * var(--pp-pixel));
-    padding-block-start: calc(10 * var(--pp-pixel));
+    gap: calc(8 * var(--chu-pixel));
+    padding-block-start: calc(10 * var(--chu-pixel));
   }
 
-  .pp-plan {
-    --pp-r: 5;
-    --pp-shape: var(--pp-shape-5);
-    --pp-shape-inner: var(--pp-shape-5-inner);
-    --pp-band-top: 3;
-    --pp-band-bottom: 4;
+  .chu-plan {
+    --chu-r: 5;
+    --chu-shape: var(--chu-shape-5);
+    --chu-shape-inner: var(--chu-shape-5-inner);
+    --chu-band-top: 3;
+    --chu-band-bottom: 4;
     --_check: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' shape-rendering='crispEdges'%3E%3Cpath d='M9 3h2v2h-1v1H9v1H8v1H7v1H6v1H4V9H3V8H2V7H1V5h2v1h1v1h1V6h1V5h1V4h1V3h1z'/%3E%3C/svg%3E");
     --_dash: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' shape-rendering='crispEdges'%3E%3Cpath d='M3 5h6v2H3z'/%3E%3C/svg%3E");
     display: grid;
     grid-template-rows: auto auto auto 1fr auto;
     align-content: start;
-    gap: calc(5 * var(--pp-pixel));
-    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
-    padding: calc(11 * var(--pp-pixel)) calc(10 * var(--pp-pixel)) calc(10 * var(--pp-pixel));
+    gap: calc(5 * var(--chu-pixel));
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
+    padding: calc(11 * var(--chu-pixel)) calc(10 * var(--chu-pixel)) calc(10 * var(--chu-pixel));
   }
-  .pp-plan > :is(h2, h3, h4, p, ul) { margin: 0; }
+  .chu-plan > :is(h2, h3, h4, p, ul) { margin: 0; }
 
-  .pp-plan-ribbon {
-    --pp-r: 2;
-    --pp-shape: var(--pp-shape-2);
-    --pp-shape-inner: var(--pp-shape-2-inner);
-    --pp-band-top: 2;
-    --pp-band-bottom: 2;
+  .chu-plan-ribbon {
+    --chu-r: 2;
+    --chu-shape: var(--chu-shape-2);
+    --chu-shape-inner: var(--chu-shape-2-inner);
+    --chu-band-top: 2;
+    --chu-band-bottom: 2;
     position: absolute;
-    inset-block-start: calc(-8 * var(--pp-pixel));
-    inset-inline-start: calc(9 * var(--pp-pixel));
+    inset-block-start: calc(-8 * var(--chu-pixel));
+    inset-inline-start: calc(9 * var(--chu-pixel));
     margin: 0;
-    padding: calc(2 * var(--pp-pixel)) calc(5 * var(--pp-pixel)) var(--pp-pixel);
-    font-family: var(--pp-font-display);
-    font-size: calc(10 * var(--pp-pixel));
+    padding: calc(2 * var(--chu-pixel)) calc(5 * var(--chu-pixel)) var(--chu-pixel);
+    font-family: var(--chu-font-display);
+    font-size: calc(10 * var(--chu-pixel));
     line-height: 1.2;
     text-transform: uppercase;
     white-space: nowrap;
     font-synthesis: none;
     -webkit-font-smoothing: none;
   }
-  .pp-plan-ribbon:not([data-tone]) {
-    --pp-tone: var(--pp-candy-cream);
-    --pp-tone-light: var(--pp-candy-cream-light);
-    --pp-tone-shade: var(--pp-candy-cream-shade);
-    --pp-tone-on: var(--pp-ink);
+  .chu-plan-ribbon:not([data-tone]) {
+    --chu-tone: var(--chu-candy-cream);
+    --chu-tone-light: var(--chu-candy-cream-light);
+    --chu-tone-shade: var(--chu-candy-cream-shade);
+    --chu-tone-on: var(--chu-ink);
   }
 
   /* The featured plan: a raised panel, not a slab of candy. It stands out by a band of its tone's light colour along
      the top (following the corners), its ribbon in its candy, a two-pixel drop, and its candy button. */
-  .pp-plan[data-featured] {
-    --_pp-plan-tone: var(--pp-tone);
-    --_pp-plan-light: var(--pp-tone-light);
-    --_pp-plan-shade: var(--pp-tone-shade);
-    --_pp-plan-on: var(--pp-tone-on);
-    --pp-band-top: 5;
-    --pp-drop-size: 2;
-    --pp-box-top: var(--pp-tone-light);
-    --pp-box-fill: var(--pp-surface);
-    --pp-box-bottom: var(--pp-surface);
-    --pp-box-text: var(--pp-text);
-    --pp-box-glint: transparent;
-    margin: 0 calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel)) 0;
-    padding-block-start: calc(13 * var(--pp-pixel));
+  .chu-plan[data-featured] {
+    --_chu-plan-tone: var(--chu-tone);
+    --_chu-plan-light: var(--chu-tone-light);
+    --_chu-plan-shade: var(--chu-tone-shade);
+    --_chu-plan-on: var(--chu-tone-on);
+    --chu-band-top: 5;
+    --chu-drop-size: 2;
+    --chu-box-top: var(--chu-tone-light);
+    --chu-box-fill: var(--chu-surface);
+    --chu-box-bottom: var(--chu-surface);
+    --chu-box-text: var(--chu-text);
+    --chu-box-glint: transparent;
+    margin: 0 calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel)) 0;
+    padding-block-start: calc(13 * var(--chu-pixel));
   }
-  .pp-plan[data-featured] > .pp-plan-ribbon:not([data-tone]) {
-    --pp-tone: var(--_pp-plan-tone);
-    --pp-tone-light: var(--_pp-plan-light);
-    --pp-tone-shade: var(--_pp-plan-shade);
-    --pp-tone-on: var(--_pp-plan-on);
+  .chu-plan[data-featured] > .chu-plan-ribbon:not([data-tone]) {
+    --chu-tone: var(--_chu-plan-tone);
+    --chu-tone-light: var(--_chu-plan-light);
+    --chu-tone-shade: var(--_chu-plan-shade);
+    --chu-tone-on: var(--_chu-plan-on);
   }
 
-  .pp-plan-name {
-    font-size: var(--pp-size-lead);
-    font-weight: var(--pp-weight-bold);
-    line-height: var(--pp-leading-tight);
+  .chu-plan-name {
+    font-size: var(--chu-size-lead);
+    font-weight: var(--chu-weight-bold);
+    line-height: var(--chu-leading-tight);
   }
-  .pp-plan-text { font-size: var(--pp-size-small); line-height: var(--pp-leading-normal); }
+  .chu-plan-text { font-size: var(--chu-size-small); line-height: var(--chu-leading-normal); }
 
-  .pp-plan-price {
+  .chu-plan-price {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: 0 calc(2 * var(--pp-pixel));
+    gap: 0 calc(2 * var(--chu-pixel));
   }
-  .pp-plan-amount {
-    font-family: var(--pp-font-display);
-    font-size: calc(30 * var(--pp-pixel));
+  .chu-plan-amount {
+    font-family: var(--chu-font-display);
+    font-size: calc(30 * var(--chu-pixel));
     line-height: 1.2;
     font-variant-numeric: tabular-nums;
     font-synthesis: none;
     -webkit-font-smoothing: none;
   }
-  .pp-plan-currency {
+  .chu-plan-currency {
     align-self: flex-start;
-    margin-block-start: calc(5 * var(--pp-pixel));
-    font-size: var(--pp-size-title);
-    font-weight: var(--pp-weight-bold);
+    margin-block-start: calc(5 * var(--chu-pixel));
+    font-size: var(--chu-size-title);
+    font-weight: var(--chu-weight-bold);
   }
-  .pp-plan-period { font-size: var(--pp-size-small); font-weight: var(--pp-weight-bold); }
+  .chu-plan-period { font-size: var(--chu-size-small); font-weight: var(--chu-weight-bold); }
 
-  .pp-plan-features {
+  .chu-plan-features {
     display: grid;
     align-content: start;
-    gap: calc(2 * var(--pp-pixel));
+    gap: calc(2 * var(--chu-pixel));
     padding: 0;
     list-style: none;
-    font-size: var(--pp-size-body);
-    line-height: var(--pp-leading-normal);
+    font-size: var(--chu-size-body);
+    line-height: var(--chu-leading-normal);
   }
-  .pp-plan-features > li {
+  .chu-plan-features > li {
     display: grid;
-    grid-template-columns: calc(12 * var(--pp-pixel)) 1fr;
-    gap: calc(3 * var(--pp-pixel));
+    grid-template-columns: calc(12 * var(--chu-pixel)) 1fr;
+    gap: calc(3 * var(--chu-pixel));
   }
-  .pp-plan-features > li::before {
+  .chu-plan-features > li::before {
     content: "";
-    block-size: calc(12 * var(--pp-pixel));
-    margin-block-start: round(down, (1lh - 12 * var(--pp-pixel)) / 2, var(--pp-pixel));
-    background: var(--pp-plan-check, var(--pp-success-text));
+    block-size: calc(12 * var(--chu-pixel));
+    margin-block-start: round(down, (1lh - 12 * var(--chu-pixel)) / 2, var(--chu-pixel));
+    background: var(--chu-plan-check, var(--chu-success-text));
     mask: var(--_check) 0 0 / 100% 100% no-repeat;
   }
-  .pp-plan-features > li[data-off] { color: var(--pp-text-muted); }
-  .pp-plan-features > li[data-off]::before { mask-image: var(--_dash); background: currentColor; }
+  .chu-plan-features > li[data-off] { color: var(--chu-text-muted); }
+  .chu-plan-features > li[data-off]::before { mask-image: var(--_dash); background: currentColor; }
 
-  .pp-plan > .pp-button { align-self: end; margin-block-start: calc(2 * var(--pp-pixel)); }
+  .chu-plan > .chu-button { align-self: end; margin-block-start: calc(2 * var(--chu-pixel)); }
 
   @media (forced-colors: active) {
-    .pp-plan-features > li::before { background: CanvasText; }
+    .chu-plan-features > li::before { background: CanvasText; }
   }
   /* A check or a dash says what a plan has: it prints, though paper drops backgrounds. */
   @media print {
-    .pp-plan-features > li::before { print-color-adjust: exact; }
+    .chu-plan-features > li::before { print-color-adjust: exact; }
   }
 }

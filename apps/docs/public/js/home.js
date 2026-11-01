@@ -4,7 +4,7 @@ import { services } from "@jaatster/blip-core";
 const root = document.documentElement;
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-const toaster = () => $("pp-toaster");
+const toaster = () => $("chu-toaster");
 let sound; // @jaatster/blip-sound, once the reader turns it on
 
 async function setSound(on) {
@@ -33,9 +33,9 @@ if (localStorage.getItem("blip:sound") === "on") import("@jaatster/blip-sound").
 
 const scheme = $(".home-scheme");
 const syncScheme = () => scheme && (scheme.value = root.dataset.schemeChoice || "auto");
-customElements.whenDefined("pp-segmented").then(syncScheme);
+customElements.whenDefined("chu-segmented").then(syncScheme);
 document.addEventListener("docs-scheme", () => { syncScheme(); tick(); });
-scheme?.addEventListener("pp-change", (e) => {
+scheme?.addEventListener("chu-change", (e) => {
   window.docs?.setScheme(e.detail.value);
   play("select");
 });
@@ -44,8 +44,8 @@ const hero = $(".home-hero");
 for (const input of $$('input[name="home-accent"]')) {
   input.addEventListener("change", () => {
     const c = input.value;
-    for (const [k, v] of [["--pp-accent", ""], ["--pp-accent-light", "-light"], ["--pp-accent-shade", "-shade"]]) {
-      if (c) hero.style.setProperty(k, `var(--pp-candy-${c}${v})`);
+    for (const [k, v] of [["--chu-accent", ""], ["--chu-accent-light", "-light"], ["--chu-accent-shade", "-shade"]]) {
+      if (c) hero.style.setProperty(k, `var(--chu-candy-${c}${v})`);
       else hero.style.removeProperty(k);
     }
     play("select");
@@ -58,7 +58,7 @@ $(".home-start")?.addEventListener("click", async (e) => {
   const button = e.currentTarget;
   play("coin");
   import("@jaatster/blip-effects/burst.js").then(({ burst }) => burst(button, { kind: "coin", count: 5 }));
-  await customElements.whenDefined("pp-toaster");
+  await customElements.whenDefined("chu-toaster");
   toaster()?.add({ title: "Achievement unlocked", body: "First press: you pressed a real Blip button.", tone: "success" });
 });
 
@@ -66,7 +66,7 @@ $(".home-start")?.addEventListener("click", async (e) => {
 const daytime = $(".home-daytime");
 function tick() {
   if (!daytime) return;
-  const name = { day: "Day", sunset: "Sunset", night: "Night" }[root.dataset.ppScheme] ?? "";
+  const name = { day: "Day", sunset: "Sunset", night: "Night" }[root.dataset.chuScheme] ?? "";
   daytime.textContent = (root.dataset.schemeChoice || "auto") === "auto" ? `${name}, by your clock` : name;
 }
 tick();
@@ -100,7 +100,7 @@ setTimeout(() => {
 // The tile under the pointer or the keyboard is the chosen one: it lifts in its ring, the arrow bobs over it, and its
 // name stands above the row in POP. The name is decoration (each link is named by its own label), so it is not live.
 const pick = $(".home-pick");
-const tiles = $$(".home-tiles .pp-tile");
+const tiles = $$(".home-tiles .chu-tile");
 function choose(tile) {
   if (!pick || tile.hasAttribute("data-selected")) return;
   for (const t of tiles) t.toggleAttribute("data-selected", t === tile);
@@ -131,23 +131,23 @@ const code = $(".home-switch-code");
 const stage = $("#home-stage");
 // The sample starts in the page's own scheme; the switches take it from there.
 if (stage) {
-  const start = root.dataset.ppScheme || "day";
-  stage.setAttribute("data-pp-scheme", start);
-  code.textContent = `<section data-pp-scheme="${start}">`;
+  const start = root.dataset.chuScheme || "day";
+  stage.setAttribute("data-chu-scheme", start);
+  code.textContent = `<section data-chu-scheme="${start}">`;
   const seg = $('[data-stage="home-stage"][data-attr="scheme"]');
-  customElements.whenDefined("pp-segmented").then(() => seg && (seg.value = start));
+  customElements.whenDefined("chu-segmented").then(() => seg && (seg.value = start));
 }
-document.addEventListener("pp-change", (e) => {
+document.addEventListener("chu-change", (e) => {
   if (!e.target.closest?.('[data-stage="home-stage"]')) return;
   requestAnimationFrame(() => {
-    const s = stage.getAttribute("data-pp-scheme") ?? "day", p = stage.getAttribute("data-pp-pixel");
-    code.textContent = `<section data-pp-scheme="${s}"${p ? ` data-pp-pixel="${p}"` : ""}>`;
+    const s = stage.getAttribute("data-chu-scheme") ?? "day", p = stage.getAttribute("data-chu-pixel");
+    code.textContent = `<section data-chu-scheme="${s}"${p ? ` data-chu-pixel="${p}"` : ""}>`;
   });
   play("select");
 });
 for (const b of $$(".home-sample")) {
   b.addEventListener("click", async () => {
-    await customElements.whenDefined("pp-toaster");
+    await customElements.whenDefined("chu-toaster");
     toaster()?.add({ title: b.dataset.toast, tone: b.dataset.tone === "danger" ? undefined : "info" });
     play("open");
   });

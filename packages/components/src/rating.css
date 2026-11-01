@@ -1,50 +1,50 @@
 /*
  * Rating. A row of pixel stars (or hearts): yellow candy with an ink outline for the score, sunken wells in a soft
- * line for the rest. Shown with CSS alone; <pp-rating> (from @jaatster/blip-elements) makes it a form control you can set.
+ * line for the rest. Shown with CSS alone; <chu-rating> (from @jaatster/blip-elements) makes it a form control you can set.
  *
  *   A score, no JavaScript (halves and other fractions fill whole pixels):
- *   <span class="pp-rating" role="img" aria-label="Rated 3.5 out of 5" style="--pp-rating-value: 3.5"></span>
+ *   <span class="chu-rating" role="img" aria-label="Rated 3.5 out of 5" style="--chu-rating-value: 3.5"></span>
  *
  *   A control (a radio group; arrow keys, hover preview, a form value):
- *   <pp-rating class="pp-rating" name="fun" value="4" aria-label="How fun was it?"></pp-rating>
+ *   <chu-rating class="chu-rating" name="fun" value="4" aria-label="How fun was it?"></chu-rating>
  *
- *   --pp-rating-value       the score, 0 to max (the element sets it)
- *   --pp-rating-max         how many stars, 5 by default (the element sets it from max)
+ *   --chu-rating-value       the score, 0 to max (the element sets it)
+ *   --chu-rating-max         how many stars, 5 by default (the element sets it from max)
  *   data-shape="heart"      red pixel hearts instead of stars
  *   [data-preview]          set by the element while the pointer is over a star: the stars it would set go pale
- *   aria-disabled="true"    dithered with a light colour (--pp-disabled-dither)
+ *   aria-disabled="true"    dithered with a light colour (--chu-disabled-dither)
  *
- * Each star is 12 pixels wide (11 and a gap). For bigger stars, raise the pixel (data-pp-pixel). The stars of the
+ * Each star is 12 pixels wide (11 and a gap). For bigger stars, raise the pixel (data-chu-pixel). The stars of the
  * element are its radios: the one with the keyboard shows the square yellow focus ring.
  */
 
-@layer pp.components {
-  .pp-rating {
-    --pp-rating-value: 0;
-    --pp-rating-max: 5;
-    --_p: var(--pp-pixel);
+@layer chu.components {
+  .chu-rating {
+    --chu-rating-value: 0;
+    --chu-rating-max: 5;
+    --_p: var(--chu-pixel);
     --_w: calc(12 * var(--_p));
     --_h: calc(11 * var(--_p));
-    --_fill: round(down, var(--pp-rating-value) * var(--_w), var(--_p));
+    --_fill: round(down, var(--chu-rating-value) * var(--_w), var(--_p));
     --_from: left;
-    --_c: var(--pp-candy-yellow);
-    --_cl: var(--pp-candy-yellow-light);
-    --_cs: var(--pp-candy-yellow-shade);
+    --_c: var(--chu-candy-yellow);
+    --_cl: var(--chu-candy-yellow-light);
+    --_cs: var(--chu-candy-yellow-shade);
     --_dither: transparent;
     --_shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 11' shape-rendering='crispEdges'%3E%3Cpath d='M5 0h1v1H5zM4 1h3v1H4zM3 2h5v1H3zM0 3h11v2H0zM1 5h9v1H1zM2 6h7v2H2zM1 8h9v1H1zM1 9h4v1H1zM6 9h4v1H6zM1 10h3v1H1zM7 10h3v1H7z'/%3E%3C/svg%3E");
     --_inner: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 11' shape-rendering='crispEdges'%3E%3Cpath d='M5 1h1v1H5zM4 2h3v1H4zM3 3h5v1H3zM1 4h9v1H1zM2 5h7v1H2zM3 6h5v2H3zM2 8h3v1H2zM6 8h3v1H6zM2 9h2v1H2zM7 9h2v1H7z'/%3E%3C/svg%3E");
     position: relative;
     isolation: isolate;
     display: inline-flex;
-    inline-size: calc(var(--pp-rating-max) * var(--_w));
+    inline-size: calc(var(--chu-rating-max) * var(--_w));
     block-size: var(--_h);
     vertical-align: middle;
   }
-  .pp-rating[data-shape="heart"] {
+  .chu-rating[data-shape="heart"] {
     --_h: calc(10 * var(--_p));
-    --_c: var(--pp-candy-red);
-    --_cl: var(--pp-candy-red-light);
-    --_cs: var(--pp-candy-red-shade);
+    --_c: var(--chu-candy-red);
+    --_cl: var(--chu-candy-red-light);
+    --_cs: var(--chu-candy-red-shade);
     --_shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h3v1H1zM7 0h3v1H7zM0 1h5v1H0zM6 1h5v1H6zM0 2h11v3H0zM1 5h9v1H1zM2 6h7v1H2zM3 7h5v1H3zM4 8h3v1H4zM5 9h1v1H5z'/%3E%3C/svg%3E");
     --_inner: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 10' shape-rendering='crispEdges'%3E%3Cpath d='M1 1h3v1H1zM7 1h3v1H7zM1 2h4v1H1zM6 2h4v1H6zM1 3h9v2H1zM2 5h7v1H2zM3 6h5v1H3zM4 7h3v1H4zM5 8h1v1H5z'/%3E%3C/svg%3E");
   }
@@ -52,8 +52,8 @@
   /* Ink outlines behind, fills in front, both cut from the glyph, one per cell. An empty star has no ink outline,
      only the soft line, so filled and empty differ in lightness as well as hue (the outline by Day and at Sunset,
      the fill at Night). */
-  .pp-rating::before,
-  .pp-rating::after {
+  .chu-rating::before,
+  .chu-rating::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -61,36 +61,36 @@
     pointer-events: none;
     mask: var(--_shape) 0 0 / var(--_w) var(--_h) repeat-x;
   }
-  .pp-rating::before { background: linear-gradient(var(--pp-outline) 0 0) var(--_from) 0 / var(--_fill) 100% no-repeat, var(--pp-line-soft); }
-  .pp-rating::after {
+  .chu-rating::before { background: linear-gradient(var(--chu-outline) 0 0) var(--_from) 0 / var(--_fill) 100% no-repeat, var(--chu-line-soft); }
+  .chu-rating::after {
     mask-image: var(--_inner);
     background:
       repeating-conic-gradient(var(--_dither) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--_p)) calc(2 * var(--_p)),
       linear-gradient(var(--_cl) 0 calc(3 * var(--_p)), var(--_c) 0 calc(100% - 3 * var(--_p)), var(--_cs) 0) var(--_from) 0 / var(--_fill) 100% no-repeat,
-      var(--pp-surface-sunken);
+      var(--chu-surface-sunken);
   }
   /* Preview: the stars a click would set, pale. */
-  .pp-rating[data-preview]::after {
+  .chu-rating[data-preview]::after {
     background:
       linear-gradient(var(--_cl) 0 0) var(--_from) 0 / var(--_fill) 100% no-repeat,
-      var(--pp-surface-sunken);
+      var(--chu-surface-sunken);
   }
-  .pp-rating[aria-disabled="true"] { --_dither: var(--pp-disabled-dither); }
+  .chu-rating[aria-disabled="true"] { --_dither: var(--chu-disabled-dither); }
   /* Right to left: the first star is on the right, so the score fills from there. */
-  .pp-rating:dir(rtl) { --_from: right; }
+  .chu-rating:dir(rtl) { --_from: right; }
 
   /* The element's stars: transparent radios over the drawing, one cell each. */
-  .pp-rating-star { flex: none; inline-size: var(--_w); block-size: var(--_h); cursor: pointer; }
-  .pp-rating:is([aria-readonly="true"], [aria-disabled="true"]) > .pp-rating-star { cursor: default; }
-  .pp-rating[aria-disabled="true"] > .pp-rating-star { cursor: not-allowed; }
+  .chu-rating-star { flex: none; inline-size: var(--_w); block-size: var(--_h); cursor: pointer; }
+  .chu-rating:is([aria-readonly="true"], [aria-disabled="true"]) > .chu-rating-star { cursor: default; }
+  .chu-rating[aria-disabled="true"] > .chu-rating-star { cursor: not-allowed; }
 
   /* The stars are the score: they print, though paper drops backgrounds. */
   @media print {
-    .pp-rating::before, .pp-rating::after { print-color-adjust: exact; }
+    .chu-rating::before, .chu-rating::after { print-color-adjust: exact; }
   }
   @media (forced-colors: active) {
-    .pp-rating::before, .pp-rating::after { forced-color-adjust: none; }
-    .pp-rating::before { background: linear-gradient(CanvasText 0 0) var(--_from) 0 / var(--_fill) 100% no-repeat, GrayText; }
-    .pp-rating::after, .pp-rating[data-preview]::after { background: linear-gradient(Highlight 0 0) var(--_from) 0 / var(--_fill) 100% no-repeat, Canvas; }
+    .chu-rating::before, .chu-rating::after { forced-color-adjust: none; }
+    .chu-rating::before { background: linear-gradient(CanvasText 0 0) var(--_from) 0 / var(--_fill) 100% no-repeat, GrayText; }
+    .chu-rating::after, .chu-rating[data-preview]::after { background: linear-gradient(Highlight 0 0) var(--_from) 0 / var(--_fill) 100% no-repeat, Canvas; }
   }
 }

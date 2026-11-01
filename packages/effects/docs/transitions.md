@@ -29,7 +29,7 @@ promise resolves when the new screen is fully shown and rejects if the update th
 Between pages (cross-document view transitions), with no script, opt in on both pages:
 
 ```html
-<html data-pp-transition>
+<html data-chu-transition>
 <style>@view-transition { navigation: auto; }</style>
 ```
 
@@ -56,7 +56,7 @@ is CSS alone, so its cells are two pixels in CSS pixels; `transition()`'s own di
 
 - A transition never blocks input for more than about half a second.
 - Move focus to the new screen's heading or main region after the update, as for any route change.
-- The ink is `--pp-ink`; the dissolve's frames are short and never flash.
+- The ink is `--chu-ink`; the dissolve's frames are short and never flash.
 
 ## Do and don't
 
@@ -69,6 +69,6 @@ is CSS alone, so its cells are two pixels in CSS pixels; `transition()`'s own di
 | | |
 |---|---|
 | `transition(update, { kind, signal })` | Runs `update` behind a transition. Returns a promise. |
-| `html[data-pp-transition]` | Opts a page's view transitions into the CSS dither (also for view transitions other code starts). |
-| `html[data-pp-transition-run]` | Set by `transition()` while it runs. |
-| `--pp-duration-dissolve-frame`, `--pp-duration-frame` | Frame times (30 and 40 ms; 0 with reduced motion). |
+| `html[data-chu-transition]` | Opts a page's view transitions into the CSS dither (also for view transitions other code starts). |
+| `html[data-chu-transition-run]` | Set by `transition()` while it runs. |
+| `--chu-duration-dissolve-frame`, `--chu-duration-frame` | Frame times (30 and 40 ms; 0 with reduced motion). |

@@ -1,21 +1,21 @@
 /**
- * <pp-tile-grid>: a grid of tiles as one Tab stop. The arrow keys move between tiles in two dimensions (Up and Down
+ * <chu-tile-grid>: a grid of tiles as one Tab stop. The arrow keys move between tiles in two dimensions (Up and Down
  * keep the column), Home and End jump to the first and last; disabled tiles are skipped. Light DOM: without it,
  * every tile is its own Tab stop and still works.
  *
- *   <pp-tile-grid selection="single">
- *     <ul class="pp-tile-grid" role="list" aria-label="Inventory">…<button class="pp-box pp-tile" aria-pressed="false">…</ul>
- *   </pp-tile-grid>
+ *   <chu-tile-grid selection="single">
+ *     <ul class="chu-tile-grid" role="list" aria-label="Inventory">…<button class="chu-box chu-tile" aria-pressed="false">…</ul>
+ *   </chu-tile-grid>
  *
  *   selection="single"   pressing a tile selects it (aria-pressed="true") and clears the others
  *   selection="follow"   the tile with focus is the current one (aria-current="true"), as on the TV's Home row
  *
- *   pp-select   { tile }: before the selection moves; cancel it to keep the old one.
+ *   chu-select   { tile }: before the selection moves; cancel it to keep the old one.
  *
  * Tab lands on the selected (or current) tile, or the first one. Tiles added or removed later (by a framework) keep
  * one Tab stop between them.
  */
-import { PixelElement, rovingFocus } from "@jaatster/blip-core";
+import { BlipElement, rovingFocus } from "@jaatster/blip-core";
 import { watch } from "./_dom.js";
 
 const SELECTED = '[aria-pressed="true"], [aria-current]:not([aria-current="false"]), [aria-selected="true"]';
@@ -27,10 +27,10 @@ const SELECTED = '[aria-pressed="true"], [aria-current]:not([aria-current="false
  * @summary A grid of tiles moved through with the arrow keys.
  * @attr {"single" | "follow"} selection - "single": pressing a tile selects it (aria-pressed); "follow": the focused
  * tile is the current one (aria-current). Left out, selection is yours.
- * @fires {CustomEvent<{ tile: HTMLElement }>} pp-select - Before the selection moves. Cancelable: preventDefault()
+ * @fires {CustomEvent<{ tile: HTMLElement }>} chu-select - Before the selection moves. Cancelable: preventDefault()
  * keeps the old one.
  */
-export class PixelTileGrid extends PixelElement {
+export class BlipTileGrid extends BlipElement {
   /** "single" or "follow"; anything else leaves selection to you. */
   get selection(): string {
     return this.getAttribute("selection") ?? "";
@@ -41,7 +41,7 @@ export class PixelTileGrid extends PixelElement {
 
   /** The tiles that take focus, in order. */
   get tiles(): HTMLElement[] {
-    return [...this.querySelectorAll<HTMLElement>(".pp-tile")].filter((t) => t.matches("button, a[href], [tabindex]"));
+    return [...this.querySelectorAll<HTMLElement>(".chu-tile")].filter((t) => t.matches("button, a[href], [tabindex]"));
   }
 
   #stop: HTMLElement | null = null;
@@ -71,7 +71,7 @@ export class PixelTileGrid extends PixelElement {
       const items = enabled();
       const i = items.indexOf(document.activeElement as HTMLElement);
       if (i < 0) return;
-      const box = (t: HTMLElement) => (t.closest(".pp-tile-item") ?? t).getBoundingClientRect();
+      const box = (t: HTMLElement) => (t.closest(".chu-tile-item") ?? t).getBoundingClientRect();
       const from = box(items[i]!);
       const sign = e.key === "ArrowDown" ? 1 : -1;
       let next = -1, best = Infinity;
@@ -85,7 +85,7 @@ export class PixelTileGrid extends PixelElement {
     });
 
     this.on(this, "click", (e) => {
-      const tile = (e.target as Element).closest?.<HTMLElement>(".pp-tile");
+      const tile = (e.target as Element).closest?.<HTMLElement>(".chu-tile");
       if (this.selection === "single" && tile && enabled().includes(tile)) this.select(tile);
     });
   }
@@ -112,10 +112,10 @@ export class PixelTileGrid extends PixelElement {
   }
 }
 
-PixelElement.define("pp-tile-grid", PixelTileGrid);
+BlipElement.define("chu-tile-grid", BlipTileGrid);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pp-tile-grid": PixelTileGrid;
+    "chu-tile-grid": BlipTileGrid;
   }
 }

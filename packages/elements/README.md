@@ -1,8 +1,8 @@
 # @jaatster/blip-elements
 
-Light-DOM Web Components that add behaviour to Blip's markup: `pp-combobox`, `pp-command`, `pp-dialog`,
-`pp-drawer`, `pp-field`, `pp-file-drop`, `pp-menu`, `pp-number`, `pp-rating`, `pp-segmented`,
-`pp-table`, `pp-tabs`, `pp-tile-grid`, `pp-toaster` (with `toast()`) and `pp-tooltip`. No shadow DOM: the
+Light-DOM Web Components that add behaviour to Blip's markup: `chu-combobox`, `chu-command`, `chu-dialog`,
+`chu-drawer`, `chu-field`, `chu-file-drop`, `chu-menu`, `chu-number`, `chu-rating`, `chu-segmented`,
+`chu-table`, `chu-tabs`, `chu-tile-grid`, `chu-toaster` (with `toast()`) and `chu-tooltip`. No shadow DOM: the
 component CSS styles them, and the markup already works before they upgrade. Each is 3 KB gzipped or less.
 
 ```sh
@@ -18,10 +18,10 @@ toast({ title: "Saved", tone: "success" });
 ```
 
 ```html
-<pp-tabs class="pp-tabs">
-  <div class="pp-tabs-list" role="tablist" aria-label="Settings">…</div>
-  <div class="pp-tabs-panel" role="tabpanel">…</div>
-</pp-tabs>
+<chu-tabs class="chu-tabs">
+  <div class="chu-tabs-list" role="tablist" aria-label="Settings">…</div>
+  <div class="chu-tabs-panel" role="tabpanel">…</div>
+</chu-tabs>
 ```
 
 ## With a framework (Vue, Svelte, Angular, plain React)
@@ -47,15 +47,15 @@ links them and reads them out, and never takes them away.
 
 | Idea | Everywhere |
 |---|---|
-| It opens and closes | An `open` attribute and property that reflects it, `show()` and `close()`, and the events `pp-open` and `pp-close` (dialog, drawer, menu, command palette, tooltip; the combobox's list) |
-| A value changed | `pp-change`, with the new `value` in `detail` (tabs, segmented, rating, combobox, number; a file drop's `files`) |
-| An item was chosen to run | `pp-action`, with `{ item, value }` (menu and command palette, cancelable; the game kit's choices add `index` and `label`) |
-| The selection changed | `pp-select` (table rows, tiles) |
+| It opens and closes | An `open` attribute and property that reflects it, `show()` and `close()`, and the events `chu-open` and `chu-close` (dialog, drawer, menu, command palette, tooltip; the combobox's list) |
+| A value changed | `chu-change`, with the new `value` in `detail` (tabs, segmented, rating, combobox, number; a file drop's `files`) |
+| An item was chosen to run | `chu-action`, with `{ item, value }` (menu and command palette, cancelable; the game kit's choices add `index` and `label`) |
+| The selection changed | `chu-select` (table rows, tiles) |
 | Where it goes | `data-side` and `data-align` (`start`, `center`, `end`), as each needs them: a tooltip's side (`top`, `bottom`, `left`, `right`), a toaster's side (`bottom`, `top`) and align, a menu's align, a popover's both, a drawer's side (`end`, `start` or `bottom`, following the text) |
 | An item's value | its `data-value`, else its `value`, else its label |
 | Sizes | `data-size`: `sm`, `md` (default), `lg` |
 
 `toast()` returns `{ close(), closed }` at once; `close()` works straight away. `@jaatster/blip-react` returns the same.
 
-Events are `pp-*` (bubbling, composed). The API of every element is in `custom-elements.json` (the Custom
+Events are `chu-*` (bubbling, composed). The API of every element is in `custom-elements.json` (the Custom
 Elements Manifest) and on each component's page in [@jaatster/blip-components/docs](../components/docs). MIT

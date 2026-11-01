@@ -15,30 +15,30 @@ an optional sunken status bar. For game menus, pause screens and retro dashboard
 ## Usage
 
 ```html
-<section class="pp-box pp-window" aria-labelledby="sys-title">
-  <header class="pp-window-bar">
-    <h2 class="pp-window-title pp-display pp-pop" id="sys-title">System</h2>
-    <div class="pp-window-controls">
-      <button class="pp-box pp-window-control" data-control="minimize" type="button" aria-label="Minimize System"><span></span></button>
-      <button class="pp-box pp-window-control" data-control="maximize" type="button" aria-label="Maximize System"><span></span></button>
-      <button class="pp-box pp-window-control" data-control="close" type="button" aria-label="Close System"><span></span></button>
+<section class="chu-box chu-window" aria-labelledby="sys-title">
+  <header class="chu-window-bar">
+    <h2 class="chu-window-title chu-display chu-pop" id="sys-title">System</h2>
+    <div class="chu-window-controls">
+      <button class="chu-box chu-window-control" data-control="minimize" type="button" aria-label="Minimize System"><span></span></button>
+      <button class="chu-box chu-window-control" data-control="maximize" type="button" aria-label="Maximize System"><span></span></button>
+      <button class="chu-box chu-window-control" data-control="close" type="button" aria-label="Close System"><span></span></button>
     </div>
   </header>
-  <div class="pp-window-body">…</div>
-  <footer class="pp-window-status"><span>Ready</span><span>12:30</span></footer>
+  <div class="chu-window-body">…</div>
+  <footer class="chu-window-status"><span>Ready</span><span>12:30</span></footer>
 </section>
 ```
 
 ## Anatomy
 
-1. **Panel**: the candy box, radius 4, cream body (`--pp-surface-panel`), ink outline, drop.
+1. **Panel**: the candy box, radius 4, cream body (`--chu-surface-panel`), ink outline, drop.
 2. **Title bar**: the box's own light band, 16 pixels with its ink rule, in the tone's light colour; it follows the
    stepped corners and keeps the box's glints.
-3. **Title**: `.pp-window-title`, Pixel Bop at scale 1 (with `.pp-display`), POP with `.pp-pop`.
-4. **Controls**: `.pp-window-control`, 12-pixel candy buttons (24 CSS px): cream, and red to close. The glyph is an
+3. **Title**: `.chu-window-title`, Pixel Bop at scale 1 (with `.chu-display`), POP with `.chu-pop`.
+4. **Controls**: `.chu-window-control`, 12-pixel candy buttons (24 CSS px): cream, and red to close. The glyph is an
    empty span, drawn from `data-control`.
-5. **Body**: `.pp-window-body`, padded, scrolls if the window has a height.
-6. **Status bar** (optional): `.pp-window-status`, the box's shade band, sunken, 14 pixels with an ink rule, one line.
+5. **Body**: `.chu-window-body`, padded, scrolls if the window has a height.
+6. **Status bar** (optional): `.chu-window-status`, the box's shade band, sunken, 14 pixels with an ink rule, one line.
 
 ## Variants
 
@@ -76,10 +76,10 @@ The window has none. Its controls take the box's states: hover lifts, pressed si
 
 | Class | |
 |---|---|
-| `.pp-window` | The panel. Use with `.pp-box`. |
-| `.pp-window-bar`, `.pp-window-title`, `.pp-window-controls`, `.pp-window-control`, `.pp-window-body`, `.pp-window-status` | Parts. |
+| `.chu-window` | The panel. Use with `.chu-box`. |
+| `.chu-window-bar`, `.chu-window-title`, `.chu-window-controls`, `.chu-window-control`, `.chu-window-body`, `.chu-window-status` | Parts. |
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-r` with `--pp-shape`, `--pp-shape-inner` | 4 | Corner radius. |
-| `--pp-tone`, `--pp-tone-light`, `--pp-tone-shade`, `--pp-tone-on` | accent | A custom title bar colour. |
+| `--chu-r` with `--chu-shape`, `--chu-shape-inner` | 4 | Corner radius. |
+| `--chu-tone`, `--chu-tone-light`, `--chu-tone-shade`, `--chu-tone-on` | accent | A custom title bar colour. |

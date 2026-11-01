@@ -20,25 +20,25 @@ button with a pixel chevron that steps round, one frame at a time, when it opens
 ## Usage
 
 ```html
-<div class="pp-accordion">
-  <details class="pp-accordion-item" name="faq" open>
-    <summary class="pp-box pp-accordion-summary">Can I play offline?<span class="pp-accordion-chevron"></span></summary>
-    <div class="pp-box pp-accordion-panel"><p>Yes. Everything runs on your device.</p></div>
+<div class="chu-accordion">
+  <details class="chu-accordion-item" name="faq" open>
+    <summary class="chu-box chu-accordion-summary">Can I play offline?<span class="chu-accordion-chevron"></span></summary>
+    <div class="chu-box chu-accordion-panel"><p>Yes. Everything runs on your device.</p></div>
   </details>
-  <details class="pp-accordion-item" name="faq">
-    <summary class="pp-box pp-accordion-summary">How do I save my game?<span class="pp-accordion-chevron"></span></summary>
-    <div class="pp-box pp-accordion-panel"><p>The game saves at every checkpoint flag.</p></div>
+  <details class="chu-accordion-item" name="faq">
+    <summary class="chu-box chu-accordion-summary">How do I save my game?<span class="chu-accordion-chevron"></span></summary>
+    <div class="chu-box chu-accordion-panel"><p>The game saves at every checkpoint flag.</p></div>
   </details>
 </div>
 ```
 
 ## Anatomy
 
-1. **Item**: a `<details>` (`.pp-accordion-item`).
-2. **Summary**: `.pp-box.pp-accordion-summary`, a full-width box button: white with a sunken shade band.
-3. **Chevron**: `.pp-accordion-chevron`, an empty span: pointing along the line when closed (right, or left right to
+1. **Item**: a `<details>` (`.chu-accordion-item`).
+2. **Summary**: `.chu-box.chu-accordion-summary`, a full-width box button: white with a sunken shade band.
+3. **Chevron**: `.chu-accordion-chevron`, an empty span: pointing along the line when closed (right, or left right to
    left), down when open, through one in-between frame (two frames, 80 ms).
-4. **Panel**: `.pp-accordion-panel`, the answer. Plain text under its question, or with `.pp-box` a cream box tucked
+4. **Panel**: `.chu-accordion-panel`, the answer. Plain text under its question, or with `.chu-box` a cream box tucked
    under it. It pops in a pixel as it opens.
 
 ## Variants
@@ -48,7 +48,7 @@ button with a pixel chevron that steps round, one frame at a time, when it opens
 | `name` (on `<details>`) | any shared name | Only one item open at a time. Leave it off to let several open. |
 | `data-variant` (summary) | `panel`, white (default), `soft`, `candy`, `outline`, `ghost` | White for FAQs; soft or candy (with `data-tone`) for a short menu; outline and ghost for dense settings. |
 | `data-tone` (summary) | any tone or candy | With soft or candy. |
-| `.pp-box` (panel) | | The answer in a cream box. |
+| `.chu-box` (panel) | | The answer in a cream box. |
 
 ## States
 
@@ -86,9 +86,9 @@ button with a pixel chevron that steps round, one frame at a time, when it opens
 
 | Class or attribute | |
 |---|---|
-| `.pp-accordion`, `.pp-accordion-item`, `.pp-accordion-summary`, `.pp-accordion-chevron`, `.pp-accordion-panel` | Parts. |
+| `.chu-accordion`, `.chu-accordion-item`, `.chu-accordion-summary`, `.chu-accordion-chevron`, `.chu-accordion-panel` | Parts. |
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-r` with `--pp-shape`, `--pp-shape-inner` | 3 | Corner radius of the summary and the boxed panel. |
-| `--pp-band-top`, `--pp-band-bottom` | 2, 3 | The summary's bands. |
+| `--chu-r` with `--chu-shape`, `--chu-shape-inner` | 3 | Corner radius of the summary and the boxed panel. |
+| `--chu-band-top`, `--chu-band-bottom` | 2, 3 | The summary's bands. |

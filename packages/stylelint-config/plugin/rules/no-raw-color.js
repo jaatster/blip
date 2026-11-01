@@ -7,7 +7,7 @@
  *
  * Masks are exempt: a mask layer's colour only carries its alpha, so `linear-gradient(#000 0 0)` in a mask is not a
  * colour anyone sees. That covers mask declarations, and custom properties that feed a mask in the same stylesheet
- * (directly or through other custom properties), plus the candy box's shapes (--pp-shape…), which the box uses as
+ * (directly or through other custom properties), plus the candy box's shapes (--chu-shape…), which the box uses as
  * its mask.
  *
  * Options: true, or [true, { ignoreProperties: [names or "/regex/"], maskProperties: [names or "/regex/"] }].
@@ -17,7 +17,7 @@ import { docs, inForcedColors, isStringOrRegExp, matches, valueIndex, valueParse
 
 const ruleName = "blip/no-raw-color";
 const messages = stylelint.utils.ruleMessages(ruleName, {
-  hex: (v) => `Raw colour "${v}". Use a colour token: var(--pp-ink), var(--pp-surface), var(--pp-candy-blue)…`,
+  hex: (v) => `Raw colour "${v}". Use a colour token: var(--chu-ink), var(--chu-surface), var(--chu-candy-blue)…`,
   fn: (v) => `Raw colour function "${v}()". Use a colour token, or color-mix() of tokens.`,
   named: (v) => `Named colour "${v}". Use a colour token; only transparent, currentColor and inherit are allowed.`,
   system: (v) => `System colour "${v}" outside @media (forced-colors: active). Use a colour token here.`,
@@ -45,7 +45,7 @@ const rule = (primary, secondary = {}) => (root, result) => {
     { actual: secondary, possible: { ignoreProperties: [isStringOrRegExp], maskProperties: [isStringOrRegExp] }, optional: true },
   );
   if (!valid) return;
-  const maskProps = secondary?.maskProperties ?? ["/^--pp-shape(?:-\\d+)?(?:-inner)?$/"];
+  const maskProps = secondary?.maskProperties ?? ["/^--chu-shape(?:-\\d+)?(?:-inner)?$/"];
 
   // Which custom properties feed a mask here: those a mask reads, and (repeatedly) those they read.
   const reads = new Map();

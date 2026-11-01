@@ -32,137 +32,137 @@ const players = [
 ] as const;
 ---
 <Template title="Dashboard template" description="A Blip dashboard: app bar, sidebar, stats, segmented charts, a sortable table and toasts." scripts={["tpl-dashboard"]}>
-  <a class="pp-box pp-skip-link" href="#dash-main">Skip to the overview</a>
+  <a class="chu-box chu-skip-link" href="#dash-main">Skip to the overview</a>
   <div class="tpl-dash">
-    <header class="pp-box pp-app-bar tpl-dash-bar" data-sticky>
-      <a class="pp-app-bar-brand" href="#dash-main"><Icon name="trophy" /><span class="pp-display pp-pop" data-scale="2" data-tone="pink" data-pop="Questboard">Questboard</span></a>
-      <nav class="pp-app-bar-nav" aria-label="Main">
-        <button class="pp-box pp-button pp-app-bar-toggle" type="button" data-variant="ghost" data-icon-only popovertarget="dash-links" aria-label="Menu"><Icon name="menu" /></button>
-        <ul class="pp-box pp-app-bar-links" id="dash-links" popover role="list">
-          <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#dash-main" aria-current="page">Live ops</a></li>
-          <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#levels-title">Studio</a></li>
-          <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#board-cap">Community</a></li>
-          <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="/templates/">Blip docs</a></li>
+    <header class="chu-box chu-app-bar tpl-dash-bar" data-sticky>
+      <a class="chu-app-bar-brand" href="#dash-main"><Icon name="trophy" /><span class="chu-display chu-pop" data-scale="2" data-tone="pink" data-pop="Questboard">Questboard</span></a>
+      <nav class="chu-app-bar-nav" aria-label="Main">
+        <button class="chu-box chu-button chu-app-bar-toggle" type="button" data-variant="ghost" data-icon-only popovertarget="dash-links" aria-label="Menu"><Icon name="menu" /></button>
+        <ul class="chu-box chu-app-bar-links" id="dash-links" popover role="list">
+          <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#dash-main" aria-current="page">Live ops</a></li>
+          <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#levels-title">Studio</a></li>
+          <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#board-cap">Community</a></li>
+          <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="/templates/">Blip docs</a></li>
         </ul>
       </nav>
-      <div class="pp-app-bar-actions">
-        <button class="pp-box pp-button tpl-dash-alerts" type="button" data-variant="ghost" data-icon-only aria-label="Alerts, 3 new"><Icon name="bell" /><span class="pp-box pp-badge" data-tone="danger" data-size="sm" data-position="top-end" aria-hidden="true">3</span></button>
-        <pp-menu class="pp-menu" data-align="end">
-          <button class="pp-box pp-button" type="button" data-variant="soft" data-tone="pink" data-icon-only aria-label="Account: Mika"><Icon name="user" /></button>
-          <div class="pp-box pp-menu-list pp-pop-in" role="menu" aria-label="Account" popover>
-            <button class="pp-box pp-menu-item" type="button" role="menuitem" data-toast="Profile: Mika, live-ops lead."><Icon name="user" /><span class="pp-menu-label">Profile</span></button>
-            <button class="pp-box pp-menu-item" type="button" role="menuitem" data-toast="Settings would open here."><Icon name="settings" /><span class="pp-menu-label">Settings</span></button>
-            <div class="pp-menu-separator" role="separator"></div>
-            <a class="pp-box pp-menu-item" role="menuitem" href="/templates/"><Icon name="logout" /><span class="pp-menu-label">Back to the docs</span></a>
+      <div class="chu-app-bar-actions">
+        <button class="chu-box chu-button tpl-dash-alerts" type="button" data-variant="ghost" data-icon-only aria-label="Alerts, 3 new"><Icon name="bell" /><span class="chu-box chu-badge" data-tone="danger" data-size="sm" data-position="top-end" aria-hidden="true">3</span></button>
+        <chu-menu class="chu-menu" data-align="end">
+          <button class="chu-box chu-button" type="button" data-variant="soft" data-tone="pink" data-icon-only aria-label="Account: Mika"><Icon name="user" /></button>
+          <div class="chu-box chu-menu-list chu-pop-in" role="menu" aria-label="Account" popover>
+            <button class="chu-box chu-menu-item" type="button" role="menuitem" data-toast="Profile: Mika, live-ops lead."><Icon name="user" /><span class="chu-menu-label">Profile</span></button>
+            <button class="chu-box chu-menu-item" type="button" role="menuitem" data-toast="Settings would open here."><Icon name="settings" /><span class="chu-menu-label">Settings</span></button>
+            <div class="chu-menu-separator" role="separator"></div>
+            <a class="chu-box chu-menu-item" role="menuitem" href="/templates/"><Icon name="logout" /><span class="chu-menu-label">Back to the docs</span></a>
           </div>
-        </pp-menu>
+        </chu-menu>
       </div>
     </header>
 
-    <nav class="pp-sidebar tpl-dash-side" aria-label="Live ops" data-collapse="auto" data-arrow>
-      <h2 class="pp-sidebar-heading" id="dash-nav-title">Live ops</h2>
-      <ul class="pp-sidebar-list" role="list" aria-labelledby="dash-nav-title">
+    <nav class="chu-sidebar tpl-dash-side" aria-label="Live ops" data-collapse="auto" data-arrow>
+      <h2 class="chu-sidebar-heading" id="dash-nav-title">Live ops</h2>
+      <ul class="chu-sidebar-list" role="list" aria-labelledby="dash-nav-title">
         {nav.map((n) => (
-          <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href={n.href} aria-current={n.current ? "page" : undefined}><Icon name={n.icon} /><span class="pp-sidebar-label">{n.label}</span>{n.badge && <span class="pp-box pp-sidebar-badge" data-tone={n.tone}>{n.badge}</span>}</a></li>
+          <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href={n.href} aria-current={n.current ? "page" : undefined}><Icon name={n.icon} /><span class="chu-sidebar-label">{n.label}</span>{n.badge && <span class="chu-box chu-sidebar-badge" data-tone={n.tone}>{n.badge}</span>}</a></li>
         ))}
       </ul>
-      <h2 class="pp-sidebar-heading" id="dash-nav-more">Blip</h2>
-      <ul class="pp-sidebar-list" role="list" aria-labelledby="dash-nav-more">
-        <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="/templates/"><Icon name="logout" /><span class="pp-sidebar-label">Back to the docs</span></a></li>
+      <h2 class="chu-sidebar-heading" id="dash-nav-more">Blip</h2>
+      <ul class="chu-sidebar-list" role="list" aria-labelledby="dash-nav-more">
+        <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="/templates/"><Icon name="logout" /><span class="chu-sidebar-label">Back to the docs</span></a></li>
       </ul>
     </nav>
 
     <main class="tpl-dash-main" id="dash-main" tabindex="-1">
-      <nav class="pp-breadcrumbs" data-size="sm" aria-label="Breadcrumb">
-        <ol class="pp-breadcrumbs-list">
-          <li><a class="pp-box pp-breadcrumbs-link" data-variant="ghost" href="#dash-main">Live ops</a></li>
-          <li><a class="pp-box pp-breadcrumbs-link" data-variant="ghost" href="#dash-main" aria-current="page">Overview</a></li>
+      <nav class="chu-breadcrumbs" data-size="sm" aria-label="Breadcrumb">
+        <ol class="chu-breadcrumbs-list">
+          <li><a class="chu-box chu-breadcrumbs-link" data-variant="ghost" href="#dash-main">Live ops</a></li>
+          <li><a class="chu-box chu-breadcrumbs-link" data-variant="ghost" href="#dash-main" aria-current="page">Overview</a></li>
         </ol>
       </nav>
       <div class="tpl-dash-head">
-        <h1 class="pp-display" data-scale="2">Overview</h1>
+        <h1 class="chu-display" data-scale="2">Overview</h1>
         <div class="tpl-dash-tools">
-          <pp-segmented class="pp-box pp-segmented tpl-range" data-size="sm" aria-label="Period" value="week">
-            <button class="pp-box" type="button" value="day">Today</button>
-            <button class="pp-box" type="button" value="week" aria-checked="true">This week</button>
-            <button class="pp-box" type="button" value="month">This month</button>
-          </pp-segmented>
-          <button class="pp-box pp-button tpl-export" type="button" data-variant="soft" data-size="sm"><Icon name="download" />Export</button>
+          <chu-segmented class="chu-box chu-segmented tpl-range" data-size="sm" aria-label="Period" value="week">
+            <button class="chu-box" type="button" value="day">Today</button>
+            <button class="chu-box" type="button" value="week" aria-checked="true">This week</button>
+            <button class="chu-box" type="button" value="month">This month</button>
+          </chu-segmented>
+          <button class="chu-box chu-button tpl-export" type="button" data-variant="soft" data-size="sm"><Icon name="download" />Export</button>
         </div>
       </div>
 
       <dl class="tpl-stats">
-        <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Players online</dt><dd class="pp-stat-value pp-display">1,204</dd><dd class="pp-stat-delta" data-trend="up">+12% on last week</dd></div>
-        <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Levels cleared</dt><dd class="pp-stat-value pp-display">8,812</dd><dd class="pp-stat-delta" data-trend="up">+4%</dd></div>
-        <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Coins spent</dt><dd class="pp-stat-value pp-display">54K</dd><dd class="pp-stat-delta" data-trend="down">-3%</dd></div>
-        <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Crashes</dt><dd class="pp-stat-value pp-display">7</dd><dd class="pp-stat-delta" data-trend="down" data-tone="success">-9: good news</dd></div>
+        <div class="chu-box chu-stat" data-variant="panel"><dt class="chu-stat-label">Players online</dt><dd class="chu-stat-value chu-display">1,204</dd><dd class="chu-stat-delta" data-trend="up">+12% on last week</dd></div>
+        <div class="chu-box chu-stat" data-variant="panel"><dt class="chu-stat-label">Levels cleared</dt><dd class="chu-stat-value chu-display">8,812</dd><dd class="chu-stat-delta" data-trend="up">+4%</dd></div>
+        <div class="chu-box chu-stat" data-variant="panel"><dt class="chu-stat-label">Coins spent</dt><dd class="chu-stat-value chu-display">54K</dd><dd class="chu-stat-delta" data-trend="down">-3%</dd></div>
+        <div class="chu-box chu-stat" data-variant="panel"><dt class="chu-stat-label">Crashes</dt><dd class="chu-stat-value chu-display">7</dd><dd class="chu-stat-delta" data-trend="down" data-tone="success">-9: good news</dd></div>
       </dl>
 
       <div class="tpl-dash-charts">
-        <section class="pp-box tpl-card" data-variant="panel" aria-labelledby="hours-title">
-          <div class="tpl-card-head"><h2 class="pp-title" id="hours-title">Players by hour</h2><span class="pp-small pp-muted">Today, in hundreds</span></div>
+        <section class="chu-box tpl-card" data-variant="panel" aria-labelledby="hours-title">
+          <div class="tpl-card-head"><h2 class="chu-title" id="hours-title">Players by hour</h2><span class="chu-small chu-muted">Today, in hundreds</span></div>
           <ol class="tpl-bars" role="list">
             {hours.map(([h, v]) => (
-              <li style={`--v:${v}`} data-peak={v === peak ? "" : undefined}><span class="tpl-bar" aria-hidden="true"></span><span class="tpl-bar-label" aria-hidden="true">{h}</span><span class="pp-sr-only">{h}:00, {v * 100} players</span></li>
+              <li style={`--v:${v}`} data-peak={v === peak ? "" : undefined}><span class="tpl-bar" aria-hidden="true"></span><span class="tpl-bar-label" aria-hidden="true">{h}</span><span class="chu-sr-only">{h}:00, {v * 100} players</span></li>
             ))}
           </ol>
         </section>
-        <section class="pp-box tpl-card" data-variant="panel" aria-labelledby="levels-title">
-          <div class="tpl-card-head"><h2 class="pp-title" id="levels-title">Cleared by world</h2><span class="pp-small pp-muted">Share of players</span></div>
+        <section class="chu-box tpl-card" data-variant="panel" aria-labelledby="levels-title">
+          <div class="tpl-card-head"><h2 class="chu-title" id="levels-title">Cleared by world</h2><span class="chu-small chu-muted">Share of players</span></div>
           <div class="tpl-worlds">
             {worlds.map(([w, v, tone], i) => (
               <div class="tpl-world">
-                <div class="pp-progress-label"><label for={`world-${i}`}>{w}</label><span class="docs-num">{v}%</span></div>
-                <div class="pp-box pp-progress" data-tone={tone}><progress id={`world-${i}`} max="100" value={v}>{v}%</progress></div>
+                <div class="chu-progress-label"><label for={`world-${i}`}>{w}</label><span class="docs-num">{v}%</span></div>
+                <div class="chu-box chu-progress" data-tone={tone}><progress id={`world-${i}`} max="100" value={v}>{v}%</progress></div>
               </div>
             ))}
           </div>
         </section>
       </div>
 
-      <pp-table class="tpl-board">
-        <div class="pp-box pp-table-frame">
-          <div class="pp-table-scroll" role="region" aria-labelledby="board-cap" tabindex="0">
-            <table class="pp-table" data-zebra data-stack>
+      <chu-table class="tpl-board">
+        <div class="chu-box chu-table-frame">
+          <div class="chu-table-scroll" role="region" aria-labelledby="board-cap" tabindex="0">
+            <table class="chu-table" data-zebra data-stack>
               <caption id="board-cap">Leaderboard, this week</caption>
               <thead>
                 <tr>
-                  <th scope="col" class="pp-table-check"><span class="pp-box pp-checkbox" data-size="sm" data-pp-r="1"><input type="checkbox" aria-label="Select all players" data-select-all /></span></th>
-                  <th scope="col" class="pp-numeric"><button class="pp-box pp-table-sort" data-variant="ghost" type="button">Rank<span class="pp-table-caret" aria-hidden="true"></span></button></th>
-                  <th scope="col"><button class="pp-box pp-table-sort" data-variant="ghost" type="button">Player<span class="pp-table-caret" aria-hidden="true"></span></button></th>
-                  <th scope="col"><button class="pp-box pp-table-sort" data-variant="ghost" type="button">World<span class="pp-table-caret" aria-hidden="true"></span></button></th>
-                  <th scope="col" class="pp-numeric" aria-sort="descending"><button class="pp-box pp-table-sort" data-variant="ghost" type="button">Score<span class="pp-table-caret" aria-hidden="true"></span></button></th>
-                  <th scope="col" class="pp-numeric"><button class="pp-box pp-table-sort" data-variant="ghost" type="button">Best time<span class="pp-table-caret" aria-hidden="true"></span></button></th>
+                  <th scope="col" class="chu-table-check"><span class="chu-box chu-checkbox" data-size="sm" data-chu-r="1"><input type="checkbox" aria-label="Select all players" data-select-all /></span></th>
+                  <th scope="col" class="chu-numeric"><button class="chu-box chu-table-sort" data-variant="ghost" type="button">Rank<span class="chu-table-caret" aria-hidden="true"></span></button></th>
+                  <th scope="col"><button class="chu-box chu-table-sort" data-variant="ghost" type="button">Player<span class="chu-table-caret" aria-hidden="true"></span></button></th>
+                  <th scope="col"><button class="chu-box chu-table-sort" data-variant="ghost" type="button">World<span class="chu-table-caret" aria-hidden="true"></span></button></th>
+                  <th scope="col" class="chu-numeric" aria-sort="descending"><button class="chu-box chu-table-sort" data-variant="ghost" type="button">Score<span class="chu-table-caret" aria-hidden="true"></span></button></th>
+                  <th scope="col" class="chu-numeric"><button class="chu-box chu-table-sort" data-variant="ghost" type="button">Best time<span class="chu-table-caret" aria-hidden="true"></span></button></th>
                   <th scope="col">Status</th>
                 </tr>
               </thead>
               <tbody>
                 {players.map(([name, initials, tone, world, score, scoreN, time, secs, status, statusTone], i) => (
                   <tr>
-                    <td class="pp-table-check"><span class="pp-box pp-checkbox" data-size="sm" data-pp-r="1"><input type="checkbox" aria-labelledby={`p-${i}`} /></span></td>
-                    <td class="pp-numeric" data-label="Rank">{i + 1}</td>
-                    <th scope="row" id={`p-${i}`}><span class="tpl-player"><span class="pp-box pp-avatar" data-size="sm" data-tone={tone} aria-hidden="true">{initials[0]}</span>{name}</span></th>
+                    <td class="chu-table-check"><span class="chu-box chu-checkbox" data-size="sm" data-chu-r="1"><input type="checkbox" aria-labelledby={`p-${i}`} /></span></td>
+                    <td class="chu-numeric" data-label="Rank">{i + 1}</td>
+                    <th scope="row" id={`p-${i}`}><span class="tpl-player"><span class="chu-box chu-avatar" data-size="sm" data-tone={tone} aria-hidden="true">{initials[0]}</span>{name}</span></th>
                     <td data-label="World">{world}</td>
-                    <td class="pp-numeric" data-label="Score" data-sort-value={scoreN}>{score}</td>
-                    <td class="pp-numeric" data-label="Best time" data-sort-value={secs}>{time}</td>
-                    <td data-label="Status"><span class="pp-box pp-tag" data-size="sm" data-tone={statusTone}>{status}</span></td>
+                    <td class="chu-numeric" data-label="Score" data-sort-value={scoreN}>{score}</td>
+                    <td class="chu-numeric" data-label="Best time" data-sort-value={secs}>{time}</td>
+                    <td data-label="Status"><span class="chu-box chu-tag" data-size="sm" data-tone={statusTone}>{status}</span></td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         </div>
-      </pp-table>
-      <p class="pp-small pp-muted tpl-dash-note">Questboard and its players are made up for this Blip template. The bar chart is this page's own CSS: Blip has no chart component yet.</p>
+      </chu-table>
+      <p class="chu-small chu-muted tpl-dash-note">Questboard and its players are made up for this Blip template. The bar chart is this page's own CSS: Blip has no chart component yet.</p>
     </main>
 
-    <nav class="pp-box pp-bottom-bar tpl-dash-bottom" aria-label="Live ops" data-collapse="auto">
-      <ul class="pp-bottom-bar-list" role="list">
+    <nav class="chu-box chu-bottom-bar tpl-dash-bottom" aria-label="Live ops" data-collapse="auto">
+      <ul class="chu-bottom-bar-list" role="list">
         {nav.map((n) => (
-          <li><a class="pp-box pp-bottom-bar-item" data-variant="ghost" href={n.href} aria-current={n.current ? "page" : undefined}><Icon name={n.icon} /><span class="pp-bottom-bar-label">{n.label}</span>{n.badge && <span class="pp-box pp-bottom-bar-badge" data-tone={n.tone ?? "accent"}>{n.badge}<span class="pp-sr-only"> new</span></span>}</a></li>
+          <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href={n.href} aria-current={n.current ? "page" : undefined}><Icon name={n.icon} /><span class="chu-bottom-bar-label">{n.label}</span>{n.badge && <span class="chu-box chu-bottom-bar-badge" data-tone={n.tone ?? "accent"}>{n.badge}<span class="chu-sr-only"> new</span></span>}</a></li>
         ))}
       </ul>
     </nav>
   </div>
-  <pp-toaster data-side="bottom" data-align="end"></pp-toaster>
+  <chu-toaster data-side="bottom" data-align="end"></chu-toaster>
 </Template>

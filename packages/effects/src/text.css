@@ -1,64 +1,64 @@
 /*
  * Text effects and the glint.
  *
- *   <pp-drop-text class="pp-display pp-pop" data-pop="Blip">Blip</pp-drop-text>
- *     Letters drop in one after another: hidden until their turn (--pp-drop-text-stagger, 30 ms apart), two pixels
- *     high for a frame, then landed. Put pp-pop and data-pop on the element itself so each letter keeps its tint.
+ *   <chu-drop-text class="chu-display chu-pop" data-pop="Blip">Blip</chu-drop-text>
+ *     Letters drop in one after another: hidden until their turn (--chu-drop-text-stagger, 30 ms apart), two pixels
+ *     high for a frame, then landed. Put chu-pop and data-pop on the element itself so each letter keeps its tint.
  *
- *   <pp-typewriter caret>Ready, player one?</pp-typewriter>
+ *   <chu-typewriter caret>Ready, player one?</chu-typewriter>
  *     The untyped rest is laid out but hidden, so nothing moves. caret adds a block after the typed text: still while
  *     it types, then it blinks for six beats once the last letter is in, and stays.
  *
- *   <button class="pp-box pp-button">Play<span class="pp-glint" aria-hidden="true"></span></button>
+ *   <button class="chu-box chu-button">Play<span class="chu-glint" aria-hidden="true"></span></button>
  *     The TV's glint: a band two pixels white with a light edge each side sweeps down and right across the box in
  *     five frames, 80 ms apart, inside the outline, once when it appears (as a tile's does), then it rests: nothing
- *     moves for more than five seconds (WCAG 2.2.2). --pp-glint-count asks for more sweeps, 4.5 s apart (2 is done in
- *     under five seconds; infinite only where the person can pause it); --pp-glint-delay staggers several.
+ *     moves for more than five seconds (WCAG 2.2.2). --chu-glint-count asks for more sweeps, 4.5 s apart (2 is done in
+ *     under five seconds; infinite only where the person can pause it); --chu-glint-delay staggers several.
  *     data-frame="0" to "4" holds one frame (docs, tests, reduced motion). None with reduced motion otherwise, and
  *     none in print.
  */
 
-@layer pp.kits {
-  .pp-drop-text-word { white-space: nowrap; }
-  .pp-drop-text-letter {
+@layer chu.kits {
+  .chu-drop-text-word { white-space: nowrap; }
+  .chu-drop-text-letter {
     /* 30 ms apart: the TV's DROP_STAGGER, which is its dissolve frame too. */
-    --_d: calc(var(--_i, 0) * var(--pp-drop-text-stagger, var(--pp-duration-dissolve-frame)));
+    --_d: calc(var(--_i, 0) * var(--chu-drop-text-stagger, var(--chu-duration-dissolve-frame)));
     display: inline-block;
     animation:
-      pp-drop-text-wait var(--_d) step-end,
-      pp-drop-text-lift var(--pp-duration-frame) step-end var(--_d);
+      chu-drop-text-wait var(--_d) step-end,
+      chu-drop-text-lift var(--chu-duration-frame) step-end var(--_d);
   }
   /* POP: each letter carries its own tint, so the tint drops with it. */
-  pp-drop-text:defined.pp-pop[data-pop]::after { content: none; }
-  .pp-pop[data-pop] .pp-drop-text-letter { position: relative; }
-  .pp-pop[data-pop] .pp-drop-text-letter::after {
+  chu-drop-text:defined.chu-pop[data-pop]::after { content: none; }
+  .chu-pop[data-pop] .chu-drop-text-letter { position: relative; }
+  .chu-pop[data-pop] .chu-drop-text-letter::after {
     content: attr(data-pop) / "";
     position: absolute;
     inset: 0;
     color: transparent;
     text-shadow: none;
-    background: linear-gradient(to bottom, transparent 0 58.333%, var(--pp-pop-tint) 0);
+    background: linear-gradient(to bottom, transparent 0 58.333%, var(--chu-pop-tint) 0);
     -webkit-background-clip: text;
     background-clip: text;
     pointer-events: none;
   }
 
-  .pp-typewriter-rest { visibility: hidden; }
+  .chu-typewriter-rest { visibility: hidden; }
   /* The caret is an empty box with an end border, given back by a negative margin: it takes no room and never breaks
      a word, so the text never reflows as it types. It moves with the letters, still; once the rest is empty it blinks
      for six beats, then stays shown and still, so a caret that says "ready" keeps saying it. */
-  pp-typewriter[caret]:not([caret="false"]) .pp-typewriter-typed::after {
+  chu-typewriter[caret]:not([caret="false"]) .chu-typewriter-typed::after {
     content: "";
-    border-inline-end: calc(2 * var(--pp-pixel)) solid;
-    margin-inline-end: calc(-2 * var(--pp-pixel));
+    border-inline-end: calc(2 * var(--chu-pixel)) solid;
+    margin-inline-end: calc(-2 * var(--chu-pixel));
   }
-  pp-typewriter[caret] .pp-typewriter-typed:where(:has(+ :empty))::after {
-    animation: pp-blink calc(2 * var(--pp-duration-beat)) steps(1, jump-end) 6;
+  chu-typewriter[caret] .chu-typewriter-typed:where(:has(+ :empty))::after {
+    animation: chu-blink calc(2 * var(--chu-duration-beat)) steps(1, jump-end) 6;
   }
 
-  .pp-glint {
-    --pp-glint-color: var(--pp-white);
-    --pp-glint-edge: var(--pp-candy-yellow-light);
+  .chu-glint {
+    --chu-glint-color: var(--chu-white);
+    --chu-glint-edge: var(--chu-candy-yellow-light);
     position: absolute;
     inset: 0;
     overflow: clip;
@@ -66,16 +66,16 @@
     container-type: size;
     /* The box's inner shape, exactly as the fill inside its outline: the box's own mask, so it shares its seam-free
        overlaps at any device pixel ratio. */
-    mask-image: var(--pp-shape-inner);
+    mask-image: var(--chu-shape-inner);
     mask-repeat: no-repeat;
-    mask-size: var(--pp-box-mask-size);
-    mask-position: var(--pp-box-mask-position);
+    mask-size: var(--chu-box-mask-size);
+    mask-position: var(--chu-box-mask-position);
   }
   /* The band: the pixels where x + y runs from 2 to 5, light edge pixels under, two white ones over, each a 256-row
      staircase polygon ("v1h-1" down one side, "v-1h1" back up the other), 4 and 2 pixels wide. It moves right in
      whole-pixel steps, a quarter of (width + height - 8) a frame (12 on the TV's 28-pixel block), so x + y steps
      from the top-left corner to the bottom-right: a stepped translate and opacity, which the compositor runs. */
-  .pp-glint::before, .pp-glint::after {
+  .chu-glint::before, .chu-glint::after {
     --_step: round(down, (100cqw + 100cqh - 8 * var(--_p)) / 4, var(--_p));
     /* Reaching left by the box's width plus height, so the whole band is there for every frame to slide in. */
     --_reach: round(down, 100cqw + 100cqh, var(--_p));
@@ -87,48 +87,48 @@
     mask-size: calc(260 * var(--_p)) calc(256 * var(--_p));
     /* A sweep every 4.5 s, the TV's GLINT_EVERY: 112.5 frames, the sweep in the last ten. Started 102.5 frames in, the
        first sweep comes at once, and the last sweep ends the animation. */
-    --_in: calc(var(--pp-glint-delay, 0s) - 102.5 * var(--pp-duration-frame));
+    --_in: calc(var(--chu-glint-delay, 0s) - 102.5 * var(--chu-duration-frame));
     animation:
-      pp-glint-move calc(112.5 * var(--pp-duration-frame)) var(--_in) var(--pp-glint-count, 1),
-      pp-glint-show calc(112.5 * var(--pp-duration-frame)) var(--_in) var(--pp-glint-count, 1);
+      chu-glint-move calc(112.5 * var(--chu-duration-frame)) var(--_in) var(--chu-glint-count, 1),
+      chu-glint-show calc(112.5 * var(--chu-duration-frame)) var(--_in) var(--chu-glint-count, 1);
   }
-  .pp-glint::before {
-    background: var(--pp-glint-edge);
+  .chu-glint::before {
+    background: var(--chu-glint-edge);
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 256' shape-rendering='crispEdges'%3E%3Cpath d='M259 0v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1h-3v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1z'/%3E%3C/svg%3E");
     mask-position: calc(var(--_reach) - 253 * var(--_p)) 0;
   }
-  .pp-glint::after {
-    background: var(--pp-glint-color);
+  .chu-glint::after {
+    background: var(--chu-glint-color);
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 256' shape-rendering='crispEdges'%3E%3Cpath d='M257 0v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1v1h-1h-1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1v-1h1z'/%3E%3C/svg%3E");
     mask-position: calc(var(--_reach) - 252 * var(--_p)) 0;
   }
-  .pp-glint[data-frame]::before, .pp-glint[data-frame]::after { animation: none; opacity: 1; translate: calc(var(--_f, 0) * var(--_step)) 0; }
-  .pp-glint[data-frame="1"] { --_f: 1; }
-  .pp-glint[data-frame="2"] { --_f: 2; }
-  .pp-glint[data-frame="3"] { --_f: 3; }
-  .pp-glint[data-frame="4"] { --_f: 4; }
+  .chu-glint[data-frame]::before, .chu-glint[data-frame]::after { animation: none; opacity: 1; translate: calc(var(--_f, 0) * var(--_step)) 0; }
+  .chu-glint[data-frame="1"] { --_f: 1; }
+  .chu-glint[data-frame="2"] { --_f: 2; }
+  .chu-glint[data-frame="3"] { --_f: 3; }
+  .chu-glint[data-frame="4"] { --_f: 4; }
 
   @media (prefers-reduced-motion: reduce) {
-    .pp-drop-text-letter, pp-typewriter[caret] .pp-typewriter-typed::after, .pp-glint:not([data-frame])::before, .pp-glint:not([data-frame])::after { animation: none; }
+    .chu-drop-text-letter, chu-typewriter[caret] .chu-typewriter-typed::after, .chu-glint:not([data-frame])::before, .chu-glint:not([data-frame])::after { animation: none; }
   }
   @media (forced-colors: active), print {
-    .pp-glint { display: none; }
+    .chu-glint { display: none; }
   }
   /* On paper: the whole text, and no caret. */
   @media print {
-    .pp-typewriter-rest { visibility: visible; }
-    .pp-typewriter-typed::after { display: none; }
+    .chu-typewriter-rest { visibility: visible; }
+    .chu-typewriter-typed::after { display: none; }
   }
 }
 
-@keyframes pp-drop-text-wait { 0%, 100% { visibility: hidden; } }
-@keyframes pp-drop-text-lift { 0%, 100% { translate: 0 calc(-2 * var(--pp-pixel)); } }
+@keyframes chu-drop-text-wait { 0%, 100% { visibility: hidden; } }
+@keyframes chu-drop-text-lift { 0%, 100% { translate: 0 calc(-2 * var(--chu-pixel)); } }
 /* Gone, then five frames two sprite frames apart: the last 10 of the 112.5 frames. */
-@keyframes pp-glint-move {
+@keyframes chu-glint-move {
   0%, 91.111% { translate: 0 0; animation-timing-function: steps(5, jump-end); }
   100% { translate: calc(5 * var(--_step)) 0; }
 }
-@keyframes pp-glint-show {
+@keyframes chu-glint-show {
   0% { opacity: 0; animation-timing-function: step-end; }
   91.111% { opacity: 1; animation-timing-function: step-end; }
 }

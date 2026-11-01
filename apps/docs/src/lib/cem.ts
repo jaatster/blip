@@ -107,7 +107,7 @@ export function booleanAttributes(): { tag: string; names: string[]; falseIsOff:
 }
 
 /**
- * The event an element fires when one of its options is chosen (pp-command and pp-menu), read from its manifest so
+ * The event an element fires when one of its options is chosen (chu-command and chu-menu), read from its manifest so
  * the site's scripts listen for the name the element has today.
  */
 export function chooseEvent(tag: string): string {

@@ -18,14 +18,14 @@ describe("blocks CSS", () => {
 
   it("leaves the world's sky bands and ground off paper", () => {
     const hero = media(read("hero.css"), "print"), cta = media(read("cta.css"), "print");
-    expect(hero).toMatch(/\.pp-hero\s*\{\s*background:\s*none/);
-    expect(hero).toMatch(/\.pp-hero-ground,\s*\.pp-hero-scenery\s*\{\s*display:\s*none/);
-    expect(cta).toMatch(/\.pp-cta:not\(\.pp-box\)\s*\{\s*background:\s*none/);
-    expect(cta).toMatch(/\.pp-cta-ground\s*\{\s*display:\s*none/);
-    expect(media(read("footer.css"), "print")).toMatch(/\.pp-footer::before,\s*\.pp-footer::after\s*\{\s*display:\s*none/);
+    expect(hero).toMatch(/\.chu-hero\s*\{\s*background:\s*none/);
+    expect(hero).toMatch(/\.chu-hero-ground,\s*\.chu-hero-scenery\s*\{\s*display:\s*none/);
+    expect(cta).toMatch(/\.chu-cta:not\(\.chu-box\)\s*\{\s*background:\s*none/);
+    expect(cta).toMatch(/\.chu-cta-ground\s*\{\s*display:\s*none/);
+    expect(media(read("footer.css"), "print")).toMatch(/\.chu-footer::before,\s*\.chu-footer::after\s*\{\s*display:\s*none/);
   });
 
   it("prints a plan's check and dash marks", () => {
-    expect(media(read("pricing.css"), "print")).toMatch(/\.pp-plan-features > li::before\s*\{\s*print-color-adjust:\s*exact/);
+    expect(media(read("pricing.css"), "print")).toMatch(/\.chu-plan-features > li::before\s*\{\s*print-color-adjust:\s*exact/);
   });
 });

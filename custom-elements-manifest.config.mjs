@@ -8,10 +8,10 @@
  * carry the API in JSDoc (@summary, @attr, @fires, @cssprop); two small plugins fill in what the analyzer cannot
  * see on its own:
  *
- * - pixel-define: Blip registers elements with PixelElement.define("pp-x", Class) (or Class.define), not a
+ * - pixel-define: Blip registers elements with BlipElement.define("chu-x", Class) (or Class.define), not a
  *   bare customElements.define, so it records those definitions too.
  * - pixel-tidy: keeps the public contract only (no private, protected or static members, no form lifecycle
- *   callbacks, only pp-* events), links each attribute to the property that mirrors it (light-dismiss to
+ *   callbacks, only chu-* events), links each attribute to the property that mirrors it (light-dismiss to
  *   lightDismiss, for to htmlFor), drops attributes a subclass marks `@omit-attr <name>`, and leaves out private
  *   _modules that nothing public refers to.
  */
@@ -21,7 +21,7 @@ const LIFECYCLE = new Set(["formAssociatedCallback", "formResetCallback", "formD
 const FIELD_FOR = { for: "htmlFor", class: "className", readonly: "readOnly" };
 const camel = (name) => FIELD_FOR[name] ?? name.replace(/-([a-z])/g, (_, c) => c.toUpperCase());
 
-/** PixelElement.define("pp-x", Class) and Class.define("pp-x", Class). */
+/** BlipElement.define("chu-x", Class) and Class.define("chu-x", Class). */
 function pixelDefine() {
   return {
     name: "blip/define",
@@ -74,11 +74,11 @@ function pixelTidy() {
             );
             if (!decl.members.length) delete decl.members;
           }
-          // Blip's own events are pp-* (AUTHORING rule 8). The analyzer also guesses an event from a
+          // Blip's own events are chu-* (AUTHORING rule 8). The analyzer also guesses an event from a
           // dispatchEvent(new Event(type)) whose name is a variable (the native input and change a form control
           // re-fires): leave those out.
           if (decl.events) {
-            decl.events = decl.events.filter((e) => e.name?.startsWith("pp-"));
+            decl.events = decl.events.filter((e) => e.name?.startsWith("chu-"));
             if (!decl.events.length) delete decl.events;
           }
           const dropped = omit.get(decl.name) ?? [];

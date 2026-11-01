@@ -1,62 +1,62 @@
 <!-- Select: a native select in the calm well; where the browser allows, its picker is a Blip menu. Every
-     state and size. Forced states use data-pp-state (docs and tests only). -->
-<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(calc(120*var(--pp-pixel)),1fr));gap:calc(8*var(--pp-pixel)) calc(12*var(--pp-pixel));align-items:start">
-  <div class="pp-field">
-    <label class="pp-field-label" for="sel-world">Home world</label>
-    <span class="pp-box pp-select">
+     state and size. Forced states use data-chu-state (docs and tests only). -->
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(calc(120*var(--chu-pixel)),1fr));gap:calc(8*var(--chu-pixel)) calc(12*var(--chu-pixel));align-items:start">
+  <div class="chu-field">
+    <label class="chu-field-label" for="sel-world">Home world</label>
+    <span class="chu-box chu-select">
       <select id="sel-world" name="world">
-        <option class="pp-box" value="meadow">Meadow</option>
-        <option class="pp-box" value="caves" selected>Crystal caves</option>
-        <option class="pp-box" value="sky">Sky islands</option>
-        <option class="pp-box" value="night">Night market</option>
-        <option class="pp-box" value="moon" disabled>Moon base (locked)</option>
+        <option class="chu-box" value="meadow">Meadow</option>
+        <option class="chu-box" value="caves" selected>Crystal caves</option>
+        <option class="chu-box" value="sky">Sky islands</option>
+        <option class="chu-box" value="night">Night market</option>
+        <option class="chu-box" value="moon" disabled>Moon base (locked)</option>
       </select>
     </span>
   </div>
-  <div class="pp-field">
-    <label class="pp-field-label" for="sel-lang">Language</label>
-    <span class="pp-box pp-select">
+  <div class="chu-field">
+    <label class="chu-field-label" for="sel-lang">Language</label>
+    <span class="chu-box chu-select">
       <select id="sel-lang" name="language">
         <optgroup label="Europe">
-          <option class="pp-box" value="en-GB" selected>English (UK)</option>
-          <option class="pp-box" value="fr">Français</option>
-          <option class="pp-box" value="de">Deutsch</option>
+          <option class="chu-box" value="en-GB" selected>English (UK)</option>
+          <option class="chu-box" value="fr">Français</option>
+          <option class="chu-box" value="de">Deutsch</option>
         </optgroup>
         <optgroup label="Asia">
-          <option class="pp-box" value="ja">日本語</option>
-          <option class="pp-box" value="ko">한국어</option>
+          <option class="chu-box" value="ja">日本語</option>
+          <option class="chu-box" value="ko">한국어</option>
         </optgroup>
       </select>
     </span>
   </div>
-  <div class="pp-field">
-    <label class="pp-field-label" for="sel-focus">Focus</label>
-    <span class="pp-box pp-select" data-pp-state="focus"><select id="sel-focus"><option class="pp-box">Every day</option><option class="pp-box">Weekends</option></select></span>
+  <div class="chu-field">
+    <label class="chu-field-label" for="sel-focus">Focus</label>
+    <span class="chu-box chu-select" data-chu-state="focus"><select id="sel-focus"><option class="chu-box">Every day</option><option class="chu-box">Weekends</option></select></span>
   </div>
-  <div class="pp-field">
-    <label class="pp-field-label" for="sel-invalid">Server</label>
-    <span class="pp-box pp-select">
+  <div class="chu-field">
+    <label class="chu-field-label" for="sel-invalid">Server</label>
+    <span class="chu-box chu-select">
       <select id="sel-invalid" required aria-invalid="true" aria-describedby="sel-invalid-error">
-        <option class="pp-box" value="">Choose a server</option>
-        <option class="pp-box" value="eu">Europe</option>
-        <option class="pp-box" value="us">Americas</option>
+        <option class="chu-box" value="">Choose a server</option>
+        <option class="chu-box" value="eu">Europe</option>
+        <option class="chu-box" value="us">Americas</option>
       </select>
     </span>
-    <p class="pp-field-error" id="sel-invalid-error">Choose the server nearest to you.</p>
+    <p class="chu-field-error" id="sel-invalid-error">Choose the server nearest to you.</p>
   </div>
-  <div class="pp-field">
-    <label class="pp-field-label" for="sel-success">Success</label>
-    <span class="pp-box pp-select" data-tone="success"><select id="sel-success"><option class="pp-box">Europe (fast)</option></select></span>
+  <div class="chu-field">
+    <label class="chu-field-label" for="sel-success">Success</label>
+    <span class="chu-box chu-select" data-tone="success"><select id="sel-success"><option class="chu-box">Europe (fast)</option></select></span>
   </div>
-  <div class="pp-field">
-    <label class="pp-field-label" for="sel-disabled">Disabled</label>
-    <span class="pp-box pp-select"><select id="sel-disabled" disabled><option class="pp-box">Co-op only</option></select></span>
+  <div class="chu-field">
+    <label class="chu-field-label" for="sel-disabled">Disabled</label>
+    <span class="chu-box chu-select"><select id="sel-disabled" disabled><option class="chu-box">Co-op only</option></select></span>
   </div>
 </div>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--pp-pixel));align-items:center;margin-block-start:calc(12*var(--pp-pixel))">
-  <span class="pp-box pp-select" data-size="sm"><select aria-label="Sort, small"><option class="pp-box">Newest</option><option class="pp-box">Oldest</option></select></span>
-  <span class="pp-box pp-select"><select aria-label="Sort, medium"><option class="pp-box">Newest</option><option class="pp-box">Oldest</option></select></span>
-  <span class="pp-box pp-select" data-size="lg"><select aria-label="Sort, large"><option class="pp-box">Newest</option><option class="pp-box">Oldest</option></select></span>
-  <button class="pp-box pp-button" data-size="lg">Sort</button>
+<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--chu-pixel));align-items:center;margin-block-start:calc(12*var(--chu-pixel))">
+  <span class="chu-box chu-select" data-size="sm"><select aria-label="Sort, small"><option class="chu-box">Newest</option><option class="chu-box">Oldest</option></select></span>
+  <span class="chu-box chu-select"><select aria-label="Sort, medium"><option class="chu-box">Newest</option><option class="chu-box">Oldest</option></select></span>
+  <span class="chu-box chu-select" data-size="lg"><select aria-label="Sort, large"><option class="chu-box">Newest</option><option class="chu-box">Oldest</option></select></span>
+  <button class="chu-box chu-button" data-size="lg">Sort</button>
 </div>

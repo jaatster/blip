@@ -16,7 +16,7 @@ export type Candy = "red" | "orange" | "yellow" | "green" | "teal" | "blue" | "p
 export type Tone = "accent" | Intent | "neutral" | Candy;
 /** Control heights: 16, 20 or 24 pixels (`data-size`). */
 export type Size = "sm" | "md" | "lg";
-/** Corner radius in pixels (`data-pp-r`). */
+/** Corner radius in pixels (`data-chu-r`). */
 export type Radius = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 /** Pixel Bop's whole scales (`data-scale`). */
 export type Scale = 1 | 2 | 3 | 4;
@@ -29,12 +29,12 @@ export interface BoxProps {
   variant?: Variant;
   /** The colour: accent (default), an intent, neutral, or a candy name. `data-tone`. */
   tone?: Tone;
-  /** Corner radius in pixels, 0 to 8. `data-pp-r`. */
+  /** Corner radius in pixels, 0 to 8. `data-chu-r`. */
   radius?: Radius;
 }
 
 /** The attributes for BoxProps. */
-export const box = ({ variant, tone, radius }: BoxProps) => ({ "data-variant": variant, "data-tone": tone, "data-pp-r": radius });
+export const box = ({ variant, tone, radius }: BoxProps) => ({ "data-variant": variant, "data-tone": tone, "data-chu-r": radius });
 
 /** Joins class names, skipping empty ones. */
 export function cx(...names: (string | false | null | undefined)[]): string {

@@ -1,11 +1,11 @@
 /**
- * <pp-toaster> and toast(): short messages that come up in a corner and leave on their own.
+ * <chu-toaster> and toast(): short messages that come up in a corner and leave on their own.
  *
  *   import { toast } from "@jaatster/blip-elements/toast";
  *   const t = toast({ title: "Achievement unlocked", body: "First Flight", tone: "success", action: { label: "View", onClick: openTrophies } });
  *   t.close();                     // or wait: await t.closed
  *
- * toast() uses the first <pp-toaster> in the page, or adds one to the end of <body>. The toaster is a labelled
+ * toast() uses the first <chu-toaster> in the page, or adds one to the end of <body>. The toaster is a labelled
  * region ("Notifications") holding two live regions made when it connects, so every toast is announced: politely,
  * or assertively for danger. Toasts stack (newest nearest the edge), at most `max` at a time (the rest wait their
  * turn), and every countdown stops while the pointer is over the toaster, keyboard focus is in it, the page is
@@ -16,7 +16,7 @@
  * Attributes: data-side (bottom, the default, or top) and data-align (end, the default, center or start) say where
  * toasts come up; max (default 3), dismiss-label (default "Dismiss"), aria-label (default "Notifications").
  */
-import { PixelElement, services } from "@jaatster/blip-core";
+import { BlipElement, services } from "@jaatster/blip-core";
 
 export type ToastTone = "info" | "success" | "warning" | "danger";
 export interface ToastOptions {
@@ -67,7 +67,7 @@ interface Live {
 /** A polite and an assertive live region, hidden, at the end of `host`. Each line is announced on its own. */
 const regions = (host: Element): Live => {
   const region = (role: string) => {
-    const r = make("div", "pp-sr-only");
+    const r = make("div", "chu-sr-only");
     r.setAttribute("role", role);
     r.setAttribute("aria-atomic", "false");
     host.append(r);
@@ -76,7 +76,7 @@ const regions = (host: Element): Live => {
   return { polite: region("status"), assertive: region("alert") };
 };
 const button = (cls: string, variant: string, text = ""): HTMLButtonElement => {
-  const b = make("button", `pp-box pp-button ${cls}`, text);
+  const b = make("button", `chu-box chu-button ${cls}`, text);
   b.type = "button";
   b.dataset.size = "sm";
   b.dataset.variant = variant;
@@ -93,10 +93,10 @@ const button = (cls: string, variant: string, text = ""): HTMLButtonElement => {
  * @attr {number} [max=3] - How many toasts show at once; the rest wait their turn.
  * @attr {string} [dismiss-label="Dismiss"] - Each toast's close button's accessible name.
  * @attr {string} [aria-label="Notifications"] - The region's name.
- * @cssprop --pp-toast-duration - A toast's countdown (set by the element on each toast).
+ * @cssprop --chu-toast-duration - A toast's countdown (set by the element on each toast).
  */
-export class PixelToaster extends PixelElement {
-  static classes = ["pp-toaster"];
+export class BlipToaster extends BlipElement {
+  static classes = ["chu-toaster"];
   #items: Item[] = [];
   #live?: Live;
   /** Live regions put inside an open modal dialog, which makes everything else inert. */
@@ -155,19 +155,19 @@ export class PixelToaster extends PixelElement {
   /** Shows a toast. A string is just a title. */
   add(options: ToastOptions | string): ToastHandle {
     const opts = typeof options === "string" ? { title: options } : options;
-    const el = make("div", "pp-box pp-toast");
+    const el = make("div", "chu-box chu-toast");
     el.setAttribute("role", "group");
     el.setAttribute("aria-label", opts.title);
     const tone = opts.tone;
     if (tone) {
       el.dataset.tone = tone;
-      const icon = make("span", "pp-toast-icon");
+      const icon = make("span", "chu-toast-icon");
       icon.setAttribute("aria-hidden", "true");
       el.append(icon);
     }
     if (opts.variant === "candy") el.dataset.variant = "candy";
-    const body = make("div", "pp-toast-body");
-    body.append(make("p", "pp-toast-title", opts.title));
+    const body = make("div", "chu-toast-body");
+    body.append(make("p", "chu-toast-title", opts.title));
     if (opts.body) body.append(make("p", "", opts.body));
     el.append(body);
 
@@ -178,8 +178,8 @@ export class PixelToaster extends PixelElement {
     const item: Item = { el, opts, left: ms, start: 0, shown: false, done };
 
     if (opts.action) {
-      const row = make("div", "pp-toast-actions");
-      const act = button("pp-toast-action", "outline", opts.action.label);
+      const row = make("div", "chu-toast-actions");
+      const act = button("chu-toast-action", "outline", opts.action.label);
       act.addEventListener("click", () => {
         opts.action?.onClick?.();
         this.#dismiss(item);
@@ -187,19 +187,19 @@ export class PixelToaster extends PixelElement {
       row.append(act);
       body.append(row);
     }
-    const x = button("pp-toast-close", "ghost");
+    const x = button("chu-toast-close", "ghost");
     x.dataset.iconOnly = "";
     x.setAttribute("aria-label", this.getAttribute("dismiss-label") || "Dismiss");
-    const glyph = make("span", "pp-icon");
+    const glyph = make("span", "chu-icon");
     glyph.dataset.glyph = "close";
     glyph.setAttribute("aria-hidden", "true");
     x.append(glyph);
     x.addEventListener("click", () => this.#dismiss(item));
     el.append(x);
     if (ms > 0) {
-      const bar = make("span", "pp-toast-timer");
+      const bar = make("span", "chu-toast-timer");
       bar.setAttribute("aria-hidden", "true");
-      el.style.setProperty("--pp-toast-duration", `${ms}ms`);
+      el.style.setProperty("--chu-toast-duration", `${ms}ms`);
       el.append(bar);
     }
 
@@ -279,10 +279,10 @@ export class PixelToaster extends PixelElement {
     this.#items.splice(at, 1);
     clearTimeout(item.timer);
     const { el } = item;
-    el.setAttribute("data-pp-leaving", "");
+    el.setAttribute("data-chu-leaving", "");
     // Keep keyboard users in the stack: the next toast's close button, or back where they came from.
     if (el.matches(":has(:focus-visible)")) {
-      const next = this.#items.find((i) => i.shown)?.el.querySelector<HTMLElement>(".pp-toast-close");
+      const next = this.#items.find((i) => i.shown)?.el.querySelector<HTMLElement>(".chu-toast-close");
       (next ?? (this.#back?.isConnected ? this.#back : null))?.focus();
     }
     await Promise.all(el.getAnimations().map((a) => a.finished.catch(() => undefined)));
@@ -293,18 +293,18 @@ export class PixelToaster extends PixelElement {
   }
 }
 
-PixelToaster.define("pp-toaster", PixelToaster);
+BlipToaster.define("chu-toaster", BlipToaster);
 
-/** Shows a toast in the page's toaster, adding one to <body> if there is none. A toaster in a <pp-attract> demo is
+/** Shows a toast in the page's toaster, adding one to <body> if there is none. A toaster in a <chu-attract> demo is
     the demo's own, never the page's. */
 export function toast(options: ToastOptions | string): ToastHandle {
-  let toaster = document.querySelector<PixelToaster>("pp-toaster:not(pp-attract *)");
-  if (!toaster) toaster = document.body.appendChild(document.createElement("pp-toaster"));
+  let toaster = document.querySelector<BlipToaster>("chu-toaster:not(chu-attract *)");
+  if (!toaster) toaster = document.body.appendChild(document.createElement("chu-toaster"));
   return toaster.add(options);
 }
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pp-toaster": PixelToaster;
+    "chu-toaster": BlipToaster;
   }
 }

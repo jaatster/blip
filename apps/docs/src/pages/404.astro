@@ -3,15 +3,15 @@
 import Docs from "../layouts/Docs.astro";
 ---
 <Docs title="Not found" description="This page does not exist." wide kits={["game", "effects"]} display>
-  <section class="pp-stage docs-404" data-frame aria-labelledby="nf-title">
-    <pp-world clouds></pp-world>
-    <h1 class="pp-display pp-pop" data-scale="3" data-tone="pink" data-pop="Game over?" id="nf-title">Game over?</h1>
-    <p class="pp-outline pp-label">There is no page here. It may have moved, or never was.</p>
+  <section class="chu-stage docs-404" data-frame aria-labelledby="nf-title">
+    <chu-world clouds></chu-world>
+    <h1 class="chu-display chu-pop" data-scale="3" data-tone="pink" data-pop="Game over?" id="nf-title">Game over?</h1>
+    <p class="chu-outline chu-label">There is no page here. It may have moved, or never was.</p>
     <div class="docs-row">
-      <a class="pp-box pp-button" href="/">Back to the start</a>
-      <a class="pp-box pp-button" data-variant="soft" data-tone="neutral" href="/search/">All pages</a>
-      <pp-motion-toggle></pp-motion-toggle>
+      <a class="chu-box chu-button" href="/">Back to the start</a>
+      <a class="chu-box chu-button" data-variant="soft" data-tone="neutral" href="/search/">All pages</a>
+      <chu-motion-toggle></chu-motion-toggle>
     </div>
-    <div class="pp-stage-ground"></div>
+    <div class="chu-stage-ground"></div>
   </section>
 </Docs>

@@ -2,7 +2,7 @@
 name: Typewriter
 package: "@jaatster/blip-effects"
 css: text.css
-element: pp-typewriter
+element: chu-typewriter
 react: Typewriter
 status: beta
 ---
@@ -16,14 +16,14 @@ a word always at the same pitches.
 ## Usage
 
 ```html
-<pp-typewriter caret blips mood="happy">Welcome back! Your save is ready.</pp-typewriter>
+<chu-typewriter caret blips mood="happy">Welcome back! Your save is ready.</chu-typewriter>
 ```
 
 ```js
-const line = document.querySelector("pp-typewriter");
+const line = document.querySelector("chu-typewriter");
 line.text = "Level two. Good luck!";   // types the new text
 line.finish();                          // shows it all at once (a Skip button)
-line.addEventListener("pp-typewriter-done", () => next());
+line.addEventListener("chu-typewriter-done", () => next());
 ```
 
 Blips play through `services.sound()` from `@jaatster/blip-core`, so they are silent until the app turns sound on
@@ -43,7 +43,7 @@ blinks for six beats once the last letter is in, and stays, so a caret that says
 | `mood` | `plain` (default), `happy`, `sleepy` | Pitches the blips up or down. |
 | `caret` | | A two-pixel block: still while it types, then six blinks on the beat, then still and shown. |
 
-Style the text with any text class: `.pp-body`, `.pp-display` (with `data-scale`, 1 to 4), `.pp-title`.
+Style the text with any text class: `.chu-body`, `.chu-display` (with `data-scale`, 1 to 4), `.chu-title`.
 
 ## States
 
@@ -74,5 +74,5 @@ Style the text with any text class: `.pp-body`, `.pp-display` (with `data-scale`
 | `play()` | Types from the start; returns a promise. |
 | `finish()` | Shows everything now. |
 | `blips`, `caret`, `mood` | Properties that mirror the attributes. |
-| `pp-typewriter-done` | Fires (bubbling) once per play: when the last letter is in, or on `finish()`. |
-| `--pp-duration-letter`, `--pp-duration-stop`, `--pp-duration-comma` | The timing tokens. |
+| `chu-typewriter-done` | Fires (bubbling) once per play: when the last letter is in, or on `finish()`. |
+| `--chu-duration-letter`, `--chu-duration-stop`, `--chu-duration-comma` | The timing tokens. |

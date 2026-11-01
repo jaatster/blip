@@ -18,15 +18,15 @@ an address and the browser's back button works.
 ## Usage
 
 ```html
-<nav class="pp-pagination" aria-label="Pages">
-  <ul class="pp-pagination-list" role="list">
-    <li><a class="pp-box pp-pagination-prev" data-variant="ghost" href="?page=4" rel="prev"><span>Previous</span></a></li>
-    <li><a class="pp-box pp-pagination-page" data-variant="outline" href="?page=1" aria-label="Page 1">1</a></li>
-    <li class="pp-pagination-gap" aria-hidden="true"></li>
-    <li><a class="pp-box pp-pagination-page" data-variant="outline" href="?page=5" aria-label="Page 5" aria-current="page">5</a></li>
-    <li><a class="pp-box pp-pagination-page" data-variant="outline" href="?page=6" aria-label="Page 6">6</a></li>
-    <li class="pp-pagination-status"><span class="pp-sr-only">Page</span> 5 <span aria-hidden="true">/</span><span class="pp-sr-only">of</span> 16</li>
-    <li><a class="pp-box pp-pagination-next" data-variant="ghost" href="?page=6" rel="next"><span>Next</span></a></li>
+<nav class="chu-pagination" aria-label="Pages">
+  <ul class="chu-pagination-list" role="list">
+    <li><a class="chu-box chu-pagination-prev" data-variant="ghost" href="?page=4" rel="prev"><span>Previous</span></a></li>
+    <li><a class="chu-box chu-pagination-page" data-variant="outline" href="?page=1" aria-label="Page 1">1</a></li>
+    <li class="chu-pagination-gap" aria-hidden="true"></li>
+    <li><a class="chu-box chu-pagination-page" data-variant="outline" href="?page=5" aria-label="Page 5" aria-current="page">5</a></li>
+    <li><a class="chu-box chu-pagination-page" data-variant="outline" href="?page=6" aria-label="Page 6">6</a></li>
+    <li class="chu-pagination-status"><span class="chu-sr-only">Page</span> 5 <span aria-hidden="true">/</span><span class="chu-sr-only">of</span> 16</li>
+    <li><a class="chu-box chu-pagination-next" data-variant="ghost" href="?page=6" rel="next"><span>Next</span></a></li>
   </ul>
 </nav>
 ```
@@ -35,11 +35,11 @@ Write both the numbers and the status: CSS shows whichever fits.
 
 ## Anatomy
 
-1. **Previous and next**: `.pp-pagination-prev`, `.pp-pagination-next`, boxes with a pixel chevron (5 x 7) and an
+1. **Previous and next**: `.chu-pagination-prev`, `.chu-pagination-next`, boxes with a pixel chevron (5 x 7) and an
    upper-case label in a `<span>`.
-2. **Page**: `.pp-pagination-page`, a square box with the number in tabular figures.
-3. **Gap**: `.pp-pagination-gap`, three pixel dots where pages are skipped.
-4. **Status**: `.pp-pagination-status`, "5 / 16", shown instead of the numbers when there is no room. It reads
+2. **Page**: `.chu-pagination-page`, a square box with the number in tabular figures.
+3. **Gap**: `.chu-pagination-gap`, three pixel dots where pages are skipped.
+4. **Status**: `.chu-pagination-status`, "5 / 16", shown instead of the numbers when there is no room. It reads
    "Page 5 of 16".
 
 ## Variants
@@ -91,8 +91,8 @@ Write both the numbers and the status: CSS shows whichever fits.
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-r` with `--pp-shape`, `--pp-shape-inner` | 4 (sm 3) | Corner radius in pixels. |
-| `--pp-band-top`, `--pp-band-bottom` | 3, 3 (sm 2, 2) | Band heights. |
-| `--pp-tone` and friends | accent | The current page's colour. |
+| `--chu-r` with `--chu-shape`, `--chu-shape-inner` | 4 (sm 3) | Corner radius in pixels. |
+| `--chu-band-top`, `--chu-band-bottom` | 3, 3 (sm 2, 2) | Band heights. |
+| `--chu-tone` and friends | accent | The current page's colour. |
 
 The nav is a size container (`container-type: inline-size`): it fills the width it is given.

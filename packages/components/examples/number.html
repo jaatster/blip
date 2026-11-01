@@ -1,47 +1,47 @@
-<!-- Number stepper: <pp-number> adds a pixel minus and plus (held, they repeat in steps). Sizes and every state.
-     Forced states use data-pp-state (docs and tests only). -->
-<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--pp-pixel)) calc(16*var(--pp-pixel));align-items:end">
-  <pp-field class="pp-field">
-    <label class="pp-field-label" for="nu-lives">Lives</label>
-    <pp-number class="pp-number"><span class="pp-box pp-input"><input id="nu-lives" name="lives" type="number" min="1" max="9" value="3" aria-describedby="nu-lives-help"></span></pp-number>
-    <p class="pp-field-help" id="nu-lives-help">1 to 9.</p>
-  </pp-field>
-  <pp-field class="pp-field">
-    <label class="pp-field-label" for="nu-potions">Potions to buy</label>
-    <pp-number class="pp-number" decrease-label="One fewer" increase-label="One more"><span class="pp-box pp-input"><input id="nu-potions" name="potions" type="number" min="0" max="20" value="0"></span></pp-number>
-  </pp-field>
-  <pp-field class="pp-field">
-    <label class="pp-field-label" for="nu-speed">Game speed</label>
-    <pp-number class="pp-number"><span class="pp-box pp-input"><input id="nu-speed" type="number" min="0.5" max="2" step="0.25" value="1"></span></pp-number>
-  </pp-field>
-  <pp-field class="pp-field">
-    <label class="pp-field-label" for="nu-max">At the top</label>
-    <pp-number class="pp-number"><span class="pp-box pp-input"><input id="nu-max" type="number" min="1" max="9" value="9"></span></pp-number>
-  </pp-field>
+<!-- Number stepper: <chu-number> adds a pixel minus and plus (held, they repeat in steps). Sizes and every state.
+     Forced states use data-chu-state (docs and tests only). -->
+<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel)) calc(16*var(--chu-pixel));align-items:end">
+  <chu-field class="chu-field">
+    <label class="chu-field-label" for="nu-lives">Lives</label>
+    <chu-number class="chu-number"><span class="chu-box chu-input"><input id="nu-lives" name="lives" type="number" min="1" max="9" value="3" aria-describedby="nu-lives-help"></span></chu-number>
+    <p class="chu-field-help" id="nu-lives-help">1 to 9.</p>
+  </chu-field>
+  <chu-field class="chu-field">
+    <label class="chu-field-label" for="nu-potions">Potions to buy</label>
+    <chu-number class="chu-number" decrease-label="One fewer" increase-label="One more"><span class="chu-box chu-input"><input id="nu-potions" name="potions" type="number" min="0" max="20" value="0"></span></chu-number>
+  </chu-field>
+  <chu-field class="chu-field">
+    <label class="chu-field-label" for="nu-speed">Game speed</label>
+    <chu-number class="chu-number"><span class="chu-box chu-input"><input id="nu-speed" type="number" min="0.5" max="2" step="0.25" value="1"></span></chu-number>
+  </chu-field>
+  <chu-field class="chu-field">
+    <label class="chu-field-label" for="nu-max">At the top</label>
+    <chu-number class="chu-number"><span class="chu-box chu-input"><input id="nu-max" type="number" min="1" max="9" value="9"></span></chu-number>
+  </chu-field>
 </div>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--pp-pixel)) calc(16*var(--pp-pixel));align-items:start;margin-block:calc(10*var(--pp-pixel))">
-  <div class="pp-field">
-    <span class="pp-field-label">Focus</span>
-    <pp-number class="pp-number"><span class="pp-box pp-input" data-pp-state="focus"><input type="number" value="12" aria-label="Focus"></span></pp-number>
+<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel)) calc(16*var(--chu-pixel));align-items:start;margin-block:calc(10*var(--chu-pixel))">
+  <div class="chu-field">
+    <span class="chu-field-label">Focus</span>
+    <chu-number class="chu-number"><span class="chu-box chu-input" data-chu-state="focus"><input type="number" value="12" aria-label="Focus"></span></chu-number>
   </div>
-  <div class="pp-field">
-    <label class="pp-field-label" for="nu-invalid">Team size</label>
-    <pp-number class="pp-number"><span class="pp-box pp-input"><input id="nu-invalid" type="number" min="2" max="4" value="6" aria-invalid="true" aria-describedby="nu-invalid-error"></span></pp-number>
-    <p class="pp-field-error" id="nu-invalid-error">Teams are 2 to 4 players.</p>
+  <div class="chu-field">
+    <label class="chu-field-label" for="nu-invalid">Team size</label>
+    <chu-number class="chu-number"><span class="chu-box chu-input"><input id="nu-invalid" type="number" min="2" max="4" value="6" aria-invalid="true" aria-describedby="nu-invalid-error"></span></chu-number>
+    <p class="chu-field-error" id="nu-invalid-error">Teams are 2 to 4 players.</p>
   </div>
-  <div class="pp-field">
-    <label class="pp-field-label" for="nu-readonly">Read-only</label>
-    <pp-number class="pp-number"><span class="pp-box pp-input"><input id="nu-readonly" type="number" value="42" readonly></span></pp-number>
+  <div class="chu-field">
+    <label class="chu-field-label" for="nu-readonly">Read-only</label>
+    <chu-number class="chu-number"><span class="chu-box chu-input"><input id="nu-readonly" type="number" value="42" readonly></span></chu-number>
   </div>
-  <div class="pp-field">
-    <label class="pp-field-label" for="nu-disabled">Disabled</label>
-    <pp-number class="pp-number"><span class="pp-box pp-input"><input id="nu-disabled" type="number" value="1" disabled></span></pp-number>
+  <div class="chu-field">
+    <label class="chu-field-label" for="nu-disabled">Disabled</label>
+    <chu-number class="chu-number"><span class="chu-box chu-input"><input id="nu-disabled" type="number" value="1" disabled></span></chu-number>
   </div>
 </div>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--pp-pixel)) calc(12*var(--pp-pixel));align-items:center">
-  <pp-number class="pp-number"><span class="pp-box pp-input" data-size="sm"><input type="number" value="1" min="0" aria-label="Small"></span></pp-number>
-  <pp-number class="pp-number"><span class="pp-box pp-input"><input type="number" value="2" min="0" aria-label="Medium"></span></pp-number>
-  <pp-number class="pp-number"><span class="pp-box pp-input" data-size="lg"><input type="number" value="3" min="0" aria-label="Large"></span></pp-number>
+<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--chu-pixel)) calc(12*var(--chu-pixel));align-items:center">
+  <chu-number class="chu-number"><span class="chu-box chu-input" data-size="sm"><input type="number" value="1" min="0" aria-label="Small"></span></chu-number>
+  <chu-number class="chu-number"><span class="chu-box chu-input"><input type="number" value="2" min="0" aria-label="Medium"></span></chu-number>
+  <chu-number class="chu-number"><span class="chu-box chu-input" data-size="lg"><input type="number" value="3" min="0" aria-label="Large"></span></chu-number>
 </div>

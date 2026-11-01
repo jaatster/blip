@@ -16,8 +16,8 @@ Open Font License.
 
 | Face | For | Sizes | Files |
 |---|---|---|---|
-| Pixel Bop | Titles, app names, clocks, scores, game text | Whole scales only: `.pp-display` with `data-scale` 1 to 4 | `dist/pixel-bop.woff2` (Latin, about 8 KB), `pixel-bop-cyrillic.woff2` (3 KB), `pixel-bop-greek.woff2` (2 KB); `dist/pixel-bop.ttf` (every script) |
-| Pixelify Sans | Labels, buttons, body text, captions | The `--pp-size-*` steps, weights 400 to 700 | `dist/pixelify-sans.woff2` (Latin, about 12 KB, variable), `pixelify-sans-cyrillic.woff2` (5 KB), `pixelify-sans-greek.woff2` (4 KB) |
+| Pixel Bop | Titles, app names, clocks, scores, game text | Whole scales only: `.chu-display` with `data-scale` 1 to 4 | `dist/pixel-bop.woff2` (Latin, about 8 KB), `pixel-bop-cyrillic.woff2` (3 KB), `pixel-bop-greek.woff2` (2 KB); `dist/pixel-bop.ttf` (every script) |
+| Pixelify Sans | Labels, buttons, body text, captions | The `--chu-size-*` steps, weights 400 to 700 | `dist/pixelify-sans.woff2` (Latin, about 12 KB, variable), `pixelify-sans-cyrillic.woff2` (5 KB), `pixelify-sans-greek.woff2` (4 KB) |
 
 ## Usage
 
@@ -26,24 +26,24 @@ import "@jaatster/blip-font/font.css"; // with @jaatster/blip-tokens/tokens.css 
 ```
 
 ```html
-<h1 class="pp-display pp-pop" data-scale="3" data-pop="Level 2">Level 2</h1>
-<p class="pp-display" data-scale="2">12:34</p>
-<p class="pp-body">Pixelify Sans is the page's own face; nothing to add.</p>
+<h1 class="chu-display chu-pop" data-scale="3" data-pop="Level 2">Level 2</h1>
+<p class="chu-display" data-scale="2">12:34</p>
+<p class="chu-body">Pixelify Sans is the page's own face; nothing to add.</p>
 ```
 
 `font.css` declares both faces, one rule per file, with `font-display: swap` and the `unicode-range` of exactly the
 characters each file draws: a page downloads only the scripts its text uses, so a Latin page loads only Latin. It also
 declares Blip Fallback, the system's emoji sized to stand as tall as the capitals. The tokens name them:
-`--pp-font-display` (Pixel Bop, then Pixelify Sans) and `--pp-font-ui` (Pixelify Sans), each followed by Blip
-Fallback and the system font. `.pp-display` and the other type classes live in `@jaatster/blip-core`.
+`--chu-font-display` (Pixel Bop, then Pixelify Sans) and `--chu-font-ui` (Pixelify Sans), each followed by Blip
+Fallback and the system font. `.chu-display` and the other type classes live in `@jaatster/blip-core`.
 
 ## Sizing
 
 Pixel Bop is 10 pixels to the em, so the font size that puts every letter pixel on the Blip grid is:
 
-- **font-size = 10 x pixel x scale.** `.pp-display` does this from `--pp-pixel` and `--pp-scale` (or `data-scale`).
+- **font-size = 10 x pixel x scale.** `.chu-display` does this from `--chu-pixel` and `--chu-scale` (or `data-scale`).
 - **Capitals are 7 x pixel x scale tall**, and most letters are 6 wide with one empty pixel after them.
-- **line-height 1.2** (`--pp-leading-display`). The font's ascent and descent add up to exactly 12 pixels, so there
+- **line-height 1.2** (`--chu-leading-display`). The font's ascent and descent add up to exactly 12 pixels, so there
   is no half-leading and the baseline lands on a whole pixel. If you need more room between lines, add 0.2 at a
   time (1.4, 1.6): any other step puts the baseline on half a pixel. POP text keeps 1.2, which its tinted band
   is measured from.
@@ -73,10 +73,10 @@ own so neighbours never smear together. Pixel Bop carries both as OpenType styli
 | `ss02` | Rounded 2x | EPX: every pixel split in half, corners rounded and diagonals smoothed in half pixels | Scales 2 and 4 |
 | `ss03` | Rounded 3x | AdvMAME3x: every pixel split in thirds, rounded in thirds | Scale 3 |
 
-`.pp-display` turns on the right one for its scale, so each rounding step is one Blip pixel (two at scale 4).
-`data-scale` works in every browser; a `--pp-scale` set in your own CSS picks its set too where the browser can
+`.chu-display` turns on the right one for its scale, so each rounding step is one Blip pixel (two at scale 4).
+`data-scale` works in every browser; a `--chu-scale` set in your own CSS picks its set too where the browser can
 compute feature values (Chrome can).
-To see the square pixels at any scale, set `font-feature-settings: normal`. Outside `.pp-display`, turn a set on with
+To see the square pixels at any scale, set `font-feature-settings: normal`. Outside `.chu-display`, turn a set on with
 `font-feature-settings: "ss02"`; design tools list them as "Rounded 2x" and "Rounded 3x".
 
 ## Supported scripts
@@ -130,7 +130,7 @@ To see the square pixels at any scale, set `font-feature-settings: normal`. Outs
 
 ## Casing
 
-- Pixel Bop is capitals only. `.pp-display` also sets `text-transform: uppercase`, so fallback text matches. Write
+- Pixel Bop is capitals only. `.chu-display` also sets `text-transform: uppercase`, so fallback text matches. Write
   text in its natural case ("Level complete", not "LEVEL COMPLETE"): screen readers read it better.
 - `text-transform: uppercase` turns ß into SS. Write ẞ to keep the capital sharp s.
 - It also turns the micro sign µ into a Greek capital Mu, which draws as M. Keep µ with
@@ -138,22 +138,22 @@ To see the square pixels at any scale, set `font-feature-settings: normal`. Outs
 - Turkish and Azerbaijani: set `lang="tr"` (or `az`), and the browser capitalises i to İ.
 - Greek: set `lang="el"`, and the browser leaves the accents off the capitals, as Greek is set. Pixel Bop leaves the
   tonos off either way.
-- Pixelify Sans keeps sentence case, except `.pp-label`, which is upper case.
+- Pixelify Sans keeps sentence case, except `.chu-label`, which is upper case.
 
 ## Accessibility
 
 - Pixel Bop is real text: it can be selected, translated, read aloud and zoomed. Never put display text in an image.
 - Keep it for short, big text. Long passages and anything below scale 1 belong in Pixelify Sans.
 - Contrast comes from the scheme roles, as for all text. POP letters are white with an ink outline, so they read on
-  every scheme; plain display text uses `--pp-text`.
+  every scheme; plain display text uses `--chu-text`.
 - Pixel Bop has no lower case, so give screen readers the natural case (see Casing).
 
 ## Do and don't
 
-- **Do** use data-scale (or `--pp-scale`) for size. **Don't** set Pixel Bop's font-size by hand.
+- **Do** use data-scale (or `--chu-scale`) for size. **Don't** set Pixel Bop's font-size by hand.
 - **Do** keep POP text on one line: its tinted band is drawn for one line of text.
 - **Don't** use Pixel Bop for body text, form input or long labels.
-- **Don't** letter-space Pixel Bop except in whole pixels (`calc(N * var(--pp-pixel) * var(--pp-scale))`).
+- **Don't** letter-space Pixel Bop except in whole pixels (`calc(N * var(--chu-pixel) * var(--chu-scale))`).
 
 ## Licensing
 

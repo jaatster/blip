@@ -4,10 +4,10 @@
  * per component: achievement.css, level.css, pause.css, prompt.css, stage.css, hud.css, dialogue.css, choices.css,
  * inventory.css).
  *
- * Sprites, hearts and counters are elements: wherever the markup has <pp-sprite>, <pp-hearts> or <pp-counter>, use
+ * Sprites, hearts and counters are elements: wherever the markup has <chu-sprite>, <chu-hearts> or <chu-counter>, use
  * the generated <Sprite>, <Hearts> and <Counter> from this same entry point. Two documented classes sit on those
- * elements rather than on a part of their own: the current tile's arrow is `<Sprite className="pp-level-here"
- * name="arrow" />`, and a dialogue's answers are `<Choices className="pp-dialogue-choices">`.
+ * elements rather than on a part of their own: the current tile's arrow is `<Sprite className="chu-level-here"
+ * name="arrow" />`, and a dialogue's answers are `<Choices className="chu-dialogue-choices">`.
  */
 import { forwardRef } from "react";
 import type { CSSProperties, ElementType, ReactNode } from "react";
@@ -44,13 +44,13 @@ export type AchievementsProps = NativeProps<"div">;
  *
  *   <Achievements>{earned.map((a) => <Achievement key={a.id}>…</Achievement>)}</Achievements>
  *
- * Renders `<div class="pp-achievements" role="status">`.
+ * Renders `<div class="chu-achievements" role="status">`.
  */
 export const Achievements = /*#__PURE__*/ forwardRef<HTMLDivElement, AchievementsProps>(function Achievements(
   { role = "status", className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-achievements", className)} role={role} {...rest} />;
+  return <div ref={ref} className={cx("chu-achievements", className)} role={role} {...rest} />;
 });
 
 /** Own props of {@link Achievement}. */
@@ -73,13 +73,13 @@ export type AchievementProps = AchievementOwnProps & NativeProps<"div", Achievem
  *     <AchievementReward><Sprite name="coin" />+50</AchievementReward>
  *   </Achievement>
  *
- * Renders `<div class="pp-box pp-achievement">`.
+ * Renders `<div class="chu-box chu-achievement">`.
  */
 export const Achievement = /*#__PURE__*/ forwardRef<HTMLDivElement, AchievementProps>(function Achievement(
   { tone, className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-box pp-achievement", className)} data-tone={tone} {...rest} />;
+  return <div ref={ref} className={cx("chu-box chu-achievement", className)} data-tone={tone} {...rest} />;
 });
 
 /** Props for {@link AchievementIcon}. */
@@ -91,16 +91,16 @@ export type AchievementIconProps = NativeProps<"span">;
  *
  *   <AchievementIcon><Sprite name="trophy" /></AchievementIcon>
  *
- * Renders `<span class="pp-box pp-achievement-icon">`, its children, then `<span class="pp-achievement-sparkles">`.
+ * Renders `<span class="chu-box chu-achievement-icon">`, its children, then `<span class="chu-achievement-sparkles">`.
  */
 export const AchievementIcon = /*#__PURE__*/ forwardRef<HTMLSpanElement, AchievementIconProps>(function AchievementIcon(
   { className, children, ...rest },
   ref,
 ) {
   return (
-    <span ref={ref} className={cx("pp-box pp-achievement-icon", className)} {...rest}>
+    <span ref={ref} className={cx("chu-box chu-achievement-icon", className)} {...rest}>
       {children}
-      <span className="pp-achievement-sparkles" />
+      <span className="chu-achievement-sparkles" />
     </span>
   );
 });
@@ -113,13 +113,13 @@ export type AchievementLabelProps = NativeProps<"p">;
  *
  *   <AchievementLabel>Achievement unlocked</AchievementLabel>
  *
- * Renders `<p class="pp-achievement-label">`.
+ * Renders `<p class="chu-achievement-label">`.
  */
 export const AchievementLabel = /*#__PURE__*/ forwardRef<HTMLParagraphElement, AchievementLabelProps>(function AchievementLabel(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("pp-achievement-label", className)} {...rest} />;
+  return <p ref={ref} className={cx("chu-achievement-label", className)} {...rest} />;
 });
 
 /** Props for {@link AchievementTitle}. */
@@ -130,13 +130,13 @@ export type AchievementTitleProps = NativeProps<"p">;
  *
  *   <AchievementTitle>Early bird</AchievementTitle>
  *
- * Renders `<p class="pp-achievement-title">`.
+ * Renders `<p class="chu-achievement-title">`.
  */
 export const AchievementTitle = /*#__PURE__*/ forwardRef<HTMLParagraphElement, AchievementTitleProps>(function AchievementTitle(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("pp-achievement-title", className)} {...rest} />;
+  return <p ref={ref} className={cx("chu-achievement-title", className)} {...rest} />;
 });
 
 /** Props for {@link AchievementText}. */
@@ -147,13 +147,13 @@ export type AchievementTextProps = NativeProps<"p">;
  *
  *   <AchievementText>Catch a falling star before sunrise.</AchievementText>
  *
- * Renders `<p class="pp-achievement-text">`.
+ * Renders `<p class="chu-achievement-text">`.
  */
 export const AchievementText = /*#__PURE__*/ forwardRef<HTMLParagraphElement, AchievementTextProps>(function AchievementText(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("pp-achievement-text", className)} {...rest} />;
+  return <p ref={ref} className={cx("chu-achievement-text", className)} {...rest} />;
 });
 
 /** Props for {@link AchievementReward}. */
@@ -164,13 +164,13 @@ export type AchievementRewardProps = NativeProps<"p">;
  *
  *   <AchievementReward><Sprite name="coin" />+50</AchievementReward>
  *
- * Renders `<p class="pp-achievement-reward">`.
+ * Renders `<p class="chu-achievement-reward">`.
  */
 export const AchievementReward = /*#__PURE__*/ forwardRef<HTMLParagraphElement, AchievementRewardProps>(function AchievementReward(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("pp-achievement-reward", className)} {...rest} />;
+  return <p ref={ref} className={cx("chu-achievement-reward", className)} {...rest} />;
 });
 
 /* ---------------------------------------------------------------------------------------------------------------
@@ -190,10 +190,10 @@ export type LevelMapProps = NativeProps<"ol">;
  *     <li><LevelTile locked aria-label="Level 3: locked"><Sprite name="padlock" /></LevelTile></li>
  *   </LevelMap>
  *
- * Renders `<ol class="pp-level-map">`.
+ * Renders `<ol class="chu-level-map">`.
  */
 export const LevelMap = /*#__PURE__*/ forwardRef<HTMLOListElement, LevelMapProps>(function LevelMap({ className, ...rest }, ref) {
-  return <ol ref={ref} className={cx("pp-level-map", className)} {...rest} />;
+  return <ol ref={ref} className={cx("chu-level-map", className)} {...rest} />;
 });
 
 /** Options of {@link LevelTile}. */
@@ -215,7 +215,7 @@ export type LevelTileProps<T extends ElementType = "button"> = PolymorphicProps<
 /**
  * One stop on a level map: a candy box with the level's number in Pixel Bop and the stars earned, a padlock when it
  * is locked, a sprite for a bonus. A button (`type="button"`) by default; `as="a"` with an href for a link. The
- * current tile carries the arrow first: `<Sprite className="pp-level-here" name="arrow" />`, which bobs over it for
+ * current tile carries the arrow first: `<Sprite className="chu-level-here" name="arrow" />`, which bobs over it for
  * five seconds, then rests.
  *
  *   <LevelTile aria-label="Level 2, Clover Hill: 2 of 3 stars">
@@ -223,12 +223,12 @@ export type LevelTileProps<T extends ElementType = "button"> = PolymorphicProps<
  *     <LevelStars><Sprite name="star" /><Sprite name="star" /><Sprite name="star-empty" /></LevelStars>
  *   </LevelTile>
  *   <LevelTile current aria-label="Level 3, Puddle Path: you are here">
- *     <Sprite className="pp-level-here" name="arrow" />
+ *     <Sprite className="chu-level-here" name="arrow" />
  *     <LevelNumber>3</LevelNumber>
  *   </LevelTile>
  *   <LevelTile locked tone="danger" aria-label="Level 5, the boss: locked"><Sprite name="padlock" /></LevelTile>
  *
- * Renders `<button type="button" class="pp-box pp-level">`.
+ * Renders `<button type="button" class="chu-box chu-level">`.
  */
 // The public type (the cast below) requires the name; inside, only the options are read.
 export const LevelTile = /*#__PURE__*/ forwardRef(function LevelTile(
@@ -247,7 +247,7 @@ export const LevelTile = /*#__PURE__*/ forwardRef(function LevelTile(
     <Tag
       ref={ref}
       type={type ?? (Tag === "button" ? "button" : undefined)}
-      className={cx("pp-box pp-level", className)}
+      className={cx("chu-box chu-level", className)}
       data-tone={tone}
       aria-current={current ? "step" : undefined}
       aria-disabled={locked ? true : undefined}
@@ -264,13 +264,13 @@ export type LevelNumberProps = NativeProps<"span">;
  *
  *   <LevelNumber>12</LevelNumber>
  *
- * Renders `<span class="pp-level-number">`.
+ * Renders `<span class="chu-level-number">`.
  */
 export const LevelNumber = /*#__PURE__*/ forwardRef<HTMLSpanElement, LevelNumberProps>(function LevelNumber(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-level-number", className)} {...rest} />;
+  return <span ref={ref} className={cx("chu-level-number", className)} {...rest} />;
 });
 
 /** Props for {@link LevelStars}. */
@@ -281,13 +281,13 @@ export type LevelStarsProps = NativeProps<"span">;
  *
  *   <LevelStars><Sprite name="star" /><Sprite name="star" /><Sprite name="star-empty" /></LevelStars>
  *
- * Renders `<span class="pp-level-stars">`.
+ * Renders `<span class="chu-level-stars">`.
  */
 export const LevelStars = /*#__PURE__*/ forwardRef<HTMLSpanElement, LevelStarsProps>(function LevelStars(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-level-stars", className)} {...rest} />;
+  return <span ref={ref} className={cx("chu-level-stars", className)} {...rest} />;
 });
 
 /** Own props of {@link LevelPath}. */
@@ -301,12 +301,12 @@ export interface LevelPathOwnProps {
 export type LevelPathProps = LevelPathOwnProps & NativeProps<"span", LevelPathOwnProps>;
 
 /**
- * The dotted way from a tile to the next: dots two pixels square, two apart, `--pp-level-path` pixels long (10). It
+ * The dotted way from a tile to the next: dots two pixels square, two apart, `--chu-level-path` pixels long (10). It
  * is scenery, hidden from assistive technology: the list's order is the path.
  *
  *   <li><LevelTile current aria-label="Level 3, Puddle Path: you are here">…</LevelTile><LevelPath locked /></li>
  *
- * Renders `<span class="pp-level-path" aria-hidden="true">`.
+ * Renders `<span class="chu-level-path" aria-hidden="true">`.
  */
 export const LevelPath = /*#__PURE__*/ forwardRef<HTMLSpanElement, LevelPathProps>(function LevelPath(
   { direction, locked, className, ...rest },
@@ -315,7 +315,7 @@ export const LevelPath = /*#__PURE__*/ forwardRef<HTMLSpanElement, LevelPathProp
   return (
     <span
       ref={ref}
-      className={cx("pp-level-path", className)}
+      className={cx("chu-level-path", className)}
       data-direction={direction}
       data-locked={flag(locked)}
       aria-hidden={true}
@@ -350,10 +350,10 @@ export type PauseMenuProps = Named & NativeProps<"dialog">;
  *     <PauseHint><PromptKey>Esc</PromptKey> Resume</PauseHint>
  *   </PauseMenu>
  *
- * Renders `<dialog class="pp-box pp-pause">`.
+ * Renders `<dialog class="chu-box chu-pause">`.
  */
 export const PauseMenu = /*#__PURE__*/ forwardRef<HTMLDialogElement, PauseMenuProps>(function PauseMenu({ className, ...rest }, ref) {
-  return <dialog ref={ref} className={cx("pp-box pp-pause", className)} {...rest} />;
+  return <dialog ref={ref} className={cx("chu-box chu-pause", className)} {...rest} />;
 });
 
 /** Props for {@link PauseTitle}: a heading's own; `as` picks its level. */
@@ -365,7 +365,7 @@ export type PauseTitleProps<T extends ElementType = "h2"> = PolymorphicProps<T, 
  *
  *   <PauseTitle id="pause-title">Paused</PauseTitle>
  *
- * Renders `<h2 class="pp-pause-title pp-display pp-pop" data-scale="3" data-pop="Paused">`; `data-pop` repeats the
+ * Renders `<h2 class="chu-pause-title chu-display chu-pop" data-scale="3" data-pop="Paused">`; `data-pop` repeats the
  * text (when the children are text).
  */
 export const PauseTitle = /*#__PURE__*/ forwardRef(function PauseTitle(
@@ -375,7 +375,7 @@ export const PauseTitle = /*#__PURE__*/ forwardRef(function PauseTitle(
   return (
     <Tag
       ref={ref}
-      className={cx("pp-pause-title pp-display pp-pop", className)}
+      className={cx("chu-pause-title chu-display chu-pop", className)}
       data-scale={3}
       data-pop={popText(children)}
       {...rest}
@@ -393,13 +393,13 @@ export type PauseStatsProps = NativeProps<"p">;
  *
  *   <PauseStats><span><Sprite name="coin" />42 coins</span><span><Sprite name="star" />5 of 18</span></PauseStats>
  *
- * Renders `<p class="pp-pause-stats">`.
+ * Renders `<p class="chu-pause-stats">`.
  */
 export const PauseStats = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PauseStatsProps>(function PauseStats(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("pp-pause-stats", className)} {...rest} />;
+  return <p ref={ref} className={cx("chu-pause-stats", className)} {...rest} />;
 });
 
 /** Props for {@link PauseHint}. */
@@ -410,13 +410,13 @@ export type PauseHintProps = NativeProps<"p">;
  *
  *   <PauseHint><PromptKey>Esc</PromptKey> Resume</PauseHint>
  *
- * Renders `<p class="pp-pause-hint pp-prompt">`.
+ * Renders `<p class="chu-pause-hint chu-prompt">`.
  */
 export const PauseHint = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PauseHintProps>(function PauseHint(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("pp-pause-hint pp-prompt", className)} {...rest} />;
+  return <p ref={ref} className={cx("chu-pause-hint chu-prompt", className)} {...rest} />;
 });
 
 /* ---------------------------------------------------------------------------------------------------------------
@@ -434,10 +434,10 @@ export type PromptProps = NativeProps<"p">;
  *   <Prompt>Press <PromptButton button="a" /> to jump</Prompt>
  *   <Prompt><PromptKey>Esc</PromptKey> Pause</Prompt>
  *
- * Renders `<p class="pp-prompt">`.
+ * Renders `<p class="chu-prompt">`.
  */
 export const Prompt = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PromptProps>(function Prompt({ className, ...rest }, ref) {
-  return <p ref={ref} className={cx("pp-prompt", className)} {...rest} />;
+  return <p ref={ref} className={cx("chu-prompt", className)} {...rest} />;
 });
 
 /** Own props of {@link PromptKey}. */
@@ -457,16 +457,16 @@ export type PromptKeyProps = PromptKeyOwnProps & NativeProps<"kbd", PromptKeyOwn
  *   <PromptKey>Esc</PromptKey>
  *   <PromptKey label="Up arrow"><Icon name="arrow-up" /></PromptKey>
  *
- * Renders `<kbd class="pp-box pp-prompt-key">`, with `<span class="pp-sr-only">` after its children for a `label`.
+ * Renders `<kbd class="chu-box chu-prompt-key">`, with `<span class="chu-sr-only">` after its children for a `label`.
  */
 export const PromptKey = /*#__PURE__*/ forwardRef<HTMLElement, PromptKeyProps>(function PromptKey(
   { label, className, children, ...rest },
   ref,
 ) {
   return (
-    <kbd ref={ref} className={cx("pp-box pp-prompt-key", className)} {...rest}>
+    <kbd ref={ref} className={cx("chu-box chu-prompt-key", className)} {...rest}>
       {children}
-      {label ? <span className="pp-sr-only">{label}</span> : null}
+      {label ? <span className="chu-sr-only">{label}</span> : null}
     </kbd>
   );
 });
@@ -490,14 +490,14 @@ export type PromptButtonProps = PromptButtonOwnProps & NativeProps<"kbd", Prompt
  *   <Prompt>Press <PromptButton button="a" /> to jump</Prompt>
  *   <PromptButton tone="pink">L</PromptButton>
  *
- * Renders `<kbd class="pp-box pp-prompt-button" data-button="a">A</kbd>`.
+ * Renders `<kbd class="chu-box chu-prompt-button" data-button="a">A</kbd>`.
  */
 export const PromptButton = /*#__PURE__*/ forwardRef<HTMLElement, PromptButtonProps>(function PromptButton(
   { button, tone, className, children, ...rest },
   ref,
 ) {
   return (
-    <kbd ref={ref} className={cx("pp-box pp-prompt-button", className)} data-button={button} data-tone={tone} {...rest}>
+    <kbd ref={ref} className={cx("chu-box chu-prompt-button", className)} data-button={button} data-tone={tone} {...rest}>
       {children ?? button?.toUpperCase()}
     </kbd>
   );
@@ -518,14 +518,14 @@ export type PromptShoulderProps = PromptShoulderOwnProps & NativeProps<"kbd", Pr
  *
  *   <Prompt>Hold <PromptShoulder button="rb" /> to dash</Prompt>
  *
- * Renders `<kbd class="pp-box pp-prompt-shoulder" data-button="rb">RB</kbd>`.
+ * Renders `<kbd class="chu-box chu-prompt-shoulder" data-button="rb">RB</kbd>`.
  */
 export const PromptShoulder = /*#__PURE__*/ forwardRef<HTMLElement, PromptShoulderProps>(function PromptShoulder(
   { button, className, children, ...rest },
   ref,
 ) {
   return (
-    <kbd ref={ref} className={cx("pp-box pp-prompt-shoulder", className)} data-button={button} {...rest}>
+    <kbd ref={ref} className={cx("chu-box chu-prompt-shoulder", className)} data-button={button} {...rest}>
       {children ?? button?.toUpperCase()}
     </kbd>
   );
@@ -550,13 +550,13 @@ export type PromptDpadProps = PromptDpadOwnProps & Named & NativeProps<"span", P
  *   </Prompt>
  *   <PromptDpad aria-label="D-pad" />
  *
- * Renders `<span class="pp-prompt-dpad" role="img">`.
+ * Renders `<span class="chu-prompt-dpad" role="img">`.
  */
 export const PromptDpad = /*#__PURE__*/ forwardRef<HTMLSpanElement, PromptDpadProps>(function PromptDpad(
   { direction, className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-prompt-dpad", className)} data-dir={direction} role="img" {...rest} />;
+  return <span ref={ref} className={cx("chu-prompt-dpad", className)} data-dir={direction} role="img" {...rest} />;
 });
 
 /** Props for {@link PromptStart}. */
@@ -568,7 +568,7 @@ export type PromptStartProps = NativeProps<"p">;
  *
  *   <PromptStart>Press start</PromptStart>
  *
- * Renders `<p class="pp-prompt-start pp-display pp-pop" data-scale="2" data-pop="Press start">`; `data-pop` repeats
+ * Renders `<p class="chu-prompt-start chu-display chu-pop" data-scale="2" data-pop="Press start">`; `data-pop` repeats
  * the text (when the children are text).
  */
 export const PromptStart = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PromptStartProps>(function PromptStart(
@@ -578,7 +578,7 @@ export const PromptStart = /*#__PURE__*/ forwardRef<HTMLParagraphElement, Prompt
   return (
     <p
       ref={ref}
-      className={cx("pp-prompt-start pp-display pp-pop", className)}
+      className={cx("chu-prompt-start chu-display chu-pop", className)}
       data-scale={2}
       data-pop={popText(children)}
       {...rest}
@@ -596,7 +596,7 @@ export const PromptStart = /*#__PURE__*/ forwardRef<HTMLParagraphElement, Prompt
 export interface StageOwnProps {
   /** An ink edge and a drop, for a screen set into a page. `data-frame`. */
   frame?: boolean;
-  /** Its own time of day, whatever the page's: a night level on a day page. `data-pp-scheme`. */
+  /** Its own time of day, whatever the page's: a night level on a day page. `data-chu-scheme`. */
   scheme?: "day" | "sunset" | "night";
 }
 export type StageProps<T extends ElementType = "section"> = PolymorphicProps<T, StageOwnProps>;
@@ -613,20 +613,20 @@ export type StageProps<T extends ElementType = "section"> = PolymorphicProps<T, 
  *     <StageGround />
  *   </Stage>
  *
- * Renders `<section class="pp-stage">`; `as="div"` for a small one inside something else (a feature's picture).
+ * Renders `<section class="chu-stage">`; `as="div"` for a small one inside something else (a feature's picture).
  */
 export const Stage = /*#__PURE__*/ forwardRef(function Stage(
   { as: Tag = "section", frame, scheme, className, ...rest }: StageProps<ElementType>,
   ref,
 ) {
   return (
-    <Tag ref={ref} className={cx("pp-stage", className)} data-frame={flag(frame)} data-pp-scheme={scheme} {...rest} />
+    <Tag ref={ref} className={cx("chu-stage", className)} data-frame={flag(frame)} data-chu-scheme={scheme} {...rest} />
   );
 }) as PolymorphicComponent<"section", StageOwnProps>;
 
 /** Own props of {@link StageGround}. */
 export interface StageGroundOwnProps {
-  /** The ground's height in pixels; 16 by default. `--pp-stage-ground`. */
+  /** The ground's height in pixels; 16 by default. `--chu-stage-ground`. */
   height?: number;
   children?: never;
 }
@@ -639,7 +639,7 @@ export type StageGroundProps = StageGroundOwnProps & NativeProps<"div", StageGro
  *   <StageGround />
  *   <StageGround height={10} />
  *
- * Renders `<div class="pp-stage-ground">`.
+ * Renders `<div class="chu-stage-ground">`.
  */
 export const StageGround = /*#__PURE__*/ forwardRef<HTMLDivElement, StageGroundProps>(function StageGround(
   { height, className, style, ...rest },
@@ -648,8 +648,8 @@ export const StageGround = /*#__PURE__*/ forwardRef<HTMLDivElement, StageGroundP
   return (
     <div
       ref={ref}
-      className={cx("pp-stage-ground", className)}
-      style={withVars(style, { "--pp-stage-ground": height })}
+      className={cx("chu-stage-ground", className)}
+      style={withVars(style, { "--chu-stage-ground": height })}
       {...rest}
     />
   );
@@ -669,10 +669,10 @@ export type StageScrimProps = NativeProps<"div">;
  *     <PauseMenu open aria-labelledby="pause-title">…</PauseMenu>
  *   </Stage>
  *
- * Renders `<div class="pp-scrim">`.
+ * Renders `<div class="chu-scrim">`.
  */
 export const StageScrim = /*#__PURE__*/ forwardRef<HTMLDivElement, StageScrimProps>(function StageScrim({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("pp-scrim", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-scrim", className)} {...rest} />;
 });
 
 /* ---------------------------------------------------------------------------------------------------------------
@@ -702,10 +702,10 @@ export type HudProps = NativeProps<"div">;
  *     </HudGroup>
  *   </Hud>
  *
- * Renders `<div class="pp-hud">`.
+ * Renders `<div class="chu-hud">`.
  */
 export const Hud = /*#__PURE__*/ forwardRef<HTMLDivElement, HudProps>(function Hud({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("pp-hud", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-hud", className)} {...rest} />;
 });
 
 /** Props for {@link HudGroup}. */
@@ -716,10 +716,10 @@ export type HudGroupProps = NativeProps<"div">;
  *
  *   <HudGroup><Hearts value={3} max={5} label="Health" /><HudStat>…</HudStat></HudGroup>
  *
- * Renders `<div class="pp-hud-group">`.
+ * Renders `<div class="chu-hud-group">`.
  */
 export const HudGroup = /*#__PURE__*/ forwardRef<HTMLDivElement, HudGroupProps>(function HudGroup({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("pp-hud-group", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-hud-group", className)} {...rest} />;
 });
 
 /** Props for {@link HudStat}. */
@@ -730,10 +730,10 @@ export type HudStatProps = NativeProps<"div">;
  *
  *   <HudStat><HudLabel>HP</HudLabel><HudBar value={7} aria-label="Health" /></HudStat>
  *
- * Renders `<div class="pp-hud-stat">`.
+ * Renders `<div class="chu-hud-stat">`.
  */
 export const HudStat = /*#__PURE__*/ forwardRef<HTMLDivElement, HudStatProps>(function HudStat({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("pp-hud-stat", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-hud-stat", className)} {...rest} />;
 });
 
 /** Props for {@link HudLabel}. */
@@ -746,13 +746,13 @@ export type HudLabelProps = NativeProps<"span">;
  *
  *   <HudLabel>MP</HudLabel>
  *
- * Renders `<span class="pp-hud-label pp-display pp-pop" data-scale="1" aria-hidden="true">`.
+ * Renders `<span class="chu-hud-label chu-display chu-pop" data-scale="1" aria-hidden="true">`.
  */
 export const HudLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, HudLabelProps>(function HudLabel({ className, ...rest }, ref) {
   return (
     <span
       ref={ref}
-      className={cx("pp-hud-label pp-display pp-pop", className)}
+      className={cx("chu-hud-label chu-display chu-pop", className)}
       data-scale={1}
       aria-hidden={true}
       {...rest}
@@ -762,11 +762,11 @@ export const HudLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, HudLabelProps>
 
 /** Own props of {@link HudBar}. */
 export interface HudBarOwnProps {
-  /** The value, drawn in whole segments (rounded down) and announced. `--pp-hud-value` and `aria-valuenow`. */
+  /** The value, drawn in whole segments (rounded down) and announced. `--chu-hud-value` and `aria-valuenow`. */
   value: number;
-  /** The most it can be; 10 by default. `--pp-hud-max` and `aria-valuemax`. */
+  /** The most it can be; 10 by default. `--chu-hud-max` and `aria-valuemax`. */
   max?: number;
-  /** How many segments the bar has, each five pixels wide; 10 by default. `--pp-hud-segments`. */
+  /** How many segments the bar has, each five pixels wide; 10 by default. `--chu-hud-segments`. */
   segments?: number;
   /** The fill's colour: success (default), or any tone: `blue` for mana, `danger` when low. `data-tone`. */
   tone?: Tone;
@@ -783,8 +783,8 @@ export type HudBarProps = HudBarOwnProps & Named & NativeProps<"div", HudBarOwnP
  *   <HudBar value={5} max={8} segments={8} tone="blue" aria-label="Magic" />
  *   <HudBar value={2} tone="danger" aria-label="Health, low" />
  *
- * Renders `<div class="pp-box pp-hud-bar" role="meter" aria-valuemin="0" aria-valuemax aria-valuenow
- * style="--pp-hud-value: …">` with its `<span class="pp-hud-bar-fill">` inside.
+ * Renders `<div class="chu-box chu-hud-bar" role="meter" aria-valuemin="0" aria-valuemax aria-valuenow
+ * style="--chu-hud-value: …">` with its `<span class="chu-hud-bar-fill">` inside.
  */
 export const HudBar = /*#__PURE__*/ forwardRef<HTMLDivElement, HudBarProps>(function HudBar(
   { value, max, segments, tone, className, style, ...rest },
@@ -793,16 +793,16 @@ export const HudBar = /*#__PURE__*/ forwardRef<HTMLDivElement, HudBarProps>(func
   return (
     <div
       ref={ref}
-      className={cx("pp-box pp-hud-bar", className)}
+      className={cx("chu-box chu-hud-bar", className)}
       data-tone={tone}
       role="meter"
       aria-valuemin={0}
       aria-valuemax={max ?? 10}
       aria-valuenow={value}
-      style={withVars(style, { "--pp-hud-value": value, "--pp-hud-max": max, "--pp-hud-segments": segments })}
+      style={withVars(style, { "--chu-hud-value": value, "--chu-hud-max": max, "--chu-hud-segments": segments })}
       {...rest}
     >
-      <span className="pp-hud-bar-fill" />
+      <span className="chu-hud-bar-fill" />
     </div>
   );
 });
@@ -816,13 +816,13 @@ export type CounterIconProps = NativeProps<"span">;
  *
  *   <Counter value={gems} label="Gems"><CounterIcon><img src={gem} alt="" /></CounterIcon></Counter>
  *
- * Renders `<span class="pp-counter-icon">`.
+ * Renders `<span class="chu-counter-icon">`.
  */
 export const CounterIcon = /*#__PURE__*/ forwardRef<HTMLSpanElement, CounterIconProps>(function CounterIcon(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-counter-icon", className)} {...rest} />;
+  return <span ref={ref} className={cx("chu-counter-icon", className)} {...rest} />;
 });
 
 /* ---------------------------------------------------------------------------------------------------------------
@@ -848,7 +848,7 @@ export type DialogueNameProps = DialogueNameOwnProps & NativeProps<"span", Dialo
  *         <p>Ah, a traveller! The rope bridge washed out in last night's storm.</p>
  *         <p>I could patch it up before sunset, for thirty coins.</p>
  *       </DialogueText>
- *       <Choices className="pp-dialogue-choices">
+ *       <Choices className="chu-dialogue-choices">
  *         <ChoiceList>
  *           <li><Choice value="pay">Pay 30 coins</Choice></li>
  *           <li><Choice value="later">Maybe later</Choice></li>
@@ -857,13 +857,13 @@ export type DialogueNameProps = DialogueNameOwnProps & NativeProps<"span", Dialo
  *     </DialogueBody>
  *   </Dialogue>
  *
- * Renders `<span class="pp-box pp-dialogue-name">`.
+ * Renders `<span class="chu-box chu-dialogue-name">`.
  */
 export const DialogueName = /*#__PURE__*/ forwardRef<HTMLSpanElement, DialogueNameProps>(function DialogueName(
   { tone, className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-box pp-dialogue-name", className)} data-tone={tone} {...rest} />;
+  return <span ref={ref} className={cx("chu-box chu-dialogue-name", className)} data-tone={tone} {...rest} />;
 });
 
 /** Own props of {@link DialoguePortrait}. */
@@ -874,12 +874,12 @@ export interface DialoguePortraitOwnProps {
 export type DialoguePortraitProps = DialoguePortraitOwnProps & NativeProps<"div", DialoguePortraitOwnProps>;
 
 /**
- * A framed slot for the speaker's portrait, 36 pixels square (`--pp-dialogue-portrait`): a soft candy box with the
+ * A framed slot for the speaker's portrait, 36 pixels square (`--chu-dialogue-portrait`): a soft candy box with the
  * art standing at its bottom, one sprite pixel to one Blip pixel. Leave the art unnamed: the tab says who it is.
  *
- *   <DialoguePortrait tone="teal"><svg className="pp-sprite" aria-hidden="true">…</svg></DialoguePortrait>
+ *   <DialoguePortrait tone="teal"><svg className="chu-sprite" aria-hidden="true">…</svg></DialoguePortrait>
  *
- * Renders `<div class="pp-box pp-dialogue-portrait" data-variant="soft">`.
+ * Renders `<div class="chu-box chu-dialogue-portrait" data-variant="soft">`.
  */
 export const DialoguePortrait = /*#__PURE__*/ forwardRef<HTMLDivElement, DialoguePortraitProps>(function DialoguePortrait(
   { tone, className, ...rest },
@@ -888,7 +888,7 @@ export const DialoguePortrait = /*#__PURE__*/ forwardRef<HTMLDivElement, Dialogu
   return (
     <div
       ref={ref}
-      className={cx("pp-box pp-dialogue-portrait", className)}
+      className={cx("chu-box chu-dialogue-portrait", className)}
       data-variant="soft"
       data-tone={tone}
       {...rest}
@@ -901,17 +901,17 @@ export type DialogueBodyProps = NativeProps<"div">;
 
 /**
  * The dialogue's column beside the portrait: the {@link DialogueText}, then the choices, if any
- * (`<Choices className="pp-dialogue-choices">`), which show once the last page has typed.
+ * (`<Choices className="chu-dialogue-choices">`), which show once the last page has typed.
  *
  *   <DialogueBody><DialogueText>…</DialogueText></DialogueBody>
  *
- * Renders `<div class="pp-dialogue-body">`.
+ * Renders `<div class="chu-dialogue-body">`.
  */
 export const DialogueBody = /*#__PURE__*/ forwardRef<HTMLDivElement, DialogueBodyProps>(function DialogueBody(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-dialogue-body", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-dialogue-body", className)} {...rest} />;
 });
 
 /** Props for {@link DialogueText}. */
@@ -925,13 +925,13 @@ export type DialogueTextProps = NativeProps<"div">;
  *
  *   <DialogueText><p>Ah, a traveller!</p><p>The rope bridge washed out in last night's storm.</p></DialogueText>
  *
- * Renders `<div class="pp-dialogue-text">`.
+ * Renders `<div class="chu-dialogue-text">`.
  */
 export const DialogueText = /*#__PURE__*/ forwardRef<HTMLDivElement, DialogueTextProps>(function DialogueText(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-dialogue-text", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-dialogue-text", className)} {...rest} />;
 });
 
 /* ---------------------------------------------------------------------------------------------------------------
@@ -957,13 +957,13 @@ export type ChoiceListProps = ChoiceListOwnProps & NativeProps<"ul", ChoiceListO
  *     </ChoiceList>
  *   </Choices>
  *
- * Renders `<ul class="pp-choices" role="list">`.
+ * Renders `<ul class="chu-choices" role="list">`.
  */
 export const ChoiceList = /*#__PURE__*/ forwardRef<HTMLUListElement, ChoiceListProps>(function ChoiceList(
   { font, role = "list", className, ...rest },
   ref,
 ) {
-  return <ul ref={ref} className={cx("pp-choices", className)} role={role} data-font={font} {...rest} />;
+  return <ul ref={ref} className={cx("chu-choices", className)} role={role} data-font={font} {...rest} />;
 });
 
 /** Own props of {@link Choice}. */
@@ -982,14 +982,14 @@ export type ChoiceProps = ChoiceOwnProps & NativeProps<"button", ChoiceOwnProps>
  *   <li><Choice value="trade">Trade the moon key</Choice></li>
  *   <li><Choice value="pay" aria-disabled>Pay 30 coins <ChoiceAside>You have 12</ChoiceAside></Choice></li>
  *
- * Renders `<button type="button" class="pp-box pp-choice" data-variant="ghost">`.
+ * Renders `<button type="button" class="chu-box chu-choice" data-variant="ghost">`.
  */
 export const Choice = /*#__PURE__*/ forwardRef<HTMLButtonElement, ChoiceProps>(function Choice(
   { type = "button", variant = "ghost", className, ...rest },
   ref,
 ) {
   return (
-    <button ref={ref} type={type} className={cx("pp-box pp-choice", className)} data-variant={variant} {...rest} />
+    <button ref={ref} type={type} className={cx("chu-box chu-choice", className)} data-variant={variant} {...rest} />
   );
 });
 
@@ -1001,17 +1001,17 @@ export type ChoiceAsideProps = NativeProps<"span">;
  *
  *   <Choice value="potion"><Sprite name="potion" />Red potion <ChoiceAside>12</ChoiceAside></Choice>
  *
- * Renders `<span class="pp-choice-aside">`.
+ * Renders `<span class="chu-choice-aside">`.
  */
 export const ChoiceAside = /*#__PURE__*/ forwardRef<HTMLSpanElement, ChoiceAsideProps>(function ChoiceAside(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-choice-aside", className)} {...rest} />;
+  return <span ref={ref} className={cx("chu-choice-aside", className)} {...rest} />;
 });
 
 /* ---------------------------------------------------------------------------------------------------------------
- * Inventory (inventory.css): the slots inside <Inventory>, a grid of `--pp-inventory-columns` slots across.
+ * Inventory (inventory.css): the slots inside <Inventory>, a grid of `--chu-inventory-columns` slots across.
  * ------------------------------------------------------------------------------------------------------------- */
 
 /** Own props of {@link Slot}. */
@@ -1044,7 +1044,7 @@ export type SlotProps<T extends ElementType = "button"> = PolymorphicProps<T, Sl
  *     <Slot variant="outline" aria-label="Empty" />
  *   </Inventory>
  *
- * Renders `<button type="button" class="pp-box pp-slot" data-variant="soft">`; `as="span"` for a picture of a slot
+ * Renders `<button type="button" class="chu-box chu-slot" data-variant="soft">`; `as="span"` for a picture of a slot
  * outside the grid (beside the selected item's details).
  */
 export const Slot = /*#__PURE__*/ forwardRef(function Slot(
@@ -1065,7 +1065,7 @@ export const Slot = /*#__PURE__*/ forwardRef(function Slot(
     <Tag
       ref={ref}
       type={type ?? (Tag === "button" ? "button" : undefined)}
-      className={cx("pp-box pp-slot", className)}
+      className={cx("chu-box chu-slot", className)}
       data-variant={variant}
       data-rarity={rarity}
       data-tone={tone}
@@ -1085,13 +1085,13 @@ export type SlotCountProps = NativeProps<"span">;
  *
  *   <SlotCount>3</SlotCount>
  *
- * Renders `<span class="pp-slot-count pp-display pp-pop" data-scale="1" aria-hidden="true">`.
+ * Renders `<span class="chu-slot-count chu-display chu-pop" data-scale="1" aria-hidden="true">`.
  */
 export const SlotCount = /*#__PURE__*/ forwardRef<HTMLSpanElement, SlotCountProps>(function SlotCount({ className, ...rest }, ref) {
   return (
     <span
       ref={ref}
-      className={cx("pp-slot-count pp-display pp-pop", className)}
+      className={cx("chu-slot-count chu-display chu-pop", className)}
       data-scale={1}
       aria-hidden={true}
       {...rest}
@@ -1112,10 +1112,10 @@ export type SlotTagProps = SlotTagOwnProps & NativeProps<"span", SlotTagOwnProps
  *
  *   <SlotTag tone="neutral">E</SlotTag>
  *
- * Renders `<span class="pp-box pp-slot-tag" aria-hidden="true">`.
+ * Renders `<span class="chu-box chu-slot-tag" aria-hidden="true">`.
  */
 export const SlotTag = /*#__PURE__*/ forwardRef<HTMLSpanElement, SlotTagProps>(function SlotTag({ tone, className, ...rest }, ref) {
   return (
-    <span ref={ref} className={cx("pp-box pp-slot-tag", className)} data-tone={tone} aria-hidden={true} {...rest} />
+    <span ref={ref} className={cx("chu-box chu-slot-tag", className)} data-tone={tone} aria-hidden={true} {...rest} />
   );
 });

@@ -1,89 +1,89 @@
 /*
  * Dialogue. The RPG text box: a cream candy panel whose text types itself in, a page at a time.
  *
- *   <pp-dialogue class="pp-box pp-dialogue" voice>
- *     <span class="pp-box pp-dialogue-name">Bramble</span>
- *     <div class="pp-box pp-dialogue-portrait" data-variant="soft" data-tone="teal"><svg>…</svg></div>
- *     <div class="pp-dialogue-body">
- *       <div class="pp-dialogue-text">
+ *   <chu-dialogue class="chu-box chu-dialogue" voice>
+ *     <span class="chu-box chu-dialogue-name">Bramble</span>
+ *     <div class="chu-box chu-dialogue-portrait" data-variant="soft" data-tone="teal"><svg>…</svg></div>
+ *     <div class="chu-dialogue-body">
+ *       <div class="chu-dialogue-text">
  *         <p>Ah, a traveller! The bridge washed out in last night's storm.</p>
  *         <p>I could patch it up for you, for thirty coins.</p>
  *       </div>
- *       <pp-choices class="pp-dialogue-choices"><ul class="pp-choices" role="list">…</ul></pp-choices>
+ *       <chu-choices class="chu-dialogue-choices"><ul class="chu-choices" role="list">…</ul></chu-choices>
  *     </div>
- *   </pp-dialogue>
+ *   </chu-dialogue>
  *
  *   data-tone              the panel: cream by default, or any tone
  *   data-font="display"    the text in Pixel Bop at scale 1, capitals, as on the TV's speech bubble
- *   .pp-dialogue-name      the speaker's tab, in Pixel Bop; its data-tone gives each speaker a colour
- *   .pp-dialogue-portrait  a framed slot for a portrait (36 x 36 pixels, --pp-dialogue-portrait)
- *   .pp-dialogue-text      one child per page; without JavaScript every page shows, in order
- *   .pp-dialogue-choices   shown once the last page has typed (choices.css)
- *   .pp-dialogue-next      the blinking ▼, added by the element: a real button ("Show all text", "Next", "Continue")
+ *   .chu-dialogue-name      the speaker's tab, in Pixel Bop; its data-tone gives each speaker a colour
+ *   .chu-dialogue-portrait  a framed slot for a portrait (36 x 36 pixels, --chu-dialogue-portrait)
+ *   .chu-dialogue-text      one child per page; without JavaScript every page shows, in order
+ *   .chu-dialogue-choices   shown once the last page has typed (choices.css)
+ *   .chu-dialogue-next      the blinking ▼, added by the element: a real button ("Show all text", "Next", "Continue")
  *
- * With the element the box is as tall as its fullest page (at least three lines, --pp-dialogue-lines), so it never
- * jumps while pages turn. data-pp-typed="40" stops the first page at 40 letters: for docs and screenshots only.
+ * With the element the box is as tall as its fullest page (at least three lines, --chu-dialogue-lines), so it never
+ * jumps while pages turn. data-chu-typed="40" stops the first page at 40 letters: for docs and screenshots only.
  */
 
-@layer pp.kits {
-  .pp-dialogue {
-    --pp-r: 4;
-    --pp-shape: var(--pp-shape-4);
-    --pp-shape-inner: var(--pp-shape-4-inner);
-    --pp-band-top: 3;
-    --pp-band-bottom: 3;
+@layer chu.kits {
+  .chu-dialogue {
+    --chu-r: 4;
+    --chu-shape: var(--chu-shape-4);
+    --chu-shape-inner: var(--chu-shape-4-inner);
+    --chu-band-top: 3;
+    --chu-band-bottom: 3;
     /* The ▼, from the arrow sprite (scripts/masks.mjs). */
     --_arrow-ink: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h8v1h-8zM0 1h10v1h-10zM1 2h8v1h-8zM2 3h6v1h-6zM3 4h4v1h-4zM4 5h2v1h-2z'/%3E%3C/svg%3E");
     --_arrow-fill: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6' shape-rendering='crispEdges'%3E%3Cpath d='M1 1h8v1h-8zM2 2h6v1h-6zM3 3h4v1h-4zM4 4h2v1h-2z'/%3E%3C/svg%3E");
 
     display: flex;
     align-items: flex-start;
-    gap: calc(6 * var(--pp-pixel));
-    padding-block: calc(11 * var(--pp-pixel)) calc(12 * var(--pp-pixel));
-    padding-inline: calc(8 * var(--pp-pixel)) calc(12 * var(--pp-pixel));
+    gap: calc(6 * var(--chu-pixel));
+    padding-block: calc(11 * var(--chu-pixel)) calc(12 * var(--chu-pixel));
+    padding-inline: calc(8 * var(--chu-pixel)) calc(12 * var(--chu-pixel));
     /* Room above for the name tab, and below and right for the drop. */
-    margin: calc(9 * var(--pp-pixel)) var(--pp-pixel) var(--pp-pixel) 0;
-    font-family: var(--pp-font-ui);
-    font-size: var(--pp-size-lead);
-    font-weight: var(--pp-weight-medium);
-    line-height: var(--pp-leading-normal);
+    margin: calc(9 * var(--chu-pixel)) var(--chu-pixel) var(--chu-pixel) 0;
+    font-family: var(--chu-font-ui);
+    font-size: var(--chu-size-lead);
+    font-weight: var(--chu-weight-medium);
+    line-height: var(--chu-leading-normal);
     text-align: start;
   }
-  .pp-dialogue:not([data-tone]) {
+  .chu-dialogue:not([data-tone]) {
     /* A cream panel is a light island in every scheme: text, lines and wells inside take their light values. */
-    --pp-text: var(--pp-ink);
-    --pp-text-muted: var(--pp-ink-soft);
-    --pp-line: var(--pp-ink);
-    --pp-line-soft: var(--pp-candy-cream-shade);
-    --pp-surface: var(--pp-white);
-    --pp-surface-sunken: var(--pp-candy-cream-shade);
-    --pp-bg: var(--pp-candy-cream);
+    --chu-text: var(--chu-ink);
+    --chu-text-muted: var(--chu-ink-soft);
+    --chu-line: var(--chu-ink);
+    --chu-line-soft: var(--chu-candy-cream-shade);
+    --chu-surface: var(--chu-white);
+    --chu-surface-sunken: var(--chu-candy-cream-shade);
+    --chu-bg: var(--chu-candy-cream);
     color-scheme: light;
-    --pp-tone: var(--pp-candy-cream);
-    --pp-tone-light: var(--pp-candy-cream-light);
-    --pp-tone-shade: var(--pp-candy-cream-shade);
-    --pp-tone-on: var(--pp-ink);
-    --pp-tone-text: var(--pp-ink);
+    --chu-tone: var(--chu-candy-cream);
+    --chu-tone-light: var(--chu-candy-cream-light);
+    --chu-tone-shade: var(--chu-candy-cream-shade);
+    --chu-tone-on: var(--chu-ink);
+    --chu-tone-text: var(--chu-ink);
   }
-  .pp-dialogue:not(:has(> .pp-dialogue-name)) {
+  .chu-dialogue:not(:has(> .chu-dialogue-name)) {
     margin-block-start: 0;
-    padding-block-start: calc(8 * var(--pp-pixel));
+    padding-block-start: calc(8 * var(--chu-pixel));
   }
 
   /* The speaker's tab: a small candy box riding the top edge. */
-  .pp-dialogue-name {
-    --pp-r: 2;
-    --pp-shape: var(--pp-shape-2);
-    --pp-shape-inner: var(--pp-shape-2-inner);
-    --pp-band-top: 2;
-    --pp-band-bottom: 2;
+  .chu-dialogue-name {
+    --chu-r: 2;
+    --chu-shape: var(--chu-shape-2);
+    --chu-shape-inner: var(--chu-shape-2-inner);
+    --chu-band-top: 2;
+    --chu-band-bottom: 2;
     position: absolute;
-    inset-block-start: calc(-9 * var(--pp-pixel));
-    inset-inline-start: calc(10 * var(--pp-pixel));
+    inset-block-start: calc(-9 * var(--chu-pixel));
+    inset-inline-start: calc(10 * var(--chu-pixel));
     /* Pixel Bop caps sit two rows down in their twelve-row line, so the top pads one more than the bottom. */
-    padding: calc(2 * var(--pp-pixel)) calc(5 * var(--pp-pixel)) var(--pp-pixel);
-    font-family: var(--pp-font-display);
-    font-size: calc(10 * var(--pp-pixel));
+    padding: calc(2 * var(--chu-pixel)) calc(5 * var(--chu-pixel)) var(--chu-pixel);
+    font-family: var(--chu-font-display);
+    font-size: calc(10 * var(--chu-pixel));
     font-weight: 400;
     line-height: 1.2;
     letter-spacing: 0;
@@ -93,44 +93,44 @@
     -webkit-font-smoothing: none;
   }
 
-  .pp-dialogue-portrait {
-    --pp-r: 2;
-    --pp-shape: var(--pp-shape-2);
-    --pp-shape-inner: var(--pp-shape-2-inner);
-    --pp-band-top: 2;
-    --pp-band-bottom: 3;
+  .chu-dialogue-portrait {
+    --chu-r: 2;
+    --chu-shape: var(--chu-shape-2);
+    --chu-shape-inner: var(--chu-shape-2-inner);
+    --chu-band-top: 2;
+    --chu-band-bottom: 3;
     display: grid;
     flex: none;
     place-items: end center;
-    inline-size: calc(var(--pp-dialogue-portrait, 36) * var(--pp-pixel));
-    block-size: calc(var(--pp-dialogue-portrait, 36) * var(--pp-pixel));
-    margin-block-start: calc(-3 * var(--pp-pixel));
-    padding: var(--pp-pixel);
+    inline-size: calc(var(--chu-dialogue-portrait, 36) * var(--chu-pixel));
+    block-size: calc(var(--chu-dialogue-portrait, 36) * var(--chu-pixel));
+    margin-block-start: calc(-3 * var(--chu-pixel));
+    padding: var(--chu-pixel);
   }
-  .pp-dialogue-portrait > * { grid-area: 1 / 1; }
+  .chu-dialogue-portrait > * { grid-area: 1 / 1; }
 
-  .pp-dialogue-body {
+  .chu-dialogue-body {
     display: grid;
     flex: 1;
-    gap: calc(4 * var(--pp-pixel));
+    gap: calc(4 * var(--chu-pixel));
     min-inline-size: 0;
   }
 
-  .pp-dialogue-text {
+  .chu-dialogue-text {
     display: grid;
-    min-block-size: calc(var(--pp-dialogue-lines, 3) * 1lh);
+    min-block-size: calc(var(--chu-dialogue-lines, 3) * 1lh);
   }
-  .pp-dialogue-text > * { margin: 0; }
-  .pp-dialogue-text > * + * { margin-block-start: 0.5lh; }
+  .chu-dialogue-text > * { margin: 0; }
+  .chu-dialogue-text > * + * { margin-block-start: 0.5lh; }
   /* Upgraded: the pages share one cell, so the box takes the fullest page's height. */
-  pp-dialogue:defined .pp-dialogue-text > * { grid-area: 1 / 1; margin: 0; }
-  pp-dialogue:defined .pp-dialogue-text > :not([data-current]) { visibility: hidden; }
+  chu-dialogue:defined .chu-dialogue-text > * { grid-area: 1 / 1; margin: 0; }
+  chu-dialogue:defined .chu-dialogue-text > :not([data-current]) { visibility: hidden; }
   /* Letters still to come keep their place, so words never jump to the next line as they type. */
-  .pp-dialogue-rest { visibility: hidden; }
+  .chu-dialogue-rest { visibility: hidden; }
 
-  .pp-dialogue[data-font="display"] .pp-dialogue-text {
-    font-family: var(--pp-font-display);
-    font-size: calc(10 * var(--pp-pixel));
+  .chu-dialogue[data-font="display"] .chu-dialogue-text {
+    font-family: var(--chu-font-display);
+    font-size: calc(10 * var(--chu-pixel));
     font-weight: 400;
     /* Fourteen pixels a line: the twelve-pixel line plus a pixel above and below, all on the grid. */
     line-height: 1.4;
@@ -140,55 +140,55 @@
     -webkit-font-smoothing: none;
   }
 
-  .pp-dialogue-choices { margin-block-start: var(--pp-pixel); }
-  .pp-dialogue[data-choosing] .pp-dialogue-text { min-block-size: 0; }
-  pp-dialogue:defined:not([data-choosing]) .pp-dialogue-choices { display: none; }
-  .pp-dialogue[data-choosing] .pp-dialogue-choices { animation: pp-pop-in calc(2 * var(--pp-duration-frame)) steps(1, jump-end) both; }
+  .chu-dialogue-choices { margin-block-start: var(--chu-pixel); }
+  .chu-dialogue[data-choosing] .chu-dialogue-text { min-block-size: 0; }
+  chu-dialogue:defined:not([data-choosing]) .chu-dialogue-choices { display: none; }
+  .chu-dialogue[data-choosing] .chu-dialogue-choices { animation: chu-pop-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end) both; }
 
   /* Next: a ▼ in the accent, blinking on the beat once a page has typed. */
-  .pp-dialogue-next {
+  .chu-dialogue-next {
     position: absolute;
-    inset-inline-end: calc(4 * var(--pp-pixel));
-    inset-block-end: calc(2 * var(--pp-pixel));
-    inline-size: calc(14 * var(--pp-pixel));
-    block-size: calc(12 * var(--pp-pixel));
+    inset-inline-end: calc(4 * var(--chu-pixel));
+    inset-block-end: calc(2 * var(--chu-pixel));
+    inline-size: calc(14 * var(--chu-pixel));
+    block-size: calc(12 * var(--chu-pixel));
     padding: 0;
     border: 0;
     background: none;
     color: inherit;
     cursor: pointer;
   }
-  .pp-dialogue-next::before,
-  .pp-dialogue-next::after {
+  .chu-dialogue-next::before,
+  .chu-dialogue-next::after {
     content: "";
     position: absolute;
-    inset-inline-start: calc(2 * var(--pp-pixel));
-    inset-block-start: calc(3 * var(--pp-pixel));
-    inline-size: calc(10 * var(--pp-pixel));
-    block-size: calc(6 * var(--pp-pixel));
+    inset-inline-start: calc(2 * var(--chu-pixel));
+    inset-block-start: calc(3 * var(--chu-pixel));
+    inline-size: calc(10 * var(--chu-pixel));
+    block-size: calc(6 * var(--chu-pixel));
     mask: var(--_arrow-ink) 0 0 / 100% 100% no-repeat;
-    background: var(--pp-ink);
+    background: var(--chu-ink);
     /* Blinks for six beats once a page has typed, then stays (WCAG 2.2.2). */
-    animation: none calc(2 * var(--pp-duration-beat)) steps(1, jump-end) 6;
+    animation: none calc(2 * var(--chu-duration-beat)) steps(1, jump-end) 6;
   }
-  .pp-dialogue-next::after {
+  .chu-dialogue-next::after {
     mask-image: var(--_arrow-fill);
     background:
-      linear-gradient(var(--pp-white) 0 0) var(--pp-pixel) var(--pp-pixel) / var(--pp-pixel) var(--pp-pixel) no-repeat,
-      linear-gradient(var(--pp-accent-light) 0 0) 0 var(--pp-pixel) / 100% var(--pp-pixel) no-repeat,
-      linear-gradient(to right, var(--pp-accent) 0 calc(5 * var(--pp-pixel)), var(--pp-accent-shade) 0);
+      linear-gradient(var(--chu-white) 0 0) var(--chu-pixel) var(--chu-pixel) / var(--chu-pixel) var(--chu-pixel) no-repeat,
+      linear-gradient(var(--chu-accent-light) 0 0) 0 var(--chu-pixel) / 100% var(--chu-pixel) no-repeat,
+      linear-gradient(to right, var(--chu-accent) 0 calc(5 * var(--chu-pixel)), var(--chu-accent-shade) 0);
   }
-  .pp-dialogue-next[data-state="typing"]::before,
-  .pp-dialogue-next[data-state="typing"]::after { visibility: hidden; }
-  .pp-dialogue-next:is([data-state="next"], [data-state="done"])::before,
-  .pp-dialogue-next:is([data-state="next"], [data-state="done"])::after { animation-name: pp-blink; }
+  .chu-dialogue-next[data-state="typing"]::before,
+  .chu-dialogue-next[data-state="typing"]::after { visibility: hidden; }
+  .chu-dialogue-next:is([data-state="next"], [data-state="done"])::before,
+  .chu-dialogue-next:is([data-state="next"], [data-state="done"])::after { animation-name: chu-blink; }
 
   @media (prefers-reduced-motion: reduce) {
-    .pp-dialogue-next[data-state]::before, .pp-dialogue-next[data-state]::after, .pp-dialogue[data-choosing] .pp-dialogue-choices { animation: none; }
+    .chu-dialogue-next[data-state]::before, .chu-dialogue-next[data-state]::after, .chu-dialogue[data-choosing] .chu-dialogue-choices { animation: none; }
   }
   @media (forced-colors: active) {
-    .pp-dialogue-name, .pp-dialogue-portrait { border-color: CanvasText; }
-    .pp-dialogue-next::before { background: CanvasText; }
-    .pp-dialogue-next::after { background: ButtonText; }
+    .chu-dialogue-name, .chu-dialogue-portrait { border-color: CanvasText; }
+    .chu-dialogue-next::before { background: CanvasText; }
+    .chu-dialogue-next::after { background: ButtonText; }
   }
 }

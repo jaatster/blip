@@ -12,7 +12,7 @@ beforeAll(() => {
 });
 afterEach(async () => {
   tokens.remove();
-  document.documentElement.removeAttribute("data-pp-pixel");
+  document.documentElement.removeAttribute("data-chu-pixel");
   await commands.emulateMedia("no-preference");
 });
 
@@ -57,20 +57,20 @@ describe("duration", () => {
 
   it("reads seconds as well as milliseconds", () => {
     const el = document.body.appendChild(document.createElement("div"));
-    el.style.setProperty("--pp-duration-test", "0.25s");
+    el.style.setProperty("--chu-duration-test", "0.25s");
     expect(duration("test", 0, el)).toBe(250);
     el.remove();
   });
 });
 
 describe("pixel", () => {
-  it("is 2 CSS px by default, and follows data-pp-pixel on the page or a section", () => {
+  it("is 2 CSS px by default, and follows data-chu-pixel on the page or a section", () => {
     document.head.append(tokens);
     expect(pixel()).toBe(2);
     const section = document.body.appendChild(document.createElement("section"));
-    section.dataset.ppPixel = "4";
+    section.dataset.chuPixel = "4";
     expect(pixel(section)).toBe(4);
-    document.documentElement.dataset.ppPixel = "3";
+    document.documentElement.dataset.chuPixel = "3";
     expect(pixel()).toBe(3);
     section.remove();
   });

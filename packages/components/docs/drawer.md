@@ -2,7 +2,7 @@
 name: Drawer
 package: "@jaatster/blip-components"
 css: drawer.css
-element: pp-drawer
+element: chu-drawer
 react: Drawer
 status: stable
 equivalents:
@@ -21,27 +21,27 @@ page is used, a sidebar.
 ## Usage
 
 ```html
-<button class="pp-box pp-button" commandfor="settings" command="show-modal">Settings</button>
+<button class="chu-box chu-button" commandfor="settings" command="show-modal">Settings</button>
 
-<pp-drawer light-dismiss>
-  <dialog class="pp-box pp-drawer" id="settings" data-side="end" aria-labelledby="settings-title">
-    <header class="pp-dialog-header">
-      <h2 class="pp-dialog-title" id="settings-title">Settings</h2>
-      <form method="dialog"><button class="pp-box pp-button pp-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button></form>
+<chu-drawer light-dismiss>
+  <dialog class="chu-box chu-drawer" id="settings" data-side="end" aria-labelledby="settings-title">
+    <header class="chu-dialog-header">
+      <h2 class="chu-dialog-title" id="settings-title">Settings</h2>
+      <form method="dialog"><button class="chu-box chu-button chu-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button></form>
     </header>
-    <div class="pp-dialog-body">…</div>
-    <footer class="pp-dialog-footer">…</footer>
+    <div class="chu-dialog-body">…</div>
+    <footer class="chu-dialog-footer">…</footer>
   </dialog>
-</pp-drawer>
+</chu-drawer>
 ```
 
-`drawer.css` includes `dialog.css` (the parts). `<pp-drawer>` has the same API as `<pp-dialog>`.
+`drawer.css` includes `dialog.css` (the parts). `<chu-drawer>` has the same API as `<chu-dialog>`.
 
 ## Anatomy
 
 1. **Sheet**: a candy box, raised, square corners. It runs one pixel past the screen on the sides it touches, so
    only its inner edge shows the ink outline. A sheet on the left edge casts its two-pixel drop onto the page.
-2. **Title bar, title, close, body, footer**: the dialog's parts (`.pp-dialog-header` and so on). The body scrolls,
+2. **Title bar, title, close, body, footer**: the dialog's parts (`.chu-dialog-header` and so on). The body scrolls,
    with the dialog's cue while there is more below: an ink rule over the footer and a dithered fade.
 3. **Scrim**: the dialog's one-pixel ink checkerboard.
 
@@ -58,15 +58,15 @@ page is used, a sidebar.
 | State | How | Look |
 |---|---|---|
 | Opening | `showModal()`, `command="show-modal"`, `open` | Slides in from its edge in six steps over a glide (160 ms), each a whole pixel-snapped sixth of the sheet; the scrim dithers in. |
-| Closing | with `<pp-drawer>` | Slides back out the same six steps. |
-| Static | `data-pp-static` with `open` | In the page flow: docs, tests, screenshots only. |
+| Closing | with `<chu-drawer>` | Slides back out the same six steps. |
+| Static | `data-chu-static` with `open` | In the page flow: docs, tests, screenshots only. |
 
 With reduced motion it appears and goes at once.
 
 ## Accessibility
 
 Everything in the dialog's accessibility section applies: modal (focus kept inside, page inert), named by its
-title, focus returned to the opener, Escape through `pp-before-close`, light dismiss only when nothing is lost.
+title, focus returned to the opener, Escape through `chu-before-close`, light dismiss only when nothing is lost.
 
 | Key | Does |
 |---|---|
@@ -88,11 +88,11 @@ title, focus returned to the opener, Escape through `pp-before-close`, light dis
 
 ## API
 
-`<pp-drawer>`: `open`, `light-dismiss`, `show(opener?)`, `requestClose(value?)`, `close(value?)`, `returnValue`,
-`dialog` (read only), and the events `pp-open`, `pp-before-close` (cancelable) and `pp-close`, exactly as
-[`<pp-dialog>`](dialog.md#api).
+`<chu-drawer>`: `open`, `light-dismiss`, `show(opener?)`, `requestClose(value?)`, `close(value?)`, `returnValue`,
+`dialog` (read only), and the events `chu-open`, `chu-before-close` (cancelable) and `chu-close`, exactly as
+[`<chu-dialog>`](dialog.md#api).
 
 | Class or property | |
 |---|---|
-| `.pp-drawer` on a `<dialog class="pp-box">` | The sheet. |
-| `--pp-r` with `--pp-shape`, `--pp-shape-inner`, or `data-pp-r` | Corner radius (0). |
+| `.chu-drawer` on a `<dialog class="chu-box">` | The sheet. |
+| `--chu-r` with `--chu-shape`, `--chu-shape-inner`, or `data-chu-r` | Corner radius (0). |

@@ -59,7 +59,7 @@ export type ButtonProps = ButtonOptions &
  *   <Button iconOnly aria-label="Add level"><Icon name="plus" /></Button>
  *   <Button type="button" commandFor="save" command="show-modal">Save game</Button>    opens <DialogPanel id="save">
  *
- * Renders `<button class="pp-box pp-button">`. Like a native button it submits a form it sits in: give buttons
+ * Renders `<button class="chu-box chu-button">`. Like a native button it submits a form it sits in: give buttons
  * outside forms (or beside the submit button) `type="button"`.
  */
 export const Button = /*#__PURE__*/ forwardRef<HTMLButtonElement, ButtonProps>(function Button(
@@ -71,7 +71,7 @@ export const Button = /*#__PURE__*/ forwardRef<HTMLButtonElement, ButtonProps>(f
   return (
     <button
       ref={ref}
-      className={cx("pp-box pp-button", className)}
+      className={cx("chu-box chu-button", className)}
       {...buttonAttrs({ variant, tone, radius, size, fullWidth, busy, iconOnly })}
       aria-pressed={pressed}
       {...invoker}
@@ -84,8 +84,8 @@ export const Button = /*#__PURE__*/ forwardRef<HTMLButtonElement, ButtonProps>(f
 export type ButtonLinkProps<T extends ElementType = "a"> = PolymorphicProps<T, ButtonOptions & IconOnly>;
 
 /**
- * A link that must look like a button (a call to action that goes somewhere). Renders `<a class="pp-box
- * pp-button">`; with `as`, your router's link (it gets the same classes and attributes).
+ * A link that must look like a button (a call to action that goes somewhere). Renders `<a class="chu-box
+ * chu-button">`; with `as`, your router's link (it gets the same classes and attributes).
  *
  *   <ButtonLink href="/play" size="lg">Play now</ButtonLink>
  *   <ButtonLink as={NextLink} href="/play" size="lg">Play now</ButtonLink>
@@ -94,7 +94,7 @@ export const ButtonLink = /*#__PURE__*/ forwardRef(function ButtonLink(
   { as: Tag = "a", variant, tone, radius, size, fullWidth, busy, iconOnly, className, ...rest }: ButtonLinkProps<ElementType>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("pp-box pp-button", className)} {...buttonAttrs({ variant, tone, radius, size, fullWidth, busy, iconOnly })} {...rest} />;
+  return <Tag ref={ref} className={cx("chu-box chu-button", className)} {...buttonAttrs({ variant, tone, radius, size, fullWidth, busy, iconOnly })} {...rest} />;
 }) as PolymorphicComponent<"a", ButtonOptions & IconOnly>;
 
 /** Props for {@link ToggleButton}. */
@@ -105,7 +105,7 @@ export type ToggleButtonProps = Omit<ButtonProps, "pressed"> & {
 
 /**
  * A button that stays on or off: "show grid", "favourite". On, it sits in with its bands swapped. Keep its label
- * the same in both states; the pressed state says which. Renders `<button class="pp-box pp-button"
+ * the same in both states; the pressed state says which. Renders `<button class="chu-box chu-button"
  * type="button" aria-pressed>`.
  *
  *   <ToggleButton pressed={grid} onClick={() => setGrid(!grid)}>Show grid</ToggleButton>
@@ -125,7 +125,7 @@ export type ButtonGroupProps = ButtonGroupOwnProps & NativeProps<"div", ButtonGr
 
 /**
  * Buttons that belong together: spaced (a row of actions) or attached (one bar). Name the group with aria-label.
- * Renders `<div class="pp-button-group" role="group">`; pass `role="toolbar"` for a toolbar (then make one button
+ * Renders `<div class="chu-button-group" role="group">`; pass `role="toolbar"` for a toolbar (then make one button
  * tabbable and move with the arrow keys). A `<span role="separator" />` inside draws a divider.
  *
  *   <ButtonGroup attached aria-label="Text style">
@@ -134,7 +134,7 @@ export type ButtonGroupProps = ButtonGroupOwnProps & NativeProps<"div", ButtonGr
  *   </ButtonGroup>
  */
 export const ButtonGroup = /*#__PURE__*/ forwardRef<HTMLDivElement, ButtonGroupProps>(function ButtonGroup({ attached, fullWidth, className, role = "group", ...rest }, ref) {
-  return <div ref={ref} className={cx("pp-button-group", className)} role={role} data-attached={flag(attached)} data-width={fullWidth ? "full" : undefined} {...rest} />;
+  return <div ref={ref} className={cx("chu-button-group", className)} role={role} data-attached={flag(attached)} data-width={fullWidth ? "full" : undefined} {...rest} />;
 });
 
 /** Props for {@link Link}. */
@@ -152,7 +152,7 @@ export type LinkProps<T extends ElementType = "a"> = PolymorphicProps<T, LinkOwn
 
 /**
  * Words that go somewhere: underlined, in the accent's text colour; focus paints it yellow with ink letters.
- * Renders `<a class="pp-link">`; with `as`, your router's link (the class is all the styling).
+ * Renders `<a class="chu-link">`; with `as`, your router's link (the class is all the styling).
  *
  *   <Link href="/rules">house rules</Link>
  *   <Link standalone href="/levels">All levels</Link>
@@ -163,7 +163,7 @@ export const Link = /*#__PURE__*/ forwardRef(function Link({ as: Tag = "a", stan
   return (
     <Tag
       ref={ref}
-      className={cx("pp-link", className)}
+      className={cx("chu-link", className)}
       data-variant={standalone ? "standalone" : undefined}
       data-external={external === true ? "opens in a new tab" : external}
       {...rest}

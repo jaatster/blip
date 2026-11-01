@@ -31,7 +31,7 @@ export interface AppBarOwnProps {
   collapse?: "medium" | "always" | "never";
   /** Stays at the top while the page scrolls. `data-sticky`. */
   sticky?: boolean;
-  /** The bar's corners, 4 by default; 0 for a bar flush to the screen's edges. `data-pp-r`. */
+  /** The bar's corners, 4 by default; 0 for a bar flush to the screen's edges. `data-chu-r`. */
   radius?: Radius;
 }
 /** Props for {@link AppBar}. */
@@ -54,7 +54,7 @@ export type AppBarProps = AppBarOwnProps & NativeProps<"header", AppBarOwnProps>
  *     <AppBarActions>…</AppBarActions>
  *   </AppBar>
  *
- * Renders `<header class="pp-box pp-app-bar">`, a size container (`pp-app-bar`): it folds by its own width.
+ * Renders `<header class="chu-box chu-app-bar">`, a size container (`chu-app-bar`): it folds by its own width.
  */
 export const AppBar = /*#__PURE__*/ forwardRef<HTMLElement, AppBarProps>(function AppBar(
   { collapse, sticky, radius, className, ...rest },
@@ -63,10 +63,10 @@ export const AppBar = /*#__PURE__*/ forwardRef<HTMLElement, AppBarProps>(functio
   return (
     <header
       ref={ref}
-      className={cx("pp-box pp-app-bar", className)}
+      className={cx("chu-box chu-app-bar", className)}
       data-collapse={collapse}
       data-sticky={flag(sticky)}
-      data-pp-r={radius}
+      data-chu-r={radius}
       {...rest}
     />
   );
@@ -81,16 +81,16 @@ export type AppBarBrandProps<T extends ElementType = "a"> = PolymorphicProps<T, 
  *
  *   <AppBarBrand href="/">
  *     <Icon name="star" />
- *     <span className="pp-display pp-pop" data-scale="2" data-pop="Questboard">Questboard</span>
+ *     <span className="chu-display chu-pop" data-scale="2" data-pop="Questboard">Questboard</span>
  *   </AppBarBrand>
  *
- * Renders `<a class="pp-app-bar-brand">`; with `as`, your router's link.
+ * Renders `<a class="chu-app-bar-brand">`; with `as`, your router's link.
  */
 export const AppBarBrand = /*#__PURE__*/ forwardRef(function AppBarBrand(
   { as: Tag = "a", className, ...rest }: AppBarBrandProps<ElementType>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("pp-app-bar-brand", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("chu-app-bar-brand", className)} {...rest} />;
 }) as PolymorphicComponent<"a", object>;
 
 /** Props for {@link AppBarNav}. */
@@ -101,10 +101,10 @@ export type AppBarNavProps = Named & NativeProps<"nav">;
  *
  *   <AppBarNav aria-label="Main">…</AppBarNav>
  *
- * Renders `<nav class="pp-app-bar-nav">`.
+ * Renders `<nav class="chu-app-bar-nav">`.
  */
 export const AppBarNav = /*#__PURE__*/ forwardRef<HTMLElement, AppBarNavProps>(function AppBarNav({ className, ...rest }, ref) {
-  return <nav ref={ref} className={cx("pp-app-bar-nav", className)} {...rest} />;
+  return <nav ref={ref} className={cx("chu-app-bar-nav", className)} {...rest} />;
 });
 
 /** Own props of {@link AppBarToggle}. */
@@ -126,7 +126,7 @@ export type AppBarToggleProps = AppBarToggleOwnProps & IconOnly & NativeProps<"b
  *   <AppBarToggle popoverTarget="main-links" iconOnly aria-label="Menu"><Icon name="menu" /></AppBarToggle>
  *   <AppBarToggle popoverTarget="docs-links" variant="outline"><Icon name="menu" />Menu</AppBarToggle>
  *
- * Renders `<button class="pp-box pp-button pp-app-bar-toggle" type="button" data-variant="ghost" popovertarget>`.
+ * Renders `<button class="chu-box chu-button chu-app-bar-toggle" type="button" data-variant="ghost" popovertarget>`.
  */
 export const AppBarToggle = /*#__PURE__*/ forwardRef<HTMLButtonElement, AppBarToggleProps>(function AppBarToggle(
   { variant = "ghost", iconOnly, type = "button", className, ...rest },
@@ -135,7 +135,7 @@ export const AppBarToggle = /*#__PURE__*/ forwardRef<HTMLButtonElement, AppBarTo
   return (
     <button
       ref={ref}
-      className={cx("pp-box pp-button pp-app-bar-toggle", className)}
+      className={cx("chu-box chu-button chu-app-bar-toggle", className)}
       type={type}
       data-variant={variant}
       data-icon-only={flag(iconOnly)}
@@ -153,13 +153,13 @@ export type AppBarLinksProps = NativeProps<"ul">;
  *
  *   <AppBarLinks id="main-links"><li><AppBarLink href="/live" current>Live ops</AppBarLink></li></AppBarLinks>
  *
- * Renders `<ul class="pp-box pp-app-bar-links" popover role="list">`.
+ * Renders `<ul class="chu-box chu-app-bar-links" popover role="list">`.
  */
 export const AppBarLinks = /*#__PURE__*/ forwardRef<HTMLUListElement, AppBarLinksProps>(function AppBarLinks(
   { className, ...rest },
   ref,
 ) {
-  return <ul ref={ref} className={cx("pp-box pp-app-bar-links", className)} popover="" role="list" {...rest} />;
+  return <ul ref={ref} className={cx("chu-box chu-app-bar-links", className)} popover="" role="list" {...rest} />;
 });
 
 /** Own props of {@link AppBarLink}. */
@@ -175,7 +175,7 @@ export type AppBarLinkProps<T extends ElementType = "a"> = PolymorphicProps<T, A
  *
  *   <li><AppBarLink href="/live" current>Live ops</AppBarLink></li>
  *
- * Renders `<a class="pp-box pp-app-bar-link" data-variant="ghost">`; with `as`, your router's link.
+ * Renders `<a class="chu-box chu-app-bar-link" data-variant="ghost">`; with `as`, your router's link.
  */
 export const AppBarLink = /*#__PURE__*/ forwardRef(function AppBarLink(
   { as: Tag = "a", current: isCurrent, className, ...rest }: AppBarLinkProps<ElementType>,
@@ -184,7 +184,7 @@ export const AppBarLink = /*#__PURE__*/ forwardRef(function AppBarLink(
   return (
     <Tag
       ref={ref}
-      className={cx("pp-box pp-app-bar-link", className)}
+      className={cx("chu-box chu-app-bar-link", className)}
       data-variant="ghost"
       aria-current={current(isCurrent)}
       {...rest}
@@ -200,31 +200,31 @@ export type AppBarActionsProps = NativeProps<"div">;
  *
  *   <AppBarActions><Button variant="ghost" iconOnly aria-label="Search"><Icon name="search" /></Button></AppBarActions>
  *
- * Renders `<div class="pp-app-bar-actions">`.
+ * Renders `<div class="chu-app-bar-actions">`.
  */
 export const AppBarActions = /*#__PURE__*/ forwardRef<HTMLDivElement, AppBarActionsProps>(function AppBarActions(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-app-bar-actions", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-app-bar-actions", className)} {...rest} />;
 });
 
 // ------------------------------------------------------------------------------------------------------- sidebar
 
 /** Own props of {@link Sidebar}. */
 export interface SidebarOwnProps {
-  /** A framed panel: adds `pp-box` and `data-variant="panel"`. Leave it off for a sidebar on the page. */
+  /** A framed panel: adds `chu-box` and `data-variant="panel"`. Leave it off for a sidebar on the page. */
   framed?: boolean;
   /** The rail: icons only, headings turn to rules, labels show beside items on hover and focus. `data-collapsed`. */
   collapsed?: boolean;
   /**
-   * `auto`: a rail while the `pp-shell` container is under 1024 px, hidden under 600 px (where a bottom bar or the
+   * `auto`: a rail while the `chu-shell` container is under 1024 px, hidden under 600 px (where a bottom bar or the
    * app bar's menu takes over). `data-collapse`.
    */
   collapse?: "auto";
   /** The TV's pointer arrow beside the current page: it pokes for a few beats, then rests. `data-arrow`. */
   arrow?: boolean;
-  /** The open width in pixels, 120 by default; keep it over 120 (narrower reads as the rail). `--pp-sidebar-width`. */
+  /** The open width in pixels, 120 by default; keep it over 120 (narrower reads as the rail). `--chu-sidebar-width`. */
   width?: number;
 }
 /** Props for {@link Sidebar}. */
@@ -247,18 +247,18 @@ export type SidebarProps = SidebarOwnProps & Named & NativeProps<"nav", SidebarO
  *     </SidebarList>
  *   </Sidebar>
  *
- * Renders `<nav class="pp-sidebar">` (`<nav class="pp-box pp-sidebar" data-variant="panel">` when framed). Rail
+ * Renders `<nav class="chu-sidebar">` (`<nav class="chu-box chu-sidebar" data-variant="panel">` when framed). Rail
  * labels reach outside it: do not clip a rail.
  */
 export const Sidebar = /*#__PURE__*/ forwardRef<HTMLElement, SidebarProps>(function Sidebar(
   { framed, collapsed, collapse, arrow, width, className, style, ...rest },
   ref,
 ) {
-  const sized = width === undefined ? style : { ...style, "--pp-sidebar-width": `calc(${width} * var(--pp-pixel))` };
+  const sized = width === undefined ? style : { ...style, "--chu-sidebar-width": `calc(${width} * var(--chu-pixel))` };
   return (
     <nav
       ref={ref}
-      className={cx(framed && "pp-box", "pp-sidebar", className)}
+      className={cx(framed && "chu-box", "chu-sidebar", className)}
       data-variant={framed ? "panel" : undefined}
       data-collapsed={flag(collapsed)}
       data-collapse={collapse}
@@ -278,13 +278,13 @@ export type SidebarHeadingProps = NativeProps<"h2">;
  *
  *   <SidebarHeading id="nav-shop">Shop</SidebarHeading>
  *
- * Renders `<h2 class="pp-sidebar-heading">`.
+ * Renders `<h2 class="chu-sidebar-heading">`.
  */
 export const SidebarHeading = /*#__PURE__*/ forwardRef<HTMLHeadingElement, SidebarHeadingProps>(function SidebarHeading(
   { className, ...rest },
   ref,
 ) {
-  return <h2 ref={ref} className={cx("pp-sidebar-heading", className)} {...rest} />;
+  return <h2 ref={ref} className={cx("chu-sidebar-heading", className)} {...rest} />;
 });
 
 /** Props for {@link SidebarList}. */
@@ -295,13 +295,13 @@ export type SidebarListProps = NativeProps<"ul">;
  *
  *   <SidebarList aria-labelledby="nav-shop">…</SidebarList>
  *
- * Renders `<ul class="pp-sidebar-list" role="list">`.
+ * Renders `<ul class="chu-sidebar-list" role="list">`.
  */
 export const SidebarList = /*#__PURE__*/ forwardRef<HTMLUListElement, SidebarListProps>(function SidebarList(
   { className, ...rest },
   ref,
 ) {
-  return <ul ref={ref} className={cx("pp-sidebar-list", className)} role="list" {...rest} />;
+  return <ul ref={ref} className={cx("chu-sidebar-list", className)} role="list" {...rest} />;
 });
 
 /** Own props of {@link SidebarItem}. */
@@ -310,7 +310,7 @@ export interface SidebarItemOwnProps {
   current?: boolean;
   /** Off: dithered and muted, announced as a dimmed link. `role="link"` and `aria-disabled="true"`, with no `href`. */
   disabled?: boolean;
-  /** Corner radius in pixels, 3 by default. `data-pp-r`. */
+  /** Corner radius in pixels, 3 by default. `data-chu-r`. */
   radius?: Radius;
 }
 /** Props for {@link SidebarItem}: a link's by default, a summary's with `as="summary"`. */
@@ -324,7 +324,7 @@ export type SidebarItemProps<T extends ElementType = "a"> = PolymorphicProps<T, 
  *   <li><SidebarItem href="/players"><Icon name="users" /><SidebarLabel>Players</SidebarLabel></SidebarItem></li>
  *   <SidebarItem as="summary"><Icon name="settings" /><SidebarLabel>Settings</SidebarLabel></SidebarItem>
  *
- * Renders `<a class="pp-box pp-sidebar-item" data-variant="ghost">`.
+ * Renders `<a class="chu-box chu-sidebar-item" data-variant="ghost">`.
  */
 export const SidebarItem = /*#__PURE__*/ forwardRef(function SidebarItem(
   { as: Tag = "a", current: isCurrent, disabled, radius, className, ...rest }: SidebarItemProps<ElementType>,
@@ -333,9 +333,9 @@ export const SidebarItem = /*#__PURE__*/ forwardRef(function SidebarItem(
   return (
     <Tag
       ref={ref}
-      className={cx("pp-box pp-sidebar-item", className)}
+      className={cx("chu-box chu-sidebar-item", className)}
       data-variant="ghost"
-      data-pp-r={radius}
+      data-chu-r={radius}
       role={disabled ? "link" : undefined}
       aria-disabled={disabled ? true : undefined}
       aria-current={current(isCurrent)}
@@ -353,13 +353,13 @@ export type SidebarLabelProps = NativeProps<"span">;
  *
  *   <SidebarLabel>Players</SidebarLabel>
  *
- * Renders `<span class="pp-sidebar-label">`.
+ * Renders `<span class="chu-sidebar-label">`.
  */
 export const SidebarLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, SidebarLabelProps>(function SidebarLabel(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-sidebar-label", className)} {...rest} />;
+  return <span ref={ref} className={cx("chu-sidebar-label", className)} {...rest} />;
 });
 
 /** Own props of {@link SidebarBadge}. */
@@ -371,15 +371,15 @@ export type SidebarBadgeProps = SidebarBadgeOwnProps & NativeProps<"span", Sideb
  * A count at the end of an item: a soft box; on the rail, a dot. Write "999+" above 999, and add words for screen
  * readers.
  *
- *   <SidebarBadge tone="danger">5<span className="pp-sr-only"> refunds to check</span></SidebarBadge>
+ *   <SidebarBadge tone="danger">5<span className="chu-sr-only"> refunds to check</span></SidebarBadge>
  *
- * Renders `<span class="pp-box pp-sidebar-badge">`.
+ * Renders `<span class="chu-box chu-sidebar-badge">`.
  */
 export const SidebarBadge = /*#__PURE__*/ forwardRef<HTMLSpanElement, SidebarBadgeProps>(function SidebarBadge(
   { tone, radius, className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-box pp-sidebar-badge", className)} {...box({ tone, radius })} {...rest} />;
+  return <span ref={ref} className={cx("chu-box chu-sidebar-badge", className)} {...box({ tone, radius })} {...rest} />;
 });
 
 /** Props for {@link SidebarGroup}. */
@@ -394,13 +394,13 @@ export type SidebarGroupProps = NativeProps<"details">;
  *     <SidebarList>…</SidebarList>
  *   </SidebarGroup>
  *
- * Renders `<details class="pp-sidebar-group">`.
+ * Renders `<details class="chu-sidebar-group">`.
  */
 export const SidebarGroup = /*#__PURE__*/ forwardRef<HTMLDetailsElement, SidebarGroupProps>(function SidebarGroup(
   { className, ...rest },
   ref,
 ) {
-  return <details ref={ref} className={cx("pp-sidebar-group", className)} {...rest} />;
+  return <details ref={ref} className={cx("chu-sidebar-group", className)} {...rest} />;
 });
 
 // --------------------------------------------------------------------------------------------------- breadcrumbs
@@ -425,7 +425,7 @@ export type BreadcrumbsProps = BreadcrumbsOwnProps & NativeProps<"nav", Breadcru
  *     </BreadcrumbsList>
  *   </Breadcrumbs>
  *
- * Renders `<nav class="pp-breadcrumbs" aria-label="Breadcrumb">`.
+ * Renders `<nav class="chu-breadcrumbs" aria-label="Breadcrumb">`.
  */
 export const Breadcrumbs = /*#__PURE__*/ forwardRef<HTMLElement, BreadcrumbsProps>(function Breadcrumbs(
   {
@@ -440,7 +440,7 @@ export const Breadcrumbs = /*#__PURE__*/ forwardRef<HTMLElement, BreadcrumbsProp
   return (
     <nav
       ref={ref}
-      className={cx("pp-breadcrumbs", className)}
+      className={cx("chu-breadcrumbs", className)}
       data-size={size}
       aria-label={label}
       aria-labelledby={labelledBy}
@@ -457,27 +457,27 @@ export type BreadcrumbsListProps = NativeProps<"ol">;
  *
  *   <BreadcrumbsList>…</BreadcrumbsList>
  *
- * Renders `<ol class="pp-breadcrumbs-list">`.
+ * Renders `<ol class="chu-breadcrumbs-list">`.
  */
 export const BreadcrumbsList = /*#__PURE__*/ forwardRef<HTMLOListElement, BreadcrumbsListProps>(function BreadcrumbsList(
   { className, ...rest },
   ref,
 ) {
-  return <ol ref={ref} className={cx("pp-breadcrumbs-list", className)} {...rest} />;
+  return <ol ref={ref} className={cx("chu-breadcrumbs-list", className)} {...rest} />;
 });
 
 /** Own props of {@link BreadcrumbsLink}. */
 export interface BreadcrumbsLinkOwnProps {
   /** The page you are on, the last crumb: a soft chip, ink bold text. `aria-current="page"`. */
   current?: boolean;
-  /** Corner radius in pixels, 3 by default. `data-pp-r`. */
+  /** Corner radius in pixels, 3 by default. `data-chu-r`. */
   radius?: Radius;
 }
 /** Props for {@link BreadcrumbsLink}: a link's by default, a button's with `as="button"`. */
 export type BreadcrumbsLinkProps<T extends ElementType = "a"> = PolymorphicProps<T, BreadcrumbsLinkOwnProps>;
 
 /**
- * A crumb: a ghost box, a link in the accent's text colour. A label in a `<span>` is cut to `--pp-breadcrumbs-max`
+ * A crumb: a ghost box, a link in the accent's text colour. A label in a `<span>` is cut to `--chu-breadcrumbs-max`
  * with an ellipsis (its whole text stays the name); an icon-only crumb needs `aria-label`. As a button
  * (`as="button"`, `type="button"` by default) it opens the {@link MenuList} that folds a long trail's middle.
  *
@@ -489,7 +489,7 @@ export type BreadcrumbsLinkProps<T extends ElementType = "a"> = PolymorphicProps
  *     </Menu>
  *   </li>
  *
- * Renders `<a class="pp-box pp-breadcrumbs-link" data-variant="ghost">`.
+ * Renders `<a class="chu-box chu-breadcrumbs-link" data-variant="ghost">`.
  */
 export const BreadcrumbsLink = /*#__PURE__*/ forwardRef(function BreadcrumbsLink(
   { as: Tag = "a", current: isCurrent, radius, className, ...rest }: BreadcrumbsLinkProps<ElementType>,
@@ -498,10 +498,10 @@ export const BreadcrumbsLink = /*#__PURE__*/ forwardRef(function BreadcrumbsLink
   return (
     <Tag
       ref={ref}
-      className={cx("pp-box pp-breadcrumbs-link", className)}
+      className={cx("chu-box chu-breadcrumbs-link", className)}
       type={Tag === "button" ? "button" : undefined}
       data-variant="ghost"
-      data-pp-r={radius}
+      data-chu-r={radius}
       aria-current={current(isCurrent)}
       {...rest}
     />
@@ -537,14 +537,14 @@ export type PaginationProps = PaginationOwnProps & Named & NativeProps<"nav", Pa
  *     </PaginationList>
  *   </Pagination>
  *
- * Renders `<nav class="pp-pagination">`, a size container that takes the width it is given.
+ * Renders `<nav class="chu-pagination">`, a size container that takes the width it is given.
  */
 export const Pagination = /*#__PURE__*/ forwardRef<HTMLElement, PaginationProps>(function Pagination(
   { size, compact, className, ...rest },
   ref,
 ) {
   return (
-    <nav ref={ref} className={cx("pp-pagination", className)} data-size={size} data-compact={flag(compact)} {...rest} />
+    <nav ref={ref} className={cx("chu-pagination", className)} data-size={size} data-compact={flag(compact)} {...rest} />
   );
 });
 
@@ -556,13 +556,13 @@ export type PaginationListProps = NativeProps<"ul">;
  *
  *   <PaginationList>…</PaginationList>
  *
- * Renders `<ul class="pp-pagination-list" role="list">`.
+ * Renders `<ul class="chu-pagination-list" role="list">`.
  */
 export const PaginationList = /*#__PURE__*/ forwardRef<HTMLUListElement, PaginationListProps>(function PaginationList(
   { className, ...rest },
   ref,
 ) {
-  return <ul ref={ref} className={cx("pp-pagination-list", className)} role="list" {...rest} />;
+  return <ul ref={ref} className={cx("chu-pagination-list", className)} role="list" {...rest} />;
 });
 
 /** Own props of {@link PaginationPrev} and {@link PaginationNext}. */
@@ -596,7 +596,7 @@ const arrowAttrs = ({ variant, tone, radius, iconOnly, disabled }: PaginationArr
  *   <li><PaginationPrev variant="ghost" disabled>Previous</PaginationPrev></li>
  *   <li><PaginationPrev iconOnly aria-label="Previous page" href="?page=4">Previous</PaginationPrev></li>
  *
- * Renders `<a class="pp-box pp-pagination-prev" rel="prev"><span>…</span></a>`; with `as`, your router's link.
+ * Renders `<a class="chu-box chu-pagination-prev" rel="prev"><span>…</span></a>`; with `as`, your router's link.
  */
 export const PaginationPrev = /*#__PURE__*/ forwardRef(function PaginationPrev(
   { as: Tag = "a", variant, tone, radius, iconOnly, disabled, rel = disabled ? undefined : "prev", className, children, ...rest }: PaginationPrevProps<ElementType>,
@@ -605,7 +605,7 @@ export const PaginationPrev = /*#__PURE__*/ forwardRef(function PaginationPrev(
   return (
     <Tag
       ref={ref}
-      className={cx("pp-box pp-pagination-prev", className)}
+      className={cx("chu-box chu-pagination-prev", className)}
       {...arrowAttrs({ variant, tone, radius, iconOnly, disabled })}
       rel={rel}
       {...rest}
@@ -620,7 +620,7 @@ export const PaginationPrev = /*#__PURE__*/ forwardRef(function PaginationPrev(
  *
  *   <li><PaginationNext variant="ghost" href="?page=6">Next</PaginationNext></li>
  *
- * Renders `<a class="pp-box pp-pagination-next" rel="next"><span>…</span></a>`; with `as`, your router's link.
+ * Renders `<a class="chu-box chu-pagination-next" rel="next"><span>…</span></a>`; with `as`, your router's link.
  */
 export const PaginationNext = /*#__PURE__*/ forwardRef(function PaginationNext(
   { as: Tag = "a", variant, tone, radius, iconOnly, disabled, rel = disabled ? undefined : "next", className, children, ...rest }: PaginationNextProps<ElementType>,
@@ -629,7 +629,7 @@ export const PaginationNext = /*#__PURE__*/ forwardRef(function PaginationNext(
   return (
     <Tag
       ref={ref}
-      className={cx("pp-box pp-pagination-next", className)}
+      className={cx("chu-box chu-pagination-next", className)}
       {...arrowAttrs({ variant, tone, radius, iconOnly, disabled })}
       rel={rel}
       {...rest}
@@ -653,7 +653,7 @@ export type PaginationPageProps<T extends ElementType = "a"> = PolymorphicProps<
  *
  *   <li><PaginationPage variant="outline" href="?page=5" aria-label="Page 5" current>5</PaginationPage></li>
  *
- * Renders `<a class="pp-box pp-pagination-page">`; with `as`, your router's link.
+ * Renders `<a class="chu-box chu-pagination-page">`; with `as`, your router's link.
  */
 export const PaginationPage = /*#__PURE__*/ forwardRef(function PaginationPage(
   { as: Tag = "a", variant, tone, radius, current: isCurrent, className, ...rest }: PolymorphicProps<ElementType, PaginationPageOwnProps>,
@@ -662,7 +662,7 @@ export const PaginationPage = /*#__PURE__*/ forwardRef(function PaginationPage(
   return (
     <Tag
       ref={ref}
-      className={cx("pp-box pp-pagination-page", className)}
+      className={cx("chu-box chu-pagination-page", className)}
       {...box({ variant, tone, radius })}
       aria-current={current(isCurrent)}
       {...rest}
@@ -678,13 +678,13 @@ export type PaginationGapProps = Omit<NativeProps<"li">, "children">;
  *
  *   <PaginationGap />
  *
- * Renders `<li class="pp-pagination-gap" aria-hidden="true">`.
+ * Renders `<li class="chu-pagination-gap" aria-hidden="true">`.
  */
 export const PaginationGap = /*#__PURE__*/ forwardRef<HTMLLIElement, PaginationGapProps>(function PaginationGap(
   { className, ...rest },
   ref,
 ) {
-  return <li ref={ref} className={cx("pp-pagination-gap", className)} aria-hidden="true" {...rest} />;
+  return <li ref={ref} className={cx("chu-pagination-gap", className)} aria-hidden="true" {...rest} />;
 });
 
 /** Own props of {@link PaginationStatus}. */
@@ -693,9 +693,9 @@ export interface PaginationStatusOwnProps {
   page: number | string;
   /** How many pages there are. */
   total: number | string;
-  /** What a page is called, read before its number (a `pp-sr-only` span): "Page" by default, or "World". */
+  /** What a page is called, read before its number (a `chu-sr-only` span): "Page" by default, or "World". */
   label?: string;
-  /** The word read between the numbers, in a `pp-sr-only` span: "of" by default. */
+  /** The word read between the numbers, in a `chu-sr-only` span: "of" by default. */
   of?: string;
 }
 /** Props for {@link PaginationStatus}. */
@@ -709,17 +709,17 @@ export type PaginationStatusProps = PaginationStatusOwnProps &
  *   <PaginationStatus page={5} total={16} />
  *   <PaginationStatus page={3} total={8} label="World" />
  *
- * Renders `<li class="pp-pagination-status"><span class="pp-sr-only">Page</span> 5 <span aria-hidden="true">/</span>
- * <span class="pp-sr-only">of</span> 16</li>`.
+ * Renders `<li class="chu-pagination-status"><span class="chu-sr-only">Page</span> 5 <span aria-hidden="true">/</span>
+ * <span class="chu-sr-only">of</span> 16</li>`.
  */
 export const PaginationStatus = /*#__PURE__*/ forwardRef<HTMLLIElement, PaginationStatusProps>(function PaginationStatus(
   { page, total, label = "Page", of = "of", className, ...rest },
   ref,
 ) {
   return (
-    <li ref={ref} className={cx("pp-pagination-status", className)} {...rest}>
-      <span className="pp-sr-only">{label}</span> {page} <span aria-hidden="true">/</span>
-      <span className="pp-sr-only">{of}</span> {total}
+    <li ref={ref} className={cx("chu-pagination-status", className)} {...rest}>
+      <span className="chu-sr-only">{label}</span> {page} <span aria-hidden="true">/</span>
+      <span className="chu-sr-only">{of}</span> {total}
     </li>
   );
 });
@@ -746,7 +746,7 @@ export type ProgressStepsProps = ProgressStepsOwnProps & NativeProps<"div", Prog
  *       <ProgressStepsItem done>
  *         <a href="/checkout/basket">
  *           <ProgressStepsMarker>1</ProgressStepsMarker>
- *           <ProgressStepsLabel>Basket<span className="pp-sr-only">, done</span></ProgressStepsLabel>
+ *           <ProgressStepsLabel>Basket<span className="chu-sr-only">, done</span></ProgressStepsLabel>
  *         </a>
  *       </ProgressStepsItem>
  *       <ProgressStepsItem current>
@@ -757,7 +757,7 @@ export type ProgressStepsProps = ProgressStepsOwnProps & NativeProps<"div", Prog
  *     </ProgressStepsList>
  *   </ProgressSteps>
  *
- * Renders `<div class="pp-progress-steps">`, a size container: under 480 px the hints step aside, under 300 px only
+ * Renders `<div class="chu-progress-steps">`, a size container: under 480 px the hints step aside, under 300 px only
  * the current step keeps its label on screen.
  */
 export const ProgressSteps = /*#__PURE__*/ forwardRef<HTMLDivElement, ProgressStepsProps>(function ProgressSteps(
@@ -767,7 +767,7 @@ export const ProgressSteps = /*#__PURE__*/ forwardRef<HTMLDivElement, ProgressSt
   return (
     <div
       ref={ref}
-      className={cx("pp-progress-steps", className)}
+      className={cx("chu-progress-steps", className)}
       data-orientation={orientation}
       data-arrow={flag(arrow)}
       {...rest}
@@ -783,13 +783,13 @@ export type ProgressStepsListProps = Named & NativeProps<"ol">;
  *
  *   <ProgressStepsList aria-label="Checkout">…</ProgressStepsList>
  *
- * Renders `<ol class="pp-progress-steps-list">`.
+ * Renders `<ol class="chu-progress-steps-list">`.
  */
 export const ProgressStepsList = /*#__PURE__*/ forwardRef<HTMLOListElement, ProgressStepsListProps>(function ProgressStepsList(
   { className, ...rest },
   ref,
 ) {
-  return <ol ref={ref} className={cx("pp-progress-steps-list", className)} {...rest} />;
+  return <ol ref={ref} className={cx("chu-progress-steps-list", className)} {...rest} />;
 });
 
 /** Own props of {@link ProgressStepsItem}. */
@@ -810,7 +810,7 @@ export type ProgressStepsItemProps = ProgressStepsItemOwnProps & NativeProps<"li
  *     <ProgressStepsMarker>2</ProgressStepsMarker><ProgressStepsLabel>Payment</ProgressStepsLabel>
  *   </ProgressStepsItem>
  *
- * Renders `<li class="pp-progress-steps-item">`.
+ * Renders `<li class="chu-progress-steps-item">`.
  */
 export const ProgressStepsItem = /*#__PURE__*/ forwardRef<HTMLLIElement, ProgressStepsItemProps>(function ProgressStepsItem(
   { done, current: isCurrent, className, ...rest },
@@ -819,7 +819,7 @@ export const ProgressStepsItem = /*#__PURE__*/ forwardRef<HTMLLIElement, Progres
   return (
     <li
       ref={ref}
-      className={cx("pp-progress-steps-item", className)}
+      className={cx("chu-progress-steps-item", className)}
       data-state={done ? "done" : undefined}
       aria-current={isCurrent ? "step" : undefined}
       {...rest}
@@ -838,14 +838,14 @@ export type ProgressStepsMarkerProps = ProgressStepsMarkerOwnProps & NativeProps
  *
  *   <ProgressStepsMarker tone="pink">1</ProgressStepsMarker>
  *
- * Renders `<span class="pp-box pp-progress-steps-marker">`.
+ * Renders `<span class="chu-box chu-progress-steps-marker">`.
  */
 export const ProgressStepsMarker = /*#__PURE__*/ forwardRef<HTMLSpanElement, ProgressStepsMarkerProps>(function ProgressStepsMarker(
   { tone, radius, className, ...rest },
   ref,
 ) {
   return (
-    <span ref={ref} className={cx("pp-box pp-progress-steps-marker", className)} {...box({ tone, radius })} {...rest} />
+    <span ref={ref} className={cx("chu-box chu-progress-steps-marker", className)} {...box({ tone, radius })} {...rest} />
   );
 });
 
@@ -855,15 +855,15 @@ export type ProgressStepsLabelProps = NativeProps<"span">;
 /**
  * A step's name, upper case and bold: one or two words.
  *
- *   <ProgressStepsLabel>Basket<span className="pp-sr-only">, done</span></ProgressStepsLabel>
+ *   <ProgressStepsLabel>Basket<span className="chu-sr-only">, done</span></ProgressStepsLabel>
  *
- * Renders `<span class="pp-progress-steps-label">`.
+ * Renders `<span class="chu-progress-steps-label">`.
  */
 export const ProgressStepsLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, ProgressStepsLabelProps>(function ProgressStepsLabel(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-progress-steps-label", className)} {...rest} />;
+  return <span ref={ref} className={cx("chu-progress-steps-label", className)} {...rest} />;
 });
 
 /** Props for {@link ProgressStepsHint}. */
@@ -874,22 +874,22 @@ export type ProgressStepsHintProps = NativeProps<"span">;
  *
  *   <ProgressStepsHint>Card or coins</ProgressStepsHint>
  *
- * Renders `<span class="pp-progress-steps-hint">`.
+ * Renders `<span class="chu-progress-steps-hint">`.
  */
 export const ProgressStepsHint = /*#__PURE__*/ forwardRef<HTMLSpanElement, ProgressStepsHintProps>(function ProgressStepsHint(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-progress-steps-hint", className)} {...rest} />;
+  return <span ref={ref} className={cx("chu-progress-steps-hint", className)} {...rest} />;
 });
 
 // ---------------------------------------------------------------------------------------------------- bottom bar
 
 /** Own props of {@link BottomBar}. */
 export interface BottomBarOwnProps {
-  /** `auto`: hidden while the `pp-shell` container is 600 px or wider (the sidebar takes over). `data-collapse`. */
+  /** `auto`: hidden while the `chu-shell` container is 600 px or wider (the sidebar takes over). `data-collapse`. */
   collapse?: "auto";
-  /** Corner radius in pixels, 5 by default. `data-pp-r`. */
+  /** Corner radius in pixels, 5 by default. `data-chu-r`. */
   radius?: Radius;
 }
 /** Props for {@link BottomBar}. */
@@ -908,13 +908,13 @@ export type BottomBarProps = BottomBarOwnProps & Named & NativeProps<"nav", Bott
  *       <li>
  *         <BottomBarItem href="/inbox">
  *           <Icon name="inbox" /><BottomBarLabel>Inbox</BottomBarLabel>
- *           <BottomBarBadge tone="danger">3<span className="pp-sr-only"> new</span></BottomBarBadge>
+ *           <BottomBarBadge tone="danger">3<span className="chu-sr-only"> new</span></BottomBarBadge>
  *         </BottomBarItem>
  *       </li>
  *     </BottomBarList>
  *   </BottomBar>
  *
- * Renders `<nav class="pp-box pp-bottom-bar">`.
+ * Renders `<nav class="chu-box chu-bottom-bar">`.
  */
 export const BottomBar = /*#__PURE__*/ forwardRef<HTMLElement, BottomBarProps>(function BottomBar(
   { collapse, radius, className, ...rest },
@@ -923,9 +923,9 @@ export const BottomBar = /*#__PURE__*/ forwardRef<HTMLElement, BottomBarProps>(f
   return (
     <nav
       ref={ref}
-      className={cx("pp-box pp-bottom-bar", className)}
+      className={cx("chu-box chu-bottom-bar", className)}
       data-collapse={collapse}
-      data-pp-r={radius}
+      data-chu-r={radius}
       {...rest}
     />
   );
@@ -939,20 +939,20 @@ export type BottomBarListProps = NativeProps<"ul">;
  *
  *   <BottomBarList>…</BottomBarList>
  *
- * Renders `<ul class="pp-bottom-bar-list" role="list">`.
+ * Renders `<ul class="chu-bottom-bar-list" role="list">`.
  */
 export const BottomBarList = /*#__PURE__*/ forwardRef<HTMLUListElement, BottomBarListProps>(function BottomBarList(
   { className, ...rest },
   ref,
 ) {
-  return <ul ref={ref} className={cx("pp-bottom-bar-list", className)} role="list" {...rest} />;
+  return <ul ref={ref} className={cx("chu-bottom-bar-list", className)} role="list" {...rest} />;
 });
 
 /** Own props of {@link BottomBarItem}. */
 export interface BottomBarItemOwnProps {
   /** The destination you are on: sits in, an accent-light chip with an ink label. `aria-current="page"`. */
   current?: boolean;
-  /** Corner radius in pixels, 4 by default. `data-pp-r`. */
+  /** Corner radius in pixels, 4 by default. `data-chu-r`. */
   radius?: Radius;
 }
 /** Props for {@link BottomBarItem}: a link's by default, or your router's link's with `as`. */
@@ -964,7 +964,7 @@ export type BottomBarItemProps<T extends ElementType = "a"> = PolymorphicProps<T
  *
  *   <li><BottomBarItem href="/" current><Icon name="home" /><BottomBarLabel>Today</BottomBarLabel></BottomBarItem></li>
  *
- * Renders `<a class="pp-box pp-bottom-bar-item" data-variant="ghost">`; with `as`, your router's link.
+ * Renders `<a class="chu-box chu-bottom-bar-item" data-variant="ghost">`; with `as`, your router's link.
  */
 export const BottomBarItem = /*#__PURE__*/ forwardRef(function BottomBarItem(
   { as: Tag = "a", current: isCurrent, radius, className, ...rest }: BottomBarItemProps<ElementType>,
@@ -973,9 +973,9 @@ export const BottomBarItem = /*#__PURE__*/ forwardRef(function BottomBarItem(
   return (
     <Tag
       ref={ref}
-      className={cx("pp-box pp-bottom-bar-item", className)}
+      className={cx("chu-box chu-bottom-bar-item", className)}
       data-variant="ghost"
-      data-pp-r={radius}
+      data-chu-r={radius}
       aria-current={current(isCurrent)}
       {...rest}
     />
@@ -990,13 +990,13 @@ export type BottomBarLabelProps = NativeProps<"span">;
  *
  *   <BottomBarLabel>Inbox</BottomBarLabel>
  *
- * Renders `<span class="pp-bottom-bar-label">`.
+ * Renders `<span class="chu-bottom-bar-label">`.
  */
 export const BottomBarLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, BottomBarLabelProps>(function BottomBarLabel(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-bottom-bar-label", className)} {...rest} />;
+  return <span ref={ref} className={cx("chu-bottom-bar-label", className)} {...rest} />;
 });
 
 /** Own props of {@link BottomBarBadge}. */
@@ -1012,10 +1012,10 @@ export type BottomBarBadgeProps = BottomBarBadgeOwnProps & NativeProps<"span", B
 /**
  * A count on the corner of an item's icon: a small candy box. Add words for screen readers.
  *
- *   <BottomBarBadge tone="danger">3<span className="pp-sr-only"> new</span></BottomBarBadge>
- *   <BottomBarBadge tone="danger" dot><span className="pp-sr-only">, new</span></BottomBarBadge>
+ *   <BottomBarBadge tone="danger">3<span className="chu-sr-only"> new</span></BottomBarBadge>
+ *   <BottomBarBadge tone="danger" dot><span className="chu-sr-only">, new</span></BottomBarBadge>
  *
- * Renders `<span class="pp-box pp-bottom-bar-badge">`.
+ * Renders `<span class="chu-box chu-bottom-bar-badge">`.
  */
 export const BottomBarBadge = /*#__PURE__*/ forwardRef<HTMLSpanElement, BottomBarBadgeProps>(function BottomBarBadge(
   { tone, dot, className, ...rest },
@@ -1024,7 +1024,7 @@ export const BottomBarBadge = /*#__PURE__*/ forwardRef<HTMLSpanElement, BottomBa
   return (
     <span
       ref={ref}
-      className={cx("pp-box pp-bottom-bar-badge", className)}
+      className={cx("chu-box chu-bottom-bar-badge", className)}
       data-tone={tone}
       data-dot={flag(dot)}
       {...rest}
@@ -1050,16 +1050,16 @@ export type SkipLinkProps<T extends ElementType = "a"> = PolymorphicProps<T, Ski
  *
  *   <SkipLink href="#main">Skip to content</SkipLink>
  *
- * Renders `<a class="pp-box pp-skip-link">`; with `as`, your router's link.
+ * Renders `<a class="chu-box chu-skip-link">`; with `as`, your router's link.
  */
 export const SkipLink = /*#__PURE__*/ forwardRef(function SkipLink(
   { as: Tag = "a", tone, radius, className, ...rest }: PolymorphicProps<ElementType, Partial<SkipLinkOwnProps>>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("pp-box pp-skip-link", className)} {...box({ tone, radius })} {...rest} />;
+  return <Tag ref={ref} className={cx("chu-box chu-skip-link", className)} {...box({ tone, radius })} {...rest} />;
 }) as PolymorphicComponent<"a", SkipLinkOwnProps>;
 
-// ---------------------------------------------------------------------------------------------- tabs (pp-tabs)
+// ---------------------------------------------------------------------------------------------- tabs (chu-tabs)
 
 /** Props for {@link TabList}. */
 export type TabListProps = Named & NativeProps<"div">;
@@ -1078,10 +1078,10 @@ export type TabListProps = Named & NativeProps<"div">;
  *     <TabPanel hidden>…</TabPanel>
  *   </Tabs>
  *
- * Renders `<div class="pp-tabs-list" role="tablist">`.
+ * Renders `<div class="chu-tabs-list" role="tablist">`.
  */
 export const TabList = /*#__PURE__*/ forwardRef<HTMLDivElement, TabListProps>(function TabList({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("pp-tabs-list", className)} role="tablist" {...rest} />;
+  return <div ref={ref} className={cx("chu-tabs-list", className)} role="tablist" {...rest} />;
 });
 
 /** Own props of {@link Tab}. */
@@ -1093,7 +1093,7 @@ export interface TabOwnProps {
   variant?: Variant;
   /** A tab that keeps its own colour (inventory categories); it still sits in when selected. `data-tone`. */
   tone?: Tone;
-  /** Corner radius in pixels: 4 (sm 3, underline 2) by default. `data-pp-r`. */
+  /** Corner radius in pixels: 4 (sm 3, underline 2) by default. `data-chu-r`. */
   radius?: Radius;
   /**
    * The tab whose panel shows: it sits in. Always written (`"false"` with `tabindex="-1"` on the others, so one tab
@@ -1111,9 +1111,9 @@ export type TabProps = TabOwnProps & NativeProps<"button", TabOwnProps>;
  * comes from the Tabs' `size`. `aria-disabled="true"` turns it off; the arrow keys skip it.
  *
  *   <Tab variant="outline" selected>General</Tab>
- *   <Tab variant="ghost">Reports <span className="pp-muted">12</span></Tab>
+ *   <Tab variant="ghost">Reports <span className="chu-muted">12</span></Tab>
  *
- * Renders `<button class="pp-box pp-tab" type="button" role="tab" aria-selected>`.
+ * Renders `<button class="chu-box chu-tab" type="button" role="tab" aria-selected>`.
  */
 export const Tab = /*#__PURE__*/ forwardRef<HTMLButtonElement, TabProps>(function Tab(
   { variant, tone, radius, selected = false, value, type = "button", className, ...rest },
@@ -1122,7 +1122,7 @@ export const Tab = /*#__PURE__*/ forwardRef<HTMLButtonElement, TabProps>(functio
   return (
     <button
       ref={ref}
-      className={cx("pp-box pp-tab", className)}
+      className={cx("chu-box chu-tab", className)}
       type={type}
       {...box({ variant, tone, radius })}
       data-value={value}
@@ -1136,7 +1136,7 @@ export const Tab = /*#__PURE__*/ forwardRef<HTMLButtonElement, TabProps>(functio
 
 /** Own props of {@link TabPanel}. */
 export interface TabPanelOwnProps {
-  /** A framed panel: adds `pp-box` and `data-variant="panel"`. */
+  /** A framed panel: adds `chu-box` and `data-variant="panel"`. */
   framed?: boolean;
 }
 /** Props for {@link TabPanel}: a div's by default, or another element's with `as`. */
@@ -1148,7 +1148,7 @@ export type TabPanelProps<T extends ElementType = "div"> = PolymorphicProps<T, T
  *
  *   <TabPanel as="section" framed hidden>…</TabPanel>
  *
- * Renders `<div class="pp-tabs-panel" role="tabpanel">` (`class="pp-box pp-tabs-panel" data-variant="panel"` framed).
+ * Renders `<div class="chu-tabs-panel" role="tabpanel">` (`class="chu-box chu-tabs-panel" data-variant="panel"` framed).
  */
 export const TabPanel = /*#__PURE__*/ forwardRef(function TabPanel(
   { as: Tag = "div", framed, className, ...rest }: TabPanelProps<ElementType>,
@@ -1157,7 +1157,7 @@ export const TabPanel = /*#__PURE__*/ forwardRef(function TabPanel(
   return (
     <Tag
       ref={ref}
-      className={cx(framed && "pp-box", "pp-tabs-panel", className)}
+      className={cx(framed && "chu-box", "chu-tabs-panel", className)}
       data-variant={framed ? "panel" : undefined}
       role="tabpanel"
       {...rest}
@@ -1165,11 +1165,11 @@ export const TabPanel = /*#__PURE__*/ forwardRef(function TabPanel(
   );
 }) as PolymorphicComponent<"div", TabPanelOwnProps>;
 
-// ---------------------------------------------------------------------------------------------- menu (pp-menu)
+// ---------------------------------------------------------------------------------------------- menu (chu-menu)
 
 /** Own props of {@link MenuList}. */
 export interface MenuListOwnProps {
-  /** Corner radius in pixels, 4 by default. `data-pp-r`. */
+  /** Corner radius in pixels, 4 by default. `data-chu-r`. */
   radius?: Radius;
 }
 /** Props for {@link MenuList}. */
@@ -1184,7 +1184,7 @@ export type MenuListProps = MenuListOwnProps & Named & NativeProps<"div", MenuLi
  *     <MenuList aria-label="Level">
  *       <MenuItem value="duplicate" aria-keyshortcuts="Control+D">
  *         <Icon name="copy" /><MenuLabel>Duplicate</MenuLabel>
- *         <MenuShortcut><kbd className="pp-box pp-keycap" data-size="sm">Ctrl</kbd>…</MenuShortcut>
+ *         <MenuShortcut><kbd className="chu-box chu-keycap" data-size="sm">Ctrl</kbd>…</MenuShortcut>
  *       </MenuItem>
  *       <MenuSeparator />
  *       <MenuItem kind="checkbox" checked={grid}><MenuLabel>Grid</MenuLabel></MenuItem>
@@ -1192,7 +1192,7 @@ export type MenuListProps = MenuListOwnProps & Named & NativeProps<"div", MenuLi
  *     </MenuList>
  *   </Menu>
  *
- * Renders `<div class="pp-box pp-menu-list pp-pop-in" role="menu" popover>`. A submenu is a `<Menu>` in the list,
+ * Renders `<div class="chu-box chu-menu-list chu-pop-in" role="menu" popover>`. A submenu is a `<Menu>` in the list,
  * its button a {@link MenuItem}.
  */
 export const MenuList = /*#__PURE__*/ forwardRef<HTMLDivElement, MenuListProps>(function MenuList(
@@ -1202,8 +1202,8 @@ export const MenuList = /*#__PURE__*/ forwardRef<HTMLDivElement, MenuListProps>(
   return (
     <div
       ref={ref}
-      className={cx("pp-box pp-menu-list pp-pop-in", className)}
-      data-pp-r={radius}
+      className={cx("chu-box chu-menu-list chu-pop-in", className)}
+      data-chu-r={radius}
       role="menu"
       popover=""
       {...rest}
@@ -1222,9 +1222,9 @@ export interface MenuItemOwnProps {
   checked?: boolean;
   /** A destructive item: red text until it is focused. Confirm what it does, and put it last. `data-tone`. */
   tone?: "danger";
-  /** What `pp-action` reports as `detail.value` (the label otherwise), so code need not read labels. `data-value`. */
+  /** What `chu-action` reports as `detail.value` (the label otherwise), so code need not read labels. `data-value`. */
   value?: string;
-  /** Corner radius in pixels, 3 by default. `data-pp-r`. */
+  /** Corner radius in pixels, 3 by default. `data-chu-r`. */
   radius?: Radius;
 }
 /** Checkbox and radio items have a state; actions do not. */
@@ -1242,7 +1242,7 @@ export type MenuItemProps<T extends ElementType = "button"> = PolymorphicProps<T
  *   <MenuItem kind="radio" checked={sort === "name"} value="name"><MenuLabel>Name</MenuLabel></MenuItem>
  *   <MenuItem as="a" href="/profile"><MenuLabel>Profile</MenuLabel></MenuItem>
  *
- * Renders `<button class="pp-box pp-menu-item" type="button" role="menuitem">`.
+ * Renders `<button class="chu-box chu-menu-item" type="button" role="menuitem">`.
  */
 export const MenuItem = /*#__PURE__*/ forwardRef(function MenuItem(
   { as: Tag = "button", kind, checked, tone, value, radius, className, ...rest }: MenuItemProps<ElementType>,
@@ -1251,12 +1251,12 @@ export const MenuItem = /*#__PURE__*/ forwardRef(function MenuItem(
   return (
     <Tag
       ref={ref}
-      className={cx("pp-box pp-menu-item", className)}
+      className={cx("chu-box chu-menu-item", className)}
       type={Tag === "button" ? "button" : undefined}
       role={kind === "checkbox" ? "menuitemcheckbox" : kind === "radio" ? "menuitemradio" : "menuitem"}
       aria-checked={checked}
       data-tone={tone}
-      data-pp-r={radius}
+      data-chu-r={radius}
       data-value={value}
       {...rest}
     />
@@ -1272,10 +1272,10 @@ export type MenuLabelProps = NativeProps<"span">;
  *
  *   <MenuLabel>Export as PNG</MenuLabel>
  *
- * Renders `<span class="pp-menu-label">`.
+ * Renders `<span class="chu-menu-label">`.
  */
 export const MenuLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, MenuLabelProps>(function MenuLabel({ className, ...rest }, ref) {
-  return <span ref={ref} className={cx("pp-menu-label", className)} {...rest} />;
+  return <span ref={ref} className={cx("chu-menu-label", className)} {...rest} />;
 });
 
 /** Props for {@link MenuShortcut}. */
@@ -1286,17 +1286,17 @@ export type MenuShortcutProps = NativeProps<"span">;
  * shortcut with `aria-keyshortcuts` on the item.
  *
  *   <MenuShortcut>
- *     <kbd className="pp-box pp-keycap" data-size="sm">Ctrl</kbd>
- *     <kbd className="pp-box pp-keycap" data-size="sm">D</kbd>
+ *     <kbd className="chu-box chu-keycap" data-size="sm">Ctrl</kbd>
+ *     <kbd className="chu-box chu-keycap" data-size="sm">D</kbd>
  *   </MenuShortcut>
  *
- * Renders `<span class="pp-menu-shortcut" aria-hidden="true">`.
+ * Renders `<span class="chu-menu-shortcut" aria-hidden="true">`.
  */
 export const MenuShortcut = /*#__PURE__*/ forwardRef<HTMLSpanElement, MenuShortcutProps>(function MenuShortcut(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-menu-shortcut", className)} aria-hidden="true" {...rest} />;
+  return <span ref={ref} className={cx("chu-menu-shortcut", className)} aria-hidden="true" {...rest} />;
 });
 
 /** Props for {@link MenuSeparator}. */
@@ -1307,13 +1307,13 @@ export type MenuSeparatorProps = Omit<NativeProps<"div">, "children">;
  *
  *   <MenuSeparator />
  *
- * Renders `<div class="pp-menu-separator" role="separator">`.
+ * Renders `<div class="chu-menu-separator" role="separator">`.
  */
 export const MenuSeparator = /*#__PURE__*/ forwardRef<HTMLDivElement, MenuSeparatorProps>(function MenuSeparator(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-menu-separator", className)} role="separator" {...rest} />;
+  return <div ref={ref} className={cx("chu-menu-separator", className)} role="separator" {...rest} />;
 });
 
 /** Props for {@link MenuGroup}. */
@@ -1342,20 +1342,20 @@ export type MenuHeadingProps = NativeProps<"div">;
  *
  *   <MenuHeading id="show">Show</MenuHeading>
  *
- * Renders `<div class="pp-menu-heading">`.
+ * Renders `<div class="chu-menu-heading">`.
  */
 export const MenuHeading = /*#__PURE__*/ forwardRef<HTMLDivElement, MenuHeadingProps>(function MenuHeading(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-menu-heading", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-menu-heading", className)} {...rest} />;
 });
 
-// ------------------------------------------------------------------------------------ command palette (pp-command)
+// ------------------------------------------------------------------------------------ command palette (chu-command)
 
 /** Own props of {@link CommandPanel}. */
 export interface CommandPanelOwnProps {
-  /** Corner radius in pixels, 5 by default. `data-pp-r`. */
+  /** Corner radius in pixels, 5 by default. `data-chu-r`. */
   radius?: Radius;
 }
 /** Props for {@link CommandPanel}: a dialog's by default (`as="div"` only for a static picture). */
@@ -1384,7 +1384,7 @@ export type CommandPanelProps<T extends ElementType = "dialog"> = PolymorphicPro
  *     </CommandPanel>
  *   </CommandPalette>
  *
- * Renders `<dialog class="pp-box pp-command pp-pop-in" closedby="any">`.
+ * Renders `<dialog class="chu-box chu-command chu-pop-in" closedby="any">`.
  */
 export const CommandPanel = /*#__PURE__*/ forwardRef(function CommandPanel(
   // The name is required by CommandPanelProps; inside, the props are just passed on.
@@ -1394,8 +1394,8 @@ export const CommandPanel = /*#__PURE__*/ forwardRef(function CommandPanel(
   return (
     <Tag
       ref={ref}
-      className={cx("pp-box pp-command pp-pop-in", className)}
-      data-pp-r={radius}
+      className={cx("chu-box chu-command chu-pop-in", className)}
+      data-chu-r={radius}
       closedby={Tag === "dialog" ? "any" : undefined}
       {...rest}
     />
@@ -1410,13 +1410,13 @@ export type CommandSearchProps = NativeProps<"div">;
  *
  *   <CommandSearch><Icon name="search" /><CommandInput aria-label="Search pages and actions" /></CommandSearch>
  *
- * Renders `<div class="pp-command-search">`.
+ * Renders `<div class="chu-command-search">`.
  */
 export const CommandSearch = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandSearchProps>(function CommandSearch(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-command-search", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-command-search", className)} {...rest} />;
 });
 
 /** Props for {@link CommandInput}. */
@@ -1429,13 +1429,13 @@ export type CommandInputProps = Named & NativeProps<"input">;
  *
  *   <CommandInput aria-label="Search pages and actions" placeholder="Search…" />
  *
- * Renders `<input class="pp-command-input" type="text">`.
+ * Renders `<input class="chu-command-input" type="text">`.
  */
 export const CommandInput = /*#__PURE__*/ forwardRef<HTMLInputElement, CommandInputProps>(function CommandInput(
   { type = "text", className, ...rest },
   ref,
 ) {
-  return <input ref={ref} className={cx("pp-command-input", className)} type={type} {...rest} />;
+  return <input ref={ref} className={cx("chu-command-input", className)} type={type} {...rest} />;
 });
 
 /** Props for {@link CommandResults}. */
@@ -1446,13 +1446,13 @@ export type CommandResultsProps = Named & NativeProps<"div">;
  *
  *   <CommandResults aria-label="Results">…</CommandResults>
  *
- * Renders `<div class="pp-command-results" role="listbox">`.
+ * Renders `<div class="chu-command-results" role="listbox">`.
  */
 export const CommandResults = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandResultsProps>(function CommandResults(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-command-results", className)} role="listbox" {...rest} />;
+  return <div ref={ref} className={cx("chu-command-results", className)} role="listbox" {...rest} />;
 });
 
 /** Props for {@link CommandGroup}. */
@@ -1465,13 +1465,13 @@ export type CommandGroupProps = Named & NativeProps<"div">;
  *     <CommandHeading id="palette-actions">Actions</CommandHeading>…
  *   </CommandGroup>
  *
- * Renders `<div class="pp-command-group" role="group">`.
+ * Renders `<div class="chu-command-group" role="group">`.
  */
 export const CommandGroup = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandGroupProps>(function CommandGroup(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-command-group", className)} role="group" {...rest} />;
+  return <div ref={ref} className={cx("chu-command-group", className)} role="group" {...rest} />;
 });
 
 /** Props for {@link CommandHeading}. */
@@ -1482,22 +1482,22 @@ export type CommandHeadingProps = NativeProps<"div">;
  *
  *   <CommandHeading id="palette-pages">Pages</CommandHeading>
  *
- * Renders `<div class="pp-command-heading">`.
+ * Renders `<div class="chu-command-heading">`.
  */
 export const CommandHeading = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandHeadingProps>(function CommandHeading(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-command-heading", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-command-heading", className)} {...rest} />;
 });
 
 /** Own props of {@link CommandItem}. */
 export interface CommandItemOwnProps {
-  /** What `pp-action` reports as `detail.value` (the label otherwise): a path, an action's name. `data-value`. */
+  /** What `chu-action` reports as `detail.value` (the label otherwise): a path, an action's name. `data-value`. */
   value?: string;
   /** More words the filter matches, space-separated ("home dashboard" finds Overview). `data-keywords`. */
   keywords?: string;
-  /** Corner radius in pixels, 3 by default. `data-pp-r`. */
+  /** Corner radius in pixels, 3 by default. `data-chu-r`. */
   radius?: Radius;
 }
 /** Props for {@link CommandItem}. */
@@ -1512,7 +1512,7 @@ export type CommandItemProps = CommandItemOwnProps & NativeProps<"div", CommandI
  *     <Icon name="plus" /><CommandLabel>New level</CommandLabel>
  *   </CommandItem>
  *
- * Renders `<div class="pp-box pp-command-item" role="option">`.
+ * Renders `<div class="chu-box chu-command-item" role="option">`.
  */
 export const CommandItem = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandItemProps>(function CommandItem(
   { value, keywords, radius, className, ...rest },
@@ -1521,11 +1521,11 @@ export const CommandItem = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandItemP
   return (
     <div
       ref={ref}
-      className={cx("pp-box pp-command-item", className)}
+      className={cx("chu-box chu-command-item", className)}
       role="option"
       data-value={value}
       data-keywords={keywords}
-      data-pp-r={radius}
+      data-chu-r={radius}
       {...rest}
     />
   );
@@ -1535,17 +1535,17 @@ export const CommandItem = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandItemP
 export type CommandLabelProps = NativeProps<"span">;
 
 /**
- * A result's name, as the visible navigation says it ("Players", "New level"); the filter and `pp-action` read it.
+ * A result's name, as the visible navigation says it ("Players", "New level"); the filter and `chu-action` read it.
  *
  *   <CommandLabel>Levels</CommandLabel>
  *
- * Renders `<span class="pp-command-label">`.
+ * Renders `<span class="chu-command-label">`.
  */
 export const CommandLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, CommandLabelProps>(function CommandLabel(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-command-label", className)} {...rest} />;
+  return <span ref={ref} className={cx("chu-command-label", className)} {...rest} />;
 });
 
 /** Props for {@link CommandHint}. */
@@ -1556,13 +1556,13 @@ export type CommandHintProps = NativeProps<"span">;
  *
  *   <CommandHint>Page</CommandHint>
  *
- * Renders `<span class="pp-command-hint">`.
+ * Renders `<span class="chu-command-hint">`.
  */
 export const CommandHint = /*#__PURE__*/ forwardRef<HTMLSpanElement, CommandHintProps>(function CommandHint(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-command-hint", className)} {...rest} />;
+  return <span ref={ref} className={cx("chu-command-hint", className)} {...rest} />;
 });
 
 /** Props for {@link CommandShortcut}. */
@@ -1572,16 +1572,16 @@ export type CommandShortcutProps = NativeProps<"span">;
  * A result's keys, small keycaps at the end, hidden from screen readers.
  *
  *   <CommandShortcut>
- *     <kbd className="pp-box pp-keycap" data-size="sm">G</kbd><kbd className="pp-box pp-keycap" data-size="sm">L</kbd>
+ *     <kbd className="chu-box chu-keycap" data-size="sm">G</kbd><kbd className="chu-box chu-keycap" data-size="sm">L</kbd>
  *   </CommandShortcut>
  *
- * Renders `<span class="pp-command-shortcut" aria-hidden="true">`.
+ * Renders `<span class="chu-command-shortcut" aria-hidden="true">`.
  */
 export const CommandShortcut = /*#__PURE__*/ forwardRef<HTMLSpanElement, CommandShortcutProps>(function CommandShortcut(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-command-shortcut", className)} aria-hidden="true" {...rest} />;
+  return <span ref={ref} className={cx("chu-command-shortcut", className)} aria-hidden="true" {...rest} />;
 });
 
 /** Props for {@link CommandEmpty}. */
@@ -1593,13 +1593,13 @@ export type CommandEmptyProps = NativeProps<"p">;
  *
  *   <CommandEmpty>Nothing matches. Try a page or an action.</CommandEmpty>
  *
- * Renders `<p class="pp-command-empty" hidden>`.
+ * Renders `<p class="chu-command-empty" hidden>`.
  */
 export const CommandEmpty = /*#__PURE__*/ forwardRef<HTMLParagraphElement, CommandEmptyProps>(function CommandEmpty(
   { hidden = true, className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("pp-command-empty", className)} hidden={hidden} {...rest} />;
+  return <p ref={ref} className={cx("chu-command-empty", className)} hidden={hidden} {...rest} />;
 });
 
 /** Props for {@link CommandStatus}. */
@@ -1611,13 +1611,13 @@ export type CommandStatusProps = Omit<NativeProps<"p">, "children">;
  *
  *   <CommandStatus />
  *
- * Renders `<p class="pp-sr-only" role="status">`.
+ * Renders `<p class="chu-sr-only" role="status">`.
  */
 export const CommandStatus = /*#__PURE__*/ forwardRef<HTMLParagraphElement, CommandStatusProps>(function CommandStatus(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("pp-sr-only", className)} role="status" {...rest} />;
+  return <p ref={ref} className={cx("chu-sr-only", className)} role="status" {...rest} />;
 });
 
 /** Props for {@link CommandFooter}. */
@@ -1627,13 +1627,13 @@ export type CommandFooterProps = NativeProps<"div">;
  * Optional keycap hints for the keys along the bottom, each a `<span>` of keycaps and a word. For the eye only:
  * hidden from screen readers, which hear the combobox.
  *
- *   <CommandFooter><span><kbd className="pp-box pp-keycap" data-size="sm">Enter</kbd> Open</span></CommandFooter>
+ *   <CommandFooter><span><kbd className="chu-box chu-keycap" data-size="sm">Enter</kbd> Open</span></CommandFooter>
  *
- * Renders `<div class="pp-command-footer" aria-hidden="true">`.
+ * Renders `<div class="chu-command-footer" aria-hidden="true">`.
  */
 export const CommandFooter = /*#__PURE__*/ forwardRef<HTMLDivElement, CommandFooterProps>(function CommandFooter(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-command-footer", className)} aria-hidden="true" {...rest} />;
+  return <div ref={ref} className={cx("chu-command-footer", className)} aria-hidden="true" {...rest} />;
 });

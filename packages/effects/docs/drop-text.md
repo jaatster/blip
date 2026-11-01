@@ -2,7 +2,7 @@
 name: Drop text
 package: "@jaatster/blip-effects"
 css: text.css
-element: pp-drop-text
+element: chu-drop-text
 react: DropText
 status: beta
 ---
@@ -15,11 +15,11 @@ each letter appears 30 ms after the last, two pixels high for one frame, then la
 ## Usage
 
 ```html
-<h1><pp-drop-text class="pp-display pp-pop" data-scale="3" data-pop="Level complete!">Level complete!</pp-drop-text></h1>
+<h1><chu-drop-text class="chu-display chu-pop" data-scale="3" data-pop="Level complete!">Level complete!</chu-drop-text></h1>
 ```
 
 ```js
-const title = document.querySelector("pp-drop-text");
+const title = document.querySelector("chu-drop-text");
 title.text = "Photo booth";   // the new name drops in
 title.play();                 // drop in again
 ```
@@ -31,7 +31,7 @@ The text, kept whole for assistive technology, and a hidden copy split into word
 
 ## Variants
 
-Any display style: `.pp-display` at a scale, `.pp-pop` with a `data-tone`, plain. Put `pp-pop` and `data-pop` on the
+Any display style: `.chu-display` at a scale, `.chu-pop` with a `data-tone`, plain. Put `chu-pop` and `data-pop` on the
 element itself, so each letter keeps its tinted lower rows as it drops.
 
 ## States
@@ -62,4 +62,4 @@ Short titles: a name, a level, a word of praise. Pixel Bop is capitals only.
 |---|---|
 | `text` | The text; setting it drops the new text in. |
 | `play()` | Drops the letters in again. |
-| `--pp-drop-text-stagger` | Time between letters (30 ms). |
+| `--chu-drop-text-stagger` | Time between letters (30 ms). |

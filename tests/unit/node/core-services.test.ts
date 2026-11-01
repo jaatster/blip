@@ -154,18 +154,18 @@ describe("diagnostics", () => {
   it("warns with the code and a docs link, once per message", () => {
     flag.BLIP_DIAGNOSTICS = true;
     const log = vi.spyOn(console, "warn").mockImplementation(() => undefined);
-    warn("PP-T999", "A test warning, once.");
-    warn("PP-T999", "A test warning, once.");
+    warn("CHU-T999", "A test warning, once.");
+    warn("CHU-T999", "A test warning, once.");
     expect(log).toHaveBeenCalledTimes(1);
-    expect(log.mock.calls[0]![0]).toBe("Blip PP-T999: A test warning, once.\n  https://jaatster.com/blip/diagnostics#pp-t999");
+    expect(log.mock.calls[0]![0]).toBe("Blip CHU-T999: A test warning, once.\n  https://jaatster.com/blip/diagnostics#chu-t999");
   });
 
   it("stays quiet when turned off, and away from localhost", () => {
     const log = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     flag.BLIP_DIAGNOSTICS = false;
-    warn("PP-T998", "Never shown.");
+    warn("CHU-T998", "Never shown.");
     delete flag.BLIP_DIAGNOSTICS;
-    warn("PP-T998", "Not shown in Node either: there is no location.");
+    warn("CHU-T998", "Not shown in Node either: there is no location.");
     expect(log).not.toHaveBeenCalled();
   });
 
@@ -173,13 +173,13 @@ describe("diagnostics", () => {
     flag.BLIP_DIAGNOSTICS = true;
     const log = vi.spyOn(console, "warn").mockImplementation(() => undefined);
     const element = (attrs: Record<string, string>, text = "") =>
-      ({ localName: "pp-thing", textContent: text, getAttribute: (n: string) => attrs[n] ?? null }) as unknown as Element;
+      ({ localName: "chu-thing", textContent: text, getAttribute: (n: string) => attrs[n] ?? null }) as unknown as Element;
     checkName(element({ "aria-label": "Save" }));
     checkName(element({}, "  Save  "));
     checkName(element({ "aria-labelledby": "title" }));
     expect(log).not.toHaveBeenCalled();
-    checkName(element({}, "   "), "PP-A777");
+    checkName(element({}, "   "), "CHU-A777");
     expect(log).toHaveBeenCalledTimes(1);
-    expect(log.mock.calls[0]![0]).toContain("Blip PP-A777: <pp-thing> has no accessible name.");
+    expect(log.mock.calls[0]![0]).toContain("Blip CHU-A777: <chu-thing> has no accessible name.");
   });
 });

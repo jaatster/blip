@@ -15,10 +15,10 @@ import "@jaatster/blip-font/font.css";     // @font-face for both, with @jaatste
 ```
 
 ```html
-<h1 class="pp-display pp-pop" data-scale="3" data-pop="Level 2">Level 2</h1>
+<h1 class="chu-display chu-pop" data-scale="3" data-pop="Level 2">Level 2</h1>
 ```
 
-Pixel Bop is used at whole scales only (`.pp-display` with `data-scale` 1 to 4). Each face comes as three WOFF2
+Pixel Bop is used at whole scales only (`.chu-display` with `data-scale` 1 to 4). Each face comes as three WOFF2
 files, Latin, Cyrillic and Greek, and `font.css` gives each the `unicode-range` of what it draws, so a page downloads
 only the scripts it shows: for Latin, `pixel-bop.woff2` (about 8 KB) and `pixelify-sans.woff2` (about 12 KB).
 `pixel-bop.ttf` holds every script, for design tools. Emoji are the system's, sized to the capitals; Vietnamese and

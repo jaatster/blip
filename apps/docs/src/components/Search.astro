@@ -10,19 +10,19 @@ interface Props {
 }
 const { shortcut = "mod+k" } = Astro.props;
 ---
-<pp-command class="docs-search" shortcut={shortcut} data-docs-choose={chooseEvent("pp-command")}>
-  <dialog id="docs-search" class="pp-box pp-command pp-pop-in" aria-label="Search the docs" closedby="any">
-    <div class="pp-command-search">
+<chu-command class="docs-search" shortcut={shortcut} data-docs-choose={chooseEvent("chu-command")}>
+  <dialog id="docs-search" class="chu-box chu-command chu-pop-in" aria-label="Search the docs" closedby="any">
+    <div class="chu-command-search">
       <Icon name="search" />
-      <input class="pp-command-input" type="text" aria-label="Search pages and components" placeholder="Search pages and components" />
+      <input class="chu-command-input" type="text" aria-label="Search pages and components" placeholder="Search pages and components" />
     </div>
-    <div class="pp-command-results" role="listbox" aria-label="Results"></div>
-    <p class="pp-command-empty" hidden>Nothing matches. Try a component, a foundation or a token's name.</p>
-    <p class="pp-sr-only" role="status"></p>
-    <div class="pp-command-footer" aria-hidden="true">
-      <span><kbd class="pp-box pp-keycap" data-size="sm">Up</kbd><kbd class="pp-box pp-keycap" data-size="sm">Down</kbd> Move</span>
-      <span><kbd class="pp-box pp-keycap" data-size="sm">Enter</kbd> Open</span>
-      <span><kbd class="pp-box pp-keycap" data-size="sm">Esc</kbd> Close</span>
+    <div class="chu-command-results" role="listbox" aria-label="Results"></div>
+    <p class="chu-command-empty" hidden>Nothing matches. Try a component, a foundation or a token's name.</p>
+    <p class="chu-sr-only" role="status"></p>
+    <div class="chu-command-footer" aria-hidden="true">
+      <span><kbd class="chu-box chu-keycap" data-size="sm">Up</kbd><kbd class="chu-box chu-keycap" data-size="sm">Down</kbd> Move</span>
+      <span><kbd class="chu-box chu-keycap" data-size="sm">Enter</kbd> Open</span>
+      <span><kbd class="chu-box chu-keycap" data-size="sm">Esc</kbd> Close</span>
     </div>
   </dialog>
-</pp-command>
+</chu-command>

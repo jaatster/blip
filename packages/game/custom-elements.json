@@ -9,7 +9,7 @@
         {
           "kind": "class",
           "description": "Keyboard and events for a list of choices: Up and Down move between them (they wrap), Home and End jump to the\nends, and only one choice is in the tab order.",
-          "name": "PixelChoices",
+          "name": "BlipChoices",
           "members": [
             {
               "kind": "field",
@@ -46,32 +46,32 @@
                 "text": "CustomEvent<ChoiceDetail>"
               },
               "description": "A choice was clicked or pressed.",
-              "name": "pp-action"
+              "name": "chu-action"
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "A list of answers to pick from with the keys.",
-          "tagName": "pp-choices",
+          "tagName": "chu-choices",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PixelChoices",
+          "name": "BlipChoices",
           "declaration": {
-            "name": "PixelChoices",
+            "name": "BlipChoices",
             "module": "src/choices.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-choices",
+          "name": "chu-choices",
           "declaration": {
-            "name": "PixelChoices",
+            "name": "BlipChoices",
             "module": "src/choices.ts"
           }
         }
@@ -109,8 +109,8 @@
         },
         {
           "kind": "class",
-          "description": "The RPG text box: one <p> per page, each typed in a letter at a time with the TV's rhythm and an optional chip\nvoice. A click, Enter or Space shows the whole page, the next press turns it; after the last page come the\nchoices, if any, or pp-done. Screen readers get each whole page at once.",
-          "name": "PixelDialogue",
+          "description": "The RPG text box: one <p> per page, each typed in a letter at a time with the TV's rhythm and an optional chip\nvoice. A click, Enter or Space shows the whole page, the next press turns it; after the last page come the\nchoices, if any, or chu-done. Screen readers get each whole page at once.",
+          "name": "BlipDialogue",
           "members": [
             {
               "kind": "field",
@@ -165,7 +165,7 @@
                   "text": "void"
                 }
               },
-              "description": "Shows the rest of a typing page; otherwise turns to the next page, or after the last sends pp-done."
+              "description": "Shows the rest of a typing page; otherwise turns to the next page, or after the last sends chu-done."
             },
             {
               "kind": "method",
@@ -193,14 +193,14 @@
                 "text": "CustomEvent<{ page: number; pages: number }>"
               },
               "description": "A page turned.",
-              "name": "pp-next"
+              "name": "chu-next"
             },
             {
               "type": {
                 "text": "CustomEvent<void>"
               },
               "description": "The reader pressed on after the last page (and there were no choices).",
-              "name": "pp-done"
+              "name": "chu-done"
             }
           ],
           "attributes": [
@@ -263,15 +263,15 @@
                 "text": "number"
               },
               "description": "Freezes the first page at this many letters (docs and screenshots only).",
-              "name": "data-pp-typed"
+              "name": "data-chu-typed"
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "The RPG dialogue box that types its pages in.",
-          "tagName": "pp-dialogue",
+          "tagName": "chu-dialogue",
           "customElement": true
         }
       ],
@@ -286,17 +286,17 @@
         },
         {
           "kind": "js",
-          "name": "PixelDialogue",
+          "name": "BlipDialogue",
           "declaration": {
-            "name": "PixelDialogue",
+            "name": "BlipDialogue",
             "module": "src/dialogue.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-dialogue",
+          "name": "chu-dialogue",
           "declaration": {
-            "name": "PixelDialogue",
+            "name": "BlipDialogue",
             "module": "src/dialogue.ts"
           }
         }
@@ -309,7 +309,7 @@
         {
           "kind": "class",
           "description": "A coin, score or time counter in Pixel Bop's tabular digits. A gain counts up a whole step a frame, bumps the icon\nand plays its sound; the value is announced politely once it settles.",
-          "name": "PixelCounter",
+          "name": "BlipCounter",
           "members": [
             {
               "kind": "method",
@@ -421,13 +421,13 @@
             "module": "src/hud.ts"
           },
           "summary": "A coin, score or time counter.",
-          "tagName": "pp-counter",
+          "tagName": "chu-counter",
           "customElement": true
         },
         {
           "kind": "class",
           "description": "Hearts for health: full, half and empty sprites (sprites.js draws them). A loss shakes the row; the value is\nannounced politely once it settles.",
-          "name": "PixelHearts",
+          "name": "BlipHearts",
           "members": [
             {
               "kind": "field",
@@ -510,40 +510,40 @@
             "module": "src/hud.ts"
           },
           "summary": "A row of hearts for health.",
-          "tagName": "pp-hearts",
+          "tagName": "chu-hearts",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PixelCounter",
+          "name": "BlipCounter",
           "declaration": {
-            "name": "PixelCounter",
+            "name": "BlipCounter",
             "module": "src/hud.ts"
           }
         },
         {
           "kind": "js",
-          "name": "PixelHearts",
+          "name": "BlipHearts",
           "declaration": {
-            "name": "PixelHearts",
+            "name": "BlipHearts",
             "module": "src/hud.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-counter",
+          "name": "chu-counter",
           "declaration": {
-            "name": "PixelCounter",
+            "name": "BlipCounter",
             "module": "src/hud.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-hearts",
+          "name": "chu-hearts",
           "declaration": {
-            "name": "PixelHearts",
+            "name": "BlipHearts",
             "module": "src/hud.ts"
           }
         }
@@ -556,7 +556,7 @@
         {
           "kind": "class",
           "description": "A grid of item slots as a single-select listbox: the arrow keys move in two dimensions, Home and End jump to the\nends, a letter jumps to the next item with that name, and Enter, Space or a click selects.",
-          "name": "PixelInventory",
+          "name": "BlipInventory",
           "members": [
             {
               "kind": "field",
@@ -592,7 +592,7 @@
                   }
                 }
               ],
-              "description": "Selects a slot (by element or index) and sends pp-select."
+              "description": "Selects a slot (by element or index) and sends chu-select."
             }
           ],
           "events": [
@@ -601,32 +601,32 @@
                 "text": "CustomEvent<SelectDetail>"
               },
               "description": "A slot was selected.",
-              "name": "pp-select"
+              "name": "chu-select"
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "An inventory grid of item slots.",
-          "tagName": "pp-inventory",
+          "tagName": "chu-inventory",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PixelInventory",
+          "name": "BlipInventory",
           "declaration": {
-            "name": "PixelInventory",
+            "name": "BlipInventory",
             "module": "src/inventory.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-inventory",
+          "name": "chu-inventory",
           "declaration": {
-            "name": "PixelInventory",
+            "name": "BlipInventory",
             "module": "src/inventory.ts"
           }
         }
@@ -639,19 +639,19 @@
         {
           "kind": "class",
           "description": "One of the game kit's sprites, drawn in place as whole-pixel SVG in token colours. Named with aria-label it is a\npicture (role=\"img\"); without, decoration.",
-          "name": "PixelSprite",
+          "name": "BlipSprite",
           "cssProperties": [
             {
               "description": "A custom tone's light, set on the sprite.",
-              "name": "--pp-sprite-light"
+              "name": "--chu-sprite-light"
             },
             {
               "description": "A custom tone's base.",
-              "name": "--pp-sprite-base"
+              "name": "--chu-sprite-base"
             },
             {
               "description": "A custom tone's shade.",
-              "name": "--pp-sprite-shade"
+              "name": "--chu-sprite-shade"
             }
           ],
           "members": [
@@ -690,11 +690,11 @@
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "A game sprite: coin, heart, potion, key…",
-          "tagName": "pp-sprite",
+          "tagName": "chu-sprite",
           "customElement": true
         }
       ],
@@ -725,17 +725,17 @@
         },
         {
           "kind": "js",
-          "name": "PixelSprite",
+          "name": "BlipSprite",
           "declaration": {
-            "name": "PixelSprite",
+            "name": "BlipSprite",
             "module": "src/sprites.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-sprite",
+          "name": "chu-sprite",
           "declaration": {
-            "name": "PixelSprite",
+            "name": "BlipSprite",
             "module": "src/sprites.ts"
           }
         }

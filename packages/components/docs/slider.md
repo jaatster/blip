@@ -19,19 +19,19 @@ with stepped ends and a cream candy knob, with tick marks under it and a value r
 ## Usage
 
 ```html
-<pp-field class="pp-field">
-  <label class="pp-field-label" for="music">Music</label>
-  <div class="pp-slider-group">
-    <input class="pp-slider" id="music" name="music" type="range" min="0" max="10" value="7" list="music-ticks">
-    <output class="pp-box pp-slider-value" data-variant="panel" for="music" aria-hidden="true">7</output>
-    <datalist class="pp-slider-ticks" id="music-ticks">
+<chu-field class="chu-field">
+  <label class="chu-field-label" for="music">Music</label>
+  <div class="chu-slider-group">
+    <input class="chu-slider" id="music" name="music" type="range" min="0" max="10" value="7" list="music-ticks">
+    <output class="chu-box chu-slider-value" data-variant="panel" for="music" aria-hidden="true">7</output>
+    <datalist class="chu-slider-ticks" id="music-ticks">
       <option value="0">0</option><option value="5">5</option><option value="10">10</option>
     </datalist>
   </div>
-</pp-field>
+</chu-field>
 ```
 
-`<pp-field>` keeps the readout and the groove's fill in step with the slider. Without it, the slider still works; the
+`<chu-field>` keeps the readout and the groove's fill in step with the slider. Without it, the slider still works; the
 groove just doesn't fill (Firefox fills it natively).
 
 ## Anatomy
@@ -40,19 +40,19 @@ groove just doesn't fill (Firefox fills it natively).
    the accent up to the knob's middle.
 2. **Knob**: an 8 x 12 pixel cream candy box (ink outline with stepped corners, light and shade bands, glints, a drop),
    in a 12 x 16 target.
-3. **Ticks** (optional, `.pp-slider-ticks`): one mark per child, spread so each lines up with the knob at that
+3. **Ticks** (optional, `.chu-slider-ticks`): one mark per child, spread so each lines up with the knob at that
    value; a child's text is its label.
-4. **Readout** (optional, `.pp-slider-value`): the value in a small panel.
+4. **Readout** (optional, `.chu-slider-value`): the value in a small panel.
 
-The knob is a pseudo-element of the input, so it can't wear `.pp-box`: it is drawn here from the same tokens and the
+The knob is a pseudo-element of the input, so it can't wear `.chu-box`: it is drawn here from the same tokens and the
 same rules as the box.
 
 ## Variants
 
 | Part | Use |
 |---|---|
-| `.pp-slider-group` | Slider and readout side by side, ticks below the slider. |
-| `<datalist class="pp-slider-ticks">` linked with `list` | Ticks that also make the knob snap to them while dragging (Chromium). A `<div>` of spans works too. |
+| `.chu-slider-group` | Slider and readout side by side, ticks below the slider. |
+| `<datalist class="chu-slider-ticks">` linked with `list` | Ticks that also make the knob snap to them while dragging (Chromium). A `<div>` of spans works too. |
 
 ## States
 
@@ -63,7 +63,7 @@ same rules as the box.
 | Focus | keyboard | The yellow ring with an ink edge round the knob. |
 | Disabled | `disabled` | Knob dithered, groove soft. |
 
-`data-pp-state="hover focus active"` forces those looks in docs and tests.
+`data-chu-state="hover focus active"` forces those looks in docs and tests.
 
 ## Accessibility
 
@@ -95,9 +95,9 @@ same rules as the box.
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-slider-value` | 0 | How much of the groove is filled, 0 to 1. `<pp-field>` sets it. |
+| `--chu-slider-value` | 0 | How much of the groove is filled, 0 to 1. `<chu-field>` sets it. |
 
 | Class | |
 |---|---|
-| `.pp-slider` | The input. |
-| `.pp-slider-group`, `.pp-slider-ticks`, `.pp-slider-value` | Layout, ticks and readout. |
+| `.chu-slider` | The input. |
+| `.chu-slider-group`, `.chu-slider-ticks`, `.chu-slider-value` | Layout, ticks and readout. |

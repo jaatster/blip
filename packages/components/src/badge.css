@@ -2,13 +2,13 @@
  * Badge. A small candy box with a count, a word or nothing at all (a dot), in a tone; on its own in a line of
  * text, or pinned to the corner of a button, an avatar or an icon.
  *
- *   <span class="pp-box pp-badge" data-tone="danger">3</span>
- *   <span class="pp-box pp-badge" data-tone="success">New</span>
- *   <button class="pp-box pp-button" data-icon-only aria-label="Inbox, 99+ unread">
- *     <svg class="pp-icon" …></svg>
- *     <span class="pp-box pp-badge" data-tone="danger" data-position="top-end" aria-hidden="true">99+</span>
+ *   <span class="chu-box chu-badge" data-tone="danger">3</span>
+ *   <span class="chu-box chu-badge" data-tone="success">New</span>
+ *   <button class="chu-box chu-button" data-icon-only aria-label="Inbox, 99+ unread">
+ *     <svg class="chu-icon" …></svg>
+ *     <span class="chu-box chu-badge" data-tone="danger" data-position="top-end" aria-hidden="true">99+</span>
  *   </button>
- *   <span class="pp-box pp-badge" data-dot data-tone="success" data-position="bottom-end" role="img" aria-label="Online"></span>
+ *   <span class="chu-box chu-badge" data-dot data-tone="success" data-position="bottom-end" role="img" aria-label="Online"></span>
  *
  *   data-tone       accent (default) | info | success | warning | danger | neutral | a candy name
  *   data-variant    candy (default) | soft | outline
@@ -21,50 +21,50 @@
  * or role="img" with a label when it stands alone.
  */
 
-@layer pp.components {
-  .pp-badge {
-    --pp-r: 2;
-    --pp-shape: var(--pp-shape-2);
-    --pp-shape-inner: var(--pp-shape-2-inner);
-    --pp-band-top: 1;
-    --pp-band-bottom: 1;
-    --_pp-h: 10;
+@layer chu.components {
+  .chu-badge {
+    --chu-r: 2;
+    --chu-shape: var(--chu-shape-2);
+    --chu-shape-inner: var(--chu-shape-2-inner);
+    --chu-band-top: 1;
+    --chu-band-bottom: 1;
+    --_chu-h: 10;
     /* As many times its text size as at the default (20 px for 12 px text), if that is taller: a bigger default text
        size gets a bigger badge, in whole pixels, so the count never spills onto the outline. A dot stays a dot. */
-    --_pp-badge-font: var(--pp-size-caption);
-    --_pp-badge-em: calc(5 / 3);
-    --_pp-badge-size: max(calc(var(--_pp-h) * var(--pp-pixel)), round(up, var(--_pp-badge-em) * var(--_pp-badge-font), var(--pp-pixel)));
+    --_chu-badge-font: var(--chu-size-caption);
+    --_chu-badge-em: calc(5 / 3);
+    --_chu-badge-size: max(calc(var(--_chu-h) * var(--chu-pixel)), round(up, var(--_chu-badge-em) * var(--_chu-badge-font), var(--chu-pixel)));
     display: inline-flex;
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    min-inline-size: var(--_pp-badge-size);
-    block-size: var(--_pp-badge-size);
-    padding: 0 calc(3 * var(--pp-pixel));
-    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
-    font-family: var(--pp-font-ui);
-    font-size: var(--_pp-badge-font);
-    font-weight: var(--pp-weight-bold);
+    min-inline-size: var(--_chu-badge-size);
+    block-size: var(--_chu-badge-size);
+    padding: 0 calc(3 * var(--chu-pixel));
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
+    font-family: var(--chu-font-ui);
+    font-size: var(--_chu-badge-font);
+    font-weight: var(--chu-weight-bold);
     line-height: 1;
-    letter-spacing: var(--pp-tracking-label);
+    letter-spacing: var(--chu-tracking-label);
     font-variant-numeric: tabular-nums;
     text-transform: uppercase;
     white-space: nowrap;
     vertical-align: middle;
   }
-  .pp-badge[data-variant="outline"] { --pp-box-text: var(--pp-tone-text); --pp-box-outline: var(--pp-tone-text); }
-  .pp-badge[data-size="sm"] { --_pp-h: 8; --_pp-badge-em: calc(4 / 3); --pp-band-top: 0; --pp-band-bottom: 1; padding: 0 calc(2 * var(--pp-pixel)); }
-  .pp-badge[data-size="lg"] { --_pp-h: 12; --_pp-badge-font: var(--pp-size-small); --_pp-badge-em: calc(12 / 7); padding: 0 calc(4 * var(--pp-pixel)); }
-  .pp-badge[data-dot] {
-    --_pp-h: 6;
-    --_pp-badge-em: 0;
-    --pp-r: 1;
-    --pp-shape: var(--pp-shape-1);
-    --pp-shape-inner: var(--pp-shape-1-inner);
-    --pp-band-top: 0;
-    --pp-band-bottom: 1;
-    --pp-box-glint: transparent;
-    inline-size: calc(6 * var(--pp-pixel));
+  .chu-badge[data-variant="outline"] { --chu-box-text: var(--chu-tone-text); --chu-box-outline: var(--chu-tone-text); }
+  .chu-badge[data-size="sm"] { --_chu-h: 8; --_chu-badge-em: calc(4 / 3); --chu-band-top: 0; --chu-band-bottom: 1; padding: 0 calc(2 * var(--chu-pixel)); }
+  .chu-badge[data-size="lg"] { --_chu-h: 12; --_chu-badge-font: var(--chu-size-small); --_chu-badge-em: calc(12 / 7); padding: 0 calc(4 * var(--chu-pixel)); }
+  .chu-badge[data-dot] {
+    --_chu-h: 6;
+    --_chu-badge-em: 0;
+    --chu-r: 1;
+    --chu-shape: var(--chu-shape-1);
+    --chu-shape-inner: var(--chu-shape-1-inner);
+    --chu-band-top: 0;
+    --chu-band-bottom: 1;
+    --chu-box-glint: transparent;
+    inline-size: calc(6 * var(--chu-pixel));
     min-inline-size: 0;
     padding: 0;
     /* No text: font-size-adjust (from @jaatster/blip-font) makes Chrome draw 0-size text at full size, so it goes too. */
@@ -72,21 +72,21 @@
     font-size-adjust: none;
   }
 
-  /* Pinned over a corner of its parent (any positioned box: a button, an avatar, a .pp-badge-anchor). */
-  .pp-badge[data-position] { position: absolute; z-index: 1; margin: 0; }
-  .pp-badge[data-position^="top"] { inset-block-start: calc(-4 * var(--pp-pixel)); }
-  .pp-badge[data-position^="bottom"] { inset-block-end: calc(-3 * var(--pp-pixel)); }
-  .pp-badge[data-position$="end"] { inset-inline-end: calc(-4 * var(--pp-pixel)); }
-  .pp-badge[data-position$="start"] { inset-inline-start: calc(-4 * var(--pp-pixel)); }
-  .pp-badge[data-dot][data-position^="top"] { inset-block-start: calc(-2 * var(--pp-pixel)); }
-  .pp-badge[data-dot][data-position^="bottom"] { inset-block-end: calc(-1 * var(--pp-pixel)); }
-  .pp-badge[data-dot][data-position$="end"] { inset-inline-end: calc(-2 * var(--pp-pixel)); }
-  .pp-badge[data-dot][data-position$="start"] { inset-inline-start: calc(-2 * var(--pp-pixel)); }
+  /* Pinned over a corner of its parent (any positioned box: a button, an avatar, a .chu-badge-anchor). */
+  .chu-badge[data-position] { position: absolute; z-index: 1; margin: 0; }
+  .chu-badge[data-position^="top"] { inset-block-start: calc(-4 * var(--chu-pixel)); }
+  .chu-badge[data-position^="bottom"] { inset-block-end: calc(-3 * var(--chu-pixel)); }
+  .chu-badge[data-position$="end"] { inset-inline-end: calc(-4 * var(--chu-pixel)); }
+  .chu-badge[data-position$="start"] { inset-inline-start: calc(-4 * var(--chu-pixel)); }
+  .chu-badge[data-dot][data-position^="top"] { inset-block-start: calc(-2 * var(--chu-pixel)); }
+  .chu-badge[data-dot][data-position^="bottom"] { inset-block-end: calc(-1 * var(--chu-pixel)); }
+  .chu-badge[data-dot][data-position$="end"] { inset-inline-end: calc(-2 * var(--chu-pixel)); }
+  .chu-badge[data-dot][data-position$="start"] { inset-inline-start: calc(-2 * var(--chu-pixel)); }
 
   /* A wrapper that lets a badge sit on something that is not a box, such as an icon. */
-  .pp-badge-anchor { position: relative; display: inline-flex; vertical-align: middle; }
+  .chu-badge-anchor { position: relative; display: inline-flex; vertical-align: middle; }
 
   @media (forced-colors: active) {
-    .pp-badge[data-dot] { forced-color-adjust: none; background: CanvasText; }
+    .chu-badge[data-dot] { forced-color-adjust: none; background: CanvasText; }
   }
 }

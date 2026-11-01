@@ -18,7 +18,7 @@ export function valueIndex(decl) {
   return decl.prop.length + between.length;
 }
 
-/** Does a string or RegExp-like option ("/^--pp-/i") match the text? */
+/** Does a string or RegExp-like option ("/^--chu-/i") match the text? */
 export function matches(patterns = [], text) {
   return patterns.some((p) => {
     if (p instanceof RegExp) return p.test(text);

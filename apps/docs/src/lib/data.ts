@@ -262,7 +262,7 @@ export interface ManifestEntry {
   cssVar: string;
   type: string;
   scheme: boolean;
-  /** Set by a palette: switched by data-pp-palette (palette.*, world.night.*). */
+  /** Set by a palette: switched by data-chu-palette (palette.*, world.night.*). */
   palette?: boolean;
   description?: string;
   unit?: string;
@@ -279,7 +279,7 @@ export interface SchemeBlock {
   selector: string;
 }
 /**
- * Where tokens.css sets each scheme's roles: the selector and the at-rules round it, inside @layer pp.tokens. A
+ * Where tokens.css sets each scheme's roles: the selector and the at-rules round it, inside @layer chu.tokens. A
  * theme that sets the same roles the same way, after tokens.css, wins in exactly the same places.
  */
 export function schemeBlocks(): SchemeBlock[] {
@@ -296,7 +296,7 @@ export function schemeBlocks(): SchemeBlock[] {
     if (c === "{") {
       const prelude = css.slice(start, i).trim().replace(/\s+/g, " ");
       stack.push(prelude);
-      const scheme = prelude.match(/\[data-pp-scheme="(day|sunset|night)"\]/)?.[1] ?? (/:not\(\[data-pp-scheme\]\)/.test(prelude) ? "night" : null);
+      const scheme = prelude.match(/\[data-chu-scheme="(day|sunset|night)"\]/)?.[1] ?? (/:not\(\[data-chu-scheme\]\)/.test(prelude) ? "night" : null);
       if (scheme && !prelude.startsWith("@")) out.push({ scheme: scheme as SchemeBlock["scheme"], wrap: stack.slice(0, -1).filter((p) => !/^@layer\b/.test(p)), selector: prelude });
       start = i + 1;
     } else if (c === "}") {
@@ -396,7 +396,7 @@ export interface Occurrence {
   fix?: string;
 }
 /**
- * Every PP-XNNN code in the packages' source and build scripts, with the message it is raised with. The scan is
+ * Every CHU-XNNN code in the packages' source and build scripts, with the message it is raised with. The scan is
  * scripts/diagnostics.mjs's, the same one that writes CONTRACT.md's table of codes.
  */
 export const diagnostics = (): Map<string, Occurrence[]> => scanDiagnostics(ROOT) as Map<string, Occurrence[]>;
@@ -419,6 +419,6 @@ export function headingsOf(source: string): string[] {
 
 /** Bramble the frog, as the game kit's own dialogue example draws him (an inline SVG sprite). */
 export function frog(): string {
-  const m = read("packages/game/examples/dialogue.html").match(/<div class="pp-box pp-dialogue-portrait"[^>]*>(<svg[\s\S]*?<\/svg>)<\/div>/);
+  const m = read("packages/game/examples/dialogue.html").match(/<div class="chu-box chu-dialogue-portrait"[^>]*>(<svg[\s\S]*?<\/svg>)<\/div>/);
   return m?.[1] ?? "";
 }

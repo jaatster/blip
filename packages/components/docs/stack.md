@@ -15,21 +15,21 @@ breakpoints.
 ## Usage
 
 ```html
-<div class="pp-stack">…</div>
-<div class="pp-stack" data-gap="4" data-align="start">…</div>
-<div class="pp-stack"><header>…</header><main>…</main><footer data-push>…</footer></div>
+<div class="chu-stack">…</div>
+<div class="chu-stack" data-gap="4" data-align="start">…</div>
+<div class="chu-stack"><header>…</header><main>…</main><footer data-push>…</footer></div>
 ```
 
 ## Anatomy
 
 A flex column. The gap is counted in pixels from the spacing tokens, so it scales with the pixel (a section with
-`data-pp-pixel="3"` keeps its rhythm).
+`data-chu-pixel="3"` keeps its rhythm).
 
 ## Variants
 
 | Attribute | Values | Use |
 |---|---|---|
-| `data-gap` | `0`, `1`, `2`, `3`, `4`, `6`, `8` (default), `12`, `16`, `24`, `32` | Pixels between children (`--pp-space-N`). Tight (2 to 4) inside a component, 8 between parts of a card, 16 and up between sections. |
+| `data-gap` | `0`, `1`, `2`, `3`, `4`, `6`, `8` (default), `12`, `16`, `24`, `32` | Pixels between children (`--chu-space-N`). Tight (2 to 4) inside a component, 8 between parts of a card, 16 and up between sections. |
 | `data-align` | `stretch` (default), `start`, `center`, `end` | Where children sit across the stack. `start` keeps tags and buttons at their own width. |
 | `data-push` | on a child | Pushes it, and everything after it, to the far end: a footer at the bottom of a tall column. |
 
@@ -46,4 +46,4 @@ Layout only: reading order is source order, so write the markup in the order it 
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-stack-gap` | `--pp-space-8` | The gap, for values the attribute doesn't cover. |
+| `--chu-stack-gap` | `--chu-space-8` | The gap, for values the attribute doesn't cover. |

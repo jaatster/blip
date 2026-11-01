@@ -1,32 +1,32 @@
-<!-- Textarea: with a count, growing with its text, and every state. Forced states use data-pp-state (docs and
+<!-- Textarea: with a count, growing with its text, and every state. Forced states use data-chu-state (docs and
      tests only). -->
-<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(calc(150*var(--pp-pixel)),1fr));gap:calc(8*var(--pp-pixel)) calc(12*var(--pp-pixel));align-items:start">
-  <pp-field class="pp-field">
-    <label class="pp-field-label" for="ta-bio">About you</label>
-    <span class="pp-box pp-textarea"><textarea id="ta-bio" rows="4" maxlength="200">Speedrunner. Collector of every coin in World 2. Still scared of the ghost house.</textarea></span>
-    <p class="pp-field-help">Shown on your profile.</p>
-    <p class="pp-field-count"></p>
-  </pp-field>
-  <div class="pp-field">
-    <label class="pp-field-label" for="ta-grow">Note to self</label>
-    <span class="pp-box pp-textarea" data-autogrow><textarea id="ta-grow" rows="2" aria-describedby="ta-grow-help">The secret door is behind the waterfall. Jump twice, then duck.</textarea></span>
-    <p class="pp-field-help" id="ta-grow-help">Grows as you write.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(calc(150*var(--chu-pixel)),1fr));gap:calc(8*var(--chu-pixel)) calc(12*var(--chu-pixel));align-items:start">
+  <chu-field class="chu-field">
+    <label class="chu-field-label" for="ta-bio">About you</label>
+    <span class="chu-box chu-textarea"><textarea id="ta-bio" rows="4" maxlength="200">Speedrunner. Collector of every coin in World 2. Still scared of the ghost house.</textarea></span>
+    <p class="chu-field-help">Shown on your profile.</p>
+    <p class="chu-field-count"></p>
+  </chu-field>
+  <div class="chu-field">
+    <label class="chu-field-label" for="ta-grow">Note to self</label>
+    <span class="chu-box chu-textarea" data-autogrow><textarea id="ta-grow" rows="2" aria-describedby="ta-grow-help">The secret door is behind the waterfall. Jump twice, then duck.</textarea></span>
+    <p class="chu-field-help" id="ta-grow-help">Grows as you write.</p>
   </div>
-  <div class="pp-field">
-    <label class="pp-field-label" for="ta-focus">Focus</label>
-    <span class="pp-box pp-textarea" data-pp-state="focus"><textarea id="ta-focus" rows="3">What did you like most?</textarea></span>
+  <div class="chu-field">
+    <label class="chu-field-label" for="ta-focus">Focus</label>
+    <span class="chu-box chu-textarea" data-chu-state="focus"><textarea id="ta-focus" rows="3">What did you like most?</textarea></span>
   </div>
-  <div class="pp-field">
-    <label class="pp-field-label" for="ta-invalid">Bug report</label>
-    <span class="pp-box pp-textarea"><textarea id="ta-invalid" rows="3" required aria-invalid="true" aria-describedby="ta-invalid-error" placeholder="What happened, and what did you expect?"></textarea></span>
-    <p class="pp-field-error" id="ta-invalid-error">Tell us what happened, so we can fix it.</p>
+  <div class="chu-field">
+    <label class="chu-field-label" for="ta-invalid">Bug report</label>
+    <span class="chu-box chu-textarea"><textarea id="ta-invalid" rows="3" required aria-invalid="true" aria-describedby="ta-invalid-error" placeholder="What happened, and what did you expect?"></textarea></span>
+    <p class="chu-field-error" id="ta-invalid-error">Tell us what happened, so we can fix it.</p>
   </div>
-  <div class="pp-field">
-    <label class="pp-field-label" for="ta-readonly">Read-only</label>
-    <span class="pp-box pp-textarea"><textarea id="ta-readonly" rows="3" readonly>Patch 1.2: the bridge in World 3 no longer falls when you stand still.</textarea></span>
+  <div class="chu-field">
+    <label class="chu-field-label" for="ta-readonly">Read-only</label>
+    <span class="chu-box chu-textarea"><textarea id="ta-readonly" rows="3" readonly>Patch 1.2: the bridge in World 3 no longer falls when you stand still.</textarea></span>
   </div>
-  <div class="pp-field">
-    <label class="pp-field-label" for="ta-disabled">Disabled</label>
-    <span class="pp-box pp-textarea"><textarea id="ta-disabled" rows="3" disabled>Comments open after the race.</textarea></span>
+  <div class="chu-field">
+    <label class="chu-field-label" for="ta-disabled">Disabled</label>
+    <span class="chu-box chu-textarea"><textarea id="ta-disabled" rows="3" disabled>Comments open after the race.</textarea></span>
   </div>
 </div>

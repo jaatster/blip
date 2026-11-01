@@ -2,7 +2,7 @@
  * Bursts: little whole-pixel sprites that pop out of something and fall, a frame (40 ms) at a time, then go.
  *
  *   burst(button, { kind: "coin" });                          // the TV's coin pops up out of the block
- *   <button data-pp-burst="confetti" data-pp-burst-count="24">  // the same on click, with no script of your own
+ *   <button data-chu-burst="confetti" data-chu-burst-count="24">  // the same on click, with no script of your own
  *
  * Kinds: sparkle (the TV's star flare, around the edges), coin (rises and slows, as on the TV), star (bursts out and
  * falls), confetti (candy bits that flutter down). Positions use services.random, so a seed repeats a burst. Drawn on
@@ -35,7 +35,7 @@ export function burst(target: Element, options: BurstOptions = {}): Promise<void
   // A sprite pixel is the target's pixel made a whole number of device pixels, so the sprites stay crisp at any ratio.
   const p = device(pixel(target)), r = target.getBoundingClientRect(), w = Math.ceil(r.width / p), h = Math.ceil(r.height / p);
   const n = Math.max(1, Math.round(options.count ?? COUNT[kind])), rnd = services.between;
-  const [ink, white, yellow, light, shade, ...candy] = tokens(target, ["--pp-ink", "--pp-white", "--pp-candy-yellow", "--pp-candy-yellow-light", "--pp-candy-yellow-shade", ...CANDY.map((c) => `--pp-candy-${c}`)]);
+  const [ink, white, yellow, light, shade, ...candy] = tokens(target, ["--chu-ink", "--chu-white", "--chu-candy-yellow", "--chu-candy-yellow-light", "--chu-candy-yellow-shade", ...CANDY.map((c) => `--chu-candy-${c}`)]);
   const art = kind === "coin" ? [sprite(document.createElement("canvas"), COIN, "OYWD", [ink!, yellow!, white!, shade!])]
     : kind === "star" ? [sprite(document.createElement("canvas"), STAR, "OYW", [ink!, yellow!, white!])]
     : kind === "sparkle" ? SPARKLE.map((rows) => sprite(document.createElement("canvas"), rows, "SW", [light!, white!])) : [];
@@ -89,12 +89,12 @@ export function burst(target: Element, options: BurstOptions = {}): Promise<void
   }, { signal }).finally(() => layer.remove());
 }
 
-// Declarative bursts: any element with data-pp-burst="<kind>" bursts when clicked.
+// Declarative bursts: any element with data-chu-burst="<kind>" bursts when clicked.
 if (typeof document !== "undefined") {
   document.addEventListener("click", (e) => {
-    const el = (e.target as Element | null)?.closest?.("[data-pp-burst]");
+    const el = (e.target as Element | null)?.closest?.("[data-chu-burst]");
     if (!el || el.matches(":disabled, [aria-disabled='true']")) return;
-    const kind = el.getAttribute("data-pp-burst") as BurstKind;
-    void burst(el, { kind: kind in COUNT ? kind : "sparkle", count: Number(el.getAttribute("data-pp-burst-count")) || undefined });
+    const kind = el.getAttribute("data-chu-burst") as BurstKind;
+    void burst(el, { kind: kind in COUNT ? kind : "sparkle", count: Number(el.getAttribute("data-chu-burst-count")) || undefined });
   });
 }

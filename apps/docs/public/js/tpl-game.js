@@ -13,7 +13,7 @@ async function show(screen, kind = "dither") {
   await transition(() => {
     game.dataset.screen = screen;
   }, { kind });
-  const focus = { title: ".tpl-press-start", menu: ".tpl-main-choices .pp-choice:not([aria-disabled='true'])", level: ".tpl-frog" }[screen];
+  const focus = { title: ".tpl-press-start", menu: ".tpl-main-choices .chu-choice:not([aria-disabled='true'])", level: ".tpl-frog" }[screen];
   const el = $(focus);
   if (screen === "level") startLevel();
   else stopClock();
@@ -37,7 +37,7 @@ document.addEventListener("keydown", (e) => {
 // ------------------------------------------------------------------ menu and options
 
 const options = $(".tpl-options"), menuPanel = $(".tpl-menu-panel");
-$(".tpl-main-choices").addEventListener("pp-action", (e) => {
+$(".tpl-main-choices").addEventListener("chu-action", (e) => {
   const v = e.detail.value;
   if (v === "new") {
     play("success");
@@ -53,7 +53,7 @@ $(".tpl-options-done").addEventListener("click", () => {
   play("back");
   options.hidden = true;
   menuPanel.hidden = false;
-  $(".tpl-main-choices .pp-choice[value='options']").focus();
+  $(".tpl-main-choices .chu-choice[value='options']").focus();
 });
 function syncSound() {
   const sw = $(".tpl-sound");
@@ -68,8 +68,8 @@ $(".tpl-sound").addEventListener("change", async (e) => {
   } else sound.disableSound();
 });
 const time = $(".tpl-time");
-customElements.whenDefined("pp-segmented").then(() => (time.value = document.documentElement.dataset.schemeChoice || "auto"));
-time.addEventListener("pp-change", (e) => {
+customElements.whenDefined("chu-segmented").then(() => (time.value = document.documentElement.dataset.schemeChoice || "auto"));
+time.addEventListener("chu-change", (e) => {
   window.docs?.setScheme?.(e.detail.value);
   play("select");
 });
@@ -99,12 +99,12 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && !pause.open) {
     e.preventDefault();
     openPause();
-  } else if (e.key === " " && !pause.open && !e.target.closest?.("button, input, pp-dialogue")) {
+  } else if (e.key === " " && !pause.open && !e.target.closest?.("button, input, chu-dialogue")) {
     e.preventDefault();
     addCoin();
   }
 });
-frog.addEventListener("pp-action", (e) => {
+frog.addEventListener("chu-action", (e) => {
   const have = Number(coins.value);
   if (e.detail.value === "pay") {
     if (have >= 30) {
@@ -117,7 +117,7 @@ frog.addEventListener("pp-action", (e) => {
     }
   } else frog.say("Suit yourself. I'll be here, by the water.");
 });
-frog.addEventListener("pp-done", () => frog.say(["Still here? The coins won't collect themselves.", "I could patch the bridge for thirty. Fair?"]));
+frog.addEventListener("chu-done", () => frog.say(["Still here? The coins won't collect themselves.", "I could patch the bridge for thirty. Fair?"]));
 
 // ------------------------------------------------------------------ pause
 
@@ -128,7 +128,7 @@ function openPause() {
   pause.showModal();
 }
 $(".tpl-pause-button").addEventListener("click", openPause);
-pause.addEventListener("pp-action", (e) => {
+pause.addEventListener("chu-action", (e) => {
   const v = e.detail.value;
   pause.close();
   if (v === "title") show("title");

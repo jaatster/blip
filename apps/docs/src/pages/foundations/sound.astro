@@ -18,25 +18,25 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
 ---
 <Docs kits={["effects"]} styles={["foundations"]} scripts={["foundations"]} title="Sound" description="Blip's chip sounds: a sound board for @jaatster/blip-sound, off until you turn it on, and the voice that types." headings={[H("board", "The board"), H("voice", "The voice"), H("sound-files", "The sound package"), ...ref.headings.filter((h) => h.depth === 2)]}>
   <header class="docs-page-head">
-    <h1 class="docs-page-title pp-display" data-scale="2">Sound</h1>
+    <h1 class="docs-page-title chu-display" data-scale="2">Sound</h1>
     <p class="docs-lede">Eleven chip sounds, the TV's, synthesised in the browser from a few notes each: no audio files, about 1.6 KB. Sound is off until someone turns it on, and it never carries meaning on its own.</p>
   </header>
 
   <section class="docs-section" aria-labelledby="board">
     <h2 id="board">The board</h2>
     <p>Turn sound on, then press a key. Once it is on, the elements on this site use it too: menus open with a sound, toasts arrive with one, and typed text blips.</p>
-    <div class="pp-box docs-board" data-variant="panel">
+    <div class="chu-box docs-board" data-variant="panel">
       <div class="docs-board-head">
-        <button class="pp-box pp-button docs-sound-toggle" type="button" data-tone="slate" aria-pressed="false"><Icon name="mute" class="docs-sound-off" /><Icon name="volume" class="docs-sound-on" /><span>Sound off</span></button>
-        <label class="docs-volume"><span class="pp-label">Volume</span>
-          <span class="pp-slider-group"><input class="pp-slider docs-volume-input" type="range" min="0" max="10" value="7" aria-label="Volume" /></span>
+        <button class="chu-box chu-button docs-sound-toggle" type="button" data-tone="slate" aria-pressed="false"><Icon name="mute" class="docs-sound-off" /><Icon name="volume" class="docs-sound-on" /><span>Sound off</span></button>
+        <label class="docs-volume"><span class="chu-label">Volume</span>
+          <span class="chu-slider-group"><input class="chu-slider docs-volume-input" type="range" min="0" max="10" value="7" aria-label="Volume" /></span>
         </label>
       </div>
       <ul class="docs-board-keys" role="list">
         {sounds.map((s) => (
           <li>
-            <button class="pp-box pp-button docs-sound-key" type="button" data-tone={tone(s.name)} data-sound={s.name} aria-disabled="true" aria-describedby={`sound-${s.name}-use`}>{s.name}</button>
-            <span class="docs-sound-notes pp-small" id={`sound-${s.name}-use`}>{s.use}<span class="pp-muted"> · {s.notes}</span></span>
+            <button class="chu-box chu-button docs-sound-key" type="button" data-tone={tone(s.name)} data-sound={s.name} aria-disabled="true" aria-describedby={`sound-${s.name}-use`}>{s.name}</button>
+            <span class="docs-sound-notes chu-small" id={`sound-${s.name}-use`}>{s.use}<span class="chu-muted"> · {s.notes}</span></span>
           </li>
         ))}
       </ul>
@@ -48,15 +48,15 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     <h2 id="voice">The voice</h2>
     <p>Characters talk in blips: each letter has its own small step, vowels sit a step up, and a mood shifts the whole voice. Type a line and play it.</p>
     <div class="docs-voice">
-      <span class="pp-box pp-input"><input class="docs-voice-text" type="text" value="Ah, a traveller!" maxlength="60" aria-label="Line to speak" /></span>
-      <pp-segmented class="pp-box pp-segmented docs-voice-mood" data-size="sm" aria-label="Mood" value="">
-        <button class="pp-box" type="button" value="" aria-checked="true">Plain</button>
-        <button class="pp-box" type="button" value="happy">Happy</button>
-        <button class="pp-box" type="button" value="sleepy">Sleepy</button>
-      </pp-segmented>
-      <button class="pp-box pp-button docs-voice-play" type="button" data-tone="slate" aria-disabled="true"><Icon name="chat" />Speak</button>
+      <span class="chu-box chu-input"><input class="docs-voice-text" type="text" value="Ah, a traveller!" maxlength="60" aria-label="Line to speak" /></span>
+      <chu-segmented class="chu-box chu-segmented docs-voice-mood" data-size="sm" aria-label="Mood" value="">
+        <button class="chu-box" type="button" value="" aria-checked="true">Plain</button>
+        <button class="chu-box" type="button" value="happy">Happy</button>
+        <button class="chu-box" type="button" value="sleepy">Sleepy</button>
+      </chu-segmented>
+      <button class="chu-box chu-button docs-voice-play" type="button" data-tone="slate" aria-disabled="true"><Icon name="chat" />Speak</button>
     </div>
-    <pp-typewriter class="pp-box docs-voice-out" data-variant="panel" blips>Ah, a traveller!</pp-typewriter>
+    <chu-typewriter class="chu-box docs-voice-out" data-variant="panel" blips>Ah, a traveller!</chu-typewriter>
   </section>
 
   <section class="docs-section docs-prose docs-reference" aria-labelledby="sound-files">

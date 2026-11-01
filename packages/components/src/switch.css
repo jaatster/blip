@@ -2,9 +2,9 @@
  * Switch. A real <input type="checkbox" role="switch"> as a cream candy knob on a track. Off: the knob rests at
  * the start of the calm well. On: the track fills with candy and the knob hops to the end, two pixels a step.
  *
- *   <label class="pp-check" data-layout="split">
+ *   <label class="chu-check" data-layout="split">
  *     Screen shake
- *     <span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box" checked></span>
+ *     <span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" checked></span>
  *   </label>
  *
  *   data-size               sm | md (default) | lg       9, 11 or 13 pixels high (on the track or the row)
@@ -17,57 +17,57 @@
  */
 @import "./_choice.css";
 
-@layer pp.components {
-  .pp-switch {
-    --pp-r: 4;
-    --pp-shape: var(--pp-shape-4);
-    --pp-shape-inner: var(--pp-shape-4-inner);
+@layer chu.components {
+  .chu-switch {
+    --chu-r: 4;
+    --chu-shape: var(--chu-shape-4);
+    --chu-shape-inner: var(--chu-shape-4-inner);
     --_steps: 4;
-    inline-size: calc((2 * var(--_n) - 3) * var(--pp-pixel));
+    inline-size: calc((2 * var(--_n) - 3) * var(--chu-pixel));
   }
-  .pp-switch:is([data-size="sm"], [data-size="sm"] > *) { --_steps: 3; --pp-r: 3; --pp-shape: var(--pp-shape-3); --pp-shape-inner: var(--pp-shape-3-inner); }
-  .pp-switch:is([data-size="lg"], [data-size="lg"] > *) { --_steps: 5; --pp-r: 5; --pp-shape: var(--pp-shape-5); --pp-shape-inner: var(--pp-shape-5-inner); }
+  .chu-switch:is([data-size="sm"], [data-size="sm"] > *) { --_steps: 3; --chu-r: 3; --chu-shape: var(--chu-shape-3); --chu-shape-inner: var(--chu-shape-3-inner); }
+  .chu-switch:is([data-size="lg"], [data-size="lg"] > *) { --_steps: 5; --chu-r: 5; --chu-shape: var(--chu-shape-5); --chu-shape-inner: var(--chu-shape-5-inner); }
 
   /* The knob: a neutral candy, the same shape as the track's end. */
-  .pp-switch > input {
-    --pp-tone: var(--pp-candy-cream);
-    --pp-tone-light: var(--pp-candy-cream-light);
-    --pp-tone-shade: var(--pp-candy-cream-shade);
-    --pp-tone-on: var(--pp-ink);
-    --pp-band-top: 2;
-    --pp-band-bottom: 2;
+  .chu-switch > input {
+    --chu-tone: var(--chu-candy-cream);
+    --chu-tone-light: var(--chu-candy-cream-light);
+    --chu-tone-shade: var(--chu-candy-cream-shade);
+    --chu-tone-on: var(--chu-ink);
+    --chu-band-top: 2;
+    --chu-band-bottom: 2;
     position: absolute;
-    inset-block-start: calc(-1 * var(--pp-pixel));
-    inset-inline-start: calc(-1 * var(--pp-pixel));
-    inline-size: calc((var(--_n) + 2) * var(--pp-pixel));
-    block-size: calc((var(--_n) + 2) * var(--pp-pixel));
+    inset-block-start: calc(-1 * var(--chu-pixel));
+    inset-inline-start: calc(-1 * var(--chu-pixel));
+    inline-size: calc((var(--_n) + 2) * var(--chu-pixel));
+    block-size: calc((var(--_n) + 2) * var(--chu-pixel));
     margin: 0;
     padding: 0;
-    border: var(--pp-pixel) solid transparent;
+    border: var(--chu-pixel) solid transparent;
     outline: 0;
     box-shadow: none;
     cursor: pointer;
     appearance: none;
-    transition: inset-inline-start var(--pp-duration-nudge) steps(var(--_steps), jump-end);
+    transition: inset-inline-start var(--chu-duration-nudge) steps(var(--_steps), jump-end);
   }
-  .pp-switch > :checked { inset-inline-start: calc((var(--_n) - 4) * var(--pp-pixel)); }
+  .chu-switch > :checked { inset-inline-start: calc((var(--_n) - 4) * var(--chu-pixel)); }
   /* A cream knob takes the cream dither: the usual light one is almost cream. */
-  .pp-switch > input:disabled { --pp-box-dither: var(--pp-disabled-dither-cream); }
+  .chu-switch > input:disabled { --chu-box-dither: var(--chu-disabled-dither-cream); }
   /* The ring belongs to the track. */
-  .pp-switch > input:focus-visible { filter: none; }
+  .chu-switch > input:focus-visible { filter: none; }
 
   @media (hover: hover) {
-    .pp-switch > input:not(:disabled):is(:hover, .pp-check:hover > * > *) { translate: 0 calc(-1 * var(--pp-pixel)); --pp-drop-size: 2; }
+    .chu-switch > input:not(:disabled):is(:hover, .chu-check:hover > * > *) { translate: 0 calc(-1 * var(--chu-pixel)); --chu-drop-size: 2; }
   }
-  .pp-switch[data-pp-state~="hover"] > input { translate: 0 calc(-1 * var(--pp-pixel)); --pp-drop-size: 2; }
-  .pp-switch > input:not(:disabled):active, .pp-switch[data-pp-state~="active"] > input { translate: none; --pp-drop-size: 0; }
+  .chu-switch[data-chu-state~="hover"] > input { translate: 0 calc(-1 * var(--chu-pixel)); --chu-drop-size: 2; }
+  .chu-switch > input:not(:disabled):active, .chu-switch[data-chu-state~="active"] > input { translate: none; --chu-drop-size: 0; }
 
   @media (prefers-reduced-motion: reduce) {
-    .pp-switch > input { transition: none; }
+    .chu-switch > input { transition: none; }
   }
 
   @media (forced-colors: active) {
-    .pp-switch > input { forced-color-adjust: none; border: 1px solid CanvasText; background: Canvas; }
-    .pp-switch > :checked { background: Highlight; }
+    .chu-switch > input { forced-color-adjust: none; border: 1px solid CanvasText; background: Canvas; }
+    .chu-switch > :checked { background: Highlight; }
   }
 }

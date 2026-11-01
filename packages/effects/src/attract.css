@@ -1,67 +1,67 @@
 /*
- * Attract mode: <pp-attract> (attract.js) plays a short demo of the Blip markup inside it, a pixel pointer
+ * Attract mode: <chu-attract> (attract.js) plays a short demo of the Blip markup inside it, a pixel pointer
  * pressing its real controls, looping while it is on screen.
  *
- *   <pp-attract label="Typing a title and saving shows a toast" script="move #title; type #title 'Ship it'; …">
+ *   <chu-attract label="Typing a title and saving shows a toast" script="move #title; type #title 'Ship it'; …">
  *     …any Blip markup…
- *   </pp-attract>
+ *   </chu-attract>
  *
  *   pointer="glove"        the white glove (game screens, touch demos) instead of the arrow
- *   .pp-attract-pointer    the pointer the element adds: ink outline, white fill, whole pixels, over everything in it
+ *   .chu-attract-pointer    the pointer the element adds: ink outline, white fill, whole pixels, over everything in it
  *
  * The element is a block that crops what it holds and is the frame for what is fixed in it (a toaster's toasts come
  * up in its corner, not the page's). Anything hidden in it is not shown, whatever its display. Forced colours draw the pointer in the system's text and canvas colours; paper
  * leaves it off.
  */
 
-@layer pp.kits {
-  pp-attract {
+@layer chu.kits {
+  chu-attract {
     display: block;
     position: relative;
     overflow: clip;
     contain: layout;
   }
   /* show and hide take hidden off and put it on, which a component's own display would outweigh. */
-  pp-attract [hidden] { display: none !important; }
+  chu-attract [hidden] { display: none !important; }
 
-  .pp-attract-pointer {
+  .chu-attract-pointer {
     /* The arrow: ink silhouette behind, white fill in front, 9 x 16 pixels, its tip at the top left. */
-    --_pp-attract-ink: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 16' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1h1v1h1v1h1v1h1v1h1v1h1v1h1v1h1v2h-2v1h1v2h1v2h-1v1h-2v-1h-1v-2h-1v-2h-1v1h-1v1h-2z'/%3E%3C/svg%3E");
-    --_pp-attract-fill: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 16' shape-rendering='crispEdges'%3E%3Cpath d='M1 2h1v1h1v1h1v1h1v1h1v1h1v1h1v1h1v1h-3v1h1v1h1v2h1v2h-2v-2h-1v-2h-1v-1h-1v1h-1v1h-1z'/%3E%3C/svg%3E");
+    --_chu-attract-ink: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 16' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1h1v1h1v1h1v1h1v1h1v1h1v1h1v1h1v2h-2v1h1v2h1v2h-1v1h-2v-1h-1v-2h-1v-2h-1v1h-1v1h-2z'/%3E%3C/svg%3E");
+    --_chu-attract-fill: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 16' shape-rendering='crispEdges'%3E%3Cpath d='M1 2h1v1h1v1h1v1h1v1h1v1h1v1h1v1h1v1h-3v1h1v1h1v2h1v2h-2v-2h-1v-2h-1v-1h-1v1h-1v1h-1z'/%3E%3C/svg%3E");
     position: absolute;
-    z-index: calc(var(--pp-layer-tooltip) + 1);
+    z-index: calc(var(--chu-layer-tooltip) + 1);
     display: block;
-    inline-size: calc(9 * var(--pp-pixel));
-    block-size: calc(16 * var(--pp-pixel));
+    inline-size: calc(9 * var(--chu-pixel));
+    block-size: calc(16 * var(--chu-pixel));
     pointer-events: none;
   }
-  .pp-attract-pointer::before,
-  .pp-attract-pointer::after {
+  .chu-attract-pointer::before,
+  .chu-attract-pointer::after {
     content: "";
     position: absolute;
     inset: 0;
-    mask: var(--_pp-attract-ink) 0 0 / 100% 100% no-repeat;
-    background: var(--pp-ink);
+    mask: var(--_chu-attract-ink) 0 0 / 100% 100% no-repeat;
+    background: var(--chu-ink);
   }
-  .pp-attract-pointer::after { mask-image: var(--_pp-attract-fill); background: var(--_pp-attract-paint, var(--pp-white)); }
+  .chu-attract-pointer::after { mask-image: var(--_chu-attract-fill); background: var(--_chu-attract-paint, var(--chu-white)); }
 
   /* The game kit's glove (choices.css), its fingertip on the target. */
-  pp-attract[pointer="glove"] .pp-attract-pointer {
-    --_pp-attract-ink: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 10' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h3v1h-3zM2 1h10v1h-10zM1 2h12v1h-12zM0 3h14v1h-14zM0 4h13v1h-13zM0 5h12v1h-12zM0 6h9v1h-9zM1 7h8v1h-8zM2 8h6v1h-6zM3 9h4v1h-4z'/%3E%3C/svg%3E");
-    --_pp-attract-fill: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 10' shape-rendering='crispEdges'%3E%3Cpath d='M3 1h3v1h-3zM2 2h10v1h-10zM1 3h12v1h-12zM1 4h11v1h-11zM1 5h6v1h-6zM1 6h6v1h-6zM2 7h6v1h-6zM3 8h4v1h-4z'/%3E%3C/svg%3E");
-    --_pp-attract-paint:
-      linear-gradient(var(--pp-candy-cream-shade) 0 0) calc(7 * var(--pp-pixel)) calc(4 * var(--pp-pixel)) / calc(5 * var(--pp-pixel)) var(--pp-pixel) no-repeat,
-      linear-gradient(var(--pp-candy-cream) 0 0) var(--pp-pixel) calc(3 * var(--pp-pixel)) / var(--pp-pixel) calc(4 * var(--pp-pixel)) no-repeat,
-      linear-gradient(to bottom, var(--pp-white) 0 calc(7 * var(--pp-pixel)), var(--pp-candy-cream-shade) 0);
-    inline-size: calc(14 * var(--pp-pixel));
-    block-size: calc(10 * var(--pp-pixel));
+  chu-attract[pointer="glove"] .chu-attract-pointer {
+    --_chu-attract-ink: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 10' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h3v1h-3zM2 1h10v1h-10zM1 2h12v1h-12zM0 3h14v1h-14zM0 4h13v1h-13zM0 5h12v1h-12zM0 6h9v1h-9zM1 7h8v1h-8zM2 8h6v1h-6zM3 9h4v1h-4z'/%3E%3C/svg%3E");
+    --_chu-attract-fill: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 10' shape-rendering='crispEdges'%3E%3Cpath d='M3 1h3v1h-3zM2 2h10v1h-10zM1 3h12v1h-12zM1 4h11v1h-11zM1 5h6v1h-6zM1 6h6v1h-6zM2 7h6v1h-6zM3 8h4v1h-4z'/%3E%3C/svg%3E");
+    --_chu-attract-paint:
+      linear-gradient(var(--chu-candy-cream-shade) 0 0) calc(7 * var(--chu-pixel)) calc(4 * var(--chu-pixel)) / calc(5 * var(--chu-pixel)) var(--chu-pixel) no-repeat,
+      linear-gradient(var(--chu-candy-cream) 0 0) var(--chu-pixel) calc(3 * var(--chu-pixel)) / var(--chu-pixel) calc(4 * var(--chu-pixel)) no-repeat,
+      linear-gradient(to bottom, var(--chu-white) 0 calc(7 * var(--chu-pixel)), var(--chu-candy-cream-shade) 0);
+    inline-size: calc(14 * var(--chu-pixel));
+    block-size: calc(10 * var(--chu-pixel));
   }
 
   @media (forced-colors: active) {
-    .pp-attract-pointer::before { background: CanvasText; }
-    .pp-attract-pointer::after { background: Canvas; }
+    .chu-attract-pointer::before { background: CanvasText; }
+    .chu-attract-pointer::after { background: Canvas; }
   }
   @media print {
-    .pp-attract-pointer { display: none; }
+    .chu-attract-pointer { display: none; }
   }
 }

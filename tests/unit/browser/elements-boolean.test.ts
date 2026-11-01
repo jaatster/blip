@@ -4,14 +4,14 @@
  * puts the markup in the page first, then defines the element (a subclass under a fresh tag, so it upgrades in place).
  */
 import { describe, expect, it } from "vitest";
-import { PixelCombobox, PixelCommand, PixelDialog, PixelMenu, PixelRating, PixelSegmented, PixelTooltip } from "../../../packages/elements/src/index.ts";
+import { BlipCombobox, BlipCommand, BlipDialog, BlipMenu, BlipRating, BlipSegmented, BlipTooltip } from "../../../packages/elements/src/index.ts";
 import { mount } from "../support/dom.ts";
 
 const settle = () => new Promise((done) => setTimeout(done, 0));
 let n = 0;
 /** Mounts markup for a tag that is defined only afterwards, as a lazily loaded element is. */
 function late<T extends HTMLElement>(base: CustomElementConstructor, markup: (tag: string) => string): T {
-  const tag = `pp-late-${++n}`;
+  const tag = `chu-late-${++n}`;
   const el = mount<T>(markup(tag));
   customElements.define(tag, class extends (base as unknown as typeof HTMLElement) {});
   return el;
@@ -19,7 +19,7 @@ function late<T extends HTMLElement>(base: CustomElementConstructor, markup: (ta
 
 describe('boolean attributes: "false" is off', () => {
   it('a dialog with open="false" stays closed when it upgrades, and opens and closes as the property says', async () => {
-    const host = late<PixelDialog>(PixelDialog, (t) => `<${t} open="false" light-dismiss="false"><dialog class="pp-box pp-dialog" aria-label="Save">…</dialog></${t}>`);
+    const host = late<BlipDialog>(BlipDialog, (t) => `<${t} open="false" light-dismiss="false"><dialog class="chu-box chu-dialog" aria-label="Save">…</dialog></${t}>`);
     await settle();
     const dialog = host.querySelector("dialog")!;
     expect(dialog.open).toBe(false);
@@ -32,7 +32,7 @@ describe('boolean attributes: "false" is off', () => {
   });
 
   it('an open dialog closes when the attribute becomes "false"', async () => {
-    const host = late<PixelDialog>(PixelDialog, (t) => `<${t} open><dialog class="pp-box pp-dialog" aria-label="Save">…</dialog></${t}>`);
+    const host = late<BlipDialog>(BlipDialog, (t) => `<${t} open><dialog class="chu-box chu-dialog" aria-label="Save">…</dialog></${t}>`);
     await settle();
     expect(host.querySelector("dialog")!.open).toBe(true);
     host.setAttribute("open", "false");
@@ -42,11 +42,11 @@ describe('boolean attributes: "false" is off', () => {
   });
 
   it('a menu, a command palette, a combobox and a tooltip with open="false" stay closed', async () => {
-    const menu = late<PixelMenu>(PixelMenu, (t) => `<${t} open="false"><button>Level</button><div role="menu" aria-label="Level" popover><button role="menuitem">New</button></div></${t}>`);
-    const palette = late<PixelCommand>(PixelCommand, (t) => `<${t} open="false" shortcut=""><dialog aria-label="Palette"><input aria-label="Search"><div role="listbox" aria-label="Results"></div></dialog></${t}>`);
-    const combo = late<PixelCombobox>(PixelCombobox, (t) => `<${t} open="false"><span><input aria-label="World" list="w-false"></span><datalist id="w-false"><option value="a">A</option></datalist></${t}>`);
+    const menu = late<BlipMenu>(BlipMenu, (t) => `<${t} open="false"><button>Level</button><div role="menu" aria-label="Level" popover><button role="menuitem">New</button></div></${t}>`);
+    const palette = late<BlipCommand>(BlipCommand, (t) => `<${t} open="false" shortcut=""><dialog aria-label="Palette"><input aria-label="Search"><div role="listbox" aria-label="Results"></div></dialog></${t}>`);
+    const combo = late<BlipCombobox>(BlipCombobox, (t) => `<${t} open="false"><span><input aria-label="World" list="w-false"></span><datalist id="w-false"><option value="a">A</option></datalist></${t}>`);
     const tipBox = mount(`<div><button id="tip-false">Save</button></div>`);
-    const tip = late<PixelTooltip>(PixelTooltip, (t) => `<${t} for="tip-false" open="false">Saves</${t}>`);
+    const tip = late<BlipTooltip>(BlipTooltip, (t) => `<${t} for="tip-false" open="false">Saves</${t}>`);
     tipBox.append(tip);
     await settle();
     expect(menu.open).toBe(false);
@@ -57,8 +57,8 @@ describe('boolean attributes: "false" is off', () => {
   });
 
   it('segmented and rating read disabled, required and readonly "false" as off', async () => {
-    const seg = late<PixelSegmented>(PixelSegmented, (t) => `<${t} disabled="false" required="false" aria-label="View"><button value="a">A</button><button value="b">B</button></${t}>`);
-    const rating = late<PixelRating>(PixelRating, (t) => `<${t} readonly="false" disabled="false" required="false" aria-label="Fun"></${t}>`);
+    const seg = late<BlipSegmented>(BlipSegmented, (t) => `<${t} disabled="false" required="false" aria-label="View"><button value="a">A</button><button value="b">B</button></${t}>`);
+    const rating = late<BlipRating>(BlipRating, (t) => `<${t} readonly="false" disabled="false" required="false" aria-label="Fun"></${t}>`);
     await settle();
     expect(seg.disabled).toBe(false);
     expect([...seg.querySelectorAll("button")].some((b) => b.disabled)).toBe(false);
@@ -66,6 +66,6 @@ describe('boolean attributes: "false" is off', () => {
     expect(rating.hasAttribute("aria-disabled")).toBe(false);
     expect(rating.hasAttribute("aria-readonly")).toBe(false);
     expect(rating.checkValidity()).toBe(true);
-    expect(rating.querySelector<HTMLElement>(".pp-rating-star")!.tabIndex).toBe(0);
+    expect(rating.querySelector<HTMLElement>(".chu-rating-star")!.tabIndex).toBe(0);
   });
 });

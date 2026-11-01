@@ -8,8 +8,8 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "One Blip icon as inline SVG in light DOM, so it takes the page's colour and the .pp-icon size. Markup that\nalready holds the <svg> (rendered on the server) is adopted, not replaced.",
-          "name": "PixelIcon",
+          "description": "One Blip icon as inline SVG in light DOM, so it takes the page's colour and the .chu-icon size. Markup that\nalready holds the <svg> (rendered on the server) is adopted, not replaced.",
+          "name": "BlipIcon",
           "members": [
             {
               "kind": "field",
@@ -36,7 +36,7 @@
               "type": {
                 "text": "IconName"
               },
-              "description": "The icon to draw. An unknown name draws nothing and warns once (PP-I001).",
+              "description": "The icon to draw. An unknown name draws nothing and warns once (CHU-I001).",
               "fieldName": "name"
             },
             {
@@ -59,24 +59,24 @@
             "name": "HTMLElement"
           },
           "summary": "One 12 x 12 pixel icon.",
-          "tagName": "pp-icon",
+          "tagName": "chu-icon",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PixelIcon",
+          "name": "BlipIcon",
           "declaration": {
-            "name": "PixelIcon",
+            "name": "BlipIcon",
             "module": "src/element.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-icon",
+          "name": "chu-icon",
           "declaration": {
-            "name": "PixelIcon",
+            "name": "BlipIcon",
             "module": "src/element.ts"
           }
         }

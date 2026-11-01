@@ -1,47 +1,47 @@
-<!-- Tooltip: chips drawn statically on all four sides (data-pp-static), a form's help, then live <pp-tooltip>s:
+<!-- Tooltip: chips drawn statically on all four sides (data-chu-static), a form's help, then live <chu-tooltip>s:
      hover a button for a beat, or Tab to it; Escape hides the tooltip. -->
-<div style="display:flex;flex-wrap:wrap;gap:calc(16*var(--pp-pixel));align-items:center">
+<div style="display:flex;flex-wrap:wrap;gap:calc(16*var(--chu-pixel));align-items:center">
   <div style="display:inline-flex;flex-direction:column;align-items:center">
-    <span class="pp-box pp-tooltip" role="tooltip" data-side="top" data-pp-static>Save to slot 2<span class="pp-tooltip-nub" aria-hidden="true"></span></span>
-    <button class="pp-box pp-button" type="button" data-icon-only aria-label="Save"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h8v1h1v1h1v8H1zm2 2v2h5V3zm2 4v2h2V7z"/></svg></button>
+    <span class="chu-box chu-tooltip" role="tooltip" data-side="top" data-chu-static>Save to slot 2<span class="chu-tooltip-nub" aria-hidden="true"></span></span>
+    <button class="chu-box chu-button" type="button" data-icon-only aria-label="Save"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h8v1h1v1h1v8H1zm2 2v2h5V3zm2 4v2h2V7z"/></svg></button>
   </div>
   <div style="display:inline-flex;flex-direction:column;align-items:center">
-    <button class="pp-box pp-button" type="button" data-icon-only data-variant="soft" aria-label="Settings"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v2h1V2h2v2h-1v1h1v2h-1v1h1v2H9V9H8v2H4V9H3v1H1V8h1V7H1V5h1V4H1V2h2v1h1zm1 3v1H4v2h1v1h2V7h1V5H7V4z"/></svg></button>
-    <span class="pp-box pp-tooltip" role="tooltip" data-side="bottom" data-pp-static>Settings (S)<span class="pp-tooltip-nub" aria-hidden="true"></span></span>
+    <button class="chu-box chu-button" type="button" data-icon-only data-variant="soft" aria-label="Settings"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v2h1V2h2v2h-1v1h1v2h-1v1h1v2H9V9H8v2H4V9H3v1H1V8h1V7H1V5h1V4H1V2h2v1h1zm1 3v1H4v2h1v1h2V7h1V5H7V4z"/></svg></button>
+    <span class="chu-box chu-tooltip" role="tooltip" data-side="bottom" data-chu-static>Settings (S)<span class="chu-tooltip-nub" aria-hidden="true"></span></span>
   </div>
   <div style="display:inline-flex;align-items:center">
-    <span class="pp-box pp-tooltip" role="tooltip" data-side="left" data-pp-static>Mute music<span class="pp-tooltip-nub" aria-hidden="true"></span></span>
-    <button class="pp-box pp-button" type="button" data-icon-only data-variant="outline" aria-label="Mute music"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h7v7H9v1H6V7h1V6h1V3H5v7H4v1H1V9h1V8h1z"/></svg></button>
+    <span class="chu-box chu-tooltip" role="tooltip" data-side="left" data-chu-static>Mute music<span class="chu-tooltip-nub" aria-hidden="true"></span></span>
+    <button class="chu-box chu-button" type="button" data-icon-only data-variant="outline" aria-label="Mute music"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h7v7H9v1H6V7h1V6h1V3H5v7H4v1H1V9h1V8h1z"/></svg></button>
   </div>
   <div style="display:inline-flex;align-items:center">
-    <button class="pp-box pp-button" type="button" data-icon-only data-variant="outline" aria-label="Help"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h2v1h1v6h-1v1H8v1H4v-1H2V9H1V3h1V2h2zm0 2v1H3v1h2V4h2v1H6v1H5v1h2V6h1V5h1V4H8V3zm1 5v1h2V8z"/></svg></button>
-    <span class="pp-box pp-tooltip" role="tooltip" data-side="right" data-pp-static>Controls and tips<span class="pp-tooltip-nub" aria-hidden="true"></span></span>
+    <button class="chu-box chu-button" type="button" data-icon-only data-variant="outline" aria-label="Help"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h2v1h1v6h-1v1H8v1H4v-1H2V9H1V3h1V2h2zm0 2v1H3v1h2V4h2v1H6v1H5v1h2V6h1V5h1V4H8V3zm1 5v1h2V8z"/></svg></button>
+    <span class="chu-box chu-tooltip" role="tooltip" data-side="right" data-chu-static>Controls and tips<span class="chu-tooltip-nub" aria-hidden="true"></span></span>
   </div>
   <div style="display:inline-flex;flex-direction:column;align-items:flex-start">
-    <span class="pp-box pp-tooltip" role="tooltip" data-side="top" data-pp-static>A longer tip wraps at about 110 pixels, so it stays a small chip and never a paragraph.<span class="pp-tooltip-nub" aria-hidden="true" style="--_pp-nub-x:calc(6*var(--pp-pixel))"></span></span>
-    <button class="pp-box pp-button" type="button" data-size="sm" data-variant="outline">Why?</button>
+    <span class="chu-box chu-tooltip" role="tooltip" data-side="top" data-chu-static>A longer tip wraps at about 110 pixels, so it stays a small chip and never a paragraph.<span class="chu-tooltip-nub" aria-hidden="true" style="--_chu-nub-x:calc(6*var(--chu-pixel))"></span></span>
+    <button class="chu-box chu-button" type="button" data-size="sm" data-variant="outline">Why?</button>
   </div>
 </div>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(16*var(--pp-pixel));align-items:flex-start;margin-block-start:calc(10*var(--pp-pixel))">
-  <div class="pp-field" style="inline-size:calc(220*var(--pp-pixel))">
-    <span style="display:flex;align-items:center;gap:calc(2*var(--pp-pixel))">
-      <label class="pp-field-label" for="ex-player-name" style="white-space:nowrap">Player name</label>
+<div style="display:flex;flex-wrap:wrap;gap:calc(16*var(--chu-pixel));align-items:flex-start;margin-block-start:calc(10*var(--chu-pixel))">
+  <div class="chu-field" style="inline-size:calc(220*var(--chu-pixel))">
+    <span style="display:flex;align-items:center;gap:calc(2*var(--chu-pixel))">
+      <label class="chu-field-label" for="ex-player-name" style="white-space:nowrap">Player name</label>
       <span style="display:inline-flex;align-items:center">
-        <button class="pp-box pp-button" type="button" data-icon-only data-variant="ghost" data-size="sm" aria-label="About player names" aria-describedby="ex-name-tip"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h2v1h1v6h-1v1H8v1H4v-1H2V9H1V3h1V2h2zm0 2v1H3v1h2V4h2v1H6v1H5v1h2V6h1V5h1V4H8V3zm1 5v1h2V8z"/></svg></button>
-        <span class="pp-box pp-tooltip" id="ex-name-tip" role="tooltip" data-side="right" data-pp-static>3 to 12 letters or numbers. Shown on leaderboards.<span class="pp-tooltip-nub" aria-hidden="true"></span></span>
+        <button class="chu-box chu-button" type="button" data-icon-only data-variant="ghost" data-size="sm" aria-label="About player names" aria-describedby="ex-name-tip"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h2v1h1v6h-1v1H8v1H4v-1H2V9H1V3h1V2h2zm0 2v1H3v1h2V4h2v1H6v1H5v1h2V6h1V5h1V4H8V3zm1 5v1h2V8z"/></svg></button>
+        <span class="chu-box chu-tooltip" id="ex-name-tip" role="tooltip" data-side="right" data-chu-static>3 to 12 letters or numbers. Shown on leaderboards.<span class="chu-tooltip-nub" aria-hidden="true"></span></span>
       </span>
     </span>
-    <span class="pp-box pp-input" style="inline-size:calc(130*var(--pp-pixel))"><input id="ex-player-name" value="PixelPat" autocomplete="nickname"></span>
+    <span class="chu-box chu-input" style="inline-size:calc(130*var(--chu-pixel))"><input id="ex-player-name" value="PixelPat" autocomplete="nickname"></span>
   </div>
 </div>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--pp-pixel));align-items:center;margin-block-start:calc(10*var(--pp-pixel))">
-  <span class="pp-label pp-muted">Live</span>
-  <button class="pp-box pp-button" type="button" data-icon-only aria-label="Save" id="tip-save"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h8v1h1v1h1v8H1zm2 2v2h5V3zm2 4v2h2V7z"/></svg></button>
-  <pp-tooltip for="tip-save">Save to slot 2 (Ctrl+S)</pp-tooltip>
-  <button class="pp-box pp-button" type="button" data-icon-only data-variant="soft" aria-label="Settings" id="tip-settings"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v2h1V2h2v2h-1v1h1v2h-1v1h1v2H9V9H8v2H4V9H3v1H1V8h1V7H1V5h1V4H1V2h2v1h1zm1 3v1H4v2h1v1h2V7h1V5H7V4z"/></svg></button>
-  <pp-tooltip for="tip-settings" data-side="bottom">Settings (S)</pp-tooltip>
-  <span class="pp-box pp-input" style="inline-size:calc(90*var(--pp-pixel))"><input id="tip-name" aria-label="Player name" placeholder="Player name"></span>
-  <pp-tooltip for="tip-name" data-side="right">3 to 12 letters or numbers. Shown on leaderboards.</pp-tooltip>
+<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--chu-pixel));align-items:center;margin-block-start:calc(10*var(--chu-pixel))">
+  <span class="chu-label chu-muted">Live</span>
+  <button class="chu-box chu-button" type="button" data-icon-only aria-label="Save" id="tip-save"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h8v1h1v1h1v8H1zm2 2v2h5V3zm2 4v2h2V7z"/></svg></button>
+  <chu-tooltip for="tip-save">Save to slot 2 (Ctrl+S)</chu-tooltip>
+  <button class="chu-box chu-button" type="button" data-icon-only data-variant="soft" aria-label="Settings" id="tip-settings"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v2h1V2h2v2h-1v1h1v2h-1v1h1v2H9V9H8v2H4V9H3v1H1V8h1V7H1V5h1V4H1V2h2v1h1zm1 3v1H4v2h1v1h2V7h1V5H7V4z"/></svg></button>
+  <chu-tooltip for="tip-settings" data-side="bottom">Settings (S)</chu-tooltip>
+  <span class="chu-box chu-input" style="inline-size:calc(90*var(--chu-pixel))"><input id="tip-name" aria-label="Player name" placeholder="Player name"></span>
+  <chu-tooltip for="tip-name" data-side="right">3 to 12 letters or numbers. Shown on leaderboards.</chu-tooltip>
 </div>

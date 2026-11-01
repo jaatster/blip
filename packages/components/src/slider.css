@@ -2,42 +2,42 @@
  * Slider. A native <input type="range"> as a chunky groove and a cream candy knob, with optional tick marks and a
  * value readout. The browser keeps the keyboard (arrows, Page Up and Down, Home, End) and the form value.
  *
- *   <div class="pp-slider-group">
- *     <input class="pp-slider" id="music" name="music" type="range" min="0" max="10" value="7" list="music-ticks">
- *     <output class="pp-box pp-slider-value" data-variant="panel" for="music" aria-hidden="true">7</output>
- *     <datalist class="pp-slider-ticks" id="music-ticks"><option value="0">0</option>…<option value="10">10</option></datalist>
+ *   <div class="chu-slider-group">
+ *     <input class="chu-slider" id="music" name="music" type="range" min="0" max="10" value="7" list="music-ticks">
+ *     <output class="chu-box chu-slider-value" data-variant="panel" for="music" aria-hidden="true">7</output>
+ *     <datalist class="chu-slider-ticks" id="music-ticks"><option value="0">0</option>…<option value="10">10</option></datalist>
  *   </div>
  *
- *   .pp-slider-group        lays out the slider, its readout and its ticks
- *   .pp-slider-value        the value, in a small panel (aria-hidden: the slider already says its value)
- *   .pp-slider-ticks        one mark per child, spread under the knob's travel; a child's text is its label
- *   --pp-slider-value       0 to 1: how much of the groove is filled. <pp-field> keeps it (and the readout) in
+ *   .chu-slider-group        lays out the slider, its readout and its ticks
+ *   .chu-slider-value        the value, in a small panel (aria-hidden: the slider already says its value)
+ *   .chu-slider-ticks        one mark per child, spread under the knob's travel; a child's text is its label
+ *   --chu-slider-value       0 to 1: how much of the groove is filled. <chu-field> keeps it (and the readout) in
  *                           step with the slider; without it the groove stays empty (Firefox fills it natively)
  *
- * The knob can't be a .pp-box (it is a pseudo-element of the input), so it is drawn here from the same tokens and
+ * The knob can't be a .chu-box (it is a pseudo-element of the input), so it is drawn here from the same tokens and
  * the same rules: a one-pixel ink outline with stepped corners, a light band and a shade band, glints, a drop. It
  * lifts on hover, sits in while pressed, takes the yellow ring on focus and is dithered when disabled.
  */
 
-@layer pp.components {
-  .pp-slider {
-    --_p: var(--pp-pixel);
-    --_v: var(--pp-slider-value, 0);
+@layer chu.components {
+  .chu-slider {
+    --_p: var(--chu-pixel);
+    --_v: var(--chu-slider-value, 0);
     --_to: right;
     --_d: 1;
     --_y: 0px;
-    --_ink: var(--pp-outline);
-    --_line: var(--pp-line);
+    --_ink: var(--chu-outline);
+    --_line: var(--chu-line);
     --_dither: transparent;
-    --_on: var(--pp-accent);
-    --_on2: var(--pp-accent-shade);
+    --_on: var(--chu-accent);
+    --_on2: var(--chu-accent-shade);
     /* The knob, 8 x 12 pixels with its drop, in a 12 x 16 box: 2 clear pixels all round for the lift and drop. */
     --_knob:
-      linear-gradient(var(--pp-white) 0 0) calc(4 * var(--_p)) calc(4 * var(--_p)) / calc(2 * var(--_p)) var(--_p) no-repeat,
-      linear-gradient(var(--pp-white) 0 0) calc(3 * var(--_p)) calc(5 * var(--_p)) / var(--_p) var(--_p) no-repeat,
-      linear-gradient(var(--pp-white) 0 0) calc(8 * var(--_p)) calc(4 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--chu-white) 0 0) calc(4 * var(--_p)) calc(4 * var(--_p)) / calc(2 * var(--_p)) var(--_p) no-repeat,
+      linear-gradient(var(--chu-white) 0 0) calc(3 * var(--_p)) calc(5 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--chu-white) 0 0) calc(8 * var(--_p)) calc(4 * var(--_p)) / var(--_p) var(--_p) no-repeat,
       repeating-conic-gradient(var(--_dither) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--_p)) calc(2 * var(--_p)),
-      linear-gradient(var(--pp-candy-cream-light) 0 calc(2 * var(--_p)), var(--pp-candy-cream) 0 calc(100% - 2 * var(--_p)), var(--pp-candy-cream-shade) 0) calc(3 * var(--_p)) calc(3 * var(--_p)) / calc(6 * var(--_p)) calc(10 * var(--_p)) no-repeat,
+      linear-gradient(var(--chu-candy-cream-light) 0 calc(2 * var(--_p)), var(--chu-candy-cream) 0 calc(100% - 2 * var(--_p)), var(--chu-candy-cream-shade) 0) calc(3 * var(--_p)) calc(3 * var(--_p)) / calc(6 * var(--_p)) calc(10 * var(--_p)) no-repeat,
       linear-gradient(var(--_ink) 0 0) calc(3 * var(--_p)) calc(2 * var(--_p)) / calc(6 * var(--_p)) calc(12 * var(--_p)) no-repeat,
       linear-gradient(var(--_ink) 0 0) calc(2 * var(--_p)) calc(3 * var(--_p)) / calc(8 * var(--_p)) calc(10 * var(--_p)) no-repeat,
       linear-gradient(var(--_ink) 0 0) calc((3 + var(--_d)) * var(--_p)) calc((2 + var(--_d)) * var(--_p)) / calc(6 * var(--_p)) calc(12 * var(--_p)) no-repeat,
@@ -45,8 +45,8 @@
     --_clip: border-box, border-box, border-box, content-box, border-box, border-box, border-box, border-box, border-box;
     /* The groove, 4 pixels high: a line outline with stepped ends, filled with candy up to the knob's middle. */
     --_track:
-      linear-gradient(to var(--_to), var(--_on2) 0 calc(5 * var(--_p) + var(--_v) * (100% - 10 * var(--_p))), var(--pp-line-soft) 0) var(--_p) var(--_p) / calc(100% - 2 * var(--_p)) var(--_p) no-repeat,
-      linear-gradient(to var(--_to), var(--_on) 0 calc(5 * var(--_p) + var(--_v) * (100% - 10 * var(--_p))), var(--pp-surface-sunken) 0) var(--_p) calc(2 * var(--_p)) / calc(100% - 2 * var(--_p)) var(--_p) no-repeat,
+      linear-gradient(to var(--_to), var(--_on2) 0 calc(5 * var(--_p) + var(--_v) * (100% - 10 * var(--_p))), var(--chu-line-soft) 0) var(--_p) var(--_p) / calc(100% - 2 * var(--_p)) var(--_p) no-repeat,
+      linear-gradient(to var(--_to), var(--_on) 0 calc(5 * var(--_p) + var(--_v) * (100% - 10 * var(--_p))), var(--chu-surface-sunken) 0) var(--_p) calc(2 * var(--_p)) / calc(100% - 2 * var(--_p)) var(--_p) no-repeat,
       linear-gradient(var(--_line) 0 0) var(--_p) 0 / calc(100% - 2 * var(--_p)) 100% no-repeat,
       linear-gradient(var(--_line) 0 0) 0 var(--_p) / 100% calc(100% - 2 * var(--_p)) no-repeat;
 
@@ -62,12 +62,12 @@
   }
 
   /* Right to left the minimum is on the right, so the groove fills from there. */
-  .pp-slider:dir(rtl) { --_to: left; }
-  .pp-slider::-webkit-slider-runnable-track { block-size: calc(4 * var(--_p)); background: var(--_track); }
-  .pp-slider::-moz-range-track { block-size: calc(4 * var(--_p)); background: var(--_track); }
-  .pp-slider::-moz-range-progress { block-size: calc(2 * var(--_p)); background: linear-gradient(var(--_on2) 0 var(--_p), var(--_on) 0); }
+  .chu-slider:dir(rtl) { --_to: left; }
+  .chu-slider::-webkit-slider-runnable-track { block-size: calc(4 * var(--_p)); background: var(--_track); }
+  .chu-slider::-moz-range-track { block-size: calc(4 * var(--_p)); background: var(--_track); }
+  .chu-slider::-moz-range-progress { block-size: calc(2 * var(--_p)); background: linear-gradient(var(--_on2) 0 var(--_p), var(--_on) 0); }
 
-  .pp-slider::-webkit-slider-thumb {
+  .chu-slider::-webkit-slider-thumb {
     box-sizing: border-box;
     inline-size: calc(12 * var(--_p));
     block-size: calc(16 * var(--_p));
@@ -80,7 +80,7 @@
     translate: 0 var(--_y);
     appearance: none;
   }
-  .pp-slider::-moz-range-thumb {
+  .chu-slider::-moz-range-thumb {
     box-sizing: border-box;
     inline-size: calc(12 * var(--_p));
     block-size: calc(16 * var(--_p));
@@ -95,63 +95,63 @@
 
   /* Hover lifts the knob a pixel (its drop grows so the shadow stays put); pressing sits it in its drop. */
   @media (hover: hover) {
-    .pp-slider:not(:disabled):hover { --_d: 2; --_y: calc(-1 * var(--_p)); }
+    .chu-slider:not(:disabled):hover { --_d: 2; --_y: calc(-1 * var(--_p)); }
   }
-  .pp-slider[data-pp-state~="hover"] { --_d: 2; --_y: calc(-1 * var(--_p)); }
-  .pp-slider:not(:disabled):active, .pp-slider[data-pp-state~="active"] { --_d: 0; --_y: 0px; }
+  .chu-slider[data-chu-state~="hover"] { --_d: 2; --_y: calc(-1 * var(--_p)); }
+  .chu-slider:not(:disabled):active, .chu-slider[data-chu-state~="active"] { --_d: 0; --_y: 0px; }
 
   /* Focus: the yellow ring with an ink edge round the knob, as on every box. */
-  .pp-slider:focus-visible { outline: 0; box-shadow: none; }
-  .pp-slider:is(:focus-visible, [data-pp-state~="focus"]) {
+  .chu-slider:focus-visible { outline: 0; box-shadow: none; }
+  .chu-slider:is(:focus-visible, [data-chu-state~="focus"]) {
     --_ring:
-      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--pp-focus)) drop-shadow(0 var(--_p) 0 var(--pp-focus))
-      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--pp-focus)) drop-shadow(var(--_p) 0 0 var(--pp-focus))
-      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--pp-focus-edge)) drop-shadow(0 var(--_p) 0 var(--pp-focus-edge))
-      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--pp-focus-edge)) drop-shadow(var(--_p) 0 0 var(--pp-focus-edge));
+      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--chu-focus)) drop-shadow(0 var(--_p) 0 var(--chu-focus))
+      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--chu-focus)) drop-shadow(var(--_p) 0 0 var(--chu-focus))
+      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--chu-focus-edge)) drop-shadow(0 var(--_p) 0 var(--chu-focus-edge))
+      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--chu-focus-edge)) drop-shadow(var(--_p) 0 0 var(--chu-focus-edge));
   }
-  .pp-slider::-webkit-slider-thumb { filter: var(--_ring, none); }
-  .pp-slider::-moz-range-thumb { filter: var(--_ring, none); }
+  .chu-slider::-webkit-slider-thumb { filter: var(--_ring, none); }
+  .chu-slider::-moz-range-thumb { filter: var(--_ring, none); }
 
   /* Disabled: the cream knob takes the cream dither, no lift, no drop; the groove goes soft. */
-  .pp-slider:disabled { --_d: 0; --_dither: var(--pp-disabled-dither-cream); --_line: var(--pp-line-soft); --_on: var(--pp-line-soft); --_on2: var(--pp-line-soft); cursor: not-allowed; }
+  .chu-slider:disabled { --_d: 0; --_dither: var(--chu-disabled-dither-cream); --_line: var(--chu-line-soft); --_on: var(--chu-line-soft); --_on2: var(--chu-line-soft); cursor: not-allowed; }
 
   /* The group: slider and readout side by side, ticks under the slider. */
-  .pp-slider-group {
+  .chu-slider-group {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    column-gap: calc(6 * var(--pp-pixel));
+    column-gap: calc(6 * var(--chu-pixel));
   }
-  .pp-slider-group > .pp-slider-ticks { grid-column: 1; }
-  .pp-slider-value {
-    --pp-r: 2;
-    --pp-shape: var(--pp-shape-2);
-    --pp-shape-inner: var(--pp-shape-2-inner);
-    min-inline-size: calc(18 * var(--pp-pixel));
-    padding: calc(2 * var(--pp-pixel)) calc(3 * var(--pp-pixel));
-    font-size: var(--pp-size-small);
-    font-weight: var(--pp-weight-bold);
-    line-height: var(--pp-leading-tight);
+  .chu-slider-group > .chu-slider-ticks { grid-column: 1; }
+  .chu-slider-value {
+    --chu-r: 2;
+    --chu-shape: var(--chu-shape-2);
+    --chu-shape-inner: var(--chu-shape-2-inner);
+    min-inline-size: calc(18 * var(--chu-pixel));
+    padding: calc(2 * var(--chu-pixel)) calc(3 * var(--chu-pixel));
+    font-size: var(--chu-size-small);
+    font-weight: var(--chu-weight-bold);
+    line-height: var(--chu-leading-tight);
     text-align: center;
     font-variant-numeric: tabular-nums;
   }
 
   /* Ticks: each child is as wide as the knob, so its mark lines up with the knob's middle at that value. */
-  .pp-slider-ticks {
+  .chu-slider-ticks {
     display: flex;
     justify-content: space-between;
-    margin: calc(-2 * var(--pp-pixel)) 0 0;
+    margin: calc(-2 * var(--chu-pixel)) 0 0;
     padding: 0;
-    font-size: var(--pp-size-caption);
-    line-height: var(--pp-leading-tight);
-    color: var(--pp-text-muted);
+    font-size: var(--chu-size-caption);
+    line-height: var(--chu-leading-tight);
+    color: var(--chu-text-muted);
   }
-  .pp-slider-ticks > * {
+  .chu-slider-ticks > * {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--pp-pixel);
-    inline-size: calc(12 * var(--pp-pixel));
+    gap: var(--chu-pixel);
+    inline-size: calc(12 * var(--chu-pixel));
     min-block-size: 0;
     padding: 0;
     white-space: nowrap;
@@ -159,18 +159,18 @@
     font: inherit;
     background: none;
   }
-  .pp-slider-ticks > ::before { content: ""; inline-size: var(--pp-pixel); block-size: calc(2 * var(--pp-pixel)); background: currentColor; }
+  .chu-slider-ticks > ::before { content: ""; inline-size: var(--chu-pixel); block-size: calc(2 * var(--chu-pixel)); background: currentColor; }
 
   /* The groove, its fill, the knob and the ticks are the value: they print, though paper drops backgrounds (the
      input's parts inherit it). */
   @media print {
-    .pp-slider, .pp-slider-ticks { print-color-adjust: exact; }
+    .chu-slider, .chu-slider-ticks { print-color-adjust: exact; }
   }
   @media (forced-colors: active) {
-    .pp-slider::-webkit-slider-runnable-track { forced-color-adjust: none; background: CanvasText; }
-    .pp-slider::-webkit-slider-thumb { forced-color-adjust: none; background: ButtonText; border: 1px solid Canvas; }
-    .pp-slider:focus-visible::-webkit-slider-thumb { filter: none; background: Highlight; }
-    .pp-slider::-moz-range-thumb { background: ButtonText; }
-    .pp-slider-ticks > ::before { forced-color-adjust: none; background: CanvasText; }
+    .chu-slider::-webkit-slider-runnable-track { forced-color-adjust: none; background: CanvasText; }
+    .chu-slider::-webkit-slider-thumb { forced-color-adjust: none; background: ButtonText; border: 1px solid Canvas; }
+    .chu-slider:focus-visible::-webkit-slider-thumb { filter: none; background: Highlight; }
+    .chu-slider::-moz-range-thumb { background: ButtonText; }
+    .chu-slider-ticks > ::before { forced-color-adjust: none; background: CanvasText; }
   }
 }

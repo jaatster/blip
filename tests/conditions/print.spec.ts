@@ -4,7 +4,7 @@
  *   - every candy box keeps its fill and outline: the box and its ::before and ::after print exact colours
  *     (print-color-adjust), and the PDF paints each box's fill and outline colour; so does every part that shows a
  *     value (a progress bar, a meter, a rating, a slider);
- *   - a Night page prints Day: the page's scheme roles (and every data-pp-scheme section's) are Day's, the page
+ *   - a Night page prints Day: the page's scheme roles (and every data-chu-scheme section's) are Day's, the page
  *     under print media is pixel for pixel the same page in Day, and the two PDFs paint the same colours;
  *   - the world, the CRT and the scrims do not print: the world and the hero's drawn scenery are not shown, the CRT's
  *     scanlines and vignette are off, scrims and a modal's ::backdrop have no fill;
@@ -44,7 +44,7 @@ for (const example of examples) {
       }
     }
     await page.evaluate(() => {
-      for (const el of document.querySelectorAll<HTMLElement>("[data-pp-scheme]")) el.dataset.ppScheme = "day";
+      for (const el of document.querySelectorAll<HTMLElement>("[data-chu-scheme]")) el.dataset.chuScheme = "day";
     });
     await settle(page);
     const day = decode(await page.screenshot({ animations: "disabled", caret: "hide" }));
@@ -53,7 +53,7 @@ for (const example of examples) {
     if (diff.count) {
       const where = await page.evaluate((points) => [...new Set(points.map(([x, y]) => {
         const e = document.elementFromPoint(x, y);
-        return e ? `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c.startsWith("pp-") && c !== "pp-box").slice(0, 2).map((c) => `.${c}`).join("")}` : "?";
+        return e ? `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c.startsWith("chu-") && c !== "chu-box").slice(0, 2).map((c) => `.${c}`).join("")}` : "?";
       }))].join(", "), diff.points);
       failures.push(`a Night page prints differently from Day: ${diff.count} pixels in ${diff.box} (at ${where})`);
     }
@@ -73,7 +73,7 @@ for (const example of examples) {
 function inPrint(roles: string[]) {
   const root = document.getElementById("example")!;
   const failures: string[] = [];
-  const name = (e: Element) => `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c.startsWith("pp-") && c !== "pp-box").slice(0, 2).map((c) => `.${c}`).join("")}${e.textContent!.trim() ? ` "${e.textContent!.trim().replace(/\s+/g, " ").slice(0, 20)}"` : ""}`;
+  const name = (e: Element) => `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c.startsWith("chu-") && c !== "chu-box").slice(0, 2).map((c) => `.${c}`).join("")}${e.textContent!.trim() ? ` "${e.textContent!.trim().replace(/\s+/g, " ").slice(0, 20)}"` : ""}`;
   const exact = (e: Element, p?: string) => getComputedStyle(e, p).getPropertyValue("print-color-adjust") === "exact";
   const probe = document.body.appendChild(document.createElement("i"));
   const colour = (value: string): number | null => {
@@ -98,21 +98,21 @@ function inPrint(roles: string[]) {
     return r.width * r.height ? (Math.max(0, x1 - x0) * Math.max(0, y1 - y0)) / (r.width * r.height) : 0;
   };
   const boxes: { where: string; fill: number | null; outline: number | null }[] = [];
-  for (const box of root.querySelectorAll(".pp-box")) {
+  for (const box of root.querySelectorAll(".chu-box")) {
     if (!box.checkVisibility() || box.getBoundingClientRect().width < 2) continue;
     // Scrolled out of sight, or visually hidden (a skip link until it has focus): nothing of it to print.
     if (shown(box) < 0.5) continue;
     const loose = [undefined, "::before", "::after"].filter((p) => !exact(box, p)).map((p) => p ?? "the box");
     if (loose.length) failures.push(`${name(box)}: ${loose.join(", ")} not exact (print-color-adjust), so with background graphics off its fill and outline drop`);
     const cs = getComputedStyle(box);
-    boxes.push({ where: name(box), fill: colour(cs.getPropertyValue("--pp-box-fill")), outline: colour(cs.getPropertyValue("--pp-box-outline")) });
+    boxes.push({ where: name(box), fill: colour(cs.getPropertyValue("--chu-box-fill")), outline: colour(cs.getPropertyValue("--chu-box-outline")) });
   }
   // Parts that show a value: without their colours the value is gone from the paper.
   let values = 0;
-  for (const el of root.querySelectorAll("progress, meter, .pp-rating, input[type='range']")) {
+  for (const el of root.querySelectorAll("progress, meter, .chu-rating, input[type='range']")) {
     if (!el.checkVisibility()) continue;
     values++;
-    const loose = (el.matches(".pp-rating") ? ["::before", "::after"] : [undefined]).filter((p) => !exact(el, p)).map((p) => p ?? "the element");
+    const loose = (el.matches(".chu-rating") ? ["::before", "::after"] : [undefined]).filter((p) => !exact(el, p)).map((p) => p ?? "the element");
     if (loose.length) failures.push(`${name(el)}: ${loose.join(", ")} not exact (print-color-adjust), so with background graphics off its value drops`);
   }
   // A scroller's hidden part cannot be reached on paper: what it scrolls to is lost. (A clip that hides on purpose,
@@ -127,24 +127,24 @@ function inPrint(roles: string[]) {
     if (across || down) failures.push(`${name(el)}: scrolls on paper, so ${down ? `${el.scrollHeight - el.clientHeight} px of it below` : ""}${across && down ? " and " : ""}${across ? `${el.scrollWidth - el.clientWidth} px to the side` : ""} never print`);
   }
   // The world, the CRT and the scrims.
-  for (const w of root.querySelectorAll("pp-world, .pp-hero-scenery, .pp-hero-ground")) if (w.checkVisibility()) failures.push(`${name(w)}: the world prints`);
-  for (const c of root.querySelectorAll(".pp-crt")) {
+  for (const w of root.querySelectorAll("chu-world, .chu-hero-scenery, .chu-hero-ground")) if (w.checkVisibility()) failures.push(`${name(w)}: the world prints`);
+  for (const c of root.querySelectorAll(".chu-crt")) {
     for (const p of ["::before", "::after"]) {
       const cs = getComputedStyle(c, p);
       if (cs.display !== "none" && cs.content !== "none" && (cs.backgroundImage !== "none" || colour(cs.backgroundColor) !== null)) failures.push(`${name(c)}${p}: the CRT prints`);
     }
   }
-  for (const s of root.querySelectorAll(".pp-scrim")) {
+  for (const s of root.querySelectorAll(".chu-scrim")) {
     const cs = getComputedStyle(s);
     if (s.checkVisibility() && (cs.backgroundImage !== "none" || colour(cs.backgroundColor) !== null)) failures.push(`${name(s)}: the scrim prints`);
   }
   // Day's roles everywhere a scheme is set.
   const day = document.body.appendChild(Object.assign(document.createElement("div"), { hidden: true }));
-  day.dataset.ppScheme = "day";
-  const want = Object.fromEntries(roles.map((r) => [r, getComputedStyle(day).getPropertyValue(`--pp-${r}`).trim()]));
-  for (const el of [document.documentElement, ...root.querySelectorAll("[data-pp-scheme]")]) {
-    const off = roles.filter((r) => getComputedStyle(el).getPropertyValue(`--pp-${r}`).trim() !== want[r]);
-    if (off.length) failures.push(`${el === document.documentElement ? "the page" : name(el)} (data-pp-scheme="${(el as HTMLElement).dataset.ppScheme}"): prints ${off.length} roles that are not Day's (${off.slice(0, 4).map((r) => `--pp-${r}`).join(", ")})`);
+  day.dataset.chuScheme = "day";
+  const want = Object.fromEntries(roles.map((r) => [r, getComputedStyle(day).getPropertyValue(`--chu-${r}`).trim()]));
+  for (const el of [document.documentElement, ...root.querySelectorAll("[data-chu-scheme]")]) {
+    const off = roles.filter((r) => getComputedStyle(el).getPropertyValue(`--chu-${r}`).trim() !== want[r]);
+    if (off.length) failures.push(`${el === document.documentElement ? "the page" : name(el)} (data-chu-scheme="${(el as HTMLElement).dataset.chuScheme}"): prints ${off.length} roles that are not Day's (${off.slice(0, 4).map((r) => `--chu-${r}`).join(", ")})`);
   }
   day.remove();
   probe.remove();

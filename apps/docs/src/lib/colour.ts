@@ -82,7 +82,7 @@ export function hsv(hex: string): [number, number, number] {
 }
 
 export interface Palette {
-  /** Its data-pp-palette value; Candy, the default, is set by having none. */
+  /** Its data-chu-palette value; Candy, the default, is set by having none. */
   id: string;
   name: string;
   description: string;

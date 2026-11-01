@@ -12,58 +12,58 @@ import "../styles/app.css";
   </head>
   <body>
     <main>
-      <h1 class="pp-display pp-pop" data-scale="3" data-pop="Level 2">Level 2</h1>
+      <h1 class="chu-display chu-pop" data-scale="3" data-pop="Level 2">Level 2</h1>
 
       <section id="docs-tabs" data-smoke="tabs">
         <!-- The start page's tabs, as it writes them. -->
-        <pp-tabs class="pp-tabs" data-variant="outline">
-          <div class="pp-tabs-list" role="tablist" aria-label="Settings">
-            <button class="pp-box pp-tab" data-variant="outline" role="tab" aria-selected="true">General</button>
-            <button class="pp-box pp-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Sound</button>
+        <chu-tabs class="chu-tabs" data-variant="outline">
+          <div class="chu-tabs-list" role="tablist" aria-label="Settings">
+            <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="true">General</button>
+            <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Sound</button>
           </div>
-          <div class="pp-tabs-panel" role="tabpanel">Music, screen shake, big text.</div>
-          <div class="pp-tabs-panel" role="tabpanel" hidden>Chip sounds are off until you turn them on.</div>
-        </pp-tabs>
+          <div class="chu-tabs-panel" role="tabpanel">Music, screen shake, big text.</div>
+          <div class="chu-tabs-panel" role="tabpanel" hidden>Chip sounds are off until you turn them on.</div>
+        </chu-tabs>
       </section>
 
       <section id="dialog">
         <!-- As the dialog's docs write it: invoker buttons open and close it. -->
-        <button class="pp-box pp-button" type="button" id="open-dialog" commandfor="save" command="show-modal">Load game</button>
+        <button class="chu-box chu-button" type="button" id="open-dialog" commandfor="save" command="show-modal">Load game</button>
         <p id="dialog-state">closed</p>
-        <pp-dialog>
-          <dialog class="pp-box pp-dialog" id="save" aria-labelledby="save-title">
-            <header class="pp-dialog-header"><h2 class="pp-dialog-title" id="save-title">Load game</h2></header>
-            <div class="pp-dialog-body">Slot 2 will be replaced.</div>
-            <footer class="pp-dialog-footer">
-              <button class="pp-box pp-button" type="button" id="close-dialog" commandfor="save" command="close">Cancel</button>
+        <chu-dialog>
+          <dialog class="chu-box chu-dialog" id="save" aria-labelledby="save-title">
+            <header class="chu-dialog-header"><h2 class="chu-dialog-title" id="save-title">Load game</h2></header>
+            <div class="chu-dialog-body">Slot 2 will be replaced.</div>
+            <footer class="chu-dialog-footer">
+              <button class="chu-box chu-button" type="button" id="close-dialog" commandfor="save" command="close">Cancel</button>
             </footer>
           </dialog>
-        </pp-dialog>
+        </chu-dialog>
       </section>
 
       <section id="late-tabs">
-        <pp-tabs class="pp-tabs">
-          <div class="pp-tabs-list" role="tablist" aria-label="Worlds"></div>
-        </pp-tabs>
-        <button class="pp-box pp-button" type="button" id="add-tab">Add a tab</button>
+        <chu-tabs class="chu-tabs">
+          <div class="chu-tabs-list" role="tablist" aria-label="Worlds"></div>
+        </chu-tabs>
+        <button class="chu-box chu-button" type="button" id="add-tab">Add a tab</button>
       </section>
 
       <section id="combobox">
-        <label class="pp-field-label" for="place">Start in</label>
-        <pp-combobox class="pp-combobox">
-          <span class="pp-box pp-input"><input id="place" list="places" /></span>
+        <label class="chu-field-label" for="place">Start in</label>
+        <chu-combobox class="chu-combobox">
+          <span class="chu-box chu-input"><input id="place" list="places" /></span>
           <datalist id="places"></datalist>
-        </pp-combobox>
+        </chu-combobox>
         <p id="place-state"></p>
       </section>
 
       <form id="signup">
-        <pp-field class="pp-field">
-          <label class="pp-field-label" for="player">Player name</label>
-          <span class="pp-box pp-input"><input id="player" name="player" /></span>
-          <p class="pp-field-help">Shown on the leaderboard.</p>
-        </pp-field>
-        <button class="pp-box pp-button" id="submit">Join</button>
+        <chu-field class="chu-field">
+          <label class="chu-field-label" for="player">Player name</label>
+          <span class="chu-box chu-input"><input id="player" name="player" /></span>
+          <p class="chu-field-help">Shown on the leaderboard.</p>
+        </chu-field>
+        <button class="chu-box chu-button" id="submit">Join</button>
       </form>
     </main>
 
@@ -75,18 +75,18 @@ import "../styles/app.css";
       const make = (tag: string, props: object) => Object.assign(document.createElement(tag), props);
 
       // The dialog's state, from its events.
-      $("pp-dialog").addEventListener("pp-open", () => ($("#dialog-state").textContent = "open"));
-      $("pp-dialog").addEventListener("pp-close", () => ($("#dialog-state").textContent = "closed"));
+      $("chu-dialog").addEventListener("chu-open", () => ($("#dialog-state").textContent = "open"));
+      $("chu-dialog").addEventListener("chu-close", () => ($("#dialog-state").textContent = "closed"));
 
       // Tabs that arrive after load, and one added later.
       const add = (name: string, selected: boolean) => {
-        const tab = make("button", { className: "pp-box pp-tab", textContent: name, tabIndex: selected ? 0 : -1 });
+        const tab = make("button", { className: "chu-box chu-tab", textContent: name, tabIndex: selected ? 0 : -1 });
         tab.setAttribute("role", "tab");
         tab.setAttribute("aria-selected", String(selected));
-        const panel = make("div", { className: "pp-tabs-panel", textContent: `Panel ${name}`, hidden: !selected });
+        const panel = make("div", { className: "chu-tabs-panel", textContent: `Panel ${name}`, hidden: !selected });
         panel.setAttribute("role", "tabpanel");
         $("#late-tabs [role=tablist]").append(tab);
-        $("#late-tabs pp-tabs").append(panel);
+        $("#late-tabs chu-tabs").append(panel);
       };
       setTimeout(() => ["Alpha", "Beta", "Gamma"].forEach((name, i) => add(name, i === 0)), 150);
       $("#add-tab").addEventListener("click", () => add("Delta", false));
@@ -105,9 +105,9 @@ import "../styles/app.css";
       // The server's answer to a submit: an error, gone again once the name changes.
       $("#signup").addEventListener("submit", (e) => {
         e.preventDefault();
-        if (!$("#signup").querySelector(".pp-field-error")) $("#signup .pp-field-help").after(make("p", { className: "pp-field-error", textContent: "That name is taken." }));
+        if (!$("#signup").querySelector(".chu-field-error")) $("#signup .chu-field-help").after(make("p", { className: "chu-field-error", textContent: "That name is taken." }));
       });
-      $("#player").addEventListener("input", () => $("#signup").querySelector(".pp-field-error")?.remove());
+      $("#player").addEventListener("input", () => $("#signup").querySelector(".chu-field-error")?.remove());
 
       document.documentElement.setAttribute("data-mounted", "");
     </script>

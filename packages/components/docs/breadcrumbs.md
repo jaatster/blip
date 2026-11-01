@@ -18,11 +18,11 @@ end. Use them in deep structures (worlds, levels, settings sections); a flat app
 ## Usage
 
 ```html
-<nav class="pp-breadcrumbs" aria-label="Breadcrumb">
-  <ol class="pp-breadcrumbs-list">
-    <li><a class="pp-box pp-breadcrumbs-link" data-variant="ghost" href="/">Home</a></li>
-    <li><a class="pp-box pp-breadcrumbs-link" data-variant="ghost" href="/worlds">Worlds</a></li>
-    <li><a class="pp-box pp-breadcrumbs-link" data-variant="ghost" href="/worlds/2/3" aria-current="page">Level 2-3</a></li>
+<nav class="chu-breadcrumbs" aria-label="Breadcrumb">
+  <ol class="chu-breadcrumbs-list">
+    <li><a class="chu-box chu-breadcrumbs-link" data-variant="ghost" href="/">Home</a></li>
+    <li><a class="chu-box chu-breadcrumbs-link" data-variant="ghost" href="/worlds">Worlds</a></li>
+    <li><a class="chu-box chu-breadcrumbs-link" data-variant="ghost" href="/worlds/2/3" aria-current="page">Level 2-3</a></li>
   </ol>
 </nav>
 ```
@@ -31,19 +31,19 @@ A long trail can fold its middle into a menu:
 
 ```html
 <li>
-  <pp-menu class="pp-menu">
-    <button class="pp-box pp-breadcrumbs-link" data-variant="ghost" aria-label="3 more pages"><svg class="pp-icon" …></svg></button>
-    <div class="pp-box pp-menu-list pp-pop-in" role="menu" aria-label="More pages" popover>
-      <a class="pp-box pp-menu-item" role="menuitem" href="/worlds"><span class="pp-menu-label">Worlds</span></a>
+  <chu-menu class="chu-menu">
+    <button class="chu-box chu-breadcrumbs-link" data-variant="ghost" aria-label="3 more pages"><svg class="chu-icon" …></svg></button>
+    <div class="chu-box chu-menu-list chu-pop-in" role="menu" aria-label="More pages" popover>
+      <a class="chu-box chu-menu-item" role="menuitem" href="/worlds"><span class="chu-menu-label">Worlds</span></a>
     </div>
-  </pp-menu>
+  </chu-menu>
 </li>
 ```
 
 ## Anatomy
 
-1. **Trail**: `.pp-breadcrumbs-list`, an ordered list that wraps onto more lines when it must.
-2. **Crumb**: `.pp-breadcrumbs-link`, a ghost box: a link in the accent text colour.
+1. **Trail**: `.chu-breadcrumbs-list`, an ordered list that wraps onto more lines when it must.
+2. **Crumb**: `.chu-breadcrumbs-link`, a ghost box: a link in the accent text colour.
 3. **Separator**: a one-pixel chevron (4 x 7) before every crumb but the first, drawn by CSS (not read out).
 4. **Current page**: the last crumb, `aria-current="page"`: a soft chip, ink text, bold.
 
@@ -52,8 +52,8 @@ A long trail can fold its middle into a menu:
 | Attribute | Values | Use |
 |---|---|---|
 | `data-size` | `sm` (12 pixels high), `md` (14, default), `lg` (16) | `sm` for dense headers and dashboards, `lg` for a page's own header. |
-| `<span>` inside a crumb | | A long label is cut to `--pp-breadcrumbs-max` with an ellipsis; the full text is still its name. |
-| A `pp-menu` in an item | | The middle of a long trail behind a "more" button: keep the first crumb, the last two, and fold the rest. |
+| `<span>` inside a crumb | | A long label is cut to `--chu-breadcrumbs-max` with an ellipsis; the full text is still its name. |
+| A `chu-menu` in an item | | The middle of a long trail behind a "more" button: keep the first crumb, the last two, and fold the rest. |
 | An icon-only crumb | `aria-label` | A home mark instead of "Home". |
 
 ## States
@@ -93,5 +93,5 @@ A long trail can fold its middle into a menu:
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-breadcrumbs-max` | `calc(80 * var(--pp-pixel))` | The width at which a crumb's `<span>` is cut. |
-| `--pp-r` with `--pp-shape`, `--pp-shape-inner` | 3 | Corner radius in pixels. |
+| `--chu-breadcrumbs-max` | `calc(80 * var(--chu-pixel))` | The width at which a crumb's `<span>` is cut. |
+| `--chu-r` with `--chu-shape`, `--chu-shape-inner` | 3 | Corner radius in pixels. |

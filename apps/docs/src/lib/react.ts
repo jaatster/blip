@@ -468,7 +468,7 @@ export interface ReactComponent {
   description: string;
   /** The code examples in its JSDoc. */
   examples: string[];
-  /** What it renders, as its JSDoc says: `<button class="pp-box pp-button">`. */
+  /** What it renders, as its JSDoc says: `<button class="chu-box chu-button">`. */
   renders: string | null;
   /** The custom element it wraps, for an element's wrapper. */
   tag: string | null;
@@ -546,7 +546,7 @@ export function reactComponents(): ReactComponent[] {
         propsType = split(fr[1]!, ",")[1] ?? null;
       } else if (cc) {
         propsType = split(cc[1]!, ",")[1] ?? null;
-        tagName = d.text.match(/tag:\s*"(pp-[a-z0-9-]+)"/)?.[1] ?? null;
+        tagName = d.text.match(/tag:\s*"(chu-[a-z0-9-]+)"/)?.[1] ?? null;
       } else continue;
       const res = propsType ? resolve(propsType, file) : { props: [], native: null, notes: [] };
       const defs = defaults(d.text);
@@ -563,7 +563,7 @@ export function reactComponents(): ReactComponent[] {
         description,
         examples: examplesOf(d.doc),
         renders,
-        tag: tagName ?? renders?.match(/^<(pp-[a-z0-9-]+)/)?.[1] ?? null,
+        tag: tagName ?? renders?.match(/^<(chu-[a-z0-9-]+)/)?.[1] ?? null,
         props,
         native: as ? "as" : res.native,
         as,
@@ -607,7 +607,7 @@ export function reactFunctions(): ReactFunction[] {
 
 // ------------------------------------------------------------------ which page each belongs to
 
-const UTILITY = new Set(["pp-box", "pp-display", "pp-pop", "pp-pop-in", "pp-sr-only", "pp-icon", "pp-label", "pp-outline"]);
+const UTILITY = new Set(["chu-box", "chu-display", "chu-pop", "chu-pop-in", "chu-sr-only", "chu-icon", "chu-label", "chu-outline"]);
 const cssBase = (d: Doc) => (d.meta.css && /^[a-z0-9-]+\.css$/.test(d.meta.css) ? d.meta.css.replace(/\.css$/, "") : null);
 const lcp = (a: string, b: string) => {
   let i = 0;
@@ -632,15 +632,15 @@ function byPage(): Map<string, ReactComponent[]> {
   for (const c of all) {
     let page: Doc | undefined = pages.find((d) => d.meta.react === c.name);
     if (!page && c.tag) page = pages.find((d) => (d.meta.element ?? "").split(",").map((s) => s.trim()).includes(c.tag!));
-    const classes = (c.renders?.match(/class="([^"]*)"/)?.[1] ?? "").split(/\s+/).filter((x) => x.startsWith("pp-") && !UTILITY.has(x));
+    const classes = (c.renders?.match(/class="([^"]*)"/)?.[1] ?? "").split(/\s+/).filter((x) => x.startsWith("chu-") && !UTILITY.has(x));
     if (!page && classes.length) {
-      // A part's own class (pp-alert-close) says more than a class it shares (pp-button); the longest base wins.
+      // A part's own class (chu-alert-close) says more than a class it shares (chu-button); the longest base wins.
       let best: { doc: Doc; part: boolean; len: number } | undefined;
       for (const cls of classes) {
         for (const d of pages) {
           const b = cssBase(d);
-          if (!b || !(cls === `pp-${b}` || cls.startsWith(`pp-${b}-`))) continue;
-          const part = cls !== `pp-${b}`;
+          if (!b || !(cls === `chu-${b}` || cls.startsWith(`chu-${b}-`))) continue;
+          const part = cls !== `chu-${b}`;
           const better = !best || (part && !best.part) || (part === best.part && b.length > best.len) || (part === best.part && b.length === best.len && d.meta.react && lcp(c.name, d.meta.react) > lcp(c.name, best.doc.meta.react ?? ""));
           if (better) best = { doc: d, part, len: b.length };
         }

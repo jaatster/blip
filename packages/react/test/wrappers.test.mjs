@@ -11,7 +11,7 @@ import { iconSvg } from "@jaatster/blip-icons";
 // Stand-ins under the real tags: the wrappers still import the real modules, which then leave these alone, so no
 // real element connects here (jsdom lacks popover, showModal and ResizeObserver, and their timers would keep the
 // test running). The elements themselves are tested in a browser by @jaatster/blip-tests.
-for (const tag of ["pp-dialog", "pp-rating", "pp-tooltip", "pp-toaster", "pp-tabs", "pp-segmented", "pp-menu", "pp-counter", "pp-hearts", "pp-sprite", "pp-world", "pp-typewriter"]) {
+for (const tag of ["chu-dialog", "chu-rating", "chu-tooltip", "chu-toaster", "chu-tabs", "chu-segmented", "chu-menu", "chu-counter", "chu-hearts", "chu-sprite", "chu-world", "chu-typewriter"]) {
   customElements.define(tag, class extends HTMLElement {});
 }
 const attrs = (el) => Object.fromEntries([...el.attributes].map((a) => [a.name, a.value]));
@@ -28,20 +28,20 @@ const quiet = async (fn) => {
 
 describe(`generated wrappers (React ${version})`, () => {
   test("Dialog writes open and light-dismiss and keeps its <dialog>", async () => {
-    const { container } = await quiet(() => render(h(Dialog, { open: true, lightDismiss: true }, h("dialog", { className: "pp-box pp-dialog", id: "save" }))));
+    const { container } = await quiet(() => render(h(Dialog, { open: true, lightDismiss: true }, h("dialog", { className: "chu-box chu-dialog", id: "save" }))));
     const el = container.firstElementChild;
-    assert.equal(el.localName, "pp-dialog");
+    assert.equal(el.localName, "chu-dialog");
     assert.deepEqual(attrs(el), { open: "", "light-dismiss": "" });
-    assert.equal(el.querySelector("dialog#save")?.className, "pp-box pp-dialog");
+    assert.equal(el.querySelector("dialog#save")?.className, "chu-box chu-dialog");
   });
 
   test("Rating, Tooltip and Toaster map their props to the documented attributes, with their own classes", async () => {
     const r = await quiet(() => render(h("div", null, h(Rating, { name: "fun", value: 4, max: 5, readOnly: true, shape: "heart", "aria-label": "Fun" }), h(Tooltip, { htmlFor: "save", side: "bottom" }, "Saves to slot 2"), h(Toaster, { side: "top", align: "center", max: 2, dismissLabel: "Close" }))));
     const [rating, tooltip, toaster] = r.container.firstElementChild.children;
-    assert.deepEqual(attrs(rating), { class: "pp-rating", name: "fun", value: "4", max: "5", readonly: "", "data-shape": "heart", "aria-label": "Fun" });
-    assert.deepEqual(attrs(tooltip), { class: "pp-box pp-tooltip", for: "save", "data-side": "bottom" });
+    assert.deepEqual(attrs(rating), { class: "chu-rating", name: "fun", value: "4", max: "5", readonly: "", "data-shape": "heart", "aria-label": "Fun" });
+    assert.deepEqual(attrs(tooltip), { class: "chu-box chu-tooltip", for: "save", "data-side": "bottom" });
     assert.equal(tooltip.textContent, "Saves to slot 2");
-    assert.deepEqual(attrs(toaster), { class: "pp-toaster", "data-side": "top", "data-align": "center", max: "2", "dismiss-label": "Close" });
+    assert.deepEqual(attrs(toaster), { class: "chu-toaster", "data-side": "top", "data-align": "center", max: "2", "dismiss-label": "Close" });
   });
 
   test("Tabs, Segmented, Counter, Hearts, Sprite, World and Typewriter", async () => {
@@ -61,22 +61,22 @@ describe(`generated wrappers (React ${version})`, () => {
       ),
     );
     const [tabs, segmented, counter, hearts, sprite, world, typewriter] = r.container.firstElementChild.children;
-    assert.deepEqual(attrs(tabs), { class: "pp-tabs", value: "sound", activation: "manual", "data-variant": "outline", "data-size": "lg" });
-    assert.deepEqual(attrs(segmented), { class: "pp-box pp-segmented my-view", name: "view", value: "grid", "data-size": "sm", "data-width": "full", "aria-label": "View" });
-    assert.deepEqual(attrs(counter), { class: "pp-counter", value: "42", pad: "3", label: "Coins", sound: "coin" });
-    assert.deepEqual(attrs(hearts), { class: "pp-hearts", value: "2.5", max: "5", label: "Health" });
+    assert.deepEqual(attrs(tabs), { class: "chu-tabs", value: "sound", activation: "manual", "data-variant": "outline", "data-size": "lg" });
+    assert.deepEqual(attrs(segmented), { class: "chu-box chu-segmented my-view", name: "view", value: "grid", "data-size": "sm", "data-width": "full", "aria-label": "View" });
+    assert.deepEqual(attrs(counter), { class: "chu-counter", value: "42", pad: "3", label: "Coins", sound: "coin" });
+    assert.deepEqual(attrs(hearts), { class: "chu-hearts", value: "2.5", max: "5", label: "Health" });
     assert.deepEqual(attrs(sprite), { name: "coin", "data-tone": "blue" });
     assert.deepEqual(attrs(world), { scheme: "night", parallax: "", clouds: "drift", zoom: "2" });
     assert.deepEqual(attrs(typewriter), { mood: "happy", blips: "" });
     await tick();
   });
 
-  test("Menu writes open and listens to pp-action, pp-open and pp-close", async () => {
+  test("Menu writes open and listens to chu-action, chu-open and chu-close", async () => {
     const seen = [];
     const r = await quiet(() => render(h(Menu, { open: true, align: "end", onAction: (e) => seen.push(`action ${e.detail.value}`), onOpen: () => seen.push("open"), onClose: () => seen.push("close") })));
     const menu = r.container.firstElementChild;
-    assert.deepEqual(attrs(menu), { class: "pp-menu", open: "", "data-align": "end" });
-    for (const [type, detail] of [["pp-open"], ["pp-action", { value: "dup" }], ["pp-close"]]) menu.dispatchEvent(new CustomEvent(type, { detail }));
+    assert.deepEqual(attrs(menu), { class: "chu-menu", open: "", "data-align": "end" });
+    for (const [type, detail] of [["chu-open"], ["chu-action", { value: "dup" }], ["chu-close"]]) menu.dispatchEvent(new CustomEvent(type, { detail }));
     assert.deepEqual(seen, ["open", "action dup", "close"]);
   });
 

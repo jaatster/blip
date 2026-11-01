@@ -1,66 +1,66 @@
-<!-- Table: a sortable leaderboard in a frame (<pp-table> sorts and selects; without it the markup is the same), with
+<!-- Table: a sortable leaderboard in a frame (<chu-table> sorts and selects; without it the markup is the same), with
      zebra rows, row checkboxes (one selected), number columns, a sticky header in a scroll region, and data-stack: on
      a phone each player becomes a block of labelled values; a compact table with a total; an empty table and a
      loading table. -->
-<pp-table>
-  <div class="pp-box pp-table-frame">
-    <div class="pp-table-scroll" role="region" aria-labelledby="lb-cap" tabindex="0" style="--pp-table-max-height:calc(120*var(--pp-pixel))">
-      <table class="pp-table" data-zebra data-stack>
+<chu-table>
+  <div class="chu-box chu-table-frame">
+    <div class="chu-table-scroll" role="region" aria-labelledby="lb-cap" tabindex="0" style="--chu-table-max-height:calc(120*var(--chu-pixel))">
+      <table class="chu-table" data-zebra data-stack>
         <caption id="lb-cap">Leaderboard, this week</caption>
         <thead>
           <tr>
-            <th scope="col" class="pp-table-check"><span class="pp-box pp-checkbox" data-size="sm"><input type="checkbox" aria-label="Select all players" data-select-all></span></th>
-            <th scope="col" class="pp-numeric"><button class="pp-box pp-table-sort" data-variant="ghost" type="button">Rank<span class="pp-table-caret" aria-hidden="true"></span></button></th>
-            <th scope="col"><button class="pp-box pp-table-sort" data-variant="ghost" type="button">Player<span class="pp-table-caret" aria-hidden="true"></span></button></th>
-            <th scope="col"><button class="pp-box pp-table-sort" data-variant="ghost" type="button">World<span class="pp-table-caret" aria-hidden="true"></span></button></th>
-            <th scope="col" class="pp-numeric" aria-sort="descending"><button class="pp-box pp-table-sort" data-variant="ghost" type="button">Score<span class="pp-table-caret" aria-hidden="true"></span></button></th>
-            <th scope="col" class="pp-numeric"><button class="pp-box pp-table-sort" data-variant="ghost" type="button">Time<span class="pp-table-caret" aria-hidden="true"></span></button></th>
+            <th scope="col" class="chu-table-check"><span class="chu-box chu-checkbox" data-size="sm"><input type="checkbox" aria-label="Select all players" data-select-all></span></th>
+            <th scope="col" class="chu-numeric"><button class="chu-box chu-table-sort" data-variant="ghost" type="button">Rank<span class="chu-table-caret" aria-hidden="true"></span></button></th>
+            <th scope="col"><button class="chu-box chu-table-sort" data-variant="ghost" type="button">Player<span class="chu-table-caret" aria-hidden="true"></span></button></th>
+            <th scope="col"><button class="chu-box chu-table-sort" data-variant="ghost" type="button">World<span class="chu-table-caret" aria-hidden="true"></span></button></th>
+            <th scope="col" class="chu-numeric" aria-sort="descending"><button class="chu-box chu-table-sort" data-variant="ghost" type="button">Score<span class="chu-table-caret" aria-hidden="true"></span></button></th>
+            <th scope="col" class="chu-numeric"><button class="chu-box chu-table-sort" data-variant="ghost" type="button">Time<span class="chu-table-caret" aria-hidden="true"></span></button></th>
             <th scope="col">Status</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td class="pp-table-check"><span class="pp-box pp-checkbox" data-size="sm"><input type="checkbox" aria-labelledby="lb-p1"></span></td><td class="pp-numeric" data-label="Rank">1</td><th scope="row" id="lb-p1">Pip Bloom</th><td data-label="World">Meadow</td><td class="pp-numeric" data-label="Score">98,120</td><td class="pp-numeric" data-label="Time" data-sort-value="221">3:41</td><td data-label="Status"><span class="pp-box pp-tag" data-size="sm" data-tone="success">Cleared</span></td></tr>
-          <tr><td class="pp-table-check"><span class="pp-box pp-checkbox" data-size="sm"><input type="checkbox" aria-labelledby="lb-p2" checked></span></td><td class="pp-numeric" data-label="Rank">2</td><th scope="row" id="lb-p2">Juno Reed</th><td data-label="World">Night woods</td><td class="pp-numeric" data-label="Score">87,455</td><td class="pp-numeric" data-label="Time" data-sort-value="254">4:14</td><td data-label="Status"><span class="pp-box pp-tag" data-size="sm" data-tone="success">Cleared</span></td></tr>
-          <tr><td class="pp-table-check"><span class="pp-box pp-checkbox" data-size="sm"><input type="checkbox" aria-labelledby="lb-p3"></span></td><td class="pp-numeric" data-label="Rank">3</td><th scope="row" id="lb-p3">Kit Moss</th><td data-label="World">Meadow</td><td class="pp-numeric" data-label="Score">80,010</td><td class="pp-numeric" data-label="Time" data-sort-value="302">5:02</td><td data-label="Status"><span class="pp-box pp-tag" data-size="sm" data-tone="info">Playing</span></td></tr>
-          <tr><td class="pp-table-check"><span class="pp-box pp-checkbox" data-size="sm"><input type="checkbox" aria-labelledby="lb-p4"></span></td><td class="pp-numeric" data-label="Rank">4</td><th scope="row" id="lb-p4">Rory Fen</th><td data-label="World">Lava zone</td><td class="pp-numeric" data-label="Score">61,300</td><td class="pp-numeric" data-label="Time" data-sort-value="389">6:29</td><td data-label="Status"><span class="pp-box pp-tag" data-size="sm" data-tone="neutral">Away</span></td></tr>
-          <tr><td class="pp-table-check"><span class="pp-box pp-checkbox" data-size="sm"><input type="checkbox" aria-labelledby="lb-p5"></span></td><td class="pp-numeric" data-label="Rank">5</td><th scope="row" id="lb-p5">Ada Lune</th><td data-label="World">Night woods</td><td class="pp-numeric" data-label="Score">58,940</td><td class="pp-numeric" data-label="Time" data-sort-value="417">6:57</td><td data-label="Status"><span class="pp-box pp-tag" data-size="sm" data-tone="danger">Out</span></td></tr>
-          <tr><td class="pp-table-check"><span class="pp-box pp-checkbox" data-size="sm"><input type="checkbox" aria-labelledby="lb-p6"></span></td><td class="pp-numeric" data-label="Rank">6</td><th scope="row" id="lb-p6">Bo Wren</th><td data-label="World">Meadow</td><td class="pp-numeric" data-label="Score">41,075</td><td class="pp-numeric" data-label="Time" data-sort-value="512">8:32</td><td data-label="Status"><span class="pp-box pp-tag" data-size="sm" data-tone="info">Playing</span></td></tr>
-          <tr><td class="pp-table-check"><span class="pp-box pp-checkbox" data-size="sm"><input type="checkbox" aria-labelledby="lb-p7"></span></td><td class="pp-numeric" data-label="Rank">7</td><th scope="row" id="lb-p7">Cy Hale</th><td data-label="World">Lava zone</td><td class="pp-numeric" data-label="Score">9,860</td><td class="pp-numeric" data-label="Time" data-sort-value="745">12:25</td><td data-label="Status"><span class="pp-box pp-tag" data-size="sm" data-tone="neutral">Away</span></td></tr>
+          <tr><td class="chu-table-check"><span class="chu-box chu-checkbox" data-size="sm"><input type="checkbox" aria-labelledby="lb-p1"></span></td><td class="chu-numeric" data-label="Rank">1</td><th scope="row" id="lb-p1">Pip Bloom</th><td data-label="World">Meadow</td><td class="chu-numeric" data-label="Score">98,120</td><td class="chu-numeric" data-label="Time" data-sort-value="221">3:41</td><td data-label="Status"><span class="chu-box chu-tag" data-size="sm" data-tone="success">Cleared</span></td></tr>
+          <tr><td class="chu-table-check"><span class="chu-box chu-checkbox" data-size="sm"><input type="checkbox" aria-labelledby="lb-p2" checked></span></td><td class="chu-numeric" data-label="Rank">2</td><th scope="row" id="lb-p2">Juno Reed</th><td data-label="World">Night woods</td><td class="chu-numeric" data-label="Score">87,455</td><td class="chu-numeric" data-label="Time" data-sort-value="254">4:14</td><td data-label="Status"><span class="chu-box chu-tag" data-size="sm" data-tone="success">Cleared</span></td></tr>
+          <tr><td class="chu-table-check"><span class="chu-box chu-checkbox" data-size="sm"><input type="checkbox" aria-labelledby="lb-p3"></span></td><td class="chu-numeric" data-label="Rank">3</td><th scope="row" id="lb-p3">Kit Moss</th><td data-label="World">Meadow</td><td class="chu-numeric" data-label="Score">80,010</td><td class="chu-numeric" data-label="Time" data-sort-value="302">5:02</td><td data-label="Status"><span class="chu-box chu-tag" data-size="sm" data-tone="info">Playing</span></td></tr>
+          <tr><td class="chu-table-check"><span class="chu-box chu-checkbox" data-size="sm"><input type="checkbox" aria-labelledby="lb-p4"></span></td><td class="chu-numeric" data-label="Rank">4</td><th scope="row" id="lb-p4">Rory Fen</th><td data-label="World">Lava zone</td><td class="chu-numeric" data-label="Score">61,300</td><td class="chu-numeric" data-label="Time" data-sort-value="389">6:29</td><td data-label="Status"><span class="chu-box chu-tag" data-size="sm" data-tone="neutral">Away</span></td></tr>
+          <tr><td class="chu-table-check"><span class="chu-box chu-checkbox" data-size="sm"><input type="checkbox" aria-labelledby="lb-p5"></span></td><td class="chu-numeric" data-label="Rank">5</td><th scope="row" id="lb-p5">Ada Lune</th><td data-label="World">Night woods</td><td class="chu-numeric" data-label="Score">58,940</td><td class="chu-numeric" data-label="Time" data-sort-value="417">6:57</td><td data-label="Status"><span class="chu-box chu-tag" data-size="sm" data-tone="danger">Out</span></td></tr>
+          <tr><td class="chu-table-check"><span class="chu-box chu-checkbox" data-size="sm"><input type="checkbox" aria-labelledby="lb-p6"></span></td><td class="chu-numeric" data-label="Rank">6</td><th scope="row" id="lb-p6">Bo Wren</th><td data-label="World">Meadow</td><td class="chu-numeric" data-label="Score">41,075</td><td class="chu-numeric" data-label="Time" data-sort-value="512">8:32</td><td data-label="Status"><span class="chu-box chu-tag" data-size="sm" data-tone="info">Playing</span></td></tr>
+          <tr><td class="chu-table-check"><span class="chu-box chu-checkbox" data-size="sm"><input type="checkbox" aria-labelledby="lb-p7"></span></td><td class="chu-numeric" data-label="Rank">7</td><th scope="row" id="lb-p7">Cy Hale</th><td data-label="World">Lava zone</td><td class="chu-numeric" data-label="Score">9,860</td><td class="chu-numeric" data-label="Time" data-sort-value="745">12:25</td><td data-label="Status"><span class="chu-box chu-tag" data-size="sm" data-tone="neutral">Away</span></td></tr>
         </tbody>
       </table>
     </div>
   </div>
-</pp-table>
+</chu-table>
 
-<div class="pp-grid" data-min="160" style="align-items:start;margin-block-start:calc(10*var(--pp-pixel))">
-  <div class="pp-box pp-table-frame">
-    <div class="pp-table-scroll" role="region" aria-labelledby="shop-cap" tabindex="0">
-      <table class="pp-table" data-density="compact">
+<div class="chu-grid" data-min="160" style="align-items:start;margin-block-start:calc(10*var(--chu-pixel))">
+  <div class="chu-box chu-table-frame">
+    <div class="chu-table-scroll" role="region" aria-labelledby="shop-cap" tabindex="0">
+      <table class="chu-table" data-density="compact">
         <caption id="shop-cap">Shop basket</caption>
-        <thead><tr><th scope="col">Item</th><th scope="col" class="pp-numeric">Qty</th><th scope="col" class="pp-numeric">Coins</th></tr></thead>
+        <thead><tr><th scope="col">Item</th><th scope="col" class="chu-numeric">Qty</th><th scope="col" class="chu-numeric">Coins</th></tr></thead>
         <tbody>
-          <tr><th scope="row">Potion</th><td class="pp-numeric">3</td><td class="pp-numeric">45</td></tr>
-          <tr><th scope="row">Old key</th><td class="pp-numeric">1</td><td class="pp-numeric">120</td></tr>
-          <tr><th scope="row">Map of the woods</th><td class="pp-numeric">1</td><td class="pp-numeric">80</td></tr>
+          <tr><th scope="row">Potion</th><td class="chu-numeric">3</td><td class="chu-numeric">45</td></tr>
+          <tr><th scope="row">Old key</th><td class="chu-numeric">1</td><td class="chu-numeric">120</td></tr>
+          <tr><th scope="row">Map of the woods</th><td class="chu-numeric">1</td><td class="chu-numeric">80</td></tr>
         </tbody>
-        <tfoot><tr><th scope="row">Total</th><td class="pp-numeric">5</td><td class="pp-numeric">245</td></tr></tfoot>
+        <tfoot><tr><th scope="row">Total</th><td class="chu-numeric">5</td><td class="chu-numeric">245</td></tr></tfoot>
       </table>
     </div>
   </div>
 
-  <div class="pp-stack" data-gap="6">
-    <div class="pp-box pp-table-frame">
-      <table class="pp-table">
+  <div class="chu-stack" data-gap="6">
+    <div class="chu-box chu-table-frame">
+      <table class="chu-table">
         <caption>Friends online</caption>
-        <thead><tr><th scope="col">Name</th><th scope="col">World</th><th scope="col" class="pp-numeric">Level</th></tr></thead>
-        <tbody><tr class="pp-table-empty"><td colspan="3">No friends online. Invite someone to play.</td></tr></tbody>
+        <thead><tr><th scope="col">Name</th><th scope="col">World</th><th scope="col" class="chu-numeric">Level</th></tr></thead>
+        <tbody><tr class="chu-table-empty"><td colspan="3">No friends online. Invite someone to play.</td></tr></tbody>
       </table>
     </div>
-    <div class="pp-box pp-table-frame">
-      <table class="pp-table" aria-busy="true">
+    <div class="chu-box chu-table-frame">
+      <table class="chu-table" aria-busy="true">
         <caption>Recent matches</caption>
-        <thead><tr><th scope="col">Opponent</th><th scope="col">Result</th><th scope="col" class="pp-numeric">Score</th></tr></thead>
-        <tbody><tr class="pp-table-loading"><td colspan="3">Loading matches</td></tr></tbody>
+        <thead><tr><th scope="col">Opponent</th><th scope="col">Result</th><th scope="col" class="chu-numeric">Score</th></tr></thead>
+        <tbody><tr class="chu-table-loading"><td colspan="3">Loading matches</td></tr></tbody>
       </table>
     </div>
   </div>

@@ -1,84 +1,84 @@
 /*
  * Inventory. A grid of item slots: soft candy boxes tinted by rarity, a count badge, empty slots, a selected slot.
  *
- *   <pp-inventory class="pp-inventory" aria-label="Backpack" style="--pp-inventory-columns: 5">
- *     <button class="pp-box pp-slot" data-variant="soft" data-rarity="rare" role="option" aria-selected="true"
+ *   <chu-inventory class="chu-inventory" aria-label="Backpack" style="--chu-inventory-columns: 5">
+ *     <button class="chu-box chu-slot" data-variant="soft" data-rarity="rare" role="option" aria-selected="true"
  *             aria-label="Moon key, rare">
- *       <pp-sprite name="key" data-tone="blue"></pp-sprite>
+ *       <chu-sprite name="key" data-tone="blue"></chu-sprite>
  *     </button>
- *     <button class="pp-box pp-slot" data-variant="soft" role="option" aria-label="Red potion, 3">
- *       <pp-sprite name="potion"></pp-sprite>
- *       <span class="pp-slot-count pp-display pp-pop" data-scale="1" aria-hidden="true">3</span>
+ *     <button class="chu-box chu-slot" data-variant="soft" role="option" aria-label="Red potion, 3">
+ *       <chu-sprite name="potion"></chu-sprite>
+ *       <span class="chu-slot-count chu-display chu-pop" data-scale="1" aria-hidden="true">3</span>
  *     </button>
- *     <button class="pp-box pp-slot" data-variant="outline" role="option" aria-label="Empty"></button>
- *   </pp-inventory>
+ *     <button class="chu-box chu-slot" data-variant="outline" role="option" aria-label="Empty"></button>
+ *   </chu-inventory>
  *
- *   --pp-inventory-columns  slots in a row (5); --pp-inventory-slot: a slot's size in pixels (24)
+ *   --chu-inventory-columns  slots in a row (5); --chu-inventory-slot: a slot's size in pixels (24)
  *   data-rarity             common (cream, default) | uncommon (green) | rare (blue) | epic (purple) | legendary (orange)
  *   data-variant="outline"  an empty slot: flat, no drop
  *   aria-selected="true"    the selected slot sits in, bands swapped; focus is the yellow ring
- *   .pp-slot-count          a count in the bottom corner; .pp-slot-tag a small candy tag in the top corner ("E", "New")
+ *   .chu-slot-count          a count in the bottom corner; .chu-slot-tag a small candy tag in the top corner ("E", "New")
  *
- * pp-inventory (inventory.js) is a listbox: arrows move in two dimensions, Home and End jump, typing a letter finds
- * an item, Enter, Space or a click selects and sends pp-select. Put the rarity in each slot's name, not only its colour.
+ * chu-inventory (inventory.js) is a listbox: arrows move in two dimensions, Home and End jump, typing a letter finds
+ * an item, Enter, Space or a click selects and sends chu-select. Put the rarity in each slot's name, not only its colour.
  */
 
-@layer pp.kits {
-  .pp-inventory {
+@layer chu.kits {
+  .chu-inventory {
     display: grid;
-    grid-template-columns: repeat(var(--pp-inventory-columns, 5), calc(var(--pp-inventory-slot, 24) * var(--pp-pixel) + var(--pp-pixel)));
-    gap: calc(2 * var(--pp-pixel));
+    grid-template-columns: repeat(var(--chu-inventory-columns, 5), calc(var(--chu-inventory-slot, 24) * var(--chu-pixel) + var(--chu-pixel)));
+    gap: calc(2 * var(--chu-pixel));
     inline-size: max-content;
     max-inline-size: 100%;
   }
 
-  .pp-slot {
-    --pp-r: 3;
-    --pp-shape: var(--pp-shape-3);
-    --pp-shape-inner: var(--pp-shape-3-inner);
-    --pp-band-top: 3;
-    --pp-band-bottom: 3;
+  .chu-slot {
+    --chu-r: 3;
+    --chu-shape: var(--chu-shape-3);
+    --chu-shape-inner: var(--chu-shape-3-inner);
+    --chu-band-top: 3;
+    --chu-band-bottom: 3;
     display: grid;
     place-items: center;
-    inline-size: calc(var(--pp-inventory-slot, 24) * var(--pp-pixel));
-    block-size: calc(var(--pp-inventory-slot, 24) * var(--pp-pixel));
+    inline-size: calc(var(--chu-inventory-slot, 24) * var(--chu-pixel));
+    block-size: calc(var(--chu-inventory-slot, 24) * var(--chu-pixel));
     padding: 0;
-    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
   }
-  .pp-slot > * { grid-area: 1 / 1; }
-  .pp-slot:not([data-tone]):is(:not([data-rarity]), [data-rarity="common"]) {
-    --pp-tone: var(--pp-candy-cream);
-    --pp-tone-light: var(--pp-candy-cream-light);
-    --pp-tone-shade: var(--pp-candy-cream-shade);
+  .chu-slot > * { grid-area: 1 / 1; }
+  .chu-slot:not([data-tone]):is(:not([data-rarity]), [data-rarity="common"]) {
+    --chu-tone: var(--chu-candy-cream);
+    --chu-tone-light: var(--chu-candy-cream-light);
+    --chu-tone-shade: var(--chu-candy-cream-shade);
   }
-  .pp-slot[data-rarity="uncommon"] { --pp-tone: var(--pp-candy-green); --pp-tone-light: var(--pp-candy-green-light); --pp-tone-shade: var(--pp-candy-green-shade); }
-  .pp-slot[data-rarity="rare"] { --pp-tone: var(--pp-candy-blue); --pp-tone-light: var(--pp-candy-blue-light); --pp-tone-shade: var(--pp-candy-blue-shade); }
-  .pp-slot[data-rarity="epic"] { --pp-tone: var(--pp-candy-purple); --pp-tone-light: var(--pp-candy-purple-light); --pp-tone-shade: var(--pp-candy-purple-shade); }
-  .pp-slot[data-rarity="legendary"] { --pp-tone: var(--pp-candy-orange); --pp-tone-light: var(--pp-candy-orange-light); --pp-tone-shade: var(--pp-candy-orange-shade); }
-  .pp-slot:is([data-rarity="uncommon"], [data-rarity="rare"], [data-rarity="epic"], [data-rarity="legendary"]) {
-    --pp-tone-on: var(--pp-ink);
+  .chu-slot[data-rarity="uncommon"] { --chu-tone: var(--chu-candy-green); --chu-tone-light: var(--chu-candy-green-light); --chu-tone-shade: var(--chu-candy-green-shade); }
+  .chu-slot[data-rarity="rare"] { --chu-tone: var(--chu-candy-blue); --chu-tone-light: var(--chu-candy-blue-light); --chu-tone-shade: var(--chu-candy-blue-shade); }
+  .chu-slot[data-rarity="epic"] { --chu-tone: var(--chu-candy-purple); --chu-tone-light: var(--chu-candy-purple-light); --chu-tone-shade: var(--chu-candy-purple-shade); }
+  .chu-slot[data-rarity="legendary"] { --chu-tone: var(--chu-candy-orange); --chu-tone-light: var(--chu-candy-orange-light); --chu-tone-shade: var(--chu-candy-orange-shade); }
+  .chu-slot:is([data-rarity="uncommon"], [data-rarity="rare"], [data-rarity="epic"], [data-rarity="legendary"]) {
+    --chu-tone-on: var(--chu-ink);
   }
 
-  .pp-slot-count {
+  .chu-slot-count {
     justify-self: end;
     align-self: end;
-    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
     line-height: 1;
     pointer-events: none;
   }
-  .pp-slot-tag {
-    --pp-r: 1;
-    --pp-shape: var(--pp-shape-1);
-    --pp-shape-inner: var(--pp-shape-1-inner);
-    --pp-band-top: 1;
-    --pp-band-bottom: 1;
-    --pp-drop-size: 0;
+  .chu-slot-tag {
+    --chu-r: 1;
+    --chu-shape: var(--chu-shape-1);
+    --chu-shape-inner: var(--chu-shape-1-inner);
+    --chu-band-top: 1;
+    --chu-band-bottom: 1;
+    --chu-drop-size: 0;
     justify-self: start;
     align-self: start;
-    margin: calc(-2 * var(--pp-pixel)) 0 0 calc(-2 * var(--pp-pixel));
-    padding: var(--pp-pixel) calc(2 * var(--pp-pixel)) 0;
-    font-family: var(--pp-font-display);
-    font-size: calc(10 * var(--pp-pixel));
+    margin: calc(-2 * var(--chu-pixel)) 0 0 calc(-2 * var(--chu-pixel));
+    padding: var(--chu-pixel) calc(2 * var(--chu-pixel)) 0;
+    font-family: var(--chu-font-display);
+    font-size: calc(10 * var(--chu-pixel));
     line-height: 1;
     text-transform: uppercase;
     font-synthesis: none;

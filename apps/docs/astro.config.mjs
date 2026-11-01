@@ -1,5 +1,5 @@
 // The Blip docs: a static site. Blip's own files are served as built (scripts/prepare.mjs stages them in
-// public/pp) and wired with an import map, so pages load only the CSS and element modules they use.
+// public/chu) and wired with an import map, so pages load only the CSS and element modules they use.
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "astro/config";
 import { addSections } from "./scripts/search-sections.mjs";

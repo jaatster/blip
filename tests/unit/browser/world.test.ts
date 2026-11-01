@@ -152,7 +152,7 @@ describe("drawWorld with the tokens' colours", () => {
   });
   afterEach(() => style.remove());
 
-  it("reads 44 colours per time of day from the --pp-world-* tokens", () => {
+  it("reads 44 colours per time of day from the --chu-world-* tokens", () => {
     const day = worldPalette("day"), night = worldPalette("night");
     expect(day).toHaveLength(44);
     expect(night).toHaveLength(44);
@@ -173,18 +173,18 @@ describe("drawWorld with the tokens' colours", () => {
     expect(await hash(draw("day", 320, 180, {}))).not.toBe(await hash(draw("night", 320, 180, {})));
   });
 
-  it("takes the night sky from the palette (data-pp-palette); Day and Sunset are the same in every palette", () => {
+  it("takes the night sky from the palette (data-chu-palette); Day and Sunset are the same in every palette", () => {
     const presets = document.head.appendChild(Object.assign(document.createElement("style"), { textContent: inject("palettesCss") }));
     const html = document.documentElement;
     try {
       const candy = { day: worldPalette("day"), night: worldPalette("night") };
-      html.dataset.ppPalette = "grape";
+      html.dataset.chuPalette = "grape";
       expect(worldPalette("night").slice(0, 28)).not.toEqual(candy.night.slice(0, 28));
       // Grape is the TV's own night: its sky starts at #3A3E7C.
       expect(worldPalette("night")[0]).toBe(0x3a3e7c);
       expect(worldPalette("day")).toEqual(candy.day);
     } finally {
-      delete html.dataset.ppPalette;
+      delete html.dataset.chuPalette;
       presets.remove();
     }
   });

@@ -39,7 +39,7 @@ import { Icon } from "@jaatster/blip-react/icons";
 ```
 
 Props are the documented attributes, typed: `variant`, `tone`, `size`, `radius` become `data-variant`, `data-tone`,
-`data-size`, `data-pp-r`; states use ARIA (`busy` is `aria-busy`, `pressed` is `aria-pressed`). Where the system
+`data-size`, `data-chu-r`; states use ARIA (`busy` is `aria-busy`, `pressed` is `aria-pressed`). Where the system
 needs something, the type does too: an icon-only button needs `aria-label` (or `aria-labelledby`), a toggle always
 has `pressed`, `Icon` takes only real icon names. `className` joins the component's classes and every other prop
 goes to the element. Form controls (`Input`, `Checkbox`…) put the ref and native props on the native control, and
@@ -96,8 +96,8 @@ Blip's custom elements. Their wrappers are generated from the Custom Elements Ma
 
 - **Attributes** are written as attributes in the first render, so the element has them when it connects and they
   are in server-rendered HTML. Booleans are present or absent.
-- **Events**: `on<Event>` listens to the element's `pp-<event>` (`onChange` is `pp-change`, `onBeforeClose` is
-  `pp-before-close`) with the detail typed, the same in React 18 and 19. Like any listener added after an element
+- **Events**: `on<Event>` listens to the element's `chu-<event>` (`onChange` is `chu-change`, `onBeforeClose` is
+  `chu-before-close`) with the detail typed, the same in React 18 and 19. Like any listener added after an element
   is in the page, it does not hear an event the element sends while it first connects.
 - **Properties** without an attribute (`DropText`'s `text`) are assigned once the element is defined. A prop that
   mirrors an attribute is also assigned to the property when it changes after the first render, so it reaches

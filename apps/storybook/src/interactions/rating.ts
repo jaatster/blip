@@ -1,5 +1,5 @@
 /**
- * <pp-rating> interaction tests, on the example's ratings: a radio group of named stars with one tab stop; the arrow
+ * <chu-rating> interaction tests, on the example's ratings: a radio group of named stars with one tab stop; the arrow
  * keys, Home and End set the score, Space sets the focused star, a click sets it, the pointer previews; read-only
  * keeps its score and disabled has no tab stop.
  */
@@ -10,8 +10,8 @@ import { click, events, focus, focused, hover, one, press, unhover } from "../li
 type Rating = HTMLElement & { value: number; max: number };
 
 const rating = (root: HTMLElement, labelledBy: string) => {
-  const element = one<Rating>(root, `pp-rating[aria-labelledby="${labelledBy}"]`);
-  const stars = () => [...element.querySelectorAll<HTMLElement>(":scope > .pp-rating-star")];
+  const element = one<Rating>(root, `chu-rating[aria-labelledby="${labelledBy}"]`);
+  const stars = () => [...element.querySelectorAll<HTMLElement>(":scope > .chu-rating-star")];
   return { element, stars, star: (n: number) => stars()[n - 1]! };
 };
 
@@ -19,7 +19,7 @@ export const KeysAndClicks: StoryObj = {
   name: "Arrow keys, Space and clicks set the score",
   play: async ({ canvasElement, step }) => {
     const { element, stars, star } = rating(canvasElement, "rt-fun");
-    const changes = events<{ value: number }>(element, "pp-change");
+    const changes = events<{ value: number }>(element, "chu-change");
 
     await step("Five named stars, the score's star the tab stop", async () => {
       expect(element).toHaveAttribute("role", "radiogroup");

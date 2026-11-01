@@ -3,18 +3,18 @@
  * row lines or zebra rows in the sunken surface, ink text. Candy is kept for what you act on (sort buttons, row
  * actions) and for highlights (selected rows take the accent's light fill).
  *
- *   <div class="pp-box pp-table-frame">                                   optional: the white panel round it
- *     <div class="pp-table-scroll" role="region" aria-labelledby="scores-cap" tabindex="0">
- *       <table class="pp-table" data-zebra>
+ *   <div class="chu-box chu-table-frame">                                   optional: the white panel round it
+ *     <div class="chu-table-scroll" role="region" aria-labelledby="scores-cap" tabindex="0">
+ *       <table class="chu-table" data-zebra>
  *         <caption id="scores-cap">Leaderboard</caption>
  *         <thead><tr>
- *           <th scope="col" aria-sort="descending"><button class="pp-box pp-table-sort" data-variant="ghost">Score<span
- *             class="pp-table-caret" aria-hidden="true"></span></button></th>
+ *           <th scope="col" aria-sort="descending"><button class="chu-box chu-table-sort" data-variant="ghost">Score<span
+ *             class="chu-table-caret" aria-hidden="true"></span></button></th>
  *           …
  *         </tr></thead>
  *         <tbody>
- *           <tr><td>Pip</td><td class="pp-numeric">98,120</td></tr>
- *           <tr class="pp-table-empty"><td colspan="4">No scores yet</td></tr>
+ *           <tr><td>Pip</td><td class="chu-numeric">98,120</td></tr>
+ *           <tr class="chu-table-empty"><td colspan="4">No scores yet</td></tr>
  *         </tbody>
  *       </table>
  *     </div>
@@ -22,171 +22,171 @@
  *
  *   data-zebra                 every other body row in the sunken surface (instead of row lines)
  *   data-density="compact"     tighter cells for long tables
- *   .pp-numeric (td, th)       a number column: tabular digits, aligned to the end
- *   .pp-table-check (td, th)   the narrow column of row checkboxes; a checked row is selected
+ *   .chu-numeric (td, th)       a number column: tabular digits, aligned to the end
+ *   .chu-table-check (td, th)   the narrow column of row checkboxes; a checked row is selected
  *   aria-sort (th)             ascending | descending on the sorted column. A sortable header holds a button with an
- *                              empty caret span: <button class="pp-box pp-table-sort" data-variant="ghost">Score
- *                              <span class="pp-table-caret" aria-hidden="true"></span></button>; unsorted, both
+ *                              empty caret span: <button class="chu-box chu-table-sort" data-variant="ghost">Score
+ *                              <span class="chu-table-caret" aria-hidden="true"></span></button>; unsorted, both
  *                              carets show, muted
- *   .pp-table-empty, .pp-table-loading   a whole-width row for no data, or while data loads (stepped dots)
- *   .pp-table-scroll           a keyboard-scrollable region with a pixel scrollbar; the header sticks to its top;
- *                              set --pp-table-max-height to make it scroll down as well as across (on paper it
+ *   .chu-table-empty, .chu-table-loading   a whole-width row for no data, or while data loads (stepped dots)
+ *   .chu-table-scroll           a keyboard-scrollable region with a pixel scrollbar; the header sticks to its top;
+ *                              set --chu-table-max-height to make it scroll down as well as across (on paper it
  *                              prints every row). While there is more to one side, that edge dithers out
  *                              (_scroll.css). Without one the table fits its container: headings and cells wrap,
  *                              and a word too long for its column breaks
  *   data-stack                 under 576 px (36rem) of its scroll region each row stacks: its heading (th[scope=row],
  *                              or the first cell), then label and value pairs, each label from the cell's data-label:
- *                              <td data-label="Score" class="pp-numeric">98,120</td>
+ *                              <td data-label="Score" class="chu-numeric">98,120</td>
  *
- * <pp-table> (@jaatster/blip-elements) wires the sort buttons and the select-all checkbox. Without it the markup reads
+ * <chu-table> (@jaatster/blip-elements) wires the sort buttons and the select-all checkbox. Without it the markup reads
  * and looks the same; sort on the server instead.
  */
 
 @import "./_scroll.css";
 
-@layer pp.components {
+@layer chu.components {
   /* The frame: a white panel; the scroller sits a pixel inside the outline, clear of the stepped corners. */
-  .pp-table-frame {
-    --pp-r: 3;
-    --pp-shape: var(--pp-shape-3);
-    --pp-shape-inner: var(--pp-shape-3-inner);
+  .chu-table-frame {
+    --chu-r: 3;
+    --chu-shape: var(--chu-shape-3);
+    --chu-shape-inner: var(--chu-shape-3-inner);
     display: block;
     min-inline-size: 0;
-    padding: calc(2 * var(--pp-pixel));
-    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+    padding: calc(2 * var(--chu-pixel));
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
   }
-  .pp-table-frame:not([data-variant]) {
-    --pp-box-top: var(--pp-surface);
-    --pp-box-fill: var(--pp-surface);
-    --pp-box-bottom: var(--pp-surface);
-    --pp-box-text: var(--pp-text);
-    --pp-box-glint: transparent;
+  .chu-table-frame:not([data-variant]) {
+    --chu-box-top: var(--chu-surface);
+    --chu-box-fill: var(--chu-surface);
+    --chu-box-bottom: var(--chu-surface);
+    --chu-box-text: var(--chu-text);
+    --chu-box-glint: transparent;
   }
-  pp-table { display: block; min-inline-size: 0; }
+  chu-table { display: block; min-inline-size: 0; }
 
-  .pp-table-scroll {
-    max-block-size: var(--pp-table-max-height, none);
+  .chu-table-scroll {
+    max-block-size: var(--chu-table-max-height, none);
     overflow: auto;
     overscroll-behavior-inline: contain;
     container-type: inline-size;
   }
   /* Paper cannot scroll: a table prints every row. */
   @media print {
-    .pp-table-scroll { max-block-size: none; overflow: visible; }
+    .chu-table-scroll { max-block-size: none; overflow: visible; }
   }
   /* In a frame, the focus ring is the yellow pixel just inside the frame's own ink outline. */
-  .pp-table-frame > .pp-table-scroll:focus-visible { box-shadow: none; }
+  .chu-table-frame > .chu-table-scroll:focus-visible { box-shadow: none; }
 
-  .pp-table {
-    --_py: calc(4 * var(--pp-pixel));
-    --_px: calc(6 * var(--pp-pixel));
-    --_head: var(--pp-table-header-bg, var(--pp-surface));
+  .chu-table {
+    --_py: calc(4 * var(--chu-pixel));
+    --_px: calc(6 * var(--chu-pixel));
+    --_head: var(--chu-table-header-bg, var(--chu-surface));
     inline-size: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    font-family: var(--pp-font-ui);
-    font-size: var(--pp-size-small);
-    line-height: var(--pp-leading-tight);
-    color: var(--pp-text);
+    font-family: var(--chu-font-ui);
+    font-size: var(--chu-size-small);
+    line-height: var(--chu-leading-tight);
+    color: var(--chu-text);
   }
   /* In a scroll region a table keeps its rows on one line and scrolls, rather than squeezing its columns. */
-  .pp-table-scroll > .pp-table { inline-size: max-content; min-inline-size: 100%; }
-  .pp-table[data-density="compact"] { --_py: calc(2 * var(--pp-pixel)); --_px: calc(4 * var(--pp-pixel)); }
+  .chu-table-scroll > .chu-table { inline-size: max-content; min-inline-size: 100%; }
+  .chu-table[data-density="compact"] { --_py: calc(2 * var(--chu-pixel)); --_px: calc(4 * var(--chu-pixel)); }
   @container (max-width: 480px) {
-    .pp-table { --_px: calc(4 * var(--pp-pixel)); }
+    .chu-table { --_px: calc(4 * var(--chu-pixel)); }
   }
 
-  .pp-table caption {
-    padding: calc(4 * var(--pp-pixel)) var(--_px) calc(6 * var(--pp-pixel));
-    font-size: var(--pp-size-lead);
-    font-weight: var(--pp-weight-bold);
-    line-height: var(--pp-leading-tight);
+  .chu-table caption {
+    padding: calc(4 * var(--chu-pixel)) var(--_px) calc(6 * var(--chu-pixel));
+    font-size: var(--chu-size-lead);
+    font-weight: var(--chu-weight-bold);
+    line-height: var(--chu-leading-tight);
     text-align: start;
-    color: var(--pp-text);
+    color: var(--chu-text);
   }
 
-  .pp-table :is(th, td) {
+  .chu-table :is(th, td) {
     padding: var(--_py) var(--_px);
     text-align: start;
     vertical-align: middle;
   }
-  .pp-table thead th {
+  .chu-table thead th {
     position: sticky;
     inset-block-start: 0;
     z-index: 1;
-    padding-block: calc(var(--_py) - var(--pp-pixel));
+    padding-block: calc(var(--_py) - var(--chu-pixel));
     background: var(--_head);
-    box-shadow: inset 0 calc(-1 * var(--pp-pixel)) 0 var(--pp-line);
-    font-size: var(--pp-size-caption);
-    font-weight: var(--pp-weight-bold);
-    letter-spacing: var(--pp-tracking-label);
+    box-shadow: inset 0 calc(-1 * var(--chu-pixel)) 0 var(--chu-line);
+    font-size: var(--chu-size-caption);
+    font-weight: var(--chu-weight-bold);
+    letter-spacing: var(--chu-tracking-label);
     text-transform: uppercase;
   }
-  .pp-table tbody th { font-weight: var(--pp-weight-bold); }
-  .pp-table tbody :is(td, th) { box-shadow: inset 0 calc(-1 * var(--pp-pixel)) 0 var(--pp-line-soft); }
-  .pp-table tbody tr:last-child > * { box-shadow: none; }
-  .pp-table tfoot :is(th, td) { box-shadow: inset 0 var(--pp-pixel) 0 var(--pp-line); font-weight: var(--pp-weight-bold); }
+  .chu-table tbody th { font-weight: var(--chu-weight-bold); }
+  .chu-table tbody :is(td, th) { box-shadow: inset 0 calc(-1 * var(--chu-pixel)) 0 var(--chu-line-soft); }
+  .chu-table tbody tr:last-child > * { box-shadow: none; }
+  .chu-table tfoot :is(th, td) { box-shadow: inset 0 var(--chu-pixel) 0 var(--chu-line); font-weight: var(--chu-weight-bold); }
 
-  .pp-table[data-zebra] tbody :is(td, th) { box-shadow: none; }
-  .pp-table[data-zebra] tbody tr:nth-child(even) { background: var(--pp-surface-sunken); }
+  .chu-table[data-zebra] tbody :is(td, th) { box-shadow: none; }
+  .chu-table[data-zebra] tbody tr:nth-child(even) { background: var(--chu-surface-sunken); }
 
-  .pp-table .pp-numeric { text-align: end; font-variant-numeric: tabular-nums; }
+  .chu-table .chu-numeric { text-align: end; font-variant-numeric: tabular-nums; }
 
   /* Hover: an ink pixel frame round the row, drawn inside its cells so nothing moves. */
-  .pp-table tbody > tr > :first-child { --_l: var(--pp-pixel); }
-  .pp-table tbody > tr > :last-child { --_r: calc(-1 * var(--pp-pixel)); }
+  .chu-table tbody > tr > :first-child { --_l: var(--chu-pixel); }
+  .chu-table tbody > tr > :last-child { --_r: calc(-1 * var(--chu-pixel)); }
   @media (hover: hover) {
-    .pp-table tbody tr:not(.pp-table-empty, .pp-table-loading):hover > * {
-      box-shadow: inset 0 var(--pp-pixel) var(--pp-line), inset 0 calc(-1 * var(--pp-pixel)) var(--pp-line),
-        inset var(--_l, 0px) 0 var(--pp-line), inset var(--_r, 0px) 0 var(--pp-line);
+    .chu-table tbody tr:not(.chu-table-empty, .chu-table-loading):hover > * {
+      box-shadow: inset 0 var(--chu-pixel) var(--chu-line), inset 0 calc(-1 * var(--chu-pixel)) var(--chu-line),
+        inset var(--_l, 0px) 0 var(--chu-line), inset var(--_r, 0px) 0 var(--chu-line);
     }
   }
 
   /* Selected: a checked row checkbox, or aria-selected in a grid. The accent's light fill, ink text throughout. */
-  .pp-table tbody tr:is([aria-selected="true"], :has(> .pp-table-check input:checked)) {
-    --pp-text: var(--pp-accent-on);
-    --pp-text-muted: var(--pp-accent-on);
-    --pp-accent-text: var(--pp-accent-on);
-    background: var(--pp-accent-light);
-    color: var(--pp-accent-on);
+  .chu-table tbody tr:is([aria-selected="true"], :has(> .chu-table-check input:checked)) {
+    --chu-text: var(--chu-accent-on);
+    --chu-text-muted: var(--chu-accent-on);
+    --chu-accent-text: var(--chu-accent-on);
+    background: var(--chu-accent-light);
+    color: var(--chu-accent-on);
   }
-  .pp-table :is(th, td).pp-table-check {
-    inline-size: var(--pp-target-min);
+  .chu-table :is(th, td).chu-table-check {
+    inline-size: var(--chu-target-min);
     /* Room at the end for the checkbox's target (two pixels past its box), so the next cell never covers it. */
-    padding-inline: var(--_px) calc(2 * var(--pp-pixel));
+    padding-inline: var(--_px) calc(2 * var(--chu-pixel));
     text-align: center;
   }
-  .pp-table-check input { margin: 0; vertical-align: middle; }
+  .chu-table-check input { margin: 0; vertical-align: middle; }
 
   /* Sort buttons fill their header cell, with the caret beside the label (before it in a number column, so the
      label lines up with the digits). The caret is an empty span: both carets muted until the column is sorted. */
-  .pp-table th:has(> .pp-table-sort) { padding: 0; }
-  .pp-table-sort {
-    --pp-r: 2;
-    --pp-shape: var(--pp-shape-2);
-    --pp-shape-inner: var(--pp-shape-2-inner);
+  .chu-table th:has(> .chu-table-sort) { padding: 0; }
+  .chu-table-sort {
+    --chu-r: 2;
+    --chu-shape: var(--chu-shape-2);
+    --chu-shape-inner: var(--chu-shape-2-inner);
     display: flex;
     align-items: center;
-    gap: var(--pp-space-2);
+    gap: var(--chu-space-2);
     inline-size: 100%;
-    min-block-size: calc(16 * var(--pp-pixel));
+    min-block-size: calc(16 * var(--chu-pixel));
     padding: 0 var(--_px);
     font: inherit;
     letter-spacing: inherit;
     text-transform: inherit;
   }
-  .pp-numeric > .pp-table-sort { flex-direction: row-reverse; justify-content: flex-start; }
-  .pp-table-caret {
-    --_up: var(--pp-text-muted);
-    --_down: var(--pp-text-muted);
+  .chu-numeric > .chu-table-sort { flex-direction: row-reverse; justify-content: flex-start; }
+  .chu-table-caret {
+    --_up: var(--chu-text-muted);
+    --_down: var(--chu-text-muted);
     flex: none;
-    inline-size: calc(5 * var(--pp-pixel));
-    block-size: calc(7 * var(--pp-pixel));
-    background: linear-gradient(var(--_up) 0 calc(3 * var(--pp-pixel)), transparent 0 calc(4 * var(--pp-pixel)), var(--_down) 0);
+    inline-size: calc(5 * var(--chu-pixel));
+    block-size: calc(7 * var(--chu-pixel));
+    background: linear-gradient(var(--_up) 0 calc(3 * var(--chu-pixel)), transparent 0 calc(4 * var(--chu-pixel)), var(--_down) 0);
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5 7' shape-rendering='crispEdges'%3E%3Cpath d='M2 0h1v1H2zM1 1h3v1H1zM0 2h5v1H0zM0 4h5v1H0zM1 5h3v1H1zM2 6h1v1H2z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   }
-  [aria-sort="ascending"] > .pp-table-sort > .pp-table-caret { --_up: currentColor; --_down: transparent; }
-  [aria-sort="descending"] > .pp-table-sort > .pp-table-caret { --_up: transparent; --_down: currentColor; }
+  [aria-sort="ascending"] > .chu-table-sort > .chu-table-caret { --_up: currentColor; --_down: transparent; }
+  [aria-sort="descending"] > .chu-table-sort > .chu-table-caret { --_up: transparent; --_down: currentColor; }
 
   /*
    * Stacked (data-stack): under 576 px (36rem) of its scroll region, a table stops scrolling across and each row
@@ -196,14 +196,14 @@
    * the cells keep their column headers; the table stays a table.
    */
   @container (width < 576px) {
-    .pp-table[data-stack] {
-      --_pp-label: min(40cqi, calc(56 * var(--pp-pixel)));
+    .chu-table[data-stack] {
+      --_chu-label: min(40cqi, calc(56 * var(--chu-pixel)));
       display: block;
     }
-    .pp-table-scroll > .pp-table[data-stack] { inline-size: 100%; min-inline-size: 0; }
-    .pp-table[data-stack] > caption { display: block; }
-    .pp-table[data-stack] > :is(tbody, tfoot) { display: block; }
-    .pp-table[data-stack] > thead {
+    .chu-table-scroll > .chu-table[data-stack] { inline-size: 100%; min-inline-size: 0; }
+    .chu-table[data-stack] > caption { display: block; }
+    .chu-table[data-stack] > :is(tbody, tfoot) { display: block; }
+    .chu-table[data-stack] > thead {
       position: absolute;
       /* stylelint-disable-next-line blip/whole-pixels -- the visually hidden pattern: a 1px box that is never drawn */
       inline-size: 1px;
@@ -213,93 +213,93 @@
       clip-path: inset(50%);
       white-space: nowrap;
     }
-    .pp-table[data-stack] :is(tbody, tfoot) > tr {
+    .chu-table[data-stack] :is(tbody, tfoot) > tr {
       display: grid;
       grid-template-columns: auto minmax(0, 1fr);
       align-items: baseline;
-      padding-block: calc(3 * var(--pp-pixel));
-      box-shadow: inset 0 calc(-1 * var(--pp-pixel)) 0 var(--pp-line-soft);
+      padding-block: calc(3 * var(--chu-pixel));
+      box-shadow: inset 0 calc(-1 * var(--chu-pixel)) 0 var(--chu-line-soft);
     }
-    .pp-table[data-stack] tbody > tr:last-child,
-    .pp-table[data-stack][data-zebra] tbody > tr { box-shadow: none; }
-    .pp-table[data-stack] tfoot > tr { box-shadow: inset 0 var(--pp-pixel) 0 var(--pp-line); }
-    .pp-table[data-stack] :is(tbody, tfoot) > tr > :is(td, th) {
+    .chu-table[data-stack] tbody > tr:last-child,
+    .chu-table[data-stack][data-zebra] tbody > tr { box-shadow: none; }
+    .chu-table[data-stack] tfoot > tr { box-shadow: inset 0 var(--chu-pixel) 0 var(--chu-line); }
+    .chu-table[data-stack] :is(tbody, tfoot) > tr > :is(td, th) {
       grid-column: 1 / -1;
       display: block;
-      padding: var(--pp-pixel) var(--_px) var(--pp-pixel) calc(var(--_px) + var(--_pp-label));
+      padding: var(--chu-pixel) var(--_px) var(--chu-pixel) calc(var(--_px) + var(--_chu-label));
       text-align: start;
       box-shadow: none;
     }
     /* The label: the column's name, in the header's style, to the start of its value. */
-    .pp-table[data-stack] :is(tbody, tfoot) > tr > [data-label]::before {
+    .chu-table[data-stack] :is(tbody, tfoot) > tr > [data-label]::before {
       content: attr(data-label);
       float: inline-start;
       box-sizing: border-box;
-      inline-size: var(--_pp-label);
-      margin-inline-start: calc(-1 * var(--_pp-label));
+      inline-size: var(--_chu-label);
+      margin-inline-start: calc(-1 * var(--_chu-label));
       padding-inline-end: var(--_px);
-      font-size: var(--pp-size-caption);
-      font-weight: var(--pp-weight-bold);
-      letter-spacing: var(--pp-tracking-label);
+      font-size: var(--chu-size-caption);
+      font-weight: var(--chu-weight-bold);
+      letter-spacing: var(--chu-tracking-label);
       text-transform: uppercase;
-      color: var(--pp-text-muted);
+      color: var(--chu-text-muted);
       overflow-wrap: anywhere;
     }
-    .pp-table[data-stack] :is(tbody, tfoot) > tr > :not([data-label]) { padding-inline-start: var(--_px); }
-    .pp-table[data-stack] :is(tbody, tfoot) > tr > [data-label]:empty { display: none; }
+    .chu-table[data-stack] :is(tbody, tfoot) > tr > :not([data-label]) { padding-inline-start: var(--_px); }
+    .chu-table[data-stack] :is(tbody, tfoot) > tr > [data-label]:empty { display: none; }
     /* The row's heading leads, a little larger; the row's checkbox sits beside it. */
-    .pp-table[data-stack] :is(tbody, tfoot) > tr:has(> th[scope="row"]) > th[scope="row"],
-    .pp-table[data-stack] :is(tbody, tfoot) > tr:not(:has(> th[scope="row"]), .pp-table-empty, .pp-table-loading) > :is(:first-child:not(.pp-table-check), .pp-table-check:first-child + *) {
+    .chu-table[data-stack] :is(tbody, tfoot) > tr:has(> th[scope="row"]) > th[scope="row"],
+    .chu-table[data-stack] :is(tbody, tfoot) > tr:not(:has(> th[scope="row"]), .chu-table-empty, .chu-table-loading) > :is(:first-child:not(.chu-table-check), .chu-table-check:first-child + *) {
       grid-row: 1;
       padding-inline-start: var(--_px);
-      font-size: var(--pp-size-body);
-      font-weight: var(--pp-weight-bold);
+      font-size: var(--chu-size-body);
+      font-weight: var(--chu-weight-bold);
     }
-    .pp-table[data-stack] :is(tbody, tfoot) > tr:has(> .pp-table-check) > th[scope="row"],
-    .pp-table[data-stack] :is(tbody, tfoot) > tr:not(:has(> th[scope="row"])) > .pp-table-check:first-child + * { grid-column: 2 / -1; padding-inline-start: 0; }
-    .pp-table[data-stack] :is(tbody, tfoot) > tr:has(> th[scope="row"]) > th[scope="row"]::before,
-    .pp-table[data-stack] :is(tbody, tfoot) > tr:not(:has(> th[scope="row"])) > :is(:first-child, .pp-table-check:first-child + *)::before { content: none; }
-    .pp-table[data-stack] :is(tbody, tfoot) > tr > .pp-table-check { grid-column: 1; grid-row: 1; inline-size: auto; padding-inline: var(--_px) var(--pp-space-4); }
-    .pp-table[data-stack] :is(.pp-table-empty, .pp-table-loading) > td { padding-block: calc(12 * var(--pp-pixel)); text-align: center; }
+    .chu-table[data-stack] :is(tbody, tfoot) > tr:has(> .chu-table-check) > th[scope="row"],
+    .chu-table[data-stack] :is(tbody, tfoot) > tr:not(:has(> th[scope="row"])) > .chu-table-check:first-child + * { grid-column: 2 / -1; padding-inline-start: 0; }
+    .chu-table[data-stack] :is(tbody, tfoot) > tr:has(> th[scope="row"]) > th[scope="row"]::before,
+    .chu-table[data-stack] :is(tbody, tfoot) > tr:not(:has(> th[scope="row"])) > :is(:first-child, .chu-table-check:first-child + *)::before { content: none; }
+    .chu-table[data-stack] :is(tbody, tfoot) > tr > .chu-table-check { grid-column: 1; grid-row: 1; inline-size: auto; padding-inline: var(--_px) var(--chu-space-4); }
+    .chu-table[data-stack] :is(.chu-table-empty, .chu-table-loading) > td { padding-block: calc(12 * var(--chu-pixel)); text-align: center; }
     @media (hover: hover) {
-      .pp-table[data-stack] tbody tr:not(.pp-table-empty, .pp-table-loading):hover > * { box-shadow: none; }
-      .pp-table[data-stack] tbody tr:not(.pp-table-empty, .pp-table-loading):hover { box-shadow: inset 0 0 0 var(--pp-pixel) var(--pp-line); }
+      .chu-table[data-stack] tbody tr:not(.chu-table-empty, .chu-table-loading):hover > * { box-shadow: none; }
+      .chu-table[data-stack] tbody tr:not(.chu-table-empty, .chu-table-loading):hover { box-shadow: inset 0 0 0 var(--chu-pixel) var(--chu-line); }
     }
   }
 
   /* Empty and loading: one row across the table, centred and quiet. */
-  .pp-table :is(.pp-table-empty, .pp-table-loading) > td {
-    padding-block: calc(12 * var(--pp-pixel));
+  .chu-table :is(.chu-table-empty, .chu-table-loading) > td {
+    padding-block: calc(12 * var(--chu-pixel));
     text-align: center;
-    color: var(--pp-text-muted);
+    color: var(--chu-text-muted);
     background: none;
   }
-  .pp-table-loading > td::after {
+  .chu-table-loading > td::after {
     content: "";
     display: inline-block;
-    inline-size: calc(10 * var(--pp-pixel));
-    block-size: calc(2 * var(--pp-pixel));
-    margin-inline-start: var(--pp-space-3);
+    inline-size: calc(10 * var(--chu-pixel));
+    block-size: calc(2 * var(--chu-pixel));
+    margin-inline-start: var(--chu-space-3);
     vertical-align: baseline;
-    background: linear-gradient(to right, currentColor 0 calc(2 * var(--pp-pixel)), transparent 0) 0 0 / calc(4 * var(--pp-pixel)) 100% repeat-x;
-    animation: pp-table-dots calc(3 * var(--pp-duration-beat)) steps(1, jump-end) infinite;
+    background: linear-gradient(to right, currentColor 0 calc(2 * var(--chu-pixel)), transparent 0) 0 0 / calc(4 * var(--chu-pixel)) 100% repeat-x;
+    animation: chu-table-dots calc(3 * var(--chu-duration-beat)) steps(1, jump-end) infinite;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .pp-table-loading > td::after { animation: none; }
+    .chu-table-loading > td::after { animation: none; }
   }
   @media (forced-colors: active) {
-    .pp-table thead th { box-shadow: inset 0 -1px 0 CanvasText; }
-    .pp-table tbody tr:is([aria-selected="true"], :has(> .pp-table-check input:checked)) > :first-child { border-inline-start: calc(2 * var(--pp-pixel)) solid SelectedItem; }
-    .pp-table-caret { --_up: ButtonText; --_down: ButtonText; forced-color-adjust: none; }
-    [aria-sort="ascending"] > .pp-table-sort > .pp-table-caret { --_down: transparent; }
-    [aria-sort="descending"] > .pp-table-sort > .pp-table-caret { --_up: transparent; }
+    .chu-table thead th { box-shadow: inset 0 -1px 0 CanvasText; }
+    .chu-table tbody tr:is([aria-selected="true"], :has(> .chu-table-check input:checked)) > :first-child { border-inline-start: calc(2 * var(--chu-pixel)) solid SelectedItem; }
+    .chu-table-caret { --_up: ButtonText; --_down: ButtonText; forced-color-adjust: none; }
+    [aria-sort="ascending"] > .chu-table-sort > .chu-table-caret { --_down: transparent; }
+    [aria-sort="descending"] > .chu-table-sort > .chu-table-caret { --_up: transparent; }
   }
 }
 
 /* One dot, two, three: the box's busy rhythm. */
-@keyframes pp-table-dots {
-  0% { clip-path: inset(0 calc(8 * var(--pp-pixel)) 0 0); }
-  33.333% { clip-path: inset(0 calc(4 * var(--pp-pixel)) 0 0); }
+@keyframes chu-table-dots {
+  0% { clip-path: inset(0 calc(8 * var(--chu-pixel)) 0 0); }
+  33.333% { clip-path: inset(0 calc(4 * var(--chu-pixel)) 0 0); }
   66.667%, 100% { clip-path: inset(0); }
 }

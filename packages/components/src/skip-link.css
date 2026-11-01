@@ -3,7 +3,7 @@
  * top-left corner, over everything, and takes them past the navigation to the content.
  *
  *   <body>
- *     <a class="pp-box pp-skip-link" href="#main">Skip to content</a>
+ *     <a class="chu-box chu-skip-link" href="#main">Skip to content</a>
  *     …
  *     <main id="main" tabindex="-1">…</main>
  *
@@ -13,37 +13,37 @@
  * search, to the navigation)? Each appears in the same corner while it has focus.
  */
 
-@layer pp.components {
-  .pp-skip-link {
-    --pp-r: 4;
-    --pp-shape: var(--pp-shape-4);
-    --pp-shape-inner: var(--pp-shape-4-inner);
-    --pp-band-top: 4;
-    --pp-band-bottom: 4;
+@layer chu.components {
+  .chu-skip-link {
+    --chu-r: 4;
+    --chu-shape: var(--chu-shape-4);
+    --chu-shape-inner: var(--chu-shape-4-inner);
+    --chu-band-top: 4;
+    --chu-band-bottom: 4;
 
     position: fixed;
-    inset-block-start: var(--pp-space-4);
-    inset-inline-start: var(--pp-space-4);
-    z-index: var(--pp-layer-tooltip);
+    inset-block-start: var(--chu-space-4);
+    inset-inline-start: var(--chu-space-4);
+    z-index: var(--chu-layer-tooltip);
     display: inline-flex;
     align-items: center;
-    block-size: var(--pp-control-md);
-    padding: 0 var(--pp-space-8);
-    font-family: var(--pp-font-ui);
-    font-size: var(--pp-size-small);
-    font-weight: var(--pp-weight-bold);
+    block-size: var(--chu-control-md);
+    padding: 0 var(--chu-space-8);
+    font-family: var(--chu-font-ui);
+    font-size: var(--chu-size-small);
+    font-weight: var(--chu-weight-bold);
     line-height: 1;
-    letter-spacing: var(--pp-tracking-label);
+    letter-spacing: var(--chu-tracking-label);
     text-transform: uppercase;
     text-decoration: none;
     white-space: nowrap;
   }
 
   /* Hidden, not removed: it stays in the tab order and in the accessibility tree. */
-  .pp-skip-link:not(:focus, [data-pp-state~="focus"]) { clip-path: inset(50%); }
+  .chu-skip-link:not(:focus, [data-chu-state~="focus"]) { clip-path: inset(50%); }
 
   /* Pops in when it takes focus: one pixel low for a frame, then in place. */
-  .pp-skip-link:is(:focus, [data-pp-state~="focus"]) {
-    animation: pp-pop-in calc(2 * var(--pp-duration-frame)) steps(1, jump-end);
+  .chu-skip-link:is(:focus, [data-chu-state~="focus"]) {
+    animation: chu-pop-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end);
   }
 }

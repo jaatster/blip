@@ -3,125 +3,125 @@
  * sitting in. A panel that sticks to the bottom of the screen, clear of the home indicator. In a wide shell it steps
  * aside for the sidebar and the app bar.
  *
- *   <nav class="pp-box pp-bottom-bar" aria-label="Main" data-collapse="auto">
- *     <ul class="pp-bottom-bar-list" role="list">
- *       <li><a class="pp-box pp-bottom-bar-item" data-variant="ghost" href="/" aria-current="page">
- *         <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
- *         <span class="pp-bottom-bar-label">Home</span></a></li>
- *       <li><a class="pp-box pp-bottom-bar-item" data-variant="ghost" href="/inbox">
- *         <svg class="pp-icon" …></svg><span class="pp-bottom-bar-label">Inbox</span>
- *         <span class="pp-box pp-bottom-bar-badge" data-tone="danger">3<span class="pp-sr-only"> new</span></span></a></li>
+ *   <nav class="chu-box chu-bottom-bar" aria-label="Main" data-collapse="auto">
+ *     <ul class="chu-bottom-bar-list" role="list">
+ *       <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="/" aria-current="page">
+ *         <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+ *         <span class="chu-bottom-bar-label">Home</span></a></li>
+ *       <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="/inbox">
+ *         <svg class="chu-icon" …></svg><span class="chu-bottom-bar-label">Inbox</span>
+ *         <span class="chu-box chu-bottom-bar-badge" data-tone="danger">3<span class="chu-sr-only"> new</span></span></a></li>
  *     </ul>
  *   </nav>
  *
  *   aria-current="page"   the destination you are on: sits in, ink label
- *   .pp-bottom-bar-badge  a count on an item's icon; empty or data-dot: a dot. data-tone colours it.
- *   data-collapse="auto"  hidden when the pp-shell container (container: pp-shell / inline-size) is 600 px or wider
+ *   .chu-bottom-bar-badge  a count on an item's icon; empty or data-dot: a dot. data-tone colours it.
+ *   data-collapse="auto"  hidden when the chu-shell container (container: chu-shell / inline-size) is 600 px or wider
  */
 
-@layer pp.components {
-  .pp-bottom-bar {
-    --pp-r: 5;
-    --pp-shape: var(--pp-shape-5);
-    --pp-shape-inner: var(--pp-shape-5-inner);
-    --pp-box-top: var(--pp-surface);
-    --pp-box-fill: var(--pp-surface);
-    --pp-box-bottom: var(--pp-surface);
-    --pp-box-text: var(--pp-text);
-    --pp-box-glint: transparent;
+@layer chu.components {
+  .chu-bottom-bar {
+    --chu-r: 5;
+    --chu-shape: var(--chu-shape-5);
+    --chu-shape-inner: var(--chu-shape-5-inner);
+    --chu-box-top: var(--chu-surface);
+    --chu-box-fill: var(--chu-surface);
+    --chu-box-bottom: var(--chu-surface);
+    --chu-box-text: var(--chu-text);
+    --chu-box-glint: transparent;
 
     position: sticky;
-    inset-block-end: calc(var(--pp-space-3) + env(safe-area-inset-bottom, 0px));
-    z-index: var(--pp-layer-sticky);
+    inset-block-end: calc(var(--chu-space-3) + env(safe-area-inset-bottom, 0px));
+    z-index: var(--chu-layer-sticky);
     display: block;
-    margin: var(--pp-space-3);
-    margin-inline-end: calc(var(--pp-space-3) + var(--pp-pixel));
-    padding: var(--pp-space-2);
-    font-family: var(--pp-font-ui);
+    margin: var(--chu-space-3);
+    margin-inline-end: calc(var(--chu-space-3) + var(--chu-pixel));
+    padding: var(--chu-space-2);
+    font-family: var(--chu-font-ui);
   }
 
   /* Each destination takes its label's width and an even share of the room left over, so a long label gets room a
      short one does not need. When five do not fit even so, the short labels keep their width and the long ones
      share what is left, cut short with an ellipsis as the last resort. */
-  .pp-bottom-bar-list {
+  .chu-bottom-bar-list {
     display: grid;
     grid-auto-flow: column;
-    gap: var(--pp-space-2);
+    gap: var(--chu-space-2);
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  .pp-bottom-bar-list > li {
+  .chu-bottom-bar-list > li {
     display: flex;
     min-inline-size: 0;
   }
 
-  .pp-bottom-bar-item {
-    --pp-r: 4;
-    --pp-shape: var(--pp-shape-4);
-    --pp-shape-inner: var(--pp-shape-4-inner);
+  .chu-bottom-bar-item {
+    --chu-r: 4;
+    --chu-shape: var(--chu-shape-4);
+    --chu-shape-inner: var(--chu-shape-4-inner);
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--pp-space-1);
+    gap: var(--chu-space-1);
     inline-size: 100%;
-    min-block-size: calc(26 * var(--pp-pixel));
-    padding: var(--pp-space-2) var(--pp-space-1);
-    font-size: var(--pp-size-caption);
-    font-weight: var(--pp-weight-bold);
+    min-block-size: calc(26 * var(--chu-pixel));
+    padding: var(--chu-space-2) var(--chu-space-1);
+    font-size: var(--chu-size-caption);
+    font-weight: var(--chu-weight-bold);
     line-height: 1;
     /* Set tight, without the labels' half-pixel tracking: five have to fit across a 320 px phone. */
-    letter-spacing: var(--pp-tracking-none);
+    letter-spacing: var(--chu-tracking-none);
     text-transform: uppercase;
     text-decoration: none;
   }
-  .pp-bottom-bar-item:not([aria-current="page"]) { --pp-box-text: var(--pp-text-muted); }
-  .pp-bottom-bar-label {
+  .chu-bottom-bar-item:not([aria-current="page"]) { --chu-box-text: var(--chu-text-muted); }
+  .chu-bottom-bar-label {
     max-inline-size: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
-  .pp-bottom-bar-badge {
-    --pp-r: 2;
-    --pp-shape: var(--pp-shape-2);
-    --pp-shape-inner: var(--pp-shape-2-inner);
-    --pp-band-top: 1;
-    --pp-band-bottom: 1;
-    --pp-drop-size: 0;
+  .chu-bottom-bar-badge {
+    --chu-r: 2;
+    --chu-shape: var(--chu-shape-2);
+    --chu-shape-inner: var(--chu-shape-2-inner);
+    --chu-band-top: 1;
+    --chu-band-bottom: 1;
+    --chu-drop-size: 0;
 
     position: absolute;
-    inset-block-start: var(--pp-space-1);
-    inset-inline-start: calc(50% + var(--pp-space-3));
+    inset-block-start: var(--chu-space-1);
+    inset-inline-start: calc(50% + var(--chu-space-3));
     display: grid;
     place-items: center;
     /* Ten pixels, or 5/3 of its text size if that is more (a bigger default text size), so the count fits. */
-    --_pp-badge-size: max(calc(10 * var(--pp-pixel)), round(up, calc(5 / 3) * var(--pp-size-caption), var(--pp-pixel)));
-    min-inline-size: var(--_pp-badge-size);
-    block-size: var(--_pp-badge-size);
-    padding: 0 var(--pp-space-2);
+    --_chu-badge-size: max(calc(10 * var(--chu-pixel)), round(up, calc(5 / 3) * var(--chu-size-caption), var(--chu-pixel)));
+    min-inline-size: var(--_chu-badge-size);
+    block-size: var(--_chu-badge-size);
+    padding: 0 var(--chu-space-2);
     letter-spacing: 0;
     font-variant-numeric: tabular-nums;
   }
-  .pp-bottom-bar-badge:is(:empty, [data-dot]) {
-    --pp-r: 1;
-    --pp-shape: var(--pp-shape-1);
-    --pp-shape-inner: var(--pp-shape-1-inner);
+  .chu-bottom-bar-badge:is(:empty, [data-dot]) {
+    --chu-r: 1;
+    --chu-shape: var(--chu-shape-1);
+    --chu-shape-inner: var(--chu-shape-1-inner);
     min-inline-size: 0;
-    inline-size: calc(6 * var(--pp-pixel));
-    block-size: calc(6 * var(--pp-pixel));
+    inline-size: calc(6 * var(--chu-pixel));
+    block-size: calc(6 * var(--chu-pixel));
     padding: 0;
   }
 
-  @container pp-shell (width >= 600px) {
-    .pp-bottom-bar[data-collapse="auto"] { display: none; }
+  @container chu-shell (width >= 600px) {
+    .chu-bottom-bar[data-collapse="auto"] { display: none; }
   }
 
   @media (forced-colors: active) {
-    .pp-bottom-bar-item { border-color: Canvas; }
-    .pp-bottom-bar-item[aria-current="page"] { border-color: CanvasText; }
+    .chu-bottom-bar-item { border-color: Canvas; }
+    .chu-bottom-bar-item[aria-current="page"] { border-color: CanvasText; }
   }
 }

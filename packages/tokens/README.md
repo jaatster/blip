@@ -14,17 +14,17 @@ npm install @jaatster/blip-tokens
 ```css
 @import "@jaatster/blip-tokens/tokens.css";
 
-.thing { color: var(--pp-text); padding: var(--pp-space-4); }
+.thing { color: var(--chu-text); padding: var(--chu-space-4); }
 ```
 
 ```html
-<html data-pp-scheme="night">            <!-- day (default), sunset, night -->
-<section data-pp-pixel="3">               <!-- a bigger pixel for one part of the page -->
+<html data-chu-scheme="night">            <!-- day (default), sunset, night -->
+<section data-chu-pixel="3">               <!-- a bigger pixel for one part of the page -->
 ```
 
 ```js
 import { cssVar, px, schemes } from "@jaatster/blip-tokens";
-cssVar("candy-pink");          // "var(--pp-candy-pink)"
+cssVar("candy-pink");          // "var(--chu-candy-pink)"
 px("space-4", 3);              // 12
 ```
 
@@ -38,7 +38,7 @@ A palette is the accent of each time of day and Night's page: its surfaces, text
 Candy is Blip's own (blue by Day, pink at Sunset, sky blue on charcoal at Night). Eleven presets come in
 `palettes.css`:
 
-| `data-pp-palette` | Accent on Night's page |
+| `data-chu-palette` | Accent on Night's page |
 |---|---|
 | `grape` | Purple on deep indigo: the TV's own Night |
 | `ember` | Soft orange on charcoal (warnings turn amber) |
@@ -58,11 +58,11 @@ Candy is Blip's own (blue by Day, pink at Sunset, sky blue on charcoal at Night)
 ```
 
 ```html
-<html data-pp-palette="nord">             <!-- with no palette set, it is Candy -->
+<html data-chu-palette="nord">             <!-- with no palette set, it is Candy -->
 ```
 
-Set it on `<html>`, or on an element that sets its own `data-pp-scheme`: each scheme's roles are worked out where the
-scheme is set, from the `--pp-palette-*` tokens. Every preset sets one accent for all three times of day (only Candy
+Set it on `<html>`, or on an element that sets its own `data-chu-scheme`: each scheme's roles are worked out where the
+scheme is set, from the `--chu-palette-*` tokens. Every preset sets one accent for all three times of day (only Candy
 has one of its own for each), and every one passes the same AA checks as Candy, in every scheme. In JavaScript, `palettes` has each
 preset's roles in every scheme, and `paletteNames` lists them all, Candy first.
 
@@ -104,14 +104,14 @@ context of its own, listing Candy's file and then the palette's, and makes it th
 ```
 
 A palette file sets only `palette.*` and `world.night.*` tokens, as `src/palettes/*.tokens.json` do; any other name
-is a typo (`PP-T005`). A theme can still set a scheme's roles directly: its resolver lists, for each scheme, Pixel
+is a typo (`CHU-T005`). A theme can still set a scheme's roles directly: its resolver lists, for each scheme, Pixel
 Pop's file and then the theme's (`node_modules/@jaatster/blip-tokens/src/schemes/day.tokens.json`,
 `my-theme.day.tokens.json`). Whatever a resolver leaves out (the primitives, the resolution order, the pixel sizes) is
 Blip's. When a check fails, it
 prints the code, the theme's file and token, the two colours and their ratio, and how to fix it, and writes nothing:
 
 ```
-  PP-T060  my-theme.day.tokens.json at /accent/on
+  CHU-T060  my-theme.day.tokens.json at /accent/on
     day: accent.on #FFFFFF on accent.light #719CFF is 2.66:1; it needs 4.5:1.
     Fix: Darken or lighten one of the two in this scheme (WCAG 2.2 AA).
 ```

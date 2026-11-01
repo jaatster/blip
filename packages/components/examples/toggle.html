@@ -1,35 +1,35 @@
 <!-- Toggle button: a button with aria-pressed. Off looks like any button; on sits in with its bands swapped (the
      calm tiers fill with the soft accent). Script flips aria-pressed on click; these are fixed. -->
-<div style="display:grid;grid-template-columns:max-content repeat(4,max-content);gap:calc(4*var(--pp-pixel)) calc(8*var(--pp-pixel));align-items:center">
-  <span></span><span class="pp-label pp-muted">Candy</span><span class="pp-label pp-muted">Soft</span><span class="pp-label pp-muted">Outline</span><span class="pp-label pp-muted">Ghost</span>
-  <span class="pp-label pp-muted">Off</span>
-  <button class="pp-box pp-button" aria-pressed="false">Show grid</button>
-  <button class="pp-box pp-button" data-variant="soft" aria-pressed="false">Show grid</button>
-  <button class="pp-box pp-button" data-variant="outline" aria-pressed="false">Show grid</button>
-  <button class="pp-box pp-button" data-variant="ghost" aria-pressed="false">Show grid</button>
-  <span class="pp-label pp-muted">On</span>
-  <button class="pp-box pp-button" aria-pressed="true">Show grid</button>
-  <button class="pp-box pp-button" data-variant="soft" aria-pressed="true">Show grid</button>
-  <button class="pp-box pp-button" data-variant="outline" aria-pressed="true">Show grid</button>
-  <button class="pp-box pp-button" data-variant="ghost" aria-pressed="true">Show grid</button>
-  <span class="pp-label pp-muted">On, focus</span>
-  <button class="pp-box pp-button" aria-pressed="true" data-pp-state="focus">Show grid</button>
-  <button class="pp-box pp-button" data-variant="soft" aria-pressed="true" data-pp-state="focus">Show grid</button>
-  <button class="pp-box pp-button" data-variant="outline" aria-pressed="true" data-pp-state="focus">Show grid</button>
-  <button class="pp-box pp-button" data-variant="ghost" aria-pressed="true" data-pp-state="focus">Show grid</button>
-  <span class="pp-label pp-muted">On, disabled</span>
-  <button class="pp-box pp-button" aria-pressed="true" disabled>Show grid</button>
-  <button class="pp-box pp-button" data-variant="soft" aria-pressed="true" disabled>Show grid</button>
-  <button class="pp-box pp-button" data-variant="outline" aria-pressed="true" disabled>Show grid</button>
-  <button class="pp-box pp-button" data-variant="ghost" aria-pressed="true" disabled>Show grid</button>
+<div style="display:grid;grid-template-columns:max-content repeat(4,max-content);gap:calc(4*var(--chu-pixel)) calc(8*var(--chu-pixel));align-items:center">
+  <span></span><span class="chu-label chu-muted">Candy</span><span class="chu-label chu-muted">Soft</span><span class="chu-label chu-muted">Outline</span><span class="chu-label chu-muted">Ghost</span>
+  <span class="chu-label chu-muted">Off</span>
+  <button class="chu-box chu-button" aria-pressed="false">Show grid</button>
+  <button class="chu-box chu-button" data-variant="soft" aria-pressed="false">Show grid</button>
+  <button class="chu-box chu-button" data-variant="outline" aria-pressed="false">Show grid</button>
+  <button class="chu-box chu-button" data-variant="ghost" aria-pressed="false">Show grid</button>
+  <span class="chu-label chu-muted">On</span>
+  <button class="chu-box chu-button" aria-pressed="true">Show grid</button>
+  <button class="chu-box chu-button" data-variant="soft" aria-pressed="true">Show grid</button>
+  <button class="chu-box chu-button" data-variant="outline" aria-pressed="true">Show grid</button>
+  <button class="chu-box chu-button" data-variant="ghost" aria-pressed="true">Show grid</button>
+  <span class="chu-label chu-muted">On, focus</span>
+  <button class="chu-box chu-button" aria-pressed="true" data-chu-state="focus">Show grid</button>
+  <button class="chu-box chu-button" data-variant="soft" aria-pressed="true" data-chu-state="focus">Show grid</button>
+  <button class="chu-box chu-button" data-variant="outline" aria-pressed="true" data-chu-state="focus">Show grid</button>
+  <button class="chu-box chu-button" data-variant="ghost" aria-pressed="true" data-chu-state="focus">Show grid</button>
+  <span class="chu-label chu-muted">On, disabled</span>
+  <button class="chu-box chu-button" aria-pressed="true" disabled>Show grid</button>
+  <button class="chu-box chu-button" data-variant="soft" aria-pressed="true" disabled>Show grid</button>
+  <button class="chu-box chu-button" data-variant="outline" aria-pressed="true" disabled>Show grid</button>
+  <button class="chu-box chu-button" data-variant="ghost" aria-pressed="true" disabled>Show grid</button>
 </div>
 
 <!-- Icon toggles keep one name whatever their state: the state is aria-pressed. -->
-<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--pp-pixel));align-items:center;margin-block-start:calc(10*var(--pp-pixel))">
-  <button class="pp-box pp-button" data-icon-only data-tone="pink" aria-pressed="true" aria-label="Favourite"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></button>
-  <button class="pp-box pp-button" data-icon-only data-variant="soft" data-tone="pink" aria-pressed="false" aria-label="Favourite"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></button>
-  <button class="pp-box pp-button" data-icon-only data-variant="outline" aria-pressed="true" aria-label="Mute music"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h1v8H4V9H3V8H1V4h2V3h1zm3 0h2v1h1v1h1v4h-1v1H9v1H7V9h1V8h1V4H8V3H7zM6 4h1v1h1v2H7v1H6z"/></svg></button>
-  <button class="pp-box pp-button" data-icon-only data-variant="outline" aria-pressed="false" aria-label="Show grid"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zm6 0h4v4H7zM1 7h4v4H1zm6 0h4v4H7z"/></svg></button>
-  <button class="pp-box pp-button" data-size="sm" data-variant="soft" data-tone="teal" aria-pressed="true">Snap to pixels</button>
-  <button class="pp-box pp-button" data-size="lg" data-variant="soft" data-tone="purple" aria-pressed="false">Turbo</button>
+<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--chu-pixel));align-items:center;margin-block-start:calc(10*var(--chu-pixel))">
+  <button class="chu-box chu-button" data-icon-only data-tone="pink" aria-pressed="true" aria-label="Favourite"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></button>
+  <button class="chu-box chu-button" data-icon-only data-variant="soft" data-tone="pink" aria-pressed="false" aria-label="Favourite"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></button>
+  <button class="chu-box chu-button" data-icon-only data-variant="outline" aria-pressed="true" aria-label="Mute music"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h1v8H4V9H3V8H1V4h2V3h1zm3 0h2v1h1v1h1v4h-1v1H9v1H7V9h1V8h1V4H8V3H7zM6 4h1v1h1v2H7v1H6z"/></svg></button>
+  <button class="chu-box chu-button" data-icon-only data-variant="outline" aria-pressed="false" aria-label="Show grid"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zm6 0h4v4H7zM1 7h4v4H1zm6 0h4v4H7z"/></svg></button>
+  <button class="chu-box chu-button" data-size="sm" data-variant="soft" data-tone="teal" aria-pressed="true">Snap to pixels</button>
+  <button class="chu-box chu-button" data-size="lg" data-variant="soft" data-tone="purple" aria-pressed="false">Turbo</button>
 </div>

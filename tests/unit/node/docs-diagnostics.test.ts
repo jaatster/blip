@@ -18,7 +18,7 @@ describe("diagnostic codes in CONTRACT.md", () => {
 
   it("finds the codes the packages raise", () => {
     // The three the audit found missing from the old, hand-written table, and two build codes (a palette's, a pair's).
-    for (const code of ["PP-C001", "PP-M001", "PP-W002", "PP-T005", "PP-T060"]) expect(result.codes.has(code), code).toBe(true);
+    for (const code of ["CHU-C001", "CHU-M001", "CHU-W002", "CHU-T005", "CHU-T060"]) expect(result.codes.has(code), code).toBe(true);
     for (const [code, occ] of result.codes) for (const o of occ) expect(o.message, `${code} at ${o.file}:${o.line}`).toBeTruthy();
   });
 
@@ -40,9 +40,9 @@ describe("diagnostic codes in CONTRACT.md", () => {
 
 describe("the diagnostics script", () => {
   it("writes runs of consecutive codes and reads them back", () => {
-    const codes = ["PP-T001", "PP-T002", "PP-T003", "PP-T010", "PP-T020", "PP-T021"];
+    const codes = ["CHU-T001", "CHU-T002", "CHU-T003", "CHU-T010", "CHU-T020", "CHU-T021"];
     const text = runs(codes);
-    expect(text).toBe("`PP-T001` to `PP-T003`, `PP-T010`, `PP-T020` and `PP-T021`");
+    expect(text).toBe("`CHU-T001` to `CHU-T003`, `CHU-T010`, `CHU-T020` and `CHU-T021`");
     expect([...codesIn(`| x | ${text} |`)].sort()).toEqual(codes);
   });
 
@@ -53,17 +53,17 @@ describe("the diagnostics script", () => {
       writeFileSync(
         join(dir, "packages/demo/src/demo.ts"),
         [
-          '/** warn("PP-X001", "only an example") */',
-          "// PP-X002 is retired",
-          'export class Demo extends HTMLElement { connectedCallback() { warn("PP-X003", "<pp-demo> needs a list.", this); } }',
-          'PixelElement.define("pp-demo", Demo);',
+          '/** warn("CHU-X001", "only an example") */',
+          "// CHU-X002 is retired",
+          'export class Demo extends HTMLElement { connectedCallback() { warn("CHU-X003", "<chu-demo> needs a list.", this); } }',
+          'BlipElement.define("chu-demo", Demo);',
         ].join("\n"),
       );
       const codes = scan(dir) as Map<string, Occurrence[]>;
-      expect([...codes.keys()]).toEqual(["PP-X003"]);
-      expect(codes.get("PP-X003")![0]).toMatchObject({ file: "packages/demo/src/demo.ts", line: 3, message: "<pp-demo> needs a list." });
+      expect([...codes.keys()]).toEqual(["CHU-X003"]);
+      expect(codes.get("CHU-X003")![0]).toMatchObject({ file: "packages/demo/src/demo.ts", line: 3, message: "<chu-demo> needs a list." });
       // A prefix with no range written for it stops the table, naming the code and the file.
-      expect(() => table(codes, dir)).toThrow(/PP-X003 \(packages\/demo\/src\/demo\.ts:3\) starts a new range, PP-X/);
+      expect(() => table(codes, dir)).toThrow(/CHU-X003 \(packages\/demo\/src\/demo\.ts:3\) starts a new range, CHU-X/);
     } finally {
       remove();
     }
@@ -83,11 +83,11 @@ describe("the diagnostics script", () => {
       mkdirSync(join(dir, "scripts"));
       cpSync(SCRIPT, join(dir, "scripts/diagnostics.mjs"));
       const contract = (compare(REPO) as { contract: string }).contract;
-      writeFileSync(join(dir, "CONTRACT.md"), contract.replace("`PP-C001`", "`PP-C002`"));
+      writeFileSync(join(dir, "CONTRACT.md"), contract.replace("`CHU-C001`", "`CHU-C002`"));
       const run = node(join(dir, "scripts/diagnostics.mjs"), ["--check"], dir);
       expect(run.status).toBe(1);
-      expect(run.stderr).toMatch(/PP-C001 is raised in packages\/elements\/src\/command\.ts:\d+ but CONTRACT\.md does not list it/);
-      expect(run.stderr).toMatch(/CONTRACT\.md lists PP-C002, which nothing raises/);
+      expect(run.stderr).toMatch(/CHU-C001 is raised in packages\/elements\/src\/command\.ts:\d+ but CONTRACT\.md does not list it/);
+      expect(run.stderr).toMatch(/CONTRACT\.md lists CHU-C002, which nothing raises/);
     } finally {
       remove();
     }

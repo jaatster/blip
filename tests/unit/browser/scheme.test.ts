@@ -17,7 +17,7 @@ afterAll(() => styles.remove());
 
 /** Resolves with the next scheme announced on el. */
 const announced = (el: Element) =>
-  new Promise<string>((resolve) => el.addEventListener("pp-scheme-change", (e) => resolve((e as CustomEvent<{ scheme: string }>).detail.scheme), { once: true }));
+  new Promise<string>((resolve) => el.addEventListener("chu-scheme-change", (e) => resolve((e as CustomEvent<{ scheme: string }>).detail.scheme), { once: true }));
 /** Resolves once no view transition runs. */
 const settled = async () => {
   while (document.activeViewTransition) await document.activeViewTransition.finished;
@@ -26,15 +26,15 @@ const settled = async () => {
 const dither = () => document.getAnimations().find((a) => (a.effect as KeyframeEffect | null)?.pseudoElement === "::view-transition-new(root)");
 
 describe("setScheme", () => {
-  it("sets data-pp-scheme on the page, or on one section", () => {
+  it("sets data-chu-scheme on the page, or on one section", () => {
     const section = mount("<section></section>");
     setScheme("night", section);
-    expect(section.dataset.ppScheme).toBe("night");
-    const before = document.documentElement.dataset.ppScheme;
+    expect(section.dataset.chuScheme).toBe("night");
+    const before = document.documentElement.dataset.chuScheme;
     setScheme("sunset");
-    expect(document.documentElement.dataset.ppScheme).toBe("sunset");
-    if (before === undefined) delete document.documentElement.dataset.ppScheme;
-    else document.documentElement.dataset.ppScheme = before;
+    expect(document.documentElement.dataset.chuScheme).toBe("sunset");
+    if (before === undefined) delete document.documentElement.dataset.chuScheme;
+    else document.documentElement.dataset.chuScheme = before;
   });
 });
 
@@ -56,16 +56,16 @@ describe("autoScheme", () => {
   it("sets the scheme for the provided clock at once, without a fade", () => {
     const section = mount("<section></section>");
     const stop = autoScheme(section);
-    expect(section.dataset.ppScheme).toBe("day");
-    expect(section.hasAttribute("data-pp-scheme-auto")).toBe(true);
-    expect(section.hasAttribute("data-pp-scheme-fade")).toBe(false);
+    expect(section.dataset.chuScheme).toBe("day");
+    expect(section.hasAttribute("data-chu-scheme-auto")).toBe(true);
+    expect(section.hasAttribute("data-chu-scheme-fade")).toBe(false);
     stop();
   });
 
   it("sets the first scheme at once even over another one", () => {
-    const section = mount('<section data-pp-scheme="night"></section>');
+    const section = mount('<section data-chu-scheme="night"></section>');
     const stop = autoScheme(section);
-    expect(section.dataset.ppScheme).toBe("day");
+    expect(section.dataset.chuScheme).toBe("day");
     expect(document.activeViewTransition).toBeFalsy();
     stop();
   });
@@ -73,7 +73,7 @@ describe("autoScheme", () => {
   it("checks the clock every minute and dithers to the next scheme, announcing it", async () => {
     const section = mount("<section></section>");
     const changes: string[] = [];
-    section.addEventListener("pp-scheme-change", (e) => changes.push((e as CustomEvent<{ scheme: string }>).detail.scheme));
+    section.addEventListener("chu-scheme-change", (e) => changes.push((e as CustomEvent<{ scheme: string }>).detail.scheme));
     const stop = autoScheme(section);
     expect(changes).toEqual(["day"]);
     time = new Date(2026, 5, 21, 16, 59);
@@ -83,12 +83,12 @@ describe("autoScheme", () => {
     time = new Date(2026, 5, 21, 17, 0);
     let next = announced(section);
     vi.advanceTimersByTime(60_000);
-    expect(section.hasAttribute("data-pp-scheme-fade")).toBe(true);
-    expect(document.documentElement.hasAttribute("data-pp-scheme-dither")).toBe(true);
+    expect(section.hasAttribute("data-chu-scheme-fade")).toBe(true);
+    expect(document.documentElement.hasAttribute("data-chu-scheme-dither")).toBe(true);
     expect(await next).toBe("sunset");
-    expect(section.dataset.ppScheme).toBe("sunset");
+    expect(section.dataset.chuScheme).toBe("sunset");
     await settled();
-    expect(document.documentElement.hasAttribute("data-pp-scheme-dither")).toBe(false);
+    expect(document.documentElement.hasAttribute("data-chu-scheme-dither")).toBe(false);
 
     time = new Date(2026, 5, 21, 19, 0);
     next = announced(section);
@@ -143,7 +143,7 @@ describe("autoScheme", () => {
     await other.updateCallbackDone;
     time = new Date(2026, 5, 21, 17, 0);
     vi.advanceTimersByTime(60_000);
-    expect(section.dataset.ppScheme).toBe("sunset");
+    expect(section.dataset.chuScheme).toBe("sunset");
     expect(document.activeViewTransition).toBe(other);
     stop();
   });
@@ -153,8 +153,8 @@ describe("autoScheme", () => {
     const stop = autoScheme(section, { fade: false });
     time = new Date(2026, 5, 21, 17, 30);
     vi.advanceTimersByTime(60_000);
-    expect(section.dataset.ppScheme).toBe("sunset");
-    expect(section.hasAttribute("data-pp-scheme-fade")).toBe(false);
+    expect(section.dataset.chuScheme).toBe("sunset");
+    expect(section.hasAttribute("data-chu-scheme-fade")).toBe(false);
     expect(document.activeViewTransition).toBeFalsy();
     stop();
   });
@@ -167,10 +167,10 @@ describe("autoScheme", () => {
     vi.advanceTimersByTime(60_000);
     expect(await next).toBe("sunset");
     stop();
-    expect(section.hasAttribute("data-pp-scheme-auto")).toBe(false);
-    expect(section.hasAttribute("data-pp-scheme-fade")).toBe(false);
+    expect(section.hasAttribute("data-chu-scheme-auto")).toBe(false);
+    expect(section.hasAttribute("data-chu-scheme-fade")).toBe(false);
     time = new Date(2026, 5, 21, 23, 0);
     vi.advanceTimersByTime(5 * 60_000);
-    expect(section.dataset.ppScheme).toBe("sunset");
+    expect(section.dataset.chuScheme).toBe("sunset");
   });
 });

@@ -2,17 +2,17 @@
  * Segmented control. One choice from a few, side by side on a sunken rail: the chosen segment is candy that sits in
  * (bands swapped), the others are quiet until you point at them. Two ways to build it:
  *
- *   With <pp-segmented> (buttons, a value, pp-change, form-associated):
- *   <pp-segmented class="pp-box pp-segmented" name="view" value="grid" aria-label="View">
- *     <button class="pp-box" type="button" value="list">List</button>
- *     <button class="pp-box" type="button" value="grid">Grid</button>
- *   </pp-segmented>
+ *   With <chu-segmented> (buttons, a value, chu-change, form-associated):
+ *   <chu-segmented class="chu-box chu-segmented" name="view" value="grid" aria-label="View">
+ *     <button class="chu-box" type="button" value="list">List</button>
+ *     <button class="chu-box" type="button" value="grid">Grid</button>
+ *   </chu-segmented>
  *
  *   With no JavaScript at all (native radios, which the browser groups and steers with the arrow keys):
- *   <fieldset class="pp-box pp-segmented">
- *     <legend class="pp-sr-only">View</legend>
- *     <label class="pp-box"><input type="radio" name="view" value="list">List</label>
- *     <label class="pp-box"><input type="radio" name="view" value="grid" checked>Grid</label>
+ *   <fieldset class="chu-box chu-segmented">
+ *     <legend class="chu-sr-only">View</legend>
+ *     <label class="chu-box"><input type="radio" name="view" value="list">List</label>
+ *     <label class="chu-box"><input type="radio" name="view" value="grid" checked>Grid</label>
  *   </fieldset>
  *
  *   data-size               sm | md (default) | lg       16, 20 or 24 pixels high, like buttons
@@ -26,157 +26,157 @@
  */
 @import "./_scroll.css";
 
-@layer pp.components {
-  .pp-segmented {
-    --pp-r: 4;
-    --pp-shape: var(--pp-shape-4);
-    --pp-shape-inner: var(--pp-shape-4-inner);
-    --pp-band-top: 1;
-    --pp-band-bottom: 0;
-    --pp-drop-size: 0;
-    --pp-box-outline: var(--pp-line);
-    --pp-box-top: var(--pp-surface-sunken);
-    --pp-box-fill: var(--pp-surface-sunken);
-    --pp-box-bottom: var(--pp-surface-sunken);
-    --pp-box-text: var(--pp-text);
-    --pp-box-glint: transparent;
-    --_h: var(--pp-control-md);
+@layer chu.components {
+  .chu-segmented {
+    --chu-r: 4;
+    --chu-shape: var(--chu-shape-4);
+    --chu-shape-inner: var(--chu-shape-4-inner);
+    --chu-band-top: 1;
+    --chu-band-bottom: 0;
+    --chu-drop-size: 0;
+    --chu-box-outline: var(--chu-line);
+    --chu-box-top: var(--chu-surface-sunken);
+    --chu-box-fill: var(--chu-surface-sunken);
+    --chu-box-bottom: var(--chu-surface-sunken);
+    --chu-box-text: var(--chu-text);
+    --chu-box-glint: transparent;
+    --_h: var(--chu-control-md);
     display: inline-flex;
-    gap: var(--pp-pixel);
+    gap: var(--chu-pixel);
     block-size: var(--_h);
     min-inline-size: 0;
     max-inline-size: 100%;
     margin: 0;
-    padding: calc(2 * var(--pp-pixel));
+    padding: calc(2 * var(--chu-pixel));
     border: 0;
     vertical-align: middle;
   }
-  .pp-segmented[data-size="sm"] { --pp-r: 3; --pp-shape: var(--pp-shape-3); --pp-shape-inner: var(--pp-shape-3-inner); --_h: var(--pp-control-sm); }
-  .pp-segmented[data-size="lg"] { --pp-r: 5; --pp-shape: var(--pp-shape-5); --pp-shape-inner: var(--pp-shape-5-inner); --_h: var(--pp-control-lg); }
-  .pp-segmented[data-width="full"] { display: flex; }
-  .pp-segmented[data-width="full"] > .pp-box { flex: 1 1 0; }
+  .chu-segmented[data-size="sm"] { --chu-r: 3; --chu-shape: var(--chu-shape-3); --chu-shape-inner: var(--chu-shape-3-inner); --_h: var(--chu-control-sm); }
+  .chu-segmented[data-size="lg"] { --chu-r: 5; --chu-shape: var(--chu-shape-5); --chu-shape-inner: var(--chu-shape-5-inner); --_h: var(--chu-control-lg); }
+  .chu-segmented[data-width="full"] { display: flex; }
+  .chu-segmented[data-width="full"] > .chu-box { flex: 1 1 0; }
 
   /* Segments too long for the container never push past it. Where the browser can tell the row overflows
      (scroll-driven animations), it scrolls, as a tab row does; meanwhile its rail is drawn on its own background,
      which stays put while the segments scroll (the box's stepped rail would scroll away with them): square ends,
      cut off like the edge of a screen. Elsewhere the segments wrap onto another row. */
   @supports (animation-timeline: scroll()) {
-    .pp-segmented {
-      /* How much each side fades: --_pp-s and --_pp-e (start, end) from the cue, put on the left and right. */
-      --_pp-s: 0;
-      --_pp-e: 0;
-      --_pp-l: var(--_pp-s);
-      --_pp-r: var(--_pp-e);
+    .chu-segmented {
+      /* How much each side fades: --_chu-s and --_chu-e (start, end) from the cue, put on the left and right. */
+      --_chu-s: 0;
+      --_chu-e: 0;
+      --_chu-l: var(--_chu-s);
+      --_chu-r: var(--_chu-e);
       overflow-x: auto;
       overscroll-behavior-x: contain;
       scrollbar-width: none;
       mask:
-        linear-gradient(#000 0 0) calc(var(--_pp-l) * var(--_pp-fade)) 0 / calc(100% - (var(--_pp-l) + var(--_pp-r)) * var(--_pp-fade)) 100% no-repeat,
-        var(--_pp-fade-start) 0 0 / calc(var(--_pp-l) * var(--_pp-fade)) calc(2 * var(--pp-pixel)) repeat-y,
-        var(--_pp-fade-end) 100% 0 / calc(var(--_pp-r) * var(--_pp-fade)) calc(2 * var(--pp-pixel)) repeat-y;
-      animation: pp-segmented-scrolling steps(1, jump-end) both, pp-scroll-cue steps(1, jump-end) both;
+        linear-gradient(#000 0 0) calc(var(--_chu-l) * var(--_chu-fade)) 0 / calc(100% - (var(--_chu-l) + var(--_chu-r)) * var(--_chu-fade)) 100% no-repeat,
+        var(--_chu-fade-start) 0 0 / calc(var(--_chu-l) * var(--_chu-fade)) calc(2 * var(--chu-pixel)) repeat-y,
+        var(--_chu-fade-end) 100% 0 / calc(var(--_chu-r) * var(--_chu-fade)) calc(2 * var(--chu-pixel)) repeat-y;
+      animation: chu-segmented-scrolling steps(1, jump-end) both, chu-scroll-cue steps(1, jump-end) both;
       animation-timeline: scroll(self inline);
     }
-    .pp-segmented:dir(rtl) { --_pp-l: var(--_pp-e); --_pp-r: var(--_pp-s); }
+    .chu-segmented:dir(rtl) { --_chu-l: var(--_chu-e); --_chu-r: var(--_chu-s); }
     /* The segment with the keyboard shows its whole ring. */
-    .pp-segmented:has(:focus-visible) { mask: none; }
+    .chu-segmented:has(:focus-visible) { mask: none; }
   }
 
   /* A segment: quiet at rest, a calm raised well on hover, candy that sits in when chosen, a dithered well when
      disabled. */
-  .pp-segmented > .pp-box {
-    --pp-r: 3;
-    --pp-shape: var(--pp-shape-3);
-    --pp-shape-inner: var(--pp-shape-3-inner);
-    --pp-band-top: 2;
-    --pp-band-bottom: 2;
-    --pp-drop-size: 0;
-    --pp-box-outline: transparent;
-    --pp-box-top: transparent;
-    --pp-box-fill: transparent;
-    --pp-box-bottom: transparent;
-    --pp-box-text: var(--pp-text);
-    --pp-box-glint: transparent;
+  .chu-segmented > .chu-box {
+    --chu-r: 3;
+    --chu-shape: var(--chu-shape-3);
+    --chu-shape-inner: var(--chu-shape-3-inner);
+    --chu-band-top: 2;
+    --chu-band-bottom: 2;
+    --chu-drop-size: 0;
+    --chu-box-outline: transparent;
+    --chu-box-top: transparent;
+    --chu-box-fill: transparent;
+    --chu-box-bottom: transparent;
+    --chu-box-text: var(--chu-text);
+    --chu-box-glint: transparent;
     display: inline-flex;
     flex: none;
     align-items: center;
     justify-content: center;
-    gap: calc(2 * var(--pp-pixel));
-    min-inline-size: calc(var(--_h) - 4 * var(--pp-pixel));
-    padding: 0 calc(6 * var(--pp-pixel));
-    font-family: var(--pp-font-ui);
-    font-size: var(--pp-size-small);
-    font-weight: var(--pp-weight-bold);
+    gap: calc(2 * var(--chu-pixel));
+    min-inline-size: calc(var(--_h) - 4 * var(--chu-pixel));
+    padding: 0 calc(6 * var(--chu-pixel));
+    font-family: var(--chu-font-ui);
+    font-size: var(--chu-size-small);
+    font-weight: var(--chu-weight-bold);
     line-height: 1;
-    letter-spacing: var(--pp-tracking-label);
+    letter-spacing: var(--chu-tracking-label);
     text-transform: uppercase;
     white-space: nowrap;
     translate: none;
   }
-  .pp-segmented[data-size="sm"] > .pp-box { --pp-r: 2; --pp-shape: var(--pp-shape-2); --pp-shape-inner: var(--pp-shape-2-inner); --pp-band-top: 1; --pp-band-bottom: 1; padding-inline: calc(4 * var(--pp-pixel)); font-size: var(--pp-size-caption); }
-  .pp-segmented[data-size="lg"] > .pp-box { --pp-r: 4; --pp-shape: var(--pp-shape-4); --pp-shape-inner: var(--pp-shape-4-inner); padding-inline: calc(8 * var(--pp-pixel)); font-size: var(--pp-size-body); }
-  .pp-segmented > .pp-box[data-icon-only] { padding: 0; }
+  .chu-segmented[data-size="sm"] > .chu-box { --chu-r: 2; --chu-shape: var(--chu-shape-2); --chu-shape-inner: var(--chu-shape-2-inner); --chu-band-top: 1; --chu-band-bottom: 1; padding-inline: calc(4 * var(--chu-pixel)); font-size: var(--chu-size-caption); }
+  .chu-segmented[data-size="lg"] > .chu-box { --chu-r: 4; --chu-shape: var(--chu-shape-4); --chu-shape-inner: var(--chu-shape-4-inner); padding-inline: calc(8 * var(--chu-pixel)); font-size: var(--chu-size-body); }
+  .chu-segmented > .chu-box[data-icon-only] { padding: 0; }
   /* A native radio stays real (focus, keys, form value) but invisible: the label is the segment. */
-  .pp-segmented > label > input { position: absolute; inset: 0; margin: 0; opacity: 0; pointer-events: none; }
+  .chu-segmented > label > input { position: absolute; inset: 0; margin: 0; opacity: 0; pointer-events: none; }
 
   @media (hover: hover) {
-    .pp-segmented > .pp-box:not([aria-checked="true"], :has(> input:checked), :disabled, [aria-disabled="true"], :has(> input:disabled)):hover {
-      --pp-box-outline: var(--pp-line);
-      --pp-box-top: var(--pp-surface);
-      --pp-box-fill: var(--pp-surface);
-      --pp-box-bottom: var(--pp-surface);
+    .chu-segmented > .chu-box:not([aria-checked="true"], :has(> input:checked), :disabled, [aria-disabled="true"], :has(> input:disabled)):hover {
+      --chu-box-outline: var(--chu-line);
+      --chu-box-top: var(--chu-surface);
+      --chu-box-fill: var(--chu-surface);
+      --chu-box-bottom: var(--chu-surface);
     }
   }
-  .pp-segmented > .pp-box:is(:focus-visible, [data-pp-state~="focus"], :has(> input:focus-visible)),
-  .pp-segmented > .pp-box[data-pp-state~="hover"] {
-    --pp-box-outline: var(--pp-line);
-    --pp-box-top: var(--pp-surface);
-    --pp-box-fill: var(--pp-surface);
-    --pp-box-bottom: var(--pp-surface);
+  .chu-segmented > .chu-box:is(:focus-visible, [data-chu-state~="focus"], :has(> input:focus-visible)),
+  .chu-segmented > .chu-box[data-chu-state~="hover"] {
+    --chu-box-outline: var(--chu-line);
+    --chu-box-top: var(--chu-surface);
+    --chu-box-fill: var(--chu-surface);
+    --chu-box-bottom: var(--chu-surface);
   }
 
-  .pp-segmented > .pp-box:is([aria-checked="true"], :has(> input:checked)) {
-    --pp-box-outline: var(--pp-outline);
-    --pp-box-top: var(--pp-tone-shade);
-    --pp-box-fill: var(--pp-tone);
-    --pp-box-bottom: var(--pp-tone-light);
-    --pp-box-text: var(--pp-tone-on);
+  .chu-segmented > .chu-box:is([aria-checked="true"], :has(> input:checked)) {
+    --chu-box-outline: var(--chu-outline);
+    --chu-box-top: var(--chu-tone-shade);
+    --chu-box-fill: var(--chu-tone);
+    --chu-box-bottom: var(--chu-tone-light);
+    --chu-box-text: var(--chu-tone-on);
   }
 
-  .pp-segmented > .pp-box:has(> input:disabled) { --pp-box-dither: var(--pp-disabled-dither); cursor: not-allowed; }
+  .chu-segmented > .chu-box:has(> input:disabled) { --chu-box-dither: var(--chu-disabled-dither); cursor: not-allowed; }
   /* Disabled, a segment takes the calm tiers' look (box.css): a soft outline round the surface, dithered with the
      sunken surface. Bare, its dither would match the sunken rail under it and never show. */
-  .pp-segmented > .pp-box:is(:disabled, [aria-disabled="true"], :has(> input:disabled)):not([aria-checked="true"], :has(> input:checked)) {
-    --pp-box-outline: var(--pp-line-soft);
-    --pp-box-top: var(--pp-surface);
-    --pp-box-fill: var(--pp-surface);
-    --pp-box-bottom: var(--pp-surface);
-    --pp-box-text: var(--pp-text-muted);
-    --pp-box-dither: var(--pp-surface-sunken);
+  .chu-segmented > .chu-box:is(:disabled, [aria-disabled="true"], :has(> input:disabled)):not([aria-checked="true"], :has(> input:checked)) {
+    --chu-box-outline: var(--chu-line-soft);
+    --chu-box-top: var(--chu-surface);
+    --chu-box-fill: var(--chu-surface);
+    --chu-box-bottom: var(--chu-surface);
+    --chu-box-text: var(--chu-text-muted);
+    --chu-box-dither: var(--chu-surface-sunken);
   }
 
   /* No scroll-driven animations: the segments that do not fit wrap onto another row (after the segment's own rules). */
   @supports not (animation-timeline: scroll()) {
-    .pp-segmented { flex-wrap: wrap; block-size: auto; min-block-size: var(--_h); }
-    .pp-segmented > .pp-box { min-block-size: calc(var(--_h) - 4 * var(--pp-pixel)); white-space: normal; overflow-wrap: anywhere; }
+    .chu-segmented { flex-wrap: wrap; block-size: auto; min-block-size: var(--_h); }
+    .chu-segmented > .chu-box { min-block-size: calc(var(--_h) - 4 * var(--chu-pixel)); white-space: normal; overflow-wrap: anywhere; }
   }
 
   @media (forced-colors: active) {
-    .pp-segmented > .pp-box:is([aria-checked="true"], :has(> input:checked)) { forced-color-adjust: none; border-color: CanvasText; background: Highlight; color: HighlightText; }
-    .pp-segmented > label:has(> input:focus-visible) { outline: var(--pp-pixel) solid Highlight; outline-offset: var(--pp-pixel); }
+    .chu-segmented > .chu-box:is([aria-checked="true"], :has(> input:checked)) { forced-color-adjust: none; border-color: CanvasText; background: Highlight; color: HighlightText; }
+    .chu-segmented > label:has(> input:focus-visible) { outline: var(--chu-pixel) solid Highlight; outline-offset: var(--chu-pixel); }
   }
 }
 
 /* While the row scrolls (a scroller with nothing to scroll has no timeline): the rail on the element itself, its line
    an outline drawn inside the edge, so it stays over the segments that scroll under it. */
-@keyframes pp-segmented-scrolling {
+@keyframes chu-segmented-scrolling {
   from, to {
-    --pp-box-outline: transparent;
-    --pp-box-top: transparent;
-    --pp-box-fill: transparent;
-    --pp-box-bottom: transparent;
-    background: var(--pp-surface-sunken);
-    outline: var(--pp-pixel) solid var(--pp-line);
-    outline-offset: calc(-1 * var(--pp-pixel));
+    --chu-box-outline: transparent;
+    --chu-box-top: transparent;
+    --chu-box-fill: transparent;
+    --chu-box-bottom: transparent;
+    background: var(--chu-surface-sunken);
+    outline: var(--chu-pixel) solid var(--chu-line);
+    outline-offset: calc(-1 * var(--chu-pixel));
   }
 }

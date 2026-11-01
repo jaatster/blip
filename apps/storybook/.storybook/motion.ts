@@ -5,7 +5,7 @@
  * first) and imports nothing from Blip itself.
  */
 const QUERY = /prefers-reduced-motion\s*:\s*reduce/;
-const FLAG = "data-pp-reduce-motion";
+const FLAG = "data-chu-reduce-motion";
 let forced = false;
 
 if (typeof window !== "undefined" && typeof window.matchMedia === "function") {
@@ -28,6 +28,6 @@ export function setReducedMotion(on: boolean): void {
   forced = on;
   const root = document.documentElement;
   root.toggleAttribute(FLAG, on);
-  if (on) root.style.setProperty("--pp-motion", "reduce");
-  else root.style.removeProperty("--pp-motion");
+  if (on) root.style.setProperty("--chu-motion", "reduce");
+  else root.style.removeProperty("--chu-motion");
 }

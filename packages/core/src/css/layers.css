@@ -4,9 +4,9 @@
  * no longer matters.
  *
  * Tailwind's layers come first (properties, its fallbacks for browsers without @property; theme; base, its
- * preflight), then all of Blip (pp), then Tailwind's components and utilities: a utility class beats a
+ * preflight), then all of Blip (chu), then Tailwind's components and utilities: a utility class beats a
  * component's own rules, and preflight cannot undo them. Your own layers go where they belong in the first line;
  * CSS outside any layer still beats them all.
  */
-@layer properties, theme, base, pp, components, utilities;
-@layer pp.reset, pp.tokens, pp.base, pp.core, pp.components, pp.kits, pp.utilities;
+@layer properties, theme, base, chu, components, utilities;
+@layer chu.reset, chu.tokens, chu.base, chu.core, chu.components, chu.kits, chu.utilities;

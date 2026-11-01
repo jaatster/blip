@@ -3,104 +3,104 @@
  * groups that fold open, and the page you are on sitting in. Folded to a rail it keeps just the icons, and an item
  * shows its name beside it on hover and focus.
  *
- *   <nav class="pp-sidebar" aria-label="Main" data-collapse="auto">
- *     <h2 class="pp-sidebar-heading" id="nav-live">Live ops</h2>
- *     <ul class="pp-sidebar-list" role="list" aria-labelledby="nav-live">
- *       <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="/" aria-current="page">
- *         <svg class="pp-icon" …></svg><span class="pp-sidebar-label">Overview</span></a></li>
- *       <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="/players">
- *         <svg class="pp-icon" …></svg><span class="pp-sidebar-label">Players</span>
- *         <span class="pp-box pp-sidebar-badge">12</span></a></li>
- *       <li><details class="pp-sidebar-group" open>
- *         <summary class="pp-box pp-sidebar-item" data-variant="ghost"><svg …></svg><span class="pp-sidebar-label">Levels</span></summary>
- *         <ul class="pp-sidebar-list" role="list">…</ul>
+ *   <nav class="chu-sidebar" aria-label="Main" data-collapse="auto">
+ *     <h2 class="chu-sidebar-heading" id="nav-live">Live ops</h2>
+ *     <ul class="chu-sidebar-list" role="list" aria-labelledby="nav-live">
+ *       <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="/" aria-current="page">
+ *         <svg class="chu-icon" …></svg><span class="chu-sidebar-label">Overview</span></a></li>
+ *       <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="/players">
+ *         <svg class="chu-icon" …></svg><span class="chu-sidebar-label">Players</span>
+ *         <span class="chu-box chu-sidebar-badge">12</span></a></li>
+ *       <li><details class="chu-sidebar-group" open>
+ *         <summary class="chu-box chu-sidebar-item" data-variant="ghost"><svg …></svg><span class="chu-sidebar-label">Levels</span></summary>
+ *         <ul class="chu-sidebar-list" role="list">…</ul>
  *       </details></li>
  *     </ul>
  *   </nav>
  *
  *   aria-current="page"   the page you are on: sits in, a soft chip
- *   .pp-sidebar-label     the item's name; keep it, it carries the group chevron and the arrow, and names the rail
- *   .pp-sidebar-badge     a count at the end of an item (data-tone colours it); a dot on the rail
+ *   .chu-sidebar-label     the item's name; keep it, it carries the group chevron and the arrow, and names the rail
+ *   .chu-sidebar-badge     a count at the end of an item (data-tone colours it); a dot on the rail
  *   <details> group       folds with a pixel chevron; open it when it holds the current page
  *   data-collapsed        the rail: icons only
- *   data-collapse="auto"  a rail when the pp-shell container is under 1024 px, hidden under 600 px (pair it with the
+ *   data-collapse="auto"  a rail when the chu-shell container is under 1024 px, hidden under 600 px (pair it with the
  *                         bottom bar or the app bar's menu)
  *                         A rail sits at the start edge of the screen: an item's name shows beside it, over the
  *                         content, never wider than the sidebar (a longer name wraps)
  *   data-arrow            the TV's pointer arrow beside the current page
- *   --pp-sidebar-width    120 pixels (240 px). Keep it over 120 px: a content box under 100 px reads as the rail.
+ *   --chu-sidebar-width    120 pixels (240 px). Keep it over 120 px: a content box under 100 px reads as the rail.
  */
 
-@layer pp.components {
-  .pp-sidebar {
-    --pp-sidebar-width: calc(120 * var(--pp-pixel));
-    --_rail: calc(30 * var(--pp-pixel));
+@layer chu.components {
+  .chu-sidebar {
+    --chu-sidebar-width: calc(120 * var(--chu-pixel));
+    --_rail: calc(30 * var(--chu-pixel));
 
-    container: pp-sidebar / inline-size;
+    container: chu-sidebar / inline-size;
     position: relative;
-    z-index: var(--pp-layer-raised);
+    z-index: var(--chu-layer-raised);
     display: flex;
     flex-direction: column;
-    gap: var(--pp-space-2);
+    gap: var(--chu-space-2);
     flex: none;
-    inline-size: var(--pp-sidebar-width);
-    padding-block: var(--pp-space-6);
-    padding-inline: var(--pp-space-8) var(--pp-space-4);
-    font-family: var(--pp-font-ui);
-    font-size: var(--pp-size-small);
+    inline-size: var(--chu-sidebar-width);
+    padding-block: var(--chu-space-6);
+    padding-inline: var(--chu-space-8) var(--chu-space-4);
+    font-family: var(--chu-font-ui);
+    font-size: var(--chu-size-small);
   }
-  .pp-sidebar[data-collapsed] {
+  .chu-sidebar[data-collapsed] {
     inline-size: var(--_rail);
-    padding-inline: var(--pp-space-4);
+    padding-inline: var(--chu-space-4);
   }
-  @container pp-shell (width < 1024px) {
-    .pp-sidebar[data-collapse="auto"] {
+  @container chu-shell (width < 1024px) {
+    .chu-sidebar[data-collapse="auto"] {
       inline-size: var(--_rail);
-      padding-inline: var(--pp-space-4);
+      padding-inline: var(--chu-space-4);
     }
   }
-  @container pp-shell (width < 600px) {
-    .pp-sidebar[data-collapse="auto"] { display: none; }
+  @container chu-shell (width < 600px) {
+    .chu-sidebar[data-collapse="auto"] { display: none; }
   }
 
-  .pp-sidebar-heading {
-    margin: var(--pp-space-6) 0 0;
-    padding: 0 var(--pp-space-4) var(--pp-space-1);
-    font-size: var(--pp-size-caption);
-    font-weight: var(--pp-weight-bold);
-    line-height: var(--pp-leading-tight);
-    letter-spacing: var(--pp-tracking-label);
+  .chu-sidebar-heading {
+    margin: var(--chu-space-6) 0 0;
+    padding: 0 var(--chu-space-4) var(--chu-space-1);
+    font-size: var(--chu-size-caption);
+    font-weight: var(--chu-weight-bold);
+    line-height: var(--chu-leading-tight);
+    letter-spacing: var(--chu-tracking-label);
     text-transform: uppercase;
-    color: var(--pp-text-muted);
+    color: var(--chu-text-muted);
   }
-  .pp-sidebar-heading:first-child { margin-block-start: 0; }
+  .chu-sidebar-heading:first-child { margin-block-start: 0; }
 
-  .pp-sidebar-list {
+  .chu-sidebar-list {
     display: flex;
     flex-direction: column;
-    gap: var(--pp-pixel);
+    gap: var(--chu-pixel);
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  .pp-sidebar-item {
-    --pp-r: 3;
-    --pp-shape: var(--pp-shape-3);
-    --pp-shape-inner: var(--pp-shape-3-inner);
+  .chu-sidebar-item {
+    --chu-r: 3;
+    --chu-shape: var(--chu-shape-3);
+    --chu-shape-inner: var(--chu-shape-3-inner);
 
     display: flex;
     align-items: center;
-    gap: var(--pp-space-4);
-    min-block-size: var(--pp-control-sm);
-    padding: var(--pp-space-1) var(--pp-space-4);
-    font-weight: var(--pp-weight-medium);
-    line-height: var(--pp-leading-tight);
+    gap: var(--chu-space-4);
+    min-block-size: var(--chu-control-sm);
+    padding: var(--chu-space-1) var(--chu-space-4);
+    font-weight: var(--chu-weight-medium);
+    line-height: var(--chu-leading-tight);
     text-align: start;
     text-decoration: none;
   }
-  .pp-sidebar-item[aria-current="page"] { font-weight: var(--pp-weight-bold); }
-  .pp-sidebar-label {
+  .chu-sidebar-item[aria-current="page"] { font-weight: var(--chu-weight-bold); }
+  .chu-sidebar-label {
     flex: 1;
     min-inline-size: 0;
     overflow: hidden;
@@ -108,61 +108,61 @@
     white-space: nowrap;
   }
 
-  .pp-sidebar-badge {
-    --pp-r: 2;
-    --pp-shape: var(--pp-shape-2);
-    --pp-shape-inner: var(--pp-shape-2-inner);
-    --pp-box-top: var(--pp-tone-light);
-    --pp-box-fill: var(--pp-tone-light);
-    --pp-box-bottom: var(--pp-tone-light);
-    --pp-box-text: var(--pp-tone-on);
-    --pp-box-glint: transparent;
-    --pp-drop-size: 0;
+  .chu-sidebar-badge {
+    --chu-r: 2;
+    --chu-shape: var(--chu-shape-2);
+    --chu-shape-inner: var(--chu-shape-2-inner);
+    --chu-box-top: var(--chu-tone-light);
+    --chu-box-fill: var(--chu-tone-light);
+    --chu-box-bottom: var(--chu-tone-light);
+    --chu-box-text: var(--chu-tone-on);
+    --chu-box-glint: transparent;
+    --chu-drop-size: 0;
 
     display: inline-grid;
     place-items: center;
     flex: none;
     /* Ten pixels, or 5/3 of its text size if that is more (a bigger default text size), so the count fits. */
-    --_pp-badge-size: max(calc(10 * var(--pp-pixel)), round(up, calc(5 / 3) * var(--pp-size-caption), var(--pp-pixel)));
-    min-inline-size: var(--_pp-badge-size);
-    block-size: var(--_pp-badge-size);
-    padding: 0 var(--pp-space-2);
-    font-size: var(--pp-size-caption);
-    font-weight: var(--pp-weight-bold);
+    --_chu-badge-size: max(calc(10 * var(--chu-pixel)), round(up, calc(5 / 3) * var(--chu-size-caption), var(--chu-pixel)));
+    min-inline-size: var(--_chu-badge-size);
+    block-size: var(--_chu-badge-size);
+    padding: 0 var(--chu-space-2);
+    font-size: var(--chu-size-caption);
+    font-weight: var(--chu-weight-bold);
     line-height: 1;
     font-variant-numeric: tabular-nums;
   }
 
   /* A group: a disclosure with a pixel chevron. */
-  .pp-sidebar-group > summary {
-    padding-inline-end: calc(12 * var(--pp-pixel));
+  .chu-sidebar-group > summary {
+    padding-inline-end: calc(12 * var(--chu-pixel));
     list-style: none;
   }
-  .pp-sidebar-group > summary::-webkit-details-marker { display: none; }
-  .pp-sidebar-group > summary > .pp-sidebar-label::after {
+  .chu-sidebar-group > summary::-webkit-details-marker { display: none; }
+  .chu-sidebar-group > summary > .chu-sidebar-label::after {
     content: "";
     position: absolute;
-    inset-block-start: calc(50% - 4 * var(--pp-pixel));
-    inset-inline-end: var(--pp-space-4);
-    inline-size: calc(5 * var(--pp-pixel));
-    block-size: calc(7 * var(--pp-pixel));
+    inset-block-start: calc(50% - 4 * var(--chu-pixel));
+    inset-inline-end: var(--chu-space-4);
+    inline-size: calc(5 * var(--chu-pixel));
+    block-size: calc(7 * var(--chu-pixel));
     background-color: currentColor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5 7' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1h1v1h1v1h1v1H4v1H3v1H2v1H0V6h1V5h1V4h1V3H2V2H1V1H0z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   }
-  .pp-sidebar-group > summary:dir(rtl) > .pp-sidebar-label::after { scale: -1 1; }
+  .chu-sidebar-group > summary:dir(rtl) > .chu-sidebar-label::after { scale: -1 1; }
   /* Open: the same chevron, a quarter turn (whole pixels: a 5 x 7 glyph turns into 7 x 5 about its centre). */
-  .pp-sidebar-group[open] > summary > .pp-sidebar-label::after { rotate: 90deg; }
-  .pp-sidebar-group[open] > summary:dir(rtl) > .pp-sidebar-label::after { rotate: -90deg; }
-  .pp-sidebar-group > .pp-sidebar-list {
-    margin-block-start: var(--pp-pixel);
-    padding-inline-start: calc(8 * var(--pp-pixel));
+  .chu-sidebar-group[open] > summary > .chu-sidebar-label::after { rotate: 90deg; }
+  .chu-sidebar-group[open] > summary:dir(rtl) > .chu-sidebar-label::after { rotate: -90deg; }
+  .chu-sidebar-group > .chu-sidebar-list {
+    margin-block-start: var(--chu-pixel);
+    padding-inline-start: calc(8 * var(--chu-pixel));
   }
 
   /* The TV's pointer arrow beside the current page: 6 x 10, ink outline, accent fill. It pokes at the page for a few
      beats, then rests. */
-  .pp-sidebar[data-arrow] .pp-sidebar-item[aria-current="page"] > .pp-sidebar-label::before {
-    --_p: var(--pp-pixel);
-    --_poke: var(--pp-pixel);
+  .chu-sidebar[data-arrow] .chu-sidebar-item[aria-current="page"] > .chu-sidebar-label::before {
+    --_p: var(--chu-pixel);
+    --_poke: var(--chu-pixel);
     content: "";
     position: absolute;
     inset-block-start: calc(50% - 5 * var(--_p));
@@ -170,97 +170,97 @@
     inline-size: calc(6 * var(--_p));
     block-size: calc(10 * var(--_p));
     background:
-      linear-gradient(var(--pp-white) 0 0) var(--_p) calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
-      linear-gradient(var(--pp-accent-light) 0 0) var(--_p) var(--_p) / var(--_p) calc(8 * var(--_p)) no-repeat,
-      linear-gradient(var(--pp-accent) 0 0) calc(2 * var(--_p)) calc(2 * var(--_p)) / var(--_p) calc(6 * var(--_p)) no-repeat,
-      linear-gradient(var(--pp-accent) 0 0) calc(3 * var(--_p)) calc(3 * var(--_p)) / var(--_p) calc(4 * var(--_p)) no-repeat,
-      linear-gradient(var(--pp-accent-shade) 0 0) calc(4 * var(--_p)) calc(4 * var(--_p)) / var(--_p) calc(2 * var(--_p)) no-repeat,
-      var(--pp-outline);
+      linear-gradient(var(--chu-white) 0 0) var(--_p) calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--chu-accent-light) 0 0) var(--_p) var(--_p) / var(--_p) calc(8 * var(--_p)) no-repeat,
+      linear-gradient(var(--chu-accent) 0 0) calc(2 * var(--_p)) calc(2 * var(--_p)) / var(--_p) calc(6 * var(--_p)) no-repeat,
+      linear-gradient(var(--chu-accent) 0 0) calc(3 * var(--_p)) calc(3 * var(--_p)) / var(--_p) calc(4 * var(--_p)) no-repeat,
+      linear-gradient(var(--chu-accent-shade) 0 0) calc(4 * var(--_p)) calc(4 * var(--_p)) / var(--_p) calc(2 * var(--_p)) no-repeat,
+      var(--chu-outline);
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 10' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1h1v1h1v1h1v1h1v2H5v1H4v1H3v1H2v1H0z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
-    animation: pp-sidebar-poke calc(2 * var(--pp-duration-beat)) steps(1, jump-end) 6;
+    animation: chu-sidebar-poke calc(2 * var(--chu-duration-beat)) steps(1, jump-end) 6;
   }
-  .pp-sidebar[data-arrow] .pp-sidebar-item[aria-current="page"]:dir(rtl) > .pp-sidebar-label::before {
-    --_poke: calc(-1 * var(--pp-pixel));
+  .chu-sidebar[data-arrow] .chu-sidebar-item[aria-current="page"]:dir(rtl) > .chu-sidebar-label::before {
+    --_poke: calc(-1 * var(--chu-pixel));
     scale: -1 1;
   }
 
   /* ------------------------------------------------------------ the rail */
 
-  @container pp-sidebar (width < 100px) {
-    .pp-sidebar-heading {
+  @container chu-sidebar (width < 100px) {
+    .chu-sidebar-heading {
       position: absolute;
       clip-path: inset(50%);
       white-space: nowrap;
     }
-    .pp-sidebar-heading:not(:first-child) + .pp-sidebar-list {
-      margin-block-start: var(--pp-space-3);
-      padding-block-start: var(--pp-space-4);
-      background: linear-gradient(var(--pp-line-soft) 0 0) top / 100% var(--pp-pixel) no-repeat;
+    .chu-sidebar-heading:not(:first-child) + .chu-sidebar-list {
+      margin-block-start: var(--chu-space-3);
+      padding-block-start: var(--chu-space-4);
+      background: linear-gradient(var(--chu-line-soft) 0 0) top / 100% var(--chu-pixel) no-repeat;
     }
-    .pp-sidebar-item {
+    .chu-sidebar-item {
       justify-content: center;
-      inline-size: var(--pp-control-md);
-      min-block-size: var(--pp-control-md);
+      inline-size: var(--chu-control-md);
+      min-block-size: var(--chu-control-md);
       padding: 0;
       gap: 0;
     }
-    .pp-sidebar-group > summary { padding-inline-end: 0; }
-    .pp-sidebar-group > .pp-sidebar-list { padding-inline-start: 0; }
-    .pp-sidebar-label {
+    .chu-sidebar-group > summary { padding-inline-end: 0; }
+    .chu-sidebar-group > .chu-sidebar-list { padding-inline-start: 0; }
+    .chu-sidebar-label {
       position: absolute;
       clip-path: inset(50%);
     }
-    .pp-sidebar-label::before,
-    .pp-sidebar-label::after { content: none; }
+    .chu-sidebar-label::before,
+    .chu-sidebar-label::after { content: none; }
     /* The name, beside the item, while the pointer or the focus is on it: ink on a notched chip. */
-    .pp-sidebar-item:is(:hover, :focus-visible, [data-pp-state~="focus"]) > .pp-sidebar-label {
-      --_p: var(--pp-pixel);
+    .chu-sidebar-item:is(:hover, :focus-visible, [data-chu-state~="focus"]) > .chu-sidebar-label {
+      --_p: var(--chu-pixel);
       inset-block-start: 50%;
-      inset-inline-start: calc(100% + var(--pp-space-4));
+      inset-inline-start: calc(100% + var(--chu-space-4));
       z-index: 1;
       translate: 0 -50%;
       inline-size: max-content;
-      max-inline-size: var(--pp-sidebar-width);
-      padding: var(--pp-space-2) var(--pp-space-4);
+      max-inline-size: var(--chu-sidebar-width);
+      padding: var(--chu-space-2) var(--chu-space-4);
       white-space: normal;
-      background: var(--pp-text);
-      color: var(--pp-text-inverse);
-      font-weight: var(--pp-weight-bold);
+      background: var(--chu-text);
+      color: var(--chu-text-inverse);
+      font-weight: var(--chu-weight-bold);
       clip-path: polygon(
         var(--_p) 0, calc(100% - var(--_p)) 0, calc(100% - var(--_p)) var(--_p), 100% var(--_p),
         100% calc(100% - var(--_p)), calc(100% - var(--_p)) calc(100% - var(--_p)), calc(100% - var(--_p)) 100%,
         var(--_p) 100%, var(--_p) calc(100% - var(--_p)), 0 calc(100% - var(--_p)), 0 var(--_p), var(--_p) var(--_p));
       pointer-events: none;
     }
-    .pp-sidebar-badge {
-      --pp-r: 1;
-      --pp-shape: var(--pp-shape-1);
-      --pp-shape-inner: var(--pp-shape-1-inner);
+    .chu-sidebar-badge {
+      --chu-r: 1;
+      --chu-shape: var(--chu-shape-1);
+      --chu-shape-inner: var(--chu-shape-1-inner);
       position: absolute;
-      inset-block-start: calc(-1 * var(--pp-pixel));
-      inset-inline-end: calc(-1 * var(--pp-pixel));
+      inset-block-start: calc(-1 * var(--chu-pixel));
+      inset-inline-end: calc(-1 * var(--chu-pixel));
       min-inline-size: 0;
-      inline-size: calc(6 * var(--pp-pixel));
-      block-size: calc(6 * var(--pp-pixel));
+      inline-size: calc(6 * var(--chu-pixel));
+      block-size: calc(6 * var(--chu-pixel));
       padding: 0;
       /* A dot: no count. font-size-adjust off too: with it (from @jaatster/blip-font), Chrome draws 0-size text at full size. */
       font-size: 0;
       font-size-adjust: none;
     }
     @media (forced-colors: active) {
-      .pp-sidebar-item:is(:hover, :focus-visible) > .pp-sidebar-label { border: 1px solid CanvasText; }
+      .chu-sidebar-item:is(:hover, :focus-visible) > .chu-sidebar-label { border: 1px solid CanvasText; }
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .pp-sidebar-label::before { animation: none; }
+    .chu-sidebar-label::before { animation: none; }
   }
   @media (forced-colors: active) {
-    .pp-sidebar-item { border-color: Canvas; }
-    .pp-sidebar-item[aria-current="page"] { border-color: CanvasText; }
-    .pp-sidebar-label::before,
-    .pp-sidebar-label::after { forced-color-adjust: none; background: currentColor !important; }
+    .chu-sidebar-item { border-color: Canvas; }
+    .chu-sidebar-item[aria-current="page"] { border-color: CanvasText; }
+    .chu-sidebar-label::before,
+    .chu-sidebar-label::after { forced-color-adjust: none; background: currentColor !important; }
   }
 }
 
-@keyframes pp-sidebar-poke { 0% { translate: 0 0; } 50%, 100% { translate: var(--_poke) 0; } }
+@keyframes chu-sidebar-poke { 0% { translate: 0 0; } 50%, 100% { translate: var(--_poke) 0; } }

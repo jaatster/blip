@@ -15,8 +15,8 @@ level cleared, a coin collected.
 ## Usage
 
 ```html
-<button class="pp-box pp-button" data-pp-burst="coin">Collect</button>
-<button class="pp-box pp-button" data-pp-burst="confetti" data-pp-burst-count="24">Celebrate</button>
+<button class="chu-box chu-button" data-chu-burst="coin">Collect</button>
+<button class="chu-box chu-button" data-chu-burst="confetti" data-chu-burst-count="24">Celebrate</button>
 ```
 
 ```js
@@ -60,4 +60,4 @@ words too (a toast, a live region).
 | | |
 |---|---|
 | `burst(target, { kind, count, signal })` | Returns a promise that resolves when the last sprite has gone. |
-| `data-pp-burst="<kind>"`, `data-pp-burst-count` | Bursts on click, with no script of your own (load the module once). |
+| `data-chu-burst="<kind>"`, `data-chu-burst-count` | Bursts on click, with no script of your own (load the module once). |

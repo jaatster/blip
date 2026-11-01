@@ -21,21 +21,21 @@ const SAMPLE: Record<string, string> = {
   "size-caption": "Version 0.1, last played at 18:40.",
 };
 const styles = [
-  ["pp-display", "Pixel Bop at a whole scale (data-scale 1 to 4)", `<span class="pp-display" data-scale="1">Level 2</span>`],
-  ["pp-pop", "POP: white letters, an ink outline, a tinted band and a drop", `<span class="pp-display pp-pop" data-scale="1" data-tone="pink" data-pop="Level 2">Level 2</span>`],
-  ["pp-outline", "One colour with an ink outline, for small text on pictures", `<span class="pp-outline pp-label docs-on-world">Press start</span>`],
-  ["pp-label", "Upper-case UI labels", `<span class="pp-label">Music volume</span>`],
-  ["pp-title", "Section titles", `<span class="pp-title">Your saves</span>`],
-  ["pp-lead", "An opening paragraph", `<span class="pp-lead">A cozy platformer.</span>`],
-  ["pp-body", "Body text", `<span class="pp-body">Catch the stars.</span>`],
-  ["pp-small", "Notes and table text", `<span class="pp-small">Saved a minute ago</span>`],
-  ["pp-caption", "Captions, in the muted text colour", `<span class="pp-caption">18:40</span>`],
+  ["chu-display", "Pixel Bop at a whole scale (data-scale 1 to 4)", `<span class="chu-display" data-scale="1">Level 2</span>`],
+  ["chu-pop", "POP: white letters, an ink outline, a tinted band and a drop", `<span class="chu-display chu-pop" data-scale="1" data-tone="pink" data-pop="Level 2">Level 2</span>`],
+  ["chu-outline", "One colour with an ink outline, for small text on pictures", `<span class="chu-outline chu-label docs-on-world">Press start</span>`],
+  ["chu-label", "Upper-case UI labels", `<span class="chu-label">Music volume</span>`],
+  ["chu-title", "Section titles", `<span class="chu-title">Your saves</span>`],
+  ["chu-lead", "An opening paragraph", `<span class="chu-lead">A cozy platformer.</span>`],
+  ["chu-body", "Body text", `<span class="chu-body">Catch the stars.</span>`],
+  ["chu-small", "Notes and table text", `<span class="chu-small">Saved a minute ago</span>`],
+  ["chu-caption", "Captions, in the muted text colour", `<span class="chu-caption">18:40</span>`],
 ];
 const H = (id: string, text: string) => ({ depth: 2, id, text });
 ---
 <Docs styles={["foundations"]} scripts={["foundations"]} title="Type" description="Pixel Bop, Blip's pixel display font, at its four whole scales; Pixelify Sans for UI and body text; and the type styles." headings={[H("pixel-bop", "Pixel Bop"), H("try", "Try it"), H("pixelify", "Pixelify Sans"), H("styles", "Type styles"), H("font-files", "The font files"), ...ref.headings.filter((h) => h.depth === 2)]} display>
   <header class="docs-page-head">
-    <h1 class="docs-page-title pp-display" data-scale="2">Type</h1>
+    <h1 class="docs-page-title chu-display" data-scale="2">Type</h1>
     <p class="docs-lede">Two faces. <strong>Pixel Bop</strong>, Blip's own, draws big text in bold pixel capitals on the same grid as everything else. <strong>Pixelify Sans</strong> carries labels and reading text. Both are under the SIL Open Font License.</p>
   </header>
 
@@ -46,11 +46,11 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
       {[4, 3, 2, 1].map((s) => (
         <div class="docs-bop-row">
           <span class="docs-bop-scale docs-label">Scale {s}<br /><span class="docs-num">{20 * s} px, caps {14 * s}</span></span>
-          <p class={`pp-display${s >= 2 ? " pp-pop" : ""}`} data-scale={String(s)} data-tone={s === 3 ? "pink" : s === 2 ? "teal" : undefined} data-pop={s >= 2 ? (s === 4 ? "Bop!" : s === 3 ? "Level 2" : "Game over") : undefined}>{s === 4 ? "Bop!" : s === 3 ? "Level 2" : s === 2 ? "Game over" : "The quick brown fox jumps over the lazy dog: 12:34 & (5/6)?"}</p>
+          <p class={`chu-display${s >= 2 ? " chu-pop" : ""}`} data-scale={String(s)} data-tone={s === 3 ? "pink" : s === 2 ? "teal" : undefined} data-pop={s >= 2 ? (s === 4 ? "Bop!" : s === 3 ? "Level 2" : "Game over") : undefined}>{s === 4 ? "Bop!" : s === 3 ? "Level 2" : s === 2 ? "Game over" : "The quick brown fox jumps over the lazy dog: 12:34 & (5/6)?"}</p>
         </div>
       ))}
     </div>
-    <p class="pp-display docs-bop-accents" data-scale="2" lang="en">Ærøskøbing · Łódź · Šibenik · İzmir · ȘTEFAN</p>
+    <p class="chu-display docs-bop-accents" data-scale="2" lang="en">Ærøskøbing · Łódź · Šibenik · İzmir · ȘTEFAN</p>
     <p class="docs-note">Every capital Europe writes with, from À to Ž, the figures, and the punctuation: {font.source.match(/\*\*Accented and other letters\*\* \((\d+)\)/)?.[1] ?? "97"} accented letters alone. Lower case draws as capitals, so text keeps its case for screen readers and search.</p>
   </section>
 
@@ -58,18 +58,18 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     <h2 id="try">Try it</h2>
     <div class="docs-try">
       <div class="docs-try-controls">
-        <label class="pp-field-label" for="try-text">Your text</label>
-        <span class="pp-box pp-input"><input id="try-text" type="text" value="Press start" maxlength="40" /></span>
-        <pp-segmented class="pp-box pp-segmented docs-try-scale" data-size="sm" aria-label="Scale" value="3">
-          <button class="pp-box" type="button" value="1">1</button>
-          <button class="pp-box" type="button" value="2">2</button>
-          <button class="pp-box" type="button" value="3" aria-checked="true">3</button>
-          <button class="pp-box" type="button" value="4">4</button>
-        </pp-segmented>
-        <label class="pp-check"><span class="pp-box pp-checkbox"><input type="checkbox" class="docs-try-pop" checked /></span>POP</label>
+        <label class="chu-field-label" for="try-text">Your text</label>
+        <span class="chu-box chu-input"><input id="try-text" type="text" value="Press start" maxlength="40" /></span>
+        <chu-segmented class="chu-box chu-segmented docs-try-scale" data-size="sm" aria-label="Scale" value="3">
+          <button class="chu-box" type="button" value="1">1</button>
+          <button class="chu-box" type="button" value="2">2</button>
+          <button class="chu-box" type="button" value="3" aria-checked="true">3</button>
+          <button class="chu-box" type="button" value="4">4</button>
+        </chu-segmented>
+        <label class="chu-check"><span class="chu-box chu-checkbox"><input type="checkbox" class="docs-try-pop" checked /></span>POP</label>
       </div>
       <div class="docs-try-stage" aria-live="polite" role="region" aria-label="Your text in Pixel Bop" tabindex="0">
-        <p class="pp-display pp-pop docs-try-out" data-scale="3" data-pop="Press start">Press start</p>
+        <p class="chu-display chu-pop docs-try-out" data-scale="3" data-pop="Press start">Press start</p>
       </div>
     </div>
   </section>
@@ -80,12 +80,12 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     <div class="docs-ramp">
       {ramp.map((r) => (
         <div class="docs-ramp-row">
-          <span class="docs-ramp-meta"><code class="docs-inline-code">--pp-{r.k}</code><span class="pp-muted docs-num">{r.px / 16} rem, {r.px} px</span></span>
-          <p style={`font-size:var(--pp-${r.k});${r.k === "size-title" ? "font-weight:var(--pp-weight-bold)" : ""}`}>{SAMPLE[r.k]}</p>
+          <span class="docs-ramp-meta"><code class="docs-inline-code">--chu-{r.k}</code><span class="chu-muted docs-num">{r.px / 16} rem, {r.px} px</span></span>
+          <p style={`font-size:var(--chu-${r.k});${r.k === "size-title" ? "font-weight:var(--chu-weight-bold)" : ""}`}>{SAMPLE[r.k]}</p>
         </div>
       ))}
     </div>
-    <Table label="Type tokens" head={["Token", "Value", ""]} rows={["font-display", "font-ui", "font-mono", "weight-regular", "weight-medium", "weight-bold", "leading-tight", "leading-normal", "leading-display", "leading-display-loose", "tracking-label"].filter((k) => k in t.shared).map((k) => [code(`--pp-${k}`), code(Array.isArray(t.shared[k]) ? (t.shared[k] as unknown as string[]).join(", ") : t.shared[k]), esc(desc.get(k) ?? "")])} />
+    <Table label="Type tokens" head={["Token", "Value", ""]} rows={["font-display", "font-ui", "font-mono", "weight-regular", "weight-medium", "weight-bold", "leading-tight", "leading-normal", "leading-display", "leading-display-loose", "tracking-label"].filter((k) => k in t.shared).map((k) => [code(`--chu-${k}`), code(Array.isArray(t.shared[k]) ? (t.shared[k] as unknown as string[]).join(", ") : t.shared[k]), esc(desc.get(k) ?? "")])} />
   </section>
 
   <section class="docs-section" aria-labelledby="styles">

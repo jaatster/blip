@@ -36,7 +36,7 @@ export type HeroProps = HeroOwnProps & NativeProps<"section", HeroOwnProps>;
  * world shows, and two actions at most. Name it by its title.
  *
  *   <Hero aria-labelledby="hero-title">
- *     <World parallax avoid=".pp-hero-title, .pp-hero-lead, .pp-hero-actions, .pp-hero-note" />
+ *     <World parallax avoid=".chu-hero-title, .chu-hero-lead, .chu-hero-actions, .chu-hero-note" />
  *     <HeroInner>
  *       <HeroTitle id="hero-title">Starfall Meadow</HeroTitle>
  *       <HeroLead>Catch the stars that fall on the meadow before the sun comes up.</HeroLead>
@@ -50,13 +50,13 @@ export type HeroProps = HeroOwnProps & NativeProps<"section", HeroOwnProps>;
  *     <HeroGround />
  *   </Hero>
  *
- * Renders `<section class="pp-hero">`.
+ * Renders `<section class="chu-hero">`.
  */
 export const Hero = /*#__PURE__*/ forwardRef<HTMLElement, HeroProps>(function Hero({ align, className, ...rest }, ref) {
   return (
     <section
       ref={ref}
-      className={cx("pp-hero", className)}
+      className={cx("chu-hero", className)}
       data-align={align === "start" ? "start" : undefined}
       {...rest}
     />
@@ -71,10 +71,10 @@ export type HeroInnerProps = NativeProps<"div">;
  *
  *   <HeroInner><HeroTitle id="hero-title">Starfall Meadow</HeroTitle>…</HeroInner>
  *
- * Renders `<div class="pp-hero-inner">`.
+ * Renders `<div class="chu-hero-inner">`.
  */
 export const HeroInner = /*#__PURE__*/ forwardRef<HTMLDivElement, HeroInnerProps>(function HeroInner({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("pp-hero-inner", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-hero-inner", className)} {...rest} />;
 });
 
 /** Own props of {@link HeroTitle}. */
@@ -92,8 +92,8 @@ export type HeroTitleProps<T extends ElementType = "h1"> = PolymorphicProps<T, H
  *
  *   <HeroTitle id="hero-title">Starfall Meadow</HeroTitle>
  *
- * Renders `<h1 class="pp-hero-title pp-display">` holding `<span class="pp-sr-only">` (the text), then `<span
- * aria-hidden="true">` with a `<span class="pp-hero-word">` per word of `<span class="pp-pop pp-drop-in"
+ * Renders `<h1 class="chu-hero-title chu-display">` holding `<span class="chu-sr-only">` (the text), then `<span
+ * aria-hidden="true">` with a `<span class="chu-hero-word">` per word of `<span class="chu-pop chu-drop-in"
  * data-pop="S" style="--i: 0">` letters.
  */
 // The public type (the cast below) requires the text; inside, it is read as it comes.
@@ -114,17 +114,17 @@ export const HeroTitle = /*#__PURE__*/ forwardRef(function HeroTitle(
       return { letters, first };
     });
   return (
-    <Tag ref={ref} className={cx("pp-hero-title pp-display", className)} {...rest}>
-      <span className="pp-sr-only">{text}</span>
+    <Tag ref={ref} className={cx("chu-hero-title chu-display", className)} {...rest}>
+      <span className="chu-sr-only">{text}</span>
       <span aria-hidden="true">
         {words.map(({ letters, first }, w) => (
           <Fragment key={w}>
             {w > 0 ? " " : null}
-            <span className="pp-hero-word">
+            <span className="chu-hero-word">
               {letters.map((letter, l) => (
                 <span
                   key={l}
-                  className="pp-pop pp-drop-in"
+                  className="chu-pop chu-drop-in"
                   data-pop={letter}
                   style={{ "--i": first + l } as CSSProperties}
                 >
@@ -148,10 +148,10 @@ export type HeroLeadProps = NativeProps<"p">;
  *
  *   <HeroLead>Catch the stars that fall on the meadow before the sun comes up.</HeroLead>
  *
- * Renders `<p class="pp-hero-lead">`.
+ * Renders `<p class="chu-hero-lead">`.
  */
 export const HeroLead = /*#__PURE__*/ forwardRef<HTMLParagraphElement, HeroLeadProps>(function HeroLead({ className, ...rest }, ref) {
-  return <p ref={ref} className={cx("pp-hero-lead", className)} {...rest} />;
+  return <p ref={ref} className={cx("chu-hero-lead", className)} {...rest} />;
 });
 
 /** Props for {@link HeroActions}. */
@@ -166,13 +166,13 @@ export type HeroActionsProps = NativeProps<"div">;
  *     <ButtonLink size="lg" variant="soft" tone="neutral" href="#demo">Play the free demo</ButtonLink>
  *   </HeroActions>
  *
- * Renders `<div class="pp-hero-actions">`.
+ * Renders `<div class="chu-hero-actions">`.
  */
 export const HeroActions = /*#__PURE__*/ forwardRef<HTMLDivElement, HeroActionsProps>(function HeroActions(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-hero-actions", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-hero-actions", className)} {...rest} />;
 });
 
 /** Props for {@link HeroNote}. */
@@ -183,10 +183,10 @@ export type HeroNoteProps = NativeProps<"p">;
  *
  *   <HeroNote>Out this spring, on desktop</HeroNote>
  *
- * Renders `<p class="pp-hero-note">`.
+ * Renders `<p class="chu-hero-note">`.
  */
 export const HeroNote = /*#__PURE__*/ forwardRef<HTMLParagraphElement, HeroNoteProps>(function HeroNote({ className, ...rest }, ref) {
-  return <p ref={ref} className={cx("pp-hero-note", className)} {...rest} />;
+  return <p ref={ref} className={cx("chu-hero-note", className)} {...rest} />;
 });
 
 /** Props for {@link HeroScenery}. */
@@ -198,13 +198,13 @@ export type HeroSceneryProps = NativeProps<"div">;
  *
  *   <HeroScenery><Sprite name="star" style={{ position: "absolute", left: "6%", bottom: 0 }} /></HeroScenery>
  *
- * Renders `<div class="pp-hero-scenery" aria-hidden="true">`.
+ * Renders `<div class="chu-hero-scenery" aria-hidden="true">`.
  */
 export const HeroScenery = /*#__PURE__*/ forwardRef<HTMLDivElement, HeroSceneryProps>(function HeroScenery(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-hero-scenery", className)} aria-hidden={true} {...rest} />;
+  return <div ref={ref} className={cx("chu-hero-scenery", className)} aria-hidden={true} {...rest} />;
 });
 
 /** Props for {@link HeroGround}. */
@@ -212,14 +212,14 @@ export type HeroGroundProps = NativeProps<"div", { children?: never }> & { child
 
 /**
  * The ground along the hero's bottom: blades of grass, grass, a lip, dirt with pebbles, flowers
- * (`--pp-hero-ground` pixels, 24). Last in the hero.
+ * (`--chu-hero-ground` pixels, 24). Last in the hero.
  *
  *   <HeroGround />
  *
- * Renders `<div class="pp-hero-ground">`.
+ * Renders `<div class="chu-hero-ground">`.
  */
 export const HeroGround = /*#__PURE__*/ forwardRef<HTMLDivElement, HeroGroundProps>(function HeroGround({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("pp-hero-ground", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-hero-ground", className)} {...rest} />;
 });
 
 /* ---------------------------------------------------------------------------------------------------------------
@@ -257,10 +257,10 @@ export type FeaturesProps = NativeProps<"section">;
  *     </FeaturesGrid>
  *   </Features>
  *
- * Renders `<section class="pp-features">`.
+ * Renders `<section class="chu-features">`.
  */
 export const Features = /*#__PURE__*/ forwardRef<HTMLElement, FeaturesProps>(function Features({ className, ...rest }, ref) {
-  return <section ref={ref} className={cx("pp-features", className)} {...rest} />;
+  return <section ref={ref} className={cx("chu-features", className)} {...rest} />;
 });
 
 /** Props for {@link FeaturesHead}. */
@@ -271,13 +271,13 @@ export type FeaturesHeadProps = NativeProps<"header">;
  *
  *   <FeaturesHead><FeaturesTitle>…</FeaturesTitle><FeaturesLead>…</FeaturesLead></FeaturesHead>
  *
- * Renders `<header class="pp-features-head">`.
+ * Renders `<header class="chu-features-head">`.
  */
 export const FeaturesHead = /*#__PURE__*/ forwardRef<HTMLElement, FeaturesHeadProps>(function FeaturesHead(
   { className, ...rest },
   ref,
 ) {
-  return <header ref={ref} className={cx("pp-features-head", className)} {...rest} />;
+  return <header ref={ref} className={cx("chu-features-head", className)} {...rest} />;
 });
 
 /** Props for {@link FeaturesTitle}: a heading's own; `as` picks its level. */
@@ -288,13 +288,13 @@ export type FeaturesTitleProps<T extends ElementType = "h2"> = PolymorphicProps<
  *
  *   <FeaturesTitle id="features-title">A small world that keeps time</FeaturesTitle>
  *
- * Renders `<h2 class="pp-features-title">`.
+ * Renders `<h2 class="chu-features-title">`.
  */
 export const FeaturesTitle = /*#__PURE__*/ forwardRef(function FeaturesTitle(
   { as: Tag = "h2", className, ...rest }: FeaturesTitleProps<ElementType>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("pp-features-title", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("chu-features-title", className)} {...rest} />;
 }) as PolymorphicComponent<"h2", object>;
 
 /** Props for {@link FeaturesLead}. */
@@ -305,13 +305,13 @@ export type FeaturesLeadProps = NativeProps<"p">;
  *
  *   <FeaturesLead>Sixty short levels, made to be played a few at a time.</FeaturesLead>
  *
- * Renders `<p class="pp-features-lead">`.
+ * Renders `<p class="chu-features-lead">`.
  */
 export const FeaturesLead = /*#__PURE__*/ forwardRef<HTMLParagraphElement, FeaturesLeadProps>(function FeaturesLead(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("pp-features-lead", className)} {...rest} />;
+  return <p ref={ref} className={cx("chu-features-lead", className)} {...rest} />;
 });
 
 /** Props for {@link FeaturesGrid}. */
@@ -323,13 +323,13 @@ export type FeaturesGridProps = NativeProps<"div">;
  *
  *   <FeaturesGrid><Feature layout="lead">…</Feature><Feature tone="pink">…</Feature></FeaturesGrid>
  *
- * Renders `<div class="pp-features-grid">`.
+ * Renders `<div class="chu-features-grid">`.
  */
 export const FeaturesGrid = /*#__PURE__*/ forwardRef<HTMLDivElement, FeaturesGridProps>(function FeaturesGrid(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-features-grid", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-features-grid", className)} {...rest} />;
 });
 
 /** Own props of {@link Feature}. */
@@ -357,7 +357,7 @@ export type FeatureProps = FeatureOwnProps & NativeProps<"article", FeatureOwnPr
  *     <FeatureText>A friend can hop in or out at any moment.</FeatureText>
  *   </Feature>
  *
- * Renders `<article class="pp-box pp-feature" data-variant="soft">` (`data-variant="panel"` for lead and wide).
+ * Renders `<article class="chu-box chu-feature" data-variant="soft">` (`data-variant="panel"` for lead and wide).
  */
 export const Feature = /*#__PURE__*/ forwardRef<HTMLElement, FeatureProps>(function Feature(
   { layout, variant, tone, className, ...rest },
@@ -366,7 +366,7 @@ export const Feature = /*#__PURE__*/ forwardRef<HTMLElement, FeatureProps>(funct
   return (
     <article
       ref={ref}
-      className={cx("pp-box pp-feature", className)}
+      className={cx("chu-box chu-feature", className)}
       data-layout={layout}
       data-variant={variant ?? (layout === "lead" || layout === "wide" ? "panel" : "soft")}
       data-tone={tone}
@@ -384,13 +384,13 @@ export type FeatureMediaProps = NativeProps<"div">;
  *
  *   <FeatureMedia aria-hidden="true"><img src={shot} alt="" /></FeatureMedia>
  *
- * Renders `<div class="pp-feature-media">`.
+ * Renders `<div class="chu-feature-media">`.
  */
 export const FeatureMedia = /*#__PURE__*/ forwardRef<HTMLDivElement, FeatureMediaProps>(function FeatureMedia(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-feature-media", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-feature-media", className)} {...rest} />;
 });
 
 /** Own props of {@link FeatureIcon}. */
@@ -405,13 +405,13 @@ export type FeatureIconProps = FeatureIconOwnProps & NativeProps<"span", Feature
  *
  *   <FeatureIcon tone="pink"><Icon name="users" /></FeatureIcon>
  *
- * Renders `<span class="pp-box pp-feature-icon">`.
+ * Renders `<span class="chu-box chu-feature-icon">`.
  */
 export const FeatureIcon = /*#__PURE__*/ forwardRef<HTMLSpanElement, FeatureIconProps>(function FeatureIcon(
   { tone, className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-box pp-feature-icon", className)} data-tone={tone} {...rest} />;
+  return <span ref={ref} className={cx("chu-box chu-feature-icon", className)} data-tone={tone} {...rest} />;
 });
 
 /** Props for {@link FeatureTitle}: a heading's own; `as` picks its level. */
@@ -422,13 +422,13 @@ export type FeatureTitleProps<T extends ElementType = "h3"> = PolymorphicProps<T
  *
  *   <FeatureTitle>Couch co-op</FeatureTitle>
  *
- * Renders `<h3 class="pp-feature-title">`.
+ * Renders `<h3 class="chu-feature-title">`.
  */
 export const FeatureTitle = /*#__PURE__*/ forwardRef(function FeatureTitle(
   { as: Tag = "h3", className, ...rest }: FeatureTitleProps<ElementType>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("pp-feature-title", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("chu-feature-title", className)} {...rest} />;
 }) as PolymorphicComponent<"h3", object>;
 
 /** Props for {@link FeatureText}. */
@@ -439,13 +439,13 @@ export type FeatureTextProps = NativeProps<"p">;
  *
  *   <FeatureText>A friend can hop in or out at any moment, on one keyboard or two gamepads.</FeatureText>
  *
- * Renders `<p class="pp-feature-text">`.
+ * Renders `<p class="chu-feature-text">`.
  */
 export const FeatureText = /*#__PURE__*/ forwardRef<HTMLParagraphElement, FeatureTextProps>(function FeatureText(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("pp-feature-text", className)} {...rest} />;
+  return <p ref={ref} className={cx("chu-feature-text", className)} {...rest} />;
 });
 
 /** Own props of {@link FeatureStat}. */
@@ -464,7 +464,7 @@ export type FeatureStatProps = FeatureStatOwnProps & NativeProps<"p", FeatureSta
  *     <FeatureText>chiptune tracks, one for every hour</FeatureText>
  *   </Feature>
  *
- * Renders `<p class="pp-feature-stat pp-pop" data-pop="24">`; `data-pop` repeats the number (when the children are
+ * Renders `<p class="chu-feature-stat chu-pop" data-pop="24">`; `data-pop` repeats the number (when the children are
  * text).
  */
 export const FeatureStat = /*#__PURE__*/ forwardRef<HTMLParagraphElement, FeatureStatProps>(function FeatureStat(
@@ -474,7 +474,7 @@ export const FeatureStat = /*#__PURE__*/ forwardRef<HTMLParagraphElement, Featur
   return (
     <p
       ref={ref}
-      className={cx("pp-feature-stat pp-pop", className)}
+      className={cx("chu-feature-stat chu-pop", className)}
       data-tone={tone}
       data-pop={popText(children)}
       {...rest}
@@ -492,13 +492,13 @@ export type FeatureChipsProps = NativeProps<"ul">;
  *
  *   <FeatureChips><FeatureChip>Assist mode</FeatureChip><FeatureChip>Remap any key</FeatureChip></FeatureChips>
  *
- * Renders `<ul class="pp-feature-chips" role="list">`.
+ * Renders `<ul class="chu-feature-chips" role="list">`.
  */
 export const FeatureChips = /*#__PURE__*/ forwardRef<HTMLUListElement, FeatureChipsProps>(function FeatureChips(
   { role = "list", className, ...rest },
   ref,
 ) {
-  return <ul ref={ref} className={cx("pp-feature-chips", className)} role={role} {...rest} />;
+  return <ul ref={ref} className={cx("chu-feature-chips", className)} role={role} {...rest} />;
 });
 
 /** Own props of {@link FeatureChip}. */
@@ -513,13 +513,13 @@ export type FeatureChipProps = FeatureChipOwnProps & NativeProps<"li", FeatureCh
  *
  *   <FeatureChip>Reduced motion</FeatureChip>
  *
- * Renders `<li class="pp-box" data-variant="soft" data-tone="neutral">`.
+ * Renders `<li class="chu-box" data-variant="soft" data-tone="neutral">`.
  */
 export const FeatureChip = /*#__PURE__*/ forwardRef<HTMLLIElement, FeatureChipProps>(function FeatureChip(
   { tone = "neutral", className, ...rest },
   ref,
 ) {
-  return <li ref={ref} className={cx("pp-box", className)} data-variant="soft" data-tone={tone} {...rest} />;
+  return <li ref={ref} className={cx("chu-box", className)} data-variant="soft" data-tone={tone} {...rest} />;
 });
 
 /* ---------------------------------------------------------------------------------------------------------------
@@ -553,10 +553,10 @@ export type PricingProps = NativeProps<"div">;
  *     </Plan>
  *   </Pricing>
  *
- * Renders `<div class="pp-pricing">`.
+ * Renders `<div class="chu-pricing">`.
  */
 export const Pricing = /*#__PURE__*/ forwardRef<HTMLDivElement, PricingProps>(function Pricing({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("pp-pricing", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-pricing", className)} {...rest} />;
 });
 
 /**
@@ -593,14 +593,14 @@ export type PlanProps = PlanOwnProps & NativeProps<"article", { featured?: boole
  *     <ButtonLink tone="pink" fullWidth href="#deluxe">Buy Deluxe</ButtonLink>
  *   </Plan>
  *
- * Renders `<article class="pp-box pp-plan" data-variant="panel">`, or `<article class="pp-box pp-plan"
+ * Renders `<article class="chu-box chu-plan" data-variant="panel">`, or `<article class="chu-box chu-plan"
  * data-featured>`.
  */
 export const Plan = /*#__PURE__*/ forwardRef<HTMLElement, PlanProps>(function Plan({ featured, tone, className, ...rest }, ref) {
   return (
     <article
       ref={ref}
-      className={cx("pp-box pp-plan", className)}
+      className={cx("chu-box chu-plan", className)}
       data-variant={featured ? undefined : "panel"}
       data-featured={flag(featured)}
       data-tone={tone}
@@ -618,13 +618,13 @@ export type PlanRibbonProps = NativeProps<"p">;
  *
  *   <PlanRibbon>Best value</PlanRibbon>
  *
- * Renders `<p class="pp-box pp-plan-ribbon">`.
+ * Renders `<p class="chu-box chu-plan-ribbon">`.
  */
 export const PlanRibbon = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PlanRibbonProps>(function PlanRibbon(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("pp-box pp-plan-ribbon", className)} {...rest} />;
+  return <p ref={ref} className={cx("chu-box chu-plan-ribbon", className)} {...rest} />;
 });
 
 /** Props for {@link PlanName}: a heading's own; `as` picks its level. */
@@ -635,13 +635,13 @@ export type PlanNameProps<T extends ElementType = "h3"> = PolymorphicProps<T, ob
  *
  *   <PlanName id="plan-standard">Standard</PlanName>
  *
- * Renders `<h3 class="pp-plan-name">`.
+ * Renders `<h3 class="chu-plan-name">`.
  */
 export const PlanName = /*#__PURE__*/ forwardRef(function PlanName(
   { as: Tag = "h3", className, ...rest }: PlanNameProps<ElementType>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("pp-plan-name", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("chu-plan-name", className)} {...rest} />;
 }) as PolymorphicComponent<"h3", object>;
 
 /** Props for {@link PlanPrice}. */
@@ -655,13 +655,13 @@ export type PlanPriceProps = NativeProps<"p">;
  *     <PlanCurrency>$</PlanCurrency><PlanAmount>14.99</PlanAmount><PlanPeriod>one time</PlanPeriod>
  *   </PlanPrice>
  *
- * Renders `<p class="pp-plan-price">`.
+ * Renders `<p class="chu-plan-price">`.
  */
 export const PlanPrice = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PlanPriceProps>(function PlanPrice(
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("pp-plan-price", className)} {...rest} />;
+  return <p ref={ref} className={cx("chu-plan-price", className)} {...rest} />;
 });
 
 /** Props for {@link PlanCurrency}. */
@@ -672,13 +672,13 @@ export type PlanCurrencyProps = NativeProps<"span">;
  *
  *   <PlanCurrency>$</PlanCurrency>
  *
- * Renders `<span class="pp-plan-currency">`.
+ * Renders `<span class="chu-plan-currency">`.
  */
 export const PlanCurrency = /*#__PURE__*/ forwardRef<HTMLSpanElement, PlanCurrencyProps>(function PlanCurrency(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-plan-currency", className)} {...rest} />;
+  return <span ref={ref} className={cx("chu-plan-currency", className)} {...rest} />;
 });
 
 /** Props for {@link PlanAmount}. */
@@ -689,13 +689,13 @@ export type PlanAmountProps = NativeProps<"span">;
  *
  *   <PlanAmount>14.99</PlanAmount>
  *
- * Renders `<span class="pp-plan-amount">`.
+ * Renders `<span class="chu-plan-amount">`.
  */
 export const PlanAmount = /*#__PURE__*/ forwardRef<HTMLSpanElement, PlanAmountProps>(function PlanAmount(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-plan-amount", className)} {...rest} />;
+  return <span ref={ref} className={cx("chu-plan-amount", className)} {...rest} />;
 });
 
 /** Props for {@link PlanPeriod}. */
@@ -706,13 +706,13 @@ export type PlanPeriodProps = NativeProps<"span">;
  *
  *   <PlanPeriod>one time</PlanPeriod>
  *
- * Renders `<span class="pp-plan-period">`.
+ * Renders `<span class="chu-plan-period">`.
  */
 export const PlanPeriod = /*#__PURE__*/ forwardRef<HTMLSpanElement, PlanPeriodProps>(function PlanPeriod(
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-plan-period", className)} {...rest} />;
+  return <span ref={ref} className={cx("chu-plan-period", className)} {...rest} />;
 });
 
 /** Props for {@link PlanText}. */
@@ -723,10 +723,10 @@ export type PlanTextProps = NativeProps<"p">;
  *
  *   <PlanText>The whole game, yours to keep.</PlanText>
  *
- * Renders `<p class="pp-plan-text">`.
+ * Renders `<p class="chu-plan-text">`.
  */
 export const PlanText = /*#__PURE__*/ forwardRef<HTMLParagraphElement, PlanTextProps>(function PlanText({ className, ...rest }, ref) {
-  return <p ref={ref} className={cx("pp-plan-text", className)} {...rest} />;
+  return <p ref={ref} className={cx("chu-plan-text", className)} {...rest} />;
 });
 
 /** Props for {@link PlanFeatures}. */
@@ -741,13 +741,13 @@ export type PlanFeaturesProps = NativeProps<"ul">;
  *     <PlanFeature off>The art book</PlanFeature>
  *   </PlanFeatures>
  *
- * Renders `<ul class="pp-plan-features" role="list">`.
+ * Renders `<ul class="chu-plan-features" role="list">`.
  */
 export const PlanFeatures = /*#__PURE__*/ forwardRef<HTMLUListElement, PlanFeaturesProps>(function PlanFeatures(
   { role = "list", className, ...rest },
   ref,
 ) {
-  return <ul ref={ref} className={cx("pp-plan-features", className)} role={role} {...rest} />;
+  return <ul ref={ref} className={cx("chu-plan-features", className)} role={role} {...rest} />;
 });
 
 /** Own props of {@link PlanFeature}. */
@@ -794,7 +794,7 @@ export type CtaBandProps = CtaBandOwnProps & NativeProps<"section", CtaBandOwnPr
  * outline: candy stays on what you press. One or two per page, named by the title.
  *
  *   <CtaBand aria-labelledby="cta-title">
- *     <World avoid=".pp-cta-title, .pp-cta-text, .pp-cta-actions" />
+ *     <World avoid=".chu-cta-title, .chu-cta-text, .chu-cta-actions" />
  *     <CtaTitle id="cta-title">Catch the first star</CtaTitle>
  *     <CtaText>Wishlist Starfall Meadow and we'll send one email on launch day.</CtaText>
  *     <CtaActions><ButtonLink size="lg" href="#wishlist">Wishlist now</ButtonLink></CtaActions>
@@ -806,7 +806,7 @@ export type CtaBandProps = CtaBandOwnProps & NativeProps<"section", CtaBandOwnPr
  *     <CtaActions><ButtonLink variant="outline" href="#press">Get the press kit</ButtonLink></CtaActions>
  *   </CtaBand>
  *
- * Renders `<section class="pp-cta">`, or `<section class="pp-box pp-cta" data-variant="soft">` with `variant`.
+ * Renders `<section class="chu-cta">`, or `<section class="chu-box chu-cta" data-variant="soft">` with `variant`.
  */
 export const CtaBand = /*#__PURE__*/ forwardRef<HTMLElement, CtaBandProps>(function CtaBand(
   { variant, candy, tone, className, ...rest },
@@ -816,7 +816,7 @@ export const CtaBand = /*#__PURE__*/ forwardRef<HTMLElement, CtaBandProps>(funct
   return (
     <section
       ref={ref}
-      className={cx(boxed && "pp-box", "pp-cta", className)}
+      className={cx(boxed && "chu-box", "chu-cta", className)}
       data-variant={boxed}
       data-tone={boxed ? tone : undefined}
       {...rest}
@@ -840,8 +840,8 @@ export type CtaTitleProps<T extends ElementType = "h2"> = PolymorphicProps<T, Ct
  *   <CtaTitle id="cta-title">Catch the first star</CtaTitle>
  *   <CtaTitle boxed id="press-title">Writing about the game?</CtaTitle>
  *
- * Renders `<h2 class="pp-cta-title pp-display pp-pop" data-scale="2" data-pop="…">` (`data-pop` repeats the text,
- * when the children are text), or `<h2 class="pp-cta-title pp-display" data-scale="1">` with `boxed`.
+ * Renders `<h2 class="chu-cta-title chu-display chu-pop" data-scale="2" data-pop="…">` (`data-pop` repeats the text,
+ * when the children are text), or `<h2 class="chu-cta-title chu-display" data-scale="1">` with `boxed`.
  */
 export const CtaTitle = /*#__PURE__*/ forwardRef(function CtaTitle(
   { as: Tag = "h2", boxed, candy, className, children, ...rest }: CtaTitleProps<ElementType>,
@@ -851,7 +851,7 @@ export const CtaTitle = /*#__PURE__*/ forwardRef(function CtaTitle(
   return (
     <Tag
       ref={ref}
-      className={cx("pp-cta-title pp-display", !plain && "pp-pop", className)}
+      className={cx("chu-cta-title chu-display", !plain && "chu-pop", className)}
       data-scale={plain ? 1 : 2}
       data-pop={plain ? undefined : popText(children)}
       {...rest}
@@ -869,10 +869,10 @@ export type CtaTextProps = NativeProps<"p">;
  *
  *   <CtaText>Wishlist Starfall Meadow and we'll send one email on launch day. Nothing else.</CtaText>
  *
- * Renders `<p class="pp-cta-text">`.
+ * Renders `<p class="chu-cta-text">`.
  */
 export const CtaText = /*#__PURE__*/ forwardRef<HTMLParagraphElement, CtaTextProps>(function CtaText({ className, ...rest }, ref) {
-  return <p ref={ref} className={cx("pp-cta-text", className)} {...rest} />;
+  return <p ref={ref} className={cx("chu-cta-text", className)} {...rest} />;
 });
 
 /** Props for {@link CtaActions}. */
@@ -883,13 +883,13 @@ export type CtaActionsProps = NativeProps<"div">;
  *
  *   <CtaActions><ButtonLink size="lg" href="#wishlist">Wishlist now</ButtonLink></CtaActions>
  *
- * Renders `<div class="pp-cta-actions">`.
+ * Renders `<div class="chu-cta-actions">`.
  */
 export const CtaActions = /*#__PURE__*/ forwardRef<HTMLDivElement, CtaActionsProps>(function CtaActions(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-cta-actions", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-cta-actions", className)} {...rest} />;
 });
 
 /** Props for {@link CtaNote}. */
@@ -900,10 +900,10 @@ export type CtaNoteProps = NativeProps<"p">;
  *
  *   <CtaNote>Free, and no account needed.</CtaNote>
  *
- * Renders `<p class="pp-cta-note">`.
+ * Renders `<p class="chu-cta-note">`.
  */
 export const CtaNote = /*#__PURE__*/ forwardRef<HTMLParagraphElement, CtaNoteProps>(function CtaNote({ className, ...rest }, ref) {
-  return <p ref={ref} className={cx("pp-cta-note", className)} {...rest} />;
+  return <p ref={ref} className={cx("chu-cta-note", className)} {...rest} />;
 });
 
 /** Props for {@link CtaGround}. */
@@ -914,10 +914,10 @@ export type CtaGroundProps = NativeProps<"div", { children?: never }> & { childr
  *
  *   <CtaGround />
  *
- * Renders `<div class="pp-cta-ground">`.
+ * Renders `<div class="chu-cta-ground">`.
  */
 export const CtaGround = /*#__PURE__*/ forwardRef<HTMLDivElement, CtaGroundProps>(function CtaGround({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("pp-cta-ground", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-cta-ground", className)} {...rest} />;
 });
 
 /* ---------------------------------------------------------------------------------------------------------------
@@ -928,7 +928,7 @@ export const CtaGround = /*#__PURE__*/ forwardRef<HTMLDivElement, CtaGroundProps
 export type FooterProps = NativeProps<"footer">;
 
 /**
- * The ground the page stands on: a grass edge with blades poking up (`--pp-footer-edge` pixels deep, 14), then the
+ * The ground the page stands on: a grass edge with blades poking up (`--chu-footer-edge` pixels deep, 14), then the
  * brand, link columns, a newsletter sign-up and the legal line, on the sunken surface. Say who made the site and how
  * to reach them; link only the few things people look for at the bottom.
  *
@@ -945,7 +945,7 @@ export type FooterProps = NativeProps<"footer">;
  *         <FooterHeading id="letter">The Sherbit letter</FooterHeading>
  *         <p>One email when something ships.</p>
  *         <FooterRow>
- *           <label className="pp-sr-only" htmlFor="email">Email address</label>
+ *           <label className="chu-sr-only" htmlFor="email">Email address</label>
  *           <FooterField id="email" type="email" name="email" autoComplete="email" required />
  *           <Button type="submit">Subscribe</Button>
  *         </FooterRow>
@@ -957,10 +957,10 @@ export type FooterProps = NativeProps<"footer">;
  *     </FooterLegal>
  *   </Footer>
  *
- * Renders `<footer class="pp-footer">`.
+ * Renders `<footer class="chu-footer">`.
  */
 export const Footer = /*#__PURE__*/ forwardRef<HTMLElement, FooterProps>(function Footer({ className, ...rest }, ref) {
-  return <footer ref={ref} className={cx("pp-footer", className)} {...rest} />;
+  return <footer ref={ref} className={cx("chu-footer", className)} {...rest} />;
 });
 
 /** Props for {@link FooterInner}. */
@@ -971,13 +971,13 @@ export type FooterInnerProps = NativeProps<"div">;
  *
  *   <FooterInner><FooterBrand>…</FooterBrand><FooterNav aria-label="More">…</FooterNav></FooterInner>
  *
- * Renders `<div class="pp-footer-inner">`.
+ * Renders `<div class="chu-footer-inner">`.
  */
 export const FooterInner = /*#__PURE__*/ forwardRef<HTMLDivElement, FooterInnerProps>(function FooterInner(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-footer-inner", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-footer-inner", className)} {...rest} />;
 });
 
 /** Props for {@link FooterBrand}. */
@@ -987,17 +987,17 @@ export type FooterBrandProps = NativeProps<"div">;
  * Who made the site: the name (in POP, say) and one line about them.
  *
  *   <FooterBrand>
- *     <p className="pp-display pp-pop" data-scale="2" data-tone="pink" data-pop="Sherbit">Sherbit</p>
- *     <p className="pp-small">Tiny games about big skies.</p>
+ *     <p className="chu-display chu-pop" data-scale="2" data-tone="pink" data-pop="Sherbit">Sherbit</p>
+ *     <p className="chu-small">Tiny games about big skies.</p>
  *   </FooterBrand>
  *
- * Renders `<div class="pp-footer-brand">`.
+ * Renders `<div class="chu-footer-brand">`.
  */
 export const FooterBrand = /*#__PURE__*/ forwardRef<HTMLDivElement, FooterBrandProps>(function FooterBrand(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-footer-brand", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-footer-brand", className)} {...rest} />;
 });
 
 /** Props for {@link FooterNav}: a `<nav>` needs a name (`aria-label` or `aria-labelledby`) beside the page's own. */
@@ -1008,10 +1008,10 @@ export type FooterNavProps = Named & NativeProps<"nav">;
  *
  *   <FooterNav aria-label="More from Sherbit Games"><FooterCol>…</FooterCol><FooterCol>…</FooterCol></FooterNav>
  *
- * Renders `<nav class="pp-footer-nav">`.
+ * Renders `<nav class="chu-footer-nav">`.
  */
 export const FooterNav = /*#__PURE__*/ forwardRef<HTMLElement, FooterNavProps>(function FooterNav({ className, ...rest }, ref) {
-  return <nav ref={ref} className={cx("pp-footer-nav", className)} {...rest} />;
+  return <nav ref={ref} className={cx("chu-footer-nav", className)} {...rest} />;
 });
 
 /** Props for {@link FooterCol}. */
@@ -1025,10 +1025,10 @@ export type FooterColProps = NativeProps<"div">;
  *     <ul role="list"><li><a href="#support">Support</a></li><li><a href="#refunds">Refunds</a></li></ul>
  *   </FooterCol>
  *
- * Renders `<div class="pp-footer-col">`.
+ * Renders `<div class="chu-footer-col">`.
  */
 export const FooterCol = /*#__PURE__*/ forwardRef<HTMLDivElement, FooterColProps>(function FooterCol({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("pp-footer-col", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-footer-col", className)} {...rest} />;
 });
 
 /** Props for {@link FooterHeading}: a heading's own; `as` picks its level. */
@@ -1039,13 +1039,13 @@ export type FooterHeadingProps<T extends ElementType = "h2"> = PolymorphicProps<
  *
  *   <FooterHeading>Studio</FooterHeading>
  *
- * Renders `<h2 class="pp-footer-heading">`.
+ * Renders `<h2 class="chu-footer-heading">`.
  */
 export const FooterHeading = /*#__PURE__*/ forwardRef(function FooterHeading(
   { as: Tag = "h2", className, ...rest }: FooterHeadingProps<ElementType>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("pp-footer-heading", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("chu-footer-heading", className)} {...rest} />;
 }) as PolymorphicComponent<"h2", object>;
 
 /** Props for {@link FooterSignup}. */
@@ -1061,13 +1061,13 @@ export type FooterSignupProps = NativeProps<"form">;
  *     <FooterRow>…</FooterRow>
  *   </FooterSignup>
  *
- * Renders `<form class="pp-footer-signup">`.
+ * Renders `<form class="chu-footer-signup">`.
  */
 export const FooterSignup = /*#__PURE__*/ forwardRef<HTMLFormElement, FooterSignupProps>(function FooterSignup(
   { className, ...rest },
   ref,
 ) {
-  return <form ref={ref} className={cx("pp-footer-signup", className)} {...rest} />;
+  return <form ref={ref} className={cx("chu-footer-signup", className)} {...rest} />;
 });
 
 /** Props for {@link FooterRow}. */
@@ -1078,15 +1078,15 @@ export type FooterRowProps = NativeProps<"div">;
  * {@link FooterField} and the submit button.
  *
  *   <FooterRow>
- *     <label className="pp-sr-only" htmlFor="email">Email address</label>
+ *     <label className="chu-sr-only" htmlFor="email">Email address</label>
  *     <FooterField id="email" type="email" name="email" autoComplete="email" required />
  *     <Button type="submit">Subscribe</Button>
  *   </FooterRow>
  *
- * Renders `<div class="pp-footer-row">`.
+ * Renders `<div class="chu-footer-row">`.
  */
 export const FooterRow = /*#__PURE__*/ forwardRef<HTMLDivElement, FooterRowProps>(function FooterRow({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("pp-footer-row", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-footer-row", className)} {...rest} />;
 });
 
 /** Props for {@link FooterField}: the input's own; `className` and `style` go to the box around it. */
@@ -1100,14 +1100,14 @@ export type FooterFieldProps = NativeProps<"input", { children?: never }> & { ch
  *
  *   <FooterField id="email" type="email" name="email" autoComplete="email" placeholder="you@example.com" required />
  *
- * Renders `<span class="pp-box pp-footer-field" data-variant="outline"><input></span>`.
+ * Renders `<span class="chu-box chu-footer-field" data-variant="outline"><input></span>`.
  */
 export const FooterField = /*#__PURE__*/ forwardRef<HTMLInputElement, FooterFieldProps>(function FooterField(
   { className, style, ...rest },
   ref,
 ) {
   return (
-    <span className={cx("pp-box pp-footer-field", className)} data-variant="outline" style={style}>
+    <span className={cx("chu-box chu-footer-field", className)} data-variant="outline" style={style}>
       <input ref={ref} {...rest} />
     </span>
   );
@@ -1125,11 +1125,11 @@ export type FooterLegalProps = NativeProps<"div">;
  *     <ul role="list"><li><a href="#privacy">Privacy</a></li><li><a href="#terms">Terms</a></li></ul>
  *   </FooterLegal>
  *
- * Renders `<div class="pp-footer-legal">`.
+ * Renders `<div class="chu-footer-legal">`.
  */
 export const FooterLegal = /*#__PURE__*/ forwardRef<HTMLDivElement, FooterLegalProps>(function FooterLegal(
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-footer-legal", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-footer-legal", className)} {...rest} />;
 });

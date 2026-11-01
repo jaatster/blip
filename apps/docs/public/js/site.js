@@ -19,35 +19,35 @@ const mac = /Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent);
 let stopAuto;
 function themeColor() {
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.content = getComputedStyle(root).getPropertyValue("--pp-bg").trim() || meta.content;
+  if (meta) meta.content = getComputedStyle(root).getPropertyValue("--chu-bg").trim() || meta.content;
 }
 function applyScheme(choice) {
   stopAuto?.();
   stopAuto = undefined;
   root.dataset.schemeChoice = choice;
-  root.removeAttribute("data-pp-scheme-fade");
+  root.removeAttribute("data-chu-scheme-fade");
   if (choice === "auto") stopAuto = autoScheme(root);
   else setScheme(choice, root);
   requestAnimationFrame(themeColor);
-  document.dispatchEvent(new CustomEvent("docs-scheme", { detail: { choice, scheme: root.dataset.ppScheme } }));
+  document.dispatchEvent(new CustomEvent("docs-scheme", { detail: { choice, scheme: root.dataset.chuScheme } }));
 }
 function applyPixel(px) {
-  if (px === "3" || px === "4") root.dataset.ppPixel = px;
-  else delete root.dataset.ppPixel;
+  if (px === "3" || px === "4") root.dataset.chuPixel = px;
+  else delete root.dataset.chuPixel;
 }
-root.addEventListener("pp-scheme-change", () => requestAnimationFrame(themeColor));
+root.addEventListener("chu-scheme-change", () => requestAnimationFrame(themeColor));
 
 // ------------------------------------------------------------------ palette
 
-// The palettes the menu offers, the default first (set by having no data-pp-palette).
+// The palettes the menu offers, the default first (set by having no data-chu-palette).
 const paletteMenu = document.querySelector(".docs-palette");
 const paletteItems = paletteMenu ? [...paletteMenu.querySelectorAll('[role="menuitemradio"]')] : [];
 const paletteIds = paletteItems.map((item) => item.dataset.value.split(":")[1]);
 const defaultPalette = paletteIds[0];
-const currentPalette = () => root.dataset.ppPalette || defaultPalette;
+const currentPalette = () => root.dataset.chuPalette || defaultPalette;
 function applyPalette(id) {
-  if (!id || id === defaultPalette || !paletteIds.includes(id)) delete root.dataset.ppPalette;
-  else root.dataset.ppPalette = id;
+  if (!id || id === defaultPalette || !paletteIds.includes(id)) delete root.dataset.chuPalette;
+  else root.dataset.chuPalette = id;
   requestAnimationFrame(themeColor);
   syncPalette();
   document.dispatchEvent(new CustomEvent("docs-palette", { detail: { palette: currentPalette() } }));
@@ -63,7 +63,7 @@ function syncPalette() {
 if (paletteMenu) {
   paletteMenu.hidden = false;
   syncPalette();
-  paletteMenu.addEventListener(paletteMenu.dataset.docsChoose || "pp-action", (e) => {
+  paletteMenu.addEventListener(paletteMenu.dataset.docsChoose || "chu-action", (e) => {
     const [k, v] = String(e.detail.value).split(":");
     if (k !== "palette") return;
     store.set(KEYS.palette, v === defaultPalette ? null : v);
@@ -80,7 +80,7 @@ syncPalette();
 const display = document.querySelector(".docs-display");
 function syncMenu() {
   if (!display) return;
-  const scheme = root.dataset.schemeChoice || "auto", pixel = root.dataset.ppPixel || "2";
+  const scheme = root.dataset.schemeChoice || "auto", pixel = root.dataset.chuPixel || "2";
   for (const item of display.querySelectorAll('[role="menuitemradio"]')) {
     const [k, v] = item.dataset.value.split(":");
     item.setAttribute("aria-checked", String((k === "scheme" && v === scheme) || (k === "pixel" && v === pixel)));
@@ -90,7 +90,7 @@ if (display) {
   display.hidden = false;
   syncMenu();
   // The event a chosen item fires, as the element's manifest names it (the page writes it in data-docs-choose).
-  display.addEventListener(display.dataset.docsChoose || "pp-action", (e) => {
+  display.addEventListener(display.dataset.docsChoose || "chu-action", (e) => {
     const [k, v] = String(e.detail.value).split(":");
     if (k === "scheme") {
       store.set(KEYS.scheme, v === "auto" ? null : v);
@@ -131,7 +131,7 @@ if (mac) for (const k of document.querySelectorAll("[data-mod]")) k.textContent 
 // option is matched with search-match.js, which knows synonyms, sections and typos: a match takes the words typed
 // into its keywords, so the palette keeps it, shows the section it found and opens the page there; the best come
 // first in their group.
-const palette = document.querySelector("pp-command.docs-search");
+const palette = document.querySelector("chu-command.docs-search");
 const searchButton = document.querySelector(".docs-search-button");
 let index;
 let entries = [];
@@ -142,16 +142,16 @@ async function buildResults(data) {
   const items = [];
   let n = 0;
   data.groups.forEach((group, gi) => {
-    out.push(`<div class="pp-command-group" role="group" aria-labelledby="docs-search-g${gi}"><div class="pp-command-heading" id="docs-search-g${gi}">${esc(group.title)}</div>`);
+    out.push(`<div class="chu-command-group" role="group" aria-labelledby="docs-search-g${gi}"><div class="chu-command-heading" id="docs-search-g${gi}">${esc(group.title)}</div>`);
     for (const item of group.items) {
-      const icon = item.icon ? `<svg class="pp-icon" aria-hidden="true"><use href="/pp/icons/sprite.svg#pp-icon-${esc(item.icon)}"/></svg>` : "";
-      out.push(`<div class="pp-box pp-command-item" role="option" id="docs-search-o${n++}" data-value="${esc(item.url)}" data-keywords="${esc(item.keywords || "")}">${icon}<span class="pp-command-label">${esc(item.title)}</span><span class="pp-command-hint">${esc(item.hint || "")}</span></div>`);
+      const icon = item.icon ? `<svg class="chu-icon" aria-hidden="true"><use href="/chu/icons/sprite.svg#chu-icon-${esc(item.icon)}"/></svg>` : "";
+      out.push(`<div class="chu-box chu-command-item" role="option" id="docs-search-o${n++}" data-value="${esc(item.url)}" data-keywords="${esc(item.keywords || "")}">${icon}<span class="chu-command-label">${esc(item.title)}</span><span class="chu-command-hint">${esc(item.hint || "")}</span></div>`);
       items.push(item);
     }
     out.push("</div>");
   });
   list.innerHTML = out.join("");
-  entries = [...list.querySelectorAll('[role="option"]')].map((el, i) => ({ el, i, item: items[i], p: prepare(items[i]), hint: el.querySelector(".pp-command-hint") }));
+  entries = [...list.querySelectorAll('[role="option"]')].map((el, i) => ({ el, i, item: items[i], p: prepare(items[i]), hint: el.querySelector(".chu-command-hint") }));
 }
 /** Each option back as it was built: its own keywords, hint, link and place. */
 function restore() {
@@ -162,12 +162,12 @@ function restore() {
   }
   const list = palette?.querySelector('[role="listbox"]');
   const byId = (a, b) => a.id.localeCompare(b.id, undefined, { numeric: true });
-  for (const g of list?.querySelectorAll(".pp-command-group") ?? []) g.append(...[...g.querySelectorAll('[role="option"]')].sort(byId));
-  list?.append(...[...list.querySelectorAll(".pp-command-group")].sort((a, b) => byId(a.firstElementChild, b.firstElementChild)));
+  for (const g of list?.querySelectorAll(".chu-command-group") ?? []) g.append(...[...g.querySelectorAll('[role="option"]')].sort(byId));
+  list?.append(...[...list.querySelectorAll(".chu-command-group")].sort((a, b) => byId(a.firstElementChild, b.firstElementChild)));
 }
 let match;
 palette?.addEventListener("input", (e) => {
-  if (!entries.length || !match || !e.target.matches?.(".pp-command-input")) return;
+  if (!entries.length || !match || !e.target.matches?.(".chu-command-input")) return;
   const query = e.target.value;
   const found = match(query, entries.map((x) => x.p));
   const typed = query.toLowerCase().trim();
@@ -182,7 +182,7 @@ palette?.addEventListener("input", (e) => {
   // Best first in each group, and the group with the best first, so the first one shown (the one Enter opens) is
   // the best of all.
   const byEl = new Map(entries.map((x) => [x.el, x]));
-  const groups = [...palette.querySelectorAll(".pp-command-group")].map((g, n) => {
+  const groups = [...palette.querySelectorAll(".chu-command-group")].map((g, n) => {
     const opts = [...g.querySelectorAll('[role="option"]')].map((el) => byEl.get(el)).sort((a, b) => b.score - a.score || a.i - b.i);
     g.append(...opts.map((x) => x.el));
     return { g, n, best: opts[0]?.score ?? 0 };
@@ -205,7 +205,7 @@ function loadIndex() {
   return index;
 }
 if (palette && searchButton) {
-  customElements.whenDefined("pp-command").then(() => {
+  customElements.whenDefined("chu-command").then(() => {
     searchButton.setAttribute("role", "button");
     searchButton.addEventListener("click", (e) => {
       e.preventDefault();
@@ -217,7 +217,7 @@ if (palette && searchButton) {
   dialog?.addEventListener("toggle", (e) => e.newState === "open" && loadIndex());
   // Closed: the options go back to how they were built, for the next search.
   dialog?.addEventListener("close", restore);
-  palette.addEventListener(palette.dataset.docsChoose || "pp-action", (e) => {
+  palette.addEventListener(palette.dataset.docsChoose || "chu-action", (e) => {
     const url = e.detail.value;
     if (url) location.href = url;
   });
@@ -225,7 +225,7 @@ if (palette && searchButton) {
 
 // ------------------------------------------------------------------ copy
 
-const live = Object.assign(document.createElement("p"), { className: "pp-sr-only" });
+const live = Object.assign(document.createElement("p"), { className: "chu-sr-only" });
 live.setAttribute("role", "status");
 document.body.append(live);
 const labels = new WeakMap();
@@ -254,15 +254,15 @@ for (const b of document.querySelectorAll(".docs-copy")) {
 
 // Each install box (components/Install.astro) is tabs, one per package manager and the CDN. The one picked is
 // remembered, and every box on the page turns to it.
-const installs = [...document.querySelectorAll("pp-tabs.docs-install")];
+const installs = [...document.querySelectorAll("chu-tabs.docs-install")];
 function chooseInstall(id, from) {
   for (const box of installs) if (box !== from && box.querySelector(`[role="tab"][data-value="${CSS.escape(id)}"]`)) box.setAttribute("value", id);
 }
 if (installs.length) {
   const saved = store.get(KEYS.install);
   if (saved) chooseInstall(saved);
-  document.addEventListener("pp-change", (e) => {
-    const box = e.target.closest?.("pp-tabs.docs-install");
+  document.addEventListener("chu-change", (e) => {
+    const box = e.target.closest?.("chu-tabs.docs-install");
     if (!box || !e.detail?.value) return;
     store.set(KEYS.install, e.detail.value);
     chooseInstall(e.detail.value, box);
@@ -271,18 +271,18 @@ if (installs.length) {
 
 // ------------------------------------------------------------------ example switches: a scheme or a pixel for one stage
 
-document.addEventListener("pp-change", (e) => {
+document.addEventListener("chu-change", (e) => {
   const control = e.target.closest?.("[data-stage]");
   if (!control) return;
   const stage = document.getElementById(control.dataset.stage);
   const value = e.detail?.value ?? control.value;
   if (!stage) return;
   if (control.dataset.attr === "scheme") {
-    if (value === "page") stage.removeAttribute("data-pp-scheme");
-    else stage.setAttribute("data-pp-scheme", value);
+    if (value === "page") stage.removeAttribute("data-chu-scheme");
+    else stage.setAttribute("data-chu-scheme", value);
   } else if (control.dataset.attr === "pixel") {
-    if (value === "2") stage.removeAttribute("data-pp-pixel");
-    else stage.setAttribute("data-pp-pixel", value);
+    if (value === "2") stage.removeAttribute("data-chu-pixel");
+    else stage.setAttribute("data-chu-pixel", value);
   }
 });
 

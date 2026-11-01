@@ -5,7 +5,7 @@
  *   unit-node     Node. The build tools (tokens, icons), run on temporary copies of their sources, and the pure
  *                 functions (seeded random numbers, services, schemes, the blip voice, diagnostics).
  *   unit-browser  Chromium through Playwright (Vitest browser mode). Everything that needs a real DOM: timelines,
- *                 reduced motion, the shared controllers, PixelElement, the world's drawing.
+ *                 reduced motion, the shared controllers, BlipElement, the world's drawing.
  *
  * Tests import the TypeScript sources, so no package has to be built first. `@jaatster/blip-core` is pointed at its
  * source too, so a kit's source (effects, game, sound) and the test share one core, and `provide()` reaches both.

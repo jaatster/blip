@@ -25,26 +25,26 @@ import { at, decode, distance, hex, mode, type Image } from "./lib/png.js";
  * which way they point (start or end of the text) or that they turn. A new directional glyph belongs here.
  */
 const GLYPHS: { name: string; host: string; pseudo: "::before" | "::after" | "::before,::after" | ""; doc: string; setup?: (page: Page) => Promise<void> }[] = [
-  { name: "breadcrumbs chevron", host: ".pp-breadcrumbs-list > li:nth-child(2)", pseudo: "::before", doc: "components/docs/breadcrumbs.md:75 'Right to left, the chevrons turn round.' (and the header of breadcrumbs.css)" },
-  { name: "pagination previous chevron", host: ".pp-pagination-prev > span", pseudo: "::before", doc: "components/docs/pagination.md:36 'Previous and next: … boxes with a pixel chevron'" },
-  { name: "pagination next chevron", host: ".pp-pagination-next > span", pseudo: "::after", doc: "components/docs/pagination.md:36 'Previous and next: … boxes with a pixel chevron'" },
-  { name: "external link arrow", host: ".pp-link[data-external]", pseudo: "::after", doc: "components/docs/link.md:29 'a pixel arrow after the words'" },
-  { name: "accordion chevron, closed", host: "details:not([open]) .pp-accordion-chevron", pseudo: "", doc: "components/docs/accordion.md:35 'pointing along the line when closed (right, or left right to left)'" },
-  { name: "submenu chevron", host: ".pp-menu-item[aria-haspopup='menu'] > .pp-menu-label", pseudo: "::after", doc: "components/docs/menu.md:63 'A chevron at its end: it opens a submenu.'" },
-  { name: "sidebar group chevron, closed", host: ".pp-sidebar-group:not([open]) > summary > .pp-sidebar-label", pseudo: "::after", doc: "components/docs/sidebar.md:46 'a pixel chevron at the end'" },
-  { name: "sidebar pointer arrow", host: ".pp-sidebar[data-arrow] .pp-sidebar-item[aria-current='page'] > .pp-sidebar-label", pseudo: "::before", doc: "components/docs/sidebar.md:41 'room on its start side for the arrow'" },
-  { name: "progress steps arrow, down the side", host: ".pp-progress-steps[data-orientation='vertical'][data-arrow] .pp-progress-steps-item[aria-current='step']", pseudo: "::after", doc: "components/docs/progress-steps.md:44 'the TV's pointer arrow over the current step (beside it, down the side)'" },
-  { name: "choices pointer", host: ".pp-choices > li:has(> .pp-choice[data-pp-state~='focus'])", pseudo: "::before,::after", doc: "game/docs/choices.md:36 'room on the start side for the pointer'" },
+  { name: "breadcrumbs chevron", host: ".chu-breadcrumbs-list > li:nth-child(2)", pseudo: "::before", doc: "components/docs/breadcrumbs.md:75 'Right to left, the chevrons turn round.' (and the header of breadcrumbs.css)" },
+  { name: "pagination previous chevron", host: ".chu-pagination-prev > span", pseudo: "::before", doc: "components/docs/pagination.md:36 'Previous and next: … boxes with a pixel chevron'" },
+  { name: "pagination next chevron", host: ".chu-pagination-next > span", pseudo: "::after", doc: "components/docs/pagination.md:36 'Previous and next: … boxes with a pixel chevron'" },
+  { name: "external link arrow", host: ".chu-link[data-external]", pseudo: "::after", doc: "components/docs/link.md:29 'a pixel arrow after the words'" },
+  { name: "accordion chevron, closed", host: "details:not([open]) .chu-accordion-chevron", pseudo: "", doc: "components/docs/accordion.md:35 'pointing along the line when closed (right, or left right to left)'" },
+  { name: "submenu chevron", host: ".chu-menu-item[aria-haspopup='menu'] > .chu-menu-label", pseudo: "::after", doc: "components/docs/menu.md:63 'A chevron at its end: it opens a submenu.'" },
+  { name: "sidebar group chevron, closed", host: ".chu-sidebar-group:not([open]) > summary > .chu-sidebar-label", pseudo: "::after", doc: "components/docs/sidebar.md:46 'a pixel chevron at the end'" },
+  { name: "sidebar pointer arrow", host: ".chu-sidebar[data-arrow] .chu-sidebar-item[aria-current='page'] > .chu-sidebar-label", pseudo: "::before", doc: "components/docs/sidebar.md:41 'room on its start side for the arrow'" },
+  { name: "progress steps arrow, down the side", host: ".chu-progress-steps[data-orientation='vertical'][data-arrow] .chu-progress-steps-item[aria-current='step']", pseudo: "::after", doc: "components/docs/progress-steps.md:44 'the TV's pointer arrow over the current step (beside it, down the side)'" },
+  { name: "choices pointer", host: ".chu-choices > li:has(> .chu-choice[data-chu-state~='focus'])", pseudo: "::before,::after", doc: "game/docs/choices.md:36 'room on the start side for the pointer'" },
   {
     name: "tab scroll chevrons",
-    host: "pp-tabs > .pp-tabs-scroll[data-dir='end'] > span",
+    host: "chu-tabs > .chu-tabs-scroll[data-dir='end'] > span",
     pseudo: "",
     doc: "components/docs/tabs.md:39 'Scroll buttons … soft boxes with pixel chevrons that scroll it'",
     // The buttons only come while the row overflows: narrow the first tab row until it does.
     setup: async (page) => {
       await page.evaluate(() => {
-        const tabs = document.querySelector<HTMLElement>("#example pp-tabs");
-        if (tabs) tabs.style.inlineSize = "calc(120 * var(--pp-pixel))";
+        const tabs = document.querySelector<HTMLElement>("#example chu-tabs");
+        if (tabs) tabs.style.inlineSize = "calc(120 * var(--chu-pixel))";
       });
       await settle(page);
     },
@@ -100,13 +100,13 @@ function overflow(page: Page): Promise<{ scrollWidth: number; clientWidth: numbe
     const html = document.documentElement;
     const vw = html.clientWidth;
     const past: { over: number; what: string }[] = [];
-    const name = (e: Element) => `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c.startsWith("pp-") && c !== "pp-box").slice(0, 2).map((c) => `.${c}`).join("")}`;
+    const name = (e: Element) => `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c.startsWith("chu-") && c !== "chu-box").slice(0, 2).map((c) => `.${c}`).join("")}`;
     for (const el of document.body.querySelectorAll("*")) {
       const r = el.getBoundingClientRect();
       if (r.width <= 1 || r.height <= 1) continue;
       const fixed = getComputedStyle(el).position === "fixed";
       // A sheet runs a pixel past the screen on purpose (drawers): allow fixed things a pixel.
-      const slack = fixed ? parseFloat(getComputedStyle(el).getPropertyValue("--pp-pixel")) + 0.5 || 2.5 : 1;
+      const slack = fixed ? parseFloat(getComputedStyle(el).getPropertyValue("--chu-pixel")) + 0.5 || 2.5 : 1;
       const over = Math.max(-r.left, r.right - vw);
       if (over <= slack) continue;
       let hidden = false;
@@ -116,7 +116,7 @@ function overflow(page: Page): Promise<{ scrollWidth: number; clientWidth: numbe
         if (cs.clipPath !== "none" || cs.visibility === "hidden") { hidden = true; break; }
       }
       if (hidden || !el.checkVisibility({ visibilityProperty: true })) continue;
-      past.push({ over, what: `${name(el)}${el.closest("[class*='pp-']") && el.closest("[class*='pp-']") !== el ? ` in ${name(el.parentElement!.closest("[class*='pp-']") ?? el)}` : ""} ${Math.round(over)} px past the ${-r.left > r.right - vw ? "left" : "right"} edge` });
+      past.push({ over, what: `${name(el)}${el.closest("[class*='chu-']") && el.closest("[class*='chu-']") !== el ? ` in ${name(el.parentElement!.closest("[class*='chu-']") ?? el)}` : ""} ${Math.round(over)} px past the ${-r.left > r.right - vw ? "left" : "right"} edge` });
     }
     past.sort((a, b) => b.over - a.over);
     // Report the outermost of nested offenders only: a child of an offender that overflows by no more is noise.
@@ -139,20 +139,20 @@ async function fillsFromTheRight(page: Page): Promise<{ checked: number; failure
       (target as HTMLElement).dataset.lanesFillTarget = String(n);
       out.push({ key: String(n++), what, f, first });
     };
-    for (const el of document.querySelectorAll<HTMLProgressElement>("#example .pp-progress > progress")) {
+    for (const el of document.querySelectorAll<HTMLProgressElement>("#example .chu-progress > progress")) {
       if (el.position < 0) continue;
       mark(el.parentElement!, el, `progress "${el.labels?.[0]?.textContent ?? el.getAttribute("aria-label") ?? ""}" at ${Math.round(el.position * 100)}%`, el.position);
     }
-    for (const el of document.querySelectorAll<HTMLMeterElement>("#example .pp-meter > meter")) {
+    for (const el of document.querySelectorAll<HTMLMeterElement>("#example .chu-meter > meter")) {
       mark(el.parentElement!, el, `meter "${el.getAttribute("aria-label") ?? document.getElementById(el.getAttribute("aria-labelledby") ?? "")?.textContent ?? ""}" at ${el.value} of ${el.max}`, (el.value - el.min) / (el.max - el.min));
     }
-    for (const el of document.querySelectorAll<HTMLElement>("#example .pp-rating")) {
+    for (const el of document.querySelectorAll<HTMLElement>("#example .chu-rating")) {
       const cs = getComputedStyle(el);
-      const v = parseFloat(cs.getPropertyValue("--pp-rating-value")), max = parseFloat(cs.getPropertyValue("--pp-rating-max"));
+      const v = parseFloat(cs.getPropertyValue("--chu-rating-value")), max = parseFloat(cs.getPropertyValue("--chu-rating-max"));
       if (v >= 1 && v <= max - 1) mark(el, el, `rating ${v} of ${max}`, v / max, true);
     }
-    for (const el of document.querySelectorAll<HTMLInputElement>("#example input.pp-slider")) {
-      const v = parseFloat(getComputedStyle(el).getPropertyValue("--pp-slider-value"));
+    for (const el of document.querySelectorAll<HTMLInputElement>("#example input.chu-slider")) {
+      const v = parseFloat(getComputedStyle(el).getPropertyValue("--chu-slider-value"));
       if (!Number.isNaN(v)) mark(el, el, `slider "${el.labels?.[0]?.textContent ?? el.id}" at ${Math.round(v * 100)}%`, v);
     }
     return out;
@@ -162,7 +162,7 @@ async function fillsFromTheRight(page: Page): Promise<{ checked: number; failure
     const img = decode(await page.screenshot({ animations: "disabled" }));
     const rects = await page.evaluate(() => Object.fromEntries([...document.querySelectorAll<HTMLElement>("[data-lanes-fill-target]")].map((e) => {
       const r = e.getBoundingClientRect();
-      return [e.dataset.lanesFillTarget!, { x: r.x, y: r.y, w: r.width, h: r.height, rtl: getComputedStyle(e).direction === "rtl", cells: parseFloat(getComputedStyle(e).getPropertyValue("--pp-rating-max")) || 0 }];
+      return [e.dataset.lanesFillTarget!, { x: r.x, y: r.y, w: r.width, h: r.height, rtl: getComputedStyle(e).direction === "rtl", cells: parseFloat(getComputedStyle(e).getPropertyValue("--chu-rating-max")) || 0 }];
     })));
     return { img, rects };
   };
@@ -196,9 +196,9 @@ async function fillsFromTheRight(page: Page): Promise<{ checked: number; failure
 /** Drawers: the end side is the left edge right to left, the start side the right edge. */
 async function drawerSides(page: Page): Promise<{ checked: number; failures: string[] }> {
   const failures: string[] = [];
-  const ids = await page.evaluate(() => [...document.querySelectorAll<HTMLDialogElement>("#example dialog.pp-drawer")].map((d, i) => {
+  const ids = await page.evaluate(() => [...document.querySelectorAll<HTMLDialogElement>("#example dialog.chu-drawer")].map((d, i) => {
     d.dataset.lanesDrawer = String(i);
-    return { i, side: d.dataset.side ?? "end", live: !d.hasAttribute("data-pp-static"), label: d.querySelector(".pp-dialog-title")?.textContent?.trim() ?? `drawer ${i}` };
+    return { i, side: d.dataset.side ?? "end", live: !d.hasAttribute("data-chu-static"), label: d.querySelector(".chu-dialog-title")?.textContent?.trim() ?? `drawer ${i}` };
   }));
   for (const d of ids) {
     if (d.side === "bottom") continue;
@@ -208,7 +208,7 @@ async function drawerSides(page: Page): Promise<{ checked: number; failures: str
     const r = await page.evaluate((sel) => {
       const el = document.querySelector<HTMLElement>(sel)!;
       const b = el.getBoundingClientRect(), p = el.parentElement!.getBoundingClientRect();
-      return { left: b.left, right: b.right, pLeft: p.left, pRight: p.right, vw: document.documentElement.clientWidth, pixel: parseFloat(getComputedStyle(el).getPropertyValue("--pp-pixel")) || 2 };
+      return { left: b.left, right: b.right, pLeft: p.left, pRight: p.right, vw: document.documentElement.clientWidth, pixel: parseFloat(getComputedStyle(el).getPropertyValue("--chu-pixel")) || 2 };
     }, sel);
     const [edgeL, edgeR] = d.live ? [0, r.vw] : [r.pLeft, r.pRight];
     const slack = 2 * r.pixel + 0.5;
@@ -277,7 +277,7 @@ async function mirrorLayout(page: Page): Promise<{ checked: number; failures: st
     const root = document.getElementById("example")!;
     const all = [...root.querySelectorAll("*")];
     const out: { i: number; x: number; w: number; pw: number; name: string; parent: string }[] = [];
-    const name = (e: Element) => `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c !== "pp-box").slice(0, 2).map((c) => `.${c}`).join("")}`;
+    const name = (e: Element) => `${e.tagName.toLowerCase()}${[...e.classList].filter((c) => c !== "chu-box").slice(0, 2).map((c) => `.${c}`).join("")}`;
     all.forEach((el, i) => {
       const cs = getComputedStyle(el);
       if (["inline", "contents", "none"].includes(cs.display) || !el.checkVisibility()) return;
@@ -285,7 +285,7 @@ async function mirrorLayout(page: Page): Promise<{ checked: number; failures: st
       // the world's decoration.
       const pd = el.parentElement ? getComputedStyle(el.parentElement).display : "block";
       if (cs.display.startsWith("inline") && !/flex|grid/.test(pd)) return;
-      if (el.closest("[data-side='left'], [data-side='right'], .pp-tooltip-nub, .pp-popover-nub, pp-world, .pp-world") || /(^|;)\s*(left|right|margin-left|margin-right|padding-left|padding-right)\s*:/.test(el.getAttribute("style") ?? "")) return;
+      if (el.closest("[data-side='left'], [data-side='right'], .chu-tooltip-nub, .chu-popover-nub, chu-world, .chu-world") || /(^|;)\s*(left|right|margin-left|margin-right|padding-left|padding-right)\s*:/.test(el.getAttribute("style") ?? "")) return;
       const r = el.getBoundingClientRect();
       if (r.width <= 1 || r.height <= 1) return;
       let a = el.parentElement!;
@@ -296,7 +296,7 @@ async function mirrorLayout(page: Page): Promise<{ checked: number; failures: st
     });
     return out;
   });
-  const pixel = await page.evaluate(() => parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--pp-pixel")) || 2);
+  const pixel = await page.evaluate(() => parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--chu-pixel")) || 2);
   const rtl = await collect();
   await page.evaluate(() => (document.documentElement.dir = "ltr"));
   await settle(page);

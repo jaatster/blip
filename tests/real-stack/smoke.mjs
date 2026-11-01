@@ -64,9 +64,9 @@ function helpers() {
     /** The field: what describes the control, the error showing, and aria-invalid. */
     field() {
       const input = document.querySelector("#player");
-      const field = input.closest(".pp-field");
-      const help = field.querySelector(".pp-field-help");
-      const error = field.querySelector(".pp-field-error");
+      const field = input.closest(".chu-field");
+      const help = field.querySelector(".chu-field-help");
+      const error = field.querySelector(".chu-field-error");
       return {
         ids: (input.getAttribute("aria-describedby") ?? "").split(/\s+/).filter(Boolean),
         help: help?.id ?? "",
@@ -112,24 +112,24 @@ const CHECKS = {
     await until(page, "Pixel Bop and Pixelify Sans to load", () => window.smoke.loaded("Pixel Bop", "Pixelify Sans"));
     const r = await page.evaluate(() => {
       const button = document.querySelector("#open-dialog");
-      const heading = document.querySelector(".pp-display");
+      const heading = document.querySelector(".chu-display");
       const probe = document.body.appendChild(document.createElement("span"));
-      probe.style.color = "var(--pp-ink)";
+      probe.style.color = "var(--chu-ink)";
       const ink = getComputedStyle(probe).color;
       probe.remove();
       const s = getComputedStyle(button);
       const before = getComputedStyle(button, "::before");
       const after = getComputedStyle(button, "::after");
       return {
-        buttonFont: s.fontFamily, headingFont: heading ? getComputedStyle(heading).fontFamily : "(no .pp-display)",
-        token: getComputedStyle(document.documentElement).getPropertyValue("--pp-ink").trim(), ink,
+        buttonFont: s.fontFamily, headingFont: heading ? getComputedStyle(heading).fontFamily : "(no .chu-display)",
+        token: getComputedStyle(document.documentElement).getPropertyValue("--chu-ink").trim(), ink,
         outline: before.backgroundColor, outlineMask: before.maskImage, fillMask: after.maskImage,
         border: s.borderTopWidth, background: s.backgroundColor, height: button.getBoundingClientRect().height,
       };
     });
-    assert(r.token.toLowerCase() === "#1a1530", `--pp-ink is "${r.token}": tokens.css did not load`);
+    assert(r.token.toLowerCase() === "#1a1530", `--chu-ink is "${r.token}": tokens.css did not load`);
     assert(/Pixelify Sans/.test(r.buttonFont), `the button's font is ${r.buttonFont}`);
-    assert(/Pixel Bop/.test(r.headingFont), `the .pp-display heading's font is ${r.headingFont}`);
+    assert(/Pixel Bop/.test(r.headingFont), `the .chu-display heading's font is ${r.headingFont}`);
     assert(r.outlineMask.includes("url(") && r.outline === r.ink, `the button has no ink outline (::before is ${r.outline}, masked by ${r.outlineMask.slice(0, 40)})`);
     assert(r.fillMask.includes("url("), "the button's fill is not drawn (::after has no mask)");
     assert(r.border === "0px" && r.background === "rgba(0, 0, 0, 0)", `the button keeps the browser's look (border ${r.border}, background ${r.background})`);
@@ -154,7 +154,7 @@ const CHECKS = {
 
   async toast(page) {
     await page.locator("#readme").getByRole("button", { name: "Save game" }).click();
-    await page.locator(".pp-toast", { hasText: "Saved" }).waitFor({ state: "visible" }).catch(() => {
+    await page.locator(".chu-toast", { hasText: "Saved" }).waitFor({ state: "visible" }).catch(() => {
       throw new Error('Save game showed no "Saved" toast');
     });
   },
@@ -217,11 +217,11 @@ const CHECKS = {
   async "lazy-dialog"(page) {
     const is = ([open]) => { const d = window.smoke.dialog("lazy", "#lazy-state"); return d.open === open && d.state === (open ? "open" : "closed"); };
     const show = () => window.smoke.dialog("lazy", "#lazy-state");
-    await until(page, "the dialog element to be defined", () => document.documentElement.hasAttribute("data-defined") && !!customElements.get("pp-dialog"));
+    await until(page, "the dialog element to be defined", () => document.documentElement.hasAttribute("data-defined") && !!customElements.get("chu-dialog"));
     // Two frames and a moment: whatever would open it on load has happened.
     await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(r, 150)))));
-    const s = await page.evaluate(() => ({ open: document.getElementById("lazy").open, attr: document.querySelector("pp-dialog").getAttribute("open") }));
-    assert(!s.open, `the dialog opened on load (pp-dialog open=${JSON.stringify(s.attr)})`);
+    const s = await page.evaluate(() => ({ open: document.getElementById("lazy").open, attr: document.querySelector("chu-dialog").getAttribute("open") }));
+    assert(!s.open, `the dialog opened on load (chu-dialog open=${JSON.stringify(s.attr)})`);
     await page.click("#open-lazy");
     await until(page, "the dialog to open from state", is, [true], show);
     await page.keyboard.press("Escape");
@@ -252,12 +252,12 @@ const CHECKS = {
   },
 
   async kits(page) {
-    await until(page, "the kits' elements to upgrade and the world to draw", () => !!customElements.get("pp-world") && !!customElements.get("pp-dialogue") && !!document.querySelector("#kits pp-world canvas"));
+    await until(page, "the kits' elements to upgrade and the world to draw", () => !!customElements.get("chu-world") && !!customElements.get("chu-dialogue") && !!document.querySelector("#kits chu-world canvas"));
     const r = await page.evaluate(() => {
       const s = (sel) => getComputedStyle(document.querySelector(sel));
       return {
-        hud: s("#kits .pp-hud").display, hero: s("#kits .pp-hero").isolation, world: s("#kits pp-world").position,
-        dialogue: s("#kits .pp-dialogue").getPropertyValue("--pp-r").trim(), icon: !!document.querySelector("#kits svg.pp-icon path[d]"),
+        hud: s("#kits .chu-hud").display, hero: s("#kits .chu-hero").isolation, world: s("#kits chu-world").position,
+        dialogue: s("#kits .chu-dialogue").getPropertyValue("--chu-r").trim(), icon: !!document.querySelector("#kits svg.chu-icon path[d]"),
       };
     });
     assert(r.hud === "flex", `game.css did not style the HUD (display ${r.hud})`);
@@ -302,7 +302,7 @@ export async function run(browser, url, pages, { shots, dev = false }) {
       page.on("console", (m) => {
         const text = m.text();
         if (m.type() === "error") noise.push(`console error: ${text.slice(0, 300)}`);
-        else if (/Blip PP-/.test(text)) noise.push(`diagnostic: ${text.slice(0, 300)}`);
+        else if (/Blip CHU-/.test(text)) noise.push(`diagnostic: ${text.slice(0, 300)}`);
       });
       page.on("response", (r) => {
         if (r.status() >= 400 && r.url().startsWith(url) && !r.url().endsWith("/favicon.ico")) noise.push(`${r.status()} ${r.url().slice(url.length)}`);

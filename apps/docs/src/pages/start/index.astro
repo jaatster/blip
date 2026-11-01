@@ -57,7 +57,7 @@ const tokenLayers = read("packages/tokens/dist/css/tokens.css").match(/^@layer [
 const layers = await codeBlock(`${tokenLayers}
 
 /* Your own CSS, outside the layers, always wins: */
-.checkout .pp-button { --pp-tone: var(--pp-candy-green); }`, "css", "CSS");
+.checkout .chu-button { --chu-tone: var(--chu-candy-green); }`, "css", "CSS");
 const layersFile = read("packages/core/src/css/layers.css").replace(/\/\*[\s\S]*?\*\/\s*/g, "").trim();
 const tailwind = await codeBlock(`/* app.css */
 @import "@jaatster/blip-core/layers.css";   /* first */
@@ -79,14 +79,14 @@ import "@jaatster/blip-elements/toast";
 
 // Or every element at once.
 import "@jaatster/blip-elements";`, "js", "JavaScript");
-const upgrade = await codeBlock(`<pp-tabs class="pp-tabs" data-variant="outline">
-  <div class="pp-tabs-list" role="tablist" aria-label="Settings">
-    <button class="pp-box pp-tab" data-variant="outline" role="tab" aria-selected="true">General</button>
-    <button class="pp-box pp-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Sound</button>
+const upgrade = await codeBlock(`<chu-tabs class="chu-tabs" data-variant="outline">
+  <div class="chu-tabs-list" role="tablist" aria-label="Settings">
+    <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="true">General</button>
+    <button class="chu-box chu-tab" data-variant="outline" role="tab" aria-selected="false" tabindex="-1">Sound</button>
   </div>
-  <div class="pp-tabs-panel" role="tabpanel">…</div>
-  <div class="pp-tabs-panel" role="tabpanel" hidden>…</div>
-</pp-tabs>`, "html", "HTML");
+  <div class="chu-tabs-panel" role="tabpanel">…</div>
+  <div class="chu-tabs-panel" role="tabpanel" hidden>…</div>
+</chu-tabs>`, "html", "HTML");
 // One component from each entry, with the entry that exports it today (the build stops if one is gone).
 const reactNames = [["Button", "Tabs"], ["Dialogue", "Hud"], ["Hero"], ["World"], ["Icon"]];
 const reactImports = reactNames.map((names) => {
@@ -100,8 +100,8 @@ import "@jaatster/blip-core/core.css";
 import "@jaatster/blip-components/components.css";
 
 ${reactImports.join("\n")}`, "tsx", "TSX");
-const vue = await codeBlock(`// vite.config.ts: let Vue leave pp-* tags to the browser
-vue({ template: { compilerOptions: { isCustomElement: (tag) => tag.startsWith("pp-") } } })`, "ts", "Vue");
+const vue = await codeBlock(`// vite.config.ts: let Vue leave chu-* tags to the browser
+vue({ template: { compilerOptions: { isCustomElement: (tag) => tag.startsWith("chu-") } } })`, "ts", "Vue");
 const defineFirst = await codeBlock(`// main.ts: define the elements, then mount
 import "@jaatster/blip-elements/dialog";
 import "@jaatster/blip-elements/tabs";
@@ -109,8 +109,8 @@ import { createApp } from "vue";
 import App from "./App.vue";
 
 createApp(App).mount("#app");`, "ts", "Vue");
-const vueBoolean = await codeBlock(`<pp-dialog :open="open || undefined" @pp-close="open = false">…</pp-dialog>`, "html", "Vue");
-const svelteBoolean = await codeBlock(`<pp-dialog open={open || undefined} onpp-close={() => (open = false)}>…</pp-dialog>`, "html", "Svelte");
+const vueBoolean = await codeBlock(`<chu-dialog :open="open || undefined" @chu-close="open = false">…</chu-dialog>`, "html", "Vue");
+const svelteBoolean = await codeBlock(`<chu-dialog open={open || undefined} onpp-close={() => (open = false)}>…</chu-dialog>`, "html", "Svelte");
 const booleans = booleanAttributes();
 // Which boolean attributes the elements read as off when they say "false" (their manifests say so).
 const offNames = [...new Set(booleans.flatMap((b) => b.falseIsOff))].sort();
@@ -123,9 +123,9 @@ const offNote = allOff
     : " So a dialog defined after mounting, bound to <code class=\"docs-inline-code\">false</code>, opens on load.";
 const angular = await codeBlock(`@Component({ selector: "app-settings", schemas: [CUSTOM_ELEMENTS_SCHEMA], templateUrl: "./settings.html" })
 export class SettingsComponent {}`, "ts", "Angular");
-const schemes = await codeBlock(`<html data-pp-scheme="night" data-pp-pixel="3">   <!-- the whole page -->
-<section data-pp-scheme="day">…</section>           <!-- one part of it -->
-<div class="game-screen" data-pp-pixel="4">…</div>  <!-- a bigger pixel for a TV or a game -->`, "html", "HTML");
+const schemes = await codeBlock(`<html data-chu-scheme="night" data-chu-pixel="3">   <!-- the whole page -->
+<section data-chu-scheme="day">…</section>           <!-- one part of it -->
+<div class="game-screen" data-chu-pixel="4">…</div>  <!-- a bigger pixel for a TV or a game -->`, "html", "HTML");
 const resolver = await codeBlock(`{
   "modifiers": {
     "scheme": { "contexts": { "day": […], "sunset": […], "night": […] }, "default": "day" },
@@ -144,13 +144,13 @@ if (!reducedMotion()) burstConfetti();
 const ms = duration("glide", 160);       // 0 with reduced motion
 await run([{ at: 0, do: up }, { at: 40, do: down }], { signal }); // runs at once with reduced motion`, "js", "JavaScript");
 // A warning as the console shows it: an accessible-name code and its message, read from the source.
-const named = diagnostics().get("PP-A001") ?? [];
+const named = diagnostics().get("CHU-A001") ?? [];
 const sample = named.find((o) => o.file.endsWith("segmented.ts")) ?? named[0];
 const diag = await codeBlock(`// On by default on localhost. Turn them on or off yourself:
 globalThis.BLIP_DIAGNOSTICS = true;
 ${sample ? `
-// Blip PP-A001: ${sample.message}
-//   https://jaatster.com/blip/diagnostics#pp-a001` : ""}`, "js", "Console");
+// Blip CHU-A001: ${sample.message}
+//   https://jaatster.com/blip/diagnostics#chu-a001` : ""}`, "js", "Console");
 
 const docsByElement = new Map<string, { name: string; url: string }>();
 for (const d of componentDocs()) for (const t of (d.meta.element ?? "").split(",").map((s) => s.trim()).filter(Boolean)) docsByElement.set(t, { name: d.meta.name, url: d.url });
@@ -159,20 +159,20 @@ const elementRows = Object.entries(a.defines)
   .map(([tag, mod]) => {
     const pkg = mod.split("/")[2];
     const spec = `@jaatster/blip-${pkg}/${mod.split("/").pop()!.replace(/\.js$/, "")}`;
-    const d = docsByElement.get(tag) ?? (tag === "pp-icon" ? { name: "Icons", url: "/foundations/icons/" } : undefined);
+    const d = docsByElement.get(tag) ?? (tag === "chu-icon" ? { name: "Icons", url: "/foundations/icons/" } : undefined);
     return [code(`<${tag}>`), code(spec), d ? `<a href="${d.url}">${esc(d.name)}</a>` : ""];
   });
 ---
 <Docs title="Get started" description="Install Blip, load its CSS in order, add elements where you need behaviour, and switch schemes and pixel sizes." headings={headings}>
   <header class="docs-page-head">
-    <h1 class="docs-page-title pp-display" data-scale="2">Get started</h1>
+    <h1 class="docs-page-title chu-display" data-scale="2">Get started</h1>
     <p class="docs-lede">Blip is plain CSS and dependency-free Web Components, with typed React wrappers on top. Four stylesheets give you every component; an element module adds behaviour only where a component needs it.</p>
   </header>
 
-  <div class="pp-box pp-alert" data-tone="info" role="note">
-    <span class="pp-alert-icon" aria-hidden="true"></span>
-    <div class="pp-alert-body">
-      <p class="pp-alert-title">Version {v} is not on npm yet</p>
+  <div class="chu-box chu-alert" data-tone="info" role="note">
+    <span class="chu-alert-icon" aria-hidden="true"></span>
+    <div class="chu-alert-body">
+      <p class="chu-alert-title">Version {v} is not on npm yet</p>
       <p>Until it is published, build the packages from the repository (<code class="docs-inline-code">pnpm install</code>, then <code class="docs-inline-code">pnpm build</code>) and link them. The commands below are how installing will work.</p>
     </div>
   </div>
@@ -196,11 +196,11 @@ const elementRows = Object.entries(a.defines)
 
   <section class="docs-section" aria-labelledby="tailwind">
     <h2 id="tailwind">With Tailwind or your own CSS</h2>
-    <p>Blip's rules are all in layers named <code class="docs-inline-code">pp</code>. Tailwind CSS v4 puts its own in layers too, and whichever loads first goes under the other: Blip's components then beat Tailwind's utility classes, or Tailwind's reset (preflight) strips Blip's buttons. <code class="docs-inline-code">@jaatster/blip-core/layers.css</code> sets one order for both. Import it first:</p>
+    <p>Blip's rules are all in layers named <code class="docs-inline-code">chu</code>. Tailwind CSS v4 puts its own in layers too, and whichever loads first goes under the other: Blip's components then beat Tailwind's utility classes, or Tailwind's reset (preflight) strips Blip's buttons. <code class="docs-inline-code">@jaatster/blip-core/layers.css</code> sets one order for both. Import it first:</p>
     <Fragment set:html={tailwind} />
     <p>Tailwind's theme and reset go under all of Blip, and its components and utilities over it: <code class="docs-inline-code">className="mt-8"</code> moves a Blip button, and the reset leaves it alone. Once layers.css is first, the other imports can come in any order. It is two lines:</p>
     <Fragment set:html={layersCode} />
-    <p>Your own CSS outside any layer beats every layer, Blip's included, which is right for your own classes. Rules for bare elements (a reset, <code class="docs-inline-code">button {"{ … }"}</code>, <code class="docs-inline-code">a {"{ … }"}</code>) would restyle Blip's components too: import them into the base layer, under Blip. That covers everything a component sets, and boxes also clear any corner rounding or shadow. A size a component leaves to its content, such as a <code class="docs-inline-code">min-height</code> on every button, still applies, so leave Blip's parts out of it with <code class="docs-inline-code">:not(.pp-box)</code>.</p>
+    <p>Your own CSS outside any layer beats every layer, Blip's included, which is right for your own classes. Rules for bare elements (a reset, <code class="docs-inline-code">button {"{ … }"}</code>, <code class="docs-inline-code">a {"{ … }"}</code>) would restyle Blip's components too: import them into the base layer, under Blip. That covers everything a component sets, and boxes also clear any corner rounding or shadow. A size a component leaves to its content, such as a <code class="docs-inline-code">min-height</code> on every button, still applies, so leave Blip's parts out of it with <code class="docs-inline-code">:not(.chu-box)</code>.</p>
     <Fragment set:html={ownCss} />
   </section>
 
@@ -222,7 +222,7 @@ const elementRows = Object.entries(a.defines)
 
   <section class="docs-section" aria-labelledby="frameworks">
     <h2 id="frameworks">Frameworks</h2>
-    <p>Blip is HTML, CSS and custom elements, so any framework can use it: load the CSS, write the markup, import the elements a page uses. Two need to be told that <code class="docs-inline-code">pp-*</code> tags are custom elements.</p>
+    <p>Blip is HTML, CSS and custom elements, so any framework can use it: load the CSS, write the markup, import the elements a page uses. Two need to be told that <code class="docs-inline-code">chu-*</code> tags are custom elements.</p>
     <Fragment set:html={vue} />
     <Fragment set:html={angular} />
     <p class="docs-note">Svelte, Solid, Lit, Astro and plain HTML need no setting. This site is plain Astro pages with an import map: no client framework.</p>

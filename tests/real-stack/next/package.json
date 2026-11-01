@@ -1,5 +1,5 @@
 {
-  "name": "pp-stack-next",
+  "name": "chu-stack-next",
   "private": true,
   "scripts": {
     "dev": "next dev --hostname localhost --port 4614",

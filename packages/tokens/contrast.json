@@ -1,5 +1,5 @@
 {
-  "$description": "The colour pairs every scheme of every palette must pass, or the token build stops (PP-T060). The build reads them (scripts/tokens.mjs), and so do the docs, which show each with its reason. {intent} is each of the intents in turn; {Intent} is its name capitalised. Each pair's background maps to its label.",
+  "$description": "The colour pairs every scheme of every palette must pass, or the token build stops (CHU-T060). The build reads them (scripts/tokens.mjs), and so do the docs, which show each with its reason. {intent} is each of the intents in turn; {Intent} is its name capitalised. Each pair's background maps to its label.",
   "intents": [
     "accent",
     "info",

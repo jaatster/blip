@@ -4,31 +4,31 @@
  * footer.css; not a component on its own.
  */
 
-@layer pp.kits {
-  :root, [data-pp-scheme="day"] {
-    --pp-blocks-sky-1: var(--pp-world-day-sky-1); --pp-blocks-sky-2: var(--pp-world-day-sky-2); --pp-blocks-sky-3: var(--pp-world-day-sky-3);
-    --pp-blocks-sky-4: var(--pp-world-day-sky-4); --pp-blocks-sky-5: var(--pp-world-day-sky-5); --pp-blocks-sky-6: var(--pp-world-day-sky-6);
-    --pp-blocks-grass-top: var(--pp-world-day-grass-top); --pp-blocks-grass: var(--pp-world-day-grass); --pp-blocks-grass-lip: var(--pp-world-day-grass-lip);
-    --pp-blocks-dirt: var(--pp-world-day-dirt); --pp-blocks-dirt-shadow: var(--pp-world-day-dirt-shadow); --pp-blocks-pebble: var(--pp-world-day-dirt-pebble);
+@layer chu.kits {
+  :root, [data-chu-scheme="day"] {
+    --chu-blocks-sky-1: var(--chu-world-day-sky-1); --chu-blocks-sky-2: var(--chu-world-day-sky-2); --chu-blocks-sky-3: var(--chu-world-day-sky-3);
+    --chu-blocks-sky-4: var(--chu-world-day-sky-4); --chu-blocks-sky-5: var(--chu-world-day-sky-5); --chu-blocks-sky-6: var(--chu-world-day-sky-6);
+    --chu-blocks-grass-top: var(--chu-world-day-grass-top); --chu-blocks-grass: var(--chu-world-day-grass); --chu-blocks-grass-lip: var(--chu-world-day-grass-lip);
+    --chu-blocks-dirt: var(--chu-world-day-dirt); --chu-blocks-dirt-shadow: var(--chu-world-day-dirt-shadow); --chu-blocks-pebble: var(--chu-world-day-dirt-pebble);
   }
-  [data-pp-scheme="sunset"] {
-    --pp-blocks-sky-1: var(--pp-world-sunset-sky-1); --pp-blocks-sky-2: var(--pp-world-sunset-sky-2); --pp-blocks-sky-3: var(--pp-world-sunset-sky-3);
-    --pp-blocks-sky-4: var(--pp-world-sunset-sky-4); --pp-blocks-sky-5: var(--pp-world-sunset-sky-5); --pp-blocks-sky-6: var(--pp-world-sunset-sky-6);
-    --pp-blocks-grass-top: var(--pp-world-sunset-grass-top); --pp-blocks-grass: var(--pp-world-sunset-grass); --pp-blocks-grass-lip: var(--pp-world-sunset-grass-lip);
-    --pp-blocks-dirt: var(--pp-world-sunset-dirt); --pp-blocks-dirt-shadow: var(--pp-world-sunset-dirt-shadow); --pp-blocks-pebble: var(--pp-world-sunset-dirt-pebble);
+  [data-chu-scheme="sunset"] {
+    --chu-blocks-sky-1: var(--chu-world-sunset-sky-1); --chu-blocks-sky-2: var(--chu-world-sunset-sky-2); --chu-blocks-sky-3: var(--chu-world-sunset-sky-3);
+    --chu-blocks-sky-4: var(--chu-world-sunset-sky-4); --chu-blocks-sky-5: var(--chu-world-sunset-sky-5); --chu-blocks-sky-6: var(--chu-world-sunset-sky-6);
+    --chu-blocks-grass-top: var(--chu-world-sunset-grass-top); --chu-blocks-grass: var(--chu-world-sunset-grass); --chu-blocks-grass-lip: var(--chu-world-sunset-grass-lip);
+    --chu-blocks-dirt: var(--chu-world-sunset-dirt); --chu-blocks-dirt-shadow: var(--chu-world-sunset-dirt-shadow); --chu-blocks-pebble: var(--chu-world-sunset-dirt-pebble);
   }
-  [data-pp-scheme="night"] {
-    --pp-blocks-sky-1: var(--pp-world-night-sky-1); --pp-blocks-sky-2: var(--pp-world-night-sky-2); --pp-blocks-sky-3: var(--pp-world-night-sky-3);
-    --pp-blocks-sky-4: var(--pp-world-night-sky-4); --pp-blocks-sky-5: var(--pp-world-night-sky-5); --pp-blocks-sky-6: var(--pp-world-night-sky-6);
-    --pp-blocks-grass-top: var(--pp-world-night-grass-top); --pp-blocks-grass: var(--pp-world-night-grass); --pp-blocks-grass-lip: var(--pp-world-night-grass-lip);
-    --pp-blocks-dirt: var(--pp-world-night-dirt); --pp-blocks-dirt-shadow: var(--pp-world-night-dirt-shadow); --pp-blocks-pebble: var(--pp-world-night-dirt-pebble);
+  [data-chu-scheme="night"] {
+    --chu-blocks-sky-1: var(--chu-world-night-sky-1); --chu-blocks-sky-2: var(--chu-world-night-sky-2); --chu-blocks-sky-3: var(--chu-world-night-sky-3);
+    --chu-blocks-sky-4: var(--chu-world-night-sky-4); --chu-blocks-sky-5: var(--chu-world-night-sky-5); --chu-blocks-sky-6: var(--chu-world-night-sky-6);
+    --chu-blocks-grass-top: var(--chu-world-night-grass-top); --chu-blocks-grass: var(--chu-world-night-grass); --chu-blocks-grass-lip: var(--chu-world-night-grass-lip);
+    --chu-blocks-dirt: var(--chu-world-night-dirt); --chu-blocks-dirt-shadow: var(--chu-world-night-dirt-shadow); --chu-blocks-pebble: var(--chu-world-night-dirt-pebble);
   }
   @media (prefers-color-scheme: dark) {
-    :root:not([data-pp-scheme]) {
-      --pp-blocks-sky-1: var(--pp-world-night-sky-1); --pp-blocks-sky-2: var(--pp-world-night-sky-2); --pp-blocks-sky-3: var(--pp-world-night-sky-3);
-      --pp-blocks-sky-4: var(--pp-world-night-sky-4); --pp-blocks-sky-5: var(--pp-world-night-sky-5); --pp-blocks-sky-6: var(--pp-world-night-sky-6);
-      --pp-blocks-grass-top: var(--pp-world-night-grass-top); --pp-blocks-grass: var(--pp-world-night-grass); --pp-blocks-grass-lip: var(--pp-world-night-grass-lip);
-      --pp-blocks-dirt: var(--pp-world-night-dirt); --pp-blocks-dirt-shadow: var(--pp-world-night-dirt-shadow); --pp-blocks-pebble: var(--pp-world-night-dirt-pebble);
+    :root:not([data-chu-scheme]) {
+      --chu-blocks-sky-1: var(--chu-world-night-sky-1); --chu-blocks-sky-2: var(--chu-world-night-sky-2); --chu-blocks-sky-3: var(--chu-world-night-sky-3);
+      --chu-blocks-sky-4: var(--chu-world-night-sky-4); --chu-blocks-sky-5: var(--chu-world-night-sky-5); --chu-blocks-sky-6: var(--chu-world-night-sky-6);
+      --chu-blocks-grass-top: var(--chu-world-night-grass-top); --chu-blocks-grass: var(--chu-world-night-grass); --chu-blocks-grass-lip: var(--chu-world-night-grass-lip);
+      --chu-blocks-dirt: var(--chu-world-night-dirt); --chu-blocks-dirt-shadow: var(--chu-world-night-dirt-shadow); --chu-blocks-pebble: var(--chu-world-night-dirt-pebble);
     }
   }
 }

@@ -136,7 +136,7 @@ jobs:
           restore-keys: real-stack-npm-
 
       - name: Real stack
-        run: node scripts/real-stack.mjs --dir "$RUNNER_TEMP/pp-stack"
+        run: node scripts/real-stack.mjs --dir "$RUNNER_TEMP/chu-stack"
 
       - name: Real-stack logs
         if: failure()
@@ -144,8 +144,8 @@ jobs:
         with:
           name: real-stack
           path: |
-            ${{ runner.temp }}/pp-stack/results.json
-            ${{ runner.temp }}/pp-stack/pack.log
-            ${{ runner.temp }}/pp-stack/*/real-stack.log
-            ${{ runner.temp }}/pp-stack/*/*/*.png
+            ${{ runner.temp }}/chu-stack/results.json
+            ${{ runner.temp }}/chu-stack/pack.log
+            ${{ runner.temp }}/chu-stack/*/real-stack.log
+            ${{ runner.temp }}/chu-stack/*/*/*.png
           if-no-files-found: ignore

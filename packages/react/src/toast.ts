@@ -1,5 +1,5 @@
 /**
- * toast(): a short message in the page's <pp-toaster> (one is added to <body> if there is none).
+ * toast(): a short message in the page's <chu-toaster> (one is added to <body> if there is none).
  *
  *   import { toast } from "@jaatster/blip-react";
  *   <Button onClick={() => toast({ title: "Saved", tone: "success" })}>Save</Button>

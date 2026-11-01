@@ -2,7 +2,7 @@
 name: Command palette
 package: "@jaatster/blip-components"
 css: command.css
-element: pp-command
+element: chu-command
 react: CommandPalette
 status: beta
 equivalents:
@@ -19,55 +19,55 @@ fast path, never as the only path: everything in it should also be reachable fro
 ## Usage
 
 ```html
-<button class="pp-box pp-button" data-variant="outline" commandfor="palette" command="show-modal">Search</button>
+<button class="chu-box chu-button" data-variant="outline" commandfor="palette" command="show-modal">Search</button>
 
-<pp-command shortcut="mod+k">
-  <dialog id="palette" class="pp-box pp-command pp-pop-in" aria-label="Command palette" closedby="any">
-    <div class="pp-command-search">
-      <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
-      <input class="pp-command-input" type="text" aria-label="Search pages and actions" placeholder="Search…">
+<chu-command shortcut="mod+k">
+  <dialog id="palette" class="chu-box chu-command chu-pop-in" aria-label="Command palette" closedby="any">
+    <div class="chu-command-search">
+      <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+      <input class="chu-command-input" type="text" aria-label="Search pages and actions" placeholder="Search…">
     </div>
-    <div class="pp-command-results" role="listbox" aria-label="Results">
-      <div class="pp-command-group" role="group" aria-labelledby="palette-pages">
-        <div class="pp-command-heading" id="palette-pages">Pages</div>
-        <div class="pp-box pp-command-item" role="option" data-value="/levels" data-keywords="worlds maps">
-          <svg class="pp-icon" …></svg><span class="pp-command-label">Levels</span><span class="pp-command-hint">Page</span>
+    <div class="chu-command-results" role="listbox" aria-label="Results">
+      <div class="chu-command-group" role="group" aria-labelledby="palette-pages">
+        <div class="chu-command-heading" id="palette-pages">Pages</div>
+        <div class="chu-box chu-command-item" role="option" data-value="/levels" data-keywords="worlds maps">
+          <svg class="chu-icon" …></svg><span class="chu-command-label">Levels</span><span class="chu-command-hint">Page</span>
         </div>
       </div>
     </div>
-    <p class="pp-command-empty" hidden>Nothing matches. Try a page or an action.</p>
-    <p class="pp-sr-only" role="status"></p>
+    <p class="chu-command-empty" hidden>Nothing matches. Try a page or an action.</p>
+    <p class="chu-sr-only" role="status"></p>
   </dialog>
-</pp-command>
+</chu-command>
 ```
 
 ```js
-document.querySelector("pp-command").addEventListener("pp-action", (e) => go(e.detail.value));
+document.querySelector("chu-command").addEventListener("chu-action", (e) => go(e.detail.value));
 ```
 
-`<pp-command>` (from `@jaatster/blip-elements/command.js`) makes the field a combobox over the listbox, filters as you
+`<chu-command>` (from `@jaatster/blip-elements/command.js`) makes the field a combobox over the listbox, filters as you
 type, moves the active result and opens and closes the palette on Ctrl+K (Cmd+K on a Mac). The dialog itself is native:
 it traps focus, closes on Escape and gives focus back to whatever had it.
 
 ## Anatomy
 
 1. **Scrim**: an ink dither over the page (`::backdrop`), never a translucent wash.
-2. **Panel**: `.pp-command`, a cream box near the top of the screen. It pops in: a pixel low for a frame, then in place.
-3. **Search**: `.pp-command-search`, an icon and the field (`.pp-command-input`), over a one-pixel rule.
-4. **Results**: `.pp-command-results`, `role="listbox"`, scrolling; groups (`role="group"`) with a heading.
+2. **Panel**: `.chu-command`, a cream box near the top of the screen. It pops in: a pixel low for a frame, then in place.
+3. **Search**: `.chu-command-search`, an icon and the field (`.chu-command-input`), over a one-pixel rule.
+4. **Results**: `.chu-command-results`, `role="listbox"`, scrolling; groups (`role="group"`) with a heading.
 5. **Result**: a box that is just its text at rest and the yellow FOCUS row when active: icon, label
-   (`.pp-command-label`), a quiet hint (`.pp-command-hint`), keycaps at the end (`.pp-command-shortcut`).
-6. **Empty state**: `.pp-command-empty`, shown when nothing matches. **Status**: a `role="status"` line that announces
+   (`.chu-command-label`), a quiet hint (`.chu-command-hint`), keycaps at the end (`.chu-command-shortcut`).
+6. **Empty state**: `.chu-command-empty`, shown when nothing matches. **Status**: a `role="status"` line that announces
    the count.
-7. **Footer** (optional): `.pp-command-footer`, keycap hints for the keys.
+7. **Footer** (optional): `.chu-command-footer`, keycap hints for the keys.
 
 ## Variants
 
 | Attribute | Values | Use |
 |---|---|---|
-| `shortcut` on `pp-command` | `mod+k` (default), any `ctrl`, `meta`, `alt`, `shift`, `mod` and a key, or `""` for none | `mod` is Cmd on a Mac, Ctrl elsewhere. A bare key (`/`) never fires while someone is typing in a field. |
+| `shortcut` on `chu-command` | `mod+k` (default), any `ctrl`, `meta`, `alt`, `shift`, `mod` and a key, or `""` for none | `mod` is Cmd on a Mac, Ctrl elsewhere. A bare key (`/`) never fires while someone is typing in a field. |
 | `data-keywords` on a result | words | More words the filter matches ("dashboard" finds Overview). |
-| `data-value` on a result | text | What `pp-action` reports; the label otherwise. |
+| `data-value` on a result | text | What `chu-action` reports; the label otherwise. |
 | `aria-disabled="true"` on a result | | Dithered, passed by the arrow keys, never runs. Say why in its hint. |
 
 ## States
@@ -115,7 +115,7 @@ over a listbox, inside a modal dialog.
 
 ## API
 
-### `<pp-command>`
+### `<chu-command>`
 
 | Attribute, property or method | | |
 |---|---|---|
@@ -127,8 +127,8 @@ over a listbox, inside a modal dialog.
 
 | Event | Detail | |
 |---|---|---|
-| `pp-action` | `{ item, value }` | A result was chosen (Enter or a click), before it runs. Cancelable: `preventDefault()` keeps the palette open. Bubbles. |
-| `pp-open`, `pp-close` | | The palette opened or closed, however it happened. |
+| `chu-action` | `{ item, value }` | A result was chosen (Enter or a click), before it runs. Cancelable: `preventDefault()` keeps the palette open. Bubbles. |
+| `chu-open`, `chu-close` | | The palette opened or closed, however it happened. |
 
 Results rendered later (fetched as the person types) get ids and are filtered as they arrive.
 
@@ -139,5 +139,5 @@ search either way.
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-r` with `--pp-shape`, `--pp-shape-inner` | 5 on the panel, 3 on results | Corner radius in pixels. |
-| `--pp-box-top`, `--pp-box-fill`, `--pp-box-bottom` on `.pp-command` | `--pp-surface-panel` | The panel's colour. |
+| `--chu-r` with `--chu-shape`, `--chu-shape-inner` | 5 on the panel, 3 on results | Corner radius in pixels. |
+| `--chu-box-top`, `--chu-box-fill`, `--chu-box-bottom` on `.chu-command` | `--chu-surface-panel` | The panel's colour. |

@@ -18,21 +18,21 @@ groups for sets of toggles, a pager, or a main action with its menu button.
 ## Usage
 
 ```html
-<div class="pp-button-group" role="group" aria-label="Save">
-  <button class="pp-box pp-button">Save game</button>
-  <button class="pp-box pp-button" data-variant="soft">Save as…</button>
+<div class="chu-button-group" role="group" aria-label="Save">
+  <button class="chu-box chu-button">Save game</button>
+  <button class="chu-box chu-button" data-variant="soft">Save as…</button>
 </div>
 
-<div class="pp-button-group" data-attached role="group" aria-label="Text">
-  <button class="pp-box pp-button" data-variant="outline" aria-pressed="true">Bold</button>
-  <button class="pp-box pp-button" data-variant="outline" aria-pressed="false">Italic</button>
+<div class="chu-button-group" data-attached role="group" aria-label="Text">
+  <button class="chu-box chu-button" data-variant="outline" aria-pressed="true">Bold</button>
+  <button class="chu-box chu-button" data-variant="outline" aria-pressed="false">Italic</button>
 </div>
 ```
 
 ## Anatomy
 
 1. **Group**: a flex row; spaced groups wrap, attached groups don't.
-2. **Buttons**: ordinary `.pp-button`s, every tier, tone and size.
+2. **Buttons**: ordinary `.chu-button`s, every tier, tone and size.
 3. **Joints** (attached): neighbours overlap by one pixel, so they share one ink line; the corners that meet are
    square, the outer corners take radius 3 from the box's own stepped tiles.
 4. **Separator** (optional): a `<span role="separator">` draws a one-pixel soft line between sets.
@@ -93,5 +93,5 @@ over its neighbours, so its outline, lift and ring stay whole.
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-r`, `--pp-shape`, `--pp-shape-inner` on the buttons | set by the group | Attached groups set these per position; don't override them on attached buttons. |
+| `--chu-r`, `--chu-shape`, `--chu-shape-inner` on the buttons | set by the group | Attached groups set these per position; don't override them on attached buttons. |
 | `gap` (plain CSS) | 4 pixels | Spacing in spaced groups. |

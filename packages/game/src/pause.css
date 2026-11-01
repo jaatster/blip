@@ -2,123 +2,123 @@
  * Pause menu. A cream panel over a dithered ink scrim: the title in POP, a menu with the pixel pointer, a hint line.
  * It is a native <dialog>: showModal() puts focus in, Escape closes it, and the game behind goes inert.
  *
- *   <dialog class="pp-box pp-pause" aria-labelledby="pause-title">
- *     <h2 class="pp-pause-title pp-display pp-pop" data-scale="3" data-pop="Paused" id="pause-title">Paused</h2>
- *     <pp-choices>
- *       <ul class="pp-choices" role="list" data-font="display">
- *         <li><button class="pp-box pp-choice" data-variant="ghost" value="resume" autofocus>Resume</button></li>
- *         <li><button class="pp-box pp-choice" data-variant="ghost" value="quit">Quit to map</button></li>
+ *   <dialog class="chu-box chu-pause" aria-labelledby="pause-title">
+ *     <h2 class="chu-pause-title chu-display chu-pop" data-scale="3" data-pop="Paused" id="pause-title">Paused</h2>
+ *     <chu-choices>
+ *       <ul class="chu-choices" role="list" data-font="display">
+ *         <li><button class="chu-box chu-choice" data-variant="ghost" value="resume" autofocus>Resume</button></li>
+ *         <li><button class="chu-box chu-choice" data-variant="ghost" value="quit">Quit to map</button></li>
  *       </ul>
- *     </pp-choices>
- *     <p class="pp-pause-hint pp-prompt"><kbd class="pp-box pp-prompt-key">Esc</kbd> Resume</p>
+ *     </chu-choices>
+ *     <p class="chu-pause-hint chu-prompt"><kbd class="chu-box chu-prompt-key">Esc</kbd> Resume</p>
  *   </dialog>
  *
  *   dialog.showModal();                       the ::backdrop is the dithered scrim: no translucent wash
- *   .pp-pause-stats                           a row of small facts (time, coins, stars) under the title
- *   .pp-stage > .pp-pause[open]               shown inside a stage without the modal (docs, attract screens)
+ *   .chu-pause-stats                           a row of small facts (time, coins, stars) under the title
+ *   .chu-stage > .chu-pause[open]               shown inside a stage without the modal (docs, attract screens)
  *
  * It pops in: a pixel low for a frame, then in place. On a narrow stage its title steps down a scale (stage.css) and
  * its sides narrow; when it is taller than the room (a phone, a bigger text size) the menu scrolls.
  */
 
-@layer pp.kits {
-  .pp-pause {
-    --pp-r: 5;
-    --pp-shape: var(--pp-shape-5);
-    --pp-shape-inner: var(--pp-shape-5-inner);
-    --pp-band-top: 4;
-    --pp-band-bottom: 4;
+@layer chu.kits {
+  .chu-pause {
+    --chu-r: 5;
+    --chu-shape: var(--chu-shape-5);
+    --chu-shape-inner: var(--chu-shape-5-inner);
+    --chu-band-top: 4;
+    --chu-band-bottom: 4;
     inline-size: max-content;
-    max-inline-size: calc(100% - 16 * var(--pp-pixel));
-    max-block-size: calc(100% - 16 * var(--pp-pixel));
-    padding: calc(10 * var(--pp-pixel)) calc(16 * var(--pp-pixel)) calc(10 * var(--pp-pixel));
+    max-inline-size: calc(100% - 16 * var(--chu-pixel));
+    max-block-size: calc(100% - 16 * var(--chu-pixel));
+    padding: calc(10 * var(--chu-pixel)) calc(16 * var(--chu-pixel)) calc(10 * var(--chu-pixel));
     overflow: visible;
     text-align: center;
   }
-  .pp-pause:not([data-tone]) {
+  .chu-pause:not([data-tone]) {
     /* A cream panel is a light island in every scheme: text, lines and wells inside take their light values. */
-    --pp-text: var(--pp-ink);
-    --pp-text-muted: var(--pp-ink-soft);
-    --pp-line: var(--pp-ink);
-    --pp-line-soft: var(--pp-candy-cream-shade);
-    --pp-surface: var(--pp-white);
-    --pp-surface-sunken: var(--pp-candy-cream-shade);
-    --pp-bg: var(--pp-candy-cream);
+    --chu-text: var(--chu-ink);
+    --chu-text-muted: var(--chu-ink-soft);
+    --chu-line: var(--chu-ink);
+    --chu-line-soft: var(--chu-candy-cream-shade);
+    --chu-surface: var(--chu-white);
+    --chu-surface-sunken: var(--chu-candy-cream-shade);
+    --chu-bg: var(--chu-candy-cream);
     color-scheme: light;
-    --pp-tone: var(--pp-candy-cream);
-    --pp-tone-light: var(--pp-candy-cream-light);
-    --pp-tone-shade: var(--pp-candy-cream-shade);
-    --pp-tone-on: var(--pp-ink);
+    --chu-tone: var(--chu-candy-cream);
+    --chu-tone-light: var(--chu-candy-cream-light);
+    --chu-tone-shade: var(--chu-candy-cream-shade);
+    --chu-tone-on: var(--chu-ink);
   }
-  .pp-pause[open] {
+  .chu-pause[open] {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: calc(6 * var(--pp-pixel));
-    animation: pp-pop-in calc(2 * var(--pp-duration-frame)) steps(1, jump-end) both;
+    gap: calc(6 * var(--chu-pixel));
+    animation: chu-pop-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end) both;
   }
   /* Every part keeps its height but the menu, which scrolls when the panel is taller than the room, with room inside
      the scroller for the focus ring. */
-  .pp-pause[open] > * { flex: none; }
-  .pp-pause[open] > pp-choices {
+  .chu-pause[open] > * { flex: none; }
+  .chu-pause[open] > chu-choices {
     flex-shrink: 1;
     min-block-size: 0;
     overflow-y: auto;
-    padding: calc(2 * var(--pp-pixel));
-    margin: calc(-2 * var(--pp-pixel));
+    padding: calc(2 * var(--chu-pixel));
+    margin: calc(-2 * var(--chu-pixel));
   }
   /* While more of the menu lies past an edge, that edge dithers out over twelve pixels in three hard steps, as every
      scroller's does (never a wash); with keyboard focus in the menu the cue steps aside, so no ring is dithered. */
   @supports (animation-timeline: scroll()) {
-    .pp-pause[open] > pp-choices:not(:has(:focus-visible)) {
+    .chu-pause[open] > chu-choices:not(:has(:focus-visible)) {
       --_s: 0;
       --_e: 0;
-      --_f: calc(12 * var(--pp-pixel));
+      --_f: calc(12 * var(--chu-pixel));
       mask:
         linear-gradient(#000 0 0) 0 calc(var(--_s) * var(--_f)) / 100% calc(100% - (var(--_s) + var(--_e)) * var(--_f)) no-repeat,
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 12' shape-rendering='crispEdges'%3E%3Cpath d='M0 1h1v1H0zM0 3h1v1H0zM0 5h1v1H0zM0 7h1v1H0zM0 8h1v4H0zM1 4h1v1H1zM1 6h1v1H1zM1 8h1v1H1zM1 10h1v1H1z'/%3E%3C/svg%3E") 0 0 / calc(2 * var(--pp-pixel)) calc(var(--_s) * var(--_f)) repeat-x,
-        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 12' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v4H0zM0 4h1v1H0zM0 6h1v1H0zM0 8h1v1H0zM0 10h1v1H0zM1 1h1v1H1zM1 3h1v1H1zM1 5h1v1H1zM1 7h1v1H1z'/%3E%3C/svg%3E") 0 100% / calc(2 * var(--pp-pixel)) calc(var(--_e) * var(--_f)) repeat-x;
-      animation: pp-pause-more steps(1, jump-end) both;
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 12' shape-rendering='crispEdges'%3E%3Cpath d='M0 1h1v1H0zM0 3h1v1H0zM0 5h1v1H0zM0 7h1v1H0zM0 8h1v4H0zM1 4h1v1H1zM1 6h1v1H1zM1 8h1v1H1zM1 10h1v1H1z'/%3E%3C/svg%3E") 0 0 / calc(2 * var(--chu-pixel)) calc(var(--_s) * var(--_f)) repeat-x,
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2 12' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v4H0zM0 4h1v1H0zM0 6h1v1H0zM0 8h1v1H0zM0 10h1v1H0zM1 1h1v1H1zM1 3h1v1H1zM1 5h1v1H1zM1 7h1v1H1z'/%3E%3C/svg%3E") 0 100% / calc(2 * var(--chu-pixel)) calc(var(--_e) * var(--_f)) repeat-x;
+      animation: chu-pause-more steps(1, jump-end) both;
       animation-timeline: scroll(self);
     }
   }
-  @container pp-stage (width < 320px) {
-    .pp-pause { padding-inline: calc(8 * var(--pp-pixel)); }
+  @container chu-stage (width < 320px) {
+    .chu-pause { padding-inline: calc(8 * var(--chu-pixel)); }
   }
-  .pp-pause:modal { position: fixed; }
-  .pp-pause::backdrop {
-    background: repeating-conic-gradient(var(--pp-scrim) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel));
+  .chu-pause:modal { position: fixed; }
+  .chu-pause::backdrop {
+    background: repeating-conic-gradient(var(--chu-scrim) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel));
   }
-  .pp-stage > .pp-pause[open] {
+  .chu-stage > .chu-pause[open] {
     position: absolute;
     inset: 0;
     margin: auto;
     block-size: fit-content;
   }
 
-  .pp-pause-title { margin: 0 0 calc(2 * var(--pp-pixel)); }
-  .pp-pause-stats {
+  .chu-pause-title { margin: 0 0 calc(2 * var(--chu-pixel)); }
+  .chu-pause-stats {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: calc(2 * var(--pp-pixel)) calc(10 * var(--pp-pixel));
+    gap: calc(2 * var(--chu-pixel)) calc(10 * var(--chu-pixel));
     margin: 0;
-    font-size: var(--pp-size-small);
+    font-size: var(--chu-size-small);
   }
-  .pp-pause-stats > * { display: inline-flex; align-items: center; gap: calc(3 * var(--pp-pixel)); }
-  .pp-pause-hint { color: var(--pp-ink-soft); }
+  .chu-pause-stats > * { display: inline-flex; align-items: center; gap: calc(3 * var(--chu-pixel)); }
+  .chu-pause-hint { color: var(--chu-ink-soft); }
 
   @media (prefers-reduced-motion: reduce) {
-    .pp-pause[open] { animation: none; }
+    .chu-pause[open] { animation: none; }
   }
   @media (forced-colors: active) {
-    .pp-pause::backdrop { background: Canvas; opacity: 0.8; }
+    .chu-pause::backdrop { background: Canvas; opacity: 0.8; }
   }
 }
 
 /* Where the menu is scrolled to: the top (more below), between (more both ways), the bottom (more above). A menu that
    fits has no timeline, and shows no cue. */
-@keyframes pp-pause-more {
+@keyframes chu-pause-more {
   0% { --_s: 0; --_e: 1; }
   1%, 98% { --_s: 1; --_e: 1; }
   99%, 100% { --_s: 1; --_e: 0; }

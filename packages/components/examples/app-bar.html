@@ -1,221 +1,221 @@
-<!-- App bar, in a whole dashboard: the shell is a size container named pp-shell (container: pp-shell / inline-size),
+<!-- App bar, in a whole dashboard: the shell is a size container named chu-shell (container: chu-shell / inline-size),
      so the app bar, the sidebar and the bottom bar all answer to its width. Wide: links in the bar, the full sidebar.
      Medium (under 1024 px): the links fold behind the menu button and the sidebar folds to a rail. Phone (under
      600 px): the sidebar steps aside and the bottom bar takes over. Each shell is a screen that scrolls, so the
      bottom bar sticks to its foot. The dashed line is the shell's edge. -->
-<p class="pp-small pp-muted" style="margin-block:calc(4*var(--pp-pixel))">Wide</p>
-<div style="container:pp-shell / inline-size;max-block-size:calc(250*var(--pp-pixel));overflow-y:auto;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:calc(6*var(--pp-pixel));padding:calc(4*var(--pp-pixel));outline:var(--pp-pixel) dashed var(--pp-line-soft)">
-  <header class="pp-box pp-app-bar" style="grid-column:1 / -1">
-    <a class="pp-app-bar-brand" href="#overview"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg><span class="pp-display pp-pop" data-scale="2" data-tone="pink" data-pop="Questboard">Questboard</span></a>
-    <nav class="pp-app-bar-nav" aria-label="Main">
-      <button class="pp-box pp-button pp-app-bar-toggle" data-variant="ghost" data-icon-only popovertarget="ab-links-wide" aria-label="Menu"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2H1zm0 4h10v2H1zm0 4h10v2H1z"/></svg></button>
-      <ul class="pp-box pp-app-bar-links" id="ab-links-wide" popover role="list">
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#live" aria-current="page">Live ops</a></li>
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#studio">Studio</a></li>
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#community">Community</a></li>
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#help">Help</a></li>
+<p class="chu-small chu-muted" style="margin-block:calc(4*var(--chu-pixel))">Wide</p>
+<div style="container:chu-shell / inline-size;max-block-size:calc(250*var(--chu-pixel));overflow-y:auto;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:calc(6*var(--chu-pixel));padding:calc(4*var(--chu-pixel));outline:var(--chu-pixel) dashed var(--chu-line-soft)">
+  <header class="chu-box chu-app-bar" style="grid-column:1 / -1">
+    <a class="chu-app-bar-brand" href="#overview"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg><span class="chu-display chu-pop" data-scale="2" data-tone="pink" data-pop="Questboard">Questboard</span></a>
+    <nav class="chu-app-bar-nav" aria-label="Main">
+      <button class="chu-box chu-button chu-app-bar-toggle" data-variant="ghost" data-icon-only popovertarget="ab-links-wide" aria-label="Menu"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2H1zm0 4h10v2H1zm0 4h10v2H1z"/></svg></button>
+      <ul class="chu-box chu-app-bar-links" id="ab-links-wide" popover role="list">
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#live" aria-current="page">Live ops</a></li>
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#studio">Studio</a></li>
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#community">Community</a></li>
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#help">Help</a></li>
       </ul>
     </nav>
-    <div class="pp-app-bar-actions">
-      <button class="pp-box pp-button" data-variant="ghost" data-icon-only aria-label="Search" aria-keyshortcuts="Control+K"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg></button>
-      <button class="pp-box pp-button" data-variant="ghost" data-icon-only aria-label="Alerts, 3 new"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v1h2v1h1v3h1v2H1V6h1V3h1V2h2zM4 9h4v1H7v1H5v-1H4z"/></svg></button>
-      <pp-menu class="pp-menu" data-align="end">
-        <button class="pp-box pp-button" data-variant="soft" data-tone="pink" data-icon-only aria-label="Account: Mika"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg></button>
-        <div class="pp-box pp-menu-list pp-pop-in" role="menu" aria-label="Account" popover>
-          <a class="pp-box pp-menu-item" role="menuitem" href="#profile"><span class="pp-menu-label">Profile</span></a>
-          <a class="pp-box pp-menu-item" role="menuitem" href="#settings"><span class="pp-menu-label">Settings</span></a>
-          <div class="pp-menu-separator" role="separator"></div>
-          <button class="pp-box pp-menu-item" role="menuitem"><span class="pp-menu-label">Sign out</span></button>
+    <div class="chu-app-bar-actions">
+      <button class="chu-box chu-button" data-variant="ghost" data-icon-only aria-label="Search" aria-keyshortcuts="Control+K"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg></button>
+      <button class="chu-box chu-button" data-variant="ghost" data-icon-only aria-label="Alerts, 3 new"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v1h2v1h1v3h1v2H1V6h1V3h1V2h2zM4 9h4v1H7v1H5v-1H4z"/></svg></button>
+      <chu-menu class="chu-menu" data-align="end">
+        <button class="chu-box chu-button" data-variant="soft" data-tone="pink" data-icon-only aria-label="Account: Mika"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg></button>
+        <div class="chu-box chu-menu-list chu-pop-in" role="menu" aria-label="Account" popover>
+          <a class="chu-box chu-menu-item" role="menuitem" href="#profile"><span class="chu-menu-label">Profile</span></a>
+          <a class="chu-box chu-menu-item" role="menuitem" href="#settings"><span class="chu-menu-label">Settings</span></a>
+          <div class="chu-menu-separator" role="separator"></div>
+          <button class="chu-box chu-menu-item" role="menuitem"><span class="chu-menu-label">Sign out</span></button>
         </div>
-      </pp-menu>
+      </chu-menu>
     </div>
   </header>
 
-  <nav class="pp-sidebar" aria-label="Live ops" data-collapse="auto" data-arrow>
-    <ul class="pp-sidebar-list" role="list">
-      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#overview" aria-current="page"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zm6 0h4v4H7zM1 7h4v4H1zm6 0h4v4H7z"/></svg><span class="pp-sidebar-label">Overview</span></a></li>
-      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#players"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg><span class="pp-sidebar-label">Players</span><span class="pp-box pp-sidebar-badge">128</span></a></li>
-      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#levels"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2h-1v1H9v1h1v1h1v1H3v4H1z"/></svg><span class="pp-sidebar-label">Levels</span></a></li>
-      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#events"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h2v1h4V2h2v1h1v2H1V3h1zM1 6h10v5H1zm2 1v2h2V7z"/></svg><span class="pp-sidebar-label">Events</span></a></li>
-      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#store"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h6v2h2v8H1V3h2zm2 1v1h2V2z"/></svg><span class="pp-sidebar-label">Store</span></a></li>
-      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#sales"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M9 1h2v7H9zM5 3h2v5H5zM1 5h2v3H1zm0 4h10v2H1z"/></svg><span class="pp-sidebar-label">Sales</span><span class="pp-box pp-sidebar-badge" data-tone="danger">5</span></a></li>
+  <nav class="chu-sidebar" aria-label="Live ops" data-collapse="auto" data-arrow>
+    <ul class="chu-sidebar-list" role="list">
+      <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="#overview" aria-current="page"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zm6 0h4v4H7zM1 7h4v4H1zm6 0h4v4H7z"/></svg><span class="chu-sidebar-label">Overview</span></a></li>
+      <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="#players"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg><span class="chu-sidebar-label">Players</span><span class="chu-box chu-sidebar-badge">128</span></a></li>
+      <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="#levels"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2h-1v1H9v1h1v1h1v1H3v4H1z"/></svg><span class="chu-sidebar-label">Levels</span></a></li>
+      <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="#events"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h2v1h4V2h2v1h1v2H1V3h1zM1 6h10v5H1zm2 1v2h2V7z"/></svg><span class="chu-sidebar-label">Events</span></a></li>
+      <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="#store"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h6v2h2v8H1V3h2zm2 1v1h2V2z"/></svg><span class="chu-sidebar-label">Store</span></a></li>
+      <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="#sales"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M9 1h2v7H9zM5 3h2v5H5zM1 5h2v3H1zm0 4h10v2H1z"/></svg><span class="chu-sidebar-label">Sales</span><span class="chu-box chu-sidebar-badge" data-tone="danger">5</span></a></li>
     </ul>
   </nav>
 
-  <div style="display:grid;gap:calc(6*var(--pp-pixel));min-inline-size:0;padding-block:calc(4*var(--pp-pixel))">
-    <nav class="pp-breadcrumbs" data-size="sm" aria-label="Breadcrumb">
-      <ol class="pp-breadcrumbs-list">
-        <li><a class="pp-box pp-breadcrumbs-link" data-variant="ghost" href="#live">Live ops</a></li>
-        <li><a class="pp-box pp-breadcrumbs-link" data-variant="ghost" href="#overview" aria-current="page">Overview</a></li>
+  <div style="display:grid;gap:calc(6*var(--chu-pixel));min-inline-size:0;padding-block:calc(4*var(--chu-pixel))">
+    <nav class="chu-breadcrumbs" data-size="sm" aria-label="Breadcrumb">
+      <ol class="chu-breadcrumbs-list">
+        <li><a class="chu-box chu-breadcrumbs-link" data-variant="ghost" href="#live">Live ops</a></li>
+        <li><a class="chu-box chu-breadcrumbs-link" data-variant="ghost" href="#overview" aria-current="page">Overview</a></li>
       </ol>
     </nav>
-    <h3 class="pp-title">Overview</h3>
-    <dl class="pp-grid" data-min="64" data-gap="4" data-fill>
-      <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Players online</dt><dd class="pp-stat-value pp-display" data-scale="2">1204</dd></div>
-      <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Levels cleared</dt><dd class="pp-stat-value pp-display" data-scale="2">8812</dd></div>
-      <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Coins spent</dt><dd class="pp-stat-value pp-display" data-scale="2">54K</dd></div>
+    <h3 class="chu-title">Overview</h3>
+    <dl class="chu-grid" data-min="64" data-gap="4" data-fill>
+      <div class="chu-box chu-stat" data-variant="panel"><dt class="chu-stat-label">Players online</dt><dd class="chu-stat-value chu-display" data-scale="2">1204</dd></div>
+      <div class="chu-box chu-stat" data-variant="panel"><dt class="chu-stat-label">Levels cleared</dt><dd class="chu-stat-value chu-display" data-scale="2">8812</dd></div>
+      <div class="chu-box chu-stat" data-variant="panel"><dt class="chu-stat-label">Coins spent</dt><dd class="chu-stat-value chu-display" data-scale="2">54K</dd></div>
     </dl>
   </div>
 
-  <nav class="pp-box pp-bottom-bar" aria-label="Live ops" data-collapse="auto" style="grid-column:1 / -1">
-    <ul class="pp-bottom-bar-list" role="list">
-      <li><a class="pp-box pp-bottom-bar-item" data-variant="ghost" href="#overview" aria-current="page"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zm6 0h4v4H7zM1 7h4v4H1zm6 0h4v4H7z"/></svg><span class="pp-bottom-bar-label">Overview</span></a></li>
-      <li><a class="pp-box pp-bottom-bar-item" data-variant="ghost" href="#players"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg><span class="pp-bottom-bar-label">Players</span></a></li>
-      <li><a class="pp-box pp-bottom-bar-item" data-variant="ghost" href="#levels"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2h-1v1H9v1h1v1h1v1H3v4H1z"/></svg><span class="pp-bottom-bar-label">Levels</span></a></li>
-      <li><a class="pp-box pp-bottom-bar-item" data-variant="ghost" href="#sales"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M9 1h2v7H9zM5 3h2v5H5zM1 5h2v3H1zm0 4h10v2H1z"/></svg><span class="pp-bottom-bar-label">Sales</span><span class="pp-box pp-bottom-bar-badge" data-tone="danger">5</span></a></li>
+  <nav class="chu-box chu-bottom-bar" aria-label="Live ops" data-collapse="auto" style="grid-column:1 / -1">
+    <ul class="chu-bottom-bar-list" role="list">
+      <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#overview" aria-current="page"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zm6 0h4v4H7zM1 7h4v4H1zm6 0h4v4H7z"/></svg><span class="chu-bottom-bar-label">Overview</span></a></li>
+      <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#players"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg><span class="chu-bottom-bar-label">Players</span></a></li>
+      <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#levels"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2h-1v1H9v1h1v1h1v1H3v4H1z"/></svg><span class="chu-bottom-bar-label">Levels</span></a></li>
+      <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#sales"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M9 1h2v7H9zM5 3h2v5H5zM1 5h2v3H1zm0 4h10v2H1z"/></svg><span class="chu-bottom-bar-label">Sales</span><span class="chu-box chu-bottom-bar-badge" data-tone="danger">5</span></a></li>
     </ul>
   </nav>
 </div>
-<p class="pp-small pp-muted" style="margin-block:calc(4*var(--pp-pixel))">Medium: 800 px</p>
-<div style="container:pp-shell / inline-size;max-inline-size:calc(400*var(--pp-pixel));max-block-size:calc(250*var(--pp-pixel));overflow-y:auto;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:calc(6*var(--pp-pixel));padding:calc(4*var(--pp-pixel));outline:var(--pp-pixel) dashed var(--pp-line-soft)">
-  <header class="pp-box pp-app-bar" style="grid-column:1 / -1">
-    <a class="pp-app-bar-brand" href="#overview"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg><span class="pp-display pp-pop" data-scale="2" data-tone="pink" data-pop="Questboard">Questboard</span></a>
-    <nav class="pp-app-bar-nav" aria-label="Main">
-      <button class="pp-box pp-button pp-app-bar-toggle" data-variant="ghost" data-icon-only popovertarget="ab-links-medium" aria-label="Menu"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2H1zm0 4h10v2H1zm0 4h10v2H1z"/></svg></button>
-      <ul class="pp-box pp-app-bar-links" id="ab-links-medium" popover role="list">
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#live" aria-current="page">Live ops</a></li>
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#studio">Studio</a></li>
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#community">Community</a></li>
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#help">Help</a></li>
+<p class="chu-small chu-muted" style="margin-block:calc(4*var(--chu-pixel))">Medium: 800 px</p>
+<div style="container:chu-shell / inline-size;max-inline-size:calc(400*var(--chu-pixel));max-block-size:calc(250*var(--chu-pixel));overflow-y:auto;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:calc(6*var(--chu-pixel));padding:calc(4*var(--chu-pixel));outline:var(--chu-pixel) dashed var(--chu-line-soft)">
+  <header class="chu-box chu-app-bar" style="grid-column:1 / -1">
+    <a class="chu-app-bar-brand" href="#overview"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg><span class="chu-display chu-pop" data-scale="2" data-tone="pink" data-pop="Questboard">Questboard</span></a>
+    <nav class="chu-app-bar-nav" aria-label="Main">
+      <button class="chu-box chu-button chu-app-bar-toggle" data-variant="ghost" data-icon-only popovertarget="ab-links-medium" aria-label="Menu"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2H1zm0 4h10v2H1zm0 4h10v2H1z"/></svg></button>
+      <ul class="chu-box chu-app-bar-links" id="ab-links-medium" popover role="list">
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#live" aria-current="page">Live ops</a></li>
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#studio">Studio</a></li>
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#community">Community</a></li>
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#help">Help</a></li>
       </ul>
     </nav>
-    <div class="pp-app-bar-actions">
-      <button class="pp-box pp-button" data-variant="ghost" data-icon-only aria-label="Search" aria-keyshortcuts="Control+K"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg></button>
-      <button class="pp-box pp-button" data-variant="ghost" data-icon-only aria-label="Alerts, 3 new"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v1h2v1h1v3h1v2H1V6h1V3h1V2h2zM4 9h4v1H7v1H5v-1H4z"/></svg></button>
-      <pp-menu class="pp-menu" data-align="end">
-        <button class="pp-box pp-button" data-variant="soft" data-tone="pink" data-icon-only aria-label="Account: Mika"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg></button>
-        <div class="pp-box pp-menu-list pp-pop-in" role="menu" aria-label="Account" popover>
-          <a class="pp-box pp-menu-item" role="menuitem" href="#profile"><span class="pp-menu-label">Profile</span></a>
-          <a class="pp-box pp-menu-item" role="menuitem" href="#settings"><span class="pp-menu-label">Settings</span></a>
-          <div class="pp-menu-separator" role="separator"></div>
-          <button class="pp-box pp-menu-item" role="menuitem"><span class="pp-menu-label">Sign out</span></button>
+    <div class="chu-app-bar-actions">
+      <button class="chu-box chu-button" data-variant="ghost" data-icon-only aria-label="Search" aria-keyshortcuts="Control+K"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg></button>
+      <button class="chu-box chu-button" data-variant="ghost" data-icon-only aria-label="Alerts, 3 new"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v1h2v1h1v3h1v2H1V6h1V3h1V2h2zM4 9h4v1H7v1H5v-1H4z"/></svg></button>
+      <chu-menu class="chu-menu" data-align="end">
+        <button class="chu-box chu-button" data-variant="soft" data-tone="pink" data-icon-only aria-label="Account: Mika"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg></button>
+        <div class="chu-box chu-menu-list chu-pop-in" role="menu" aria-label="Account" popover>
+          <a class="chu-box chu-menu-item" role="menuitem" href="#profile"><span class="chu-menu-label">Profile</span></a>
+          <a class="chu-box chu-menu-item" role="menuitem" href="#settings"><span class="chu-menu-label">Settings</span></a>
+          <div class="chu-menu-separator" role="separator"></div>
+          <button class="chu-box chu-menu-item" role="menuitem"><span class="chu-menu-label">Sign out</span></button>
         </div>
-      </pp-menu>
+      </chu-menu>
     </div>
   </header>
 
-  <nav class="pp-sidebar" aria-label="Live ops" data-collapse="auto" data-arrow>
-    <ul class="pp-sidebar-list" role="list">
-      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#overview" aria-current="page"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zm6 0h4v4H7zM1 7h4v4H1zm6 0h4v4H7z"/></svg><span class="pp-sidebar-label">Overview</span></a></li>
-      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#players"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg><span class="pp-sidebar-label">Players</span><span class="pp-box pp-sidebar-badge">128</span></a></li>
-      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#levels"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2h-1v1H9v1h1v1h1v1H3v4H1z"/></svg><span class="pp-sidebar-label">Levels</span></a></li>
-      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#events"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h2v1h4V2h2v1h1v2H1V3h1zM1 6h10v5H1zm2 1v2h2V7z"/></svg><span class="pp-sidebar-label">Events</span></a></li>
-      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#store"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h6v2h2v8H1V3h2zm2 1v1h2V2z"/></svg><span class="pp-sidebar-label">Store</span></a></li>
-      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#sales"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M9 1h2v7H9zM5 3h2v5H5zM1 5h2v3H1zm0 4h10v2H1z"/></svg><span class="pp-sidebar-label">Sales</span><span class="pp-box pp-sidebar-badge" data-tone="danger">5</span></a></li>
+  <nav class="chu-sidebar" aria-label="Live ops" data-collapse="auto" data-arrow>
+    <ul class="chu-sidebar-list" role="list">
+      <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="#overview" aria-current="page"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zm6 0h4v4H7zM1 7h4v4H1zm6 0h4v4H7z"/></svg><span class="chu-sidebar-label">Overview</span></a></li>
+      <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="#players"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg><span class="chu-sidebar-label">Players</span><span class="chu-box chu-sidebar-badge">128</span></a></li>
+      <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="#levels"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2h-1v1H9v1h1v1h1v1H3v4H1z"/></svg><span class="chu-sidebar-label">Levels</span></a></li>
+      <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="#events"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h2v1h4V2h2v1h1v2H1V3h1zM1 6h10v5H1zm2 1v2h2V7z"/></svg><span class="chu-sidebar-label">Events</span></a></li>
+      <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="#store"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h6v2h2v8H1V3h2zm2 1v1h2V2z"/></svg><span class="chu-sidebar-label">Store</span></a></li>
+      <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="#sales"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M9 1h2v7H9zM5 3h2v5H5zM1 5h2v3H1zm0 4h10v2H1z"/></svg><span class="chu-sidebar-label">Sales</span><span class="chu-box chu-sidebar-badge" data-tone="danger">5</span></a></li>
     </ul>
   </nav>
 
-  <div style="display:grid;gap:calc(6*var(--pp-pixel));min-inline-size:0;padding-block:calc(4*var(--pp-pixel))">
-    <nav class="pp-breadcrumbs" data-size="sm" aria-label="Breadcrumb">
-      <ol class="pp-breadcrumbs-list">
-        <li><a class="pp-box pp-breadcrumbs-link" data-variant="ghost" href="#live">Live ops</a></li>
-        <li><a class="pp-box pp-breadcrumbs-link" data-variant="ghost" href="#overview" aria-current="page">Overview</a></li>
+  <div style="display:grid;gap:calc(6*var(--chu-pixel));min-inline-size:0;padding-block:calc(4*var(--chu-pixel))">
+    <nav class="chu-breadcrumbs" data-size="sm" aria-label="Breadcrumb">
+      <ol class="chu-breadcrumbs-list">
+        <li><a class="chu-box chu-breadcrumbs-link" data-variant="ghost" href="#live">Live ops</a></li>
+        <li><a class="chu-box chu-breadcrumbs-link" data-variant="ghost" href="#overview" aria-current="page">Overview</a></li>
       </ol>
     </nav>
-    <h3 class="pp-title">Overview</h3>
-    <dl class="pp-grid" data-min="64" data-gap="4" data-fill>
-      <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Players online</dt><dd class="pp-stat-value pp-display" data-scale="2">1204</dd></div>
-      <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Levels cleared</dt><dd class="pp-stat-value pp-display" data-scale="2">8812</dd></div>
-      <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Coins spent</dt><dd class="pp-stat-value pp-display" data-scale="2">54K</dd></div>
+    <h3 class="chu-title">Overview</h3>
+    <dl class="chu-grid" data-min="64" data-gap="4" data-fill>
+      <div class="chu-box chu-stat" data-variant="panel"><dt class="chu-stat-label">Players online</dt><dd class="chu-stat-value chu-display" data-scale="2">1204</dd></div>
+      <div class="chu-box chu-stat" data-variant="panel"><dt class="chu-stat-label">Levels cleared</dt><dd class="chu-stat-value chu-display" data-scale="2">8812</dd></div>
+      <div class="chu-box chu-stat" data-variant="panel"><dt class="chu-stat-label">Coins spent</dt><dd class="chu-stat-value chu-display" data-scale="2">54K</dd></div>
     </dl>
   </div>
 
-  <nav class="pp-box pp-bottom-bar" aria-label="Live ops" data-collapse="auto" style="grid-column:1 / -1">
-    <ul class="pp-bottom-bar-list" role="list">
-      <li><a class="pp-box pp-bottom-bar-item" data-variant="ghost" href="#overview" aria-current="page"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zm6 0h4v4H7zM1 7h4v4H1zm6 0h4v4H7z"/></svg><span class="pp-bottom-bar-label">Overview</span></a></li>
-      <li><a class="pp-box pp-bottom-bar-item" data-variant="ghost" href="#players"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg><span class="pp-bottom-bar-label">Players</span></a></li>
-      <li><a class="pp-box pp-bottom-bar-item" data-variant="ghost" href="#levels"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2h-1v1H9v1h1v1h1v1H3v4H1z"/></svg><span class="pp-bottom-bar-label">Levels</span></a></li>
-      <li><a class="pp-box pp-bottom-bar-item" data-variant="ghost" href="#sales"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M9 1h2v7H9zM5 3h2v5H5zM1 5h2v3H1zm0 4h10v2H1z"/></svg><span class="pp-bottom-bar-label">Sales</span><span class="pp-box pp-bottom-bar-badge" data-tone="danger">5</span></a></li>
+  <nav class="chu-box chu-bottom-bar" aria-label="Live ops" data-collapse="auto" style="grid-column:1 / -1">
+    <ul class="chu-bottom-bar-list" role="list">
+      <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#overview" aria-current="page"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zm6 0h4v4H7zM1 7h4v4H1zm6 0h4v4H7z"/></svg><span class="chu-bottom-bar-label">Overview</span></a></li>
+      <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#players"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg><span class="chu-bottom-bar-label">Players</span></a></li>
+      <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#levels"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2h-1v1H9v1h1v1h1v1H3v4H1z"/></svg><span class="chu-bottom-bar-label">Levels</span></a></li>
+      <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#sales"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M9 1h2v7H9zM5 3h2v5H5zM1 5h2v3H1zm0 4h10v2H1z"/></svg><span class="chu-bottom-bar-label">Sales</span><span class="chu-box chu-bottom-bar-badge" data-tone="danger">5</span></a></li>
     </ul>
   </nav>
 </div>
-<p class="pp-small pp-muted" style="margin-block:calc(4*var(--pp-pixel))">Phone: 390 px (alerts move to the bottom bar)</p>
-<div style="container:pp-shell / inline-size;max-inline-size:calc(195*var(--pp-pixel));max-block-size:calc(250*var(--pp-pixel));overflow-y:auto;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:calc(6*var(--pp-pixel));padding:calc(4*var(--pp-pixel));outline:var(--pp-pixel) dashed var(--pp-line-soft)">
-  <header class="pp-box pp-app-bar" style="grid-column:1 / -1">
-    <a class="pp-app-bar-brand" href="#overview"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg><span class="pp-display pp-pop" data-scale="2" data-tone="pink" data-pop="Questboard">Questboard</span></a>
-    <nav class="pp-app-bar-nav" aria-label="Main">
-      <button class="pp-box pp-button pp-app-bar-toggle" data-variant="ghost" data-icon-only popovertarget="ab-links-phone" aria-label="Menu"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2H1zm0 4h10v2H1zm0 4h10v2H1z"/></svg></button>
-      <ul class="pp-box pp-app-bar-links" id="ab-links-phone" popover role="list">
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#live" aria-current="page">Live ops</a></li>
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#studio">Studio</a></li>
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#community">Community</a></li>
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#help">Help</a></li>
+<p class="chu-small chu-muted" style="margin-block:calc(4*var(--chu-pixel))">Phone: 390 px (alerts move to the bottom bar)</p>
+<div style="container:chu-shell / inline-size;max-inline-size:calc(195*var(--chu-pixel));max-block-size:calc(250*var(--chu-pixel));overflow-y:auto;display:grid;grid-template-columns:auto minmax(0,1fr);align-items:start;gap:calc(6*var(--chu-pixel));padding:calc(4*var(--chu-pixel));outline:var(--chu-pixel) dashed var(--chu-line-soft)">
+  <header class="chu-box chu-app-bar" style="grid-column:1 / -1">
+    <a class="chu-app-bar-brand" href="#overview"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg><span class="chu-display chu-pop" data-scale="2" data-tone="pink" data-pop="Questboard">Questboard</span></a>
+    <nav class="chu-app-bar-nav" aria-label="Main">
+      <button class="chu-box chu-button chu-app-bar-toggle" data-variant="ghost" data-icon-only popovertarget="ab-links-phone" aria-label="Menu"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2H1zm0 4h10v2H1zm0 4h10v2H1z"/></svg></button>
+      <ul class="chu-box chu-app-bar-links" id="ab-links-phone" popover role="list">
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#live" aria-current="page">Live ops</a></li>
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#studio">Studio</a></li>
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#community">Community</a></li>
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#help">Help</a></li>
       </ul>
     </nav>
-    <div class="pp-app-bar-actions">
-      <button class="pp-box pp-button" data-variant="ghost" data-icon-only aria-label="Search" aria-keyshortcuts="Control+K"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg></button>
+    <div class="chu-app-bar-actions">
+      <button class="chu-box chu-button" data-variant="ghost" data-icon-only aria-label="Search" aria-keyshortcuts="Control+K"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg></button>
 
-      <pp-menu class="pp-menu" data-align="end">
-        <button class="pp-box pp-button" data-variant="soft" data-tone="pink" data-icon-only aria-label="Account: Mika"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg></button>
-        <div class="pp-box pp-menu-list pp-pop-in" role="menu" aria-label="Account" popover>
-          <a class="pp-box pp-menu-item" role="menuitem" href="#profile"><span class="pp-menu-label">Profile</span></a>
-          <a class="pp-box pp-menu-item" role="menuitem" href="#settings"><span class="pp-menu-label">Settings</span></a>
-          <div class="pp-menu-separator" role="separator"></div>
-          <button class="pp-box pp-menu-item" role="menuitem"><span class="pp-menu-label">Sign out</span></button>
+      <chu-menu class="chu-menu" data-align="end">
+        <button class="chu-box chu-button" data-variant="soft" data-tone="pink" data-icon-only aria-label="Account: Mika"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg></button>
+        <div class="chu-box chu-menu-list chu-pop-in" role="menu" aria-label="Account" popover>
+          <a class="chu-box chu-menu-item" role="menuitem" href="#profile"><span class="chu-menu-label">Profile</span></a>
+          <a class="chu-box chu-menu-item" role="menuitem" href="#settings"><span class="chu-menu-label">Settings</span></a>
+          <div class="chu-menu-separator" role="separator"></div>
+          <button class="chu-box chu-menu-item" role="menuitem"><span class="chu-menu-label">Sign out</span></button>
         </div>
-      </pp-menu>
+      </chu-menu>
     </div>
   </header>
 
-  <nav class="pp-sidebar" aria-label="Live ops" data-collapse="auto" data-arrow>
-    <ul class="pp-sidebar-list" role="list">
-      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#overview" aria-current="page"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zm6 0h4v4H7zM1 7h4v4H1zm6 0h4v4H7z"/></svg><span class="pp-sidebar-label">Overview</span></a></li>
-      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#players"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg><span class="pp-sidebar-label">Players</span><span class="pp-box pp-sidebar-badge">128</span></a></li>
-      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#levels"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2h-1v1H9v1h1v1h1v1H3v4H1z"/></svg><span class="pp-sidebar-label">Levels</span></a></li>
-      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#events"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h2v1h4V2h2v1h1v2H1V3h1zM1 6h10v5H1zm2 1v2h2V7z"/></svg><span class="pp-sidebar-label">Events</span></a></li>
-      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#store"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h6v2h2v8H1V3h2zm2 1v1h2V2z"/></svg><span class="pp-sidebar-label">Store</span></a></li>
-      <li><a class="pp-box pp-sidebar-item" data-variant="ghost" href="#sales"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M9 1h2v7H9zM5 3h2v5H5zM1 5h2v3H1zm0 4h10v2H1z"/></svg><span class="pp-sidebar-label">Sales</span><span class="pp-box pp-sidebar-badge" data-tone="danger">5</span></a></li>
+  <nav class="chu-sidebar" aria-label="Live ops" data-collapse="auto" data-arrow>
+    <ul class="chu-sidebar-list" role="list">
+      <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="#overview" aria-current="page"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zm6 0h4v4H7zM1 7h4v4H1zm6 0h4v4H7z"/></svg><span class="chu-sidebar-label">Overview</span></a></li>
+      <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="#players"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg><span class="chu-sidebar-label">Players</span><span class="chu-box chu-sidebar-badge">128</span></a></li>
+      <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="#levels"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2h-1v1H9v1h1v1h1v1H3v4H1z"/></svg><span class="chu-sidebar-label">Levels</span></a></li>
+      <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="#events"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h2v1h4V2h2v1h1v2H1V3h1zM1 6h10v5H1zm2 1v2h2V7z"/></svg><span class="chu-sidebar-label">Events</span></a></li>
+      <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="#store"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h6v2h2v8H1V3h2zm2 1v1h2V2z"/></svg><span class="chu-sidebar-label">Store</span></a></li>
+      <li><a class="chu-box chu-sidebar-item" data-variant="ghost" href="#sales"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M9 1h2v7H9zM5 3h2v5H5zM1 5h2v3H1zm0 4h10v2H1z"/></svg><span class="chu-sidebar-label">Sales</span><span class="chu-box chu-sidebar-badge" data-tone="danger">5</span></a></li>
     </ul>
   </nav>
 
-  <div style="display:grid;gap:calc(6*var(--pp-pixel));min-inline-size:0;padding-block:calc(4*var(--pp-pixel))">
-    <nav class="pp-breadcrumbs" data-size="sm" aria-label="Breadcrumb">
-      <ol class="pp-breadcrumbs-list">
-        <li><a class="pp-box pp-breadcrumbs-link" data-variant="ghost" href="#live">Live ops</a></li>
-        <li><a class="pp-box pp-breadcrumbs-link" data-variant="ghost" href="#overview" aria-current="page">Overview</a></li>
+  <div style="display:grid;gap:calc(6*var(--chu-pixel));min-inline-size:0;padding-block:calc(4*var(--chu-pixel))">
+    <nav class="chu-breadcrumbs" data-size="sm" aria-label="Breadcrumb">
+      <ol class="chu-breadcrumbs-list">
+        <li><a class="chu-box chu-breadcrumbs-link" data-variant="ghost" href="#live">Live ops</a></li>
+        <li><a class="chu-box chu-breadcrumbs-link" data-variant="ghost" href="#overview" aria-current="page">Overview</a></li>
       </ol>
     </nav>
-    <h3 class="pp-title">Overview</h3>
-    <dl class="pp-grid" data-min="64" data-gap="4" data-fill>
-      <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Players online</dt><dd class="pp-stat-value pp-display" data-scale="2">1204</dd></div>
-      <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Levels cleared</dt><dd class="pp-stat-value pp-display" data-scale="2">8812</dd></div>
-      <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Coins spent</dt><dd class="pp-stat-value pp-display" data-scale="2">54K</dd></div>
+    <h3 class="chu-title">Overview</h3>
+    <dl class="chu-grid" data-min="64" data-gap="4" data-fill>
+      <div class="chu-box chu-stat" data-variant="panel"><dt class="chu-stat-label">Players online</dt><dd class="chu-stat-value chu-display" data-scale="2">1204</dd></div>
+      <div class="chu-box chu-stat" data-variant="panel"><dt class="chu-stat-label">Levels cleared</dt><dd class="chu-stat-value chu-display" data-scale="2">8812</dd></div>
+      <div class="chu-box chu-stat" data-variant="panel"><dt class="chu-stat-label">Coins spent</dt><dd class="chu-stat-value chu-display" data-scale="2">54K</dd></div>
     </dl>
   </div>
 
-  <nav class="pp-box pp-bottom-bar" aria-label="Live ops" data-collapse="auto" style="grid-column:1 / -1">
-    <ul class="pp-bottom-bar-list" role="list">
-      <li><a class="pp-box pp-bottom-bar-item" data-variant="ghost" href="#overview" aria-current="page"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zm6 0h4v4H7zM1 7h4v4H1zm6 0h4v4H7z"/></svg><span class="pp-bottom-bar-label">Overview</span></a></li>
-      <li><a class="pp-box pp-bottom-bar-item" data-variant="ghost" href="#players"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg><span class="pp-bottom-bar-label">Players</span></a></li>
-      <li><a class="pp-box pp-bottom-bar-item" data-variant="ghost" href="#levels"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2h-1v1H9v1h1v1h1v1H3v4H1z"/></svg><span class="pp-bottom-bar-label">Levels</span></a></li>
-      <li><a class="pp-box pp-bottom-bar-item" data-variant="ghost" href="#sales"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M9 1h2v7H9zM5 3h2v5H5zM1 5h2v3H1zm0 4h10v2H1z"/></svg><span class="pp-bottom-bar-label">Sales</span><span class="pp-box pp-bottom-bar-badge" data-tone="danger">5</span></a></li>
+  <nav class="chu-box chu-bottom-bar" aria-label="Live ops" data-collapse="auto" style="grid-column:1 / -1">
+    <ul class="chu-bottom-bar-list" role="list">
+      <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#overview" aria-current="page"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zm6 0h4v4H7zM1 7h4v4H1zm6 0h4v4H7z"/></svg><span class="chu-bottom-bar-label">Overview</span></a></li>
+      <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#players"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg><span class="chu-bottom-bar-label">Players</span></a></li>
+      <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#levels"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2h-1v1H9v1h1v1h1v1H3v4H1z"/></svg><span class="chu-bottom-bar-label">Levels</span></a></li>
+      <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#sales"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M9 1h2v7H9zM5 3h2v5H5zM1 5h2v3H1zm0 4h10v2H1z"/></svg><span class="chu-bottom-bar-label">Sales</span><span class="chu-box chu-bottom-bar-badge" data-tone="danger">5</span></a></li>
     </ul>
   </nav>
 </div>
 
-<!-- The bar alone, with every link state forced (data-pp-state), and folded by data-collapse="always". -->
-<div style="display:grid;gap:calc(6*var(--pp-pixel));margin-block-start:calc(12*var(--pp-pixel))">
-  <header class="pp-box pp-app-bar" data-collapse="never">
-    <a class="pp-app-bar-brand" href="#docs"><span class="pp-display pp-pop" data-scale="1" data-pop="Blip">Blip</span></a>
-    <nav class="pp-app-bar-nav" aria-label="Link states">
-      <ul class="pp-box pp-app-bar-links" role="list">
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#rest">Rest</a></li>
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#hover" data-pp-state="hover">Hover</a></li>
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#focus" data-pp-state="focus">Focus</a></li>
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#current" aria-current="page">Current</a></li>
+<!-- The bar alone, with every link state forced (data-chu-state), and folded by data-collapse="always". -->
+<div style="display:grid;gap:calc(6*var(--chu-pixel));margin-block-start:calc(12*var(--chu-pixel))">
+  <header class="chu-box chu-app-bar" data-collapse="never">
+    <a class="chu-app-bar-brand" href="#docs"><span class="chu-display chu-pop" data-scale="1" data-pop="Blip">Blip</span></a>
+    <nav class="chu-app-bar-nav" aria-label="Link states">
+      <ul class="chu-box chu-app-bar-links" role="list">
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#rest">Rest</a></li>
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#hover" data-chu-state="hover">Hover</a></li>
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#focus" data-chu-state="focus">Focus</a></li>
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#current" aria-current="page">Current</a></li>
       </ul>
     </nav>
   </header>
-  <header class="pp-box pp-app-bar" data-collapse="always">
-    <a class="pp-app-bar-brand" href="#docs"><span class="pp-display pp-pop" data-scale="1" data-pop="Blip">Blip</span></a>
-    <nav class="pp-app-bar-nav" aria-label="Docs">
-      <button class="pp-box pp-button pp-app-bar-toggle" data-variant="outline" popovertarget="ab-links-always"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2H1zm0 4h10v2H1zm0 4h10v2H1z"/></svg>Menu</button>
-      <ul class="pp-box pp-app-bar-links" id="ab-links-always" popover role="list">
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#start" aria-current="page">Get started</a></li>
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#foundations">Foundations</a></li>
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="#components">Components</a></li>
+  <header class="chu-box chu-app-bar" data-collapse="always">
+    <a class="chu-app-bar-brand" href="#docs"><span class="chu-display chu-pop" data-scale="1" data-pop="Blip">Blip</span></a>
+    <nav class="chu-app-bar-nav" aria-label="Docs">
+      <button class="chu-box chu-button chu-app-bar-toggle" data-variant="outline" popovertarget="ab-links-always"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2H1zm0 4h10v2H1zm0 4h10v2H1z"/></svg>Menu</button>
+      <ul class="chu-box chu-app-bar-links" id="ab-links-always" popover role="list">
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#start" aria-current="page">Get started</a></li>
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#foundations">Foundations</a></li>
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="#components">Components</a></li>
       </ul>
     </nav>
-    <div class="pp-app-bar-actions"><a class="pp-box pp-button" data-size="sm" href="#install">Install</a></div>
+    <div class="chu-app-bar-actions"><a class="chu-box chu-button" data-size="sm" href="#install">Install</a></div>
   </header>
 </div>

@@ -17,13 +17,13 @@ line saying why it is empty or what goes here, and the action that fills it. It 
 ## Usage
 
 ```html
-<div class="pp-empty-state">
-  <svg class="pp-empty-state-art" viewBox="0 0 32 24" aria-hidden="true">…</svg>
-  <h2 class="pp-empty-state-title">No saves yet</h2>
-  <p class="pp-empty-state-text">Start a game and it is saved here after every level. You can keep three.</p>
-  <div class="pp-empty-state-actions">
-    <button class="pp-box pp-button">New game</button>
-    <button class="pp-box pp-button" data-variant="ghost">Load from file</button>
+<div class="chu-empty-state">
+  <svg class="chu-empty-state-art" viewBox="0 0 32 24" aria-hidden="true">…</svg>
+  <h2 class="chu-empty-state-title">No saves yet</h2>
+  <p class="chu-empty-state-text">Start a game and it is saved here after every level. You can keep three.</p>
+  <div class="chu-empty-state-actions">
+    <button class="chu-box chu-button">New game</button>
+    <button class="chu-box chu-button" data-variant="ghost">Load from file</button>
   </div>
 </div>
 ```
@@ -33,12 +33,12 @@ The example's picture (an open, empty cardboard box with dust above it) is in
 
 ## Anatomy
 
-1. **Picture** (`.pp-empty-state-art`): an inline SVG drawn on a grid 32 units wide, shown at two pixels a unit
-   (one when small), so every unit is whole pixels. Colour it with tokens (`style="fill: var(--pp-outline)"`,
+1. **Picture** (`.chu-empty-state-art`): an inline SVG drawn on a grid 32 units wide, shown at two pixels a unit
+   (one when small), so every unit is whole pixels. Colour it with tokens (`style="fill: var(--chu-outline)"`,
    candies, scheme roles), with an ink outline like everything you can see.
-2. **Title** (`.pp-empty-state-title`): Pixel Bop at scale 1, in capitals.
-3. **Text** (`.pp-empty-state-text`): one or two sentences, muted, at most 44 characters a line.
-4. **Actions** (`.pp-empty-state-actions`): the main way to fill it (candy) and perhaps one more (ghost).
+2. **Title** (`.chu-empty-state-title`): Pixel Bop at scale 1, in capitals.
+3. **Text** (`.chu-empty-state-text`): one or two sentences, muted, at most 44 characters a line.
+4. **Actions** (`.chu-empty-state-actions`): the main way to fill it (candy) and perhaps one more (ghost).
 
 ## Variants
 
@@ -77,6 +77,6 @@ Empty states are static. Replace the whole thing with the content when there is 
 
 | Class or attribute | |
 |---|---|
-| `.pp-empty-state` | The block, centred in its container. |
-| `.pp-empty-state-art`, `.pp-empty-state-title`, `.pp-empty-state-text`, `.pp-empty-state-actions` | The parts. |
+| `.chu-empty-state` | The block, centred in its container. |
+| `.chu-empty-state-art`, `.chu-empty-state-title`, `.chu-empty-state-text`, `.chu-empty-state-actions` | The parts. |
 | `data-size` | `sm`, `md` or `lg`. |

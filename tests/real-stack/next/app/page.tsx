@@ -7,7 +7,7 @@ import { Smoke } from "./smoke";
 export default function Home() {
   return (
     <main>
-      <h1 className="pp-display pp-pop" data-scale="3" data-pop="Level 2">Level 2</h1>
+      <h1 className="chu-display chu-pop" data-scale="3" data-pop="Level 2">Level 2</h1>
       <section id="readme" data-smoke="tabs">
         <Settings />
       </section>

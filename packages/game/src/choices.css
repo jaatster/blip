@@ -1,116 +1,116 @@
 /*
  * Choices. A list of options with the pixel pointer: dialogue answers, pause menus, title screens, shops.
  *
- *   <pp-choices>
- *     <ul class="pp-choices" role="list">
- *       <li><button class="pp-box pp-choice" data-variant="ghost" value="pay">Pay 30 coins</button></li>
- *       <li><button class="pp-box pp-choice" data-variant="ghost" value="later">Maybe later</button></li>
+ *   <chu-choices>
+ *     <ul class="chu-choices" role="list">
+ *       <li><button class="chu-box chu-choice" data-variant="ghost" value="pay">Pay 30 coins</button></li>
+ *       <li><button class="chu-box chu-choice" data-variant="ghost" value="later">Maybe later</button></li>
  *     </ul>
- *   </pp-choices>
+ *   </chu-choices>
  *
- *   <pp-choices>          the element (choices.js): Up and Down move, Home and End jump, a pick sends pp-action
+ *   <chu-choices>          the element (choices.js): Up and Down move, Home and End jump, a pick sends chu-action
  *   data-font="display"   on the list: Pixel Bop capitals (title screens, pause menus)
  *
  * A white glove points at the choice under the cursor or the keyboard. Choices are ghost buttons, so focus also draws
  * the yellow ring and hover the sunken well; a choice you can't take is dithered (disabled or aria-disabled).
  */
 
-@layer pp.kits {
-  pp-choices { display: block; }
+@layer chu.kits {
+  chu-choices { display: block; }
 
-  .pp-choices {
+  .chu-choices {
     /* The glove, from the pointer sprite: ink silhouette behind, white fill in front (scripts/masks.mjs). */
     --_pointer-ink: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 10' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h3v1h-3zM2 1h10v1h-10zM1 2h12v1h-12zM0 3h14v1h-14zM0 4h13v1h-13zM0 5h12v1h-12zM0 6h9v1h-9zM1 7h8v1h-8zM2 8h6v1h-6zM3 9h4v1h-4z'/%3E%3C/svg%3E");
     --_pointer-fill: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 10' shape-rendering='crispEdges'%3E%3Cpath d='M3 1h3v1h-3zM2 2h10v1h-10zM1 3h12v1h-12zM1 4h11v1h-11zM1 5h6v1h-6zM1 6h6v1h-6zM2 7h6v1h-6zM3 8h4v1h-4z'/%3E%3C/svg%3E");
-    --_poke: pp-choices-poke;
+    --_poke: chu-choices-poke;
     display: grid;
-    gap: var(--pp-pixel);
+    gap: var(--chu-pixel);
     /* As wide as the widest choice, so every highlight is the same width. */
     inline-size: fit-content;
     max-inline-size: 100%;
     margin: 0;
     padding: 0;
-    padding-inline-start: calc(17 * var(--pp-pixel));
+    padding-inline-start: calc(17 * var(--chu-pixel));
     list-style: none;
   }
-  .pp-choices > li { position: relative; display: grid; }
+  .chu-choices > li { position: relative; display: grid; }
 
-  .pp-choices > li::before,
-  .pp-choices > li::after {
+  .chu-choices > li::before,
+  .chu-choices > li::after {
     content: "";
     position: absolute;
-    inset-inline-start: calc(-16 * var(--pp-pixel));
-    inset-block-start: round(down, 50% - 5 * var(--pp-pixel), var(--pp-pixel));
-    inline-size: calc(14 * var(--pp-pixel));
-    block-size: calc(10 * var(--pp-pixel));
+    inset-inline-start: calc(-16 * var(--chu-pixel));
+    inset-block-start: round(down, 50% - 5 * var(--chu-pixel), var(--chu-pixel));
+    inline-size: calc(14 * var(--chu-pixel));
+    block-size: calc(10 * var(--chu-pixel));
     mask: var(--_pointer-ink) 0 0 / 100% 100% no-repeat;
-    background: var(--pp-ink);
+    background: var(--chu-ink);
     visibility: hidden;
     pointer-events: none;
     /* Pokes for six beats each time it arrives, then rests (WCAG 2.2.2). */
-    animation: none calc(2 * var(--pp-duration-beat)) steps(1, jump-end) 6;
+    animation: none calc(2 * var(--chu-duration-beat)) steps(1, jump-end) 6;
   }
-  .pp-choices > li::after {
+  .chu-choices > li::after {
     mask-image: var(--_pointer-fill);
     background:
-      linear-gradient(var(--pp-candy-cream-shade) 0 0) calc(7 * var(--pp-pixel)) calc(4 * var(--pp-pixel)) / calc(5 * var(--pp-pixel)) var(--pp-pixel) no-repeat,
-      linear-gradient(var(--pp-candy-cream) 0 0) var(--pp-pixel) calc(3 * var(--pp-pixel)) / var(--pp-pixel) calc(4 * var(--pp-pixel)) no-repeat,
-      linear-gradient(to bottom, var(--pp-white) 0 calc(7 * var(--pp-pixel)), var(--pp-candy-cream-shade) 0);
+      linear-gradient(var(--chu-candy-cream-shade) 0 0) calc(7 * var(--chu-pixel)) calc(4 * var(--chu-pixel)) / calc(5 * var(--chu-pixel)) var(--chu-pixel) no-repeat,
+      linear-gradient(var(--chu-candy-cream) 0 0) var(--chu-pixel) calc(3 * var(--chu-pixel)) / var(--chu-pixel) calc(4 * var(--chu-pixel)) no-repeat,
+      linear-gradient(to bottom, var(--chu-white) 0 calc(7 * var(--chu-pixel)), var(--chu-candy-cream-shade) 0);
   }
-  .pp-choices:dir(rtl) { --_poke: pp-choices-poke-rtl; }
-  .pp-choices > li:dir(rtl)::before,
-  .pp-choices > li:dir(rtl)::after { scale: -1 1; }
+  .chu-choices:dir(rtl) { --_poke: chu-choices-poke-rtl; }
+  .chu-choices > li:dir(rtl)::before,
+  .chu-choices > li:dir(rtl)::after { scale: -1 1; }
 
   /* The pointer goes where the keyboard or the cursor is. */
-  .pp-choices > li:has(> .pp-choice:is(:focus-visible, [data-pp-state~="focus"], [data-pp-state~="hover"]))::before,
-  .pp-choices > li:has(> .pp-choice:is(:focus-visible, [data-pp-state~="focus"], [data-pp-state~="hover"]))::after { visibility: visible; animation-name: var(--_poke); }
+  .chu-choices > li:has(> .chu-choice:is(:focus-visible, [data-chu-state~="focus"], [data-chu-state~="hover"]))::before,
+  .chu-choices > li:has(> .chu-choice:is(:focus-visible, [data-chu-state~="focus"], [data-chu-state~="hover"]))::after { visibility: visible; animation-name: var(--_poke); }
   @media (hover: hover) {
-    .pp-choices > li:has(> .pp-choice:hover:not(:disabled, [aria-disabled="true"]))::before,
-    .pp-choices > li:has(> .pp-choice:hover:not(:disabled, [aria-disabled="true"]))::after { visibility: visible; animation-name: var(--_poke); }
+    .chu-choices > li:has(> .chu-choice:hover:not(:disabled, [aria-disabled="true"]))::before,
+    .chu-choices > li:has(> .chu-choice:hover:not(:disabled, [aria-disabled="true"]))::after { visibility: visible; animation-name: var(--_poke); }
   }
 
-  .pp-choice {
-    --pp-r: 3;
-    --pp-shape: var(--pp-shape-3);
-    --pp-shape-inner: var(--pp-shape-3-inner);
+  .chu-choice {
+    --chu-r: 3;
+    --chu-shape: var(--chu-shape-3);
+    --chu-shape-inner: var(--chu-shape-3-inner);
     display: flex;
     align-items: center;
     justify-self: stretch;
-    gap: calc(3 * var(--pp-pixel));
-    min-block-size: var(--pp-control-sm);
-    padding: calc(2 * var(--pp-pixel)) calc(5 * var(--pp-pixel));
-    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+    gap: calc(3 * var(--chu-pixel));
+    min-block-size: var(--chu-control-sm);
+    padding: calc(2 * var(--chu-pixel)) calc(5 * var(--chu-pixel));
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
     font: inherit;
-    font-weight: var(--pp-weight-bold);
+    font-weight: var(--chu-weight-bold);
     text-align: start;
-    line-height: var(--pp-leading-tight);
+    line-height: var(--chu-leading-tight);
   }
   /* Something said beside the choice: a price, a count, a key. */
-  .pp-choice-aside { margin-inline-start: auto; font-weight: var(--pp-weight-regular); }
+  .chu-choice-aside { margin-inline-start: auto; font-weight: var(--chu-weight-regular); }
 
-  .pp-choices[data-font="display"] {
-    font-family: var(--pp-font-display);
-    font-size: calc(10 * var(--pp-pixel));
+  .chu-choices[data-font="display"] {
+    font-family: var(--chu-font-display);
+    font-size: calc(10 * var(--chu-pixel));
     line-height: 1.2;
     text-transform: uppercase;
     font-synthesis: none;
     -webkit-font-smoothing: none;
   }
-  .pp-choices[data-font="display"] .pp-choice {
+  .chu-choices[data-font="display"] .chu-choice {
     font-weight: 400;
     line-height: 1.2;
-    padding: calc(3 * var(--pp-pixel)) calc(6 * var(--pp-pixel)) calc(2 * var(--pp-pixel));
+    padding: calc(3 * var(--chu-pixel)) calc(6 * var(--chu-pixel)) calc(2 * var(--chu-pixel));
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .pp-choices { --_poke: none; }
+    .chu-choices { --_poke: none; }
   }
   @media (forced-colors: active) {
-    .pp-choices > li::before { background: CanvasText; }
-    .pp-choices > li::after { background: Canvas; }
+    .chu-choices > li::before { background: CanvasText; }
+    .chu-choices > li::after { background: Canvas; }
   }
 }
 
 /* Pokes: a pixel toward the choice and back, on the beat. */
-@keyframes pp-choices-poke { 0% { translate: 0 0; } 50%, 100% { translate: var(--pp-pixel) 0; } }
-@keyframes pp-choices-poke-rtl { 0% { translate: 0 0; } 50%, 100% { translate: calc(-1 * var(--pp-pixel)) 0; } }
+@keyframes chu-choices-poke { 0% { translate: 0 0; } 50%, 100% { translate: var(--chu-pixel) 0; } }
+@keyframes chu-choices-poke-rtl { 0% { translate: 0 0; } 50%, 100% { translate: calc(-1 * var(--chu-pixel)) 0; } }

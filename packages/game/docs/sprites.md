@@ -2,7 +2,7 @@
 name: Sprites
 package: "@jaatster/blip-game"
 css: sprites.css
-element: pp-sprite
+element: chu-sprite
 react: Sprite
 status: beta
 ---
@@ -11,13 +11,13 @@ status: beta
 
 The game kit's art: coins, gems, hearts, stars, keys, potions, chests, trophies, padlocks, a pointer, an arrow,
 sparkles, a sword, a shield and a clock. Whole-pixel, multi-colour SVG in token colours with a one-pixel ink outline,
-one sprite pixel to one Blip pixel, so sprites line up with every box and letter at any `--pp-pixel`.
+one sprite pixel to one Blip pixel, so sprites line up with every box and letter at any `--chu-pixel`.
 
 ## Usage
 
 ```html
-<pp-sprite name="coin"></pp-sprite>
-<pp-sprite name="potion" data-tone="blue" aria-label="Mana potion"></pp-sprite>
+<chu-sprite name="coin"></chu-sprite>
+<chu-sprite name="potion" data-tone="blue" aria-label="Mana potion"></chu-sprite>
 ```
 
 ```js
@@ -51,7 +51,7 @@ shade, plus white glints and the fixed colours of its materials (a cork, a slate
 
 ## Variants
 
-`data-tone` on `pp-sprite` (or the SVG) recolours the sprite's own candy: any candy name, `neutral` or `accent`.
+`data-tone` on `chu-sprite` (or the SVG) recolours the sprite's own candy: any candy name, `neutral` or `accent`.
 Potions, gems, keys, hearts, swords and shields are made for it.
 
 ## Accessibility
@@ -63,7 +63,7 @@ Potions, gems, keys, hearts, swords and shields are made for it.
 ## Do and don't
 
 - **Do** use sprites at one sprite pixel to one Blip pixel. For bigger art, raise the pixel for the section
-  (`data-pp-pixel="3"`), never scale a sprite.
+  (`data-chu-pixel="3"`), never scale a sprite.
 - **Don't** colour a sprite yellow unless it is a coin, a star or a sparkle: yellow means focus.
 
 ## API
@@ -73,8 +73,8 @@ Potions, gems, keys, hearts, swords and shields are made for it.
 | `sprite(name, { tone, label })` | The SVG string; empty for an unknown name. |
 | `spriteNames` | Every name. |
 | `pixels(name)` | The outlined pixel rows, for canvas games and tools. |
-| `PixelSprite` | The `pp-sprite` element: `name` mirrors the attribute. |
+| `BlipSprite` | The `chu-sprite` element: `name` mirrors the attribute. |
 
 | Custom property | |
 |---|---|
-| `--pp-sprite-light`, `--pp-sprite-base`, `--pp-sprite-shade` | A custom tone, set on the sprite. |
+| `--chu-sprite-light`, `--chu-sprite-base`, `--chu-sprite-shade` | A custom tone, set on the sprite. |

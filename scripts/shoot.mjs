@@ -14,7 +14,7 @@ const width = Number(opt("width", 1280)), height = Number(opt("height", 900)), s
 const base = opt("base", "http://localhost:4173");
 mkdirSync(outDir, { recursive: true });
 
-const browser = await chromium.launch({ channel: process.env.PP_BROWSER ?? "chrome" }).catch(() => chromium.launch());
+const browser = await chromium.launch({ channel: process.env.CHU_BROWSER ?? "chrome" }).catch(() => chromium.launch());
 const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: scale, reducedMotion: "reduce" });
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));

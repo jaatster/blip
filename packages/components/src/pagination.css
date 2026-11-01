@@ -2,16 +2,16 @@
  * Pagination. The pages of a long list, or the worlds of a game: previous and next, numbered pages with gaps, and
  * the page you are on sitting in. When the nav gets narrow the numbers give way to a compact "3 / 12".
  *
- *   <nav class="pp-pagination" aria-label="Pages">
- *     <ul class="pp-pagination-list" role="list">
- *       <li><a class="pp-box pp-pagination-prev" data-variant="ghost" href="?page=2" rel="prev"><span>Previous</span></a></li>
- *       <li><a class="pp-box pp-pagination-page" data-variant="outline" href="?page=1" aria-label="Page 1">1</a></li>
- *       <li class="pp-pagination-gap" aria-hidden="true"></li>
- *       <li><a class="pp-box pp-pagination-page" data-variant="outline" href="?page=3" aria-label="Page 3" aria-current="page">3</a></li>
+ *   <nav class="chu-pagination" aria-label="Pages">
+ *     <ul class="chu-pagination-list" role="list">
+ *       <li><a class="chu-box chu-pagination-prev" data-variant="ghost" href="?page=2" rel="prev"><span>Previous</span></a></li>
+ *       <li><a class="chu-box chu-pagination-page" data-variant="outline" href="?page=1" aria-label="Page 1">1</a></li>
+ *       <li class="chu-pagination-gap" aria-hidden="true"></li>
+ *       <li><a class="chu-box chu-pagination-page" data-variant="outline" href="?page=3" aria-label="Page 3" aria-current="page">3</a></li>
  *       …
- *       <li class="pp-pagination-status"><span class="pp-sr-only">Page</span> 3 <span aria-hidden="true">/</span>
- *         <span class="pp-sr-only">of</span> 12</li>
- *       <li><a class="pp-box pp-pagination-next" data-variant="ghost" href="?page=4" rel="next"><span>Next</span></a></li>
+ *       <li class="chu-pagination-status"><span class="chu-sr-only">Page</span> 3 <span aria-hidden="true">/</span>
+ *         <span class="chu-sr-only">of</span> 12</li>
+ *       <li><a class="chu-box chu-pagination-next" data-variant="ghost" href="?page=4" rel="next"><span>Next</span></a></li>
  *     </ul>
  *   </nav>
  *
@@ -23,144 +23,144 @@
  *   data-compact             on the nav: always "3 / 12". Without it, only when the nav is under 360 px wide.
  */
 
-@layer pp.components {
-  .pp-pagination {
-    --_h: var(--pp-control-md);
+@layer chu.components {
+  .chu-pagination {
+    --_h: var(--chu-control-md);
     /* A size container: it takes the width it is given (it cannot grow to fit its content). */
     container-type: inline-size;
     inline-size: 100%;
-    font-family: var(--pp-font-ui);
-    font-size: var(--pp-size-small);
-    font-weight: var(--pp-weight-bold);
+    font-family: var(--chu-font-ui);
+    font-size: var(--chu-size-small);
+    font-weight: var(--chu-weight-bold);
     font-variant-numeric: tabular-nums;
   }
-  .pp-pagination[data-size="sm"] {
-    --_h: var(--pp-control-sm);
-    font-size: var(--pp-size-caption);
+  .chu-pagination[data-size="sm"] {
+    --_h: var(--chu-control-sm);
+    font-size: var(--chu-size-caption);
   }
-  .pp-pagination[data-size="lg"] {
-    --_h: var(--pp-control-lg);
-    font-size: var(--pp-size-body);
+  .chu-pagination[data-size="lg"] {
+    --_h: var(--chu-control-lg);
+    font-size: var(--chu-size-body);
   }
 
-  .pp-pagination-list {
+  .chu-pagination-list {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--pp-space-3);
+    gap: var(--chu-space-3);
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  .pp-pagination-list > li { display: flex; align-items: center; }
+  .chu-pagination-list > li { display: flex; align-items: center; }
 
-  .pp-pagination-page,
-  .pp-pagination-prev,
-  .pp-pagination-next {
-    --pp-r: 4;
-    --pp-shape: var(--pp-shape-4);
-    --pp-shape-inner: var(--pp-shape-4-inner);
-    --pp-band-top: 3;
-    --pp-band-bottom: 3;
+  .chu-pagination-page,
+  .chu-pagination-prev,
+  .chu-pagination-next {
+    --chu-r: 4;
+    --chu-shape: var(--chu-shape-4);
+    --chu-shape-inner: var(--chu-shape-4-inner);
+    --chu-band-top: 3;
+    --chu-band-bottom: 3;
 
     display: inline-flex;
     align-items: center;
     justify-content: center;
     block-size: var(--_h);
     min-inline-size: var(--_h);
-    padding: 0 var(--pp-space-4);
+    padding: 0 var(--chu-space-4);
     /* Leave room for the drop. */
-    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
     line-height: 1;
     text-decoration: none;
     white-space: nowrap;
   }
   /* Selected is the accent fill: candy and soft pages rest in cream, the page you are on takes the accent. */
-  .pp-pagination-page:not([aria-current="page"], [data-tone], [data-variant="outline"], [data-variant="ghost"]) {
-    --pp-tone: var(--pp-candy-cream);
-    --pp-tone-light: var(--pp-candy-cream-light);
-    --pp-tone-shade: var(--pp-candy-cream-shade);
-    --pp-tone-on: var(--pp-ink);
+  .chu-pagination-page:not([aria-current="page"], [data-tone], [data-variant="outline"], [data-variant="ghost"]) {
+    --chu-tone: var(--chu-candy-cream);
+    --chu-tone-light: var(--chu-candy-cream-light);
+    --chu-tone-shade: var(--chu-candy-cream-shade);
+    --chu-tone-on: var(--chu-ink);
   }
-  .pp-pagination[data-size="sm"] :is(.pp-pagination-page, .pp-pagination-prev, .pp-pagination-next) {
-    --pp-r: 3;
-    --pp-shape: var(--pp-shape-3);
-    --pp-shape-inner: var(--pp-shape-3-inner);
-    --pp-band-top: 2;
-    --pp-band-bottom: 2;
-    padding: 0 var(--pp-space-3);
+  .chu-pagination[data-size="sm"] :is(.chu-pagination-page, .chu-pagination-prev, .chu-pagination-next) {
+    --chu-r: 3;
+    --chu-shape: var(--chu-shape-3);
+    --chu-shape-inner: var(--chu-shape-3-inner);
+    --chu-band-top: 2;
+    --chu-band-bottom: 2;
+    padding: 0 var(--chu-space-3);
   }
-  .pp-pagination[data-size="lg"] :is(.pp-pagination-page, .pp-pagination-prev, .pp-pagination-next) {
-    --pp-r: 5;
-    --pp-shape: var(--pp-shape-5);
-    --pp-shape-inner: var(--pp-shape-5-inner);
-    --pp-band-top: 4;
-    --pp-band-bottom: 4;
-    padding: 0 var(--pp-space-6);
+  .chu-pagination[data-size="lg"] :is(.chu-pagination-page, .chu-pagination-prev, .chu-pagination-next) {
+    --chu-r: 5;
+    --chu-shape: var(--chu-shape-5);
+    --chu-shape-inner: var(--chu-shape-5-inner);
+    --chu-band-top: 4;
+    --chu-band-bottom: 4;
+    padding: 0 var(--chu-space-6);
   }
 
-  .pp-pagination-prev,
-  .pp-pagination-next {
-    letter-spacing: var(--pp-tracking-label);
+  .chu-pagination-prev,
+  .chu-pagination-next {
+    letter-spacing: var(--chu-tracking-label);
     text-transform: uppercase;
   }
-  .pp-pagination-prev > span,
-  .pp-pagination-next > span {
+  .chu-pagination-prev > span,
+  .chu-pagination-next > span {
     display: inline-flex;
     align-items: center;
-    gap: var(--pp-space-3);
+    gap: var(--chu-space-3);
   }
   /* Chevrons, 5 x 7, pointing back and on. */
-  .pp-pagination-prev > span::before,
-  .pp-pagination-next > span::after {
+  .chu-pagination-prev > span::before,
+  .chu-pagination-next > span::after {
     content: "";
     flex: none;
-    inline-size: calc(5 * var(--pp-pixel));
-    block-size: calc(7 * var(--pp-pixel));
+    inline-size: calc(5 * var(--chu-pixel));
+    block-size: calc(7 * var(--chu-pixel));
     background-color: currentColor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5 7' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1h1v1h1v1h1v1H4v1H3v1H2v1H0V6h1V5h1V4h1V3H2V2H1V1H0z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   }
-  .pp-pagination-prev > span::before,
-  .pp-pagination-next:dir(rtl) > span::after { scale: -1 1; }
-  .pp-pagination-prev:dir(rtl) > span::before { scale: none; }
-  :is(.pp-pagination-prev, .pp-pagination-next)[data-icon-only] { padding: 0; }
+  .chu-pagination-prev > span::before,
+  .chu-pagination-next:dir(rtl) > span::after { scale: -1 1; }
+  .chu-pagination-prev:dir(rtl) > span::before { scale: none; }
+  :is(.chu-pagination-prev, .chu-pagination-next)[data-icon-only] { padding: 0; }
   /* The arrow alone. font-size-adjust off too: with it (from @jaatster/blip-font), Chrome draws 0-size text at full size. */
-  :is(.pp-pagination-prev, .pp-pagination-next)[data-icon-only] > span { font-size: 0; font-size-adjust: none; gap: 0; }
+  :is(.chu-pagination-prev, .chu-pagination-next)[data-icon-only] > span { font-size: 0; font-size-adjust: none; gap: 0; }
 
   /* A gap in the numbers: three pixel dots. */
-  .pp-pagination-gap {
+  .chu-pagination-gap {
     justify-content: center;
     inline-size: var(--_h);
     block-size: var(--_h);
-    color: var(--pp-text-muted);
+    color: var(--chu-text-muted);
   }
-  .pp-pagination-gap::before {
+  .chu-pagination-gap::before {
     content: "";
-    inline-size: calc(10 * var(--pp-pixel));
-    block-size: calc(2 * var(--pp-pixel));
+    inline-size: calc(10 * var(--chu-pixel));
+    block-size: calc(2 * var(--chu-pixel));
     background-color: currentColor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 2' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v2H0zm4 0h2v2H4zm4 0h2v2H8z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   }
 
   /* "3 / 12": shown instead of the numbers when there is no room for them. */
-  .pp-pagination-list > .pp-pagination-status {
+  .chu-pagination-list > .chu-pagination-status {
     display: none;
     justify-content: center;
-    gap: var(--pp-space-2);
+    gap: var(--chu-space-2);
     min-inline-size: calc(2 * var(--_h));
     white-space: nowrap;
   }
-  .pp-pagination[data-compact] .pp-pagination-list > :is(li:has(> .pp-pagination-page), .pp-pagination-gap) { display: none; }
-  .pp-pagination[data-compact] .pp-pagination-list > .pp-pagination-status { display: flex; }
+  .chu-pagination[data-compact] .chu-pagination-list > :is(li:has(> .chu-pagination-page), .chu-pagination-gap) { display: none; }
+  .chu-pagination[data-compact] .chu-pagination-list > .chu-pagination-status { display: flex; }
   @container (width < 360px) {
-    .pp-pagination-list > :is(li:has(> .pp-pagination-page), .pp-pagination-gap) { display: none; }
-    .pp-pagination-list > .pp-pagination-status { display: flex; }
+    .chu-pagination-list > :is(li:has(> .chu-pagination-page), .chu-pagination-gap) { display: none; }
+    .chu-pagination-list > .chu-pagination-status { display: flex; }
   }
 
   @media (forced-colors: active) {
-    .pp-pagination-prev > span::before,
-    .pp-pagination-next > span::after,
-    .pp-pagination-gap::before { forced-color-adjust: none; }
-    .pp-pagination-page[aria-current="page"] { border-width: var(--pp-pixel); }
+    .chu-pagination-prev > span::before,
+    .chu-pagination-next > span::after,
+    .chu-pagination-gap::before { forced-color-adjust: none; }
+    .chu-pagination-page[aria-current="page"] { border-width: var(--chu-pixel); }
   }
 }

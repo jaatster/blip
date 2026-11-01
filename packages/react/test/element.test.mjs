@@ -110,22 +110,22 @@ describe(`createComponent (React ${version})`, () => {
     assert.equal(el.text, "later");
   });
 
-  test("calls the latest on<Event> handler for the pp-* event, and stops when it is removed", async () => {
+  test("calls the latest on<Event> handler for the chu-* event, and stops when it is removed", async () => {
     const calls = [];
     const r = await render(h(P, { onChange: () => calls.push("first") }));
     const el = r.container.firstElementChild;
     await r.rerender(h(P, { onChange: (e) => calls.push(`second ${e.detail.value}`) }));
-    await act(async () => el.dispatchEvent(new CustomEvent("pp-change", { detail: { value: 7 }, bubbles: true })));
+    await act(async () => el.dispatchEvent(new CustomEvent("chu-change", { detail: { value: 7 }, bubbles: true })));
     await r.rerender(h(P, {}));
-    await act(async () => el.dispatchEvent(new CustomEvent("pp-change", { detail: { value: 8 } })));
+    await act(async () => el.dispatchEvent(new CustomEvent("chu-change", { detail: { value: 8 } })));
     assert.deepEqual(calls, ["second 7"]);
   });
 
   test("passes other props through and renders children, unless the element draws its own", async () => {
-    const { container } = await render(h(P, { id: "p", className: "pp-x", "data-tone": "pink", "aria-label": "Probe" }, h("span", null, "inside")));
+    const { container } = await render(h(P, { id: "p", className: "chu-x", "data-tone": "pink", "aria-label": "Probe" }, h("span", null, "inside")));
     const el = container.firstElementChild;
     assert.equal(el.id, "p");
-    assert.equal(el.getAttribute("class"), "pp-x");
+    assert.equal(el.getAttribute("class"), "chu-x");
     assert.equal(el.getAttribute("data-tone"), "pink");
     assert.equal(el.getAttribute("aria-label"), "Probe");
     assert.equal(el.innerHTML, "<span>inside</span>");
@@ -145,7 +145,7 @@ describe(`createComponent (React ${version})`, () => {
   });
 
   test("renders attributes on the server and hydrates without warnings", async () => {
-    const tree = () => h(P, { label: "Coins", open: true, lightDismiss: true, count: 3, className: "pp-x" }, h("b", null, "x"));
+    const tree = () => h(P, { label: "Coins", open: true, lightDismiss: true, count: 3, className: "chu-x" }, h("b", null, "x"));
     // (React 18 warns that useLayoutEffect does nothing on the server: only because this server render has a DOM.
     // In a real server there is no document, and the wrapper uses useEffect.)
     const original = console.error;
@@ -159,7 +159,7 @@ describe(`createComponent (React ${version})`, () => {
     const el = probe.firstElementChild;
     assert.deepEqual(
       [...el.attributes].map((a) => [a.name, a.value]).sort(),
-      [["class", "pp-x"], ["count", "3"], ["label", "Coins"], ["light-dismiss", ""], ["open", ""]],
+      [["class", "chu-x"], ["count", "3"], ["label", "Coins"], ["light-dismiss", ""], ["open", ""]],
     );
     const { errors } = await hydrate(html, tree());
     assert.deepEqual(errors, []);
@@ -169,7 +169,7 @@ describe(`createComponent (React ${version})`, () => {
     const react18 = process.execArgv.some((a) => a.includes("react-18"));
     const here = (f) => fileURLToPath(new URL(f, import.meta.url));
     const html = execFileSync(process.execPath, [...(react18 ? ["--import", here("./react-18.mjs")] : []), here("./server.mjs")], { encoding: "utf8" });
-    assert.match(html, /^<x-probe class="pp-x" label="Coins" open="" light-dismiss="" count="3"><b>x<\/b><\/x-probe>$/);
+    assert.match(html, /^<x-probe class="chu-x" label="Coins" open="" light-dismiss="" count="3"><b>x<\/b><\/x-probe>$/);
     const { container, errors } = await hydrate(html, probeTree());
     assert.deepEqual(errors, []);
     assert.equal(container.firstElementChild.getAttribute("open"), "");

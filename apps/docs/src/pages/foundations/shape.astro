@@ -21,19 +21,19 @@ const tiers = [
 ];
 const tones = ["accent", "info", "success", "warning", "danger", "neutral", "red", "orange", "green", "teal", "blue", "purple", "pink", "slate"];
 const css = await codeBlock(`<!-- Any element can be a candy box: give it the class, then a tier and a tone. -->
-<div class="pp-box" data-variant="soft" data-tone="teal" data-pp-r="5">…</div>
+<div class="chu-box" data-variant="soft" data-tone="teal" data-chu-r="5">…</div>
 
 <style>
   .my-chip {
-    --pp-r: 2; --pp-shape: var(--pp-shape-2); --pp-shape-inner: var(--pp-shape-2-inner);
-    --pp-band-top: 1; --pp-band-bottom: 2; --pp-drop-size: 1;
+    --chu-r: 2; --chu-shape: var(--chu-shape-2); --chu-shape-inner: var(--chu-shape-2-inner);
+    --chu-band-top: 1; --chu-band-bottom: 2; --chu-drop-size: 1;
   }
 </style>`, "html", "HTML");
 const H = (id: string, text: string) => ({ depth: 2, id, text });
 ---
 <Docs styles={["foundations"]} scripts={["foundations"]} title="Shape" description="The candy box, Blip's one building block: its outline, bands, glints and drop; its stepped corners from 0 to 8 pixels; its tiers and tones." headings={[H("box", "The candy box"), H("corners", "Corners"), H("tiers", "Tiers"), H("tones", "Tones"), H("css", "In your own CSS")]}>
   <header class="docs-page-head">
-    <h1 class="docs-page-title pp-display" data-scale="2">Shape</h1>
+    <h1 class="docs-page-title chu-display" data-scale="2">Shape</h1>
     <p class="docs-lede">Everything you can act on is one shape, the candy box, drawn in CSS at any size. Components set its corners, bands, tier and tone; none of them draws an outline, a drop, a focus ring or a dither of its own.</p>
   </header>
 
@@ -42,7 +42,7 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     <p>Here one at a pixel of 10, so each of its parts is easy to see. The same box draws a 16-pixel button.</p>
     <div class="docs-anatomy">
       <div class="docs-anatomy-figure" role="img" aria-label="A large candy box with numbered parts: outline, light band, base, shade band, glints and drop.">
-        <div class="pp-box docs-anatomy-box" data-tone="pink"></div>
+        <div class="chu-box docs-anatomy-box" data-tone="pink"></div>
         {["outline", "light", "base", "shade", "glints", "drop"].map((p, i) => <span class={`docs-pin docs-pin-${p}`} aria-hidden="true">{i + 1}</span>)}
       </div>
       <ol class="docs-anatomy-list" role="list">
@@ -53,10 +53,10 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
 
   <section class="docs-section" aria-labelledby="corners">
     <h2 id="corners">Corners</h2>
-    <p>Radius 0 to 8, in whole pixels, each corner a little staircase. Set it with <code class="docs-inline-code">data-pp-r</code> or <code class="docs-inline-code">.pp-r-N</code>; small things take small corners.</p>
-    <div class="docs-radii" data-pp-pixel="4">
+    <p>Radius 0 to 8, in whole pixels, each corner a little staircase. Set it with <code class="docs-inline-code">data-chu-r</code> or <code class="docs-inline-code">.chu-r-N</code>; small things take small corners.</p>
+    <div class="docs-radii" data-chu-pixel="4">
       {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((r) => (
-        <figure><div class="pp-box docs-radius" data-tone="teal" data-pp-r={String(r)}></div><figcaption class="docs-label">{r}</figcaption></figure>
+        <figure><div class="chu-box docs-radius" data-tone="teal" data-chu-r={String(r)}></div><figcaption class="docs-label">{r}</figcaption></figure>
       ))}
     </div>
   </section>
@@ -67,8 +67,8 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     <div class="docs-tiers">
       {tiers.map(([v, name, text]) => (
         <figure>
-          <div class="docs-tier-sample"><span class="pp-box pp-button" data-variant={v === "candy" ? undefined : v}>{v === "panel" ? "Panel" : "Save game"}</span></div>
-          <figcaption><strong>{name}</strong> <code class="docs-inline-code">{v === "candy" ? "(default)" : `data-variant="${v}"`}</code><span class="pp-muted pp-small">{text}</span></figcaption>
+          <div class="docs-tier-sample"><span class="chu-box chu-button" data-variant={v === "candy" ? undefined : v}>{v === "panel" ? "Panel" : "Save game"}</span></div>
+          <figcaption><strong>{name}</strong> <code class="docs-inline-code">{v === "candy" ? "(default)" : `data-variant="${v}"`}</code><span class="chu-muted chu-small">{text}</span></figcaption>
         </figure>
       ))}
     </div>
@@ -78,7 +78,7 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     <h2 id="tones">Tones</h2>
     <p>Meaning first: the accent, the four intents and a neutral. The raw candies are for games and decoration. Labels are ink on every one but slate, and every pairing passes AA.</p>
     <div class="docs-row docs-tones">
-      {tones.map((t) => <span class="pp-box pp-button" data-size="sm" data-tone={t === "accent" ? undefined : t}>{t}</span>)}
+      {tones.map((t) => <span class="chu-box chu-button" data-size="sm" data-tone={t === "accent" ? undefined : t}>{t}</span>)}
     </div>
   </section>
 

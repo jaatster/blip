@@ -1,7 +1,7 @@
 /* A small reset, and the page itself: the browser surfaces (selection, caret, scrollbars, focus, links) belong to
    Blip too. */
 
-@layer pp.reset {
+@layer chu.reset {
   *, *::before, *::after { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   body { margin: 0; }
@@ -11,16 +11,16 @@
   :where(ul[role="list"], ol[role="list"]) { list-style: none; margin: 0; padding: 0; }
 }
 
-@layer pp.base {
+@layer chu.base {
   :where(html) {
-    background: var(--pp-bg);
-    color: var(--pp-text);
-    font-family: var(--pp-font-ui);
+    background: var(--chu-bg);
+    color: var(--chu-text);
+    font-family: var(--chu-font-ui);
     /* The text sizes are in rem, so they follow a larger default text size set in the browser; never below the
        16 px Blip is drawn at, where they are whole pixels. */
     /* stylelint-disable-next-line blip/whole-pixels -- text may sit off the grid (AUTHORING rule 1): the smallest body size */
-    font-size: max(16px, var(--pp-size-body));
-    line-height: var(--pp-leading-normal);
+    font-size: max(16px, var(--chu-size-body));
+    line-height: var(--chu-leading-normal);
     font-synthesis: none;
     /* Ligatures off, whatever the font: in a pixel font fi and fl merge into one glyph that reads as another letter. */
     font-variant-ligatures: no-common-ligatures;
@@ -28,54 +28,54 @@
        the flex and grid items round it shrink. Display type never does (text.css). */
     overflow-wrap: anywhere;
     text-rendering: optimizeLegibility;
-    caret-color: var(--pp-accent-text);
-    accent-color: var(--pp-accent);
-    scrollbar-color: var(--pp-line) var(--pp-surface-sunken);
+    caret-color: var(--chu-accent-text);
+    accent-color: var(--chu-accent);
+    scrollbar-color: var(--chu-line) var(--chu-surface-sunken);
   }
-  :where([data-pp-scheme]) {
-    background: var(--pp-bg);
-    color: var(--pp-text);
+  :where([data-chu-scheme]) {
+    background: var(--chu-bg);
+    color: var(--chu-text);
   }
-  ::selection { background: var(--pp-selection-bg); color: var(--pp-selection-text); }
+  ::selection { background: var(--chu-selection-bg); color: var(--chu-selection-text); }
 
   :where(a) {
-    color: var(--pp-accent-text);
+    color: var(--chu-accent-text);
     text-decoration-line: underline;
-    text-decoration-thickness: var(--pp-pixel);
-    text-underline-offset: calc(2 * var(--pp-pixel));
+    text-decoration-thickness: var(--chu-pixel);
+    text-underline-offset: calc(2 * var(--chu-pixel));
   }
-  :where(a):visited { color: var(--pp-link-visited); }
-  :where(a):hover { text-decoration-thickness: calc(2 * var(--pp-pixel)); }
+  :where(a):visited { color: var(--chu-link-visited); }
+  :where(a):hover { text-decoration-thickness: calc(2 * var(--chu-pixel)); }
 
   /* Focus for anything that is not a candy box: a yellow ring with an ink edge, squared off. */
   :where(a, [tabindex], summary, input, select, textarea, button):focus-visible {
-    outline: var(--pp-pixel) solid var(--pp-focus);
+    outline: var(--chu-pixel) solid var(--chu-focus);
     outline-offset: 0;
-    box-shadow: 0 0 0 calc(2 * var(--pp-pixel)) var(--pp-focus-edge);
+    box-shadow: 0 0 0 calc(2 * var(--chu-pixel)) var(--chu-focus-edge);
   }
 
   /* stylelint-disable-next-line blip/whole-pixels -- inline code follows the size of the text around it (text may sit off the grid, AUTHORING rule 1) */
-  :where(code, kbd, samp, pre) { font-family: var(--pp-font-mono); font-size: 0.9em; }
-  :where(hr) { border: 0; block-size: var(--pp-pixel); background: var(--pp-line-soft); margin: var(--pp-space-8) 0; }
-  :where(h1, h2, h3, h4) { font-weight: var(--pp-weight-bold); line-height: var(--pp-leading-tight); text-wrap: balance; }
+  :where(code, kbd, samp, pre) { font-family: var(--chu-font-mono); font-size: 0.9em; }
+  :where(hr) { border: 0; block-size: var(--chu-pixel); background: var(--chu-line-soft); margin: var(--chu-space-8) 0; }
+  :where(h1, h2, h3, h4) { font-weight: var(--chu-weight-bold); line-height: var(--chu-leading-tight); text-wrap: balance; }
   :where(p, li, dd) { text-wrap: pretty; }
   /* In titles and reading text a long word hyphenates first, where the page's lang has a dictionary; words under
      ten letters stay whole. Set lang on <html>. */
-  :where(h1, h2, h3, h4, h5, h6, p, li, dt, dd, blockquote, figcaption, .pp-title, .pp-lead, .pp-body) { hyphens: auto; hyphenate-limit-chars: 10 4 4; }
+  :where(h1, h2, h3, h4, h5, h6, p, li, dt, dd, blockquote, figcaption, .chu-title, .chu-lead, .chu-body) { hyphens: auto; hyphenate-limit-chars: 10 4 4; }
 
   /* Pixel art is never smoothed. */
-  :where(img, canvas, svg)[data-pixelated], .pp-pixelated { image-rendering: pixelated; shape-rendering: crispEdges; }
+  :where(img, canvas, svg)[data-pixelated], .chu-pixelated { image-rendering: pixelated; shape-rendering: crispEdges; }
 
   /* More contrast, when the person asks for it: soft lines take the line colour, muted text the text colour, and
      the ink edge of the focus ring is two pixels. */
   @media (prefers-contrast: more) {
-    :where(:root, [data-pp-scheme]) { --pp-line-soft: var(--pp-line); --pp-text-muted: var(--pp-text); }
-    :where(a, [tabindex], summary, input, select, textarea, button):focus-visible { box-shadow: 0 0 0 calc(3 * var(--pp-pixel)) var(--pp-focus-edge); }
+    :where(:root, [data-chu-scheme]) { --chu-line-soft: var(--chu-line); --chu-text-muted: var(--chu-text); }
+    :where(a, [tabindex], summary, input, select, textarea, button):focus-visible { box-shadow: 0 0 0 calc(3 * var(--chu-pixel)) var(--chu-focus-edge); }
   }
 }
 
-@layer pp.utilities {
-  .pp-sr-only {
+@layer chu.utilities {
+  .chu-sr-only {
     position: absolute !important;
     /* stylelint-disable blip/whole-pixels -- the visually hidden pattern: a 1px box that is never drawn */
     inline-size: 1px; block-size: 1px;
@@ -84,18 +84,18 @@
     clip-path: inset(50%); white-space: nowrap; border: 0;
   }
   /* A dithered ink scrim: Blip never uses a translucent wash. */
-  .pp-scrim {
-    background: repeating-conic-gradient(var(--pp-scrim) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel));
+  .chu-scrim {
+    background: repeating-conic-gradient(var(--chu-scrim) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel));
   }
-  .pp-dither {
-    background: repeating-conic-gradient(currentColor 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel));
+  .chu-dither {
+    background: repeating-conic-gradient(currentColor 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel));
   }
 
   /* When Auto changes the time of day, the new colours come in over the old through an ordered dither, a pixel a cell
      (autoScheme() steps the mask): never a cross-fade, and the page under it stays live. Here, after the kits, so a
      page transition's own styles do not touch it. */
-  :root[data-pp-scheme-dither]::view-transition { pointer-events: none; }
-  :root[data-pp-scheme-dither]::view-transition-old(*),
-  :root[data-pp-scheme-dither]::view-transition-new(*) { animation: none; mix-blend-mode: normal; }
-  :root[data-pp-scheme-dither]::view-transition-new(root) { mask-size: calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel)); }
+  :root[data-chu-scheme-dither]::view-transition { pointer-events: none; }
+  :root[data-chu-scheme-dither]::view-transition-old(*),
+  :root[data-chu-scheme-dither]::view-transition-new(*) { animation: none; mix-blend-mode: normal; }
+  :root[data-chu-scheme-dither]::view-transition-new(root) { mask-size: calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel)); }
 }

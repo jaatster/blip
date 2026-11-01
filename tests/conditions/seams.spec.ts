@@ -92,6 +92,6 @@ function sameBoxes(first: Render, ...others: Render[]): void {
 
 /** Moves the example one CSS px right and down without changing its width (the test page's body padding). */
 async function move(page: Page): Promise<void> {
-  await page.addStyleTag({ content: "body { padding: calc(12 * var(--pp-pixel) + 1px) calc(12 * var(--pp-pixel) - 1px) calc(12 * var(--pp-pixel) - 1px) calc(12 * var(--pp-pixel) + 1px) !important; }" });
+  await page.addStyleTag({ content: "body { padding: calc(12 * var(--chu-pixel) + 1px) calc(12 * var(--chu-pixel) - 1px) calc(12 * var(--chu-pixel) - 1px) calc(12 * var(--chu-pixel) + 1px) !important; }" });
   await page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
 }

@@ -9,59 +9,59 @@ const current = sectionOf(path);
 // Each palette's chip: its Night page with its accent on it, the colours that tell them apart.
 const chips = palettes().map((p) => ({ ...p, chip: `--docs-chip-page:${p.schemes.night.bg};--docs-chip-accent:${p.schemes.night.accent};--docs-chip-ink:${p.schemes.night.ink}` }));
 ---
-<header class="pp-box pp-app-bar docs-app-bar">
-  <a class="pp-app-bar-brand docs-brand" href="/" aria-current={path === "/" ? "page" : undefined}>
-    <span class="pp-display pp-pop" data-scale="2" data-pop="Blip">Blip</span>
+<header class="chu-box chu-app-bar docs-app-bar">
+  <a class="chu-app-bar-brand docs-brand" href="/" aria-current={path === "/" ? "page" : undefined}>
+    <span class="chu-display chu-pop" data-scale="2" data-pop="Blip">Blip</span>
   </a>
-  <nav class="pp-app-bar-nav" aria-label="Main">
-    <button class="pp-box pp-button pp-app-bar-toggle" type="button" data-variant="ghost" data-icon-only popovertarget="docs-main-links" aria-label="Menu"><Icon name="menu" /></button>
-    <ul class="pp-box pp-app-bar-links" id="docs-main-links" popover role="list">
+  <nav class="chu-app-bar-nav" aria-label="Main">
+    <button class="chu-box chu-button chu-app-bar-toggle" type="button" data-variant="ghost" data-icon-only popovertarget="docs-main-links" aria-label="Menu"><Icon name="menu" /></button>
+    <ul class="chu-box chu-app-bar-links" id="docs-main-links" popover role="list">
       {SECTIONS.map((s) => (
-        <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href={s.url} aria-current={path === s.url ? "page" : current?.id === s.id ? "true" : undefined}>{s.title}</a></li>
+        <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href={s.url} aria-current={path === s.url ? "page" : current?.id === s.id ? "true" : undefined}>{s.title}</a></li>
       ))}
     </ul>
   </nav>
-  <div class="pp-app-bar-actions">
-    <a class="pp-box pp-button docs-search-button" data-variant="outline" data-size="sm" href="/search/" aria-keyshortcuts="Control+K Meta+K">
+  <div class="chu-app-bar-actions">
+    <a class="chu-box chu-button docs-search-button" data-variant="outline" data-size="sm" href="/search/" aria-keyshortcuts="Control+K Meta+K">
       <Icon name="search" /><span class="docs-search-label">Search</span>
-      <kbd class="pp-keys docs-search-keys" aria-hidden="true"><kbd class="pp-box pp-keycap" data-size="sm" data-mod>Ctrl</kbd><kbd class="pp-box pp-keycap" data-size="sm">K</kbd></kbd>
+      <kbd class="chu-keys docs-search-keys" aria-hidden="true"><kbd class="chu-box chu-keycap" data-size="sm" data-mod>Ctrl</kbd><kbd class="chu-box chu-keycap" data-size="sm">K</kbd></kbd>
     </a>
-    <pp-menu class="pp-menu docs-palette" data-align="end" data-docs-choose={chooseEvent("pp-menu")} hidden>
-      <button class="pp-box pp-button" type="button" data-variant="ghost" data-icon-only aria-label={`Palette: ${chips[0]?.name ?? ""}`}><Icon name="palette" /></button>
-      <div class="pp-box pp-menu-list pp-pop-in docs-palette-list" role="menu" popover aria-label="Palette">
+    <chu-menu class="chu-menu docs-palette" data-align="end" data-docs-choose={chooseEvent("chu-menu")} hidden>
+      <button class="chu-box chu-button" type="button" data-variant="ghost" data-icon-only aria-label={`Palette: ${chips[0]?.name ?? ""}`}><Icon name="palette" /></button>
+      <div class="chu-box chu-menu-list chu-pop-in docs-palette-list" role="menu" popover aria-label="Palette">
         <div role="group" aria-labelledby="docs-palette-heading">
-          <div class="pp-menu-heading" id="docs-palette-heading">Palette</div>
+          <div class="chu-menu-heading" id="docs-palette-heading">Palette</div>
           {chips.map((p, i) => (
-            <button class="pp-box pp-menu-item" type="button" role="menuitemradio" aria-checked={i === 0 ? "true" : "false"} data-value={`palette:${p.id}`} data-name={p.name}>
-              <span class="docs-palette-chip" style={p.chip} aria-hidden="true"></span><span class="pp-menu-label">{p.default ? `${p.name}, Blip's own` : p.name}</span>
+            <button class="chu-box chu-menu-item" type="button" role="menuitemradio" aria-checked={i === 0 ? "true" : "false"} data-value={`palette:${p.id}`} data-name={p.name}>
+              <span class="docs-palette-chip" style={p.chip} aria-hidden="true"></span><span class="chu-menu-label">{p.default ? `${p.name}, Blip's own` : p.name}</span>
             </button>
           ))}
         </div>
       </div>
-    </pp-menu>
-    <pp-menu class="pp-menu docs-display" data-align="end" data-docs-choose={chooseEvent("pp-menu")} hidden>
-      <button class="pp-box pp-button" type="button" data-variant="ghost" data-icon-only aria-label="Display: scheme and pixel size">
+    </chu-menu>
+    <chu-menu class="chu-menu docs-display" data-align="end" data-docs-choose={chooseEvent("chu-menu")} hidden>
+      <button class="chu-box chu-button" type="button" data-variant="ghost" data-icon-only aria-label="Display: scheme and pixel size">
         <span class="docs-display-icon" data-for="auto"><Icon name="clock" /></span>
         <span class="docs-display-icon" data-for="day"><Icon name="sun" /></span>
         <span class="docs-display-icon" data-for="sunset"><Icon name="sunset" /></span>
         <span class="docs-display-icon" data-for="night"><Icon name="moon" /></span>
       </button>
-      <div class="pp-box pp-menu-list pp-pop-in" role="menu" popover aria-label="Display">
+      <div class="chu-box chu-menu-list chu-pop-in" role="menu" popover aria-label="Display">
         <div role="group" aria-labelledby="docs-display-scheme">
-          <div class="pp-menu-heading" id="docs-display-scheme">Scheme</div>
-          <button class="pp-box pp-menu-item" type="button" role="menuitemradio" aria-checked="true" data-value="scheme:auto"><Icon name="clock" /><span class="pp-menu-label">Auto, by your clock</span></button>
-          <button class="pp-box pp-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="scheme:day"><Icon name="sun" /><span class="pp-menu-label">Day</span></button>
-          <button class="pp-box pp-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="scheme:sunset"><Icon name="sunset" /><span class="pp-menu-label">Sunset</span></button>
-          <button class="pp-box pp-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="scheme:night"><Icon name="moon" /><span class="pp-menu-label">Night</span></button>
+          <div class="chu-menu-heading" id="docs-display-scheme">Scheme</div>
+          <button class="chu-box chu-menu-item" type="button" role="menuitemradio" aria-checked="true" data-value="scheme:auto"><Icon name="clock" /><span class="chu-menu-label">Auto, by your clock</span></button>
+          <button class="chu-box chu-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="scheme:day"><Icon name="sun" /><span class="chu-menu-label">Day</span></button>
+          <button class="chu-box chu-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="scheme:sunset"><Icon name="sunset" /><span class="chu-menu-label">Sunset</span></button>
+          <button class="chu-box chu-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="scheme:night"><Icon name="moon" /><span class="chu-menu-label">Night</span></button>
         </div>
-        <div class="pp-menu-separator" role="separator"></div>
+        <div class="chu-menu-separator" role="separator"></div>
         <div role="group" aria-labelledby="docs-display-pixel">
-          <div class="pp-menu-heading" id="docs-display-pixel">Pixel</div>
-          <button class="pp-box pp-menu-item" type="button" role="menuitemradio" aria-checked="true" data-value="pixel:2"><span class="pp-menu-label">2 px, the default</span></button>
-          <button class="pp-box pp-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="pixel:3"><span class="pp-menu-label">3 px</span></button>
-          <button class="pp-box pp-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="pixel:4"><span class="pp-menu-label">4 px, for a TV</span></button>
+          <div class="chu-menu-heading" id="docs-display-pixel">Pixel</div>
+          <button class="chu-box chu-menu-item" type="button" role="menuitemradio" aria-checked="true" data-value="pixel:2"><span class="chu-menu-label">2 px, the default</span></button>
+          <button class="chu-box chu-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="pixel:3"><span class="chu-menu-label">3 px</span></button>
+          <button class="chu-box chu-menu-item" type="button" role="menuitemradio" aria-checked="false" data-value="pixel:4"><span class="chu-menu-label">4 px, for a TV</span></button>
         </div>
       </div>
-    </pp-menu>
+    </chu-menu>
   </div>
 </header>

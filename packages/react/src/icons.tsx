@@ -6,8 +6,8 @@
  *   <Icon name="heart" label="Liked" />        an image named "Liked"
  *   <Icon name="gamepad" size="lg" />          24 pixels square instead of 12
  *
- * It renders the same <svg class="pp-icon"> as iconSvg() and <pp-icon>, straight from the path data in
- * @jaatster/blip-icons: no element, nothing to load, and it renders on the server. The .pp-icon class (size, crisp
+ * It renders the same <svg class="chu-icon"> as iconSvg() and <chu-icon>, straight from the path data in
+ * @jaatster/blip-icons: no element, nothing to load, and it renders on the server. The .chu-icon class (size, crisp
  * edges) is in @jaatster/blip-core; the width and height attributes keep it 12 pixels without it.
  */
 import { forwardRef } from "react";
@@ -42,7 +42,7 @@ export const Icon = /*#__PURE__*/ forwardRef<SVGSVGElement, IconProps>(function 
   return (
     <svg
       ref={ref}
-      className={cx("pp-icon", className)}
+      className={cx("chu-icon", className)}
       data-size={size === "lg" ? "lg" : undefined}
       viewBox="0 0 12 12"
       width={px}

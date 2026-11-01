@@ -9,81 +9,81 @@
  *   drop          the outline's shape again, one pixel down and to the right
  *
  * Every edge is snapped to whole pixels from the box's own top-left corner, so a box of any size has crisp corners.
- * Put `pp-box` on the element (components add it for you), then set the tier with data-variant and the colour
+ * Put `chu-box` on the element (components add it for you), then set the tier with data-variant and the colour
  * with data-tone. States follow one rule each, for every component:
  *
  *   hover      lifts one pixel                 pressed    sits in its drop
  *   focus      yellow ring with an ink edge    selected   sits in, bands swap (light below, shade above), and
  *   disabled   dithered with a light colour               an ink shadow runs inside its top and left (candy, soft)
- *              (--pp-disabled-dither)          busy       three stepped dots replace the label
+ *              (--chu-disabled-dither)          busy       three stepped dots replace the label
  *
  * Soft and candy boxes are light in every scheme, so what sits on them (text, links, fields, calm buttons) takes the
  * light roles. In Windows high contrast, on is the system highlight. On paper, boxes print as they look.
  *
- * data-pp-state="hover focus active" forces those looks without the pointer or keyboard: for docs, tests and
+ * data-chu-state="hover focus active" forces those looks without the pointer or keyboard: for docs, tests and
  * screenshots. Never use it to show real state.
  */
 @import "./print.css";
 
-@property --_pp-dot-1 { syntax: "<length>"; inherits: false; initial-value: 0px; }
-@property --_pp-dot-2 { syntax: "<length>"; inherits: false; initial-value: 0px; }
-@property --_pp-dot-3 { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --_chu-dot-1 { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --_chu-dot-2 { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --_chu-dot-3 { syntax: "<length>"; inherits: false; initial-value: 0px; }
 
-@layer pp.core {
-  .pp-box {
-    /* Public: shape. Set --pp-r and the two matching shapes together (or use .pp-r-N / data-pp-r). */
-    --pp-r: 3;
-    --pp-shape: var(--pp-shape-3);
-    --pp-shape-inner: var(--pp-shape-3-inner);
+@layer chu.core {
+  .chu-box {
+    /* Public: shape. Set --chu-r and the two matching shapes together (or use .chu-r-N / data-chu-r). */
+    --chu-r: 3;
+    --chu-shape: var(--chu-shape-3);
+    --chu-shape-inner: var(--chu-shape-3-inner);
     /* Public: bands and drop, in pixels. */
-    --pp-band-top: 2;
-    --pp-band-bottom: 2;
-    --pp-drop-size: 1;
+    --chu-band-top: 2;
+    --chu-band-bottom: 2;
+    --chu-drop-size: 1;
     /* Public: tone. data-tone sets these four. */
-    --pp-tone: var(--pp-accent);
-    --pp-tone-light: var(--pp-accent-light);
-    --pp-tone-shade: var(--pp-accent-shade);
-    --pp-tone-on: var(--pp-accent-on);
-    --pp-tone-text: var(--pp-accent-text);
+    --chu-tone: var(--chu-accent);
+    --chu-tone-light: var(--chu-accent-light);
+    --chu-tone-shade: var(--chu-accent-shade);
+    --chu-tone-on: var(--chu-accent-on);
+    --chu-tone-text: var(--chu-accent-text);
     /* Public: what the tier paints. data-variant sets these. */
-    --pp-box-outline: var(--pp-outline);
-    --pp-box-top: var(--pp-tone-light);
-    --pp-box-fill: var(--pp-tone);
-    --pp-box-bottom: var(--pp-tone-shade);
-    --pp-box-text: var(--pp-tone-on);
-    --pp-box-glint: var(--pp-white);
-    --pp-box-dither: transparent;
+    --chu-box-outline: var(--chu-outline);
+    --chu-box-top: var(--chu-tone-light);
+    --chu-box-fill: var(--chu-tone);
+    --chu-box-bottom: var(--chu-tone-shade);
+    --chu-box-text: var(--chu-tone-on);
+    --chu-box-glint: var(--chu-white);
+    --chu-box-dither: transparent;
 
     /* Private. */
-    --_p: var(--pp-pixel);
-    --_t: calc((var(--pp-r) + 1) * var(--_p));
-    --_pp-drop: calc((var(--pp-drop-size) + var(--_pp-lift, 0)) * var(--_pp-drop-on, 1) * var(--_p));
-    --_pp-glint: max(2, round(up, var(--pp-r) * 0.7, 1));
+    --_p: var(--chu-pixel);
+    --_t: calc((var(--chu-r) + 1) * var(--_p));
+    --_chu-drop: calc((var(--chu-drop-size) + var(--_chu-lift, 0)) * var(--_chu-drop-on, 1) * var(--_p));
+    --_chu-glint: max(2, round(up, var(--chu-r) * 0.7, 1));
     /* How far the fill's two cross strips reach into its corner tiles: a pixel (none at radius 0, whose inner tiles
        are empty). Where a pixel falls between screen pixels (125%, 150% at odd positions, 175%), two layers that
        only touch would each half-cover the screen pixel on their edge and let the outline show through as a seam;
        overlapped, the strip covers it. */
-    --_pp-o: min(var(--_p), var(--_t) - var(--_p));
+    --_chu-o: min(var(--_p), var(--_t) - var(--_p));
     /* 1 while on (see the states): each box sets its own, so a box inside an "on" box keeps its own face. */
-    --_pp-sunk: 0;
+    --_chu-sunk: 0;
 
     /* Public, read-only: the fill's mask (inside the outline). A child with inset: 0 can use these with
-       mask-image: var(--pp-shape-inner) to stay inside the box (glints, pictures). */
-    --pp-box-mask-size:
+       mask-image: var(--chu-shape-inner) to stay inside the box (glints, pictures). */
+    --chu-box-mask-size:
       var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t),
-      calc(round(down, 100%, var(--_p)) - 2 * var(--_t) + 2 * var(--_pp-o)) calc(round(down, 100%, var(--_p)) - 2 * var(--_p)),
-      calc(round(down, 100%, var(--_p)) - 2 * var(--_p)) calc(round(down, 100%, var(--_p)) - 2 * var(--_t) + 2 * var(--_pp-o));
-    --pp-box-mask-position:
+      calc(round(down, 100%, var(--_p)) - 2 * var(--_t) + 2 * var(--_chu-o)) calc(round(down, 100%, var(--_p)) - 2 * var(--_p)),
+      calc(round(down, 100%, var(--_p)) - 2 * var(--_p)) calc(round(down, 100%, var(--_p)) - 2 * var(--_t) + 2 * var(--_chu-o));
+    --chu-box-mask-position:
       left 0 top 0,
       left calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)) top 0,
       left 0 top calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)),
       left calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)) top calc(round(down, 100% + var(--_t), var(--_p)) - var(--_t)),
-      left calc(var(--_t) - var(--_pp-o)) top var(--_p),
-      left var(--_p) top calc(var(--_t) - var(--_pp-o));
+      left calc(var(--_t) - var(--_chu-o)) top var(--_p),
+      left var(--_p) top calc(var(--_t) - var(--_chu-o));
 
     position: relative;
     isolation: isolate;
-    color: var(--pp-box-text);
+    color: var(--chu-box-text);
     background: none;
     /* Owned here, so an app's own button { } rule can't shadow the box or round its forced-colours border. */
     border: 0;
@@ -94,102 +94,102 @@
   /* Ink: the outline, and its copy one drop down and right. Both shapes are snapped to whole pixels, and each
      shape's cross strips reach a pixel into its corner tiles (whose last row and column are always solid), so the
      layers overlap instead of meeting edge to edge. */
-  .pp-box::before {
+  .chu-box::before {
     content: "";
     position: absolute;
-    inset: 0 calc(-1 * var(--_pp-drop)) calc(-1 * var(--_pp-drop)) 0;
+    inset: 0 calc(-1 * var(--_chu-drop)) calc(-1 * var(--_chu-drop)) 0;
     z-index: -1;
     pointer-events: none;
-    background: var(--pp-box-outline);
-    mask-image: var(--pp-shape), var(--pp-shape);
+    background: var(--chu-box-outline);
+    mask-image: var(--chu-shape), var(--chu-shape);
     mask-repeat: no-repeat;
     mask-size:
       var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t),
-      calc(round(down, 100% - var(--_pp-drop), var(--_p)) - 2 * var(--_t) + 2 * var(--_p)) round(down, 100% - var(--_pp-drop), var(--_p)),
-      round(down, 100% - var(--_pp-drop), var(--_p)) calc(round(down, 100% - var(--_pp-drop), var(--_p)) - 2 * var(--_t) + 2 * var(--_p)),
+      calc(round(down, 100% - var(--_chu-drop), var(--_p)) - 2 * var(--_t) + 2 * var(--_p)) round(down, 100% - var(--_chu-drop), var(--_p)),
+      round(down, 100% - var(--_chu-drop), var(--_p)) calc(round(down, 100% - var(--_chu-drop), var(--_p)) - 2 * var(--_t) + 2 * var(--_p)),
       var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t), var(--_t) var(--_t),
-      calc(round(down, 100% - var(--_pp-drop), var(--_p)) - 2 * var(--_t) + 2 * var(--_p)) round(down, 100% - var(--_pp-drop), var(--_p)),
-      round(down, 100% - var(--_pp-drop), var(--_p)) calc(round(down, 100% - var(--_pp-drop), var(--_p)) - 2 * var(--_t) + 2 * var(--_p));
+      calc(round(down, 100% - var(--_chu-drop), var(--_p)) - 2 * var(--_t) + 2 * var(--_p)) round(down, 100% - var(--_chu-drop), var(--_p)),
+      round(down, 100% - var(--_chu-drop), var(--_p)) calc(round(down, 100% - var(--_chu-drop), var(--_p)) - 2 * var(--_t) + 2 * var(--_p));
     mask-position:
       left 0 top 0,
-      left calc(round(down, 100% + var(--_t) - var(--_pp-drop), var(--_p)) - var(--_t)) top 0,
-      left 0 top calc(round(down, 100% + var(--_t) - var(--_pp-drop), var(--_p)) - var(--_t)),
-      left calc(round(down, 100% + var(--_t) - var(--_pp-drop), var(--_p)) - var(--_t)) top calc(round(down, 100% + var(--_t) - var(--_pp-drop), var(--_p)) - var(--_t)),
+      left calc(round(down, 100% + var(--_t) - var(--_chu-drop), var(--_p)) - var(--_t)) top 0,
+      left 0 top calc(round(down, 100% + var(--_t) - var(--_chu-drop), var(--_p)) - var(--_t)),
+      left calc(round(down, 100% + var(--_t) - var(--_chu-drop), var(--_p)) - var(--_t)) top calc(round(down, 100% + var(--_t) - var(--_chu-drop), var(--_p)) - var(--_t)),
       left calc(var(--_t) - var(--_p)) top 0,
       left 0 top calc(var(--_t) - var(--_p)),
-      left var(--_pp-drop) top var(--_pp-drop),
-      left calc(round(down, 100% + var(--_t) - var(--_pp-drop), var(--_p)) - var(--_t) + var(--_pp-drop)) top var(--_pp-drop),
-      left var(--_pp-drop) top calc(round(down, 100% + var(--_t) - var(--_pp-drop), var(--_p)) - var(--_t) + var(--_pp-drop)),
-      left calc(round(down, 100% + var(--_t) - var(--_pp-drop), var(--_p)) - var(--_t) + var(--_pp-drop)) top calc(round(down, 100% + var(--_t) - var(--_pp-drop), var(--_p)) - var(--_t) + var(--_pp-drop)),
-      left calc(var(--_t) - var(--_p) + var(--_pp-drop)) top var(--_pp-drop),
-      left var(--_pp-drop) top calc(var(--_t) - var(--_p) + var(--_pp-drop));
+      left var(--_chu-drop) top var(--_chu-drop),
+      left calc(round(down, 100% + var(--_t) - var(--_chu-drop), var(--_p)) - var(--_t) + var(--_chu-drop)) top var(--_chu-drop),
+      left var(--_chu-drop) top calc(round(down, 100% + var(--_t) - var(--_chu-drop), var(--_p)) - var(--_t) + var(--_chu-drop)),
+      left calc(round(down, 100% + var(--_t) - var(--_chu-drop), var(--_p)) - var(--_t) + var(--_chu-drop)) top calc(round(down, 100% + var(--_t) - var(--_chu-drop), var(--_p)) - var(--_t) + var(--_chu-drop)),
+      left calc(var(--_t) - var(--_p) + var(--_chu-drop)) top var(--_chu-drop),
+      left var(--_chu-drop) top calc(var(--_t) - var(--_p) + var(--_chu-drop));
   }
 
-  /* Fill: bands, glints, the disabled dither and the busy dots, inside the outline. On (--_pp-sunk: 1) it starts a
+  /* Fill: bands, glints, the disabled dither and the busy dots, inside the outline. On (--_chu-sunk: 1) it starts a
      pixel lower and further in, so the ink behind it shows as a shadow along the top and left, round the corners.
      Each glint's layer starts a pixel higher, see-through there: its top is then a stop inside its gradient, which
      the browser draws where it draws the band's own last row, not a layer's edge that only part covers the screen row
      it shares with the band (at 150% to 262.5%), so no fill shows between a white band and a white glint (cream).
      The dither's tiles are drawn unsmoothed: at 175% and 262.5% a tile is not a whole number of screen pixels, and
      smoothed, their edges let what lies under them through as a faint grid. */
-  .pp-box::after {
+  .chu-box::after {
     content: "";
     position: absolute;
-    inset: calc(var(--_pp-sunk) * var(--_p)) 0 0 calc(var(--_pp-sunk) * var(--_p));
+    inset: calc(var(--_chu-sunk) * var(--_p)) 0 0 calc(var(--_chu-sunk) * var(--_p));
     z-index: -1;
     pointer-events: none;
     background:
-      linear-gradient(var(--pp-box-text) 0 0) left calc(round(down, 50%, var(--_p)) - 4 * var(--_p)) top round(down, 50%, var(--_p)) / var(--_pp-dot-1) var(--_pp-dot-1) no-repeat,
-      linear-gradient(var(--pp-box-text) 0 0) left round(down, 50%, var(--_p)) top round(down, 50%, var(--_p)) / var(--_pp-dot-2) var(--_pp-dot-2) no-repeat,
-      linear-gradient(var(--pp-box-text) 0 0) left calc(round(down, 50%, var(--_p)) + 4 * var(--_p)) top round(down, 50%, var(--_p)) / var(--_pp-dot-3) var(--_pp-dot-3) no-repeat,
-      repeating-conic-gradient(var(--pp-box-dither) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--_p)) calc(2 * var(--_p)),
-      linear-gradient(transparent 50%, var(--pp-box-glint) 0) left calc(var(--_pp-glint) * var(--_p)) top var(--_p) / calc(2 * var(--_p)) calc(2 * var(--_p)) no-repeat,
-      linear-gradient(transparent 50%, var(--pp-box-glint) 0) left calc((var(--_pp-glint) - 1) * var(--_p)) top calc(2 * var(--_p)) / var(--_p) calc(2 * var(--_p)) no-repeat,
-      linear-gradient(transparent 50%, var(--pp-box-glint) 0) left calc(round(down, 100% + var(--_p), var(--_p)) - (var(--_pp-glint) + 1) * var(--_p)) top var(--_p) / var(--_p) calc(2 * var(--_p)) no-repeat,
+      linear-gradient(var(--chu-box-text) 0 0) left calc(round(down, 50%, var(--_p)) - 4 * var(--_p)) top round(down, 50%, var(--_p)) / var(--_chu-dot-1) var(--_chu-dot-1) no-repeat,
+      linear-gradient(var(--chu-box-text) 0 0) left round(down, 50%, var(--_p)) top round(down, 50%, var(--_p)) / var(--_chu-dot-2) var(--_chu-dot-2) no-repeat,
+      linear-gradient(var(--chu-box-text) 0 0) left calc(round(down, 50%, var(--_p)) + 4 * var(--_p)) top round(down, 50%, var(--_p)) / var(--_chu-dot-3) var(--_chu-dot-3) no-repeat,
+      repeating-conic-gradient(var(--chu-box-dither) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--_p)) calc(2 * var(--_p)),
+      linear-gradient(transparent 50%, var(--chu-box-glint) 0) left calc(var(--_chu-glint) * var(--_p)) top var(--_p) / calc(2 * var(--_p)) calc(2 * var(--_p)) no-repeat,
+      linear-gradient(transparent 50%, var(--chu-box-glint) 0) left calc((var(--_chu-glint) - 1) * var(--_p)) top calc(2 * var(--_p)) / var(--_p) calc(2 * var(--_p)) no-repeat,
+      linear-gradient(transparent 50%, var(--chu-box-glint) 0) left calc(round(down, 100% + var(--_p), var(--_p)) - (var(--_chu-glint) + 1) * var(--_p)) top var(--_p) / var(--_p) calc(2 * var(--_p)) no-repeat,
       linear-gradient(to bottom,
-        var(--pp-box-top) 0 calc((var(--pp-band-top) + 1) * var(--_p)),
-        var(--pp-box-fill) 0 calc(round(down, 100%, var(--_p)) - (var(--pp-band-bottom) + 1) * var(--_p)),
-        var(--pp-box-bottom) 0);
-    mask-image: var(--pp-shape-inner);
+        var(--chu-box-top) 0 calc((var(--chu-band-top) + 1) * var(--_p)),
+        var(--chu-box-fill) 0 calc(round(down, 100%, var(--_p)) - (var(--chu-band-bottom) + 1) * var(--_p)),
+        var(--chu-box-bottom) 0);
+    mask-image: var(--chu-shape-inner);
     mask-repeat: no-repeat;
-    mask-size: var(--pp-box-mask-size);
-    mask-position: var(--pp-box-mask-position);
+    mask-size: var(--chu-box-mask-size);
+    mask-position: var(--chu-box-mask-position);
     image-rendering: pixelated;
   }
 
   /* ------------------------------------------------------------ tiers */
 
-  .pp-box[data-variant="soft"] {
-    --pp-box-top: var(--pp-tone-light);
-    --pp-box-fill: var(--pp-tone-light);
-    --pp-box-bottom: var(--pp-tone);
-    --pp-box-glint: transparent;
+  .chu-box[data-variant="soft"] {
+    --chu-box-top: var(--chu-tone-light);
+    --chu-box-fill: var(--chu-tone-light);
+    --chu-box-bottom: var(--chu-tone);
+    --chu-box-glint: transparent;
   }
-  .pp-box[data-variant="outline"] {
-    --pp-box-outline: var(--pp-line);
-    --pp-box-top: var(--pp-surface);
-    --pp-box-fill: var(--pp-surface);
-    --pp-box-bottom: var(--pp-surface);
-    --pp-box-text: var(--pp-text);
-    --pp-box-glint: transparent;
-    --pp-drop-size: 0;
+  .chu-box[data-variant="outline"] {
+    --chu-box-outline: var(--chu-line);
+    --chu-box-top: var(--chu-surface);
+    --chu-box-fill: var(--chu-surface);
+    --chu-box-bottom: var(--chu-surface);
+    --chu-box-text: var(--chu-text);
+    --chu-box-glint: transparent;
+    --chu-drop-size: 0;
   }
-  .pp-box[data-variant="ghost"] {
-    --pp-box-outline: transparent;
-    --pp-box-top: transparent;
-    --pp-box-fill: transparent;
-    --pp-box-bottom: transparent;
-    --pp-box-text: var(--pp-text);
-    --pp-box-glint: transparent;
-    --pp-drop-size: 0;
+  .chu-box[data-variant="ghost"] {
+    --chu-box-outline: transparent;
+    --chu-box-top: transparent;
+    --chu-box-fill: transparent;
+    --chu-box-bottom: transparent;
+    --chu-box-text: var(--chu-text);
+    --chu-box-glint: transparent;
+    --chu-drop-size: 0;
   }
   /* A flat panel: surface fill, ink outline, no bands (cards, windows, menus). */
-  .pp-box[data-variant="panel"] {
-    --pp-box-top: var(--pp-surface);
-    --pp-box-fill: var(--pp-surface);
-    --pp-box-bottom: var(--pp-surface);
-    --pp-box-text: var(--pp-text);
-    --pp-box-glint: transparent;
+  .chu-box[data-variant="panel"] {
+    --chu-box-top: var(--chu-surface);
+    --chu-box-fill: var(--chu-surface);
+    --chu-box-bottom: var(--chu-surface);
+    --chu-box-text: var(--chu-text);
+    --chu-box-glint: transparent;
   }
 
   /* Soft and candy boxes are light in every scheme, so whatever sits on them (text, links, status words, fields,
@@ -197,74 +197,74 @@
      colour for text and lines, white surfaces, and the box's own colours for wells, dividers and what shows
      through. Not while the box is disabled, so its own dither still shows what is behind it. A component whose
      default tier is soft or candy declares the same for its default (alert.css). */
-  .pp-box:is([data-variant="soft"], [data-variant="candy"]):not(:disabled, [aria-disabled="true"]) {
-    --pp-text: var(--pp-tone-on);
-    --pp-text-muted: var(--pp-tone-on);
-    --pp-text-inverse: var(--pp-white);
-    --pp-accent-text: var(--pp-tone-on);
-    --pp-info-text: var(--pp-tone-on);
-    --pp-success-text: var(--pp-tone-on);
-    --pp-warning-text: var(--pp-tone-on);
-    --pp-danger-text: var(--pp-tone-on);
-    --pp-link-visited: var(--pp-tone-on);
-    --pp-line: var(--pp-tone-on);
-    --pp-line-soft: var(--pp-tone);
-    --pp-surface: var(--pp-white);
-    --pp-surface-raised: var(--pp-white);
-    --pp-surface-panel: var(--pp-candy-cream);
-    --pp-surface-sunken: var(--pp-tone);
-    --pp-bg: var(--pp-tone-light);
-    --pp-disabled-dither: var(--pp-tone-light);
+  .chu-box:is([data-variant="soft"], [data-variant="candy"]):not(:disabled, [aria-disabled="true"]) {
+    --chu-text: var(--chu-tone-on);
+    --chu-text-muted: var(--chu-tone-on);
+    --chu-text-inverse: var(--chu-white);
+    --chu-accent-text: var(--chu-tone-on);
+    --chu-info-text: var(--chu-tone-on);
+    --chu-success-text: var(--chu-tone-on);
+    --chu-warning-text: var(--chu-tone-on);
+    --chu-danger-text: var(--chu-tone-on);
+    --chu-link-visited: var(--chu-tone-on);
+    --chu-line: var(--chu-tone-on);
+    --chu-line-soft: var(--chu-tone);
+    --chu-surface: var(--chu-white);
+    --chu-surface-raised: var(--chu-white);
+    --chu-surface-panel: var(--chu-candy-cream);
+    --chu-surface-sunken: var(--chu-tone);
+    --chu-bg: var(--chu-tone-light);
+    --chu-disabled-dither: var(--chu-tone-light);
   }
   /* On candy, wells take the light band (ink fails AA on some shades) and dividers the shade. */
-  .pp-box[data-variant="candy"]:not(:disabled, [aria-disabled="true"]) {
-    --pp-line-soft: var(--pp-tone-shade);
-    --pp-surface-sunken: var(--pp-tone-light);
-    --pp-bg: var(--pp-tone);
-    --pp-disabled-dither: var(--pp-tone);
+  .chu-box[data-variant="candy"]:not(:disabled, [aria-disabled="true"]) {
+    --chu-line-soft: var(--chu-tone-shade);
+    --chu-surface-sunken: var(--chu-tone-light);
+    --chu-bg: var(--chu-tone);
+    --chu-disabled-dither: var(--chu-tone);
   }
   /* Slate has white labels, so what sits on it is dark. */
-  .pp-box[data-tone="slate"]:is([data-variant="soft"], [data-variant="candy"]):not(:disabled, [aria-disabled="true"]) {
-    --pp-text-inverse: var(--pp-ink);
-    --pp-surface: var(--pp-tone-shade);
-    --pp-surface-raised: var(--pp-tone-shade);
-    --pp-surface-panel: var(--pp-tone-shade);
+  .chu-box[data-tone="slate"]:is([data-variant="soft"], [data-variant="candy"]):not(:disabled, [aria-disabled="true"]) {
+    --chu-text-inverse: var(--chu-ink);
+    --chu-surface: var(--chu-tone-shade);
+    --chu-surface-raised: var(--chu-tone-shade);
+    --chu-surface-panel: var(--chu-tone-shade);
   }
 
   /* ------------------------------------------------------------ tones */
 
-  .pp-box[data-tone="info"], .pp-box[data-tone="success"], .pp-box[data-tone="warning"], .pp-box[data-tone="danger"] {
-    --pp-tone: var(--_pp-i);
-    --pp-tone-light: var(--_pp-il);
-    --pp-tone-shade: var(--_pp-is);
-    --pp-tone-on: var(--_pp-io);
-    --pp-tone-text: var(--_pp-it);
+  .chu-box[data-tone="info"], .chu-box[data-tone="success"], .chu-box[data-tone="warning"], .chu-box[data-tone="danger"] {
+    --chu-tone: var(--_chu-i);
+    --chu-tone-light: var(--_chu-il);
+    --chu-tone-shade: var(--_chu-is);
+    --chu-tone-on: var(--_chu-io);
+    --chu-tone-text: var(--_chu-it);
   }
-  .pp-box[data-tone="info"] { --_pp-i: var(--pp-info); --_pp-il: var(--pp-info-light); --_pp-is: var(--pp-info-shade); --_pp-io: var(--pp-info-on); --_pp-it: var(--pp-info-text); }
-  .pp-box[data-tone="success"] { --_pp-i: var(--pp-success); --_pp-il: var(--pp-success-light); --_pp-is: var(--pp-success-shade); --_pp-io: var(--pp-success-on); --_pp-it: var(--pp-success-text); }
-  .pp-box[data-tone="warning"] { --_pp-i: var(--pp-warning); --_pp-il: var(--pp-warning-light); --_pp-is: var(--pp-warning-shade); --_pp-io: var(--pp-warning-on); --_pp-it: var(--pp-warning-text); }
-  .pp-box[data-tone="danger"] { --_pp-i: var(--pp-danger); --_pp-il: var(--pp-danger-light); --_pp-is: var(--pp-danger-shade); --_pp-io: var(--pp-danger-on); --_pp-it: var(--pp-danger-text); }
+  .chu-box[data-tone="info"] { --_chu-i: var(--chu-info); --_chu-il: var(--chu-info-light); --_chu-is: var(--chu-info-shade); --_chu-io: var(--chu-info-on); --_chu-it: var(--chu-info-text); }
+  .chu-box[data-tone="success"] { --_chu-i: var(--chu-success); --_chu-il: var(--chu-success-light); --_chu-is: var(--chu-success-shade); --_chu-io: var(--chu-success-on); --_chu-it: var(--chu-success-text); }
+  .chu-box[data-tone="warning"] { --_chu-i: var(--chu-warning); --_chu-il: var(--chu-warning-light); --_chu-is: var(--chu-warning-shade); --_chu-io: var(--chu-warning-on); --_chu-it: var(--chu-warning-text); }
+  .chu-box[data-tone="danger"] { --_chu-i: var(--chu-danger); --_chu-il: var(--chu-danger-light); --_chu-is: var(--chu-danger-shade); --_chu-io: var(--chu-danger-on); --_chu-it: var(--chu-danger-text); }
 
   /* Raw candies: ink labels on every one but slate, which takes white. */
-  .pp-box:is([data-tone="red"], [data-tone="orange"], [data-tone="yellow"], [data-tone="green"], [data-tone="teal"], [data-tone="blue"], [data-tone="purple"], [data-tone="pink"], [data-tone="slate"], [data-tone="neutral"]) {
-    --pp-tone-on: var(--pp-ink);
-    --pp-tone-text: var(--pp-text);
+  .chu-box:is([data-tone="red"], [data-tone="orange"], [data-tone="yellow"], [data-tone="green"], [data-tone="teal"], [data-tone="blue"], [data-tone="purple"], [data-tone="pink"], [data-tone="slate"], [data-tone="neutral"]) {
+    --chu-tone-on: var(--chu-ink);
+    --chu-tone-text: var(--chu-text);
   }
-  .pp-box[data-tone="red"] { --pp-tone: var(--pp-candy-red); --pp-tone-light: var(--pp-candy-red-light); --pp-tone-shade: var(--pp-candy-red-shade); }
-  .pp-box[data-tone="orange"] { --pp-tone: var(--pp-candy-orange); --pp-tone-light: var(--pp-candy-orange-light); --pp-tone-shade: var(--pp-candy-orange-shade); }
-  .pp-box[data-tone="yellow"] { --pp-tone: var(--pp-candy-yellow); --pp-tone-light: var(--pp-candy-yellow-light); --pp-tone-shade: var(--pp-candy-yellow-shade); }
-  .pp-box[data-tone="green"] { --pp-tone: var(--pp-candy-green); --pp-tone-light: var(--pp-candy-green-light); --pp-tone-shade: var(--pp-candy-green-shade); }
-  .pp-box[data-tone="teal"] { --pp-tone: var(--pp-candy-teal); --pp-tone-light: var(--pp-candy-teal-light); --pp-tone-shade: var(--pp-candy-teal-shade); }
-  .pp-box[data-tone="blue"] { --pp-tone: var(--pp-candy-blue); --pp-tone-light: var(--pp-candy-blue-light); --pp-tone-shade: var(--pp-candy-blue-shade); }
-  .pp-box[data-tone="purple"] { --pp-tone: var(--pp-candy-purple); --pp-tone-light: var(--pp-candy-purple-light); --pp-tone-shade: var(--pp-candy-purple-shade); }
-  .pp-box[data-tone="pink"] { --pp-tone: var(--pp-candy-pink); --pp-tone-light: var(--pp-candy-pink-light); --pp-tone-shade: var(--pp-candy-pink-shade); }
-  .pp-box[data-tone="slate"] { --pp-tone: var(--pp-candy-slate); --pp-tone-light: var(--pp-candy-slate-light); --pp-tone-shade: var(--pp-candy-slate-shade); --pp-tone-on: var(--pp-white); }
-  .pp-box[data-tone="neutral"] { --pp-tone: var(--pp-candy-cream); --pp-tone-light: var(--pp-candy-cream-light); --pp-tone-shade: var(--pp-candy-cream-shade); }
+  .chu-box[data-tone="red"] { --chu-tone: var(--chu-candy-red); --chu-tone-light: var(--chu-candy-red-light); --chu-tone-shade: var(--chu-candy-red-shade); }
+  .chu-box[data-tone="orange"] { --chu-tone: var(--chu-candy-orange); --chu-tone-light: var(--chu-candy-orange-light); --chu-tone-shade: var(--chu-candy-orange-shade); }
+  .chu-box[data-tone="yellow"] { --chu-tone: var(--chu-candy-yellow); --chu-tone-light: var(--chu-candy-yellow-light); --chu-tone-shade: var(--chu-candy-yellow-shade); }
+  .chu-box[data-tone="green"] { --chu-tone: var(--chu-candy-green); --chu-tone-light: var(--chu-candy-green-light); --chu-tone-shade: var(--chu-candy-green-shade); }
+  .chu-box[data-tone="teal"] { --chu-tone: var(--chu-candy-teal); --chu-tone-light: var(--chu-candy-teal-light); --chu-tone-shade: var(--chu-candy-teal-shade); }
+  .chu-box[data-tone="blue"] { --chu-tone: var(--chu-candy-blue); --chu-tone-light: var(--chu-candy-blue-light); --chu-tone-shade: var(--chu-candy-blue-shade); }
+  .chu-box[data-tone="purple"] { --chu-tone: var(--chu-candy-purple); --chu-tone-light: var(--chu-candy-purple-light); --chu-tone-shade: var(--chu-candy-purple-shade); }
+  .chu-box[data-tone="pink"] { --chu-tone: var(--chu-candy-pink); --chu-tone-light: var(--chu-candy-pink-light); --chu-tone-shade: var(--chu-candy-pink-shade); }
+  .chu-box[data-tone="slate"] { --chu-tone: var(--chu-candy-slate); --chu-tone-light: var(--chu-candy-slate-light); --chu-tone-shade: var(--chu-candy-slate-shade); --chu-tone-on: var(--chu-white); }
+  .chu-box[data-tone="neutral"] { --chu-tone: var(--chu-candy-cream); --chu-tone-light: var(--chu-candy-cream-light); --chu-tone-shade: var(--chu-candy-cream-shade); }
 
   /* ------------------------------------------------------------ states */
 
   /* Something you can act on. */
-  .pp-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive]) {
+  .chu-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-chu-interactive]) {
     cursor: pointer;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
@@ -273,124 +273,124 @@
   /* Hover: lifts a pixel; its drop grows by one so the shadow stays where it was. Calm tiers show their well instead,
      except when on: an on box keeps its tone, or its ink label would sit on the dark well at Night. */
   @media (hover: hover) {
-    .pp-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive]):not(:disabled, [aria-disabled="true"], [aria-busy="true"], [aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):hover,
-    .pp-box[data-pp-state~="hover"] {
+    .chu-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-chu-interactive]):not(:disabled, [aria-disabled="true"], [aria-busy="true"], [aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):hover,
+    .chu-box[data-chu-state~="hover"] {
       translate: 0 calc(-1 * var(--_p));
-      --_pp-lift: 1;
+      --_chu-lift: 1;
     }
-    .pp-box:is([data-variant="outline"], [data-variant="ghost"]):is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive]):not(:disabled, [aria-disabled="true"], [aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):hover,
-    .pp-box:is([data-variant="outline"], [data-variant="ghost"])[data-pp-state~="hover"] {
+    .chu-box:is([data-variant="outline"], [data-variant="ghost"]):is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-chu-interactive]):not(:disabled, [aria-disabled="true"], [aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):hover,
+    .chu-box:is([data-variant="outline"], [data-variant="ghost"])[data-chu-state~="hover"] {
       translate: none;
-      --_pp-lift: 0;
-      --pp-box-outline: var(--pp-line);
-      --pp-box-top: var(--pp-surface-sunken);
-      --pp-box-fill: var(--pp-surface-sunken);
-      --pp-box-bottom: var(--pp-surface-sunken);
+      --_chu-lift: 0;
+      --chu-box-outline: var(--chu-line);
+      --chu-box-top: var(--chu-surface-sunken);
+      --chu-box-fill: var(--chu-surface-sunken);
+      --chu-box-bottom: var(--chu-surface-sunken);
     }
   }
 
   /* Pressed, and selected: sits in its drop. Selected also swaps its bands, the 16-bit pushed-in look. */
-  .pp-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive]):not(:disabled, [aria-disabled="true"], [aria-busy="true"]):active,
-  .pp-box[data-pp-state~="active"],
-  .pp-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], [data-pp-pressed], :has(> input:checked)) {
-    translate: calc(var(--pp-drop-size) * var(--_p)) calc(var(--pp-drop-size) * var(--_p));
-    --_pp-drop-on: 0;
+  .chu-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-chu-interactive]):not(:disabled, [aria-disabled="true"], [aria-busy="true"]):active,
+  .chu-box[data-chu-state~="active"],
+  .chu-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], [data-chu-pressed], :has(> input:checked)) {
+    translate: calc(var(--chu-drop-size) * var(--_p)) calc(var(--chu-drop-size) * var(--_p));
+    --_chu-drop-on: 0;
   }
-  .pp-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):not([data-variant="ghost"], [data-variant="outline"]) {
-    --pp-box-top: var(--pp-tone-shade);
-    --pp-box-bottom: var(--pp-tone-light);
-    --pp-box-glint: transparent;
+  .chu-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):not([data-variant="ghost"], [data-variant="outline"]) {
+    --chu-box-top: var(--chu-tone-shade);
+    --chu-box-bottom: var(--chu-tone-light);
+    --chu-box-glint: transparent;
   }
   /* A second cue, so on reads at a glance and without colour: the face drops a pixel inside its outline, leaving an
      ink shadow along its top and left (one light, top left). A checkbox or radio has its glyph instead. */
-  .pp-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], label:has(> input:checked)):not([data-variant="ghost"], [data-variant="outline"]) {
-    --_pp-sunk: 1;
+  .chu-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], label:has(> input:checked)):not([data-variant="ghost"], [data-variant="outline"]) {
+    --_chu-sunk: 1;
   }
-  .pp-box:is([data-variant="ghost"], [data-variant="outline"]):is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)) {
-    --pp-box-outline: var(--pp-outline);
-    --pp-box-top: var(--pp-tone-light);
-    --pp-box-fill: var(--pp-tone-light);
-    --pp-box-bottom: var(--pp-tone-light);
-    --pp-box-text: var(--pp-tone-on);
+  .chu-box:is([data-variant="ghost"], [data-variant="outline"]):is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)) {
+    --chu-box-outline: var(--chu-outline);
+    --chu-box-top: var(--chu-tone-light);
+    --chu-box-fill: var(--chu-tone-light);
+    --chu-box-bottom: var(--chu-tone-light);
+    --chu-box-text: var(--chu-tone-on);
   }
 
   /* Focus: yellow one pixel out, ink one pixel beyond. Drawn by dilating the box's own shape, so it follows the
-     stepped corners exactly. Public: --pp-box-ring and --pp-box-ring-edge recolour the ring and its edge (default
-     --pp-focus and --pp-focus-edge), for a box on a background where yellow cannot show. */
-  .pp-box:focus-visible,
-  .pp-box[data-pp-state~="focus"],
-  .pp-box:has(> :is(input, select, textarea):focus-visible) {
+     stepped corners exactly. Public: --chu-box-ring and --chu-box-ring-edge recolour the ring and its edge (default
+     --chu-focus and --chu-focus-edge), for a box on a background where yellow cannot show. */
+  .chu-box:focus-visible,
+  .chu-box[data-chu-state~="focus"],
+  .chu-box:has(> :is(input, select, textarea):focus-visible) {
     outline: none;
     box-shadow: none;
     filter:
-      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--pp-box-ring, var(--pp-focus))) drop-shadow(0 var(--_p) 0 var(--pp-box-ring, var(--pp-focus)))
-      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--pp-box-ring, var(--pp-focus))) drop-shadow(var(--_p) 0 0 var(--pp-box-ring, var(--pp-focus)))
-      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--pp-box-ring-edge, var(--pp-focus-edge))) drop-shadow(0 var(--_p) 0 var(--pp-box-ring-edge, var(--pp-focus-edge)))
-      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--pp-box-ring-edge, var(--pp-focus-edge))) drop-shadow(var(--_p) 0 0 var(--pp-box-ring-edge, var(--pp-focus-edge)));
+      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--chu-box-ring, var(--chu-focus))) drop-shadow(0 var(--_p) 0 var(--chu-box-ring, var(--chu-focus)))
+      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--chu-box-ring, var(--chu-focus))) drop-shadow(var(--_p) 0 0 var(--chu-box-ring, var(--chu-focus)))
+      drop-shadow(0 calc(-1 * var(--_p)) 0 var(--chu-box-ring-edge, var(--chu-focus-edge))) drop-shadow(0 var(--_p) 0 var(--chu-box-ring-edge, var(--chu-focus-edge)))
+      drop-shadow(calc(-1 * var(--_p)) 0 0 var(--chu-box-ring-edge, var(--chu-focus-edge))) drop-shadow(var(--_p) 0 0 var(--chu-box-ring-edge, var(--chu-focus-edge)));
   }
   /* More contrast: the ink edge is two pixels, as on the square ring. */
   @media (prefers-contrast: more) {
-    .pp-box:focus-visible,
-    .pp-box[data-pp-state~="focus"],
-    .pp-box:has(> :is(input, select, textarea):focus-visible) {
+    .chu-box:focus-visible,
+    .chu-box[data-chu-state~="focus"],
+    .chu-box:has(> :is(input, select, textarea):focus-visible) {
       filter:
-        drop-shadow(0 calc(-1 * var(--_p)) 0 var(--pp-box-ring, var(--pp-focus))) drop-shadow(0 var(--_p) 0 var(--pp-box-ring, var(--pp-focus)))
-        drop-shadow(calc(-1 * var(--_p)) 0 0 var(--pp-box-ring, var(--pp-focus))) drop-shadow(var(--_p) 0 0 var(--pp-box-ring, var(--pp-focus)))
-        drop-shadow(0 calc(-1 * var(--_p)) 0 var(--pp-box-ring-edge, var(--pp-focus-edge))) drop-shadow(0 var(--_p) 0 var(--pp-box-ring-edge, var(--pp-focus-edge)))
-        drop-shadow(calc(-1 * var(--_p)) 0 0 var(--pp-box-ring-edge, var(--pp-focus-edge))) drop-shadow(var(--_p) 0 0 var(--pp-box-ring-edge, var(--pp-focus-edge)))
-        drop-shadow(0 calc(-1 * var(--_p)) 0 var(--pp-box-ring-edge, var(--pp-focus-edge))) drop-shadow(0 var(--_p) 0 var(--pp-box-ring-edge, var(--pp-focus-edge)))
-        drop-shadow(calc(-1 * var(--_p)) 0 0 var(--pp-box-ring-edge, var(--pp-focus-edge))) drop-shadow(var(--_p) 0 0 var(--pp-box-ring-edge, var(--pp-focus-edge)));
+        drop-shadow(0 calc(-1 * var(--_p)) 0 var(--chu-box-ring, var(--chu-focus))) drop-shadow(0 var(--_p) 0 var(--chu-box-ring, var(--chu-focus)))
+        drop-shadow(calc(-1 * var(--_p)) 0 0 var(--chu-box-ring, var(--chu-focus))) drop-shadow(var(--_p) 0 0 var(--chu-box-ring, var(--chu-focus)))
+        drop-shadow(0 calc(-1 * var(--_p)) 0 var(--chu-box-ring-edge, var(--chu-focus-edge))) drop-shadow(0 var(--_p) 0 var(--chu-box-ring-edge, var(--chu-focus-edge)))
+        drop-shadow(calc(-1 * var(--_p)) 0 0 var(--chu-box-ring-edge, var(--chu-focus-edge))) drop-shadow(var(--_p) 0 0 var(--chu-box-ring-edge, var(--chu-focus-edge)))
+        drop-shadow(0 calc(-1 * var(--_p)) 0 var(--chu-box-ring-edge, var(--chu-focus-edge))) drop-shadow(0 var(--_p) 0 var(--chu-box-ring-edge, var(--chu-focus-edge)))
+        drop-shadow(calc(-1 * var(--_p)) 0 0 var(--chu-box-ring-edge, var(--chu-focus-edge))) drop-shadow(var(--_p) 0 0 var(--chu-box-ring-edge, var(--chu-focus-edge)));
     }
   }
 
   /* Ghost and outline boxes show their outline and well when focused, so the ring has a shape to follow. */
-  .pp-box[data-variant="ghost"]:is(:focus-visible, [data-pp-state~="focus"]) {
-    --pp-box-outline: var(--pp-line);
-    --pp-box-top: var(--pp-surface-sunken);
-    --pp-box-fill: var(--pp-surface-sunken);
-    --pp-box-bottom: var(--pp-surface-sunken);
+  .chu-box[data-variant="ghost"]:is(:focus-visible, [data-chu-state~="focus"]) {
+    --chu-box-outline: var(--chu-line);
+    --chu-box-top: var(--chu-surface-sunken);
+    --chu-box-fill: var(--chu-surface-sunken);
+    --chu-box-bottom: var(--chu-surface-sunken);
   }
 
   /* Disabled: dithered, no lift, no drop. Disabled is dithered, never greyed. The dither is light in every scheme
      (the page colour by Day and Sunset), so the ink label still reads; cream, as light as the page, takes its own,
      and slate, with its white label, takes ink. */
-  .pp-box:is(:disabled, [aria-disabled="true"]) {
-    --pp-box-dither: var(--pp-disabled-dither);
-    --pp-drop-size: 0;
+  .chu-box:is(:disabled, [aria-disabled="true"]) {
+    --chu-box-dither: var(--chu-disabled-dither);
+    --chu-drop-size: 0;
     cursor: not-allowed;
   }
-  .pp-box[data-tone="neutral"]:is(:disabled, [aria-disabled="true"]) { --pp-box-dither: var(--pp-disabled-dither-cream); }
-  .pp-box[data-tone="slate"]:is(:disabled, [aria-disabled="true"]) { --pp-box-dither: var(--pp-ink); }
+  .chu-box[data-tone="neutral"]:is(:disabled, [aria-disabled="true"]) { --chu-box-dither: var(--chu-disabled-dither-cream); }
+  .chu-box[data-tone="slate"]:is(:disabled, [aria-disabled="true"]) { --chu-box-dither: var(--chu-ink); }
   /* Calm tiers: a soft outline round the surface, dithered. A ghost is filled too, so only its outline is soft line
      (which turns ink with more contrast), not its whole shape. */
-  .pp-box:is([data-variant="outline"], [data-variant="ghost"]):is(:disabled, [aria-disabled="true"]) {
-    --pp-box-text: var(--pp-text-muted);
-    --pp-box-outline: var(--pp-line-soft);
-    --pp-box-top: var(--pp-surface);
-    --pp-box-fill: var(--pp-surface);
-    --pp-box-bottom: var(--pp-surface);
-    --pp-box-dither: var(--pp-surface-sunken);
+  .chu-box:is([data-variant="outline"], [data-variant="ghost"]):is(:disabled, [aria-disabled="true"]) {
+    --chu-box-text: var(--chu-text-muted);
+    --chu-box-outline: var(--chu-line-soft);
+    --chu-box-top: var(--chu-surface);
+    --chu-box-fill: var(--chu-surface);
+    --chu-box-bottom: var(--chu-surface);
+    --chu-box-dither: var(--chu-surface-sunken);
   }
   /* On, they wear the tone's light under an ink label, so they take candy's light dither. */
-  .pp-box:is([data-variant="outline"], [data-variant="ghost"]):is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):is(:disabled, [aria-disabled="true"]) {
-    --pp-box-dither: var(--pp-disabled-dither);
+  .chu-box:is([data-variant="outline"], [data-variant="ghost"]):is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):is(:disabled, [aria-disabled="true"]) {
+    --chu-box-dither: var(--chu-disabled-dither);
   }
 
   /* Busy: the label hides (keeping its size) and three dots step in, one, two, three. */
-  .pp-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive])[aria-busy="true"] {
+  .chu-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-chu-interactive])[aria-busy="true"] {
     color: transparent;
     cursor: progress;
   }
-  .pp-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive])[aria-busy="true"]::after {
-    animation: pp-box-dots calc(3 * var(--pp-duration-beat, 400ms)) steps(1, jump-end) infinite;
+  .chu-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-chu-interactive])[aria-busy="true"]::after {
+    animation: chu-box-dots calc(3 * var(--chu-duration-beat, 400ms)) steps(1, jump-end) infinite;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .pp-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive])[aria-busy="true"]::after {
+    .chu-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-chu-interactive])[aria-busy="true"]::after {
       animation: none;
-      --_pp-dot-1: calc(2 * var(--pp-pixel));
-      --_pp-dot-2: calc(2 * var(--pp-pixel));
-      --_pp-dot-3: calc(2 * var(--pp-pixel));
+      --_chu-dot-1: calc(2 * var(--chu-pixel));
+      --_chu-dot-2: calc(2 * var(--chu-pixel));
+      --_chu-dot-3: calc(2 * var(--chu-pixel));
     }
   }
 
@@ -398,45 +398,45 @@
      as in the segmented control, because the bands that show it are gone; busy keeps its label hidden and its three
      dots, in the button text colour. */
   @media (forced-colors: active) {
-    .pp-box { border: 1px solid CanvasText; translate: none !important; filter: none !important; }
-    .pp-box::before, .pp-box::after { display: none; }
-    .pp-box:is(button, a[href], [role="button"]) { border-color: ButtonText; }
-    .pp-box:focus-visible, .pp-box:has(> :is(input, select, textarea):focus-visible) { outline: var(--pp-pixel) solid Highlight; outline-offset: var(--pp-pixel); }
-    .pp-box:is(:disabled, [aria-disabled="true"]) { border-color: GrayText; color: GrayText; }
-    .pp-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-checked="true"], label:has(> input:checked)) {
+    .chu-box { border: 1px solid CanvasText; translate: none !important; filter: none !important; }
+    .chu-box::before, .chu-box::after { display: none; }
+    .chu-box:is(button, a[href], [role="button"]) { border-color: ButtonText; }
+    .chu-box:focus-visible, .chu-box:has(> :is(input, select, textarea):focus-visible) { outline: var(--chu-pixel) solid Highlight; outline-offset: var(--chu-pixel); }
+    .chu-box:is(:disabled, [aria-disabled="true"]) { border-color: GrayText; color: GrayText; }
+    .chu-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-checked="true"], label:has(> input:checked)) {
       forced-color-adjust: none;
       background: Highlight;
       color: HighlightText;
     }
-    .pp-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-checked="true"], label:has(> input:checked)):is(:disabled, [aria-disabled="true"]) { background: GrayText; color: Canvas; }
-    .pp-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive])[aria-busy="true"] { forced-color-adjust: none; }
-    .pp-box[aria-busy="true"]::after {
-      --pp-box-top: transparent;
-      --pp-box-fill: transparent;
-      --pp-box-bottom: transparent;
-      --pp-box-glint: transparent;
-      --pp-box-dither: transparent;
-      --pp-box-text: ButtonText;
+    .chu-box:is([aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-checked="true"], label:has(> input:checked)):is(:disabled, [aria-disabled="true"]) { background: GrayText; color: Canvas; }
+    .chu-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-chu-interactive])[aria-busy="true"] { forced-color-adjust: none; }
+    .chu-box[aria-busy="true"]::after {
+      --chu-box-top: transparent;
+      --chu-box-fill: transparent;
+      --chu-box-bottom: transparent;
+      --chu-box-glint: transparent;
+      --chu-box-dither: transparent;
+      --chu-box-text: ButtonText;
       display: block;
     }
   }
 }
 
-@keyframes pp-box-dots {
-  0% { --_pp-dot-1: calc(2 * var(--pp-pixel)); --_pp-dot-2: 0px; --_pp-dot-3: 0px; }
-  33.333% { --_pp-dot-1: calc(2 * var(--pp-pixel)); --_pp-dot-2: calc(2 * var(--pp-pixel)); --_pp-dot-3: 0px; }
-  66.667%, 100% { --_pp-dot-1: calc(2 * var(--pp-pixel)); --_pp-dot-2: calc(2 * var(--pp-pixel)); --_pp-dot-3: calc(2 * var(--pp-pixel)); }
+@keyframes chu-box-dots {
+  0% { --_chu-dot-1: calc(2 * var(--chu-pixel)); --_chu-dot-2: 0px; --_chu-dot-3: 0px; }
+  33.333% { --_chu-dot-1: calc(2 * var(--chu-pixel)); --_chu-dot-2: calc(2 * var(--chu-pixel)); --_chu-dot-3: 0px; }
+  66.667%, 100% { --_chu-dot-1: calc(2 * var(--chu-pixel)); --_chu-dot-2: calc(2 * var(--chu-pixel)); --_chu-dot-3: calc(2 * var(--chu-pixel)); }
 }
 
-/* Radius: in utilities, so a class or data-pp-r beats any component's default. */
-@layer pp.utilities {
-  .pp-r-0, [data-pp-r="0"] { --pp-r: 0; --pp-shape: var(--pp-shape-0); --pp-shape-inner: var(--pp-shape-0-inner); }
-  .pp-r-1, [data-pp-r="1"] { --pp-r: 1; --pp-shape: var(--pp-shape-1); --pp-shape-inner: var(--pp-shape-1-inner); }
-  .pp-r-2, [data-pp-r="2"] { --pp-r: 2; --pp-shape: var(--pp-shape-2); --pp-shape-inner: var(--pp-shape-2-inner); }
-  .pp-r-3, [data-pp-r="3"] { --pp-r: 3; --pp-shape: var(--pp-shape-3); --pp-shape-inner: var(--pp-shape-3-inner); }
-  .pp-r-4, [data-pp-r="4"] { --pp-r: 4; --pp-shape: var(--pp-shape-4); --pp-shape-inner: var(--pp-shape-4-inner); }
-  .pp-r-5, [data-pp-r="5"] { --pp-r: 5; --pp-shape: var(--pp-shape-5); --pp-shape-inner: var(--pp-shape-5-inner); }
-  .pp-r-6, [data-pp-r="6"] { --pp-r: 6; --pp-shape: var(--pp-shape-6); --pp-shape-inner: var(--pp-shape-6-inner); }
-  .pp-r-7, [data-pp-r="7"] { --pp-r: 7; --pp-shape: var(--pp-shape-7); --pp-shape-inner: var(--pp-shape-7-inner); }
-  .pp-r-8, [data-pp-r="8"] { --pp-r: 8; --pp-shape: var(--pp-shape-8); --pp-shape-inner: var(--pp-shape-8-inner); }
+/* Radius: in utilities, so a class or data-chu-r beats any component's default. */
+@layer chu.utilities {
+  .chu-r-0, [data-chu-r="0"] { --chu-r: 0; --chu-shape: var(--chu-shape-0); --chu-shape-inner: var(--chu-shape-0-inner); }
+  .chu-r-1, [data-chu-r="1"] { --chu-r: 1; --chu-shape: var(--chu-shape-1); --chu-shape-inner: var(--chu-shape-1-inner); }
+  .chu-r-2, [data-chu-r="2"] { --chu-r: 2; --chu-shape: var(--chu-shape-2); --chu-shape-inner: var(--chu-shape-2-inner); }
+  .chu-r-3, [data-chu-r="3"] { --chu-r: 3; --chu-shape: var(--chu-shape-3); --chu-shape-inner: var(--chu-shape-3-inner); }
+  .chu-r-4, [data-chu-r="4"] { --chu-r: 4; --chu-shape: var(--chu-shape-4); --chu-shape-inner: var(--chu-shape-4-inner); }
+  .chu-r-5, [data-chu-r="5"] { --chu-r: 5; --chu-shape: var(--chu-shape-5); --chu-shape-inner: var(--chu-shape-5-inner); }
+  .chu-r-6, [data-chu-r="6"] { --chu-r: 6; --chu-shape: var(--chu-shape-6); --chu-shape-inner: var(--chu-shape-6-inner); }
+  .chu-r-7, [data-chu-r="7"] { --chu-r: 7; --chu-shape: var(--chu-shape-7); --chu-shape-inner: var(--chu-shape-7-inner); }
+  .chu-r-8, [data-chu-r="8"] { --chu-r: 8; --chu-shape: var(--chu-shape-8); --chu-shape-inner: var(--chu-shape-8-inner); }
 }

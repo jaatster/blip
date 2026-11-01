@@ -2,121 +2,121 @@
  * HUD. The heads-up display over a game: hearts, segmented health and mana bars, coin and score counters, a timer.
  * Numbers are Pixel Bop's tabular digits in POP (white, ink outline, a drop), so they read on any part of the world.
  *
- *   <div class="pp-hud">
- *     <div class="pp-hud-group">
- *       <pp-hearts value="3.5" max="5" label="Health"></pp-hearts>
- *       <div class="pp-hud-stat">
- *         <span class="pp-hud-label pp-display pp-pop" data-scale="1" aria-hidden="true">MP</span>
- *         <div class="pp-box pp-hud-bar" data-tone="blue" role="meter" aria-label="Magic" aria-valuemin="0"
- *              aria-valuemax="8" aria-valuenow="5" style="--pp-hud-value: 5; --pp-hud-max: 8; --pp-hud-segments: 8">
- *           <span class="pp-hud-bar-fill"></span>
+ *   <div class="chu-hud">
+ *     <div class="chu-hud-group">
+ *       <chu-hearts value="3.5" max="5" label="Health"></chu-hearts>
+ *       <div class="chu-hud-stat">
+ *         <span class="chu-hud-label chu-display chu-pop" data-scale="1" aria-hidden="true">MP</span>
+ *         <div class="chu-box chu-hud-bar" data-tone="blue" role="meter" aria-label="Magic" aria-valuemin="0"
+ *              aria-valuemax="8" aria-valuenow="5" style="--chu-hud-value: 5; --chu-hud-max: 8; --chu-hud-segments: 8">
+ *           <span class="chu-hud-bar-fill"></span>
  *         </div>
  *       </div>
  *     </div>
- *     <pp-counter value="42" pad="3" label="Coins" sound="coin"><pp-sprite name="coin"></pp-sprite></pp-counter>
+ *     <chu-counter value="42" pad="3" label="Coins" sound="coin"><chu-sprite name="coin"></chu-sprite></chu-counter>
  *   </div>
  *
- *   .pp-hud, .pp-hud-group  rows that wrap; groups keep together
- *   .pp-hud-stat            a label beside its bar or number
- *   pp-hearts               full, half and empty hearts (hud.js; sprites.js draws them)
- *   .pp-hud-bar             a segmented meter: --pp-hud-value of --pp-hud-max, in --pp-hud-segments whole segments
+ *   .chu-hud, .chu-hud-group  rows that wrap; groups keep together
+ *   .chu-hud-stat            a label beside its bar or number
+ *   chu-hearts               full, half and empty hearts (hud.js; sprites.js draws them)
+ *   .chu-hud-bar             a segmented meter: --chu-hud-value of --chu-hud-max, in --chu-hud-segments whole segments
  *                           (default 10), rounded down; data-tone colours the fill (success by default)
- *   pp-counter              counts to its value a whole step a frame; data-low (set from `low`) turns it red
+ *   chu-counter              counts to its value a whole step a frame; data-low (set from `low`) turns it red
  *
- * A bar is a meter: keep aria-valuenow equal to --pp-hud-value when you change it.
+ * A bar is a meter: keep aria-valuenow equal to --chu-hud-value when you change it.
  */
 
-@layer pp.kits {
-  .pp-hud {
+@layer chu.kits {
+  .chu-hud {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: calc(4 * var(--pp-pixel)) calc(12 * var(--pp-pixel));
-    padding: calc(6 * var(--pp-pixel)) calc(8 * var(--pp-pixel));
+    gap: calc(4 * var(--chu-pixel)) calc(12 * var(--chu-pixel));
+    padding: calc(6 * var(--chu-pixel)) calc(8 * var(--chu-pixel));
   }
-  .pp-hud-group {
+  .chu-hud-group {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: calc(4 * var(--pp-pixel)) calc(10 * var(--pp-pixel));
+    gap: calc(4 * var(--chu-pixel)) calc(10 * var(--chu-pixel));
   }
   /* The last group keeps to the far side, even when it wraps onto a row of its own. */
-  .pp-hud-group:last-child:not(:first-child) { margin-inline-start: auto; }
-  .pp-hud-stat {
+  .chu-hud-group:last-child:not(:first-child) { margin-inline-start: auto; }
+  .chu-hud-stat {
     display: inline-flex;
     align-items: center;
-    gap: calc(3 * var(--pp-pixel));
+    gap: calc(3 * var(--chu-pixel));
   }
-  .pp-hud-label { white-space: nowrap; }
+  .chu-hud-label { white-space: nowrap; }
 
-  pp-hearts, .pp-hearts {
+  chu-hearts, .chu-hearts {
     display: inline-flex;
     flex-wrap: wrap;
-    gap: var(--pp-pixel);
+    gap: var(--chu-pixel);
     vertical-align: middle;
   }
 
-  pp-counter, .pp-counter {
+  chu-counter, .chu-counter {
     display: inline-flex;
     align-items: center;
-    gap: calc(3 * var(--pp-pixel));
+    gap: calc(3 * var(--chu-pixel));
     vertical-align: middle;
   }
-  .pp-counter-value { white-space: nowrap; }
-  :is(pp-counter, .pp-counter)[data-low] .pp-counter-value {
-    --pp-pop-tint: var(--pp-candy-red-light);
-    --pp-pop-drop: var(--pp-candy-red-shade);
+  .chu-counter-value { white-space: nowrap; }
+  :is(chu-counter, .chu-counter)[data-low] .chu-counter-value {
+    --chu-pop-tint: var(--chu-candy-red-light);
+    --chu-pop-drop: var(--chu-candy-red-shade);
   }
 
   /* The bar: a slate track in a candy box, segments five pixels wide with ink between, filled in whole segments. */
-  .pp-hud-bar {
-    --pp-r: 1;
-    --pp-shape: var(--pp-shape-1);
-    --pp-shape-inner: var(--pp-shape-1-inner);
-    --pp-hud-value: 0;
-    --pp-hud-max: 10;
-    --pp-hud-segments: 10;
-    --pp-box-top: var(--pp-candy-slate-shade);
-    --pp-box-fill: var(--pp-candy-slate-shade);
-    --pp-box-bottom: var(--pp-candy-slate-shade);
-    --pp-box-glint: transparent;
+  .chu-hud-bar {
+    --chu-r: 1;
+    --chu-shape: var(--chu-shape-1);
+    --chu-shape-inner: var(--chu-shape-1-inner);
+    --chu-hud-value: 0;
+    --chu-hud-max: 10;
+    --chu-hud-segments: 10;
+    --chu-box-top: var(--chu-candy-slate-shade);
+    --chu-box-fill: var(--chu-candy-slate-shade);
+    --chu-box-bottom: var(--chu-candy-slate-shade);
+    --chu-box-glint: transparent;
     display: inline-block;
     vertical-align: middle;
-    inline-size: calc((var(--pp-hud-segments) * 6 + 1) * var(--pp-pixel));
-    block-size: calc(7 * var(--pp-pixel));
-    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+    inline-size: calc((var(--chu-hud-segments) * 6 + 1) * var(--chu-pixel));
+    block-size: calc(7 * var(--chu-pixel));
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
   }
-  .pp-hud-bar:not([data-tone]) {
-    --pp-tone: var(--pp-success);
-    --pp-tone-light: var(--pp-success-light);
-    --pp-tone-shade: var(--pp-success-shade);
+  .chu-hud-bar:not([data-tone]) {
+    --chu-tone: var(--chu-success);
+    --chu-tone-light: var(--chu-success-light);
+    --chu-tone-shade: var(--chu-success-shade);
   }
-  .pp-hud-bar-fill {
+  .chu-hud-bar-fill {
     position: absolute;
-    inset-block: var(--pp-pixel);
-    inset-inline-start: var(--pp-pixel);
-    inline-size: max(0px, calc(clamp(0, round(down, var(--pp-hud-value) / var(--pp-hud-max) * var(--pp-hud-segments), 1), var(--pp-hud-segments)) * 6 * var(--pp-pixel) - var(--pp-pixel)));
+    inset-block: var(--chu-pixel);
+    inset-inline-start: var(--chu-pixel);
+    inline-size: max(0px, calc(clamp(0, round(down, var(--chu-hud-value) / var(--chu-hud-max) * var(--chu-hud-segments), 1), var(--chu-hud-segments)) * 6 * var(--chu-pixel) - var(--chu-pixel)));
     background:
-      linear-gradient(to right, transparent 0 var(--pp-pixel), var(--pp-white) 0 calc(2 * var(--pp-pixel)), transparent 0) 0 0 / calc(6 * var(--pp-pixel)) var(--pp-pixel) repeat-x,
-      linear-gradient(to bottom, var(--pp-tone-light) 0 var(--pp-pixel), var(--pp-tone) 0 calc(100% - var(--pp-pixel)), var(--pp-tone-shade) 0);
+      linear-gradient(to right, transparent 0 var(--chu-pixel), var(--chu-white) 0 calc(2 * var(--chu-pixel)), transparent 0) 0 0 / calc(6 * var(--chu-pixel)) var(--chu-pixel) repeat-x,
+      linear-gradient(to bottom, var(--chu-tone-light) 0 var(--chu-pixel), var(--chu-tone) 0 calc(100% - var(--chu-pixel)), var(--chu-tone-shade) 0);
   }
   /* The gaps, over full and empty segments alike. */
-  .pp-hud-bar-fill::before {
+  .chu-hud-bar-fill::before {
     content: "";
     position: absolute;
     inset-block: 0;
     inset-inline-start: 0;
-    inline-size: calc((var(--pp-hud-segments) * 6 - 1) * var(--pp-pixel));
-    background: repeating-linear-gradient(to right, transparent 0 calc(5 * var(--pp-pixel)), var(--pp-ink) 0 calc(6 * var(--pp-pixel)));
+    inline-size: calc((var(--chu-hud-segments) * 6 - 1) * var(--chu-pixel));
+    background: repeating-linear-gradient(to right, transparent 0 calc(5 * var(--chu-pixel)), var(--chu-ink) 0 calc(6 * var(--chu-pixel)));
   }
 
   /* A bar's fill is its value: it prints, though paper drops backgrounds. */
   @media print {
-    .pp-hud-bar-fill, .pp-hud-bar-fill::before { print-color-adjust: exact; }
+    .chu-hud-bar-fill, .chu-hud-bar-fill::before { print-color-adjust: exact; }
   }
   @media (forced-colors: active) {
-    .pp-hud-bar-fill { background: Highlight; forced-color-adjust: none; }
-    .pp-hud-bar-fill::before { background: repeating-linear-gradient(to right, transparent 0 calc(5 * var(--pp-pixel)), Canvas 0 calc(6 * var(--pp-pixel))); }
+    .chu-hud-bar-fill { background: Highlight; forced-color-adjust: none; }
+    .chu-hud-bar-fill::before { background: repeating-linear-gradient(to right, transparent 0 calc(5 * var(--chu-pixel)), Canvas 0 calc(6 * var(--chu-pixel))); }
   }
 }

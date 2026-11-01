@@ -18,16 +18,16 @@ to tell people which key or button to press, in text, in menus and in game promp
 ## Usage
 
 ```html
-Press <kbd class="pp-box pp-keycap">Esc</kbd> to pause.
-<kbd class="pp-keys"><kbd class="pp-box pp-keycap">Ctrl</kbd>+<kbd class="pp-box pp-keycap">K</kbd></kbd>
-<kbd class="pp-box pp-keycap" data-size="lg" data-tone="green">A</kbd> Jump
+Press <kbd class="chu-box chu-keycap">Esc</kbd> to pause.
+<kbd class="chu-keys"><kbd class="chu-box chu-keycap">Ctrl</kbd>+<kbd class="chu-box chu-keycap">K</kbd></kbd>
+<kbd class="chu-box chu-keycap" data-size="lg" data-tone="green">A</kbd> Jump
 ```
 
 ## Anatomy
 
 1. **Key**: a candy box with a one-pixel light band and a thick shade band (three pixels), radius 2.
 2. **Label**: Pixelify Sans, bold, upper case, on the key's face above the shade.
-3. **Combination** (optional): `.pp-keys`, an outer `<kbd>` holding keys with a quiet "+" between them.
+3. **Combination** (optional): `.chu-keys`, an outer `<kbd>` holding keys with a quiet "+" between them.
 
 ## Variants
 
@@ -35,7 +35,7 @@ Press <kbd class="pp-box pp-keycap">Esc</kbd> to pause.
 |---|---|---|
 | `data-size` | `sm` (10 pixels), `md` (12, default), `lg` (16) | `md` sits in body text; `lg` for prompts and shortcut sheets. With a bigger default text size, keys grow with their labels, in whole pixels. |
 | `data-tone` | `neutral`, cream (default), any tone or candy | Coloured keys for a gamepad's buttons (A green, B red, X blue, Y slate). |
-| `data-pp-pressed` | | Shows a key held down: it sits in its drop (key tests, tutorials). |
+| `data-chu-pressed` | | Shows a key held down: it sits in its drop (key tests, tutorials). |
 
 ## States
 
@@ -62,10 +62,10 @@ A keycap is a picture of a key, not a control: no hover, no focus.
 
 | Class | |
 |---|---|
-| `.pp-keycap` | The key. Use with `.pp-box` on a `<kbd>`. |
-| `.pp-keys` | The combination wrapper (an outer `<kbd>`). |
+| `.chu-keycap` | The key. Use with `.chu-box` on a `<kbd>`. |
+| `.chu-keys` | The combination wrapper (an outer `<kbd>`). |
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-band-top`, `--pp-band-bottom` | 1, 3 (lg 2, 4) | The key's light and shade bands, in pixels. |
-| `--pp-tone`, `--pp-tone-light`, `--pp-tone-shade`, `--pp-tone-on` | cream | A custom colour. |
+| `--chu-band-top`, `--chu-band-bottom` | 1, 3 (lg 2, 4) | The key's light and shade bands, in pixels. |
+| `--chu-tone`, `--chu-tone-light`, `--chu-tone-shade`, `--chu-tone-on` | cream | A custom colour. |

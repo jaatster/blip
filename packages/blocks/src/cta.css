@@ -3,19 +3,19 @@
  * CTA band. One call to action across the page, on a strip of the world or, for a second, quieter ask, on a soft
  * panel.
  *
- *   <section class="pp-cta" aria-labelledby="cta-title">                         the world: sky bands, ground
- *     <pp-world avoid=".pp-cta-title, .pp-cta-text, .pp-cta-actions, .pp-cta-note"></pp-world>
- *     <h2 class="pp-cta-title pp-display pp-pop" data-scale="2" data-pop="…" id="cta-title">…</h2>
- *     <p class="pp-cta-text">…</p>
- *     <div class="pp-cta-actions"><a class="pp-box pp-button" data-size="lg" href="#">Wishlist now</a></div>
- *     <div class="pp-cta-ground"></div>
+ *   <section class="chu-cta" aria-labelledby="cta-title">                         the world: sky bands, ground
+ *     <chu-world avoid=".chu-cta-title, .chu-cta-text, .chu-cta-actions, .chu-cta-note"></chu-world>
+ *     <h2 class="chu-cta-title chu-display chu-pop" data-scale="2" data-pop="…" id="cta-title">…</h2>
+ *     <p class="chu-cta-text">…</p>
+ *     <div class="chu-cta-actions"><a class="chu-box chu-button" data-size="lg" href="#">Wishlist now</a></div>
+ *     <div class="chu-cta-ground"></div>
  *   </section>
  *
- *   <section class="pp-box pp-cta" data-variant="soft" data-tone="purple" aria-labelledby="…">   a soft panel
- *     … <a class="pp-box pp-button" data-variant="outline" href="#">…</a>
+ *   <section class="chu-box chu-cta" data-variant="soft" data-tone="purple" aria-labelledby="…">   a soft panel
+ *     … <a class="chu-box chu-button" data-variant="outline" href="#">…</a>
  *   </section>
  *
- *   .pp-cta-note         a small line under the actions (what happens next, what it costs)
+ *   .chu-cta-note         a small line under the actions (what happens next, what it costs)
  *   avoid                on the world, the parts its sun, moon, stars and clouds keep clear of: the words, never
  *                        behind them. On the world the text and the note wear a one-pixel halo in the page colour.
  *   A boxed band is soft by default (the tone's light fill, its base along the bottom, no glints), or the plain
@@ -23,9 +23,9 @@
  *   the primary button is candy (candy on pastel); in a box it is outline.
  */
 
-@layer pp.kits {
-  .pp-cta {
-    --_p: var(--pp-pixel);
+@layer chu.kits {
+  .chu-cta {
+    --_p: var(--chu-pixel);
     position: relative;
     display: grid;
     justify-items: center;
@@ -33,82 +33,82 @@
     padding: calc(18 * var(--_p)) calc(12 * var(--_p));
     text-align: center;
   }
-  .pp-cta > :is(h2, h3, p) { margin: 0; }
+  .chu-cta > :is(h2, h3, p) { margin: 0; }
 
-  /* On the world: the sky in bands from the horizon up, over the ground strip. Public: --pp-cta-band, each sky
+  /* On the world: the sky in bands from the horizon up, over the ground strip. Public: --chu-cta-band, each sky
      band's height in pixels (8). */
-  .pp-cta:not(.pp-box) {
-    --_b: var(--pp-cta-band, 8);
+  .chu-cta:not(.chu-box) {
+    --_b: var(--chu-cta-band, 8);
     --_g: 14;
     --_row: calc(2 * var(--_p)) var(--_p) repeat-x;
     isolation: isolate;
     overflow: hidden;
     padding-block-end: calc((var(--_g) + 18) * var(--_p));
-    color: var(--pp-text);
+    color: var(--chu-text);
     background:
-      linear-gradient(to right, var(--pp-blocks-sky-6) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + var(--_b)) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--pp-blocks-sky-5) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + var(--_b) - 1) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--pp-blocks-sky-5) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 2 * var(--_b)) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--pp-blocks-sky-4) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 2 * var(--_b) - 1) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--pp-blocks-sky-4) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 3 * var(--_b)) * var(--_p)) / var(--_row),
-      linear-gradient(to right, var(--pp-blocks-sky-3) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 3 * var(--_b) - 1) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--chu-blocks-sky-6) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + var(--_b)) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--chu-blocks-sky-5) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + var(--_b) - 1) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--chu-blocks-sky-5) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 2 * var(--_b)) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--chu-blocks-sky-4) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 2 * var(--_b) - 1) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--chu-blocks-sky-4) 0 var(--_p), transparent 0) left 0 bottom calc((var(--_g) + 3 * var(--_b)) * var(--_p)) / var(--_row),
+      linear-gradient(to right, var(--chu-blocks-sky-3) 0 var(--_p), transparent 0) left var(--_p) bottom calc((var(--_g) + 3 * var(--_b) - 1) * var(--_p)) / var(--_row),
       linear-gradient(to top,
-        var(--pp-blocks-sky-6) 0 calc((var(--_g) + var(--_b)) * var(--_p)),
-        var(--pp-blocks-sky-5) 0 calc((var(--_g) + 2 * var(--_b)) * var(--_p)),
-        var(--pp-blocks-sky-4) 0 calc((var(--_g) + 3 * var(--_b)) * var(--_p)),
-        var(--pp-blocks-sky-3) 0);
+        var(--chu-blocks-sky-6) 0 calc((var(--_g) + var(--_b)) * var(--_p)),
+        var(--chu-blocks-sky-5) 0 calc((var(--_g) + 2 * var(--_b)) * var(--_p)),
+        var(--chu-blocks-sky-4) 0 calc((var(--_g) + 3 * var(--_b)) * var(--_p)),
+        var(--chu-blocks-sky-3) 0);
   }
-  .pp-cta > pp-world { position: absolute; inset: 0; z-index: -2; }
-  .pp-cta > pp-world:not(:defined) { visibility: hidden; }
+  .chu-cta > chu-world { position: absolute; inset: 0; z-index: -2; }
+  .chu-cta > chu-world:not(:defined) { visibility: hidden; }
 
   /* In a box: the soft tier unless told otherwise (the tone's light fill, its base as a lip along the bottom, an ink
      outline and drop). Candy stays on the button. */
-  .pp-cta.pp-box {
-    --pp-r: 5;
-    --pp-shape: var(--pp-shape-5);
-    --pp-shape-inner: var(--pp-shape-5-inner);
-    --pp-band-top: 4;
-    --pp-band-bottom: 4;
+  .chu-cta.chu-box {
+    --chu-r: 5;
+    --chu-shape: var(--chu-shape-5);
+    --chu-shape-inner: var(--chu-shape-5-inner);
+    --chu-band-top: 4;
+    --chu-band-bottom: 4;
     margin: 0 var(--_p) var(--_p) 0;
   }
-  .pp-cta.pp-box:not([data-variant]) {
-    --pp-box-top: var(--pp-tone-light);
-    --pp-box-fill: var(--pp-tone-light);
-    --pp-box-bottom: var(--pp-tone);
-    --pp-box-glint: transparent;
+  .chu-cta.chu-box:not([data-variant]) {
+    --chu-box-top: var(--chu-tone-light);
+    --chu-box-fill: var(--chu-tone-light);
+    --chu-box-bottom: var(--chu-tone);
+    --chu-box-glint: transparent;
   }
 
-  .pp-cta-title { text-wrap: balance; }
-  .pp-cta-text {
+  .chu-cta-title { text-wrap: balance; }
+  .chu-cta-text {
     max-inline-size: 52ch;
-    font-size: var(--pp-size-lead);
-    line-height: var(--pp-leading-normal);
+    font-size: var(--chu-size-lead);
+    line-height: var(--chu-leading-normal);
     text-wrap: pretty;
   }
-  .pp-cta-actions {
+  .chu-cta-actions {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: calc(4 * var(--_p));
     margin-block-start: calc(2 * var(--_p));
   }
-  .pp-cta-note { font-size: var(--pp-size-small); font-weight: var(--pp-weight-bold); }
+  .chu-cta-note { font-size: var(--chu-size-small); font-weight: var(--chu-weight-bold); }
   /* On the world, a one-pixel halo in the page colour keeps the text and the note readable where they cross a snowy
      peak, the moon or a cloud (as the hero's lead). */
-  .pp-cta:not(.pp-box) :is(.pp-cta-text, .pp-cta-note) {
+  .chu-cta:not(.chu-box) :is(.chu-cta-text, .chu-cta-note) {
     text-shadow:
-      calc(-1 * var(--_p)) calc(-1 * var(--_p)) var(--pp-bg),
-      0 calc(-1 * var(--_p)) var(--pp-bg),
-      var(--_p) calc(-1 * var(--_p)) var(--pp-bg),
-      calc(-1 * var(--_p)) 0 var(--pp-bg),
-      var(--_p) 0 var(--pp-bg),
-      calc(-1 * var(--_p)) var(--_p) var(--pp-bg),
-      0 var(--_p) var(--pp-bg),
-      var(--_p) var(--_p) var(--pp-bg);
+      calc(-1 * var(--_p)) calc(-1 * var(--_p)) var(--chu-bg),
+      0 calc(-1 * var(--_p)) var(--chu-bg),
+      var(--_p) calc(-1 * var(--_p)) var(--chu-bg),
+      calc(-1 * var(--_p)) 0 var(--chu-bg),
+      var(--_p) 0 var(--chu-bg),
+      calc(-1 * var(--_p)) var(--_p) var(--chu-bg),
+      0 var(--_p) var(--chu-bg),
+      var(--_p) var(--_p) var(--chu-bg);
   }
 
-  .pp-cta-ground {
-    --_p: var(--pp-pixel);
+  .chu-cta-ground {
+    --_p: var(--chu-pixel);
     position: absolute;
     inset-inline: 0;
     inset-block-end: 0;
@@ -116,34 +116,34 @@
     block-size: calc(14 * var(--_p));
     pointer-events: none;
     background:
-      linear-gradient(to right, transparent 0 calc(5 * var(--_p)), var(--pp-blocks-pebble) 0 calc(7 * var(--_p)), transparent 0 calc(19 * var(--_p)), var(--pp-blocks-pebble) 0 calc(20 * var(--_p)), transparent 0) 0 calc(8 * var(--_p)) / calc(29 * var(--_p)) var(--_p) repeat-x,
-      linear-gradient(to right, transparent 0 calc(13 * var(--_p)), var(--pp-blocks-dirt-shadow) 0 calc(15 * var(--_p)), transparent 0) 0 calc(10 * var(--_p)) / calc(23 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(5 * var(--_p)), var(--chu-blocks-pebble) 0 calc(7 * var(--_p)), transparent 0 calc(19 * var(--_p)), var(--chu-blocks-pebble) 0 calc(20 * var(--_p)), transparent 0) 0 calc(8 * var(--_p)) / calc(29 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(13 * var(--_p)), var(--chu-blocks-dirt-shadow) 0 calc(15 * var(--_p)), transparent 0) 0 calc(10 * var(--_p)) / calc(23 * var(--_p)) var(--_p) repeat-x,
       linear-gradient(to bottom,
-        var(--pp-blocks-grass-top) 0 var(--_p),
-        var(--pp-blocks-grass) 0 calc(4 * var(--_p)),
-        var(--pp-blocks-grass-lip) 0 calc(5 * var(--_p)),
-        var(--pp-blocks-dirt) 0 calc(100% - 2 * var(--_p)),
-        var(--pp-blocks-dirt-shadow) 0);
+        var(--chu-blocks-grass-top) 0 var(--_p),
+        var(--chu-blocks-grass) 0 calc(4 * var(--_p)),
+        var(--chu-blocks-grass-lip) 0 calc(5 * var(--_p)),
+        var(--chu-blocks-dirt) 0 calc(100% - 2 * var(--_p)),
+        var(--chu-blocks-dirt-shadow) 0);
   }
-  .pp-cta-ground::before {
+  .chu-cta-ground::before {
     content: "";
     position: absolute;
     inset-inline: 0;
     inset-block-end: 100%;
     block-size: calc(2 * var(--_p));
     background:
-      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--pp-blocks-grass-top) 0 calc(4 * var(--_p)), transparent 0 calc(17 * var(--_p)), var(--pp-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 0 / calc(23 * var(--_p)) var(--_p) repeat-x,
-      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--pp-blocks-grass-top) 0 calc(5 * var(--_p)), transparent 0 calc(12 * var(--_p)), var(--pp-blocks-grass-top) 0 calc(13 * var(--_p)), transparent 0 calc(16 * var(--_p)), var(--pp-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 var(--_p) / calc(23 * var(--_p)) var(--_p) repeat-x;
+      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(4 * var(--_p)), transparent 0 calc(17 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 0 / calc(23 * var(--_p)) var(--_p) repeat-x,
+      linear-gradient(to right, transparent 0 calc(3 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(5 * var(--_p)), transparent 0 calc(12 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(13 * var(--_p)), transparent 0 calc(16 * var(--_p)), var(--chu-blocks-grass-top) 0 calc(18 * var(--_p)), transparent 0) 0 var(--_p) / calc(23 * var(--_p)) var(--_p) repeat-x;
   }
 
   @media (forced-colors: active) {
-    .pp-cta:not(.pp-box) { background: Canvas; border-block: 1px solid CanvasText; }
+    .chu-cta:not(.chu-box) { background: Canvas; border-block: 1px solid CanvasText; }
   }
   @media (forced-colors: active), print {
-    .pp-cta-ground { display: none; }
+    .chu-cta-ground { display: none; }
   }
   /* On paper the world's sky bands stay off too. */
   @media print {
-    .pp-cta:not(.pp-box) { background: none; }
+    .chu-cta:not(.chu-box) { background: none; }
   }
 }

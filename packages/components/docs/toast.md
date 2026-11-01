@@ -2,7 +2,7 @@
 name: Toast
 package: "@jaatster/blip-components"
 css: toast.css
-element: pp-toaster
+element: chu-toaster
 react: Toaster
 status: stable
 equivalents:
@@ -19,7 +19,7 @@ what is on screen belongs in an [alert](alert.md) next to it.
 ## Usage
 
 ```html
-<pp-toaster data-side="bottom" data-align="end"></pp-toaster>
+<chu-toaster data-side="bottom" data-align="end"></chu-toaster>
 <script type="module">
   import { toast } from "@jaatster/blip-elements/toast";
   toast({ title: "Achievement unlocked", body: "First Flight: clear World 1 without taking a hit.", tone: "success",
@@ -29,19 +29,19 @@ what is on screen belongs in an [alert](alert.md) next to it.
 </script>
 ```
 
-`toast()` uses the first `<pp-toaster>` in the page and adds one to the end of `<body>` if there is none. Put your
+`toast()` uses the first `<chu-toaster>` in the page and adds one to the end of `<body>` if there is none. Put your
 own in the page early (in the HTML) so its live regions exist before the first message.
 
 ## Anatomy
 
-1. **Toaster** (`<pp-toaster>`, `.pp-toaster`): a labelled region fixed to a corner. Holds the toasts, newest nearest
+1. **Toaster** (`<chu-toaster>`, `.chu-toaster`): a labelled region fixed to a corner. Holds the toasts, newest nearest
    the edge, and two hidden live regions that announce them.
-2. **Toast** (`.pp-toast` on a `.pp-box`): with a tone, the tone's soft fill like an alert; without, a raised
+2. **Toast** (`.chu-toast` on a `.chu-box`): with a tone, the tone's soft fill like an alert; without, a raised
    panel in the scheme's colours. Two-pixel drop: it floats.
-3. **Sign** (`.pp-toast-icon`): the tone's 12 x 12 glyph (none without a tone).
-4. **Title** (`.pp-toast-title`), **text**, **action** (`.pp-toast-actions`, one small outline button).
-5. **Dismiss** (`.pp-toast-close`): a ghost icon button with the pixel cross.
-6. **Timer** (`.pp-toast-timer`): a two-pixel strip over the bottom band that steps down in eight whole-pixel
+3. **Sign** (`.chu-toast-icon`): the tone's 12 x 12 glyph (none without a tone).
+4. **Title** (`.chu-toast-title`), **text**, **action** (`.chu-toast-actions`, one small outline button).
+5. **Dismiss** (`.chu-toast-close`): a ghost icon button with the pixel cross.
+6. **Timer** (`.chu-toast-timer`): a two-pixel strip over the bottom band that steps down in eight whole-pixel
    steps. Absent for toasts that stay.
 
 ## Variants
@@ -50,7 +50,7 @@ own in the page early (in the HTML) so its live regions exist before the first m
 |---|---|---|---|
 | `tone` | `data-tone` | none (a raised panel), `info`, `success`, `warning`, `danger` | What kind of news. |
 | `variant` | `data-variant` | `soft` (default), `candy` | Candy for celebrations ("Level clear!"). |
-| `duration` | `--pp-toast-duration` | ms; `0` stays | Default: 5 s, or 60 ms a character when longer; danger stays until dismissed. |
+| `duration` | `--chu-toast-duration` | ms; `0` stays | Default: 5 s, or 60 ms a character when longer; danger stays until dismissed. |
 | `live` | | `polite`, `assertive` | Default: assertive for danger, polite for the rest. |
 | | `data-side` (toaster) | `bottom` (default), `top` | The edge of the screen they come up at. |
 | | `data-align` (toaster) | `end` (default), `center`, `start` | Where along that edge. |
@@ -106,7 +106,7 @@ With reduced motion they appear and go at once; the timer still steps (it is a c
 
 ## API
 
-`<pp-toaster>`: attributes `data-side`, `data-align`, `max`, `dismiss-label` (default "Dismiss"), `aria-label`
+`<chu-toaster>`: attributes `data-side`, `data-align`, `max`, `dismiss-label` (default "Dismiss"), `aria-label`
 (default "Notifications"). Method `add(options | title)` returns a handle.
 
 `toast(options | title): ToastHandle` with `options` `{ title, body?, tone?, variant?, action?: { label, onClick? },
@@ -116,9 +116,9 @@ once it has gone.
 
 | Class or property | |
 |---|---|
-| `.pp-toaster` | The region. `data-pp-static` draws it in the page flow (docs and screenshots). |
-| `.pp-toast`, `.pp-toast-icon`, `.pp-toast-body`, `.pp-toast-title`, `.pp-toast-actions`, `.pp-toast-close`, `.pp-toast-timer` | The parts. |
-| `--pp-toast-duration` | The countdown, on a toast (set by the element). |
-| `--pp-toast-timer` | The timer strip's colour (default: the tone's shade). |
+| `.chu-toaster` | The region. `data-chu-static` draws it in the page flow (docs and screenshots). |
+| `.chu-toast`, `.chu-toast-icon`, `.chu-toast-body`, `.chu-toast-title`, `.chu-toast-actions`, `.chu-toast-close`, `.chu-toast-timer` | The parts. |
+| `--chu-toast-duration` | The countdown, on a toast (set by the element). |
+| `--chu-toast-timer` | The timer strip's colour (default: the tone's shade). |
 
 Sound: with a sink provided through `provide({ sound })`, a toast plays `success`, `error` or `open` as it shows.

@@ -2,7 +2,7 @@
 name: Motion toggle
 package: "@jaatster/blip-effects"
 css: null
-element: pp-motion-toggle
+element: chu-motion-toggle
 react: MotionToggle
 status: beta
 ---
@@ -10,7 +10,7 @@ status: beta
 # Motion toggle
 
 A page-wide pause for motion that runs on by itself: the world's drifting clouds, flaring stars and passing birds.
-Pressed, it sets `data-pp-motion="reduce"` on `<html>`, and everything that moves on its own stops at once, where it
+Pressed, it sets `data-chu-motion="reduce"` on `<html>`, and everything that moves on its own stops at once, where it
 is; pressed again, it all carries on. The choice is remembered on this device. Show it on every page whose world
 moves: WCAG 2.2.2 (Pause, Stop, Hide) asks for a way to pause motion that starts by itself and lasts more than five
 seconds, and DESIGN.md lets motion run on only beside this toggle.
@@ -18,15 +18,15 @@ seconds, and DESIGN.md lets motion run on only beside this toggle.
 ## Usage
 
 ```html
-<section class="pp-hero" aria-labelledby="hero-title">
-  <pp-world parallax clouds stars events avoid=".pp-hero-title, .pp-hero-lead"></pp-world>
+<section class="chu-hero" aria-labelledby="hero-title">
+  <chu-world parallax clouds stars events avoid=".chu-hero-title, .chu-hero-lead"></chu-world>
   …
-  <pp-motion-toggle></pp-motion-toggle>
+  <chu-motion-toggle></chu-motion-toggle>
 </section>
 ```
 
 ```js
-import "@jaatster/blip-effects/motion";   // defines <pp-motion-toggle>, and applies a remembered choice
+import "@jaatster/blip-effects/motion";   // defines <chu-motion-toggle>, and applies a remembered choice
 import "@jaatster/blip-effects/world";
 ```
 
@@ -36,18 +36,18 @@ put this in the page's `<head>`:
 ```html
 <script>
   try {
-    if (localStorage.getItem("blip:motion") === "reduce") document.documentElement.dataset.ppMotion = "reduce";
+    if (localStorage.getItem("blip:motion") === "reduce") document.documentElement.dataset.chuMotion = "reduce";
   } catch {}
 </script>
 ```
 
 ### The page's motion setting
 
-`data-pp-motion="reduce"` on `<html>` says the person asked for less motion on this page. It sits beside the device's
+`data-chu-motion="reduce"` on `<html>` says the person asked for less motion on this page. It sits beside the device's
 `prefers-reduced-motion`, which still works: `reducedMotion()` from `@jaatster/blip-core` is true when either says so, so
 the toggle only ever adds to the device's setting. What follows it:
 
-- `<pp-world>` pauses at once: a flaring star goes out, a flock or a shooting star goes, the layers come back to rest
+- `<chu-world>` pauses at once: a flaring star goes out, a flock or a shooting star goes, the layers come back to rest
   and the clouds stop where they are. When the attribute goes, it carries on from there.
 - What moves in script checks `reducedMotion()` as it starts: the typewriter and the dialogue box show their whole
   text at once, bursts and screen transitions are skipped.
@@ -55,21 +55,21 @@ the toggle only ever adds to the device's setting. What follows it:
   over within five seconds and follows the device's setting only.
 
 Motion of your own that runs on: check `reducedMotion()` before it starts, and stop it the moment `<html>`'s
-`data-pp-motion` changes:
+`data-chu-motion` changes:
 
 ```js
 import { reducedMotion } from "@jaatster/blip-core";
 const follow = () => (reducedMotion() ? loop.pause() : loop.play());
-new MutationObserver(follow).observe(document.documentElement, { attributeFilter: ["data-pp-motion"] });
+new MutationObserver(follow).observe(document.documentElement, { attributeFilter: ["data-chu-motion"] });
 matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change", follow);
 ```
 
 ## Anatomy
 
-- **The element**: `<pp-motion-toggle>` holds a button and draws nothing of its own.
+- **The element**: `<chu-motion-toggle>` holds a button and draws nothing of its own.
 - **The button**: the one inside it, or the one it makes when it has none: a soft candy button
-  (`.pp-box.pp-button[data-variant="soft"]`) with the pause icon (`pause` from `@jaatster/blip-icons`) and its label.
-- **`aria-pressed`** on the button: `true` while `data-pp-motion="reduce"` is on `<html>`, whoever set it.
+  (`.chu-box.chu-button[data-variant="soft"]`) with the pause icon (`pause` from `@jaatster/blip-icons`) and its label.
+- **`aria-pressed`** on the button: `true` while `data-chu-motion="reduce"` is on `<html>`, whoever set it.
 
 ## Variants
 
@@ -113,6 +113,6 @@ matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change", follow
 | | | |
 |---|---|---|
 | `label` | attribute and property | The label of the button it makes. |
-| `data-pp-motion="reduce"` | on `<html>` | Set while paused. Set it yourself to start paused. |
+| `data-chu-motion="reduce"` | on `<html>` | Set while paused. Set it yourself to start paused. |
 | `"blip:motion"` | `localStorage` key | `"reduce"` while paused, gone otherwise; applied as the module loads. |
 | `reducedMotion()` | `@jaatster/blip-core` | True when the device or the page asks for less motion. |

@@ -3,7 +3,7 @@
 // (palette.mjs), checked in Day, Sunset and Night, and exported. What a preset keeps as it is (Candy's Day and Sunset,
 // Grape's Night) stays until a lever that moves it is turned; a failing check holds the export back until the
 // person says to go ahead anyway.
-import { makePalette, oklch, toOklch, contrast } from "/pp/tokens/palette.mjs";
+import { makePalette, oklch, toOklch, contrast } from "/chu/tokens/palette.mjs";
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -18,7 +18,7 @@ const AA = 4.5;
 const kebab = (path) => path.split(".").filter((p, i, a) => !(p === "base" && i === a.length - 1)).join("-");
 /** A palette value (#RRGGBB, or an alias to a primitive such as {candy.blue.base}) as a colour, and as CSS. */
 const hexOf = (v) => (v.startsWith("{") ? data.hexes[kebab(v.slice(1, -1))] : v.toUpperCase());
-const cssOf = (v) => (v.startsWith("{") ? `var(--pp-${kebab(v.slice(1, -1))})` : v.toUpperCase());
+const cssOf = (v) => (v.startsWith("{") ? `var(--chu-${kebab(v.slice(1, -1))})` : v.toUpperCase());
 const valid = (h) => /^#[0-9a-f]{6}$/i.test(h);
 const hueGap = (a, b) => { const d = Math.abs(a - b) % 360; return d > 180 ? 360 - d : d; };
 /** The weakest of every foreground on every background: the ratio and the pair. */
@@ -150,10 +150,10 @@ function css(v, fails) {
   return [
     `/* My Blip palette, ${origin()}. Load it after @jaatster/blip-tokens/tokens.css: a :root rule in the same layer, loaded later, wins. */`,
     ...(fails.length ? [`/* Under WCAG 2.2 AA, exported anyway: ${fails.map(failText).join("; ")}. */`] : []),
-    "@layer pp.tokens {",
+    "@layer chu.tokens {",
     "  :root {",
-    ...ordered(v).map(([path, x]) => `    --pp-${kebab(path)}: ${cssOf(x)};`),
-    ...(state.pixel !== "2" ? [`    --pp-pixel: ${state.pixel}px;`] : []),
+    ...ordered(v).map(([path, x]) => `    --chu-${kebab(path)}: ${cssOf(x)};`),
+    ...(state.pixel !== "2" ? [`    --chu-pixel: ${state.pixel}px;`] : []),
     "  }",
     "}",
   ].join("\n") + "\n";
@@ -212,18 +212,18 @@ function levers() {
 let worldDrawn = "", worldTimer;
 function render() {
   const s = state.scheme, v = values(), c = colours(v);
-  const vars = Object.fromEntries(Object.entries({ ...data.defaults, ...v }).map(([k, x]) => [`--pp-${kebab(k)}`, cssOf(x)]));
+  const vars = Object.fromEntries(Object.entries({ ...data.defaults, ...v }).map(([k, x]) => [`--chu-${kebab(k)}`, cssOf(x)]));
   // The palette goes where each preview sets its scheme: the roles there read it.
   for (const el of [...$$("[data-strip]"), preview]) for (const [k, x] of Object.entries(vars)) el.style.setProperty(k, x);
-  preview.dataset.ppScheme = s;
-  if (state.pixel === "2") delete preview.dataset.ppPixel;
-  else preview.dataset.ppPixel = state.pixel;
+  preview.dataset.chuScheme = s;
+  if (state.pixel === "2") delete preview.dataset.chuPixel;
+  else preview.dataset.chuPixel = state.pixel;
   // A world keeps the colours it first read: a fresh one, once the levers rest, draws the new sky.
-  const sky = Object.entries(vars).filter(([k]) => k.startsWith("--pp-world-night-")).join();
+  const sky = Object.entries(vars).filter(([k]) => k.startsWith("--chu-world-night-")).join();
   if (sky !== worldDrawn) {
     worldDrawn = sky;
     clearTimeout(worldTimer);
-    worldTimer = setTimeout(() => { const w = $(".tb-night pp-world"); w?.replaceWith(w.cloneNode(true)); }, 200);
+    worldTimer = setTimeout(() => { const w = $(".tb-night chu-world"); w?.replaceWith(w.cloneNode(true)); }, 200);
   }
 
   // The cards, and what the chosen one is.
@@ -238,7 +238,7 @@ function render() {
     const id = input.dataset.lever, x = at[id];
     if (document.activeElement !== input) input.value = String(x);
     const min = Number(input.min), max = Number(input.max);
-    input.style.setProperty("--pp-slider-value", String(Math.min(1, Math.max(0, (x - min) / (max - min)))));
+    input.style.setProperty("--chu-slider-value", String(Math.min(1, Math.max(0, (x - min) / (max - min)))));
     const [shown, said] = FORMAT[id](x);
     input.nextElementSibling.textContent = shown;
     input.setAttribute("aria-valuetext", said);
@@ -252,7 +252,7 @@ function render() {
 
   // The candy worked out, in the scheme on show, and Night's page.
   const box = $(".tb-derived-box"), A = (k) => c[`palette.${s}.accent.${k}`];
-  for (const [k, x] of Object.entries({ "--pp-accent": A("base"), "--pp-accent-light": A("light"), "--pp-accent-shade": A("shade"), "--pp-accent-on": s === "night" ? c["palette.night.ink"] : data.fixed[s].ink })) box.style.setProperty(k, x);
+  for (const [k, x] of Object.entries({ "--chu-accent": A("base"), "--chu-accent-light": A("light"), "--chu-accent-shade": A("shade"), "--chu-accent-on": s === "night" ? c["palette.night.ink"] : data.fixed[s].ink })) box.style.setProperty(k, x);
   for (const k of ["light", "base", "shade", "text"]) {
     $(`[data-v="${k}"]`).textContent = A(k);
     $(`.tb-dot[data-k="${k}"]`).style.background = A(k);
@@ -265,10 +265,10 @@ function render() {
   }
 
   // What it looks like that it should not.
-  $(".tb-warnings").innerHTML = warnings(s, c).map((w) => `<div class="pp-box pp-alert tb-warn" data-tone="${w.tone}" data-warn="${w.id}"><span class="pp-alert-icon" aria-hidden="true"></span><div class="pp-alert-body"><p>${w.text}</p></div></div>`).join("");
+  $(".tb-warnings").innerHTML = warnings(s, c).map((w) => `<div class="chu-box chu-alert tb-warn" data-tone="${w.tone}" data-warn="${w.id}"><span class="chu-alert-icon" aria-hidden="true"></span><div class="chu-alert-body"><p>${w.text}</p></div></div>`).join("");
 
   const list = checks(s, c);
-  $(".tb-checks").innerHTML = list.map((x) => `<li data-pass="${x.ok}"><span class="tb-check-sample" style="color:${x.fg};background:${x.bg}">Aa</span><span>${x.label}${x.min !== AA ? ` (${x.min}:1)` : ""}</span><span class="docs-num">${x.ratio.toFixed(2)}:1</span><span class="pp-box pp-tag" data-size="sm" data-tone="${x.ok ? "success" : "danger"}">${x.ok ? "Pass" : "Fail"}</span></li>`).join("");
+  $(".tb-checks").innerHTML = list.map((x) => `<li data-pass="${x.ok}"><span class="tb-check-sample" style="color:${x.fg};background:${x.bg}">Aa</span><span>${x.label}${x.min !== AA ? ` (${x.min}:1)` : ""}</span><span class="docs-num">${x.ratio.toFixed(2)}:1</span><span class="chu-box chu-tag" data-size="sm" data-tone="${x.ok ? "success" : "danger"}">${x.ok ? "Pass" : "Fail"}</span></li>`).join("");
   const fails = failing(c), total = SCHEMES.reduce((n, sc) => n + checks(sc, c).length, 0);
   $(".tb-summary").textContent = fails.length ? `${fails.length} of ${total} checks fail: ${fails.map(failText).join("; ")}.` : `All ${total} checks pass, in Day, Sunset and Night.`;
   $(".tb-summary").dataset.pass = String(!fails.length);
@@ -280,7 +280,7 @@ function render() {
   $(".tb-blocked-list").innerHTML = fails.map((f) => `<li>${esc(failText(f))}</li>`).join("");
   $(".tb-override").checked = state.override;
   $(".tb-export").dataset.blocked = String(blocked);
-  for (const b of $$(".tb-out-actions .pp-button")) b.setAttribute("aria-disabled", String(blocked));
+  for (const b of $$(".tb-out-actions .chu-button")) b.setAttribute("aria-disabled", String(blocked));
   const held = "/* Held back: a contrast check fails (see above). Turn a lever, or say to export anyway. */\n";
   $("#tb-out-css").textContent = blocked ? held : css(v, fails);
   $("#tb-out-tokens").textContent = blocked ? held : tokensFile(v, fails);
@@ -291,12 +291,12 @@ function render() {
 // ------------------------------------------------------------------ controls
 
 const schemeControl = $(".tb-scheme"), pixelControl = $(".tb-pixel");
-customElements.whenDefined("pp-segmented").then(() => {
+customElements.whenDefined("chu-segmented").then(() => {
   schemeControl.value = state.scheme;
   pixelControl.value = state.pixel;
 });
-schemeControl.addEventListener("pp-change", (e) => { state.scheme = e.detail.value; render(); });
-pixelControl.addEventListener("pp-change", (e) => { state.pixel = e.detail.value; render(); });
+schemeControl.addEventListener("chu-change", (e) => { state.scheme = e.detail.value; render(); });
+pixelControl.addEventListener("chu-change", (e) => { state.pixel = e.detail.value; render(); });
 // Picking a palette starts from it; picking the one already chosen, once the levers have moved, starts from it again.
 for (const r of $$('input[name="tb-palette"]')) {
   r.addEventListener("click", () => {
@@ -338,7 +338,7 @@ function custom(hex) {
 $("#tb-hex").addEventListener("input", (e) => {
   let v = e.target.value.trim();
   if (!v.startsWith("#")) v = `#${v}`;
-  const wrap = e.target.closest(".pp-input");
+  const wrap = e.target.closest(".chu-input");
   if (!valid(v)) { wrap.dataset.tone = "danger"; e.target.setAttribute("aria-invalid", "true"); return; }
   delete wrap.dataset.tone;
   e.target.removeAttribute("aria-invalid");

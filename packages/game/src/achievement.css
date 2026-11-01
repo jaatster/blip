@@ -2,86 +2,86 @@
  * Achievement. A toast for something earned: a trophy in a dark well, what it is called and what it was for. It
  * slides in four pixel steps, bumps, and a sparkle flares on the trophy a few times.
  *
- *   <div class="pp-achievements" role="status">
- *     <div class="pp-box pp-achievement">
- *       <span class="pp-box pp-achievement-icon"><pp-sprite name="trophy"></pp-sprite><span class="pp-achievement-sparkles"></span></span>
- *       <p class="pp-achievement-label">Achievement unlocked</p>
- *       <p class="pp-achievement-title">Early bird</p>
- *       <p class="pp-achievement-text">Catch a falling star before sunrise.</p>
+ *   <div class="chu-achievements" role="status">
+ *     <div class="chu-box chu-achievement">
+ *       <span class="chu-box chu-achievement-icon"><chu-sprite name="trophy"></chu-sprite><span class="chu-achievement-sparkles"></span></span>
+ *       <p class="chu-achievement-label">Achievement unlocked</p>
+ *       <p class="chu-achievement-title">Early bird</p>
+ *       <p class="chu-achievement-text">Catch a falling star before sunrise.</p>
  *     </div>
  *   </div>
  *
- *   .pp-achievements      a stack for toasts, and the polite live region they are announced from (role="status")
+ *   .chu-achievements      a stack for toasts, and the polite live region they are announced from (role="status")
  *   data-tone             slate by default; any tone
- *   .pp-achievement-reward  an extra line: a coin and an amount
+ *   .chu-achievement-reward  an extra line: a coin and an amount
  *
  * Add a toast to the region to show it; take it away after a few seconds. The motion plays once and stops; reduced
  * motion shows it in place.
  */
 
-@layer pp.kits {
-  .pp-achievements {
+@layer chu.kits {
+  .chu-achievements {
     display: grid;
     justify-items: end;
-    gap: calc(4 * var(--pp-pixel));
+    gap: calc(4 * var(--chu-pixel));
   }
 
-  .pp-achievement {
-    --pp-r: 4;
-    --pp-shape: var(--pp-shape-4);
-    --pp-shape-inner: var(--pp-shape-4-inner);
-    --pp-band-top: 3;
-    --pp-band-bottom: 3;
+  .chu-achievement {
+    --chu-r: 4;
+    --chu-shape: var(--chu-shape-4);
+    --chu-shape-inner: var(--chu-shape-4-inner);
+    --chu-band-top: 3;
+    --chu-band-bottom: 3;
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
-    column-gap: calc(7 * var(--pp-pixel));
-    inline-size: min(100%, calc(196 * var(--pp-pixel)));
-    padding-block: calc(6 * var(--pp-pixel)) calc(7 * var(--pp-pixel));
-    padding-inline: calc(6 * var(--pp-pixel)) calc(10 * var(--pp-pixel));
-    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+    column-gap: calc(7 * var(--chu-pixel));
+    inline-size: min(100%, calc(196 * var(--chu-pixel)));
+    padding-block: calc(6 * var(--chu-pixel)) calc(7 * var(--chu-pixel));
+    padding-inline: calc(6 * var(--chu-pixel)) calc(10 * var(--chu-pixel));
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
     text-align: start;
     animation:
-      pp-achievement-in calc(4 * var(--pp-duration-frame)) var(--pp-ease-4) both,
-      pp-bump calc(3 * var(--pp-duration-frame)) steps(1, jump-end) calc(4 * var(--pp-duration-frame));
+      chu-achievement-in calc(4 * var(--chu-duration-frame)) var(--chu-ease-4) both,
+      chu-bump calc(3 * var(--chu-duration-frame)) steps(1, jump-end) calc(4 * var(--chu-duration-frame));
   }
-  .pp-achievement:not([data-tone]) {
-    --pp-tone: var(--pp-candy-slate);
-    --pp-tone-light: var(--pp-candy-slate-light);
-    --pp-tone-shade: var(--pp-candy-slate-shade);
-    --pp-tone-on: var(--pp-white);
+  .chu-achievement:not([data-tone]) {
+    --chu-tone: var(--chu-candy-slate);
+    --chu-tone-light: var(--chu-candy-slate-light);
+    --chu-tone-shade: var(--chu-candy-slate-shade);
+    --chu-tone-on: var(--chu-white);
   }
-  .pp-achievement > p { margin: 0; grid-column: 2; }
+  .chu-achievement > p { margin: 0; grid-column: 2; }
 
   /* A dark well for the trophy: square-ish, no drop, no glints. */
-  .pp-achievement-icon {
-    --pp-r: 3;
-    --pp-shape: var(--pp-shape-3);
-    --pp-shape-inner: var(--pp-shape-3-inner);
-    --pp-band-top: 2;
-    --pp-band-bottom: 0;
-    --pp-drop-size: 0;
-    --pp-box-top: var(--pp-ink);
-    --pp-box-fill: var(--pp-candy-slate-shade);
-    --pp-box-bottom: var(--pp-candy-slate-shade);
-    --pp-box-glint: transparent;
+  .chu-achievement-icon {
+    --chu-r: 3;
+    --chu-shape: var(--chu-shape-3);
+    --chu-shape-inner: var(--chu-shape-3-inner);
+    --chu-band-top: 2;
+    --chu-band-bottom: 0;
+    --chu-drop-size: 0;
+    --chu-box-top: var(--chu-ink);
+    --chu-box-fill: var(--chu-candy-slate-shade);
+    --chu-box-bottom: var(--chu-candy-slate-shade);
+    --chu-box-glint: transparent;
     display: grid;
     place-items: center;
     grid-row: 1 / span 4;
-    inline-size: calc(23 * var(--pp-pixel));
-    block-size: calc(23 * var(--pp-pixel));
+    inline-size: calc(23 * var(--chu-pixel));
+    block-size: calc(23 * var(--chu-pixel));
   }
-  .pp-achievement-icon > * { grid-area: 1 / 1; }
+  .chu-achievement-icon > * { grid-area: 1 / 1; }
 
   /* Two sparkles: small, big, small, gone, after the toast has landed; three times, then rest. */
-  .pp-achievement-sparkles {
+  .chu-achievement-sparkles {
     position: absolute;
     inset: 0;
     pointer-events: none;
   }
-  .pp-achievement-sparkles::before,
-  .pp-achievement-sparkles::after {
-    --_p: var(--pp-pixel);
+  .chu-achievement-sparkles::before,
+  .chu-achievement-sparkles::after {
+    --_p: var(--chu-pixel);
     content: "";
     position: absolute;
     inline-size: calc(5 * var(--_p));
@@ -89,58 +89,58 @@
     inset-block-start: calc(-2 * var(--_p));
     inset-inline-end: calc(-2 * var(--_p));
     background:
-      linear-gradient(var(--pp-white) 0 0) calc(2 * var(--_p)) calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
-      linear-gradient(var(--pp-candy-yellow-light) 0 0) calc(2 * var(--_p)) var(--_p) / var(--_p) calc(3 * var(--_p)) no-repeat,
-      linear-gradient(var(--pp-candy-yellow-light) 0 0) var(--_p) calc(2 * var(--_p)) / calc(3 * var(--_p)) var(--_p) no-repeat;
-    animation: pp-achievement-sparkle calc(30 * var(--pp-duration-frame)) steps(1, jump-end) calc(7 * var(--pp-duration-frame)) 3 both;
+      linear-gradient(var(--chu-white) 0 0) calc(2 * var(--_p)) calc(2 * var(--_p)) / var(--_p) var(--_p) no-repeat,
+      linear-gradient(var(--chu-candy-yellow-light) 0 0) calc(2 * var(--_p)) var(--_p) / var(--_p) calc(3 * var(--_p)) no-repeat,
+      linear-gradient(var(--chu-candy-yellow-light) 0 0) var(--_p) calc(2 * var(--_p)) / calc(3 * var(--_p)) var(--_p) no-repeat;
+    animation: chu-achievement-sparkle calc(30 * var(--chu-duration-frame)) steps(1, jump-end) calc(7 * var(--chu-duration-frame)) 3 both;
   }
-  .pp-achievement-sparkles::after {
+  .chu-achievement-sparkles::after {
     inset: auto auto calc(1 * var(--_p)) calc(-3 * var(--_p));
-    animation-delay: calc(19 * var(--pp-duration-frame));
+    animation-delay: calc(19 * var(--chu-duration-frame));
   }
 
-  .pp-achievement-label {
-    font-family: var(--pp-font-display);
-    font-size: calc(10 * var(--pp-pixel));
+  .chu-achievement-label {
+    font-family: var(--chu-font-display);
+    font-size: calc(10 * var(--chu-pixel));
     line-height: 1.2;
     text-transform: uppercase;
     font-synthesis: none;
     -webkit-font-smoothing: none;
   }
-  .pp-achievement:not([data-tone]) .pp-achievement-label { color: var(--pp-candy-orange-light); }
-  .pp-achievement-title {
-    font-size: var(--pp-size-body);
-    font-weight: var(--pp-weight-bold);
-    line-height: var(--pp-leading-tight);
+  .chu-achievement:not([data-tone]) .chu-achievement-label { color: var(--chu-candy-orange-light); }
+  .chu-achievement-title {
+    font-size: var(--chu-size-body);
+    font-weight: var(--chu-weight-bold);
+    line-height: var(--chu-leading-tight);
   }
   /* Two pixels under the title, the system's gap inside a tight group, so the two lines never crowd. */
-  .pp-achievement > .pp-achievement-text {
-    margin-block-start: calc(2 * var(--pp-pixel));
-    font-size: var(--pp-size-small);
-    line-height: var(--pp-leading-tight);
+  .chu-achievement > .chu-achievement-text {
+    margin-block-start: calc(2 * var(--chu-pixel));
+    font-size: var(--chu-size-small);
+    line-height: var(--chu-leading-tight);
   }
-  .pp-achievement:not([data-tone]) .pp-achievement-text { color: var(--pp-candy-cream-shade); }
-  .pp-achievement > .pp-achievement-reward {
+  .chu-achievement:not([data-tone]) .chu-achievement-text { color: var(--chu-candy-cream-shade); }
+  .chu-achievement > .chu-achievement-reward {
     display: inline-flex;
     align-items: center;
-    gap: calc(2 * var(--pp-pixel));
-    margin-block-start: calc(2 * var(--pp-pixel));
-    font-family: var(--pp-font-display);
-    font-size: calc(10 * var(--pp-pixel));
+    gap: calc(2 * var(--chu-pixel));
+    margin-block-start: calc(2 * var(--chu-pixel));
+    font-family: var(--chu-font-display);
+    font-size: calc(10 * var(--chu-pixel));
     line-height: 1.2;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .pp-achievement, .pp-achievement-sparkles::before, .pp-achievement-sparkles::after { animation: none; }
+    .chu-achievement, .chu-achievement-sparkles::before, .chu-achievement-sparkles::after { animation: none; }
   }
   @media (forced-colors: active), print {
-    .pp-achievement-sparkles { display: none; }
+    .chu-achievement-sparkles { display: none; }
   }
 }
 
-@keyframes pp-achievement-in { from { translate: calc(24 * var(--pp-pixel)) 0; } to { translate: 0 0; } }
+@keyframes chu-achievement-in { from { translate: calc(24 * var(--chu-pixel)) 0; } to { translate: 0 0; } }
 /* Small for three frames, big for nine, small for three, then gone until the next flare. */
-@keyframes pp-achievement-sparkle {
+@keyframes chu-achievement-sparkle {
   0% {
     opacity: 1;
     background-size: var(--_p) var(--_p), var(--_p) calc(3 * var(--_p)), calc(3 * var(--_p)) var(--_p);

@@ -1,13 +1,13 @@
 /**
- * <pp-choices>: keyboard and events for a list of choices (see choices.css). Up and Down move between them (they
- * wrap), Home and End jump to the ends; only one choice is in the tab order. Picking one sends pp-action, as a menu
+ * <chu-choices>: keyboard and events for a list of choices (see choices.css). Up and Down move between them (they
+ * wrap), Home and End jump to the ends; only one choice is in the tab order. Picking one sends chu-action, as a menu
  * or a command palette does. Choices rendered after the element upgrades join in as they arrive.
  *
- *   list.addEventListener("pp-action", (e) => console.log(e.detail.value));   // { item, value, index, label }
+ *   list.addEventListener("chu-action", (e) => console.log(e.detail.value));   // { item, value, index, label }
  */
-import { PixelElement, rovingFocus } from "@jaatster/blip-core";
+import { BlipElement, rovingFocus } from "@jaatster/blip-core";
 
-/** What pp-action reports from a list of choices. */
+/** What chu-action reports from a list of choices. */
 export interface ChoiceDetail {
   /** The choice's button. */
   item: HTMLButtonElement;
@@ -22,9 +22,9 @@ export interface ChoiceDetail {
  * ends, and only one choice is in the tab order.
  *
  * @summary A list of answers to pick from with the keys.
- * @fires {CustomEvent<ChoiceDetail>} pp-action - A choice was clicked or pressed.
+ * @fires {CustomEvent<ChoiceDetail>} chu-action - A choice was clicked or pressed.
  */
-export class PixelChoices extends PixelElement {
+export class BlipChoices extends BlipElement {
   #roving?: { focus: (i: number) => void; sync: () => void };
 
   /** The choices you can take, in order. */
@@ -55,10 +55,10 @@ export class PixelChoices extends PixelElement {
   }
 }
 
-PixelElement.define("pp-choices", PixelChoices);
+BlipElement.define("chu-choices", BlipChoices);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pp-choices": PixelChoices;
+    "chu-choices": BlipChoices;
   }
 }

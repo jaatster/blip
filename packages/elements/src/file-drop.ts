@@ -1,20 +1,20 @@
 /**
- * <pp-file-drop>: drop files on the tray, or click it to browse. Picked files join a list (with multiple, they add
+ * <chu-file-drop>: drop files on the tray, or click it to browse. Picked files join a list (with multiple, they add
  * up; without it, the new file replaces the old), and each has a remove button. The files live in the native
  * <input type="file"> inside, so they go with the form. Dropped files that don't match accept are left out.
  *
- *   <pp-file-drop class="pp-file-drop">
- *     <label class="pp-box pp-file-drop-zone">
+ *   <chu-file-drop class="chu-file-drop">
+ *     <label class="chu-box chu-file-drop-zone">
  *       <input type="file" name="shots" multiple accept="image/*">
  *       <strong>Drop screenshots here</strong> <span>or click to browse</span>
  *     </label>
- *   </pp-file-drop>
+ *   </chu-file-drop>
  *
  * Attributes: remove-label (the remove buttons' name, before the file name: "Remove"). Property: files.
- * Events: pp-change { files } when the list changes; pp-reject { files } for dropped files that don't match. An
+ * Events: chu-change { files } when the list changes; chu-reject { files } for dropped files that don't match. An
  * input rendered later, or swapped by a framework, is taken up as it comes.
  */
-import { PixelElement, warn } from "@jaatster/blip-core";
+import { BlipElement, warn } from "@jaatster/blip-core";
 import { both, elementsChanged, observe } from "./_dom.js";
 
 /** Does a file match an accept list (".png, image/*, application/pdf")? */
@@ -38,11 +38,11 @@ const key = (f: File) => `${f.name}/${f.size}/${f.lastModified}`;
  *
  * @summary Drop files, or click to browse.
  * @attr {string} [remove-label="Remove"] - Put before each file name on its remove button.
- * @fires {CustomEvent<{ files: File[] }>} pp-change - The list changed: files picked, dropped or removed.
- * @fires {CustomEvent<{ files: File[] }>} pp-reject - Dropped files that do not match the input's accept.
+ * @fires {CustomEvent<{ files: File[] }>} chu-change - The list changed: files picked, dropped or removed.
+ * @fires {CustomEvent<{ files: File[] }>} chu-reject - Dropped files that do not match the input's accept.
  */
-export class PixelFileDrop extends PixelElement {
-  static classes = ["pp-file-drop"];
+export class BlipFileDrop extends BlipElement {
+  static classes = ["chu-file-drop"];
 
   #files: File[] = [];
   #depth = 0;
@@ -63,8 +63,8 @@ export class PixelFileDrop extends PixelElement {
     this.#field = null;
     this.#wire();
     // An input rendered later, or swapped by a framework, is taken up when it arrives.
-    observe(this, this.signal, () => this.#wire(), (r) => elementsChanged(r) && !(r.target as Element).closest(".pp-file-drop-list"));
-    if (!this.input && this.children.length) warn("PP-E001", "<pp-file-drop> needs an <input type=file> inside.", this);
+    observe(this, this.signal, () => this.#wire(), (r) => elementsChanged(r) && !(r.target as Element).closest(".chu-file-drop-list"));
+    if (!this.input && this.children.length) warn("CHU-E001", "<chu-file-drop> needs an <input type=file> inside.", this);
 
     const drag = (e: DragEvent, by: number) => {
       const input = this.input;
@@ -97,15 +97,15 @@ export class PixelFileDrop extends PixelElement {
       { capture: true },
     );
     this.on(this, "click", (e) => {
-      const b = (e.target as Element).closest<HTMLButtonElement>(".pp-file-drop-remove");
+      const b = (e.target as Element).closest<HTMLButtonElement>(".chu-file-drop-remove");
       if (!b || !this.contains(b)) return;
-      const items = [...this.querySelectorAll(".pp-file-drop-item")];
-      const i = items.indexOf(b.closest(".pp-file-drop-item")!);
+      const items = [...this.querySelectorAll(".chu-file-drop-item")];
+      const i = items.indexOf(b.closest(".chu-file-drop-item")!);
       if (i < 0) return;
       this.#files.splice(i, 1);
       this.#commit();
       // Keep the keyboard in the list: the next file's button, else the previous one, else the tray.
-      const next = this.querySelectorAll<HTMLButtonElement>(".pp-file-drop-remove");
+      const next = this.querySelectorAll<HTMLButtonElement>(".chu-file-drop-remove");
       (next[i] ?? next[i - 1] ?? this.input)?.focus();
     });
   }
@@ -156,18 +156,18 @@ export class PixelFileDrop extends PixelElement {
 
   #render(): void {
     const input = this.input!;
-    let list = this.querySelector<HTMLUListElement>(".pp-file-drop-list");
+    let list = this.querySelector<HTMLUListElement>(".chu-file-drop-list");
     if (!list) {
       list = document.createElement("ul");
-      list.className = "pp-file-drop-list";
+      list.className = "chu-file-drop-list";
       this.append(list);
     }
     const remove = this.getAttribute("remove-label") ?? "Remove";
     list.replaceChildren(
       ...this.#files.map((f) => {
         const li = document.createElement("li");
-        li.className = "pp-box pp-file-drop-item";
-        li.innerHTML = '<span class="pp-file-drop-name"></span><span class="pp-file-drop-size"></span><button type="button" class="pp-box pp-file-drop-remove" data-variant="ghost"><span aria-hidden="true"></span></button>';
+        li.className = "chu-box chu-file-drop-item";
+        li.innerHTML = '<span class="chu-file-drop-name"></span><span class="chu-file-drop-size"></span><button type="button" class="chu-box chu-file-drop-remove" data-variant="ghost"><span aria-hidden="true"></span></button>';
         const [name, bytes, b] = li.children as unknown as [HTMLElement, HTMLElement, HTMLButtonElement];
         name.textContent = f.name;
         name.title = f.name;
@@ -180,10 +180,10 @@ export class PixelFileDrop extends PixelElement {
   }
 }
 
-PixelElement.define("pp-file-drop", PixelFileDrop);
+BlipElement.define("chu-file-drop", BlipFileDrop);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pp-file-drop": PixelFileDrop;
+    "chu-file-drop": BlipFileDrop;
   }
 }

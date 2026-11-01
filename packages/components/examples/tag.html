@@ -1,51 +1,51 @@
 <!-- Tag: tones, tiers and sizes; removable tags; filter chips (aria-pressed) in every state. Forced states use
-     data-pp-state (docs and tests only). -->
-<div class="pp-cluster">
-  <span class="pp-box pp-tag">Accent</span>
-  <span class="pp-box pp-tag" data-tone="info">Info</span>
-  <span class="pp-box pp-tag" data-tone="success">Cleared</span>
-  <span class="pp-box pp-tag" data-tone="warning">2 h left</span>
-  <span class="pp-box pp-tag" data-tone="danger">Out</span>
-  <span class="pp-box pp-tag" data-tone="neutral">Away</span>
-  <span class="pp-box pp-tag" data-tone="purple">Rare</span>
-  <span class="pp-box pp-tag" data-tone="pink">Event</span>
-  <span class="pp-box pp-tag" data-tone="teal">Co-op</span>
-  <span class="pp-box pp-tag" data-tone="slate">Beta</span>
+     data-chu-state (docs and tests only). -->
+<div class="chu-cluster">
+  <span class="chu-box chu-tag">Accent</span>
+  <span class="chu-box chu-tag" data-tone="info">Info</span>
+  <span class="chu-box chu-tag" data-tone="success">Cleared</span>
+  <span class="chu-box chu-tag" data-tone="warning">2 h left</span>
+  <span class="chu-box chu-tag" data-tone="danger">Out</span>
+  <span class="chu-box chu-tag" data-tone="neutral">Away</span>
+  <span class="chu-box chu-tag" data-tone="purple">Rare</span>
+  <span class="chu-box chu-tag" data-tone="pink">Event</span>
+  <span class="chu-box chu-tag" data-tone="teal">Co-op</span>
+  <span class="chu-box chu-tag" data-tone="slate">Beta</span>
 </div>
 
-<div class="pp-cluster" style="margin-block-start:calc(6*var(--pp-pixel))">
-  <span class="pp-box pp-tag" data-variant="candy" data-tone="pink">Candy</span>
-  <span class="pp-box pp-tag" data-tone="pink">Soft</span>
-  <span class="pp-box pp-tag" data-variant="outline">Outline</span>
-  <span class="pp-box pp-tag" data-variant="ghost">Ghost</span>
-  <span class="pp-box pp-tag" data-size="sm" data-tone="success">Small</span>
-  <span class="pp-box pp-tag" data-tone="success">Medium</span>
-  <span class="pp-box pp-tag" data-size="lg" data-tone="success">Large</span>
-  <span class="pp-box pp-tag" data-size="lg" data-tone="orange"><svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg>Level 42</span>
+<div class="chu-cluster" style="margin-block-start:calc(6*var(--chu-pixel))">
+  <span class="chu-box chu-tag" data-variant="candy" data-tone="pink">Candy</span>
+  <span class="chu-box chu-tag" data-tone="pink">Soft</span>
+  <span class="chu-box chu-tag" data-variant="outline">Outline</span>
+  <span class="chu-box chu-tag" data-variant="ghost">Ghost</span>
+  <span class="chu-box chu-tag" data-size="sm" data-tone="success">Small</span>
+  <span class="chu-box chu-tag" data-tone="success">Medium</span>
+  <span class="chu-box chu-tag" data-size="lg" data-tone="success">Large</span>
+  <span class="chu-box chu-tag" data-size="lg" data-tone="orange"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h1v1h1v1h1V3h1V2h2v1h1v1h1V3h1V2h1v5H1zm2 3v1h1V5zm5 0v1h1V5zM1 8h10v2H1z"/></svg>Level 42</span>
 </div>
 
-<div class="pp-cluster" style="margin-block-start:calc(6*var(--pp-pixel))" role="group" aria-label="Zones">
-  <span class="pp-box pp-tag" data-tone="orange">Lava zone<button class="pp-tag-remove" type="button" aria-label="Remove Lava zone"></button></span>
-  <span class="pp-box pp-tag" data-tone="teal">Co-op<button class="pp-tag-remove" type="button" aria-label="Remove Co-op"></button></span>
-  <span class="pp-box pp-tag" data-variant="outline">Night<button class="pp-tag-remove" type="button" aria-label="Remove Night"></button></span>
-  <span class="pp-box pp-tag" data-size="lg" data-tone="purple">Speedrun<button class="pp-tag-remove" type="button" aria-label="Remove Speedrun"></button></span>
+<div class="chu-cluster" style="margin-block-start:calc(6*var(--chu-pixel))" role="group" aria-label="Zones">
+  <span class="chu-box chu-tag" data-tone="orange">Lava zone<button class="chu-tag-remove" type="button" aria-label="Remove Lava zone"></button></span>
+  <span class="chu-box chu-tag" data-tone="teal">Co-op<button class="chu-tag-remove" type="button" aria-label="Remove Co-op"></button></span>
+  <span class="chu-box chu-tag" data-variant="outline">Night<button class="chu-tag-remove" type="button" aria-label="Remove Night"></button></span>
+  <span class="chu-box chu-tag" data-size="lg" data-tone="purple">Speedrun<button class="chu-tag-remove" type="button" aria-label="Remove Speedrun"></button></span>
 </div>
 
-<div style="display:grid;grid-template-columns:max-content repeat(2,max-content);gap:calc(4*var(--pp-pixel)) calc(10*var(--pp-pixel));align-items:center;margin-block-start:calc(8*var(--pp-pixel))">
-  <span></span><span class="pp-label pp-muted">Off</span><span class="pp-label pp-muted">On</span>
-  <span class="pp-label pp-muted">Rest</span>
-  <button class="pp-box pp-tag" data-variant="outline" type="button" aria-pressed="false">Swords</button>
-  <button class="pp-box pp-tag" data-variant="outline" type="button" aria-pressed="true">Swords</button>
-  <span class="pp-label pp-muted">Hover</span>
-  <button class="pp-box pp-tag" data-variant="outline" type="button" aria-pressed="false" data-pp-state="hover">Swords</button>
-  <button class="pp-box pp-tag" data-variant="outline" type="button" aria-pressed="true" data-pp-state="hover">Swords</button>
-  <span class="pp-label pp-muted">Focus</span>
-  <button class="pp-box pp-tag" data-variant="outline" type="button" aria-pressed="false" data-pp-state="focus">Swords</button>
-  <button class="pp-box pp-tag" data-variant="outline" type="button" aria-pressed="true" data-pp-state="focus">Swords</button>
-  <span class="pp-label pp-muted">Soft</span>
-  <button class="pp-box pp-tag" type="button" aria-pressed="false">Potions</button>
-  <button class="pp-box pp-tag" type="button" aria-pressed="true">Potions</button>
-  <span class="pp-label pp-muted">Disabled</span>
-  <button class="pp-box pp-tag" data-variant="outline" type="button" aria-pressed="false" disabled>Bows</button>
-  <button class="pp-box pp-tag" data-variant="outline" type="button" aria-pressed="true" disabled>Bows</button>
+<div style="display:grid;grid-template-columns:max-content repeat(2,max-content);gap:calc(4*var(--chu-pixel)) calc(10*var(--chu-pixel));align-items:center;margin-block-start:calc(8*var(--chu-pixel))">
+  <span></span><span class="chu-label chu-muted">Off</span><span class="chu-label chu-muted">On</span>
+  <span class="chu-label chu-muted">Rest</span>
+  <button class="chu-box chu-tag" data-variant="outline" type="button" aria-pressed="false">Swords</button>
+  <button class="chu-box chu-tag" data-variant="outline" type="button" aria-pressed="true">Swords</button>
+  <span class="chu-label chu-muted">Hover</span>
+  <button class="chu-box chu-tag" data-variant="outline" type="button" aria-pressed="false" data-chu-state="hover">Swords</button>
+  <button class="chu-box chu-tag" data-variant="outline" type="button" aria-pressed="true" data-chu-state="hover">Swords</button>
+  <span class="chu-label chu-muted">Focus</span>
+  <button class="chu-box chu-tag" data-variant="outline" type="button" aria-pressed="false" data-chu-state="focus">Swords</button>
+  <button class="chu-box chu-tag" data-variant="outline" type="button" aria-pressed="true" data-chu-state="focus">Swords</button>
+  <span class="chu-label chu-muted">Soft</span>
+  <button class="chu-box chu-tag" type="button" aria-pressed="false">Potions</button>
+  <button class="chu-box chu-tag" type="button" aria-pressed="true">Potions</button>
+  <span class="chu-label chu-muted">Disabled</span>
+  <button class="chu-box chu-tag" data-variant="outline" type="button" aria-pressed="false" disabled>Bows</button>
+  <button class="chu-box chu-tag" data-variant="outline" type="button" aria-pressed="true" disabled>Bows</button>
 </div>

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Prepares the docs site from the built packages, so the site never drifts from them.
 //
-//   public/pp/<package>/…        the packages' CSS and fonts as built, and their ES modules minified one file at a
+//   public/chu/<package>/…        the packages' CSS and fonts as built, and their ES modules minified one file at a
 //                                time (imports stay as they are, so the import map wires them exactly as a CDN user
 //                                would)
 //   src/generated/assets.json    the import map, which module defines which element, and sizes measured against
@@ -18,7 +18,7 @@ import { build, transform } from "esbuild";
 
 const APP = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const ROOT = resolve(APP, "../..");
-const OUT = join(APP, "public/pp");
+const OUT = join(APP, "public/chu");
 const GEN = join(APP, "src/generated");
 const pkg = (name, ...rest) => join(ROOT, "packages", name, ...rest);
 const gz = (buf) => gzipSync(buf, { level: 9 }).length;
@@ -63,8 +63,8 @@ async function copyModules(name, from, to) {
     mkdirSync(dirname(dest), { recursive: true });
     writeFileSync(dest, code);
     jsBytes += code.length;
-    const url = `/pp/${to}/${rel}`.replaceAll("\\", "/");
-    for (const m of source.matchAll(/define\(\s*"(pp-[a-z0-9-]+)"/g)) defines[m[1]] ??= url;
+    const url = `/chu/${to}/${rel}`.replaceAll("\\", "/");
+    for (const m of source.matchAll(/define\(\s*"(chu-[a-z0-9-]+)"/g)) defines[m[1]] ??= url;
   }
 }
 
@@ -73,7 +73,7 @@ async function copyModules(name, from, to) {
 copy(pkg("font", "font.css"), join(OUT, "font/font.css"));
 for (const f of readdirSync(pkg("font", "dist"))) if (f.endsWith(".woff2")) copy(pkg("font", "dist", f), join(OUT, "font/dist", f));
 copy(pkg("tokens", "dist", "css", "tokens.css"), join(OUT, "tokens/tokens.css"));
-// The presets (data-pp-palette), and the palette maths the palette maker shares with the presets' generator.
+// The presets (data-chu-palette), and the palette maths the palette maker shares with the presets' generator.
 copy(pkg("tokens", "dist", "css", "palettes.css"), join(OUT, "tokens/palettes.css"));
 copy(pkg("tokens", "scripts", "palette.mjs"), join(OUT, "tokens/palette.mjs"));
 copy(pkg("core", "dist", "core.min.css"), join(OUT, "core/core.css"));
@@ -93,26 +93,26 @@ for (const f of ["index.js", "element.js"]) {
   const source = readFileSync(pkg("icons", "dist", f), "utf8");
   const { code } = await transform(source, { loader: "js", format: "esm", minify: true, target: "es2022", legalComments: "none" });
   writeFileSync(join(OUT, "icons", f), code);
-  for (const m of source.matchAll(/define\(\s*"(pp-[a-z0-9-]+)"/g)) defines[m[1]] ??= `/pp/icons/${f}`;
+  for (const m of source.matchAll(/define\(\s*"(chu-[a-z0-9-]+)"/g)) defines[m[1]] ??= `/chu/icons/${f}`;
 }
 
 const importMap = {
   imports: {
-    "@jaatster/blip-core": "/pp/core/js/index.js",
-    "@jaatster/blip-tokens": "/pp/tokens/index.js",
-    "@jaatster/blip-elements": "/pp/elements/index.js",
-    "@jaatster/blip-elements/": "/pp/elements/",
-    "@jaatster/blip-effects": "/pp/effects/index.js",
-    "@jaatster/blip-effects/": "/pp/effects/",
-    "@jaatster/blip-game": "/pp/game/index.js",
-    "@jaatster/blip-game/": "/pp/game/",
-    "@jaatster/blip-sound": "/pp/sound/index.js",
-    "@jaatster/blip-icons": "/pp/icons/index.js",
-    "@jaatster/blip-icons/": "/pp/icons/",
+    "@jaatster/blip-core": "/chu/core/js/index.js",
+    "@jaatster/blip-tokens": "/chu/tokens/index.js",
+    "@jaatster/blip-elements": "/chu/elements/index.js",
+    "@jaatster/blip-elements/": "/chu/elements/",
+    "@jaatster/blip-effects": "/chu/effects/index.js",
+    "@jaatster/blip-effects/": "/chu/effects/",
+    "@jaatster/blip-game": "/chu/game/index.js",
+    "@jaatster/blip-game/": "/chu/game/",
+    "@jaatster/blip-sound": "/chu/sound/index.js",
+    "@jaatster/blip-icons": "/chu/icons/index.js",
+    "@jaatster/blip-icons/": "/chu/icons/",
   },
 };
 // The core modules every element needs: preloaded with the first element on a page, so they arrive together.
-const coreModules = modules(pkg("core", "dist", "js")).map((rel) => `/pp/core/js/${rel}`.replaceAll("\\", "/"));
+const coreModules = modules(pkg("core", "dist", "js")).map((rel) => `/chu/core/js/${rel}`.replaceAll("\\", "/"));
 
 // ------------------------------------------------------------------ budgets (gzipped, as the packages report them)
 
@@ -195,5 +195,5 @@ const kits = {
 };
 
 writeFileSync(join(GEN, "assets.json"), JSON.stringify({ importMap, defines, coreModules, budgets, budgetsFrom: ci ? "scripts/budgets.mjs" : "docs", elements, kits }, null, 2) + "\n");
-console.log(`docs: staged the packages in public/pp (${Object.keys(defines).length} elements, ${(jsBytes / 1024).toFixed(1)} KB of minified modules)`);
+console.log(`docs: staged the packages in public/chu (${Object.keys(defines).length} elements, ${(jsBytes / 1024).toFixed(1)} KB of minified modules)`);
 for (const b of budgets) console.log(`  ${b.label.padEnd(20)} ${(b.bytes / 1024).toFixed(1).padStart(5)} KB of ${b.limit / 1024} KB${b.bytes > b.limit ? "  OVER" : ""}`);

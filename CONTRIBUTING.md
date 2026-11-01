@@ -34,7 +34,7 @@ pnpm build
 | Path | Holds |
 |---|---|
 | `packages/tokens` | The DTCG token sources (`src/`), the resolver, and the build that validates them and writes every output. |
-| `packages/core` | The building blocks: the candy box (`src/css/box.css`), type, motion, base styles; `PixelElement` and the shared behaviours. |
+| `packages/core` | The building blocks: the candy box (`src/css/box.css`), type, motion, base styles; `BlipElement` and the shared behaviours. |
 | `packages/components` | The core components: `src/<name>.css`, `examples/<name>.html`, `docs/<name>.md`. |
 | `packages/elements` | The Web Components for core components: `src/<name>.ts`, and `custom-elements.json`. |
 | `packages/game`, `blocks`, `effects`, `sound` | The kits, laid out like the components; kits keep their own elements. |
@@ -55,7 +55,7 @@ pnpm build
 | `pnpm build:tokens` | Builds the tokens only. `pnpm --filter @jaatster/blip-tokens check` validates them and checks contrast without writing. |
 | `node scripts/serve.mjs [path] [--port 4173]` | Serves the repository root at http://localhost:4173, so pages can load `packages/*/dist`. `pnpm specimen` opens the specimen. |
 | `node scripts/gallery.mjs` | Rewrites `specimen/gallery.json` after you add a stylesheet, module or example. The gallery is `/specimen/gallery.html?only=button,tabs&scheme=night`. |
-| `node scripts/shoot.mjs <dir> "<path>=<name>" … [--width 1280] [--height 900] [--full] [--scale 1]` | Screenshots pages of the running server, with reduced motion. It uses Chrome if it is installed (`PP_BROWSER` picks another channel), Playwright's Chromium otherwise. |
+| `node scripts/shoot.mjs <dir> "<path>=<name>" … [--width 1280] [--height 900] [--full] [--scale 1]` | Screenshots pages of the running server, with reduced motion. It uses Chrome if it is installed (`CHU_BROWSER` picks another channel), Playwright's Chromium otherwise. |
 | `pnpm test` | Unit tests: build tools and pure functions in Node, everything that needs a DOM in Chromium. |
 | `pnpm test:visual` | Every example in Day, Sunset and Night at 1280 px (and the responsive ones at 390 px), compared pixel for pixel with the baselines. |
 | `pnpm --filter @jaatster/blip-tests test:visual:update` | Writes new baselines. Look at every changed picture before you commit it. |
@@ -73,7 +73,7 @@ pnpm build
 | `node scripts/heavy.mjs <command> [args…]` | Runs a heavy job once no other is running in this checkout, printing "waiting for <job> (pid N)…" while it queues. `test:visual`, `test:a11y`, `test:conditions`, `test:real-stack`, the docs build and `pnpm qa`'s Playwright runs go through it, so agents sharing a checkout take turns. |
 | `pnpm changeset` | Records a change for the changelog and the next version. |
 
-The test server uses port 4180 (`PP_TEST_PORT` to change it) and Vitest's browser mode port 63410, so they run
+The test server uses port 4180 (`CHU_TEST_PORT` to change it) and Vitest's browser mode port 63410, so they run
 beside the dev server and Storybook.
 
 Visual baselines are per platform, because fonts rasterise differently: they live in
@@ -89,15 +89,15 @@ AUTHORING.md has the rules for all of these. The steps:
 
 1. Read the reference: the button's CSS, example and docs (`packages/components/src/button.css`,
    `examples/button.html`, `docs/button.md`).
-2. Write `src/<name>.css` in the right package (`@layer pp.components` for core components, `@layer pp.kits` for
+2. Write `src/<name>.css` in the right package (`@layer chu.components` for core components, `@layer chu.kits` for
    kits), with a header comment like the button's: markup, attributes, states. Build it from the candy box:
    set the box's variables and `data-variant` / `data-tone`; never draw your own outline, drop, focus ring or dither.
-3. Write `examples/<name>.html`: every variant and state, with real content. Use `data-pp-state="hover focus
+3. Write `examples/<name>.html`: every variant and state, with real content. Use `data-chu-state="hover focus
    active"` to show forced states.
 4. Write `docs/<name>.md`: front matter (name, package, css, element, react, status), then usage, anatomy,
    variants, states, accessibility (keyboard map, ARIA), content, do and don't, API.
 5. If it needs behaviour, add `packages/elements/src/<name>.ts` (a kit keeps its own): light DOM, extends
-   `PixelElement`, tag and events `pp-<name>`, every listener and timer on `this.signal`, JSDoc for the manifest.
+   `BlipElement`, tag and events `chu-<name>`, every listener and timer on `this.signal`, JSDoc for the manifest.
    Run `pnpm cem`.
 6. React: element wrappers are generated from the manifests by `pnpm --filter @jaatster/blip-react build`. For a CSS
    component, add its component and its parts by hand to the matching file in `packages/react/src/components/`.
@@ -134,7 +134,7 @@ rounded sets at 2, 3 and 4 are generated. The details are in
 Edit the sources in `packages/tokens/src/` (W3C DTCG 2025.10). Colours are `{ colorSpace: "srgb", components,
 hex }`; sizes in pixels are number tokens with `"$extensions": { "blip": { "unit": "pixel" } }` and must be
 whole numbers. A scheme role goes in all three files in `src/schemes/`. Run `pnpm build:tokens`: it validates every
-file (each problem names the file, the place and the fix, with a `PP-T` code), checks every text pair against
+file (each problem names the file, the place and the fix, with a `CHU-T` code), checks every text pair against
 WCAG 2.2 AA in every scheme, and writes the CSS, JSON, JS and TypeScript, native and Figma outputs. A new or renamed
 token changes the public contract: add a changeset, and run `pnpm lint:css` so the lint rules know about it.
 
@@ -150,7 +150,7 @@ What works today:
   `npx blip-tokens my-theme.resolver.json` builds those token files into a `tokens.css` through the same checks
   as Blip's own. The builder's page also says how to set the six roles by hand. A `palette` modifier in `blip.resolver.json` is the plan;
   the token build handles only `scheme` and `pixel` today.
-- **A world palette**: `<pp-world>` paints with the `--pp-world-*` tokens (28 colours for each time of day, and the
+- **A world palette**: `<chu-world>` paints with the `--chu-world-*` tokens (28 colours for each time of day, and the
   shared sky colours), so overriding them repaints the backdrop without any code.
 - **A new landscape** is code today (`packages/effects/src/world.ts`), not data.
 
@@ -186,18 +186,18 @@ CI fails if the build changes any committed file, so commit what it regenerates:
 
 Reviewers check, and authors check first:
 
-- [ ] **Tokens only.** No raw colours; sizes are whole pixels (`--pp-space-N`, `--pp-radius-N`,
-      `calc(N * var(--pp-pixel))`); text sizes are `--pp-size-*`; Pixel Bop only at whole scales.
-- [ ] **The candy box.** Every candy thing is a `.pp-box`; the component sets the box's variables and draws no
+- [ ] **Tokens only.** No raw colours; sizes are whole pixels (`--chu-space-N`, `--chu-radius-N`,
+      `calc(N * var(--chu-pixel))`); text sizes are `--chu-size-*`; Pixel Bop only at whole scales.
+- [ ] **The candy box.** Every candy thing is a `.chu-box`; the component sets the box's variables and draws no
       outline, drop, focus ring or dither of its own.
 - [ ] **One look per state.** Hover lifts, pressed sits in, selected sits in with bands swapped, focus is the yellow
-      ring, disabled is dithered, busy is the stepped dots, invalid is the danger tone. `data-pp-state` shows them.
+      ring, disabled is dithered, busy is the stepped dots, invalid is the danger tone. `data-chu-state` shows them.
 - [ ] **Motion snaps.** `steps()` only, at most 6 steps, durations from tokens, and everything stops or goes
       instant with `prefers-reduced-motion`.
 - [ ] **Native HTML first**, following the WAI-ARIA Authoring Practices: names, roles, states, keyboard map, focus
       order, 24 px targets, Windows high-contrast mode.
-- [ ] **Elements** are light DOM, extend `PixelElement`, clean up through `this.signal`, upgrade markup that already
-      works, emit bubbling `pp-<name>` events, and stay within 3 KB gzipped.
+- [ ] **Elements** are light DOM, extend `BlipElement`, clean up through `this.signal`, upgrade markup that already
+      works, emit bubbling `chu-<name>` events, and stay within 3 KB gzipped.
 - [ ] **Readable in all three schemes**, at the 2, 3 and 4 px pixel, and in the zoomed screenshot.
 - [ ] **Docs and example** are complete, and the docs say what is new.
 - [ ] **The public contract** (CONTRACT.md) is unchanged, or the change is deliberate, documented and has a
@@ -241,7 +241,7 @@ pnpm test:real-stack              # every app: a few minutes the first time, und
 pnpm test:real-stack next         # one app: react, vue, svelte, next, tailwind or astro
 ```
 
-It needs network access to npm. The apps are made in `pp-stack` in the system's temporary folder (`--dir` picks
+It needs network access to npm. The apps are made in `chu-stack` in the system's temporary folder (`--dir` picks
 another) and keep their installs there between runs (`--clean` starts again); `--no-dev` skips the dev servers.
 Each app's commands and server output are in `<app>/real-stack.log`, with a picture of the page for each check that
 fails. To look at an app yourself after a run, `cd` into its folder and `npm run dev`. The apps use ports 4611 to

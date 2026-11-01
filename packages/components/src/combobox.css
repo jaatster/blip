@@ -1,104 +1,104 @@
 /*
  * Combobox. A text field with a list of suggestions that filters as you type and completes the first match.
- * <pp-combobox> (from @jaatster/blip-elements) builds the list from a <datalist>, so without JavaScript the browser's
+ * <chu-combobox> (from @jaatster/blip-elements) builds the list from a <datalist>, so without JavaScript the browser's
  * own suggestions still work.
  *
- *   <pp-combobox class="pp-combobox" name="world">
- *     <span class="pp-box pp-input"><input id="world" list="worlds" autocomplete="off"></span>
+ *   <chu-combobox class="chu-combobox" name="world">
+ *     <span class="chu-box chu-input"><input id="world" list="worlds" autocomplete="off"></span>
  *     <datalist id="worlds"><option value="meadow">Meadow</option><option value="caves">Crystal caves</option></datalist>
- *   </pp-combobox>
+ *   </chu-combobox>
  *
  * What the element adds (all public parts):
- *   .pp-combobox-toggle     a ghost button with a pixel chevron that opens and closes the list
- *   .pp-combobox-popup      the menu: a panel box under the field (above it when there is no room below)
- *   .pp-combobox-list       the listbox inside it, which scrolls
- *   .pp-combobox-option     each suggestion: a ghost box; the active one (aria-selected) is the focus yellow
- *   .pp-combobox-empty      shown when nothing matches (the element's empty-text)
+ *   .chu-combobox-toggle     a ghost button with a pixel chevron that opens and closes the list
+ *   .chu-combobox-popup      the menu: a panel box under the field (above it when there is no room below)
+ *   .chu-combobox-list       the listbox inside it, which scrolls
+ *   .chu-combobox-option     each suggestion: a ghost box; the active one (aria-selected) is the focus yellow
+ *   .chu-combobox-empty      shown when nothing matches (the element's empty-text)
  *
  * The field's states (focus ring, invalid, disabled) are the input's. The popup pops in a pixel low for a frame.
  */
 @import "./_control.css";
 
-@layer pp.components {
-  .pp-combobox { position: relative; display: block; anchor-scope: --pp-combobox; }
-  .pp-combobox > .pp-input { anchor-name: --pp-combobox; }
+@layer chu.components {
+  .chu-combobox { position: relative; display: block; anchor-scope: --chu-combobox; }
+  .chu-combobox > .chu-input { anchor-name: --chu-combobox; }
 
-  .pp-combobox-toggle {
+  .chu-combobox-toggle {
     --_g: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 4' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h7v1H0zM1 1h5v1H1zM2 2h3v1H2zM3 3h1v1H3z'/%3E%3C/svg%3E");
-    --_gs: calc(7 * var(--pp-pixel)) calc(4 * var(--pp-pixel));
+    --_gs: calc(7 * var(--chu-pixel)) calc(4 * var(--chu-pixel));
   }
-  .pp-combobox-toggle[aria-expanded="true"] > span { scale: 1 -1; }
+  .chu-combobox-toggle[aria-expanded="true"] > span { scale: 1 -1; }
 
-  .pp-combobox-popup {
-    --pp-r: 3;
-    --pp-shape: var(--pp-shape-3);
-    --pp-shape-inner: var(--pp-shape-3-inner);
-    --pp-box-fill: var(--pp-surface-panel);
-    --pp-box-top: var(--pp-surface-panel);
-    --pp-box-bottom: var(--pp-surface-panel);
+  .chu-combobox-popup {
+    --chu-r: 3;
+    --chu-shape: var(--chu-shape-3);
+    --chu-shape-inner: var(--chu-shape-3-inner);
+    --chu-box-fill: var(--chu-surface-panel);
+    --chu-box-top: var(--chu-surface-panel);
+    --chu-box-bottom: var(--chu-surface-panel);
     position: absolute;
-    inset-block-start: calc(100% + 2 * var(--pp-pixel));
+    inset-block-start: calc(100% + 2 * var(--chu-pixel));
     inset-inline: 0;
-    z-index: var(--pp-layer-dropdown);
-    padding: calc(2 * var(--pp-pixel));
-    animation: pp-pop-in calc(2 * var(--pp-duration-frame)) steps(1, jump-end) both;
+    z-index: var(--chu-layer-dropdown);
+    padding: calc(2 * var(--chu-pixel));
+    animation: chu-pop-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end) both;
   }
-  .pp-combobox-popup[hidden] { display: none; }
+  .chu-combobox-popup[hidden] { display: none; }
   /* With anchors the element puts the popup in the top layer (popover), so scrolling boxes never clip it. */
   @supports (position-try-fallbacks: flip-block) and (anchor-scope: all) {
-    .pp-combobox-popup {
-      position-anchor: --pp-combobox;
+    .chu-combobox-popup {
+      position-anchor: --chu-combobox;
       inset: auto;
       top: anchor(bottom);
       left: anchor(left);
       right: anchor(right);
       inline-size: auto;
       block-size: auto;
-      margin: calc(2 * var(--pp-pixel)) 0;
+      margin: calc(2 * var(--chu-pixel)) 0;
       overflow: visible;
       position-try-fallbacks: flip-block;
     }
   }
 
-  .pp-combobox-list {
+  .chu-combobox-list {
     display: grid;
-    max-block-size: calc(98 * var(--pp-pixel));
+    max-block-size: calc(98 * var(--chu-pixel));
     margin: 0;
     padding: 0;
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-width: thin;
   }
-  .pp-combobox-option {
-    --pp-r: 3;
-    --pp-shape: var(--pp-shape-3);
-    --pp-shape-inner: var(--pp-shape-3-inner);
+  .chu-combobox-option {
+    --chu-r: 3;
+    --chu-shape: var(--chu-shape-3);
+    --chu-shape-inner: var(--chu-shape-3-inner);
     display: flex;
     align-items: center;
-    min-block-size: calc(14 * var(--pp-pixel));
-    padding-inline: calc(5 * var(--pp-pixel));
-    font-size: var(--pp-size-body);
-    line-height: var(--pp-leading-tight);
+    min-block-size: calc(14 * var(--chu-pixel));
+    padding-inline: calc(5 * var(--chu-pixel));
+    font-size: var(--chu-size-body);
+    line-height: var(--chu-leading-tight);
   }
-  .pp-combobox-option[hidden] { display: none; }
+  .chu-combobox-option[hidden] { display: none; }
   /* The active option is where the keyboard is: the focus yellow, as on the TV's menus. */
-  .pp-combobox-option[aria-selected="true"] {
-    --pp-band-top: 2;
-    --pp-band-bottom: 2;
-    --pp-box-outline: var(--pp-outline);
-    --pp-box-top: var(--pp-candy-yellow-light);
-    --pp-box-fill: var(--pp-focus);
-    --pp-box-bottom: var(--pp-candy-yellow-shade);
-    --pp-box-text: var(--pp-ink);
-    --pp-box-glint: var(--pp-white);
+  .chu-combobox-option[aria-selected="true"] {
+    --chu-band-top: 2;
+    --chu-band-bottom: 2;
+    --chu-box-outline: var(--chu-outline);
+    --chu-box-top: var(--chu-candy-yellow-light);
+    --chu-box-fill: var(--chu-focus);
+    --chu-box-bottom: var(--chu-candy-yellow-shade);
+    --chu-box-text: var(--chu-ink);
+    --chu-box-glint: var(--chu-white);
   }
-  .pp-combobox-option mark { background: none; color: inherit; font-weight: var(--pp-weight-bold); }
-  .pp-combobox-empty { margin: 0; padding: calc(3 * var(--pp-pixel)) calc(5 * var(--pp-pixel)); font-size: var(--pp-size-small); color: var(--pp-text-muted); }
+  .chu-combobox-option mark { background: none; color: inherit; font-weight: var(--chu-weight-bold); }
+  .chu-combobox-empty { margin: 0; padding: calc(3 * var(--chu-pixel)) calc(5 * var(--chu-pixel)); font-size: var(--chu-size-small); color: var(--chu-text-muted); }
 
   @media (prefers-reduced-motion: reduce) {
-    .pp-combobox-popup { animation: none; }
+    .chu-combobox-popup { animation: none; }
   }
   @media (forced-colors: active) {
-    .pp-combobox-option[aria-selected="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText; }
+    .chu-combobox-option[aria-selected="true"] { forced-color-adjust: none; background: Highlight; color: HighlightText; }
   }
 }

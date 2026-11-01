@@ -23,7 +23,7 @@ import {
 type Named = { "aria-label": string } | { "aria-labelledby": string };
 
 /** Whole pixels, as a length. */
-const px = (n: number): string => `calc(${n} * var(--pp-pixel))`;
+const px = (n: number): string => `calc(${n} * var(--chu-pixel))`;
 
 /** The user's style over one public custom property, when it has a value. */
 function withProperty(style: CSSProperties | undefined, name: string, value?: string): CSSProperties | undefined {
@@ -49,14 +49,14 @@ export interface CardOwnProps {
   tone?: Tone;
   /** Padding 6, 8 (default) or 12 pixels, with the title size and corner radius to match. `data-size`. */
   size?: Size;
-  /** Corner radius in pixels, 0 to 8 (4 by default; small 3, large 5). `data-pp-r`. */
+  /** Corner radius in pixels, 0 to 8 (4 by default; small 3, large 5). `data-chu-r`. */
   radius?: Radius;
   /**
    * The picture beside the text while both fit, above it when they don't (it follows its container, no
    * breakpoint). Wrap the header, body and footer in a {@link CardContent}. `data-layout`.
    */
   layout?: "horizontal";
-  /** A card with one main link (a {@link CardLink} in its title) and other actions: it lifts. `data-pp-interactive`. */
+  /** A card with one main link (a {@link CardLink} in its title) and other actions: it lifts. `data-chu-interactive`. */
   interactive?: boolean;
 }
 export type CardProps<T extends ElementType = "article"> = PolymorphicProps<T, CardOwnProps>;
@@ -64,7 +64,7 @@ export type CardProps<T extends ElementType = "article"> = PolymorphicProps<T, C
 /**
  * A panel that holds one thing: a world, a player, an event. An `<article>` with a heading in the page's outline;
  * `as="a"` makes the whole card a link that lifts (keep it short, with nothing else to press inside). One thing per
- * card, never a card in a card; rows of cards go in a grid. Renders `<article class="pp-box pp-card">`.
+ * card, never a card in a card; rows of cards go in a grid. Renders `<article class="chu-box chu-card">`.
  *
  *   <Card>
  *     <CardMedia><img src="meadow.png" alt="" /></CardMedia>
@@ -84,12 +84,12 @@ export const Card = /*#__PURE__*/ forwardRef(function Card(
   return (
     <Tag
       ref={ref}
-      className={cx("pp-box pp-card", className)}
+      className={cx("chu-box chu-card", className)}
       {...box({ tone, radius })}
       data-variant={variant}
       data-size={size}
       data-layout={layout}
-      data-pp-interactive={flag(interactive)}
+      data-chu-interactive={flag(interactive)}
       {...rest}
     />
   );
@@ -103,9 +103,9 @@ export interface CardMediaOwnProps {
    * blurred). Give its size in its own pixels with `artWidth` and `artHeight`. `data-fit`.
    */
   fit?: "pixels";
-  /** With `fit="pixels"`: the picture's width in its own pixels (a 64 x 36 drawing: 64). `--pp-card-art-width`. */
+  /** With `fit="pixels"`: the picture's width in its own pixels (a 64 x 36 drawing: 64). `--chu-card-art-width`. */
   artWidth?: number;
-  /** With `fit="pixels"`: the picture's height in its own pixels (a 64 x 36 drawing: 36). `--pp-card-art-height`. */
+  /** With `fit="pixels"`: the picture's height in its own pixels (a 64 x 36 drawing: 36). `--chu-card-art-height`. */
   artHeight?: number;
 }
 /** Pixel art needs its size: `fit="pixels"` comes with `artWidth` and `artHeight`. */
@@ -115,9 +115,9 @@ export type CardMediaProps = CardMediaFit & NativeProps<"div", CardMediaOwnProps
 
 /**
  * The card's picture in a one-pixel ink frame, never smoothed. An `<img>`, `<svg>`, `<canvas>` or `<video>`, 16:9
- * unless `--pp-card-media-ratio` says otherwise; `alt=""` when it only decorates. Pixel art takes `fit="pixels"` and
+ * unless `--chu-card-media-ratio` says otherwise; `alt=""` when it only decorates. Pixel art takes `fit="pixels"` and
  * its size in its own pixels, so every art pixel comes out the same whole number of Blip pixels. Renders `<div
- * class="pp-card-media">`.
+ * class="chu-card-media">`.
  *
  *   <CardMedia><img src="meadow.png" alt="" /></CardMedia>
  *   <CardMedia fit="pixels" artWidth={64} artHeight={36}><img src="meadow.png" alt="" width={64} height={36} /></CardMedia>
@@ -126,8 +126,8 @@ export const CardMedia = /*#__PURE__*/ forwardRef<HTMLDivElement, CardMediaProps
   { fit, artWidth, artHeight, style, className, ...rest },
   ref,
 ) {
-  const art = fit === undefined ? style : { ...style, "--pp-card-art-width": String(artWidth), "--pp-card-art-height": String(artHeight) };
-  return <div ref={ref} className={cx("pp-card-media", className)} data-fit={fit} style={art as CSSProperties | undefined} {...rest} />;
+  const art = fit === undefined ? style : { ...style, "--chu-card-art-width": String(artWidth), "--chu-card-art-height": String(artHeight) };
+  return <div ref={ref} className={cx("chu-card-media", className)} data-fit={fit} style={art as CSSProperties | undefined} {...rest} />;
 });
 
 /** Props for {@link CardHeader}. */
@@ -135,19 +135,19 @@ export type CardHeaderProps = NativeProps<"header">;
 
 /**
  * The card's header: title and subtitle at the start, anything small at the end. Wrap the title and subtitle in a
- * `<div>`; the end holds a tag or a menu button. Renders `<header class="pp-card-header">`.
+ * `<div>`; the end holds a tag or a menu button. Renders `<header class="chu-card-header">`.
  *
  *   <CardHeader><div><CardTitle>Meadow</CardTitle></div><Tag tone="success">Cleared</Tag></CardHeader>
  */
 export const CardHeader = /*#__PURE__*/ forwardRef<HTMLElement, CardHeaderProps>(function CardHeader({ className, ...rest }, ref) {
-  return <header ref={ref} className={cx("pp-card-header", className)} {...rest} />;
+  return <header ref={ref} className={cx("chu-card-header", className)} {...rest} />;
 });
 
 export type CardTitleProps<T extends ElementType = "h3"> = PolymorphicProps<T, object>;
 
 /**
  * The card's title: a few words, on a heading at the right level for the page's outline (`<h2>` to `<h4>`).
- * Renders `<h3 class="pp-card-title">`.
+ * Renders `<h3 class="chu-card-title">`.
  *
  *   <CardTitle as="h2">Pip Bloom</CardTitle>
  */
@@ -155,14 +155,14 @@ export const CardTitle = /*#__PURE__*/ forwardRef(function CardTitle(
   { as: Tag = "h3", className, ...rest }: CardTitleProps<ElementType>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("pp-card-title", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("chu-card-title", className)} {...rest} />;
 }) as PolymorphicComponent<"h3", object>;
 
 /** Props for {@link CardSubtitle}. */
 export type CardSubtitleProps = NativeProps<"p">;
 
 /**
- * One line of facts under the title. Renders `<p class="pp-card-subtitle">`.
+ * One line of facts under the title. Renders `<p class="chu-card-subtitle">`.
  *
  *   <CardSubtitle>World 1 · 8 levels</CardSubtitle>
  */
@@ -170,13 +170,13 @@ export const CardSubtitle = /*#__PURE__*/ forwardRef<HTMLParagraphElement, CardS
   { className, ...rest },
   ref,
 ) {
-  return <p ref={ref} className={cx("pp-card-subtitle", className)} {...rest} />;
+  return <p ref={ref} className={cx("chu-card-subtitle", className)} {...rest} />;
 });
 
 export type CardBodyProps<T extends ElementType = "div"> = PolymorphicProps<T, object>;
 
 /**
- * The card's text: a `<div>` of paragraphs, or `as="p"` for one. Renders `<div class="pp-card-body">`.
+ * The card's text: a `<div>` of paragraphs, or `as="p"` for one. Renders `<div class="chu-card-body">`.
  *
  *   <CardBody as="p">Rolling hills, slow clouds and the first boss.</CardBody>
  */
@@ -184,7 +184,7 @@ export const CardBody = /*#__PURE__*/ forwardRef(function CardBody(
   { as: Tag = "div", className, ...rest }: CardBodyProps<ElementType>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("pp-card-body", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("chu-card-body", className)} {...rest} />;
 }) as PolymorphicComponent<"div", object>;
 
 /** Props for {@link CardFooter}. */
@@ -192,12 +192,12 @@ export type CardFooterProps = NativeProps<"footer">;
 
 /**
  * The card's actions, at the end and pushed to the bottom in a row of cards: one or two, the main one in candy.
- * Renders `<footer class="pp-card-footer">`.
+ * Renders `<footer class="chu-card-footer">`.
  *
  *   <CardFooter><Button variant="soft" size="sm">Message</Button><Button size="sm">Add friend</Button></CardFooter>
  */
 export const CardFooter = /*#__PURE__*/ forwardRef<HTMLElement, CardFooterProps>(function CardFooter({ className, ...rest }, ref) {
-  return <footer ref={ref} className={cx("pp-card-footer", className)} {...rest} />;
+  return <footer ref={ref} className={cx("chu-card-footer", className)} {...rest} />;
 });
 
 /** Props for {@link CardContent}. */
@@ -205,7 +205,7 @@ export type CardContentProps = NativeProps<"div">;
 
 /**
  * The header, body and footer of a horizontal card, side by side with its picture. Renders `<div
- * class="pp-card-content">`.
+ * class="chu-card-content">`.
  *
  *   <Card layout="horizontal"><CardMedia>…</CardMedia><CardContent>…</CardContent></Card>
  */
@@ -213,7 +213,7 @@ export const CardContent = /*#__PURE__*/ forwardRef<HTMLDivElement, CardContentP
   { className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-card-content", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-card-content", className)} {...rest} />;
 });
 
 /** Props for {@link CardLink}: a link's by default, or your router's link's with `as`. */
@@ -222,7 +222,7 @@ export type CardLinkProps<T extends ElementType = "a"> = PolymorphicProps<T, obj
 /**
  * A card's main link, in its title: its click area covers the card. Give the card `interactive`; its other buttons stay
  * their own targets above the link, so screen readers hear a short link name and every action stays reachable.
- * Renders `<a class="pp-card-link">`; with `as`, your router's link.
+ * Renders `<a class="chu-card-link">`; with `as`, your router's link.
  *
  *   <Card interactive>
  *     <CardHeader>
@@ -232,7 +232,7 @@ export type CardLinkProps<T extends ElementType = "a"> = PolymorphicProps<T, obj
  *   </Card>
  */
 export const CardLink = /*#__PURE__*/ forwardRef(function CardLink({ as: Tag = "a", className, ...rest }: CardLinkProps<ElementType>, ref) {
-  return <Tag ref={ref} className={cx("pp-card-link", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("chu-card-link", className)} {...rest} />;
 }) as PolymorphicComponent<"a", object>;
 
 /* -------------------------------------------------------------------------------------------------- tile */
@@ -253,7 +253,7 @@ export type TileProps<T extends ElementType = "button"> = PolymorphicProps<T, Ti
 /**
  * The TV's app block: a square candy box with one white glyph in an ink outline. Its name is a {@link TileLabel} below.
  * A `<button>` (choosing) or, with `as="a"`, a link (going somewhere; `aria-current` marks the active one), named by
- * its label through `aria-labelledby`. Renders `<button class="pp-box pp-tile">`.
+ * its label through `aria-labelledby`. Renders `<button class="chu-box chu-tile">`.
  *
  *   <TileItem>
  *     <Tile tone="red" pressed aria-labelledby="t-sword"><Icon name="sword" /><TileGlint /></Tile>
@@ -267,7 +267,7 @@ export const Tile = /*#__PURE__*/ forwardRef(function Tile(
   return (
     <Tag
       ref={ref}
-      className={cx("pp-box pp-tile", className)}
+      className={cx("chu-box chu-tile", className)}
       {...box({ variant, tone })}
       data-size={size}
       aria-pressed={pressed}
@@ -281,12 +281,12 @@ export type TileGlintProps = NativeProps<"span", { children?: never }>;
 
 /**
  * An empty span in a tile: a white glint sweeps across it while the tile is selected. It sweeps every 4.5 seconds, and
- * not at all with reduced motion. Renders `<span class="pp-tile-glint">`.
+ * not at all with reduced motion. Renders `<span class="chu-tile-glint">`.
  *
  *   <Tile tone="green" aria-labelledby="app-play"><Icon name="play" /><TileGlint /></Tile>
  */
 export const TileGlint = /*#__PURE__*/ forwardRef<HTMLSpanElement, TileGlintProps>(function TileGlint({ className, ...rest }, ref) {
-  return <span ref={ref} className={cx("pp-tile-glint", className)} {...rest} />;
+  return <span ref={ref} className={cx("chu-tile-glint", className)} {...rest} />;
 });
 
 /** Own props of {@link TileItem}. */
@@ -300,7 +300,7 @@ export interface TileItemOwnProps {
 export type TileItemProps<T extends ElementType = "li"> = PolymorphicProps<T, TileItemOwnProps>;
 
 /**
- * A fixed-width cell holding a tile, room above it for the arrow, and its label. Renders `<li class="pp-tile-item">`
+ * A fixed-width cell holding a tile, room above it for the arrow, and its label. Renders `<li class="chu-tile-item">`
  * (`as="div"` in a grid that is not a list).
  *
  *   <TileItem label="tooltip">
@@ -312,12 +312,12 @@ export const TileItem = /*#__PURE__*/ forwardRef(function TileItem(
   { as: Tag = "li", label, className, ...rest }: TileItemProps<ElementType>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("pp-tile-item", className)} data-label={label} {...rest} />;
+  return <Tag ref={ref} className={cx("chu-tile-item", className)} data-label={label} {...rest} />;
 }) as PolymorphicComponent<"li", TileItemOwnProps>;
 
 /** Own props of {@link TileLabel}. */
 export interface TileLabelOwnProps {
-  /** A cream bubble round the label, with `label="tooltip"` on its item. Adds `.pp-box`. */
+  /** A cream bubble round the label, with `label="tooltip"` on its item. Adds `.chu-box`. */
   boxed?: boolean;
 }
 export type TileLabelProps = TileLabelOwnProps & NativeProps<"span", TileLabelOwnProps>;
@@ -325,7 +325,7 @@ export type TileLabelProps = TileLabelOwnProps & NativeProps<"span", TileLabelOw
 /**
  * A tile's name, upper case and centred under it: one to three words, counts included ("Potion ×3"). It names the
  * tile (the tile's `aria-labelledby` points at its `id`) and is hidden itself, so it is heard once. Renders `<span
- * class="pp-tile-label" aria-hidden="true">`.
+ * class="chu-tile-label" aria-hidden="true">`.
  *
  *   <TileLabel id="t-sword">Iron sword</TileLabel>
  */
@@ -333,7 +333,7 @@ export const TileLabel = /*#__PURE__*/ forwardRef<HTMLSpanElement, TileLabelProp
   { boxed, className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx(boxed && "pp-box", "pp-tile-label", className)} aria-hidden {...rest} />;
+  return <span ref={ref} className={cx(boxed && "chu-box", "chu-tile-label", className)} aria-hidden {...rest} />;
 });
 
 /** Own props of {@link TileList}. */
@@ -344,9 +344,9 @@ export interface TileListOwnProps {
 export type TileListProps<T extends ElementType = "ul"> = PolymorphicProps<T, TileListOwnProps>;
 
 /**
- * The grid of tiles (`.pp-tile-grid`): as many fixed cells as fit. A list (with `role="list"`, so it stays one in
+ * The grid of tiles (`.chu-tile-grid`): as many fixed cells as fit. A list (with `role="list"`, so it stays one in
  * Safari) named with `aria-label` or `aria-labelledby`; wrap it in a `<TileGrid>` for one Tab stop, the arrow keys
- * and selection. Keep it to one kind of thing. Renders `<ul class="pp-tile-grid" role="list">` (`as="div"` for
+ * and selection. Keep it to one kind of thing. Renders `<ul class="chu-tile-grid" role="list">` (`as="div"` for
  * pictures that are not a list, without the role).
  *
  *   <TileGrid selection="single">
@@ -362,7 +362,7 @@ export const TileList = /*#__PURE__*/ forwardRef(function TileList(
   return (
     <Tag
       ref={ref}
-      className={cx("pp-tile-grid", className)}
+      className={cx("chu-tile-grid", className)}
       role={role ?? (isList(Tag) ? "list" : undefined)}
       data-size={size}
       {...rest}
@@ -374,7 +374,7 @@ export const TileList = /*#__PURE__*/ forwardRef(function TileList(
 
 /** Own props of {@link List}. */
 export interface ListOwnProps {
-  /** The list in a white panel. Adds `.pp-box`. */
+  /** The list in a white panel. Adds `.chu-box`. */
   boxed?: boolean;
   /** The panel's tier: white (default), `panel`, soft or outline. Implies `boxed`. `data-variant`. */
   variant?: "panel" | "soft" | "outline";
@@ -388,7 +388,7 @@ export type ListProps<T extends ElementType = "ul"> = PolymorphicProps<T, ListOw
 /**
  * Rows of things: settings, players, files, sections. Calm: candy stays for the actions inside. A `<ul>` (or
  * `as="ol"`) with `role="list"`, so it stays a list in Safari; name it when it stands alone. Rows are either all
- * pressable or all content, never mixed. Renders `<ul class="pp-list" role="list">`, `<ul class="pp-box pp-list"
+ * pressable or all content, never mixed. Renders `<ul class="chu-list" role="list">`, `<ul class="chu-box chu-list"
  * role="list">` boxed.
  *
  *   <List boxed dividers aria-label="Settings">
@@ -402,7 +402,7 @@ export const List = /*#__PURE__*/ forwardRef(function List(
   return (
     <Tag
       ref={ref}
-      className={cx((boxed || variant) && "pp-box", "pp-list", className)}
+      className={cx((boxed || variant) && "chu-box", "chu-list", className)}
       role={role ?? (isList(Tag) ? "list" : undefined)}
       data-variant={variant}
       data-dividers={flag(dividers)}
@@ -414,7 +414,7 @@ export const List = /*#__PURE__*/ forwardRef(function List(
 
 /** Own props of {@link ListItem}. */
 export interface ListItemOwnProps {
-  /** A pressable row's corner radius in pixels, 0 to 8 (3 by default). `data-pp-r`. */
+  /** A pressable row's corner radius in pixels, 0 to 8 (3 by default). `data-chu-r`. */
   radius?: Radius;
 }
 export type ListItemProps<T extends ElementType = "li"> = PolymorphicProps<T, ListItemOwnProps>;
@@ -423,8 +423,8 @@ export type ListItemProps<T extends ElementType = "li"> = PolymorphicProps<T, Li
  * A row: a leading icon or avatar, a {@link ListContent}, and perhaps a {@link ListEnd}. As an `<li>` it is a row of
  * content, whose controls are named by its title (`aria-labelledby`). As `as="a"` or `as="button"` (inside a plain
  * `<li>`) it is a row you press: a ghost box, filled on hover, named by its words, `aria-current="page"` for the
- * page you are on; never put a control inside one. Renders `<li class="pp-list-item">`, or `<a class="pp-box
- * pp-list-item" data-variant="ghost">` (a button gets `type="button"`).
+ * page you are on; never put a control inside one. Renders `<li class="chu-list-item">`, or `<a class="chu-box
+ * chu-list-item" data-variant="ghost">` (a button gets `type="button"`).
  *
  *   <ListItem>
  *     <Icon name="music" />
@@ -444,7 +444,7 @@ export const ListItem = /*#__PURE__*/ forwardRef(function ListItem(
   return (
     <Tag
       ref={ref}
-      className={cx(pressable && "pp-box", "pp-list-item", className)}
+      className={cx(pressable && "chu-box", "chu-list-item", className)}
       {...box({ variant: pressable ? "ghost" : undefined, radius })}
       type={type ?? (Tag === "button" ? "button" : undefined)}
       {...rest}
@@ -456,7 +456,7 @@ export type ListContentProps<T extends ElementType = "div"> = PolymorphicProps<T
 
 /**
  * The row's words: a {@link ListTitle} and a {@link ListDescription}, one under the other. In a pressable row use
- * `as="span"` (a link or button holds no `<div>`). Renders `<div class="pp-list-content">`.
+ * `as="span"` (a link or button holds no `<div>`). Renders `<div class="chu-list-content">`.
  *
  *   <ListContent><ListTitle>Cloud save</ListTitle><ListDescription>Synced 2 min ago</ListDescription></ListContent>
  */
@@ -464,26 +464,26 @@ export const ListContent = /*#__PURE__*/ forwardRef(function ListContent(
   { as: Tag = "div", className, ...rest }: ListContentProps<ElementType>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("pp-list-content", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("chu-list-content", className)} {...rest} />;
 }) as PolymorphicComponent<"div", object>;
 
 /** Props for {@link ListTitle}. */
 export type ListTitleProps = NativeProps<"span">;
 
 /**
- * The row's title, a few words; give it an `id` to name the row's controls. Renders `<span class="pp-list-title">`.
+ * The row's title, a few words; give it an `id` to name the row's controls. Renders `<span class="chu-list-title">`.
  *
  *   <ListTitle id="set-music">Music</ListTitle>
  */
 export const ListTitle = /*#__PURE__*/ forwardRef<HTMLSpanElement, ListTitleProps>(function ListTitle({ className, ...rest }, ref) {
-  return <span ref={ref} className={cx("pp-list-title", className)} {...rest} />;
+  return <span ref={ref} className={cx("chu-list-title", className)} {...rest} />;
 });
 
 /** Props for {@link ListDescription}. */
 export type ListDescriptionProps = NativeProps<"span">;
 
 /**
- * One line under the title, muted. Renders `<span class="pp-list-description">`.
+ * One line under the title, muted. Renders `<span class="chu-list-description">`.
  *
  *   <ListDescription>Chip tunes on the title screen</ListDescription>
  */
@@ -491,14 +491,14 @@ export const ListDescription = /*#__PURE__*/ forwardRef<HTMLSpanElement, ListDes
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-list-description", className)} {...rest} />;
+  return <span ref={ref} className={cx("chu-list-description", className)} {...rest} />;
 });
 
 export type ListEndProps<T extends ElementType = "div"> = PolymorphicProps<T, object>;
 
 /**
  * The row's end: meta text or controls. Meta in tabular digits ("60%", "2 min ago"), or a switch, a tag, a keycap, a
- * chevron for a row that goes somewhere; `as="span"` in a pressable row. Renders `<div class="pp-list-end">`.
+ * chevron for a row that goes somewhere; `as="span"` in a pressable row. Renders `<div class="chu-list-end">`.
  *
  *   <ListEnd>98,120</ListEnd>
  */
@@ -506,7 +506,7 @@ export const ListEnd = /*#__PURE__*/ forwardRef(function ListEnd(
   { as: Tag = "div", className, ...rest }: ListEndProps<ElementType>,
   ref,
 ) {
-  return <Tag ref={ref} className={cx("pp-list-end", className)} {...rest} />;
+  return <Tag ref={ref} className={cx("chu-list-end", className)} {...rest} />;
 }) as PolymorphicComponent<"div", object>;
 
 /* ------------------------------------------------------------------------------------------------- table */
@@ -516,17 +516,17 @@ export type TableFrameProps = NativeProps<"div">;
 
 /**
  * The white panel round a table, which sits a pixel inside its outline. Leave it out for a table on a card.
- * Renders `<div class="pp-box pp-table-frame">`.
+ * Renders `<div class="chu-box chu-table-frame">`.
  *
  *   <TableFrame><DataTable>…</DataTable></TableFrame>
  */
 export const TableFrame = /*#__PURE__*/ forwardRef<HTMLDivElement, TableFrameProps>(function TableFrame({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("pp-box pp-table-frame", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-box chu-table-frame", className)} {...rest} />;
 });
 
 /** Own props of {@link TableScroll}. */
 export interface TableScrollOwnProps {
-  /** Past this height, in whole pixels, the body scrolls under the sticky header. `--pp-table-max-height`. */
+  /** Past this height, in whole pixels, the body scrolls under the sticky header. `--chu-table-max-height`. */
   maxHeight?: number;
 }
 export type TableScrollProps = TableScrollOwnProps & Named & NativeProps<"div", TableScrollOwnProps>;
@@ -535,7 +535,7 @@ export type TableScrollProps = TableScrollOwnProps & Named & NativeProps<"div", 
  * The table's scroll region, with a pixel scrollbar and the header stuck to its top. It scrolls across (and down, with
  * `maxHeight`) rather than squeezing the columns. A named region in the Tab order, so keyboard users scroll it with the
  * arrow keys: name it by the caption (`aria-labelledby`) or with `aria-label`. Leave it out for a short table. Renders
- * `<div class="pp-table-scroll" role="region" tabindex="0">`.
+ * `<div class="chu-table-scroll" role="region" tabindex="0">`.
  *
  *   <TableScroll aria-labelledby="scores-cap" maxHeight={120}>…</TableScroll>
  */
@@ -546,10 +546,10 @@ export const TableScroll = /*#__PURE__*/ forwardRef<HTMLDivElement, TableScrollP
   return (
     <div
       ref={ref}
-      className={cx("pp-table-scroll", className)}
+      className={cx("chu-table-scroll", className)}
       role={role}
       tabIndex={tabIndex}
-      style={withProperty(style, "--pp-table-max-height", maxHeight === undefined ? undefined : px(maxHeight))}
+      style={withProperty(style, "--chu-table-max-height", maxHeight === undefined ? undefined : px(maxHeight))}
       {...rest}
     />
   );
@@ -574,10 +574,10 @@ export type DataTableProps = DataTableOwnProps & NativeProps<"table", DataTableO
 
 /**
  * A real `<table>` for data people compare across rows and columns, calm in the white panel's tiers. Give it a
- * `<caption>`, `scope="col"` on column headers (`.pp-numeric` on number columns and their headers, `aria-sort` on
+ * `<caption>`, `scope="col"` on column headers (`.chu-numeric` on number columns and their headers, `aria-sort` on
  * the sorted one) and `scope="row"` on the cell that names each row. All round it is optional: a
- * {@link TableFrame}, a {@link TableScroll}, and `<Table>` (`<pp-table>`) to sort and select in the page. Renders
- * `<table class="pp-table">`.
+ * {@link TableFrame}, a {@link TableScroll}, and `<Table>` (`<chu-table>`) to sort and select in the page. Renders
+ * `<table class="chu-table">`.
  *
  *   <Table>
  *     <TableFrame>
@@ -585,7 +585,7 @@ export type DataTableProps = DataTableOwnProps & NativeProps<"table", DataTableO
  *         <DataTable zebra>
  *           <caption id="scores-cap">Leaderboard, this week</caption>
  *           <thead><tr><th scope="col" aria-sort="descending"><TableSort>Score</TableSort></th></tr></thead>
- *           <tbody><tr><td className="pp-numeric">98,120</td></tr></tbody>
+ *           <tbody><tr><td className="chu-numeric">98,120</td></tr></tbody>
  *         </DataTable>
  *       </TableScroll>
  *     </TableFrame>
@@ -598,7 +598,7 @@ export const DataTable = /*#__PURE__*/ forwardRef<HTMLTableElement, DataTablePro
   return (
     <table
       ref={ref}
-      className={cx("pp-table", className)}
+      className={cx("chu-table", className)}
       data-zebra={flag(zebra)}
       data-density={density}
       data-stack={flag(stack)}
@@ -614,7 +614,7 @@ export type TableCaretProps = NativeProps<"span", { children?: never }>;
 /**
  * The pixel caret of a sort button. Both carets show, muted, until its column is sorted; then the one `aria-sort` on
  * the `<th>` says. {@link TableSort} draws one; use this only in a sort button of your own. Renders `<span
- * class="pp-table-caret" aria-hidden="true">`.
+ * class="chu-table-caret" aria-hidden="true">`.
  *
  *   <TableCaret />
  */
@@ -622,7 +622,7 @@ export const TableCaret = /*#__PURE__*/ forwardRef<HTMLSpanElement, TableCaretPr
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-table-caret", className)} aria-hidden {...rest} />;
+  return <span ref={ref} className={cx("chu-table-caret", className)} aria-hidden {...rest} />;
 });
 
 /** Props for {@link TableSort}. */
@@ -631,10 +631,10 @@ export type TableSortProps = NativeProps<"button">;
 /**
  * A sortable column's header button: a ghost box filling its `<th>`, the label and a pixel caret. Put `aria-sort`
  * on the `<th>` of the sorted column only. `<Table>` sorts when it is pressed; without it, sort on the server.
- * Renders `<button class="pp-box pp-table-sort" data-variant="ghost" type="button">` ending in a
+ * Renders `<button class="chu-box chu-table-sort" data-variant="ghost" type="button">` ending in a
  * {@link TableCaret}.
  *
- *   <th scope="col" className="pp-numeric" aria-sort="descending"><TableSort>Score</TableSort></th>
+ *   <th scope="col" className="chu-numeric" aria-sort="descending"><TableSort>Score</TableSort></th>
  */
 export const TableSort = /*#__PURE__*/ forwardRef<HTMLButtonElement, TableSortProps>(function TableSort(
   { type = "button", className, children, ...rest },
@@ -643,7 +643,7 @@ export const TableSort = /*#__PURE__*/ forwardRef<HTMLButtonElement, TableSortPr
   return (
     <button
       ref={ref}
-      className={cx("pp-box pp-table-sort", className)}
+      className={cx("chu-box chu-table-sort", className)}
       {...box({ variant: "ghost" })}
       type={type}
       {...rest}
@@ -660,10 +660,10 @@ export type TableCheckProps<T extends ElementType = "td"> = PolymorphicProps<T, 
  * A cell of the narrow checkbox column, holding a small checkbox. In a body row the checkbox is named by the row's
  * header (`aria-labelledby`), and a checked row is selected. In the header, `as="th"` (it takes `scope="col"`) holds a
  * select-all box named in words, with `data-select-all` on its input for `<Table>`. Renders `<td
- * class="pp-table-check">`.
+ * class="chu-table-check">`.
  *
  *   <TableCheck>
- *     <span className="pp-box pp-checkbox" data-size="sm"><input type="checkbox" aria-labelledby="p1" /></span>
+ *     <span className="chu-box chu-checkbox" data-size="sm"><input type="checkbox" aria-labelledby="p1" /></span>
  *   </TableCheck>
  */
 export const TableCheck = /*#__PURE__*/ forwardRef(function TableCheck(
@@ -673,7 +673,7 @@ export const TableCheck = /*#__PURE__*/ forwardRef(function TableCheck(
   return (
     <Tag
       ref={ref}
-      className={cx("pp-table-check", className)}
+      className={cx("chu-table-check", className)}
       scope={scope ?? (Tag === "th" ? "col" : undefined)}
       {...rest}
     />
@@ -689,7 +689,7 @@ export type TableEmptyProps = TableEmptyOwnProps & NativeProps<"tr", TableEmptyO
 
 /**
  * A body row for no data: one cell across the table, centred and muted, saying why and what to do. The ref and
- * props are the row's; its children go in the cell. Renders `<tr class="pp-table-empty"><td colspan>`.
+ * props are the row's; its children go in the cell. Renders `<tr class="chu-table-empty"><td colspan>`.
  *
  *   <tbody><TableEmpty colSpan={3}>No friends online. Invite someone to play.</TableEmpty></tbody>
  */
@@ -698,7 +698,7 @@ export const TableEmpty = /*#__PURE__*/ forwardRef<HTMLTableRowElement, TableEmp
   ref,
 ) {
   return (
-    <tr ref={ref} className={cx("pp-table-empty", className)} {...rest}>
+    <tr ref={ref} className={cx("chu-table-empty", className)} {...rest}>
       <td colSpan={colSpan}>{children}</td>
     </tr>
   );
@@ -709,7 +709,7 @@ export type TableLoadingProps = TableEmptyProps;
 
 /**
  * A body row while data loads: one cell across the table, muted, with three stepped dots. Mark the table `busy`.
- * The ref and props are the row's; its children go in the cell. Renders `<tr class="pp-table-loading"><td colspan>`.
+ * The ref and props are the row's; its children go in the cell. Renders `<tr class="chu-table-loading"><td colspan>`.
  *
  *   <DataTable busy>…<tbody><TableLoading colSpan={3}>Loading matches</TableLoading></tbody></DataTable>
  */
@@ -718,7 +718,7 @@ export const TableLoading = /*#__PURE__*/ forwardRef<HTMLTableRowElement, TableL
   ref,
 ) {
   return (
-    <tr ref={ref} className={cx("pp-table-loading", className)} {...rest}>
+    <tr ref={ref} className={cx("chu-table-loading", className)} {...rest}>
       <td colSpan={colSpan}>{children}</td>
     </tr>
   );
@@ -732,7 +732,7 @@ export interface AvatarOwnProps {
   size?: "xs" | "sm" | "md" | "lg" | "xl";
   /** The matte round a picture, or the candy behind initials. Keep each person's colour the same. `data-tone`. */
   tone?: Tone;
-  /** Corner radius in pixels, 0 to 5 (which keeps the picture clear of the corners); by size 1 to 5. `data-pp-r`. */
+  /** Corner radius in pixels, 0 to 5 (which keeps the picture clear of the corners); by size 1 to 5. `data-chu-r`. */
   radius?: Extract<Radius, 0 | 1 | 2 | 3 | 4 | 5>;
 }
 export type AvatarProps = AvatarOwnProps & NativeProps<"span", AvatarOwnProps>;
@@ -740,7 +740,7 @@ export type AvatarProps = AvatarOwnProps & NativeProps<"span", AvatarOwnProps>;
 /**
  * A person or player as a picture or initials in a candy box. A picture is an `<img>`, `<svg>` or `<canvas>` (drawn at
  * 8 x 8 or 16 x 16, so it scales by whole numbers) with `alt` naming them; initials are one or two letters (one on xs
- * and sm) with `role="img"` and `aria-label` the full name. Renders `<span class="pp-box pp-avatar">`.
+ * and sm) with `role="img"` and `aria-label` the full name. Renders `<span class="chu-box chu-avatar">`.
  *
  *   <Avatar tone="pink"><img src="pip.png" alt="Pip Bloom" /></Avatar>
  *   <Avatar tone="teal" role="img" aria-label="Kit Moss">KM</Avatar>
@@ -752,7 +752,7 @@ export const Avatar = /*#__PURE__*/ forwardRef<HTMLSpanElement, AvatarProps>(fun
   return (
     <span
       ref={ref}
-      className={cx("pp-box pp-avatar", className)}
+      className={cx("chu-box chu-avatar", className)}
       {...box({ tone, radius })}
       data-size={size}
       {...rest}
@@ -773,7 +773,7 @@ export type AvatarStatusProps = AvatarStatusOwnProps & Named & NativeProps<"span
 
 /**
  * The status dot on an avatar's corner: a small candy box with a name ("Online"), so colour is never the only cue.
- * Renders `<span class="pp-box pp-avatar-status" role="img">`.
+ * Renders `<span class="chu-box chu-avatar-status" role="img">`.
  *
  *   <Avatar size="lg" tone="pink">
  *     <img src="pip.png" alt="Pip Bloom" />
@@ -787,7 +787,7 @@ export const AvatarStatus = /*#__PURE__*/ forwardRef<HTMLSpanElement, AvatarStat
   return (
     <span
       ref={ref}
-      className={cx("pp-box pp-avatar-status", className)}
+      className={cx("chu-box chu-avatar-status", className)}
       {...box({ variant, tone })}
       role={role}
       {...rest}
@@ -800,7 +800,7 @@ export type AvatarGroupProps = Named & NativeProps<"div">;
 
 /**
  * Avatars that overlap by four pixels (three for small ones), ending with a `+3` avatar in neutral. A group named
- * with a label that counts everyone ("Party: Pip, Juno and 3 more"). Renders `<div class="pp-avatar-group"
+ * with a label that counts everyone ("Party: Pip, Juno and 3 more"). Renders `<div class="chu-avatar-group"
  * role="group">`.
  *
  *   <AvatarGroup aria-label="Party: Pip, Juno and 3 more">
@@ -812,7 +812,7 @@ export const AvatarGroup = /*#__PURE__*/ forwardRef<HTMLDivElement, AvatarGroupP
   { role = "group", className, ...rest },
   ref,
 ) {
-  return <div ref={ref} className={cx("pp-avatar-group", className)} role={role} {...rest} />;
+  return <div ref={ref} className={cx("chu-avatar-group", className)} role={role} {...rest} />;
 });
 
 /* --------------------------------------------------------------------------------------------------- tag */
@@ -828,7 +828,7 @@ export interface TagOwnProps {
   tone?: Tone;
   /** 12, 14 (default, the TV's pill) or 16 pixels high; large ones can hold an icon. `data-size`. */
   size?: Size;
-  /** Corner radius in pixels, 0 to 8 (5 by default; small 4, large 6). `data-pp-r`. */
+  /** Corner radius in pixels, 0 to 8 (5 by default; small 4, large 6). `data-chu-r`. */
   radius?: Radius;
   /** A filter chip (`as="button"`) that is on: it sits in. Give a chip `false` when off. `aria-pressed`. */
   pressed?: boolean;
@@ -838,8 +838,8 @@ export type TagProps<T extends ElementType = "span"> = PolymorphicProps<T, TagOw
 /**
  * The TV's pill: a short upper-case label that says what something is (a rarity, a status, a zone), in text. With
  * `as="button"` and `pressed` it is a filter chip (it gets `type="button"`; group chips with `role="group"` and a
- * label); with `as="a"`, a tag that goes somewhere. Write it in sentence case. Renders `<span class="pp-box
- * pp-tag">`.
+ * label); with `as="a"`, a tag that goes somewhere. Write it in sentence case. Renders `<span class="chu-box
+ * chu-tag">`.
  *
  *   <Tag tone="success">Cleared</Tag>
  *   <Tag tone="orange">Lava zone<TagRemove aria-label="Remove Lava zone" onClick={remove} /></Tag>
@@ -852,7 +852,7 @@ export const Tag = /*#__PURE__*/ forwardRef(function Tag(
   return (
     <Pill
       ref={ref}
-      className={cx("pp-box pp-tag", className)}
+      className={cx("chu-box chu-tag", className)}
       {...box({ variant, tone, radius })}
       data-size={size}
       type={type ?? (Pill === "button" ? "button" : undefined)}
@@ -868,7 +868,7 @@ export type TagRemoveProps = Named & NativeProps<"button", { children?: never }>
 /**
  * A tag's cross: its own small button with a pixel ×, last in the tag. It is 12 pixels square (24 CSS px) and named
  * for what it removes ("Remove Lava zone"); put crosses on medium and large tags. After removing, move focus to the
- * next tag or back to the input that added it. Renders `<button class="pp-tag-remove" type="button">`.
+ * next tag or back to the input that added it. Renders `<button class="chu-tag-remove" type="button">`.
  *
  *   <Tag tone="teal">Co-op<TagRemove aria-label="Remove Co-op" onClick={remove} /></Tag>
  */
@@ -876,7 +876,7 @@ export const TagRemove = /*#__PURE__*/ forwardRef<HTMLButtonElement, TagRemovePr
   { type = "button", className, ...rest },
   ref,
 ) {
-  return <button ref={ref} className={cx("pp-tag-remove", className)} type={type} {...rest} />;
+  return <button ref={ref} className={cx("chu-tag-remove", className)} type={type} {...rest} />;
 });
 
 /* ------------------------------------------------------------------------------------------------ keycap */
@@ -891,7 +891,7 @@ export interface KeycapOwnProps {
    * Cream (default), neutral, or a tone or candy: a gamepad's buttons (A green, B red, X blue, Y slate). `data-tone`.
    */
   tone?: Tone;
-  /** Shows the key held down: it sits in its drop (key tests, tutorials). `data-pp-pressed`. */
+  /** Shows the key held down: it sits in its drop (key tests, tutorials). `data-chu-pressed`. */
   pressed?: boolean;
 }
 export type KeycapProps = KeycapOwnProps & NativeProps<"kbd", KeycapOwnProps>;
@@ -899,7 +899,7 @@ export type KeycapProps = KeycapOwnProps & NativeProps<"kbd", KeycapOwnProps>;
 /**
  * A key to press, drawn as a little key standing up off the page. It is a `<kbd>`, so assistive technology knows it is
  * keyboard input: write the label as the key reads ("Ctrl", "Esc"), not as a symbol. A picture, never a control.
- * Renders `<kbd class="pp-box pp-keycap">`.
+ * Renders `<kbd class="chu-box chu-keycap">`.
  *
  *   <p>Press <Keycap>Esc</Keycap> to pause.</p>
  *   <Keycap size="lg" tone="green">A</Keycap>
@@ -911,10 +911,10 @@ export const Keycap = /*#__PURE__*/ forwardRef<HTMLElement, KeycapProps>(functio
   return (
     <kbd
       ref={ref}
-      className={cx("pp-box pp-keycap", className)}
+      className={cx("chu-box chu-keycap", className)}
       {...box({ tone })}
       data-size={size}
-      data-pp-pressed={flag(pressed)}
+      data-chu-pressed={flag(pressed)}
       {...rest}
     />
   );
@@ -925,19 +925,19 @@ export type KeysProps = NativeProps<"kbd">;
 
 /**
  * A key combination: an outer `<kbd>` holding keycaps, with a quiet "+" between them. Renders `<kbd
- * class="pp-keys">`.
+ * class="chu-keys">`.
  *
  *   <Keys><Keycap>Ctrl</Keycap>+<Keycap>K</Keycap></Keys>
  */
 export const Keys = /*#__PURE__*/ forwardRef<HTMLElement, KeysProps>(function Keys({ className, ...rest }, ref) {
-  return <kbd ref={ref} className={cx("pp-keys", className)} {...rest} />;
+  return <kbd ref={ref} className={cx("chu-keys", className)} {...rest} />;
 });
 
 /* -------------------------------------------------------------------------------------------------- stat */
 
 /** Own props of {@link Stat}. */
 export interface StatOwnProps {
-  /** The stat in its own panel, for a stat on its own: white (`panel`) or soft. Adds `.pp-box`. `data-variant`. */
+  /** The stat in its own panel, for a stat on its own: white (`panel`) or soft. Adds `.chu-box`. `data-variant`. */
   variant?: "panel" | "soft";
   /** A soft panel's colour. `data-tone`. */
   tone?: Tone;
@@ -947,7 +947,7 @@ export type StatProps = StatOwnProps & NativeProps<"div", StatOwnProps>;
 /**
  * One number that matters: its label, its value said big, and how it moved. Use a {@link StatLabel}, a {@link
  * StatValue} and a {@link StatDelta}. Group stats in a `<dl>` (a grid or cluster), three to six in a row: each stat is
- * a `<div>` of a `<dt>` and `<dd>`s, so the label is read with its value. Renders `<div class="pp-stat">`.
+ * a `<div>` of a `<dt>` and `<dd>`s, so the label is read with its value. Renders `<div class="chu-stat">`.
  *
  *   <Grid as="dl" min={128}>
  *     <Stat>
@@ -961,7 +961,7 @@ export const Stat = /*#__PURE__*/ forwardRef<HTMLDivElement, StatProps>(function
   return (
     <div
       ref={ref}
-      className={cx(variant && "pp-box", "pp-stat", className)}
+      className={cx(variant && "chu-box", "chu-stat", className)}
       {...box({ tone })}
       data-variant={variant}
       {...rest}
@@ -973,12 +973,12 @@ export const Stat = /*#__PURE__*/ forwardRef<HTMLDivElement, StatProps>(function
 export type StatLabelProps = NativeProps<"dt">;
 
 /**
- * The stat's label: one to three words, upper case and muted. Renders `<dt class="pp-stat-label">`.
+ * The stat's label: one to three words, upper case and muted. Renders `<dt class="chu-stat-label">`.
  *
  *   <StatLabel>Levels cleared</StatLabel>
  */
 export const StatLabel = /*#__PURE__*/ forwardRef<HTMLElement, StatLabelProps>(function StatLabel({ className, ...rest }, ref) {
-  return <dt ref={ref} className={cx("pp-stat-label", className)} {...rest} />;
+  return <dt ref={ref} className={cx("chu-stat-label", className)} {...rest} />;
 });
 
 /** Own props of {@link StatValue}. */
@@ -990,7 +990,7 @@ export interface StatValueOwnProps {
    */
   tone?: Tone;
   /**
-   * The TV's look: white letters, an ink outline, a drop in the tone's shade and a tinted lower band. Adds `.pp-pop`
+   * The TV's look: white letters, an ink outline, a drop in the tone's shade and a tinted lower band. Adds `.chu-pop`
    * and `data-pop`, which holds the same text: string or number children are copied; otherwise give the text here.
    */
   pop?: boolean | string;
@@ -999,7 +999,7 @@ export type StatValueProps = StatValueOwnProps & NativeProps<"dd", StatValueOwnP
 
 /**
  * The value, big, in Pixel Bop with tabular digits, formatted for reading ("98,120", "412 KB"). Renders `<dd
- * class="pp-stat-value pp-display">`, with `pp-pop` and `data-pop` when it pops.
+ * class="chu-stat-value chu-display">`, with `chu-pop` and `data-pop` when it pops.
  *
  *   <StatValue scale={3} tone="green" pop>42</StatValue>
  *   <StatValue>12:30</StatValue>
@@ -1013,7 +1013,7 @@ export const StatValue = /*#__PURE__*/ forwardRef<HTMLElement, StatValueProps>(f
   return (
     <dd
       ref={ref}
-      className={cx("pp-stat-value pp-display", popping && "pp-pop", className)}
+      className={cx("chu-stat-value chu-display", popping && "chu-pop", className)}
       data-scale={scale}
       data-tone={tone}
       data-pop={typeof pop === "string" ? pop : popping ? text : undefined}
@@ -1044,7 +1044,7 @@ export type StatDeltaProps = StatDeltaOwnProps & NativeProps<"dd", StatDeltaOwnP
  * How the value moved, in words that carry the change. The words must say its sign, what it compares to, and whether
  * it is good or bad news wherever the number alone does not ("+12% vs last week", "-6, fewer is better", "+12 ms,
  * slower"). The arrow, the mark (a check for good news, an exclamation mark for bad) and the colour repeat the words
- * and are not read out. Renders `<dd class="pp-stat-delta">`.
+ * and are not read out. Renders `<dd class="chu-stat-delta">`.
  *
  *   <StatDelta trend="down" tone="success">-6, fewer is better</StatDelta>
  */
@@ -1052,7 +1052,7 @@ export const StatDelta = /*#__PURE__*/ forwardRef<HTMLElement, StatDeltaProps>(f
   { trend, tone, className, ...rest },
   ref,
 ) {
-  return <dd ref={ref} className={cx("pp-stat-delta", className)} data-trend={trend} data-tone={tone} {...rest} />;
+  return <dd ref={ref} className={cx("chu-stat-delta", className)} data-trend={trend} data-tone={tone} {...rest} />;
 });
 
 /* ----------------------------------------------------------------------------------------------- divider */
@@ -1078,7 +1078,7 @@ export type DividerProps<T extends ElementType = "hr"> = PolymorphicProps<T, Div
 /**
  * A line in whole pixels between real groups of content: an `<hr>`, a separator. A stack's gap often separates enough.
  * A labelled divider is `as="div"` with a word or two, read as text; if the words name a section, use a heading
- * instead. Renders `<hr class="pp-divider">`.
+ * instead. Renders `<hr class="chu-divider">`.
  *
  *   <Divider variant="dither" />
  *   <Divider orientation="vertical" />
@@ -1091,7 +1091,7 @@ export const Divider = /*#__PURE__*/ forwardRef(function Divider(
   return (
     <Tag
       ref={ref}
-      className={cx("pp-divider", className)}
+      className={cx("chu-divider", className)}
       data-variant={variant}
       data-strong={flag(strong)}
       data-align={align}
@@ -1109,7 +1109,7 @@ export type AccordionProps = NativeProps<"div">;
 /**
  * A stack of questions or sections that open one at a time, on `<details>` with no script. Give every {@link
  * AccordionItem} the same `name` and only one stays open (the browser's own exclusive accordion); leave it off to let
- * several open. Put a real heading before it, and don't nest them. Renders `<div class="pp-accordion">`.
+ * several open. Put a real heading before it, and don't nest them. Renders `<div class="chu-accordion">`.
  *
  *   <Accordion>
  *     <AccordionItem name="faq" open>
@@ -1119,7 +1119,7 @@ export type AccordionProps = NativeProps<"div">;
  *   </Accordion>
  */
 export const Accordion = /*#__PURE__*/ forwardRef<HTMLDivElement, AccordionProps>(function Accordion({ className, ...rest }, ref) {
-  return <div ref={ref} className={cx("pp-accordion", className)} {...rest} />;
+  return <div ref={ref} className={cx("chu-accordion", className)} {...rest} />;
 });
 
 /** Props for {@link AccordionItem}: a `<details>`'s, `name` and `open` among them. */
@@ -1127,7 +1127,7 @@ export type AccordionItemProps = NativeProps<"details">;
 
 /**
  * One question and its answer: a native `<details>`. `open` opens it (then the browser toggles it: follow it with
- * `onToggle`); find-in-page opens a closed one holding the match. Renders `<details class="pp-accordion-item">`.
+ * `onToggle`); find-in-page opens a closed one holding the match. Renders `<details class="chu-accordion-item">`.
  *
  *   <AccordionItem name="faq">
  *     <AccordionSummary>How do I save my game?</AccordionSummary>
@@ -1138,7 +1138,7 @@ export const AccordionItem = /*#__PURE__*/ forwardRef<HTMLDetailsElement, Accord
   { className, ...rest },
   ref,
 ) {
-  return <details ref={ref} className={cx("pp-accordion-item", className)} {...rest} />;
+  return <details ref={ref} className={cx("chu-accordion-item", className)} {...rest} />;
 });
 
 /** Props for {@link AccordionChevron}. */
@@ -1146,7 +1146,7 @@ export type AccordionChevronProps = NativeProps<"span", { children?: never }>;
 
 /**
  * The pixel chevron, an empty span drawn and never read: right when closed, down when open. {@link AccordionSummary}
- * draws one; use this only in a summary of your own. Renders `<span class="pp-accordion-chevron">`.
+ * draws one; use this only in a summary of your own. Renders `<span class="chu-accordion-chevron">`.
  *
  *   <AccordionChevron />
  */
@@ -1154,7 +1154,7 @@ export const AccordionChevron = /*#__PURE__*/ forwardRef<HTMLSpanElement, Accord
   { className, ...rest },
   ref,
 ) {
-  return <span ref={ref} className={cx("pp-accordion-chevron", className)} {...rest} />;
+  return <span ref={ref} className={cx("chu-accordion-chevron", className)} {...rest} />;
 });
 
 /** Own props of {@link AccordionSummary}. */
@@ -1166,15 +1166,15 @@ export interface AccordionSummaryOwnProps {
   variant?: "panel" | "soft" | "candy" | "outline" | "ghost";
   /** A soft or candy summary's colour. `data-tone`. */
   tone?: Tone;
-  /** Corner radius in pixels, 0 to 8 (3 by default). `data-pp-r`. */
+  /** Corner radius in pixels, 0 to 8 (3 by default). `data-chu-r`. */
   radius?: Radius;
 }
 export type AccordionSummaryProps = AccordionSummaryOwnProps & NativeProps<"summary", AccordionSummaryOwnProps>;
 
 /**
  * The question: a full-width box button with a pixel chevron. The browser names it from its words and gives it an
- * expanded state, Enter and Space. One line in the reader's words; no headings inside. Renders `<summary class="pp-box
- * pp-accordion-summary">`, its words followed by an {@link AccordionChevron}.
+ * expanded state, Enter and Space. One line in the reader's words; no headings inside. Renders `<summary class="chu-box
+ * chu-accordion-summary">`, its words followed by an {@link AccordionChevron}.
  *
  *   <AccordionSummary variant="soft" tone="teal">Sound</AccordionSummary>
  */
@@ -1185,7 +1185,7 @@ export const AccordionSummary = /*#__PURE__*/ forwardRef<HTMLElement, AccordionS
   return (
     <summary
       ref={ref}
-      className={cx("pp-box pp-accordion-summary", className)}
+      className={cx("chu-box chu-accordion-summary", className)}
       {...box({ tone, radius })}
       data-variant={variant}
       {...rest}
@@ -1198,16 +1198,16 @@ export const AccordionSummary = /*#__PURE__*/ forwardRef<HTMLElement, AccordionS
 
 /** Own props of {@link AccordionPanel}. */
 export interface AccordionPanelOwnProps {
-  /** The answer in a cream box tucked under its question, rather than plain text. Adds `.pp-box`. */
+  /** The answer in a cream box tucked under its question, rather than plain text. Adds `.chu-box`. */
   boxed?: boolean;
-  /** A boxed panel's corner radius in pixels, 0 to 8 (3 by default). `data-pp-r`. */
+  /** A boxed panel's corner radius in pixels, 0 to 8 (3 by default). `data-chu-r`. */
   radius?: Radius;
 }
 export type AccordionPanelProps = AccordionPanelOwnProps & NativeProps<"div", AccordionPanelOwnProps>;
 
 /**
- * The answer, short (link out for more); it pops in a pixel as it opens. Renders `<div class="pp-accordion-panel">`,
- * `<div class="pp-box pp-accordion-panel">` boxed.
+ * The answer, short (link out for more); it pops in a pixel as it opens. Renders `<div class="chu-accordion-panel">`,
+ * `<div class="chu-box chu-accordion-panel">` boxed.
  *
  *   <AccordionPanel boxed><p>Yes: Settings, then Controls.</p></AccordionPanel>
  */
@@ -1216,6 +1216,6 @@ export const AccordionPanel = /*#__PURE__*/ forwardRef<HTMLDivElement, Accordion
   ref,
 ) {
   return (
-    <div ref={ref} className={cx(boxed && "pp-box", "pp-accordion-panel", className)} {...box({ radius })} {...rest} />
+    <div ref={ref} className={cx(boxed && "chu-box", "chu-accordion-panel", className)} {...box({ radius })} {...rest} />
   );
 });

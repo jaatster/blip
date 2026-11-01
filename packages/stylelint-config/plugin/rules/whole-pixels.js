@@ -1,13 +1,13 @@
 /**
  * blip/whole-pixels: every size is a whole number of Blip pixels.
  *
- * Lengths come from tokens (--pp-space-N, --pp-radius-N, --pp-control-*, --pp-size-*, --pp-pixel), from
- * calc(N * var(--pp-pixel)) with a whole N, or from a component's own --_p. Rejected in declaration values:
+ * Lengths come from tokens (--chu-space-N, --chu-radius-N, --chu-control-*, --chu-size-*, --chu-pixel), from
+ * calc(N * var(--chu-pixel)) with a whole N, or from a component's own --_p. Rejected in declaration values:
  *
  * - raw absolute lengths (px, pt, pc, cm, mm, q, in), except 0, and 1px (or -1px) inside
  *   @media (forced-colors: active), where system borders are a device pixel;
- * - font-relative lengths (em, rem, ex, cap, ic): text sizes come from --pp-size-*;
- * - a fraction of a pixel: calc(1.5 * var(--pp-pixel)), calc(var(--pp-pixel) / 2).
+ * - font-relative lengths (em, rem, ex, cap, ic): text sizes come from --chu-size-*;
+ * - a fraction of a pixel: calc(1.5 * var(--chu-pixel)), calc(var(--chu-pixel) / 2).
  *
  * Allowed: percentages, viewport and container units, fr, and the text measures ch and lh (line length and
  * line count). At-rule parameters (@media and @container breakpoints) are not sizes on screen and are not checked.
@@ -20,16 +20,16 @@ import { docs, inForcedColors, isStringOrRegExp, matches, valueIndex, valueParse
 
 const ruleName = "blip/whole-pixels";
 const messages = stylelint.utils.ruleMessages(ruleName, {
-  raw: (v) => `Raw length "${v}". Count it in pixels: calc(N * var(--pp-pixel)), or a token (--pp-space-N, --pp-radius-N, --pp-control-*).`,
-  font: (v) => `Font-relative length "${v}". Text sizes come from --pp-size-*; other sizes are counted in pixels.`,
-  hairline: (v) => `"${v}" is for system borders inside @media (forced-colors: active) only. Elsewhere use var(--pp-pixel).`,
-  fraction: (v) => `A fraction of a pixel: "${v}". Sizes are a whole number of var(--pp-pixel).`,
+  raw: (v) => `Raw length "${v}". Count it in pixels: calc(N * var(--chu-pixel)), or a token (--chu-space-N, --chu-radius-N, --chu-control-*).`,
+  font: (v) => `Font-relative length "${v}". Text sizes come from --chu-size-*; other sizes are counted in pixels.`,
+  hairline: (v) => `"${v}" is for system borders inside @media (forced-colors: active) only. Elsewhere use var(--chu-pixel).`,
+  fraction: (v) => `A fraction of a pixel: "${v}". Sizes are a whole number of var(--chu-pixel).`,
 });
 
 const ABSOLUTE = new Set(["px", "pt", "pc", "cm", "mm", "q", "in"]);
 const FONT = new Set(["em", "rem", "ex", "rex", "cap", "rcap", "ic", "ric"]);
 const MATH = new Set(["calc", "min", "max", "clamp", "round", "mod", "rem"]);
-const PIXEL = /^--(?:pp-pixel|_p)$/;
+const PIXEL = /^--(?:chu-pixel|_p)$/;
 
 const isPixel = (n) => n?.type === "function" && n.value.toLowerCase() === "var" && PIXEL.test(n.nodes[0]?.value ?? "");
 const number = (n) => {

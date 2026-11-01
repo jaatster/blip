@@ -2,7 +2,7 @@
 name: Number stepper
 package: "@jaatster/blip-components"
 css: number.css
-element: pp-number
+element: chu-number
 react: NumberStepper
 status: beta
 equivalents:
@@ -13,16 +13,16 @@ equivalents:
 # Number stepper
 
 A number field with a pixel minus and plus at its ends: lives, potions to buy, team size. The input inside stays the
-real control (the spin button: arrow keys, typing, the form value); `<pp-number>` adds the buttons, which repeat in
+real control (the spin button: arrow keys, typing, the form value); `<chu-number>` adds the buttons, which repeat in
 steps while held. Without JavaScript it is a plain number field.
 
 ## Usage
 
 ```html
-<label class="pp-field-label" for="lives">Lives</label>
-<pp-number class="pp-number">
-  <span class="pp-box pp-input"><input id="lives" name="lives" type="number" min="1" max="9" value="3"></span>
-</pp-number>
+<label class="chu-field-label" for="lives">Lives</label>
+<chu-number class="chu-number">
+  <span class="chu-box chu-input"><input id="lives" name="lives" type="number" min="1" max="9" value="3"></span>
+</chu-number>
 ```
 
 ## Anatomy
@@ -35,7 +35,7 @@ steps while held. Without JavaScript it is a plain number field.
 
 | Attribute | Values | Use |
 |---|---|---|
-| `data-size` (on `.pp-input`) | `sm`, `md` (default), `lg` | As for the input; the buttons follow. |
+| `data-size` (on `.chu-input`) | `sm`, `md` (default), `lg` | As for the input; the buttons follow. |
 | `min`, `max`, `step` (on the input) | numbers | The range and the step; the buttons respect them. |
 
 ## States
@@ -74,7 +74,7 @@ steps while held. Without JavaScript it is a plain number field.
 
 ## API
 
-`<pp-number>`
+`<chu-number>`
 
 | Attribute | Default | |
 |---|---|---|
@@ -87,10 +87,10 @@ steps while held. Without JavaScript it is a plain number field.
 
 | Event | Detail | |
 |---|---|---|
-| `pp-change` | `{ value }` | The value was committed (the input's `change`). |
+| `chu-change` | `{ value }` | The value was committed (the input's `change`). |
 
 An input rendered after the element, or swapped by a framework, gets the buttons when it arrives.
 
 | Part | |
 |---|---|
-| `.pp-number-step[data-step="down"]`, `.pp-number-step[data-step="up"]` | The buttons the element adds. |
+| `.chu-number-step[data-step="down"]`, `.chu-number-step[data-step="up"]` | The buttons the element adds. |

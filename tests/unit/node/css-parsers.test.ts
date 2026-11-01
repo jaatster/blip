@@ -122,9 +122,9 @@ describe("shipped CSS parses in lightningcss and esbuild", () => {
   });
 
   it("the check catches what once broke adopters' builds", () => {
-    expect(lightningcss("picker.css", ".pp-select > select::picker(select):popover-open { color: red }")).toMatch(/pseudo/i);
+    expect(lightningcss("picker.css", ".chu-select > select::picker(select):popover-open { color: red }")).toMatch(/pseudo/i);
     expect(lightningcss("anchored.css", "@container anchored(fallback: flip-block) { .a { color: red } }")).not.toBeNull();
-    expect(lightningcss("open.css", ".pp-select > select:open::picker(select) { color: red }")).toBeNull();
+    expect(lightningcss("open.css", ".chu-select > select:open::picker(select) { color: red }")).toBeNull();
     expect(esbuild("broken.css", ".a { color: red")).not.toBeNull();
   });
 });

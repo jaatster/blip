@@ -19,11 +19,11 @@ off, candy with an ink pixel dot when on. The box's own stepped corners make a p
 ## Usage
 
 ```html
-<fieldset class="pp-field">
-  <legend class="pp-field-label">Difficulty</legend>
-  <label class="pp-check"><span class="pp-box pp-radio"><input type="radio" name="level" value="story"></span>Story</label>
-  <label class="pp-check"><span class="pp-box pp-radio"><input type="radio" name="level" value="normal" checked></span>Normal</label>
-  <label class="pp-check"><span class="pp-box pp-radio"><input type="radio" name="level" value="hard"></span>Hard</label>
+<fieldset class="chu-field">
+  <legend class="chu-field-label">Difficulty</legend>
+  <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="level" value="story"></span>Story</label>
+  <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="level" value="normal" checked></span>Normal</label>
+  <label class="chu-check"><span class="chu-box chu-radio"><input type="radio" name="level" value="hard"></span>Hard</label>
 </fieldset>
 ```
 
@@ -33,7 +33,7 @@ off, candy with an ink pixel dot when on. The box's own stepped corners make a p
    row. On: candy that sits in, ink outline.
 2. **Dot**: a 5 x 5 pixel dot (3 x 3 small, 7 x 7 large) in ink.
 3. **Input**: the native radio, invisible, covering the box and a pixel more.
-4. **Row** and **group**: `.pp-check` labels inside a `<fieldset class="pp-field">` with a `<legend>`.
+4. **Row** and **group**: `.chu-check` labels inside a `<fieldset class="chu-field">` with a `<legend>`.
 
 ## Variants
 
@@ -69,7 +69,7 @@ off, candy with an ink pixel dot when on. The box's own stepped corners make a p
 ## Content
 
 - Order options logically (easy to hard) and keep their labels parallel. To explain an option, put a
-  `<p class="pp-check-help" id="…">` after its row and point the radio's `aria-describedby` at it.
+  `<p class="chu-check-help" id="…">` after its row and point the radio's `aria-describedby` at it.
 
 ## Do and don't
 
@@ -81,8 +81,8 @@ off, candy with an ink pixel dot when on. The box's own stepped corners make a p
 
 | Class | |
 |---|---|
-| `.pp-radio` | The box. Markup: `class="pp-box pp-radio"` on a `<span>` around the input. |
+| `.chu-radio` | The box. Markup: `class="chu-box chu-radio"` on a `<span>` around the input. |
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-tone`, `--pp-tone-light`, `--pp-tone-shade`, `--pp-tone-on` | accent | The checked candy (or `data-tone`). |
+| `--chu-tone`, `--chu-tone-light`, `--chu-tone-shade`, `--chu-tone-on` | accent | The checked candy (or `data-tone`). |

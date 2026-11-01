@@ -2,17 +2,17 @@
  * Avatar. A person or player as a picture in a candy box: the image is drawn pixelated inside a one-pixel matte of
  * the box's colour; with no image, initials in Pixel Bop at scale 1 on the candy. A status dot sits on the corner.
  *
- *   <span class="pp-box pp-avatar" data-tone="pink"><img src="pip.png" alt="Pip Bloom"></span>
- *   <span class="pp-box pp-avatar" data-tone="teal" role="img" aria-label="Kit Moss">KM</span>
- *   <span class="pp-box pp-avatar" data-size="lg">
+ *   <span class="chu-box chu-avatar" data-tone="pink"><img src="pip.png" alt="Pip Bloom"></span>
+ *   <span class="chu-box chu-avatar" data-tone="teal" role="img" aria-label="Kit Moss">KM</span>
+ *   <span class="chu-box chu-avatar" data-size="lg">
  *     <img src="…" alt="Pip Bloom">
- *     <span class="pp-box pp-avatar-status" data-tone="success" role="img" aria-label="Online"></span>
+ *     <span class="chu-box chu-avatar-status" data-tone="success" role="img" aria-label="Online"></span>
  *   </span>
- *   <div class="pp-avatar-group" role="group" aria-label="Party, 5 players">…avatars…</div>
+ *   <div class="chu-avatar-group" role="group" aria-label="Party, 5 players">…avatars…</div>
  *
  *   data-size   xs | sm | md (default) | lg | xl            10, 12, 20, 28 or 36 pixels square
  *   data-tone   accent (default) | any tone | neutral          the matte, or the candy behind the initials
- *   --pp-r with --pp-shape and --pp-shape-inner     another radius (0 to 5 keeps the image clear of the corners)
+ *   --chu-r with --chu-shape and --chu-shape-inner     another radius (0 to 5 keeps the image clear of the corners)
  *
  * The picture fills 8, 8, 16, 24 or 32 pixels inside the matte: draw avatars at 8 x 8 (or 16 x 16) and they scale
  * by whole numbers. Any <img>, <svg> or <canvas>, never smoothed (image-rendering: pixelated). Initials: one or
@@ -20,14 +20,14 @@
  * outline dot (data-variant="outline") reads as away or offline.
  */
 
-@layer pp.components {
-  .pp-avatar {
-    --pp-r: 3;
-    --pp-shape: var(--pp-shape-3);
-    --pp-shape-inner: var(--pp-shape-3-inner);
-    --pp-band-top: 2;
-    --pp-band-bottom: 2;
-    --_size: calc(20 * var(--pp-pixel));
+@layer chu.components {
+  .chu-avatar {
+    --chu-r: 3;
+    --chu-shape: var(--chu-shape-3);
+    --chu-shape-inner: var(--chu-shape-3-inner);
+    --chu-band-top: 2;
+    --chu-band-bottom: 2;
+    --_size: calc(20 * var(--chu-pixel));
     display: inline-grid;
     place-items: center;
     flex: none;
@@ -35,13 +35,13 @@
     inline-size: var(--_size);
     block-size: var(--_size);
     /* Outline plus one pixel of matte: clear of the stepped corners for every radius up to 5. */
-    padding: calc(2 * var(--pp-pixel));
-    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
-    font-family: var(--pp-font-display);
-    font-size: calc(10 * var(--pp-pixel));
+    padding: calc(2 * var(--chu-pixel));
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
+    font-family: var(--chu-font-display);
+    font-size: calc(10 * var(--chu-pixel));
     font-weight: 400;
     /* Pixel Bop's capitals are 7 pixels tall: an 8-pixel line holds them exactly (rows 0 to 6), so they centre. */
-    line-height: calc(8 * var(--pp-pixel));
+    line-height: calc(8 * var(--chu-pixel));
     letter-spacing: 0;
     text-transform: uppercase;
     font-synthesis: none;
@@ -49,7 +49,7 @@
     white-space: nowrap;
     vertical-align: middle;
   }
-  .pp-avatar > :is(img, svg, canvas, video) {
+  .chu-avatar > :is(img, svg, canvas, video) {
     grid-area: 1 / 1;
     display: block;
     inline-size: 100%;
@@ -60,34 +60,34 @@
     shape-rendering: crispEdges;
   }
 
-  .pp-avatar[data-size="xs"] { --_size: calc(10 * var(--pp-pixel)); --pp-r: 1; --pp-shape: var(--pp-shape-1); --pp-shape-inner: var(--pp-shape-1-inner); --pp-band-top: 1; --pp-band-bottom: 1; --pp-box-glint: transparent; padding: var(--pp-pixel); }
-  .pp-avatar[data-size="sm"] { --_size: calc(12 * var(--pp-pixel)); --pp-r: 2; --pp-shape: var(--pp-shape-2); --pp-shape-inner: var(--pp-shape-2-inner); }
-  .pp-avatar[data-size="lg"] { --_size: calc(28 * var(--pp-pixel)); --pp-r: 4; --pp-shape: var(--pp-shape-4); --pp-shape-inner: var(--pp-shape-4-inner); --pp-band-top: 4; --pp-band-bottom: 4; }
-  .pp-avatar[data-size="xl"] { --_size: calc(36 * var(--pp-pixel)); --pp-r: 5; --pp-shape: var(--pp-shape-5); --pp-shape-inner: var(--pp-shape-5-inner); --pp-band-top: 5; --pp-band-bottom: 5; }
+  .chu-avatar[data-size="xs"] { --_size: calc(10 * var(--chu-pixel)); --chu-r: 1; --chu-shape: var(--chu-shape-1); --chu-shape-inner: var(--chu-shape-1-inner); --chu-band-top: 1; --chu-band-bottom: 1; --chu-box-glint: transparent; padding: var(--chu-pixel); }
+  .chu-avatar[data-size="sm"] { --_size: calc(12 * var(--chu-pixel)); --chu-r: 2; --chu-shape: var(--chu-shape-2); --chu-shape-inner: var(--chu-shape-2-inner); }
+  .chu-avatar[data-size="lg"] { --_size: calc(28 * var(--chu-pixel)); --chu-r: 4; --chu-shape: var(--chu-shape-4); --chu-shape-inner: var(--chu-shape-4-inner); --chu-band-top: 4; --chu-band-bottom: 4; }
+  .chu-avatar[data-size="xl"] { --_size: calc(36 * var(--chu-pixel)); --chu-r: 5; --chu-shape: var(--chu-shape-5); --chu-shape-inner: var(--chu-shape-5-inner); --chu-band-top: 5; --chu-band-bottom: 5; }
 
   /* The status dot: a small candy box on the bottom-right corner, outside the matte. */
-  .pp-avatar-status {
-    --pp-r: 1;
-    --pp-shape: var(--pp-shape-1);
-    --pp-shape-inner: var(--pp-shape-1-inner);
-    --pp-band-top: 1;
-    --pp-band-bottom: 1;
-    --pp-box-glint: transparent;
+  .chu-avatar-status {
+    --chu-r: 1;
+    --chu-shape: var(--chu-shape-1);
+    --chu-shape-inner: var(--chu-shape-1-inner);
+    --chu-band-top: 1;
+    --chu-band-bottom: 1;
+    --chu-box-glint: transparent;
     position: absolute;
-    inset-inline-end: calc(-2 * var(--pp-pixel));
-    inset-block-end: calc(-2 * var(--pp-pixel));
-    inline-size: calc(6 * var(--pp-pixel));
-    block-size: calc(6 * var(--pp-pixel));
+    inset-inline-end: calc(-2 * var(--chu-pixel));
+    inset-block-end: calc(-2 * var(--chu-pixel));
+    inline-size: calc(6 * var(--chu-pixel));
+    block-size: calc(6 * var(--chu-pixel));
   }
-  .pp-avatar[data-size="xs"] > .pp-avatar-status { inline-size: calc(4 * var(--pp-pixel)); block-size: calc(4 * var(--pp-pixel)); --pp-r: 0; --pp-shape: var(--pp-shape-0); --pp-shape-inner: var(--pp-shape-0-inner); }
-  .pp-avatar:is([data-size="lg"], [data-size="xl"]) > .pp-avatar-status { inline-size: calc(8 * var(--pp-pixel)); block-size: calc(8 * var(--pp-pixel)); --pp-r: 2; --pp-shape: var(--pp-shape-2); --pp-shape-inner: var(--pp-shape-2-inner); --pp-band-top: 2; --pp-band-bottom: 2; }
+  .chu-avatar[data-size="xs"] > .chu-avatar-status { inline-size: calc(4 * var(--chu-pixel)); block-size: calc(4 * var(--chu-pixel)); --chu-r: 0; --chu-shape: var(--chu-shape-0); --chu-shape-inner: var(--chu-shape-0-inner); }
+  .chu-avatar:is([data-size="lg"], [data-size="xl"]) > .chu-avatar-status { inline-size: calc(8 * var(--chu-pixel)); block-size: calc(8 * var(--chu-pixel)); --chu-r: 2; --chu-shape: var(--chu-shape-2); --chu-shape-inner: var(--chu-shape-2-inner); --chu-band-top: 2; --chu-band-bottom: 2; }
 
   /* A group: avatars overlap by four pixels; each outline keeps them apart. */
-  .pp-avatar-group {
+  .chu-avatar-group {
     display: inline-flex;
     align-items: center;
     vertical-align: middle;
   }
-  .pp-avatar-group > .pp-avatar + .pp-avatar { margin-inline-start: calc(-4 * var(--pp-pixel)); }
-  .pp-avatar-group > .pp-avatar:is([data-size="xs"], [data-size="sm"]) + .pp-avatar { margin-inline-start: calc(-3 * var(--pp-pixel)); }
+  .chu-avatar-group > .chu-avatar + .chu-avatar { margin-inline-start: calc(-4 * var(--chu-pixel)); }
+  .chu-avatar-group > .chu-avatar:is([data-size="xs"], [data-size="sm"]) + .chu-avatar { margin-inline-start: calc(-3 * var(--chu-pixel)); }
 }

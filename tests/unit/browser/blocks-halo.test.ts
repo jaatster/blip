@@ -25,14 +25,14 @@ function halo(el: Element): { offsets: string[]; colours: Set<string> } {
 const ring = (p: number) => [[-p, -p], [0, -p], [p, -p], [-p, 0], [p, 0], [-p, p], [0, p], [p, p]].map(([x, y]) => `${x}px ${y}px`).sort();
 
 describe("the halo on text over the world", () => {
-  for (const [scheme, bg] of [["day", "rgb(244, 247, 255)"], ["night", "rgb(34, 36, 79)"]]) {
+  for (const [scheme, bg] of [["day", "rgb(244, 247, 255)"], ["night", "rgb(23, 23, 23)"]]) {
     for (const pixel of [2, 3]) {
       it(`rings the hero's lead and note, and the call to action's text and note, by ${scheme} at a ${pixel} px pixel`, () => {
-        const root = mount(`<div data-pp-scheme="${scheme}" data-pp-pixel="${pixel}">
-          <section class="pp-hero"><div class="pp-hero-inner"><p class="pp-hero-lead">Lead</p><p class="pp-hero-note">Note</p></div></section>
-          <section class="pp-cta"><p class="pp-cta-text">Text</p><p class="pp-cta-note">Note</p></section>
+        const root = mount(`<div data-chu-scheme="${scheme}" data-chu-pixel="${pixel}">
+          <section class="chu-hero"><div class="chu-hero-inner"><p class="chu-hero-lead">Lead</p><p class="chu-hero-note">Note</p></div></section>
+          <section class="chu-cta"><p class="chu-cta-text">Text</p><p class="chu-cta-note">Note</p></section>
         </div>`);
-        for (const sel of [".pp-hero-lead", ".pp-hero-note", ".pp-cta-text", ".pp-cta-note"]) {
+        for (const sel of [".chu-hero-lead", ".chu-hero-note", ".chu-cta-text", ".chu-cta-note"]) {
           const { offsets, colours } = halo(root.querySelector(sel)!);
           expect(offsets, sel).toEqual(ring(pixel));
           expect([...colours], sel).toEqual([bg]);
@@ -42,7 +42,7 @@ describe("the halo on text over the world", () => {
   }
 
   it("leaves a call to action in a box without one: there is no world behind it", () => {
-    const box = mount(`<section class="pp-box pp-cta" data-variant="soft"><p class="pp-cta-text">Text</p><p class="pp-cta-note">Note</p></section>`);
-    for (const sel of [".pp-cta-text", ".pp-cta-note"]) expect(getComputedStyle(box.querySelector(sel)!).textShadow).toBe("none");
+    const box = mount(`<section class="chu-box chu-cta" data-variant="soft"><p class="chu-cta-text">Text</p><p class="chu-cta-note">Note</p></section>`);
+    for (const sel of [".chu-cta-text", ".chu-cta-note"]) expect(getComputedStyle(box.querySelector(sel)!).textShadow).toBe("none");
   });
 });

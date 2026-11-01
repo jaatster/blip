@@ -3,100 +3,100 @@
  * default; inline puts the label in a column beside the control. Also styles a <fieldset> for groups of checkboxes,
  * radios or switches.
  *
- *   <div class="pp-field">                        (or <pp-field class="pp-field"> to wire it up, see below)
- *     <label class="pp-field-label" for="name">Player name</label>
- *     <span class="pp-box pp-input"><input id="name" required aria-describedby="name-help"></span>
- *     <p class="pp-field-help" id="name-help">Shown on the leaderboard.</p>
- *     <p class="pp-field-error" id="name-error">Pick a name of 3 letters or more.</p>
- *     <p class="pp-field-count">7/20</p>
+ *   <div class="chu-field">                        (or <chu-field class="chu-field"> to wire it up, see below)
+ *     <label class="chu-field-label" for="name">Player name</label>
+ *     <span class="chu-box chu-input"><input id="name" required aria-describedby="name-help"></span>
+ *     <p class="chu-field-help" id="name-help">Shown on the leaderboard.</p>
+ *     <p class="chu-field-error" id="name-error">Pick a name of 3 letters or more.</p>
+ *     <p class="chu-field-count">7/20</p>
  *   </div>
  *
- *   .pp-field-label         the label (a <legend> in a fieldset); a required control adds a red * after it
- *   .pp-field-help          help text, muted
- *   .pp-field-error         the error, in the danger tone after a pixel "!"; hidden while empty
- *   .pp-field-count         a character count, at the end of the row; data-state="full" at the limit
- *   data-layout="inline"    label beside the control (--pp-field-label-width, 64 pixels by default)
+ *   .chu-field-label         the label (a <legend> in a fieldset); a required control adds a red * after it
+ *   .chu-field-help          help text, muted
+ *   .chu-field-error         the error, in the danger tone after a pixel "!"; hidden while empty
+ *   .chu-field-count         a character count, at the end of the row; data-state="full" at the limit
+ *   data-layout="inline"    label beside the control (--chu-field-label-width, 64 pixels by default)
  *
- * <pp-field> (from @jaatster/blip-elements) links help, error and count to the control with aria-describedby, marks it
+ * <chu-field> (from @jaatster/blip-elements) links help, error and count to the control with aria-describedby, marks it
  * aria-invalid, fills the error from the browser's message when you didn't write one, counts characters against
  * maxlength, and keeps an <output for> in step with its control.
  */
 
-@layer pp.components {
-  .pp-field {
+@layer chu.components {
+  .chu-field {
     display: grid;
     align-content: start;
-    gap: calc(2 * var(--pp-pixel));
+    gap: calc(2 * var(--chu-pixel));
     min-inline-size: 0;
     margin: 0;
     padding: 0;
     border: 0;
   }
-  .pp-field > legend { float: inline-start; inline-size: 100%; padding: 0; }
-  .pp-field > legend + * { clear: both; }
+  .chu-field > legend { float: inline-start; inline-size: 100%; padding: 0; }
+  .chu-field > legend + * { clear: both; }
 
-  .pp-field-label {
-    margin-block-end: var(--pp-pixel);
-    font-size: var(--pp-size-small);
-    font-weight: var(--pp-weight-bold);
-    line-height: var(--pp-leading-tight);
-    color: var(--pp-text);
+  .chu-field-label {
+    margin-block-end: var(--chu-pixel);
+    font-size: var(--chu-size-small);
+    font-weight: var(--chu-weight-bold);
+    line-height: var(--chu-leading-tight);
+    color: var(--chu-text);
   }
   /* Required: an asterisk, for sight only (the control itself says "required"). */
-  .pp-field:has(:required, [required]) > .pp-field-label:first-of-type::after {
+  .chu-field:has(:required, [required]) > .chu-field-label:first-of-type::after {
     content: "*" / "";
-    margin-inline-start: var(--pp-pixel);
-    color: var(--pp-danger-text);
+    margin-inline-start: var(--chu-pixel);
+    color: var(--chu-danger-text);
   }
 
-  :is(.pp-field-help, .pp-field-error, .pp-field-count) {
+  :is(.chu-field-help, .chu-field-error, .chu-field-count) {
     margin: 0;
-    font-size: var(--pp-size-small);
-    line-height: var(--pp-leading-normal);
+    font-size: var(--chu-size-small);
+    line-height: var(--chu-leading-normal);
   }
-  .pp-field-help { color: var(--pp-text-muted); }
+  .chu-field-help { color: var(--chu-text-muted); }
 
-  .pp-field-error {
+  .chu-field-error {
     display: flex;
     align-items: start;
-    gap: calc(2 * var(--pp-pixel));
-    font-weight: var(--pp-weight-bold);
-    color: var(--pp-danger-text);
+    gap: calc(2 * var(--chu-pixel));
+    font-weight: var(--chu-weight-bold);
+    color: var(--chu-danger-text);
   }
-  .pp-field-error::before {
+  .chu-field-error::before {
     content: "";
     flex: none;
-    inline-size: calc(7 * var(--pp-pixel));
-    block-size: calc(7 * var(--pp-pixel));
-    margin-block-start: round(down, (1lh - 7 * var(--pp-pixel)) / 2, var(--pp-pixel));
+    inline-size: calc(7 * var(--chu-pixel));
+    block-size: calc(7 * var(--chu-pixel));
+    margin-block-start: round(down, (1lh - 7 * var(--chu-pixel)) / 2, var(--chu-pixel));
     background: currentColor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h5v1H1zM0 1h3v3H0zM4 1h3v3H4zM0 4h7v1H0zM0 5h3v1H0zM4 5h3v1H4zM1 6h5v1H1z'/%3E%3C/svg%3E") 0 0 / 100% 100%;
   }
-  .pp-field-error:is(:empty, [hidden]) { display: none; }
+  .chu-field-error:is(:empty, [hidden]) { display: none; }
   @media (forced-colors: active) {
-    .pp-field-error::before { forced-color-adjust: none; background: CanvasText; }
+    .chu-field-error::before { forced-color-adjust: none; background: CanvasText; }
   }
 
-  .pp-field-count {
+  .chu-field-count {
     justify-self: end;
     font-variant-numeric: tabular-nums;
-    color: var(--pp-text-muted);
+    color: var(--chu-text-muted);
   }
-  .pp-field-count[data-state="full"] { font-weight: var(--pp-weight-bold); color: var(--pp-warning-text); }
+  .chu-field-count[data-state="full"] { font-weight: var(--chu-weight-bold); color: var(--chu-warning-text); }
 
   /* Inline: the label sits in its own column, centred on a control of the default height. */
-  .pp-field[data-layout="inline"] {
-    grid-template-columns: var(--pp-field-label-width, calc(64 * var(--pp-pixel))) minmax(0, 1fr);
-    column-gap: calc(8 * var(--pp-pixel));
+  .chu-field[data-layout="inline"] {
+    grid-template-columns: var(--chu-field-label-width, calc(64 * var(--chu-pixel))) minmax(0, 1fr);
+    column-gap: calc(8 * var(--chu-pixel));
   }
-  .pp-field[data-layout="inline"] > * { grid-column: 2; }
-  .pp-field[data-layout="inline"] > .pp-field-label {
+  .chu-field[data-layout="inline"] > * { grid-column: 2; }
+  .chu-field[data-layout="inline"] > .chu-field-label {
     grid-column: 1;
     grid-row: 1 / span 4;
     display: flex;
     align-items: center;
     align-self: start;
-    min-block-size: var(--pp-control-md);
+    min-block-size: var(--chu-control-md);
     margin: 0;
   }
 }

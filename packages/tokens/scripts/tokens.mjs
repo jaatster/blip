@@ -5,6 +5,8 @@
 import { readFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+// Imported, not read from ROOT, so the docs site (which bundles this module) finds it too.
+import CONTRAST from "../contrast.json" with { type: "json" };
 
 /** This package: Blip's own resolver and sources. */
 export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
@@ -40,7 +42,6 @@ const HEX_RE = /^#[0-9A-F]{6}$/i;
  * The pairs every scheme must pass, as [foreground, background, minimum ratio], from contrast.json: the same list
  * the docs show, each with its reason. {intent} stands for each intent in turn. Slate's ink dither is checked below.
  */
-const CONTRAST = JSON.parse(readFileSync(join(ROOT, "contrast.json"), "utf8"));
 const PAIRS = CONTRAST.pairs.flatMap(({ fg, bg, min }) =>
   (fg.includes("{intent}") ? CONTRAST.intents : [null]).flatMap((intent) =>
     Object.keys(bg).map((b) => [fg, b, min].map((v) => (typeof v === "string" && intent ? v.replaceAll("{intent}", intent) : v)))));
@@ -66,7 +67,7 @@ export function readTokens({ resolverFile = join(ROOT, "blip.resolver.json"), ba
     try {
       return JSON.parse(readFileSync(file, "utf8"));
     } catch (e) {
-      problem("PP-T001", file, "", `Could not read JSON: ${e.message}`, "Check the file exists and is valid JSON.");
+      problem("CHU-T001", file, "", `Could not read JSON: ${e.message}`, "Check the file exists and is valid JSON.");
       return {};
     }
   };
@@ -85,7 +86,7 @@ export function readTokens({ resolverFile = join(ROOT, "blip.resolver.json"), ba
   let resolver = absolute(readJson(RESOLVER_FILE), dirname(RESOLVER_FILE));
   if (problems.length) return done();
   if (resolver.version !== "2025.10") {
-    problem("PP-T002", RESOLVER_FILE, "/version", `Resolver version is "${resolver.version}".`, 'Set "version": "2025.10".');
+    problem("CHU-T002", RESOLVER_FILE, "/version", `Resolver version is "${resolver.version}".`, 'Set "version": "2025.10".');
   }
   if (theme) {
     const own = absolute(JSON.parse(readFileSync(join(ROOT, "blip.resolver.json"), "utf8")), ROOT);
@@ -99,11 +100,11 @@ export function readTokens({ resolverFile = join(ROOT, "blip.resolver.json"), ba
   const MODIFIERS = resolver.modifiers ?? {};
   for (const [name, m] of Object.entries(MODIFIERS)) {
     const n = Object.keys(m.contexts ?? {}).length;
-    if (n < 2) problem("PP-T003", RESOLVER_FILE, `/modifiers/${name}`, `Modifier "${name}" has ${n} context(s).`, "Give it at least two contexts, or make it a set.");
-    if (m.default && !(m.default in (m.contexts ?? {}))) problem("PP-T004", RESOLVER_FILE, `/modifiers/${name}/default`, `Default "${m.default}" is not a context.`, `Use one of: ${Object.keys(m.contexts ?? {}).join(", ")}.`);
+    if (n < 2) problem("CHU-T003", RESOLVER_FILE, `/modifiers/${name}`, `Modifier "${name}" has ${n} context(s).`, "Give it at least two contexts, or make it a set.");
+    if (m.default && !(m.default in (m.contexts ?? {}))) problem("CHU-T004", RESOLVER_FILE, `/modifiers/${name}/default`, `Default "${m.default}" is not a context.`, `Use one of: ${Object.keys(m.contexts ?? {}).join(", ")}.`);
   }
   for (const name of ["scheme", "pixel"]) {
-    if (!MODIFIERS[name]?.contexts) problem("PP-T003", RESOLVER_FILE, `/modifiers/${name}`, `There is no "${name}" modifier.`, `Add the "${name}" modifier with its contexts (see Blip's own resolver).`);
+    if (!MODIFIERS[name]?.contexts) problem("CHU-T003", RESOLVER_FILE, `/modifiers/${name}`, `There is no "${name}" modifier.`, `Add the "${name}" modifier with its contexts (see Blip's own resolver).`);
   }
   if (problems.length) return done();
 
@@ -152,7 +153,7 @@ export function readTokens({ resolverFile = join(ROOT, "blip.resolver.json"), ba
         if (k.startsWith("$")) continue;
         const p = path ? `${path}.${k}` : k;
         if (!NAME_RE.test(k)) {
-          problem("PP-T010", origin.get(p) ?? RESOLVER_FILE, `/${p.replaceAll(".", "/")}`, `"${k}" is not a valid token name.`, "Names may not start with $ or contain {, } or a dot.");
+          problem("CHU-T010", origin.get(p) ?? RESOLVER_FILE, `/${p.replaceAll(".", "/")}`, `"${k}" is not a valid token name.`, "Names may not start with $ or contain {, } or a dot.");
           continue;
         }
         if (v && typeof v === "object" && "$value" in v) out.push({ path: p, type: v.$type ?? t, value: v.$value, description: v.$description, ext: v.$extensions?.[NS], file: origin.get(p) });
@@ -166,34 +167,34 @@ export function readTokens({ resolverFile = join(ROOT, "blip.resolver.json"), ba
   const validate = (tok) => {
     const at = `/${tok.path.replaceAll(".", "/")}`;
     const file = tok.file ?? RESOLVER_FILE;
-    if (!tok.type) return problem("PP-T020", file, at, `Token "${tok.path}" has no $type.`, "Add $type to the token or its group.");
-    if (!TYPES.has(tok.type)) return problem("PP-T021", file, at, `Unknown $type "${tok.type}".`, `Use one of: ${[...TYPES].join(", ")}.`);
+    if (!tok.type) return problem("CHU-T020", file, at, `Token "${tok.path}" has no $type.`, "Add $type to the token or its group.");
+    if (!TYPES.has(tok.type)) return problem("CHU-T021", file, at, `Unknown $type "${tok.type}".`, `Use one of: ${[...TYPES].join(", ")}.`);
     const v = tok.value;
     if (typeof v === "string" && v.startsWith("{")) return; // alias, checked when resolving
     switch (tok.type) {
       case "color":
-        if (v?.colorSpace !== "srgb" || !Array.isArray(v.components) || v.components.length !== 3) problem("PP-T030", file, at, "A colour must be { colorSpace: \"srgb\", components: [r, g, b], hex }.", "Write the colour in the 2025.10 object form.");
-        else if (v.hex && !HEX_RE.test(v.hex)) problem("PP-T031", file, at, `"${v.hex}" is not a 6-digit hex colour.`, "Use #RRGGBB.");
+        if (v?.colorSpace !== "srgb" || !Array.isArray(v.components) || v.components.length !== 3) problem("CHU-T030", file, at, "A colour must be { colorSpace: \"srgb\", components: [r, g, b], hex }.", "Write the colour in the 2025.10 object form.");
+        else if (v.hex && !HEX_RE.test(v.hex)) problem("CHU-T031", file, at, `"${v.hex}" is not a 6-digit hex colour.`, "Use #RRGGBB.");
         else if (v.hex) {
           const fromHex = hexToRgb(v.hex).map((c) => c / 255);
-          if (fromHex.some((c, i) => Math.abs(c - v.components[i]) > 0.002)) problem("PP-T032", file, at, `hex ${v.hex} and components [${v.components}] disagree.`, "Regenerate the components from the hex.");
+          if (fromHex.some((c, i) => Math.abs(c - v.components[i]) > 0.002)) problem("CHU-T032", file, at, `hex ${v.hex} and components [${v.components}] disagree.`, "Regenerate the components from the hex.");
         }
         break;
       case "dimension":
-        if (typeof v?.value !== "number" || !["px", "rem"].includes(v.unit)) problem("PP-T040", file, at, "A dimension must be { value: number, unit: \"px\" | \"rem\" }.", "Fix the value.");
+        if (typeof v?.value !== "number" || !["px", "rem"].includes(v.unit)) problem("CHU-T040", file, at, "A dimension must be { value: number, unit: \"px\" | \"rem\" }.", "Fix the value.");
         break;
       case "duration":
-        if (typeof v?.value !== "number" || !["ms", "s"].includes(v.unit)) problem("PP-T041", file, at, "A duration must be { value: number, unit: \"ms\" | \"s\" }.", "Fix the value.");
+        if (typeof v?.value !== "number" || !["ms", "s"].includes(v.unit)) problem("CHU-T041", file, at, "A duration must be { value: number, unit: \"ms\" | \"s\" }.", "Fix the value.");
         break;
       case "number":
-        if (typeof v !== "number") problem("PP-T042", file, at, "A number token needs a number.", "Fix the value.");
-        else if (tok.ext?.unit === "pixel" && !Number.isInteger(v)) problem("PP-T043", file, at, `${v} pixels is off the grid.`, "Pixel sizes are whole numbers: every pixel is the same size.");
+        if (typeof v !== "number") problem("CHU-T042", file, at, "A number token needs a number.", "Fix the value.");
+        else if (tok.ext?.unit === "pixel" && !Number.isInteger(v)) problem("CHU-T043", file, at, `${v} pixels is off the grid.`, "Pixel sizes are whole numbers: every pixel is the same size.");
         break;
       case "fontFamily":
-        if (!(typeof v === "string" || (Array.isArray(v) && v.every((s) => typeof s === "string")))) problem("PP-T044", file, at, "A font family is a string or an array of strings.", "Fix the value.");
+        if (!(typeof v === "string" || (Array.isArray(v) && v.every((s) => typeof s === "string")))) problem("CHU-T044", file, at, "A font family is a string or an array of strings.", "Fix the value.");
         break;
       case "fontWeight":
-        if (!(typeof v === "number" && v >= 1 && v <= 1000)) problem("PP-T045", file, at, "A font weight is a number from 1 to 1000.", "Fix the value.");
+        if (!(typeof v === "number" && v >= 1 && v <= 1000)) problem("CHU-T045", file, at, "A font weight is a number from 1 to 1000.", "Fix the value.");
         break;
     }
   };
@@ -205,16 +206,16 @@ export function readTokens({ resolverFile = join(ROOT, "blip.resolver.json"), ba
       if (!(typeof t.value === "string" && t.value.startsWith("{"))) return t;
       const ref = t.value.slice(1, -1);
       if (seen.has(ref)) {
-        problem("PP-T050", t.file, `/${t.path.replaceAll(".", "/")}`, `Alias cycle: ${[...seen, ref].join(" -> ")}.`, "Point one of these at a real value.");
+        problem("CHU-T050", t.file, `/${t.path.replaceAll(".", "/")}`, `Alias cycle: ${[...seen, ref].join(" -> ")}.`, "Point one of these at a real value.");
         return t;
       }
       const target = byPath.get(ref);
       if (!target) {
-        problem("PP-T051", t.file, `/${t.path.replaceAll(".", "/")}`, `"${t.path}" points at "{${ref}}", which does not exist.`, "Fix the path, or add the token it points at.");
+        problem("CHU-T051", t.file, `/${t.path.replaceAll(".", "/")}`, `"${t.path}" points at "{${ref}}", which does not exist.`, "Fix the path, or add the token it points at.");
         return t;
       }
       const final = resolveOne(target, new Set([...seen, ref]));
-      if (final.type && t.type && final.type !== t.type) problem("PP-T052", t.file, `/${t.path.replaceAll(".", "/")}`, `"${t.path}" is a ${t.type} but points at a ${final.type}.`, "Point it at a token of the same type.");
+      if (final.type && t.type && final.type !== t.type) problem("CHU-T052", t.file, `/${t.path.replaceAll(".", "/")}`, `"${t.path}" is a ${t.type} but points at a ${final.type}.`, "Point it at a token of the same type.");
       return final;
     };
     for (const t of tokens) {
@@ -253,7 +254,7 @@ export function readTokens({ resolverFile = join(ROOT, "blip.resolver.json"), ba
   const schemePaths = new Set();
   const pathsOf = (sources) => new Set(sources.flatMap((s) => flatten(loadSource(s).tokens, new Map()).map((t) => t.path)));
   for (const scheme of schemes) pathsOf(MODIFIERS.scheme.contexts[scheme]).forEach((p) => schemePaths.add(p));
-  // Which come from the palette files (shared, and switched by data-pp-palette), and which each preset sets: the
+  // Which come from the palette files (shared, and switched by data-chu-palette), and which each preset sets: the
   // sources of its context that the default palette's does not list.
   const paletteSources = (p) => MODIFIERS.palette.contexts[p] ?? [];
   const palettePaths = new Set(palettes.flatMap((p) => [...pathsOf(paletteSources(p))]));
@@ -277,7 +278,7 @@ export function readTokens({ resolverFile = join(ROOT, "blip.resolver.json"), ba
     for (const s of paletteSources(p)) {
       if (paletteSources(DEFAULT.palette).some((d) => (d.$ref ?? d) === (s.$ref ?? s))) continue;
       for (const t of flatten(loadSource(s).tokens, new Map())) {
-        if (!known.has(t.path)) problem("PP-T005", s.$ref ?? RESOLVER_FILE, `/${t.path.replaceAll(".", "/")}`, `Palette "${p}" sets "${t.path}", which the default palette does not have.`, "Set only tokens the default palette has (palette.*, world.night.*), or add it there too.");
+        if (!known.has(t.path)) problem("CHU-T005", s.$ref ?? RESOLVER_FILE, `/${t.path.replaceAll(".", "/")}`, `Palette "${p}" sets "${t.path}", which the default palette does not have.`, "Set only tokens the default palette has (palette.*, world.night.*), or add it there too.");
       }
     }
   }
@@ -305,13 +306,13 @@ export function readTokens({ resolverFile = join(ROOT, "blip.resolver.json"), ba
         report.push({ scheme: where, fg, bg, ratio, min });
         // A label on a disabled control's dither: the dither is what to change. Any other pair: the text.
         const at = blame(list, bg.startsWith("disabled.") ? [bg, fg] : [fg, bg], preset);
-        if (ratio < min) problem("PP-T060", at.file, `/${at.path.replaceAll(".", "/")}`, `${where}: ${fg} ${c[fg]} on ${bg} ${c[bg]} is ${ratio.toFixed(2)}:1; it needs ${min}:1.`, "Darken or lighten one of the two in this scheme (WCAG 2.2 AA).");
+        if (ratio < min) problem("CHU-T060", at.file, `/${at.path.replaceAll(".", "/")}`, `${where}: ${fg} ${c[fg]} on ${bg} ${c[bg]} is ${ratio.toFixed(2)}:1; it needs ${min}:1.`, "Darken or lighten one of the two in this scheme (WCAG 2.2 AA).");
       }
       // The focus ring is yellow with an ink edge: one of them must stand 3:1 against the page.
       const ring = Math.max(contrast(c["focus.base"], c.bg), contrast(c["focus.edge"], c.bg));
       report.push({ scheme: where, fg: "focus ring", bg: "bg", ratio: ring, min: 3 });
       const at = blame(list, ["focus.base", "focus.edge", "bg"], preset);
-      if (ring < 3) problem("PP-T061", at.file, at.path === "bg" ? "/bg" : "/focus", `${where}: the focus ring is ${ring.toFixed(2)}:1 against the page.`, "Change the scheme's page colour or the ring's edge.");
+      if (ring < 3) problem("CHU-T061", at.file, at.path === "bg" ? "/bg" : "/focus", `${where}: the focus ring is ${ring.toFixed(2)}:1 against the page.`, "Change the scheme's page colour or the ring's edge.");
     }
   }
   if (problems.length) return model;
@@ -323,12 +324,12 @@ export function readTokens({ resolverFile = join(ROOT, "blip.resolver.json"), ba
     const label = c === "slate" ? "white" : "ink.base";
     const ratio = contrast(hex(label), hex(`candy.${c}.${band}`));
     report.push({ scheme: "all", fg: label, bg: `candy.${c}.${band}`, ratio, min: 4.5 });
-    if (ratio < 4.5) problem("PP-T062", find(DEFAULT.scheme, `candy.${c}.${band}`).file, `/candy/${c}/${band}`, `${label} on candy ${c} ${band} is ${ratio.toFixed(2)}:1; it needs 4.5:1.`, "Adjust the candy, or give it a different label colour in box.css.");
+    if (ratio < 4.5) problem("CHU-T062", find(DEFAULT.scheme, `candy.${c}.${band}`).file, `/candy/${c}/${band}`, `${label} on candy ${c} ${band} is ${ratio.toFixed(2)}:1; it needs 4.5:1.`, "Adjust the candy, or give it a different label colour in box.css.");
   }
   // A disabled slate candy is dithered with ink (box.css), under its white label.
   const slate = contrast(hex("white"), hex("ink.base"));
   report.push({ scheme: "all", fg: "white", bg: "ink.base", ratio: slate, min: 4.5 });
-  if (slate < 4.5) problem("PP-T062", find(DEFAULT.scheme, "ink.base").file, "/ink/base", `white on ink.base, the dither over a disabled slate candy, is ${slate.toFixed(2)}:1; it needs 4.5:1.`, "Darken ink, or give slate's disabled dither another colour in box.css.");
+  if (slate < 4.5) problem("CHU-T062", find(DEFAULT.scheme, "ink.base").file, "/ink/base", `white on ink.base, the dither over a disabled slate candy, is ${slate.toFixed(2)}:1; it needs 4.5:1.`, "Darken ink, or give slate's disabled dither another colour in box.css.");
   return model;
 }
 
@@ -351,7 +352,7 @@ export function formatReport({ report, schemes, palettes = [] }) {
 
 /** candy.red.base -> candy-red; surface.base -> surface; world.day.sky.1 -> world-day-sky-1 */
 const kebab = (path) => path.split(".").filter((p, i, a) => !(p === "base" && i === a.length - 1)).join("-");
-const cssVar = (path) => `--pp-${kebab(path)}`;
+const cssVar = (path) => `--chu-${kebab(path)}`;
 const camel = (path) => kebab(path).replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase()).replace(/^(\d)/, "_$1");
 const pascal = (path) => { const c = camel(path); return c.charAt(0).toUpperCase() + c.slice(1); };
 const isPixelNumber = (t) => t.type === "number" && t.ext?.unit === "pixel";
@@ -365,7 +366,7 @@ function cssValue(t) {
     case "color": return hexOf(v);
     case "dimension": return `${v.value}${v.unit}`;
     case "duration": return `${v.value}${v.unit}`;
-    case "number": return isPixelNumber(t) ? `calc(${v} * var(--pp-pixel))` : String(v);
+    case "number": return isPixelNumber(t) ? `calc(${v} * var(--chu-pixel))` : String(v);
     case "fontFamily": return (Array.isArray(v) ? v : [v]).map((f) => (/^[a-z-]+$/.test(f) ? f : `"${f}"`)).join(", ");
     case "fontWeight": return String(v);
     case "cubicBezier": return `cubic-bezier(${v.join(", ")})`;
@@ -376,34 +377,34 @@ const decls = (list, indent = "    ") => list.map((t) => `${indent}${cssVar(t.pa
 
 // ------------------------------------------------------------------ outputs
 
-/** tokens.css: every token as a custom property in @layer pp.tokens, the schemes on their attribute. */
+/** tokens.css: every token as a custom property in @layer chu.tokens, the schemes on their attribute. */
 export function tokensCss(model, header) {
   const { schemes, pixels, DEFAULT, pixelValues, shared, roles, colorScheme } = model;
   const pixelDerived = shared.filter(isPixelNumber);
   const fixed = shared.filter((t) => !isPixelNumber(t));
   const durations = shared.filter((t) => t.type === "duration" && t.path.startsWith("duration."));
-  const schemeBlock = (scheme) => `${decls(roles(scheme))}\n    --pp-scheme: ${scheme};\n    color-scheme: ${colorScheme(scheme)};`;
-  const dark = schemes.includes("night") ? `  @media screen and (prefers-color-scheme: dark) { :root:not([data-pp-scheme]) {\n${schemeBlock("night")}\n  } }\n` : "";
+  const schemeBlock = (scheme) => `${decls(roles(scheme))}\n    --chu-scheme: ${scheme};\n    color-scheme: ${colorScheme(scheme)};`;
+  const dark = schemes.includes("night") ? `  @media screen and (prefers-color-scheme: dark) { :root:not([data-chu-scheme]) {\n${schemeBlock("night")}\n  } }\n` : "";
   return `/* ${header} */
-@layer pp.reset, pp.tokens, pp.base, pp.core, pp.components, pp.kits, pp.utilities;
+@layer chu.reset, chu.tokens, chu.base, chu.core, chu.components, chu.kits, chu.utilities;
 
-@layer pp.tokens {
+@layer chu.tokens {
   :root {
-    --pp-pixel: ${pixelValues[DEFAULT.pixel]}px;
+    --chu-pixel: ${pixelValues[DEFAULT.pixel]}px;
 ${decls(fixed)}
   }
 
-  /* Sizes counted in pixels. Declared wherever the pixel can change, so a section with data-pp-pixel scales. */
-  :root, [data-pp-pixel] {
+  /* Sizes counted in pixels. Declared wherever the pixel can change, so a section with data-chu-pixel scales. */
+  :root, [data-chu-pixel] {
 ${decls(pixelDerived)}
   }
-${pixels.map((p) => `  [data-pp-pixel="${p}"] { --pp-pixel: ${pixelValues[p]}px; }`).join("\n")}
+${pixels.map((p) => `  [data-chu-pixel="${p}"] { --chu-pixel: ${pixelValues[p]}px; }`).join("\n")}
 
   /* Schemes. Day is the default; the device's dark mode picks Night until a scheme is set. Paper is always Day. */
-  :root, [data-pp-scheme="${DEFAULT.scheme}"] {
+  :root, [data-chu-scheme="${DEFAULT.scheme}"] {
 ${schemeBlock(DEFAULT.scheme)}
   }
-${schemes.filter((s) => s !== DEFAULT.scheme).map((s) => `  @media screen { [data-pp-scheme="${s}"] {\n${schemeBlock(s)}\n  } }`).join("\n")}
+${schemes.filter((s) => s !== DEFAULT.scheme).map((s) => `  @media screen { [data-chu-scheme="${s}"] {\n${schemeBlock(s)}\n  } }`).join("\n")}
 ${dark}
   /* Reduced motion: every move is instant. */
   @media (prefers-reduced-motion: reduce) {
@@ -417,17 +418,17 @@ ${durations.map((t) => `      ${cssVar(t.path)}: 0ms;`).join("\n")}
 
 /**
  * palettes.css: each preset on its attribute, setting what it changes (the accents, Night's base, the night world).
- * The scheme roles read these, so a preset set where the scheme is set (on <html>, or beside a data-pp-scheme)
+ * The scheme roles read these, so a preset set where the scheme is set (on <html>, or beside a data-chu-scheme)
  * recolours every scheme. :root[…] outranks tokens.css's :root, whichever loads first.
  */
 export function palettesCss(model, header) {
   const { presets, presetTokens, paletteInfo } = model;
   return `/* ${header} */
-@layer pp.reset, pp.tokens, pp.base, pp.core, pp.components, pp.kits, pp.utilities;
+@layer chu.reset, chu.tokens, chu.base, chu.core, chu.components, chu.kits, chu.utilities;
 
-@layer pp.tokens {
+@layer chu.tokens {
 ${presets.map((p) => `  /* ${paletteInfo[p].name ?? cap(p)}: ${paletteInfo[p].description}${paletteInfo[p].credit ? ` ${paletteInfo[p].credit}.` : ""} */
-  :root[data-pp-palette="${p}"], [data-pp-palette="${p}"] {
+  :root[data-chu-palette="${p}"], [data-chu-palette="${p}"] {
 ${decls(presetTokens(p).sort((a, b) => Number(a.path.startsWith("world.")) - Number(b.path.startsWith("world."))))}
   }`).join("\n\n")}
 }
@@ -477,12 +478,12 @@ export const pixel = ${JSON.stringify(pixelValues)};
 export const shared = ${JSON.stringify(json.shared, null, 2)};
 export const schemes = ${JSON.stringify(json.schemes, null, 2)};
 export const schemeNames = ${JSON.stringify(schemes)};
-/** The presets (palettes.css, data-pp-palette): what each sets, and every scheme's roles in it. */
+/** The presets (palettes.css, data-chu-palette): what each sets, and every scheme's roles in it. */
 export const palettes = ${JSON.stringify(palettesJson, null, 2)};
 /** Every palette, the default (${DEFAULT.palette ?? "none"}) first. */
 export const paletteNames = ${JSON.stringify(DEFAULT.palette ? [DEFAULT.palette, ...presets] : [])};
-/** The CSS custom property for a token: cssVar("surface") is "var(--pp-surface)". */
-export const cssVar = (name) => \`var(--pp-\${name})\`;
+/** The CSS custom property for a token: cssVar("surface") is "var(--chu-surface)". */
+export const cssVar = (name) => \`var(--chu-\${name})\`;
 /** A size counted in pixels, in CSS px at a pixel size: px("space-4", 2) is 8. */
 export const px = (name, size = ${pixelValues[DEFAULT.pixel]}) => shared[name] * size;
 `;
@@ -555,10 +556,10 @@ ${shared.filter((t) => t.type === "duration").map((t) => `        const val ${pa
     }
 }
 `;
-    const xml = (list) => `<?xml version="1.0" encoding="utf-8"?>\n<!-- ${header} -->\n<resources>\n${list.map((t) => `    <color name="pp_${kebab(t.path).replaceAll("-", "_")}">${hexOf(t.resolved)}</color>`).join("\n")}\n</resources>\n`;
+    const xml = (list) => `<?xml version="1.0" encoding="utf-8"?>\n<!-- ${header} -->\n<resources>\n${list.map((t) => `    <color name="chu_${kebab(t.path).replaceAll("-", "_")}">${hexOf(t.resolved)}</color>`).join("\n")}\n</resources>\n`;
     files["android/res/values/blip_colors.xml"] = xml([...colorsShared, ...roles("day")]);
     files["android/res/values-night/blip_colors.xml"] = xml(roles("night"));
-    files["android/res/values/blip_dimens.xml"] = `<?xml version="1.0" encoding="utf-8"?>\n<!-- ${header} -->\n<resources>\n${shared.filter(isPixelNumber).map((t) => `    <dimen name="pp_${kebab(t.path).replaceAll("-", "_")}">${t.resolved * pixelValues[DEFAULT.pixel]}dp</dimen>`).join("\n")}\n</resources>\n`;
+    files["android/res/values/blip_dimens.xml"] = `<?xml version="1.0" encoding="utf-8"?>\n<!-- ${header} -->\n<resources>\n${shared.filter(isPixelNumber).map((t) => `    <dimen name="chu_${kebab(t.path).replaceAll("-", "_")}">${t.resolved * pixelValues[DEFAULT.pixel]}dp</dimen>`).join("\n")}\n</resources>\n`;
   }
 
   // iOS (SwiftUI) ------------------------------------------------------

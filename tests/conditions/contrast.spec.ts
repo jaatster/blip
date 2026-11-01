@@ -1,7 +1,7 @@
 /**
  * Lane 1, contrast as rendered. Every example in Day, Sunset and Night: each run of text against the pixels actually
  * under its glyphs (the glyphs hidden and the page shot again), at rest, with every control forced to hover, focus,
- * active and visited (data-pp-state), and with real keyboard focus on each selected, current, pressed or checked
+ * active and visited (data-chu-state), and with real keyboard focus on each selected, current, pressed or checked
  * control. Text needs 4.5:1, large text 3:1 (24 px, or 18.66 px bold; Pixel Bop counts as bold). Outlined and haloed
  * text (POP, OUTLINE) is measured against its outline. And the two cues of a value: a progress bar's, a meter's or
  * a rating's filled part against its empty part, 3:1 or more in lightness alone (greyscale).
@@ -37,7 +37,7 @@ for (const example of examples) {
 
     for (const scheme of SCHEMES) {
       if (scheme !== SCHEMES[0]) {
-        await page.evaluate((s) => (document.documentElement.dataset.ppScheme = s), scheme);
+        await page.evaluate((s) => (document.documentElement.dataset.chuScheme = s), scheme);
         await settle(page);
       }
       ran.push(scheme, ...STATES.map((s) => `${scheme} ${s}`), `${scheme} keyboard focus`, `${scheme} two cues`);
@@ -72,18 +72,18 @@ for (const example of examples) {
   });
 }
 
-/** Adds a state to every interactive element's data-pp-state; returns how many took it. */
+/** Adds a state to every interactive element's data-chu-state; returns how many took it. */
 async function force(page: Page, state: (typeof STATES)[number]): Promise<number> {
   return page.evaluate((state) => {
     const root = document.getElementById("example")!;
     const selector = state === "visited"
       ? "a[href]"
-      : ".pp-box:is(button, a[href], summary, label, [role='button'], [role='tab'], [role='menuitem'], [role='option'], [data-pp-interactive]), a[href], button, summary, [role='button'], [role='tab'], [role='menuitem'], [role='menuitemradio'], [role='menuitemcheckbox'], [role='option'], [data-pp-interactive], .pp-box:has(> :is(input, select, textarea))";
+      : ".chu-box:is(button, a[href], summary, label, [role='button'], [role='tab'], [role='menuitem'], [role='option'], [data-chu-interactive]), a[href], button, summary, [role='button'], [role='tab'], [role='menuitem'], [role='menuitemradio'], [role='menuitemcheckbox'], [role='option'], [data-chu-interactive], .chu-box:has(> :is(input, select, textarea))";
     let n = 0;
     for (const el of root.querySelectorAll<HTMLElement>(selector)) {
       if (el.matches(":disabled, [aria-disabled='true']")) continue;
-      el.dataset.lanesWas = el.getAttribute("data-pp-state") ?? "\u0000";
-      el.setAttribute("data-pp-state", `${el.getAttribute("data-pp-state") ?? ""} ${state}`.trim());
+      el.dataset.lanesWas = el.getAttribute("data-chu-state") ?? "\u0000";
+      el.setAttribute("data-chu-state", `${el.getAttribute("data-chu-state") ?? ""} ${state}`.trim());
       n++;
     }
     return n;
@@ -93,8 +93,8 @@ async function force(page: Page, state: (typeof STATES)[number]): Promise<number
 async function unforce(page: Page): Promise<void> {
   await page.evaluate(() => {
     for (const el of document.querySelectorAll<HTMLElement>("[data-lanes-was]")) {
-      if (el.dataset.lanesWas === "\u0000") el.removeAttribute("data-pp-state");
-      else el.setAttribute("data-pp-state", el.dataset.lanesWas!);
+      if (el.dataset.lanesWas === "\u0000") el.removeAttribute("data-chu-state");
+      else el.setAttribute("data-chu-state", el.dataset.lanesWas!);
       delete el.dataset.lanesWas;
     }
   });
@@ -141,7 +141,7 @@ async function twoCues(page: Page): Promise<{ count: number; failures: string[] 
   const parts = await page.evaluate(() => {
     const root = document.getElementById("example")!;
     const out: { what: string; kind: "bar" | "cells"; x: number; y: number; w: number; h: number; f: number; cells: number; rtl: boolean }[] = [];
-    for (const el of root.querySelectorAll<HTMLProgressElement | HTMLMeterElement>(".pp-progress > progress, .pp-meter > meter")) {
+    for (const el of root.querySelectorAll<HTMLProgressElement | HTMLMeterElement>(".chu-progress > progress, .chu-meter > meter")) {
       if (!el.checkVisibility() || (el instanceof HTMLProgressElement && el.position < 0)) continue;
       const min = el instanceof HTMLMeterElement ? el.min : 0;
       const f = (el.value - min) / (el.max - min);
@@ -149,10 +149,10 @@ async function twoCues(page: Page): Promise<{ count: number; failures: string[] 
       const r = el.getBoundingClientRect();
       out.push({ what: `${el.tagName.toLowerCase()} "${el.getAttribute("aria-label") ?? el.labels?.[0]?.textContent ?? el.textContent!.trim()}" (${Math.round(f * 100)}%)`, kind: "bar", x: r.x, y: r.y, w: r.width, h: r.height, f, cells: 0, rtl: getComputedStyle(el).direction === "rtl" });
     }
-    for (const el of root.querySelectorAll<HTMLElement>(".pp-rating")) {
+    for (const el of root.querySelectorAll<HTMLElement>(".chu-rating")) {
       if (!el.checkVisibility()) continue;
       const cs = getComputedStyle(el);
-      const value = parseFloat(cs.getPropertyValue("--pp-rating-value")), max = parseFloat(cs.getPropertyValue("--pp-rating-max"));
+      const value = parseFloat(cs.getPropertyValue("--chu-rating-value")), max = parseFloat(cs.getPropertyValue("--chu-rating-max"));
       if (!(value >= 1 && value <= max - 1)) continue;
       const r = el.getBoundingClientRect();
       out.push({ what: `rating "${el.getAttribute("aria-label") ?? el.getAttribute("aria-labelledby") ?? ""}" (${value} of ${max})`, kind: "cells", x: r.x, y: r.y, w: r.width, h: r.height, f: value / max, cells: max, rtl: cs.direction === "rtl" });

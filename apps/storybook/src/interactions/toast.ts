@@ -1,5 +1,5 @@
 /**
- * <pp-toaster> interaction tests, on the example's live toaster: a toast is announced through the toaster's live
+ * <chu-toaster> interaction tests, on the example's live toaster: a toast is announced through the toaster's live
  * region (assertively for danger), its countdown pauses while the pointer is over the toaster and picks up where it
  * left off, and Escape closes the focused toast.
  */
@@ -10,11 +10,11 @@ import { click, escape, focus, hover, one, unhover, wait } from "../lib/play";
 type Toaster = HTMLElement & { add(options: { title: string; body?: string; tone?: string; duration?: number }): { close(): void; closed: Promise<void> } };
 
 const live = (root: HTMLElement) => {
-  const toaster = one<Toaster>(root, "pp-toaster");
+  const toaster = one<Toaster>(root, "chu-toaster");
   const button = (name: string) => [...root.querySelectorAll<HTMLButtonElement>("button")].find((b) => b.textContent?.trim() === name)!;
   const polite = toaster.querySelector<HTMLElement>(':scope > [role="status"]')!;
   const assertive = toaster.querySelector<HTMLElement>(':scope > [role="alert"]')!;
-  const toast = (title: string) => [...toaster.querySelectorAll<HTMLElement>(".pp-toast")].find((t) => t.getAttribute("aria-label") === title);
+  const toast = (title: string) => [...toaster.querySelectorAll<HTMLElement>(".chu-toast")].find((t) => t.getAttribute("aria-label") === title);
   return { toaster, button, polite, assertive, toast };
 };
 
@@ -39,7 +39,7 @@ export const AnnounceAndPause: StoryObj = {
     await step("A danger toast is announced assertively and stays", async () => {
       await click(button("Fail an upload"));
       await waitFor(() => expect(assertive).toHaveTextContent("Couldn’t upload your replay."));
-      expect(toast("Couldn’t upload your replay")?.querySelector(".pp-toast-timer")).toBeNull();
+      expect(toast("Couldn’t upload your replay")?.querySelector(".chu-toast-timer")).toBeNull();
     });
 
     await step("Hovering pauses every countdown; leaving resumes it", async () => {
@@ -55,7 +55,7 @@ export const AnnounceAndPause: StoryObj = {
     });
 
     await step("Escape closes the focused toast", async () => {
-      const close = toast("Saved to slot 2")!.querySelector<HTMLButtonElement>(".pp-toast-close")!;
+      const close = toast("Saved to slot 2")!.querySelector<HTMLButtonElement>(".chu-toast-close")!;
       focus(close);
       await escape();
       await waitFor(() => expect(toast("Saved to slot 2")).toBeUndefined());

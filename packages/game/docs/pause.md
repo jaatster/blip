@@ -18,23 +18,23 @@ and a hint line. It is a native `<dialog>`, so the browser handles focus, Escape
 ## Usage
 
 ```html
-<dialog class="pp-box pp-pause" aria-labelledby="pause-title">
-  <h2 class="pp-pause-title pp-display pp-pop" data-scale="3" data-pop="Paused" id="pause-title">Paused</h2>
-  <p class="pp-pause-stats"><span><pp-sprite name="coin"></pp-sprite>42 coins</span> …</p>
-  <pp-choices>
-    <ul class="pp-choices" role="list" data-font="display">
-      <li><button type="button" class="pp-box pp-choice" data-variant="ghost" value="resume" autofocus>Resume</button></li>
-      <li><button type="button" class="pp-box pp-choice" data-variant="ghost" value="options">Options</button></li>
-      <li><button type="button" class="pp-box pp-choice" data-variant="ghost" value="quit">Quit to map</button></li>
+<dialog class="chu-box chu-pause" aria-labelledby="pause-title">
+  <h2 class="chu-pause-title chu-display chu-pop" data-scale="3" data-pop="Paused" id="pause-title">Paused</h2>
+  <p class="chu-pause-stats"><span><chu-sprite name="coin"></chu-sprite>42 coins</span> …</p>
+  <chu-choices>
+    <ul class="chu-choices" role="list" data-font="display">
+      <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="resume" autofocus>Resume</button></li>
+      <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="options">Options</button></li>
+      <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="quit">Quit to map</button></li>
     </ul>
-  </pp-choices>
-  <p class="pp-pause-hint pp-prompt"><kbd class="pp-box pp-prompt-key">Esc</kbd> Resume</p>
+  </chu-choices>
+  <p class="chu-pause-hint chu-prompt"><kbd class="chu-box chu-prompt-key">Esc</kbd> Resume</p>
 </dialog>
 ```
 
 ```js
 pause.showModal();                                   // pause: focus goes to Resume
-pause.addEventListener("pp-action", (e) => { if (e.detail.value === "resume") pause.close(); });
+pause.addEventListener("chu-action", (e) => { if (e.detail.value === "resume") pause.close(); });
 pause.addEventListener("close", resumeGame);         // Escape closes it too
 ```
 
@@ -43,15 +43,15 @@ pause.addEventListener("close", resumeGame);         // Escape closes it too
 1. **Scrim**: the dialog's `::backdrop`, a checkerboard of ink over the game. Never a translucent wash.
 2. **Panel**: a cream candy box, radius 5, centred. A light island in every scheme.
 3. **Title**: Pixel Bop at scale 3, POP.
-4. **Stats** (`.pp-pause-stats`): a row of small facts with sprites.
+4. **Stats** (`.chu-pause-stats`): a row of small facts with sprites.
 5. **Menu**: [choices](choices.md) in Pixel Bop capitals.
-6. **Hint** (`.pp-pause-hint`): a [prompt](prompt.md) line.
+6. **Hint** (`.chu-pause-hint`): a [prompt](prompt.md) line.
 
 ## States
 
 It pops in: a pixel low for a frame, then in place. With reduced motion it simply appears. Inside a
 [stage](stage.md), `<dialog open>` shows it in place without the modal (for docs and attract screens), over a
-`.pp-scrim`.
+`.chu-scrim`.
 
 ## Accessibility
 

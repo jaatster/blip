@@ -1,5 +1,5 @@
 /**
- * Schemes. Day, Sunset and Night are set with data-pp-scheme; Auto follows the clock as the TV does (Day 6:00 to
+ * Schemes. Day, Sunset and Night are set with data-chu-scheme; Auto follows the clock as the TV does (Day 6:00 to
  * 17:00, Sunset 17:00 to 19:00, Night otherwise).
  *
  *   const stop = autoScheme();          // on <html>
@@ -22,13 +22,13 @@ export function schemeAt(date: Date): Scheme {
 }
 
 export function setScheme(scheme: Scheme, target: HTMLElement = document.documentElement): void {
-  target.dataset.ppScheme = scheme;
+  target.dataset.chuScheme = scheme;
 }
 
 /** Runs a change of scheme behind a view transition: the new picture comes in through an ordered dither (base.css). */
 function dither(change: () => void): void {
-  const root = document.documentElement, done = () => root.removeAttribute("data-pp-scheme-dither");
-  root.setAttribute("data-pp-scheme-dither", "");
+  const root = document.documentElement, done = () => root.removeAttribute("data-chu-scheme-dither");
+  root.setAttribute("data-chu-scheme-dither", "");
   const vt = document.startViewTransition(change);
   // A quarter of the pixels, then half (a checkerboard), then three quarters, a frame each; then the new picture whole.
   vt.ready.then(() => root.animate(["conic-gradient(#000 25%,#0000 0)", "repeating-conic-gradient(#000 0 25%,#0000 0 50%)", "conic-gradient(#000 75%,#0000 0)", "none"].map((maskImage) => ({ maskImage })), { duration: 3 * duration("frame", 40), easing: "steps(3)", pseudoElement: "::view-transition-new(root)" }), done);
@@ -42,25 +42,25 @@ function dither(change: () => void): void {
 export function autoScheme(target: HTMLElement = document.documentElement, options: { fade?: boolean } = {}): () => void {
   const controller = new AbortController();
   const apply = (first?: boolean) => {
-    const next = schemeAt(services.now()), was = target.dataset.ppScheme;
+    const next = schemeAt(services.now()), was = target.dataset.chuScheme;
     if (was === next) return;
     const change = () => {
       setScheme(next, target);
-      target.dispatchEvent(new CustomEvent("pp-scheme-change", { detail: { scheme: next }, bubbles: true }));
+      target.dispatchEvent(new CustomEvent("chu-scheme-change", { detail: { scheme: next }, bubbles: true }));
     };
     if (first || !was || options.fade === false) return change();
     // Marks a change of time of day: the world backdrop steps its sky to the new one over a minute.
-    target.setAttribute("data-pp-scheme-fade", "");
+    target.setAttribute("data-chu-scheme-fade", "");
     // Without view transitions, or while another one runs (a page's own), at once.
     if (!!document.startViewTransition && !document.activeViewTransition) dither(change);
     else change();
   };
   apply(true);
-  target.dataset.ppSchemeAuto = "";
+  target.dataset.chuSchemeAuto = "";
   every(60_000, apply, controller.signal);
   return () => {
     controller.abort();
-    delete target.dataset.ppSchemeAuto;
-    target.removeAttribute("data-pp-scheme-fade");
+    delete target.dataset.chuSchemeAuto;
+    target.removeAttribute("data-chu-scheme-fade");
   };
 }

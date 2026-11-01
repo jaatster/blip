@@ -8,8 +8,8 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "<pp-attract>: a short demo of the markup inside it, played by a pixel pointer from a script, looping while it is\non screen. Its markup is inert and the element is one image to assistive technology, named by label; between loops\nevery change the demo caused is undone. With less motion asked for, on the device or on the page, it shows its\nstill frame at once, and plays on when that is lifted. Show it only on a page that shows <pp-motion-toggle>.",
-          "name": "PixelAttract",
+          "description": "<chu-attract>: a short demo of the markup inside it, played by a pixel pointer from a script, looping while it is\non screen. Its markup is inert and the element is one image to assistive technology, named by label; between loops\nevery change the demo caused is undone. With less motion asked for, on the device or on the page, it shows its\nstill frame at once, and plays on when that is lifted. Show it only on a page that shows <chu-motion-toggle>.",
+          "name": "BlipAttract",
           "members": [
             {
               "kind": "field",
@@ -75,28 +75,28 @@
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "Attract mode: a short demo of the markup inside it, a pixel pointer pressing its real controls, looping.",
-          "tagName": "pp-attract",
+          "tagName": "chu-attract",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PixelAttract",
+          "name": "BlipAttract",
           "declaration": {
-            "name": "PixelAttract",
+            "name": "BlipAttract",
             "module": "src/attract.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-attract",
+          "name": "chu-attract",
           "declaration": {
-            "name": "PixelAttract",
+            "name": "BlipAttract",
             "module": "src/attract.ts"
           }
         }
@@ -149,8 +149,8 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "<pp-motion-toggle>: a page-wide pause for motion. It wraps a real button (its own, or the one it makes: a soft\nbutton with a pause icon and its label) whose aria-pressed says whether data-pp-motion=\"reduce\" is on <html>.\nPressing it sets or clears the attribute and remembers the choice on this device; every toggle on the page follows\nthe attribute, whoever sets it. Show it on every page whose world drifts, flares or has events.",
-          "name": "PixelMotionToggle",
+          "description": "<chu-motion-toggle>: a page-wide pause for motion. It wraps a real button (its own, or the one it makes: a soft\nbutton with a pause icon and its label) whose aria-pressed says whether data-chu-motion=\"reduce\" is on <html>.\nPressing it sets or clears the attribute and remembers the choice on this device; every toggle on the page follows\nthe attribute, whoever sets it. Show it on every page whose world drifts, flares or has events.",
+          "name": "BlipMotionToggle",
           "members": [
             {
               "kind": "field",
@@ -174,28 +174,28 @@
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
-          "summary": "A page-wide pause for motion: a button that sets data-pp-motion=\"reduce\" on <html>, and remembers it.",
-          "tagName": "pp-motion-toggle",
+          "summary": "A page-wide pause for motion: a button that sets data-chu-motion=\"reduce\" on <html>, and remembers it.",
+          "tagName": "chu-motion-toggle",
           "customElement": true
         }
       ],
       "exports": [
         {
           "kind": "js",
-          "name": "PixelMotionToggle",
+          "name": "BlipMotionToggle",
           "declaration": {
-            "name": "PixelMotionToggle",
+            "name": "BlipMotionToggle",
             "module": "src/motion.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-motion-toggle",
+          "name": "chu-motion-toggle",
           "declaration": {
-            "name": "PixelMotionToggle",
+            "name": "BlipMotionToggle",
             "module": "src/motion.ts"
           }
         }
@@ -207,12 +207,12 @@
       "declarations": [
         {
           "kind": "class",
-          "description": "<pp-drop-text class=\"pp-display pp-pop\" data-pop=\"Blip\">Blip</pp-drop-text>: the letters drop in when\nit connects, when its text changes, and on play(). With data-pop, each letter keeps the POP tint.",
-          "name": "PixelDropText",
+          "description": "<chu-drop-text class=\"chu-display chu-pop\" data-pop=\"Blip\">Blip</chu-drop-text>: the letters drop in when\nit connects, when its text changes, and on play(). With data-pop, each letter keeps the POP tint.",
+          "name": "BlipDropText",
           "cssProperties": [
             {
               "description": "Time between letters.",
-              "name": "--pp-drop-text-stagger",
+              "name": "--chu-drop-text-stagger",
               "default": "30ms"
             }
           ],
@@ -240,50 +240,50 @@
               "type": {
                 "text": "boolean | string"
               },
-              "description": "With .pp-pop: each letter keeps the POP outline and drop (the element keeps the value in step with the text).",
+              "description": "With .chu-pop: each letter keeps the POP outline and drop (the element keeps the value in step with the text).",
               "name": "data-pop"
             },
             {
               "type": {
                 "text": "1 | 2 | 3 | 4"
               },
-              "description": "With .pp-display: Pixel Bop at this whole scale.",
+              "description": "With .chu-display: Pixel Bop at this whole scale.",
               "name": "data-scale"
             },
             {
               "type": {
                 "text": "\"red\" | \"orange\" | \"yellow\" | \"green\" | \"teal\" | \"blue\" | \"purple\" | \"pink\" | \"info\" | \"success\" | \"warning\" |\"danger\""
               },
-              "description": "With .pp-pop: the tint and the drop's colour.",
+              "description": "With .chu-pop: the tint and the drop's colour.",
               "name": "data-tone"
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "A Pixel Bop heading whose letters drop in one after another.",
-          "tagName": "pp-drop-text",
+          "tagName": "chu-drop-text",
           "customElement": true
         },
         {
           "kind": "class",
-          "description": "<pp-typewriter mood=\"happy\" blips>Hello there!</pp-typewriter>: types when it connects, when its text changes,\nand on play(); finish() shows it all. Fires pp-typewriter-done when the last letter is in. The untyped rest keeps\nits room, so nothing moves while it types.",
-          "name": "PixelTypewriter",
+          "description": "<chu-typewriter mood=\"happy\" blips>Hello there!</chu-typewriter>: types when it connects, when its text changes,\nand on play(); finish() shows it all. Fires chu-typewriter-done when the last letter is in. The untyped rest keeps\nits room, so nothing moves while it types.",
+          "name": "BlipTypewriter",
           "cssProperties": [
             {
               "description": "Time per letter.",
-              "name": "--pp-duration-letter",
+              "name": "--chu-duration-letter",
               "default": "50ms"
             },
             {
               "description": "The hold after a full stop that ends a word.",
-              "name": "--pp-duration-stop",
+              "name": "--chu-duration-stop",
               "default": "260ms"
             },
             {
               "description": "The hold after a comma that ends a word.",
-              "name": "--pp-duration-comma",
+              "name": "--chu-duration-comma",
               "default": "130ms"
             }
           ],
@@ -347,7 +347,7 @@
                 "text": "CustomEvent<void>"
               },
               "description": "Once per play: when the last letter is in, or on finish().",
-              "name": "pp-typewriter-done"
+              "name": "chu-typewriter-done"
             }
           ],
           "attributes": [
@@ -380,16 +380,16 @@
               "type": {
                 "text": "1 | 2 | 3 | 4"
               },
-              "description": "With .pp-display: Pixel Bop at this whole scale.",
+              "description": "With .chu-display: Pixel Bop at this whole scale.",
               "name": "data-scale"
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "Text that types itself in, a letter at a time.",
-          "tagName": "pp-typewriter",
+          "tagName": "chu-typewriter",
           "customElement": true
         },
         {
@@ -404,33 +404,33 @@
       "exports": [
         {
           "kind": "js",
-          "name": "PixelDropText",
+          "name": "BlipDropText",
           "declaration": {
-            "name": "PixelDropText",
+            "name": "BlipDropText",
             "module": "src/text.ts"
           }
         },
         {
           "kind": "js",
-          "name": "PixelTypewriter",
+          "name": "BlipTypewriter",
           "declaration": {
-            "name": "PixelTypewriter",
+            "name": "BlipTypewriter",
             "module": "src/text.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-drop-text",
+          "name": "chu-drop-text",
           "declaration": {
-            "name": "PixelDropText",
+            "name": "BlipDropText",
             "module": "src/text.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-typewriter",
+          "name": "chu-typewriter",
           "declaration": {
-            "name": "PixelTypewriter",
+            "name": "BlipTypewriter",
             "module": "src/text.ts"
           }
         }
@@ -504,7 +504,7 @@
               }
             }
           ],
-          "description": "The world's colours for a time of day, from the --pp-world-* tokens at an element."
+          "description": "The world's colours for a time of day, from the --chu-world-* tokens at an element."
         },
         {
           "kind": "function",
@@ -547,12 +547,12 @@
         },
         {
           "kind": "class",
-          "description": "<pp-world>: the world as a backdrop filling its positioned container. Each world pixel is the page's pixel\n(--pp-pixel) times `zoom`, made a whole number of device pixels; the canvas is drawn at the world's own resolution\nand scaled up crisply, and only redrawn when its size, its screen or its time of day changes.\n\nAttributes: scheme (day, sunset, night, auto, or left out to follow the page), parallax, clouds (drift; \"none\"\nfor none), stars (stars flare at night), events (birds by day, a shooting star at night), zoom, avoid (a selector\nlist of what the sun, the moon, the stars, the clouds and shooting stars keep clear of).\n\nIts motion pauses at once while the person asks for less, on their device or on the page (data-pp-motion=\"reduce\"\non <html>, which <pp-motion-toggle> sets), and carries on from there when they no longer do.",
-          "name": "PixelWorld",
+          "description": "<chu-world>: the world as a backdrop filling its positioned container. Each world pixel is the page's pixel\n(--chu-pixel) times `zoom`, made a whole number of device pixels; the canvas is drawn at the world's own resolution\nand scaled up crisply, and only redrawn when its size, its screen or its time of day changes.\n\nAttributes: scheme (day, sunset, night, auto, or left out to follow the page), parallax, clouds (drift; \"none\"\nfor none), stars (stars flare at night), events (birds by day, a shooting star at night), zoom, avoid (a selector\nlist of what the sun, the moon, the stars, the clouds and shooting stars keep clear of).\n\nIts motion pauses at once while the person asks for less, on their device or on the page (data-chu-motion=\"reduce\"\non <html>, which <chu-motion-toggle> sets), and carries on from there when they no longer do.",
+          "name": "BlipWorld",
           "cssProperties": [
             {
               "description": "The world pixel (times zoom).",
-              "name": "--pp-pixel"
+              "name": "--chu-pixel"
             }
           ],
           "members": [
@@ -671,16 +671,16 @@
               "type": {
                 "text": "string"
               },
-              "description": "A selector list of things the sky keeps clear of (\".pp-hero-title, .pp-hero-lead\"), matched in the world's container (its parent, or the nearest ancestor that holds a match). The sun, the moon and shooting stars go where they cross none of those boxes: the nearest clear place in their lane of the sky, else the same place across the sky if that is clear, else out of sight. Stars and clouds that would sit behind them are left out. Whole pixels, the same every time, and looked at again when anything resizes.",
+              "description": "A selector list of things the sky keeps clear of (\".chu-hero-title, .chu-hero-lead\"), matched in the world's container (its parent, or the nearest ancestor that holds a match). The sun, the moon and shooting stars go where they cross none of those boxes: the nearest clear place in their lane of the sky, else the same place across the sky if that is clear, else out of sight. Stars and clouds that would sit behind them are left out. Whole pixels, the same every time, and looked at again when anything resizes.",
               "fieldName": "avoid"
             }
           ],
           "superclass": {
-            "name": "PixelElement",
+            "name": "BlipElement",
             "package": "@jaatster/blip-core"
           },
           "summary": "The dithered world backdrop: sky, mountains, hills and meadow, for Day, Sunset and Night.",
-          "tagName": "pp-world",
+          "tagName": "chu-world",
           "customElement": true
         }
       ],
@@ -703,17 +703,17 @@
         },
         {
           "kind": "js",
-          "name": "PixelWorld",
+          "name": "BlipWorld",
           "declaration": {
-            "name": "PixelWorld",
+            "name": "BlipWorld",
             "module": "src/world.ts"
           }
         },
         {
           "kind": "custom-element-definition",
-          "name": "pp-world",
+          "name": "chu-world",
           "declaration": {
-            "name": "PixelWorld",
+            "name": "BlipWorld",
             "module": "src/world.ts"
           }
         }

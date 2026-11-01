@@ -5,38 +5,38 @@
      Music flips on. Each demo is one image to assistive technology, named by its label, and its controls are inert.
      It is motion that runs on, so the page shows the motion toggle: pressed, both demos stop at once on their still
      frame (the step marked poster, or the end); pressed again, they play on. -->
-<pp-motion-toggle></pp-motion-toggle>
+<chu-motion-toggle></chu-motion-toggle>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--pp-pixel));align-items:start;margin-block-start:calc(8*var(--pp-pixel))">
-  <pp-attract label="Typing a note and pressing Save shows a toast: Saved."
+<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel));align-items:start;margin-block-start:calc(8*var(--chu-pixel))">
+  <chu-attract label="Typing a note and pressing Save shows a toast: Saved."
               script="move #attract-title; type #attract-title 'Ship it'; move #attract-save; press #attract-save; poster; wait 2s"
-              style="inline-size:calc(200*var(--pp-pixel));padding:calc(4*var(--pp-pixel))">
-    <section class="pp-box pp-window" aria-labelledby="attract-notes">
-      <header class="pp-window-bar"><h3 class="pp-window-title pp-display pp-pop" id="attract-notes">Notes</h3></header>
-      <div class="pp-window-body pp-stack" data-gap="6">
-        <div style="display:flex;gap:calc(4*var(--pp-pixel))">
-          <span class="pp-box pp-input" style="flex:1"><input id="attract-title" aria-label="New note" placeholder="New note" autocomplete="off"></span>
-          <button class="pp-box pp-button" id="attract-save" type="button" onclick="this.closest('pp-attract').querySelector('pp-toaster').add({ title: 'Saved', body: 'Ship it is in your notes.', tone: 'success', duration: 0 })">Save</button>
+              style="inline-size:calc(200*var(--chu-pixel));padding:calc(4*var(--chu-pixel))">
+    <section class="chu-box chu-window" aria-labelledby="attract-notes">
+      <header class="chu-window-bar"><h3 class="chu-window-title chu-display chu-pop" id="attract-notes">Notes</h3></header>
+      <div class="chu-window-body chu-stack" data-gap="6">
+        <div style="display:flex;gap:calc(4*var(--chu-pixel))">
+          <span class="chu-box chu-input" style="flex:1"><input id="attract-title" aria-label="New note" placeholder="New note" autocomplete="off"></span>
+          <button class="chu-box chu-button" id="attract-save" type="button" onclick="this.closest('chu-attract').querySelector('chu-toaster').add({ title: 'Saved', body: 'Ship it is in your notes.', tone: 'success', duration: 0 })">Save</button>
         </div>
-        <ul class="pp-box pp-list" role="list" data-dividers data-density="compact" aria-label="Earlier notes">
-          <li class="pp-list-item"><span style="display:block;inline-size:60%;block-size:calc(4*var(--pp-pixel));background:var(--pp-line-soft)"></span></li>
-          <li class="pp-list-item"><span style="display:block;inline-size:45%;block-size:calc(4*var(--pp-pixel));background:var(--pp-line-soft)"></span></li>
-          <li class="pp-list-item"><span style="display:block;inline-size:70%;block-size:calc(4*var(--pp-pixel));background:var(--pp-line-soft)"></span></li>
+        <ul class="chu-box chu-list" role="list" data-dividers data-density="compact" aria-label="Earlier notes">
+          <li class="chu-list-item"><span style="display:block;inline-size:60%;block-size:calc(4*var(--chu-pixel));background:var(--chu-line-soft)"></span></li>
+          <li class="chu-list-item"><span style="display:block;inline-size:45%;block-size:calc(4*var(--chu-pixel));background:var(--chu-line-soft)"></span></li>
+          <li class="chu-list-item"><span style="display:block;inline-size:70%;block-size:calc(4*var(--chu-pixel));background:var(--chu-line-soft)"></span></li>
         </ul>
       </div>
     </section>
-    <pp-toaster></pp-toaster>
-  </pp-attract>
+    <chu-toaster></chu-toaster>
+  </chu-attract>
 
-  <pp-attract label="Pressing Music in the pause menu turns the music on." pointer="glove"
+  <chu-attract label="Pressing Music in the pause menu turns the music on." pointer="glove"
               script="move #attract-music; press #attract-music; poster; wait 2s"
-              style="inline-size:calc(120*var(--pp-pixel));padding:calc(4*var(--pp-pixel))">
-    <section class="pp-box pp-window" data-tone="purple" aria-labelledby="attract-pause">
-      <header class="pp-window-bar"><h3 class="pp-window-title pp-display pp-pop" id="attract-pause">Paused</h3></header>
-      <div class="pp-window-body pp-stack" data-gap="4">
-        <label class="pp-check" data-layout="split">Sound<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box" checked></span></label>
-        <label class="pp-check" data-layout="split">Music<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box" id="attract-music"></span></label>
+              style="inline-size:calc(120*var(--chu-pixel));padding:calc(4*var(--chu-pixel))">
+    <section class="chu-box chu-window" data-tone="purple" aria-labelledby="attract-pause">
+      <header class="chu-window-bar"><h3 class="chu-window-title chu-display chu-pop" id="attract-pause">Paused</h3></header>
+      <div class="chu-window-body chu-stack" data-gap="4">
+        <label class="chu-check" data-layout="split">Sound<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" checked></span></label>
+        <label class="chu-check" data-layout="split">Music<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" id="attract-music"></span></label>
       </div>
     </section>
-  </pp-attract>
+  </chu-attract>
 </div>

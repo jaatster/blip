@@ -1,45 +1,45 @@
-<!-- Slider: game settings with ticks and readouts (<pp-field> keeps the readout and the groove's fill in step),
-     then every state. Forced states use data-pp-state (docs and tests only). -->
-<section class="pp-box" data-variant="panel" data-pp-r="4" aria-labelledby="sl-title" style="display:grid;gap:calc(8*var(--pp-pixel));max-inline-size:calc(200*var(--pp-pixel));padding:calc(10*var(--pp-pixel))">
-  <h3 class="pp-label" id="sl-title">Sound and screen</h3>
+<!-- Slider: game settings with ticks and readouts (<chu-field> keeps the readout and the groove's fill in step),
+     then every state. Forced states use data-chu-state (docs and tests only). -->
+<section class="chu-box" data-variant="panel" data-chu-r="4" aria-labelledby="sl-title" style="display:grid;gap:calc(8*var(--chu-pixel));max-inline-size:calc(200*var(--chu-pixel));padding:calc(10*var(--chu-pixel))">
+  <h3 class="chu-label" id="sl-title">Sound and screen</h3>
 
-  <pp-field class="pp-field">
-    <label class="pp-field-label" for="sl-music">Music</label>
-    <div class="pp-slider-group">
-      <input class="pp-slider" id="sl-music" name="music" type="range" min="0" max="10" value="7" list="sl-music-ticks">
-      <output class="pp-box pp-slider-value" data-variant="panel" for="sl-music" aria-hidden="true">7</output>
-      <datalist class="pp-slider-ticks" id="sl-music-ticks"><option value="0">0</option><option value="1"></option><option value="2"></option><option value="3"></option><option value="4"></option><option value="5">5</option><option value="6"></option><option value="7"></option><option value="8"></option><option value="9"></option><option value="10">10</option></datalist>
+  <chu-field class="chu-field">
+    <label class="chu-field-label" for="sl-music">Music</label>
+    <div class="chu-slider-group">
+      <input class="chu-slider" id="sl-music" name="music" type="range" min="0" max="10" value="7" list="sl-music-ticks">
+      <output class="chu-box chu-slider-value" data-variant="panel" for="sl-music" aria-hidden="true">7</output>
+      <datalist class="chu-slider-ticks" id="sl-music-ticks"><option value="0">0</option><option value="1"></option><option value="2"></option><option value="3"></option><option value="4"></option><option value="5">5</option><option value="6"></option><option value="7"></option><option value="8"></option><option value="9"></option><option value="10">10</option></datalist>
     </div>
-  </pp-field>
+  </chu-field>
 
-  <pp-field class="pp-field">
-    <label class="pp-field-label" for="sl-sfx">Sound effects</label>
-    <div class="pp-slider-group">
-      <input class="pp-slider" id="sl-sfx" name="sfx" type="range" min="0" max="100" step="5" value="40">
-      <output class="pp-box pp-slider-value" data-variant="panel" for="sl-sfx" aria-hidden="true">40</output>
+  <chu-field class="chu-field">
+    <label class="chu-field-label" for="sl-sfx">Sound effects</label>
+    <div class="chu-slider-group">
+      <input class="chu-slider" id="sl-sfx" name="sfx" type="range" min="0" max="100" step="5" value="40">
+      <output class="chu-box chu-slider-value" data-variant="panel" for="sl-sfx" aria-hidden="true">40</output>
     </div>
-  </pp-field>
+  </chu-field>
 
-  <pp-field class="pp-field">
-    <label class="pp-field-label" for="sl-bright">Brightness</label>
-    <input class="pp-slider" id="sl-bright" name="brightness" type="range" min="1" max="3" value="2" list="sl-bright-ticks" aria-valuetext="Normal">
-    <datalist class="pp-slider-ticks" id="sl-bright-ticks"><option value="1">Dim</option><option value="2">Normal</option><option value="3">Bright</option></datalist>
-  </pp-field>
+  <chu-field class="chu-field">
+    <label class="chu-field-label" for="sl-bright">Brightness</label>
+    <input class="chu-slider" id="sl-bright" name="brightness" type="range" min="1" max="3" value="2" list="sl-bright-ticks" aria-valuetext="Normal">
+    <datalist class="chu-slider-ticks" id="sl-bright-ticks"><option value="1">Dim</option><option value="2">Normal</option><option value="3">Bright</option></datalist>
+  </chu-field>
 
-  <pp-field class="pp-field">
-    <label class="pp-field-label" for="sl-voice">Voice chat</label>
-    <div class="pp-slider-group">
-      <input class="pp-slider" id="sl-voice" type="range" min="0" max="10" value="3" disabled aria-describedby="sl-voice-help">
-      <output class="pp-box pp-slider-value" data-variant="panel" for="sl-voice" aria-hidden="true">3</output>
+  <chu-field class="chu-field">
+    <label class="chu-field-label" for="sl-voice">Voice chat</label>
+    <div class="chu-slider-group">
+      <input class="chu-slider" id="sl-voice" type="range" min="0" max="10" value="3" disabled aria-describedby="sl-voice-help">
+      <output class="chu-box chu-slider-value" data-variant="panel" for="sl-voice" aria-hidden="true">3</output>
     </div>
-    <p class="pp-field-help" id="sl-voice-help">Plug in a headset to talk.</p>
-  </pp-field>
+    <p class="chu-field-help" id="sl-voice-help">Plug in a headset to talk.</p>
+  </chu-field>
 </section>
 
-<div style="display:grid;grid-template-columns:max-content minmax(0,calc(100*var(--pp-pixel)));gap:calc(6*var(--pp-pixel)) calc(10*var(--pp-pixel));align-items:center;margin-block-start:calc(12*var(--pp-pixel))">
-  <span class="pp-label pp-muted">Rest</span><input class="pp-slider" type="range" value="30" aria-label="Rest" style="--pp-slider-value:0.3">
-  <span class="pp-label pp-muted">Hover</span><input class="pp-slider" type="range" value="50" aria-label="Hover" data-pp-state="hover" style="--pp-slider-value:0.5">
-  <span class="pp-label pp-muted">Focus</span><input class="pp-slider" type="range" value="70" aria-label="Focus" data-pp-state="focus" style="--pp-slider-value:0.7">
-  <span class="pp-label pp-muted">Pressed</span><input class="pp-slider" type="range" value="90" aria-label="Pressed" data-pp-state="active" style="--pp-slider-value:0.9">
-  <span class="pp-label pp-muted">Disabled</span><input class="pp-slider" type="range" value="60" aria-label="Disabled" disabled style="--pp-slider-value:0.6">
+<div style="display:grid;grid-template-columns:max-content minmax(0,calc(100*var(--chu-pixel)));gap:calc(6*var(--chu-pixel)) calc(10*var(--chu-pixel));align-items:center;margin-block-start:calc(12*var(--chu-pixel))">
+  <span class="chu-label chu-muted">Rest</span><input class="chu-slider" type="range" value="30" aria-label="Rest" style="--chu-slider-value:0.3">
+  <span class="chu-label chu-muted">Hover</span><input class="chu-slider" type="range" value="50" aria-label="Hover" data-chu-state="hover" style="--chu-slider-value:0.5">
+  <span class="chu-label chu-muted">Focus</span><input class="chu-slider" type="range" value="70" aria-label="Focus" data-chu-state="focus" style="--chu-slider-value:0.7">
+  <span class="chu-label chu-muted">Pressed</span><input class="chu-slider" type="range" value="90" aria-label="Pressed" data-chu-state="active" style="--chu-slider-value:0.9">
+  <span class="chu-label chu-muted">Disabled</span><input class="chu-slider" type="range" value="60" aria-label="Disabled" disabled style="--chu-slider-value:0.6">
 </div>

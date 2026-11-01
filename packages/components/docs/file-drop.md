@@ -2,7 +2,7 @@
 name: File drop
 package: "@jaatster/blip-components"
 css: file-drop.css
-element: pp-file-drop
+element: chu-file-drop
 react: FileDrop
 status: beta
 equivalents:
@@ -13,37 +13,37 @@ equivalents:
 
 A tray to drop files on, or click to browse, and the list of what was picked, each with a remove button. The real
 control is the native `<input type="file">` inside the tray: it opens the picker, takes the focus and sends the files
-with the form. `<pp-file-drop>` adds dropping, the list and removing; without JavaScript the browser's own file button
+with the form. `<chu-file-drop>` adds dropping, the list and removing; without JavaScript the browser's own file button
 shows in the tray.
 
 ## Usage
 
 ```html
-<pp-file-drop class="pp-file-drop">
-  <label class="pp-box pp-file-drop-zone">
+<chu-file-drop class="chu-file-drop">
+  <label class="chu-box chu-file-drop-zone">
     <input type="file" name="shots" multiple accept="image/png, image/jpeg" aria-describedby="shots-help">
-    <svg class="pp-icon" data-size="lg" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+    <svg class="chu-icon" data-size="lg" viewBox="0 0 12 12" aria-hidden="true">…</svg>
     <strong>Drop screenshots here</strong>
     <span id="shots-help">or click to browse. PNG or JPG.</span>
   </label>
-</pp-file-drop>
+</chu-file-drop>
 ```
 
 ## Anatomy
 
-1. **Tray** (`.pp-file-drop-zone`): the calm well, a `<label>` so a click anywhere opens the picker.
+1. **Tray** (`.chu-file-drop-zone`): the calm well, a `<label>` so a click anywhere opens the picker.
 2. **Input**: the native file input, invisible once the element is running.
 3. **Words**: a bold line saying what to drop, and a muted line with the types and sizes accepted.
-4. **List** (`.pp-file-drop-list`): one `.pp-file-drop-item` per file: its name (`.pp-file-drop-name`, cut with an
-   ellipsis when long; the full name is its tooltip), its size (`.pp-file-drop-size`), and a ghost
-   `.pp-file-drop-remove` button with a pixel cross.
+4. **List** (`.chu-file-drop-list`): one `.chu-file-drop-item` per file: its name (`.chu-file-drop-name`, cut with an
+   ellipsis when long; the full name is its tooltip), its size (`.chu-file-drop-size`), and a ghost
+   `.chu-file-drop-remove` button with a pixel cross.
 
 ## Variants
 
 | On the input | Use |
 |---|---|
 | `multiple` | Files add up across drops and picks. Without it, a new file replaces the old one. |
-| `accept` | Dropped files that don't match are left out (and reported with `pp-reject`). |
+| `accept` | Dropped files that don't match are left out (and reported with `chu-reject`). |
 
 ## States
 
@@ -55,7 +55,7 @@ shows in the tray.
 | Invalid | `aria-invalid="true"` or `:user-invalid` on the input | Danger outline; pair with an error. |
 | Disabled | `disabled` on the input | Dithered; drops are ignored, remove buttons disabled. |
 
-`data-pp-state="hover focus dragover"` on the tray forces those looks in docs and tests.
+`data-chu-state="hover focus dragover"` on the tray forces those looks in docs and tests.
 
 ## Accessibility
 
@@ -83,7 +83,7 @@ shows in the tray.
 
 ## API
 
-`<pp-file-drop>`
+`<chu-file-drop>`
 
 | Attribute / property | Type | |
 |---|---|---|
@@ -93,7 +93,7 @@ shows in the tray.
 
 | Event | Detail | |
 |---|---|---|
-| `pp-change` | `{ files }` | The list changed (picked, dropped or removed). The input also fires `input` and `change`. |
-| `pp-reject` | `{ files }` | Dropped files that didn't match `accept`. |
+| `chu-change` | `{ files }` | The list changed (picked, dropped or removed). The input also fires `input` and `change`. |
+| `chu-reject` | `{ files }` | Dropped files that didn't match `accept`. |
 
 An input rendered after the element, or swapped by a framework, is taken up when it arrives.

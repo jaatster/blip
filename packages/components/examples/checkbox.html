@@ -1,52 +1,52 @@
 <!-- Checkbox: off, on and "some" in every state; sizes and tones; a real group with help and an error.
-     Forced states use data-pp-state (docs and tests only). -->
-<div style="display:grid;grid-template-columns:max-content repeat(3,max-content);gap:calc(4*var(--pp-pixel)) calc(12*var(--pp-pixel));align-items:center">
-  <span></span><span class="pp-label pp-muted">Off</span><span class="pp-label pp-muted">On</span><span class="pp-label pp-muted">Some</span>
-  <span class="pp-label pp-muted">Rest</span>
-  <span class="pp-box pp-checkbox"><input type="checkbox" aria-label="Rest, off"></span>
-  <span class="pp-box pp-checkbox"><input type="checkbox" aria-label="Rest, on" checked></span>
-  <span class="pp-box pp-checkbox"><input type="checkbox" aria-label="Rest, some" data-pp-state="indeterminate"></span>
-  <span class="pp-label pp-muted">Hover</span>
-  <span class="pp-box pp-checkbox" data-pp-state="hover"><input type="checkbox" aria-label="Hover, off"></span>
-  <span class="pp-box pp-checkbox" data-pp-state="hover"><input type="checkbox" aria-label="Hover, on" checked></span>
-  <span class="pp-box pp-checkbox" data-pp-state="hover"><input type="checkbox" aria-label="Hover, some" data-pp-state="indeterminate"></span>
-  <span class="pp-label pp-muted">Focus</span>
-  <span class="pp-box pp-checkbox" data-pp-state="focus"><input type="checkbox" aria-label="Focus, off"></span>
-  <span class="pp-box pp-checkbox" data-pp-state="focus"><input type="checkbox" aria-label="Focus, on" checked></span>
-  <span class="pp-box pp-checkbox" data-pp-state="focus"><input type="checkbox" aria-label="Focus, some" data-pp-state="indeterminate"></span>
-  <span class="pp-label pp-muted">Invalid</span>
-  <span class="pp-box pp-checkbox"><input type="checkbox" aria-label="Invalid, off" aria-invalid="true"></span>
+     Forced states use data-chu-state (docs and tests only). -->
+<div style="display:grid;grid-template-columns:max-content repeat(3,max-content);gap:calc(4*var(--chu-pixel)) calc(12*var(--chu-pixel));align-items:center">
+  <span></span><span class="chu-label chu-muted">Off</span><span class="chu-label chu-muted">On</span><span class="chu-label chu-muted">Some</span>
+  <span class="chu-label chu-muted">Rest</span>
+  <span class="chu-box chu-checkbox"><input type="checkbox" aria-label="Rest, off"></span>
+  <span class="chu-box chu-checkbox"><input type="checkbox" aria-label="Rest, on" checked></span>
+  <span class="chu-box chu-checkbox"><input type="checkbox" aria-label="Rest, some" data-chu-state="indeterminate"></span>
+  <span class="chu-label chu-muted">Hover</span>
+  <span class="chu-box chu-checkbox" data-chu-state="hover"><input type="checkbox" aria-label="Hover, off"></span>
+  <span class="chu-box chu-checkbox" data-chu-state="hover"><input type="checkbox" aria-label="Hover, on" checked></span>
+  <span class="chu-box chu-checkbox" data-chu-state="hover"><input type="checkbox" aria-label="Hover, some" data-chu-state="indeterminate"></span>
+  <span class="chu-label chu-muted">Focus</span>
+  <span class="chu-box chu-checkbox" data-chu-state="focus"><input type="checkbox" aria-label="Focus, off"></span>
+  <span class="chu-box chu-checkbox" data-chu-state="focus"><input type="checkbox" aria-label="Focus, on" checked></span>
+  <span class="chu-box chu-checkbox" data-chu-state="focus"><input type="checkbox" aria-label="Focus, some" data-chu-state="indeterminate"></span>
+  <span class="chu-label chu-muted">Invalid</span>
+  <span class="chu-box chu-checkbox"><input type="checkbox" aria-label="Invalid, off" aria-invalid="true"></span>
   <span></span><span></span>
-  <span class="pp-label pp-muted">Disabled</span>
-  <span class="pp-box pp-checkbox"><input type="checkbox" aria-label="Disabled, off" disabled></span>
-  <span class="pp-box pp-checkbox"><input type="checkbox" aria-label="Disabled, on" checked disabled></span>
-  <span class="pp-box pp-checkbox"><input type="checkbox" aria-label="Disabled, some" data-pp-state="indeterminate" disabled></span>
+  <span class="chu-label chu-muted">Disabled</span>
+  <span class="chu-box chu-checkbox"><input type="checkbox" aria-label="Disabled, off" disabled></span>
+  <span class="chu-box chu-checkbox"><input type="checkbox" aria-label="Disabled, on" checked disabled></span>
+  <span class="chu-box chu-checkbox"><input type="checkbox" aria-label="Disabled, some" data-chu-state="indeterminate" disabled></span>
 </div>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--pp-pixel)) calc(12*var(--pp-pixel));align-items:center;margin-block:calc(10*var(--pp-pixel))">
-  <label class="pp-check" data-size="sm"><span class="pp-box pp-checkbox"><input type="checkbox" checked></span>Small</label>
-  <label class="pp-check"><span class="pp-box pp-checkbox"><input type="checkbox" checked></span>Medium</label>
-  <label class="pp-check" data-size="lg"><span class="pp-box pp-checkbox"><input type="checkbox" checked></span>Large</label>
-  <label class="pp-check"><span class="pp-box pp-checkbox" data-tone="success"><input type="checkbox" checked></span>Success</label>
-  <label class="pp-check"><span class="pp-box pp-checkbox" data-tone="pink"><input type="checkbox" checked></span>Pink</label>
+<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--chu-pixel)) calc(12*var(--chu-pixel));align-items:center;margin-block:calc(10*var(--chu-pixel))">
+  <label class="chu-check" data-size="sm"><span class="chu-box chu-checkbox"><input type="checkbox" checked></span>Small</label>
+  <label class="chu-check"><span class="chu-box chu-checkbox"><input type="checkbox" checked></span>Medium</label>
+  <label class="chu-check" data-size="lg"><span class="chu-box chu-checkbox"><input type="checkbox" checked></span>Large</label>
+  <label class="chu-check"><span class="chu-box chu-checkbox" data-tone="success"><input type="checkbox" checked></span>Success</label>
+  <label class="chu-check"><span class="chu-box chu-checkbox" data-tone="pink"><input type="checkbox" checked></span>Pink</label>
 </div>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(16*var(--pp-pixel));align-items:start">
-  <fieldset class="pp-field" aria-describedby="map-help" style="max-inline-size:calc(120*var(--pp-pixel))">
-    <legend class="pp-field-label">Show on the map</legend>
-    <label class="pp-check"><span class="pp-box pp-checkbox"><input type="checkbox" data-pp-state="indeterminate" aria-controls="map-shops map-quests map-secrets"></span>Everything</label>
-    <div style="display:grid;gap:calc(2*var(--pp-pixel));padding-inline-start:calc(15*var(--pp-pixel))">
-      <label class="pp-check"><span class="pp-box pp-checkbox"><input type="checkbox" id="map-shops" checked></span>Shops</label>
-      <label class="pp-check"><span class="pp-box pp-checkbox"><input type="checkbox" id="map-quests" checked aria-describedby="map-quests-help"></span>Quests</label>
-      <p class="pp-check-help" id="map-quests-help">Only the ones you have started.</p>
-      <label class="pp-check"><span class="pp-box pp-checkbox"><input type="checkbox" id="map-secrets"></span>Secret areas</label>
-      <label class="pp-check"><span class="pp-box pp-checkbox"><input type="checkbox" disabled></span>Other players (online only)</label>
+<div style="display:flex;flex-wrap:wrap;gap:calc(16*var(--chu-pixel));align-items:start">
+  <fieldset class="chu-field" aria-describedby="map-help" style="max-inline-size:calc(120*var(--chu-pixel))">
+    <legend class="chu-field-label">Show on the map</legend>
+    <label class="chu-check"><span class="chu-box chu-checkbox"><input type="checkbox" data-chu-state="indeterminate" aria-controls="map-shops map-quests map-secrets"></span>Everything</label>
+    <div style="display:grid;gap:calc(2*var(--chu-pixel));padding-inline-start:calc(15*var(--chu-pixel))">
+      <label class="chu-check"><span class="chu-box chu-checkbox"><input type="checkbox" id="map-shops" checked></span>Shops</label>
+      <label class="chu-check"><span class="chu-box chu-checkbox"><input type="checkbox" id="map-quests" checked aria-describedby="map-quests-help"></span>Quests</label>
+      <p class="chu-check-help" id="map-quests-help">Only the ones you have started.</p>
+      <label class="chu-check"><span class="chu-box chu-checkbox"><input type="checkbox" id="map-secrets"></span>Secret areas</label>
+      <label class="chu-check"><span class="chu-box chu-checkbox"><input type="checkbox" disabled></span>Other players (online only)</label>
     </div>
-    <p class="pp-field-help" id="map-help">Hidden things stay hidden until you find them.</p>
+    <p class="chu-field-help" id="map-help">Hidden things stay hidden until you find them.</p>
   </fieldset>
 
-  <div class="pp-field" style="max-inline-size:calc(140*var(--pp-pixel))">
-    <label class="pp-check"><span class="pp-box pp-checkbox"><input type="checkbox" required aria-invalid="true" aria-describedby="rules-error"></span>I have read the house rules</label>
-    <p class="pp-field-error" id="rules-error">Tick this box to join the server.</p>
+  <div class="chu-field" style="max-inline-size:calc(140*var(--chu-pixel))">
+    <label class="chu-check"><span class="chu-box chu-checkbox"><input type="checkbox" required aria-invalid="true" aria-describedby="rules-error"></span>I have read the house rules</label>
+    <p class="chu-field-error" id="rules-error">Tick this box to join the server.</p>
   </div>
 </div>

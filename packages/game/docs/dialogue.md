@@ -2,7 +2,7 @@
 name: Dialogue
 package: "@jaatster/blip-game"
 css: dialogue.css
-element: pp-dialogue
+element: chu-dialogue
 react: Dialogue
 status: beta
 ---
@@ -20,31 +20,31 @@ Use it for characters talking, signs, tutorials and story beats. For a question 
 ## Usage
 
 ```html
-<pp-dialogue class="pp-box pp-dialogue" voice>
-  <span class="pp-box pp-dialogue-name" data-tone="green">Bramble</span>
-  <div class="pp-box pp-dialogue-portrait" data-variant="soft" data-tone="teal"><svg>…</svg></div>
-  <div class="pp-dialogue-body">
-    <div class="pp-dialogue-text">
+<chu-dialogue class="chu-box chu-dialogue" voice>
+  <span class="chu-box chu-dialogue-name" data-tone="green">Bramble</span>
+  <div class="chu-box chu-dialogue-portrait" data-variant="soft" data-tone="teal"><svg>…</svg></div>
+  <div class="chu-dialogue-body">
+    <div class="chu-dialogue-text">
       <p>Ah, a traveller! The rope bridge washed out in last night's storm.</p>
       <p>I could patch it up before sunset, for thirty coins.</p>
     </div>
-    <pp-choices class="pp-dialogue-choices">
-      <ul class="pp-choices" role="list">
-        <li><button class="pp-box pp-choice" data-variant="ghost" value="pay">Pay 30 coins</button></li>
-        <li><button class="pp-box pp-choice" data-variant="ghost" value="later">Maybe later</button></li>
+    <chu-choices class="chu-dialogue-choices">
+      <ul class="chu-choices" role="list">
+        <li><button class="chu-box chu-choice" data-variant="ghost" value="pay">Pay 30 coins</button></li>
+        <li><button class="chu-box chu-choice" data-variant="ghost" value="later">Maybe later</button></li>
       </ul>
-    </pp-choices>
+    </chu-choices>
   </div>
-</pp-dialogue>
+</chu-dialogue>
 ```
 
 ```js
 import "@jaatster/blip-game/dialogue";
 import "@jaatster/blip-game/choices";
 
-const box = document.querySelector("pp-dialogue");
-box.addEventListener("pp-action", (e) => box.say(e.detail.value === "pay" ? "Splendid!" : "Suit yourself."));
-box.addEventListener("pp-done", () => (box.hidden = true));
+const box = document.querySelector("chu-dialogue");
+box.addEventListener("chu-action", (e) => box.say(e.detail.value === "pay" ? "Splendid!" : "Suit yourself."));
+box.addEventListener("chu-done", () => (box.hidden = true));
 box.focus();   // the arrow, or the first choice once they show
 ```
 
@@ -55,13 +55,13 @@ Pages a framework renders or replaces after the element upgrades start it again 
 
 1. **Panel**: a candy box in cream (light band, cream, cream shade), radius 4. A light island in every scheme: text,
    lines and wells inside it keep their light values at night.
-2. **Name tab** (`.pp-dialogue-name`): a small candy box riding the top edge, the name in Pixel Bop at scale 1. Give
+2. **Name tab** (`.chu-dialogue-name`): a small candy box riding the top edge, the name in Pixel Bop at scale 1. Give
    each speaker a tone.
-3. **Portrait** (`.pp-dialogue-portrait`): a framed slot, 36 x 36 pixels; art stands at the bottom of it, one sprite
+3. **Portrait** (`.chu-dialogue-portrait`): a framed slot, 36 x 36 pixels; art stands at the bottom of it, one sprite
    pixel to one Blip pixel.
-4. **Text** (`.pp-dialogue-text`): one child per page, Pixelify Sans at the lead size, or Pixel Bop capitals.
-5. **Choices** (`.pp-dialogue-choices`): shown once the last page has typed; they pop in.
-6. **Next** (`.pp-dialogue-next`): the ▼ in the accent, drawn from the arrow sprite. Added by the element; a real
+4. **Text** (`.chu-dialogue-text`): one child per page, Pixelify Sans at the lead size, or Pixel Bop capitals.
+5. **Choices** (`.chu-dialogue-choices`): shown once the last page has typed; they pop in.
+6. **Next** (`.chu-dialogue-next`): the ▼ in the accent, drawn from the arrow sprite. Added by the element; a real
    button. It blinks on the beat for five seconds, then rests.
 
 ## Variants
@@ -73,8 +73,8 @@ Pages a framework renders or replaces after the element upgrades start it again 
 | `voice` | empty, or a base rate such as `1.2` | A blip on every other voiced letter. Higher numbers for smaller characters. |
 | `mood` | `plain` (default), `happy`, `sleepy` | Raises or lowers the voice, as on the TV. |
 | `speed` | `1` (default) | Typing speed multiplier. Offer it as a setting. |
-| `--pp-dialogue-lines` | 3 | The fewest lines the box is tall. |
-| `--pp-dialogue-portrait` | 36 | The portrait slot, in pixels. |
+| `--chu-dialogue-lines` | 3 | The fewest lines the box is tall. |
+| `--chu-dialogue-portrait` | 36 | The portrait slot, in pixels. |
 
 ## States
 
@@ -84,12 +84,12 @@ Pages a framework renders or replaces after the element upgrades start it again 
 | Waiting | the page has typed | The ▼ blinks; the button says "Next", or "Continue" on the last page. |
 | Choosing | the last page has typed and there are choices | The choices pop in under the text; focus moves to the first if it was in the box. |
 | Reduced motion | `prefers-reduced-motion` | Each page appears whole, nothing is voiced, the ▼ does not blink. |
-| Frozen | `data-pp-typed="40"` | The first page stops at 40 letters. Docs and screenshots only. |
+| Frozen | `data-chu-typed="40"` | The first page stops at 40 letters. Docs and screenshots only. |
 
 ## Accessibility
 
 - **Keyboard:** Tab reaches the ▼ button (or the choices). Enter or Space on it, or on the box, shows the whole page
-  at once if it is typing, otherwise turns the page; after the last page it sends `pp-done`. In the choices, Up and
+  at once if it is typing, otherwise turns the page; after the last page it sends `chu-done`. In the choices, Up and
   Down move, Home and End jump, Enter or Space picks.
 - **Pointer:** a click anywhere in the box does the same as Enter. Clicks on choices, links and fields do their own thing.
 - **Screen readers** never hear the typing: each page is put whole into a polite live region, with the speaker's
@@ -117,13 +117,13 @@ Pages a framework renders or replaces after the element upgrades start it again 
 | Member | |
 |---|---|
 | `say(pages)` | Replaces the pages (a string or an array of strings) and starts from the first. |
-| `advance()` | What a press does: show all, next page, or `pp-done`. |
+| `advance()` | What a press does: show all, next page, or `chu-done`. |
 | `focus()` | Focuses the ▼, or the first choice while choosing. |
 | `pages`, `page`, `typing` | The pages, the current index, and whether a page is typing. |
 | `blipRate(letter, mood, base)` | Exported: the TV's pitch rule, for voicing your own text. |
 
 | Event | `detail` | When |
 |---|---|---|
-| `pp-next` | `{ page, pages }` | A page turned. |
-| `pp-done` | | The reader pressed on after the last page (no choices). |
-| `pp-action` | `{ item, value, index, label }` | From [choices](choices.md): an answer was picked. |
+| `chu-next` | `{ page, pages }` | A page turned. |
+| `chu-done` | | The reader pressed on after the last page (no choices). |
+| `chu-action` | `{ item, value, index, label }` | From [choices](choices.md): an answer was picked. |

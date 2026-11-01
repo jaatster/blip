@@ -18,13 +18,13 @@ Several lines of text, in the same calm well as the [input](input.md). It can gr
 ## Usage
 
 ```html
-<pp-field class="pp-field">
-  <label class="pp-field-label" for="bio">About you</label>
-  <span class="pp-box pp-textarea"><textarea id="bio" name="bio" rows="4" maxlength="200"></textarea></span>
-  <p class="pp-field-count"></p>
-</pp-field>
+<chu-field class="chu-field">
+  <label class="chu-field-label" for="bio">About you</label>
+  <span class="chu-box chu-textarea"><textarea id="bio" name="bio" rows="4" maxlength="200"></textarea></span>
+  <p class="chu-field-count"></p>
+</chu-field>
 
-<span class="pp-box pp-textarea" data-autogrow><textarea id="note" rows="2"></textarea></span>
+<span class="chu-box chu-textarea" data-autogrow><textarea id="note" rows="2"></textarea></span>
 ```
 
 ## Anatomy
@@ -71,5 +71,5 @@ As for the [input](input.md): focus is the ring round the well; `aria-invalid` o
 
 | Class / attribute | |
 |---|---|
-| `.pp-textarea` | The well. Markup: `class="pp-box pp-textarea"`. |
+| `.chu-textarea` | The well. Markup: `class="chu-box chu-textarea"`. |
 | `data-autogrow` | Grow with the content. |

@@ -1,14 +1,14 @@
 /**
- * PixelElement: the base of every Blip Web Component.
+ * BlipElement: the base of every Blip Web Component.
  *
  * Light DOM, so the global CSS styles it and it upgrades markup that already works (progressive enhancement).
  * Each connection gets an AbortSignal (`this.signal`) that aborts on disconnect: pass it to every listener, timer
  * and timeline, and nothing leaks. `static box = true` adds the candy box class.
  */
-export abstract class PixelElement extends HTMLElement {
-  /** Add `pp-box` to the element when it connects. */
+export abstract class BlipElement extends HTMLElement {
+  /** Add `chu-box` to the element when it connects. */
   static box = false;
-  /** Extra classes to add when it connects, e.g. "pp-tabs". */
+  /** Extra classes to add when it connects, e.g. "chu-tabs". */
   static classes: string[] = [];
 
   #controller?: AbortController;
@@ -22,8 +22,8 @@ export abstract class PixelElement extends HTMLElement {
   connectedCallback(): void {
     this.#controller?.abort();
     this.#controller = new AbortController();
-    const ctor = this.constructor as typeof PixelElement;
-    if (ctor.box) this.classList.add("pp-box");
+    const ctor = this.constructor as typeof BlipElement;
+    if (ctor.box) this.classList.add("chu-box");
     if (ctor.classes.length) this.classList.add(...ctor.classes);
     // Defined by a classic script while the page is still parsing, an element upgrades before its children exist:
     // wait for them.
@@ -44,9 +44,9 @@ export abstract class PixelElement extends HTMLElement {
   /** Anything this.signal does not clean up. */
   protected disconnected(): void {}
 
-  /** Dispatches a bubbling, composed `pp-<name>` event. Returns false if a listener called preventDefault(). */
+  /** Dispatches a bubbling, composed `chu-<name>` event. Returns false if a listener called preventDefault(). */
   protected emit<T>(name: string, detail?: T, cancelable = false): boolean {
-    return this.dispatchEvent(new CustomEvent(`pp-${name}`, { detail, bubbles: true, composed: true, cancelable }));
+    return this.dispatchEvent(new CustomEvent(`chu-${name}`, { detail, bubbles: true, composed: true, cancelable }));
   }
 
   /** Listens with this connection's signal. */

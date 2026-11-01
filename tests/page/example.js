@@ -7,11 +7,11 @@ provide({ clock: () => new Date("2026-06-21T12:00:00"), seed: 42 });
 
 const q = new URLSearchParams(location.search);
 const root = document.documentElement;
-root.dataset.ppScheme = q.get("scheme") ?? "day";
-if (q.get("pixel")) root.dataset.ppPixel = q.get("pixel");
+root.dataset.chuScheme = q.get("scheme") ?? "day";
+if (q.get("pixel")) root.dataset.chuPixel = q.get("pixel");
 
 // The tests pass the manifest they read from the packages; opened by hand, the page uses the gallery's.
-const manifest = window.__PP_MANIFEST__ ?? (await (await fetch("/specimen/gallery.json", { cache: "no-store" })).json());
+const manifest = window.__CHU_MANIFEST__ ?? (await (await fetch("/specimen/gallery.json", { cache: "no-store" })).json());
 const wanted = q.get("example") ?? "components/button";
 const example = manifest.examples.find((e) => `${e.pkg}/${e.name}` === wanted);
 if (!example) throw new Error(`No example "${wanted}". Try one of: ${manifest.examples.map((e) => `${e.pkg}/${e.name}`).join(", ")}`);

@@ -66,7 +66,7 @@ describe("seams: a white glint under a white band", () => {
   // two, laid out in a line of text as keycaps are: each at another fraction of a pixel across and down, and of
   // another width.
   const BANDS = [1, 2, 3];
-  const body = BANDS.map((band, k) => `<p style="position:absolute;left:20px;top:${20 + k * 60}px;margin:0;font:13px/1.37 sans-serif;white-space:nowrap">${Array.from({ length: N }, (_, i) => `<span style="display:inline-block;width:${12 + i / N}px"></span><span class="pp-box" data-tone="neutral" data-pp-r="2" id="g${band}-${i}" style="--pp-band-top:${band};--pp-band-bottom:3;display:inline-block;vertical-align:${(i % 5) * 0.37}px;width:${35 + ((i * 3) % N) / N}px;height:24px"></span>`).join("")}</p>`).join("");
+  const body = BANDS.map((band, k) => `<p style="position:absolute;left:20px;top:${20 + k * 60}px;margin:0;font:13px/1.37 sans-serif;white-space:nowrap">${Array.from({ length: N }, (_, i) => `<span style="display:inline-block;width:${12 + i / N}px"></span><span class="chu-box" data-tone="neutral" data-chu-r="2" id="g${band}-${i}" style="--chu-band-top:${band};--chu-band-bottom:3;display:inline-block;vertical-align:${(i % 5) * 0.37}px;width:${35 + ((i * 3) % N) / N}px;height:24px"></span>`).join("")}</p>`).join("");
 
   /**
    * Per box: screen pixels off its palette at 1x where it is one colour all round at 1x (within tol CSS px), each box
@@ -112,7 +112,7 @@ describe("seams: a white glint under a white band", () => {
   it.each([1, 2])("at %sx, the glints paint their four pixels white and their reach paints nothing", async (dpr) => {
     // Accent boxes (a light blue band, so a white glint shows anywhere) with no band and bands of one to three
     // pixels, each beside a twin without glints: the two differ in the four glint pixels and nowhere else.
-    const twins = [0, 1, 2, 3].flatMap((band) => ["", "--pp-box-glint:transparent;"].map((off, k) => `<span class="p pp-box" id="a${band}${k ? "-off" : ""}" style="${off}--pp-band-top:${band};left:${20 + k * 60}px;top:${20 + band * 44}px;width:48px;height:32px"></span>`)).join("");
+    const twins = [0, 1, 2, 3].flatMap((band) => ["", "--chu-box-glint:transparent;"].map((off, k) => `<span class="p chu-box" id="a${band}${k ? "-off" : ""}" style="${off}--chu-band-top:${band};left:${20 + k * 60}px;top:${20 + band * 44}px;width:48px;height:32px"></span>`)).join("");
     const { page, img, rects } = await shot(twins, dpr);
     for (const band of [0, 1, 2, 3]) {
       const [x, y] = rects[`a${band}`]!, [x2] = rects[`a${band}-off`]!;
@@ -132,11 +132,11 @@ describe("seams: a white glint under a white band", () => {
 
 describe("seams: the disabled dither", () => {
   const OFFSETS = [0, 0.25, 0.5, 0.75];
-  const body = OFFSETS.map((f, i) => `<button class="p pp-box pp-button" data-variant="outline" disabled id="d${i}" style="left:${20 + i * 140 + f}px;top:${20 + f}px;inline-size:120px;block-size:80px;padding:0"></button>`).join("");
+  const body = OFFSETS.map((f, i) => `<button class="p chu-box chu-button" data-variant="outline" disabled id="d${i}" style="left:${20 + i * 140 + f}px;top:${20 + f}px;inline-size:120px;block-size:80px;padding:0"></button>`).join("");
 
   it.each([1.25, 1.5, 1.75, 2.625])("at %sx, every screen pixel inside the dither is its colour or the fill's", async (dpr) => {
     const { page, img, rects } = await shot(body, dpr, { components: ["button"] });
-    const [fill, dither] = await page.$eval("#d0", (e) => ["--pp-box-fill", "--pp-box-dither"].map((n) => {
+    const [fill, dither] = await page.$eval("#d0", (e) => ["--chu-box-fill", "--chu-box-dither"].map((n) => {
       const probe = document.body.appendChild(document.createElement("i"));
       probe.style.color = getComputedStyle(e).getPropertyValue(n);
       const c = getComputedStyle(probe).color.match(/\d+/g)!.slice(0, 3).map((d) => Number(d).toString(16).padStart(2, "0")).join("");
@@ -158,22 +158,22 @@ describe("seams: the disabled dither", () => {
 });
 
 describe("seams: a disabled box always shows its dither", () => {
-  const body = `<div class="pp-box pp-segmented" role="radiogroup" aria-label="Players">
-      <button class="pp-box" type="button" role="radio" aria-checked="false" id="seg-rest">1P</button>
-      <button class="pp-box" type="button" role="radio" aria-checked="true">2P</button>
-      <button class="pp-box" type="button" role="radio" aria-checked="false" disabled id="seg">4P</button>
+  const body = `<div class="chu-box chu-segmented" role="radiogroup" aria-label="Players">
+      <button class="chu-box" type="button" role="radio" aria-checked="false" id="seg-rest">1P</button>
+      <button class="chu-box" type="button" role="radio" aria-checked="true">2P</button>
+      <button class="chu-box" type="button" role="radio" aria-checked="false" disabled id="seg">4P</button>
     </div>
-    <fieldset class="pp-box pp-segmented" disabled id="rail">
-      <legend class="pp-sr-only">Sound</legend>
-      <label class="pp-box" id="seg-off"><input type="radio" name="s" value="off">Off</label>
-      <label class="pp-box"><input type="radio" name="s" value="on" checked>On</label>
+    <fieldset class="chu-box chu-segmented" disabled id="rail">
+      <legend class="chu-sr-only">Sound</legend>
+      <label class="chu-box" id="seg-off"><input type="radio" name="s" value="off">Off</label>
+      <label class="chu-box"><input type="radio" name="s" value="on" checked>On</label>
     </fieldset>
-    <div class="pp-box pp-menu-list" role="menu" aria-label="Level"><button class="pp-box pp-menu-item" role="menuitem" aria-disabled="true" id="menu"><span class="pp-menu-label">Publish</span></button></div>
-    <div class="pp-box pp-command" role="listbox" aria-label="Results" style="display:block;inline-size:200px"><div class="pp-box pp-command-item" role="option" aria-disabled="true" id="command"><span class="pp-command-label">Publish</span></div></div>`;
+    <div class="chu-box chu-menu-list" role="menu" aria-label="Level"><button class="chu-box chu-menu-item" role="menuitem" aria-disabled="true" id="menu"><span class="chu-menu-label">Publish</span></button></div>
+    <div class="chu-box chu-command" role="listbox" aria-label="Results" style="display:block;inline-size:200px"><div class="chu-box chu-command-item" role="option" aria-disabled="true" id="command"><span class="chu-command-label">Publish</span></div></div>`;
 
   it.each(["day", "sunset", "night"])("%s: without its dither a disabled segment, menu item and command result look different", async (scheme) => {
     const { page } = await shot(body, 1, { components: ["segmented", "menu", "command"], scheme });
-    await page.addStyleTag({ content: ".off, .off::after { --pp-box-dither: transparent !important; }" });
+    await page.addStyleTag({ content: ".off, .off::after { --chu-box-dither: transparent !important; }" });
     const changed = async (id: string) => {
       const clip = await page.$eval(`#${id}`, (e) => { const b = e.getBoundingClientRect(); return { x: b.x, y: b.y, width: b.width, height: b.height }; });
       const a = decode(await page.screenshot({ clip }));

@@ -59,7 +59,7 @@ describe("stars and the words over the sky", () => {
   });
 });
 
-describe("<pp-world> at fractional device pixel ratios", () => {
+describe("<chu-world> at fractional device pixel ratios", () => {
   let style: HTMLStyleElement;
   beforeAll(async () => {
     await import("../../../packages/effects/src/world.ts");
@@ -84,11 +84,11 @@ describe("<pp-world> at fractional device pixel ratios", () => {
     it(`makes the world pixel and every canvas whole device pixels at ${dpr}`, () => {
       ratio(dpr);
       // An odd size at an odd place, so nothing lines up by luck.
-      const box = mount(`<div style="position:absolute;left:10.3px;top:7.6px;width:301px;height:151px"><pp-world scheme="night" parallax clouds="none"></pp-world></div>`);
-      const stage = box.querySelector<HTMLElement>(".pp-world-stage")!;
+      const box = mount(`<div style="position:absolute;left:10.3px;top:7.6px;width:301px;height:151px"><chu-world scheme="night" parallax clouds="none"></chu-world></div>`);
+      const stage = box.querySelector<HTMLElement>(".chu-world-stage")!;
       const k = Math.round(2 * dpr);
-      expect(stage.style.getPropertyValue("--_pp-world-k")).toBe(String(k));
-      expect(parseFloat(stage.style.getPropertyValue("--_pp-world-px"))).toBeCloseTo(k / dpr, 9);
+      expect(stage.style.getPropertyValue("--_chu-world-k")).toBe(String(k));
+      expect(parseFloat(stage.style.getPropertyValue("--_chu-world-px"))).toBeCloseTo(k / dpr, 9);
       // The stage moves by whole device pixels only.
       expect(moved(stage).every((v) => whole(v, dpr))).toBe(true);
       const canvases = [...stage.querySelectorAll<HTMLCanvasElement>(":scope > canvas")];
@@ -105,10 +105,10 @@ describe("<pp-world> at fractional device pixel ratios", () => {
 
   it("slides each layer to a whole number of world pixels against the pointer", async () => {
     ratio(1.25);
-    const box = mount(`<div style="position:relative;width:400px;height:200px"><pp-world scheme="day" parallax clouds="none"></pp-world></div>`);
-    const layers = [...box.querySelectorAll<HTMLElement>(".pp-world-stage > *")];
+    const box = mount(`<div style="position:relative;width:400px;height:200px"><chu-world scheme="day" parallax clouds="none"></chu-world></div>`);
+    const layers = [...box.querySelectorAll<HTMLElement>(".chu-world-stage > *")];
     window.dispatchEvent(new PointerEvent("pointermove", { clientX: 0, clientY: 100 }));
-    const x = layers.map((l) => l.style.getPropertyValue("--_pp-world-x"));
+    const x = layers.map((l) => l.style.getPropertyValue("--_chu-world-x"));
     // The sky and its things stay put; each layer nearer slides further, by whole world pixels.
     expect(x.map(Number)).toEqual([0, 0, 3, 6, 9, 12]);
     // Once the slide has landed, each place is a whole number of device pixels.
@@ -121,34 +121,34 @@ describe("<pp-world> at fractional device pixel ratios", () => {
 describe("world.css: a slide cut short", () => {
   let style: HTMLStyleElement;
   beforeEach(() => {
-    // The slide's two steps are core's --pp-ease-2.
+    // The slide's two steps are core's --chu-ease-2.
     style = document.head.appendChild(Object.assign(document.createElement("style"), { textContent: inject("tokensCss") + motionCss + worldCss }));
   });
   afterEach(() => style.remove());
 
   it("rounds a layer's place to a whole world pixel at every step of the slide", () => {
-    const stage = mount(`<div class="pp-world-stage" style="--_pp-world-px: 2.4px"><canvas width="4" height="4"></canvas></div>`);
+    const stage = mount(`<div class="chu-world-stage" style="--_chu-world-px: 2.4px"><canvas width="4" height="4"></canvas></div>`);
     const layer = stage.firstElementChild as HTMLElement;
     expect(getComputedStyle(layer).translate).toBe("0px");
     // Two steps from 0 to 3 world pixels: the middle step is 1.5, which the translate rounds to 2.
-    layer.style.setProperty("--_pp-world-x", "3");
+    layer.style.setProperty("--_chu-world-x", "3");
     const slide = layer.getAnimations()[0]!;
     expect(slide).toBeDefined();
     slide.pause();
     slide.currentTime = 60;
-    expect(getComputedStyle(layer).getPropertyValue("--_pp-world-x").trim()).toBe("1.5");
+    expect(getComputedStyle(layer).getPropertyValue("--_chu-world-x").trim()).toBe("1.5");
     expect(getComputedStyle(layer).translate).toBe("4.8px");
     // Cut short there and sent on to 6: it starts from 1.5, and its middle step (3.75) lands on 4 pixels, not 3.75.
-    layer.style.setProperty("--_pp-world-x", "6");
+    layer.style.setProperty("--_chu-world-x", "6");
     const on = layer.getAnimations().find((a) => a !== slide)!;
     on.pause();
     on.currentTime = 60;
-    expect(getComputedStyle(layer).getPropertyValue("--_pp-world-x").trim()).toBe("3.75");
+    expect(getComputedStyle(layer).getPropertyValue("--_chu-world-x").trim()).toBe("3.75");
     expect(getComputedStyle(layer).translate).toBe("9.6px");
   });
 });
 
-describe("<pp-world> and the palette", () => {
+describe("<chu-world> and the palette", () => {
   let style: HTMLStyleElement;
   beforeAll(async () => {
     await import("../../../packages/effects/src/world.ts");
@@ -158,12 +158,12 @@ describe("<pp-world> and the palette", () => {
   });
   afterEach(() => {
     style.remove();
-    delete document.documentElement.dataset.ppPalette;
+    delete document.documentElement.dataset.chuPalette;
   });
 
   it("paints the night sky again when the page's palette changes", async () => {
-    const box = mount(`<div style="position:absolute;left:0;top:0;width:320px;height:180px"><pp-world scheme="night" clouds="none"></pp-world></div>`);
-    const layer = box.querySelector<HTMLCanvasElement>(".pp-world-stage > canvas")!;
+    const box = mount(`<div style="position:absolute;left:0;top:0;width:320px;height:180px"><chu-world scheme="night" clouds="none"></chu-world></div>`);
+    const layer = box.querySelector<HTMLCanvasElement>(".chu-world-stage > canvas")!;
     /** The colours along the sky's top row: a sky stop, and maybe a star. */
     const top = () => {
       const { data } = layer.getContext("2d")!.getImageData(0, 0, layer.width, 1);
@@ -172,13 +172,13 @@ describe("<pp-world> and the palette", () => {
       return out;
     };
     await expect.poll(() => top().size).toBeGreaterThan(0);
-    const world = box.querySelector("pp-world")!;
+    const world = box.querySelector("chu-world")!;
     /** The night sky's six stops, as the page has them now. */
-    const sky = () => new Set([1, 2, 3, 4, 5, 6].map((i) => parseInt(getComputedStyle(world).getPropertyValue(`--pp-world-night-sky-${i}`).trim().slice(1), 16)));
+    const sky = () => new Set([1, 2, 3, 4, 5, 6].map((i) => parseInt(getComputedStyle(world).getPropertyValue(`--chu-world-night-sky-${i}`).trim().slice(1), 16)));
     const candy = sky();
     expect([...top()].some((c) => candy.has(c))).toBe(true);
     // Grape is the TV's own night, purple: none of its sky is Candy's charcoal.
-    document.documentElement.dataset.ppPalette = "grape";
+    document.documentElement.dataset.chuPalette = "grape";
     const grape = sky();
     expect([...grape].some((c) => candy.has(c))).toBe(false);
     await expect.poll(() => [...top()].some((c) => grape.has(c))).toBe(true);

@@ -4,7 +4,7 @@
  *
  * Everything comes from the sources, never from a package's dist (another build may be writing it): the tokens are
  * built in a temporary copy, core's CSS is bundled from src, core's JavaScript is bundled from src with esbuild. The
- * page is served from http://pp.test/ by request routing, so fonts and stylesheets load as on a site.
+ * page is served from http://chu.test/ by request routing, so fonts and stylesheets load as on a site.
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
@@ -12,7 +12,7 @@ import { build } from "esbuild";
 import { chromium, type Browser, type BrowserContextOptions, type Page } from "playwright";
 import { REPO, node, tempDir, tokensCopy } from "../support/fixtures.ts";
 
-export const ORIGIN = "http://pp.test";
+export const ORIGIN = "http://chu.test";
 const TYPES: Record<string, string> = { ".css": "text/css", ".js": "text/javascript", ".woff2": "font/woff2", ".ttf": "font/ttf", ".svg": "image/svg+xml" };
 
 export interface Assets {
@@ -47,7 +47,7 @@ export async function assets(): Promise<Assets> {
 export const launch = (): Promise<Browser> => chromium.launch();
 
 /**
- * Opens body (the inside of <body>) at http://pp.test/ under head (the inside of <head>, after the charset). In head,
+ * Opens body (the inside of <body>) at http://chu.test/ under head (the inside of <head>, after the charset). In head,
  * /tokens.css, /core.css, /layers.css and /core.js are the built assets; any other path is a file of the repository
  * (/packages/font/font.css). `routes` adds or replaces paths; `before` runs on the page before it loads (a clock, an
  * init script, a CDP setting).

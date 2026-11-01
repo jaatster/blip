@@ -17,8 +17,8 @@ needs one.
 
 ```html
 <body>
-  <a class="pp-box pp-skip-link" href="#main">Skip to content</a>
-  <header class="pp-box pp-app-bar">…</header>
+  <a class="chu-box chu-skip-link" href="#main">Skip to content</a>
+  <header class="chu-box chu-app-bar">…</header>
   <main id="main" tabindex="-1">…</main>
 </body>
 ```
@@ -26,7 +26,7 @@ needs one.
 ## Anatomy
 
 1. **Link**: a candy box, upper-case label, fixed to the top-left corner (top-right, right to left), above everything
-   (`--pp-layer-tooltip`).
+   (`--chu-layer-tooltip`).
 
 ## Variants
 
@@ -70,8 +70,8 @@ needs one.
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-r` with `--pp-shape`, `--pp-shape-inner` | 4 | Corner radius in pixels. |
-| `--pp-tone` and friends | accent | Or `data-tone`. |
+| `--chu-r` with `--chu-shape`, `--chu-shape-inner` | 4 | Corner radius in pixels. |
+| `--chu-tone` and friends | accent | Or `data-tone`. |
 
 The link is `position: fixed`; inside an element with layout containment (such as a container) it pins to that
 element's corner instead of the window's.

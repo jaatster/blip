@@ -1,153 +1,153 @@
 /*
  * Menu. A short list of actions that drops from a button: the TV's cream panel, with the yellow FOCUS row on the item
  * you are on. Items can carry an icon, a shortcut (on the keycap component's keys), a check or a dot, or open a
- * submenu; separators and labelled groups divide them. <pp-menu> adds the keyboard (arrows, typeahead, Escape),
+ * submenu; separators and labelled groups divide them. <chu-menu> adds the keyboard (arrows, typeahead, Escape),
  * focus return and placement.
  *
- *   <pp-menu class="pp-menu">
- *     <button class="pp-box pp-button" data-variant="soft">Options</button>
- *     <div class="pp-box pp-menu-list pp-pop-in" role="menu" popover aria-label="Options">
- *       <button class="pp-box pp-menu-item" role="menuitem" aria-keyshortcuts="Control+S">
- *         <svg class="pp-icon" …></svg><span class="pp-menu-label">Save</span>
- *         <span class="pp-menu-shortcut" aria-hidden="true"><kbd class="pp-box pp-keycap" data-size="sm">Ctrl</kbd><kbd class="pp-box pp-keycap" data-size="sm">S</kbd></span>
+ *   <chu-menu class="chu-menu">
+ *     <button class="chu-box chu-button" data-variant="soft">Options</button>
+ *     <div class="chu-box chu-menu-list chu-pop-in" role="menu" popover aria-label="Options">
+ *       <button class="chu-box chu-menu-item" role="menuitem" aria-keyshortcuts="Control+S">
+ *         <svg class="chu-icon" …></svg><span class="chu-menu-label">Save</span>
+ *         <span class="chu-menu-shortcut" aria-hidden="true"><kbd class="chu-box chu-keycap" data-size="sm">Ctrl</kbd><kbd class="chu-box chu-keycap" data-size="sm">S</kbd></span>
  *       </button>
- *       <div class="pp-menu-separator" role="separator"></div>
+ *       <div class="chu-menu-separator" role="separator"></div>
  *       <div role="group" aria-labelledby="sort-by">
- *         <div class="pp-menu-heading" id="sort-by">Sort by</div>
- *         <button class="pp-box pp-menu-item" role="menuitemradio" aria-checked="true"><span class="pp-menu-label">Name</span></button>
+ *         <div class="chu-menu-heading" id="sort-by">Sort by</div>
+ *         <button class="chu-box chu-menu-item" role="menuitemradio" aria-checked="true"><span class="chu-menu-label">Name</span></button>
  *       </div>
- *       <button class="pp-box pp-menu-item" role="menuitem" data-tone="danger"><span class="pp-menu-label">Delete</span></button>
+ *       <button class="chu-box chu-menu-item" role="menuitem" data-tone="danger"><span class="chu-menu-label">Delete</span></button>
  *     </div>
- *   </pp-menu>
+ *   </chu-menu>
  *
  *   role="menuitemcheckbox" | "menuitemradio" with aria-checked   a check, or a dot, in a gutter before the label
- *   aria-haspopup="menu" on an item    a chevron: it opens a submenu (a pp-menu nested in the list)
+ *   aria-haspopup="menu" on an item    a chevron: it opens a submenu (a chu-menu nested in the list)
  *   data-tone="danger"                 a destructive item: red text until it is focused
  *   aria-disabled="true"               dithered; the arrow keys pass it
- *   data-align                         on .pp-menu: start (default) | end, which edge of its button it lines up with
+ *   data-align                         on .chu-menu: start (default) | end, which edge of its button it lines up with
  *   aria-expanded="true"               on the button, while its menu is open: sits in
  *
  * Yellow means focus: the focused item is the yellow row and nothing else in a menu is yellow. Keep the label span:
  * it carries the check and the chevron.
  */
 
-@layer pp.components {
-  .pp-menu { display: inline-block; }
+@layer chu.components {
+  .chu-menu { display: inline-block; }
   /* A submenu's host takes no room: its item and its list belong to the parent list. */
-  .pp-menu-list > .pp-menu { display: contents; }
+  .chu-menu-list > .chu-menu { display: contents; }
 
   /* The button sits in while its menu is open. */
-  .pp-menu > .pp-box[aria-expanded="true"]:not(.pp-menu-item) {
-    --pp-drop-size: 0;
+  .chu-menu > .chu-box[aria-expanded="true"]:not(.chu-menu-item) {
+    --chu-drop-size: 0;
     translate: none;
-    --pp-box-top: var(--pp-tone-shade);
-    --pp-box-bottom: var(--pp-tone-light);
-    --pp-box-glint: transparent;
+    --chu-box-top: var(--chu-tone-shade);
+    --chu-box-bottom: var(--chu-tone-light);
+    --chu-box-glint: transparent;
   }
-  .pp-menu > .pp-box:is([data-variant="ghost"], [data-variant="outline"])[aria-expanded="true"]:not(.pp-menu-item) {
-    --pp-box-outline: var(--pp-outline);
-    --pp-box-top: var(--pp-tone-light);
-    --pp-box-fill: var(--pp-tone-light);
-    --pp-box-bottom: var(--pp-tone-light);
-    --pp-box-text: var(--pp-tone-on);
+  .chu-menu > .chu-box:is([data-variant="ghost"], [data-variant="outline"])[aria-expanded="true"]:not(.chu-menu-item) {
+    --chu-box-outline: var(--chu-outline);
+    --chu-box-top: var(--chu-tone-light);
+    --chu-box-fill: var(--chu-tone-light);
+    --chu-box-bottom: var(--chu-tone-light);
+    --chu-box-text: var(--chu-tone-on);
   }
 
   /* ------------------------------------------------------------ the panel */
 
-  .pp-menu-list {
-    --pp-r: 4;
-    --pp-shape: var(--pp-shape-4);
-    --pp-shape-inner: var(--pp-shape-4-inner);
-    --pp-box-top: var(--pp-surface-panel);
-    --pp-box-fill: var(--pp-surface-panel);
-    --pp-box-bottom: var(--pp-surface-panel);
-    --pp-box-text: var(--pp-text);
-    --pp-box-glint: transparent;
+  .chu-menu-list {
+    --chu-r: 4;
+    --chu-shape: var(--chu-shape-4);
+    --chu-shape-inner: var(--chu-shape-4-inner);
+    --chu-box-top: var(--chu-surface-panel);
+    --chu-box-fill: var(--chu-surface-panel);
+    --chu-box-bottom: var(--chu-surface-panel);
+    --chu-box-text: var(--chu-text);
+    --chu-box-glint: transparent;
     --_gutter: 0px;
 
     display: flex;
     flex-direction: column;
-    min-inline-size: calc(80 * var(--pp-pixel));
-    max-inline-size: calc(160 * var(--pp-pixel));
-    padding: var(--pp-space-3);
-    font-family: var(--pp-font-ui);
-    font-size: var(--pp-size-small);
+    min-inline-size: calc(80 * var(--chu-pixel));
+    max-inline-size: calc(160 * var(--chu-pixel));
+    padding: var(--chu-space-3);
+    font-family: var(--chu-font-ui);
+    font-size: var(--chu-size-small);
   }
-  .pp-menu-list[popover] {
+  .chu-menu-list[popover] {
     position: fixed;
     inset: auto;
-    z-index: var(--pp-layer-dropdown);
+    z-index: var(--chu-layer-dropdown);
     margin: 0;
     overflow: visible;
   }
-  .pp-menu-list[popover]:not(:popover-open) { display: none; }
+  .chu-menu-list[popover]:not(:popover-open) { display: none; }
   @supports (position-area: block-end) {
-    .pp-menu-list[popover] {
+    .chu-menu-list[popover] {
       position-area: block-end span-inline-end;
       position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
-      margin-block: var(--pp-space-2);
-      min-inline-size: max(calc(80 * var(--pp-pixel)), anchor-size(inline));
+      margin-block: var(--chu-space-2);
+      min-inline-size: max(calc(80 * var(--chu-pixel)), anchor-size(inline));
     }
-    .pp-menu[data-align="end"] > .pp-menu-list[popover] { position-area: block-end span-inline-start; }
+    .chu-menu[data-align="end"] > .chu-menu-list[popover] { position-area: block-end span-inline-start; }
     /* A submenu opens beside its item, its first item level with it. */
-    .pp-menu-list .pp-menu > .pp-menu-list[popover] {
+    .chu-menu-list .chu-menu > .chu-menu-list[popover] {
       position-area: inline-end span-block-end;
-      margin-block: calc(-1 * var(--pp-space-3)) 0;
-      margin-inline: var(--pp-space-1) 0;
-      min-inline-size: calc(80 * var(--pp-pixel));
+      margin-block: calc(-1 * var(--chu-space-3)) 0;
+      margin-inline: var(--chu-space-1) 0;
+      min-inline-size: calc(80 * var(--chu-pixel));
     }
   }
 
   /* ------------------------------------------------------------ items */
 
-  .pp-menu-item {
-    --pp-r: 3;
-    --pp-shape: var(--pp-shape-3);
-    --pp-shape-inner: var(--pp-shape-3-inner);
-    --pp-band-top: 2;
-    --pp-band-bottom: 2;
+  .chu-menu-item {
+    --chu-r: 3;
+    --chu-shape: var(--chu-shape-3);
+    --chu-shape-inner: var(--chu-shape-3-inner);
+    --chu-band-top: 2;
+    --chu-band-bottom: 2;
     /* At rest an item is just its text. */
-    --pp-box-outline: transparent;
-    --pp-box-top: transparent;
-    --pp-box-fill: transparent;
-    --pp-box-bottom: transparent;
-    --pp-box-text: var(--pp-text);
-    --pp-box-glint: transparent;
-    --pp-drop-size: 0;
+    --chu-box-outline: transparent;
+    --chu-box-top: transparent;
+    --chu-box-fill: transparent;
+    --chu-box-bottom: transparent;
+    --chu-box-text: var(--chu-text);
+    --chu-box-glint: transparent;
+    --chu-drop-size: 0;
 
     display: flex;
     align-items: center;
-    gap: var(--pp-space-4);
+    gap: var(--chu-space-4);
     inline-size: 100%;
-    min-block-size: calc(14 * var(--pp-pixel));
-    padding-block: var(--pp-space-1);
-    padding-inline: calc(var(--pp-space-4) + var(--_gutter)) var(--pp-space-4);
+    min-block-size: calc(14 * var(--chu-pixel));
+    padding-block: var(--chu-space-1);
+    padding-inline: calc(var(--chu-space-4) + var(--_gutter)) var(--chu-space-4);
     translate: none;
-    font-weight: var(--pp-weight-medium);
-    line-height: var(--pp-leading-tight);
+    font-weight: var(--chu-weight-medium);
+    line-height: var(--chu-leading-tight);
     text-align: start;
     text-decoration: none;
     white-space: nowrap;
   }
-  .pp-menu-item[data-tone="danger"] { --pp-box-text: var(--pp-danger-text); }
-  .pp-menu-item[aria-disabled="true"] {
-    --pp-box-text: var(--pp-text-muted);
-    --pp-box-dither: var(--pp-surface-sunken);
+  .chu-menu-item[data-tone="danger"] { --chu-box-text: var(--chu-danger-text); }
+  .chu-menu-item[aria-disabled="true"] {
+    --chu-box-text: var(--chu-text-muted);
+    --chu-box-dither: var(--chu-surface-sunken);
   }
   /* The FOCUS row: the TV's yellow highlight, a candy box of its own. It is the focus indicator, so no ring. */
-  .pp-menu-item:is(:focus, [data-pp-state~="focus"]) {
-    --pp-box-outline: var(--pp-outline);
-    --pp-box-top: var(--pp-candy-yellow-light);
-    --pp-box-fill: var(--pp-focus);
-    --pp-box-bottom: var(--pp-candy-yellow-shade);
-    --pp-box-text: var(--pp-ink);
-    --pp-box-glint: var(--pp-white);
+  .chu-menu-item:is(:focus, [data-chu-state~="focus"]) {
+    --chu-box-outline: var(--chu-outline);
+    --chu-box-top: var(--chu-candy-yellow-light);
+    --chu-box-fill: var(--chu-focus);
+    --chu-box-bottom: var(--chu-candy-yellow-shade);
+    --chu-box-text: var(--chu-ink);
+    --chu-box-glint: var(--chu-white);
     outline: none;
     box-shadow: none;
     filter: none;
   }
 
-  .pp-menu-label {
+  .chu-menu-label {
     flex: 1;
     min-inline-size: 0;
     overflow: hidden;
@@ -155,77 +155,77 @@
   }
 
   /* Checkable items: a gutter before every label in the list, and a check (8 x 5) or a dot (4 x 4) in it. */
-  .pp-menu-list:has(> [aria-checked], > [role="group"] > [aria-checked]) > :is(.pp-menu-item, [role="group"], .pp-menu) { --_gutter: calc(10 * var(--pp-pixel)); }
-  .pp-menu-item[aria-checked="true"] > .pp-menu-label::before {
+  .chu-menu-list:has(> [aria-checked], > [role="group"] > [aria-checked]) > :is(.chu-menu-item, [role="group"], .chu-menu) { --_gutter: calc(10 * var(--chu-pixel)); }
+  .chu-menu-item[aria-checked="true"] > .chu-menu-label::before {
     content: "";
     position: absolute;
-    inset-block-start: calc(50% - 3 * var(--pp-pixel));
-    inset-inline-start: var(--pp-space-4);
-    inline-size: calc(8 * var(--pp-pixel));
-    block-size: calc(5 * var(--pp-pixel));
+    inset-block-start: calc(50% - 3 * var(--chu-pixel));
+    inset-inline-start: var(--chu-space-4);
+    inline-size: calc(8 * var(--chu-pixel));
+    block-size: calc(5 * var(--chu-pixel));
     background-color: currentColor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 5' shape-rendering='crispEdges'%3E%3Cpath d='M6 0h2v1H7v1H6v1H5v1H4v1H2V4H1V3H0V2h2v1h2V2h1V1h1z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   }
-  .pp-menu-item[role="menuitemradio"][aria-checked="true"] > .pp-menu-label::before {
-    inset-block-start: calc(50% - 2 * var(--pp-pixel));
-    inset-inline-start: calc(6 * var(--pp-pixel));
-    inline-size: calc(4 * var(--pp-pixel));
-    block-size: calc(4 * var(--pp-pixel));
+  .chu-menu-item[role="menuitemradio"][aria-checked="true"] > .chu-menu-label::before {
+    inset-block-start: calc(50% - 2 * var(--chu-pixel));
+    inset-inline-start: calc(6 * var(--chu-pixel));
+    inline-size: calc(4 * var(--chu-pixel));
+    block-size: calc(4 * var(--chu-pixel));
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4' shape-rendering='crispEdges'%3E%3Cpath d='M1 0h2v1h1v2H3v1H1V3H0V1h1z'/%3E%3C/svg%3E");
   }
 
   /* An item that opens a submenu: a chevron (5 x 7) at its end. */
-  .pp-menu-item[aria-haspopup]:not([aria-haspopup="false"]) { padding-inline-end: calc(12 * var(--pp-pixel)); }
-  .pp-menu-item[aria-haspopup]:not([aria-haspopup="false"]) > .pp-menu-label::after {
+  .chu-menu-item[aria-haspopup]:not([aria-haspopup="false"]) { padding-inline-end: calc(12 * var(--chu-pixel)); }
+  .chu-menu-item[aria-haspopup]:not([aria-haspopup="false"]) > .chu-menu-label::after {
     content: "";
     position: absolute;
-    inset-block-start: calc(50% - 4 * var(--pp-pixel));
-    inset-inline-end: var(--pp-space-4);
-    inline-size: calc(5 * var(--pp-pixel));
-    block-size: calc(7 * var(--pp-pixel));
+    inset-block-start: calc(50% - 4 * var(--chu-pixel));
+    inset-inline-end: var(--chu-space-4);
+    inline-size: calc(5 * var(--chu-pixel));
+    block-size: calc(7 * var(--chu-pixel));
     background-color: currentColor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5 7' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1h1v1h1v1h1v1H4v1H3v1H2v1H0V6h1V5h1V4h1V3H2V2H1V1H0z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   }
-  .pp-menu-item[aria-haspopup]:dir(rtl) > .pp-menu-label::after { scale: -1 1; }
+  .chu-menu-item[aria-haspopup]:dir(rtl) > .chu-menu-label::after { scale: -1 1; }
   /* Its submenu is open: the item keeps a quiet mark while the focus is over there. */
-  .pp-menu-item[aria-expanded="true"]:not(:focus, [data-pp-state~="focus"]) {
-    --pp-box-outline: var(--pp-line-soft);
-    --pp-box-top: var(--pp-surface-sunken);
-    --pp-box-fill: var(--pp-surface-sunken);
-    --pp-box-bottom: var(--pp-surface-sunken);
+  .chu-menu-item[aria-expanded="true"]:not(:focus, [data-chu-state~="focus"]) {
+    --chu-box-outline: var(--chu-line-soft);
+    --chu-box-top: var(--chu-surface-sunken);
+    --chu-box-fill: var(--chu-surface-sunken);
+    --chu-box-bottom: var(--chu-surface-sunken);
   }
 
   /* Shortcuts, drawn with the keycap component (keycap.css). */
-  .pp-menu-shortcut {
+  .chu-menu-shortcut {
     display: inline-flex;
-    gap: var(--pp-space-1);
+    gap: var(--chu-space-1);
     margin-inline-start: auto;
-    padding-inline-start: var(--pp-space-6);
+    padding-inline-start: var(--chu-space-6);
   }
 
-  .pp-menu-separator {
+  .chu-menu-separator {
     flex: none;
-    block-size: var(--pp-pixel);
-    margin: var(--pp-space-2) var(--pp-space-4);
-    background: repeating-linear-gradient(to right, var(--pp-line-soft) 0 var(--pp-space-2), transparent 0 var(--pp-space-3));
+    block-size: var(--chu-pixel);
+    margin: var(--chu-space-2) var(--chu-space-4);
+    background: repeating-linear-gradient(to right, var(--chu-line-soft) 0 var(--chu-space-2), transparent 0 var(--chu-space-3));
   }
-  .pp-menu-heading {
-    padding-block: var(--pp-space-3) var(--pp-space-1);
-    padding-inline: calc(var(--pp-space-4) + var(--_gutter)) var(--pp-space-4);
-    font-size: var(--pp-size-caption);
-    font-weight: var(--pp-weight-bold);
-    line-height: var(--pp-leading-tight);
-    letter-spacing: var(--pp-tracking-label);
+  .chu-menu-heading {
+    padding-block: var(--chu-space-3) var(--chu-space-1);
+    padding-inline: calc(var(--chu-space-4) + var(--_gutter)) var(--chu-space-4);
+    font-size: var(--chu-size-caption);
+    font-weight: var(--chu-weight-bold);
+    line-height: var(--chu-leading-tight);
+    letter-spacing: var(--chu-tracking-label);
     text-transform: uppercase;
-    color: var(--pp-text-muted);
+    color: var(--chu-text-muted);
   }
-  .pp-menu-list [role="group"] { display: flex; flex-direction: column; }
+  .chu-menu-list [role="group"] { display: flex; flex-direction: column; }
 
   @media (forced-colors: active) {
-    .pp-menu-item { border-color: Canvas; }
-    .pp-menu-item:is(:focus, [data-pp-state~="focus"]) { outline: var(--pp-pixel) solid Highlight; outline-offset: calc(-1 * var(--pp-pixel)); }
-    .pp-menu-label::before,
-    .pp-menu-label::after { forced-color-adjust: none; background-color: currentColor; }
-    .pp-menu-separator { background: CanvasText; }
+    .chu-menu-item { border-color: Canvas; }
+    .chu-menu-item:is(:focus, [data-chu-state~="focus"]) { outline: var(--chu-pixel) solid Highlight; outline-offset: calc(-1 * var(--chu-pixel)); }
+    .chu-menu-label::before,
+    .chu-menu-label::after { forced-color-adjust: none; background-color: currentColor; }
+    .chu-menu-separator { background: CanvasText; }
   }
 }

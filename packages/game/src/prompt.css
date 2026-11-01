@@ -2,52 +2,52 @@
  * Prompts. Which button does what: keyboard keys, gamepad face buttons, the D-pad, shoulder buttons and triggers,
  * the "Press A to jump" line and the blinking PRESS START.
  *
- *   <p class="pp-prompt">Press <kbd class="pp-box pp-prompt-button" data-button="a">A</kbd> to jump</p>
- *   <kbd class="pp-box pp-prompt-key">Esc</kbd>
- *   <kbd class="pp-box pp-prompt-shoulder" data-button="rb">RB</kbd>
- *   <span class="pp-prompt-dpad" data-dir="left" role="img" aria-label="D-pad left"></span>
- *   <p class="pp-prompt-start pp-display pp-pop" data-scale="2">Press start</p>
+ *   <p class="chu-prompt">Press <kbd class="chu-box chu-prompt-button" data-button="a">A</kbd> to jump</p>
+ *   <kbd class="chu-box chu-prompt-key">Esc</kbd>
+ *   <kbd class="chu-box chu-prompt-shoulder" data-button="rb">RB</kbd>
+ *   <span class="chu-prompt-dpad" data-dir="left" role="img" aria-label="D-pad left"></span>
+ *   <p class="chu-prompt-start chu-display chu-pop" data-scale="2">Press start</p>
  *
- *   .pp-prompt-key       a keycap: cream, a deep front face, Pixel Bop capitals (or an icon)
- *   .pp-prompt-button    a face button, a pixel circle: data-button a (green) | b (red) | x (blue) | y (orange);
+ *   .chu-prompt-key       a keycap: cream, a deep front face, Pixel Bop capitals (or an icon)
+ *   .chu-prompt-button    a face button, a pixel circle: data-button a (green) | b (red) | x (blue) | y (orange);
  *                        data-tone picks any other. Yellow is kept for focus, so Y is orange.
- *   .pp-prompt-shoulder  data-button lb | rb | l | r (bumpers), lt | rt | zl | zr (triggers, taller)
- *   .pp-prompt-dpad      the D-pad; data-dir up | down | left | right lights that arm, none shows it at rest
- *   .pp-prompt-start     blinks on the beat for five seconds, then stays: blinking never runs on (WCAG 2.2.2)
+ *   .chu-prompt-shoulder  data-button lb | rb | l | r (bumpers), lt | rt | zl | zr (triggers, taller)
+ *   .chu-prompt-dpad      the D-pad; data-dir up | down | left | right lights that arm, none shows it at rest
+ *   .chu-prompt-start     blinks on the beat for five seconds, then stays: blinking never runs on (WCAG 2.2.2)
  *
  * Prompts are labels, not controls: <kbd> for keys and buttons, role="img" with a name for the D-pad.
  *
- * A prompt line on the world wears OUTLINE (.pp-outline) or sits in a POP line; its keys and buttons never take
+ * A prompt line on the world wears OUTLINE (.chu-outline) or sits in a POP line; its keys and buttons never take
  * that ink outline: they are candy, with their own label colour (ink, or white on slate) and no text shadow.
  */
 
-@layer pp.kits {
-  .pp-prompt {
+@layer chu.kits {
+  .chu-prompt {
     display: inline-flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: calc(3 * var(--pp-pixel));
+    gap: calc(3 * var(--chu-pixel));
     margin: 0;
-    font-family: var(--pp-font-ui);
-    font-size: var(--pp-size-small);
-    font-weight: var(--pp-weight-bold);
+    font-family: var(--chu-font-ui);
+    font-size: var(--chu-size-small);
+    font-weight: var(--chu-weight-bold);
     line-height: 1;
-    letter-spacing: var(--pp-tracking-label);
+    letter-spacing: var(--chu-tracking-label);
     text-transform: uppercase;
   }
 
   /* Glyphs share Pixel Bop at scale 1: caps seven pixels tall, on the grid. A key is candy: its label is the box's
      own colour and never inherits a POP or OUTLINE text shadow from the line around it. */
-  :is(.pp-prompt-key, .pp-prompt-button, .pp-prompt-shoulder) {
+  :is(.chu-prompt-key, .chu-prompt-button, .chu-prompt-shoulder) {
     display: inline-flex;
     flex: none;
     align-items: flex-start;
     justify-content: center;
-    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
-    color: var(--pp-box-text);
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
+    color: var(--chu-box-text);
     text-shadow: none;
-    font-family: var(--pp-font-display);
-    font-size: calc(10 * var(--pp-pixel));
+    font-family: var(--chu-font-display);
+    font-size: calc(10 * var(--chu-pixel));
     font-weight: 400;
     line-height: 1.2;
     letter-spacing: 0;
@@ -59,73 +59,73 @@
   }
 
   /* A keycap: the top face, then a front face three pixels deep. */
-  .pp-prompt-key {
-    --pp-r: 2;
-    --pp-shape: var(--pp-shape-2);
-    --pp-shape-inner: var(--pp-shape-2-inner);
-    --pp-band-top: 1;
-    --pp-band-bottom: 3;
-    min-inline-size: calc(16 * var(--pp-pixel));
-    block-size: calc(16 * var(--pp-pixel));
-    padding: var(--pp-pixel) calc(4 * var(--pp-pixel)) calc(3 * var(--pp-pixel));
+  .chu-prompt-key {
+    --chu-r: 2;
+    --chu-shape: var(--chu-shape-2);
+    --chu-shape-inner: var(--chu-shape-2-inner);
+    --chu-band-top: 1;
+    --chu-band-bottom: 3;
+    min-inline-size: calc(16 * var(--chu-pixel));
+    block-size: calc(16 * var(--chu-pixel));
+    padding: var(--chu-pixel) calc(4 * var(--chu-pixel)) calc(3 * var(--chu-pixel));
   }
-  .pp-prompt-key:not([data-tone]) {
-    --pp-tone: var(--pp-candy-cream);
-    --pp-tone-light: var(--pp-candy-cream-light);
-    --pp-tone-shade: var(--pp-candy-cream-shade);
-    --pp-tone-on: var(--pp-ink);
+  .chu-prompt-key:not([data-tone]) {
+    --chu-tone: var(--chu-candy-cream);
+    --chu-tone-light: var(--chu-candy-cream-light);
+    --chu-tone-shade: var(--chu-candy-cream-shade);
+    --chu-tone-on: var(--chu-ink);
   }
-  .pp-prompt-key > .pp-icon { margin-block-start: var(--pp-pixel); }
+  .chu-prompt-key > .chu-icon { margin-block-start: var(--chu-pixel); }
 
   /* A face button: a sixteen-pixel circle (radius 7), the letter's six columns centred exactly. */
-  .pp-prompt-button {
-    --pp-r: 7;
-    --pp-shape: var(--pp-shape-7);
-    --pp-shape-inner: var(--pp-shape-7-inner);
-    --pp-band-top: 3;
-    --pp-band-bottom: 3;
+  .chu-prompt-button {
+    --chu-r: 7;
+    --chu-shape: var(--chu-shape-7);
+    --chu-shape-inner: var(--chu-shape-7-inner);
+    --chu-band-top: 3;
+    --chu-band-bottom: 3;
     justify-content: flex-start;
-    inline-size: calc(16 * var(--pp-pixel));
-    block-size: calc(16 * var(--pp-pixel));
-    padding: calc(2 * var(--pp-pixel)) 0 0 calc(5 * var(--pp-pixel));
-    --pp-tone-on: var(--pp-ink);
+    inline-size: calc(16 * var(--chu-pixel));
+    block-size: calc(16 * var(--chu-pixel));
+    padding: calc(2 * var(--chu-pixel)) 0 0 calc(5 * var(--chu-pixel));
+    --chu-tone-on: var(--chu-ink);
   }
-  .pp-prompt-button:not([data-tone])[data-button="a"] { --pp-tone: var(--pp-candy-green); --pp-tone-light: var(--pp-candy-green-light); --pp-tone-shade: var(--pp-candy-green-shade); }
-  .pp-prompt-button:not([data-tone])[data-button="b"] { --pp-tone: var(--pp-candy-red); --pp-tone-light: var(--pp-candy-red-light); --pp-tone-shade: var(--pp-candy-red-shade); }
-  .pp-prompt-button:not([data-tone])[data-button="x"] { --pp-tone: var(--pp-candy-blue); --pp-tone-light: var(--pp-candy-blue-light); --pp-tone-shade: var(--pp-candy-blue-shade); }
-  .pp-prompt-button:not([data-tone])[data-button="y"] { --pp-tone: var(--pp-candy-orange); --pp-tone-light: var(--pp-candy-orange-light); --pp-tone-shade: var(--pp-candy-orange-shade); }
+  .chu-prompt-button:not([data-tone])[data-button="a"] { --chu-tone: var(--chu-candy-green); --chu-tone-light: var(--chu-candy-green-light); --chu-tone-shade: var(--chu-candy-green-shade); }
+  .chu-prompt-button:not([data-tone])[data-button="b"] { --chu-tone: var(--chu-candy-red); --chu-tone-light: var(--chu-candy-red-light); --chu-tone-shade: var(--chu-candy-red-shade); }
+  .chu-prompt-button:not([data-tone])[data-button="x"] { --chu-tone: var(--chu-candy-blue); --chu-tone-light: var(--chu-candy-blue-light); --chu-tone-shade: var(--chu-candy-blue-shade); }
+  .chu-prompt-button:not([data-tone])[data-button="y"] { --chu-tone: var(--chu-candy-orange); --chu-tone-light: var(--chu-candy-orange-light); --chu-tone-shade: var(--chu-candy-orange-shade); }
 
   /* Bumpers and triggers: slate, white letters; triggers stand taller. */
-  .pp-prompt-shoulder {
-    --pp-r: 3;
-    --pp-shape: var(--pp-shape-3);
-    --pp-shape-inner: var(--pp-shape-3-inner);
-    --pp-band-top: 2;
-    --pp-band-bottom: 2;
-    min-inline-size: calc(20 * var(--pp-pixel));
-    block-size: calc(13 * var(--pp-pixel));
-    padding: var(--pp-pixel) calc(4 * var(--pp-pixel)) 0;
+  .chu-prompt-shoulder {
+    --chu-r: 3;
+    --chu-shape: var(--chu-shape-3);
+    --chu-shape-inner: var(--chu-shape-3-inner);
+    --chu-band-top: 2;
+    --chu-band-bottom: 2;
+    min-inline-size: calc(20 * var(--chu-pixel));
+    block-size: calc(13 * var(--chu-pixel));
+    padding: var(--chu-pixel) calc(4 * var(--chu-pixel)) 0;
   }
-  .pp-prompt-shoulder:not([data-tone]) {
-    --pp-tone: var(--pp-candy-slate);
-    --pp-tone-light: var(--pp-candy-slate-light);
-    --pp-tone-shade: var(--pp-candy-slate-shade);
-    --pp-tone-on: var(--pp-white);
+  .chu-prompt-shoulder:not([data-tone]) {
+    --chu-tone: var(--chu-candy-slate);
+    --chu-tone-light: var(--chu-candy-slate-light);
+    --chu-tone-shade: var(--chu-candy-slate-shade);
+    --chu-tone-on: var(--chu-white);
   }
-  .pp-prompt-shoulder:is([data-button="lt"], [data-button="rt"], [data-button="zl"], [data-button="zr"]) {
-    --pp-r: 5;
-    --pp-shape: var(--pp-shape-5);
-    --pp-shape-inner: var(--pp-shape-5-inner);
-    --pp-band-top: 3;
-    block-size: calc(17 * var(--pp-pixel));
-    padding-block-start: calc(4 * var(--pp-pixel));
+  .chu-prompt-shoulder:is([data-button="lt"], [data-button="rt"], [data-button="zl"], [data-button="zr"]) {
+    --chu-r: 5;
+    --chu-shape: var(--chu-shape-5);
+    --chu-shape-inner: var(--chu-shape-5-inner);
+    --chu-band-top: 3;
+    block-size: calc(17 * var(--chu-pixel));
+    padding-block-start: calc(4 * var(--chu-pixel));
   }
 
   /* The D-pad: an ink plus, a slate fill with a dimple, and the pressed arm lit in the accent. */
-  .pp-prompt-dpad {
+  .chu-prompt-dpad {
     --_dpad-ink: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 15' shape-rendering='crispEdges'%3E%3Cpath d='M5 0h5v1h-5zM4 1h7v3h-7zM1 4h13v1h-13zM0 5h15v5h-15zM1 10h13v1h-13zM4 11h7v3h-7zM5 14h5v1h-5z'/%3E%3C/svg%3E");
     --_dpad-fill: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 15' shape-rendering='crispEdges'%3E%3Cpath d='M5 1h5v4h-5zM1 5h13v5h-13zM5 10h5v4h-5z'/%3E%3C/svg%3E");
-    --_p: var(--pp-pixel);
+    --_p: var(--chu-pixel);
     --_lit: 0 0 / 0 0;
     position: relative;
     display: inline-block;
@@ -135,47 +135,47 @@
     margin: 0 var(--_p) var(--_p) 0;
     vertical-align: middle;
   }
-  .pp-prompt-dpad::before,
-  .pp-prompt-dpad::after {
+  .chu-prompt-dpad::before,
+  .chu-prompt-dpad::after {
     content: "";
     position: absolute;
     inset: 0;
   }
   /* Ink: the outline, and the same plus a pixel down and right for the drop. */
-  .pp-prompt-dpad::before {
+  .chu-prompt-dpad::before {
     inset: 0 calc(-1 * var(--_p)) calc(-1 * var(--_p)) 0;
-    background: var(--pp-ink);
+    background: var(--chu-ink);
     mask:
       var(--_dpad-ink) 0 0 / calc(15 * var(--_p)) calc(15 * var(--_p)) no-repeat,
       var(--_dpad-ink) var(--_p) var(--_p) / calc(15 * var(--_p)) calc(15 * var(--_p)) no-repeat;
   }
-  .pp-prompt-dpad::after {
+  .chu-prompt-dpad::after {
     mask: var(--_dpad-fill) 0 0 / 100% 100% no-repeat;
     background:
-      linear-gradient(var(--pp-accent) 0 0) var(--_lit) no-repeat,
-      linear-gradient(var(--pp-candy-slate-shade) 0 0) calc(6 * var(--_p)) calc(6 * var(--_p)) / calc(3 * var(--_p)) calc(3 * var(--_p)) no-repeat,
-      linear-gradient(var(--pp-candy-slate-light) 0 0) 0 calc(5 * var(--_p)) / 100% var(--_p) no-repeat,
-      linear-gradient(to bottom, var(--pp-candy-slate-light) 0 calc(2 * var(--_p)), var(--pp-candy-slate) 0 calc(100% - 2 * var(--_p)), var(--pp-candy-slate-shade) 0);
+      linear-gradient(var(--chu-accent) 0 0) var(--_lit) no-repeat,
+      linear-gradient(var(--chu-candy-slate-shade) 0 0) calc(6 * var(--_p)) calc(6 * var(--_p)) / calc(3 * var(--_p)) calc(3 * var(--_p)) no-repeat,
+      linear-gradient(var(--chu-candy-slate-light) 0 0) 0 calc(5 * var(--_p)) / 100% var(--_p) no-repeat,
+      linear-gradient(to bottom, var(--chu-candy-slate-light) 0 calc(2 * var(--_p)), var(--chu-candy-slate) 0 calc(100% - 2 * var(--_p)), var(--chu-candy-slate-shade) 0);
   }
-  .pp-prompt-dpad[data-dir="up"] { --_lit: calc(5 * var(--_p)) var(--_p) / calc(5 * var(--_p)) calc(4 * var(--_p)); }
-  .pp-prompt-dpad[data-dir="down"] { --_lit: calc(5 * var(--_p)) calc(10 * var(--_p)) / calc(5 * var(--_p)) calc(4 * var(--_p)); }
-  .pp-prompt-dpad[data-dir="left"] { --_lit: var(--_p) calc(5 * var(--_p)) / calc(4 * var(--_p)) calc(5 * var(--_p)); }
-  .pp-prompt-dpad[data-dir="right"] { --_lit: calc(10 * var(--_p)) calc(5 * var(--_p)) / calc(4 * var(--_p)) calc(5 * var(--_p)); }
+  .chu-prompt-dpad[data-dir="up"] { --_lit: calc(5 * var(--_p)) var(--_p) / calc(5 * var(--_p)) calc(4 * var(--_p)); }
+  .chu-prompt-dpad[data-dir="down"] { --_lit: calc(5 * var(--_p)) calc(10 * var(--_p)) / calc(5 * var(--_p)) calc(4 * var(--_p)); }
+  .chu-prompt-dpad[data-dir="left"] { --_lit: var(--_p) calc(5 * var(--_p)) / calc(4 * var(--_p)) calc(5 * var(--_p)); }
+  .chu-prompt-dpad[data-dir="right"] { --_lit: calc(10 * var(--_p)) calc(5 * var(--_p)) / calc(4 * var(--_p)) calc(5 * var(--_p)); }
 
-  .pp-prompt-start {
+  .chu-prompt-start {
     margin: 0;
-    animation: pp-blink calc(2 * var(--pp-duration-beat)) steps(1, jump-end) 6;
+    animation: chu-blink calc(2 * var(--chu-duration-beat)) steps(1, jump-end) 6;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .pp-prompt-start { animation: none; }
+    .chu-prompt-start { animation: none; }
   }
   /* The D-pad is a picture drawn with backgrounds: it prints all the same. */
   @media print {
-    .pp-prompt-dpad::before, .pp-prompt-dpad::after { print-color-adjust: exact; }
+    .chu-prompt-dpad::before, .chu-prompt-dpad::after { print-color-adjust: exact; }
   }
   @media (forced-colors: active) {
-    .pp-prompt-dpad::before { background: CanvasText; }
-    .pp-prompt-dpad::after { background: linear-gradient(Highlight 0 0) var(--_lit) no-repeat, Canvas; }
+    .chu-prompt-dpad::before { background: CanvasText; }
+    .chu-prompt-dpad::after { background: linear-gradient(Highlight 0 0) var(--_lit) no-repeat, Canvas; }
   }
 }

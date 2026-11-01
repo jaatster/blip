@@ -1,22 +1,22 @@
 /*
  * Type. Big text is Pixel Bop, always on the grid and always capitals: font-size is 10 x pixel x scale, so every
- * letter pixel is a Blip pixel. Small text is Pixelify Sans on its five sizes (--pp-size-*, in rem, so they follow
+ * letter pixel is a Blip pixel. Small text is Pixelify Sans on its five sizes (--chu-size-*, in rem, so they follow
  * a larger default text size): the one thing allowed off the grid.
  *
- *   .pp-display   Pixel Bop at a whole scale (--pp-scale: 1 to 4, or data-scale)
- *   .pp-pop       POP: white letters, ink outline, a tinted lower band and a drop in the tone's shade
- *   .pp-outline   one colour with an ink outline, no drop: small text over pictures
- *   .pp-label     upper-case UI labels
- *   .pp-title, .pp-lead, .pp-body, .pp-small, .pp-caption
+ *   .chu-display   Pixel Bop at a whole scale (--chu-scale: 1 to 4, or data-scale)
+ *   .chu-pop       POP: white letters, ink outline, a tinted lower band and a drop in the tone's shade
+ *   .chu-outline   one colour with an ink outline, no drop: small text over pictures
+ *   .chu-label     upper-case UI labels
+ *   .chu-title, .chu-lead, .chu-body, .chu-small, .chu-caption
  */
 
-@layer pp.core {
-  .pp-display {
-    --pp-scale: 2;
-    font-family: var(--pp-font-display);
-    font-size: calc(10 * var(--pp-pixel) * var(--pp-scale));
+@layer chu.core {
+  .chu-display {
+    --chu-scale: 2;
+    font-family: var(--chu-font-display);
+    font-size: calc(10 * var(--chu-pixel) * var(--chu-scale));
     font-weight: 400;
-    line-height: var(--pp-leading-display);
+    line-height: var(--chu-leading-display);
     letter-spacing: 0;
     /* A score or a word in display type stays whole, even in a <p>: "120" over "4" reads as two numbers. */
     overflow-wrap: normal;
@@ -30,16 +30,16 @@
   /*
    * Rounded corners at big sizes, as on the TV: each letter enlarged with EPX (ss02, "Rounded 2x") at scales 2 and 4
    * and AdvMAME3x (ss03, "Rounded 3x") at scale 3, so every rounding step is a whole Blip pixel. Scale 1 is
-   * square. A --pp-scale set in CSS picks its set too, where the browser can compute feature values.
+   * square. A --chu-scale set in CSS picks its set too, where the browser can compute feature values.
    */
-  .pp-display[data-scale="1"] { --pp-scale: 1; font-feature-settings: normal; }
-  .pp-display[data-scale="2"] { --pp-scale: 2; font-feature-settings: "ss02"; }
-  .pp-display[data-scale="3"] { --pp-scale: 3; font-feature-settings: "ss03"; }
-  .pp-display[data-scale="4"] { --pp-scale: 4; font-feature-settings: "ss02"; }
+  .chu-display[data-scale="1"] { --chu-scale: 1; font-feature-settings: normal; }
+  .chu-display[data-scale="2"] { --chu-scale: 2; font-feature-settings: "ss02"; }
+  .chu-display[data-scale="3"] { --chu-scale: 3; font-feature-settings: "ss03"; }
+  .chu-display[data-scale="4"] { --chu-scale: 4; font-feature-settings: "ss02"; }
   @supports (font-feature-settings: "ss02" calc(1)) {
-    .pp-display:not([data-scale]) {
-      --_pp-ss03: clamp(0, 1 - (var(--pp-scale) - 3) * (var(--pp-scale) - 3), 1);
-      font-feature-settings: "ss02" calc(clamp(0, var(--pp-scale) - 1, 1) - var(--_pp-ss03)), "ss03" var(--_pp-ss03);
+    .chu-display:not([data-scale]) {
+      --_chu-ss03: clamp(0, 1 - (var(--chu-scale) - 3) * (var(--chu-scale) - 3), 1);
+      font-feature-settings: "ss02" calc(clamp(0, var(--chu-scale) - 1, 1) - var(--_chu-ss03)), "ss03" var(--_chu-ss03);
     }
   }
 
@@ -48,23 +48,23 @@
    * outline, in the tone's shade. Add data-pop="<the same text>" and the bottom two rows of every letter (rows 7
    * and 8 of the 12-row line) take a light tint of the tone, as on the TV.
    */
-  .pp-pop {
-    --pp-pop-tint: var(--pp-accent-light);
-    --pp-pop-drop: var(--pp-accent-shade);
-    --_p: var(--pp-pixel);
+  .chu-pop {
+    --chu-pop-tint: var(--chu-accent-light);
+    --chu-pop-drop: var(--chu-accent-shade);
+    --_p: var(--chu-pixel);
     position: relative;
-    color: var(--pp-white);
+    color: var(--chu-white);
     text-shadow:
-      calc(-1 * var(--_p)) calc(-1 * var(--_p)) 0 var(--pp-ink), 0 calc(-1 * var(--_p)) 0 var(--pp-ink),
-      var(--_p) calc(-1 * var(--_p)) 0 var(--pp-ink), calc(-1 * var(--_p)) 0 0 var(--pp-ink),
-      var(--_p) 0 0 var(--pp-ink), calc(-1 * var(--_p)) var(--_p) 0 var(--pp-ink),
-      0 var(--_p) 0 var(--pp-ink), var(--_p) var(--_p) 0 var(--pp-ink),
-      calc(2 * var(--_p)) 0 0 var(--pp-pop-drop), calc(2 * var(--_p)) var(--_p) 0 var(--pp-pop-drop),
-      calc(2 * var(--_p)) calc(2 * var(--_p)) 0 var(--pp-pop-drop), var(--_p) calc(2 * var(--_p)) 0 var(--pp-pop-drop),
-      0 calc(2 * var(--_p)) 0 var(--pp-pop-drop);
+      calc(-1 * var(--_p)) calc(-1 * var(--_p)) 0 var(--chu-ink), 0 calc(-1 * var(--_p)) 0 var(--chu-ink),
+      var(--_p) calc(-1 * var(--_p)) 0 var(--chu-ink), calc(-1 * var(--_p)) 0 0 var(--chu-ink),
+      var(--_p) 0 0 var(--chu-ink), calc(-1 * var(--_p)) var(--_p) 0 var(--chu-ink),
+      0 var(--_p) 0 var(--chu-ink), var(--_p) var(--_p) 0 var(--chu-ink),
+      calc(2 * var(--_p)) 0 0 var(--chu-pop-drop), calc(2 * var(--_p)) var(--_p) 0 var(--chu-pop-drop),
+      calc(2 * var(--_p)) calc(2 * var(--_p)) 0 var(--chu-pop-drop), var(--_p) calc(2 * var(--_p)) 0 var(--chu-pop-drop),
+      0 calc(2 * var(--_p)) 0 var(--chu-pop-drop);
     padding: var(--_p) calc(2 * var(--_p)) calc(2 * var(--_p)) var(--_p);
   }
-  .pp-pop[data-pop]::after {
+  .chu-pop[data-pop]::after {
     content: attr(data-pop) / "";
     position: absolute;
     inset: 0;
@@ -72,8 +72,8 @@
     color: transparent;
     text-shadow: none;
     /* Rows 7 to 11 of every 12-row line take the tint, so wrapped lines are tinted too. */
-    --_pp-line: calc(12 * var(--pp-pixel) * var(--pp-scale, 2));
-    background: repeating-linear-gradient(to bottom, transparent 0 calc(var(--_pp-line) * 7 / 12), var(--pp-pop-tint) 0 var(--_pp-line));
+    --_chu-line: calc(12 * var(--chu-pixel) * var(--chu-scale, 2));
+    background: repeating-linear-gradient(to bottom, transparent 0 calc(var(--_chu-line) * 7 / 12), var(--chu-pop-tint) 0 var(--_chu-line));
     background-origin: content-box;
     -webkit-background-clip: text;
     background-clip: text;
@@ -81,41 +81,41 @@
   }
   /* Printing ignores background-clip: text, so the tint would print as a box over the word: on paper POP is white
      letters, the ink outline and the drop. */
-  @media print { .pp-pop[data-pop]::after { content: none; } }
-  .pp-pop:is([data-tone="red"], [data-tone="danger"]) { --pp-pop-tint: var(--pp-candy-red-light); --pp-pop-drop: var(--pp-candy-red-shade); }
-  .pp-pop[data-tone="orange"], .pp-pop[data-tone="warning"] { --pp-pop-tint: var(--pp-candy-orange-light); --pp-pop-drop: var(--pp-candy-orange-shade); }
-  .pp-pop[data-tone="yellow"] { --pp-pop-tint: var(--pp-candy-yellow-light); --pp-pop-drop: var(--pp-candy-yellow-shade); }
-  .pp-pop:is([data-tone="green"], [data-tone="success"]) { --pp-pop-tint: var(--pp-candy-green-light); --pp-pop-drop: var(--pp-candy-green-shade); }
-  .pp-pop[data-tone="teal"] { --pp-pop-tint: var(--pp-candy-teal-light); --pp-pop-drop: var(--pp-candy-teal-shade); }
-  .pp-pop:is([data-tone="blue"], [data-tone="info"]) { --pp-pop-tint: var(--pp-candy-blue-light); --pp-pop-drop: var(--pp-candy-blue-shade); }
-  .pp-pop[data-tone="purple"] { --pp-pop-tint: var(--pp-candy-purple-light); --pp-pop-drop: var(--pp-candy-purple-shade); }
-  .pp-pop[data-tone="pink"] { --pp-pop-tint: var(--pp-candy-pink-light); --pp-pop-drop: var(--pp-candy-pink-shade); }
+  @media print { .chu-pop[data-pop]::after { content: none; } }
+  .chu-pop:is([data-tone="red"], [data-tone="danger"]) { --chu-pop-tint: var(--chu-candy-red-light); --chu-pop-drop: var(--chu-candy-red-shade); }
+  .chu-pop[data-tone="orange"], .chu-pop[data-tone="warning"] { --chu-pop-tint: var(--chu-candy-orange-light); --chu-pop-drop: var(--chu-candy-orange-shade); }
+  .chu-pop[data-tone="yellow"] { --chu-pop-tint: var(--chu-candy-yellow-light); --chu-pop-drop: var(--chu-candy-yellow-shade); }
+  .chu-pop:is([data-tone="green"], [data-tone="success"]) { --chu-pop-tint: var(--chu-candy-green-light); --chu-pop-drop: var(--chu-candy-green-shade); }
+  .chu-pop[data-tone="teal"] { --chu-pop-tint: var(--chu-candy-teal-light); --chu-pop-drop: var(--chu-candy-teal-shade); }
+  .chu-pop:is([data-tone="blue"], [data-tone="info"]) { --chu-pop-tint: var(--chu-candy-blue-light); --chu-pop-drop: var(--chu-candy-blue-shade); }
+  .chu-pop[data-tone="purple"] { --chu-pop-tint: var(--chu-candy-purple-light); --chu-pop-drop: var(--chu-candy-purple-shade); }
+  .chu-pop[data-tone="pink"] { --chu-pop-tint: var(--chu-candy-pink-light); --chu-pop-drop: var(--chu-candy-pink-shade); }
 
   /* OUTLINE: one colour, an ink outline, no drop. For small text that can land on any part of a picture. */
-  .pp-outline {
+  .chu-outline {
     /* stylelint-disable-next-line blip/whole-pixels -- small Pixelify Sans text takes a half-pixel outline (text may sit off the grid, AUTHORING rule 1) */
-    --_p: max(0.5px, calc(var(--pp-pixel) / 2));
-    color: var(--pp-white);
+    --_p: max(0.5px, calc(var(--chu-pixel) / 2));
+    color: var(--chu-white);
     text-shadow:
-      calc(-1 * var(--_p)) calc(-1 * var(--_p)) 0 var(--pp-ink), 0 calc(-1 * var(--_p)) 0 var(--pp-ink),
-      var(--_p) calc(-1 * var(--_p)) 0 var(--pp-ink), calc(-1 * var(--_p)) 0 0 var(--pp-ink),
-      var(--_p) 0 0 var(--pp-ink), calc(-1 * var(--_p)) var(--_p) 0 var(--pp-ink),
-      0 var(--_p) 0 var(--pp-ink), var(--_p) var(--_p) 0 var(--pp-ink);
+      calc(-1 * var(--_p)) calc(-1 * var(--_p)) 0 var(--chu-ink), 0 calc(-1 * var(--_p)) 0 var(--chu-ink),
+      var(--_p) calc(-1 * var(--_p)) 0 var(--chu-ink), calc(-1 * var(--_p)) 0 0 var(--chu-ink),
+      var(--_p) 0 0 var(--chu-ink), calc(-1 * var(--_p)) var(--_p) 0 var(--chu-ink),
+      0 var(--_p) 0 var(--chu-ink), var(--_p) var(--_p) 0 var(--chu-ink);
   }
 
-  .pp-label {
-    font-family: var(--pp-font-ui);
-    font-size: var(--pp-size-small);
-    font-weight: var(--pp-weight-bold);
+  .chu-label {
+    font-family: var(--chu-font-ui);
+    font-size: var(--chu-size-small);
+    font-weight: var(--chu-weight-bold);
     line-height: 1;
-    letter-spacing: var(--pp-tracking-label);
+    letter-spacing: var(--chu-tracking-label);
     text-transform: uppercase;
   }
-  .pp-title { font-family: var(--pp-font-ui); font-size: var(--pp-size-title); font-weight: var(--pp-weight-bold); line-height: var(--pp-leading-tight); text-wrap: balance; }
-  .pp-lead { font-size: var(--pp-size-lead); line-height: var(--pp-leading-normal); }
-  .pp-body { font-size: var(--pp-size-body); line-height: var(--pp-leading-normal); }
-  .pp-small { font-size: var(--pp-size-small); line-height: var(--pp-leading-normal); }
-  .pp-caption { font-size: var(--pp-size-caption); line-height: var(--pp-leading-normal); color: var(--pp-text-muted); }
-  .pp-muted { color: var(--pp-text-muted); }
-  .pp-numeric { font-variant-numeric: tabular-nums; }
+  .chu-title { font-family: var(--chu-font-ui); font-size: var(--chu-size-title); font-weight: var(--chu-weight-bold); line-height: var(--chu-leading-tight); text-wrap: balance; }
+  .chu-lead { font-size: var(--chu-size-lead); line-height: var(--chu-leading-normal); }
+  .chu-body { font-size: var(--chu-size-body); line-height: var(--chu-leading-normal); }
+  .chu-small { font-size: var(--chu-size-small); line-height: var(--chu-leading-normal); }
+  .chu-caption { font-size: var(--chu-size-caption); line-height: var(--chu-leading-normal); color: var(--chu-text-muted); }
+  .chu-muted { color: var(--chu-text-muted); }
+  .chu-numeric { font-variant-numeric: tabular-nums; }
 }

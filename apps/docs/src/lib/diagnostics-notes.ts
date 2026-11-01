@@ -12,92 +12,92 @@ export interface Note {
 }
 
 export const NOTES: Record<string, Note> = {
-  "PP-A001": {
+  "CHU-A001": {
     title: "An element has no accessible name",
     why: "A screen reader announces a control by its name. An element with no text, aria-label or aria-labelledby is announced as just its role (\"group\", \"slider\"), which says nothing about what it is for.",
     fix: 'Add <code class="docs-inline-code">aria-label</code> naming what it is for ("Difficulty", "Rate this level"), or <code class="docs-inline-code">aria-labelledby</code> pointing at a visible label.',
   },
-  "PP-A010": {
+  "CHU-A010": {
     title: "A dialog has no name",
     why: "When a dialog opens, a screen reader says its name first. Without one, the person hears only \"dialog\".",
     fix: 'Point <code class="docs-inline-code">aria-labelledby</code> at the dialog\'s title, or give it <code class="docs-inline-code">aria-label</code>.',
   },
-  "PP-C001": {
+  "CHU-C001": {
     title: "A command palette is missing its parts",
-    why: "<pp-command> works on markup that is already there: a <dialog>, a text input and a [role=listbox] of options. Without them it does nothing.",
+    why: "<chu-command> works on markup that is already there: a <dialog>, a text input and a [role=listbox] of options. Without them it does nothing.",
     fix: 'Start from the markup on the <a href="/components/command/">command palette</a> page.',
   },
-  "PP-D001": {
+  "CHU-D001": {
     title: "An attract demo has no label",
     why: "A demo is one picture to a screen reader: its markup is inert, and only its label is read. Without one, the person hears nothing about what it shows.",
-    fix: 'Give <code class="docs-inline-code">&lt;pp-attract&gt;</code> a <code class="docs-inline-code">label</code>: one sentence that says what happens ("Typing a title and saving shows a toast").',
+    fix: 'Give <code class="docs-inline-code">&lt;chu-attract&gt;</code> a <code class="docs-inline-code">label</code>: one sentence that says what happens ("Typing a title and saving shows a toast").',
   },
-  "PP-D010": {
+  "CHU-D010": {
     title: "An attract demo cannot read a step",
     why: "A demo plays the steps it can read and skips the rest, so a misspelt verb, a type with no quoted text or a wait with no time leaves a gap in the story.",
     fix: 'Write each step as <code class="docs-inline-code">move</code>, <code class="docs-inline-code">press</code>, <code class="docs-inline-code">type #field \'text\'</code>, <code class="docs-inline-code">wait 2s</code>, <code class="docs-inline-code">show</code>, <code class="docs-inline-code">hide</code> or <code class="docs-inline-code">poster</code>, split by semicolons; see the <a href="/components/attract/">attract</a> page.',
   },
-  "PP-D011": {
+  "CHU-D011": {
     title: "An attract demo's step matches nothing",
     why: "A step's selector is matched inside the demo. One that matches nothing there (a typo, an id outside it) is skipped, and the pointer stays where it was.",
-    fix: 'Point the selector at something inside the <code class="docs-inline-code">&lt;pp-attract&gt;</code>, as for <code class="docs-inline-code">querySelector</code>.',
+    fix: 'Point the selector at something inside the <code class="docs-inline-code">&lt;chu-attract&gt;</code>, as for <code class="docs-inline-code">querySelector</code>.',
   },
-  "PP-E001": {
+  "CHU-E001": {
     title: "An element is missing what it needs",
-    why: "Elements add behaviour to markup that already works, so each needs its native part inside: <pp-combobox> an <input>, <pp-number> an <input type=number>, <pp-file-drop> an <input type=file>.",
+    why: "Elements add behaviour to markup that already works, so each needs its native part inside: <chu-combobox> an <input>, <chu-number> an <input type=number>, <chu-file-drop> an <input type=file>.",
     fix: 'Put the native control inside the element (see its page).',
   },
-  "PP-E010": {
+  "CHU-E010": {
     title: "A dialog or drawer element has no <dialog>",
-    why: "<pp-dialog> and <pp-drawer> wrap a native <dialog>, which gives focus trapping, Escape and the top layer for free.",
+    why: "<chu-dialog> and <chu-drawer> wrap a native <dialog>, which gives focus trapping, Escape and the top layer for free.",
     fix: 'Put a <code class="docs-inline-code">&lt;dialog&gt;</code> inside the element.',
   },
-  "PP-E020": {
+  "CHU-E020": {
     title: "A tooltip cannot find its trigger",
     why: "A tooltip describes one control, and needs to know which, to show on its hover and focus and to describe it to screen readers.",
-    fix: 'Give <code class="docs-inline-code">&lt;pp-tooltip&gt;</code> a <code class="docs-inline-code">for</code> attribute with the trigger\'s id, or put it right after the trigger.',
+    fix: 'Give <code class="docs-inline-code">&lt;chu-tooltip&gt;</code> a <code class="docs-inline-code">for</code> attribute with the trigger\'s id, or put it right after the trigger.',
   },
-  "PP-I001": {
+  "CHU-I001": {
     title: "An icon name does not exist",
-    why: "<pp-icon> draws nothing for a name it does not know, so a typo leaves an empty space.",
+    why: "<chu-icon> draws nothing for a name it does not know, so a typo leaves an empty space.",
     fix: 'Use a name from <a href="/foundations/icons/">the icon browser</a> or <code class="docs-inline-code">@jaatster/blip-icons/icons.json</code>.',
   },
-  "PP-M001": {
+  "CHU-M001": {
     title: "A menu is missing its button or list",
-    why: "<pp-menu> wires a button to a [role=menu] list: it opens the list, moves focus through it and gives focus back.",
+    why: "<chu-menu> wires a button to a [role=menu] list: it opens the list, moves focus through it and gives focus back.",
     fix: 'Put a <code class="docs-inline-code">&lt;button&gt;</code> and a <code class="docs-inline-code">[role="menu"]</code> list inside, as on the <a href="/components/menu/">menu</a> page.',
   },
-  "PP-N001": {
+  "CHU-N001": {
     title: "Tabs have no tab list",
-    why: "<pp-tabs> wires a [role=tablist] to its panels: it moves focus along the tabs and shows the chosen panel. Without a tab list it has nothing to wire.",
-    fix: 'Put a <code class="docs-inline-code">[role="tablist"]</code> inside <code class="docs-inline-code">&lt;pp-tabs&gt;</code>, as on the <a href="/components/tabs/">tabs</a> page.',
+    why: "<chu-tabs> wires a [role=tablist] to its panels: it moves focus along the tabs and shows the chosen panel. Without a tab list it has nothing to wire.",
+    fix: 'Put a <code class="docs-inline-code">[role="tablist"]</code> inside <code class="docs-inline-code">&lt;chu-tabs&gt;</code>, as on the <a href="/components/tabs/">tabs</a> page.',
   },
-  "PP-T001": {
+  "CHU-T001": {
     title: "A token file could not be read",
     why: "A file named in the resolver is missing or is not valid JSON, so the token build cannot go on.",
     fix: 'Check the file exists and parses.',
   },
-  "PP-T005": {
+  "CHU-T005": {
     title: "A palette sets a token Blip does not have",
     why: "A preset or a theme's palette may only change what the default palette sets: the accents, the warning, Night's page, text, lines and ink (palette.*), and the night sky (world.night.*). Any other name is most likely a typo, and would be written to palettes.css with nothing to read it.",
     fix: 'Check the name against the default palette, <code class="docs-inline-code">@jaatster/blip-tokens/src/palettes/candy.tokens.json</code>, or make your palette on the <a href="/theme/">palette maker</a>.',
   },
-  "PP-T060": {
+  "CHU-T060": {
     title: "A text pair fails WCAG AA",
     why: "Every text pair a component can show is checked in every scheme when the tokens build. This one is under 4.5:1 (or 3:1 for outlines), so some text would be hard to read.",
   },
-  "PP-T061": {
+  "CHU-T061": {
     title: "The focus ring does not stand out from the page",
     why: "The yellow ring or its ink edge must reach 3:1 against the page, so focus is visible on every scheme.",
   },
-  "PP-W001": {
+  "CHU-W001": {
     title: "The page has no world colours",
-    why: "<pp-world> paints its sky and hills from the world colours in @jaatster/blip-tokens/tokens.css. Without them there is nothing to draw with.",
+    why: "<chu-world> paints its sky and hills from the world colours in @jaatster/blip-tokens/tokens.css. Without them there is nothing to draw with.",
     fix: 'Load <code class="docs-inline-code">tokens.css</code> before anything that draws.',
   },
-  "PP-W002": {
+  "CHU-W002": {
     title: "A world's avoid is not a selector list",
-    why: "<pp-world avoid> names what its sun, moon and shooting stars keep clear of, as a CSS selector list. One the browser cannot read matches nothing, so the moon may sit behind your words.",
-    fix: 'Write it as for <code class="docs-inline-code">querySelectorAll</code>: <code class="docs-inline-code">avoid=".pp-hero-title, .pp-hero-lead"</code>.',
+    why: "<chu-world avoid> names what its sun, moon and shooting stars keep clear of, as a CSS selector list. One the browser cannot read matches nothing, so the moon may sit behind your words.",
+    fix: 'Write it as for <code class="docs-inline-code">querySelectorAll</code>: <code class="docs-inline-code">avoid=".chu-hero-title, .chu-hero-lead"</code>.',
   },
 };

@@ -2,97 +2,97 @@
  * Level tile. One stop on a level map: its number in Pixel Bop, the stars earned, locked with a padlock, or current
  * with an arrow bobbing over it. A button (or a link) you press, so it is a candy box.
  *
- *   <button type="button" class="pp-box pp-level" aria-label="Level 2: 2 of 3 stars">
- *     <span class="pp-level-number">2</span>
- *     <span class="pp-level-stars"><pp-sprite name="star"></pp-sprite><pp-sprite name="star"></pp-sprite><pp-sprite name="star-empty"></pp-sprite></span>
+ *   <button type="button" class="chu-box chu-level" aria-label="Level 2: 2 of 3 stars">
+ *     <span class="chu-level-number">2</span>
+ *     <span class="chu-level-stars"><chu-sprite name="star"></chu-sprite><chu-sprite name="star"></chu-sprite><chu-sprite name="star-empty"></chu-sprite></span>
  *   </button>
- *   <button type="button" class="pp-box pp-level" aria-current="step" aria-label="Level 3: you are here">
- *     <pp-sprite class="pp-level-here" name="arrow"></pp-sprite> …
+ *   <button type="button" class="chu-box chu-level" aria-current="step" aria-label="Level 3: you are here">
+ *     <chu-sprite class="chu-level-here" name="arrow"></chu-sprite> …
  *   </button>
- *   <button type="button" class="pp-box pp-level" aria-disabled="true" aria-label="Level 4: locked, clear level 3 first">
- *     <pp-sprite name="padlock"></pp-sprite>
+ *   <button type="button" class="chu-box chu-level" aria-disabled="true" aria-label="Level 4: locked, clear level 3 first">
+ *     <chu-sprite name="padlock"></chu-sprite>
  *   </button>
- *   <span class="pp-level-path" aria-hidden="true"></span>
+ *   <span class="chu-level-path" aria-hidden="true"></span>
  *
- *   aria-current="step"   where you are: the tile sits in; .pp-level-here bobs over it for five seconds, then rests
+ *   aria-current="step"   where you are: the tile sits in; .chu-level-here bobs over it for five seconds, then rests
  *   aria-disabled="true"  locked: dithered, still focusable so it can say why
  *   data-tone             the tile's candy (accent by default): a boss in danger, a bonus in purple
- *   .pp-level-map         an <ol>: each <li> a tile and the path out of it, in a row that wraps, room above for the arrow
- *   .pp-level-path        the dotted way between tiles; data-direction="down" stands it up, data-locked fades it
+ *   .chu-level-map         an <ol>: each <li> a tile and the path out of it, in a row that wraps, room above for the arrow
+ *   .chu-level-path        the dotted way between tiles; data-direction="down" stands it up, data-locked fades it
  *
  * Name every tile with its state: the stars and the padlock are pictures.
  */
 
-@layer pp.kits {
-  .pp-level {
-    --pp-r: 4;
-    --pp-shape: var(--pp-shape-4);
-    --pp-shape-inner: var(--pp-shape-4-inner);
-    --pp-band-top: 4;
-    --pp-band-bottom: 4;
+@layer chu.kits {
+  .chu-level {
+    --chu-r: 4;
+    --chu-shape: var(--chu-shape-4);
+    --chu-shape-inner: var(--chu-shape-4-inner);
+    --chu-band-top: 4;
+    --chu-band-bottom: 4;
     display: inline-grid;
     justify-items: center;
     align-content: center;
-    gap: var(--pp-pixel);
-    inline-size: calc(46 * var(--pp-pixel));
-    block-size: calc(44 * var(--pp-pixel));
-    padding: calc(2 * var(--pp-pixel));
-    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+    gap: var(--chu-pixel);
+    inline-size: calc(46 * var(--chu-pixel));
+    block-size: calc(44 * var(--chu-pixel));
+    padding: calc(2 * var(--chu-pixel));
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
     text-decoration: none;
     vertical-align: middle;
   }
-  .pp-level-number {
-    font-family: var(--pp-font-display);
-    font-size: calc(20 * var(--pp-pixel));
+  .chu-level-number {
+    font-family: var(--chu-font-display);
+    font-size: calc(20 * var(--chu-pixel));
     line-height: 1.2;
     font-variant-numeric: tabular-nums;
     text-transform: uppercase;
     font-synthesis: none;
     -webkit-font-smoothing: none;
   }
-  .pp-level-stars { display: flex; gap: var(--pp-pixel); }
+  .chu-level-stars { display: flex; gap: var(--chu-pixel); }
 
-  .pp-level-here {
+  .chu-level-here {
     position: absolute;
-    inset-block-end: calc(100% + 3 * var(--pp-pixel));
-    inset-inline-start: round(down, 50% - 5 * var(--pp-pixel), var(--pp-pixel));
-    animation: pp-bob calc(2 * var(--pp-duration-beat)) steps(1, jump-end) 6;
+    inset-block-end: calc(100% + 3 * var(--chu-pixel));
+    inset-inline-start: round(down, 50% - 5 * var(--chu-pixel), var(--chu-pixel));
+    animation: chu-bob calc(2 * var(--chu-duration-beat)) steps(1, jump-end) 6;
     pointer-events: none;
   }
 
-  .pp-level-map {
+  .chu-level-map {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    row-gap: calc(14 * var(--pp-pixel));
+    row-gap: calc(14 * var(--chu-pixel));
     margin: 0;
-    padding: calc(12 * var(--pp-pixel)) 0 0;
+    padding: calc(12 * var(--chu-pixel)) 0 0;
     list-style: none;
   }
-  .pp-level-map > li { display: flex; align-items: center; }
-  .pp-level-path {
+  .chu-level-map > li { display: flex; align-items: center; }
+  .chu-level-path {
     flex: none;
-    inline-size: calc(var(--pp-level-path, 10) * var(--pp-pixel));
-    block-size: calc(2 * var(--pp-pixel));
-    margin-inline: var(--pp-pixel) 0;
-    background: repeating-linear-gradient(to right, var(--pp-text) 0 calc(2 * var(--pp-pixel)), transparent 0 calc(4 * var(--pp-pixel)));
+    inline-size: calc(var(--chu-level-path, 10) * var(--chu-pixel));
+    block-size: calc(2 * var(--chu-pixel));
+    margin-inline: var(--chu-pixel) 0;
+    background: repeating-linear-gradient(to right, var(--chu-text) 0 calc(2 * var(--chu-pixel)), transparent 0 calc(4 * var(--chu-pixel)));
   }
-  .pp-level-path[data-direction="down"] {
-    inline-size: calc(2 * var(--pp-pixel));
-    block-size: calc(var(--pp-level-path, 10) * var(--pp-pixel));
+  .chu-level-path[data-direction="down"] {
+    inline-size: calc(2 * var(--chu-pixel));
+    block-size: calc(var(--chu-level-path, 10) * var(--chu-pixel));
     margin: 0;
-    background: repeating-linear-gradient(to bottom, var(--pp-text) 0 calc(2 * var(--pp-pixel)), transparent 0 calc(4 * var(--pp-pixel)));
+    background: repeating-linear-gradient(to bottom, var(--chu-text) 0 calc(2 * var(--chu-pixel)), transparent 0 calc(4 * var(--chu-pixel)));
   }
-  .pp-level-path[data-locked] { --pp-text: var(--pp-line-soft); }
+  .chu-level-path[data-locked] { --chu-text: var(--chu-line-soft); }
 
   @media (prefers-reduced-motion: reduce) {
-    .pp-level-here { animation: none; }
+    .chu-level-here { animation: none; }
   }
   @media (forced-colors: active) {
-    .pp-level-path { background: repeating-linear-gradient(to right, CanvasText 0 calc(2 * var(--pp-pixel)), transparent 0 calc(4 * var(--pp-pixel))); }
+    .chu-level-path { background: repeating-linear-gradient(to right, CanvasText 0 calc(2 * var(--chu-pixel)), transparent 0 calc(4 * var(--chu-pixel))); }
   }
   /* The dotted way between tiles prints, though paper drops backgrounds. */
   @media print {
-    .pp-level-path { print-color-adjust: exact; }
+    .chu-level-path { print-color-adjust: exact; }
   }
 }

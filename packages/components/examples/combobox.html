@@ -1,10 +1,10 @@
-<!-- Combobox: <pp-combobox> turns a datalist into a filtering list with inline completion. One is shown open.
-     Forced states use data-pp-state (docs and tests only). -->
-<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(calc(130*var(--pp-pixel)),1fr));gap:calc(8*var(--pp-pixel)) calc(12*var(--pp-pixel));align-items:start;min-block-size:calc(150*var(--pp-pixel))">
-  <pp-field class="pp-field">
-    <label class="pp-field-label" for="cb-world">Start in</label>
-    <pp-combobox class="pp-combobox" value="caves" empty-text="No world by that name">
-      <span class="pp-box pp-input"><input id="cb-world" name="world" list="cb-worlds" placeholder="Type a world" aria-describedby="cb-world-help"></span>
+<!-- Combobox: <chu-combobox> turns a datalist into a filtering list with inline completion. One is shown open.
+     Forced states use data-chu-state (docs and tests only). -->
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(calc(130*var(--chu-pixel)),1fr));gap:calc(8*var(--chu-pixel)) calc(12*var(--chu-pixel));align-items:start;min-block-size:calc(150*var(--chu-pixel))">
+  <chu-field class="chu-field">
+    <label class="chu-field-label" for="cb-world">Start in</label>
+    <chu-combobox class="chu-combobox" value="caves" empty-text="No world by that name">
+      <span class="chu-box chu-input"><input id="cb-world" name="world" list="cb-worlds" placeholder="Type a world" aria-describedby="cb-world-help"></span>
       <datalist id="cb-worlds">
         <option value="meadow">Meadow</option>
         <option value="caves">Crystal caves</option>
@@ -14,45 +14,45 @@
         <option value="reef">Coral reef</option>
         <option value="volcano">Volcano</option>
       </datalist>
-    </pp-combobox>
-    <p class="pp-field-help" id="cb-world-help">Type to filter; the first match fills in.</p>
-  </pp-field>
+    </chu-combobox>
+    <p class="chu-field-help" id="cb-world-help">Type to filter; the first match fills in.</p>
+  </chu-field>
 
-  <div class="pp-field">
-    <label class="pp-field-label" for="cb-open">Open (for the docs)</label>
-    <pp-combobox class="pp-combobox" open>
-      <span class="pp-box pp-input"><input id="cb-open" list="cb-friends" value="Bit"></span>
+  <div class="chu-field">
+    <label class="chu-field-label" for="cb-open">Open (for the docs)</label>
+    <chu-combobox class="chu-combobox" open>
+      <span class="chu-box chu-input"><input id="cb-open" list="cb-friends" value="Bit"></span>
       <datalist id="cb-friends">
         <option value="Bit Boy"></option>
         <option value="Bitmap Betty"></option>
         <option value="Byte Knight"></option>
         <option value="Pixel Pal"></option>
       </datalist>
-    </pp-combobox>
+    </chu-combobox>
   </div>
 
-  <div class="pp-field">
-    <label class="pp-field-label" for="cb-invalid">Invite a friend</label>
-    <pp-combobox class="pp-combobox">
-      <span class="pp-box pp-input"><input id="cb-invalid" list="cb-friends-2" value="Nobody" required aria-invalid="true" aria-describedby="cb-invalid-error"></span>
+  <div class="chu-field">
+    <label class="chu-field-label" for="cb-invalid">Invite a friend</label>
+    <chu-combobox class="chu-combobox">
+      <span class="chu-box chu-input"><input id="cb-invalid" list="cb-friends-2" value="Nobody" required aria-invalid="true" aria-describedby="cb-invalid-error"></span>
       <datalist id="cb-friends-2"><option value="Bit Boy"></option><option value="Pixel Pal"></option></datalist>
-    </pp-combobox>
-    <p class="pp-field-error" id="cb-invalid-error">No player by that name. Check the spelling.</p>
+    </chu-combobox>
+    <p class="chu-field-error" id="cb-invalid-error">No player by that name. Check the spelling.</p>
   </div>
 
-  <div class="pp-field">
-    <label class="pp-field-label" for="cb-focus">Focus</label>
-    <pp-combobox class="pp-combobox">
-      <span class="pp-box pp-input" data-pp-state="focus"><input id="cb-focus" list="cb-friends-3" value="Pixel Pal"></span>
+  <div class="chu-field">
+    <label class="chu-field-label" for="cb-focus">Focus</label>
+    <chu-combobox class="chu-combobox">
+      <span class="chu-box chu-input" data-chu-state="focus"><input id="cb-focus" list="cb-friends-3" value="Pixel Pal"></span>
       <datalist id="cb-friends-3"><option value="Pixel Pal"></option></datalist>
-    </pp-combobox>
+    </chu-combobox>
   </div>
 
-  <div class="pp-field">
-    <label class="pp-field-label" for="cb-disabled">Disabled</label>
-    <pp-combobox class="pp-combobox">
-      <span class="pp-box pp-input"><input id="cb-disabled" list="cb-friends-4" value="Solo run" disabled></span>
+  <div class="chu-field">
+    <label class="chu-field-label" for="cb-disabled">Disabled</label>
+    <chu-combobox class="chu-combobox">
+      <span class="chu-box chu-input"><input id="cb-disabled" list="cb-friends-4" value="Solo run" disabled></span>
       <datalist id="cb-friends-4"><option value="Solo run"></option></datalist>
-    </pp-combobox>
+    </chu-combobox>
   </div>
 </div>

@@ -28,7 +28,7 @@ Status: **draft, waiting for approval.**
 
 ## Rules the whole system keeps
 
-1. **One pixel.** Every outline, icon, letter, corner and movement is a whole number of pixels (`--pp-pixel`, 2 CSS
+1. **One pixel.** Every outline, icon, letter, corner and movement is a whole number of pixels (`--chu-pixel`, 2 CSS
    px by default). Nothing is blurred, rotated or scaled by a fraction.
 2. **Ink, never black.** The darkest colour is ink `#1A1530`, used for every outline, shadow and piece of dark text.
 3. **Candy on pastel.** Saturated, outlined things can be acted on. The world behind them is soft, dithered and
@@ -76,7 +76,7 @@ per component, so an app takes only what it uses.
 - **Themes are independent switches,** each a modifier in the token resolver:
   - scheme: Day, Sunset or Night;
   - pixel size: 2, 3 or 4 px;
-  - palette: Candy by default, and eleven presets (`data-pp-palette`, `palettes.css`).
+  - palette: Candy by default, and eleven presets (`data-chu-palette`, `palettes.css`).
 
   Contrast and density can be added later. Adding a theme means adding a token file, not changing code.
 - **Packs are data, checked against one schema.** World packs (Meadow first), icon packs and palette packs can be

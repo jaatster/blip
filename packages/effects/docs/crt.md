@@ -15,11 +15,11 @@ round the edge. No blur, no curvature, no see-through wash, CSS only.
 ## Usage
 
 ```html
-<div class="pp-crt">…a game screen, a picture, a panel…</div>
-<div class="pp-crt" data-flicker>…</div>
+<div class="chu-crt">…a game screen, a picture, a panel…</div>
+<div class="chu-crt" data-flicker>…</div>
 ```
 
-Wrap the thing to filter. The effect sits over it and lets pointers through. Don't put `pp-crt` on a `.pp-box`
+Wrap the thing to filter. The effect sits over it and lets pointers through. Don't put `chu-crt` on a `.chu-box`
 itself (both use the same pseudo-elements); wrap the box.
 
 ## Anatomy
@@ -56,4 +56,4 @@ itself (both use the same pseudo-elements); wrap the box.
 
 ## API
 
-`.pp-crt`, `data-flicker`.
+`.chu-crt`, `data-flicker`.

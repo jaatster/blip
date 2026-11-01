@@ -1,7 +1,7 @@
 /**
- * <pp-dialogue> interaction tests, on the example's text boxes: a press while a page types shows the rest of it at
+ * <chu-dialogue> interaction tests, on the example's text boxes: a press while a page types shows the rest of it at
  * once (skip), the next press turns the page (advance), each page is announced whole, and after the last page comes
- * pp-done, or the choices when there are some.
+ * chu-done, or the choices when there are some.
  */
 import type { StoryObj } from "@storybook/html-vite";
 import { expect, waitFor } from "storybook/test";
@@ -9,16 +9,16 @@ import { events, focus, press } from "../lib/play";
 
 type Dialogue = HTMLElement & { page: number; typing: boolean; pages: HTMLElement[]; advance(): void };
 
-const boxes = (root: HTMLElement) => [...root.querySelectorAll<Dialogue>("pp-dialogue")];
+const boxes = (root: HTMLElement) => [...root.querySelectorAll<Dialogue>("chu-dialogue")];
 const parts = (box: Dialogue) => ({
-  next: box.querySelector<HTMLButtonElement>(":scope > .pp-dialogue-next")!,
+  next: box.querySelector<HTMLButtonElement>(":scope > .chu-dialogue-next")!,
   live: box.querySelector<HTMLElement>(':scope > [aria-live="polite"]')!,
   current: () => box.pages.find((p) => p.hasAttribute("data-current"))!,
   /** What the page shows: the typed text, without the rest still waiting in its hidden span. */
   shown: () => {
     const page = box.pages.find((p) => p.hasAttribute("data-current"))!;
     const clone = page.cloneNode(true) as HTMLElement;
-    clone.querySelectorAll(".pp-dialogue-rest").forEach((r) => r.remove());
+    clone.querySelectorAll(".chu-dialogue-rest").forEach((r) => r.remove());
     return clone.textContent?.replace(/\s+/g, " ").trim() ?? "";
   },
 });
@@ -28,15 +28,15 @@ export const SkipAndAdvance: StoryObj = {
   play: async ({ canvasElement, step }) => {
     const box = boxes(canvasElement)[0]!;
     const { next, live, current, shown } = parts(box);
-    const turns = events<{ page: number; pages: number }>(box, "pp-next");
-    const done = events(box, "pp-done");
+    const turns = events<{ page: number; pages: number }>(box, "chu-next");
+    const done = events(box, "chu-done");
     const first = "Ah, a traveller! The rope bridge to Starfall Meadow washed out in last night's storm, and the ferry won't run till spring.";
 
     await step("A labelled group; the whole page is announced while it types", async () => {
       expect(box).toHaveAttribute("role", "group");
       expect(box).toHaveAccessibleName("Bramble");
       await waitFor(() => expect(live).toHaveTextContent(`Bramble: ${first}`));
-      expect(shown().length).toBeLessThan(first.length); // frozen mid-sentence (data-pp-typed)
+      expect(shown().length).toBeLessThan(first.length); // frozen mid-sentence (data-chu-typed)
       expect(next).toHaveAccessibleName("Show all text");
     });
 
@@ -60,7 +60,7 @@ export const SkipAndAdvance: StoryObj = {
       expect(next).toHaveAccessibleName("Continue");
     });
 
-    await step("After the last page, the next press sends pp-done", async () => {
+    await step("After the last page, the next press sends chu-done", async () => {
       expect(done).toHaveLength(0);
       await press("{Enter}");
       expect(done).toHaveLength(1);
@@ -73,8 +73,8 @@ export const ChoicesAfterTheLastPage: StoryObj = {
   play: async ({ canvasElement, step }) => {
     const box = boxes(canvasElement)[1]!;
     const { next } = parts(box);
-    const choices = box.querySelector<HTMLElement>("pp-choices")!;
-    const picked = events<{ item: HTMLElement; value: string; index: number; label: string }>(choices, "pp-action");
+    const choices = box.querySelector<HTMLElement>("chu-choices")!;
+    const picked = events<{ item: HTMLElement; value: string; index: number; label: string }>(choices, "chu-action");
     const choice = (value: string) => choices.querySelector<HTMLButtonElement>(`button[value="${value}"]`)!;
 
     await step("Finishing the page shows the choices and hides the arrow", async () => {

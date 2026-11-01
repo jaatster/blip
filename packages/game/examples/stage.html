@@ -1,16 +1,16 @@
-<!-- Stage: the sky and ground a game screen sits on, before <pp-world> draws, in each scheme. Bands step up from the
+<!-- Stage: the sky and ground a game screen sits on, before <chu-world> draws, in each scheme. Bands step up from the
      horizon and dither into each other; nothing is a smooth gradient. -->
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(calc(120*var(--pp-pixel)),1fr));gap:calc(10*var(--pp-pixel))">
-  <section class="pp-stage" data-frame data-pp-scheme="day" aria-label="Day" style="block-size:calc(96*var(--pp-pixel));padding:calc(6*var(--pp-pixel)) calc(8*var(--pp-pixel))">
-    <p class="pp-display pp-pop" data-scale="1" data-pop="Day">Day</p>
-    <div class="pp-stage-ground"></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(calc(120*var(--chu-pixel)),1fr));gap:calc(10*var(--chu-pixel))">
+  <section class="chu-stage" data-frame data-chu-scheme="day" aria-label="Day" style="block-size:calc(96*var(--chu-pixel));padding:calc(6*var(--chu-pixel)) calc(8*var(--chu-pixel))">
+    <p class="chu-display chu-pop" data-scale="1" data-pop="Day">Day</p>
+    <div class="chu-stage-ground"></div>
   </section>
-  <section class="pp-stage" data-frame data-pp-scheme="sunset" aria-label="Sunset" style="block-size:calc(96*var(--pp-pixel));padding:calc(6*var(--pp-pixel)) calc(8*var(--pp-pixel))">
-    <p class="pp-display pp-pop" data-scale="1" data-tone="pink" data-pop="Sunset">Sunset</p>
-    <div class="pp-stage-ground"></div>
+  <section class="chu-stage" data-frame data-chu-scheme="sunset" aria-label="Sunset" style="block-size:calc(96*var(--chu-pixel));padding:calc(6*var(--chu-pixel)) calc(8*var(--chu-pixel))">
+    <p class="chu-display chu-pop" data-scale="1" data-tone="pink" data-pop="Sunset">Sunset</p>
+    <div class="chu-stage-ground"></div>
   </section>
-  <section class="pp-stage" data-frame data-pp-scheme="night" aria-label="Night" style="block-size:calc(96*var(--pp-pixel));padding:calc(6*var(--pp-pixel)) calc(8*var(--pp-pixel))">
-    <p class="pp-display pp-pop" data-scale="1" data-tone="purple" data-pop="Night">Night</p>
-    <div class="pp-stage-ground"></div>
+  <section class="chu-stage" data-frame data-chu-scheme="night" aria-label="Night" style="block-size:calc(96*var(--chu-pixel));padding:calc(6*var(--chu-pixel)) calc(8*var(--chu-pixel))">
+    <p class="chu-display chu-pop" data-scale="1" data-tone="purple" data-pop="Night">Night</p>
+    <div class="chu-stage-ground"></div>
   </section>
 </div>

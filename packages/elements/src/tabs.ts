@@ -1,16 +1,16 @@
 /**
- * <pp-tabs>: WAI-ARIA tabs over the tabs markup (see components/tabs.css).
+ * <chu-tabs>: WAI-ARIA tabs over the tabs markup (see components/tabs.css).
  *
  * Wires the ids and aria-controls/aria-labelledby, keeps one tab in the tab order, moves with the arrow keys, Home and
  * End (roving focus), selects on focus (automatic) or on Enter and Space (activation="manual"), shows the selected
  * panel, and adds two buttons that scroll an overflowing row a few tabs at a time, in steps. Tabs and panels added
  * or removed later (by a framework, after data arrives) are wired as they come.
  *
- *   <pp-tabs data-variant="outline" activation="manual" value="sound">…</pp-tabs>
+ *   <chu-tabs data-variant="outline" activation="manual" value="sound">…</chu-tabs>
  *   tabs.value = "display";
- *   tabs.addEventListener("pp-change", (e) => console.log(e.detail.value, e.detail.index));
+ *   tabs.addEventListener("chu-change", (e) => console.log(e.detail.value, e.detail.index));
  */
-import { PixelElement, rovingFocus, frames, duration, pixel, warn } from "@jaatster/blip-core";
+import { BlipElement, rovingFocus, frames, duration, pixel, warn } from "@jaatster/blip-core";
 import { both, valueOf, watch } from "./_dom.js";
 
 export interface TabsChangeDetail {
@@ -32,14 +32,14 @@ let uid = 0;
  *
  * @summary Tabs: one panel at a time.
  * @attr {string} value - The selected tab's value: its data-value, else its value attribute, else its label.
- * Setting it selects that tab (no pp-change); it follows the person's choice.
+ * Setting it selects that tab (no chu-change); it follows the person's choice.
  * @attr {"auto" | "manual"} [activation="auto"] - Select on focus, or only on Enter, Space and click.
  * @attr {"soft" | "outline" | "underline"} data-variant - The tabs' tier; each tab gets the matching box variant.
  * @attr {"sm" | "md" | "lg"} [data-size="md"] - 16, 20 or 24 pixels high, like buttons.
- * @fires {CustomEvent<TabsChangeDetail>} pp-change - After the person selects a tab.
+ * @fires {CustomEvent<TabsChangeDetail>} chu-change - After the person selects a tab.
  */
-export class PixelTabs extends PixelElement {
-  static override classes = ["pp-tabs"];
+export class BlipTabs extends BlipElement {
+  static override classes = ["chu-tabs"];
   static observedAttributes = ["value"];
 
   #id = "";
@@ -60,7 +60,7 @@ export class PixelTabs extends PixelElement {
     return [...(this.list?.children ?? [])].filter((el): el is HTMLElement => el.getAttribute("role") === "tab");
   }
 
-  /** The selected tab's value. Setting it selects that tab (no pp-change). */
+  /** The selected tab's value. Setting it selects that tab (no chu-change). */
   get value(): string {
     const tab = this.tabs[this.selectedIndex];
     return tab ? valueOf(tab) : (this.getAttribute("value") ?? "");
@@ -69,7 +69,7 @@ export class PixelTabs extends PixelElement {
     this.setAttribute("value", v);
   }
 
-  /** The index of the selected tab, or -1. Setting it selects that tab (no pp-change). */
+  /** The index of the selected tab, or -1. Setting it selects that tab (no chu-change). */
   get selectedIndex(): number {
     return this.tabs.findIndex((t) => t.getAttribute("aria-selected") === "true");
   }
@@ -112,7 +112,7 @@ export class PixelTabs extends PixelElement {
     // Children rendered later (or taken away) are wired as they come.
     watch(this, this.signal, () => this.#wire());
     // A row of other children with no tab list is a mistake; no children yet is content still to come.
-    if (!this.list && [...this.children].some((c) => !c.matches(".pp-tabs-scroll"))) warn("PP-N001", "<pp-tabs> needs a [role=tablist] child.", this);
+    if (!this.list && [...this.children].some((c) => !c.matches(".chu-tabs-scroll"))) warn("CHU-N001", "<chu-tabs> needs a [role=tablist] child.", this);
   }
 
   /** Wires what is there now: ids, ARIA, tiers and pairs, one selected tab, its panel shown. Runs again whenever
@@ -127,7 +127,7 @@ export class PixelTabs extends PixelElement {
     }
     const tabs = this.tabs;
     if (!list || !tabs.length) return;
-    const id = (this.#id ||= this.id || `pp-tabs-${++uid}`);
+    const id = (this.#id ||= this.id || `chu-tabs-${++uid}`);
     const tier = TIER[this.dataset.variant ?? ""];
     // Pair each tab with a panel: its aria-controls, else the next panel no tab has claimed, in order.
     const panels = [...this.querySelectorAll<HTMLElement>(':scope > [role="tabpanel"]')];
@@ -179,11 +179,11 @@ export class PixelTabs extends PixelElement {
   /** Scroll buttons for a row that does not fit: added once, shown only while it overflows. */
   #overflow(list: HTMLElement, signal: AbortSignal): void {
     const buttons = (["start", "end"] as const).map((dir) => {
-      let b = this.querySelector<HTMLElement>(`:scope > .pp-tabs-scroll[data-dir="${dir}"]`);
+      let b = this.querySelector<HTMLElement>(`:scope > .chu-tabs-scroll[data-dir="${dir}"]`);
       if (!b) {
         b = document.createElement("span");
-        b.className = "pp-box pp-tabs-scroll";
-        Object.assign(b.dataset, { dir, variant: "soft", ppInteractive: "" });
+        b.className = "chu-box chu-tabs-scroll";
+        Object.assign(b.dataset, { dir, variant: "soft", chuInteractive: "" });
         b.setAttribute("aria-hidden", "true");
         b.append(document.createElement("span"));
         this.append(b);
@@ -217,10 +217,10 @@ export class PixelTabs extends PixelElement {
   }
 }
 
-PixelElement.define("pp-tabs", PixelTabs);
+BlipElement.define("chu-tabs", BlipTabs);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pp-tabs": PixelTabs;
+    "chu-tabs": BlipTabs;
   }
 }

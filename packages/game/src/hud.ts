@@ -2,14 +2,14 @@
  * The HUD's live values (see hud.css). Each keeps a polite live region and speaks only once its value has settled for
  * a second, so a run of coins is one announcement, not twenty. `quiet` turns that off (a ticking timer, a busy score).
  *
- *   <pp-counter value="42" pad="3" label="Coins" sound="coin"><pp-sprite name="coin"></pp-sprite></pp-counter>
- *   <pp-counter value="165" format="time" low="30" label="Time" quiet></pp-counter>
- *   <pp-hearts value="3.5" max="5" label="Health"></pp-hearts>
+ *   <chu-counter value="42" pad="3" label="Coins" sound="coin"><chu-sprite name="coin"></chu-sprite></chu-counter>
+ *   <chu-counter value="165" format="time" low="30" label="Time" quiet></chu-counter>
+ *   <chu-hearts value="3.5" max="5" label="Health"></chu-hearts>
  *
  *   coins.value += 10;   // counts up a whole step a frame, the coin bumps, the coin sound plays
  *   hearts.value -= 1;   // the row shakes
  */
-import { PixelElement, duration, frames, run, services } from "@jaatster/blip-core";
+import { BlipElement, duration, frames, run, services } from "@jaatster/blip-core";
 
 const retrigger = (el: Element | null, name: string) => {
   if (!el) return;
@@ -19,7 +19,7 @@ const retrigger = (el: Element | null, name: string) => {
 };
 
 /** A number shown in the HUD, announced politely once it settles. */
-abstract class HudValue extends PixelElement {
+abstract class HudValue extends BlipElement {
   static observedAttributes = ["value", "max", "low"];
   #live?: HTMLElement;
   #ready = false;
@@ -43,7 +43,7 @@ abstract class HudValue extends PixelElement {
   protected abstract draw(from?: number): void;
 
   protected override connected(): void {
-    this.#live ??= this.appendChild(Object.assign(document.createElement("span"), { className: "pp-sr-only" }));
+    this.#live ??= this.appendChild(Object.assign(document.createElement("span"), { className: "chu-sr-only" }));
     this.#live.setAttribute("aria-live", "polite");
     this.#live.textContent = this.text();
     this.#ready = true;
@@ -78,8 +78,8 @@ abstract class HudValue extends PixelElement {
  * @attr {boolean} quiet - Never announced: for a ticking timer or a busy score. "false" is off.
  * @omit-attr max
  */
-export class PixelCounter extends HudValue {
-  static override classes = ["pp-counter"];
+export class BlipCounter extends HudValue {
+  static override classes = ["chu-counter"];
   #shown?: number;
   #count?: AbortController;
   #out?: HTMLElement;
@@ -97,7 +97,7 @@ export class PixelCounter extends HudValue {
 
   protected draw(from?: number): void {
     if (!this.#out) {
-      this.#out = this.querySelector<HTMLElement>(".pp-counter-value") ?? this.appendChild(Object.assign(document.createElement("span"), { className: "pp-counter-value pp-display pp-pop" }));
+      this.#out = this.querySelector<HTMLElement>(".chu-counter-value") ?? this.appendChild(Object.assign(document.createElement("span"), { className: "chu-counter-value chu-display chu-pop" }));
       this.#out.setAttribute("aria-hidden", "true");
     }
     const to = this.value, low = this.getAttribute("low");
@@ -106,7 +106,7 @@ export class PixelCounter extends HudValue {
     const start = this.#shown ?? from ?? to;
     if (from === undefined || start === to) return this.#render(to);
     if (to > start) {
-      retrigger(this.querySelector(".pp-counter-icon, pp-sprite, svg"), "pp-bump");
+      retrigger(this.querySelector(".chu-counter-icon, chu-sprite, svg"), "chu-bump");
       const sound = this.getAttribute("sound");
       if (sound) services.sound().play(sound);
     }
@@ -135,8 +135,8 @@ export class PixelCounter extends HudValue {
  * @attr {boolean} quiet - Never announced. "false" is off.
  * @omit-attr low
  */
-export class PixelHearts extends HudValue {
-  static override classes = ["pp-hearts"];
+export class BlipHearts extends HudValue {
+  static override classes = ["chu-hearts"];
 
   get max(): number {
     return Number(this.getAttribute("max")) || 3;
@@ -150,26 +150,26 @@ export class PixelHearts extends HudValue {
   }
 
   protected draw(from?: number): void {
-    const hearts = [...this.querySelectorAll("pp-sprite")];
+    const hearts = [...this.querySelectorAll("chu-sprite")];
     for (let i = 0; i < Math.max(this.max, hearts.length); i++) {
       if (i >= this.max) {
         hearts[i]!.remove();
         continue;
       }
       const left = this.value - i;
-      const heart = hearts[i] ?? this.insertBefore(document.createElement("pp-sprite"), this.querySelector(".pp-sr-only"));
+      const heart = hearts[i] ?? this.insertBefore(document.createElement("chu-sprite"), this.querySelector(".chu-sr-only"));
       heart.setAttribute("name", left >= 1 ? "heart" : left >= 0.5 ? "heart-half" : "heart-empty");
     }
-    if (from !== undefined && this.value < from) retrigger(this, "pp-shake");
+    if (from !== undefined && this.value < from) retrigger(this, "chu-shake");
   }
 }
 
-PixelElement.define("pp-counter", PixelCounter);
-PixelElement.define("pp-hearts", PixelHearts);
+BlipElement.define("chu-counter", BlipCounter);
+BlipElement.define("chu-hearts", BlipHearts);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pp-counter": PixelCounter;
-    "pp-hearts": PixelHearts;
+    "chu-counter": BlipCounter;
+    "chu-hearts": BlipHearts;
   }
 }

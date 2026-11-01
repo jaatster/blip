@@ -1,17 +1,17 @@
 /**
- * PixelElement, the base of every Blip Web Component: one AbortSignal per connection (aborted on disconnect, so
+ * BlipElement, the base of every Blip Web Component: one AbortSignal per connection (aborted on disconnect, so
  * nothing leaks), set-up deferred while the page is still parsing, events, classes and safe definition.
  */
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { PixelElement } from "@jaatster/blip-core";
+import { BlipElement } from "@jaatster/blip-core";
 import { mount } from "../support/dom.ts";
 
 let n = 0;
 /** Defines a fresh test element (tags can't be redefined) that records its life. */
 function define(extra: { box?: boolean; classes?: string[] } = {}) {
-  const tag = `pp-test-${++n}`;
+  const tag = `chu-test-${++n}`;
   const log: string[] = [];
-  class TestElement extends PixelElement {
+  class TestElement extends BlipElement {
     static override box = extra.box ?? false;
     static override classes = extra.classes ?? [];
     resized = 0;
@@ -30,11 +30,11 @@ function define(extra: { box?: boolean; classes?: string[] } = {}) {
       return this.flag(name);
     }
   }
-  PixelElement.define(tag, TestElement);
+  BlipElement.define(tag, TestElement);
   return { tag, log, make: () => document.createElement(tag) as TestElement };
 }
 
-describe("PixelElement: one signal per connection", () => {
+describe("BlipElement: one signal per connection", () => {
   it("aborts the signal when the element is removed", () => {
     const { make } = define();
     const el = document.body.appendChild(make());
@@ -78,7 +78,7 @@ describe("PixelElement: one signal per connection", () => {
   });
 });
 
-describe("PixelElement: while the page is still loading", () => {
+describe("BlipElement: while the page is still loading", () => {
   afterEach(() => {
     delete (document as { readyState?: string }).readyState;
   });
@@ -112,13 +112,13 @@ describe("PixelElement: while the page is still loading", () => {
   });
 });
 
-describe("PixelElement: events, classes, attributes", () => {
-  it("emits pp-<name> events that bubble and are composed, with detail", () => {
+describe("BlipElement: events, classes, attributes", () => {
+  it("emits chu-<name> events that bubble and are composed, with detail", () => {
     const { make } = define();
     const host = mount("<div></div>");
     const el = host.appendChild(make());
     const heard = vi.fn();
-    host.addEventListener("pp-change", heard);
+    host.addEventListener("chu-change", heard);
     expect(el.fire("change", { value: 3 })).toBe(true);
     const event = heard.mock.calls[0]![0] as CustomEvent;
     expect(event).toBeInstanceOf(CustomEvent);
@@ -131,17 +131,17 @@ describe("PixelElement: events, classes, attributes", () => {
   it("returns false from a cancelable event a listener refused", () => {
     const { make } = define();
     const el = mount("<div></div>").appendChild(make());
-    el.addEventListener("pp-before-close", (e) => e.preventDefault());
+    el.addEventListener("chu-before-close", (e) => e.preventDefault());
     expect(el.fire("before-close", { reason: "escape" }, true)).toBe(false);
     // Not cancelable: preventDefault does nothing.
-    el.addEventListener("pp-close", (e) => e.preventDefault());
+    el.addEventListener("chu-close", (e) => e.preventDefault());
     expect(el.fire("close")).toBe(true);
   });
 
-  it("adds pp-box and its classes when it connects", () => {
-    const { make } = define({ box: true, classes: ["pp-thing", "pp-thing-ready"] });
+  it("adds chu-box and its classes when it connects", () => {
+    const { make } = define({ box: true, classes: ["chu-thing", "chu-thing-ready"] });
     const el = mount("<div></div>").appendChild(make());
-    expect([...el.classList]).toEqual(["pp-box", "pp-thing", "pp-thing-ready"]);
+    expect([...el.classList]).toEqual(["chu-box", "chu-thing", "chu-thing-ready"]);
   });
 
   it("adds no classes by default", () => {
@@ -161,8 +161,8 @@ describe("PixelElement: events, classes, attributes", () => {
   it("defines a tag once: a second definition is ignored, not an error", () => {
     const { tag } = define();
     const first = customElements.get(tag);
-    class Other extends PixelElement {}
-    expect(() => PixelElement.define(tag, Other)).not.toThrow();
+    class Other extends BlipElement {}
+    expect(() => BlipElement.define(tag, Other)).not.toThrow();
     expect(customElements.get(tag)).toBe(first);
   });
 });

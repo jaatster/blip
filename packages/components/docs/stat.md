@@ -15,24 +15,24 @@ colour of what the move means. Dashboards, profiles, end-of-level screens.
 ## Usage
 
 ```html
-<dl class="pp-grid" data-min="128">
-  <div class="pp-stat">
-    <dt class="pp-stat-label">High score</dt>
-    <dd class="pp-stat-value pp-display pp-pop" data-scale="3" data-pop="98,120">98,120</dd>
-    <dd class="pp-stat-delta" data-trend="up">+12% vs last week</dd>
+<dl class="chu-grid" data-min="128">
+  <div class="chu-stat">
+    <dt class="chu-stat-label">High score</dt>
+    <dd class="chu-stat-value chu-display chu-pop" data-scale="3" data-pop="98,120">98,120</dd>
+    <dd class="chu-stat-delta" data-trend="up">+12% vs last week</dd>
   </div>
 </dl>
 ```
 
 ## Anatomy
 
-1. **Label**: `.pp-stat-label`, upper case, muted.
-2. **Value**: `.pp-stat-value` with `.pp-display` (Pixel Bop at a whole scale) and, for the TV's look, `.pp-pop`
+1. **Label**: `.chu-stat-label`, upper case, muted.
+2. **Value**: `.chu-stat-value` with `.chu-display` (Pixel Bop at a whole scale) and, for the TV's look, `.chu-pop`
    (white letters, ink outline, a tinted lower band with `data-pop`, a drop in the tone's shade). Tabular digits.
-3. **Delta** (optional): `.pp-stat-delta`, the change in words, after a pixel arrow for which way it moved and a
+3. **Delta** (optional): `.chu-stat-delta`, the change in words, after a pixel arrow for which way it moved and a
    mark for what that means: the success sign's check for good news, the danger sign's exclamation mark for bad,
    none when it is neither.
-4. **Panel** (optional): `.pp-box` on the stat, with `data-variant="panel"` (or soft), for a stat on its own.
+4. **Panel** (optional): `.chu-box` on the stat, with `data-variant="panel"` (or soft), for a stat on its own.
 
 ## Variants
 
@@ -60,7 +60,7 @@ panel's ink, in every scheme.
 
 ## Content
 
-- In a grid (`.pp-grid`) a stat is a size container: its value steps down a whole scale while the column is narrower
+- In a grid (`.chu-grid`) a stat is a size container: its value steps down a whole scale while the column is narrower
   than five figures at its scale (146, 216 and 286 px for scales 2, 3 and 4), so a number never breaks or runs out.
   Give a longer value a wider column (`data-min`) or a smaller `data-scale`.
 - Labels of one to three words.
@@ -80,5 +80,5 @@ panel's ink, in every scheme.
 
 | Class | |
 |---|---|
-| `.pp-stat` | One stat. |
-| `.pp-stat-label`, `.pp-stat-value`, `.pp-stat-delta` | Parts. |
+| `.chu-stat` | One stat. |
+| `.chu-stat-label`, `.chu-stat-value`, `.chu-stat-delta` | Parts. |

@@ -1,11 +1,11 @@
 /*
  * Loader. A pixel spinner: a ring of eight pixel dots where a lit arc steps round one dot a frame, eight frames a
  * turn. Or three dots that step in, one, two, three, like a busy button. Its text is the label; hide the text
- * with .pp-sr-only to show the spinner alone. With reduced motion it holds still, and the words still say it.
+ * with .chu-sr-only to show the spinner alone. With reduced motion it holds still, and the words still say it.
  *
- *   <span class="pp-loader" role="status">Loading World 2…</span>
- *   <span class="pp-loader" data-size="lg" role="status"><span class="pp-sr-only">Loading</span></span>
- *   <span class="pp-loader" data-variant="dots" role="status">Saving</span>
+ *   <span class="chu-loader" role="status">Loading World 2…</span>
+ *   <span class="chu-loader" data-size="lg" role="status"><span class="chu-sr-only">Loading</span></span>
+ *   <span class="chu-loader" data-variant="dots" role="status">Saving</span>
  *
  *   data-variant   ring (default) | dots
  *   data-size      sm | md (default) | lg       ring 8, 12 or 24 pixels across; dots 2, 3 or 4 pixels each
@@ -15,67 +15,67 @@
  * announce the end ("World 2 loaded") somewhere else.
  */
 
-@property --_pp-spin { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@property --_chu-spin { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
 
-@layer pp.components {
-  .pp-loader {
-    --_pp-c: var(--pp-accent);
-    --_pp-c2: var(--pp-accent-light);
-    --_pp-s: 12;
-    --_pp-d: 3;
-    --_pp-ring: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' shape-rendering='crispEdges'%3E%3Cpath d='M5 0h2v2H5zM2 2h2v2H2zM8 2h2v2H8zM0 5h2v2H0zM10 5h2v2H10zM2 8h2v2H2zM8 8h2v2H8zM5 10h2v2H5z'/%3E%3C/svg%3E");
+@layer chu.components {
+  .chu-loader {
+    --_chu-c: var(--chu-accent);
+    --_chu-c2: var(--chu-accent-light);
+    --_chu-s: 12;
+    --_chu-d: 3;
+    --_chu-ring: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' shape-rendering='crispEdges'%3E%3Cpath d='M5 0h2v2H5zM2 2h2v2H2zM8 2h2v2H8zM0 5h2v2H0zM10 5h2v2H10zM2 8h2v2H2zM8 8h2v2H8zM5 10h2v2H5z'/%3E%3C/svg%3E");
     display: inline-flex;
     align-items: center;
-    gap: calc(4 * var(--pp-pixel));
+    gap: calc(4 * var(--chu-pixel));
     vertical-align: middle;
-    color: var(--pp-text-muted);
-    font-size: var(--pp-size-small);
-    line-height: var(--pp-leading-tight);
+    color: var(--chu-text-muted);
+    font-size: var(--chu-size-small);
+    line-height: var(--chu-leading-tight);
   }
-  .pp-loader[data-size="sm"] {
-    --_pp-s: 8;
-    --_pp-d: 2;
-    --_pp-ring: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h2v1H3zM1 1h1v1H1zM6 1h1v1H6zM0 3h1v2H0zM7 3h1v2H7zM1 6h1v1H1zM6 6h1v1H6zM3 7h2v1H3z'/%3E%3C/svg%3E");
-    gap: calc(3 * var(--pp-pixel));
+  .chu-loader[data-size="sm"] {
+    --_chu-s: 8;
+    --_chu-d: 2;
+    --_chu-ring: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h2v1H3zM1 1h1v1H1zM6 1h1v1H6zM0 3h1v2H0zM7 3h1v2H7zM1 6h1v1H1zM6 6h1v1H6zM3 7h2v1H3z'/%3E%3C/svg%3E");
+    gap: calc(3 * var(--chu-pixel));
   }
-  .pp-loader[data-size="lg"] { --_pp-s: 24; --_pp-d: 4; gap: calc(6 * var(--pp-pixel)); font-size: var(--pp-size-body); }
-  .pp-loader[data-tone="info"] { --_pp-c: var(--pp-info); --_pp-c2: var(--pp-info-light); }
-  .pp-loader[data-tone="success"] { --_pp-c: var(--pp-success); --_pp-c2: var(--pp-success-light); }
-  .pp-loader[data-tone="warning"] { --_pp-c: var(--pp-warning); --_pp-c2: var(--pp-warning-light); }
-  .pp-loader[data-tone="danger"] { --_pp-c: var(--pp-danger); --_pp-c2: var(--pp-danger-light); }
+  .chu-loader[data-size="lg"] { --_chu-s: 24; --_chu-d: 4; gap: calc(6 * var(--chu-pixel)); font-size: var(--chu-size-body); }
+  .chu-loader[data-tone="info"] { --_chu-c: var(--chu-info); --_chu-c2: var(--chu-info-light); }
+  .chu-loader[data-tone="success"] { --_chu-c: var(--chu-success); --_chu-c2: var(--chu-success-light); }
+  .chu-loader[data-tone="warning"] { --_chu-c: var(--chu-warning); --_chu-c2: var(--chu-warning-light); }
+  .chu-loader[data-tone="danger"] { --_chu-c: var(--chu-danger); --_chu-c2: var(--chu-danger-light); }
 
   /* The ring: eight dots masked out of a turning wheel of eighths (head, five dim, two trailing), so each dot is
      one solid colour and the lit arc moves a whole dot per frame. */
-  .pp-loader::before {
+  .chu-loader::before {
     content: "";
     flex: none;
-    inline-size: calc(var(--_pp-s) * var(--pp-pixel));
-    block-size: calc(var(--_pp-s) * var(--pp-pixel));
-    background: conic-gradient(from calc(var(--_pp-spin) - 22.5deg), var(--_pp-c) 0 45deg, var(--pp-line-soft) 0 270deg, var(--_pp-c2) 0);
-    mask: var(--_pp-ring) 0 0 / 100% 100% no-repeat;
-    animation: pp-loader-spin calc(8 * var(--pp-duration-nudge)) steps(8, jump-end) infinite;
+    inline-size: calc(var(--_chu-s) * var(--chu-pixel));
+    block-size: calc(var(--_chu-s) * var(--chu-pixel));
+    background: conic-gradient(from calc(var(--_chu-spin) - 22.5deg), var(--_chu-c) 0 45deg, var(--chu-line-soft) 0 270deg, var(--_chu-c2) 0);
+    mask: var(--_chu-ring) 0 0 / 100% 100% no-repeat;
+    animation: chu-loader-spin calc(8 * var(--chu-duration-nudge)) steps(8, jump-end) infinite;
   }
 
   /* Dots: three squares, revealed one, two, three on the beat. */
-  .pp-loader[data-variant="dots"]::before {
-    inline-size: calc(5 * var(--_pp-d) * var(--pp-pixel));
-    block-size: calc(var(--_pp-d) * var(--pp-pixel));
-    background: linear-gradient(to right, var(--_pp-c) 0 calc(var(--_pp-d) * var(--pp-pixel)), transparent 0) 0 0 / calc(2 * var(--_pp-d) * var(--pp-pixel)) 100%;
+  .chu-loader[data-variant="dots"]::before {
+    inline-size: calc(5 * var(--_chu-d) * var(--chu-pixel));
+    block-size: calc(var(--_chu-d) * var(--chu-pixel));
+    background: linear-gradient(to right, var(--_chu-c) 0 calc(var(--_chu-d) * var(--chu-pixel)), transparent 0) 0 0 / calc(2 * var(--_chu-d) * var(--chu-pixel)) 100%;
     mask: none;
-    animation: pp-loader-dots calc(3 * var(--pp-duration-beat)) steps(1, jump-end) infinite;
+    animation: chu-loader-dots calc(3 * var(--chu-duration-beat)) steps(1, jump-end) infinite;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .pp-loader::before { animation: none; }
+    .chu-loader::before { animation: none; }
   }
   @media (forced-colors: active) {
-    .pp-loader::before { forced-color-adjust: none; --_pp-c: Highlight; --_pp-c2: Highlight; --pp-line-soft: GrayText; }
+    .chu-loader::before { forced-color-adjust: none; --_chu-c: Highlight; --_chu-c2: Highlight; --chu-line-soft: GrayText; }
   }
 }
 
-@keyframes pp-loader-spin { to { --_pp-spin: 360deg; } }
-@keyframes pp-loader-dots {
-  0% { clip-path: inset(0 calc(4 * var(--_pp-d) * var(--pp-pixel)) 0 0); }
-  33.333% { clip-path: inset(0 calc(2 * var(--_pp-d) * var(--pp-pixel)) 0 0); }
+@keyframes chu-loader-spin { to { --_chu-spin: 360deg; } }
+@keyframes chu-loader-dots {
+  0% { clip-path: inset(0 calc(4 * var(--_chu-d) * var(--chu-pixel)) 0 0); }
+  33.333% { clip-path: inset(0 calc(2 * var(--_chu-d) * var(--chu-pixel)) 0 0); }
   66.667%, 100% { clip-path: inset(0); }
 }

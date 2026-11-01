@@ -1,36 +1,36 @@
 <!-- Accordion: a FAQ where one answer is open at a time (the details share a name), answers in cream boxes; then the
-     summary's states and tiers, and an accordion that lets several open. Forced states use data-pp-state. -->
-<h3 class="pp-title" style="margin-block-end:calc(4*var(--pp-pixel))">Questions</h3>
-<div class="pp-accordion">
-  <details class="pp-accordion-item" name="faq" open>
-    <summary class="pp-box pp-accordion-summary">Can I play offline?<span class="pp-accordion-chevron"></span></summary>
-    <div class="pp-box pp-accordion-panel"><p>Yes. Everything runs on your device. Your progress syncs the next time you are online.</p></div>
+     summary's states and tiers, and an accordion that lets several open. Forced states use data-chu-state. -->
+<h3 class="chu-title" style="margin-block-end:calc(4*var(--chu-pixel))">Questions</h3>
+<div class="chu-accordion">
+  <details class="chu-accordion-item" name="faq" open>
+    <summary class="chu-box chu-accordion-summary">Can I play offline?<span class="chu-accordion-chevron"></span></summary>
+    <div class="chu-box chu-accordion-panel"><p>Yes. Everything runs on your device. Your progress syncs the next time you are online.</p></div>
   </details>
-  <details class="pp-accordion-item" name="faq">
-    <summary class="pp-box pp-accordion-summary">How do I save my game?<span class="pp-accordion-chevron"></span></summary>
-    <div class="pp-box pp-accordion-panel"><p>The game saves at every checkpoint flag. You can also press <kbd class="pp-box pp-keycap">Esc</kbd> and choose Save.</p></div>
+  <details class="chu-accordion-item" name="faq">
+    <summary class="chu-box chu-accordion-summary">How do I save my game?<span class="chu-accordion-chevron"></span></summary>
+    <div class="chu-box chu-accordion-panel"><p>The game saves at every checkpoint flag. You can also press <kbd class="chu-box chu-keycap">Esc</kbd> and choose Save.</p></div>
   </details>
-  <details class="pp-accordion-item" name="faq">
-    <summary class="pp-box pp-accordion-summary">Where do my coins go when I quit a level?<span class="pp-accordion-chevron"></span></summary>
-    <div class="pp-box pp-accordion-panel"><p>Coins you pick up are kept only when you reach the end of the level or a checkpoint.</p></div>
+  <details class="chu-accordion-item" name="faq">
+    <summary class="chu-box chu-accordion-summary">Where do my coins go when I quit a level?<span class="chu-accordion-chevron"></span></summary>
+    <div class="chu-box chu-accordion-panel"><p>Coins you pick up are kept only when you reach the end of the level or a checkpoint.</p></div>
   </details>
-  <details class="pp-accordion-item" name="faq">
-    <summary class="pp-box pp-accordion-summary">Can I change the controls?<span class="pp-accordion-chevron"></span></summary>
-    <div class="pp-box pp-accordion-panel"><p>Yes: Settings, then Controls. Every action can take a key and a gamepad button.</p></div>
+  <details class="chu-accordion-item" name="faq">
+    <summary class="chu-box chu-accordion-summary">Can I change the controls?<span class="chu-accordion-chevron"></span></summary>
+    <div class="chu-box chu-accordion-panel"><p>Yes: Settings, then Controls. Every action can take a key and a gamepad button.</p></div>
   </details>
 </div>
 
-<div class="pp-grid" data-min="128" style="align-items:start;margin-block-start:calc(12*var(--pp-pixel))">
-  <div class="pp-accordion">
-    <details class="pp-accordion-item"><summary class="pp-box pp-accordion-summary" data-pp-state="hover">Hover<span class="pp-accordion-chevron"></span></summary><div class="pp-accordion-panel"><p>Lifts a pixel.</p></div></details>
-    <details class="pp-accordion-item"><summary class="pp-box pp-accordion-summary" data-pp-state="focus">Focus<span class="pp-accordion-chevron"></span></summary><div class="pp-accordion-panel"><p>The yellow ring.</p></div></details>
-    <details class="pp-accordion-item"><summary class="pp-box pp-accordion-summary" data-pp-state="active">Pressed<span class="pp-accordion-chevron"></span></summary><div class="pp-accordion-panel"><p>Sits in its drop.</p></div></details>
-    <details class="pp-accordion-item" open><summary class="pp-box pp-accordion-summary">Open<span class="pp-accordion-chevron"></span></summary><div class="pp-accordion-panel"><p>A plain panel: text under its question, no box.</p></div></details>
+<div class="chu-grid" data-min="128" style="align-items:start;margin-block-start:calc(12*var(--chu-pixel))">
+  <div class="chu-accordion">
+    <details class="chu-accordion-item"><summary class="chu-box chu-accordion-summary" data-chu-state="hover">Hover<span class="chu-accordion-chevron"></span></summary><div class="chu-accordion-panel"><p>Lifts a pixel.</p></div></details>
+    <details class="chu-accordion-item"><summary class="chu-box chu-accordion-summary" data-chu-state="focus">Focus<span class="chu-accordion-chevron"></span></summary><div class="chu-accordion-panel"><p>The yellow ring.</p></div></details>
+    <details class="chu-accordion-item"><summary class="chu-box chu-accordion-summary" data-chu-state="active">Pressed<span class="chu-accordion-chevron"></span></summary><div class="chu-accordion-panel"><p>Sits in its drop.</p></div></details>
+    <details class="chu-accordion-item" open><summary class="chu-box chu-accordion-summary">Open<span class="chu-accordion-chevron"></span></summary><div class="chu-accordion-panel"><p>A plain panel: text under its question, no box.</p></div></details>
   </div>
-  <div class="pp-accordion">
-    <details class="pp-accordion-item"><summary class="pp-box pp-accordion-summary" data-variant="soft" data-tone="teal">Soft, teal<span class="pp-accordion-chevron"></span></summary><div class="pp-accordion-panel"><p>Several of these can be open at once: they have no name.</p></div></details>
-    <details class="pp-accordion-item" open><summary class="pp-box pp-accordion-summary" data-variant="candy" data-tone="purple">Candy, open<span class="pp-accordion-chevron"></span></summary><div class="pp-box pp-accordion-panel"><p>Candy summaries are loud: use them for a short menu, not a long FAQ.</p></div></details>
-    <details class="pp-accordion-item"><summary class="pp-box pp-accordion-summary" data-variant="outline">Outline<span class="pp-accordion-chevron"></span></summary><div class="pp-accordion-panel"><p>Flat and quiet.</p></div></details>
-    <details class="pp-accordion-item"><summary class="pp-box pp-accordion-summary" data-variant="ghost">Ghost<span class="pp-accordion-chevron"></span></summary><div class="pp-accordion-panel"><p>Quietest of all.</p></div></details>
+  <div class="chu-accordion">
+    <details class="chu-accordion-item"><summary class="chu-box chu-accordion-summary" data-variant="soft" data-tone="teal">Soft, teal<span class="chu-accordion-chevron"></span></summary><div class="chu-accordion-panel"><p>Several of these can be open at once: they have no name.</p></div></details>
+    <details class="chu-accordion-item" open><summary class="chu-box chu-accordion-summary" data-variant="candy" data-tone="purple">Candy, open<span class="chu-accordion-chevron"></span></summary><div class="chu-box chu-accordion-panel"><p>Candy summaries are loud: use them for a short menu, not a long FAQ.</p></div></details>
+    <details class="chu-accordion-item"><summary class="chu-box chu-accordion-summary" data-variant="outline">Outline<span class="chu-accordion-chevron"></span></summary><div class="chu-accordion-panel"><p>Flat and quiet.</p></div></details>
+    <details class="chu-accordion-item"><summary class="chu-box chu-accordion-summary" data-variant="ghost">Ghost<span class="chu-accordion-chevron"></span></summary><div class="chu-accordion-panel"><p>Quietest of all.</p></div></details>
   </div>
 </div>

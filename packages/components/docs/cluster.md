@@ -15,9 +15,9 @@ the row is full. A layout primitive: no colour, no box.
 ## Usage
 
 ```html
-<div class="pp-cluster">…</div>
-<div class="pp-cluster" data-justify="between">…</div>
-<div class="pp-cluster" data-switch><button …>Cancel</button><button …>Save game</button></div>
+<div class="chu-cluster">…</div>
+<div class="chu-cluster" data-justify="between">…</div>
+<div class="chu-cluster" data-switch><button …>Cancel</button><button …>Save game</button></div>
 ```
 
 ## Anatomy
@@ -29,10 +29,10 @@ below, so a cluster never clips a shadow.
 
 | Attribute | Values | Use |
 |---|---|---|
-| `data-gap` | `0`, `1`, `2`, `3`, `4` (default), `6`, `8`, `12`, `16`, `24`, `32` | Pixels between items (`--pp-space-N`). |
+| `data-gap` | `0`, `1`, `2`, `3`, `4` (default), `6`, `8`, `12`, `16`, `24`, `32` | Pixels between items (`--chu-space-N`). |
 | `data-justify` | `start` (default), `center`, `end`, `between` | Where items sit along the row. `between` splits a toolbar to both ends. |
 | `data-align` | `center` (default), `start`, `end`, `baseline`, `stretch` | Where items sit across the row. |
-| `data-switch` | | Items share one row, growing to fill it, while the cluster is at least `--pp-cluster-switch` wide (160 pixels); below that each takes a whole line. It follows its container, not the viewport: the same markup is a row in a wide dialog and a column in a narrow card. |
+| `data-switch` | | Items share one row, growing to fill it, while the cluster is at least `--chu-cluster-switch` wide (160 pixels); below that each takes a whole line. It follows its container, not the viewport: the same markup is a row in a wide dialog and a column in a narrow card. |
 
 ## Accessibility
 
@@ -47,5 +47,5 @@ Layout only. Group related controls with `role="group"` and a label where they n
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-cluster-gap` | `--pp-space-4` | The gap. |
-| `--pp-cluster-switch` | 160 pixels | The width below which `data-switch` stacks. |
+| `--chu-cluster-gap` | `--chu-space-4` | The gap. |
+| `--chu-cluster-switch` | 160 pixels | The width below which `data-switch` stacks. |

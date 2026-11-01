@@ -1,68 +1,68 @@
 <!-- Alert: every tone and tier. These are static, so none is a live region; see docs/alert.md for role="alert". -->
-<div style="display:grid;gap:calc(6*var(--pp-pixel));max-inline-size:calc(290*var(--pp-pixel))">
-  <div class="pp-box pp-alert" data-tone="danger">
-    <span class="pp-alert-icon" aria-hidden="true"></span>
-    <div class="pp-alert-body">
-      <p class="pp-alert-title"><span class="pp-sr-only">Error: </span>Can't reach the save server</p>
+<div style="display:grid;gap:calc(6*var(--chu-pixel));max-inline-size:calc(290*var(--chu-pixel))">
+  <div class="chu-box chu-alert" data-tone="danger">
+    <span class="chu-alert-icon" aria-hidden="true"></span>
+    <div class="chu-alert-body">
+      <p class="chu-alert-title"><span class="chu-sr-only">Error: </span>Can't reach the save server</p>
       <p>Your progress is safe on this device. We'll try again in 30 seconds.</p>
-      <div class="pp-alert-actions">
-        <button class="pp-box pp-button" type="button" data-size="sm" data-variant="outline">Retry now</button>
-        <button class="pp-box pp-button" type="button" data-size="sm" data-variant="ghost">Play offline</button>
+      <div class="chu-alert-actions">
+        <button class="chu-box chu-button" type="button" data-size="sm" data-variant="outline">Retry now</button>
+        <button class="chu-box chu-button" type="button" data-size="sm" data-variant="ghost">Play offline</button>
       </div>
     </div>
-    <button class="pp-box pp-button pp-alert-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button>
+    <button class="chu-box chu-button chu-alert-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
   </div>
 
-  <div class="pp-box pp-alert">
-    <span class="pp-alert-icon" aria-hidden="true"></span>
-    <div class="pp-alert-body">
-      <p class="pp-alert-title">New: cloud saves</p>
+  <div class="chu-box chu-alert">
+    <span class="chu-alert-icon" aria-hidden="true"></span>
+    <div class="chu-alert-body">
+      <p class="chu-alert-title">New: cloud saves</p>
       <p>Your saves can now follow you to every device you sign in on.</p>
-      <div class="pp-alert-actions"><button class="pp-box pp-button" type="button" data-size="sm" data-variant="outline">Turn on</button></div>
+      <div class="chu-alert-actions"><button class="chu-box chu-button" type="button" data-size="sm" data-variant="outline">Turn on</button></div>
     </div>
-    <button class="pp-box pp-button pp-alert-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button>
+    <button class="chu-box chu-button chu-alert-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
   </div>
 
-  <div class="pp-box pp-alert" data-tone="success">
-    <span class="pp-alert-icon" aria-hidden="true"></span>
-    <div class="pp-alert-body">
-      <p class="pp-alert-title">Backup complete</p>
+  <div class="chu-box chu-alert" data-tone="success">
+    <span class="chu-alert-icon" aria-hidden="true"></span>
+    <div class="chu-alert-body">
+      <p class="chu-alert-title">Backup complete</p>
       <p>All three save slots are backed up. Last backup today at 19:42.</p>
     </div>
   </div>
 
-  <div class="pp-box pp-alert" data-tone="warning">
-    <span class="pp-alert-icon" aria-hidden="true"></span>
-    <div class="pp-alert-body">
-      <p class="pp-alert-title"><span class="pp-sr-only">Warning: </span>Storage almost full</p>
+  <div class="chu-box chu-alert" data-tone="warning">
+    <span class="chu-alert-icon" aria-hidden="true"></span>
+    <div class="chu-alert-body">
+      <p class="chu-alert-title"><span class="chu-sr-only">Warning: </span>Storage almost full</p>
       <p>Slot 3 can't be saved until you free 12 MB. <a href="#storage">See what's using space</a>.</p>
     </div>
   </div>
 
-  <div class="pp-box pp-alert" data-tone="neutral">
-    <span class="pp-alert-icon" aria-hidden="true"></span>
-    <div class="pp-alert-body"><p class="pp-alert-title">Maintenance on Sunday, 02:00 to 03:00</p></div>
+  <div class="chu-box chu-alert" data-tone="neutral">
+    <span class="chu-alert-icon" aria-hidden="true"></span>
+    <div class="chu-alert-body"><p class="chu-alert-title">Maintenance on Sunday, 02:00 to 03:00</p></div>
   </div>
 
-  <span class="pp-label pp-muted" style="margin-block-start:calc(4*var(--pp-pixel))">Tiers: candy, soft (default), outline</span>
-  <div class="pp-box pp-alert" data-tone="danger" data-variant="candy">
-    <span class="pp-alert-icon" aria-hidden="true"></span>
-    <div class="pp-alert-body">
-      <p class="pp-alert-title"><span class="pp-sr-only">Error: </span>3 fields need your attention</p>
+  <span class="chu-label chu-muted" style="margin-block-start:calc(4*var(--chu-pixel))">Tiers: candy, soft (default), outline</span>
+  <div class="chu-box chu-alert" data-tone="danger" data-variant="candy">
+    <span class="chu-alert-icon" aria-hidden="true"></span>
+    <div class="chu-alert-body">
+      <p class="chu-alert-title"><span class="chu-sr-only">Error: </span>3 fields need your attention</p>
       <p>Fix the marked fields to create your account.</p>
     </div>
   </div>
-  <div class="pp-box pp-alert" data-tone="info" data-variant="soft">
-    <span class="pp-alert-icon" aria-hidden="true"></span>
-    <div class="pp-alert-body"><p class="pp-alert-title">You're playing offline</p><p>Scores upload when you're back online.</p></div>
+  <div class="chu-box chu-alert" data-tone="info" data-variant="soft">
+    <span class="chu-alert-icon" aria-hidden="true"></span>
+    <div class="chu-alert-body"><p class="chu-alert-title">You're playing offline</p><p>Scores upload when you're back online.</p></div>
   </div>
-  <div class="pp-box pp-alert" data-tone="warning" data-variant="outline">
-    <span class="pp-alert-icon" aria-hidden="true"></span>
-    <div class="pp-alert-body">
-      <p class="pp-alert-title"><span class="pp-sr-only">Warning: </span>This world uses old rules</p>
+  <div class="chu-box chu-alert" data-tone="warning" data-variant="outline">
+    <span class="chu-alert-icon" aria-hidden="true"></span>
+    <div class="chu-alert-body">
+      <p class="chu-alert-title"><span class="chu-sr-only">Warning: </span>This world uses old rules</p>
       <p>It was made in version 1. Some blocks may act differently.</p>
-      <div class="pp-alert-actions"><button class="pp-box pp-button" type="button" data-size="sm" data-variant="outline">Update world</button></div>
+      <div class="chu-alert-actions"><button class="chu-box chu-button" type="button" data-size="sm" data-variant="outline">Update world</button></div>
     </div>
-    <button class="pp-box pp-button pp-alert-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button>
+    <button class="chu-box chu-button chu-alert-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
   </div>
 </div>

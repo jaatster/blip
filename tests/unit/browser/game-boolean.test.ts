@@ -13,14 +13,14 @@ afterEach(() => restore());
 
 describe("game flags written \"false\"", () => {
   it("announces a counter whose quiet is \"false\"", async () => {
-    const counter = mount(`<pp-counter value="1" label="Coins" quiet="false"></pp-counter>`);
+    const counter = mount(`<chu-counter value="1" label="Coins" quiet="false"></chu-counter>`);
     counter.setAttribute("value", "2");
     const live = counter.querySelector("[aria-live]")!;
     await expect.poll(() => live.textContent, { timeout: 3000 }).toContain("2");
   });
 
   it("keeps a counter whose quiet is present silent", async () => {
-    const counter = mount(`<pp-counter value="1" label="Coins" quiet></pp-counter>`);
+    const counter = mount(`<chu-counter value="1" label="Coins" quiet></chu-counter>`);
     const live = counter.querySelector("[aria-live]")!;
     const before = live.textContent;
     counter.setAttribute("value", "2");
@@ -31,10 +31,10 @@ describe("game flags written \"false\"", () => {
   it("does not voice a dialogue whose voice is \"false\", and voices one whose voice is present", async () => {
     const played: string[] = [];
     restore = provide({ sound: { play: (name) => void played.push(name) } });
-    mount(`<pp-dialogue class="pp-box pp-dialogue" voice="false"><div class="pp-dialogue-text"><p>Hello there.</p></div></pp-dialogue>`);
+    mount(`<chu-dialogue class="chu-box chu-dialogue" voice="false"><div class="chu-dialogue-text"><p>Hello there.</p></div></chu-dialogue>`);
     await new Promise((r) => setTimeout(r, 400));
     expect(played).toEqual([]);
-    mount(`<pp-dialogue class="pp-box pp-dialogue" voice><div class="pp-dialogue-text"><p>Hello there.</p></div></pp-dialogue>`);
+    mount(`<chu-dialogue class="chu-box chu-dialogue" voice><div class="chu-dialogue-text"><p>Hello there.</p></div></chu-dialogue>`);
     await expect.poll(() => played.length, { timeout: 2000 }).toBeGreaterThan(0);
     expect(new Set(played)).toEqual(new Set(["blip"]));
   });

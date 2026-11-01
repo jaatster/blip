@@ -1,5 +1,5 @@
 /**
- * <pp-number> interaction tests, on the example's fields: the minus and plus step the real input (which keeps the
+ * <chu-number> interaction tests, on the example's fields: the minus and plus step the real input (which keeps the
  * focus) and commit a change; held, they repeat; Page Up and Page Down step ten, clamped; a button goes off at its end
  * of the range, and both are off when the input is read-only or disabled.
  */
@@ -9,8 +9,8 @@ import { click, events, focus, one, press, wait } from "../lib/play";
 
 const stepper = (root: HTMLElement, id: string) => {
   const input = one<HTMLInputElement>(root, `input#${id}`);
-  const element = input.closest("pp-number")!;
-  const [down, up] = [...element.querySelectorAll<HTMLButtonElement>(".pp-number-step")];
+  const element = input.closest("chu-number")!;
+  const [down, up] = [...element.querySelectorAll<HTMLButtonElement>(".chu-number-step")];
   return { input, element, down: down!, up: up! };
 };
 
@@ -18,7 +18,7 @@ export const ButtonsAndKeys: StoryObj = {
   name: "Buttons, Page Up and Page Down",
   play: async ({ canvasElement, step }) => {
     const { input, element, down, up } = stepper(canvasElement, "nu-lives");
-    const changes = events<{ value: string }>(element, "pp-change");
+    const changes = events<{ value: string }>(element, "chu-change");
 
     await step("The buttons are named, control the input and stay out of the tab order", async () => {
       expect(down).toHaveAccessibleName("Decrease");

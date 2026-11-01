@@ -11,12 +11,14 @@
  * What each line measures:
  *
  * - tokens.css, core.css, components CSS: the files as shipped (core and components minified).
- * - palettes.css, 5 KB: the presets, opt in (data-pp-palette). Eleven of them, each about 50 colours (the accents,
+ * - core.css, 6.5 KB: 6 KB until the rename to Blip. Its prefix, chu-, is a byte longer than pp- on every class,
+ *   custom property and layer (about 35 bytes after gzip), which left it 2 bytes under. Other growth still fails.
+ * - palettes.css, 5 KB: the presets, opt in (data-chu-palette). Eleven of them, each about 50 colours (the accents,
  *   the warning where it moves, Night's page, ink and sky), so about 0.4 KB a preset.
  * - core JS: all of @jaatster/blip-core's JavaScript (elements, controllers, timeline, services), bundled and minified.
  * - Each element module: one module of @jaatster/blip-elements, the game kit, the effects kit or the icons, minified with
  *   @jaatster/blip-* left out (the core runtime is the core JS line; the icon data is the icons line). Found by looking
- *   for modules that define a pp-* element. The effects world renderer is exempt here: it is an effect (a landscape
+ *   for modules that define a chu-* element. The effects world renderer is exempt here: it is an effect (a landscape
  *   drawn in the browser instead of an image), budgeted with the effects.
  * - Effects JS + CSS, 18 KB: PLAN.md's first estimate was 12 KB, made before the world renderer was finished (five
  *   layers, wide screens, parallax, drifting clouds, birds and shooting stars: about 6.1 KB on its own). The effects
@@ -25,9 +27,9 @@
  *   would be 11.9 KB. 13 KB kept the honest, self-contained measure instead of moving core out of sight. 14 KB
  *   since the world learned avoid (about 0.9 KB): it keeps the sun, the moon, flaring stars and shooting stars
  *   clear of the text over it, found by measuring the page, which a picture cannot do. 15 KB since the world learned
- *   to pause (about 0.55 KB): <pp-motion-toggle>, the page-wide pause WCAG 2.2.2 asks for wherever the world drifts,
+ *   to pause (about 0.55 KB): <chu-motion-toggle>, the page-wide pause WCAG 2.2.2 asks for wherever the world drifts,
  *   flares or has events, and the world stopping and carrying on at once. 18 KB since attract mode (about 2.4 KB:
- *   1.9 KB of script, 0.45 KB of CSS): <pp-attract>, a short demo of real markup played by a pixel pointer from a
+ *   1.9 KB of script, 0.45 KB of CSS): <chu-attract>, a short demo of real markup played by a pixel pointer from a
  *   script, which a recording cannot be (it is the page's own components, in every scheme, pixel and language), and
  *   which undoes its own changes between loops and stops with the motion toggle. Other growth still fails.
  * - Sound: sound.bundle.js, the whole kit as a page loads it.
@@ -73,12 +75,12 @@ const row = (name, file, size, limitKB, note = "") => rows.push({ name, file, si
 
 row("tokens.css", "tokens/dist/css/tokens.css", gzFile(at("tokens/dist/css/tokens.css")), 4);
 row("palettes.css", "tokens/dist/css/palettes.css", gzFile(at("tokens/dist/css/palettes.css")), 5);
-row("core.css", "core/dist/core.min.css", gzFile(at("core/dist/core.min.css")), 6);
+row("core.css", "core/dist/core.min.css", gzFile(at("core/dist/core.min.css")), 6.5);
 row("core JS", "core/dist/js/index.js (bundled)", await bundle(at("core/dist/js/index.js"), []), 3);
 row("all components CSS", "components/dist/components.min.css", gzFile(at("components/dist/components.min.css")), 30);
 
-// Element modules: every module that defines a pp-* element.
-const defines = /\b(?:customElements|PixelElement|\w+)\.define\(\s*["']pp-/;
+// Element modules: every module that defines a chu-* element.
+const defines = /\b(?:customElements|BlipElement|\w+)\.define\(\s*["']chu-/;
 for (const pkg of ["elements", "game", "effects", "icons"]) {
   const src = at(pkg, "src");
   if (!existsSync(src)) continue;

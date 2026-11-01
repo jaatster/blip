@@ -1,5 +1,5 @@
 /**
- * <pp-menu> interaction tests, on the example's live "Level" menu: ArrowDown opens it on the first item, the arrows,
+ * <chu-menu> interaction tests, on the example's live "Level" menu: ArrowDown opens it on the first item, the arrows,
  * Home and End rove (skipping the disabled item), letters jump by typeahead, Space toggles a checkbox item and keeps
  * the menu open, ArrowRight and ArrowLeft open and close the submenu, Enter chooses, and Escape closes and gives
  * focus back to the button.
@@ -9,8 +9,8 @@ import { expect, waitFor } from "storybook/test";
 import { escape, events, focus, focused, press, wait } from "../lib/play";
 
 const levelMenu = (root: HTMLElement) => {
-  // The live menu: the pp-menu element (the static picture above it is a plain, inert copy).
-  const element = [...root.querySelectorAll("pp-menu")].find((m) => m.querySelector(':scope > [role="menu"][aria-label="Level"]'))!;
+  // The live menu: the chu-menu element (the static picture above it is a plain, inert copy).
+  const element = [...root.querySelectorAll("chu-menu")].find((m) => m.querySelector(':scope > [role="menu"][aria-label="Level"]'))!;
   const button = element.querySelector<HTMLElement>(":scope > button")!;
   const list = element.querySelector<HTMLElement>(':scope > [role="menu"]')!;
   const item = (label: string) => [...list.querySelectorAll<HTMLElement>('[role^="menuitem"]')].find((i) => i.textContent?.trim().startsWith(label))!;
@@ -22,7 +22,7 @@ export const KeyboardPath: StoryObj = {
   name: "Open, rove, typeahead, Escape",
   play: async ({ canvasElement, step }) => {
     const { element, button, list, item, open } = levelMenu(canvasElement);
-    const chosen = events<{ value: string; checked?: boolean }>(element, "pp-action");
+    const chosen = events<{ value: string; checked?: boolean }>(element, "chu-action");
 
     await step("The button is wired as a menu button", async () => {
       expect(button).toHaveAttribute("aria-haspopup", "menu");
@@ -83,8 +83,8 @@ export const SubmenuAndChoose: StoryObj = {
   name: "Submenu, then Enter chooses",
   play: async ({ canvasElement, step }) => {
     const { element, button, item, open } = levelMenu(canvasElement);
-    const chosen = events<{ value: string }>(element, "pp-action");
-    const sub = item("Export").closest("pp-menu")!;
+    const chosen = events<{ value: string }>(element, "chu-action");
+    const sub = item("Export").closest("chu-menu")!;
     const subList = sub.querySelector<HTMLElement>(':scope > [role="menu"]')!;
     const subItem = (label: string) => [...subList.querySelectorAll<HTMLElement>('[role="menuitem"]')].find((i) => i.textContent?.trim() === label)!;
 

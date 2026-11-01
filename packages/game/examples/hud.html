@@ -1,46 +1,46 @@
 <!-- HUD: a platformer's heads-up display over a pastel strip, then the parts on their own. The coin block, coins
      and level name are the game's own scenery, placed for the example. -->
-<section class="pp-stage" data-frame aria-label="Puddle Path, level 1-3" style="block-size:calc(140*var(--pp-pixel));max-inline-size:calc(480*var(--pp-pixel))">
-  <div class="pp-hud">
-    <div class="pp-hud-group">
-      <pp-hearts value="3.5" max="5" label="Health"></pp-hearts>
-      <div class="pp-hud-stat">
-        <span class="pp-hud-label pp-display pp-pop" data-scale="1" aria-hidden="true">MP</span>
-        <div class="pp-box pp-hud-bar" data-tone="blue" role="meter" aria-label="Magic" aria-valuemin="0" aria-valuemax="8" aria-valuenow="5" style="--pp-hud-value:5;--pp-hud-max:8;--pp-hud-segments:8"><span class="pp-hud-bar-fill"></span></div>
+<section class="chu-stage" data-frame aria-label="Puddle Path, level 1-3" style="block-size:calc(140*var(--chu-pixel));max-inline-size:calc(480*var(--chu-pixel))">
+  <div class="chu-hud">
+    <div class="chu-hud-group">
+      <chu-hearts value="3.5" max="5" label="Health"></chu-hearts>
+      <div class="chu-hud-stat">
+        <span class="chu-hud-label chu-display chu-pop" data-scale="1" aria-hidden="true">MP</span>
+        <div class="chu-box chu-hud-bar" data-tone="blue" role="meter" aria-label="Magic" aria-valuemin="0" aria-valuemax="8" aria-valuenow="5" style="--chu-hud-value:5;--chu-hud-max:8;--chu-hud-segments:8"><span class="chu-hud-bar-fill"></span></div>
       </div>
     </div>
-    <div class="pp-hud-group">
-      <pp-counter value="42" pad="3" label="Coins" sound="coin"><pp-sprite name="coin"></pp-sprite></pp-counter>
-      <pp-counter value="12450" pad="7" label="Score"><span class="pp-hud-label pp-display pp-pop" data-scale="1" aria-hidden="true">Score</span></pp-counter>
-      <pp-counter value="165" format="time" low="30" label="Time" quiet><pp-sprite name="clock"></pp-sprite></pp-counter>
+    <div class="chu-hud-group">
+      <chu-counter value="42" pad="3" label="Coins" sound="coin"><chu-sprite name="coin"></chu-sprite></chu-counter>
+      <chu-counter value="12450" pad="7" label="Score"><span class="chu-hud-label chu-display chu-pop" data-scale="1" aria-hidden="true">Score</span></chu-counter>
+      <chu-counter value="165" format="time" low="30" label="Time" quiet><chu-sprite name="clock"></chu-sprite></chu-counter>
     </div>
   </div>
-  <p class="pp-display pp-pop" data-scale="2" data-tone="pink" data-pop="1-3 Puddle Path" style="margin:calc(4*var(--pp-pixel)) 0 0;text-align:center">1-3 Puddle Path</p>
-  <div aria-hidden="true" style="position:absolute;left:calc(40*var(--pp-pixel));bottom:calc(24*var(--pp-pixel));display:flex;gap:calc(5*var(--pp-pixel));align-items:end">
-    <pp-sprite name="coin" style="margin-block-end:calc(2*var(--pp-pixel))"></pp-sprite><pp-sprite name="coin" style="margin-block-end:calc(6*var(--pp-pixel))"></pp-sprite><pp-sprite name="coin" style="margin-block-end:calc(8*var(--pp-pixel))"></pp-sprite><pp-sprite name="coin" style="margin-block-end:calc(6*var(--pp-pixel))"></pp-sprite><pp-sprite name="coin" style="margin-block-end:calc(2*var(--pp-pixel))"></pp-sprite>
+  <p class="chu-display chu-pop" data-scale="2" data-tone="pink" data-pop="1-3 Puddle Path" style="margin:calc(4*var(--chu-pixel)) 0 0;text-align:center">1-3 Puddle Path</p>
+  <div aria-hidden="true" style="position:absolute;left:calc(40*var(--chu-pixel));bottom:calc(24*var(--chu-pixel));display:flex;gap:calc(5*var(--chu-pixel));align-items:end">
+    <chu-sprite name="coin" style="margin-block-end:calc(2*var(--chu-pixel))"></chu-sprite><chu-sprite name="coin" style="margin-block-end:calc(6*var(--chu-pixel))"></chu-sprite><chu-sprite name="coin" style="margin-block-end:calc(8*var(--chu-pixel))"></chu-sprite><chu-sprite name="coin" style="margin-block-end:calc(6*var(--chu-pixel))"></chu-sprite><chu-sprite name="coin" style="margin-block-end:calc(2*var(--chu-pixel))"></chu-sprite>
   </div>
-  <span class="pp-box pp-display" data-tone="orange" data-scale="1" aria-hidden="true" style="position:absolute;right:calc(70*var(--pp-pixel));bottom:calc(40*var(--pp-pixel));display:grid;place-items:center;inline-size:calc(16*var(--pp-pixel));block-size:calc(16*var(--pp-pixel));padding-block-start:var(--pp-pixel)">?</span>
-  <div class="pp-stage-ground"></div>
+  <span class="chu-box chu-display" data-tone="orange" data-scale="1" aria-hidden="true" style="position:absolute;right:calc(70*var(--chu-pixel));bottom:calc(40*var(--chu-pixel));display:grid;place-items:center;inline-size:calc(16*var(--chu-pixel));block-size:calc(16*var(--chu-pixel));padding-block-start:var(--chu-pixel)">?</span>
+  <div class="chu-stage-ground"></div>
 </section>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--pp-pixel)) calc(20*var(--pp-pixel));align-items:start;margin-block-start:calc(14*var(--pp-pixel))">
-  <div style="display:grid;gap:calc(4*var(--pp-pixel))">
-    <span class="pp-label pp-muted">Hearts</span>
-    <pp-hearts value="5" max="5" label="Health"></pp-hearts>
-    <pp-hearts value="3.5" max="5" label="Health"></pp-hearts>
-    <pp-hearts value="1" max="5" label="Health"></pp-hearts>
+<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel)) calc(20*var(--chu-pixel));align-items:start;margin-block-start:calc(14*var(--chu-pixel))">
+  <div style="display:grid;gap:calc(4*var(--chu-pixel))">
+    <span class="chu-label chu-muted">Hearts</span>
+    <chu-hearts value="5" max="5" label="Health"></chu-hearts>
+    <chu-hearts value="3.5" max="5" label="Health"></chu-hearts>
+    <chu-hearts value="1" max="5" label="Health"></chu-hearts>
   </div>
-  <div style="display:grid;gap:calc(4*var(--pp-pixel));justify-items:start">
-    <span class="pp-label pp-muted">Bars</span>
-    <div class="pp-hud-stat"><span class="pp-hud-label pp-display pp-pop" data-scale="1" aria-hidden="true">HP</span><div class="pp-box pp-hud-bar" role="meter" aria-label="Health" aria-valuemin="0" aria-valuemax="10" aria-valuenow="7" style="--pp-hud-value:7;--pp-hud-max:10"><span class="pp-hud-bar-fill"></span></div></div>
-    <div class="pp-hud-stat"><span class="pp-hud-label pp-display pp-pop" data-scale="1" aria-hidden="true">HP</span><div class="pp-box pp-hud-bar" data-tone="danger" role="meter" aria-label="Health, low" aria-valuemin="0" aria-valuemax="10" aria-valuenow="2" style="--pp-hud-value:2;--pp-hud-max:10"><span class="pp-hud-bar-fill"></span></div></div>
-    <div class="pp-hud-stat"><span class="pp-hud-label pp-display pp-pop" data-scale="1" aria-hidden="true">MP</span><div class="pp-box pp-hud-bar" data-tone="blue" role="meter" aria-label="Magic" aria-valuemin="0" aria-valuemax="8" aria-valuenow="5" style="--pp-hud-value:5;--pp-hud-max:8;--pp-hud-segments:8"><span class="pp-hud-bar-fill"></span></div></div>
-    <div class="pp-hud-stat"><span class="pp-hud-label pp-display pp-pop" data-scale="1" aria-hidden="true">Dash</span><div class="pp-box pp-hud-bar" data-tone="teal" role="meter" aria-label="Dash" aria-valuemin="0" aria-valuemax="100" aria-valuenow="65" style="--pp-hud-value:65;--pp-hud-max:100;--pp-hud-segments:16"><span class="pp-hud-bar-fill"></span></div></div>
+  <div style="display:grid;gap:calc(4*var(--chu-pixel));justify-items:start">
+    <span class="chu-label chu-muted">Bars</span>
+    <div class="chu-hud-stat"><span class="chu-hud-label chu-display chu-pop" data-scale="1" aria-hidden="true">HP</span><div class="chu-box chu-hud-bar" role="meter" aria-label="Health" aria-valuemin="0" aria-valuemax="10" aria-valuenow="7" style="--chu-hud-value:7;--chu-hud-max:10"><span class="chu-hud-bar-fill"></span></div></div>
+    <div class="chu-hud-stat"><span class="chu-hud-label chu-display chu-pop" data-scale="1" aria-hidden="true">HP</span><div class="chu-box chu-hud-bar" data-tone="danger" role="meter" aria-label="Health, low" aria-valuemin="0" aria-valuemax="10" aria-valuenow="2" style="--chu-hud-value:2;--chu-hud-max:10"><span class="chu-hud-bar-fill"></span></div></div>
+    <div class="chu-hud-stat"><span class="chu-hud-label chu-display chu-pop" data-scale="1" aria-hidden="true">MP</span><div class="chu-box chu-hud-bar" data-tone="blue" role="meter" aria-label="Magic" aria-valuemin="0" aria-valuemax="8" aria-valuenow="5" style="--chu-hud-value:5;--chu-hud-max:8;--chu-hud-segments:8"><span class="chu-hud-bar-fill"></span></div></div>
+    <div class="chu-hud-stat"><span class="chu-hud-label chu-display chu-pop" data-scale="1" aria-hidden="true">Dash</span><div class="chu-box chu-hud-bar" data-tone="teal" role="meter" aria-label="Dash" aria-valuemin="0" aria-valuemax="100" aria-valuenow="65" style="--chu-hud-value:65;--chu-hud-max:100;--chu-hud-segments:16"><span class="chu-hud-bar-fill"></span></div></div>
   </div>
-  <div style="display:grid;gap:calc(4*var(--pp-pixel));justify-items:start">
-    <span class="pp-label pp-muted">Counters</span>
-    <pp-counter value="42" pad="3" label="Coins"><pp-sprite name="coin"></pp-sprite></pp-counter>
-    <pp-counter value="7" pad="2" label="Gems"><pp-sprite name="gem"></pp-sprite></pp-counter>
-    <pp-counter value="9" format="time" low="30" label="Time" quiet><pp-sprite name="clock"></pp-sprite></pp-counter>
+  <div style="display:grid;gap:calc(4*var(--chu-pixel));justify-items:start">
+    <span class="chu-label chu-muted">Counters</span>
+    <chu-counter value="42" pad="3" label="Coins"><chu-sprite name="coin"></chu-sprite></chu-counter>
+    <chu-counter value="7" pad="2" label="Gems"><chu-sprite name="gem"></chu-sprite></chu-counter>
+    <chu-counter value="9" format="time" low="30" label="Time" quiet><chu-sprite name="clock"></chu-sprite></chu-counter>
   </div>
 </div>

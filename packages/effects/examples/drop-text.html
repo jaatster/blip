@@ -1,12 +1,12 @@
 <!-- Drop text: a Pixel Bop heading whose letters drop in one after another, 30 ms apart, two pixels high for a frame,
-     as the TV's app name does when the selection moves. Put pp-pop and data-pop on the element so each letter keeps
+     as the TV's app name does when the selection moves. Put chu-pop and data-pop on the element so each letter keeps
      its tint. Replay to see it again; with reduced motion the letters are simply there. -->
-<div style="display:grid;gap:calc(6*var(--pp-pixel));justify-items:start">
-  <h3 style="margin:0"><pp-drop-text class="pp-display pp-pop" data-scale="3" data-tone="red" data-pop="Arcade">Arcade</pp-drop-text></h3>
-  <h3 style="margin:0"><pp-drop-text class="pp-display pp-pop" data-scale="2" data-tone="purple" data-pop="Level complete!">Level complete!</pp-drop-text></h3>
-  <p style="margin:0"><pp-drop-text class="pp-display" data-scale="1">Plain Pixel Bop drops in too</pp-drop-text></p>
-  <div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--pp-pixel))">
-    <button class="pp-box pp-button" type="button" data-size="sm" onclick="this.closest('div').parentElement.querySelectorAll('pp-drop-text').forEach((t) => t.play())">Replay</button>
-    <button class="pp-box pp-button" type="button" data-size="sm" data-variant="soft" onclick="const t = this.closest('div').parentElement.querySelector('pp-drop-text'), names = ['Arcade', 'Photo booth', 'Settings', 'Weather']; t.text = names[(names.indexOf(t.text) + 1) % names.length]">Next app</button>
+<div style="display:grid;gap:calc(6*var(--chu-pixel));justify-items:start">
+  <h3 style="margin:0"><chu-drop-text class="chu-display chu-pop" data-scale="3" data-tone="red" data-pop="Arcade">Arcade</chu-drop-text></h3>
+  <h3 style="margin:0"><chu-drop-text class="chu-display chu-pop" data-scale="2" data-tone="purple" data-pop="Level complete!">Level complete!</chu-drop-text></h3>
+  <p style="margin:0"><chu-drop-text class="chu-display" data-scale="1">Plain Pixel Bop drops in too</chu-drop-text></p>
+  <div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--chu-pixel))">
+    <button class="chu-box chu-button" type="button" data-size="sm" onclick="this.closest('div').parentElement.querySelectorAll('chu-drop-text').forEach((t) => t.play())">Replay</button>
+    <button class="chu-box chu-button" type="button" data-size="sm" data-variant="soft" onclick="const t = this.closest('div').parentElement.querySelector('chu-drop-text'), names = ['Arcade', 'Photo booth', 'Settings', 'Weather']; t.text = names[(names.indexOf(t.text) + 1) % names.length]">Next app</button>
   </div>
 </div>

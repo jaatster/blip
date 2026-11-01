@@ -8,7 +8,7 @@ import { commands } from "vitest/browser";
 import motionCss from "../../../packages/core/src/css/motion.css?raw";
 import crtCss from "../../../packages/effects/src/crt.css?raw";
 import textCss from "../../../packages/effects/src/text.css?raw";
-import type { PixelTypewriter } from "../../../packages/effects/src/text.ts";
+import type { BlipTypewriter } from "../../../packages/effects/src/text.ts";
 import { mount } from "../support/dom.ts";
 
 let style: HTMLStyleElement;
@@ -27,20 +27,20 @@ const after = (el: Element) => getComputedStyle(el, "::after");
 
 describe("the typewriter's caret", () => {
   it("holds still while it types, then blinks six beats and stays shown", () => {
-    const line = mount<PixelTypewriter>(`<pp-typewriter caret>Ready, player one?</pp-typewriter>`);
-    const typed = line.querySelector(".pp-typewriter-typed")!;
+    const line = mount<BlipTypewriter>(`<chu-typewriter caret>Ready, player one?</chu-typewriter>`);
+    const typed = line.querySelector(".chu-typewriter-typed")!;
     expect(after(typed).animationName).toBe("none");
     expect(after(typed).opacity).toBe("1");
     line.finish();
-    expect(after(typed).animationName).toBe("pp-blink");
+    expect(after(typed).animationName).toBe("chu-blink");
     expect(after(typed).animationIterationCount).toBe("6");
   });
 
   it("is still and shown with reduced motion", async () => {
     await commands.emulateMedia("reduce");
-    const line = mount<PixelTypewriter>(`<pp-typewriter caret>Ready, player one?</pp-typewriter>`);
-    const typed = line.querySelector(".pp-typewriter-typed")!;
-    expect(line.querySelector(".pp-typewriter-rest")!.textContent).toBe("");
+    const line = mount<BlipTypewriter>(`<chu-typewriter caret>Ready, player one?</chu-typewriter>`);
+    const typed = line.querySelector(".chu-typewriter-typed")!;
+    expect(line.querySelector(".chu-typewriter-rest")!.textContent).toBe("");
     expect(after(typed).animationName).toBe("none");
     expect(after(typed).opacity).toBe("1");
   });
@@ -48,7 +48,7 @@ describe("the typewriter's caret", () => {
 
 describe("the glint", () => {
   it("sweeps once, at once, and is done in under half a second", () => {
-    const box = mount(`<div class="pp-box" style="width:56px;height:56px"><span class="pp-glint"></span></div>`);
+    const box = mount(`<div class="chu-box" style="width:56px;height:56px"><span class="chu-glint"></span></div>`);
     const glint = box.firstElementChild!;
     expect(after(glint).animationIterationCount).toBe("1, 1");
     // A 4.5 s cycle started 4.1 s in: the sweep's five frames come first, and then the animation is over.
@@ -56,8 +56,8 @@ describe("the glint", () => {
     expect(after(glint).animationDelay.split(", ").map(parseFloat)).toEqual([-4.1, -4.1]);
   });
 
-  it("sweeps as often as --pp-glint-count asks, 4.5 s apart, and not at all with reduced motion", async () => {
-    const box = mount(`<div class="pp-box" style="width:56px;height:56px;--pp-glint-count:3"><span class="pp-glint"></span></div>`);
+  it("sweeps as often as --chu-glint-count asks, 4.5 s apart, and not at all with reduced motion", async () => {
+    const box = mount(`<div class="chu-box" style="width:56px;height:56px;--chu-glint-count:3"><span class="chu-glint"></span></div>`);
     expect(after(box.firstElementChild!).animationIterationCount).toBe("3, 3");
     await commands.emulateMedia("reduce");
     await expect.poll(() => after(box.firstElementChild!).animationName).toBe("none");
@@ -66,7 +66,7 @@ describe("the glint", () => {
 
 describe("the CRT", () => {
   it("draws its scanlines in opaque ink through a dither, not a translucent wash", () => {
-    const crt = mount(`<div class="pp-crt" style="width:100px;height:60px"></div>`);
+    const crt = mount(`<div class="chu-crt" style="width:100px;height:60px"></div>`);
     const lines = after(crt);
     expect(lines.opacity).toBe("1");
     // Ink, opaque (#1A1530 by Day; at Night, the palette's own).
@@ -76,11 +76,11 @@ describe("the CRT", () => {
   });
 
   it("flickers by stepping the scanlines to the other rows, for six beats, never by fading", () => {
-    const crt = mount(`<div class="pp-crt" data-flicker style="width:100px;height:60px"></div>`);
-    expect(after(crt).animationName).toBe("pp-crt-flicker");
+    const crt = mount(`<div class="chu-crt" data-flicker style="width:100px;height:60px"></div>`);
+    expect(after(crt).animationName).toBe("chu-crt-flicker");
     expect(after(crt).animationIterationCount).toBe("6");
     expect(after(crt).animationTimingFunction).toBe("steps(1)");
-    const flicker = document.getAnimations().find((a) => (a as CSSAnimation).animationName === "pp-crt-flicker")!;
+    const flicker = document.getAnimations().find((a) => (a as CSSAnimation).animationName === "chu-crt-flicker")!;
     // Chromium names the mask's position by its longhands (webkitMaskPositionX and Y).
     const props = flicker.effect!.getKeyframes().flatMap((k) => Object.keys(k));
     expect(props.some((p) => /maskposition/i.test(p))).toBe(true);
@@ -89,7 +89,7 @@ describe("the CRT", () => {
 
   it("holds still with reduced motion", async () => {
     await commands.emulateMedia("reduce");
-    const crt = mount(`<div class="pp-crt" data-flicker style="width:100px;height:60px"></div>`);
+    const crt = mount(`<div class="chu-crt" data-flicker style="width:100px;height:60px"></div>`);
     await expect.poll(() => after(crt).animationName).toBe("none");
   });
 });

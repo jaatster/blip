@@ -17,7 +17,7 @@ export default {
       {
         // Mask layers carry only alpha. Besides the box's shapes, --_g is the glyph mask of the components
         // (AUTHORING rule 9), set in each component and applied by _control.css, _choice.css, stat.css and window.css.
-        maskProperties: ["/^--pp-shape(?:-\\d+)?(?:-inner)?$/", "--_g"],
+        maskProperties: ["/^--chu-shape(?:-\\d+)?(?:-inner)?$/", "--_g"],
       },
     ],
   },

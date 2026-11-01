@@ -7,19 +7,19 @@ const groups = searchIndex();
 ---
 <Docs title="All pages" description="Every page of the Blip docs, and every token, to search through.">
   <header class="docs-page-head">
-    <h1 class="docs-page-title pp-display" data-scale="2">All pages</h1>
-    <p class="docs-lede">Every page of these docs, every component and every token. Press <kbd class="pp-box pp-keycap" data-size="sm" data-mod>Ctrl</kbd> <kbd class="pp-box pp-keycap" data-size="sm">K</kbd> anywhere to search from the keyboard.</p>
+    <h1 class="docs-page-title chu-display" data-scale="2">All pages</h1>
+    <p class="docs-lede">Every page of these docs, every component and every token. Press <kbd class="chu-box chu-keycap" data-size="sm" data-mod>Ctrl</kbd> <kbd class="chu-box chu-keycap" data-size="sm">K</kbd> anywhere to search from the keyboard.</p>
   </header>
   <search class="docs-needs-js docs-filter">
-    <span class="pp-box pp-input"><Icon name="search" /><input type="search" class="docs-filter-input" aria-label="Filter pages" placeholder="Filter: button, colour, --pp-accent…" autocomplete="off" /></span>
-    <p class="pp-small pp-muted docs-filter-count" role="status"></p>
+    <span class="chu-box chu-input"><Icon name="search" /><input type="search" class="docs-filter-input" aria-label="Filter pages" placeholder="Filter: button, colour, --chu-accent…" autocomplete="off" /></span>
+    <p class="chu-small chu-muted docs-filter-count" role="status"></p>
   </search>
   {groups.map((g) => (
     <section class="docs-section docs-az" aria-labelledby={`az-${g.title.toLowerCase()}`}>
       <h2 id={`az-${g.title.toLowerCase()}`}>{g.title} <span class="docs-count">{g.items.length}</span></h2>
       <ul class="docs-az-list" role="list">
         {g.items.map((i) => (
-          <li data-keywords={`${i.title.toLowerCase()} ${i.keywords}`} data-synonyms={i.synonyms}><a href={i.url}>{i.title}</a> <span class="pp-small pp-muted">{i.hint}</span></li>
+          <li data-keywords={`${i.title.toLowerCase()} ${i.keywords}`} data-synonyms={i.synonyms}><a href={i.url}>{i.title}</a> <span class="chu-small chu-muted">{i.hint}</span></li>
         ))}
       </ul>
     </section>
@@ -30,7 +30,7 @@ const groups = searchIndex();
     import { prepare, search } from "/js/search-match.js";
     const input = document.querySelector(".docs-filter-input"), count = document.querySelector(".docs-filter-count");
     const rows = [...document.querySelectorAll(".docs-az-list > li")].map((li) => {
-      const a = li.querySelector("a"), hint = li.querySelector(".pp-muted");
+      const a = li.querySelector("a"), hint = li.querySelector(".chu-muted");
       return { li, a, hint, url: a.getAttribute("href"), text: hint.textContent, item: { title: a.textContent, url: a.getAttribute("href"), keywords: li.dataset.keywords, synonyms: li.dataset.synonyms } };
     });
     let prepared = rows.map((r) => prepare(r.item));

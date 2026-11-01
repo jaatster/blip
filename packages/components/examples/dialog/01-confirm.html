@@ -1,18 +1,18 @@
 <!-- A button opens it (command="show-modal"); Cancel and the cross close it; Save is the form's one submit button. -->
-<button class="pp-box pp-button" type="button" commandfor="ds-quit" command="show-modal">Quit to title</button>
+<button class="chu-box chu-button" type="button" commandfor="ds-quit" command="show-modal">Quit to title</button>
 
-<pp-dialog light-dismiss>
-  <dialog class="pp-box pp-dialog" id="ds-quit" data-size="sm" aria-labelledby="ds-quit-title">
+<chu-dialog light-dismiss>
+  <dialog class="chu-box chu-dialog" id="ds-quit" data-size="sm" aria-labelledby="ds-quit-title">
     <form method="dialog">
-      <header class="pp-dialog-header">
-        <h2 class="pp-dialog-title" id="ds-quit-title">Quit to the title screen?</h2>
-        <button class="pp-box pp-button pp-dialog-close" type="button" commandfor="ds-quit" command="close" value="cancel" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button>
+      <header class="chu-dialog-header">
+        <h2 class="chu-dialog-title" id="ds-quit-title">Quit to the title screen?</h2>
+        <button class="chu-box chu-button chu-dialog-close" type="button" commandfor="ds-quit" command="close" value="cancel" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
       </header>
-      <div class="pp-dialog-body"><p>Your progress since the last save point will be lost.</p></div>
-      <footer class="pp-dialog-footer">
-        <button class="pp-box pp-button" type="button" commandfor="ds-quit" command="close" value="cancel" data-variant="soft" data-tone="neutral">Keep playing</button>
-        <button class="pp-box pp-button" value="quit">Quit</button>
+      <div class="chu-dialog-body"><p>Your progress since the last save point will be lost.</p></div>
+      <footer class="chu-dialog-footer">
+        <button class="chu-box chu-button" type="button" commandfor="ds-quit" command="close" value="cancel" data-variant="soft" data-tone="neutral">Keep playing</button>
+        <button class="chu-box chu-button" value="quit">Quit</button>
       </footer>
     </form>
   </dialog>
-</pp-dialog>
+</chu-dialog>

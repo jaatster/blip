@@ -16,14 +16,14 @@ const { lines, cdn, label = "How to install" } = Astro.props;
 const panels = await Promise.all(MANAGERS.map((m) => (m.id === "cdn" ? codeBlock(cdn, "html", "HTML") : codeBlock(commands(m.id, lines), "sh", m.label))));
 const cdnNote = Astro.slots.has("cdn") ? await Astro.slots.render("cdn") : "";
 ---
-<pp-tabs class="pp-tabs docs-tabs docs-install" data-variant="underline" data-size="sm" value="npm">
-  <div class="pp-tabs-list" role="tablist" aria-label={label}>
-    {MANAGERS.map((m, i) => <button class="pp-box pp-tab" data-variant="ghost" role="tab" data-value={m.id} aria-selected={String(i === 0)} tabindex={i === 0 ? undefined : "-1"}>{m.label}</button>)}
+<chu-tabs class="chu-tabs docs-tabs docs-install" data-variant="underline" data-size="sm" value="npm">
+  <div class="chu-tabs-list" role="tablist" aria-label={label}>
+    {MANAGERS.map((m, i) => <button class="chu-box chu-tab" data-variant="ghost" role="tab" data-value={m.id} aria-selected={String(i === 0)} tabindex={i === 0 ? undefined : "-1"}>{m.label}</button>)}
   </div>
   {MANAGERS.map((m, i) => (
-    <div class="pp-tabs-panel" role="tabpanel" hidden={i > 0}>
+    <div class="chu-tabs-panel" role="tabpanel" hidden={i > 0}>
       {m.id === "cdn" && <Fragment set:html={cdnNote} />}
       <Fragment set:html={panels[i]} />
     </div>
   ))}
-</pp-tabs>
+</chu-tabs>

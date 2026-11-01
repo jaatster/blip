@@ -2,9 +2,9 @@
  * Tag. The TV's pill: a short upper-case label in a rounded box. A plain tag labels something (a rarity, a status);
  * a removable tag has a pixel cross; a filter chip is a toggle button.
  *
- *   <span class="pp-box pp-tag" data-tone="success">Rare</span>
- *   <span class="pp-box pp-tag">Lava zone<button class="pp-tag-remove" aria-label="Remove Lava zone"></button></span>
- *   <button class="pp-box pp-tag" data-variant="outline" aria-pressed="true">Swords</button>
+ *   <span class="chu-box chu-tag" data-tone="success">Rare</span>
+ *   <span class="chu-box chu-tag">Lava zone<button class="chu-tag-remove" aria-label="Remove Lava zone"></button></span>
+ *   <button class="chu-box chu-tag" data-variant="outline" aria-pressed="true">Swords</button>
  *
  *   data-variant   soft (default) | candy | outline | ghost     candy for a tag you act on; soft to label
  *   data-tone      accent (default) | info | success | warning | danger | a candy name | neutral
@@ -16,87 +16,87 @@
  * the room breaks as a last resort), never cut short.
  */
 
-@layer pp.components {
-  .pp-tag {
-    --pp-r: 5;
-    --pp-shape: var(--pp-shape-5);
-    --pp-shape-inner: var(--pp-shape-5-inner);
-    --pp-band-top: 2;
-    --pp-band-bottom: 2;
-    --_h: calc(14 * var(--pp-pixel));
+@layer chu.components {
+  .chu-tag {
+    --chu-r: 5;
+    --chu-shape: var(--chu-shape-5);
+    --chu-shape-inner: var(--chu-shape-5-inner);
+    --chu-band-top: 2;
+    --chu-band-bottom: 2;
+    --_h: calc(14 * var(--chu-pixel));
     display: inline-flex;
     align-items: center;
-    gap: var(--pp-space-2);
+    gap: var(--chu-space-2);
     box-sizing: border-box;
     min-block-size: var(--_h);
     max-inline-size: 100%;
-    padding: var(--pp-pixel) calc(6 * var(--pp-pixel));
-    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
-    font-family: var(--pp-font-ui);
-    font-size: var(--pp-size-caption);
-    font-weight: var(--pp-weight-bold);
+    padding: var(--chu-pixel) calc(6 * var(--chu-pixel));
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
+    font-family: var(--chu-font-ui);
+    font-size: var(--chu-size-caption);
+    font-weight: var(--chu-weight-bold);
     line-height: 1;
-    letter-spacing: var(--pp-tracking-label);
+    letter-spacing: var(--chu-tracking-label);
     text-align: center;
     text-transform: uppercase;
     text-decoration: none;
     vertical-align: middle;
   }
   /* Soft unless told otherwise: a tag labels; candy is for what you act on. */
-  .pp-tag:not([data-variant]) {
-    --pp-box-top: var(--pp-tone-light);
-    --pp-box-fill: var(--pp-tone-light);
-    --pp-box-bottom: var(--pp-tone);
-    --pp-box-glint: transparent;
+  .chu-tag:not([data-variant]) {
+    --chu-box-top: var(--chu-tone-light);
+    --chu-box-fill: var(--chu-tone-light);
+    --chu-box-bottom: var(--chu-tone);
+    --chu-box-glint: transparent;
   }
-  .pp-tag[data-size="sm"] {
-    --pp-r: 4;
-    --pp-shape: var(--pp-shape-4);
-    --pp-shape-inner: var(--pp-shape-4-inner);
-    --pp-band-bottom: 1;
-    --_h: calc(12 * var(--pp-pixel));
-    padding-inline: calc(5 * var(--pp-pixel));
+  .chu-tag[data-size="sm"] {
+    --chu-r: 4;
+    --chu-shape: var(--chu-shape-4);
+    --chu-shape-inner: var(--chu-shape-4-inner);
+    --chu-band-bottom: 1;
+    --_h: calc(12 * var(--chu-pixel));
+    padding-inline: calc(5 * var(--chu-pixel));
   }
-  .pp-tag[data-size="lg"] {
-    --pp-r: 6;
-    --pp-shape: var(--pp-shape-6);
-    --pp-shape-inner: var(--pp-shape-6-inner);
-    --pp-band-top: 3;
-    --pp-band-bottom: 3;
-    --_h: calc(16 * var(--pp-pixel));
-    padding-inline: calc(8 * var(--pp-pixel));
-    font-size: var(--pp-size-small);
+  .chu-tag[data-size="lg"] {
+    --chu-r: 6;
+    --chu-shape: var(--chu-shape-6);
+    --chu-shape-inner: var(--chu-shape-6-inner);
+    --chu-band-top: 3;
+    --chu-band-bottom: 3;
+    --_h: calc(16 * var(--chu-pixel));
+    padding-inline: calc(8 * var(--chu-pixel));
+    font-size: var(--chu-size-small);
   }
-  .pp-tag > .pp-icon:first-child { margin-inline-start: calc(-2 * var(--pp-pixel)); }
+  .chu-tag > .chu-icon:first-child { margin-inline-start: calc(-2 * var(--chu-pixel)); }
 
   /* The cross: a quiet button inside the tag. Hover lifts its glyph a pixel; focus is the square yellow ring. */
-  .pp-tag-remove {
+  .chu-tag-remove {
     display: grid;
     place-items: center;
     flex: none;
-    inline-size: var(--pp-target-min);
-    block-size: var(--pp-target-min);
-    margin-inline: calc(-2 * var(--pp-pixel)) calc(-4 * var(--pp-pixel));
+    inline-size: var(--chu-target-min);
+    block-size: var(--chu-target-min);
+    margin-inline: calc(-2 * var(--chu-pixel)) calc(-4 * var(--chu-pixel));
     padding: 0;
     border: 0;
     background: none;
     color: inherit;
     cursor: pointer;
   }
-  .pp-tag-remove::before {
+  .chu-tag-remove::before {
     content: "";
-    inline-size: calc(6 * var(--pp-pixel));
-    block-size: calc(6 * var(--pp-pixel));
+    inline-size: calc(6 * var(--chu-pixel));
+    block-size: calc(6 * var(--chu-pixel));
     background: currentColor;
     mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 6' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1H0zM4 0h2v1H4zM1 1h4v1H1zM2 2h2v2H2zM1 4h4v1H1zM0 5h2v1H0zM4 5h2v1H4z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
   }
   @media (hover: hover) {
-    .pp-tag-remove:hover::before { translate: 0 calc(-1 * var(--pp-pixel)); }
+    .chu-tag-remove:hover::before { translate: 0 calc(-1 * var(--chu-pixel)); }
   }
-  .pp-tag-remove:active::before { translate: none; }
-  .pp-tag[data-size="sm"] > .pp-tag-remove { margin-block: calc(-1 * var(--pp-pixel)); }
+  .chu-tag-remove:active::before { translate: none; }
+  .chu-tag[data-size="sm"] > .chu-tag-remove { margin-block: calc(-1 * var(--chu-pixel)); }
 
   @media (forced-colors: active) {
-    .pp-tag-remove::before { background: ButtonText; }
+    .chu-tag-remove::before { background: ButtonText; }
   }
 }

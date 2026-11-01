@@ -3,17 +3,17 @@
  * When the bar gets narrow the links fold behind a menu button: the same list, shown as a popover (a disclosure, not a
  * menu), so it needs no script.
  *
- *   <header class="pp-box pp-app-bar">
- *     <a class="pp-app-bar-brand" href="/"><span class="pp-display pp-pop" data-scale="2" data-pop="Blip">Blip</span></a>
- *     <nav class="pp-app-bar-nav" aria-label="Main">
- *       <button class="pp-box pp-button pp-app-bar-toggle" data-variant="ghost" data-icon-only popovertarget="main-links"
- *               aria-label="Menu"><svg class="pp-icon" …></svg></button>
- *       <ul class="pp-box pp-app-bar-links" id="main-links" popover role="list">
- *         <li><a class="pp-box pp-app-bar-link" data-variant="ghost" href="/" aria-current="page">Dashboard</a></li>
+ *   <header class="chu-box chu-app-bar">
+ *     <a class="chu-app-bar-brand" href="/"><span class="chu-display chu-pop" data-scale="2" data-pop="Blip">Blip</span></a>
+ *     <nav class="chu-app-bar-nav" aria-label="Main">
+ *       <button class="chu-box chu-button chu-app-bar-toggle" data-variant="ghost" data-icon-only popovertarget="main-links"
+ *               aria-label="Menu"><svg class="chu-icon" …></svg></button>
+ *       <ul class="chu-box chu-app-bar-links" id="main-links" popover role="list">
+ *         <li><a class="chu-box chu-app-bar-link" data-variant="ghost" href="/" aria-current="page">Dashboard</a></li>
  *         …
  *       </ul>
  *     </nav>
- *     <div class="pp-app-bar-actions">…buttons, a pp-menu…</div>
+ *     <div class="chu-app-bar-actions">…buttons, a chu-menu…</div>
  *   </header>
  *
  *   aria-current="page"   the link to the page you are on: sits in, a soft chip
@@ -27,40 +27,40 @@
  * the wordmark drops to scale 1; under 360 px a brand with a mark (an icon before the wordmark) shows just the mark.
  */
 
-@layer pp.components {
-  .pp-app-bar {
-    --pp-r: 4;
-    --pp-shape: var(--pp-shape-4);
-    --pp-shape-inner: var(--pp-shape-4-inner);
-    --pp-box-top: var(--pp-surface);
-    --pp-box-fill: var(--pp-surface);
-    --pp-box-bottom: var(--pp-surface);
-    --pp-box-text: var(--pp-text);
-    --pp-box-glint: transparent;
+@layer chu.components {
+  .chu-app-bar {
+    --chu-r: 4;
+    --chu-shape: var(--chu-shape-4);
+    --chu-shape-inner: var(--chu-shape-4-inner);
+    --chu-box-top: var(--chu-surface);
+    --chu-box-fill: var(--chu-surface);
+    --chu-box-bottom: var(--chu-surface);
+    --chu-box-text: var(--chu-text);
+    --chu-box-glint: transparent;
 
-    container: pp-app-bar / inline-size;
-    anchor-scope: --pp-app-bar;
+    container: chu-app-bar / inline-size;
+    anchor-scope: --chu-app-bar;
     display: flex;
     align-items: center;
-    gap: var(--pp-space-6);
-    min-block-size: calc(28 * var(--pp-pixel));
-    padding: var(--pp-space-3) var(--pp-space-6);
+    gap: var(--chu-space-6);
+    min-block-size: calc(28 * var(--chu-pixel));
+    padding: var(--chu-space-3) var(--chu-space-6);
     /* Leave room for the drop. */
-    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
-    font-family: var(--pp-font-ui);
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
+    font-family: var(--chu-font-ui);
   }
-  .pp-app-bar[data-sticky] {
+  .chu-app-bar[data-sticky] {
     position: sticky;
-    inset-block-start: var(--pp-space-3);
-    z-index: var(--pp-layer-sticky);
+    inset-block-start: var(--chu-space-3);
+    z-index: var(--chu-layer-sticky);
   }
 
   /* The brand gives way first when space runs out, so the menu button and the actions stay whole: it takes all the
      shrinking until it has none left, and only then do the actions' labels wrap. */
-  .pp-app-bar-brand {
+  .chu-app-bar-brand {
     display: inline-flex;
     align-items: center;
-    gap: var(--pp-space-4);
+    gap: var(--chu-space-4);
     flex: 0 1000000 auto;
     min-inline-size: 0;
     overflow: hidden;
@@ -70,110 +70,110 @@
   }
 
   /* Never squeezed: if a bar holds more than fits, it runs past the end rather than under the menu button. */
-  .pp-app-bar-nav {
+  .chu-app-bar-nav {
     display: flex;
     flex: none;
     align-items: center;
   }
-  .pp-app-bar .pp-app-bar-toggle {
+  .chu-app-bar .chu-app-bar-toggle {
     display: none;
-    anchor-name: --pp-app-bar;
+    anchor-name: --chu-app-bar;
   }
 
   /* The links: in the bar, a plain row; opened from the menu button, a panel below it. */
-  .pp-app-bar-links {
-    --pp-r: 4;
-    --pp-shape: var(--pp-shape-4);
-    --pp-shape-inner: var(--pp-shape-4-inner);
-    --pp-box-outline: transparent;
-    --pp-box-top: transparent;
-    --pp-box-fill: transparent;
-    --pp-box-bottom: transparent;
-    --pp-box-text: var(--pp-text);
-    --pp-box-glint: transparent;
-    --pp-drop-size: 0;
+  .chu-app-bar-links {
+    --chu-r: 4;
+    --chu-shape: var(--chu-shape-4);
+    --chu-shape-inner: var(--chu-shape-4-inner);
+    --chu-box-outline: transparent;
+    --chu-box-top: transparent;
+    --chu-box-fill: transparent;
+    --chu-box-bottom: transparent;
+    --chu-box-text: var(--chu-text);
+    --chu-box-glint: transparent;
+    --chu-drop-size: 0;
 
     display: flex;
     align-items: center;
-    gap: var(--pp-space-2);
+    gap: var(--chu-space-2);
     inset: auto;
     margin: 0;
     padding: 0;
     overflow: visible;
     list-style: none;
   }
-  .pp-app-bar-links:popover-open {
-    --pp-box-outline: var(--pp-outline);
-    --pp-box-top: var(--pp-surface-panel);
-    --pp-box-fill: var(--pp-surface-panel);
-    --pp-box-bottom: var(--pp-surface-panel);
-    --pp-drop-size: 1;
+  .chu-app-bar-links:popover-open {
+    --chu-box-outline: var(--chu-outline);
+    --chu-box-top: var(--chu-surface-panel);
+    --chu-box-fill: var(--chu-surface-panel);
+    --chu-box-bottom: var(--chu-surface-panel);
+    --chu-drop-size: 1;
 
     position: fixed;
     /* Without anchor positioning: a sheet near the top of the screen. */
-    inset: calc(32 * var(--pp-pixel)) var(--pp-space-6) auto;
+    inset: calc(32 * var(--chu-pixel)) var(--chu-space-6) auto;
     flex-direction: column;
     align-items: stretch;
-    gap: var(--pp-pixel);
-    min-inline-size: calc(96 * var(--pp-pixel));
-    padding: var(--pp-space-3);
+    gap: var(--chu-pixel);
+    min-inline-size: calc(96 * var(--chu-pixel));
+    padding: var(--chu-space-3);
     /* Pops in: one pixel low for a frame, then in place. */
-    animation: pp-pop-in calc(2 * var(--pp-duration-frame)) steps(1, jump-end);
+    animation: chu-pop-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end);
   }
   @supports (position-area: block-end) {
-    .pp-app-bar-links:popover-open {
-      position-anchor: --pp-app-bar;
+    .chu-app-bar-links:popover-open {
+      position-anchor: --chu-app-bar;
       position-area: block-end span-inline-end;
       position-try-fallbacks: flip-inline;
       inset: auto;
-      margin-block-start: var(--pp-space-2);
+      margin-block-start: var(--chu-space-2);
     }
   }
 
-  .pp-app-bar-link {
-    --pp-r: 3;
-    --pp-shape: var(--pp-shape-3);
-    --pp-shape-inner: var(--pp-shape-3-inner);
+  .chu-app-bar-link {
+    --chu-r: 3;
+    --chu-shape: var(--chu-shape-3);
+    --chu-shape-inner: var(--chu-shape-3-inner);
 
     display: flex;
     align-items: center;
-    gap: var(--pp-space-3);
-    block-size: var(--pp-control-sm);
-    padding: 0 var(--pp-space-4);
-    font-size: var(--pp-size-small);
-    font-weight: var(--pp-weight-bold);
+    gap: var(--chu-space-3);
+    block-size: var(--chu-control-sm);
+    padding: 0 var(--chu-space-4);
+    font-size: var(--chu-size-small);
+    font-weight: var(--chu-weight-bold);
     line-height: 1;
-    letter-spacing: var(--pp-tracking-label);
+    letter-spacing: var(--chu-tracking-label);
     text-transform: uppercase;
     text-decoration: none;
     white-space: nowrap;
   }
 
-  .pp-app-bar-actions {
+  .chu-app-bar-actions {
     display: flex;
     align-items: center;
-    gap: var(--pp-space-3);
+    gap: var(--chu-space-3);
     margin-inline-start: auto;
   }
 
   /* ------------------------------------------------------------ folded */
 
-  .pp-app-bar[data-collapse="always"] .pp-app-bar-toggle { display: inline-flex; }
-  .pp-app-bar[data-collapse="always"] .pp-app-bar-links:not(:popover-open) { display: none; }
-  @container pp-app-bar (width < 64rem) {
-    .pp-app-bar:not([data-collapse="never"], [data-collapse="medium"]) .pp-app-bar-toggle { display: inline-flex; }
-    .pp-app-bar:not([data-collapse="never"], [data-collapse="medium"]) .pp-app-bar-links:not(:popover-open) { display: none; }
+  .chu-app-bar[data-collapse="always"] .chu-app-bar-toggle { display: inline-flex; }
+  .chu-app-bar[data-collapse="always"] .chu-app-bar-links:not(:popover-open) { display: none; }
+  @container chu-app-bar (width < 64rem) {
+    .chu-app-bar:not([data-collapse="never"], [data-collapse="medium"]) .chu-app-bar-toggle { display: inline-flex; }
+    .chu-app-bar:not([data-collapse="never"], [data-collapse="medium"]) .chu-app-bar-links:not(:popover-open) { display: none; }
   }
-  @container pp-app-bar (width < 37.5rem) {
-    .pp-app-bar[data-collapse="medium"] .pp-app-bar-toggle { display: inline-flex; }
-    .pp-app-bar[data-collapse="medium"] .pp-app-bar-links:not(:popover-open) { display: none; }
+  @container chu-app-bar (width < 37.5rem) {
+    .chu-app-bar[data-collapse="medium"] .chu-app-bar-toggle { display: inline-flex; }
+    .chu-app-bar[data-collapse="medium"] .chu-app-bar-links:not(:popover-open) { display: none; }
   }
-  @container pp-app-bar (width < 400px) {
-    .pp-app-bar-brand .pp-display { --pp-scale: 1; font-feature-settings: normal; }
+  @container chu-app-bar (width < 400px) {
+    .chu-app-bar-brand .chu-display { --chu-scale: 1; font-feature-settings: normal; }
   }
   /* Narrower still, a brand with a mark keeps just the mark; the wordmark stays as the link's name. */
-  @container pp-app-bar (width < 360px) {
-    .pp-app-bar-brand:has(> .pp-icon) > .pp-display {
+  @container chu-app-bar (width < 360px) {
+    .chu-app-bar-brand:has(> .chu-icon) > .chu-display {
       position: absolute;
       clip-path: inset(50%);
       white-space: nowrap;
@@ -181,7 +181,7 @@
   }
 
   @media (forced-colors: active) {
-    .pp-app-bar-link { border-color: Canvas; }
-    .pp-app-bar-link[aria-current="page"] { border-color: CanvasText; }
+    .chu-app-bar-link { border-color: Canvas; }
+    .chu-app-bar-link[aria-current="page"] { border-color: CanvasText; }
   }
 }

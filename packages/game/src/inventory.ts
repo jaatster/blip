@@ -1,12 +1,12 @@
 /**
- * <pp-inventory>: a grid of item slots as a single-select listbox (see inventory.css). The arrow keys move in two
+ * <chu-inventory>: a grid of item slots as a single-select listbox (see inventory.css). The arrow keys move in two
  * dimensions (Up and Down by a whole row, however many columns the grid has right now), Home and End jump to the
  * ends, typing a letter jumps to the next item whose name starts with it, and Enter, Space or a click selects. Slots
  * rendered after the element upgrades become options as they arrive.
  *
- *   inventory.addEventListener("pp-select", (e) => show(e.detail.item));   // { item, index, value }
+ *   inventory.addEventListener("chu-select", (e) => show(e.detail.item));   // { item, index, value }
  */
-import { PixelElement, rovingFocus, typeahead } from "@jaatster/blip-core";
+import { BlipElement, rovingFocus, typeahead } from "@jaatster/blip-core";
 
 export interface SelectDetail {
   item: HTMLElement;
@@ -20,14 +20,14 @@ export interface SelectDetail {
  * ends, a letter jumps to the next item with that name, and Enter, Space or a click selects.
  *
  * @summary An inventory grid of item slots.
- * @fires {CustomEvent<SelectDetail>} pp-select - A slot was selected.
+ * @fires {CustomEvent<SelectDetail>} chu-select - A slot was selected.
  */
-export class PixelInventory extends PixelElement {
-  static override classes = ["pp-inventory"];
+export class BlipInventory extends BlipElement {
+  static override classes = ["chu-inventory"];
 
   /** The slots, in order. Slots added later become options as they are found. */
   get slots(): HTMLElement[] {
-    const slots = [...this.querySelectorAll<HTMLElement>(".pp-slot")];
+    const slots = [...this.querySelectorAll<HTMLElement>(".chu-slot")];
     for (const slot of slots) {
       if (slot.getAttribute("role") === "option") continue;
       slot.setAttribute("role", "option");
@@ -67,12 +67,12 @@ export class PixelInventory extends PixelElement {
       signal: this.signal,
     });
     this.on(this, "click", (e: Event) => {
-      const slot = (e.target as Element).closest<HTMLElement>(".pp-slot");
+      const slot = (e.target as Element).closest<HTMLElement>(".chu-slot");
       if (slot && this.contains(slot) && slot.getAttribute("aria-disabled") !== "true") this.select(slot);
     });
   }
 
-  /** Selects a slot (by element or index) and sends pp-select. */
+  /** Selects a slot (by element or index) and sends chu-select. */
   select(slot: HTMLElement | number): void {
     const item = typeof slot === "number" ? this.slots[slot] : slot;
     if (!item) return;
@@ -82,10 +82,10 @@ export class PixelInventory extends PixelElement {
   }
 }
 
-PixelElement.define("pp-inventory", PixelInventory);
+BlipElement.define("chu-inventory", BlipInventory);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pp-inventory": PixelInventory;
+    "chu-inventory": BlipInventory;
   }
 }

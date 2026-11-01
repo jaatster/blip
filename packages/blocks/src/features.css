@@ -2,22 +2,22 @@
  * Features. What the product does, in a grid that varies its scale: a lead feature with room for a picture, tiles
  * beside it, stat tiles with one big Pixel Bop number, and a wide band. Not a row of identical cards.
  *
- *   <section class="pp-features" aria-labelledby="features-title">
- *     <header class="pp-features-head">
- *       <h2 class="pp-features-title" id="features-title">A small world that keeps time</h2>
+ *   <section class="chu-features" aria-labelledby="features-title">
+ *     <header class="chu-features-head">
+ *       <h2 class="chu-features-title" id="features-title">A small world that keeps time</h2>
  *     </header>
- *     <div class="pp-features-grid">
- *       <article class="pp-box pp-feature" data-layout="lead" data-variant="panel">
- *         <div class="pp-feature-media">…</div>
- *         <h3 class="pp-feature-title">…</h3><p class="pp-feature-text">…</p>
+ *     <div class="chu-features-grid">
+ *       <article class="chu-box chu-feature" data-layout="lead" data-variant="panel">
+ *         <div class="chu-feature-media">…</div>
+ *         <h3 class="chu-feature-title">…</h3><p class="chu-feature-text">…</p>
  *       </article>
- *       <article class="pp-box pp-feature" data-variant="soft" data-tone="pink">
- *         <span class="pp-box pp-feature-icon" data-tone="pink"><svg class="pp-icon">…</svg></span> …
+ *       <article class="chu-box chu-feature" data-variant="soft" data-tone="pink">
+ *         <span class="chu-box chu-feature-icon" data-tone="pink"><svg class="chu-icon">…</svg></span> …
  *       </article>
- *       <article class="pp-box pp-feature" data-layout="stat" data-variant="soft" data-tone="teal">
- *         <p class="pp-feature-stat">60</p><p class="pp-feature-text">hand-made levels</p>
+ *       <article class="chu-box chu-feature" data-layout="stat" data-variant="soft" data-tone="teal">
+ *         <p class="chu-feature-stat">60</p><p class="chu-feature-text">hand-made levels</p>
  *       </article>
- *       <article class="pp-box pp-feature" data-layout="wide" data-variant="panel">…</article>
+ *       <article class="chu-box chu-feature" data-layout="wide" data-variant="panel">…</article>
  *     </div>
  *   </section>
  *
@@ -28,90 +28,90 @@
  * Panels are not buttons: put a link inside one if it goes somewhere. Keep stat tiles honest: real numbers only.
  */
 
-@layer pp.kits {
-  .pp-features {
+@layer chu.kits {
+  .chu-features {
     container-type: inline-size;
     display: grid;
-    gap: calc(10 * var(--pp-pixel));
+    gap: calc(10 * var(--chu-pixel));
   }
 
-  .pp-features-head {
+  .chu-features-head {
     display: grid;
-    gap: calc(3 * var(--pp-pixel));
+    gap: calc(3 * var(--chu-pixel));
     max-inline-size: 60ch;
   }
-  .pp-features-title {
+  .chu-features-title {
     margin: 0;
-    font-size: var(--pp-size-title);
-    line-height: var(--pp-leading-tight);
+    font-size: var(--chu-size-title);
+    line-height: var(--chu-leading-tight);
   }
-  .pp-features-lead { margin: 0; font-size: var(--pp-size-lead); color: var(--pp-text-muted); }
+  .chu-features-lead { margin: 0; font-size: var(--chu-size-lead); color: var(--chu-text-muted); }
 
-  .pp-features-grid {
+  .chu-features-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: calc(6 * var(--pp-pixel));
+    gap: calc(6 * var(--chu-pixel));
   }
   @container (width >= 600px) {
-    .pp-features-grid { grid-template-columns: repeat(2, 1fr); }
-    .pp-feature:is([data-layout="lead"], [data-layout="wide"]) { grid-column: span 2; }
+    .chu-features-grid { grid-template-columns: repeat(2, 1fr); }
+    .chu-feature:is([data-layout="lead"], [data-layout="wide"]) { grid-column: span 2; }
   }
   @container (width >= 1024px) {
-    .pp-features-grid { grid-template-columns: repeat(6, 1fr); }
-    .pp-feature { grid-column: span 2; }
-    .pp-feature[data-layout="lead"] { grid-column: span 4; grid-row: span 2; }
-    .pp-feature[data-layout="wide"] { grid-column: 1 / -1; grid-template-columns: auto 1fr auto; align-items: center; }
+    .chu-features-grid { grid-template-columns: repeat(6, 1fr); }
+    .chu-feature { grid-column: span 2; }
+    .chu-feature[data-layout="lead"] { grid-column: span 4; grid-row: span 2; }
+    .chu-feature[data-layout="wide"] { grid-column: 1 / -1; grid-template-columns: auto 1fr auto; align-items: center; }
   }
 
-  .pp-feature {
-    --pp-r: 4;
-    --pp-shape: var(--pp-shape-4);
-    --pp-shape-inner: var(--pp-shape-4-inner);
-    --pp-band-top: 2;
-    --pp-band-bottom: 3;
+  .chu-feature {
+    --chu-r: 4;
+    --chu-shape: var(--chu-shape-4);
+    --chu-shape-inner: var(--chu-shape-4-inner);
+    --chu-band-top: 2;
+    --chu-band-bottom: 3;
     display: grid;
     align-content: start;
-    gap: calc(3 * var(--pp-pixel));
-    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
-    padding: calc(8 * var(--pp-pixel)) calc(9 * var(--pp-pixel)) calc(9 * var(--pp-pixel));
+    gap: calc(3 * var(--chu-pixel));
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
+    padding: calc(8 * var(--chu-pixel)) calc(9 * var(--chu-pixel)) calc(9 * var(--chu-pixel));
   }
-  .pp-feature > :is(h2, h3, h4, p) { margin: 0; }
+  .chu-feature > :is(h2, h3, h4, p) { margin: 0; }
 
-  .pp-feature-icon {
-    --pp-r: 3;
-    --pp-shape: var(--pp-shape-3);
-    --pp-shape-inner: var(--pp-shape-3-inner);
-    --pp-band-top: 2;
-    --pp-band-bottom: 2;
+  .chu-feature-icon {
+    --chu-r: 3;
+    --chu-shape: var(--chu-shape-3);
+    --chu-shape-inner: var(--chu-shape-3-inner);
+    --chu-band-top: 2;
+    --chu-band-bottom: 2;
     display: grid;
     place-items: center;
-    inline-size: calc(22 * var(--pp-pixel));
-    block-size: calc(22 * var(--pp-pixel));
-    margin: 0 var(--pp-pixel) calc(2 * var(--pp-pixel)) 0;
+    inline-size: calc(22 * var(--chu-pixel));
+    block-size: calc(22 * var(--chu-pixel));
+    margin: 0 var(--chu-pixel) calc(2 * var(--chu-pixel)) 0;
   }
-  .pp-feature-title {
-    font-size: var(--pp-size-lead);
-    font-weight: var(--pp-weight-bold);
-    line-height: var(--pp-leading-tight);
+  .chu-feature-title {
+    font-size: var(--chu-size-lead);
+    font-weight: var(--chu-weight-bold);
+    line-height: var(--chu-leading-tight);
   }
-  .pp-feature[data-layout="lead"] .pp-feature-title { font-size: var(--pp-size-title); }
-  .pp-feature-text { font-size: var(--pp-size-body); line-height: var(--pp-leading-normal); }
+  .chu-feature[data-layout="lead"] .chu-feature-title { font-size: var(--chu-size-title); }
+  .chu-feature-text { font-size: var(--chu-size-body); line-height: var(--chu-leading-normal); }
 
   /* The lead's picture: a framed slot, as wide as the panel. It grows to fill the lead's two rows. */
-  .pp-feature[data-layout="lead"]:has(> .pp-feature-media) { grid-template-rows: 1fr auto auto; align-content: stretch; }
-  .pp-feature-media {
+  .chu-feature[data-layout="lead"]:has(> .chu-feature-media) { grid-template-rows: 1fr auto auto; align-content: stretch; }
+  .chu-feature-media {
     display: grid;
-    min-block-size: calc(56 * var(--pp-pixel));
-    margin-block-end: calc(4 * var(--pp-pixel));
+    min-block-size: calc(56 * var(--chu-pixel));
+    margin-block-end: calc(4 * var(--chu-pixel));
   }
-  .pp-feature-media > * { grid-area: 1 / 1; }
+  .chu-feature-media > * { grid-area: 1 / 1; }
 
   /* A stat: one number in Pixel Bop, POP, and what it counts. */
-  .pp-feature[data-layout="stat"] { align-content: center; justify-items: start; }
-  .pp-feature-stat {
-    --pp-scale: 3;
-    font-family: var(--pp-font-display);
-    font-size: calc(10 * var(--pp-pixel) * var(--pp-scale));
+  .chu-feature[data-layout="stat"] { align-content: center; justify-items: start; }
+  .chu-feature-stat {
+    --chu-scale: 3;
+    font-family: var(--chu-font-display);
+    font-size: calc(10 * var(--chu-pixel) * var(--chu-scale));
     line-height: 1.2;
     font-variant-numeric: tabular-nums;
     text-transform: uppercase;
@@ -119,24 +119,24 @@
     -webkit-font-smoothing: none;
   }
 
-  /* Small things in a row (options, languages): each one a soft .pp-box. */
-  .pp-feature-chips {
+  /* Small things in a row (options, languages): each one a soft .chu-box. */
+  .chu-feature-chips {
     display: flex;
     flex-wrap: wrap;
-    gap: calc(3 * var(--pp-pixel));
+    gap: calc(3 * var(--chu-pixel));
     margin: 0;
     padding: 0;
     list-style: none;
   }
-  .pp-feature-chips > .pp-box {
-    --pp-r: 2;
-    --pp-shape: var(--pp-shape-2);
-    --pp-shape-inner: var(--pp-shape-2-inner);
-    --pp-band-top: 1;
-    --pp-band-bottom: 2;
-    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
-    padding: var(--pp-pixel) calc(4 * var(--pp-pixel)) calc(2 * var(--pp-pixel));
-    font-size: var(--pp-size-small);
-    font-weight: var(--pp-weight-bold);
+  .chu-feature-chips > .chu-box {
+    --chu-r: 2;
+    --chu-shape: var(--chu-shape-2);
+    --chu-shape-inner: var(--chu-shape-2-inner);
+    --chu-band-top: 1;
+    --chu-band-bottom: 2;
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
+    padding: var(--chu-pixel) calc(4 * var(--chu-pixel)) calc(2 * var(--chu-pixel));
+    font-size: var(--chu-size-small);
+    font-weight: var(--chu-weight-bold);
   }
 }

@@ -1,77 +1,77 @@
-<!-- Popover: drawn statically under (or over) its button with data-pp-static, then live ones on the popover
+<!-- Popover: drawn statically under (or over) its button with data-chu-static, then live ones on the popover
      attribute. A popover holding controls is a non-modal dialog: role="dialog" and a name. -->
-<div style="display:flex;flex-wrap:wrap;gap:calc(16*var(--pp-pixel));align-items:flex-start">
+<div style="display:flex;flex-wrap:wrap;gap:calc(16*var(--chu-pixel));align-items:flex-start">
   <div style="display:inline-flex;flex-direction:column;align-items:center">
-    <button class="pp-box pp-button" type="button" data-variant="soft" aria-expanded="true">
-      <span class="pp-box pp-avatar" data-size="xs" data-tone="pink" aria-hidden="true">P</span>Pixel Pat
+    <button class="chu-box chu-button" type="button" data-variant="soft" aria-expanded="true">
+      <span class="chu-box chu-avatar" data-size="xs" data-tone="pink" aria-hidden="true">P</span>Pixel Pat
     </button>
-    <div class="pp-box pp-popover" data-pp-static role="dialog" aria-labelledby="ex-profile-name">
-      <span class="pp-popover-nub" aria-hidden="true"></span>
-      <div style="display:flex;gap:calc(4*var(--pp-pixel));align-items:center;margin-block-end:calc(5*var(--pp-pixel))">
-        <span class="pp-box pp-avatar" data-tone="pink" role="img" aria-label="Pixel Pat">PP</span>
-        <div><p class="pp-popover-title" id="ex-profile-name">Pixel Pat</p><p class="pp-muted">Level 12, 3,450 XP</p></div>
+    <div class="chu-box chu-popover" data-chu-static role="dialog" aria-labelledby="ex-profile-name">
+      <span class="chu-popover-nub" aria-hidden="true"></span>
+      <div style="display:flex;gap:calc(4*var(--chu-pixel));align-items:center;margin-block-end:calc(5*var(--chu-pixel))">
+        <span class="chu-box chu-avatar" data-tone="pink" role="img" aria-label="Pixel Pat">PP</span>
+        <div><p class="chu-popover-title" id="ex-profile-name">Pixel Pat</p><p class="chu-muted">Level 12, 3,450 XP</p></div>
       </div>
-      <div class="pp-progress-label"><span id="ex-xp-label">Next level</span><span>450 / 1,000 XP</span></div>
-      <div class="pp-box pp-progress" data-size="sm" data-tone="purple"><progress max="1000" value="450" aria-labelledby="ex-xp-label">450 of 1,000 XP</progress></div>
-      <div style="display:flex;gap:calc(3*var(--pp-pixel));margin-block-start:calc(6*var(--pp-pixel))">
-        <button class="pp-box pp-button" type="button" data-size="sm">View profile</button>
-        <button class="pp-box pp-button" type="button" data-size="sm" data-variant="ghost">Sign out</button>
+      <div class="chu-progress-label"><span id="ex-xp-label">Next level</span><span>450 / 1,000 XP</span></div>
+      <div class="chu-box chu-progress" data-size="sm" data-tone="purple"><progress max="1000" value="450" aria-labelledby="ex-xp-label">450 of 1,000 XP</progress></div>
+      <div style="display:flex;gap:calc(3*var(--chu-pixel));margin-block-start:calc(6*var(--chu-pixel))">
+        <button class="chu-box chu-button" type="button" data-size="sm">View profile</button>
+        <button class="chu-box chu-button" type="button" data-size="sm" data-variant="ghost">Sign out</button>
       </div>
     </div>
   </div>
 
-  <div style="display:inline-flex;flex-direction:column;align-items:center;margin-block-start:calc(10*var(--pp-pixel))">
-    <div class="pp-box pp-popover" data-side="top" data-pp-static style="max-inline-size:calc(110*var(--pp-pixel))">
-      <span class="pp-popover-nub" aria-hidden="true"></span>
-      <p class="pp-popover-title">Hard mode</p>
+  <div style="display:inline-flex;flex-direction:column;align-items:center;margin-block-start:calc(10*var(--chu-pixel))">
+    <div class="chu-box chu-popover" data-side="top" data-chu-static style="max-inline-size:calc(110*var(--chu-pixel))">
+      <span class="chu-popover-nub" aria-hidden="true"></span>
+      <p class="chu-popover-title">Hard mode</p>
       <p>Enemies take two hits and checkpoints are farther apart.</p>
     </div>
-    <button class="pp-box pp-button" type="button" data-variant="outline" data-size="sm" aria-expanded="true">What's hard mode?</button>
+    <button class="chu-box chu-button" type="button" data-variant="outline" data-size="sm" aria-expanded="true">What's hard mode?</button>
   </div>
 
   <div style="display:inline-flex;flex-direction:column;align-items:flex-start">
-    <button class="pp-box pp-button" type="button" data-variant="outline" aria-expanded="true">Filter levels</button>
-    <div class="pp-box pp-popover" data-align="start" data-pp-static role="dialog" aria-label="Filter levels">
-      <span class="pp-popover-nub" aria-hidden="true"></span>
-      <button class="pp-box pp-button pp-popover-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button>
-      <p class="pp-popover-title">Show</p>
-      <label class="pp-check"><span class="pp-box pp-checkbox"><input type="checkbox" checked></span>Levels with missing stars</label>
-      <label class="pp-check"><span class="pp-box pp-checkbox"><input type="checkbox"></span>Bonus levels</label>
+    <button class="chu-box chu-button" type="button" data-variant="outline" aria-expanded="true">Filter levels</button>
+    <div class="chu-box chu-popover" data-align="start" data-chu-static role="dialog" aria-label="Filter levels">
+      <span class="chu-popover-nub" aria-hidden="true"></span>
+      <button class="chu-box chu-button chu-popover-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
+      <p class="chu-popover-title">Show</p>
+      <label class="chu-check"><span class="chu-box chu-checkbox"><input type="checkbox" checked></span>Levels with missing stars</label>
+      <label class="chu-check"><span class="chu-box chu-checkbox"><input type="checkbox"></span>Bonus levels</label>
     </div>
   </div>
 
-  <div style="display:inline-flex;align-items:center;gap:0;margin-block-start:calc(10*var(--pp-pixel))">
-    <button class="pp-box pp-button" type="button" data-size="sm" data-variant="outline" aria-expanded="true">Coins</button>
-    <div class="pp-box pp-popover" data-side="right" data-pp-static style="margin-block:0">
-      <span class="pp-popover-nub" aria-hidden="true"></span>
+  <div style="display:inline-flex;align-items:center;gap:0;margin-block-start:calc(10*var(--chu-pixel))">
+    <button class="chu-box chu-button" type="button" data-size="sm" data-variant="outline" aria-expanded="true">Coins</button>
+    <div class="chu-box chu-popover" data-side="right" data-chu-static style="margin-block:0">
+      <span class="chu-popover-nub" aria-hidden="true"></span>
       <p>1,284 coins. Spend them in the shop.</p>
     </div>
   </div>
 </div>
 
-<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--pp-pixel));align-items:center;margin-block-start:calc(12*var(--pp-pixel))">
-  <span class="pp-label pp-muted">Live</span>
-  <button class="pp-box pp-button" type="button" data-variant="soft" popovertarget="profile-popover">
-    <span class="pp-box pp-avatar" data-size="xs" data-tone="pink" aria-hidden="true">P</span>Pixel Pat
+<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--chu-pixel));align-items:center;margin-block-start:calc(12*var(--chu-pixel))">
+  <span class="chu-label chu-muted">Live</span>
+  <button class="chu-box chu-button" type="button" data-variant="soft" popovertarget="profile-popover">
+    <span class="chu-box chu-avatar" data-size="xs" data-tone="pink" aria-hidden="true">P</span>Pixel Pat
   </button>
-  <button class="pp-box pp-button" type="button" data-variant="outline" data-size="sm" popovertarget="hard-popover">What's hard mode?</button>
+  <button class="chu-box chu-button" type="button" data-variant="outline" data-size="sm" popovertarget="hard-popover">What's hard mode?</button>
 </div>
 
-<div class="pp-box pp-popover" id="profile-popover" popover role="dialog" aria-labelledby="profile-name">
-  <span class="pp-popover-nub" aria-hidden="true"></span>
-  <div style="display:flex;gap:calc(4*var(--pp-pixel));align-items:center;margin-block-end:calc(5*var(--pp-pixel))">
-    <span class="pp-box pp-avatar" data-tone="pink" role="img" aria-label="Pixel Pat">PP</span>
-    <div><p class="pp-popover-title" id="profile-name">Pixel Pat</p><p class="pp-muted">Level 12, 3,450 XP</p></div>
+<div class="chu-box chu-popover" id="profile-popover" popover role="dialog" aria-labelledby="profile-name">
+  <span class="chu-popover-nub" aria-hidden="true"></span>
+  <div style="display:flex;gap:calc(4*var(--chu-pixel));align-items:center;margin-block-end:calc(5*var(--chu-pixel))">
+    <span class="chu-box chu-avatar" data-tone="pink" role="img" aria-label="Pixel Pat">PP</span>
+    <div><p class="chu-popover-title" id="profile-name">Pixel Pat</p><p class="chu-muted">Level 12, 3,450 XP</p></div>
   </div>
-  <div class="pp-progress-label"><span id="xp-label">Next level</span><span>450 / 1,000 XP</span></div>
-  <div class="pp-box pp-progress" data-size="sm" data-tone="purple"><progress max="1000" value="450" aria-labelledby="xp-label">450 of 1,000 XP</progress></div>
-  <div style="display:flex;gap:calc(3*var(--pp-pixel));margin-block-start:calc(6*var(--pp-pixel))">
-    <button class="pp-box pp-button" type="button" data-size="sm">View profile</button>
-    <button class="pp-box pp-button" type="button" data-size="sm" data-variant="ghost" popovertarget="profile-popover" popovertargetaction="hide">Sign out</button>
+  <div class="chu-progress-label"><span id="xp-label">Next level</span><span>450 / 1,000 XP</span></div>
+  <div class="chu-box chu-progress" data-size="sm" data-tone="purple"><progress max="1000" value="450" aria-labelledby="xp-label">450 of 1,000 XP</progress></div>
+  <div style="display:flex;gap:calc(3*var(--chu-pixel));margin-block-start:calc(6*var(--chu-pixel))">
+    <button class="chu-box chu-button" type="button" data-size="sm">View profile</button>
+    <button class="chu-box chu-button" type="button" data-size="sm" data-variant="ghost" popovertarget="profile-popover" popovertargetaction="hide">Sign out</button>
   </div>
 </div>
-<div class="pp-box pp-popover" id="hard-popover" popover data-side="top" style="max-inline-size:calc(110*var(--pp-pixel))">
-  <span class="pp-popover-nub" aria-hidden="true"></span>
-  <p class="pp-popover-title">Hard mode</p>
+<div class="chu-box chu-popover" id="hard-popover" popover data-side="top" style="max-inline-size:calc(110*var(--chu-pixel))">
+  <span class="chu-popover-nub" aria-hidden="true"></span>
+  <p class="chu-popover-title">Hard mode</p>
   <p>Enemies take two hits and checkpoints are farther apart.</p>
 </div>

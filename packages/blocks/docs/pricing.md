@@ -16,34 +16,34 @@ press: the plans are panels, and the one to pick stands out by its band, its rib
 ## Usage
 
 ```html
-<div class="pp-pricing">
-  <article class="pp-box pp-plan" data-variant="panel" aria-labelledby="plan-standard">
-    <h3 class="pp-plan-name" id="plan-standard">Standard</h3>
-    <p class="pp-plan-price"><span class="pp-plan-currency">$</span><span class="pp-plan-amount">14.99</span><span class="pp-plan-period">one time</span></p>
-    <p class="pp-plan-text">The whole game, yours to keep.</p>
-    <ul class="pp-plan-features" role="list">
+<div class="chu-pricing">
+  <article class="chu-box chu-plan" data-variant="panel" aria-labelledby="plan-standard">
+    <h3 class="chu-plan-name" id="plan-standard">Standard</h3>
+    <p class="chu-plan-price"><span class="chu-plan-currency">$</span><span class="chu-plan-amount">14.99</span><span class="chu-plan-period">one time</span></p>
+    <p class="chu-plan-text">The whole game, yours to keep.</p>
+    <ul class="chu-plan-features" role="list">
       <li>60 levels in four worlds</li>
       <li data-off>The soundtrack</li>
     </ul>
-    <a class="pp-box pp-button" data-variant="soft" data-width="full" href="#standard">Buy Standard</a>
+    <a class="chu-box chu-button" data-variant="soft" data-width="full" href="#standard">Buy Standard</a>
   </article>
-  <article class="pp-box pp-plan" data-featured data-tone="pink" aria-labelledby="plan-deluxe">
-    <p class="pp-box pp-plan-ribbon">Best value</p>
+  <article class="chu-box chu-plan" data-featured data-tone="pink" aria-labelledby="plan-deluxe">
+    <p class="chu-box chu-plan-ribbon">Best value</p>
     …
-    <a class="pp-box pp-button" data-tone="pink" data-width="full" href="#deluxe">Buy Deluxe</a>
+    <a class="chu-box chu-button" data-tone="pink" data-width="full" href="#deluxe">Buy Deluxe</a>
   </article>
 </div>
 ```
 
 ## Anatomy
 
-1. **Plan** (`.pp-plan`): a panel, radius 5; rows for the name, price, text, features and the button at the foot,
+1. **Plan** (`.chu-plan`): a panel, radius 5; rows for the name, price, text, features and the button at the foot,
    so buttons line up across plans. The featured plan is raised (a two-pixel drop) and wears a five-pixel band of its
    tone's light colour along the top, following the corners.
-2. **Ribbon** (`.pp-plan-ribbon`): a small candy tab riding the top edge, in Pixel Bop capitals: the featured plan's
+2. **Ribbon** (`.chu-plan-ribbon`): a small candy tab riding the top edge, in Pixel Bop capitals: the featured plan's
    candy on the featured plan, cream elsewhere (or any `data-tone`).
-3. **Price** (`.pp-plan-price`): the amount in Pixel Bop at scale 3, the currency smaller and raised, the period small.
-4. **Features** (`.pp-plan-features`): a pixel check (success text colour) or, with `data-off`, a dash and muted text.
+3. **Price** (`.chu-plan-price`): the amount in Pixel Bop at scale 3, the currency smaller and raised, the period small.
+4. **Features** (`.chu-plan-features`): a pixel check (success text colour) or, with `data-off`, a dash and muted text.
 
 ## Variants
 

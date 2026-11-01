@@ -18,40 +18,40 @@ ghost boxes for rows you press, so candy stays for the actions inside them.
 ## Usage
 
 ```html
-<ul class="pp-box pp-list" role="list" data-dividers aria-label="Settings">
-  <li class="pp-list-item">
-    <svg class="pp-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
-    <div class="pp-list-content">
-      <span class="pp-list-title" id="set-music">Music</span>
-      <span class="pp-list-description">Chip tunes on the title screen</span>
+<ul class="chu-box chu-list" role="list" data-dividers aria-label="Settings">
+  <li class="chu-list-item">
+    <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true">…</svg>
+    <div class="chu-list-content">
+      <span class="chu-list-title" id="set-music">Music</span>
+      <span class="chu-list-description">Chip tunes on the title screen</span>
     </div>
-    <div class="pp-list-end">
-      <span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box" aria-labelledby="set-music" checked></span>
+    <div class="chu-list-end">
+      <span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" aria-labelledby="set-music" checked></span>
     </div>
   </li>
 </ul>
 
 <nav aria-label="Settings sections">
-  <ul class="pp-box pp-list" role="list">
-    <li><a class="pp-box pp-list-item" data-variant="ghost" href="/settings/general" aria-current="page">…</a></li>
+  <ul class="chu-box chu-list" role="list">
+    <li><a class="chu-box chu-list-item" data-variant="ghost" href="/settings/general" aria-current="page">…</a></li>
   </ul>
 </nav>
 ```
 
 ## Anatomy
 
-1. **List**: `<ul>` or `<ol>` with `.pp-list`; add `.pp-box` for the white panel round it.
-2. **Row**: `.pp-list-item`, on the `<li>` (a row of content), or on the `<a>`/`<button>` inside it (a row you press).
+1. **List**: `<ul>` or `<ol>` with `.chu-list`; add `.chu-box` for the white panel round it.
+2. **Row**: `.chu-list-item`, on the `<li>` (a row of content), or on the `<a>`/`<button>` inside it (a row you press).
 3. **Leading** (optional): an icon, avatar or picture, first in the row.
-4. **Content**: `.pp-list-content` with `.pp-list-title` and `.pp-list-description`.
-5. **End** (optional): `.pp-list-end`, meta text (tabular digits) or controls: a switch, a tag, a keycap, a chevron.
+4. **Content**: `.chu-list-content` with `.chu-list-title` and `.chu-list-description`.
+5. **End** (optional): `.chu-list-end`, meta text (tabular digits) or controls: a switch, a tag, a keycap, a chevron.
 6. **Dividers** (optional): one line-soft pixel between rows.
 
 ## Variants
 
 | Attribute | Values | Use |
 |---|---|---|
-| `.pp-box` on the list | `data-variant`: `panel`, white (default), `soft`, `outline` | The list in a panel. A soft list gives what sits on it the light roles (the tone's ink for text, links and lines), so it reads in every scheme. |
+| `.chu-box` on the list | `data-variant`: `panel`, white (default), `soft`, `outline` | The list in a panel. A soft list gives what sits on it the light roles (the tone's ink for text, links and lines), so it reads in every scheme. |
 | `data-dividers` | | A line between rows. Use for content rows; pressable rows read fine without. |
 | `data-density` | `compact` | Tighter rows (14 pixels min), smaller text: long lists, side panels. |
 | Row tier | `data-variant="ghost"` on a pressable row | Required on `<a>`/`<button>` rows: quiet at rest, filled on hover. |
@@ -91,9 +91,9 @@ ghost boxes for rows you press, so candy stays for the actions inside them.
 
 | Class | |
 |---|---|
-| `.pp-list` | The list. |
-| `.pp-list-item`, `.pp-list-content`, `.pp-list-title`, `.pp-list-description`, `.pp-list-end` | Parts. |
+| `.chu-list` | The list. |
+| `.chu-list-item`, `.chu-list-content`, `.chu-list-title`, `.chu-list-description`, `.chu-list-end` | Parts. |
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-r` with `--pp-shape`, `--pp-shape-inner` | 3 | The pressable row's corner radius. |
+| `--chu-r` with `--chu-shape`, `--chu-shape-inner` | 3 | The pressable row's corner radius. |

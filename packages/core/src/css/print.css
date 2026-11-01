@@ -5,9 +5,9 @@
  * left off.
  */
 
-@layer pp.utilities {
+@layer chu.utilities {
   @media print {
-    .pp-box, .pp-box::before, .pp-box::after { print-color-adjust: exact; }
-    .pp-scrim, .pp-box::backdrop { background: none; }
+    .chu-box, .chu-box::before, .chu-box::after { print-color-adjust: exact; }
+    .chu-scrim, .chu-box::backdrop { background: none; }
   }
 }

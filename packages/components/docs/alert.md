@@ -20,16 +20,16 @@ be made now, an alert [dialog](dialog.md).
 ## Usage
 
 ```html
-<div class="pp-box pp-alert" data-tone="danger">
-  <span class="pp-alert-icon" aria-hidden="true"></span>
-  <div class="pp-alert-body">
-    <p class="pp-alert-title"><span class="pp-sr-only">Error: </span>Can't reach the save server</p>
+<div class="chu-box chu-alert" data-tone="danger">
+  <span class="chu-alert-icon" aria-hidden="true"></span>
+  <div class="chu-alert-body">
+    <p class="chu-alert-title"><span class="chu-sr-only">Error: </span>Can't reach the save server</p>
     <p>Your progress is safe on this device. We'll try again in 30 seconds.</p>
-    <div class="pp-alert-actions">
-      <button class="pp-box pp-button" type="button" data-size="sm" data-variant="outline">Retry now</button>
+    <div class="chu-alert-actions">
+      <button class="chu-box chu-button" type="button" data-size="sm" data-variant="outline">Retry now</button>
     </div>
   </div>
-  <button class="pp-box pp-button pp-alert-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="pp-icon" data-glyph="close" aria-hidden="true"></span></button>
+  <button class="chu-box chu-button chu-alert-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Dismiss"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button>
 </div>
 ```
 
@@ -37,13 +37,13 @@ be made now, an alert [dialog](dialog.md).
 
 1. **Box**: a candy box in the soft tier: the tone's light colour, an ink outline, the tone itself as a two-pixel lip
    along the bottom, a one-pixel drop.
-2. **Sign** (`.pp-alert-icon`): a 12 x 12 pixel glyph chosen by the tone. The four differ in shape, not just colour:
+2. **Sign** (`.chu-alert-icon`): a 12 x 12 pixel glyph chosen by the tone. The four differ in shape, not just colour:
    a disc with an i (info), a disc with a check (success), a triangle with "!" (warning), an octagon with "!"
-   (danger). Put an `<svg class="pp-icon">` inside it to use another picture.
-3. **Title** (`.pp-alert-title`): one bold line, exactly as tall as the sign so they line up.
+   (danger). Put an `<svg class="chu-icon">` inside it to use another picture.
+3. **Title** (`.chu-alert-title`): one bold line, exactly as tall as the sign so they line up.
 4. **Text**: a sentence or two in `<p>`s.
-5. **Actions** (`.pp-alert-actions`, optional): small buttons. Outline or ghost: the alert's colour already speaks.
-6. **Dismiss** (`.pp-alert-close`, optional): a small ghost icon button with the pixel cross.
+5. **Actions** (`.chu-alert-actions`, optional): small buttons. Outline or ghost: the alert's colour already speaks.
+6. **Dismiss** (`.chu-alert-close`, optional): a small ghost icon button with the pixel cross.
 
 ## Variants
 
@@ -99,14 +99,14 @@ the dismiss button.
 
 | Class or attribute | |
 |---|---|
-| `.pp-alert` on a `.pp-box` | The banner. |
-| `.pp-alert-icon` | The sign: empty for the tone's glyph, or holding an `<svg class="pp-icon">`. |
-| `.pp-alert-body`, `.pp-alert-title`, `.pp-alert-actions` | Content column, title line, row of actions. |
-| `.pp-alert-close` | The dismiss button (`data-variant="ghost" data-size="sm" data-icon-only` with a `data-glyph="close"` icon). |
-| `.pp-icon[data-glyph]` | `close`, `info`, `success`, `warning`, `danger`: the shared pixel glyphs (on an empty span). |
+| `.chu-alert` on a `.chu-box` | The banner. |
+| `.chu-alert-icon` | The sign: empty for the tone's glyph, or holding an `<svg class="chu-icon">`. |
+| `.chu-alert-body`, `.chu-alert-title`, `.chu-alert-actions` | Content column, title line, row of actions. |
+| `.chu-alert-close` | The dismiss button (`data-variant="ghost" data-size="sm" data-icon-only` with a `data-glyph="close"` icon). |
+| `.chu-icon[data-glyph]` | `close`, `info`, `success`, `warning`, `danger`: the shared pixel glyphs (on an empty span). |
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-r` with `--pp-shape`, `--pp-shape-inner` | 3 | Corner radius in pixels. |
-| `--pp-band-top`, `--pp-band-bottom` | 2, 2 | Band heights in pixels. |
-| `--pp-tone`, `--pp-tone-light`, `--pp-tone-shade`, `--pp-tone-on`, `--pp-tone-text` | info | A custom tone. |
+| `--chu-r` with `--chu-shape`, `--chu-shape-inner` | 3 | Corner radius in pixels. |
+| `--chu-band-top`, `--chu-band-bottom` | 2, 2 | Band heights in pixels. |
+| `--chu-tone`, `--chu-tone-light`, `--chu-tone-shade`, `--chu-tone-on`, `--chu-tone-text` | info | A custom tone. |

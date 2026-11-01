@@ -19,9 +19,9 @@ wear the same classes when it must look like a button).
 ## Usage
 
 ```html
-<button class="pp-box pp-button">Save game</button>
-<button class="pp-box pp-button" data-variant="soft" data-tone="danger" data-size="sm">Delete save</button>
-<button class="pp-box pp-button" data-icon-only aria-label="Add level"><svg class="pp-icon">…</svg></button>
+<button class="chu-box chu-button">Save game</button>
+<button class="chu-box chu-button" data-variant="soft" data-tone="danger" data-size="sm">Delete save</button>
+<button class="chu-box chu-button" data-icon-only aria-label="Add level"><svg class="chu-icon">…</svg></button>
 ```
 
 ## Anatomy
@@ -55,7 +55,7 @@ The candy box, from the outside in, then what it holds:
 | Focus | keyboard | Yellow ring one pixel out, ink one pixel beyond, following the stepped corners. |
 | Pressed | `:active` | Sits in its drop. |
 | On | `aria-pressed="true"` | Sits in, bands swap (shade on top, light below): the pushed-in look. |
-| Disabled | `disabled` or `aria-disabled="true"` | Dithered with a light colour (`--pp-disabled-dither`). No lift, no drop. |
+| Disabled | `disabled` or `aria-disabled="true"` | Dithered with a light colour (`--chu-disabled-dither`). No lift, no drop. |
 | Busy | `aria-busy="true"` | The label hides, keeping its width; three dots step in, one, two, three. |
 
 ## Accessibility
@@ -85,7 +85,7 @@ The candy box, from the outside in, then what it holds:
 
 | Custom property | Default | |
 |---|---|---|
-| `--pp-r` with `--pp-shape`, `--pp-shape-inner` | 4 (sm 3, lg 5) | Corner radius in pixels; use `.pp-r-N` to set all three. |
-| `--pp-band-top`, `--pp-band-bottom` | 4, 4 | Band heights in pixels. |
-| `--pp-drop-size` | 1 | Drop in pixels. |
-| `--pp-tone`, `--pp-tone-light`, `--pp-tone-shade`, `--pp-tone-on` | accent | A custom tone. |
+| `--chu-r` with `--chu-shape`, `--chu-shape-inner` | 4 (sm 3, lg 5) | Corner radius in pixels; use `.chu-r-N` to set all three. |
+| `--chu-band-top`, `--chu-band-bottom` | 4, 4 | Band heights in pixels. |
+| `--chu-drop-size` | 1 | Drop in pixels. |
+| `--chu-tone`, `--chu-tone-light`, `--chu-tone-shade`, `--chu-tone-on` | accent | A custom tone. |

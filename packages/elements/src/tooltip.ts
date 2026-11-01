@@ -1,12 +1,12 @@
 /**
- * <pp-tooltip>: a tooltip for any trigger, following the WAI-ARIA tooltip pattern and WCAG 1.4.13.
+ * <chu-tooltip>: a tooltip for any trigger, following the WAI-ARIA tooltip pattern and WCAG 1.4.13.
  *
- *   <button class="pp-box pp-button" id="save-btn">Save</button>
- *   <pp-tooltip for="save-btn">Saves to slot 2</pp-tooltip>
+ *   <button class="chu-box chu-button" id="save-btn">Save</button>
+ *   <chu-tooltip for="save-btn">Saves to slot 2</chu-tooltip>
  *
  * It describes its trigger (aria-describedby, so a screen reader hears it whether or not it shows), shows after a
- * beat on hover (--pp-duration-beat) and at once on keyboard focus, stays while the pointer moves onto it (a glide,
- * --pp-duration-glide, to get there), and closes when hover and focus leave, on a press, or on Escape, which it
+ * beat on hover (--chu-duration-beat) and at once on keyboard focus, stays while the pointer moves onto it (a glide,
+ * --chu-duration-glide, to get there), and closes when hover and focus leave, on a press, or on Escape, which it
  * keeps from closing a dialog underneath. It sits in the top layer (popover="manual"), shown with its trigger as
  * source, so CSS anchor positioning places it where the browser anchors a popover to its source; elsewhere script
  * places it. It never writes the trigger's anchor-name. Either way it takes the other side when there is no room,
@@ -14,9 +14,9 @@
  * skips the wait. A trigger rendered after the tooltip, or replaced by a framework, is found again as it arrives.
  *
  * Attributes: for (the trigger's id; default the element just before it), data-side (top, bottom, left, right: the
- * side it prefers), open. Methods: show(), close(). Events: pp-open, pp-close.
+ * side it prefers), open. Methods: show(), close(). Events: chu-open, chu-close.
  */
-import { PixelElement, duration, pixel, reducedMotion, warn } from "@jaatster/blip-core";
+import { BlipElement, duration, pixel, reducedMotion, warn } from "@jaatster/blip-core";
 import { both, isOn, unFalse } from "./_dom.js";
 
 type Side = "top" | "bottom" | "left" | "right";
@@ -24,7 +24,7 @@ const OTHER: Record<Side, Side> = { top: "bottom", bottom: "top", left: "right",
 /** Whether CSS places it: anchor positioning exists, and (learned on the first show) a popover shown with a source
     is anchored to it. */
 let anchored: boolean | undefined = typeof CSS !== "undefined" && CSS.supports("position-area", "top") ? undefined : false;
-let current: PixelTooltip | null = null;
+let current: BlipTooltip | null = null;
 let count = 0;
 
 /**
@@ -37,16 +37,16 @@ let count = 0;
  * @attr {"top" | "bottom" | "left" | "right"} [data-side="top"] - The side it prefers. While it shows on the other
  * side for want of room, data-side says so; it goes back when it closes.
  * @attr {boolean} open - It is showing; setting it shows or closes it. Reflects the tooltip. "false" is off.
- * @fires {CustomEvent<void>} pp-open - It showed.
- * @fires {CustomEvent<void>} pp-close - It closed.
+ * @fires {CustomEvent<void>} chu-open - It showed.
+ * @fires {CustomEvent<void>} chu-close - It closed.
  */
-export class PixelTooltip extends PixelElement {
+export class BlipTooltip extends BlipElement {
   static box = true;
-  static classes = ["pp-tooltip"];
+  static classes = ["chu-tooltip"];
   static observedAttributes = ["open", "for", "data-side"];
   /** Every connected tooltip, and one observer for them all that finds each trigger again when the page changes. */
-  static #all = new Set<PixelTooltip>();
-  static #page = typeof MutationObserver === "undefined" ? undefined : new MutationObserver(() => PixelTooltip.#all.forEach((t) => t.#resolve()));
+  static #all = new Set<BlipTooltip>();
+  static #page = typeof MutationObserver === "undefined" ? undefined : new MutationObserver(() => BlipTooltip.#all.forEach((t) => t.#resolve()));
 
   #trigger: HTMLElement | null = null;
   #wiring?: AbortController;
@@ -84,22 +84,22 @@ export class PixelTooltip extends PixelElement {
   }
 
   protected connected(): void {
-    this.id ||= `pp-tooltip-${this.#n}`;
+    this.id ||= `chu-tooltip-${this.#n}`;
     this.setAttribute("role", "tooltip");
     this.popover = "manual";
-    if (!this.querySelector(":scope > .pp-tooltip-nub")) {
+    if (!this.querySelector(":scope > .chu-tooltip-nub")) {
       const nub = document.createElement("span");
-      nub.className = "pp-tooltip-nub";
+      nub.className = "chu-tooltip-nub";
       nub.setAttribute("aria-hidden", "true");
       this.append(nub);
     }
     this.#trigger = null;
     this.#resolve();
     // A trigger may still be on its way (rendered after the tooltip): say so only if it has not come a moment later.
-    if (!this.#trigger) setTimeout(() => this.isConnected && !this.#trigger && warn("PP-E020", '<pp-tooltip> needs for="…" naming its trigger, or to come right after it.', this));
-    const all = PixelTooltip.#all;
+    if (!this.#trigger) setTimeout(() => this.isConnected && !this.#trigger && warn("CHU-E020", '<chu-tooltip> needs for="…" naming its trigger, or to come right after it.', this));
+    const all = BlipTooltip.#all;
     all.add(this);
-    if (all.size === 1) PixelTooltip.#page?.observe(document.documentElement, { childList: true, subtree: true });
+    if (all.size === 1) BlipTooltip.#page?.observe(document.documentElement, { childList: true, subtree: true });
     // Leaving the chip with the pointer closes it too, unless the trigger has keyboard focus.
     this.on(this, "pointerenter", () => clearTimeout(this.#timer));
     this.on(this, "pointerleave", () => this.#leave());
@@ -115,9 +115,9 @@ export class PixelTooltip extends PixelElement {
   protected disconnected(): void {
     this.close();
     this.#unwire();
-    const all = PixelTooltip.#all;
+    const all = BlipTooltip.#all;
     all.delete(this);
-    if (!all.size) PixelTooltip.#page?.disconnect();
+    if (!all.size) BlipTooltip.#page?.disconnect();
   }
 
   /** Finds the trigger (by for, or the element just before it); a new one is described and listened to. */
@@ -254,15 +254,15 @@ export class PixelTooltip extends PixelElement {
     // The nub, on whole pixels, kept clear of the corners.
     if (across) {
       const x = Math.round((a.left + a.width / 2 - left) / p - 3.5) * p;
-      this.style.setProperty("--_pp-nub-x", `${Math.min(Math.max(x, 3 * p), w - 10 * p)}px`);
-    } else this.style.removeProperty("--_pp-nub-x");
+      this.style.setProperty("--_chu-nub-x", `${Math.min(Math.max(x, 3 * p), w - 10 * p)}px`);
+    } else this.style.removeProperty("--_chu-nub-x");
   }
 }
 
-PixelTooltip.define("pp-tooltip", PixelTooltip);
+BlipTooltip.define("chu-tooltip", BlipTooltip);
 
 declare global {
   interface HTMLElementTagNameMap {
-    "pp-tooltip": PixelTooltip;
+    "chu-tooltip": BlipTooltip;
   }
 }

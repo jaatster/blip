@@ -1,6 +1,6 @@
 /**
  * The same scan with each live overlay open, one at a time, since closed overlays are not rendered and so not
- * checked: dialogs and drawers (commandfor), popovers (popovertarget), menus (pp-menu), toasts (the example's buttons)
+ * checked: dialogs and drawers (commandfor), popovers (popovertarget), menus (chu-menu), toasts (the example's buttons)
  * and tooltips (hovering their trigger). Covers what the elements generate, which the static copies cannot. A trigger in
  * an attract demo is inert: what it opens is scanned as the demo's still frame shows it.
  */
@@ -23,12 +23,12 @@ interface Opener {
 const OPENERS: Opener[] = [
   { trigger: 'button[command="show-modal"]', how: "click", open: "dialog:modal" },
   { trigger: '[popovertarget]:not([popovertargetaction="hide"])', how: "click", open: "[popover]:popover-open" },
-  { trigger: 'pp-menu:not([role="menu"] pp-menu) > :is(button, [aria-haspopup])', how: "click", open: '[role="menu"]:popover-open' },
-  { trigger: 'button[onclick*=".add("]', how: "click", open: "pp-toaster .pp-toast" },
-  { trigger: "pp-tooltip", how: "hover", open: "pp-tooltip:popover-open" },
+  { trigger: 'chu-menu:not([role="menu"] chu-menu) > :is(button, [aria-haspopup])', how: "click", open: '[role="menu"]:popover-open' },
+  { trigger: 'button[onclick*=".add("]', how: "click", open: "chu-toaster .chu-toast" },
+  { trigger: "chu-tooltip", how: "hover", open: "chu-tooltip:popover-open" },
 ];
 /** Examples with something to open, found from their markup. */
-const OPENS = /command="show-modal"|popovertarget=|<pp-menu[\s>]|\.add\(|<pp-tooltip[\s>]/;
+const OPENS = /command="show-modal"|popovertarget=|<chu-menu[\s>]|\.add\(|<chu-tooltip[\s>]/;
 const SCHEMES: Scheme[] = ["day", "night"];
 
 for (const example of examples.filter((e) => OPENS.test(readFileSync(join(ROOT, e.url), "utf8")))) {
@@ -58,11 +58,11 @@ for (const example of examples.filter((e) => OPENS.test(readFileSync(join(ROOT, 
 
 /** Opens the i-th overlay of a kind; returns a label for it, or null when its trigger is not shown at this width. */
 async function act(page: Page, opener: Opener, i: number): Promise<string | null> {
-  const trigger = opener.trigger === "pp-tooltip"
-    ? page.locator(`#${await page.locator("#example pp-tooltip").nth(i).getAttribute("for")}`)
+  const trigger = opener.trigger === "chu-tooltip"
+    ? page.locator(`#${await page.locator("#example chu-tooltip").nth(i).getAttribute("for")}`)
     : page.locator(`#example ${opener.trigger}`).nth(i);
   if (!(await trigger.isVisible())) return null;
-  const label = `${opener.trigger === "pp-tooltip" ? "the tooltip of" : ""} ${(await trigger.getAttribute("aria-label")) ?? (await trigger.innerText()).trim()}`.trim();
+  const label = `${opener.trigger === "chu-tooltip" ? "the tooltip of" : ""} ${(await trigger.getAttribute("aria-label")) ?? (await trigger.innerText()).trim()}`.trim();
   // An attract demo's controls are inert: nobody can open what they open, the demo does, and its still frame shows it.
   if (await trigger.evaluate((el) => !!el.closest("[inert]"))) return (await page.locator(opener.open).first().isVisible()) ? `"${label}" (opened by its demo)` : null;
   if (opener.how === "hover") await trigger.hover();

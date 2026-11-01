@@ -13,10 +13,10 @@
  *    only. Each path is drawn back onto the grid and must cover exactly the pixels in the map.
  * 3. Writes:
  *      dist/svg/<name>.svg       one file per icon
- *      dist/sprite.svg           <symbol id="pp-icon-<name>">, for <svg><use href="sprite.svg#pp-icon-<name>"/></svg>
+ *      dist/sprite.svg           <symbol id="chu-icon-<name>">, for <svg><use href="sprite.svg#chu-icon-<name>"/></svg>
  *      dist/index.js, .d.ts      icons (name to path data), type IconName, iconSvg()
  *      dist/icons.json           categories, and the name, category, tags and path of every icon
- *      dist/element.js, .d.ts    <pp-icon>, compiled from src/element.ts
+ *      dist/element.js, .d.ts    <chu-icon>, compiled from src/element.ts
  *      examples/icons.html       the gallery fragment: the set by category, in buttons, in text, large
  */
 import { readFileSync, writeFileSync, mkdirSync, readdirSync, rmSync } from "node:fs";
@@ -302,7 +302,7 @@ for (const i of icons) {
 
 writeFileSync(
   join(DIST, "sprite.svg"),
-  `<svg xmlns="${SVG_NS}">\n<!-- ${header} -->\n${byName.map((i) => `<symbol id="pp-icon-${i.name}" viewBox="0 0 12 12" ${attrs}><path d="${i.path}"/></symbol>`).join("\n")}\n</svg>\n`,
+  `<svg xmlns="${SVG_NS}">\n<!-- ${header} -->\n${byName.map((i) => `<symbol id="chu-icon-${i.name}" viewBox="0 0 12 12" ${attrs}><path d="${i.path}"/></symbol>`).join("\n")}\n</svg>\n`,
 );
 
 writeFileSync(
@@ -322,13 +322,13 @@ ${byName.map((i) => `  "${i.name}": "${i.path}",`).join("\n")}
 const escape = (s) => String(s).replace(/[&<>"]/g, (c) => \`&#\${c.charCodeAt(0)};\`);
 
 /**
- * An <svg class="pp-icon"> string for one icon. Hidden from assistive technology unless it has a label, which makes
+ * An <svg class="chu-icon"> string for one icon. Hidden from assistive technology unless it has a label, which makes
  * it an image with that name. size "lg" draws it 24 pixels square instead of 12.
  */
 export function iconSvg(name, { label, size, class: className } = {}) {
   if (!Object.hasOwn(icons, name)) throw new RangeError(\`@jaatster/blip-icons: there is no icon named "\${name}".\`);
   const px = size === "lg" ? 48 : 24;
-  return \`<svg xmlns="${SVG_NS}" class="pp-icon\${className ? " " + escape(className) : ""}"\${size === "lg" ? ' data-size="lg"' : ""} viewBox="0 0 12 12" width="\${px}" height="\${px}" ${attrs} \${label ? \`role="img" aria-label="\${escape(label)}"\` : 'aria-hidden="true"'}><path d="\${icons[name]}"/></svg>\`;
+  return \`<svg xmlns="${SVG_NS}" class="chu-icon\${className ? " " + escape(className) : ""}"\${size === "lg" ? ' data-size="lg"' : ""} viewBox="0 0 12 12" width="\${px}" height="\${px}" ${attrs} \${label ? \`role="img" aria-label="\${escape(label)}"\` : 'aria-hidden="true"'}><path d="\${icons[name]}"/></svg>\`;
 }
 `,
 );
@@ -349,11 +349,11 @@ export interface IconSvgOptions {
   label?: string;
   /** "lg" draws the icon 24 pixels square (data-size="lg"); the default is 12. */
   size?: "md" | "lg";
-  /** More classes, after "pp-icon". */
+  /** More classes, after "chu-icon". */
   class?: string;
 }
 
-/** An <svg class="pp-icon"> string for one icon. Throws a RangeError for a name that is not an icon. */
+/** An <svg class="chu-icon"> string for one icon. Throws a RangeError for a name that is not an icon. */
 export declare function iconSvg(name: IconName, options?: IconSvgOptions): string;
 `,
 );
@@ -405,28 +405,28 @@ if (warnings.length) console.warn(`  ${warnings.length} warning${warnings.length
 function svg(name, { label, size, cls } = {}) {
   const i = icons.find((x) => x.name === name);
   if (!i) throw new Error(`examples: no icon "${name}"`);
-  return `<svg class="pp-icon${cls ? ` ${cls}` : ""}"${size ? ` data-size="${size}"` : ""} viewBox="0 0 12 12" ${label ? `role="img" aria-label="${label}"` : `aria-hidden="true"`}><path d="${i.path}"/></svg>`;
+  return `<svg class="chu-icon${cls ? ` ${cls}` : ""}"${size ? ` data-size="${size}"` : ""} viewBox="0 0 12 12" ${label ? `role="img" aria-label="${label}"` : `aria-hidden="true"`}><path d="${i.path}"/></svg>`;
 }
 
 function examples() {
-  const p = (n) => `calc(${n} * var(--pp-pixel))`;
-  const row = (inner, label) => `<div class="pp-example-icons-row">\n  <span class="pp-label pp-muted">${label}</span>\n  ${inner.join("\n  ")}\n</div>`;
-  const button = (name, label, extra = "") => `<button class="pp-box pp-button" data-icon-only${extra} aria-label="${label}">${svg(name)}</button>`;
+  const p = (n) => `calc(${n} * var(--chu-pixel))`;
+  const row = (inner, label) => `<div class="chu-example-icons-row">\n  <span class="chu-label chu-muted">${label}</span>\n  ${inner.join("\n  ")}\n</div>`;
+  const button = (name, label, extra = "") => `<button class="chu-box chu-button" data-icon-only${extra} aria-label="${label}">${svg(name)}</button>`;
   const set = categories.map((c) => {
     const list = icons.filter((i) => i.category === c.id);
-    return `<h3 class="pp-label pp-muted">${c.title} <span class="pp-caption">${list.length}</span></h3>
-<ul class="pp-example-icons-set" role="list">
+    return `<h3 class="chu-label chu-muted">${c.title} <span class="chu-caption">${list.length}</span></h3>
+<ul class="chu-example-icons-set" role="list">
 ${list.map((i) => `  <li title="${i.name}: ${i.tags.join(", ")}">${svg(i.name)}<span>${i.name}</span></li>`).join("\n")}
 </ul>`;
   });
   return `<!-- Icons: ${icons.length} on a 12 x 12 pixel grid. Generated by packages/icons/scripts/build.mjs from src/*.icons: edit those, then run the build. -->
 <style>
-  .pp-example-icons-row { display: flex; flex-wrap: wrap; align-items: center; gap: ${p(4)}; margin-block-end: ${p(8)}; }
-  .pp-example-icons-row > .pp-label:first-child { inline-size: ${p(40)}; }
-  .pp-example-icons-text { display: inline-flex; align-items: center; gap: ${p(2)}; margin-inline-end: ${p(6)}; }
-  .pp-example-icons-set { display: grid; grid-template-columns: repeat(auto-fill, minmax(${p(44)}, 1fr)); gap: ${p(2)}; margin: ${p(4)} 0 ${p(12)}; padding: 0; list-style: none; }
-  .pp-example-icons-set li { display: flex; flex-direction: column; align-items: center; gap: ${p(3)}; padding: ${p(4)} ${p(1)}; }
-  .pp-example-icons-set span { font-size: var(--pp-size-caption); line-height: 1.2; color: var(--pp-text-muted); text-align: center; overflow-wrap: anywhere; }
+  .chu-example-icons-row { display: flex; flex-wrap: wrap; align-items: center; gap: ${p(4)}; margin-block-end: ${p(8)}; }
+  .chu-example-icons-row > .chu-label:first-child { inline-size: ${p(40)}; }
+  .chu-example-icons-text { display: inline-flex; align-items: center; gap: ${p(2)}; margin-inline-end: ${p(6)}; }
+  .chu-example-icons-set { display: grid; grid-template-columns: repeat(auto-fill, minmax(${p(44)}, 1fr)); gap: ${p(2)}; margin: ${p(4)} 0 ${p(12)}; padding: 0; list-style: none; }
+  .chu-example-icons-set li { display: flex; flex-direction: column; align-items: center; gap: ${p(3)}; padding: ${p(4)} ${p(1)}; }
+  .chu-example-icons-set span { font-size: var(--chu-size-caption); line-height: 1.2; color: var(--chu-text-muted); text-align: center; overflow-wrap: anywhere; }
 </style>
 
 ${row([
@@ -439,30 +439,30 @@ ${row([
   button("settings", "Settings", ' data-tone="slate"'),
   button("search", "Search", ' data-variant="outline"'),
   button("more-horizontal", "More", ' data-variant="ghost"'),
-  `<button class="pp-box pp-button" data-tone="success">${svg("check")}Saved</button>`,
-  `<button class="pp-box pp-button" data-variant="soft">${svg("download")}Export</button>`,
-  `<button class="pp-box pp-button" data-variant="outline">Next${svg("arrow-right")}</button>`,
-  `<button class="pp-box pp-button" data-size="sm">${svg("plus")}New</button>`,
-  `<button class="pp-box pp-button" data-size="lg" data-tone="warning">${svg("bolt")}Boost</button>`,
+  `<button class="chu-box chu-button" data-tone="success">${svg("check")}Saved</button>`,
+  `<button class="chu-box chu-button" data-variant="soft">${svg("download")}Export</button>`,
+  `<button class="chu-box chu-button" data-variant="outline">Next${svg("arrow-right")}</button>`,
+  `<button class="chu-box chu-button" data-size="sm">${svg("plus")}New</button>`,
+  `<button class="chu-box chu-button" data-size="lg" data-tone="warning">${svg("bolt")}Boost</button>`,
 ], "Buttons")}
 
 ${row([
-  `<span class="pp-example-icons-text pp-body">${svg("success")}Saved to the cloud</span>`,
-  `<span class="pp-example-icons-text pp-small" style="color: var(--pp-warning-text)">${svg("warning")}Low battery</span>`,
-  `<span class="pp-example-icons-text pp-small" style="color: var(--pp-danger-text)">${svg("error")}Upload failed</span>`,
-  `<span class="pp-example-icons-text pp-label">${svg("clock")}12:34</span>`,
-  `<a class="pp-example-icons-text pp-small" href="#icons">Read the docs${svg("external")}</a>`,
+  `<span class="chu-example-icons-text chu-body">${svg("success")}Saved to the cloud</span>`,
+  `<span class="chu-example-icons-text chu-small" style="color: var(--chu-warning-text)">${svg("warning")}Low battery</span>`,
+  `<span class="chu-example-icons-text chu-small" style="color: var(--chu-danger-text)">${svg("error")}Upload failed</span>`,
+  `<span class="chu-example-icons-text chu-label">${svg("clock")}12:34</span>`,
+  `<a class="chu-example-icons-text chu-small" href="#icons">Read the docs${svg("external")}</a>`,
 ], "In text")}
 
 ${row(["coin", "gem", "heart", "star", "key", "potion", "sword", "shield", "trophy", "rocket"].map((n) => svg(n, { size: "lg" })), "Large")}
 
 ${row([
-  `<pp-icon name="heart" label="Liked"></pp-icon>`,
-  `<pp-icon name="bell"></pp-icon>`,
-  `<pp-icon name="wifi" label="Connected"></pp-icon>`,
-  `<pp-icon name="battery-half" label="Battery half full"></pp-icon>`,
-  `<pp-icon name="gamepad" data-size="lg"></pp-icon>`,
-], "&lt;pp-icon&gt;")}
+  `<chu-icon name="heart" label="Liked"></chu-icon>`,
+  `<chu-icon name="bell"></chu-icon>`,
+  `<chu-icon name="wifi" label="Connected"></chu-icon>`,
+  `<chu-icon name="battery-half" label="Battery half full"></chu-icon>`,
+  `<chu-icon name="gamepad" data-size="lg"></chu-icon>`,
+], "&lt;chu-icon&gt;")}
 
 ${set.join("\n\n")}
 `;

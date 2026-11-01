@@ -4,7 +4,7 @@
  * must agree:
  *
  * - its front matter points at things that exist: the stylesheet, the elements, the React component;
- * - every class and part it names (`.pp-x`, or in a class attribute) is in some stylesheet, its own header comment,
+ * - every class and part it names (`.chu-x`, or in a class attribute) is in some stylesheet, its own header comment,
  *   or the elements' source (the DOM they add);
  * - every data attribute it names is in a stylesheet or an element, and every value it gives one (`data-x="v"`, and
  *   the Values column of its tables) is one the CSS selects, its stylesheet's comments list, or its element's
@@ -33,12 +33,12 @@ const rel = (file: string): string => file.slice(REPO.length).replace(/\\/g, "/"
 const esc = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const word = (name: string): RegExp => new RegExp(`(?<![\\w-])${esc(name)}(?![\\w-])`);
 
-// A class or attribute name: no wildcards (`.pp-card-*`, `data-pp-*`) and no placeholders (`pp-r-N`).
-const CLASS = /(?<![\w-])\.(pp-[a-z0-9-]*[a-z0-9])(?![\w*-])/g;
+// A class or attribute name: no wildcards (`.chu-card-*`, `data-chu-*`) and no placeholders (`chu-r-N`).
+const CLASS = /(?<![\w-])\.(chu-[a-z0-9-]*[a-z0-9])(?![\w*-])/g;
 const ATTR = /(?<![\w-])(data-[a-z0-9-]*[a-z0-9])(?![\w*-])/g;
 const classesIn = (text: string): Set<string> => {
   const found = new Set([...text.matchAll(CLASS)].map((m) => m[1]!));
-  for (const m of text.matchAll(/class(?:Name)?="([^"]*)"/g)) for (const c of m[1]!.split(/\s+/)) if (/^pp-[a-z0-9-]*[a-z0-9]$/.test(c)) found.add(c);
+  for (const m of text.matchAll(/class(?:Name)?="([^"]*)"/g)) for (const c of m[1]!.split(/\s+/)) if (/^chu-[a-z0-9-]*[a-z0-9]$/.test(c)) found.add(c);
   return found;
 };
 const attrsIn = (text: string): Set<string> => new Set([...text.matchAll(ATTR)].map((m) => m[1]!));
@@ -60,8 +60,8 @@ const sheets = new Map<string, Stylesheet>(
   }),
 );
 const tsSource = owners.flatMap((p) => walk(join(PACKAGES, p, "src"), ".ts")).map(read).join("\n");
-const cssClasses = new Set([...sheets.values()].flatMap((s) => [...s.code.matchAll(/\.(pp-[a-z0-9-]+)/g)].map((m) => m[1]!)));
-const codeNames = new Set([...tsSource.matchAll(/pp-[a-z0-9-]*[a-z0-9]/g)].map((m) => m[0]));
+const cssClasses = new Set([...sheets.values()].flatMap((s) => [...s.code.matchAll(/\.(chu-[a-z0-9-]+)/g)].map((m) => m[1]!)));
+const codeNames = new Set([...tsSource.matchAll(/chu-[a-z0-9-]*[a-z0-9]/g)].map((m) => m[0]));
 const codeAttrs = new Set([...[...sheets.values()].map((s) => s.code).join("\n").matchAll(ATTR), ...tsSource.matchAll(ATTR)].map((m) => m[1]!));
 
 interface Matcher {
@@ -230,11 +230,11 @@ describe.each(docs.map((d) => [`${d.pkg}/docs/${d.name}.md`, d] as const))("%s",
       if (/^event/i.test(header[0] ?? "")) {
         // An event of its own elements, or of the elements of a page the row links to (a dialogue's choices).
         const linked = [...cells.join(" ").matchAll(/\]\(([\w-]+)\.md/g)].flatMap((m) => docs.filter((d) => d.name === m[1]).flatMap((d) => d.tags));
-        for (const n of names.filter((n) => /^pp-/.test(n))) {
+        for (const n of names.filter((n) => /^chu-/.test(n))) {
           if (![...doc.tags, ...linked].some((t) => elements.get(t)?.events?.some((e) => e.name === n))) problems.push(`event ${n} is fired by none of ${doc.tags.join(", ")}`);
         }
       }
-      const tag = /`<(pp-[a-z-]+)>`/.exec(heading)?.[1];
+      const tag = /`<(chu-[a-z-]+)>`/.exec(heading)?.[1];
       if (tag && elements.has(tag) && /attribute|propert|method|member/i.test(header[0] ?? "")) {
         const d = elements.get(tag)!;
         for (const n of names.map((n) => n.replace(/\(.*\)$/, "").replace(/=.*$/, "")).filter((n) => /^[a-zA-Z][\w-]*$/.test(n))) {
@@ -269,7 +269,7 @@ describe.each(docs.map((d) => [`${d.pkg}/docs/${d.name}.md`, d] as const))("%s",
       const pages = sharing(file);
       const text = pages.map((d) => d.body).join("\n");
       // Its own classes: named after one of the pages that share the stylesheet, or the stylesheet itself.
-      const own = new RegExp(`^pp-(?:${[...pages.map((d) => d.name), basename(file, ".css")].map(esc).join("|")})(?:-|$)`);
+      const own = new RegExp(`^chu-(?:${[...pages.map((d) => d.name), basename(file, ".css")].map(esc).join("|")})(?:-|$)`);
       for (const c of classesIn(header)) if (own.test(c) && !word(c).test(text)) missing.push(`.${c}`);
       // Its attributes: those the header names and its rules use (not those of other components in its markup).
       for (const a of attrsIn(header)) if (new RegExp(`\\[\\s*${esc(a)}(?![\\w-])`).test(code) && !word(a).test(text)) missing.push(a);

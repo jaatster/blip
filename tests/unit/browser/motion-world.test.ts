@@ -1,5 +1,5 @@
 /**
- * The world pauses at once when less motion is asked for, on the page (data-pp-motion="reduce" on <html>, which the
+ * The world pauses at once when less motion is asked for, on the page (data-chu-motion="reduce" on <html>, which the
  * motion toggle sets) or on the device, and carries on from where it stopped: drifting clouds stop where they are and
  * drift on from there; a flock of birds, a shooting star or a flaring star goes at once; the layers come back to rest
  * without a slide; nothing new starts while it is paused.
@@ -24,16 +24,16 @@ beforeEach(() => {
 });
 afterEach(async () => {
   vi.useRealTimers();
-  delete html.dataset.ppMotion;
+  delete html.dataset.chuMotion;
   style.remove();
   restore();
   await commands.emulateMedia("no-preference");
 });
 
 /** A world in a 640 x 320 box. */
-const world = (attributes: string) => mount(`<div style="position:relative;width:640px;height:320px"><pp-world ${attributes}></pp-world></div>`);
+const world = (attributes: string) => mount(`<div style="position:relative;width:640px;height:320px"><chu-world ${attributes}></chu-world></div>`);
 /** The sprites over the sky of one size: clouds 38 x 16, sparkles 5 x 5, birds 5 x 3, a shooting star 10 x 5. */
-const sprites = (box: Element, w: number, h: number) => [...box.querySelectorAll<HTMLCanvasElement>(".pp-world-things canvas")].filter((c) => c.width === w && c.height === h);
+const sprites = (box: Element, w: number, h: number) => [...box.querySelectorAll<HTMLCanvasElement>(".chu-world-things canvas")].filter((c) => c.width === w && c.height === h);
 const clouds = (box: Element) => sprites(box, 38, 16).map((c) => `${c.style.translate}${c.hidden ? " hidden" : ""}`);
 /** Lets the world's watch on <html> run (a mutation observer: a microtask). */
 const settle = () => Promise.resolve();
@@ -43,7 +43,7 @@ const until = (test: () => boolean, ms: number) => {
   return test();
 };
 
-describe("<pp-world> and less motion asked for on the page", () => {
+describe("<chu-world> and less motion asked for on the page", () => {
   it("stops the drifting clouds where they are, at once, and they drift on from there", async () => {
     const box = world(`scheme="day" clouds`);
     const start = clouds(box);
@@ -52,13 +52,13 @@ describe("<pp-world> and less motion asked for on the page", () => {
     vi.advanceTimersByTime(4000);
     const moved = clouds(box);
     expect(moved).not.toEqual(start);
-    html.dataset.ppMotion = "reduce";
+    html.dataset.chuMotion = "reduce";
     await settle();
     expect(clouds(box)).toEqual(moved);
     vi.advanceTimersByTime(20_000);
     expect(clouds(box)).toEqual(moved);
     // Back: drawn again for moving, each cloud where it stopped, then on.
-    delete html.dataset.ppMotion;
+    delete html.dataset.chuMotion;
     await settle();
     expect(clouds(box)).toEqual(moved);
     vi.advanceTimersByTime(4000);
@@ -66,9 +66,9 @@ describe("<pp-world> and less motion asked for on the page", () => {
   });
 
   it("draws drifting clouds where a moving world has them when it is drawn paused, so carrying on never jumps", async () => {
-    html.dataset.ppMotion = "reduce";
+    html.dataset.chuMotion = "reduce";
     const paused = clouds(world(`scheme="day" clouds`));
-    delete html.dataset.ppMotion;
+    delete html.dataset.chuMotion;
     await settle();
     expect(paused).toHaveLength(4);
     expect(paused).toEqual(clouds(world(`scheme="day" clouds`)));
@@ -79,10 +79,10 @@ describe("<pp-world> and less motion asked for on the page", () => {
     // The first flock comes 5 to 15 seconds in.
     expect(until(() => sprites(box, 5, 3).length === 3, 16_000)).toBe(true);
     window.dispatchEvent(new PointerEvent("pointermove", { clientX: 0, clientY: 100 }));
-    const layers = [...box.querySelectorAll<HTMLElement>(".pp-world-stage > *")];
-    const x = () => layers.map((l) => l.style.getPropertyValue("--_pp-world-x"));
+    const layers = [...box.querySelectorAll<HTMLElement>(".chu-world-stage > *")];
+    const x = () => layers.map((l) => l.style.getPropertyValue("--_chu-world-x"));
     expect(x()).not.toEqual(["0", "0", "0", "0", "0", "0"]);
-    html.dataset.ppMotion = "reduce";
+    html.dataset.chuMotion = "reduce";
     await settle();
     expect(sprites(box, 5, 3)).toHaveLength(0);
     expect(x()).toEqual(["0", "0", "0", "0", "0", "0"]);
@@ -98,28 +98,28 @@ describe("<pp-world> and less motion asked for on the page", () => {
     const box = world(`scheme="night" stars events clouds="none"`);
     const lit = () => sprites(box, 5, 5).filter((c) => !c.hidden);
     expect(until(() => lit().length > 0, 3000)).toBe(true);
-    html.dataset.ppMotion = "reduce";
+    html.dataset.chuMotion = "reduce";
     await settle();
     expect(lit()).toHaveLength(0);
     vi.advanceTimersByTime(30_000);
     expect(lit()).toHaveLength(0);
-    delete html.dataset.ppMotion;
+    delete html.dataset.chuMotion;
     await settle();
     const shooting = () => sprites(box, 10, 5).filter((c) => !c.hidden);
     expect(until(() => shooting().length > 0, 130_000)).toBe(true);
-    html.dataset.ppMotion = "reduce";
+    html.dataset.chuMotion = "reduce";
     await settle();
     expect(sprites(box, 10, 5)).toHaveLength(0);
   });
 });
 
-describe("<pp-world> and the device's reduced motion turned on", () => {
+describe("<chu-world> and the device's reduced motion turned on", () => {
   it("brings the layers to rest at once, as the page's setting does", async () => {
     vi.useRealTimers();
     const box = world(`scheme="day" parallax clouds="none"`);
     window.dispatchEvent(new PointerEvent("pointermove", { clientX: 0, clientY: 100 }));
-    const layers = [...box.querySelectorAll<HTMLElement>(".pp-world-stage > *")];
-    const x = () => layers.map((l) => l.style.getPropertyValue("--_pp-world-x"));
+    const layers = [...box.querySelectorAll<HTMLElement>(".chu-world-stage > *")];
+    const x = () => layers.map((l) => l.style.getPropertyValue("--_chu-world-x"));
     expect(x()).not.toEqual(["0", "0", "0", "0", "0", "0"]);
     await commands.emulateMedia("reduce");
     await expect.poll(x).toEqual(["0", "0", "0", "0", "0", "0"]);
