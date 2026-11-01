@@ -2,4 +2,9 @@
 
 ## 0.2.0
 
-First release. Pixel Bop, the pixel display font, extended to every European capital (WOFF2 and TTF), and a Latin subset of Pixelify Sans with C, G, 5 and c redrawn so all-caps labels can't read CODE as OODE or 500 as S00, with their SIL Open Font Licences.
+First release. Pixel Bop, the pixel display font, with every European capital in Latin, Cyrillic and Greek, and
+Pixelify Sans for UI and body text in Latin, Cyrillic and Greek, with their SIL Open Font Licences. Each script is its
+own WOFF2 file, so a Latin page loads nothing for the others; Pixel Bop also comes as one TTF. Pixelify Sans is
+modified so it reads at text sizes: no ligatures (fi and fl read as "A"); C, G, 5 and c, and every accent, quote,
+comma and symbol drawn finer than one of its pixels (@ read as a dot, © as °), redrawn on its pixel grid at every
+weight; Cyrillic and Greek corrected and completed. Emoji fall back to the system's, sized to the capitals.

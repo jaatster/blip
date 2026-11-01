@@ -1,0 +1,551 @@
+# Pixelify Sans: the glyphs Blip draws, composes or corrects. SIL Open Font License 1.1; the font is
+# Copyright 2021 The Pixelify Sans Project Authors (OFL-PixelifySans.txt). The build applies these to the
+# unmodified font in vendor/ and says so in the font's version string.
+#
+# Why: the upstream font draws its accents, quotes, commas, small figures and some symbols in half pixels or finer,
+# which blur into grey at text sizes (its @ reads as a dot, © as °); it misdraws some Greek and Cyrillic letters and
+# leaves some out. Everything here is drawn on the font's own pixels, so it matches the letters at every weight.
+#
+# DRAWING. One block per glyph: a header '@ <char>' (or '@ U+XXXX', or '@ <glyph name>' for a glyph with no
+# character), then its rows: 'X' is a pixel, '.' is empty, top row first. A pixel is Pixelify's own (about 91
+# units); the build puts every edge where the font's letters have one on that line, at regular and at bold. The
+# bottom row sits on the baseline unless the header says 'base=N' (the row it sits on: capitals are rows 0 to 6, the
+# x-height is rows 0 to 4, -1 is the first row below the baseline). 'left=N' starts it N columns right (or left, if
+# negative) of where letters start; 'lift=N' raises it N units (the period and its family sit 12 units above the
+# letters' rows). A glyph is as wide as its rows, and the font adds its side bearing after it.
+#
+# MARKS. 'mark=above' draws a combining accent as it sits over the x-height (rows 6 and 7, one empty row above the
+# letter); over a capital or a tall letter the build lifts it two rows. 'mark=below' hangs under the letter's middle,
+# 'mark=ogonek' from its last column, 'mark=beside' (the caron of ď, ľ, ť) next to its stem. A mark that cannot be
+# centred to the pixel goes left, or right with 'lean=right'. Every accented letter the font already has follows a
+# redrawn mark onto its letter's grid.
+#
+# COMPOSING. '@ <char> = <letter> <mark>' puts a mark on a letter; 'part(x,y)' places a part x columns right and y
+# rows up instead. One part on its own makes the character another name for that glyph ('@ U+041E = O').
+#
+# Build after editing (pnpm --filter @jaatster/blip-font build): it fails, naming the glyph, if any glyph of the three
+# files still has a stroke thinner than one pixel, at regular or bold, or if a default feature joins letters.
+
+# ---------------------------------------------------------------------------------------------------------------
+# Figures. 5: the upstream 5 is an S; here the top bar ends square and the stem runs straight into the middle bar.
+
+@ 5
+XXXX.
+X....
+X....
+XXXX.
+....X
+X...X
+.XXX.
+
+# ---------------------------------------------------------------------------------------------------------------
+# Accents: two rows tall, one pixel thick. The breve is a cup, the caron a point, the double acute two acutes.
+
+@ U+0300 mark=above base=6
+X.
+.X
+
+@ U+0301 mark=above lean=right base=6
+.X
+X.
+
+@ U+0302 mark=above base=6
+.X.
+X.X
+
+@ U+0303 mark=above base=6
+.X.X
+X.X.
+
+@ U+0304 mark=above base=6
+XXX
+
+@ U+0306 mark=above base=6
+X.X
+XXX
+
+@ U+030A mark=above base=6
+.X.
+X.X
+.X.
+
+@ U+030B mark=above lean=right base=6
+.X..X
+X..X.
+
+@ U+030C mark=above base=6
+X.X
+.X.
+
+# The caron of ď, ľ, ť and Ľ: a closing quote beside the stem.
+@ uni030C.alt mark=beside base=5
+XX
+.X
+
+# The Latvian ģ: a turned comma above.
+@ U+0312 mark=above base=6
+X.
+XX
+
+# Comma below (Romanian ș, ț; Latvian ķ, ļ, ņ, ŗ): a comma, one empty row under the letter.
+@ U+0326 mark=below base=-3
+XX
+.X
+
+# Cedilla: hangs from the letter and curls right. Ogonek: hangs from the last column and curls left.
+@ U+0327 mark=below lean=right base=-2
+X.
+.X
+
+@ U+0328 mark=ogonek base=-2
+.X
+X.
+
+# Spacing accents: the marks on their own.
+@ ´ = U+0301(0,0)
+@ U+02DD = U+030B(0,0)
+@ U+02D8 = U+0306(0,0)
+@ U+02DA = U+030A(0,0)
+@ ¸ = U+0327(0,0)
+@ U+02DB = U+0328(0,0)
+
+@ ĭ = U+0131 U+0306
+
+# The hyphens and dashes the font leaves out: the soft hyphen, the hyphen, the non-breaking hyphen (as -), the figure
+# dash (as the en dash) and the horizontal bar (as the em dash).
+@ U+00AD = -
+@ U+2010 = -
+@ U+2011 = -
+@ U+2012 = U+2013
+@ U+2015 = U+2014
+
+# ---------------------------------------------------------------------------------------------------------------
+# Quotes, commas and the rest of the small punctuation. A closing quote and a comma are a 7, an opening quote is its
+# turn; straight quotes are straight.
+
+@ , base=-1 lift=12
+XX
+.X
+
+@ U+201A base=-1 lift=12
+XX
+.X
+
+@ U+201E base=-1 lift=12
+XX.XX
+.X..X
+
+@ ;
+X.
+..
+XX
+.X
+
+@ U+2019 base=5
+XX
+.X
+
+@ U+2018 base=5
+X.
+XX
+
+@ U+201D base=5
+XX.XX
+.X..X
+
+@ U+201C base=5
+X..X.
+XX.XX
+
+@ ' base=5
+X
+X
+
+@ " base=5
+X.X
+X.X
+
+@ * base=4
+.X.
+XXX
+X.X
+
+@ ^ base=5
+.X.
+X.X
+
+@ ~ base=2 left=1
+.X.X
+X.X.
+
+@ /
+...X
+...X
+..X.
+..X.
+.X..
+.X..
+X...
+
+@ \
+X...
+X...
+.X..
+.X..
+..X.
+..X.
+...X
+
+# ---------------------------------------------------------------------------------------------------------------
+# Letters with a stroke across: the bar crosses in pixel steps, as the font's own diagonals do.
+
+@ Ł left=-1
+.X....
+.X....
+.XX...
+.X....
+XX....
+.X...X
+..XXX.
+
+@ ł left=-1
+.X.
+.X.
+.XX
+.X.
+XX.
+.X.
+.X.
+
+@ Ø
+.XXX.
+X...X
+X..XX
+X.X.X
+XX..X
+X...X
+.XXX.
+
+@ ø
+.XXX.
+X..XX
+X.X.X
+XX..X
+.XXX.
+
+@ ð
+.XX.X
+...X.
+..X.X
+.XXXX
+X...X
+X...X
+.XXX.
+
+# ---------------------------------------------------------------------------------------------------------------
+# Symbols, at cap height.
+
+@ @
+.XXXXX.
+X.....X
+X.XXX.X
+X.X.X.X
+X.XXXXX
+X......
+.XXXXX.
+
+@ ©
+.XXXXX.
+X.....X
+X.XXX.X
+X.X...X
+X.XXX.X
+X.....X
+.XXXXX.
+
+@ ®
+.XXXXX.
+X.....X
+X.XX..X
+X.X.X.X
+X.XX..X
+X.X.X.X
+.XXXXX.
+
+@ × base=1
+X...X
+.X.X.
+..X..
+.X.X.
+X...X
+
+@ ¥
+X...X
+X...X
+.X.X.
+XXXXX
+..X..
+XXXXX
+..X..
+
+@ U+2122 base=3
+XXX.X...X
+.X..XX.XX
+.X..X.X.X
+.X..X...X
+
+@ ° base=4
+.X.
+X.X
+.X.
+
+@ ¶ base=-2
+.XXXX
+XXX.X
+XXX.X
+.XX.X
+..X.X
+..X.X
+..X.X
+..X.X
+..X.X
+
+@ ¤ base=1
+X...X
+.XXX.
+.X.X.
+.XXX.
+X...X
+
+# Per mille: the percent sign's plus-shaped zeros and one-pixel diagonal, with a third zero.
+@ U+2030
+.X....X....
+XXX..X.....
+.X..X......
+...X.......
+..X..X...X.
+.X..XXX.XXX
+X....X...X.
+
+# ---------------------------------------------------------------------------------------------------------------
+# Small forms: ordinals, superscripts and fractions, five rows tall at the top of the capitals.
+
+@ ª base=2
+.XX
+X.X
+.XX
+...
+XXX
+
+@ º base=2
+.X.
+X.X
+.X.
+...
+XXX
+
+@ ¹ base=2
+.X.
+XX.
+.X.
+.X.
+XXX
+
+@ ² base=2
+XX.
+..X
+.X.
+X..
+XXX
+
+@ ³ base=2
+XX.
+..X
+.X.
+..X
+XX.
+
+@ U+2074 base=2
+X.X
+X.X
+XXX
+..X
+..X
+
+@ U+2044
+.X
+.X
+.X
+X.
+X.
+X.
+X.
+
+@ ½ = ¹ U+2044(4,0) ²(7,-2)
+@ ¼ = ¹ U+2044(4,0) U+2074(7,-2)
+@ ¾ = ³ U+2044(4,0) U+2074(7,-2)
+
+# ---------------------------------------------------------------------------------------------------------------
+# Cyrillic. The upstream font swaps К and Ќ, draws Ж and the tails of Ц and Щ in half pixels, and leaves out І, О, П
+# and the letters with a grave.
+
+@ U+041A
+.X..X
+X..X.
+X.X..
+XX...
+X.X..
+X..X.
+X...X
+
+@ U+040C = U+041A U+0301
+
+@ U+0426 base=-1
+X...X
+X...X
+X...X
+X...X
+X...X
+X...X
+XXXXX
+....X
+
+@ U+0446 base=-1
+X...X
+X...X
+X...X
+X...X
+XXXXX
+....X
+
+@ U+0429 base=-1
+X.....X
+X..X..X
+X..X..X
+X..X..X
+X.X.X.X
+X.X.X.X
+.X...XX
+......X
+
+@ U+0449 base=-1
+X..X..X
+X..X..X
+X..X..X
+X..X..X
+XXX.XXX
+......X
+
+@ U+0436
+X..X..X
+.X.X.X.
+..XXX..
+.X.X.X.
+X..X..X
+
+@ U+0401 = U+0415 U+0308
+@ U+0451 = U+0435 U+0308
+@ U+0419 = U+0418 U+0306
+@ U+0439 = U+0438 U+0306
+@ U+040E = U+0423 U+0306
+@ U+045E = U+0443 U+0306
+@ U+0453 = U+0433 U+0301
+@ U+045C = U+043A U+0301
+@ U+0400 = U+0415 U+0300
+@ U+0450 = U+0435 U+0300
+@ U+040D = U+0418 U+0300
+@ U+045D = U+0438 U+0300
+@ U+0406 = I
+@ U+041E = O
+@ U+041F = U+03A0
+
+# ---------------------------------------------------------------------------------------------------------------
+# Greek. The upstream font draws ι with a dot, υ with a tonos, μ, ί, ϊ and ϋ as capitals, and the bar of Θ and the
+# arms of γ in half pixels, and Φ off the grid; it leaves out Δ, Ω and ς. Capitals with a tonos put it on the left, as Greek does.
+
+@ U+0398
+.XXX.
+X...X
+X...X
+XXXXX
+X...X
+X...X
+.XXX.
+
+@ U+03A6
+..X..
+.X.X.
+X.X.X
+X.X.X
+X.X.X
+.X.X.
+..X..
+
+@ U+03B8
+.XX.
+X..X
+X..X
+XXXX
+X..X
+X..X
+.XX.
+
+@ U+03B3
+X...X
+.X.X.
+.X.X.
+..X..
+..X..
+
+@ U+03C5
+X...X
+X...X
+X...X
+X...X
+.XXX.
+
+@ U+0394
+..X..
+.X.X.
+.X.X.
+X...X
+X...X
+X...X
+XXXXX
+
+@ U+03C2 base=-1
+.XXXX
+X....
+X....
+.XXX.
+....X
+...X.
+
+@ U+03A9 = U+2126
+@ U+03BC = U+00B5
+@ U+03B9 = U+0131
+@ U+03AF = í
+@ U+03CA = ï
+@ U+03CB = U+03C5 U+0308
+@ U+03AB = U+03A5 U+0308
+@ U+03AC = U+03B1 U+0301
+@ U+03AD = U+03B5 U+0301
+@ U+03AE = U+03B7 U+0301
+@ U+03CC = U+03BF U+0301
+@ U+03CD = U+03C5 U+0301
+@ U+03CE = U+03C9 U+0301
+
+# The tonos of a capital: a tick at its top left.
+@ U+0384 base=5
+X
+X
+
+@ U+0386 = U+0384 U+0391(2,0)
+@ U+0388 = U+0384 U+0395(2,0)
+@ U+0389 = U+0384 U+0397(2,0)
+@ U+038A = U+0384 U+0399(2,0)
+@ U+038C = U+0384 U+039F(2,0)
+@ U+038E = U+0384 U+03A5(2,0)
+@ U+038F = U+0384 U+03A9(2,0)
+@ U+037E = ;
+@ U+0387 = ·

@@ -1,7 +1,7 @@
 {
   "name": "@jaatster/blip-font",
   "version": "0.2.0",
-  "description": "Pixel Bop, Blip's pixel display font, and a Latin subset of Pixelify Sans. SIL OFL 1.1.",
+  "description": "Pixel Bop, Blip's pixel display font, and Pixelify Sans for UI text, each in Latin, Cyrillic and Greek. SIL OFL 1.1.",
   "keywords": [
     "blip",
     "pixel-art",
@@ -26,8 +26,12 @@
   "exports": {
     "./font.css": "./font.css",
     "./pixel-bop.woff2": "./dist/pixel-bop.woff2",
+    "./pixel-bop-cyrillic.woff2": "./dist/pixel-bop-cyrillic.woff2",
+    "./pixel-bop-greek.woff2": "./dist/pixel-bop-greek.woff2",
     "./pixel-bop.ttf": "./dist/pixel-bop.ttf",
     "./pixelify-sans.woff2": "./dist/pixelify-sans.woff2",
+    "./pixelify-sans-cyrillic.woff2": "./dist/pixelify-sans-cyrillic.woff2",
+    "./pixelify-sans-greek.woff2": "./dist/pixelify-sans-greek.woff2",
     "./package.json": "./package.json"
   },
   "files": [

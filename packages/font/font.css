@@ -1,21 +1,62 @@
 /*
  * @jaatster/blip-font: the two faces of Blip. Both SIL Open Font License 1.1 (OFL.txt, OFL-PixelifySans.txt).
  *
- * Pixel Bop: the display face. Bold capitals on a 7-pixel grid; lower case draws as capitals. Set it at
- * font-size = 10 x pixel x scale (the .pp-display class of @jaatster/blip-core does this), and turn on its rounded
- * enlargements at big sizes: "ss02" (Rounded 2x, EPX) at scales 2 and 4, "ss03" (Rounded 3x, AdvMAME3x) at scale 3.
+ * Pixel Bop: the display face. Bold capitals on a 7-pixel grid, Latin, Cyrillic and Greek; lower case draws as
+ * capitals. Set it at font-size = 10 x pixel x scale (the .pp-display class of @jaatster/blip-core does this), and turn
+ * on its rounded enlargements at big sizes: "ss02" (Rounded 2x, EPX) at scales 2 and 4, "ss03" (Rounded 3x,
+ * AdvMAME3x) at scale 3.
  *
- * Pixelify Sans: UI and body text. A variable font, weights 400 to 700, subset to Latin, Latin-1, Latin Extended-A,
- * General Punctuation, the euro and the trademark sign, with C, G, 5 and c redrawn so they can't be read as O, O, S
- * and o (see the README). Every browser Blip supports reads variable WOFF2, so one plain source is enough.
+ * Pixelify Sans: UI and body text, Latin, Cyrillic and Greek. A variable font, weights 400 to 700, modified (see the
+ * README): no ligatures (fi and fl read as "A"), and every accent, quote, comma and symbol drawn on whole pixels.
+ *
+ * Each face is three files, Latin, Cyrillic and Greek, and each rule names exactly the characters its file draws
+ * (scripts/build.py writes them). A page downloads only the files its text uses: a Latin page downloads nothing
+ * extra. A character a face does not draw goes whole to the next font in the stack, instead of being pieced
+ * together from a letter and accents (two accents stacked over a Vietnamese capital rise into the line above).
+ *
+ * Blip Fallback: the system's colour emoji, sized to stand as tall as Pixelify Sans's capitals. The font
+ * stacks of @jaatster/blip-tokens list it after the two faces. Every browser Blip supports reads variable WOFF2
+ * and unicode-range, so each file needs one plain source.
+ *
+ * Scripts the faces do not draw (Chinese, Japanese, Korean and the rest) keep the system's font for their language,
+ * sized by font-size-adjust so its capitals stand as tall as the face's own: Safari and Firefox size every such
+ * font, Chrome the ones it picks for the page's lang. Every element works it out from its own first font, so that
+ * font itself never changes size (code keeps its monospace, an app's own face keeps its size); in the lowest layer,
+ * so anything can turn it off.
  */
 
+@layer pp.reset {
+  :where(*) { font-size-adjust: cap-height from-font; }
+}
+
+/* faces: written by scripts/build.py */
 @font-face {
   font-family: "Pixel Bop";
   src: url("./dist/pixel-bop.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0020-007E, U+00A0-017F, U+0218-021B, U+02BC, U+02C6-02C7, U+02D8-02DD, U+1E9E, U+2010-2015,
+    U+2018-201A, U+201C-201E, U+2022, U+2026, U+2039-203A, U+2044, U+2074, U+20AC, U+2122, U+2190-2193, U+2212,
+    U+25A0, U+25B2, U+25B6, U+25BC, U+25C0, U+25CF, U+2605, U+2665;
+}
+
+@font-face {
+  font-family: "Pixel Bop";
+  src: url("./dist/pixel-bop-cyrillic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0400-045F, U+0490-0491;
+}
+
+@font-face {
+  font-family: "Pixel Bop";
+  src: url("./dist/pixel-bop-greek.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0386, U+0388-038A, U+038C, U+038E-03A1, U+03A3-03CE, U+03D0-03D1, U+03D5-03D6, U+03F0-03F1, U+03F5;
 }
 
 @font-face {
@@ -24,4 +65,42 @@
   font-weight: 400 700;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0020-007E, U+00A0-00A5, U+00A7-0137, U+0139-017E, U+0218-021B, U+02C6-02C7, U+02D8-02DD, U+1E9E,
+    U+2010-2015, U+2018-201A, U+201C-201E, U+2020, U+2022, U+2026, U+2030, U+2039-203A, U+203C, U+2044, U+20AC,
+    U+2122, U+2212;
+}
+
+@font-face {
+  font-family: "Pixelify Sans";
+  src: url("./dist/pixelify-sans-cyrillic.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0400-045F, U+0490-0491, U+2116;
+}
+
+@font-face {
+  font-family: "Pixelify Sans";
+  src: url("./dist/pixelify-sans-greek.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+037E, U+0384, U+0386-038A, U+038C, U+038E-038F, U+0391-03A1, U+03A3-03AF, U+03B1-03CE;
+}
+/* /faces */
+
+/* Emoji, measured on Apple Color Emoji (0.93 em tall): at 70% they stand as tall as Pixelify Sans's capitals
+   (0.64 em). Segoe UI Emoji (Windows) and Noto Color Emoji (Android, ChromeOS, Linux) take the same size. The range
+   is the emoji blocks and the characters shown as emoji by default, so ♥, ★ and ✓ stay text. CJK, Hebrew and
+   Arabic keep the system's font for their language (a fallback face would give Japanese the Chinese forms of
+   shared characters, or Urdu the wrong style of Arabic). */
+@font-face {
+  font-family: "Blip Fallback";
+  src: local("Apple Color Emoji"), local("AppleColorEmoji"), local("Segoe UI Emoji"), local("SegoeUIEmoji"),
+    local("Noto Color Emoji"), local("NotoColorEmoji");
+  size-adjust: 70%;
+  unicode-range: U+200D, U+20E3, U+231A-231B, U+23E9-23EC, U+23F0, U+23F3, U+25FD-25FE, U+2614-2615, U+2648-2653,
+    U+267F, U+2693, U+26A1, U+26AA-26AB, U+26BD-26BE, U+26C4-26C5, U+26CE, U+26D4, U+26EA, U+26F2-26F3, U+26F5,
+    U+26FA, U+26FD, U+2705, U+270A-270B, U+2728, U+274C, U+274E, U+2753-2755, U+2757, U+2795-2797, U+27B0, U+27BF,
+    U+2B1B-2B1C, U+2B50, U+2B55, U+FE0F, U+1F000-1FAFF, U+E0020-E007F;
 }

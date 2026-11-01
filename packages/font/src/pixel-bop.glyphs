@@ -445,6 +445,389 @@ XX..XX
 ..XXX.
 
 # ---------------------------------------------------------------------------------------------------------------
+# Cyrillic: the capitals of Russian, Ukrainian, Belarusian, Bulgarian, Serbian and Macedonian. Letters with more
+# strokes than six pixels hold (Ж, Ш, Щ, Ъ, Ы, Ю, Ф, Љ, Њ) narrow a counter to one pixel rather than spread wide;
+# Д, Ц, Щ and Џ reach one row below the baseline.
+
+@ Б
+XXXXXX
+XX....
+XX....
+XXXXX.
+XX..XX
+XX..XX
+XXXXX.
+
+@ Г
+XXXXXX
+XX....
+XX....
+XX....
+XX....
+XX....
+XX....
+
+@ Д
+.XXXXXX.
+.XX..XX.
+.XX..XX.
+.XX..XX.
+.XX..XX.
+.XX..XX.
+XXXXXXXX
+XX....XX
+
+# Ж: K and its mirror image on one stem.
+@ Ж
+XX.XX.XX
+XX.XX.XX
+.XXXXXX.
+..XXXX..
+.XXXXXX.
+XX.XX.XX
+XX.XX.XX
+
+# З is the figure 3; Э and Є reach their bar further across, so the three stay apart.
+@ З
+.XXXX.
+XX..XX
+....XX
+..XXX.
+....XX
+XX..XX
+.XXXX.
+
+# И is N mirrored.
+@ И
+XX..XX
+XX.XXX
+XXXXXX
+XXX.XX
+XX..XX
+XX..XX
+XX..XX
+
+# Л kicks its foot out, so it is neither П nor the Greek Λ.
+@ Л
+.XXXXXX
+.XX..XX
+.XX..XX
+.XX..XX
+.XX..XX
+.XX..XX
+XX...XX
+
+@ П
+XXXXXX
+XX..XX
+XX..XX
+XX..XX
+XX..XX
+XX..XX
+XX..XX
+
+# У ends in a tail; Ч has none and joins a row lower, so it is not the figure 4 either.
+@ У
+XX..XX
+XX..XX
+XX..XX
+.XXXXX
+....XX
+....XX
+XXXXX.
+
+@ Ф
+...XX...
+.XXXXXX.
+XX.XX.XX
+XX.XX.XX
+XX.XX.XX
+.XXXXXX.
+...XX...
+
+# Ц and Щ hang their tail off the right corner; Џ hangs it in the middle.
+@ Ц
+XX..XX.
+XX..XX.
+XX..XX.
+XX..XX.
+XX..XX.
+XX..XX.
+XXXXXXX
+.....XX
+
+@ Ч
+XX..XX
+XX..XX
+XX..XX
+XX..XX
+.XXXXX
+....XX
+....XX
+
+@ Ш
+XX.XX.XX
+XX.XX.XX
+XX.XX.XX
+XX.XX.XX
+XX.XX.XX
+XX.XX.XX
+XXXXXXXX
+
+@ Щ
+XX.XX.XX.
+XX.XX.XX.
+XX.XX.XX.
+XX.XX.XX.
+XX.XX.XX.
+XX.XX.XX.
+XXXXXXXXX
+.......XX
+
+# Ъ and Ы narrow the bowl of Ь to make room for the flag and the stem.
+@ Ъ
+XXXX...
+..XX...
+..XX...
+..XXXX.
+..XX.XX
+..XX.XX
+..XXXX.
+
+@ Ы
+XX....XX
+XX....XX
+XX....XX
+XXXX..XX
+XX.XX.XX
+XX.XX.XX
+XXXX..XX
+
+@ Ь
+XX....
+XX....
+XX....
+XXXXX.
+XX..XX
+XX..XX
+XXXXX.
+
+@ Э
+.XXXX.
+XX..XX
+....XX
+.XXXXX
+....XX
+XX..XX
+.XXXX.
+
+@ Ю
+XX..XXX.
+XX.XX.XX
+XX.XX.XX
+XXXXX.XX
+XX.XX.XX
+XX.XX.XX
+XX..XXX.
+
+@ Я
+.XXXXX
+XX..XX
+XX..XX
+.XXXXX
+..XXXX
+.XX.XX
+XX..XX
+
+# Ђ hooks below the baseline like Ŋ; Ћ stops at it.
+@ Ђ
+XXXXX..
+.XX....
+.XX....
+.XXXXX.
+.XX..XX
+.XX..XX
+.XX..XX
+.....XX
+...XXX.
+
+@ Є
+.XXXX.
+XX..XX
+XX....
+XXXXX.
+XX....
+XX..XX
+.XXXX.
+
+# Љ and Њ: Л and Н sharing their right stem with the bowl of Ь.
+@ Љ
+.XXXXX...
+.XX.XX...
+.XX.XX...
+.XX.XXXX.
+.XX.XX.XX
+.XX.XX.XX
+XX..XXXX.
+
+@ Њ
+XX..XX...
+XX..XX...
+XX..XX...
+XXXXXXXX.
+XX..XX.XX
+XX..XX.XX
+XX..XXXX.
+
+@ Ћ
+XXXXX..
+.XX....
+.XX....
+.XXXXX.
+.XX..XX
+.XX..XX
+.XX..XX
+
+@ Џ
+XX..XX
+XX..XX
+XX..XX
+XX..XX
+XX..XX
+XX..XX
+XXXXXX
+..XX..
+
+# Ґ turns up two rows above the capitals.
+@ Ґ top=9
+....XX
+....XX
+XXXXXX
+XX....
+XX....
+XX....
+XX....
+XX....
+XX....
+
+# The letters that look Latin are the Latin glyphs.
+@ U+0405 = S
+@ U+0406 = I
+@ U+0408 = J
+@ U+0410 = A
+@ U+0412 = B
+@ U+0415 = E
+@ U+041A = K
+@ U+041C = M
+@ U+041D = H
+@ U+041E = O
+@ U+0420 = P
+@ U+0421 = C
+@ U+0422 = T
+@ U+0425 = X
+
+# Accented letters. Е, І and К are the Latin glyphs, so their accents go on E, I and K.
+@ U+0400 = E grave
+@ U+0401 = E dieresis
+@ Ѓ = Г acute
+@ U+0407 = I dieresis.narrow
+@ Ќ = K acute
+@ Ѝ = И grave
+@ Ў = У breve
+@ Й = И breve
+
+# ---------------------------------------------------------------------------------------------------------------
+# Greek. Lower case and the capitals with tonos draw with these capitals: Greek set in capitals drops the tonos.
+
+# Δ and Λ are seven wide, so their sides can lean in to a point.
+@ Δ
+...X...
+..XXX..
+.XX.XX.
+.XX.XX.
+XX...XX
+XX...XX
+XXXXXXX
+
+# Θ is eight wide, so its bar can stand free of the sides: with a bar across, the rounded sets turn it into an 8.
+@ Θ
+.XXXXXX.
+XX....XX
+XX....XX
+XX.XX.XX
+XX....XX
+XX....XX
+.XXXXXX.
+
+@ Λ
+...X...
+..XXX..
+.XX.XX.
+.XX.XX.
+XX...XX
+XX...XX
+XX...XX
+
+@ Ξ
+XXXXXX
+......
+......
+.XXXX.
+......
+......
+XXXXXX
+
+@ Σ
+XXXXXX
+XX....
+.XX...
+..XX..
+.XX...
+XX....
+XXXXXX
+
+@ Ψ
+XX.XX.XX
+XX.XX.XX
+XX.XX.XX
+.XXXXXX.
+...XX...
+...XX...
+...XX...
+
+@ Ω
+.XXXXX.
+XX...XX
+XX...XX
+XX...XX
+XX...XX
+.XX.XX.
+XXX.XXX
+
+# Γ, Π and Φ are the Cyrillic Г, П and Ф; the letters that look Latin are the Latin glyphs.
+@ U+0391 = A
+@ U+0392 = B
+@ U+0393 = U+0413
+@ U+0395 = E
+@ U+0396 = Z
+@ U+0397 = H
+@ U+0399 = I
+@ U+039A = K
+@ U+039C = M
+@ U+039D = N
+@ U+039F = O
+@ U+03A0 = U+041F
+@ U+03A1 = P
+@ U+03A4 = T
+@ U+03A5 = Y
+@ U+03A6 = U+0424
+@ U+03A7 = X
+
+# Ϊ and Ϋ: Ι and Υ are the Latin I and Y, so the dieresis goes on those.
+@ U+03AA = I dieresis.narrow
+@ U+03AB = Y dieresis
+
+# ---------------------------------------------------------------------------------------------------------------
 # Punctuation
 
 @ .
