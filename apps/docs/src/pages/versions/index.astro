@@ -1,0 +1,111 @@
+---
+/**
+ * Versions and support: how the packages are versioned, what stable and beta mean and which parts are which, how
+ * things are deprecated, the browsers Blip supports, the changelogs, and where to get help. The promises are
+ * read from CONTRACT.md and the README, the versions from the packages and the statuses from the docs' front matter,
+ * so this page says exactly what they say.
+ */
+import Docs from "../../layouts/Docs.astro";
+import Table from "../../components/Table.astro";
+import Pager from "../../components/Pager.astro";
+import { GROUPS, docs, issuesUrl, markdownSection, packagesInfo, read, repoFile, repoUrl } from "../../lib/data";
+import { renderMarkdown } from "../../lib/markdown";
+import { code, esc } from "../../lib/html";
+
+// Links in CONTRACT.md and the README point at files beside them: on the site, at the repository.
+const link = (href: string) => (/^[A-Z][A-Z_-]*\.md(#.*)?$/.test(href) ? repoFile(href) : href.startsWith("packages/") ? repoFile(href) : undefined);
+const md = async (rel: string, heading: string) => (await renderMarkdown(markdownSection(rel, heading), { keepIntro: true, link })).html;
+// The paragraph of CONTRACT.md that says how versions work while a package is 0.x.
+const versioning = read("CONTRACT.md").split(/\n\s*\n/).find((p) => p.startsWith("Every package has its own version.")) ?? "";
+const versioningHtml = (await renderMarkdown(versioning, { keepIntro: true, link })).html;
+const statusHtml = await md("CONTRACT.md", "Stable and beta");
+const deprecationHtml = await md("CONTRACT.md", "Deprecation policy");
+const browsersHtml = await md("README.md", "Browser support");
+
+const packages = packagesInfo();
+const packageRows = packages.map((p) => [
+  code(p.name),
+  `<span class="docs-num">${esc(p.version)}</span>`,
+  // The description up to its first colon or full stop: what the package is.
+  esc(p.description.match(/^(.*?)(?::\s|\.\s|\.$|$)/)![1]),
+  p.changelog ? `<a href="${esc(repoFile(p.changelog))}">CHANGELOG.md</a>` : "",
+]);
+
+// Which pages are stable and which beta, by group, from their front matter.
+const pages = docs();
+const byGroup = new Map<string, { stable: string[]; beta: string[]; other: string[] }>([...GROUPS.map((g) => g.title), "More", "Foundations"].map((t) => [t, { stable: [], beta: [], other: [] }]));
+for (const d of [...pages].sort((a, b) => a.meta.name.localeCompare(b.meta.name))) {
+  const group = d.foundation ? "Foundations" : d.group.title;
+  const row = byGroup.get(group) ?? { stable: [], beta: [], other: [] };
+  const a = `<a href="${d.url}">${esc(d.meta.name)}</a>`;
+  (d.meta.status === "stable" ? row.stable : d.meta.status === "beta" ? row.beta : row.other).push(a);
+  byGroup.set(group, row);
+}
+const stable = pages.filter((d) => d.meta.status === "stable").length;
+const beta = pages.filter((d) => d.meta.status === "beta").length;
+const statusRows = [...byGroup].filter(([, r]) => r.stable.length + r.beta.length + r.other.length).map(([group, r]) => [esc(group), r.stable.join(", ") || '<span class="pp-muted">None yet</span>', r.beta.join(", ") || '<span class="pp-muted">None</span>']);
+const published = false; // Nothing is on npm yet (README.md, "Status"). Set this when the first release is out.
+
+const H = (id: string, text: string) => ({ depth: 2, id, text });
+const headings = [H("versions", "Versions"), H("status", "Stable and beta"), H("deprecation", "Deprecation"), H("browsers", "Browser support"), H("changelogs", "Changelogs"), H("help", "Getting help")];
+---
+<Docs title="Versions and support" description="How Blip is versioned, what stable and beta mean, how things are deprecated, which browsers it supports, where the changelogs are and where to get help." headings={headings}>
+  <header class="docs-page-head">
+    <h1 class="docs-page-title pp-display" data-scale="2">Versions and support</h1>
+    <p class="docs-lede">What a version number promises, which parts may still change, the browsers Blip runs in, and where to ask when something goes wrong. The rules come from <a href={repoFile("CONTRACT.md")}>CONTRACT.md</a>, the public API that semantic versioning protects.</p>
+  </header>
+
+  {!published && (
+    <div class="pp-box pp-alert" data-tone="info" role="note">
+      <span class="pp-alert-icon" aria-hidden="true"></span>
+      <div class="pp-alert-body">
+        <p class="pp-alert-title">Nothing is published yet</p>
+        <p>The packages are 0.x and not on npm, and the repository is not public yet: the links to it on this page are where it will be. Until then, build Blip from its source.</p>
+      </div>
+    </div>
+  )}
+
+  <section class="docs-section" aria-labelledby="versions">
+    <h2 id="versions">Versions</h2>
+    <p>Every package follows semantic versioning: a patch release fixes things, a minor release adds things, and a major release can break things you rely on, after a deprecation. What counts as "things you rely on" is the contract: the tokens' names, the classes, parts and attributes, the elements' attributes, properties and events, the React props and the diagnostic codes. How a thing looks can improve in any release, as long as it keeps the rules.</p>
+    <div class="docs-prose" set:html={versioningHtml} />
+    <Table label="Packages and their versions" head={["Package", "Version", "What it is", "Changelog"]} rows={packageRows} />
+  </section>
+
+  <section class="docs-section" aria-labelledby="status">
+    <h2 id="status">Stable and beta</h2>
+    <div class="docs-prose" set:html={statusHtml} />
+    <p>Today {stable} pages are stable and {beta} are beta:</p>
+    <Table label="Stable and beta, by group" head={["Group", "Stable", "Beta"]} rows={statusRows} />
+  </section>
+
+  <section class="docs-section" aria-labelledby="deprecation">
+    <h2 id="deprecation">Deprecation</h2>
+    <div class="docs-prose" set:html={deprecationHtml} />
+  </section>
+
+  <section class="docs-section" aria-labelledby="browsers">
+    <h2 id="browsers">Browser support</h2>
+    <div class="docs-prose" set:html={browsersHtml} />
+  </section>
+
+  <section class="docs-section" aria-labelledby="changelogs">
+    <h2 id="changelogs">Changelogs</h2>
+    <p>Each package has its own <code class="docs-inline-code">CHANGELOG.md</code>, linked in the table above and shipped in the package. Every change that reaches you comes with a line in it, written with the change itself. An entry for an incompatible change says what changed and what to do; an entry that deprecates something names its replacement.</p>
+    <p>Releases are cut from the repository's <code class="docs-inline-code">main</code> branch with <a href={repoFile(".changeset/README.md")}>Changesets</a>: pending changes become new versions and changelog entries together. To see what changed between two versions, read the entries in between before you upgrade.</p>
+  </section>
+
+  <section class="docs-section" aria-labelledby="help">
+    <h2 id="help">Getting help</h2>
+    <ul class="docs-help">
+      <li><strong>A warning in the console.</strong> Each one has a code and a link to the <a href="/diagnostics/">diagnostics page</a>, which says what it means and how to fix it.</li>
+      <li><strong>A bug, a question or an idea.</strong> Open an issue on <a href={issuesUrl()}>{issuesUrl().replace(/^https:\/\//, "")}</a>. Say which packages and versions you use, and show the smallest markup that does it.</li>
+      <li><strong>Something that does not work with your keyboard, screen reader or settings.</strong> Open an issue too: automated checks are not a guarantee, and Blip has not had an independent accessibility audit yet.</li>
+      <li><strong>A security problem.</strong> Not in an issue: report it privately, as the <a href={repoFile("SECURITY.md")}>security policy</a> says. Until 1.0, security fixes go into the latest release of each package.</li>
+      <li><strong>Adding to Blip.</strong> Read <a href={repoFile("CONTRIBUTING.md")}>CONTRIBUTING.md</a> and <a href={repoFile("AUTHORING.md")}>AUTHORING.md</a>, and open an issue before anything large.</li>
+    </ul>
+    <p class="docs-note">The source lives at <a href={repoUrl()}>{repoUrl().replace(/^https:\/\//, "")}</a>.</p>
+  </section>
+
+  <Pager />
+</Docs>

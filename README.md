@@ -4,7 +4,8 @@
 that snaps.**
 
 > **Status: 0.x, not published yet.** Nothing is on npm, the CDN links below will work once it is, and the
-> public API can still change between minor versions (see [CONTRACT.md](CONTRACT.md)). Until the first release,
+> public API can still change between minor versions (see [CONTRACT.md](CONTRACT.md), and
+> [Versions and support](https://jaatster.com/blip/versions/) for what stable and beta mean). Until the first release,
 > build it from this repository: `pnpm install`, then `pnpm build`.
 
 Blip is one coherent pixel-art world, not a retro costume over a generic kit. Everything you can press is the
@@ -102,7 +103,10 @@ import "@jaatster/blip-elements/tabs";   // one element at a time, or "@jaatster
 ```
 
 Every file puts its rules in a cascade layer (`pp.reset`, `pp.tokens`, `pp.base`, `pp.core`, `pp.components`,
-`pp.kits`, `pp.utilities`), so your own CSS, outside the layers, wins without `!important`.
+`pp.kits`, `pp.utilities`), so your own CSS, outside the layers, wins without `!important`. With Tailwind CSS v4 or
+other layered CSS, import `@jaatster/blip-core/layers.css` first: it puts Tailwind's reset under Blip and its
+utilities over it ([Get started](https://jaatster.com/blip/start/#tailwind) has the whole recipe, and notes for Vue and
+Svelte).
 
 ### React
 
@@ -133,8 +137,9 @@ export function Settings() {
 }
 ```
 
-React 18.3 and 19, on the client and the server. Kits have their own entry points: `@jaatster/blip-react/game`,
-`/blocks`, `/effects` and `/icons`.
+React 18.3 and 19, on the client and the server. A component like `Settings`, with event handlers, is a Client
+Component: in Next.js, put `"use client";` at the top of its file. Kits have their own entry points:
+`@jaatster/blip-react/game`, `/blocks`, `/effects` and `/icons`.
 
 ## Packages
 
@@ -179,7 +184,8 @@ its reason in [DESIGN.md](DESIGN.md); the build and the lint rules check most of
    and stars. Warnings are orange.
 5. **Motion snaps.** Everything moves in two to six even steps, never along an easing curve. With reduced motion it
    is instant.
-6. **Disabled is dithered.** A control that is off gets a checkerboard of the page colour, not a grey wash.
+6. **Disabled is dithered.** A control that is off gets a light checkerboard (the page colour by day, starlight at
+   night), not a grey wash.
 7. **Light by construction.** No image files: components are CSS, art is SVG, and the world is drawn in the
    browser.
 
@@ -191,7 +197,8 @@ its reason in [DESIGN.md](DESIGN.md); the build and the lint rules check most of
 Newer features are used where the browser has them, and everything works without them:
 
 - **CSS anchor positioning** places popovers, menus, tooltips and the app bar's folded links; elsewhere menus and
-  tooltips are placed by their elements' scripts, and a plain popover opens in the middle of the screen.
+  tooltips are placed by their elements' scripts, and a plain popover opens in the middle of the screen. With
+  **anchored container queries** and the opt-in `popover-nub.css`, an open popover's nub turns when it flips.
 - **The customisable select** (`appearance: base-select`) turns a native select's picker into a Blip menu;
   elsewhere the browser's own list opens, in the scheme's colours.
 - **Invoker commands** (`commandfor` and `command`) open and close dialogs natively; elsewhere `<pp-dialog>` handles
@@ -200,9 +207,14 @@ Newer features are used where the browser has them, and everything works without
   at once.
 - **Typed `attr()`** lets a progress bar fill a whole block at a time; elsewhere it follows the value and the gaps
   still show.
+- **Same-document view transitions** run Auto's dither when the time of day changes; without them the scheme
+  changes at once.
 
 Most components are CSS on native HTML, so they render before any script runs; elements add behaviour to markup
 that already works.
+
+For right-to-left text, set `lang` as well as `dir="rtl"`: Vite 8's CSS minifier rewrites `:dir(rtl)` into a list
+of right-to-left languages (`:lang(ar, he, …)`), so in its builds the mirrored rules follow `lang`.
 
 ## Accessibility
 
@@ -210,11 +222,13 @@ WCAG 2.2 AA is the floor, and most of it is built in:
 
 - Every text pair the scheme roles make is checked against AA in Day, Sunset and Night when the tokens build, and a
   failing pair fails the build. Labels on candy are ink (white on the dark slate), and every candy's label passes
-  AA. Colour never carries meaning alone.
+  AA, on the dither of a disabled control too. Colour never carries meaning alone.
 - Focus is always visible: the yellow ring with an ink edge, following the shape of whatever has it.
 - Components are native HTML first, and every element follows its WAI-ARIA Authoring Practices pattern, with a
   keyboard path for everything.
-- Targets are at least 24 CSS px. Windows high-contrast mode falls back to system colours and real borders.
+- Targets are at least 24 CSS px. Windows high-contrast mode falls back to system colours and real borders, with
+  what is on, selected or checked in the system highlight.
+- Text follows the browser's default size: the type sizes are in rem, while the pixel grid stays put.
 - With `prefers-reduced-motion` every duration is zero and every effect arrives at once. Anything that blinks or
   bobs stops after six beats; toasts pause while pointed at or focused; sound is off until someone turns it on.
 - axe scans every example in Day and Night (`pnpm --filter @jaatster/blip-tests test:a11y`) and every Storybook
@@ -238,7 +252,9 @@ The code in the font package (`font.css` and the build script) is MIT, like the 
 ## More
 
 - [DESIGN.md](DESIGN.md): the visual system, its tokens and its rules, for people and for AI agents.
-- [CONTRACT.md](CONTRACT.md): the public API that semantic versioning protects.
+- [CONTRACT.md](CONTRACT.md): the public API that semantic versioning protects, and what stable and beta mean.
+- [Versions and support](https://jaatster.com/blip/versions/): versions, deprecation, browser support, changelogs and
+  where to get help.
 - [CONTRIBUTING.md](CONTRIBUTING.md) and [AUTHORING.md](AUTHORING.md): how to build, test and add to Blip.
 - [Storybook](apps/storybook): every example, its states and its tests (`pnpm --filter @jaatster/blip-storybook dev`,
   then http://localhost:6006).

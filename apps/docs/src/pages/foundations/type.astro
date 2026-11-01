@@ -68,7 +68,7 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
         </pp-segmented>
         <label class="pp-check"><span class="pp-box pp-checkbox"><input type="checkbox" class="docs-try-pop" checked /></span>POP</label>
       </div>
-      <div class="docs-try-stage" aria-live="polite">
+      <div class="docs-try-stage" aria-live="polite" role="region" aria-label="Your text in Pixel Bop" tabindex="0">
         <p class="pp-display pp-pop docs-try-out" data-scale="3" data-pop="Press start">Press start</p>
       </div>
     </div>
@@ -76,11 +76,11 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
 
   <section class="docs-section" aria-labelledby="pixelify">
     <h2 id="pixelify">Pixelify Sans</h2>
-    <p>The UI face, a variable font from 400 to 700, on five fixed sizes. These are the only lengths allowed off the pixel grid.</p>
+    <p>The UI face, a variable font from 400 to 700, at five sizes. They are set in rem, so they follow the browser's default text size: the sizes here are at its usual 16 px, and someone who reads larger gets larger text. They are the only lengths allowed off the pixel grid.</p>
     <div class="docs-ramp">
       {ramp.map((r) => (
         <div class="docs-ramp-row">
-          <span class="docs-ramp-meta"><code class="docs-inline-code">--pp-{r.k}</code><span class="pp-muted docs-num">{r.px} px</span></span>
+          <span class="docs-ramp-meta"><code class="docs-inline-code">--pp-{r.k}</code><span class="pp-muted docs-num">{r.px / 16} rem, {r.px} px</span></span>
           <p style={`font-size:var(--pp-${r.k});${r.k === "size-title" ? "font-weight:var(--pp-weight-bold)" : ""}`}>{SAMPLE[r.k]}</p>
         </div>
       ))}

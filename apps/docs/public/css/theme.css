@@ -1,6 +1,5 @@
 /* Theme builder: controls beside a live preview, the export below. */
 @layer docs {
-  .tb-head { max-inline-size: var(--docs-measure); }
   .tb {
     display: grid;
     gap: var(--pp-space-16);
@@ -73,16 +72,28 @@
   .tb-checks > li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: var(--pp-space-4); }
   .tb-check-sample { display: inline-grid; place-items: center; inline-size: calc(14 * var(--pp-pixel)); block-size: calc(11 * var(--pp-pixel)); font-weight: var(--pp-weight-bold); outline: var(--pp-pixel) solid var(--pp-line-soft); }
   .tb-checks .docs-num { font-weight: var(--pp-weight-bold); }
+  .tb-summary { font-weight: var(--pp-weight-bold); }
+  .tb-summary[data-pass="false"] { color: var(--pp-danger-text); }
   .tb-reset { justify-self: start; }
+  /* Where a value was nudged from, and why, in words. */
+  .tb-from { font-size: var(--pp-size-caption); color: var(--pp-text-muted); }
+  .tb-nudge { max-inline-size: var(--docs-measure); }
+  .tb-warnings { display: grid; gap: var(--pp-space-4); }
+  .tb-warnings:empty { display: none; }
+  /* Rows and alerts the script shows and hides: hidden wins over their own display. */
+  :is(.tb-exact-row, .tb-nudge, .tb-blocked)[hidden] { display: none; }
+  .tb-warn p { font-size: var(--pp-size-small); }
 
   .tb-preview-wrap { grid-area: preview; display: grid; gap: var(--pp-space-8); min-inline-size: 0; }
   .tb-strip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--pp-space-4); }
   .tb-strip-cell { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--pp-space-3); padding: var(--pp-space-6) var(--pp-space-4); box-shadow: 0 0 0 var(--pp-pixel) var(--pp-line-soft); }
+  /* A scheme with a failing check: its cell is outlined in the danger colour, two pixels. */
+  .tb-strip-cell[data-pass="false"] { box-shadow: 0 0 0 calc(2 * var(--pp-pixel)) var(--pp-danger-text); }
   .tb-preview-scroll { overflow: auto; }
   .tb-preview {
     display: grid;
     place-items: center;
-    min-inline-size: max-content;
+    min-inline-size: min-content;
     padding: var(--pp-space-16) var(--pp-space-12);
     box-shadow: 0 0 0 var(--pp-pixel) var(--pp-line-soft);
   }
@@ -92,7 +103,9 @@
     --pp-shape-inner: var(--pp-shape-5-inner);
     display: grid;
     gap: var(--pp-space-8);
-    inline-size: calc(200 * var(--pp-pixel));
+    /* As wide as the preview allows, up to 200 pixels: on a phone the sample fits and its rows wrap. */
+    inline-size: min(100%, calc(200 * var(--pp-pixel)));
+    min-inline-size: calc(140 * var(--pp-pixel));
     padding: var(--pp-space-12);
     margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
   }
@@ -103,5 +116,10 @@
 
   .tb-export { grid-area: export; display: grid; gap: var(--pp-space-6); min-inline-size: 0; }
   .tb-out pre { max-block-size: calc(180 * var(--pp-pixel)); color: var(--pp-text); }
+  .tb-export[data-blocked="true"] .tb-out pre { color: var(--pp-text-muted); }
   .tb-out-actions { gap: var(--pp-space-3); }
+  .tb-blocked .pp-alert-body { display: grid; gap: var(--pp-space-4); }
+  .tb-blocked-list { margin: 0; padding-inline-start: var(--pp-space-8); font-weight: var(--pp-weight-bold); }
+  .tb-focus-row { gap: var(--pp-space-6); }
+  .tb-by-hand { max-inline-size: calc(600 * var(--pp-pixel)); }
 }

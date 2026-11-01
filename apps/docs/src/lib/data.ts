@@ -5,6 +5,9 @@
  */
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
+// @ts-ignore: a plain Node script, without types
+import { scan as scanDiagnostics } from "../../../../scripts/diagnostics.mjs";
+import { slug } from "./markdown";
 
 function findRoot(): string {
   let dir = process.cwd();
@@ -180,6 +183,42 @@ export interface ManifestEntry {
 export const manifest = (): ManifestEntry[] => json("packages/tokens/dist/json/manifest.json");
 export const tokenSource = (rel: string) => json(`packages/tokens/src/${rel}`);
 
+export interface SchemeBlock {
+  /** The scheme its roles are: the device's dark mode is Night. */
+  scheme: "day" | "sunset" | "night";
+  /** At-rules round it inside the tokens' layer, outermost first: "@media screen". */
+  wrap: string[];
+  selector: string;
+}
+/**
+ * Where tokens.css sets each scheme's roles: the selector and the at-rules round it, inside @layer pp.tokens. A
+ * theme that sets the same roles the same way, after tokens.css, wins in exactly the same places.
+ */
+export function schemeBlocks(): SchemeBlock[] {
+  const css = read("packages/tokens/dist/css/tokens.css").replace(/\/\*[\s\S]*?\*\//g, "");
+  const out: SchemeBlock[] = [];
+  const stack: string[] = [];
+  let start = 0;
+  for (let i = 0; i < css.length; i++) {
+    const c = css[i];
+    if (c === '"' || c === "'") {
+      i = css.indexOf(c, i + 1);
+      continue;
+    }
+    if (c === "{") {
+      const prelude = css.slice(start, i).trim().replace(/\s+/g, " ");
+      stack.push(prelude);
+      const scheme = prelude.match(/\[data-pp-scheme="(day|sunset|night)"\]/)?.[1] ?? (/:not\(\[data-pp-scheme\]\)/.test(prelude) ? "night" : null);
+      if (scheme && !prelude.startsWith("@")) out.push({ scheme: scheme as SchemeBlock["scheme"], wrap: stack.slice(0, -1).filter((p) => !/^@layer\b/.test(p)), selector: prelude });
+      start = i + 1;
+    } else if (c === "}") {
+      stack.pop();
+      start = i + 1;
+    } else if (c === ";") start = i + 1;
+  }
+  return out;
+}
+
 export interface IconData {
   version: string;
   grid: number;
@@ -213,6 +252,53 @@ export const assets = (): Assets => json("apps/docs/src/generated/assets.json");
 
 export const pkgVersion = (name: string): string => json(`packages/${name}/package.json`).version;
 
+// ------------------------------------------------------------------ packages and the repository
+
+export interface PackageInfo {
+  /** The folder under packages/. */
+  dir: string;
+  name: string;
+  version: string;
+  description: string;
+  /** packages/<dir>/CHANGELOG.md, when it has one. */
+  changelog: string | null;
+}
+/** Every published package (not the private ones), from its package.json. */
+export function packagesInfo(): PackageInfo[] {
+  return readdirSync(join(ROOT, "packages"))
+    .sort()
+    .filter((dir) => exists(`packages/${dir}/package.json`))
+    .map((dir) => ({ dir, pkg: json(`packages/${dir}/package.json`) }))
+    .filter(({ pkg }) => !pkg.private)
+    .map(({ dir, pkg }) => ({ dir, name: pkg.name, version: pkg.version, description: pkg.description ?? "", changelog: exists(`packages/${dir}/CHANGELOG.md`) ? `packages/${dir}/CHANGELOG.md` : null }));
+}
+
+/** Where the repository lives, as the packages' `bugs` fields name it (https://github.com/<owner>/<repo>). */
+export const repoUrl = (): string => String(json("packages/core/package.json").bugs ?? "").replace(/\/issues\/?$/, "");
+/** Where to report a problem: the packages' `bugs` field. */
+export const issuesUrl = (): string => String(json("packages/core/package.json").bugs ?? "");
+/** A file of the repository on its default branch. */
+export const repoFile = (rel: string): string => `${repoUrl()}/blob/main/${rel}`;
+
+/**
+ * Where a section of the font's docs is on the type page (they are rendered there with the id prefix "font-"), with
+ * its heading; the first of the headings asked for that the docs have.
+ */
+export function fontSection(...headings: string[]): { url: string; text: string } {
+  const found = headingsOf(docFor("font", "font")?.source ?? "");
+  const text = headings.find((h) => found.includes(h)) ?? found[0] ?? "Type";
+  return { url: `/foundations/type/#font-${slug(text)}`, text };
+}
+
+/** The markdown under a "## heading" of a file (up to the next "## "), without the heading. */
+export function markdownSection(rel: string, heading: string): string {
+  const lines = read(rel).split("\n");
+  const start = lines.findIndex((l) => l.replace(/^##\s+/, "").trim() === heading && l.startsWith("## "));
+  if (start < 0) throw new Error(`docs: ${rel} has no "## ${heading}" section`);
+  const end = lines.findIndex((l, i) => i > start && /^##?\s/.test(l));
+  return lines.slice(start + 1, end < 0 ? undefined : end).join("\n").trim();
+}
+
 // ------------------------------------------------------------------ diagnostics
 
 export interface Occurrence {
@@ -221,82 +307,11 @@ export interface Occurrence {
   message: string;
   fix?: string;
 }
-/** The arguments of the call that starts at `open` (the index of its "("), as source text. */
-function callArgs(s: string, open: number): string[] {
-  const args: string[] = [];
-  let depth = 0, start = open + 1, quote = "", tpl = 0;
-  for (let i = open; i < s.length; i++) {
-    const c = s[i]!;
-    if (quote) {
-      if (c === "\\") i++;
-      else if (quote === "`" && c === "$" && s[i + 1] === "{") (tpl++, i++);
-      else if (quote === "`" && tpl && c === "}") tpl--;
-      else if (c === quote && !tpl) quote = "";
-      continue;
-    }
-    if (c === '"' || c === "'" || c === "`") quote = c;
-    else if ("([{".includes(c)) depth++;
-    else if (")]}".includes(c)) {
-      depth--;
-      if (depth === 0) {
-        args.push(s.slice(start, i).trim());
-        return args;
-      }
-    } else if (c === "," && depth === 1) {
-      args.push(s.slice(start, i).trim());
-      start = i + 1;
-    }
-  }
-  return args;
-}
-/** A string literal's text, with ${…} shown as an ellipsis; undefined for anything else. */
-function literal(arg: string | undefined): string | undefined {
-  const m = arg?.match(/^(["'`])([\s\S]*)\1$/);
-  return m ? m[2]!.replace(/\$\{[^}]*\}/g, "…").replace(/\\(["'`])/g, "$1") : undefined;
-}
-
-/** Every PP-XNNN code in the packages' source and build scripts, with the message it is raised with. */
-export function diagnostics(): Map<string, Occurrence[]> {
-  const codes = new Map<string, Occurrence[]>();
-  const scan = (rel: string) => {
-    const lines = read(rel).split("\n");
-    lines.forEach((line, i) => {
-      // Doc comments only show how to call warn().
-      if (/^\s*(\*|\/\/|\/\*)/.test(line)) return;
-      for (const m of line.matchAll(/PP-[A-Z]\d{3}/g)) {
-        const code = m[0];
-        let message: string | undefined;
-        let fix: string | undefined;
-        const at = (name: string) => line.lastIndexOf(`${name}(`, m.index);
-        if (at("problem") >= 0) {
-          const a = callArgs(line, at("problem") + "problem".length);
-          message = literal(a[3]);
-          fix = literal(a[4]);
-        } else if (at("warn") >= 0 && !line.includes("console.warn")) {
-          message = literal(callArgs(line, at("warn") + "warn".length)[1]);
-        } else if (line.includes("console.warn")) {
-          message = literal(callArgs(line, line.indexOf("console.warn(") + "console.warn".length)[0])?.replace(/^Blip PP-[A-Z]\d{3}:\s*/, "");
-        } else if (/checkName\(/.test(line)) message = "<element> has no accessible name. Add text or aria-label.";
-        if (!message) continue;
-        const list = codes.get(code) ?? [];
-        list.push({ file: rel, line: i + 1, message, fix });
-        codes.set(code, list);
-      }
-    });
-  };
-  const walk = (rel: string) => {
-    for (const f of readdirSync(join(ROOT, rel)).sort()) {
-      const p = `${rel}/${f}`;
-      if (f === "node_modules" || f === "dist" || f.startsWith(".")) continue;
-      if (statSync(join(ROOT, p)).isDirectory()) walk(p);
-      else if (/\.(ts|mjs|js|py)$/.test(f) && !f.endsWith(".d.ts") && !f.endsWith(".test.ts")) scan(p);
-    }
-  };
-  for (const pkg of readdirSync(join(ROOT, "packages")).sort()) {
-    for (const sub of ["src", "scripts"]) if (exists(`packages/${pkg}/${sub}`)) walk(`packages/${pkg}/${sub}`);
-  }
-  return new Map([...codes].sort(([a], [b]) => a.localeCompare(b)));
-}
+/**
+ * Every PP-XNNN code in the packages' source and build scripts, with the message it is raised with. The scan is
+ * scripts/diagnostics.mjs's, the same one that writes CONTRACT.md's table of codes.
+ */
+export const diagnostics = (): Map<string, Occurrence[]> => scanDiagnostics(ROOT) as Map<string, Occurrence[]>;
 
 export const rel = (abs: string) => relative(ROOT, abs);
 

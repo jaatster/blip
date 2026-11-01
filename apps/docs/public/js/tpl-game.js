@@ -37,7 +37,7 @@ document.addEventListener("keydown", (e) => {
 // ------------------------------------------------------------------ menu and options
 
 const options = $(".tpl-options"), menuPanel = $(".tpl-menu-panel");
-$(".tpl-main-choices").addEventListener("pp-choice", (e) => {
+$(".tpl-main-choices").addEventListener("pp-action", (e) => {
   const v = e.detail.value;
   if (v === "new") {
     play("success");
@@ -104,7 +104,7 @@ document.addEventListener("keydown", (e) => {
     addCoin();
   }
 });
-frog.addEventListener("pp-choice", (e) => {
+frog.addEventListener("pp-action", (e) => {
   const have = Number(coins.value);
   if (e.detail.value === "pay") {
     if (have >= 30) {
@@ -128,7 +128,7 @@ function openPause() {
   pause.showModal();
 }
 $(".tpl-pause-button").addEventListener("click", openPause);
-pause.addEventListener("pp-choice", (e) => {
+pause.addEventListener("pp-action", (e) => {
   const v = e.detail.value;
   pause.close();
   if (v === "title") show("title");

@@ -25,7 +25,7 @@ const gz = (buf) => gzipSync(buf, { level: 9 }).length;
 
 const required = [
   pkg("font", "dist", "pixel-bop.woff2"), pkg("tokens", "dist", "css", "tokens.css"), pkg("core", "dist", "core.min.css"),
-  pkg("components", "dist", "components.min.css"), pkg("elements", "dist", "index.js"), pkg("effects", "dist", "index.js"),
+  pkg("components", "dist", "components.min.css"), pkg("components", "dist", "popover-nub.min.css"), pkg("elements", "dist", "index.js"), pkg("effects", "dist", "index.js"),
   pkg("game", "dist", "index.js"), pkg("blocks", "dist", "blocks.min.css"), pkg("sound", "dist", "index.js"), pkg("icons", "dist", "icons.json"),
 ];
 const missing = required.filter((f) => !existsSync(f));
@@ -75,6 +75,8 @@ for (const f of readdirSync(pkg("font", "dist"))) if (f.endsWith(".woff2")) copy
 copy(pkg("tokens", "dist", "css", "tokens.css"), join(OUT, "tokens/tokens.css"));
 copy(pkg("core", "dist", "core.min.css"), join(OUT, "core/core.css"));
 copy(pkg("components", "dist", "components.min.css"), join(OUT, "components/components.css"));
+// The popover's nub, opt-in (anchored container queries): loaded with a <link> after the components, as adopters do.
+copy(pkg("components", "dist", "popover-nub.min.css"), join(OUT, "components/popover-nub.css"));
 copy(pkg("game", "dist", "game.min.css"), join(OUT, "game/game.css"));
 copy(pkg("blocks", "dist", "blocks.min.css"), join(OUT, "blocks/blocks.css"));
 copy(pkg("effects", "dist", "effects.min.css"), join(OUT, "effects/effects.css"));
@@ -167,7 +169,7 @@ if (ci) {
     els[0] && { id: "element", label: "Largest element", bytes: els[0].bytes, limit: els[0].limit, note: `${els[0].name.replace("element ", "")}: each of the ${els.length} is under ${els[0].limit / KB} KB` },
     pick("effects", "effects JS + CSS", "Effects", "the world, transitions, text, bursts and CRT, with their CSS"),
     pick("sound", "sound", "Sound", "eleven chip sounds, synthesised: no audio files"),
-    pick("font", "Pixel Bop woff2", "Display font", "pixel-bop.woff2: every European capital"),
+    pick("font", "Pixel Bop woff2", "Display font", "pixel-bop.woff2: Latin; Cyrillic and Greek in their own files"),
     pick("icons", "icons index.js", "Icons", `all ${JSON.parse(readFileSync(pkg("icons", "dist", "icons.json"), "utf8")).icons.length} icons as path data`),
   ].filter(Boolean);
 } else {
@@ -176,7 +178,7 @@ if (ci) {
     { id: "tokens", label: "Tokens", bytes: fileGz(pkg("tokens", "dist", "css", "tokens.css")), limit: 4 * KB, note: "tokens.css: three schemes, three pixel sizes" },
     { id: "element", label: "Largest element", bytes: elements[0]?.bytes ?? 0, limit: 3 * KB, note: `${elements[0]?.name ?? "none"}: every element is under 3 KB` },
     { id: "effects", label: "Effects", bytes: effectsJs + effectsCss, limit: 12 * KB, note: "the world, transitions, text, bursts and CRT, with their CSS" },
-    { id: "font", label: "Display font", bytes: statSync(pkg("font", "dist", "pixel-bop.woff2")).size, limit: 15 * KB, note: "pixel-bop.woff2: every European capital" },
+    { id: "font", label: "Display font", bytes: statSync(pkg("font", "dist", "pixel-bop.woff2")).size, limit: 15 * KB, note: "pixel-bop.woff2: Latin; Cyrillic and Greek in their own files" },
   ];
 }
 const kits = {

@@ -2,6 +2,7 @@
 /** The site's app bar: the wordmark, the sections, search and the display menu (scheme and pixel). */
 import Icon from "./Icon.astro";
 import { SECTIONS, sectionOf } from "../lib/nav";
+import { chooseEvent } from "../lib/cem";
 const path = Astro.url.pathname;
 const current = sectionOf(path);
 ---
@@ -22,7 +23,7 @@ const current = sectionOf(path);
       <Icon name="search" /><span class="docs-search-label">Search</span>
       <kbd class="pp-keys docs-search-keys" aria-hidden="true"><kbd class="pp-box pp-keycap" data-size="sm" data-mod>Ctrl</kbd><kbd class="pp-box pp-keycap" data-size="sm">K</kbd></kbd>
     </a>
-    <pp-menu class="pp-menu docs-display" data-align="end" hidden>
+    <pp-menu class="pp-menu docs-display" data-align="end" data-docs-choose={chooseEvent("pp-menu")} hidden>
       <button class="pp-box pp-button" type="button" data-variant="ghost" data-icon-only aria-label="Display: scheme and pixel size">
         <span class="docs-display-icon" data-for="auto"><Icon name="clock" /></span>
         <span class="docs-display-icon" data-for="day"><Icon name="sun" /></span>

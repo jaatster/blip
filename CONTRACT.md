@@ -1,8 +1,8 @@
 # The Blip contract
 
 This is the public API of Blip: what you can build on, and what semantic versioning protects. Everything listed
-here changes incompatibly only in a major release, after a deprecation (see the policy below). Everything else is
-private and can change in any release.
+here changes incompatibly only in a major release, after a deprecation (see the policy below), except the parts of
+a component that is still in beta (see "Stable and beta"). Everything else is private and can change in any release.
 
 Every package has its own version. **While a package is 0.x, an incompatible change to its part of the contract is
 a minor release**, and the changelog says what changed and what to do; from 1.0 it is a major release. All packages
@@ -12,14 +12,37 @@ The rule of thumb: **if it is documented, it is public.** A component's public A
 and the header comment of its stylesheet describe. An element's is its Custom Elements Manifest. A token's is its
 entry in the token manifest.
 
+## Stable and beta
+
+Every page in a package's `docs/` (each component, kit part and effect, and the font, the icons and sound) has a
+`status` in its front matter, shown on its page of the docs site:
+
+- **Stable**: its public API is covered by this contract in full. It changes incompatibly only in a major release
+  (a minor while its package is 0.x), and only after the deprecation below.
+- **Beta**: finished, tested and accessible like the rest, but its API is still settling. Its classes, parts,
+  attributes, events, element properties and React props can change in any minor release, without a deprecation
+  first; the changelog says what changed and what to do. Patch releases never change it. The rules DESIGN.md makes
+  (whole pixels, AA contrast for every checked pair, one look per state) hold for a beta part as for a stable one,
+  and a change that breaks them is a bug.
+
+A beta part becomes stable in a minor release, and the changelog says so. Nothing goes from stable back to beta.
+What this contract lists without a docs page of its own (the tokens, the theme switches, the building blocks, the
+cascade layers, the JavaScript APIs and the diagnostic codes) is stable.
+
 ## Tokens and their custom properties
 
 The source of truth is generated with every build and ships with `@jaatster/blip-tokens`:
 
 - **`@jaatster/blip-tokens/manifest.json`**: every token, with its name, its DTCG path, its CSS custom property, its
-  type, its description, and whether it changes with the scheme. 290 tokens today.
-- **`@jaatster/blip-tokens/tokens.json`**: the resolved values, shared and per scheme.
-- **`@jaatster/blip-tokens/tokens.css`**: the custom properties themselves, in `@layer pp.tokens`.
+  type, its description, and whether it changes with the scheme. 294 tokens today.
+- **`@jaatster/blip-tokens/tokens.json`**: the resolved values, shared and per scheme: sizes in CSS px, and the type
+  sizes in px at the browser's default text size of 16 px.
+- **`@jaatster/blip-tokens/tokens.css`**: the custom properties themselves, in `@layer pp.tokens`. The type sizes are in
+  rem, so text follows the browser's default size; everything counted in pixels does not.
+- **The `blip-tokens` command**: `npx blip-tokens <theme.resolver.json> [--out <file.css>] [--check]`
+  builds a theme's `tokens.css` (a resolver that lists Blip's files and the theme's own, as the docs' theme
+  builder exports) through the same checks as Blip's own, and writes nothing when one fails. Its name, argument
+  and options are public, and so are the codes it reports.
 - **`@jaatster/blip-tokens/resolver`** and **`@jaatster/blip-tokens/src/*`**: the DTCG 2025.10 sources and resolver.
 - The JS module, the Figma variables (`@jaatster/blip-tokens/figma/variables.json`), and the Kotlin (Compose), Swift
   and Android XML files in `dist/` carry the same names in each platform's case (`--pp-candy-red` is
@@ -32,13 +55,13 @@ The source of truth is generated with every build and ships with `@jaatster/blip
 | Night surfaces | 5 | `--pp-deep-1` to `--pp-deep-5` | |
 | Text tones | 9 | `--pp-tone-accent-day`, `--pp-tone-accent-sunset`, `--pp-tone-accent-night`, `--pp-tone-star`, `--pp-tone-danger-light`… | |
 | World | 98 | `--pp-world-<day, sunset, night>-<sky-1…6, cloud-*, mountain-*, snow-*, tree-*, hill-*, grass-*, dirt-*, bird>`, `--pp-world-sky-*`, `--pp-world-flower-1` to `-4` | |
-| Scheme roles | 43 | `--pp-bg`, `--pp-surface`, `--pp-surface-raised`, `--pp-surface-sunken`, `--pp-surface-panel`, `--pp-text`, `--pp-text-muted`, `--pp-text-inverse`, `--pp-line`, `--pp-line-soft`, `--pp-outline`, `--pp-drop`, `--pp-focus`, `--pp-focus-edge`, `--pp-<accent, info, success, warning, danger>` each with `-light`, `-shade`, `-text`, `-on`, `--pp-selection-bg`, `--pp-selection-text`, `--pp-scrim`, `--pp-link-visited` | scheme |
+| Scheme roles | 45 | `--pp-bg`, `--pp-surface`, `--pp-surface-raised`, `--pp-surface-sunken`, `--pp-surface-panel`, `--pp-text`, `--pp-text-muted`, `--pp-text-inverse`, `--pp-line`, `--pp-line-soft`, `--pp-outline`, `--pp-drop`, `--pp-focus`, `--pp-focus-edge`, `--pp-<accent, info, success, warning, danger>` each with `-light`, `-shade`, `-text`, `-on`, `--pp-selection-bg`, `--pp-selection-text`, `--pp-scrim`, `--pp-link-visited`, `--pp-disabled-dither`, `--pp-disabled-dither-cream` | scheme |
 | Scene | 21 | `--pp-scene-sky-1` to `-6`, `--pp-scene-cloud-*`, `--pp-scene-mountain-*`, `--pp-scene-hill-*`, `--pp-scene-grass-*`, `--pp-scene-dirt-*`: the world's colours for the current time of day | scheme |
 | The pixel | 1 | `--pp-pixel` | pixel |
-| Sizes in pixels | 27 | `--pp-space-<0, 1, 2, 3, 4, 6, 8, 12, 16, 24, 32>`, `--pp-radius-0` to `-6`, `--pp-control-<sm, md, lg>`, `--pp-icon-<md, lg>`, `--pp-line-<outline, focus, drop>`, `--pp-target-min` | pixel |
+| Sizes in pixels | 29 | `--pp-space-<0, 1, 2, 3, 4, 6, 8, 12, 16, 24, 32>`, `--pp-radius-0` to `-8`, `--pp-control-<sm, md, lg>`, `--pp-icon-<md, lg>`, `--pp-line-<outline, focus, drop>`, `--pp-target-min` | pixel |
 | Breakpoints and layers | 9 | `--pp-breakpoint-<medium, wide>`, `--pp-layer-<raised, sticky, dropdown, overlay, modal, toast, tooltip>` | |
 | Motion | 23 | `--pp-duration-*` (15), `--pp-steps-<2, 4, 6, dissolve, scheme>`, `--pp-delay-<hover, leave, toast>` | reduced motion: every duration is 0 ms |
-| Type | 21 | `--pp-font-<display, ui, mono>`, `--pp-weight-<regular, medium, bold>`, `--pp-display-scale-1` to `-4`, `--pp-size-<caption, small, body, lead, title>`, `--pp-leading-<tight, normal, display, display-loose>`, `--pp-tracking-<none, label>` | |
+| Type | 21 | `--pp-font-<display, ui, mono>`, `--pp-weight-<regular, medium, bold>`, `--pp-display-scale-1` to `-4`, `--pp-size-<caption, small, body, lead, title>`, `--pp-leading-<tight, normal, display, display-loose>`, `--pp-tracking-<none, label>` | the browser's default text size: `--pp-size-*` (rem) |
 
 **Names are the contract; values are design.** A token's name, its CSS custom property, its type and its meaning
 are protected. Its value can change in a minor release when the design improves, and the changelog says so. A value
@@ -54,14 +77,17 @@ what a role is for) counts as breaking.
 |---|---|---|
 | `data-pp-scheme` | `day`, `sunset`, `night` | On `<html>` or any element: the scheme of everything inside. With none set, the page is Day, or Night when the device is in dark mode. |
 | `data-pp-pixel` | `3`, `4` | On `<html>` or any element: the size of one pixel in CSS px. The default is 2, set on `:root`. |
-| `data-pp-scheme-fade` | present | Steps the scheme colours from one palette to the next over a minute when the scheme changes. `autoScheme()` sets it. |
+| `data-pp-scheme-fade` | present | Set on its target by `autoScheme()` once the time of day has changed (not with `fade: false`). While it is on `<html>`, the world backdrop steps its sky to a new scheme over a minute; every other colour changes in one step (see `data-pp-scheme-dither`). |
+| `data-pp-scheme-dither` | present | Set on `<html>` by `autoScheme()` while a change of time of day dithers in (a view transition of three frames). Read it; do not set it. |
 | `data-pp-scheme-auto` | present | Set by `autoScheme()` while it follows the clock. Read it; do not set it. |
 | `pp-scheme-change` | `detail: { scheme }` | Fired on the target (bubbling) by `autoScheme()` when the time of day changes. |
 
 ## Building blocks
 
-`@jaatster/blip-core/core.css` (and `core.min.css`). These are what every component is built from, and you can build
-from them too.
+`@jaatster/blip-core/core.css` (and `core.min.css`), and `@jaatster/blip-core/layers.css` (the cascade-layer order, for a
+page that also uses Tailwind or layered CSS of its own). These are what every component is built from, and you can
+build from them too. Every size in them is counted in pixels except the type sizes, which follow the browser's
+default text size.
 
 | Kind | Public |
 |---|---|
@@ -73,8 +99,8 @@ from them too.
 | **Icons** | `.pp-icon` (12 pixels square), `data-size="lg"` (24). |
 | **Motion** | `.pp-pop-in`, `.pp-drop-in` (with `--pp-delay`), `.pp-bump`, `.pp-shake`, `.pp-blink` (with `--pp-blink-count`), `.pp-bob` (with `--pp-bob-count`); `--pp-ease-2`, `--pp-ease-4`, `--pp-ease-6`. |
 | **Utilities** | `.pp-sr-only`, `.pp-scrim`, `.pp-dither`, `.pp-pixelated` and `[data-pixelated]` on `img`, `canvas` or `svg`. |
-| **Cascade layers** | `pp.reset`, `pp.tokens`, `pp.base`, `pp.core`, `pp.components`, `pp.kits`, `pp.utilities`, in that order (declared by `tokens.css`). Which layer a package's rules are in is public; their order and specificity inside a layer are not. |
-| **Fonts** | The family names `"Pixel Bop"` and `"Pixelify Sans"`; Pixel Bop's features `ss02` (Rounded 2x), `ss03` (Rounded 3x) and `locl` (Romanian); the files `@jaatster/blip-font/font.css`, `pixel-bop.woff2`, `pixel-bop.ttf` and `pixelify-sans.woff2`. |
+| **Cascade layers** | `pp.reset`, `pp.tokens`, `pp.base`, `pp.core`, `pp.components`, `pp.kits`, `pp.utilities`, in that order (declared by `tokens.css`). Which layer a package's rules are in is public; their order and specificity inside a layer are not. `@jaatster/blip-core/layers.css`, imported first, declares `properties, theme, base, pp, components, utilities` and then the `pp.*` order, so all of Blip comes after Tailwind CSS v4's `properties`, `theme` and reset (`base`) and before its `components` and `utilities`; the order it declares is public. |
+| **Fonts** | The family names `"Pixel Bop"`, `"Pixelify Sans"` and `"Blip Fallback"`; Pixel Bop's features `ss02` (Rounded 2x), `ss03` (Rounded 3x) and `locl` (Romanian); the files `@jaatster/blip-font/font.css`, `pixel-bop.woff2`, `pixel-bop-cyrillic.woff2`, `pixel-bop-greek.woff2`, `pixel-bop.ttf`, `pixelify-sans.woff2`, `pixelify-sans-cyrillic.woff2` and `pixelify-sans-greek.woff2`. |
 
 ## Components: classes, parts and attributes
 
@@ -87,15 +113,18 @@ The components of `@jaatster/blip-components` and the kits (`@jaatster/blip-game
   `pp-dialog-close`, `pp-hero-title`, `pp-window-status`.
 - **Options** are data attributes: `data-variant`, `data-tone`, `data-size` (`sm`, `md` by default, `lg`; a few
   components have more), `data-pp-r`, and the component's own (`data-icon-only`, `data-width`, `data-layout`,
-  `data-align`, `data-side`, `data-placement`, `data-collapse`…). Booleans are present or absent.
+  `data-align`, `data-side`, `data-fit`, `data-collapse`…). Booleans are present or absent.
 - **State** is native attributes and ARIA (`disabled`, `aria-pressed`, `aria-current="page"`, `aria-invalid`,
   `aria-busy`…), so markup that is correct for assistive technology is also correctly styled.
 - **Custom properties** of a component are `--pp-<component>-<thing>`: `--pp-sidebar-width`, `--pp-grid-min`,
-  `--pp-card-media-ratio`, `--pp-toast-duration`. Every public custom property that is not a token is listed in
-  `@jaatster/blip-stylelint-config/public-properties.json` (119 today, the box's and the type's included).
+  `--pp-card-media-ratio`, `--pp-card-art-width` and `--pp-card-art-height` (a card picture with
+  `data-fit="pixels"`), `--pp-toast-duration`. Every public custom property that is not a token is listed in
+  `@jaatster/blip-stylelint-config/public-properties.json`, the box's and the type's included.
 - **One file per component**: `@jaatster/blip-components/<name>.css` (and `components.css` for all of them),
-  `@jaatster/blip-game/<name>.css`, `@jaatster/blip-blocks/<name>.css`, `@jaatster/blip-effects/<name>.css`. The file names are
-  public.
+  `@jaatster/blip-game/<name>.css`, `@jaatster/blip-blocks/<name>.css`, `@jaatster/blip-effects/<name>.css`. One file is
+  opt-in and not in `components.css`: `@jaatster/blip-components/popover-nub.css` (and `popover-nub.min.css`), the nub
+  of an open popover, loaded with a `<link>` after the components because its anchored container queries are more
+  than Vite 8's and Next.js 16's CSS tools parse. The file names are public.
 
 Each component's classes, parts, attributes, states and custom properties are listed in the header comment of its
 stylesheet and in its docs page (`packages/<package>/docs/<name>.md`, on the docs site under Components). Those
@@ -125,38 +154,40 @@ Conventions, for every element:
 
 - **Tags** are `pp-<name>`. **Events** are `pp-<name>`: they bubble, cross shadow roots (`composed`), carry their
   data in `detail`, and are cancelable when they announce a change that can be refused.
-- **Properties mirror their attributes** (`value`, `open`, `selected`…); the table lists only the properties and
+- **Properties mirror their attributes** (`value`, `open`, `max`…); the table lists only the properties and
   methods that have no attribute.
 - **Form-associated** elements (`<pp-combobox>`, `<pp-rating>`, `<pp-segmented>`) take part in forms like native
   controls: name, value, validity, reset and a disabled fieldset.
 
+<!-- elements: written by scripts/contract-elements.mjs from the Custom Elements Manifests. Run it after pnpm cem. -->
 | Element | Module | Attributes | Other properties and methods | Events |
 |---|---|---|---|---|
-| `<pp-combobox>` | `@jaatster/blip-elements/combobox` | `open`, `name`, `value`, `empty-text`, `toggle-label` | `form` (read-only), `checkValidity()`, `reportValidity()` | `pp-change` |
-| `<pp-command>` | `@jaatster/blip-elements/command` | `shortcut` | `dialog`, `input`, `options`, `open` (read-only), `show()`, `close()` | `pp-select` (cancelable) |
+| `<pp-combobox>` | `@jaatster/blip-elements/combobox` | `open`, `name`, `value`, `empty-text`, `toggle-label` | `form` (read-only), `checkValidity()`, `reportValidity()` | `pp-change`, `pp-open`, `pp-close` |
+| `<pp-command>` | `@jaatster/blip-elements/command` | `open`, `shortcut` | `dialog`, `input`, `options` (read-only), `show()`, `close()` | `pp-action` (cancelable), `pp-open`, `pp-close` |
 | `<pp-dialog>` | `@jaatster/blip-elements/dialog` | `open`, `light-dismiss` | `dialog`, `returnValue` (read-only), `show()`, `requestClose()`, `close()` | `pp-open`, `pp-before-close` (cancelable), `pp-close` |
 | `<pp-drawer>` | `@jaatster/blip-elements/drawer` | `open`, `light-dismiss` | `dialog`, `returnValue` (read-only), `show()`, `requestClose()`, `close()` | `pp-open`, `pp-before-close` (cancelable), `pp-close` |
 | `<pp-field>` | `@jaatster/blip-elements/field` | `count-text`, `role`, `data-layout` | | |
 | `<pp-file-drop>` | `@jaatster/blip-elements/file-drop` | `remove-label` | `input`, `files` (read-only) | `pp-change`, `pp-reject` |
-| `<pp-menu>` | `@jaatster/blip-elements/menu` | `data-align` | `trigger`, `menu`, `items`, `open` (read-only), `show()`, `close()` | `pp-select` (cancelable) |
+| `<pp-menu>` | `@jaatster/blip-elements/menu` | `open`, `data-align` | `trigger`, `menu`, `items` (read-only), `show()`, `close()` | `pp-action` (cancelable), `pp-open`, `pp-close` |
 | `<pp-number>` | `@jaatster/blip-elements/number` | `decrease-label`, `increase-label` | `input` (read-only) | `pp-change` |
 | `<pp-rating>` | `@jaatster/blip-elements/rating` | `value`, `max`, `readonly`, `disabled`, `required`, `name`, `required-message`, `star-label`, `data-shape` | `form`, `validity`, `validationMessage` (read-only), `checkValidity()`, `reportValidity()` | `pp-change` |
 | `<pp-segmented>` | `@jaatster/blip-elements/segmented` | `value`, `disabled`, `required`, `name`, `required-message`, `data-size`, `data-width`, `data-tone` | `form`, `validity`, `validationMessage`, `items` (read-only), `checkValidity()`, `reportValidity()` | `pp-change` |
 | `<pp-table>` | `@jaatster/blip-elements/table` | | `selectedRows` (read-only), `sort()` | `pp-sort` (cancelable), `pp-select` |
-| `<pp-tabs>` | `@jaatster/blip-elements/tabs` | `selected`, `activation`, `data-variant`, `data-size` | `list`, `tabs` (read-only) | `pp-change` |
+| `<pp-tabs>` | `@jaatster/blip-elements/tabs` | `value`, `activation`, `data-variant`, `data-size` | `selectedIndex`, `list`, `tabs` (read-only) | `pp-change` |
 | `<pp-tile-grid>` | `@jaatster/blip-elements/tile-grid` | `selection` | `tiles` (read-only), `select()` | `pp-select` (cancelable) |
-| `<pp-toaster>` | `@jaatster/blip-elements/toast` | `data-placement`, `max`, `dismiss-label`, `aria-label` | `add()` | |
-| `<pp-tooltip>` | `@jaatster/blip-elements/tooltip` | `for`, `placement` | `show()`, `hide()` | |
-| `<pp-choices>` | `@jaatster/blip-game/choices` | | `choices` (read-only), `focus()` | `pp-choice` |
-| `<pp-dialogue>` | `@jaatster/blip-game/dialogue` | `voice`, `mood`, `speed`, `typing-label`, `next-label`, `done-label`, `data-font`, `data-pp-typed` | `pages`, `page`, `typing` (read-only), `say()`, `advance()`, `focus()` | `pp-next`, `pp-done` |
+| `<pp-toaster>` | `@jaatster/blip-elements/toast` | `data-side`, `data-align`, `max`, `dismiss-label`, `aria-label` | `add()` | |
+| `<pp-tooltip>` | `@jaatster/blip-elements/tooltip` | `open`, `for`, `data-side` | `show()`, `close()` | `pp-open`, `pp-close` |
+| `<pp-choices>` | `@jaatster/blip-game/choices` | | `choices` (read-only), `focus()` | `pp-action` |
 | `<pp-counter>` | `@jaatster/blip-game/hud` | `value`, `label`, `pad`, `format`, `low`, `sound`, `quiet` | `format()` | |
+| `<pp-dialogue>` | `@jaatster/blip-game/dialogue` | `voice`, `mood`, `speed`, `typing-label`, `next-label`, `done-label`, `data-font`, `data-pp-typed` | `pages`, `page`, `typing` (read-only), `say()`, `advance()`, `focus()` | `pp-next`, `pp-done` |
 | `<pp-hearts>` | `@jaatster/blip-game/hud` | `value`, `max`, `label`, `quiet` | | |
 | `<pp-inventory>` | `@jaatster/blip-game/inventory` | | `slots`, `selected` (read-only), `select()` | `pp-select` |
 | `<pp-sprite>` | `@jaatster/blip-game/sprites` | `name`, `aria-label`, `data-tone` | | |
 | `<pp-drop-text>` | `@jaatster/blip-effects/text` | `data-pop`, `data-scale`, `data-tone` | `text`, `play()` | |
 | `<pp-typewriter>` | `@jaatster/blip-effects/text` | `blips`, `caret`, `mood`, `data-scale` | `text`, `play()`, `finish()` | `pp-typewriter-done` |
-| `<pp-world>` | `@jaatster/blip-effects/world` | `scheme`, `parallax`, `clouds`, `stars`, `events`, `zoom` | | |
+| `<pp-world>` | `@jaatster/blip-effects/world` | `scheme`, `parallax`, `clouds`, `stars`, `events`, `zoom`, `avoid` | | |
 | `<pp-icon>` | `@jaatster/blip-icons/element` | `name`, `label`, `data-size` | | |
+<!-- /elements -->
 
 The element classes are exported too (`PixelTabs`, `PixelDialog`, `PixelWorld`…), with the types of their event
 details, for subclassing and for TypeScript. The DOM an element adds to its markup (its ids, the scroll buttons of
@@ -168,9 +199,9 @@ is private.
 | Package | Public exports |
 |---|---|
 | `@jaatster/blip-core` | `PixelElement` (the base of every element: `static box`, `static classes`, `signal`, `static define()`, and for subclasses `connected()`, `disconnected()`, `emit()`, `on()`, `flag()`); the services `provide()`, `services` (`now()`, `random()`, `between()`, `sound()`), `seeded()` and the types `Services` and `SoundSink`; motion `reducedMotion()`, `steps()`, `duration()`, `pixel()`; timelines `run()`, `frames()`, `every()` and `Step`; schemes `autoScheme()`, `setScheme()`, `schemeAt()` and `Scheme`; diagnostics `warn()`, `checkName()`; the controllers `rovingFocus()` with `RovingOptions`, `typeahead()` and `dismiss()`. |
-| `@jaatster/blip-elements` | One module per element (`@jaatster/blip-elements/<name>`), each defining its tag; the index defines them all. The element classes, `toast()`, and the types `ToastOptions`, `ToastHandle`, `ToastTone`, `CloseDetail`, `CloseReason`, `CommandSelectDetail`, `MenuSelectDetail`, `TabsChangeDetail`, `SortDirection`. |
+| `@jaatster/blip-elements` | One module per element (`@jaatster/blip-elements/<name>`), each defining its tag; the index defines them all. The element classes, `toast()`, and the types `ActionDetail`, `CloseDetail`, `CloseReason`, `SortDirection`, `TabsChangeDetail`, `ToastHandle`, `ToastOptions`, `ToastTone`. |
 | `@jaatster/blip-game` | The element classes; `sprite()`, `spriteNames`, `pixels()` (the sprites as SVG strings and pixel maps); `blipRate()`; the types `ChoiceDetail` and `SelectDetail`. |
-| `@jaatster/blip-effects` | `burst()` with `BurstKind` and `BurstOptions`; `transition()` with `TransitionKind` (`dissolve`, `dither`, `mosaic`) and `TransitionOptions`; `drawWorld()` and `worldPalette()` with `WorldLayer`, `WorldPalette` and `DrawWorldOptions`; the element classes. |
+| `@jaatster/blip-effects` | `burst()` with `BurstKind` and `BurstOptions`; `transition()` with `TransitionKind` (`dissolve`, `dither`, `mosaic`) and `TransitionOptions`; `drawWorld()` and `worldPalette()` with `WorldLayer`, `WorldPalette`, `WorldBox` and `DrawWorldOptions`; the element classes. |
 | `@jaatster/blip-sound` | `enableSound()`, `disableSound()`, `soundOn()`, `rememberSound()`, `play()`, `synth()`, `SOUNDS`, `voiceRate()`, `voiced()`, and the types `SoundName`, `Note` and `Mood`. The sound names (`step`, `look`, `jump`, `coin`, `open`, `back`, `bump`, `blip`, `success`, `error`, `select`) are public. |
 | `@jaatster/blip-icons` | `icons` (path data by name), `iconSvg()` with `IconSvgOptions`, the `IconName` type (every icon's name is public), `@jaatster/blip-icons/element` (`<pp-icon>`, `PixelIcon`), `sprite.svg` (symbols `pp-icon-<name>`), `svg/<name>.svg` and `icons.json`. |
 | `@jaatster/blip-tokens` | See Tokens above. |
@@ -224,14 +255,18 @@ file, the place in it (a JSON pointer) and the fix, and fails.
 
 The codes are public. Each prefix is a range, numbered in tens by topic:
 
+<!-- diagnostics: written by scripts/diagnostics.mjs from the source. Run it after adding or retiring a code. -->
 | Range | Raised by | Covers | Codes today |
 |---|---|---|---|
-| `PP-T` | The token build | Reading the files and the resolver, token names, types, values (colours, dimensions, durations, whole pixels, font families and weights), aliases, and contrast | `PP-T001` to `PP-T004`, `PP-T010`, `PP-T020` and `PP-T021`, `PP-T030` to `PP-T032`, `PP-T040` to `PP-T045`, `PP-T050` to `PP-T052`, `PP-T060` (a text pair under AA), `PP-T061` (the focus ring under 3:1) |
-| `PP-A` | Elements | Accessibility: a missing accessible name, a dialog without a name | `PP-A001`, `PP-A010` |
-| `PP-E` | Elements | An element without the native markup it upgrades: a control, a `<dialog>`, a tooltip's trigger | `PP-E001`, `PP-E010`, `PP-E020` |
-| `PP-N` | Navigation elements | A navigation element without the parts it wires together | `PP-N001` (tabs without a tab list) |
-| `PP-W` | The world backdrop | No world colours: `tokens.css` is not loaded | `PP-W001` |
-| `PP-I` | Icons | An icon name that does not exist | `PP-I001` |
+| `PP-T` | The token build and `blip-tokens` | Reading the token files and the resolver (`PP-T003` also: a resolver with no `scheme` or `pixel` modifier), token names, types, values (colours, dimensions, durations, whole pixels, font families and weights), aliases, and contrast: `PP-T060` a text pair under AA, labels on a disabled control's dither included; `PP-T061` the focus ring under 3:1; `PP-T062` a candy's label, and white on slate's ink dither | `PP-T001` to `PP-T004`, `PP-T010`, `PP-T020` and `PP-T021`, `PP-T030` to `PP-T032`, `PP-T040` to `PP-T045`, `PP-T050` to `PP-T052`, `PP-T060` to `PP-T062` |
+| `PP-A` | `checkName()` in `@jaatster/blip-core`, `<pp-rating>`, `<pp-segmented>`, `<pp-dialog>`, `<pp-drawer>` | Accessibility: a control or a dialog without an accessible name | `PP-A001`, `PP-A010` |
+| `PP-E` | `<pp-combobox>`, `<pp-file-drop>`, `<pp-number>`, `<pp-dialog>`, `<pp-drawer>`, `<pp-tooltip>` | An element without the native markup it upgrades: a control, a `<dialog>`, a tooltip's trigger | `PP-E001`, `PP-E010`, `PP-E020` |
+| `PP-N` | `<pp-tabs>` | A navigation element without the parts it wires together | `PP-N001` |
+| `PP-M` | `<pp-menu>` | A menu without its button or its list | `PP-M001` |
+| `PP-C` | `<pp-command>` | A command palette without its `<dialog>`, input or list | `PP-C001` |
+| `PP-W` | `<pp-world>` | The world backdrop: no world colours (`tokens.css` is not loaded), an `avoid` that is not a selector list | `PP-W001` and `PP-W002` |
+| `PP-I` | `<pp-icon>` | An icon name that does not exist | `PP-I001` |
+<!-- /diagnostics -->
 
 Every code, with what it means and how to fix it, is on the [diagnostics page](https://jaatster.com/blip/diagnostics/),
 which reads the codes from the source when the site builds.

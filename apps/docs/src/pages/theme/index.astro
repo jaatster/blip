@@ -1,33 +1,77 @@
 ---
 /**
- * Theme builder: an accent per scheme (a candy, or any colour with its light and shade worked out), a pixel size, a
- * live preview, contrast checks for every label, and the result as DTCG token files and CSS.
+ * Theme builder: an accent per scheme or one for all three (a candy, or any colour with its light and shade worked
+ * out and nudged until ink labels read), a pixel size, a live preview, contrast checks that hold the export back
+ * when they fail, warnings when the accent looks like an intent or like focus, and the result as DTCG token files
+ * and CSS. Then the same by hand: which roles, in which blocks, in which layer, read from the tokens.
  */
 import Docs from "../../layouts/Docs.astro";
 import Icon from "../../components/Icon.astro";
-import { tokens } from "../../lib/data";
+import Table from "../../components/Table.astro";
+import { manifest, read, schemeBlocks, tokens } from "../../lib/data";
 import { SCHEMES } from "../../lib/colour";
+import { codeBlock } from "../../lib/markdown";
+import { code } from "../../lib/html";
 
 const t = tokens();
-const CANDIES = ["blue", "teal", "green", "purple", "pink", "red", "orange", "slate"];
+// The candies that can be an accent: Liquorice (slate) is not one, its labels are white (DESIGN.md, Colors).
+const CANDIES = ["blue", "teal", "green", "purple", "pink", "red", "orange"];
 const candies = Object.fromEntries(CANDIES.map((c) => [c, { base: t.shared[`candy-${c}`], light: t.shared[`candy-${c}-light`], shade: t.shared[`candy-${c}-shade`] }]));
 const DEFAULTS: Record<string, string> = { day: "blue", sunset: "pink", night: "purple" };
 const schemes = Object.fromEntries(SCHEMES.map((s) => [s.id, {
   title: s.title,
   dark: s.id === "night",
-  bg: t.schemes[s.id].bg, surface: t.schemes[s.id].surface, raised: t.schemes[s.id]["surface-raised"],
-  ink: t.shared.ink, white: t.shared.white,
+  bg: t.schemes[s.id].bg, surface: t.schemes[s.id].surface, raised: t.schemes[s.id]["surface-raised"], dither: t.schemes[s.id]["disabled-dither"],
   accent: { candy: DEFAULTS[s.id], base: t.schemes[s.id].accent, light: t.schemes[s.id]["accent-light"], shade: t.schemes[s.id]["accent-shade"], text: t.schemes[s.id]["accent-text"], on: t.schemes[s.id]["accent-on"] },
 }]));
-const data = { candies, schemes, ink: t.shared.ink, white: t.shared.white };
+// What an accent must not look like: the intents (the same candies in every scheme) and the focus ring's yellow.
+const intents = {
+  danger: { name: "danger", base: t.schemes.day.danger, candy: "Gumball Red", why: "Red is danger in Blip: destructive actions, errors and invalid fields.", reads: "destructive" },
+  warning: { name: "a warning", base: t.schemes.day.warning, candy: "Sherbet Orange", why: "Orange is warning in Blip (yellow is taken by focus).", reads: "a warning" },
+  success: { name: "success", base: t.schemes.day.success, candy: "Sour Apple", why: "Green is success in Blip: done, saved, cleared.", reads: "done" },
+};
+const blocks = schemeBlocks();
+const data = { candies, schemes, ink: t.shared.ink, white: t.shared.white, focus: t.schemes.day.focus, intents, blocks };
+
+// ------------------------------------------------------------------ by hand: the roles, the blocks, the layer
+
+const ROLES: [string, string, string][] = [
+  ["accent", "The candy: the main button, the chosen tab, a checked box, the progress fill.", "Its label, 4.5:1"],
+  ["accent-light", "The light band, and the whole fill of soft boxes and of chosen outline and ghost ones.", "Its label, and selected text (ink), 4.5:1"],
+  ["accent-shade", "The shade band, and the top band of a box that is chosen.", "Nothing: no text sits on it"],
+  ["accent-text", "The accent as text: links, the caret, the chosen underline tab.", `4.5:1 on ${["bg", "surface", "surface-raised"].map((r) => `--pp-${r}`).join(", ")}`],
+  ["accent-on", "Labels and icons on the candy and on the soft fill.", "4.5:1 on both, and on a disabled button's dither (--pp-disabled-dither): ink, on any candy that takes ink"],
+  ["selection-bg", "Selected text, behind ink (--pp-selection-text): the light band again.", "Ink on it, 4.5:1"],
+];
+const known = new Map(manifest().map((m) => [m.name, m]));
+for (const [role] of ROLES) if (!known.has(role)) throw new Error(`docs: the theme page names --pp-${role}, which the tokens no longer have`);
+const roleRows = ROLES.map(([role, what, must]) => [code(known.get(role)!.cssVar), what, must.replace(/(--pp-[a-z-]+)/g, (m) => code(m))]);
+const valueOf = (scheme: string, role: string) => t.schemes[scheme as "day"][role];
+const recipeLines = ["/* After @jaatster/blip-tokens/tokens.css */", "@layer pp.tokens {"];
+for (const b of blocks) {
+  const pad = "  ".repeat(b.wrap.length + 1);
+  b.wrap.forEach((w, i) => recipeLines.push(`${"  ".repeat(i + 1)}${w} {`));
+  recipeLines.push(`${pad}${b.selector} {`, ...ROLES.map(([role]) => `${pad}  ${known.get(role)!.cssVar}: ${valueOf(b.scheme, role)};`), `${pad}}`);
+  b.wrap.forEach((_, i) => recipeLines.push(`${"  ".repeat(b.wrap.length - i)}}`));
+}
+recipeLines.push("}");
+const recipe = await codeBlock(recipeLines.join("\n"), "css", "my-theme.css");
+// @jaatster/blip-tokens' command (its README): builds the theme's tokens.css through Blip's checks.
+const cli = await codeBlock(`npx blip-tokens my-theme.resolver.json                # writes my-theme.css beside it
+npx blip-tokens my-theme.resolver.json --out src/tokens.css
+npx blip-tokens my-theme.resolver.json --check        # checks only, writes nothing`, "sh", "Shell");
+const screenOnly = blocks.filter((b) => b.wrap.some((w) => /^@media screen\b/.test(w))).map((b) => b.scheme);
+// Which of the roles tokens.css registers with @property (as colours).
+const registered = ROLES.map(([role]) => known.get(role)!.cssVar).filter((v) => new RegExp(`@property ${v} \\{[^}]*<color>`).test(read("packages/tokens/dist/css/tokens.css")));
+const H = (id: string, text: string) => ({ depth: 2, id, text });
 ---
-<Docs title="Theme builder" description="Make a Blip theme: an accent for each time of day, a pixel size, a live preview with contrast checks, exported as DTCG tokens and CSS." wide styles={["theme"]} scripts={["theme"]}>
+<Docs title="Theme builder" description="Make a Blip theme: an accent for each time of day, nudged until every label passes AA, a pixel size, a live preview with contrast checks, exported as DTCG tokens and CSS, or written by hand." wide styles={["theme"]} scripts={["theme"]} headings={[H("tb-controls-title", "Your theme"), H("tb-preview-title", "Preview"), H("tb-export-title", "Export"), H("by-hand", "By hand")]}>
   <header class="docs-page-head tb-head">
     <h1 class="docs-page-title pp-display" data-scale="2">Theme builder</h1>
-    <p class="docs-lede">Pick an accent for each time of day, from the candies or any colour you like, and a pixel size. The light and shade bands are worked out the way the candies' were, every label is checked against AA, and the result comes out as token files for the resolver and as CSS.</p>
+    <p class="docs-lede">Pick an accent for each time of day, from the candies or any colour you like, and a pixel size. The light and shade bands are worked out the way the candies' were, a colour too dark or too pale for ink labels is nudged until they read, and the result comes out as token files for the resolver and as CSS.</p>
   </header>
 
-  <noscript><p class="pp-box pp-alert" data-tone="info"><span class="pp-alert-icon" aria-hidden="true"></span><span class="pp-alert-body">The builder needs JavaScript. The candies and the scheme roles are all on <a href="/foundations/colour/">Colour</a>.</span></p></noscript>
+  <noscript><p class="pp-box pp-alert" data-tone="info"><span class="pp-alert-icon" aria-hidden="true"></span><span class="pp-alert-body">The builder needs JavaScript. To set an accent by hand, see <a href="#by-hand">By hand</a> below; the candies and the scheme roles are all on <a href="/foundations/colour/">Colour</a>.</span></p></noscript>
 
   <div class="tb docs-needs-js">
     <section class="pp-box tb-controls" data-variant="panel" aria-labelledby="tb-controls-title">
@@ -38,6 +82,8 @@ const data = { candies, schemes, ink: t.shared.ink, white: t.shared.white };
         <pp-segmented class="pp-box pp-segmented tb-scheme" aria-labelledby="tb-scheme-label" value="day" data-width="full">
           {SCHEMES.map((s, i) => <button class="pp-box" type="button" value={s.id} aria-checked={i === 0 ? "true" : "false"}><Icon name={s.id === "day" ? "sun" : s.id === "sunset" ? "sunset" : "moon"} />{s.title}</button>)}
         </pp-segmented>
+        <label class="pp-check" data-layout="split">One accent for all three<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box tb-all" aria-describedby="tb-all-help" /></span></label>
+        <p class="pp-check-help" id="tb-all-help">On, a pick sets Day, Sunset and Night at once; the accent text still changes with each, to read on its surfaces.</p>
       </div>
 
       <fieldset class="tb-field tb-candies">
@@ -60,6 +106,7 @@ const data = { candies, schemes, ink: t.shared.ink, white: t.shared.white };
           <input class="tb-picker" type="color" value="#33a3ff" aria-label="Pick a colour" />
         </div>
         <p class="pp-field-help" id="tb-hex-help">A base colour. Light: 0.65 of its saturation at full brightness. Shade: 0.84 of its brightness.</p>
+        <div class="tb-warnings" aria-live="polite"></div>
       </div>
 
       <div class="tb-field">
@@ -67,18 +114,21 @@ const data = { candies, schemes, ink: t.shared.ink, white: t.shared.white };
         <div class="tb-derived">
           <span class="pp-box tb-derived-box" aria-hidden="true"></span>
           <dl class="tb-derived-values">
-            <div><dt>Light</dt><dd><span class="tb-dot" data-k="light"></span><code data-v="light"></code></dd></div>
-            <div><dt>Base</dt><dd><span class="tb-dot" data-k="base"></span><code data-v="base"></code></dd></div>
+            <div><dt>Light</dt><dd><span class="tb-dot" data-k="light"></span><code data-v="light"></code><span class="tb-from" data-from="light"></span></dd></div>
+            <div><dt>Base</dt><dd><span class="tb-dot" data-k="base"></span><code data-v="base"></code><span class="tb-from" data-from="base"></span></dd></div>
             <div><dt>Shade</dt><dd><span class="tb-dot" data-k="shade"></span><code data-v="shade"></code></dd></div>
             <div><dt>Text</dt><dd><span class="tb-dot" data-k="text"></span><code data-v="text"></code></dd></div>
             <div><dt>Label</dt><dd><span class="tb-dot" data-k="on"></span><code data-v="on"></code></dd></div>
           </dl>
         </div>
+        <p class="pp-small tb-nudge" aria-live="polite" hidden></p>
+        <label class="pp-check tb-exact-row" data-layout="split" hidden>Keep my exact colour<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box tb-exact" /></span></label>
       </div>
 
       <div class="tb-field">
         <span class="pp-label" id="tb-checks-title">Contrast</span>
-        <ul class="tb-checks" role="list" aria-labelledby="tb-checks-title" aria-live="polite"></ul>
+        <ul class="tb-checks" role="list" aria-labelledby="tb-checks-title"></ul>
+        <p class="pp-small tb-summary" role="status"></p>
       </div>
 
       <div class="tb-field">
@@ -118,6 +168,10 @@ const data = { candies, schemes, ink: t.shared.ink, white: t.shared.white };
               <button class="pp-box pp-button" type="button" data-variant="soft">Options</button>
               <button class="pp-box pp-button" type="button" data-variant="outline" aria-pressed="true">Outline, on</button>
             </div>
+            <div class="docs-row tb-focus-row">
+              <button class="pp-box pp-button" type="button" data-pp-state="focus" tabindex="-1">Focused</button>
+              <span class="pp-small pp-muted">The focus ring, beside your candy.</span>
+            </div>
             <div class="tb-sample-row">
               <label class="pp-check"><span class="pp-box pp-checkbox"><input type="checkbox" checked /></span>Auto-save</label>
               <label class="pp-check"><span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box" checked /></span>Music</label>
@@ -139,7 +193,18 @@ const data = { candies, schemes, ink: t.shared.ink, white: t.shared.white };
 
     <section class="tb-export" aria-labelledby="tb-export-title">
       <h2 class="tb-h2" id="tb-export-title">Export</h2>
-      <p class="docs-note">Token files go next to Blip's in the resolver, one per scheme, after its own; the CSS goes after <code class="docs-inline-code">tokens.css</code>.</p>
+      <p class="docs-note">Two ways to use it. The CSS goes after Blip's <code class="docs-inline-code">tokens.css</code>, as it is. Or build a checked <code class="docs-inline-code">tokens.css</code> of your own: put the token files and the resolver in your project's folder, beside <code class="docs-inline-code">node_modules</code>, and run <code class="docs-inline-code">blip-tokens</code>, which checks every pair as Blip's own tokens are checked, and writes a file to load instead of Blip's.</p>
+      <Fragment set:html={cli} />
+      <div class="pp-box pp-alert tb-blocked" data-tone="danger" role="group" aria-labelledby="tb-blocked-title" hidden>
+        <span class="pp-alert-icon" aria-hidden="true"></span>
+        <div class="pp-alert-body">
+          <p class="pp-alert-title" id="tb-blocked-title">Some labels would not pass AA</p>
+          <ul class="tb-blocked-list"></ul>
+          <p>Pick another colour, or turn off "Keep my exact colour" to have it nudged. Or export it as it is, and check those pairs yourself:</p>
+          <label class="pp-check"><span class="pp-box pp-checkbox" data-tone="danger"><input type="checkbox" class="tb-override" /></span>Export anyway</label>
+        </div>
+      </div>
+      <p class="pp-small tb-downloaded" role="status"></p>
       <pp-tabs class="pp-tabs" data-variant="underline" data-size="sm">
         <div class="pp-tabs-list" role="tablist" aria-label="Export formats">
           <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="true" type="button">CSS</button>
@@ -148,7 +213,7 @@ const data = { candies, schemes, ink: t.shared.ink, white: t.shared.white };
           <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false" type="button" tabindex="-1">Night tokens</button>
           <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false" type="button" tabindex="-1">Resolver</button>
         </div>
-        {[["css", "my-theme.css", "CSS"], ["day", "my-theme.day.tokens.json", "JSON"], ["sunset", "my-theme.sunset.tokens.json", "JSON"], ["night", "my-theme.night.tokens.json", "JSON"], ["resolver", "blip.resolver.json", "JSON"]].map(([id, file, lang], i) => (
+        {[["css", "my-theme.css", "CSS"], ["day", "my-theme.day.tokens.json", "JSON"], ["sunset", "my-theme.sunset.tokens.json", "JSON"], ["night", "my-theme.night.tokens.json", "JSON"], ["resolver", "my-theme.resolver.json", "JSON"]].map(([id, file, lang], i) => (
           <div class="pp-tabs-panel" role="tabpanel" hidden={i > 0 ? true : undefined}>
             <figure class="pp-box docs-code tb-out">
               <figcaption class="docs-code-bar">
@@ -165,6 +230,19 @@ const data = { candies, schemes, ink: t.shared.ink, white: t.shared.white };
       </pp-tabs>
     </section>
   </div>
+
+  <section class="docs-section tb-by-hand" aria-labelledby="by-hand">
+    <h2 id="by-hand">By hand</h2>
+    <p>An accent is six scheme roles. Set them the way <code class="docs-inline-code">tokens.css</code> sets its own: inside <code class="docs-inline-code">@layer pp.tokens</code>, with the same selectors, in a file loaded after it. Same layer, same selectors and later, so yours win exactly where Blip's would. A rule outside the layer would beat every scheme at once: an unlayered <code class="docs-inline-code">:root</code> rule turns Sunset and Night to your Day.</p>
+    <Table label="The accent's roles" head={["Role", "What it paints", "Must pass"]} rows={roleRows} />
+    <p>Here they are with Blip's own values, in every block <code class="docs-inline-code">tokens.css</code> has for them: Day, which is also a page with no scheme set; Sunset; Night; and Night again, for a page with no scheme that follows a device in dark mode.{screenOnly.length > 0 && ` As in tokens.css, ${screenOnly.includes("sunset") ? "Sunset and " : ""}Night ${screenOnly.includes("sunset") ? "are" : "is"} for screens only: a printed page uses Day's.`}</p>
+    <Fragment set:html={recipe} />
+    <ul class="docs-help">
+      {registered.length > 0 && <li><Fragment set:html={registered.map((r) => code(r)).join(", ")} /> {registered.length === 1 ? "is" : "are"} registered as {registered.length === 1 ? "a colour" : "colours"} (<code class="docs-inline-code">@property</code> in <code class="docs-inline-code">tokens.css</code>): give {registered.length === 1 ? "it" : "them"} a colour, or a <code class="docs-inline-code">var()</code> that holds one.</li>}
+      <li>Nothing checks a CSS file. Put each block's colours into the builder, or write them as token files and run <code class="docs-inline-code">blip-tokens</code> on them (see Export, above): it checks every pair in the table and stops on the first that fails.</li>
+      <li>The info intent is the Day accent's blue in every scheme, and stays so. The other intents (success, warning, danger) are separate roles; an accent close to one of them makes every main button look like it.</li>
+    </ul>
+  </section>
 
   <script type="application/json" id="tb-data" set:html={JSON.stringify(data)} />
 </Docs>

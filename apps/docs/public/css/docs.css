@@ -9,7 +9,8 @@
   :root {
     --docs-top: calc(36 * var(--pp-pixel));
     --docs-gutter: var(--pp-space-8);
-    --docs-measure: 70ch;
+    /* The reading measure: 55ch of Pixelify Sans is 60 to 64 characters a line. */
+    --docs-measure: 55ch;
     scroll-padding-block-start: calc(var(--docs-top) + var(--pp-space-6));
     /* Code colours: the scheme's text roles, each checked for AA on the surface. */
     --docs-code-foreground: var(--pp-text);
@@ -262,9 +263,10 @@
   .docs-page-head {
     display: grid;
     gap: var(--pp-space-6);
-    max-inline-size: var(--docs-measure);
     margin-block-end: var(--pp-space-16);
   }
+  /* Each line of the head measures in its own size, so the larger lede keeps the same characters a line. */
+  .docs-page-head > * { max-inline-size: var(--docs-measure); }
   .docs-page-title { margin: 0; }
   .docs-page-title.pp-display { --pp-scale: 2; overflow-wrap: anywhere; }
   .docs-lede {
@@ -284,6 +286,9 @@
   }
   .docs-meta > li { display: inline-flex; align-items: center; gap: var(--pp-space-2); }
   .docs-meta-key { color: var(--pp-text-muted); }
+  /* The status tag links to what stable and beta mean. */
+  .docs-status { display: inline-flex; color: inherit; text-decoration: none; }
+  .docs-status:hover > .pp-tag { text-decoration: underline; text-decoration-thickness: var(--pp-pixel); text-underline-offset: calc(2 * var(--pp-pixel)); }
 
   /* ------------------------------------------------------------------ prose */
 
@@ -504,6 +509,12 @@
     line-height: var(--pp-leading-tight);
     scroll-margin-block-start: calc(var(--docs-top) + var(--pp-space-6));
   }
+  .docs-section > h3 {
+    margin-block-start: var(--pp-space-16);
+    font-size: var(--pp-size-lead);
+    line-height: var(--pp-leading-tight);
+    scroll-margin-block-start: calc(var(--docs-top) + var(--pp-space-6));
+  }
   .docs-section > h2 + p { max-inline-size: var(--docs-measure); margin-block-end: var(--pp-space-8); }
   .docs-section > p { max-inline-size: var(--docs-measure); }
   .docs-section > * + * { margin-block-start: var(--pp-space-6); }
@@ -518,6 +529,7 @@
   }
   .docs-note { font-size: var(--pp-size-small); color: var(--pp-text-muted); max-inline-size: var(--docs-measure); }
   .docs-num { font-variant-numeric: tabular-nums; }
+  .docs-help { display: grid; gap: var(--pp-space-4); max-inline-size: var(--docs-measure); margin: 0; padding-inline-start: var(--pp-space-8); }
 
   /* ------------------------------------------------------------------ the live example */
 
@@ -563,13 +575,23 @@
   /* A stage that has its own scheme paints the scheme's page behind the example. */
   .docs-stage[data-pp-scheme] { background: none; }
   .docs-source { margin-block-start: var(--pp-space-6); }
-  .docs-source > summary {
+  :is(.docs-source, .docs-react-more) > summary {
     display: inline-flex;
     margin-block-end: var(--pp-space-4);
   }
-  .docs-source > summary::-webkit-details-marker { display: none; }
-  .docs-source:not([open]) > summary .docs-when-open,
-  .docs-source[open] > summary .docs-when-closed { display: none; }
+  :is(.docs-source, .docs-react-more) > summary::-webkit-details-marker { display: none; }
+  :is(.docs-source, .docs-react-more):not([open]) > summary .docs-when-open,
+  :is(.docs-source, .docs-react-more)[open] > summary .docs-when-closed { display: none; }
+
+  /* The React section: the component's props, its parts, and the parts' props on request. */
+  .docs-react > details { margin-block-start: var(--pp-space-12); }
+  .docs-react-h4 { font-size: var(--pp-size-body); line-height: var(--pp-leading-tight); }
+  .docs-react-more > .docs-react-part + .docs-react-part { margin-block-start: var(--pp-space-12); }
+  .docs-props td:nth-child(2) { min-inline-size: calc(70 * var(--pp-pixel)); }
+  .docs-react-types { display: grid; gap: var(--pp-space-2); margin: 0; font-size: var(--pp-size-small); color: var(--pp-text-muted); max-inline-size: var(--docs-measure); }
+  .docs-react-types > div { display: flex; flex-wrap: wrap; gap: 0 var(--pp-space-3); }
+  .docs-react-types dt::after { content: ":"; }
+  .docs-react-types dd { margin: 0; }
 
   .docs-example-title { font-size: var(--pp-size-title); line-height: var(--pp-leading-tight); scroll-margin-block-start: calc(var(--docs-top) + var(--pp-space-6)); }
 

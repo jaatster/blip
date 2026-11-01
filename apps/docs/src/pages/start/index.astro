@@ -4,15 +4,17 @@ import Docs from "../../layouts/Docs.astro";
 import Table from "../../components/Table.astro";
 import Pager from "../../components/Pager.astro";
 import Icon from "../../components/Icon.astro";
-import { assets, componentDocs, pkgVersion } from "../../lib/data";
+import { assets, componentDocs, diagnostics, fontSection, pkgVersion, read } from "../../lib/data";
 import { codeBlock } from "../../lib/markdown";
 import { code, esc } from "../../lib/html";
+import { booleanAttributes } from "../../lib/cem";
+import { reactEntryFor } from "../../lib/react";
 
 const a = assets();
 const v = pkgVersion("components");
 const fv = pkgVersion("font");
 const H = (id: string, text: string) => ({ depth: 2, id, text });
-const headings = [H("install", "Install"), H("css", "CSS, in order"), H("elements", "Web Components"), H("react", "React"), H("frameworks", "Frameworks"), H("theming", "Theming: two switches"), H("auto", "Auto: the clock"), H("motion", "Reduced motion"), H("diagnostics", "Diagnostics")];
+const headings = [H("install", "Install"), H("css", "CSS, in order"), H("tailwind", "With Tailwind or your own CSS"), H("elements", "Web Components"), H("react", "React"), H("frameworks", "Frameworks"), H("theming", "Theming: two switches"), H("auto", "Auto: the clock"), H("motion", "Reduced motion"), H("languages", "Right to left and other languages"), H("diagnostics", "Diagnostics")];
 
 const npm = await codeBlock(`npm install @jaatster/blip-font @jaatster/blip-tokens @jaatster/blip-core @jaatster/blip-components
 npm install @jaatster/blip-elements @jaatster/blip-icons          # behaviour and icons, when you need them
@@ -52,10 +54,27 @@ const cssOrder = await codeBlock(`/* 1. The faces: Pixel Bop and Pixelify Sans *
 @import "@jaatster/blip-game/game.css";
 @import "@jaatster/blip-blocks/blocks.css";
 @import "@jaatster/blip-effects/effects.css";`, "css", "CSS");
-const layers = await codeBlock(`@layer pp.reset, pp.tokens, pp.base, pp.core, pp.components, pp.kits, pp.utilities;
+// The layer order as tokens.css declares it, and the order layers.css sets for a page with Tailwind: read from the
+// packages, so this page says what they do.
+const tokenLayers = read("packages/tokens/dist/css/tokens.css").match(/^@layer [^;{]+;/m)?.[0] ?? "";
+const layers = await codeBlock(`${tokenLayers}
 
 /* Your own CSS, outside the layers, always wins: */
 .checkout .pp-button { --pp-tone: var(--pp-candy-green); }`, "css", "CSS");
+const layersFile = read("packages/core/src/css/layers.css").replace(/\/\*[\s\S]*?\*\/\s*/g, "").trim();
+const tailwind = await codeBlock(`/* app.css */
+@import "@jaatster/blip-core/layers.css";   /* first */
+@import "tailwindcss";
+@import "@jaatster/blip-font/font.css";
+@import "@jaatster/blip-tokens/tokens.css";
+@import "@jaatster/blip-core/core.css";
+@import "@jaatster/blip-components/components.css";`, "css", "CSS");
+const layersCode = await codeBlock(layersFile, "css", "@jaatster/blip-core/layers.css");
+const ownCss = await codeBlock(`@import "@jaatster/blip-core/layers.css";
+@import "./reset.css" layer(base);         /* button { … }, a { … }: under Blip */
+@import "@jaatster/blip-tokens/tokens.css";
+/* … */`, "css", "CSS");
+const scripts = fontSection("Supported scripts", "Character set");
 const elements = await codeBlock(`// One element at a time: each module defines its tag and imports only @jaatster/blip-core.
 import "@jaatster/blip-elements/tabs";
 import "@jaatster/blip-elements/menu";
@@ -71,18 +90,40 @@ const upgrade = await codeBlock(`<pp-tabs class="pp-tabs" data-variant="outline"
   <div class="pp-tabs-panel" role="tabpanel">…</div>
   <div class="pp-tabs-panel" role="tabpanel" hidden>…</div>
 </pp-tabs>`, "html", "HTML");
+// One component from each entry, with the entry that exports it today (the build stops if one is gone).
+const reactNames = [["Button", "Tabs"], ["Dialogue", "Hud"], ["Hero"], ["World"], ["Icon"]];
+const reactImports = reactNames.map((names) => {
+  const entries = names.map((n) => reactEntryFor(n));
+  if (entries.some((e) => !e) || new Set(entries).size > 1) throw new Error(`docs: the start page imports ${names.join(", ")} from @jaatster/blip-react, which no longer exports them that way`);
+  return `import { ${names.join(", ")} } from "${entries[0]}";`;
+});
 const react = await codeBlock(`import "@jaatster/blip-font/font.css";
 import "@jaatster/blip-tokens/tokens.css";
 import "@jaatster/blip-core/core.css";
 import "@jaatster/blip-components/components.css";
 
-import { Button, Tabs } from "@jaatster/blip-react";
-import { Dialogue, Hud } from "@jaatster/blip-react/game";
-import { Hero } from "@jaatster/blip-react/blocks";
-import { World } from "@jaatster/blip-react/effects";
-import { Icon } from "@jaatster/blip-react/icons";`, "tsx", "TSX");
+${reactImports.join("\n")}`, "tsx", "TSX");
 const vue = await codeBlock(`// vite.config.ts: let Vue leave pp-* tags to the browser
 vue({ template: { compilerOptions: { isCustomElement: (tag) => tag.startsWith("pp-") } } })`, "ts", "Vue");
+const defineFirst = await codeBlock(`// main.ts: define the elements, then mount
+import "@jaatster/blip-elements/dialog";
+import "@jaatster/blip-elements/tabs";
+import { createApp } from "vue";
+import App from "./App.vue";
+
+createApp(App).mount("#app");`, "ts", "Vue");
+const vueBoolean = await codeBlock(`<pp-dialog :open="open || undefined" @pp-close="open = false">…</pp-dialog>`, "html", "Vue");
+const svelteBoolean = await codeBlock(`<pp-dialog open={open || undefined} onpp-close={() => (open = false)}>…</pp-dialog>`, "html", "Svelte");
+const booleans = booleanAttributes();
+// Which boolean attributes the elements read as off when they say "false" (their manifests say so).
+const offNames = [...new Set(booleans.flatMap((b) => b.falseIsOff))].sort();
+const allOff = booleans.length > 0 && booleans.every((b) => b.falseIsOff.length === b.names.length);
+const list = (names: string[]) => names.map((n, i) => `${i ? (i === names.length - 1 ? " and " : ", ") : ""}<code class="docs-inline-code">${n}</code>`).join("");
+const offNote = allOff
+  ? ` Blip's elements read <code class="docs-inline-code">"false"</code> as off, but a native <code class="docs-inline-code">&lt;details open="false"&gt;</code> is open, and <code class="docs-inline-code">&lt;input disabled="false"&gt;</code> is disabled.`
+  : offNames.length
+    ? ` The elements' ${list(offNames)} read <code class="docs-inline-code">"false"</code> as off; their other booleans do not, nor does a native <code class="docs-inline-code">&lt;details open="false"&gt;</code>, which is open.`
+    : " So a dialog defined after mounting, bound to <code class=\"docs-inline-code\">false</code>, opens on load.";
 const angular = await codeBlock(`@Component({ selector: "app-settings", schemas: [CUSTOM_ELEMENTS_SCHEMA], templateUrl: "./settings.html" })
 export class SettingsComponent {}`, "ts", "Angular");
 const schemes = await codeBlock(`<html data-pp-scheme="night" data-pp-pixel="3">   <!-- the whole page -->
@@ -105,11 +146,14 @@ const motion = await codeBlock(`import { reducedMotion, duration, run } from "@j
 if (!reducedMotion()) burstConfetti();
 const ms = duration("glide", 160);       // 0 with reduced motion
 await run([{ at: 0, do: up }, { at: 40, do: down }], { signal }); // runs at once with reduced motion`, "js", "JavaScript");
+// A warning as the console shows it: an accessible-name code and its message, read from the source.
+const named = diagnostics().get("PP-A001") ?? [];
+const sample = named.find((o) => o.file.endsWith("segmented.ts")) ?? named[0];
 const diag = await codeBlock(`// On by default on localhost. Turn them on or off yourself:
 globalThis.BLIP_DIAGNOSTICS = true;
-
-// Blip PP-A001: <pp-segmented> has no name. Add aria-label or aria-labelledby.
-//   https://jaatster.com/blip/diagnostics#pp-a001`, "js", "Console");
+${sample ? `
+// Blip PP-A001: ${sample.message}
+//   https://jaatster.com/blip/diagnostics#pp-a001` : ""}`, "js", "Console");
 
 const docsByElement = new Map<string, { name: string; url: string }>();
 for (const d of componentDocs()) for (const t of (d.meta.element ?? "").split(",").map((s) => s.trim()).filter(Boolean)) docsByElement.set(t, { name: d.meta.name, url: d.url });
@@ -163,6 +207,16 @@ const elementRows = Object.entries(a.defines)
     <p class="docs-note">Every component is also its own file (<code class="docs-inline-code">@jaatster/blip-components/tabs.css</code>), for an app that wants only a few. They all need the tokens and core first.</p>
   </section>
 
+  <section class="docs-section" aria-labelledby="tailwind">
+    <h2 id="tailwind">With Tailwind or your own CSS</h2>
+    <p>Blip's rules are all in layers named <code class="docs-inline-code">pp</code>. Tailwind CSS v4 puts its own in layers too, and whichever loads first goes under the other: Blip's components then beat Tailwind's utility classes, or Tailwind's reset (preflight) strips Blip's buttons. <code class="docs-inline-code">@jaatster/blip-core/layers.css</code> sets one order for both. Import it first:</p>
+    <Fragment set:html={tailwind} />
+    <p>Tailwind's theme and reset go under all of Blip, and its components and utilities over it: <code class="docs-inline-code">className="mt-8"</code> moves a Blip button, and the reset leaves it alone. Once layers.css is first, the other imports can come in any order. It is two lines:</p>
+    <Fragment set:html={layersCode} />
+    <p>Your own CSS outside any layer beats every layer, Blip's included, which is right for your own classes. Rules for bare elements (a reset, <code class="docs-inline-code">button {"{ … }"}</code>, <code class="docs-inline-code">a {"{ … }"}</code>) would restyle Blip's components too: import them into the base layer, under Blip. That covers everything a component sets, and boxes also clear any corner rounding or shadow. A size a component leaves to its content, such as a <code class="docs-inline-code">min-height</code> on every button, still applies, so leave Blip's parts out of it with <code class="docs-inline-code">:not(.pp-box)</code>.</p>
+    <Fragment set:html={ownCss} />
+  </section>
+
   <section class="docs-section" aria-labelledby="elements">
     <h2 id="elements">Web Components</h2>
     <p>Most components are CSS on native HTML: a <code class="docs-inline-code">&lt;button&gt;</code>, a <code class="docs-inline-code">&lt;dialog&gt;</code>, <code class="docs-inline-code">&lt;details&gt;</code>, the <code class="docs-inline-code">popover</code> attribute. Where a component needs behaviour (arrow keys in tabs, a menu's typeahead, toasts that time out), an element adds it to markup that already renders without JavaScript. Elements use light DOM, so your CSS reaches inside them.</p>
@@ -176,6 +230,7 @@ const elementRows = Object.entries(a.defines)
     <h2 id="react">React</h2>
     <p><code class="docs-inline-code">@jaatster/blip-react</code> wraps every component in a typed React component that renders the same markup and loads its element. Load the CSS once at the top of the app, as for plain HTML. Kits have their own entry points, so the core stays small.</p>
     <Fragment set:html={react} />
+    <p>It works with React 18.3 and 19, and renders on the server; an element's module loads on the client when its component first mounts. Every component's page shows its React example, its parts and its props, read from the package's source.</p>
   </section>
 
   <section class="docs-section" aria-labelledby="frameworks">
@@ -183,7 +238,15 @@ const elementRows = Object.entries(a.defines)
     <p>Blip is HTML, CSS and custom elements, so any framework can use it: load the CSS, write the markup, import the elements a page uses. Two need to be told that <code class="docs-inline-code">pp-*</code> tags are custom elements.</p>
     <Fragment set:html={vue} />
     <Fragment set:html={angular} />
-    <p class="docs-note">Svelte, Solid, Lit, Astro and plain HTML need nothing more. This site is plain Astro pages with an import map: no client framework.</p>
+    <p class="docs-note">Svelte, Solid, Lit, Astro and plain HTML need no setting. This site is plain Astro pages with an import map: no client framework.</p>
+    <h3 id="frameworks-booleans">Vue and Svelte: elements first, booleans present or absent</h3>
+    <p>Import the elements before you mount the app. A defined element has properties, and Vue and Svelte set those, so <code class="docs-inline-code">:open="open"</code> opens and closes a dialog as you would expect.</p>
+    <Fragment set:html={defineFirst} />
+    <p>An element defined after the app mounts (a module loaded later, a split route) gets attributes instead, and both write <code class="docs-inline-code">false</code> as the text <code class="docs-inline-code">open="false"</code>. An HTML boolean is on whenever it is there, whatever it says.<Fragment set:html={offNote} /> Bind booleans as present or absent, and they mean the same everywhere: <code class="docs-inline-code">undefined</code> removes the attribute.</p>
+    <Fragment set:html={vueBoolean} />
+    <Fragment set:html={svelteBoolean} />
+    <p>A combobox whose value your framework controls (React's <code class="docs-inline-code">value</code>, Vue's <code class="docs-inline-code">v-model</code>): give its input <code class="docs-inline-code">aria-autocomplete="list"</code>. The element then filters the list as the person types, without completing the text in a field the framework owns.</p>
+    <p class="docs-note">The elements' boolean attributes: {booleans.map((b, i) => <Fragment>{i > 0 && "; "}{b.names.map((n, j) => <Fragment>{j > 0 && ", "}<code class="docs-inline-code">{n}</code></Fragment>)} on <code class="docs-inline-code">{`<${b.tag}>`}</code></Fragment>)}.</p>
   </section>
 
   <section class="docs-section" aria-labelledby="theming">
@@ -196,7 +259,7 @@ const elementRows = Object.entries(a.defines)
 
   <section class="docs-section" aria-labelledby="auto">
     <h2 id="auto">Auto: the clock</h2>
-    <p>Auto follows the time of day as the TV did: Day from 6:00 to 17:00, Sunset until 19:00, Night after. When the time of day changes, the palette steps to the next one over a minute. This site starts on Auto; the display menu at the top changes it.</p>
+    <p>Auto follows the time of day as the TV did: Day from 6:00 to 17:00, Sunset until 19:00, Night after. When the time of day changes, every colour changes at once, because no mix of a light and a dark palette keeps all text readable; where the browser has view transitions, the new colours dither in over three frames, and the world's sky steps to the new one over a minute. This site starts on Auto; the display menu at the top changes it.</p>
     <Fragment set:html={auto} />
   </section>
 
@@ -204,6 +267,12 @@ const elementRows = Object.entries(a.defines)
     <h2 id="motion">Reduced motion</h2>
     <p>With <code class="docs-inline-code">prefers-reduced-motion: reduce</code>, every duration token is 0 ms, so transitions are instant, and every element, effect and timeline stops or arrives at once: no drifting clouds, no bobbing arrows, no dropping letters. Nothing you build on the tokens needs extra code; your own effects can ask.</p>
     <Fragment set:html={motion} />
+  </section>
+
+  <section class="docs-section" aria-labelledby="languages">
+    <h2 id="languages">Right to left and other languages</h2>
+    <p>Components mirror for text that runs right to left. Put <code class="docs-inline-code">dir="rtl"</code> on <code class="docs-inline-code">&lt;html&gt;</code> or on the part of the page that needs it, and set <code class="docs-inline-code">lang</code> there too (<code class="docs-inline-code">ar</code>, <code class="docs-inline-code">he</code>, <code class="docs-inline-code">fa</code>, <code class="docs-inline-code">ur</code>…). Blip's mirrored rules use <code class="docs-inline-code">:dir(rtl)</code>, and Vite 8's CSS minifier (lightningcss) rewrites that into a list of right-to-left languages (<code class="docs-inline-code">:lang(ar, he, …)</code>), so in its builds they follow <code class="docs-inline-code">lang</code>.</p>
+    <p>The two faces draw Latin, Cyrillic and Greek, the last two in files of their own that load only when a page has those letters. Other scripts come from the system's fonts, sized to match: <a href={scripts.url}>{scripts.text}</a>, on the type page, says which languages each face covers.</p>
   </section>
 
   <section class="docs-section" aria-labelledby="diagnostics">

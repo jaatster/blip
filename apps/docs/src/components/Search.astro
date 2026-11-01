@@ -4,12 +4,13 @@
  * index of every page, built with the site); with JavaScript off, the search button is a link to the full list.
  */
 import Icon from "./Icon.astro";
+import { chooseEvent } from "../lib/cem";
 interface Props {
   shortcut?: string;
 }
 const { shortcut = "mod+k" } = Astro.props;
 ---
-<pp-command class="docs-search" shortcut={shortcut}>
+<pp-command class="docs-search" shortcut={shortcut} data-docs-choose={chooseEvent("pp-command")}>
   <dialog id="docs-search" class="pp-box pp-command pp-pop-in" aria-label="Search the docs" closedby="any">
     <div class="pp-command-search">
       <Icon name="search" />

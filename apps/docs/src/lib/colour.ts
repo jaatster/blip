@@ -31,7 +31,7 @@ export interface Pair {
   min: number;
   label: string;
 }
-/** The text pairs the token build fails on (packages/tokens/scripts/build.mjs), in the same order. */
+/** The text pairs the token build fails on (packages/tokens/scripts/tokens.mjs, PAIRS), in the same order. */
 export function pairs(): Pair[] {
   const out: Pair[] = [];
   const surfaces: [string, string][] = [["bg", "the page"], ["surface", "a surface"], ["surface-raised", "a raised surface"], ["surface-sunken", "a sunken well"], ["surface-panel", "a panel"]];
@@ -42,6 +42,10 @@ export function pairs(): Pair[] {
   }
   out.push({ fg: "link-visited", bg: "bg", min: 4.5, label: "Visited link on the page" }, { fg: "link-visited", bg: "surface", min: 4.5, label: "Visited link on a surface" });
   out.push({ fg: "line", bg: "bg", min: 3, label: "Control outline on the page" }, { fg: "line", bg: "surface", min: 3, label: "Control outline on a surface" }, { fg: "selection-text", bg: "selection-bg", min: 4.5, label: "Selected text" }, { fg: "text-inverse", bg: "text", min: 4.5, label: "Inverse text" });
+  // A disabled candy is dithered: its label still reads on the dither (intents label with their own colour, plain
+  // candies with ink, cream on its own dither).
+  for (const intent of ["accent", "info", "success", "warning", "danger"]) out.push({ fg: `${intent}-on`, bg: "disabled-dither", min: 4.5, label: `Label on disabled ${intent}` });
+  out.push({ fg: "ink", bg: "disabled-dither", min: 4.5, label: "Ink label on a disabled candy" }, { fg: "ink", bg: "disabled-dither-cream", min: 4.5, label: "Ink label on disabled cream" });
   return out;
 }
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -57,7 +61,8 @@ export function checkedPairs(): CheckedPair[] {
   const t = tokens();
   return SCHEMES.flatMap(({ id }) =>
     pairs().map((p) => {
-      const fgHex = t.schemes[id][p.fg]!, bgHex = t.schemes[id][p.bg]!;
+      // A scheme role, or a shared colour (ink) that is the same in every scheme.
+      const fgHex = String(t.schemes[id][p.fg] ?? t.shared[p.fg]), bgHex = String(t.schemes[id][p.bg] ?? t.shared[p.bg]);
       const r = contrast(fgHex, bgHex);
       return { ...p, scheme: id, fgHex, bgHex, ratio: r, pass: r >= p.min };
     }),

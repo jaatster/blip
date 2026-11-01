@@ -87,3 +87,38 @@ export function elementReference(tag: string): ElementReference | undefined {
   }
   return undefined;
 }
+
+/**
+ * Every element's boolean attributes (present or absent), from the manifests, and which of them say that "false"
+ * is off: for the frameworks' notes.
+ */
+export function booleanAttributes(): { tag: string; names: string[]; falseIsOff: string[] }[] {
+  const out: { tag: string; names: string[]; falseIsOff: string[] }[] = [];
+  for (const pkg of ["elements", "game", "effects", "icons"]) {
+    for (const mod of manifestOf(pkg)?.modules ?? []) {
+      for (const d of mod.declarations ?? []) {
+        if (!d.customElement || !d.tagName) continue;
+        const attrs = (d.attributes ?? []).filter((a) => /\bboolean\b/.test(a.type?.text ?? "") && !a.name.startsWith("data-"));
+        if (attrs.length) out.push({ tag: d.tagName, names: attrs.map((a) => a.name), falseIsOff: attrs.filter((a) => /"false" is off/i.test(clean(a.description || a.summary))).map((a) => a.name) });
+      }
+    }
+  }
+  return out.sort((a, b) => a.tag.localeCompare(b.tag));
+}
+
+/**
+ * The event an element fires when one of its options is chosen (pp-command and pp-menu), read from its manifest so
+ * the site's scripts listen for the name the element has today.
+ */
+export function chooseEvent(tag: string): string {
+  for (const pkg of ["elements", "game", "effects"]) {
+    for (const mod of manifestOf(pkg)?.modules ?? []) {
+      for (const d of mod.declarations ?? []) {
+        if (d.tagName !== tag) continue;
+        const e = (d.events ?? []).find((x) => /\bchosen\b/i.test(clean(x.description || x.summary)));
+        if (e) return e.name;
+      }
+    }
+  }
+  throw new Error(`docs: <${tag}> has no event for a chosen option in its manifest`);
+}

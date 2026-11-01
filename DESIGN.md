@@ -91,7 +91,7 @@ typography:
     lineHeight: 1.2
     letterSpacing: "0px"
     fontFeature: "normal"
-  # Pixelify Sans, at five fixed sizes: the one thing allowed off the pixel grid.
+  # Pixelify Sans, at five sizes (in rem; px here at the browser's default 16 px): the one thing allowed off the grid.
   title:
     fontFamily: "Pixelify Sans, system-ui, sans-serif"
     fontSize: "22px"
@@ -350,9 +350,12 @@ Day roles; a role's key is its custom property without the `--pp-` prefix (`prim
 Every candy is three flat tones, never a gradient: the **base**, a **light** band for the top (the base at about
 0.65 of its saturation, full brightness) and a **shade** band for the bottom (the base at about 0.84 of its
 brightness). Every text pair the scheme roles make (text and muted text on every surface, each intent's text on the
-page and surfaces, labels on the accent and intent candies, links, outlines, selection) is checked against WCAG 2.2
-AA in all three schemes when the tokens build (4.5:1 for text, 3:1 for outlines), and a failing pair fails the
-build. The other candies' labels pass too; Liquorice's white label on its light band is the closest, at 4.94:1.
+page and surfaces, labels on the accent and intent candies and on the dither over a disabled one, links, outlines,
+selection) is checked against WCAG 2.2 AA in all three schemes when the tokens build (4.5:1 for text, 3:1 for
+outlines), and a failing pair fails the build. The other candies' labels pass too; Liquorice's white label on its
+light band is the closest, at 4.94:1.
+When the person asks for more contrast (`prefers-contrast: more`), soft lines take the line colour, muted text the
+text colour, and the ink edge of the focus ring is two pixels.
 
 ### Primary
 
@@ -406,8 +409,11 @@ The four intents. Each has its candy for fills, and a text tone that passes AA o
 
 `data-pp-scheme="day"`, `"sunset"` or `"night"` sets a scheme on the page or on any part of it. With none set, the
 page follows the device: Day, or Night in dark mode. Auto follows the clock as the TV did (Day from 6:00 to 17:00,
-Sunset until 19:00, Night after) and, when the time of day changes, steps the palette through six mixes ten
-seconds apart.
+Sunset until 19:00, Night after). When the time of day changes, every colour changes in one step, because no mix of
+a light and a dark palette keeps all text readable: the new palette comes in through an ordered dither, a quarter of
+the pixels, then half, then three quarters, a frame each, so every pixel shows one whole palette and no text ever
+sits on colours half way between two. Only the world backdrop behind the interface takes its time: its sky steps to
+the new one over the next minute, as the TV's did.
 
 **Sunset** keeps Day's ink text and cream panels and warms everything else: the page is **Sunset Cloud** (#FFE7EF),
 surfaces are **Sunset Blush** (#FFF6F8), wells #F2C4D8, soft lines #BCAADF, and the accent turns Bubblegum.
@@ -415,7 +421,9 @@ surfaces are **Sunset Blush** (#FFF6F8), wells #F2C4D8, soft lines #BCAADF, and 
 **Night** turns the surfaces deep indigo and the text to starlight: the page is **Night Indigo** (#22244F), surfaces
 and panels #2C2F66, raised surfaces #363A78, wells #1B1C40; text is **Starlight** (#F3EFFF) and muted text #C3BEEA;
 the outlines of calm controls are #8F89C8 and soft lines #45478A; the accent turns Grape Soda. The candies, their
-ink outlines and their ink labels never change: the candy is the constant, the world is what changes.
+ink outlines and their ink labels never change: the candy is the constant, the world is what changes. So a soft or
+candy box stays light in every scheme, and what sits on it (text, links, fields, calm buttons, menus) takes the light
+roles: ink text and lines, white surfaces, and the box's own colours for wells and dividers.
 
 | Role (`--pp-…`) | Day | Sunset | Night |
 |---|---|---|---|
@@ -436,6 +444,8 @@ ink outlines and their ink labels never change: the candy is the constant, the w
 | `danger-text` | #B31529 | #B31529 | #FF9EA6 |
 | `selection-bg` | #7FC8FF | #FF9CC6 | #B48CFF |
 | `link-visited` | #6A3AD6 | #6A3AD6 | #FF9CC6 |
+| `disabled-dither` | #F4F7FF | #FFE7EF | #F3EFFF |
+| `disabled-dither-cream` | #B9B6EA | #BCAADF | #C3BEEA |
 
 The same in every scheme: `outline`, `drop`, `focus-edge`, `scrim`, `selection-text` and every intent's `-on`
 (labels on candy) are Ink; `focus` is Lemon Drop; the intents' candies and their light and shade bands do not
@@ -463,14 +473,16 @@ game are the exception), so it can never be mistaken for decoration. Warnings ar
 
 ## Typography
 
-**Display Font:** Pixel Bop (with Pixelify Sans, system-ui, sans-serif)
-**Body Font:** Pixelify Sans (with system-ui, sans-serif)
+**Display Font:** Pixel Bop (with Pixelify Sans, Blip Fallback, system-ui, sans-serif)
+**Body Font:** Pixelify Sans (with Blip Fallback, system-ui, sans-serif)
 **Label/Mono Font:** labels are Pixelify Sans bold in capitals; code alone uses ui-monospace, SFMono-Regular, Menlo,
 Consolas, monospace (`--pp-font-mono`)
 
 **Character:** Pixel Bop is Blip's own face: bold pixel capitals on a 7-pixel grid with 2-pixel vertical
 strokes, so a word reads across a room, and tabular figures, so a clock never shifts. Pixelify Sans is the
-readable pixel sans beside it, for everything below a heading. Both are under the SIL Open Font License.
+readable pixel sans beside it, for everything below a heading, with every glyph on its own pixel grid and no
+ligatures. Both draw Latin, Cyrillic and Greek; other scripts take the system font, and emoji the system's, sized to
+the capitals. Both are under the SIL Open Font License.
 
 ### Hierarchy
 
@@ -507,9 +519,13 @@ letter pixel is a Blip pixel and capitals are 7 x pixel x scale tall (14, 28, 42
 Between whole scales its pixels fall between screen pixels and blur or wobble. Scales 2 and 4 round their corners
 with `ss02` (EPX), scale 3 with `ss03` (AdvMAME3x), so each rounding step is a whole pixel (two at scale 4).
 
-**The Small-Text Exception.** Pixelify Sans is the one thing allowed off the grid, at five fixed sizes (12, 14,
-16, 18 and 22 px), because a 7-pixel capital is too small to read at body sizes. Its sizes do not grow with the
-pixel, so text stays readable when the pixel is 3 or 4.
+**The Small-Text Exception.** Pixelify Sans is the one thing allowed off the grid, at five sizes (12, 14, 16, 18
+and 22 px at the browser's default text size), because a 7-pixel capital is too small to read at body sizes. Its
+sizes do not grow with the pixel, so text stays readable when the pixel is 3 or 4. They are in rem, so they grow
+with a larger default text size the person sets (20 px makes body text 20 px), and never fall below these; what is
+counted in pixels keeps its size. Ligatures are off, because in a pixel font fi and fl merge into a glyph that
+reads as another letter, and in titles and reading text a long word hyphenates in the page's language (set `lang`)
+rather than run out of its box.
 
 **The Natural-Case Rule.** Write labels and headings in sentence case and let the CSS set the capitals. Pixel Bop
 has no lower case, and screen readers, search and copying need the real one.
@@ -536,7 +552,8 @@ their right and below, so a drop never touches a neighbour.
 **Container queries, not the window.** There are three widths: compact (under 600 px), medium (from 600 px) and wide
 (from 1024 px). `--pp-breakpoint-medium` and `--pp-breakpoint-wide` are for page shells; components answer to their
 own container. The hero's title steps from scale 2 to 3 to 4 at 600 and 1024 px of its container. The app bar folds
-its links behind a menu button under 1024 px of its own width (600 px with `data-collapse="medium"`). In an app shell
+its links behind a menu button under 64rem of its own width (37.5rem with `data-collapse="medium"`: 1024 and 600 px at
+the default text size, sooner when the text is bigger). In an app shell
 (a container named `pp-shell`) the sidebar becomes a rail of icons under 1024 px and steps aside under 600 px, where
 the bottom bar takes over. Vertical tabs become a row again under 480 px, and a horizontal card puts its picture
 above the text once both no longer fit side by side.
@@ -544,8 +561,13 @@ above the text once both no longer fit side by side.
 ### Named Rules
 
 **The One Pixel Rule.** Every outline, corner step, gap, icon, letter and movement is a whole number of one square
-pixel. Nothing is blurred, rotated or scaled by a fraction, and no two pixels on a screen differ in size. The only
-lengths off the grid are Pixelify Sans text and the 1px system borders of Windows high-contrast mode.
+pixel. Nothing is blurred, rotated or scaled by a fraction. What a screen shows depends on its ratio of screen pixels
+to CSS pixels. At 100%, 200% and 300% every pixel lands on whole screen pixels: exact, and no two differ in size. At
+125%, 150%, 175% or 262.5% a pixel is a fraction of screen pixels wide, so where two colours meet (a box's outer
+edge, the edge of a band) the browser blends the screen pixel between them, a limit no CSS can lift; where a box is
+one colour nothing blends, because its layers overlap instead of meeting at seams. At 150% a box that starts on an
+even CSS pixel is exact. The only lengths off the grid are Pixelify Sans text and the 1px system borders of Windows
+high-contrast mode.
 
 **The Container Rule.** Components answer to their container, not to the window, so the same card, grid or app bar
 lays itself out in a sidebar, a dialog or a whole page.
@@ -556,8 +578,9 @@ Flat, with one light at the top left. There is no ambient shadow and no blur: de
 to the right, and things move up off it or down into it. Every component uses the same three heights, so depth
 always means the same thing. A box at rest stands on its drop; on hover it lifts one pixel and its drop grows one
 pixel, so the shadow stays where it was; pressed, it sits down into its drop and the drop disappears; selected or
-on, it stays sat in and its bands swap (shade on top, light below), the 16-bit pushed-in look. A selected tile is
-the one exception: it lifts two pixels, as the TV's app blocks did.
+on, it stays sat in, its bands swap (shade on top, light below) and its face drops a pixel inside the outline,
+leaving an ink shadow along the top and left: the 16-bit pushed-in look, which reads without colour. A selected tile
+is the one exception: it lifts two pixels, as the TV's app blocks did.
 
 ### Shadow Vocabulary
 
@@ -581,8 +604,9 @@ the one exception: it lifts two pixels, as the TV's app blocks did.
 lift a pixel off it, and pressed and chosen things sit down into it. Nothing blurs and nothing glows.
 
 **The Dither Rule.** See-through is a dither, never a wash. The scrim behind a dialog is ink on every other pixel, a
-disabled control is covered by a checkerboard of the page colour, a skeleton fills in with a dither, and the sky's
-gradient is ordered by a 4 x 4 Bayer matrix. What is behind stays legible as a shape, and colours never mix.
+disabled control is covered by a checkerboard of a light colour (`--pp-disabled-dither`: the page colour by Day and
+Sunset, Starlight at Night) so its label still reads, a skeleton fills in with a dither, and the sky's gradient is
+ordered by a 4 x 4 Bayer matrix. What is behind stays legible as a shape, and colours never mix.
 
 ## Shapes
 
@@ -626,8 +650,8 @@ the tokens (the box also draws 7 and 8). A CSS `border-radius` anywhere breaks t
 
 Tactile, chunky, pressable. Every control is a candy box on a native element (a real `<button>`, `<input>`,
 `<dialog>`, `<details>` or popover), so it works before any script runs; Web Components add behaviour only where it
-is needed (tabs, menus, comboboxes, toasts). Tiers go loud to quiet, tones go by meaning, sizes come in three
-heights.
+is needed (tabs, menus, comboboxes, toasts), and wire what a framework renders later as it arrives. Tiers go loud to
+quiet, tones go by meaning, sizes come in three heights (`sm`, `md`, `lg`) wherever there is a size.
 
 ### The candy box
 
@@ -635,7 +659,10 @@ The one building block (its anatomy is under Shapes). A component is the box plu
 (`class="pp-box pp-button"`) that sets the box's variables: its radius, its band heights in pixels, its drop, and
 which colours its tier paints. Its tier comes from `data-variant` (candy, soft, outline, ghost, panel), its colour
 from `data-tone` (accent, info, success, warning, danger, neutral, or a candy by name), and its states from native
-attributes and ARIA. Because every component is the same box, a new one matches the rest without trying.
+attributes and ARIA. Because every component is the same box, a new one matches the rest without trying. In
+Windows high contrast it keeps a real border, on is the system highlight and busy keeps its dots; printed, it keeps
+its colours (Day's, whatever the screen shows) even with the browser's background graphics off, and scrims are left
+off.
 
 ### Buttons
 
@@ -646,8 +673,8 @@ attributes and ARIA. Because every component is the same box, a new one matches 
   (12px small with a 12px label, 20px large with a 16px label); a 24 px icon before or after the label.
 - **Hover / Focus:** hover lifts one pixel (the drop grows to keep the shadow in place); keyboard focus draws the
   yellow ring with its ink edge; pressed sits in its drop; on (`aria-pressed="true"`) sits in with the bands
-  swapped; disabled is dithered with the page colour and loses its drop; busy (`aria-busy="true"`) hides the label,
-  keeps its width, and steps in three dots, one, two, three.
+  swapped and an ink shadow inside its top and left; disabled is dithered with a light colour and loses its drop;
+  busy (`aria-busy="true"`) hides the label, keeps its width, and steps in three dots, one, two, three.
 - **Secondary / Ghost / Tertiary:** soft (the tone's light fill, its base as the bottom band) for the second action;
   outline (a line outline round the surface, no drop; hover fills it with the sunken surface) and ghost (bare until
   hovered or focused) for toolbars, tables and forms. Tones: `accent` by default; `info`, `success`, `warning` and
@@ -665,8 +692,9 @@ attributes and ARIA. Because every component is the same box, a new one matches 
 
 - **Corner Style:** radius 4 (8px); 3 when small, 5 when large.
 - **Background:** a cream panel by default (`--pp-surface-panel`: Marshmallow by Day and at Sunset, #2C2F66 at
-  Night); the panel tier is the plain surface; soft and candy tiers tint the whole card; a tone on a cream card
-  paints a 3-pixel strip of its light colour along the top, following the corners.
+  Night); the panel tier is the plain surface; soft and candy tiers tint the whole card, light in every scheme, and
+  what sits on them takes the light roles; a tone on a cream card paints a 3-pixel strip of its light colour along
+  the top, following the corners.
 - **Shadow Strategy:** the one-pixel ink drop of a control (see Elevation & Depth). A card that is a link lifts
   on hover.
 - **Border:** the one-pixel ink outline with stepped corners.
@@ -682,7 +710,9 @@ attributes and ARIA. Because every component is the same box, a new one matches 
 Calm by design, so candy stays for what you act on. Tables and lists are white panels with soft, whole-pixel row
 lines (or zebra rows in the sunken surface); rows you can press are ghost boxes; a selected row takes the accent's
 light. On a phone a table can stack (`data-stack`): each row becomes a block, its heading first, then each cell as a
-label and its value. A stat is a label, a Pixel Bop POP number and a pixel arrow in the colour of what the move means. An avatar is
+label and its value. A stat is a label, a Pixel Bop POP number and a pixel arrow in the colour of what the move means,
+with a mark that says it in shape too (the success sign's check for good news, the danger sign's exclamation mark for
+bad), after words that say both. An avatar is
 a picture drawn pixelated in a candy box, or initials in Pixel Bop at scale 1. A badge is a small candy box with a
 count, a word or nothing (a dot). A keycap is a cream candy box with a thicker shade band, so it stands up off the
 page. An accordion is a stack of native `<details>` whose chevron steps round a frame at a time. A divider is a
@@ -714,7 +744,7 @@ line of whole pixels: solid, dashed or dithered.
   item under the keyboard gets the yellow focus row.
 - **Mobile treatment:** the app bar folds its links behind a menu button into a popover; the sidebar becomes a rail
   and then steps aside under 600 px of the shell, where a bottom bar of three to five destinations (icon over label,
-  the current one sitting in) takes over.
+  set tight so five fit across a 320 px phone, the current one sitting in) takes over.
 
 ### Feedback and overlays
 
@@ -729,15 +759,17 @@ line of whole pixels: solid, dashed or dithered.
 - **Tooltip:** the inverse of the page (Ink with white text by Day, Starlight with ink text at Night), 12px, radius
   2, with a pixel nub; it shows after 400 ms on hover and at once on keyboard focus.
 - **Progress:** a row of candy blocks with one-pixel gaps in an ink-outlined well (filling a whole block at a time
-  where the browser can read the value in CSS); a loader is a ring of eight pixel dots whose lit arc steps one dot
-  a frame; a skeleton fills in with a dither, never a shimmer.
+  where the browser can read the value in CSS); empty blocks are dark, as in the game's HUD (Liquorice's shade by
+  Day and at Sunset, the deepest indigo at Night), so full and empty differ in lightness by 3:1 or more, not only in
+  hue. A rating's empty stars likewise lose their ink outline. A loader is a ring of eight pixel dots whose lit arc
+  steps one dot a frame; a skeleton fills in with a dither, never a shimmer.
 
 ### Tile
 
 The TV's app block: a 56 px (28 pixels) candy square with stepped radius 3, a 6-pixel light band and a 5-pixel
 shade band, and a white glyph with a one-pixel ink outline, one pixel above the middle; its label sits below in 12px
 bold capitals. Selected, it lifts two pixels inside a ring (one pixel of white with an ink edge), a 10-pixel arrow
-bobs above it, and a glint (a white band two pixels wide) sweeps across it in five frames every 4.5 seconds. With
+bobs above it for six beats, and a glint (a white band two pixels wide) sweeps across it once, in five frames. With
 keyboard focus the ring and the arrow turn yellow. Tiles sit in a grid that the arrow keys move through: a
 launcher, an inventory, a level select. Small and large tiles are 40 and 72 px.
 
@@ -761,16 +793,18 @@ tall as its fullest page, so it never jumps.
 
 The meadow itself, from the effects kit: five layers back to front (a sky of six stops dithered with a 4 x 4 Bayer
 matrix, with the sun, the moon and stars; snowy peaks; hills with trees; near hills; grass and dirt), drawn in the
-browser at the page's pixel and redrawn only when its size or its time of day changes. At 320 x 180 world pixels it
-is the TV's picture, pixel for pixel; a wider world carries the landscape on to the sides. It follows the page's
-scheme, or the clock on its own. Clouds can drift right a whole pixel at a time, layers slide 0 to 4 pixels
-against the pointer in two steps, stars flare at night, and now and then birds cross or a star shoots. With reduced
-motion it is a still, correct frame. It is decoration: hidden from assistive technology and in high-contrast mode.
-Big text on it is POP, small text OUTLINE; anything else needs a panel. The words on it are named in its `avoid`,
-and the sun, the moon and shooting stars keep clear of them: the nearest clear place in their lane of the sky, in
-whole pixels, worked out again whenever the words or the world resize; with no clear sky at all they stay out of
-sight. Clouds that would sit behind the words are left out, and a drifting cloud passes behind them out of sight.
-Nothing in the sky sits behind text.
+browser at the page's pixel and redrawn only when its size, its screen or its time of day changes. On a 125% or
+175% screen a world pixel is the nearest whole number of device pixels, so the picture stays crisp and even. At 320
+x 180 world pixels it is the TV's picture, pixel for pixel; a wider world carries the landscape on to the sides. It
+follows the page's scheme, or the clock on its own. Clouds can drift right a whole pixel at a time, layers slide 0
+to 4 pixels against the pointer in two steps (each on a whole pixel, even when the next move cuts a slide short),
+stars flare at night, and now and then birds cross or a star shoots. With reduced motion it is a still, correct
+frame. It is decoration: hidden from assistive technology, in high-contrast mode and on paper. Big text on it is
+POP, small text OUTLINE or a one-pixel halo in the page colour; anything else needs a panel. The words on it are
+named in its `avoid`, and the sun, the moon and shooting stars keep clear of them: the nearest clear place in their
+lane of the sky, in whole pixels, worked out again whenever the words or the world resize; with no clear sky at all
+they stay out of sight. Stars and clouds that would sit behind the words are left out (no star lands between words
+or under letters), and a drifting cloud passes behind them out of sight. Nothing in the sky sits behind text.
 
 ### States and motion
 
@@ -780,11 +814,12 @@ the idle beat 400. A menu, popover, toast or bubble pops in (one pixel low for a
 letters drop in (two pixels high for a frame, then landed, 30 ms apart); a coin block bumps (up 6 pixels, then 3,
 then down); a wrong answer shakes (two pixels each way, then one). Anything that blinks or bobs stops after six
 beats, under five seconds. Screen changes use an ink dissolve (nine frames of 30 ms to cover the screen, nine to
-clear it), an ordered dither, or a mosaic of 2 to 12 pixel blocks, never a cross-fade.
+clear it), an ordered dither, or a mosaic of 2 to 12 pixel blocks, never a cross-fade. A change of time of day is
+an ordered dither straight from one palette to the next, in three frames.
 
 **The One-Look Rule.** Every state has one look, drawn by the candy box: hover lifts one pixel, pressed sits in its
-drop, selected sits in with its bands swapped, focus is the yellow ring, disabled is dithered, busy is three
-stepped dots, invalid is the danger tone. No component invents its own.
+drop, selected sits in with its bands swapped and an ink shadow inside its top and left, focus is the yellow ring,
+disabled is dithered, busy is three stepped dots, invalid is the danger tone. No component invents its own.
 
 **The One Candy Rule.** One candy button per view is the main action. Secondary actions are soft; toolbars, tables
 and forms use outline and ghost, so the candy keeps its meaning.

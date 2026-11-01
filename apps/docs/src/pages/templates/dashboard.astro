@@ -1,7 +1,8 @@
 ---
 /**
  * Template: a dashboard. An app shell (app bar, sidebar, bottom bar on phones) round a live-ops overview: stats,
- * charts drawn as segmented bars, a sortable table and toasts. Every part is a Blip component.
+ * charts drawn as segmented bars, a sortable table and toasts. Every part is a Blip component except the bar
+ * chart, which is this page's own CSS (templates.css) until Blip has charts.
  */
 import Template from "../../layouts/Template.astro";
 import Icon from "../../components/Icon.astro";
@@ -91,10 +92,10 @@ const players = [
       </div>
 
       <dl class="tpl-stats">
-        <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Players online</dt><dd class="pp-stat-value pp-display pp-pop" data-pop="1,204">1,204</dd><dd class="pp-stat-delta" data-trend="up">+12% on last week</dd></div>
-        <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Levels cleared</dt><dd class="pp-stat-value pp-display pp-pop" data-tone="teal" data-pop="8,812">8,812</dd><dd class="pp-stat-delta" data-trend="up">+4%</dd></div>
-        <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Coins spent</dt><dd class="pp-stat-value pp-display pp-pop" data-tone="orange" data-pop="54K">54K</dd><dd class="pp-stat-delta" data-trend="down">-3%</dd></div>
-        <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Crashes</dt><dd class="pp-stat-value pp-display pp-pop" data-tone="purple" data-pop="7">7</dd><dd class="pp-stat-delta" data-trend="down" data-tone="success">-9: good news</dd></div>
+        <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Players online</dt><dd class="pp-stat-value pp-display">1,204</dd><dd class="pp-stat-delta" data-trend="up">+12% on last week</dd></div>
+        <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Levels cleared</dt><dd class="pp-stat-value pp-display">8,812</dd><dd class="pp-stat-delta" data-trend="up">+4%</dd></div>
+        <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Coins spent</dt><dd class="pp-stat-value pp-display">54K</dd><dd class="pp-stat-delta" data-trend="down">-3%</dd></div>
+        <div class="pp-box pp-stat" data-variant="panel"><dt class="pp-stat-label">Crashes</dt><dd class="pp-stat-value pp-display">7</dd><dd class="pp-stat-delta" data-trend="down" data-tone="success">-9: good news</dd></div>
       </dl>
 
       <div class="tpl-dash-charts">
@@ -152,7 +153,7 @@ const players = [
           </div>
         </div>
       </pp-table>
-      <p class="pp-small pp-muted tpl-dash-note">Questboard and its players are made up for this Blip template.</p>
+      <p class="pp-small pp-muted tpl-dash-note">Questboard and its players are made up for this Blip template. The bar chart is this page's own CSS: Blip has no chart component yet.</p>
     </main>
 
     <nav class="pp-box pp-bottom-bar tpl-dash-bottom" aria-label="Live ops" data-collapse="auto">
@@ -163,5 +164,5 @@ const players = [
       </ul>
     </nav>
   </div>
-  <pp-toaster data-placement="bottom-end"></pp-toaster>
+  <pp-toaster data-side="bottom" data-align="end"></pp-toaster>
 </Template>

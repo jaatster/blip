@@ -46,7 +46,7 @@ export const SECTIONS: Section[] = [
     short: "Start",
     url: "/start/",
     icon: "rocket",
-    groups: () => [{ items: [{ title: "Get started", url: "/start/", icon: "rocket" }, { title: "Diagnostics", url: "/diagnostics/", icon: "bug" }, { title: "All pages", url: "/search/", icon: "search" }] }],
+    groups: () => [{ items: [{ title: "Get started", url: "/start/", icon: "rocket" }, { title: "Versions and support", url: "/versions/", icon: "tag" }, { title: "Diagnostics", url: "/diagnostics/", icon: "bug" }, { title: "All pages", url: "/search/", icon: "search" }] }],
   },
   {
     id: "foundations",
@@ -86,7 +86,7 @@ export const SECTIONS: Section[] = [
 ];
 
 export function sectionOf(path: string): Section | undefined {
-  if (path.startsWith("/diagnostics") || path.startsWith("/search")) return SECTIONS[0];
+  if (path.startsWith("/diagnostics") || path.startsWith("/search") || path.startsWith("/versions")) return SECTIONS[0];
   return SECTIONS.find((s) => path.startsWith(s.url));
 }
 

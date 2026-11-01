@@ -19,20 +19,44 @@ const groups = searchIndex();
       <h2 id={`az-${g.title.toLowerCase()}`}>{g.title} <span class="docs-count">{g.items.length}</span></h2>
       <ul class="docs-az-list" role="list">
         {g.items.map((i) => (
-          <li data-keywords={`${i.title.toLowerCase()} ${i.keywords}`}><a href={i.url}>{i.title}</a> <span class="pp-small pp-muted">{i.hint}</span></li>
+          <li data-keywords={`${i.title.toLowerCase()} ${i.keywords}`} data-synonyms={i.synonyms}><a href={i.url}>{i.title}</a> <span class="pp-small pp-muted">{i.hint}</span></li>
         ))}
       </ul>
     </section>
   ))}
   <script is:inline type="module">
+    // The same search as the palette (search-match.js): synonyms, the pages' sections, typos. A match in a section
+    // links to it.
+    import { prepare, search } from "/js/search-match.js";
     const input = document.querySelector(".docs-filter-input"), count = document.querySelector(".docs-filter-count");
-    const items = [...document.querySelectorAll(".docs-az-list > li")];
+    const rows = [...document.querySelectorAll(".docs-az-list > li")].map((li) => {
+      const a = li.querySelector("a"), hint = li.querySelector(".pp-muted");
+      return { li, a, hint, url: a.getAttribute("href"), text: hint.textContent, item: { title: a.textContent, url: a.getAttribute("href"), keywords: li.dataset.keywords, synonyms: li.dataset.synonyms } };
+    });
+    let prepared = rows.map((r) => prepare(r.item));
+    // The sections come from the search index, built with the site.
+    fetch("/search.json").then((r) => r.json()).then((data) => {
+      const sections = new Map(data.groups.flatMap((g) => g.items).map((i) => [`${i.title} ${i.url}`, i.sections]));
+      prepared = rows.map((r) => prepare({ ...r.item, sections: sections.get(`${r.item.title} ${r.item.url}`) }));
+      if (input.value) run();
+    }, () => {});
     const run = () => {
-      const words = input.value.toLowerCase().split(/\s+/).filter(Boolean);
+      const found = search(input.value, prepared);
+      const on = input.value.trim() !== "";
       let n = 0;
-      for (const li of items) { const ok = words.every((w) => li.dataset.keywords.includes(w)); li.hidden = !ok; if (ok) n++; }
+      rows.forEach((r, i) => {
+        const m = found.get(prepared[i]);
+        r.li.hidden = on && !m;
+        r.a.href = m?.section ? `${r.url}#${m.section.id}` : r.url;
+        r.hint.textContent = m?.section ? `${r.text}: ${m.section.text}` : r.text;
+        if (!r.li.hidden) n++;
+      });
+      for (const list of document.querySelectorAll(".docs-az-list")) {
+        const lis = rows.filter((r) => r.li.parentElement === list);
+        list.append(...lis.sort((a, b) => (on ? (found.get(prepared[rows.indexOf(b)])?.score ?? 0) - (found.get(prepared[rows.indexOf(a)])?.score ?? 0) : 0) || rows.indexOf(a) - rows.indexOf(b)).map((r) => r.li));
+      }
       for (const s of document.querySelectorAll(".docs-az")) s.hidden = !s.querySelector("li:not([hidden])");
-      count.textContent = words.length ? `${n} ${n === 1 ? "match" : "matches"}` : "";
+      count.textContent = on ? `${n} ${n === 1 ? "match" : "matches"}` : "";
     };
     input.addEventListener("input", run);
     const q = new URLSearchParams(location.search).get("q");

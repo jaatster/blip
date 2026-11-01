@@ -44,8 +44,9 @@
   .home-hero .pp-hero-title { margin: 0; }
   .home-lead { max-inline-size: 34ch; font-size: var(--pp-size-title); line-height: var(--pp-leading-normal); text-wrap: balance; }
   .home-note { font-weight: var(--pp-weight-medium); }
-  /* By day and at sunset, a one-pixel halo in the page colour keeps text clear of a passing cloud. */
-  :is(.home-lead, .home-note, .home-date) {
+  /* The lead and the note wear the hero's own halo (@jaatster/blip-blocks). By day and at sunset, the date gets the same:
+     a one-pixel halo in the page colour keeps it clear of a passing cloud. */
+  .home-date {
     text-shadow:
       calc(-1 * var(--pp-pixel)) calc(-1 * var(--pp-pixel)) 0 var(--pp-bg), 0 calc(-1 * var(--pp-pixel)) 0 var(--pp-bg),
       var(--pp-pixel) calc(-1 * var(--pp-pixel)) 0 var(--pp-bg), calc(-1 * var(--pp-pixel)) 0 0 var(--pp-bg),
@@ -56,9 +57,9 @@
   .home-cta { display: none; margin: 0; gap: var(--pp-space-4); flex-wrap: wrap; }
   @container (width < 600px) { .home-cta { display: flex; } }
 
-  /* At night the sky has a moon and stars: light text keeps an ink outline (the system's OUTLINE), so a line
-     that crosses a cloud still reads. */
-  [data-pp-scheme="night"] :is(.home-lead, .home-note, .home-date) {
+  /* At night the sky has a moon and stars: the date keeps an ink outline (the system's OUTLINE), so it still reads
+     where it crosses a cloud. */
+  [data-pp-scheme="night"] .home-date {
     --_o: max(0.5px, calc(var(--pp-pixel) / 2));
     text-shadow:
       calc(-1 * var(--_o)) calc(-1 * var(--_o)) 0 var(--pp-ink), 0 calc(-1 * var(--_o)) 0 var(--pp-ink),
@@ -165,7 +166,8 @@
     max-inline-size: calc(560 * var(--pp-pixel));
     margin: calc(56 * var(--pp-pixel)) auto 0;
   }
-  .home-head { display: grid; gap: var(--pp-space-6); max-inline-size: var(--docs-measure); margin-block-end: var(--pp-space-16); }
+  .home-head { display: grid; gap: var(--pp-space-6); margin-block-end: var(--pp-space-16); }
+  .home-head > * { max-inline-size: var(--docs-measure); }
   .home-h2 {
     font-family: var(--pp-font-display);
     font-size: calc(20 * var(--pp-pixel));

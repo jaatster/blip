@@ -85,7 +85,7 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
               </div>
             </fieldset>
             <label class="pp-check home-demo-row" data-layout="split">Chip sounds<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box home-sound" /></span></label>
-            <button class="pp-box pp-button home-start" type="button" data-size="lg" data-width="full">Press start</button>
+            <button class="pp-box pp-button home-start" type="button" data-variant="soft" data-width="full">Press start</button>
           </div>
           <footer class="pp-window-status"><span class="home-status">Every control here is live</span><span class="home-daytime"></span></footer>
         </section>
@@ -184,9 +184,9 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
       <li class="home-rule">
         <div class="home-rule-text">
           <h3>Disabled is dithered</h3>
-          <p>A control that is off gets a checkerboard of the page colour over it, not a grey wash. It keeps its colour, so you can still tell what it would do.</p>
+          <p>A control that is off gets a light checkerboard over it, not a grey wash: the page colour by day, starlight at night. It keeps its colour, so you can still tell what it would do, and its label still reads.</p>
         </div>
-        <div class="home-specimen home-dither" role="img" aria-label="A Save button, and the same button disabled: covered by a checkerboard of the page colour.">
+        <div class="home-specimen home-dither" role="img" aria-label="A Save button, and the same button disabled: covered by a light checkerboard.">
           <div data-pp-pixel="4" class="home-dither-row">
             <span class="pp-box pp-button" data-size="sm">Save</span>
             <span class="pp-box pp-button" data-size="sm" aria-disabled="true">Save</span>
@@ -357,5 +357,5 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
       <span class="pp-small pp-muted">Version {version}</span>
     </div>
   </section>
-  <pp-toaster data-placement="bottom-end"></pp-toaster>
+  <pp-toaster data-side="bottom" data-align="end"></pp-toaster>
 </Docs>

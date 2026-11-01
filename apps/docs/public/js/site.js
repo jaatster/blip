@@ -47,7 +47,8 @@ function syncMenu() {
 if (display) {
   display.hidden = false;
   syncMenu();
-  display.addEventListener("pp-select", (e) => {
+  // The event a chosen item fires, as the element's manifest names it (the page writes it in data-docs-choose).
+  display.addEventListener(display.dataset.docsChoose || "pp-action", (e) => {
     const [k, v] = String(e.detail.value).split(":");
     if (k === "scheme") {
       store.set(KEYS.scheme, v === "auto" ? null : v);
@@ -80,33 +81,79 @@ if (mac) for (const k of document.querySelectorAll("[data-mod]")) k.textContent 
 
 // ------------------------------------------------------------------ search
 
+// The palette filters its options itself (every word in an option's label or data-keywords). Before it does, each
+// option is matched with search-match.js, which knows synonyms, sections and typos: a match takes the words typed
+// into its keywords, so the palette keeps it, shows the section it found and opens the page there; the best come
+// first in their group.
 const palette = document.querySelector("pp-command.docs-search");
 const searchButton = document.querySelector(".docs-search-button");
 let index;
-function buildResults(data) {
+let entries = [];
+async function buildResults(data) {
+  const { prepare } = await import("/js/search-match.js");
   const list = palette.querySelector('[role="listbox"]');
   const out = [];
+  const items = [];
   let n = 0;
   data.groups.forEach((group, gi) => {
     out.push(`<div class="pp-command-group" role="group" aria-labelledby="docs-search-g${gi}"><div class="pp-command-heading" id="docs-search-g${gi}">${esc(group.title)}</div>`);
     for (const item of group.items) {
       const icon = item.icon ? `<svg class="pp-icon" aria-hidden="true"><use href="/pp/icons/sprite.svg#pp-icon-${esc(item.icon)}"/></svg>` : "";
       out.push(`<div class="pp-box pp-command-item" role="option" id="docs-search-o${n++}" data-value="${esc(item.url)}" data-keywords="${esc(item.keywords || "")}">${icon}<span class="pp-command-label">${esc(item.title)}</span><span class="pp-command-hint">${esc(item.hint || "")}</span></div>`);
+      items.push(item);
     }
     out.push("</div>");
   });
   list.innerHTML = out.join("");
+  entries = [...list.querySelectorAll('[role="option"]')].map((el, i) => ({ el, i, item: items[i], p: prepare(items[i]), hint: el.querySelector(".pp-command-hint") }));
 }
+/** Each option back as it was built: its own keywords, hint, link and place. */
+function restore() {
+  for (const e of entries) {
+    e.el.dataset.keywords = e.item.keywords || "";
+    e.el.dataset.value = e.item.url;
+    e.hint.textContent = e.item.hint || "";
+  }
+  const list = palette?.querySelector('[role="listbox"]');
+  const byId = (a, b) => a.id.localeCompare(b.id, undefined, { numeric: true });
+  for (const g of list?.querySelectorAll(".pp-command-group") ?? []) g.append(...[...g.querySelectorAll('[role="option"]')].sort(byId));
+  list?.append(...[...list.querySelectorAll(".pp-command-group")].sort((a, b) => byId(a.firstElementChild, b.firstElementChild)));
+}
+let match;
+palette?.addEventListener("input", (e) => {
+  if (!entries.length || !match || !e.target.matches?.(".pp-command-input")) return;
+  const query = e.target.value;
+  const found = match(query, entries.map((x) => x.p));
+  const typed = query.toLowerCase().trim();
+  for (const x of entries) {
+    const m = found.get(x.p);
+    x.score = m?.score ?? 0;
+    x.el.dataset.keywords = m ? `${x.item.keywords || ""} ${typed}` : x.item.keywords || "";
+    x.el.dataset.value = m?.section ? `${x.item.url}#${m.section.id}` : x.item.url;
+    x.hint.textContent = m?.section ? m.section.text : x.item.hint || "";
+  }
+  if (!typed) return restore();
+  // Best first in each group, and the group with the best first, so the first one shown (the one Enter opens) is
+  // the best of all.
+  const byEl = new Map(entries.map((x) => [x.el, x]));
+  const groups = [...palette.querySelectorAll(".pp-command-group")].map((g, n) => {
+    const opts = [...g.querySelectorAll('[role="option"]')].map((el) => byEl.get(el)).sort((a, b) => b.score - a.score || a.i - b.i);
+    g.append(...opts.map((x) => x.el));
+    return { g, n, best: opts[0]?.score ?? 0 };
+  });
+  palette.querySelector('[role="listbox"]').append(...groups.sort((a, b) => b.best - a.best || a.n - b.n).map((x) => x.g));
+}, { capture: true });
 function loadIndex() {
   if (!palette) return Promise.resolve();
   index ??= (async () => {
     palette.dataset.loading = "";
     try {
-      const data = await (await fetch("/search.json")).json();
-      buildResults(data);
+      const [data, lib] = await Promise.all([fetch("/search.json").then((r) => r.json()), import("/js/search-match.js")]);
+      await buildResults(data);
+      match = lib.search;
     } finally {
       delete palette.dataset.loading;
-      palette.querySelector("input")?.dispatchEvent(new Event("input"));
+      palette.querySelector("input")?.dispatchEvent(new Event("input", { bubbles: true }));
     }
   })();
   return index;
@@ -120,8 +167,11 @@ if (palette && searchButton) {
     });
   });
   for (const ev of ["pointerenter", "focus", "touchstart"]) searchButton.addEventListener(ev, loadIndex, { once: true, passive: true });
-  palette.querySelector("dialog")?.addEventListener("toggle", (e) => e.newState === "open" && loadIndex());
-  palette.addEventListener("pp-select", (e) => {
+  const dialog = palette.querySelector("dialog");
+  dialog?.addEventListener("toggle", (e) => e.newState === "open" && loadIndex());
+  // Closed: the options go back to how they were built, for the next search.
+  dialog?.addEventListener("close", restore);
+  palette.addEventListener(palette.dataset.docsChoose || "pp-action", (e) => {
     const url = e.detail.value;
     if (url) location.href = url;
   });

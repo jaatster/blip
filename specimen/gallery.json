@@ -52,6 +52,7 @@
     "/packages/components/src/toast.css",
     "/packages/components/src/tooltip.css",
     "/packages/components/src/window.css",
+    "/packages/components/src/opt-in/popover-nub.css",
     "/packages/game/src/achievement.css",
     "/packages/game/src/choices.css",
     "/packages/game/src/dialogue.css",

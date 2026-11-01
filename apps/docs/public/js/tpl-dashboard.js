@@ -12,7 +12,6 @@ $(".tpl-range")?.addEventListener("pp-change", (e) => {
     const [value, delta, trend] = rows[i];
     const v = stat.querySelector(".pp-stat-value"), d = stat.querySelector(".pp-stat-delta");
     v.textContent = value;
-    v.dataset.pop = value;
     d.textContent = delta;
     d.dataset.trend = trend;
     if (i === 3) d.dataset.tone = trend === "down" ? "success" : "danger";

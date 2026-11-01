@@ -9,10 +9,10 @@ import Example from "../../components/Example.astro";
 import Table from "../../components/Table.astro";
 import Pager from "../../components/Pager.astro";
 import { componentDocs, docLink, example, type Doc } from "../../lib/data";
-import { codeBlock, renderMarkdown, type Heading } from "../../lib/markdown";
+import { renderMarkdown, type Heading } from "../../lib/markdown";
 import { elementReference } from "../../lib/cem";
 import { code, esc, kitsFor, stripTags } from "../../lib/html";
-import { reactEntryFor } from "../../lib/react";
+import { reactSection } from "../../lib/react-section";
 import { anatomyFigure } from "../../lib/anatomy";
 
 export function getStaticPaths() {
@@ -29,18 +29,18 @@ const kits = kitsFor(ex?.html ?? "", doc.pkg);
 const elements = (meta.element ?? "").split(",").map((s) => s.trim()).filter(Boolean);
 const refs = elements.map((t) => elementReference(t)).filter((x) => !!x);
 
+// React: the components @jaatster/blip-react has for this page today, their examples and props, read from its source.
+const react = await reactSection(doc, ex?.html ?? null);
 const preferred = doc.pkg === "components" || doc.pkg === "elements" ? "@jaatster/blip-react" : `@jaatster/blip-react/${doc.pkg}`;
-// Only what @jaatster/blip-react really exports today, read from its source.
-const reactEntry = meta.react ? reactEntryFor(meta.react, preferred) : undefined;
-const reactCode = meta.react && reactEntry
-  ? await codeBlock(`import { ${meta.react} } from "${reactEntry}";\n\n// Props mirror the attributes: data-variant is variant, data-tone tone, data-size size,\n// data-pp-r radius; the element's pp-* events are on* props (pp-change is onChange).`, "tsx", "TSX")
-  : "";
 
 const headings: Heading[] = [
   ...(ex ? [{ depth: 2, id: "example", text: "Example" }] : []),
   ...r.headings,
   ...(refs.length ? [{ depth: 2, id: "element-reference", text: "Element reference" }] : []),
-  ...(meta.react ? [{ depth: 2, id: "react", text: "React" }] : []),
+  ...(react || meta.react ? [{ depth: 2, id: "react", text: "React" }] : []),
+  ...(react ? [{ depth: 3, id: "react-props", text: `${react.main.name} props` }] : []),
+  ...(react?.parts.length ? [{ depth: 3, id: "react-parts", text: "Parts" }] : []),
+  ...(react?.functions ?? []).map((f) => ({ depth: 3, id: `react-${f.name}`, text: `${f.name}()` })),
 ];
 const statusTone = meta.status === "stable" ? "success" : meta.status === "beta" ? "info" : "warning";
 // The command palette's own example already answers to Ctrl+K: the site's search steps aside to "/".
@@ -51,11 +51,11 @@ const searchShortcut = ex && /<pp-command[\s>]/.test(ex.html) ? "/" : undefined;
     <h1 class="docs-page-title pp-display" data-scale="2">{meta.name}</h1>
     <p class="docs-lede" set:html={r.lede} />
     <ul class="docs-meta" role="list" aria-label="About this component">
-      <li><span class="pp-box pp-tag" data-size="sm" data-tone={statusTone}>{meta.status}</span></li>
+      <li><a class="docs-status" href="/versions/#status" aria-label={`Status: ${meta.status}. What it means`}><span class="pp-box pp-tag" data-size="sm" data-tone={statusTone}>{meta.status}</span></a></li>
       <li><span class="docs-meta-key">Package</span> <code class="docs-inline-code">{meta.package}</code></li>
       {meta.css && <li><span class="docs-meta-key">CSS</span> <code class="docs-inline-code">{meta.css}</code></li>}
       {elements.length > 0 && <li><span class="docs-meta-key">Element</span> {elements.map((t) => <code class="docs-inline-code">{`<${t}>`}</code>)}</li>}
-      {meta.react && <li><span class="docs-meta-key">React</span> <code class="docs-inline-code">{`<${meta.react}>`}</code></li>}
+      {react && <li><span class="docs-meta-key">React</span> <code class="docs-inline-code">{`<${react.main.name}>`}</code></li>}
     </ul>
   </header>
 
@@ -80,18 +80,65 @@ const searchShortcut = ex && /<pp-command[\s>]/.test(ex.html) ? "/" : undefined;
     </section>
   )}
 
-  {meta.react && (
+  {react && (
+    <section class="docs-section docs-react" aria-labelledby="react">
+      <h2 id="react">React</h2>
+      <p set:html={react.intro} />
+      {react.examples.map((e, i) => (
+        <Fragment>
+          {i > 0 && <p class="docs-note">The example in its source:</p>}
+          <Fragment set:html={e.html} />
+          {e.checked && <p class="docs-note">From the React package's own examples, which are type-checked against React 18 and 19.</p>}
+        </Fragment>
+      ))}
+
+      <h3 id="react-props"><code class="docs-inline-code">{`<${react.main.name}>`}</code> props</h3>
+      {react.props.rows.length > 0
+        ? <Table label={`${react.main.name} props`} head={["Prop", "Type", "Default", ""]} rows={react.props.rows} class="docs-props" />
+        : <p>No props of its own.</p>}
+      {react.props.rest && <p class="docs-note" set:html={react.props.rest} />}
+      {react.props.notes.map((n) => <p class="docs-note" set:html={n} />)}
+
+      {react.parts.length > 0 && (
+        <Fragment>
+          <h3 id="react-parts">Parts</h3>
+          <p>The pieces that go inside it, each rendering one part of the markup above.</p>
+          <Table label={`${react.main.name} parts`} head={["Component", "Renders", ""]} rows={react.partRows} />
+          {react.partProps.length > 0 && (
+            <details class="docs-react-more">
+              <summary class="pp-box pp-button" data-variant="outline" data-size="sm"><span class="docs-when-closed">Show the parts' props</span><span class="docs-when-open">Hide the parts' props</span></summary>
+              {react.partProps.map((p) => (
+                <div class="docs-stack docs-react-part">
+                  <h4 class="docs-react-h4"><code class="docs-inline-code">{`<${p.name}>`}</code></h4>
+                  <Table label={`${p.name} props`} head={["Prop", "Type", "Default", ""]} rows={p.table.rows} class="docs-props" />
+                  {p.table.rest && <p class="docs-note" set:html={p.table.rest} />}
+                  {p.table.notes.map((n) => <p class="docs-note" set:html={n} />)}
+                </div>
+              ))}
+            </details>
+          )}
+        </Fragment>
+      )}
+      {react.types.length > 0 && (
+        <dl class="docs-react-types">
+          {react.types.map(([name, values]) => <div><dt><code class="docs-inline-code">{name}</code></dt><dd set:html={values} /></div>)}
+        </dl>
+      )}
+
+      {react.functions.map((f) => (
+        <Fragment>
+          <h3 id={`react-${f.name}`}><code class="docs-inline-code">{`${f.name}()`}</code></h3>
+          <p set:html={f.description} />
+          <Fragment set:html={f.signature} />
+          {f.examples.map((e) => <Fragment set:html={e} />)}
+        </Fragment>
+      ))}
+    </section>
+  )}
+  {!react && meta.react && (
     <section class="docs-section" aria-labelledby="react">
       <h2 id="react">React</h2>
-      {reactEntry ? (
-        <p>
-          <code class="docs-inline-code">{`<${meta.react}>`}</code> from <code class="docs-inline-code">{reactEntry}</code> renders the markup above
-          {elements.length > 0 ? " and loads its element" : ""}, with typed props for the attributes. Load the CSS once, as for plain HTML.
-        </p>
-      ) : (
-        <p><code class="docs-inline-code">{`<${meta.react}>`}</code> is planned for <code class="docs-inline-code">{preferred}</code> but is not in the package yet. Until it is, write the markup above in JSX (<code class="docs-inline-code">class</code> becomes <code class="docs-inline-code">className</code>); everything else carries over.</p>
-      )}
-      {reactCode && <Fragment set:html={reactCode} />}
+      <p><code class="docs-inline-code">{`<${meta.react}>`}</code> is planned for <code class="docs-inline-code">{preferred}</code> but is not in the package yet. Until it is, write the markup above in JSX (<code class="docs-inline-code">class</code> becomes <code class="docs-inline-code">className</code>); everything else carries over.</p>
     </section>
   )}
 

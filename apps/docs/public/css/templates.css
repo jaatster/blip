@@ -95,7 +95,7 @@
   /* ------------------------------------------------------------------ landing */
 
   .tpl-landing-top { position: sticky; inset-block-start: 0; z-index: var(--pp-layer-sticky); padding: var(--pp-space-3) var(--pp-space-6); background: var(--pp-bg); }
-  [data-pp-scheme="night"] :is(.tpl-hero .pp-hero-lead, .tpl-hero .pp-hero-note, .tpl-hint, .tpl-keys) {
+  [data-pp-scheme="night"] :is(.tpl-hint, .tpl-keys) {
     --_o: max(0.5px, calc(var(--pp-pixel) / 2));
     text-shadow:
       calc(-1 * var(--_o)) calc(-1 * var(--_o)) 0 var(--pp-ink), 0 calc(-1 * var(--_o)) 0 var(--pp-ink),
