@@ -8,3 +8,4 @@ test-results/
 playwright-report/
 storybook-static/
 .impeccable/review/
+deploy/.out/

@@ -17,7 +17,7 @@ export function warn(code: string, message: string, el?: Element): void {
   const key = `${code}:${message}`;
   if (seen.has(key)) return;
   seen.add(key);
-  console.warn(`Blip ${code}: ${message}\n  https://jaatster.com/blip/diagnostics#${code.toLowerCase()}`, el ?? "");
+  console.warn(`Blip ${code}: ${message}\n  https://jaatster.com/blip/diagnostics/#${code.toLowerCase()}`, el ?? "");
 }
 
 /** Common checks any element can run when it connects. */

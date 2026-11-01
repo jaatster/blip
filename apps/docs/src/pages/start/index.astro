@@ -182,7 +182,7 @@ const diag = await codeBlock(`// On by default on localhost. Turn them on or off
 globalThis.BLIP_DIAGNOSTICS = true;
 ${sample ? `
 // Blip CHU-A001: ${sample.message}
-//   https://jaatster.com/blip/diagnostics#chu-a001` : ""}`, "js", "Console");
+//   https://jaatster.com/blip/diagnostics/#chu-a001` : ""}`, "js", "Console");
 
 const docsByElement = new Map<string, { name: string; url: string }>();
 for (const d of componentDocs()) for (const t of (d.meta.element ?? "").split(",").map((s) => s.trim()).filter(Boolean)) docsByElement.set(t, { name: d.meta.name, url: d.url });

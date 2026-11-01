@@ -157,7 +157,7 @@ describe("diagnostics", () => {
     warn("CHU-T999", "A test warning, once.");
     warn("CHU-T999", "A test warning, once.");
     expect(log).toHaveBeenCalledTimes(1);
-    expect(log.mock.calls[0]![0]).toBe("Blip CHU-T999: A test warning, once.\n  https://jaatster.com/blip/diagnostics#chu-t999");
+    expect(log.mock.calls[0]![0]).toBe("Blip CHU-T999: A test warning, once.\n  https://jaatster.com/blip/diagnostics/#chu-t999");
   });
 
   it("stays quiet when turned off, and away from localhost", () => {

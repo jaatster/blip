@@ -53,7 +53,7 @@ Steps split by `;`. Selectors are matched inside the element.
 In JavaScript and React, `steps` takes the same steps as objects: the verb holds its selector (`wait` its time, in ms
 or as in the script), `type` has its `text`, and `poster: true` marks the still frame, on its own or on a step (the
 state once that step is done). A step it cannot read, or whose selector matches nothing, is reported in the console
-with its text ([`CHU-D010`, `CHU-D011`](https://jaatster.com/blip/diagnostics#chu-d010)) and skipped; the rest plays.
+with its text ([`CHU-D010`, `CHU-D011`](https://jaatster.com/blip/diagnostics/#chu-d010)) and skipped; the rest plays.
 
 ### The craft
 

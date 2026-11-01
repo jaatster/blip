@@ -28,9 +28,11 @@ const tags = new Set([...html.matchAll(/<(chu-[a-z0-9-]+)[\s>/]/g)].map((m) => m
 const byAttribute: [RegExp, string][] = [[/data-chu-burst=/, "/chu/effects/burst.js"]];
 const modules = [...new Set([...[...tags].map((t) => a.defines[t]), ...byAttribute.filter(([re]) => re.test(html)).map(([, m]) => m)].filter((m): m is string => !!m))];
 const pageTitle = title === "Blip" ? title : `${title} · Blip`;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+// The docs' own address (astro.config.mjs's site), which may have a path: /blip on jaatster.com.
+const home = Astro.site!.href.replace(/\/?$/, "/");
+const canonical = new URL(Astro.url.pathname.slice(1), home);
 // The social card: specimen/press.html, drawn by Blip and saved by `pnpm shoot`.
-const card = new URL("/og.png", Astro.site);
+const card = new URL("og.png", home);
 const cardAlt = "Blip in white pixel letters on a starry night over pixel-art mountains, beside a window of options, with the site's sections as candy tiles on the hill. A 16-bit design system.";
 // The presets a reader can pick (the default palette is having none).
 const presets = Object.keys(tokens().palettes ?? {}).join(" ");

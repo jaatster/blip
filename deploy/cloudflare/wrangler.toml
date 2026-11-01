@@ -1,0 +1,7 @@
+# The Worker that serves jaatster.com/blip from the "blip" Pages project (worker.js).
+# Deploy: npx wrangler deploy --config deploy/cloudflare/wrangler.toml
+name = "blip-route"
+main = "worker.js"
+compatibility_date = "2026-11-01"
+workers_dev = false
+routes = [{ pattern = "jaatster.com/blip*", zone_name = "jaatster.com" }]
