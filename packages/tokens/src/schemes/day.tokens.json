@@ -186,6 +186,16 @@
       "$description": "Visited links (AA on the scheme's surfaces)."
     }
   },
+  "disabled": {
+    "dither": {
+      "$value": "{world.day.cloud.body}",
+      "$description": "The checkerboard over a disabled candy: light in every scheme, so its label still reads (the page colour by Day and Sunset, Starlight at Night)."
+    },
+    "dither-cream": {
+      "$value": "{world.day.mountain.lit}",
+      "$description": "The checkerboard over disabled cream (the neutral tone, cream tabs, the switch knob), where the page colour would not show."
+    }
+  },
   "scene": {
     "$description": "The world's colours for this time of day, for scenes drawn in CSS (game stages, hero strips).",
     "sky": {

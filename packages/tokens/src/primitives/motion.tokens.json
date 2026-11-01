@@ -92,7 +92,7 @@
         "value": 10000,
         "unit": "ms"
       },
-      "$description": "One step of the palette fade when Auto changes the time of day."
+      "$description": "One step of the world's sky when Auto changes the time of day (six of them, a minute in all). The page's own colours change at once, in an ordered dither."
     },
     "glint-every": {
       "$value": {
@@ -125,7 +125,8 @@
       "$value": 9
     },
     "scheme": {
-      "$value": 6
+      "$value": 6,
+      "$description": "How many mixes the world's sky steps through when Auto changes the time of day."
     }
   },
   "delay": {

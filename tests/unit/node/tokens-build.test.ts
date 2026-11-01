@@ -136,7 +136,34 @@ describe("tokens build: the resolver", () => {
     // Day is the default: on :root and on its attribute. Night also answers the device's dark mode.
     expect(css).toMatch(/:root, \[data-pp-scheme="day"\] \{[^}]*--pp-scheme: day;/);
     expect(css).toMatch(/\[data-pp-scheme="night"\] \{[^}]*--pp-scheme: night;/);
-    expect(css).toMatch(/@media \(prefers-color-scheme: dark\) \{\s*:root:not\(\[data-pp-scheme\]\) \{/);
+    expect(css).toMatch(/@media screen and \(prefers-color-scheme: dark\) \{\s*:root:not\(\[data-pp-scheme\]\) \{/);
+  });
+
+  it("prints in Day: the other schemes and the dark mode are for screens", () => {
+    const css = read(copy, "css/tokens.css");
+    expect(css).toMatch(/\n  :root, \[data-pp-scheme="day"\] \{/);
+    for (const scheme of ["sunset", "night"]) expect(css).toContain(`@media screen { [data-pp-scheme="${scheme}"] {`);
+    expect(css).not.toMatch(/\n  \[data-pp-scheme="(sunset|night)"\]/);
+  });
+
+  it("gives sizes in px in tokens.json: the type sizes, rem in CSS, at the 16 px default", () => {
+    const { shared } = json(copy, "json/tokens.json");
+    const css = read(copy, "css/tokens.css");
+    expect([shared["size-caption"], shared["size-body"], shared["size-title"]]).toEqual([12, 16, 22]);
+    expect(css).toContain("--pp-size-body: 1rem;");
+    expect(shared["breakpoint-medium"]).toBe(600);
+  });
+
+  it("registers no scheme colours: a change of scheme is a dither, not a fade", () => {
+    expect(read(copy, "css/tokens.css")).not.toContain("@property");
+  });
+
+  it("has a light disabled dither in every scheme: the page by Day and Sunset", () => {
+    const { schemes } = json(copy, "json/tokens.json");
+    for (const scheme of ["day", "sunset"]) expect(schemes[scheme]["disabled-dither"], scheme).toBe(schemes[scheme].bg);
+    expect(schemes.night["disabled-dither"]).not.toBe(schemes.night.bg);
+    expect(schemes.night["disabled-dither"]).toBe(schemes.night.text);
+    for (const scheme of ["day", "sunset", "night"]) expect(schemes[scheme]["disabled-dither-cream"], scheme).toMatch(/^#[0-9A-F]{6}$/);
   });
 
   it("takes the pixel size from the pixel context", () => {
@@ -284,6 +311,35 @@ describe("tokens build: the contrast gate", () => {
       const run = copy.build("--check");
       expect(run.status).toBe(1);
       expect(run.stderr).toMatch(/night: danger\.on #[0-9A-F]{6} on danger\.base #[0-9A-F]{6} is 1\.00:1; it needs 4\.5:1\./);
+    } finally {
+      copy.remove();
+    }
+  });
+
+  it("PP-T060: holds a candy's label to 4.5:1 on the dither over it when disabled", () => {
+    const copy = tokensCopy();
+    try {
+      // The page colour at Night as the dither: the ink label all but vanishes.
+      editJson(join(copy.dir, "src/schemes/night.tokens.json"), (j) => (j.disabled.dither.$value = "{deep.3}"));
+      const run = copy.build("--check");
+      expect(run.status).toBe(1);
+      expect(run.stderr).toContain("PP-T060  src/schemes/night.tokens.json at /disabled/dither");
+      expect(run.stderr).toMatch(/night: ink\.base #1A1530 on disabled\.dither #22244F is 1\.20:1; it needs 4\.5:1\./);
+      expect(run.stderr).toMatch(/night: accent\.on #1A1530 on disabled\.dither #22244F is 1\.20:1/);
+      expect(run.stderr).not.toMatch(/(day|sunset): /);
+    } finally {
+      copy.remove();
+    }
+  });
+
+  it("PP-T060: holds the neutral (cream) label to 4.5:1 on cream's own dither", () => {
+    const copy = tokensCopy();
+    try {
+      editJson(join(copy.dir, "src/schemes/night.tokens.json"), (j) => (j.disabled["dither-cream"].$value = "{world.night.sky.2}"));
+      const run = copy.build("--check");
+      expect(run.status).toBe(1);
+      expect(run.stderr).toContain("PP-T060  src/schemes/night.tokens.json at /disabled/dither-cream");
+      expect(run.stderr).toMatch(/night: ink\.base #1A1530 on disabled\.dither-cream #45478A is 2\.11:1/);
     } finally {
       copy.remove();
     }

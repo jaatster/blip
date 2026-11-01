@@ -1,0 +1,13 @@
+/*
+ * Paper. A box's outline, bands, drop and glyphs are backgrounds and masks, which browsers leave out when they print
+ * without "Background graphics", so boxes ask for their exact colours: they print as they look. Printed colours are
+ * the Day scheme's whatever the screen shows (tokens.css), and scrims, which only dim the page behind a dialog, are
+ * left off.
+ */
+
+@layer pp.utilities {
+  @media print {
+    .pp-box, .pp-box::before, .pp-box::after { print-color-adjust: exact; }
+    .pp-scrim, .pp-box::backdrop { background: none; }
+  }
+}

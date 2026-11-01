@@ -23,6 +23,9 @@
   "sideEffects": [
     "*.css"
   ],
+  "bin": {
+    "blip-tokens": "scripts/cli.mjs"
+  },
   "exports": {
     ".": {
       "types": "./dist/js/index.d.ts",
@@ -39,6 +42,7 @@
   "files": [
     "dist",
     "src",
+    "scripts",
     "blip.resolver.json",
     "CHANGELOG.md"
   ],

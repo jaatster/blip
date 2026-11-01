@@ -29,6 +29,7 @@
     },
     "./core.css": "./dist/core.css",
     "./core.min.css": "./dist/core.min.css",
+    "./layers.css": "./dist/layers.css",
     "./package.json": "./package.json"
   },
   "files": [
@@ -43,7 +44,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "node scripts/shapes.mjs && node ../../scripts/bundle-css.mjs src/css/index.css dist/core.css && tsc -p tsconfig.json"
+    "build": "node scripts/shapes.mjs && node ../../scripts/bundle-css.mjs src/css/index.css dist/core.css src/css/layers.css dist/layers.css && tsc -p tsconfig.json"
   },
   "dependencies": {
     "@jaatster/blip-tokens": "workspace:*"

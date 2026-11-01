@@ -1,6 +1,7 @@
 /*
  * Type. Big text is Pixel Bop, always on the grid and always capitals: font-size is 10 x pixel x scale, so every
- * letter pixel is a Blip pixel. Small text is Pixelify Sans at fixed sizes: the one thing allowed off the grid.
+ * letter pixel is a Blip pixel. Small text is Pixelify Sans on its five sizes (--pp-size-*, in rem, so they follow
+ * a larger default text size): the one thing allowed off the grid.
  *
  *   .pp-display   Pixel Bop at a whole scale (--pp-scale: 1 to 4, or data-scale)
  *   .pp-pop       POP: white letters, ink outline, a tinted lower band and a drop in the tone's shade
@@ -17,6 +18,8 @@
     font-weight: 400;
     line-height: var(--pp-leading-display);
     letter-spacing: 0;
+    /* A score or a word in display type stays whole, even in a <p>: "120" over "4" reads as two numbers. */
+    overflow-wrap: normal;
     text-transform: uppercase;
     font-synthesis: none;
     font-variant-numeric: tabular-nums;
@@ -76,6 +79,9 @@
     background-clip: text;
     pointer-events: none;
   }
+  /* Printing ignores background-clip: text, so the tint would print as a box over the word: on paper POP is white
+     letters, the ink outline and the drop. */
+  @media print { .pp-pop[data-pop]::after { content: none; } }
   .pp-pop:is([data-tone="red"], [data-tone="danger"]) { --pp-pop-tint: var(--pp-candy-red-light); --pp-pop-drop: var(--pp-candy-red-shade); }
   .pp-pop[data-tone="orange"], .pp-pop[data-tone="warning"] { --pp-pop-tint: var(--pp-candy-orange-light); --pp-pop-drop: var(--pp-candy-orange-shade); }
   .pp-pop[data-tone="yellow"] { --pp-pop-tint: var(--pp-candy-yellow-light); --pp-pop-drop: var(--pp-candy-yellow-shade); }

@@ -54,9 +54,13 @@ export abstract class PixelElement extends HTMLElement {
     target.addEventListener(type, fn as EventListener, { ...options, signal: this.signal });
   }
 
-  /** Reads a boolean attribute. */
+  /**
+   * Reads a boolean attribute: on when present and not "false". A framework that sets attributes on an element before
+   * it is defined writes open="false" for false; that is off, as the property false is.
+   */
   protected flag(name: string): boolean {
-    return this.hasAttribute(name);
+    const v = this.getAttribute(name);
+    return v !== null && v !== "false";
   }
 
   /** Defines the element once, so loading two copies never throws. */

@@ -16,9 +16,14 @@
     background: var(--pp-bg);
     color: var(--pp-text);
     font-family: var(--pp-font-ui);
-    font-size: var(--pp-size-body);
+    /* The text sizes are in rem, so they follow a larger default text size set in the browser; never below the
+       16 px Blip is drawn at, where they are whole pixels. */
+    /* stylelint-disable-next-line blip/whole-pixels -- text may sit off the grid (AUTHORING rule 1): the smallest body size */
+    font-size: max(16px, var(--pp-size-body));
     line-height: var(--pp-leading-normal);
     font-synthesis: none;
+    /* Ligatures off, whatever the font: in a pixel font fi and fl merge into one glyph that reads as another letter. */
+    font-variant-ligatures: no-common-ligatures;
     text-rendering: optimizeLegibility;
     caret-color: var(--pp-accent-text);
     accent-color: var(--pp-accent);
@@ -29,13 +34,6 @@
     color: var(--pp-text);
   }
   ::selection { background: var(--pp-selection-bg); color: var(--pp-selection-text); }
-
-  /* When Auto changes the time of day, the palette steps from one to the next over a minute, as on the TV. */
-  :where([data-pp-scheme-fade]) {
-    transition-property: --pp-bg, --pp-surface, --pp-surface-raised, --pp-surface-sunken, --pp-surface-panel, --pp-text, --pp-text-muted, --pp-line, --pp-line-soft, --pp-accent, --pp-accent-light, --pp-accent-shade, --pp-accent-text;
-    transition-duration: calc(var(--pp-steps-scheme) * var(--pp-duration-scheme-step));
-    transition-timing-function: steps(6, jump-end);
-  }
 
   :where(a) {
     color: var(--pp-accent-text);
@@ -58,9 +56,20 @@
   :where(hr) { border: 0; block-size: var(--pp-pixel); background: var(--pp-line-soft); margin: var(--pp-space-8) 0; }
   :where(h1, h2, h3, h4) { font-weight: var(--pp-weight-bold); line-height: var(--pp-leading-tight); text-wrap: balance; }
   :where(p, li, dd) { text-wrap: pretty; }
+  /* In titles and reading text a long word (German, Finnish, a URL) hyphenates where the page's lang has a
+     dictionary, and breaks where it has not rather than run out of its box; words under ten letters stay whole.
+     Set lang on <html>. */
+  :where(h1, h2, h3, h4, h5, h6, p, li, dt, dd, blockquote, figcaption, .pp-title, .pp-lead, .pp-body) { hyphens: auto; hyphenate-limit-chars: 10 4 4; overflow-wrap: break-word; }
 
   /* Pixel art is never smoothed. */
   :where(img, canvas, svg)[data-pixelated], .pp-pixelated { image-rendering: pixelated; shape-rendering: crispEdges; }
+
+  /* More contrast, when the person asks for it: soft lines take the line colour, muted text the text colour, and
+     the ink edge of the focus ring is two pixels. */
+  @media (prefers-contrast: more) {
+    :where(:root, [data-pp-scheme]) { --pp-line-soft: var(--pp-line); --pp-text-muted: var(--pp-text); }
+    :where(a, [tabindex], summary, input, select, textarea, button):focus-visible { box-shadow: 0 0 0 calc(3 * var(--pp-pixel)) var(--pp-focus-edge); }
+  }
 }
 
 @layer pp.utilities {
@@ -79,4 +88,12 @@
   .pp-dither {
     background: repeating-conic-gradient(currentColor 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel));
   }
+
+  /* When Auto changes the time of day, the new colours come in over the old through an ordered dither, a pixel a cell
+     (autoScheme() steps the mask): never a cross-fade, and the page under it stays live. Here, after the kits, so a
+     page transition's own styles do not touch it. */
+  :root[data-pp-scheme-dither]::view-transition { pointer-events: none; }
+  :root[data-pp-scheme-dither]::view-transition-old(*),
+  :root[data-pp-scheme-dither]::view-transition-new(*) { animation: none; mix-blend-mode: normal; }
+  :root[data-pp-scheme-dither]::view-transition-new(root) { mask-size: calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel)); }
 }

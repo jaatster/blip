@@ -7,18 +7,20 @@
       "$value": [
         "Pixel Bop",
         "Pixelify Sans",
+        "Blip Fallback",
         "system-ui",
         "sans-serif"
       ],
-      "$description": "Pixel Bop. Sized in whole scales: 1 em is 10 pixels, caps are 7 pixels tall."
+      "$description": "Pixel Bop, in Latin, Cyrillic and Greek. Sized in whole scales: 1 em is 10 pixels, caps are 7 pixels tall. Then Pixelify Sans, emoji sized to the capitals (Blip Fallback, in @jaatster/blip-font) and the system font for other scripts."
     },
     "ui": {
       "$value": [
         "Pixelify Sans",
+        "Blip Fallback",
         "system-ui",
         "sans-serif"
       ],
-      "$description": "Pixelify Sans, a variable font from 400 to 700. Its grid is 11 pixels to the em, so at 22 px its pixels are Blip pixels."
+      "$description": "Pixelify Sans, a variable font from 400 to 700, in Latin, Cyrillic and Greek. Its grid is 11 pixels to the em, so at 22 px its pixels are Blip pixels. Then emoji sized to its capitals (Blip Fallback, in @jaatster/blip-font) and the system font for other scripts."
     },
     "mono": {
       "$value": [
@@ -61,37 +63,37 @@
   },
   "size": {
     "$type": "dimension",
-    "$description": "Pixelify Sans sizes in CSS px. Fixed, not tied to the pixel size, so text stays readable when the pixel grows.",
+    "$description": "Pixelify Sans sizes, in rem: 12, 14, 16, 18 and 22 px at the browser's default text size (16 px), and larger when the person sets a larger default. Not tied to the pixel size, so text stays readable when the pixel grows.",
     "caption": {
       "$value": {
-        "value": 12,
-        "unit": "px"
+        "value": 0.75,
+        "unit": "rem"
       }
     },
     "small": {
       "$value": {
-        "value": 14,
-        "unit": "px"
+        "value": 0.875,
+        "unit": "rem"
       }
     },
     "body": {
       "$value": {
-        "value": 16,
-        "unit": "px"
+        "value": 1,
+        "unit": "rem"
       }
     },
     "lead": {
       "$value": {
-        "value": 18,
-        "unit": "px"
+        "value": 1.125,
+        "unit": "rem"
       }
     },
     "title": {
       "$value": {
-        "value": 22,
-        "unit": "px"
+        "value": 1.375,
+        "unit": "rem"
       },
-      "$description": "Pixelify's pixels land on the 2 px grid."
+      "$description": "22 px at the default, where Pixelify's pixels land on the 2 px grid."
     }
   },
   "leading": {
