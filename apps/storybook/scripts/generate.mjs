@@ -43,6 +43,7 @@ const GROUPS = {
   Feedback: ["alert", "toast", "dialog", "drawer", "popover", "tooltip", "progress", "loader", "skeleton", "empty-state", "badge"],
   Data: ["card", "tile", "list", "table", "avatar", "tag", "keycap", "stat", "divider", "accordion"],
   Layout: ["stack", "cluster", "grid", "window"],
+  Phone: ["top-bar", "fab", "sheet", "action-sheet", "swipe-row", "refresh", "pager", "wheel"],
 };
 const KITS = { game: "Game", blocks: "Blocks", effects: "Effects", icons: "Icons", font: "Font", sound: "Effects" };
 /** Fragments that are one composition, not separable states. */
