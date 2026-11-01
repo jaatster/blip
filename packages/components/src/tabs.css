@@ -20,8 +20,10 @@
  *   aria-selected="true", or aria-current="page" for tabs that are links: sits in
  *   aria-disabled="true"  dithered; the arrow keys skip it
  *
- * Without the element the markup still shows the selected panel, and a row too long for its box scrolls.
+ * Without the element the markup still shows the selected panel, and a row too long for its box scrolls; while there
+ * is more to one side, that edge dithers out (the shared scroll cue), unless the element's scroll buttons are there.
  */
+@import "./_scroll.css";
 
 @layer chu.components {
   .chu-tabs {
@@ -234,6 +236,30 @@
   .chu-tabs-scroll[data-dir="start"] > span,
   .chu-tabs-scroll[data-dir="end"]:dir(rtl) > span { scale: -1 1; }
   .chu-tabs-scroll[data-dir="start"]:dir(rtl) > span { scale: none; }
+
+  /* A row that scrolls without the buttons (no element, or a side list turned into a row on a narrow screen): while
+     there is more to one side, that edge dithers out, as a table's does. The tab with the keyboard shows its whole
+     ring. */
+  @supports (animation-timeline: scroll()) {
+    .chu-tabs:not([data-overflow]) > .chu-tabs-list {
+      --_chu-s: 0;
+      --_chu-e: 0;
+      --_chu-l: var(--_chu-s);
+      --_chu-r: var(--_chu-e);
+      mask:
+        linear-gradient(#000 0 0) calc(var(--_chu-l) * var(--_chu-fade)) 0 / calc(100% - (var(--_chu-l) + var(--_chu-r)) * var(--_chu-fade)) 100% no-repeat,
+        var(--_chu-fade-start) 0 0 / calc(var(--_chu-l) * var(--_chu-fade)) calc(2 * var(--chu-pixel)) repeat-y,
+        var(--_chu-fade-end) 100% 0 / calc(var(--_chu-r) * var(--_chu-fade)) calc(2 * var(--chu-pixel)) repeat-y;
+      animation: chu-scroll-cue steps(1, jump-end) both;
+      animation-timeline: scroll(self inline);
+    }
+    /* Down the side it never scrolls. */
+    @container (width >= 480px) {
+      .chu-tabs:not([data-overflow]) > .chu-tabs-list[aria-orientation="vertical"] { mask: none; animation: none; }
+    }
+    .chu-tabs:not([data-overflow]) > .chu-tabs-list:dir(rtl) { --_chu-l: var(--_chu-e); --_chu-r: var(--_chu-s); }
+    .chu-tabs:not([data-overflow]) > .chu-tabs-list:has(:focus-visible) { mask: none; }
+  }
 
   /* Paper cannot scroll: a row too long for its box prints wrapped, every tab in sight, without the buttons that
      scroll it (a row that fits is unchanged). */

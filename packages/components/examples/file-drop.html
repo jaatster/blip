@@ -1,6 +1,6 @@
 <!-- File drop: a live <chu-file-drop>, then fixed pictures of its states and of a filled list (for docs and tests:
      data-chu-state forces a look). -->
-<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(calc(150*var(--chu-pixel)),1fr));gap:calc(10*var(--chu-pixel));align-items:start">
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,calc(150*var(--chu-pixel))),1fr));gap:calc(10*var(--chu-pixel));align-items:start">
   <chu-field class="chu-field">
     <span class="chu-field-label" id="fd-label">Screenshots</span>
     <chu-file-drop class="chu-file-drop">

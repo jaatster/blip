@@ -144,6 +144,8 @@
     white-space: nowrap;
     overflow: hidden;
   }
+  /* Too narrow for its line (a phone), each part ends in an ellipsis rather than cut through a letter. */
+  .chu-window-status > * { min-inline-size: 0; overflow: hidden; text-overflow: ellipsis; }
 
   @media (forced-colors: active) {
     .chu-window-bar, .chu-window-status { border-color: CanvasText; }

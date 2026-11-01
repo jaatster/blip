@@ -1,0 +1,16 @@
+<!-- One destructive choice: role="alertdialog", the message as its description, the danger button in candy, and focus
+     on the safe one (autofocus). No light dismiss. -->
+<button class="chu-box chu-button" type="button" data-variant="soft" data-tone="danger" commandfor="as-slot" command="show-modal">Delete slot 2</button>
+
+<chu-action-sheet>
+  <dialog class="chu-box chu-drawer chu-action-sheet" id="as-slot" role="alertdialog" aria-labelledby="as-slot-title" aria-describedby="as-slot-text">
+    <form method="dialog">
+      <h2 class="chu-action-sheet-title" id="as-slot-title">Slot 2</h2>
+      <p class="chu-action-sheet-message" id="as-slot-text">World 3-2, 4 h 12 min. Deleting it can't be undone.</p>
+      <div class="chu-action-sheet-actions">
+        <button class="chu-box chu-button" data-size="lg" data-width="full" data-tone="danger" value="delete">Delete slot 2</button>
+      </div>
+      <button class="chu-box chu-button chu-action-sheet-cancel" data-size="lg" data-width="full" data-variant="soft" data-tone="neutral" value="keep" autofocus>Keep it</button>
+    </form>
+  </dialog>
+</chu-action-sheet>

@@ -133,7 +133,7 @@ The components of `@jaatster/blip-components` and the kits (`@jaatster/blip-game
   `aria-busy`…), so markup that is correct for assistive technology is also correctly styled.
 - **Custom properties** of a component are `--chu-<component>-<thing>`: `--chu-sidebar-width`, `--chu-grid-min`,
   `--chu-card-media-ratio`, `--chu-card-art-width` and `--chu-card-art-height` (a card picture with
-  `data-fit="pixels"`), `--chu-toast-duration`. Every public custom property that is not a token is listed in
+  `data-fit="pixels"`), `--chu-toast-duration`, `--chu-fab-offset`. Every public custom property that is not a token is listed in
   `@jaatster/blip-stylelint-config/public-properties.json`, the box's and the type's included.
 - **One file per component**: `@jaatster/blip-components/<name>.css` (and `components.css` for all of them),
   `@jaatster/blip-game/<name>.css`, `@jaatster/blip-blocks/<name>.css`, `@jaatster/blip-effects/<name>.css`. One file is
@@ -171,33 +171,41 @@ Conventions, for every element:
   data in `detail`, and are cancelable when they announce a change that can be refused.
 - **Properties mirror their attributes** (`value`, `open`, `max`…); the table lists only the properties and
   methods that have no attribute.
-- **Form-associated** elements (`<chu-combobox>`, `<chu-rating>`, `<chu-segmented>`) take part in forms like native
+- **Form-associated** elements (`<chu-combobox>`, `<chu-rating>`, `<chu-segmented>`, `<chu-wheel>`) take part in forms like native
   controls: name, value, validity, reset and a disabled fieldset.
 
 <!-- elements: written by scripts/contract-elements.mjs from the Custom Elements Manifests. Run it after pnpm cem. -->
 | Element | Module | Attributes | Other properties and methods | Events |
 |---|---|---|---|---|
+| `<chu-action-sheet>` | `@jaatster/blip-elements/action-sheet` | `open`, `light-dismiss` | `dialog`, `returnValue` (read-only), `show()`, `requestClose()`, `close()` | `chu-open`, `chu-before-close` (cancelable), `chu-close` |
 | `<chu-combobox>` | `@jaatster/blip-elements/combobox` | `open`, `name`, `value`, `empty-text`, `toggle-label` | `form` (read-only), `checkValidity()`, `reportValidity()` | `chu-change`, `chu-open`, `chu-close` |
 | `<chu-command>` | `@jaatster/blip-elements/command` | `open`, `shortcut` | `dialog`, `input`, `options` (read-only), `show()`, `close()` | `chu-action` (cancelable), `chu-open`, `chu-close` |
 | `<chu-dialog>` | `@jaatster/blip-elements/dialog` | `open`, `light-dismiss` | `dialog`, `returnValue` (read-only), `show()`, `requestClose()`, `close()` | `chu-open`, `chu-before-close` (cancelable), `chu-close` |
 | `<chu-drawer>` | `@jaatster/blip-elements/drawer` | `open`, `light-dismiss` | `dialog`, `returnValue` (read-only), `show()`, `requestClose()`, `close()` | `chu-open`, `chu-before-close` (cancelable), `chu-close` |
+| `<chu-fab>` | `@jaatster/blip-elements/fab` | `open`, `data-position` | `trigger`, `menu`, `items` (read-only), `show()`, `close()` | `chu-action` (cancelable), `chu-open`, `chu-close` |
 | `<chu-field>` | `@jaatster/blip-elements/field` | `count-text`, `role`, `data-layout` | | |
 | `<chu-file-drop>` | `@jaatster/blip-elements/file-drop` | `remove-label` | `input`, `files` (read-only) | `chu-change`, `chu-reject` |
 | `<chu-menu>` | `@jaatster/blip-elements/menu` | `open`, `data-align` | `trigger`, `menu`, `items` (read-only), `show()`, `close()` | `chu-action` (cancelable), `chu-open`, `chu-close` |
 | `<chu-number>` | `@jaatster/blip-elements/number` | `decrease-label`, `increase-label` | `input` (read-only) | `chu-change` |
+| `<chu-pager>` | `@jaatster/blip-elements/pager` | `prev-label`, `next-label`, `slide-label` | `index`, `track`, `slides` (read-only), `next()`, `prev()` | `chu-page` |
 | `<chu-rating>` | `@jaatster/blip-elements/rating` | `value`, `max`, `readonly`, `disabled`, `required`, `name`, `required-message`, `star-label`, `data-shape` | `form`, `validity`, `validationMessage` (read-only), `checkValidity()`, `reportValidity()` | `chu-change` |
+| `<chu-refresh>` | `@jaatster/blip-elements/refresh` | `pull-label`, `release-label`, `refreshing-label`, `done-label` | `refreshing`, `scroller` (read-only), `refresh()` | `chu-refresh` (cancelable) |
 | `<chu-segmented>` | `@jaatster/blip-elements/segmented` | `value`, `disabled`, `required`, `name`, `required-message`, `data-size`, `data-width`, `data-tone` | `form`, `validity`, `validationMessage`, `items` (read-only), `checkValidity()`, `reportValidity()` | `chu-change` |
+| `<chu-sheet>` | `@jaatster/blip-elements/sheet` | `open`, `light-dismiss` | `snap`, `snaps`, `dialog`, `returnValue` (read-only), `show()`, `requestClose()`, `close()` | `chu-change`, `chu-open`, `chu-before-close` (cancelable), `chu-close` |
+| `<chu-swipe-row>` | `@jaatster/blip-elements/swipe-row` | `open` | `show()`, `close()` | `chu-open`, `chu-close`, `chu-swipe` (cancelable) |
 | `<chu-table>` | `@jaatster/blip-elements/table` | | `selectedRows` (read-only), `sort()` | `chu-sort` (cancelable), `chu-select` |
 | `<chu-tabs>` | `@jaatster/blip-elements/tabs` | `value`, `activation`, `data-variant`, `data-size` | `selectedIndex`, `list`, `tabs` (read-only) | `chu-change` |
 | `<chu-tile-grid>` | `@jaatster/blip-elements/tile-grid` | `selection` | `tiles` (read-only), `select()` | `chu-select` (cancelable) |
 | `<chu-toaster>` | `@jaatster/blip-elements/toast` | `data-side`, `data-align`, `max`, `dismiss-label`, `aria-label` | `add()` | |
 | `<chu-tooltip>` | `@jaatster/blip-elements/tooltip` | `open`, `for`, `data-side` | `show()`, `close()` | `chu-open`, `chu-close` |
+| `<chu-wheel>` | `@jaatster/blip-elements/wheel` | `value`, `disabled`, `name`, `data-type`, `data-size`, `data-width`, `data-tone`, `hours`, `minute-step`, `min`, `max` | `form` (read-only) | `chu-change` |
 | `<chu-choices>` | `@jaatster/blip-game/choices` | | `choices` (read-only), `focus()` | `chu-action` |
 | `<chu-counter>` | `@jaatster/blip-game/hud` | `value`, `label`, `pad`, `format`, `low`, `sound`, `quiet` | `format()` | |
 | `<chu-dialogue>` | `@jaatster/blip-game/dialogue` | `voice`, `mood`, `speed`, `typing-label`, `next-label`, `done-label`, `data-font`, `data-chu-typed` | `pages`, `page`, `typing` (read-only), `say()`, `advance()`, `focus()` | `chu-next`, `chu-done` |
 | `<chu-hearts>` | `@jaatster/blip-game/hud` | `value`, `max`, `label`, `quiet` | | |
 | `<chu-inventory>` | `@jaatster/blip-game/inventory` | | `slots`, `selected` (read-only), `select()` | `chu-select` |
 | `<chu-sprite>` | `@jaatster/blip-game/sprites` | `name`, `aria-label`, `data-tone` | | |
+| `<chu-touch-pad>` | `@jaatster/blip-game/touch-pad` | `for`, `data-a`, `data-b`, `data-start`, `data-show`, `data-position`, `haptics` | | |
 | `<chu-attract>` | `@jaatster/blip-effects/attract` | `script`, `label`, `pointer` | `steps` | |
 | `<chu-drop-text>` | `@jaatster/blip-effects/text` | `data-pop`, `data-scale`, `data-tone` | `text`, `play()` | |
 | `<chu-motion-toggle>` | `@jaatster/blip-effects/motion` | `label` | | |
@@ -216,7 +224,7 @@ is private.
 | Package | Public exports |
 |---|---|
 | `@jaatster/blip-core` | `BlipElement` (the base of every element: `static box`, `static classes`, `signal`, `static define()`, and for subclasses `connected()`, `disconnected()`, `emit()`, `on()`, `flag()`); the services `provide()`, `services` (`now()`, `random()`, `between()`, `sound()`), `seeded()` and the types `Services` and `SoundSink`; motion `reducedMotion()`, `steps()`, `duration()`, `pixel()`; timelines `run()`, `frames()`, `every()` and `Step`; schemes `autoScheme()`, `setScheme()`, `schemeAt()` and `Scheme`; diagnostics `warn()`, `checkName()`; the controllers `rovingFocus()` with `RovingOptions`, `typeahead()` and `dismiss()`. |
-| `@jaatster/blip-elements` | One module per element (`@jaatster/blip-elements/<name>`), each defining its tag; the index defines them all. The element classes, `toast()`, and the types `ActionDetail`, `CloseDetail`, `CloseReason`, `SortDirection`, `TabsChangeDetail`, `ToastHandle`, `ToastOptions`, `ToastTone`. |
+| `@jaatster/blip-elements` | One module per element (`@jaatster/blip-elements/<name>`), each defining its tag; the index defines them all. The element classes, `toast()`, and the types `ActionDetail`, `CloseDetail`, `CloseReason`, `PageDetail`, `RefreshDetail`, `SheetChangeDetail`, `SortDirection`, `SwipeDetail`, `SwipeSide`, `TabsChangeDetail`, `ToastHandle`, `ToastOptions`, `ToastTone`. |
 | `@jaatster/blip-game` | The element classes; `sprite()`, `spriteNames`, `pixels()` (the sprites as SVG strings and pixel maps); `blipRate()`; the types `ChoiceDetail` and `SelectDetail`. |
 | `@jaatster/blip-effects` | `burst()` with `BurstKind` and `BurstOptions`; `transition()` with `TransitionKind` (`dissolve`, `dither`, `mosaic`) and `TransitionOptions`; `drawWorld()` and `worldPalette()` with `WorldLayer`, `WorldPalette`, `WorldBox` and `DrawWorldOptions`; `AttractStep`; the element classes. |
 | `@jaatster/blip-sound` | `enableSound()`, `disableSound()`, `soundOn()`, `rememberSound()`, `play()`, `synth()`, `SOUNDS`, `voiceRate()`, `voiced()`, and the types `SoundName`, `Note` and `Mood`. The sound names (`step`, `look`, `jump`, `coin`, `open`, `back`, `bump`, `blip`, `success`, `error`, `select`) are public. |
@@ -265,7 +273,7 @@ exposed (see [SECURITY.md](SECURITY.md)).
 ## Diagnostics
 
 Blip explains problems with a code and a link. In the browser, `warn()` from `@jaatster/blip-core` logs
-`Blip CHU-A001: <message>` and `https://jaatster.com/blip/diagnostics#chu-a001`, once per code and message. Warnings
+`Blip CHU-A001: <message>` and `https://jaatster.com/blip/diagnostics/#chu-a001`, once per code and message. Warnings
 are on when `globalThis.BLIP_DIAGNOSTICS` is `true`, or on localhost when it is not set; `false` turns them off.
 `<chu-icon>` reports an unknown name itself, once per name. The token build prints each problem with its code, the
 file, the place in it (a JSON pointer) and the fix, and fails.
@@ -276,10 +284,10 @@ The codes are public. Each prefix is a range, numbered in tens by topic:
 | Range | Raised by | Covers | Codes today |
 |---|---|---|---|
 | `CHU-T` | The token build and `blip-tokens` | Reading the token files and the resolver (`CHU-T003` also: a resolver with no `scheme` or `pixel` modifier; `CHU-T005` a palette that sets a token the default palette does not have), token names, types, values (colours, dimensions, durations, whole pixels, font families and weights), aliases, and contrast, in every scheme of every palette: `CHU-T060` a text pair under AA, labels on a disabled control's dither included; `CHU-T061` the focus ring under 3:1; `CHU-T062` a candy's label, and white on slate's ink dither | `CHU-T001` to `CHU-T005`, `CHU-T010`, `CHU-T020` and `CHU-T021`, `CHU-T030` to `CHU-T032`, `CHU-T040` to `CHU-T045`, `CHU-T050` to `CHU-T052`, `CHU-T060` to `CHU-T062` |
-| `CHU-A` | `checkName()` in `@jaatster/blip-core`, `<chu-rating>`, `<chu-segmented>`, `<chu-dialog>`, `<chu-drawer>` | Accessibility: a control or a dialog without an accessible name | `CHU-A001`, `CHU-A010` |
-| `CHU-E` | `<chu-combobox>`, `<chu-file-drop>`, `<chu-number>`, `<chu-dialog>`, `<chu-drawer>`, `<chu-tooltip>` | An element without the native markup it upgrades: a control, a `<dialog>`, a tooltip's trigger | `CHU-E001`, `CHU-E010`, `CHU-E020` |
-| `CHU-N` | `<chu-tabs>` | A navigation element without the parts it wires together | `CHU-N001` |
-| `CHU-M` | `<chu-menu>` | A menu without its button or its list | `CHU-M001` |
+| `CHU-A` | `checkName()` in `@jaatster/blip-core`, `<chu-pager>`, `<chu-rating>`, `<chu-segmented>`, `<chu-action-sheet>`, `<chu-dialog>`, `<chu-drawer>`, `<chu-sheet>` | Accessibility: a control or a dialog without an accessible name | `CHU-A001`, `CHU-A010` |
+| `CHU-E` | `<chu-combobox>`, `<chu-file-drop>`, `<chu-number>`, `<chu-action-sheet>`, `<chu-dialog>`, `<chu-drawer>`, `<chu-sheet>`, `<chu-tooltip>` | An element without the native markup it upgrades: a control, a `<dialog>`, a tooltip's trigger | `CHU-E001`, `CHU-E010`, `CHU-E020` |
+| `CHU-N` | `<chu-tabs>`, `<chu-pager>` | A navigation element without the parts it wires together | `CHU-N001` and `CHU-N002` |
+| `CHU-M` | `<chu-fab>`, `<chu-menu>` | A menu without its button or its list | `CHU-M001` |
 | `CHU-C` | `<chu-command>` | A command palette without its `<dialog>`, input or list | `CHU-C001` |
 | `CHU-W` | `<chu-world>` | The world backdrop: no world colours (`tokens.css` is not loaded), an `avoid` that is not a selector list | `CHU-W001` and `CHU-W002` |
 | `CHU-D` | `<chu-attract>` | An attract demo: no `label`, a step it cannot read, a step whose selector matches nothing in it | `CHU-D001`, `CHU-D010` and `CHU-D011` |

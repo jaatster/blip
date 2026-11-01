@@ -1,7 +1,8 @@
 ---
 /**
  * A live example: the package's own fragment, rendered in the page as it is, on a stage whose scheme and pixel can be
- * switched on their own. Then its source, to copy: behind "Show the HTML" (with a copy button beside it), or shown
+ * switched on their own. An example wider than the stage scrolls across it, and while there is more to one side a
+ * chevron stands at that edge, so a phone (which hides its scrollbars) shows there is more. Then its source, to copy: behind "Show the HTML" (with a copy button beside it), or shown
  * at once (sourceOpen, for a snippet).
  */
 import { codeBlock } from "../lib/markdown";
@@ -43,7 +44,7 @@ const Heading = level === 3 ? "h3" : "h2";
       </div>
     )}
   </div>
-  <div class="chu-box docs-stage" id={`${id}-stage`}><div class="docs-stage-scroll"><Fragment set:html={html} /></div></div>
+  <div class="chu-box docs-stage" id={`${id}-stage`}><div class="docs-stage-scroll"><Fragment set:html={html} /></div>{(["start", "end"] as const).map((dir) => <span class="docs-stage-more" data-dir={dir} aria-hidden="true"><span class="chu-box docs-stage-more-chip" data-variant="soft"><span></span></span></span>)}</div>
   {sourceOpen
     ? <div class="docs-source-open"><Fragment set:html={code} /></div>
     : (

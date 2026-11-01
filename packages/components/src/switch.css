@@ -12,7 +12,7 @@
  *   disabled                on the input: dithered
  *
  * The knob is the input itself, a candy box: it lifts on hover and sits in while pressed. A transparent pixel of
- * border makes its target 26 px without changing how it looks. The yellow focus ring goes round the track.
+ * border makes its target 26 px without changing how it looks (two on the small one, which also makes 26). The yellow focus ring goes round the track.
  * Use a switch for settings that apply at once; use a checkbox for choices sent with a form.
  */
 @import "./_choice.css";
@@ -51,6 +51,15 @@
     transition: inset-inline-start var(--chu-duration-nudge) steps(var(--_steps), jump-end);
   }
   .chu-switch > :checked { inset-inline-start: calc((var(--_n) - 4) * var(--chu-pixel)); }
+  /* The small knob is 11 pixels with its border, under the target size: a second transparent pixel all round. */
+  .chu-switch:is([data-size="sm"], [data-size="sm"] > *) > input {
+    inset-block-start: calc(-2 * var(--chu-pixel));
+    inset-inline-start: calc(-2 * var(--chu-pixel));
+    inline-size: calc((var(--_n) + 4) * var(--chu-pixel));
+    block-size: calc((var(--_n) + 4) * var(--chu-pixel));
+    border-width: calc(2 * var(--chu-pixel));
+  }
+  .chu-switch:is([data-size="sm"], [data-size="sm"] > *) > :checked { inset-inline-start: calc((var(--_n) - 5) * var(--chu-pixel)); }
   /* A cream knob takes the cream dither: the usual light one is almost cream. */
   .chu-switch > input:disabled { --chu-box-dither: var(--chu-disabled-dither-cream); }
   /* The ring belongs to the track. */
@@ -68,6 +77,15 @@
 
   @media (forced-colors: active) {
     .chu-switch > input { forced-color-adjust: none; border: 1px solid CanvasText; background: Canvas; }
+    /* The small knob's own size: its frame is drawn, so it takes no reach. */
+    .chu-switch:is([data-size="sm"], [data-size="sm"] > *) > input {
+      inset-block-start: calc(-1 * var(--chu-pixel));
+      inset-inline-start: calc(-1 * var(--chu-pixel));
+      inline-size: calc((var(--_n) + 2) * var(--chu-pixel));
+      block-size: calc((var(--_n) + 2) * var(--chu-pixel));
+      border: 1px solid CanvasText;
+    }
+    .chu-switch:is([data-size="sm"], [data-size="sm"] > *) > :checked { inset-inline-start: calc((var(--_n) - 4) * var(--chu-pixel)); }
     .chu-switch > :checked { background: Highlight; }
   }
 }

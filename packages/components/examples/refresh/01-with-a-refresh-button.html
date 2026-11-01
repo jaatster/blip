@@ -1,0 +1,14 @@
+<!-- A feed that pulls to refresh on a touch screen, with the Refresh button every other way needs. -->
+<div class="chu-stack" data-gap="4">
+  <chu-refresh class="chu-refresh" id="rfa-feed" style="block-size:calc(80*var(--chu-pixel))">
+    <div class="chu-refresh-scroller" tabindex="0" aria-label="Feed">
+      <ul class="chu-box chu-list" role="list" data-dividers aria-label="Feed">
+        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Juno beat your best</span><span class="chu-list-description">World 2 · 2 min ago</span></div></li>
+        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">New level: Candy Caves</span><span class="chu-list-description">World 5 · 1 h ago</span></div></li>
+        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Pip sent you a gift</span><span class="chu-list-description">Today</span></div></li>
+        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Weekly cup results</span><span class="chu-list-description">Yesterday</span></div></li>
+      </ul>
+    </div>
+  </chu-refresh>
+  <div><button class="chu-box chu-button" type="button" data-variant="soft" onclick="document.getElementById('rfa-feed').refresh()">Refresh</button></div>
+</div>

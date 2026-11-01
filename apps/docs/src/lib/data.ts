@@ -104,6 +104,7 @@ export const GROUPS: Group[] = [
   { id: "navigation", title: "Navigation", icon: "compass", blurb: "Ways round an app or a site.", names: ["app-bar", "sidebar", "bottom-bar", "tabs", "breadcrumbs", "pagination", "menu", "command", "progress-steps", "skip-link"] },
   { id: "feedback", title: "Feedback", icon: "bell", blurb: "What happened, what is happening, what needs you.", names: ["alert", "toast", "dialog", "drawer", "popover", "tooltip", "progress", "loader", "skeleton", "empty-state", "badge"] },
   { id: "data", title: "Data", icon: "table", blurb: "Things to read and compare.", names: ["card", "tile", "list", "table", "avatar", "tag", "keycap", "stat", "divider", "accordion"] },
+  { id: "phone", title: "Phone", icon: "smartphone", blurb: "Made for touch: sheets, swipes, wheels and a thumb's reach.", names: ["top-bar", "fab", "sheet", "action-sheet", "swipe-row", "refresh", "pager", "wheel"] },
   { id: "layout", title: "Layout", icon: "maximize", blurb: "Spacing and frames, in whole pixels.", names: ["stack", "cluster", "grid", "window"] },
   { id: "game", title: "Game", icon: "gamepad", blurb: "@jaatster/blip-game: HUDs, dialogue, menus.", pkg: "game" },
   { id: "blocks", title: "Blocks", icon: "desktop", blurb: "@jaatster/blip-blocks: website sections.", pkg: "blocks" },

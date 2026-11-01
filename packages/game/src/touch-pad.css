@@ -1,0 +1,197 @@
+/*
+ * Touch pad. A pixel D-pad on the left and A and B on the right (Start between them, if asked for), fixed to the
+ * bottom of the screen inside its safe areas, for playing a keyboard game on a phone. <chu-touch-pad> (touch-pad.js)
+ * draws the parts and sends real keydown and keyup events: the arrow keys from the D-pad, your keys from A, B and
+ * Start. A pressed control sits in its drop. Every size is in pixels, so data-chu-pixel="3" makes it chunkier.
+ *
+ *   <chu-touch-pad for="game" data-a="z" data-b="x" data-start="Enter"></chu-touch-pad>
+ *
+ *   data-a, data-b, data-start   the keys A, B and Start send (z, x, Enter); data-start also shows Start
+ *   data-show="always"           shows it on every pointer; by default only on a coarse one (a touch screen)
+ *   data-position="inline"       in the page's flow, for a demo or your own layout, instead of fixed to the bottom
+ *
+ * Parts (drawn by the element when it is empty; write them yourself to name them in your language):
+ *   .chu-touch-pad-dpad          the D-pad: four .chu-touch-pad-arm (data-dir up | right | down | left, each with an
+ *                                empty span for its arrow) round a .chu-touch-pad-hub
+ *   .chu-touch-pad-buttons       B and A: .chu-touch-pad-button with data-button b | a
+ *   .chu-touch-pad-button[data-button="start"]   Start, a slate pill
+ *
+ * The D-pad and buttons are slate, green and red candy, as in prompt.css; [data-chu-pressed] (set while held) sits
+ * in its drop. The pad itself lets touches through to the game everywhere but on its controls.
+ */
+
+@layer chu.kits {
+  .chu-touch-pad {
+    --_chu-pad-arm: calc(16 * var(--chu-pixel));
+    --_chu-pad-gap: calc(8 * var(--chu-pixel));
+    position: fixed;
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: var(--chu-layer-sticky);
+    display: none;
+    /* A controller's sides are physical: the D-pad stays on the left in every language, so the pad sets its own
+       direction and does not mirror right to left. */
+    direction: ltr;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    /* With Start, it all fits a 320 px screen at the default pixel. Narrower (or chunkier), B and A wrap to a row of
+       their own, still on the right, rather than widen the page. */
+    gap: calc(2 * var(--chu-pixel));
+    padding:
+      var(--_chu-pad-gap)
+      max(var(--_chu-pad-gap), env(safe-area-inset-right))
+      max(var(--_chu-pad-gap), env(safe-area-inset-bottom))
+      max(var(--_chu-pad-gap), env(safe-area-inset-left));
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+  }
+  @media (pointer: coarse) {
+    .chu-touch-pad { display: flex; }
+  }
+  .chu-touch-pad[data-show="always"] { display: flex; }
+  .chu-touch-pad[data-position="inline"] {
+    position: relative;
+    inset: auto;
+    z-index: auto;
+    padding: 0;
+  }
+
+  /* The controls take the touches, all of them: no scrolling, zooming or long-press menu on the pad. */
+  .chu-touch-pad :is(.chu-touch-pad-dpad, .chu-touch-pad-button) {
+    pointer-events: auto;
+    touch-action: none;
+  }
+
+  /* The D-pad: a three-by-three grid of arms round the hub, two pixels apart so a drop never touches a neighbour. */
+  .chu-touch-pad-dpad {
+    display: grid;
+    grid-template: repeat(3, var(--_chu-pad-arm)) / repeat(3, var(--_chu-pad-arm));
+    gap: calc(2 * var(--chu-pixel));
+    flex: none;
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
+  }
+  .chu-touch-pad-arm {
+    --chu-r: 3;
+    --chu-shape: var(--chu-shape-3);
+    --chu-shape-inner: var(--chu-shape-3-inner);
+    --chu-box-glint: transparent;
+    display: grid;
+    place-items: center;
+  }
+  .chu-touch-pad :is(.chu-touch-pad-arm, .chu-touch-pad-hub, .chu-touch-pad-button[data-button="start"]) {
+    --chu-tone: var(--chu-candy-slate);
+    --chu-tone-light: var(--chu-candy-slate-light);
+    --chu-tone-shade: var(--chu-candy-slate-shade);
+    --chu-tone-on: var(--chu-white);
+  }
+  .chu-touch-pad-arm[data-dir="up"] { grid-area: 1 / 2; }
+  .chu-touch-pad-arm[data-dir="left"] { grid-area: 2 / 1; }
+  .chu-touch-pad-arm[data-dir="right"] { grid-area: 2 / 3; }
+  .chu-touch-pad-arm[data-dir="down"] { grid-area: 3 / 2; }
+  /* The arrows: eight pixels across, in the label colour. */
+  .chu-touch-pad-arm > span {
+    inline-size: calc(8 * var(--chu-pixel));
+    block-size: calc(4 * var(--chu-pixel));
+    background-color: currentColor;
+    mask: var(--_chu-pad-arrow) 0 0 / 100% 100% no-repeat;
+    --_chu-pad-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 4' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h2v1H3zM2 1h4v1H2zM1 2h6v1H1zM0 3h8v1H0z'/%3E%3C/svg%3E");
+  }
+  .chu-touch-pad-arm[data-dir="down"] > span {
+    --_chu-pad-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 4' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h8v1H0zM1 1h6v1H1zM2 2h4v1H2zM3 3h2v1H3z'/%3E%3C/svg%3E");
+  }
+  .chu-touch-pad-arm:is([data-dir="left"], [data-dir="right"]) > span {
+    inline-size: calc(4 * var(--chu-pixel));
+    block-size: calc(8 * var(--chu-pixel));
+  }
+  .chu-touch-pad-arm[data-dir="left"] > span {
+    --_chu-pad-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 8' shape-rendering='crispEdges'%3E%3Cpath d='M0 3h1v2H0zM1 2h1v4H1zM2 1h1v6H2zM3 0h1v8H3z'/%3E%3C/svg%3E");
+  }
+  .chu-touch-pad-arm[data-dir="right"] > span {
+    --_chu-pad-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 8' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v8H0zM1 1h1v6H1zM2 2h1v4H2zM3 3h1v2H3z'/%3E%3C/svg%3E");
+  }
+  /* The hub: the pad's pivot, sat in (bands swapped, no drop), a dimple in its middle. */
+  .chu-touch-pad-hub {
+    --chu-r: 2;
+    --chu-shape: var(--chu-shape-2);
+    --chu-shape-inner: var(--chu-shape-2-inner);
+    --chu-box-top: var(--chu-tone-shade);
+    --chu-box-bottom: var(--chu-tone-light);
+    --chu-box-glint: transparent;
+    --chu-drop-size: 0;
+    grid-area: 2 / 2;
+    margin: calc(2 * var(--chu-pixel));
+  }
+
+  /* B and A: face buttons on a diagonal, B lower and nearer the thumb, as on the 16-bit pads. */
+  .chu-touch-pad-buttons {
+    display: grid;
+    grid-template: repeat(3, calc(12 * var(--chu-pixel))) / repeat(2, calc(24 * var(--chu-pixel)));
+    flex: none;
+    margin-inline-start: auto;
+  }
+  .chu-touch-pad-button {
+    --chu-r: 8;
+    --chu-shape: var(--chu-shape-8);
+    --chu-shape-inner: var(--chu-shape-8-inner);
+    --chu-band-top: 4;
+    --chu-band-bottom: 4;
+    --chu-tone-on: var(--chu-ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: calc(22 * var(--chu-pixel));
+    block-size: calc(22 * var(--chu-pixel));
+    font-family: var(--chu-font-display);
+    font-size: calc(20 * var(--chu-pixel));
+    font-weight: 400;
+    line-height: 1;
+    font-synthesis: none;
+    -webkit-font-smoothing: none;
+  }
+  .chu-touch-pad-button[data-button="b"] {
+    --chu-tone: var(--chu-candy-red);
+    --chu-tone-light: var(--chu-candy-red-light);
+    --chu-tone-shade: var(--chu-candy-red-shade);
+    grid-area: 2 / 1 / span 2;
+    align-self: end;
+  }
+  .chu-touch-pad-button[data-button="a"] {
+    --chu-tone: var(--chu-candy-green);
+    --chu-tone-light: var(--chu-candy-green-light);
+    --chu-tone-shade: var(--chu-candy-green-shade);
+    grid-area: 1 / 2 / span 2;
+  }
+  /* Start: a small slate pill, low in the middle. */
+  .chu-touch-pad-button[data-button="start"] {
+    --chu-r: 5;
+    --chu-shape: var(--chu-shape-5);
+    --chu-shape-inner: var(--chu-shape-5-inner);
+    --chu-band-top: 2;
+    --chu-band-bottom: 2;
+    --chu-box-glint: transparent;
+    flex: none;
+    inline-size: auto;
+    block-size: auto;
+    min-block-size: calc(12 * var(--chu-pixel));
+    padding: var(--chu-pixel) calc(3 * var(--chu-pixel));
+    white-space: nowrap;
+    font-family: var(--chu-font-ui);
+    font-size: var(--chu-size-caption);
+    font-weight: var(--chu-weight-bold);
+    letter-spacing: var(--chu-tracking-label);
+    text-transform: uppercase;
+  }
+  .chu-touch-pad-button { margin: 0 var(--chu-pixel) var(--chu-pixel) 0; }
+
+  /* Paper has no thumbs. */
+  @media print {
+    .chu-touch-pad { display: none; }
+  }
+  @media (forced-colors: active) {
+    .chu-touch-pad-arm > span { background-color: ButtonText; }
+    .chu-touch-pad [data-chu-pressed] { forced-color-adjust: none; background: Highlight; color: HighlightText; }
+  }
+}

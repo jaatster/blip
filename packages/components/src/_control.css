@@ -61,10 +61,13 @@
     font-size: var(--chu-size-lead);
   }
 
-  /* The native control: transparent, borderless, filling the well. The box draws the focus ring for it. */
+  /* The native control: transparent, borderless, filling the well. The box draws the focus ring for it. Its width in
+     percent lets the well narrow past the control's own width (twenty characters or so) in a row too narrow for it,
+     on a phone, instead of pushing the row wider. */
   :where(.chu-input, .chu-textarea, .chu-select) > :where(input, textarea, select) {
     flex: 1;
     align-self: stretch;
+    inline-size: 100%;
     min-inline-size: 0;
     margin: 0;
     padding: 0;

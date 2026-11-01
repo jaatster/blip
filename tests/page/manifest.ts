@@ -54,6 +54,6 @@ export const manifest: Manifest = read();
 export const examples: Example[] = manifest.examples;
 
 /** Examples that change their layout on a phone: also shot at 390 wide. */
-export const RESPONSIVE = ["app-bar", "bottom-bar", "sidebar", "table", "grid", "landing", "hero"];
+export const RESPONSIVE = ["app-bar", "bottom-bar", "sidebar", "table", "grid", "landing", "hero", "swipe-row", "refresh", "sheet", "action-sheet", "wheel", "touch-pad", "top-bar", "fab", "pager", "tabs", "pagination", "tooltip"];
 
 export const id = (e: Example): string => `${e.pkg}/${e.name}`;

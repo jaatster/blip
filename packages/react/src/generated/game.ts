@@ -6,6 +6,7 @@ import type { BlipDialogue } from "@jaatster/blip-game/dialogue";
 import type { BlipCounter, BlipHearts } from "@jaatster/blip-game/hud";
 import type { BlipInventory, SelectDetail } from "@jaatster/blip-game/inventory";
 import type { BlipSprite } from "@jaatster/blip-game/sprites";
+import type { BlipTouchPad } from "@jaatster/blip-game/touch-pad";
 import { createComponent, type ElementProps, type NoChildren } from "../internal/element.js";
 
 /** Props for {@link Choices}: `<chu-choices>`. */
@@ -290,4 +291,71 @@ export const Sprite = /*#__PURE__*/ createComponent<BlipSprite, SpriteProps>({
     tone: ["data-tone"],
   },
   empty: true,
+});
+
+/** Props for {@link TouchPad}: `<chu-touch-pad>`. */
+export type TouchPadProps = ElementProps<BlipTouchPad, "htmlFor" | "a" | "b" | "start" | "show" | "position" | "haptics"> & {
+  /**
+   * The id of the element to send keys to. Default: the focused element.
+   * Attribute `for`.
+   */
+  htmlFor?: string;
+  /**
+   * The key A sends.
+   * Attribute `data-a`.
+   * @default "z"
+   */
+  a?: string;
+  /**
+   * The key B sends.
+   * Attribute `data-b`.
+   * @default "x"
+   */
+  b?: string;
+  /**
+   * Shows Start, sending this key ("Enter" when empty).
+   * Attribute `data-start`.
+   */
+  start?: string;
+  /**
+   * Shows the pad on every pointer, not only on touch screens.
+   * Attribute `data-show`.
+   */
+  show?: "always";
+  /**
+   * In the page's flow instead of fixed to the bottom of the screen.
+   * Attribute `data-position`.
+   */
+  position?: "inline";
+  /**
+   * A short buzz on each press, where the device can (navigator.vibrate). "false" is off.
+   * Attribute `haptics`.
+   */
+  haptics?: boolean;
+};
+
+/**
+ * An on-screen D-pad and buttons that send key events.
+ *
+ * A D-pad and A and B buttons (and Start) for touch screens, sending real keydown and keyup events to a target.
+ * Shown only on a coarse pointer unless data-show="always".
+ *
+ * Renders `<chu-touch-pad class="chu-touch-pad">` (@jaatster/blip-game/touch-pad, loaded on the client when it first
+ * mounts). The ref is the element.
+ * @see https://github.com/jaatster/blip/blob/main/packages/game/docs/touch-pad.md
+ */
+export const TouchPad = /*#__PURE__*/ createComponent<BlipTouchPad, TouchPadProps>({
+  tag: "chu-touch-pad",
+  name: "TouchPad",
+  load: () => import("@jaatster/blip-game/touch-pad"),
+  className: "chu-touch-pad",
+  attributes: {
+    htmlFor: ["for"],
+    a: ["data-a"],
+    b: ["data-b"],
+    start: ["data-start"],
+    show: ["data-show"],
+    position: ["data-position"],
+    haptics: ["haptics"],
+  },
 });

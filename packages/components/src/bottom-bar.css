@@ -14,7 +14,8 @@
  *     </ul>
  *   </nav>
  *
- *   aria-current="page"   the destination you are on: sits in, ink label
+ *   aria-current="page"   the destination you are on: sits in, ink label. aria-current="true" (a page inside that
+ *                         destination's section) looks the same.
  *   .chu-bottom-bar-badge  a count on an item's icon; empty or data-dot: a dot. data-tone colours it.
  *   data-collapse="auto"  hidden when the chu-shell container (container: chu-shell / inline-size) is 600 px or wider
  */
@@ -77,7 +78,7 @@
     text-transform: uppercase;
     text-decoration: none;
   }
-  .chu-bottom-bar-item:not([aria-current="page"]) { --chu-box-text: var(--chu-text-muted); }
+  .chu-bottom-bar-item:not([aria-current]:not([aria-current="false"])) { --chu-box-text: var(--chu-text-muted); }
   .chu-bottom-bar-label {
     max-inline-size: 100%;
     overflow: hidden;
@@ -122,6 +123,6 @@
 
   @media (forced-colors: active) {
     .chu-bottom-bar-item { border-color: Canvas; }
-    .chu-bottom-bar-item[aria-current="page"] { border-color: CanvasText; }
+    .chu-bottom-bar-item[aria-current]:not([aria-current="false"]) { border-color: CanvasText; }
   }
 }

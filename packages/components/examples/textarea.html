@@ -1,6 +1,6 @@
 <!-- Textarea: with a count, growing with its text, and every state. Forced states use data-chu-state (docs and
      tests only). -->
-<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(calc(150*var(--chu-pixel)),1fr));gap:calc(8*var(--chu-pixel)) calc(12*var(--chu-pixel));align-items:start">
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,calc(150*var(--chu-pixel))),1fr));gap:calc(8*var(--chu-pixel)) calc(12*var(--chu-pixel));align-items:start">
   <chu-field class="chu-field">
     <label class="chu-field-label" for="ta-bio">About you</label>
     <span class="chu-box chu-textarea"><textarea id="ta-bio" rows="4" maxlength="200">Speedrunner. Collector of every coin in World 2. Still scared of the ghost house.</textarea></span>

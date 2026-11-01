@@ -80,7 +80,16 @@
   .chu-rating:dir(rtl) { --_from: right; }
 
   /* The element's stars: transparent radios over the drawing, one cell each. */
-  .chu-rating-star { flex: none; inline-size: var(--_w); block-size: var(--_h); cursor: pointer; }
+  /* Each at least the target size high (a star is 22 px at the default pixel, a heart 20): the extra reaches past the
+     row above and below it, so the row keeps its height. */
+  .chu-rating-star {
+    --_chu-rating-reach: max(0px, round(up, (var(--chu-target-min) - var(--_h)) / 2, var(--_p)));
+    flex: none;
+    inline-size: var(--_w);
+    block-size: calc(var(--_h) + 2 * var(--_chu-rating-reach));
+    margin-block: calc(-1 * var(--_chu-rating-reach));
+    cursor: pointer;
+  }
   .chu-rating:is([aria-readonly="true"], [aria-disabled="true"]) > .chu-rating-star { cursor: default; }
   .chu-rating[aria-disabled="true"] > .chu-rating-star { cursor: not-allowed; }
 

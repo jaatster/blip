@@ -1,0 +1,105 @@
+<!-- Action button: three phone screens (frames that scroll; data-position="absolute" floats each button in its
+     frame instead of the window): an icon-only button clear of a bottom bar it follows, an extended button, and an
+     open speed dial. Then every state, forced with data-chu-state, a few tones and the mini buttons, in the flow. -->
+<div style="display:grid;grid-template-columns:minmax(0,1fr);gap:calc(12*var(--chu-pixel))">
+<div style="display:flex;flex-wrap:wrap;gap:calc(12*var(--chu-pixel));align-items:start">
+
+  <div class="chu-box" data-variant="panel" data-chu-r="4" style="display:grid;inline-size:min(100%,calc(180*var(--chu-pixel)));block-size:calc(170*var(--chu-pixel))">
+    <div style="display:flex;flex-direction:column;overflow:auto;mask-image:var(--chu-shape-inner);mask-size:var(--chu-box-mask-size);mask-position:var(--chu-box-mask-position);mask-repeat:no-repeat">
+      <header class="chu-box chu-top-bar">
+        <h2 class="chu-top-bar-title">My levels</h2>
+      </header>
+      <ul class="chu-list" role="list" data-dividers aria-label="My levels" style="flex:1;padding:calc(2*var(--chu-pixel)) calc(4*var(--chu-pixel)) calc(16*var(--chu-pixel))">
+        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Lava lagoon</span><span class="chu-list-description">Edited today</span></div></li>
+        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Cloud castle</span><span class="chu-list-description">Edited yesterday</span></div></li>
+        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Frog pond</span><span class="chu-list-description">Edited last week</span></div></li>
+        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Ice tower</span><span class="chu-list-description">Edited in May</span></div></li>
+      </ul>
+      <nav class="chu-box chu-bottom-bar" aria-label="Studio">
+        <ul class="chu-bottom-bar-list" role="list">
+          <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#levels" aria-current="page"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h4v4H1zm6 0h4v4H7zM1 7h4v4H1zm6 0h4v4H7z"/></svg><span class="chu-bottom-bar-label">Levels</span></a></li>
+          <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#stats"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M9 1h2v7H9zM5 3h2v5H5zM1 5h2v3H1zm0 4h10v2H1z"/></svg><span class="chu-bottom-bar-label">Stats</span></a></li>
+          <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#me"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg><span class="chu-bottom-bar-label">Me</span></a></li>
+        </ul>
+      </nav>
+      <button class="chu-box chu-fab" type="button" data-position="absolute" data-icon-only aria-label="New level"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg></button>
+    </div>
+  </div>
+
+  <div class="chu-box" data-variant="panel" data-chu-r="4" style="display:grid;inline-size:min(100%,calc(180*var(--chu-pixel)));block-size:calc(170*var(--chu-pixel))">
+    <div style="overflow:auto;mask-image:var(--chu-shape-inner);mask-size:var(--chu-box-mask-size);mask-position:var(--chu-box-mask-position);mask-repeat:no-repeat">
+      <header class="chu-box chu-top-bar">
+        <h2 class="chu-top-bar-title">Notes</h2>
+      </header>
+      <div style="display:grid;gap:calc(4*var(--chu-pixel));padding:calc(6*var(--chu-pixel)) calc(6*var(--chu-pixel)) calc(32*var(--chu-pixel))">
+        <p class="chu-body">The boss in World 4 jumps twice before it charges.</p>
+        <p class="chu-body">Secret: hold Down on the third pipe for a shortcut.</p>
+        <p class="chu-small chu-muted">An extended button: an icon and its label. Leave room under the last line, so the button never covers it.</p>
+      </div>
+    </div>
+    <button class="chu-box chu-fab" type="button" data-position="absolute"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M8 1h2v1h1v2h-1v1H9v1H8v1H7v1H6v1H5v1H3v1H1V9h1V7h1V6h1V5h1V4h1V3h1V2h1zM7 3v1h1V3zm1 1v1h1V4zM2 9v1h1V9z"/></svg>New note</button>
+  </div>
+
+  <div class="chu-box" data-variant="panel" data-chu-r="4" style="display:grid;inline-size:min(100%,calc(180*var(--chu-pixel)));block-size:calc(170*var(--chu-pixel))">
+    <div style="overflow:auto;mask-image:var(--chu-shape-inner);mask-size:var(--chu-box-mask-size);mask-position:var(--chu-box-mask-position);mask-repeat:no-repeat">
+      <header class="chu-box chu-top-bar">
+        <h2 class="chu-top-bar-title">Album</h2>
+      </header>
+      <p class="chu-body" style="padding:calc(6*var(--chu-pixel))">Screenshots, clips and voice notes from your runs.</p>
+    </div>
+    <chu-fab class="chu-fab-dial" data-position="absolute">
+      <button class="chu-box chu-fab" type="button" data-icon-only aria-label="Add" aria-expanded="true"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg></button>
+      <div class="chu-fab-menu" role="menu" aria-label="Add">
+        <button class="chu-box chu-fab-action" type="button" role="menuitem"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 2h3v1h4v1h1v5h-1v1H2V9H1V4h1V3h1zm2 2v1h2V4zM4 5v2h1V5zm3 0v2h1V5zM5 7v1h2V7z"/></svg>Screenshot</button>
+        <button class="chu-box chu-fab-action" type="button" role="menuitem"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h10v8H1zm2 2v4h1V7h1V6h1V5h1v1h1v1h1V4z"/></svg>Clip</button>
+        <button class="chu-box chu-fab-action" type="button" role="menuitem"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v1h1v4h1V4h2v3h-1v1H9v1H7v2H5V9H3V8H2V7H1V4h2v2h1V2h1zM4 6v2h4V6H7v1H5V6z"/></svg>Voice note</button>
+      </div>
+    </chu-fab>
+  </div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--chu-pixel)) calc(10*var(--chu-pixel));align-items:start">
+  <div style="display:grid;gap:calc(4*var(--chu-pixel));justify-items:start">
+    <span class="chu-label chu-muted">Rest</span>
+    <button class="chu-box chu-fab" type="button" data-position="static" data-icon-only aria-label="New level"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg></button>
+    <button class="chu-box chu-fab" type="button" data-position="static"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg>New level</button>
+    <button class="chu-box chu-fab-action" type="button">Photo</button>
+  </div>
+  <div style="display:grid;gap:calc(4*var(--chu-pixel));justify-items:start">
+    <span class="chu-label chu-muted">Hover</span>
+    <button class="chu-box chu-fab" type="button" data-position="static" data-icon-only aria-label="New level" data-chu-state="hover"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg></button>
+    <button class="chu-box chu-fab" type="button" data-position="static" data-chu-state="hover"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg>New level</button>
+    <button class="chu-box chu-fab-action" type="button" data-chu-state="hover">Photo</button>
+  </div>
+  <div style="display:grid;gap:calc(4*var(--chu-pixel));justify-items:start">
+    <span class="chu-label chu-muted">Focus</span>
+    <button class="chu-box chu-fab" type="button" data-position="static" data-icon-only aria-label="New level" data-chu-state="focus"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg></button>
+    <button class="chu-box chu-fab" type="button" data-position="static" data-chu-state="focus"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg>New level</button>
+    <button class="chu-box chu-fab-action" type="button" data-chu-state="focus">Photo</button>
+  </div>
+  <div style="display:grid;gap:calc(4*var(--chu-pixel));justify-items:start">
+    <span class="chu-label chu-muted">Pressed</span>
+    <button class="chu-box chu-fab" type="button" data-position="static" data-icon-only aria-label="New level" data-chu-state="active"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg></button>
+    <button class="chu-box chu-fab" type="button" data-position="static" data-chu-state="active"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg>New level</button>
+    <button class="chu-box chu-fab-action" type="button" data-chu-state="active">Photo</button>
+  </div>
+  <div style="display:grid;gap:calc(4*var(--chu-pixel));justify-items:start">
+    <span class="chu-label chu-muted">Open</span>
+    <button class="chu-box chu-fab" type="button" data-position="static" data-icon-only aria-label="Add" aria-haspopup="menu" aria-expanded="true"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg></button>
+    <button class="chu-box chu-fab" type="button" data-position="static" aria-haspopup="menu" aria-expanded="true"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg>Add</button>
+  </div>
+  <div style="display:grid;gap:calc(4*var(--chu-pixel));justify-items:start">
+    <span class="chu-label chu-muted">Disabled</span>
+    <button class="chu-box chu-fab" type="button" data-position="static" data-icon-only aria-label="New level" disabled><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg></button>
+    <button class="chu-box chu-fab" type="button" data-position="static" disabled><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg>New level</button>
+    <button class="chu-box chu-fab-action" type="button" disabled>Photo</button>
+  </div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:calc(6*var(--chu-pixel));align-items:center">
+  <button class="chu-box chu-fab" type="button" data-position="static" data-tone="success"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M8 3h3v2h-1v1H9v1H8v1H7v1H6v1H4V9H3V8H2V7H1V5h2v1h1v1h1V6h1V5h1V4h1z"/></svg>Finish run</button>
+  <button class="chu-box chu-fab" type="button" data-position="static" data-tone="pink" data-icon-only aria-label="Like"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></button>
+  <button class="chu-box chu-fab" type="button" data-position="static" data-tone="neutral" data-icon-only aria-label="Search"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg></button>
+  <button class="chu-box chu-fab-action" type="button" data-tone="danger"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h3v2H1V2h3zM2 5h8v5H9v1H3v-1H2zm2 1v3h1V6zm3 0v3h1V6z"/></svg>Delete clip</button>
+</div>
+</div>

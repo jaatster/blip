@@ -1,6 +1,6 @@
 /**
  * Anatomy figures for the component pages: the real component, drawn at a big pixel (the largest whole number of CSS
- * pixels, 3 to 6, that fits the column), with numbered tags pointing at its parts along pixel leader lines. The
+ * pixels, 3 to 6, that fits the column; 2 on a phone when 3 does not), with numbered tags pointing at its parts along pixel leader lines. The
  * numbers are those of the page's anatomy list (docs/<name>.md), so every numeral points at something.
  *
  * A page opts in with a spec here. A page without one shows its anatomy as a plain list, with no numerals.

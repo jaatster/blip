@@ -135,3 +135,8 @@ pause.addEventListener("chu-action", (e) => {
   else if (v === "docs") location.href = "/templates/";
 });
 pause.addEventListener("close", () => play("back"));
+
+// The touch pad's A sends Enter to what has focus, and a scripted key can't press a button by itself: press it here.
+document.addEventListener("keydown", (e) => {
+  if (!e.isTrusted && e.key === "Enter" && e.target instanceof HTMLButtonElement) e.target.click();
+});

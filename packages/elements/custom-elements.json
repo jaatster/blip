@@ -169,6 +169,226 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/action-sheet.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "An action sheet: the dialog's modal behaviour around one <dialog class=\"chu-box chu-drawer chu-action-sheet\">. The\nchoice comes back as the value of the button that closed it (returnValue, and chu-close's detail.returnValue); it is\nempty when the sheet was dismissed, since each opening starts with an empty returnValue.",
+          "name": "BlipActionSheet",
+          "members": [
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "opener",
+                  "optional": true,
+                  "type": {
+                    "text": "Element | null"
+                  }
+                }
+              ],
+              "description": "Opens it as a modal, with an empty returnValue. `opener` gets focus back when it closes.",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "dialog",
+              "type": {
+                "text": "HTMLDialogElement | null"
+              },
+              "description": "The <dialog> it drives.",
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "True while open; setting it opens or closes. Mirrors the open attribute.",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              },
+              "attribute": "open"
+            },
+            {
+              "kind": "field",
+              "name": "returnValue",
+              "type": {
+                "text": "string"
+              },
+              "description": "The value of the button that closed it last.",
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "requestClose",
+              "return": {
+                "type": {
+                  "text": "Promise<boolean>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "returnValue",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "reason",
+                  "default": "\"api\"",
+                  "type": {
+                    "text": "CloseReason"
+                  }
+                }
+              ],
+              "description": "Asks to close: fires chu-before-close, which a listener may cancel. Resolves true if it closed.",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "returnValue",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "reason",
+                  "default": "\"api\"",
+                  "type": {
+                    "text": "CloseReason"
+                  }
+                }
+              ],
+              "description": "Closes after the stepped exit, without asking.",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            }
+          ],
+          "superclass": {
+            "name": "Overlay",
+            "module": "src/_overlay.ts"
+          },
+          "summary": "A modal column of choices around one <dialog class=\"chu-box chu-drawer chu-action-sheet\">.",
+          "tagName": "chu-action-sheet",
+          "customElement": true,
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Opens the dialog as a modal, or closes it; reflects whether it is open. \"false\" is off.",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              },
+              "fieldName": "open"
+            },
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "A press that starts and ends on the scrim asks to close (reason \"backdrop\").",
+              "name": "light-dismiss",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<void>"
+              },
+              "description": "After it opens (also when opened directly with showModal()).",
+              "name": "chu-open",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "type": {
+                "text": "CustomEvent<CloseDetail>"
+              },
+              "description": "Before any close: Escape, the scrim, a close button, a method=\"dialog\" submit or requestClose(). Cancelable: preventDefault() keeps it open.",
+              "name": "chu-before-close",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "type": {
+                "text": "CustomEvent<CloseDetail>"
+              },
+              "description": "After it has closed and given focus back.",
+              "name": "chu-close",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "BlipActionSheet",
+          "declaration": {
+            "name": "BlipActionSheet",
+            "module": "src/action-sheet.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "chu-action-sheet",
+          "declaration": {
+            "name": "BlipActionSheet",
+            "module": "src/action-sheet.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/combobox.ts",
       "declarations": [
         {
@@ -911,6 +1131,141 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/fab.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "An action button with a speed dial: two or three labelled mini buttons that step up above it, as a WAI-ARIA menu\nbutton.",
+          "name": "BlipFab",
+          "members": [
+            {
+              "kind": "field",
+              "name": "trigger",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "description": "The button: the .chu-fab (or first button) child.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "menu",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "description": "The stack: the [role=menu] child.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "items",
+              "type": {
+                "text": "HTMLElement[]"
+              },
+              "description": "The stack's items, the one nearest the button first.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "True while the stack is open; setting it opens or closes it.",
+              "attribute": "open"
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Opens the stack and focuses its first item, the one nearest the button."
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Closes the stack; focus goes back to the button if it was in the stack."
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<ActionDetail>"
+              },
+              "description": "An item was chosen, before it runs. Cancelable: preventDefault() keeps the stack open.",
+              "name": "chu-action"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<void>"
+              },
+              "description": "The stack opened.",
+              "name": "chu-open"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<void>"
+              },
+              "description": "The stack closed.",
+              "name": "chu-close"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "The stack is open; setting it opens or closes it. \"false\" is off.",
+              "fieldName": "open"
+            },
+            {
+              "type": {
+                "text": "\"fixed\" | \"absolute\" | \"static\""
+              },
+              "description": "Floats at the bottom end of the screen, of the nearest positioned box, or sits in the flow.",
+              "name": "data-position",
+              "default": "\"fixed\""
+            }
+          ],
+          "superclass": {
+            "name": "BlipElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "An action button that opens a short stack of actions.",
+          "tagName": "chu-fab",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "BlipFab",
+          "declaration": {
+            "name": "BlipFab",
+            "module": "src/fab.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "chu-fab",
+          "declaration": {
+            "name": "BlipFab",
+            "module": "src/fab.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/field.ts",
       "declarations": [
         {
@@ -1266,6 +1621,125 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/pager.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A swipeable row of full-width slides with pixel dots, as a WAI-ARIA carousel that never rotates by itself.",
+          "name": "BlipPager",
+          "members": [
+            {
+              "kind": "field",
+              "name": "track",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "description": "The scrolling row.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "slides",
+              "type": {
+                "text": "HTMLElement[]"
+              },
+              "description": "The slides, in order.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "index",
+              "type": {
+                "text": "number"
+              },
+              "description": "The slide showing. Setting it moves there (no event)."
+            },
+            {
+              "kind": "method",
+              "name": "next",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Moves to the next slide, if there is one."
+            },
+            {
+              "kind": "method",
+              "name": "prev",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Moves to the previous slide, if there is one."
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<PageDetail>"
+              },
+              "description": "Another slide is showing, after a swipe, a button, a key or a dot.",
+              "name": "chu-page"
+            }
+          ],
+          "attributes": [
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The previous button's accessible name.",
+              "name": "prev-label",
+              "default": "\"Previous slide\""
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The next button's accessible name.",
+              "name": "next-label",
+              "default": "\"Next slide\""
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "Each slide's name, where it has none of its own: {n} is its number and {count} how many there are.",
+              "name": "slide-label",
+              "default": "\"{n} of {count}\""
+            }
+          ],
+          "superclass": {
+            "name": "BlipElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "Slides you swipe between, with dots.",
+          "tagName": "chu-pager",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "BlipPager",
+          "declaration": {
+            "name": "BlipPager",
+            "module": "src/pager.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "chu-pager",
+          "declaration": {
+            "name": "BlipPager",
+            "module": "src/pager.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/rating.ts",
       "declarations": [
         {
@@ -1451,6 +1925,115 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/refresh.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Pull to refresh, round a scroll container: pull down from its top past the line and let go, and the loader shows\nuntil the chu-refresh listeners' promises settle. Announced politely. Touch only: pair it with a Refresh button\nthat calls refresh().",
+          "name": "BlipRefresh",
+          "members": [
+            {
+              "kind": "field",
+              "name": "refreshing",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "True from the start of a refresh until it has stepped back.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "scroller",
+              "type": {
+                "text": "HTMLElement | null"
+              },
+              "description": "The scroll container: the .chu-refresh-scroller, else the first other element inside.",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "refresh",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "description": "Refreshes as a pull does: steps the content down, shows the loader, sends chu-refresh, waits, steps back."
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<RefreshDetail>"
+              },
+              "description": "A refresh starts: hand detail.waitUntil() the work to wait for. Cancelable: preventDefault() refreshes nothing and steps back.",
+              "name": "chu-refresh"
+            }
+          ],
+          "attributes": [
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "Shown by the arrow while pulling.",
+              "name": "pull-label",
+              "default": "\"Pull to refresh\""
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "Shown once the pull is past the line.",
+              "name": "release-label",
+              "default": "\"Release to refresh\""
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "Shown by the loader, and announced.",
+              "name": "refreshing-label",
+              "default": "\"Refreshing\""
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "Announced when every promise has resolved.",
+              "name": "done-label",
+              "default": "\"Updated\""
+            }
+          ],
+          "superclass": {
+            "name": "BlipElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "Pull down from the top of a scroller to refresh it.",
+          "tagName": "chu-refresh",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "BlipRefresh",
+          "declaration": {
+            "name": "BlipRefresh",
+            "module": "src/refresh.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "chu-refresh",
+          "declaration": {
+            "name": "BlipRefresh",
+            "module": "src/refresh.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/segmented.ts",
       "declarations": [
         {
@@ -1621,6 +2204,357 @@
           "declaration": {
             "name": "BlipSegmented",
             "module": "src/segmented.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/sheet.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A bottom sheet: the drawer's modal behaviour around one <dialog class=\"chu-box chu-drawer chu-sheet\">, with snap\nheights (data-snap on the dialog), a grab handle that steps through them, and dragging: from the handle, the title\nbar, or the body scrolled to its top, following the finger in whole pixels, settling at the nearest height or\nclosing when dragged or flicked down past its lowest.",
+          "name": "BlipSheet",
+          "members": [
+            {
+              "kind": "field",
+              "name": "snaps",
+              "type": {
+                "text": "string[]"
+              },
+              "description": "The heights the dialog's data-snap lists, smallest first; [\"content\"] when it lists none.",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "snap",
+              "type": {
+                "text": "string"
+              },
+              "description": "The height it rests at, by its name in data-snap. Set while open, it moves there in steps; set while closed,\nit opens there (else it opens at the first)."
+            },
+            {
+              "kind": "field",
+              "name": "dialog",
+              "type": {
+                "text": "HTMLDialogElement | null"
+              },
+              "description": "The <dialog> it drives.",
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "True while open; setting it opens or closes. Mirrors the open attribute.",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              },
+              "attribute": "open"
+            },
+            {
+              "kind": "field",
+              "name": "returnValue",
+              "type": {
+                "text": "string"
+              },
+              "description": "The value of the button that closed it last.",
+              "readonly": true,
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "opener",
+                  "optional": true,
+                  "type": {
+                    "text": "Element | null"
+                  }
+                }
+              ],
+              "description": "Opens the dialog as a modal. `opener` gets focus back when it closes (by default, whatever has focus now).",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "requestClose",
+              "return": {
+                "type": {
+                  "text": "Promise<boolean>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "returnValue",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "reason",
+                  "default": "\"api\"",
+                  "type": {
+                    "text": "CloseReason"
+                  }
+                }
+              ],
+              "description": "Asks to close: fires chu-before-close, which a listener may cancel. Resolves true if it closed.",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "returnValue",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "reason",
+                  "default": "\"api\"",
+                  "type": {
+                    "text": "CloseReason"
+                  }
+                }
+              ],
+              "description": "Closes after the stepped exit, without asking.",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<SheetChangeDetail>"
+              },
+              "description": "It settled at another height, by the handle, a drag or snap.",
+              "name": "chu-change"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<void>"
+              },
+              "description": "After it opens (also when opened directly with showModal()).",
+              "name": "chu-open",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "type": {
+                "text": "CustomEvent<CloseDetail>"
+              },
+              "description": "Before any close: Escape, the scrim, a close button, a method=\"dialog\" submit or requestClose(). Cancelable: preventDefault() keeps it open.",
+              "name": "chu-before-close",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            },
+            {
+              "type": {
+                "text": "CustomEvent<CloseDetail>"
+              },
+              "description": "After it has closed and given focus back.",
+              "name": "chu-close",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            }
+          ],
+          "superclass": {
+            "name": "Overlay",
+            "module": "src/_overlay.ts"
+          },
+          "summary": "A draggable bottom sheet around one <dialog class=\"chu-box chu-drawer chu-sheet\">.",
+          "tagName": "chu-sheet",
+          "customElement": true,
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Opens the dialog as a modal, or closes it; reflects whether it is open. \"false\" is off.",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              },
+              "fieldName": "open"
+            },
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "A press that starts and ends on the scrim asks to close (reason \"backdrop\").",
+              "name": "light-dismiss",
+              "inheritedFrom": {
+                "name": "Overlay",
+                "module": "src/_overlay.ts"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "BlipSheet",
+          "declaration": {
+            "name": "BlipSheet",
+            "module": "src/sheet.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "chu-sheet",
+          "declaration": {
+            "name": "BlipSheet",
+            "module": "src/sheet.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/swipe-row.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A list row that swipes aside to show the actions behind it: swipe past half and it holds open, swipe all the way\nand the first action runs. The actions are real buttons in the tab order, and a More button opens the row for a\nmouse or a keyboard.",
+          "name": "BlipSwipeRow",
+          "members": [
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "SwipeSide | null"
+              },
+              "attribute": "open"
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "side",
+                  "default": "this.#buttons(\"end\").length ? \"end\" : \"start\"",
+                  "type": {
+                    "text": "SwipeSide"
+                  }
+                }
+              ],
+              "description": "Opens a side: end (or start, when there is nothing at the end) by default."
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<{ side: SwipeSide }>"
+              },
+              "description": "The row opened on a side, however it happened.",
+              "name": "chu-open"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<void>"
+              },
+              "description": "The row closed.",
+              "name": "chu-close"
+            },
+            {
+              "type": {
+                "text": "CustomEvent<SwipeDetail>"
+              },
+              "description": "A full swipe, before its first action runs. Cancelable: preventDefault() runs nothing and leaves the row open.",
+              "name": "chu-swipe"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "open",
+              "type": {
+                "text": "\"start\" | \"end\""
+              },
+              "description": "The side whose actions show; left out, the row is closed. Setting it opens that side (closing any other open row in the list) or closes it. Reflects the row.",
+              "fieldName": "open"
+            }
+          ],
+          "superclass": {
+            "name": "BlipElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "A list row that swipes aside to show its actions.",
+          "tagName": "chu-swipe-row",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "BlipSwipeRow",
+          "declaration": {
+            "name": "BlipSwipeRow",
+            "module": "src/swipe-row.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "chu-swipe-row",
+          "declaration": {
+            "name": "BlipSwipeRow",
+            "module": "src/swipe-row.ts"
           }
         }
       ]
@@ -2175,6 +3109,151 @@
           "declaration": {
             "name": "BlipTooltip",
             "module": "src/tooltip.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/wheel.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "One or more wheels of options with a candy band across the middle. Each wheel is a spin button. Form-associated:\nthe value goes with the form.",
+          "name": "BlipWheel",
+          "members": [
+            {
+              "kind": "field",
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "value"
+            },
+            {
+              "kind": "field",
+              "name": "form",
+              "type": {
+                "text": "HTMLFormElement | null"
+              },
+              "readonly": true
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent<{ value: string }>"
+              },
+              "description": "A wheel settled on a new value (after input and change).",
+              "name": "chu-change"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "value",
+              "type": {
+                "text": "string"
+              },
+              "description": "Time \"HH:MM\" (24-hour), date \"YYYY-MM-DD\", or the custom wheels' values joined by spaces. Without one: now, today, or each select's selected option.",
+              "fieldName": "value"
+            },
+            {
+              "name": "disabled",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Switched off (also follows a disabled fieldset). \"false\" is off."
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The form field name.",
+              "name": "name"
+            },
+            {
+              "type": {
+                "text": "\"time\" | \"date\""
+              },
+              "description": "Builds the wheels for a time (hours, minutes and AM/PM where the language uses it) or a date (day, month and year in the language's order). Without it, one wheel per <select> inside.",
+              "name": "data-type"
+            },
+            {
+              "type": {
+                "text": "\"sm\" | \"md\" | \"lg\""
+              },
+              "description": "Rows 12, 16 or 20 pixels high.",
+              "name": "data-size",
+              "default": "\"md\""
+            },
+            {
+              "type": {
+                "text": "\"full\""
+              },
+              "description": "Fills its container; the wheels share the width.",
+              "name": "data-width"
+            },
+            {
+              "type": {
+                "text": "\"accent\" | \"info\" | \"success\" | \"warning\" | \"danger\" | \"neutral\" | \"red\" | \"orange\" | \"yellow\" | \"green\" | \"teal\" |\"blue\" | \"purple\" | \"pink\" | \"slate\""
+              },
+              "description": "The band's candy.",
+              "name": "data-tone"
+            },
+            {
+              "type": {
+                "text": "\"12\" | \"24\""
+              },
+              "description": "A 12- or 24-hour clock (time). The language decides by default.",
+              "name": "hours"
+            },
+            {
+              "type": {
+                "text": "number"
+              },
+              "description": "Minutes between rows (time).",
+              "name": "minute-step",
+              "default": "1"
+            },
+            {
+              "type": {
+                "text": "number"
+              },
+              "description": "The first year on the wheel (date). Default: a hundred years ago.",
+              "name": "min"
+            },
+            {
+              "type": {
+                "text": "number"
+              },
+              "description": "The last year on the wheel (date). Default: twenty years ahead.",
+              "name": "max"
+            }
+          ],
+          "superclass": {
+            "name": "BlipElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "Wheels of options: a time, a date or your own.",
+          "tagName": "chu-wheel",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "BlipWheel",
+          "declaration": {
+            "name": "BlipWheel",
+            "module": "src/wheel.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "chu-wheel",
+          "declaration": {
+            "name": "BlipWheel",
+            "module": "src/wheel.ts"
           }
         }
       ]

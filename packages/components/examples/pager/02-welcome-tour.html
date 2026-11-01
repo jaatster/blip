@@ -1,0 +1,31 @@
+<!-- A welcome tour in a phone screen: a top bar with a way out, three steps to swipe through, and the main button
+     under them. Each slide is named by its heading. -->
+<div class="chu-box" data-variant="panel" data-chu-r="4" style="display:grid;inline-size:min(100%,calc(180*var(--chu-pixel)))">
+  <div style="display:grid;gap:calc(2*var(--chu-pixel));padding-block-end:calc(6*var(--chu-pixel));mask-image:var(--chu-shape-inner);mask-size:var(--chu-box-mask-size);mask-position:var(--chu-box-mask-position);mask-repeat:no-repeat">
+    <header class="chu-box chu-top-bar">
+      <h2 class="chu-top-bar-title">Welcome</h2>
+      <div class="chu-top-bar-actions">
+        <a class="chu-box chu-button" data-variant="ghost" data-size="sm" href="#pg-skip">Skip</a>
+      </div>
+    </header>
+    <chu-pager class="chu-pager" aria-label="How to play">
+      <div class="chu-pager-track" tabindex="0">
+        <section class="chu-pager-slide" id="pg-tour-run" role="group" aria-roledescription="slide" aria-labelledby="pg-tour-run-title">
+          <div class="chu-box chu-card" data-variant="soft" data-tone="teal"><div class="chu-card-body"><h3 class="chu-card-title" id="pg-tour-run-title">Run</h3><p>Hold the right side of the screen to run. The longer you hold, the faster you go.</p></div></div>
+        </section>
+        <section class="chu-pager-slide" id="pg-tour-jump" role="group" aria-roledescription="slide" aria-labelledby="pg-tour-jump-title">
+          <div class="chu-box chu-card" data-variant="soft" data-tone="pink"><div class="chu-card-body"><h3 class="chu-card-title" id="pg-tour-jump-title">Jump</h3><p>Tap to jump. Tap again in the air to flap once more.</p></div></div>
+        </section>
+        <section class="chu-pager-slide" id="pg-tour-collect" role="group" aria-roledescription="slide" aria-labelledby="pg-tour-collect-title">
+          <div class="chu-box chu-card" data-variant="soft" data-tone="purple"><div class="chu-card-body"><h3 class="chu-card-title" id="pg-tour-collect-title">Collect</h3><p>Coins buy hats. Stars open new worlds.</p></div></div>
+        </section>
+      </div>
+      <div class="chu-pager-dots">
+        <a class="chu-pager-dot" href="#pg-tour-run" aria-current="true" aria-label="Run"></a>
+        <a class="chu-pager-dot" href="#pg-tour-jump" aria-label="Jump"></a>
+        <a class="chu-pager-dot" href="#pg-tour-collect" aria-label="Collect"></a>
+      </div>
+    </chu-pager>
+    <div style="padding-inline:calc(6*var(--chu-pixel))"><button class="chu-box chu-button" type="button" data-width="full">Start playing</button></div>
+  </div>
+</div>

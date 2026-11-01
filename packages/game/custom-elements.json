@@ -740,6 +740,95 @@
           }
         }
       ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/touch-pad.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "A D-pad and A and B buttons (and Start) for touch screens, sending real keydown and keyup events to a target.\nShown only on a coarse pointer unless data-show=\"always\".",
+          "name": "BlipTouchPad",
+          "attributes": [
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The id of the element to send keys to. Default: the focused element.",
+              "name": "for"
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The key A sends.",
+              "name": "data-a",
+              "default": "\"z\""
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "The key B sends.",
+              "name": "data-b",
+              "default": "\"x\""
+            },
+            {
+              "type": {
+                "text": "string"
+              },
+              "description": "Shows Start, sending this key (\"Enter\" when empty).",
+              "name": "data-start"
+            },
+            {
+              "type": {
+                "text": "\"always\""
+              },
+              "description": "Shows the pad on every pointer, not only on touch screens.",
+              "name": "data-show"
+            },
+            {
+              "type": {
+                "text": "\"inline\""
+              },
+              "description": "In the page's flow instead of fixed to the bottom of the screen.",
+              "name": "data-position"
+            },
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "A short buzz on each press, where the device can (navigator.vibrate). \"false\" is off.",
+              "name": "haptics"
+            }
+          ],
+          "superclass": {
+            "name": "BlipElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "An on-screen D-pad and buttons that send key events.",
+          "tagName": "chu-touch-pad",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "BlipTouchPad",
+          "declaration": {
+            "name": "BlipTouchPad",
+            "module": "src/touch-pad.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "chu-touch-pad",
+          "declaration": {
+            "name": "BlipTouchPad",
+            "module": "src/touch-pad.ts"
+          }
+        }
+      ]
     }
   ]
 }

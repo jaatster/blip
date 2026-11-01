@@ -142,6 +142,11 @@
   @container chu-app-bar (width < 400px) {
     :is(.docs-brand, .tpl-dash-bar .chu-app-bar-brand, .tpl-landing-top .chu-app-bar-brand) .chu-display { font-feature-settings: normal; }
   }
+  /* On the narrowest phones (320 px) the wordmark, the menu button and three actions only fit whole with the gaps
+     and the ends closed up a little. */
+  @container chu-shell (width < 360px) {
+    .docs-app-bar { gap: var(--chu-space-3); padding-inline: var(--chu-space-4); }
+  }
   .docs-search-button { gap: var(--chu-space-3); }
   .docs-search-keys { display: inline-flex; gap: var(--chu-pixel); margin-inline-start: var(--chu-space-2); }
   .docs-search-keys .chu-keycap { pointer-events: none; }
@@ -301,6 +306,13 @@
   .docs-meta-key { color: var(--chu-text-muted); }
   /* "Also known as": what shadcn/ui, the WAI-ARIA APG and HTML call it. */
   .docs-aka { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--chu-space-2) var(--chu-space-4); font-size: var(--chu-size-small); }
+  /* A link standing on its own in a row of the page's furniture (a WAI-ARIA pattern under "Also known as", the
+     home page's template link) is a line of small text, 21 px high: a pixel of padding above and below, taken back
+     by the margin, gives it the 24 px target without moving anything. */
+  :is(.docs-meta > li, .docs-row) > a:not(.chu-box, .docs-status) {
+    padding-block: var(--chu-pixel);
+    margin-block: calc(-1 * var(--chu-pixel));
+  }
   /* The status tag links to what stable and beta mean. */
   .docs-status { display: inline-flex; color: inherit; text-decoration: none; }
   .docs-status:hover > .chu-tag { text-decoration: underline; text-decoration-thickness: var(--chu-pixel); text-underline-offset: calc(2 * var(--chu-pixel)); }
@@ -437,11 +449,12 @@
 
   /* ------------------------------------------------------------------ anatomy figures (src/lib/anatomy.ts) */
 
-  /* The real component at a big pixel: the largest whole number of CSS pixels, 3 to 6, that fits the column. Tags
+  /* The real component at a big pixel: the largest whole number of CSS pixels, 3 to 6, that fits the column (2 on a
+     phone, where a wide figure would not fit at 3). Tags
      and leader lines keep the page's pixel; each line runs straight from its tag to the centre of the pixel it names. */
   .docs-fig { container-type: inline-size; margin: var(--chu-space-8) 0 var(--chu-space-8); }
   .docs-fig-canvas {
-    --docs-fp: clamp(3px, round(down, 100cqi / var(--w), 1px), 6px);
+    --docs-fp: clamp(2px, round(down, 100cqi / var(--w), 1px), 6px);
     --_line: var(--chu-pixel);
     --_tag: calc(12 * var(--chu-pixel));
     position: relative;
@@ -587,6 +600,52 @@
     padding: var(--chu-space-12) var(--chu-space-12) var(--chu-space-16);
     overflow-x: auto;
   }
+  /* While there is more to one side, a chevron stands at that edge as well as the dither, the way a tab row's scroll
+     buttons do: the dither alone vanishes when the edge falls in a gap, and a phone shows no scrollbar. Each side's
+     strip spans the stage; its chevron keeps to the middle of the part of the stage on screen. Only where the
+     browser can tell (a scroll timeline shared with the stage); elsewhere the scrollbar says so. */
+  .docs-stage-more { display: none; }
+  @supports (timeline-scope: --docs-stage) and (animation-timeline: scroll()) {
+    .docs-stage { timeline-scope: --docs-stage; }
+    .docs-stage-scroll { scroll-timeline: --docs-stage inline; }
+    .docs-stage-more {
+      position: absolute;
+      inset-block: calc(3 * var(--chu-pixel));
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      pointer-events: none;
+      visibility: hidden;
+      animation: docs-stage-more-end steps(1, jump-end) both;
+      animation-timeline: --docs-stage;
+    }
+    .docs-stage-more[data-dir="start"] { inset-inline-start: calc(3 * var(--chu-pixel)); animation-name: docs-stage-more-start; }
+    .docs-stage-more[data-dir="end"] { inset-inline-end: calc(3 * var(--chu-pixel)); }
+    .docs-stage-more-chip {
+      --chu-r: 3;
+      --chu-shape: var(--chu-shape-3);
+      --chu-shape-inner: var(--chu-shape-3-inner);
+      --chu-drop-size: 0;
+      position: sticky;
+      inset-block: calc(var(--docs-top) + var(--chu-space-6)) calc(40 * var(--chu-pixel));
+      display: grid;
+      place-items: center;
+      inline-size: calc(12 * var(--chu-pixel));
+      block-size: calc(16 * var(--chu-pixel));
+    }
+    .docs-stage-more-chip > span {
+      inline-size: calc(5 * var(--chu-pixel));
+      block-size: calc(7 * var(--chu-pixel));
+      background-color: currentColor;
+      mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 5 7' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h2v1h1v1h1v1h1v1H4v1H3v1H2v1H0V6h1V5h1V4h1V3H2V2H1V1H0z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
+    }
+    .docs-stage-more[data-dir="start"] .docs-stage-more-chip > span,
+    .docs-stage-more[data-dir="end"]:dir(rtl) .docs-stage-more-chip > span { scale: -1 1; }
+    .docs-stage-more[data-dir="start"]:dir(rtl) .docs-stage-more-chip > span { scale: none; }
+    /* With keyboard focus in the example, the chevrons step aside with the dither. */
+    .docs-stage:has(:focus-visible) > .docs-stage-more { display: none; }
+  }
   /* A stage that has its own scheme paints the scheme's page behind the example. */
   .docs-stage[data-chu-scheme] { background: none; }
   /* "Show the HTML" and, while it is closed, "Copy the HTML" beside it; open, the code's own Copy is there. */
@@ -702,6 +761,16 @@
   0% { --_dx-s: 0; --_dx-e: 1; }
   1%, 98% { --_dx-s: 1; --_dx-e: 1; }
   99%, 100% { --_dx-s: 1; --_dx-e: 0; }
+}
+
+/* The stage's chevrons: the end one while there is more at the end, the start one while there is more at the start. */
+@keyframes docs-stage-more-end {
+  0%, 98% { visibility: visible; }
+  99%, 100% { visibility: hidden; }
+}
+@keyframes docs-stage-more-start {
+  0% { visibility: hidden; }
+  1%, 100% { visibility: visible; }
 }
 
 @keyframes docs-drawer-in {

@@ -9,8 +9,8 @@
  * --chu-duration-glide, to get there), and closes when hover and focus leave, on a press, or on Escape, which it
  * keeps from closing a dialog underneath. It sits in the top layer (popover="manual"), shown with its trigger as
  * source, so CSS anchor positioning places it where the browser anchors a popover to its source; elsewhere script
- * places it. It never writes the trigger's anchor-name. Either way it takes the other side when there is no room,
- * and its nub keeps pointing at the trigger's middle. One shows at a time; moving between triggers while one shows
+ * places it. It never writes the trigger's anchor-name. Either way it takes the other side when there is no room
+ * (above or below, when there is room on neither side of a trigger it would stand beside), and its nub keeps pointing at the trigger's middle. One shows at a time; moving between triggers while one shows
  * skips the wait. A trigger rendered after the tooltip, or replaced by a framework, is found again as it arrives.
  *
  * Attributes: for (the trigger's id; default the element just before it), data-side (top, bottom, left, right: the
@@ -231,9 +231,11 @@ export class BlipTooltip extends BlipElement {
     const vh = document.documentElement.clientHeight;
     const room: Record<Side, number> = { top: a.top, bottom: vh - a.bottom, left: a.left, right: vw - a.right };
     const want = (this.#side && this.#side in OTHER ? this.#side : "top") as Side;
-    const across = want === "top" || want === "bottom";
-    const need = (across ? h : w) + 5 * p;
-    const side = room[want] >= need || room[want] >= room[OTHER[want]] ? want : OTHER[want];
+    const need = (want === "top" || want === "bottom" ? h : w) + 5 * p;
+    let side = room[want] >= need || room[want] >= room[OTHER[want]] ? want : OTHER[want];
+    // Beside the trigger with room on neither side (a phone): above it, or below when there is more room there.
+    if (room[side] < need && (side === "left" || side === "right")) side = room.top >= h + 5 * p || room.top >= room.bottom ? "top" : "bottom";
+    const across = side === "top" || side === "bottom";
     this.#reflect(() => (this.dataset.side = side));
     const edge = 2 * p;
     const clamp = (v: number, max: number) => Math.round(Math.min(Math.max(v, edge), Math.max(edge, max - edge)));

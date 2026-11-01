@@ -132,14 +132,15 @@ event handler or effect, never while rendering.
 - **Overlays**: `DialogBody`, `DialogClose`, `DialogFooter`, `DialogHeader`, `DialogIcon`, `DialogPanel`, `DialogTitle`, `DrawerSheet`, `Popover`, `PopoverClose`, `PopoverNub`, `PopoverTitle`, `TooltipChip`, `TooltipNub`
 - **Feedback**: `Alert`, `AlertActions`, `AlertBody`, `AlertClose`, `AlertIcon`, `AlertTitle`, `Badge`, `BadgeAnchor`, `EmptyState`, `EmptyStateActions`, `EmptyStateArt`, `EmptyStateText`, `EmptyStateTitle`, `Loader`, `Meter`, `Progress`, `ProgressLabel`, `Skeleton`, `StaticToaster`, `Toast`, `ToastAction`, `ToastActions`, `ToastBody`, `ToastClose`, `ToastIcon`, `ToastTimer`, `ToastTitle`
 - **Data**: `Accordion`, `AccordionChevron`, `AccordionItem`, `AccordionPanel`, `AccordionSummary`, `Avatar`, `AvatarGroup`, `AvatarStatus`, `Card`, `CardBody`, `CardContent`, `CardFooter`, `CardHeader`, `CardLink`, `CardMedia`, `CardSubtitle`, `CardTitle`, `DataTable`, `Divider`, `Keycap`, `Keys`, `List`, `ListContent`, `ListDescription`, `ListEnd`, `ListItem`, `ListTitle`, `Stat`, `StatDelta`, `StatLabel`, `StatValue`, `TableCaret`, `TableCheck`, `TableEmpty`, `TableFrame`, `TableLoading`, `TableScroll`, `TableSort`, `Tag`, `TagRemove`, `Tile`, `TileGlint`, `TileItem`, `TileLabel`, `TileList`
+- **Phone**: `ActionSheetActions`, `ActionSheetCancel`, `ActionSheetMessage`, `ActionSheetPanel`, `ActionSheetTitle`, `FabAction`, `FabButton`, `FabMenu`, `PagerDot`, `PagerDots`, `PagerSlide`, `PagerTrack`, `RefreshScroller`, `SheetHandle`, `SheetPanel`, `SwipeRowActions`, `SwipeRowFace`, `SwipeRowMore`, `TopBar`, `TopBarActions`, `TopBarBack`, `TopBarLarge`, `TopBarTitle`
 - **Layout**: `Cluster`, `Grid`, `Stack`
 - **Window**: `Window`, `WindowBar`, `WindowBody`, `WindowControl`, `WindowControls`, `WindowStatus`, `WindowTitle`
-- **Web Components (generated)**: `Combobox`, `CommandPalette`, `Dialog`, `Drawer`, `Field`, `FileDrop`, `Menu`, `NumberStepper`, `Rating`, `Segmented`, `Table`, `Tabs`, `TileGrid`, `Toaster`, `Tooltip`
+- **Web Components (generated)**: `ActionSheet`, `Combobox`, `CommandPalette`, `Dialog`, `Drawer`, `Fab`, `Field`, `FileDrop`, `Menu`, `NumberStepper`, `Pager`, `Rating`, `Refresh`, `Segmented`, `Sheet`, `SwipeRow`, `Table`, `Tabs`, `TileGrid`, `Toaster`, `Tooltip`, `Wheel`
 
 ### Game kit: `@jaatster/blip-react/game`
 
 - **CSS components**: `Achievement`, `AchievementIcon`, `AchievementLabel`, `AchievementReward`, `AchievementText`, `AchievementTitle`, `Achievements`, `Choice`, `ChoiceAside`, `ChoiceList`, `CounterIcon`, `DialogueBody`, `DialogueName`, `DialoguePortrait`, `DialogueText`, `Hud`, `HudBar`, `HudGroup`, `HudLabel`, `HudStat`, `LevelMap`, `LevelNumber`, `LevelPath`, `LevelStars`, `LevelTile`, `PauseHint`, `PauseMenu`, `PauseStats`, `PauseTitle`, `Prompt`, `PromptButton`, `PromptDpad`, `PromptKey`, `PromptShoulder`, `PromptStart`, `Slot`, `SlotCount`, `SlotTag`, `Stage`, `StageGround`, `StageScrim`
-- **Web Components (generated)**: `Choices`, `Counter`, `Dialogue`, `Hearts`, `Inventory`, `Sprite`
+- **Web Components (generated)**: `Choices`, `Counter`, `Dialogue`, `Hearts`, `Inventory`, `Sprite`, `TouchPad`
 
 ### Website blocks: `@jaatster/blip-react/blocks`
 

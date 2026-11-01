@@ -22,12 +22,12 @@ It is design tokens in the W3C format, plain layered CSS and dependency-free Web
 wrappers on top. It began as the shipped look of an Android TV launcher, where every rule was tested on a box with
 1 GB of memory, and it is built for web apps, websites, games and TVs.
 
-[Docs](https://jaatster.com/blip) · [Design rules](DESIGN.md) · [Public API](CONTRACT.md) ·
+[Docs](https://jaatster.com/blip/) · [Design rules](DESIGN.md) · [Public API](CONTRACT.md) ·
 [Contributing](CONTRIBUTING.md) · [Authoring rules](AUTHORING.md) · [Storybook](apps/storybook)
 
 ## See it
 
-The docs site, [jaatster.com/blip](https://jaatster.com/blip), is built in Blip itself: every component in Day,
+The docs site, [jaatster.com/blip](https://jaatster.com/blip/), is built in Blip itself: every component in Day,
 Sunset and Night, the foundations, three templates (a dashboard, a landing page and a game menu) and a theme
 builder. Run it locally with `pnpm --filter @jaatster/blip-docs dev`.
 
@@ -156,9 +156,9 @@ runtime dependencies outside `@jaatster/blip-*` (React is a peer of the React pa
 |---|---|---|---|
 | **Core** | | | |
 | `@jaatster/blip-tokens` | Every colour, size, duration and type value in the W3C DTCG 2025.10 format, with a resolver for the scheme and the pixel; exported as CSS, JS and TypeScript, Kotlin (Compose), Swift, Android XML and Figma variables | `tokens.css` 4 KB | 3.76 KB |
-| `@jaatster/blip-core` | The building blocks: the pixel, the candy box, type, stepped motion and base styles; `BlipElement`, roving focus, typeahead, dismiss, timelines, the scheme clock and swappable services | CSS 6 KB, JS 3 KB | 5.45 KB, 2.60 KB |
-| `@jaatster/blip-components` | The 53 core components as layered CSS: one file, or one per component | 30 KB, all of it | 25.23 KB |
-| `@jaatster/blip-elements` | 15 light-DOM Web Components for the components that need behaviour, with a Custom Elements Manifest | 3 KB each | 0.82 to 2.48 KB |
+| `@jaatster/blip-core` | The building blocks: the pixel, the candy box, type, stepped motion and base styles; `BlipElement`, roving focus, typeahead, dismiss, timelines, the scheme clock and swappable services | CSS 6.5 KB, JS 3 KB | 6.04 KB, 2.88 KB |
+| `@jaatster/blip-components` | The 61 core components as layered CSS, phone ones included: one file, or one per component | 34 KB, all of it | 31.18 KB |
+| `@jaatster/blip-elements` | 22 light-DOM Web Components for the components that need behaviour, with a Custom Elements Manifest | 3 KB each | 1.05 to 3.00 KB |
 | `@jaatster/blip-icons` | 188 original icons on a 12 x 12 grid: SVG files, a sprite, JS path data and `<chu-icon>` | 6 KB, all the path data | 5.59 KB |
 | `@jaatster/blip-font` | Pixel Bop, the display face (WOFF2 and TTF), and a Latin subset of Pixelify Sans | Pixel Bop 15 KB (file size) | 8.52 KB |
 | `@jaatster/blip-react` | Typed React components for every component and kit | none: no side effects, one export each | |

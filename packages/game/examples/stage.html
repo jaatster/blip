@@ -1,6 +1,6 @@
 <!-- Stage: the sky and ground a game screen sits on, before <chu-world> draws, in each scheme. Bands step up from the
      horizon and dither into each other; nothing is a smooth gradient. -->
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(calc(120*var(--chu-pixel)),1fr));gap:calc(10*var(--chu-pixel))">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,calc(120*var(--chu-pixel))),1fr));gap:calc(10*var(--chu-pixel))">
   <section class="chu-stage" data-frame data-chu-scheme="day" aria-label="Day" style="block-size:calc(96*var(--chu-pixel));padding:calc(6*var(--chu-pixel)) calc(8*var(--chu-pixel))">
     <p class="chu-display chu-pop" data-scale="1" data-pop="Day">Day</p>
     <div class="chu-stage-ground"></div>

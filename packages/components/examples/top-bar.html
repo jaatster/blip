@@ -1,0 +1,91 @@
+<!-- Top bar: three phone screens (each a frame that scrolls, so the bar sticks to its top): a detail screen with a
+     labelled back button and two actions, a large title over a list, and a root screen with no back button; then a
+     long title cut short, and the buttons' states forced with data-chu-state. -->
+<div style="display:flex;flex-wrap:wrap;gap:calc(12*var(--chu-pixel));align-items:start">
+
+  <div class="chu-box" data-variant="panel" data-chu-r="4" style="display:grid;inline-size:min(100%,calc(180*var(--chu-pixel)));block-size:calc(170*var(--chu-pixel))">
+    <div style="overflow:auto;mask-image:var(--chu-shape-inner);mask-size:var(--chu-box-mask-size);mask-position:var(--chu-box-mask-position);mask-repeat:no-repeat">
+      <header class="chu-box chu-top-bar">
+        <a class="chu-box chu-button chu-top-bar-back" data-variant="ghost" href="#worlds"><span class="chu-icon chu-top-bar-chevron" aria-hidden="true"></span><span class="chu-sr-only">Back to </span>Worlds</a>
+        <h2 class="chu-top-bar-title">Meadow</h2>
+        <div class="chu-top-bar-actions">
+          <button class="chu-box chu-button" type="button" data-variant="ghost" data-icon-only aria-label="Share"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M8 1h2v1h1v2h-1v1H8V4H7v1H6v2h1v1h1V7h2v1h1v2h-1v1H8v-1H7V9H6V8H5V7H4v1H2V7H1V5h1V4h2v1h1V4h1V3h1V2h1z"/></svg></button>
+          <button class="chu-box chu-button" type="button" data-variant="ghost" data-icon-only aria-label="More"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v2H5zm0 4h2v2H5zm0 4h2v2H5z"/></svg></button>
+        </div>
+      </header>
+      <div style="display:grid;gap:calc(4*var(--chu-pixel));padding:calc(6*var(--chu-pixel))">
+        <p class="chu-body">Eight levels of rolling hills, hidden coins and one very sleepy dragon.</p>
+        <ul class="chu-list" role="list" data-dividers aria-label="Levels">
+          <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">1. First steps</span><span class="chu-list-description">3 of 3 stars</span></div></li>
+          <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">2. Windy ridge</span><span class="chu-list-description">2 of 3 stars</span></div></li>
+          <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">3. Mushroom caves</span><span class="chu-list-description">Not played yet</span></div></li>
+          <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">4. Dragon's nap</span><span class="chu-list-description">Locked</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="chu-box" data-variant="panel" data-chu-r="4" style="display:grid;inline-size:min(100%,calc(180*var(--chu-pixel)));block-size:calc(170*var(--chu-pixel))">
+    <div style="overflow:auto;mask-image:var(--chu-shape-inner);mask-size:var(--chu-box-mask-size);mask-position:var(--chu-box-mask-position);mask-repeat:no-repeat">
+      <header class="chu-box chu-top-bar" data-large>
+        <a class="chu-box chu-button chu-top-bar-back" data-variant="ghost" data-icon-only href="#home" aria-label="Back"><span class="chu-icon chu-top-bar-chevron" aria-hidden="true"></span></a>
+        <span class="chu-top-bar-title" aria-hidden="true">Inbox</span>
+        <div class="chu-top-bar-actions">
+          <button class="chu-box chu-button" type="button" data-variant="ghost" data-icon-only aria-label="Search"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg></button>
+          <button class="chu-box chu-button" type="button" data-variant="ghost" data-icon-only aria-label="New message"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M8 1h2v1h1v2h-1v1H9v1H8v1H7v1H6v1H5v1H3v1H1V9h1V7h1V6h1V5h1V4h1V3h1V2h1zM7 3v1h1V3zm1 1v1h1V4zM2 9v1h1V9z"/></svg></button>
+        </div>
+      </header>
+      <h2 class="chu-top-bar-large">Inbox</h2>
+      <ul class="chu-list" role="list" data-dividers aria-label="Messages" style="padding:0 calc(4*var(--chu-pixel)) calc(6*var(--chu-pixel))">
+        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Pip</span><span class="chu-list-description">Race you to the end of World 2?</span></div><div class="chu-list-end">9:41</div></li>
+        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Guild of Coins</span><span class="chu-list-description">Your weekly treasure report</span></div><div class="chu-list-end">8:02</div></li>
+        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Mira</span><span class="chu-list-description">Found the secret door!</span></div><div class="chu-list-end">Mon</div></li>
+        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Level editor</span><span class="chu-list-description">Your level got 12 plays</span></div><div class="chu-list-end">Sun</div></li>
+        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Tomo</span><span class="chu-list-description">gg, rematch tomorrow</span></div><div class="chu-list-end">Sat</div></li>
+        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Shop</span><span class="chu-list-description">The frog hat is back</span></div><div class="chu-list-end">Fri</div></li>
+        <li class="chu-list-item"><div class="chu-list-content"><span class="chu-list-title">Pip</span><span class="chu-list-description">How did you get past the bats?</span></div><div class="chu-list-end">Thu</div></li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="display:grid;gap:calc(8*var(--chu-pixel));inline-size:min(100%,calc(180*var(--chu-pixel)))">
+    <div class="chu-box" data-variant="panel" data-chu-r="4" style="display:grid">
+      <div style="mask-image:var(--chu-shape-inner);mask-size:var(--chu-box-mask-size);mask-position:var(--chu-box-mask-position);mask-repeat:no-repeat">
+        <header class="chu-box chu-top-bar">
+          <h2 class="chu-top-bar-title">Settings</h2>
+          <div class="chu-top-bar-actions">
+            <button class="chu-box chu-button" type="button" data-variant="ghost" data-icon-only aria-label="Search settings"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg></button>
+          </div>
+        </header>
+        <p class="chu-small chu-muted" style="padding:calc(4*var(--chu-pixel)) calc(6*var(--chu-pixel)) calc(6*var(--chu-pixel))">A root screen: no back button.</p>
+      </div>
+    </div>
+
+    <div class="chu-box" data-variant="panel" data-chu-r="4" style="display:grid">
+      <div style="mask-image:var(--chu-shape-inner);mask-size:var(--chu-box-mask-size);mask-position:var(--chu-box-mask-position);mask-repeat:no-repeat">
+        <header class="chu-box chu-top-bar">
+          <a class="chu-box chu-button chu-top-bar-back" data-variant="ghost" href="#achievements"><span class="chu-icon chu-top-bar-chevron" aria-hidden="true"></span><span class="chu-sr-only">Back to </span>Achievements</a>
+          <h2 class="chu-top-bar-title">Three stars on every level of World 3</h2>
+          <div class="chu-top-bar-actions">
+            <button class="chu-box chu-button" type="button" data-variant="ghost" data-icon-only aria-label="Favourite"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></button>
+          </div>
+        </header>
+        <p class="chu-small chu-muted" style="padding:calc(4*var(--chu-pixel)) calc(6*var(--chu-pixel)) calc(6*var(--chu-pixel))">Long words are cut short: the title first, then the back label.</p>
+      </div>
+    </div>
+
+    <div class="chu-box" data-variant="panel" data-chu-r="4" style="display:grid">
+      <div style="mask-image:var(--chu-shape-inner);mask-size:var(--chu-box-mask-size);mask-position:var(--chu-box-mask-position);mask-repeat:no-repeat">
+        <header class="chu-box chu-top-bar">
+          <a class="chu-box chu-button chu-top-bar-back" data-variant="ghost" href="#hover" data-chu-state="hover"><span class="chu-icon chu-top-bar-chevron" aria-hidden="true"></span><span class="chu-sr-only">Back to </span>Hover</a>
+          <h2 class="chu-top-bar-title">States</h2>
+          <div class="chu-top-bar-actions">
+            <button class="chu-box chu-button" type="button" data-variant="ghost" data-icon-only aria-label="Focus" data-chu-state="focus"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg></button>
+            <button class="chu-box chu-button" type="button" data-variant="ghost" data-icon-only aria-label="Pressed" aria-pressed="true"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v1h2V2h3v1h1v3h-1v1H9v1H8v1H7v1H5V9H4V8H3V7H2V6H1V3h1z"/></svg></button>
+          </div>
+        </header>
+        <p class="chu-small chu-muted" style="padding:calc(4*var(--chu-pixel)) calc(6*var(--chu-pixel)) calc(6*var(--chu-pixel))">Back: hover. Actions: focus, and a toggle that is on.</p>
+      </div>
+    </div>
+  </div>
+</div>

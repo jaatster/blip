@@ -1,0 +1,127 @@
+/*
+ * Swipe rows. A list row whose face slides aside, a whole pixel at a time, to show candy actions in a sunken tray
+ * behind it: swipe it on a touch screen, or press its More button with a mouse or a keyboard. <chu-swipe-row>
+ * (@jaatster/blip-elements/swipe-row) does the swiping; before it runs, the actions sit at the row's end like any buttons.
+ *
+ *   <li>
+ *     <chu-swipe-row class="chu-swipe-row">
+ *       <div class="chu-swipe-row-face">
+ *         <div class="chu-list-item">…</div>
+ *         <button class="chu-box chu-button chu-swipe-row-more" type="button" data-variant="ghost" data-size="sm"
+ *           data-icon-only aria-label="More actions"><svg class="chu-icon">…</svg></button>
+ *       </div>
+ *       <div class="chu-swipe-row-actions" data-side="start">
+ *         <button class="chu-box chu-button" type="button">Archive</button>
+ *       </div>
+ *       <div class="chu-swipe-row-actions" data-side="end">
+ *         <button class="chu-box chu-button" type="button" data-tone="danger">Delete</button>
+ *       </div>
+ *     </chu-swipe-row>
+ *   </li>
+ *
+ *   .chu-swipe-row-face              what the row shows: a .chu-list-item (a row of content, or a link or button),
+ *                                    then the More button
+ *   .chu-swipe-row-more              a ghost icon button with the more-horizontal icon (three dots); shown where
+ *                                    there is a fine pointer
+ *   .chu-swipe-row-actions           the tray of one side's actions: candy buttons, with a tone each
+ *   data-side      start | end       the side the tray is on: start shows with a swipe towards the end, and the
+ *                                    other way round (they follow the text)
+ *   open="start" | "end"             the side that shows (on the element: it slides the face and holds it there)
+ *
+ * Set by the element, to read and style: data-chu-moved="start" | "end" (the face has narrowed off that side's
+ * tray, its words ending in an ellipsis),
+ * data-chu-dragging (a finger is on it) and data-chu-full="start" | "end" (a full swipe: let go and the side's
+ * first action runs; it stretches across the tray). The page still scrolls: touch-action: pan-y leaves vertical
+ * swipes to the browser.
+ */
+
+@layer chu.components {
+  .chu-swipe-row {
+    display: flex;
+    align-items: stretch;
+    min-inline-size: 0;
+  }
+  .chu-swipe-row-face {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: var(--chu-space-2);
+    min-inline-size: 0;
+  }
+  .chu-swipe-row-face > .chu-list-item { flex: 1; min-inline-size: 0; }
+  .chu-swipe-row-actions {
+    display: flex;
+    flex: none;
+    align-items: stretch;
+    gap: var(--chu-space-2);
+    padding-block: var(--chu-pixel) 0;
+  }
+  .chu-swipe-row-actions[data-side="start"] { order: -1; }
+  .chu-swipe-row-actions > .chu-button {
+    min-inline-size: calc(32 * var(--chu-pixel));
+    min-block-size: var(--chu-target-min);
+    padding-block: 0;
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
+  }
+  .chu-swipe-row-more { flex: none; margin-inline-end: calc(2 * var(--chu-pixel)); }
+  /* Before the element runs there is nothing for More to do. */
+  chu-swipe-row:not(:defined) .chu-swipe-row-more { display: none; }
+
+  /* With the element: the face and the trays share one cell (the row is as tall as the tallest), and the trays lie
+     in a sunken well under the face, which narrows off them from one side. */
+  chu-swipe-row.chu-swipe-row:defined {
+    display: grid;
+    grid-template: minmax(0, auto) / minmax(0, 1fr);
+    background: var(--chu-surface-sunken);
+    touch-action: pan-y;
+  }
+  chu-swipe-row:defined > * { grid-area: 1 / 1; }
+  /* Aside, the row and the face are cut at their sides (focus rings still show), the tray shown lies over the other,
+     and the face's words end in an ellipsis rather than wrap into a sliver. */
+  chu-swipe-row.chu-swipe-row[data-chu-moved] { overflow-x: clip; }
+  chu-swipe-row[data-chu-moved="start"] > .chu-swipe-row-actions[data-side="start"],
+  chu-swipe-row[data-chu-moved="end"] > .chu-swipe-row-actions[data-side="end"] { z-index: 1; }
+  chu-swipe-row[data-chu-moved] > .chu-swipe-row-face { overflow: clip; overflow-clip-margin: calc(3 * var(--chu-pixel)); }
+  chu-swipe-row[data-chu-moved] > .chu-swipe-row-face :is(.chu-list-content, .chu-list-end) { min-inline-size: 0; }
+  chu-swipe-row[data-chu-moved] > .chu-swipe-row-face :is(.chu-list-title, .chu-list-description, .chu-list-end) {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  chu-swipe-row[data-chu-dragging] { user-select: none; }
+  chu-swipe-row:defined > .chu-swipe-row-face {
+    position: relative;
+    z-index: 2;
+    /* The colour of the list round it, so the face hides the trays. */
+    background: var(--chu-swipe-row-face, var(--chu-box-fill, var(--chu-bg)));
+    /* The offset: positive shows the start tray, negative the end one. Logical, so it mirrors right to left. */
+    margin-inline: max(0px, var(--_chu-swipe-x, 0px)) max(0px, -1 * var(--_chu-swipe-x, 0px));
+  }
+  chu-swipe-row:defined > .chu-swipe-row-actions {
+    z-index: 0;
+    max-inline-size: calc(100% - 48 * var(--chu-pixel));
+    background: var(--chu-surface-sunken);
+    padding-inline: calc(2 * var(--chu-pixel)) var(--chu-pixel);
+  }
+  chu-swipe-row:defined > .chu-swipe-row-actions[data-side="start"] { justify-self: start; }
+  chu-swipe-row:defined > .chu-swipe-row-actions[data-side="end"] { justify-self: end; }
+  chu-swipe-row:defined > .chu-swipe-row-actions > .chu-button { flex: 0 1 auto; }
+  /* A full swipe: the side's tray follows the face, and its first action fills it. */
+  chu-swipe-row[data-chu-full="start"] > .chu-swipe-row-actions[data-side="start"],
+  chu-swipe-row[data-chu-full="end"] > .chu-swipe-row-actions[data-side="end"] { box-sizing: border-box; inline-size: var(--_chu-swipe-reveal); max-inline-size: none; }
+  chu-swipe-row[data-chu-full="start"] > .chu-swipe-row-actions[data-side="start"] > .chu-button:first-child,
+  chu-swipe-row[data-chu-full="end"] > .chu-swipe-row-actions[data-side="end"] > .chu-button:first-child { flex: 1; }
+  chu-swipe-row[data-chu-full="start"] > .chu-swipe-row-actions[data-side="start"] > .chu-button:not(:first-child),
+  chu-swipe-row[data-chu-full="end"] > .chu-swipe-row-actions[data-side="end"] > .chu-button:not(:first-child) { display: none; }
+
+  /* On a touch screen the swipe is the way in (the actions stay in the tab order); More is for a pointer. */
+  @media not (any-pointer: fine) {
+    chu-swipe-row:defined .chu-swipe-row-more { display: none; }
+  }
+  @media (forced-colors: active) {
+    chu-swipe-row.chu-swipe-row:defined,
+    chu-swipe-row:defined > .chu-swipe-row-actions { background: Canvas; }
+    chu-swipe-row:defined > .chu-swipe-row-face { background: Canvas; }
+  }
+}

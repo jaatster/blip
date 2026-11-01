@@ -1,0 +1,156 @@
+/*
+ * Action button. A screen's one main action as a candy block floating at the bottom end of a phone screen: New
+ * message, Add level. 24 pixels (48 px) high, inside the safe areas, and clear of a bottom bar it follows. With
+ * <chu-fab> it can open a speed dial: two or three labelled mini buttons stacked above it, as a menu button.
+ *
+ *   <button class="chu-box chu-fab" type="button" data-icon-only aria-label="New level"><svg class="chu-icon" …></svg></button>
+ *   <button class="chu-box chu-fab" type="button"><svg class="chu-icon" …></svg>New level</button>
+ *
+ *   <chu-fab class="chu-fab-dial">
+ *     <button class="chu-box chu-fab" type="button" data-icon-only aria-label="Create">…</button>
+ *     <div class="chu-fab-menu" role="menu" aria-label="Create" hidden>
+ *       <button class="chu-box chu-fab-action" type="button" role="menuitem"><svg class="chu-icon" …></svg>Photo</button>
+ *       <button class="chu-box chu-fab-action" type="button" role="menuitem"><svg class="chu-icon" …></svg>Note</button>
+ *     </div>
+ *   </chu-fab>
+ *
+ *   data-icon-only      square, one icon (needs aria-label); without it, an icon and a label: the extended button
+ *   data-tone           accent (default) | info | success | warning | danger | a candy name | neutral
+ *   data-position       fixed (default): the bottom end of the screen | absolute: the bottom end of the nearest
+ *                       positioned box (a map, a panel) | static: in the flow, where it is written
+ *   --chu-fab-offset    how far above the bottom it floats, after the safe area: 8 pixels, or clear of a bottom bar
+ *                       when it comes after one (.chu-bottom-bar ~ .chu-fab); set it to clear something else
+ *   .chu-fab-dial       <chu-fab>: it floats instead of its button, and holds the stack
+ *   .chu-fab-menu       the speed dial's stack, role="menu": the first item sits nearest the button. Hidden until
+ *                       it opens; its buttons then step up into place, one after another.
+ *   .chu-fab-action     a labelled mini button, 20 pixels high: an icon and one or two words. Marshmallow candy
+ *                       unless data-tone says otherwise.
+ *
+ * A label keeps one line while it fits; then it wraps between words and the button grows taller, and a word longer
+ * than the room breaks as a last resort. Neither the button nor the stack is ever wider than the screen.
+ *
+ * States come from the candy box: hover lifts, pressed sits in its drop, focus is the yellow ring, and an open
+ * speed dial's button (aria-expanded="true") stays sat in.
+ */
+
+@layer chu.components {
+  :is(.chu-fab, .chu-fab-dial) {
+    position: fixed;
+    inset-block-end: calc(var(--chu-fab-offset, var(--_chu-fab-clear, var(--chu-space-8))) + env(safe-area-inset-bottom, 0px));
+    inset-inline-end: calc(var(--chu-space-8) + env(safe-area-inset-right, 0px));
+    z-index: var(--chu-layer-sticky);
+  }
+  :is(.chu-fab, .chu-fab-dial):dir(rtl) { inset-inline-end: calc(var(--chu-space-8) + env(safe-area-inset-left, 0px)); }
+  :is(.chu-fab, .chu-fab-dial)[data-position="absolute"] { position: absolute; }
+  :is(.chu-fab, .chu-fab-dial)[data-position="static"] { position: relative; inset: auto; z-index: auto; }
+  .chu-fab-dial > .chu-fab { position: relative; inset: auto; z-index: auto; }
+
+  /* After a bottom bar, it floats above it: the bar's 30 pixels, its 3 below and a gap of 6. Not where the bar steps
+     aside for a sidebar. */
+  .chu-bottom-bar ~ :is(.chu-fab, .chu-fab-dial) { --_chu-fab-clear: calc(40 * var(--chu-pixel)); }
+  @container chu-shell (width >= 600px) {
+    .chu-bottom-bar[data-collapse="auto"] ~ :is(.chu-fab, .chu-fab-dial) { --_chu-fab-clear: var(--chu-space-8); }
+  }
+
+  .chu-fab {
+    --chu-r: 5;
+    --chu-shape: var(--chu-shape-5);
+    --chu-shape-inner: var(--chu-shape-5-inner);
+    --chu-band-top: 5;
+    --chu-band-bottom: 4;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc(3 * var(--chu-pixel));
+    min-block-size: var(--chu-control-lg);
+    min-inline-size: var(--chu-control-lg);
+    /* Never wider than the screen, inside its margins. */
+    max-inline-size: calc(100vw - 2 * var(--chu-space-8));
+    padding: calc((var(--chu-control-lg) - var(--chu-icon-md)) / 2) calc(10 * var(--chu-pixel));
+    font-family: var(--chu-font-ui);
+    font-size: var(--chu-size-body);
+    font-weight: var(--chu-weight-bold);
+    line-height: 1;
+    letter-spacing: var(--chu-tracking-label);
+    text-decoration: none;
+    text-transform: uppercase;
+    /* A label keeps one line while it fits; then it wraps between words, and a word longer than the room breaks. */
+    overflow-wrap: anywhere;
+    touch-action: manipulation;
+  }
+  .chu-fab[data-icon-only] {
+    inline-size: var(--chu-control-lg);
+    padding: 0;
+  }
+  .chu-fab > :is(.chu-icon, chu-icon):first-child:not(:only-child) { margin-inline-start: calc(-2 * var(--chu-pixel)); }
+
+  /* The speed dial. */
+  .chu-fab-dial {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .chu-fab-menu {
+    position: absolute;
+    inset-block-end: calc(100% + var(--chu-space-4));
+    inset-inline-end: 0;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: flex-end;
+    gap: var(--chu-space-3);
+    /* As wide as its widest item (not its button), up to the screen inside its margins. */
+    inline-size: max-content;
+    max-inline-size: calc(100vw - 2 * var(--chu-space-8));
+    margin: 0;
+    padding: 0;
+  }
+  .chu-fab-menu[hidden] { display: none; }
+
+  .chu-fab-action {
+    --chu-r: 4;
+    --chu-shape: var(--chu-shape-4);
+    --chu-shape-inner: var(--chu-shape-4-inner);
+    --chu-band-top: 3;
+    --chu-band-bottom: 3;
+
+    display: inline-flex;
+    align-items: center;
+    gap: calc(3 * var(--chu-pixel));
+    min-block-size: var(--chu-control-md);
+    padding: calc((var(--chu-control-md) - var(--chu-icon-md)) / 2) calc(8 * var(--chu-pixel));
+    margin: 0 var(--chu-pixel) var(--chu-pixel) 0;
+    font-family: var(--chu-font-ui);
+    font-size: var(--chu-size-small);
+    font-weight: var(--chu-weight-bold);
+    line-height: 1;
+    letter-spacing: var(--chu-tracking-label);
+    text-decoration: none;
+    text-transform: uppercase;
+    /* A label keeps one line while it fits; then it wraps between words, and a word longer than the room breaks. */
+    overflow-wrap: anywhere;
+    touch-action: manipulation;
+  }
+  .chu-fab-action:not([data-tone]) {
+    --chu-tone: var(--chu-candy-cream);
+    --chu-tone-light: var(--chu-candy-cream-light);
+    --chu-tone-shade: var(--chu-candy-cream-shade);
+    --chu-tone-on: var(--chu-ink);
+  }
+  .chu-fab-action > :is(.chu-icon, chu-icon):first-child:not(:only-child) { margin-inline-start: calc(-2 * var(--chu-pixel)); }
+
+  /* Opening: each mini button steps up three pixels into place, a frame after the one below it. */
+  .chu-fab-menu:not([hidden]) > * { animation: chu-fab-in calc(3 * var(--chu-duration-frame)) steps(3, jump-end) backwards; }
+  .chu-fab-menu:not([hidden]) > :nth-child(2) { animation-delay: var(--chu-duration-frame); }
+  .chu-fab-menu:not([hidden]) > :nth-child(3) { animation-delay: calc(2 * var(--chu-duration-frame)); }
+  .chu-fab-menu:not([hidden]) > :nth-child(4) { animation-delay: calc(3 * var(--chu-duration-frame)); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .chu-fab-menu:not([hidden]) > * { animation: none; }
+  }
+}
+
+@keyframes chu-fab-in {
+  0% { visibility: hidden; translate: 0 calc(3 * var(--chu-pixel)); }
+  100% { visibility: visible; translate: 0 0; }
+}

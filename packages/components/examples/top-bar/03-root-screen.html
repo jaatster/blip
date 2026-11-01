@@ -1,0 +1,22 @@
+<!-- A root screen, one of a bottom bar's destinations: no back button, the title and one action. -->
+<div class="chu-box" data-variant="panel" data-chu-r="4" style="display:grid;inline-size:min(100%,calc(180*var(--chu-pixel)));block-size:calc(170*var(--chu-pixel))">
+  <div style="display:flex;flex-direction:column;overflow:auto;mask-image:var(--chu-shape-inner);mask-size:var(--chu-box-mask-size);mask-position:var(--chu-box-mask-position);mask-repeat:no-repeat">
+    <header class="chu-box chu-top-bar">
+      <h2 class="chu-top-bar-title">Shop</h2>
+      <div class="chu-top-bar-actions">
+        <button class="chu-box chu-button" type="button" data-variant="ghost" data-icon-only aria-label="Search the shop"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z"/></svg></button>
+      </div>
+    </header>
+    <div style="flex:1;display:grid;align-content:start;gap:calc(4*var(--chu-pixel));padding:calc(6*var(--chu-pixel))">
+      <p class="chu-body">The frog hat is back for one week only.</p>
+      <p class="chu-small chu-muted">You have 1,240 coins.</p>
+    </div>
+    <nav class="chu-box chu-bottom-bar" aria-label="Main">
+      <ul class="chu-bottom-bar-list" role="list">
+        <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#tb-play"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 2h2v1h2v1h2v1h2v2H9v1H7v1H5v1H3z"/></svg><span class="chu-bottom-bar-label">Play</span></a></li>
+        <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#tb-shop" aria-current="page"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h6v2h2v8H1V3h2zm2 1v1h2V2z"/></svg><span class="chu-bottom-bar-label">Shop</span></a></li>
+        <li><a class="chu-box chu-bottom-bar-item" data-variant="ghost" href="#tb-me"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h1v3H8v1H4V5H3V2h1zM2 7h8v1h1v3H1V8h1z"/></svg><span class="chu-bottom-bar-label">Me</span></a></li>
+      </ul>
+    </nav>
+  </div>
+</div>

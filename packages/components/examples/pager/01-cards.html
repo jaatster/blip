@@ -1,0 +1,29 @@
+<!-- Cards to swipe between. Without the script the track still snaps and the dots are links; <chu-pager> adds the
+     buttons, keeps the dot in step and names each slide "1 of 3". -->
+<chu-pager class="chu-pager" aria-label="Daily quests" style="inline-size:min(100%,calc(180*var(--chu-pixel)))">
+  <div class="chu-pager-track" tabindex="0">
+    <section class="chu-pager-slide" id="pg-quest-1" role="group" aria-roledescription="slide" aria-label="1 of 3">
+      <article class="chu-box chu-card" data-tone="green">
+        <header class="chu-card-header"><div><h3 class="chu-card-title">Collect 50 coins</h3><p class="chu-card-subtitle">32 of 50</p></div></header>
+        <div class="chu-card-body"><p>Any world counts. Reward: a frog hat.</p></div>
+      </article>
+    </section>
+    <section class="chu-pager-slide" id="pg-quest-2" role="group" aria-roledescription="slide" aria-label="2 of 3">
+      <article class="chu-box chu-card" data-tone="blue">
+        <header class="chu-card-header"><div><h3 class="chu-card-title">Beat a boss</h3><p class="chu-card-subtitle">0 of 1</p></div></header>
+        <div class="chu-card-body"><p>Without losing a heart. Reward: 200 coins.</p></div>
+      </article>
+    </section>
+    <section class="chu-pager-slide" id="pg-quest-3" role="group" aria-roledescription="slide" aria-label="3 of 3">
+      <article class="chu-box chu-card" data-tone="pink">
+        <header class="chu-card-header"><div><h3 class="chu-card-title">Play with a friend</h3><p class="chu-card-subtitle">Done</p></div></header>
+        <div class="chu-card-body"><p>Reward: a sticker for your profile.</p></div>
+      </article>
+    </section>
+  </div>
+  <div class="chu-pager-dots">
+    <a class="chu-pager-dot" href="#pg-quest-1" aria-current="true" aria-label="Collect 50 coins"></a>
+    <a class="chu-pager-dot" href="#pg-quest-2" aria-label="Beat a boss"></a>
+    <a class="chu-pager-dot" href="#pg-quest-3" aria-label="Play with a friend"></a>
+  </div>
+</chu-pager>

@@ -198,7 +198,9 @@ async function drawerSides(page: Page): Promise<{ checked: number; failures: str
   const failures: string[] = [];
   const ids = await page.evaluate(() => [...document.querySelectorAll<HTMLDialogElement>("#example dialog.chu-drawer")].map((d, i) => {
     d.dataset.lanesDrawer = String(i);
-    return { i, side: d.dataset.side ?? "end", live: !d.hasAttribute("data-chu-static"), label: d.querySelector(".chu-dialog-title")?.textContent?.trim() ?? `drawer ${i}` };
+    // A bottom sheet and an action sheet are bottom drawers with the side built in (an action sheet is a centred card
+    // from 600 px): neither is anchored to a start or an end edge.
+    return { i, side: d.dataset.side ?? (d.matches(".chu-sheet, .chu-action-sheet") ? "bottom" : "end"), live: !d.hasAttribute("data-chu-static"), label: d.querySelector(".chu-dialog-title")?.textContent?.trim() ?? `drawer ${i}` };
   }));
   for (const d of ids) {
     if (d.side === "bottom") continue;
@@ -292,6 +294,8 @@ async function mirrorLayout(page: Page): Promise<{ checked: number; failures: st
       while (a !== root && ["inline", "contents"].includes(getComputedStyle(a).display)) a = a.parentElement!;
       const q = a.getBoundingClientRect();
       if (q.width < 2 || /(^|;)\s*padding(-left|-right)?\s*:/.test(a.getAttribute("style") ?? "")) return;
+      // A component that sets its own direction keeps its sides on purpose (a game pad's D-pad stays on the left).
+      if (document.documentElement.dir === "rtl" && getComputedStyle(a).direction === "ltr") return;
       out.push({ i, x: r.left - q.left, w: r.width, pw: q.width, name: name(el), parent: name(a) });
     });
     return out;

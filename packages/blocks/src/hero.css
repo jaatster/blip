@@ -44,6 +44,8 @@
     overflow: hidden;
     container-type: inline-size;
     display: grid;
+    /* One column its own width: content wider than a phone wraps or narrows in it, never widens it past the clip. */
+    grid-template-columns: minmax(0, 1fr);
     align-content: center;
     min-block-size: calc(220 * var(--_p));
     padding: calc(28 * var(--_p)) calc(12 * var(--_p)) calc((var(--_g) + 30) * var(--_p));

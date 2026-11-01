@@ -1,6 +1,6 @@
 <!-- Input: types and affixes, every state, sizes beside buttons of the same height. Forced states use
      data-chu-state (docs and tests only). -->
-<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(calc(120*var(--chu-pixel)),1fr));gap:calc(8*var(--chu-pixel)) calc(12*var(--chu-pixel));align-items:start">
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,calc(120*var(--chu-pixel))),1fr));gap:calc(8*var(--chu-pixel)) calc(12*var(--chu-pixel));align-items:start">
   <div class="chu-field">
     <label class="chu-field-label" for="in-name">Player name</label>
     <span class="chu-box chu-input"><input id="in-name" type="text" placeholder="Pixel Pal" autocomplete="nickname"></span>
@@ -39,7 +39,7 @@
   </div>
 </div>
 
-<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(calc(120*var(--chu-pixel)),1fr));gap:calc(8*var(--chu-pixel)) calc(12*var(--chu-pixel));align-items:start;margin-block:calc(12*var(--chu-pixel))">
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,calc(120*var(--chu-pixel))),1fr));gap:calc(8*var(--chu-pixel)) calc(12*var(--chu-pixel));align-items:start;margin-block:calc(12*var(--chu-pixel))">
   <div class="chu-field">
     <label class="chu-field-label" for="in-focus">Focus</label>
     <span class="chu-box chu-input" data-chu-state="focus"><input id="in-focus" type="text" value="Meadow run"></span>

@@ -285,7 +285,9 @@
 
   .docs-steps { display: grid; gap: var(--chu-space-6); margin-block-end: var(--chu-space-8); max-inline-size: calc(260 * var(--chu-pixel)); }
   .docs-steps-row { display: grid; grid-template-columns: calc(40 * var(--chu-pixel)) 1fr; align-items: center; gap: var(--chu-space-6); }
-  .docs-steps-track { position: relative; block-size: calc(12 * var(--chu-pixel)); background: linear-gradient(to right, var(--chu-line-soft) 50%, transparent 0) left bottom / calc(4 * var(--chu-pixel)) var(--chu-pixel) repeat-x; }
+  /* A size container, so the dot never runs past a phone's narrow track: it goes 120 pixels, or as far as the track
+     allows in a whole number of twelve-pixel stretches (every step a whole pixel at 2, 4 and 6 steps). */
+  .docs-steps-track { container-type: inline-size; position: relative; block-size: calc(12 * var(--chu-pixel)); background: linear-gradient(to right, var(--chu-line-soft) 50%, transparent 0) left bottom / calc(4 * var(--chu-pixel)) var(--chu-pixel) repeat-x; }
   .docs-steps-dot { --chu-r: 2; --chu-shape: var(--chu-shape-2); --chu-shape-inner: var(--chu-shape-2-inner); position: absolute; inset-block-end: calc(2 * var(--chu-pixel)); inset-inline-start: 0; inline-size: calc(10 * var(--chu-pixel)); block-size: calc(10 * var(--chu-pixel)); }
   .docs-steps[data-run] .docs-steps-dot { animation: docs-steps calc(12 * var(--chu-duration-frame)) steps(var(--n), jump-end) both; }
 
@@ -370,7 +372,7 @@
 
 @keyframes docs-steps {
   from { translate: 0 0; }
-  to { translate: calc(var(--docs-steps-to, 120) * var(--chu-pixel)) 0; }
+  to { translate: min(calc(var(--docs-steps-to, 120) * var(--chu-pixel)), round(down, 100cqi - 10 * var(--chu-pixel), 12 * var(--chu-pixel))) 0; }
 }
 
 @layer docs {

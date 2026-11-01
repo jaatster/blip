@@ -77,7 +77,9 @@ row("tokens.css", "tokens/dist/css/tokens.css", gzFile(at("tokens/dist/css/token
 row("palettes.css", "tokens/dist/css/palettes.css", gzFile(at("tokens/dist/css/palettes.css")), 5);
 row("core.css", "core/dist/core.min.css", gzFile(at("core/dist/core.min.css")), 6.5);
 row("core JS", "core/dist/js/index.js (bundled)", await bundle(at("core/dist/js/index.js"), []), 3);
-row("all components CSS", "components/dist/components.min.css", gzFile(at("components/dist/components.min.css")), 30);
+// 34 KB, up from 30 on 2026-11-02 for the phone components (sheet, action sheet, swipe rows, pull to refresh, top bar,
+// action button, pager, wheel picker): about 7 KB between them, with the phone fixes to the rest.
+row("all components CSS", "components/dist/components.min.css", gzFile(at("components/dist/components.min.css")), 34);
 
 // Element modules: every module that defines a chu-* element.
 const defines = /\b(?:customElements|BlipElement|\w+)\.define\(\s*["']chu-/;

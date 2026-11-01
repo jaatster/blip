@@ -34,7 +34,7 @@ How to add to Blip: components, kits, effects, icons, tokens. The button
    SVG data URI drawn on whole pixels (12 x 12 grid, or smaller), coloured with `background-color: currentColor`.
    `shape-rendering='crispEdges'` in the SVG. Content icons in markup use `<svg class="chu-icon" viewBox="0 0 12
    12">` from `@jaatster/blip-icons`.
-10. **Budgets.** Each element 3 KB gzipped or less (the build reports it). All component CSS together 30 KB.
+10. **Budgets.** Each element 3 KB gzipped or less (the build reports it). All component CSS together 34 KB.
 11. **Accessible by default.** WCAG 2.2 AA: names, roles, states, focus order, 24 px targets
     (`--chu-target-min`), contrast from the scheme roles (they are checked when the tokens build), forced-colors.
 

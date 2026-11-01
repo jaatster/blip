@@ -322,7 +322,7 @@ stays that light.
 
 **The Light-by-Construction Rule.** No image files. Components are CSS, art is SVG drawn on the pixel grid, and
 the world is drawn in the browser a pixel at a time, at its own resolution (the TV's picture is 320 x 180 world
-pixels). Every byte is earned, and the budgets fail the build when one is not (all component CSS 30 KB gzipped,
+pixels). Every byte is earned, and the budgets fail the build when one is not (all component CSS 34 KB gzipped,
 each element 3 KB).
 
 **Key Characteristics:**

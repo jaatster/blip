@@ -111,5 +111,8 @@ const letters = [..."Starfall"].map((c, i) => ({ c, i }));
       </chu-choices>
       <p class="chu-pause-hint chu-prompt"><kbd class="chu-box chu-prompt-key">Esc</kbd> Resume</p>
     </dialog>
+    <!-- On a touch screen: the D-pad and A, B and Start, sending the keys the game already listens for. Hidden where
+         there is a mouse. Behind the pause menu (a modal) it rests; tap the menu's choices there. -->
+    <chu-touch-pad data-a="Enter" data-b="Escape" data-start="Enter"></chu-touch-pad>
   </main>
 </Template>

@@ -4,3 +4,4 @@ export * from "./dialogue.js";
 export * from "./hud.js";
 export * from "./inventory.js";
 export * from "./sprites.js";
+export * from "./touch-pad.js";

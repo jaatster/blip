@@ -12,7 +12,8 @@
 import { BlipElement, services, warn } from "@jaatster/blip-core";
 import { isOn, unFalse } from "./_dom.js";
 
-export type CloseReason = "escape" | "backdrop" | "button" | "submit" | "api";
+/** Why it closed. "drag" is a bottom sheet (<chu-sheet>) dragged or flicked down past its lowest height. */
+export type CloseReason = "escape" | "backdrop" | "button" | "submit" | "api" | "drag";
 export interface CloseDetail {
   reason: CloseReason;
   returnValue?: string;

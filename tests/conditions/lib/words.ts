@@ -107,6 +107,9 @@ export function measureWords(): Measured {
           out.add(`${what} runs ${Math.round(over)} px out of the side of ${a === el ? "its own box" : name(a)} (${Math.round(b.width)} px wide)${clips ? ", cut off with no ellipsis" : ""}`);
           break;
         }
+        // Above or below a box that clips or scrolls up and down (a wheel's rows turned out of sight): clipped away, so
+        // it falls out of nothing.
+        if (a !== el && /hidden|clip|auto|scroll/.test(cs.overflowY) && (mid < b.top || mid > b.bottom)) break;
         if (box && (mid < b.top + p || mid > b.bottom - p)) {
           out.add(`${what} falls out of the ${mid < b.top + p ? "top" : "bottom"} of ${a === el ? "its own box" : name(a)} (${Math.round(b.height)} px high)`);
           break;

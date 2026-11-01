@@ -1,0 +1,23 @@
+<!-- Two heights, half and full: it opens at half. Press the handle (or Enter on it) to go to full and back, or drag the
+     handle or the title bar; drag or flick it down to close. -->
+<button class="chu-box chu-button" type="button" commandfor="sh-friends" command="show-modal">Friends</button>
+
+<chu-sheet light-dismiss>
+  <dialog class="chu-box chu-drawer chu-sheet" id="sh-friends" data-snap="half full" aria-labelledby="sh-friends-title">
+    <header class="chu-dialog-header">
+      <button class="chu-box chu-sheet-handle" type="button" data-variant="ghost" aria-label="Resize"><span></span></button>
+      <h2 class="chu-dialog-title" id="sh-friends-title">Friends</h2>
+      <form method="dialog"><button class="chu-box chu-button chu-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button></form>
+    </header>
+    <div class="chu-dialog-body">
+      <p>Pip: World 3-2</p>
+      <p>Moss: World 2-1</p>
+      <p>Juno: World 5-4</p>
+      <p>Kit: World 1-1</p>
+      <p>Bo: World 4-3</p>
+      <p>Wren: World 6-1</p>
+      <p>Tam: World 2-4</p>
+      <p>Ivy: World 7-2</p>
+    </div>
+  </dialog>
+</chu-sheet>

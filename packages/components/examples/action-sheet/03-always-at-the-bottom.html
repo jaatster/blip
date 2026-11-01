@@ -1,0 +1,14 @@
+<!-- No title, and data-layout="sheet": it stays at the bottom on a wide screen too, as on a phone. -->
+<button class="chu-box chu-button" type="button" data-variant="soft" commandfor="as-photo" command="show-modal">Change picture</button>
+
+<chu-action-sheet light-dismiss>
+  <dialog class="chu-box chu-drawer chu-action-sheet" id="as-photo" data-layout="sheet" aria-label="Change picture">
+    <form method="dialog">
+      <div class="chu-action-sheet-actions">
+        <button class="chu-box chu-button" data-size="lg" data-width="full" data-variant="soft" value="camera">Take a photo</button>
+        <button class="chu-box chu-button" data-size="lg" data-width="full" data-variant="soft" value="library">Choose from library</button>
+      </div>
+      <button class="chu-box chu-button chu-action-sheet-cancel" data-size="lg" data-width="full" data-variant="soft" data-tone="neutral" value="cancel">Cancel</button>
+    </form>
+  </dialog>
+</chu-action-sheet>

@@ -1,0 +1,65 @@
+<!-- Wheel picker: <chu-wheel> builds wheels for a time or a date in the page's language, or one wheel per <select>
+     inside. Rows above and below the candy band fade out through the dither. Sizes, a tone, full width, and disabled.
+     Drag a wheel, turn your mouse wheel over it, or Tab to it and use the arrow keys. -->
+<div style="display:flex;flex-wrap:wrap;gap:calc(12*var(--chu-pixel)) calc(16*var(--chu-pixel));align-items:start">
+  <div class="chu-stack" data-gap="2">
+    <label class="chu-field-label" for="wh-alarm">Alarm</label>
+    <chu-wheel class="chu-box chu-wheel" id="wh-alarm" name="alarm" data-type="time" value="07:30"></chu-wheel>
+  </div>
+  <div class="chu-stack" data-gap="2" lang="de">
+    <label class="chu-field-label" for="wh-start">Startzeit (24 Stunden, alle 5 Minuten)</label>
+    <chu-wheel class="chu-box chu-wheel" id="wh-start" name="start" data-type="time" minute-step="5" value="19:45"></chu-wheel>
+  </div>
+  <div class="chu-stack" data-gap="2">
+    <label class="chu-field-label" for="wh-born">Birthday</label>
+    <chu-wheel class="chu-box chu-wheel" id="wh-born" name="born" data-type="date" min="1900" max="2026" value="1990-05-17"></chu-wheel>
+  </div>
+  <div class="chu-stack" data-gap="2" lang="fr">
+    <label class="chu-field-label" for="wh-ne">Date de naissance</label>
+    <chu-wheel class="chu-box chu-wheel" id="wh-ne" name="ne" data-type="date" min="1900" max="2026" value="2024-02-29"></chu-wheel>
+  </div>
+  <div class="chu-stack" data-gap="2">
+    <label class="chu-field-label" for="wh-size">Shirt size</label>
+    <chu-wheel class="chu-box chu-wheel" id="wh-size" name="size">
+      <select aria-label="Size">
+        <option value="xs">Extra small</option>
+        <option value="s">Small</option>
+        <option value="m" selected>Medium</option>
+        <option value="l">Large</option>
+        <option value="xl">Extra large</option>
+      </select>
+    </chu-wheel>
+  </div>
+  <div class="chu-stack" data-gap="2">
+    <label class="chu-field-label" for="wh-order">Order (two wheels, pink)</label>
+    <chu-wheel class="chu-box chu-wheel" id="wh-order" name="order" data-tone="pink" value="2 mint">
+      <select aria-label="Scoops"><option>1</option><option>2</option><option>3</option><option>4</option></select>
+      <select aria-label="Flavour">
+        <option value="berry">Berry</option>
+        <option value="lemon">Lemon</option>
+        <option value="mint">Mint</option>
+        <option value="cocoa">Cocoa</option>
+        <option value="grape">Grape</option>
+      </select>
+    </chu-wheel>
+  </div>
+</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:calc(12*var(--chu-pixel)) calc(16*var(--chu-pixel));align-items:start;margin-block-start:calc(12*var(--chu-pixel))">
+  <div class="chu-stack" data-gap="2">
+    <label class="chu-field-label" for="wh-sm">Small</label>
+    <chu-wheel class="chu-box chu-wheel" id="wh-sm" name="sm" data-type="time" data-size="sm" hours="24" value="08:15"></chu-wheel>
+  </div>
+  <div class="chu-stack" data-gap="2">
+    <label class="chu-field-label" for="wh-lg">Large</label>
+    <chu-wheel class="chu-box chu-wheel" id="wh-lg" name="lg" data-type="time" data-size="lg" hours="12" value="21:05"></chu-wheel>
+  </div>
+  <div class="chu-stack" data-gap="2">
+    <label class="chu-field-label" for="wh-off">Disabled</label>
+    <chu-wheel class="chu-box chu-wheel" id="wh-off" name="off" data-type="time" value="12:00" disabled></chu-wheel>
+  </div>
+  <div class="chu-stack" data-gap="2" style="flex:1 1 calc(160*var(--chu-pixel))">
+    <label class="chu-field-label" for="wh-full">Full width</label>
+    <chu-wheel class="chu-box chu-wheel" id="wh-full" name="full" data-type="date" data-width="full" min="2020" max="2030" value="2026-11-02"></chu-wheel>
+  </div>
+</div>

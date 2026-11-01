@@ -31,6 +31,8 @@
   }
   .home-hero-grid {
     display: grid;
+    /* One column the hero's width: the launcher and the lines of text wrap in it rather than widen it. */
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--chu-space-16) var(--chu-space-24);
     align-items: start;
     inline-size: 100%;
@@ -90,6 +92,16 @@
   }
   @container (width < 760px) {
     .home-tiles { --chu-tile-cell: calc(36 * var(--chu-pixel)); grid-template-columns: repeat(3, var(--chu-tile-cell)); }
+  }
+  /* On a phone the chosen name wraps rather than run off the hero ("Palette maker"), and on the narrowest (320 px)
+     it drops to scale 1 and the tiles to 24 of the launcher's pixels (26 a cell), so three still fit across. */
+  @container (width < 440px) {
+    .home-pick { white-space: normal; text-wrap: balance; }
+  }
+  @container (width < 300px) {
+    .home-pick { --chu-scale: 1; }
+    .home-tiles { --chu-tile-cell: calc(26 * var(--chu-pixel)); column-gap: var(--chu-space-4); }
+    .home-tiles .chu-tile { --_n: 24; }
   }
   /* Each tile's name under it in OUTLINE (small text on the world): white, with an ink outline of the page's pixel,
      not the launcher's bigger one. */
@@ -287,6 +299,11 @@
   .home-slot-head { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: var(--chu-space-6); }
   .home-slot-stats { display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: var(--chu-space-6); margin: 0; }
   .home-slot-actions { display: flex; flex-wrap: wrap; gap: var(--chu-space-4); }
+  /* On a phone the sample screen fits the column instead of scrolling: the card narrows with it. */
+  @container chu-shell (width < 600px) {
+    .home-stage { min-inline-size: 0; padding: var(--chu-space-12) var(--chu-space-4); }
+    .home-slot { inline-size: min(calc(170 * var(--chu-pixel)), 100%); padding-inline: var(--chu-space-6); }
+  }
 
   /* Budgets. */
   .home-budgets { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(120 * var(--chu-pixel))), 1fr)); gap: var(--chu-space-12) var(--chu-space-16); }

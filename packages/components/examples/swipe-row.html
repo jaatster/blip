@@ -1,0 +1,141 @@
+<!-- Swipe rows: an inbox of rows you press, one swiped open at its end (Delete and Flag); saves with one open at its
+     start (Archive); a compact list with an action focused and More pointed at. open="start" or "end" holds a row
+     open; forced states use data-chu-state. -->
+<div class="chu-grid" data-min="160" style="align-items:start">
+  <ul class="chu-box chu-list" role="list" data-dividers aria-label="Inbox">
+    <li>
+      <chu-swipe-row class="chu-swipe-row">
+        <div class="chu-swipe-row-face">
+          <a class="chu-box chu-list-item" data-variant="ghost" href="#msg-1">
+            <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h10v8H1zm2 1v1h1V3zm5 0v1h1V3zM4 4v1h1V4zm3 0v1h1V4zM5 5v1h2V5z"/></svg>
+            <span class="chu-list-content"><span class="chu-list-title" id="sw-msg-1">Pip Bloom</span><span class="chu-list-description">Rematch on World 3?</span></span>
+          </a>
+          <button class="chu-box chu-button chu-swipe-row-more" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="More actions" aria-describedby="sw-msg-1"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 5h2v2H1zm4 0h2v2H5zm4 0h2v2H9z"/></svg></button>
+        </div>
+        <div class="chu-swipe-row-actions" data-side="start">
+          <button class="chu-box chu-button" type="button"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h10v2H1zm1 3h8v5H2zm2 2v1h4V7z"/></svg>Archive</button>
+        </div>
+        <div class="chu-swipe-row-actions" data-side="end">
+          <button class="chu-box chu-button" type="button" data-tone="danger"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h3v2H1V2h3zM2 5h8v5H9v1H3v-1H2zm2 1v3h1V6zm3 0v3h1V6z"/></svg>Delete</button>
+        </div>
+      </chu-swipe-row>
+    </li>
+    <li>
+      <chu-swipe-row class="chu-swipe-row" open="end">
+        <div class="chu-swipe-row-face">
+          <a class="chu-box chu-list-item" data-variant="ghost" href="#msg-2">
+            <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h10v8H1zm2 1v1h1V3zm5 0v1h1V3zM4 4v1h1V4zm3 0v1h1V4zM5 5v1h2V5z"/></svg>
+            <span class="chu-list-content"><span class="chu-list-title" id="sw-msg-2">Juno Reed</span><span class="chu-list-description">Sent you 3 coins</span></span>
+          </a>
+          <button class="chu-box chu-button chu-swipe-row-more" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="More actions" aria-describedby="sw-msg-2"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 5h2v2H1zm4 0h2v2H5zm4 0h2v2H9z"/></svg></button>
+        </div>
+        <div class="chu-swipe-row-actions" data-side="start">
+          <button class="chu-box chu-button" type="button"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h10v2H1zm1 3h8v5H2zm2 2v1h4V7z"/></svg>Archive</button>
+        </div>
+        <div class="chu-swipe-row-actions" data-side="end">
+          <button class="chu-box chu-button" type="button" data-tone="danger"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h3v2H1V2h3zM2 5h8v5H9v1H3v-1H2zm2 1v3h1V6zm3 0v3h1V6z"/></svg>Delete</button>
+          <button class="chu-box chu-button" type="button" data-tone="warning"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1h10v2h-1v1H9v1h1v1h1v1H3v4H1z"/></svg>Flag</button>
+        </div>
+      </chu-swipe-row>
+    </li>
+    <li>
+      <chu-swipe-row class="chu-swipe-row">
+        <div class="chu-swipe-row-face">
+          <a class="chu-box chu-list-item" data-variant="ghost" href="#msg-3">
+            <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 2h10v8H1zm2 1v1h1V3zm5 0v1h1V3zM4 4v1h1V4zm3 0v1h1V4zM5 5v1h2V5z"/></svg>
+            <span class="chu-list-content"><span class="chu-list-title" id="sw-msg-3">Moss Tanaka</span><span class="chu-list-description">Your guild won the cup</span></span>
+          </a>
+          <button class="chu-box chu-button chu-swipe-row-more" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="More actions" aria-describedby="sw-msg-3"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 5h2v2H1zm4 0h2v2H5zm4 0h2v2H9z"/></svg></button>
+        </div>
+        <div class="chu-swipe-row-actions" data-side="end">
+          <button class="chu-box chu-button" type="button" data-tone="danger"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 1h4v1h3v2H1V2h3zM2 5h8v5H9v1H3v-1H2zm2 1v3h1V6zm3 0v3h1V6z"/></svg>Delete</button>
+        </div>
+      </chu-swipe-row>
+    </li>
+  </ul>
+
+  <ul class="chu-box chu-list" role="list" data-dividers aria-label="Saves">
+    <li>
+      <chu-swipe-row class="chu-swipe-row" open="start">
+        <div class="chu-swipe-row-face">
+          <div class="chu-list-item">
+            <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v2h1v1h3v1h-1v1H9v2h1v3H8v-1H7V9H5v1H4v1H2V8h1V6H2V5H1V4h3V3h1z"/></svg>
+            <div class="chu-list-content"><span class="chu-list-title" id="sw-save-1">Slot 1</span><span class="chu-list-description">World 4 · 12 h 40 min</span></div>
+            <div class="chu-list-end">98%</div>
+          </div>
+          <button class="chu-box chu-button chu-swipe-row-more" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="More actions" aria-describedby="sw-save-1"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 5h2v2H1zm4 0h2v2H5zm4 0h2v2H9z"/></svg></button>
+        </div>
+        <div class="chu-swipe-row-actions" data-side="start">
+          <button class="chu-box chu-button" type="button" data-tone="info"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1h6v1H8v3h1v1h1v1H7v4H5V7H2V6h1V5h1V2H3z"/></svg>Pin</button>
+        </div>
+        <div class="chu-swipe-row-actions" data-side="end">
+          <button class="chu-box chu-button" type="button" data-tone="danger">Delete</button>
+        </div>
+      </chu-swipe-row>
+    </li>
+    <li>
+      <chu-swipe-row class="chu-swipe-row">
+        <div class="chu-swipe-row-face">
+          <div class="chu-list-item">
+            <svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 1h2v2h1v1h3v1h-1v1H9v2h1v3H8v-1H7V9H5v1H4v1H2V8h1V6H2V5H1V4h3V3h1z"/></svg>
+            <div class="chu-list-content"><span class="chu-list-title" id="sw-save-2">Slot 2</span><span class="chu-list-description">World 2 · 3 h 05 min</span></div>
+            <div class="chu-list-end">41%</div>
+          </div>
+          <button class="chu-box chu-button chu-swipe-row-more" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="More actions" aria-describedby="sw-save-2" data-chu-state="hover"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 5h2v2H1zm4 0h2v2H5zm4 0h2v2H9z"/></svg></button>
+        </div>
+        <div class="chu-swipe-row-actions" data-side="start">
+          <button class="chu-box chu-button" type="button" data-tone="info">Pin</button>
+        </div>
+        <div class="chu-swipe-row-actions" data-side="end">
+          <button class="chu-box chu-button" type="button" data-tone="danger">Delete</button>
+        </div>
+      </chu-swipe-row>
+    </li>
+  </ul>
+
+  <ol class="chu-box chu-list" role="list" data-density="compact" data-dividers aria-label="Friends">
+    <li>
+      <chu-swipe-row class="chu-swipe-row">
+        <div class="chu-swipe-row-face">
+          <div class="chu-list-item">
+            <div class="chu-list-content"><span class="chu-list-title" id="sw-fr-1">Pip Bloom</span></div>
+            <div class="chu-list-end">Online</div>
+          </div>
+          <button class="chu-box chu-button chu-swipe-row-more" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="More actions" aria-describedby="sw-fr-1"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 5h2v2H1zm4 0h2v2H5zm4 0h2v2H9z"/></svg></button>
+        </div>
+        <div class="chu-swipe-row-actions" data-side="end">
+          <button class="chu-box chu-button" type="button" data-size="sm" data-tone="danger">Remove</button>
+        </div>
+      </chu-swipe-row>
+    </li>
+    <li>
+      <chu-swipe-row class="chu-swipe-row" open="end">
+        <div class="chu-swipe-row-face">
+          <div class="chu-list-item">
+            <div class="chu-list-content"><span class="chu-list-title" id="sw-fr-2">Juno Reed</span></div>
+            <div class="chu-list-end">Away</div>
+          </div>
+          <button class="chu-box chu-button chu-swipe-row-more" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="More actions" aria-describedby="sw-fr-2"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 5h2v2H1zm4 0h2v2H5zm4 0h2v2H9z"/></svg></button>
+        </div>
+        <div class="chu-swipe-row-actions" data-side="end">
+          <button class="chu-box chu-button" type="button" data-size="sm" data-tone="danger" data-chu-state="focus">Remove</button>
+          <button class="chu-box chu-button" type="button" data-size="sm" data-tone="neutral">Mute</button>
+        </div>
+      </chu-swipe-row>
+    </li>
+    <li>
+      <chu-swipe-row class="chu-swipe-row">
+        <div class="chu-swipe-row-face">
+          <div class="chu-list-item">
+            <div class="chu-list-content"><span class="chu-list-title" id="sw-fr-3">Moss Tanaka</span></div>
+            <div class="chu-list-end">Playing</div>
+          </div>
+          <button class="chu-box chu-button chu-swipe-row-more" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="More actions" aria-describedby="sw-fr-3"><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 5h2v2H1zm4 0h2v2H5zm4 0h2v2H9z"/></svg></button>
+        </div>
+        <div class="chu-swipe-row-actions" data-side="end">
+          <button class="chu-box chu-button" type="button" data-size="sm" data-tone="danger">Remove</button>
+        </div>
+      </chu-swipe-row>
+    </li>
+  </ol>
+</div>

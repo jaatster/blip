@@ -54,7 +54,8 @@
   .chu-tooltip[data-side="left"] { margin: 0 var(--_chu-gap) 0 0; position-area: left; }
   .chu-tooltip[data-side="right"] { margin: 0 0 0 var(--_chu-gap); position-area: right; }
   .chu-tooltip:popover-open { animation: chu-pop-in calc(2 * var(--chu-duration-frame)) steps(1, jump-end); }
-  .chu-tooltip[data-chu-static] { display: inline-block; position: relative; vertical-align: top; }
+  /* Drawn in the flow, it gives way in a row too narrow for it (a phone), wrapping its words sooner. */
+  .chu-tooltip[data-chu-static] { display: inline-block; position: relative; inline-size: fit-content; vertical-align: top; }
 
   /* The nub, drawn pointing down in the top of a 7 x 7 pixel square and turned in quarter turns. */
   .chu-tooltip-nub {

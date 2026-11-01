@@ -1,0 +1,87 @@
+/*
+ * Bottom sheet. A drawer at the bottom edge that you can drag: a grab handle at the top, heights to snap to, and a
+ * drag or flick down to close. It is the drawer (drawer.css: load it too, as components.css does) with data-side="bottom" built in, so
+ * it has the dialog's parts, scrim and stepped slide. Wrap it in <chu-sheet> from @jaatster/blip-elements for the heights,
+ * the handle and dragging; without it, it is a bottom drawer as tall as its content.
+ *
+ *   <chu-sheet light-dismiss>
+ *     <dialog class="chu-box chu-drawer chu-sheet" id="route" data-snap="half full" aria-labelledby="route-title">
+ *       <header class="chu-dialog-header">
+ *         <button class="chu-box chu-sheet-handle" type="button" data-variant="ghost" aria-label="Resize"><span></span></button>
+ *         <h2 class="chu-dialog-title" id="route-title">Route</h2>
+ *         <form method="dialog"><button class="chu-box chu-button chu-dialog-close" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close"><span class="chu-icon" data-glyph="close" aria-hidden="true"></span></button></form>
+ *       </header>
+ *       <div class="chu-dialog-body">…</div>
+ *     </dialog>
+ *   </chu-sheet>
+ *
+ *   data-snap          content (default) | half | full | a percentage, smallest first ("half full")      read by
+ *                      <chu-sheet>; it opens at the first
+ *   data-tone          accent (default), any tone or candy             the title bar, as on the dialog
+ *   data-chu-static     drawn in the page flow, for docs, tests and screenshots
+ *
+ * The handle (.chu-sheet-handle, a ghost box with a 16 x 2 pixel grip) sits at the top centre, in the title bar when
+ * it is the header's first child, else on the sheet. It is 32 x 12 pixels, so 24 px tall: drags start on it, on the
+ * title bar, or (with a finger) on the body scrolled to its top. The title bar and handle take no browser gestures
+ * (touch-action: none); the body keeps its own scrolling.
+ *
+ * Set by <chu-sheet>: data-chu-snap (the height it rests at), data-chu-dragging (while it is held), aria-expanded on
+ * the handle (at the tallest height), and the height itself, inline. A full sheet stops 8 pixels below the top of the
+ * screen and its safe area; its content keeps clear of the bottom and side safe areas (viewport-fit=cover).
+ */
+
+@layer chu.components {
+  chu-sheet { display: contents; }
+
+  .chu-drawer.chu-sheet {
+    --_chu-sx: 0;
+    --_chu-sy: 1;
+    inline-size: auto;
+    max-block-size: round(down, 100% - 8 * var(--chu-pixel) - env(safe-area-inset-top, 0px), var(--chu-pixel));
+    padding-block-end: calc((var(--chu-r) + 1) * var(--chu-pixel) + round(up, env(safe-area-inset-bottom, 0px), var(--chu-pixel)));
+    padding-inline: round(up, env(safe-area-inset-left, 0px), var(--chu-pixel)) round(up, env(safe-area-inset-right, 0px), var(--chu-pixel));
+  }
+  .chu-drawer.chu-sheet:not([data-chu-static]) { inset: auto calc(-1 * var(--chu-pixel)) calc(-1 * var(--chu-pixel)); }
+  /* Out and in as the drawer does, from wherever a drag has pulled it down to (inline, set by <chu-sheet>). */
+  .chu-drawer.chu-sheet[open] {
+    translate: 0 calc(var(--_chu-sheet-drag, 0px) + round(var(--_chu-slide) * (100% - var(--_chu-sheet-drag, 0px)), var(--chu-pixel)));
+  }
+  .chu-drawer.chu-sheet[data-chu-dragging] { user-select: none; }
+  .chu-drawer.chu-sheet[data-chu-dragging] * { cursor: grabbing; }
+
+  /* The title bar holds the handle above the title. */
+  .chu-sheet .chu-dialog-header { touch-action: none; }
+  .chu-sheet .chu-dialog-header:has(> .chu-sheet-handle) { padding-block-start: calc(14 * var(--chu-pixel)); }
+  .chu-drawer.chu-sheet:has(> .chu-sheet-handle, > form > .chu-sheet-handle) { padding-block-start: calc(14 * var(--chu-pixel)); }
+
+  /* Two pixels down, so its focus ring's ink edge lands on the sheet's outline; in the sheet's tone, so it is on in
+     the title bar's colour. */
+  .chu-sheet-handle {
+    --chu-tone: inherit;
+    --chu-tone-light: inherit;
+    --chu-tone-shade: inherit;
+    --chu-tone-on: inherit;
+    --chu-tone-text: inherit;
+    position: absolute;
+    inset-block-start: calc(2 * var(--chu-pixel));
+    inset-inline-start: round(down, 50% - 16 * var(--chu-pixel), var(--chu-pixel));
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    inline-size: calc(32 * var(--chu-pixel));
+    block-size: calc(12 * var(--chu-pixel));
+    margin: 0;
+    padding: 0;
+    cursor: grab;
+    touch-action: none;
+  }
+  .chu-sheet-handle > span {
+    inline-size: calc(16 * var(--chu-pixel));
+    block-size: calc(2 * var(--chu-pixel));
+    background: currentColor;
+  }
+
+  @media (forced-colors: active) {
+    .chu-sheet-handle > span { forced-color-adjust: none; background: ButtonText; }
+  }
+}
