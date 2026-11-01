@@ -77,6 +77,11 @@ export const NOTES: Record<string, Note> = {
     why: "A file named in the resolver is missing or is not valid JSON, so the token build cannot go on.",
     fix: 'Check the file exists and parses.',
   },
+  "PP-T005": {
+    title: "A palette sets a token Blip does not have",
+    why: "A preset or a theme's palette may only change what the default palette sets: the accents, the warning, Night's page, text, lines and ink (palette.*), and the night sky (world.night.*). Any other name is most likely a typo, and would be written to palettes.css with nothing to read it.",
+    fix: 'Check the name against the default palette, <code class="docs-inline-code">@jaatster/blip-tokens/src/palettes/candy.tokens.json</code>, or make your palette on the <a href="/theme/">palette maker</a>.',
+  },
   "PP-T060": {
     title: "A text pair fails WCAG AA",
     why: "Every text pair a component can show is checked in every scheme when the tokens build. This one is under 4.5:1 (or 3:1 for outlines), so some text would be hard to read.",

@@ -163,6 +163,17 @@
   html[data-scheme-choice="sunset"] .docs-display-icon[data-for="sunset"],
   html[data-scheme-choice="night"] .docs-display-icon[data-for="night"] { display: inline-flex; }
   .docs-display-icon > .pp-icon { display: block; }
+  /* The palette menu: each palette's chip, its Night page with its accent on it, in its ink. */
+  .docs-palette-chip {
+    flex: none;
+    inline-size: calc(10 * var(--pp-pixel));
+    block-size: calc(10 * var(--pp-pixel));
+    background:
+      linear-gradient(var(--docs-chip-accent) 0 0) calc(3 * var(--pp-pixel)) calc(3 * var(--pp-pixel)) / calc(4 * var(--pp-pixel)) calc(4 * var(--pp-pixel)) no-repeat,
+      var(--docs-chip-page);
+    box-shadow: 0 0 0 var(--pp-pixel) var(--docs-chip-ink);
+    forced-color-adjust: none;
+  }
 
   /* ------------------------------------------------------------------ sidebar: in the page, or a drawer */
 

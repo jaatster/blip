@@ -1,197 +1,188 @@
-// Theme builder: an accent per scheme (or one for all three), worked out the candies' way, made to pass AA, checked,
-// and exported. A brand colour that is too dark or too pale for ink labels is nudged until they read (the same hue,
-// brighter or softer), and stays itself as the accent text; "keep my exact colour" turns that off, and then a failing
-// check holds the export back until the person says to go ahead anyway.
+// Palette maker: a palette started from Blip's own or a preset, turned with four levers (the accent's hue and
+// strength, Night's tint and lightness) or started from any colour, worked out with the presets' own maths
+// (palette.mjs), checked in Day, Sunset and Night, and exported. What a preset keeps as it is (Candy's Day and Sunset,
+// Grape's Night) stays until a lever that moves it is turned; a failing check holds the export back until the
+// person says to go ahead anyway.
+import { makePalette, oklch, toOklch, contrast } from "/pp/tokens/palette.mjs";
+
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const data = JSON.parse($("#tb-data").textContent);
 const SCHEMES = ["day", "sunset", "night"];
-const KEY = "blip-docs:theme";
+const KEY = "blip-docs:palette-maker";
 const AA = 4.5;
 
 // ------------------------------------------------------------------ colour
 
-const rgb = (hex) => [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
-const hex = (r, g, b) => "#" + [r, g, b].map((c) => Math.round(Math.max(0, Math.min(255, c))).toString(16).padStart(2, "0")).join("").toUpperCase();
-function hsv(h) {
-  const [r, g, b] = rgb(h).map((c) => c / 255);
-  const max = Math.max(r, g, b), d = max - Math.min(r, g, b);
-  let x = 0;
-  if (d) x = max === r ? ((g - b) / d) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
-  return [(x * 60 + 360) % 360, max ? d / max : 0, max];
-}
-function fromHsv(h, s, v) {
-  const c = v * s, x = c * (1 - Math.abs(((h / 60) % 2) - 1)), m = v - c;
-  const [r, g, b] = h < 60 ? [c, x, 0] : h < 120 ? [x, c, 0] : h < 180 ? [0, c, x] : h < 240 ? [0, x, c] : h < 300 ? [x, 0, c] : [c, 0, x];
-  return hex((r + m) * 255, (g + m) * 255, (b + m) * 255);
-}
-const linear = (c) => { const s = c / 255; return s <= 0.04045 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4; };
-function lum(h) {
-  const [r, g, b] = rgb(h).map(linear);
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
-}
-const contrast = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
-const worst = (c, list) => Math.min(...list.map((b) => contrast(c, b)));
+/** palette.day.accent.base -> palette-day-accent, as the tokens name it. */
+const kebab = (path) => path.split(".").filter((p, i, a) => !(p === "base" && i === a.length - 1)).join("-");
+/** A palette value (#RRGGBB, or an alias to a primitive such as {candy.blue.base}) as a colour, and as CSS. */
+const hexOf = (v) => (v.startsWith("{") ? data.hexes[kebab(v.slice(1, -1))] : v.toUpperCase());
+const cssOf = (v) => (v.startsWith("{") ? `var(--pp-${kebab(v.slice(1, -1))})` : v.toUpperCase());
 const valid = (h) => /^#[0-9a-f]{6}$/i.test(h);
-/** OKLCH: lightness, chroma and hue, for telling what a colour looks like (an intent, yellow). */
-function oklch(h) {
-  const [r, g, b] = rgb(h).map(linear);
-  const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b), m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b), s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b);
-  const L = 0.2104542553 * l + 0.793617785 * m - 0.0040720468 * s, A = 1.9779984951 * l - 2.428592205 * m + 0.4505937099 * s, B = 0.0259040371 * l + 0.7827717662 * m - 0.808675766 * s;
-  return [L, Math.hypot(A, B), ((Math.atan2(B, A) * 180) / Math.PI + 360) % 360];
-}
 const hueGap = (a, b) => { const d = Math.abs(a - b) % 360; return d > 180 ? 360 - d : d; };
-
-/**
- * A colour made to take an ink label (4.5:1), keeping its hue: brighter first, then softer. Returns it as it is when
- * it already reads.
- */
-function forInk(c) {
-  if (contrast(data.ink, c) >= AA) return c;
-  const [h, s, v] = hsv(c);
-  for (let k = v; k <= 1.0001; k += 0.005) { const x = fromHsv(h, s, Math.min(1, k)); if (contrast(data.ink, x) >= AA) return x; }
-  for (let k = s; k >= 0; k -= 0.005) { const x = fromHsv(h, Math.max(0, k), 1); if (contrast(data.ink, x) >= AA) return x; }
-  return data.white;
-}
-
-/** Accent text for a scheme: the colour itself where it reads on the page and its surfaces, else darker (or, at night, lighter) a step at a time. */
-function textFor(scheme, c) {
-  const sc = data.schemes[scheme];
-  const surfaces = [sc.bg, sc.surface, sc.raised];
-  const [h, s, v] = hsv(c);
-  if (worst(c, surfaces) >= AA) return c;
-  if (!sc.dark) {
-    for (let k = v; k >= 0; k -= 0.01) { const x = fromHsv(h, s, k); if (worst(x, surfaces) >= AA) return x; }
-    return data.ink;
-  }
-  for (let k = v; k <= 1.0001; k += 0.01) { const x = fromHsv(h, s, Math.min(1, k)); if (worst(x, surfaces) >= AA) return x; }
-  for (let k = s; k >= 0; k -= 0.01) { const x = fromHsv(h, k, 1); if (worst(x, surfaces) >= AA) return x; }
-  return data.white;
-}
-
-/**
- * An accent for a scheme from what the person picked: a candy (its own bands; ink labels pass on every candy we
- * offer) or any colour. A colour's light band is the base at 0.65 of its saturation and full brightness, its shade
- * the base at 0.84 of its brightness. Labels are ink, on the candy and on the soft fill (the light band) alike, and
- * selected text is ink on the light band: so unless `exact`, the base and the light band are nudged until ink reads.
- */
-function derive(scheme, pick, exact) {
-  const sc = data.schemes[scheme];
-  if (pick.candy) {
-    const c = data.candies[pick.candy];
-    const own = pick.candy === sc.accent.candy;
-    return { candy: pick.candy, brand: c.base, base: c.base, light: c.light, shade: c.shade, text: own ? sc.accent.text : textFor(scheme, c.base), on: data.ink, nudged: {} };
-  }
-  const brand = pick.hex.toUpperCase();
-  const base = exact ? brand : forInk(brand);
-  const [h, s, v] = hsv(base);
-  const band = fromHsv(h, s * 0.65, 1);
-  const light = exact ? band : forInk(band);
-  const shade = fromHsv(h, s, v * 0.84);
-  // With the colour as it is, the label is ink if ink reads on both fills, else whichever reads better.
-  const on = !exact || worst(data.ink, [base, light]) >= AA ? data.ink : worst(data.white, [base, light]) > worst(data.ink, [base, light]) ? data.white : data.ink;
-  const nudged = {};
-  if (base !== brand) nudged.base = brand;
-  if (light !== band) nudged.light = band;
-  return { candy: null, brand, base, light, shade, text: textFor(scheme, brand), on, nudged };
-}
-
-/** The pairs the token build checks for the accent, in a scheme. */
-function checks(scheme, a) {
-  const sc = data.schemes[scheme];
-  return [
-    ["Label on the candy", a.on, a.base],
-    ["Label on the soft fill", a.on, a.light],
-    ["Accent text on the page", a.text, sc.bg],
-    ["Accent text on a surface", a.text, sc.surface],
-    ["Accent text on a raised surface", a.text, sc.raised],
-    ["Selected text", data.ink, a.light],
-    ["Label on the disabled dither", a.on, sc.dither],
-  ].map(([label, fg, bg]) => ({ label, fg, bg, ratio: contrast(fg, bg), ok: contrast(fg, bg) >= AA }));
-}
-
-/** What the accent looks like that it should not: an intent's colour, or yellow, which is focus. */
-function warnings(a) {
-  const [, C, H] = oklch(a.base);
-  if (C < 0.06) return [];
-  const out = [];
-  for (const [id, it] of Object.entries(data.intents)) {
-    const [, c2, h2] = oklch(it.base);
-    if (c2 >= 0.06 && hueGap(H, h2) <= 15) out.push({ id, text: `<strong>It looks like ${it.name}.</strong> ${it.why} With the accent this close, every main button reads as ${it.reads}. Pick a hue further from ${it.candy}, or keep this colour for its own place and let the accent be a candy.` });
-  }
-  const [, , hf] = oklch(data.focus);
-  if (hueGap(H, hf) <= 20) out.push({ id: "focus", text: `<strong>Yellow is focus.</strong> The focus ring is the only yellow in an interface, a yellow ring with an ink edge; next to yellow buttons it is hard to see where the keyboard is. Pick a hue further from Lemon Drop.` });
-  return out;
+/** The weakest of every foreground on every background: the ratio and the pair. */
+function worst(fgs, bgs) {
+  let w = { ratio: Infinity };
+  for (const fg of fgs) for (const bg of bgs) { const ratio = contrast(fg, bg); if (ratio < w.ratio) w = { ratio, fg, bg }; }
+  return w;
 }
 
 // ------------------------------------------------------------------ state
 
-const defaults = () => Object.fromEntries(SCHEMES.map((s) => [s, { candy: data.schemes[s].accent.candy, hex: data.schemes[s].accent.base }]));
+const preset = (id) => data.palettes.find((p) => p.id === id) ?? data.palettes[0];
+/** A preset's recipe, as the levers hold it: the accent from hue and strength or from a colour, Night's page from
+    the levers or from a colour, and the text colours a well-known theme brings. */
+function fromPreset(id) {
+  const r = preset(id).recipe;
+  return {
+    from: preset(id).id,
+    accent: r.accent ?? null,
+    lch: r.accent ? toOklch(r.accent) : null,
+    hue: r.hue ?? 0,
+    strength: r.strength ?? 1,
+    night: r.bg ? { bg: r.bg } : { lightness: r.lightness ?? 0.235, tint: r.tint ?? 0, ...(r.baseHue === undefined ? {} : { baseHue: r.baseHue }) },
+    text: r.text ?? null,
+    muted: r.muted ?? null,
+    accentMoved: false,
+    nightMoved: false,
+    holdDays: false,
+    override: false,
+  };
+}
 function load() {
   let saved;
   try { saved = JSON.parse(localStorage.getItem(KEY)); } catch { /* none yet */ }
-  const start = SCHEMES.includes(document.documentElement.dataset.ppScheme) ? document.documentElement.dataset.ppScheme : "day";
-  if (saved?.v === 2 && saved.pick?.day) return { scheme: start, pixel: "2", all: false, exact: {}, override: false, ...saved };
-  // An older save kept the worked-out accent: keep what was picked, and work it out again.
-  if (saved?.accent?.day) return { v: 2, scheme: saved.scheme ?? start, pixel: saved.pixel ?? "2", all: false, exact: {}, override: false, pick: Object.fromEntries(SCHEMES.map((s) => [s, { candy: saved.accent[s].candy ?? null, hex: saved.accent[s].base }])) };
-  return { v: 2, scheme: start, pixel: "2", all: false, exact: {}, override: false, pick: defaults() };
+  if (saved?.v === 1 && data.palettes.some((p) => p.id === saved.from)) return saved;
+  return { v: 1, scheme: "night", pixel: "2", ...fromPreset(data.palettes[0].id) };
 }
-const state = load();
-// A pick of a candy the builder no longer offers (a saved Liquorice) is kept as its colour.
-for (const s of SCHEMES) if (state.pick[s]?.candy && !data.candies[state.pick[s].candy]) state.pick[s] = { candy: null, hex: state.pick[s].hex };
+let state = load();
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch { /* private mode */ } };
-const accent = (s) => derive(s, state.pick[s], !!state.exact[s]);
-/** Picks for the scheme being edited, or for all three. A new colour needs its own say-so to export failing. */
-function setPick(pick) {
-  for (const s of state.all ? SCHEMES : [state.scheme]) state.pick[s] = { ...pick };
-  state.override = false;
+const changed = () => state.accentMoved || state.nightMoved;
+
+/** The recipe for makePalette. */
+const recipe = () => ({
+  ...(state.accent ? { accent: state.accent } : { hue: state.hue, strength: state.strength }),
+  ...state.night,
+  ...(state.text ? { text: state.text } : {}),
+  ...(state.muted ? { muted: state.muted } : {}),
+});
+
+/** What the palette sets: worked out from the recipe, with what the preset keeps where no lever has moved it. */
+function values() {
+  const p = preset(state.from);
+  const out = makePalette(recipe(), data.scene);
+  for (const [path, v] of Object.entries(p.keep)) {
+    if (/^palette\.night\.(accent|warning)\./.test(path) ? state.accentMoved : state.nightMoved) continue;
+    out[path] = v;
+  }
+  if (p.days && (state.holdDays || !state.accentMoved)) Object.assign(out, p.days);
+  return out;
+}
+/** Every palette colour as a hex: the palette's, and Candy's where it sets nothing (the warning, mostly). */
+const colours = (v) => Object.fromEntries(Object.entries({ ...data.defaults, ...v }).map(([k, x]) => [k, hexOf(x)]));
+
+// ------------------------------------------------------------------ checks
+
+/** The pairs the token build checks, in a scheme: each as its weakest pair, so the list stays short. */
+function checks(scheme, c) {
+  const P = (k) => c[`palette.${scheme}.${k}`];
+  const f = data.fixed[scheme];
+  const groups = scheme === "night"
+    ? (() => {
+      const n = { bg: P("bg"), surface: P("surface.base"), raised: P("surface.raised"), sunken: P("surface.sunken"), ink: P("ink") };
+      const page = [n.bg, n.surface, n.raised], all = [...page, n.sunken];
+      return [
+        ["Label on the candy", [n.ink], [P("accent.base")]],
+        ["Label on the soft fill, and selected text", [n.ink], [P("accent.light")]],
+        ["Accent text on the page and surfaces", [P("accent.text")], page],
+        ["Text on the page, surfaces and wells", [P("text.base")], all],
+        ["Muted text on the same", [P("text.muted")], all],
+        ["Lines on the page and surfaces", [P("line.base")], [n.bg, n.surface], 3],
+        ["Info, success and danger text", [f.info, f.success, f.danger], page],
+        ["Warning label on its candy", [n.ink], [P("warning.base"), P("warning.light")]],
+        ["Warning text on the page and surfaces", [P("warning.text")], page],
+        ["Visited links", [f.visited], [n.bg, n.surface]],
+        ["Labels on the disabled dithers", [n.ink], [P("text.base"), P("text.muted")]],
+      ];
+    })()
+    : [
+      ["Label on the candy", [f.ink], [P("accent.base")]],
+      ["Label on the soft fill, and selected text", [f.ink], [P("accent.light")]],
+      ["Accent text on the page and surfaces", [P("accent.text")], [f.bg, f.surface, f.raised]],
+      ["Label on the disabled dither", [f.ink], [f.dither]],
+      ["Warning label on its candy", [f.ink], [P("warning.base"), P("warning.light")]],
+      ["Warning text on the page and surfaces", [P("warning.text")], [f.bg, f.surface, f.raised]],
+    ];
+  return groups.map(([label, fgs, bgs, min = AA]) => ({ label, min, ...worst(fgs, bgs) })).map((x) => ({ ...x, ok: x.ratio >= x.min }));
+}
+
+/** What the accent looks like that it should not: success or danger, or yellow, which is focus. An accent close to
+    the warning's orange moves the warning to amber instead (makePalette), and that is said too. */
+function warnings(scheme, c) {
+  const base = c[`palette.${scheme}.accent.base`];
+  const [, C, H] = toOklch(base);
+  const out = [];
+  const moved = c[`palette.${scheme}.warning.base`] !== hexOf(data.defaults[`palette.${scheme}.warning.base`]);
+  if (moved) out.push({ id: "amber", tone: "info", text: `<strong>Warnings turn amber.</strong> The accent is close to the warning's orange, so in this palette a warning is ${c[`palette.${scheme}.warning.base`]}: still not yellow, which is focus, and never mistaken for the main button.` });
+  if (C < 0.06) return out;
+  for (const [id, it] of Object.entries(data.intents)) {
+    if (id === "warning" && moved) continue;
+    const [, c2, h2] = toOklch(it.base);
+    if (c2 >= 0.06 && hueGap(H, h2) <= 15) out.push({ id, tone: "warning", text: `<strong>It looks like ${it.name}.</strong> ${it.why} With the accent this close, every main button reads as ${it.reads}. Turn the hue further from ${it.candy}.` });
+  }
+  const [, , hf] = toOklch(data.focus);
+  if (hueGap(H, hf) <= 20) out.push({ id: "focus", tone: "warning", text: "<strong>Yellow is focus.</strong> The focus ring is the only yellow in an interface, a yellow ring with an ink edge; next to yellow buttons it is hard to see where the keyboard is. Turn the hue further from Lemon Drop." });
+  return out;
 }
 
 // ------------------------------------------------------------------ output
 
-const vars = (a) => ({ "--pp-accent": a.base, "--pp-accent-light": a.light, "--pp-accent-shade": a.shade, "--pp-accent-text": a.text, "--pp-accent-on": a.on, "--pp-selection-bg": a.light });
-const comp = (h) => rgb(h).map((c) => Math.round((c / 255) * 1000) / 1000);
-const color = (h) => ({ $value: { colorSpace: "srgb", components: comp(h), hex: h } });
-const failing = () => SCHEMES.flatMap((s) => checks(s, accent(s)).filter((c) => !c.ok).map((c) => ({ ...c, scheme: s })));
-const failText = (f) => `${data.schemes[f.scheme].title}: ${f.label.toLowerCase()} ${f.ratio.toFixed(2)}:1`;
+const ORDER = ["palette.day", "palette.sunset", "palette.night", "world"];
+const ordered = (v) => Object.entries(v).sort(([a], [b]) => ORDER.findIndex((p) => a.startsWith(p)) - ORDER.findIndex((p) => b.startsWith(p)) || a.localeCompare(b, "en", { numeric: true }));
+const srgb = (h) => ({ colorSpace: "srgb", components: [1, 3, 5].map((i) => Math.round((parseInt(h.slice(i, i + 2), 16) / 255) * 10000) / 10000), hex: h });
+const failing = (c) => SCHEMES.flatMap((s) => checks(s, c).filter((x) => !x.ok).map((x) => ({ ...x, scheme: s })));
+const failText = (f) => `${data.titles[f.scheme]}: ${f.label.toLowerCase()} ${f.ratio.toFixed(2)}:1`;
+const origin = () => `from ${preset(state.from).name}${changed() ? ", changed" : ""}`;
+const CANDY = "node_modules/@jaatster/blip-tokens/src/palettes/candy.tokens.json";
 
-function css() {
-  const fails = failing();
-  const out = [
-    "/* My Blip theme. Load it after @jaatster/blip-tokens/tokens.css: the same layer and selectors, so it wins. */",
+function css(v, fails) {
+  return [
+    `/* My Blip palette, ${origin()}. Load it after @jaatster/blip-tokens/tokens.css: a :root rule in the same layer, loaded later, wins. */`,
     ...(fails.length ? [`/* Under WCAG 2.2 AA, exported anyway: ${fails.map(failText).join("; ")}. */`] : []),
     "@layer pp.tokens {",
-  ];
-  // Each scheme's roles where tokens.css sets them (data.blocks, read from it when the site was built).
-  for (const b of data.blocks) {
-    const pad = "  ".repeat(b.wrap.length + 1);
-    b.wrap.forEach((w, i) => out.push(`${"  ".repeat(i + 1)}${w} {`));
-    out.push(`${pad}${b.selector} {`, ...Object.entries(vars(accent(b.scheme))).map(([k, v]) => `${pad}  ${k}: ${v};`), `${pad}}`);
-    b.wrap.forEach((_, i) => out.push(`${"  ".repeat(b.wrap.length - i)}}`));
-  }
-  if (state.pixel !== "2") out.push(`  :root { --pp-pixel: ${state.pixel}px; }`);
-  out.push("}");
-  return out.join("\n") + "\n";
+    "  :root {",
+    ...ordered(v).map(([path, x]) => `    --pp-${kebab(path)}: ${cssOf(x)};`),
+    ...(state.pixel !== "2" ? [`    --pp-pixel: ${state.pixel}px;`] : []),
+    "  }",
+    "}",
+  ].join("\n") + "\n";
 }
-function tokensFile(scheme) {
-  const a = accent(scheme);
-  const fails = checks(scheme, a).filter((c) => !c.ok);
-  return JSON.stringify({
+/** The palette as a DTCG token file, laid out as Blip's own are (palettes.mjs). */
+function tokensFile(v, fails) {
+  const tree = {
     $schema: "https://www.designtokens.org/schemas/2025.10/format.json",
-    $description: `My theme: the ${data.schemes[scheme].title} accent${a.candy ? ` (${a.candy})` : ""}. Add after Blip's own ${scheme} file in the resolver.${fails.length ? ` Under WCAG 2.2 AA, exported anyway: ${fails.map((f) => `${f.label.toLowerCase()} ${f.ratio.toFixed(2)}:1`).join("; ")}.` : ""}`,
+    $description: `My palette, ${origin()}. Add it after Blip's candy palette in the resolver.${fails.length ? ` Under WCAG 2.2 AA, exported anyway: ${fails.map(failText).join("; ")}.` : ""}`,
+    $extensions: { blip: { name: "My palette" } },
     $type: "color",
-    accent: { base: color(a.base), light: color(a.light), shade: color(a.shade), text: { ...color(a.text), $description: "This intent as text on the scheme's surfaces (AA)." }, on: { ...color(a.on), $description: "Labels and icons on this intent's candy (AA)." } },
-    selection: { bg: { ...color(a.light), $description: "Selected text background." } },
-  }, null, 2) + "\n";
+  };
+  for (const [path, x] of ordered(v)) {
+    const keys = path.split(".");
+    let node = tree;
+    for (const k of keys.slice(0, -1)) node = node[k] ??= {};
+    node[keys.at(-1)] = { $value: x.startsWith("{") ? x : srgb(x.toUpperCase()) };
+  }
+  tree.palette.$description = "The accent of each time of day, the warning, and Night's page, text, lines and ink. The scheme roles read these.";
+  tree.world.night.$description = "The night sky and ground in this palette.";
+  return JSON.stringify(tree, null, 2) + "\n";
 }
 function resolver() {
-  const ctx = (s) => [{ $ref: `node_modules/@jaatster/blip-tokens/src/schemes/${s}.tokens.json` }, { $ref: `my-theme.${s}.tokens.json` }];
   return JSON.stringify({
     $schema: "https://www.designtokens.org/schemas/2025.10/resolver.json",
-    name: "My Blip theme",
+    name: "My Blip palette",
     version: "2025.10",
     modifiers: {
-      scheme: { contexts: Object.fromEntries(SCHEMES.map((s) => [s, ctx(s)])), default: "day" },
+      palette: { contexts: { candy: [{ $ref: CANDY }], mine: [{ $ref: CANDY }, { $ref: "my-palette.tokens.json" }] }, default: "mine" },
       pixel: { contexts: Object.fromEntries(["2", "3", "4"].map((p) => [p, [{ $ref: `node_modules/@jaatster/blip-tokens/src/pixel/${p}.tokens.json` }]])), default: state.pixel },
     },
   }, null, 2) + "\n";
@@ -199,49 +190,87 @@ function resolver() {
 
 // ------------------------------------------------------------------ render
 
-const preview = $(".tb-preview");
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-function setVars(el, a) { for (const [k, v] of Object.entries(vars(a))) el.style.setProperty(k, v); }
+const preview = $(".tb-preview");
+const FORMAT = {
+  hue: (x) => [`${Math.round(x)}°`, `${Math.round(x)} degrees`],
+  strength: (x) => [x.toFixed(2), x.toFixed(2)],
+  tint: (x) => [x.toFixed(3), x.toFixed(3)],
+  lightness: (x) => [x.toFixed(3), x.toFixed(3)],
+};
+/** Where each lever stands: a colour to start from is read for its hue and strength, a page colour for its tint and
+    lightness. */
+function levers() {
+  const page = state.night.bg ? toOklch(state.night.bg) : null;
+  return {
+    hue: state.accent ? state.lch[2] : state.hue,
+    strength: state.accent ? state.lch[1] / 0.15 : state.strength,
+    tint: page ? page[1] : state.night.tint,
+    lightness: page ? page[0] : state.night.lightness,
+  };
+}
+let worldDrawn = "", worldTimer;
 function render() {
-  const s = state.scheme, a = accent(s), sc = data.schemes[s];
+  const s = state.scheme, v = values(), c = colours(v);
+  const vars = Object.fromEntries(Object.entries({ ...data.defaults, ...v }).map(([k, x]) => [`--pp-${kebab(k)}`, cssOf(x)]));
+  // The palette goes where each preview sets its scheme: the roles there read it.
+  for (const el of [...$$("[data-strip]"), preview]) for (const [k, x] of Object.entries(vars)) el.style.setProperty(k, x);
   preview.dataset.ppScheme = s;
   if (state.pixel === "2") delete preview.dataset.ppPixel;
   else preview.dataset.ppPixel = state.pixel;
-  setVars(preview, a);
-  for (const cell of $$("[data-strip]")) setVars(cell, accent(cell.dataset.strip));
-  setVars($(".tb-derived-box"), a);
-  for (const k of ["light", "base", "shade", "text", "on"]) {
-    $(`[data-v="${k}"]`).textContent = a[k];
-    $(`.tb-dot[data-k="${k}"]`).style.background = a[k];
-    const from = $(`[data-from="${k}"]`);
-    if (from) from.textContent = a.nudged[k] ? `from ${a.nudged[k]}` : "";
+  // A world keeps the colours it first read: a fresh one, once the levers rest, draws the new sky.
+  const sky = Object.entries(vars).filter(([k]) => k.startsWith("--pp-world-night-")).join();
+  if (sky !== worldDrawn) {
+    worldDrawn = sky;
+    clearTimeout(worldTimer);
+    worldTimer = setTimeout(() => { const w = $(".tb-night pp-world"); w?.replaceWith(w.cloneNode(true)); }, 200);
   }
-  $(".tb-scheme-name").textContent = state.all ? "Day, Sunset and Night" : sc.title;
-  for (const r of $$('input[name="tb-candy"]')) r.checked = r.value === a.candy;
-  const input = $("#tb-hex");
-  if (document.activeElement !== input) input.value = a.brand;
-  $(".tb-picker").value = a.brand.toLowerCase();
-  $(".tb-all").checked = state.all;
 
-  // The nudge, said in words, and the way to keep the colour as it is.
-  const nudge = $(".tb-nudge"), exactRow = $(".tb-exact-row");
-  const would = a.candy ? {} : derive(s, state.pick[s], false).nudged;
-  let note = "";
-  if (!a.candy && a.nudged.base) note = `Ink labels need 4.5:1, so the candy is <strong>${a.base}</strong>: your ${esc(a.brand)} (${contrast(data.ink, a.brand).toFixed(2)}:1) made ${lum(a.base) > lum(a.brand) ? "brighter" : "softer"}, in the same hue. Your colour stays as the accent text: links, the chosen underline tab.`;
-  else if (!a.candy && a.nudged.light) note = `Ink labels need 4.5:1 on the soft fill too, so the light band is <strong>${a.light}</strong>, softer than the usual ${a.nudged.light}.`;
-  else if (!a.candy && state.exact[s]) note = "Your colour exactly as it is. Where a label does not pass, the export waits until it does, or until you say to go ahead.";
-  nudge.innerHTML = note;
-  nudge.hidden = !note;
-  exactRow.hidden = !!a.candy || !(would.base || would.light || state.exact[s]);
-  $(".tb-exact").checked = !!state.exact[s];
+  // The cards, and what the chosen one is.
+  const p = preset(state.from);
+  for (const r of $$('input[name="tb-palette"]')) r.checked = r.value === p.id;
+  $(".tb-about").innerHTML = `<strong>${esc(p.name)}</strong>: ${esc(p.description)}${p.credit ? ` ${esc(p.credit)}.` : ""}${changed() ? " Changed with the levers." : ""}`;
+  $(".tb-reset-label").textContent = `Back to ${p.name}`;
+
+  // The levers, where they stand.
+  const at = levers();
+  for (const input of $$(".tb-lever")) {
+    const id = input.dataset.lever, x = at[id];
+    if (document.activeElement !== input) input.value = String(x);
+    const min = Number(input.min), max = Number(input.max);
+    input.style.setProperty("--pp-slider-value", String(Math.min(1, Math.max(0, (x - min) / (max - min)))));
+    const [shown, said] = FORMAT[id](x);
+    input.nextElementSibling.textContent = shown;
+    input.setAttribute("aria-valuetext", said);
+  }
+  const hexInput = $("#tb-hex"), brand = state.accent ?? c["palette.night.accent.base"];
+  if (document.activeElement !== hexInput) hexInput.value = brand;
+  $(".tb-picker").value = brand.toLowerCase();
+  for (const row of $$(".tb-days-row")) row.hidden = !p.days;
+  $(".tb-days-label").textContent = `Keep ${p.name}'s Day and Sunset`;
+  $(".tb-days").checked = state.holdDays;
+
+  // The candy worked out, in the scheme on show, and Night's page.
+  const box = $(".tb-derived-box"), A = (k) => c[`palette.${s}.accent.${k}`];
+  for (const [k, x] of Object.entries({ "--pp-accent": A("base"), "--pp-accent-light": A("light"), "--pp-accent-shade": A("shade"), "--pp-accent-on": s === "night" ? c["palette.night.ink"] : data.fixed[s].ink })) box.style.setProperty(k, x);
+  for (const k of ["light", "base", "shade", "text"]) {
+    $(`[data-v="${k}"]`).textContent = A(k);
+    $(`.tb-dot[data-k="${k}"]`).style.background = A(k);
+  }
+  $('[data-v="text-scheme"]').textContent = `on ${data.titles[s]}`;
+  const N = { bg: "bg", surface: "surface.base", raised: "surface.raised", sunken: "surface.sunken", text: "text.base", muted: "text.muted", line: "line.base", ink: "ink" };
+  for (const [k, path] of Object.entries(N)) {
+    $(`[data-nv="${k}"]`).textContent = c[`palette.night.${path}`];
+    $(`.tb-dot[data-n="${k}"]`).style.background = c[`palette.night.${path}`];
+  }
 
   // What it looks like that it should not.
-  $(".tb-warnings").innerHTML = warnings(a).map((w) => `<div class="pp-box pp-alert tb-warn" data-tone="warning" data-warn="${w.id}"><span class="pp-alert-icon" aria-hidden="true"></span><div class="pp-alert-body"><p>${w.text}</p></div></div>`).join("");
+  $(".tb-warnings").innerHTML = warnings(s, c).map((w) => `<div class="pp-box pp-alert tb-warn" data-tone="${w.tone}" data-warn="${w.id}"><span class="pp-alert-icon" aria-hidden="true"></span><div class="pp-alert-body"><p>${w.text}</p></div></div>`).join("");
 
-  const list = checks(s, a);
-  $(".tb-checks").innerHTML = list.map((c) => `<li data-pass="${c.ok}"><span class="tb-check-sample" style="color:${c.fg};background:${c.bg}">Aa</span><span>${c.label}</span><span class="docs-num">${c.ratio.toFixed(2)}:1</span><span class="pp-box pp-tag" data-size="sm" data-tone="${c.ok ? "success" : "danger"}">${c.ok ? "Pass" : "Fail"}</span></li>`).join("");
-  const fails = failing();
-  $(".tb-summary").textContent = fails.length ? `${fails.length} of ${SCHEMES.length * list.length} checks fail: ${fails.map(failText).join("; ")}.` : `All ${SCHEMES.length * list.length} checks pass, in Day, Sunset and Night.`;
+  const list = checks(s, c);
+  $(".tb-checks").innerHTML = list.map((x) => `<li data-pass="${x.ok}"><span class="tb-check-sample" style="color:${x.fg};background:${x.bg}">Aa</span><span>${x.label}${x.min !== AA ? ` (${x.min}:1)` : ""}</span><span class="docs-num">${x.ratio.toFixed(2)}:1</span><span class="pp-box pp-tag" data-size="sm" data-tone="${x.ok ? "success" : "danger"}">${x.ok ? "Pass" : "Fail"}</span></li>`).join("");
+  const fails = failing(c), total = SCHEMES.reduce((n, sc) => n + checks(sc, c).length, 0);
+  $(".tb-summary").textContent = fails.length ? `${fails.length} of ${total} checks fail: ${fails.map(failText).join("; ")}.` : `All ${total} checks pass, in Day, Sunset and Night.`;
   $(".tb-summary").dataset.pass = String(!fails.length);
   for (const cell of $$("[data-strip]")) cell.dataset.pass = String(!fails.some((f) => f.scheme === cell.dataset.strip));
 
@@ -252,9 +281,9 @@ function render() {
   $(".tb-override").checked = state.override;
   $(".tb-export").dataset.blocked = String(blocked);
   for (const b of $$(".tb-out-actions .pp-button")) b.setAttribute("aria-disabled", String(blocked));
-  const held = "/* Held back: a contrast check fails (see above). Change the colour, or say to export anyway. */\n";
-  $("#tb-out-css").textContent = blocked ? held : css();
-  for (const sch of SCHEMES) $(`#tb-out-${sch}`).textContent = blocked ? held : tokensFile(sch);
+  const held = "/* Held back: a contrast check fails (see above). Turn a lever, or say to export anyway. */\n";
+  $("#tb-out-css").textContent = blocked ? held : css(v, fails);
+  $("#tb-out-tokens").textContent = blocked ? held : tokensFile(v, fails);
   $("#tb-out-resolver").textContent = blocked ? held : resolver();
   save();
 }
@@ -268,20 +297,42 @@ customElements.whenDefined("pp-segmented").then(() => {
 });
 schemeControl.addEventListener("pp-change", (e) => { state.scheme = e.detail.value; render(); });
 pixelControl.addEventListener("pp-change", (e) => { state.pixel = e.detail.value; render(); });
-$(".tb-all").addEventListener("change", (e) => {
-  state.all = e.target.checked;
-  // One accent all day: the one on show now.
-  if (state.all) for (const s of SCHEMES) (state.pick[s] = { ...state.pick[state.scheme] }), (state.exact[s] = !!state.exact[state.scheme]);
-  render();
-});
-for (const r of $$('input[name="tb-candy"]')) {
-  r.addEventListener("change", () => {
-    setPick({ candy: r.value, hex: data.candies[r.value].base });
+// Picking a palette starts from it; picking the one already chosen, once the levers have moved, starts from it again.
+for (const r of $$('input[name="tb-palette"]')) {
+  r.addEventListener("click", () => {
+    if (r.value === state.from && !changed()) return;
+    state = { ...state, ...fromPreset(r.value) };
     render();
   });
 }
-function custom(v) {
-  setPick({ candy: null, hex: v.toUpperCase() });
+for (const input of $$(".tb-lever")) {
+  input.addEventListener("input", () => {
+    const id = input.dataset.lever, x = Number(input.value);
+    if (id === "hue" || id === "strength") {
+      // A colour to start from turns too: its hue round the wheel, its chroma with the strength, its lightness kept.
+      if (state.accent) {
+        state.lch = id === "hue" ? [state.lch[0], state.lch[1], x] : [state.lch[0], x * 0.15, state.lch[2]];
+        state.accent = oklch(...state.lch);
+      } else state[id] = x;
+      state.accentMoved = true;
+    } else {
+      // A page colour becomes the levers it stands for, and the one turned moves.
+      if (state.night.bg) {
+        const [L, C, h] = toOklch(state.night.bg);
+        state.night = { lightness: L, tint: C, baseHue: h };
+      }
+      state.night = { ...state.night, [id]: x };
+      state.nightMoved = true;
+    }
+    state.override = false;
+    render();
+  });
+}
+function custom(hex) {
+  state.accent = hex.toUpperCase();
+  state.lch = toOklch(state.accent);
+  state.accentMoved = true;
+  state.override = false;
   render();
 }
 $("#tb-hex").addEventListener("input", (e) => {
@@ -294,17 +345,10 @@ $("#tb-hex").addEventListener("input", (e) => {
   custom(v);
 });
 $(".tb-picker").addEventListener("input", (e) => custom(e.target.value));
-$(".tb-exact").addEventListener("change", (e) => {
-  for (const s of state.all ? SCHEMES : [state.scheme]) state.exact[s] = e.target.checked;
-  state.override = false;
-  render();
-});
+$(".tb-days").addEventListener("change", (e) => { state.holdDays = e.target.checked; state.override = false; render(); });
 $(".tb-override").addEventListener("change", (e) => { state.override = e.target.checked; render(); });
 $(".tb-reset").addEventListener("click", () => {
-  state.pick = defaults();
-  state.exact = {};
-  state.override = false;
-  state.all = false;
+  state = { ...state, ...fromPreset(state.from) };
   render();
 });
 for (const b of $$(".tb-download")) {
@@ -320,7 +364,7 @@ for (const b of $$(".tb-download")) {
     // The next step, once the files are on disk.
     $(".tb-downloaded").innerHTML = b.dataset.file.endsWith(".css")
       ? `Downloaded ${esc(b.dataset.file)}. Load it after <code class="docs-inline-code">@jaatster/blip-tokens/tokens.css</code>.`
-      : `Downloaded ${esc(b.dataset.file)}. With the four JSON files beside <code class="docs-inline-code">node_modules</code>, check and build them: <code class="docs-inline-code">npx blip-tokens my-theme.resolver.json</code>.`;
+      : `Downloaded ${esc(b.dataset.file)}. With both JSON files beside <code class="docs-inline-code">node_modules</code>, check and build them: <code class="docs-inline-code">npx blip-tokens my-palette.resolver.json</code>.`;
   });
 }
 // Copy is the site's own button; while the export is held back it copies nothing.

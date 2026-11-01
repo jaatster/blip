@@ -56,6 +56,47 @@
   .docs-neutral-swatch { display: block; block-size: calc(24 * var(--pp-pixel)); box-shadow: 0 0 0 var(--pp-pixel) var(--pp-line-soft); }
   .docs-neutral .docs-chip { margin-inline-start: calc(-1 * var(--pp-space-2)); }
 
+  /* The palettes: each one's Night (and its Day and Sunset buttons), in that palette, on a card in the site's. */
+  .docs-palettes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(130 * var(--pp-pixel))), 1fr));
+    gap: var(--pp-space-8);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .docs-palette-card {
+    --pp-r: 4;
+    --pp-shape: var(--pp-shape-4);
+    --pp-shape-inner: var(--pp-shape-4-inner);
+    display: flex;
+    flex-direction: column;
+    gap: var(--pp-space-4);
+    padding: var(--pp-space-8);
+    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+  }
+  .docs-palette-card > p { margin: 0; }
+  .docs-palette-stages {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--pp-pixel);
+    margin-block-end: var(--pp-space-4);
+    background: var(--pp-line-soft);
+    padding: var(--pp-pixel);
+  }
+  .docs-palette-stage {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--pp-space-4);
+    padding: var(--pp-space-6);
+  }
+  .docs-palette-stage[data-pp-scheme="night"] { grid-column: 1 / -1; padding-block: var(--pp-space-8); }
+  .docs-palette-words { flex-basis: 100%; font-size: var(--pp-size-small); }
+  .docs-palette-link { color: var(--pp-accent-text); text-decoration: underline; text-underline-offset: calc(2 * var(--pp-pixel)); }
+  .docs-palette-name { display: flex; flex-wrap: wrap; align-items: center; gap: var(--pp-space-4); margin: 0; font-size: var(--pp-size-lead); }
+  .docs-palette-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--pp-space-4); margin-block-start: auto; padding-block-start: var(--pp-space-2); }
+
   .docs-schemes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, calc(118 * var(--pp-pixel))), 1fr)); gap: var(--pp-space-8); }
   .docs-scheme {
     --pp-r: 5;

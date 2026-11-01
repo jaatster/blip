@@ -1,10 +1,10 @@
 ---
 /**
- * The document every page shares: the import map, Blip's CSS in its order (font, tokens, core, components,
- * kits), the scheme and pixel the reader chose (set before the first paint), and only the element modules the
- * page's own markup uses.
+ * The document every page shares: the import map, Blip's CSS in its order (font, tokens, palettes, core,
+ * components, kits), the scheme, pixel and palette the reader chose (set before the first paint), and only the
+ * element modules the page's own markup uses.
  */
-import { assets } from "../lib/data";
+import { assets, tokens } from "../lib/data";
 
 interface Props {
   title: string;
@@ -29,6 +29,8 @@ const byAttribute: [RegExp, string][] = [[/data-pp-burst=/, "/pp/effects/burst.j
 const modules = [...new Set([...[...tags].map((t) => a.defines[t]), ...byAttribute.filter(([re]) => re.test(html)).map(([, m]) => m)].filter((m): m is string => !!m))];
 const pageTitle = title === "Blip" ? title : `${title} · Blip`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+// The presets a reader can pick (the default palette is having none).
+const presets = Object.keys(tokens().palettes ?? {}).join(" ");
 ---
 <!doctype html>
 <html lang="en">
@@ -40,13 +42,17 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="theme-color" content="#F4F7FF" />
-    <script is:inline>
-      // The scheme and pixel the reader chose, before the first paint. ?scheme= and ?pixel= try one without saving.
+    <script is:inline data-presets={presets}>
+      // The scheme, pixel and palette the reader chose, before the first paint. ?scheme=, ?pixel= and ?palette= try
+      // one without saving.
       (function () {
-        var d = document.documentElement, q = new URLSearchParams(location.search), pref = "auto", px = "";
-        try { pref = localStorage.getItem("blip-docs:scheme") || "auto"; px = localStorage.getItem("blip-docs:pixel") || ""; } catch (e) {}
+        var d = document.documentElement, q = new URLSearchParams(location.search), pref = "auto", px = "", pal = "";
+        var presets = (document.currentScript.getAttribute("data-presets") || "").split(" ");
+        try { pref = localStorage.getItem("blip-docs:scheme") || "auto"; px = localStorage.getItem("blip-docs:pixel") || ""; pal = localStorage.getItem("blip-docs:palette") || ""; } catch (e) {}
         if (/^(auto|day|sunset|night)$/.test(q.get("scheme") || "")) pref = q.get("scheme");
         if (/^[234]$/.test(q.get("pixel") || "")) px = q.get("pixel");
+        if (q.has("palette")) pal = q.get("palette");
+        if (pal && presets.indexOf(pal) >= 0) d.setAttribute("data-pp-palette", pal);
         var h = new Date().getHours();
         d.setAttribute("data-pp-scheme", pref === "auto" ? (h >= 6 && h < 17 ? "day" : h >= 17 && h < 19 ? "sunset" : "night") : pref);
         d.setAttribute("data-scheme-choice", pref);
@@ -59,6 +65,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     {display && <link rel="preload" href="/pp/font/dist/pixel-bop.woff2" as="font" type="font/woff2" crossorigin />}
     <link rel="stylesheet" href="/pp/font/font.css" />
     <link rel="stylesheet" href="/pp/tokens/tokens.css" />
+    <link rel="stylesheet" href="/pp/tokens/palettes.css" />
     <link rel="stylesheet" href="/pp/core/core.css" />
     <link rel="stylesheet" href="/pp/components/components.css" />
     <link rel="stylesheet" href="/pp/components/popover-nub.css" />

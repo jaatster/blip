@@ -1,10 +1,13 @@
 ---
-/** The site's app bar: the wordmark, the sections, search and the display menu (scheme and pixel). */
+/** The site's app bar: the wordmark, the sections, search, the palette menu and the display menu (scheme and pixel). */
 import Icon from "./Icon.astro";
 import { SECTIONS, sectionOf } from "../lib/nav";
 import { chooseEvent } from "../lib/cem";
+import { palettes } from "../lib/colour";
 const path = Astro.url.pathname;
 const current = sectionOf(path);
+// Each palette's chip: its Night page with its accent on it, the colours that tell them apart.
+const chips = palettes().map((p) => ({ ...p, chip: `--docs-chip-page:${p.schemes.night.bg};--docs-chip-accent:${p.schemes.night.accent};--docs-chip-ink:${p.schemes.night.ink}` }));
 ---
 <header class="pp-box pp-app-bar docs-app-bar">
   <a class="pp-app-bar-brand docs-brand" href="/" aria-current={path === "/" ? "page" : undefined}>
@@ -23,6 +26,19 @@ const current = sectionOf(path);
       <Icon name="search" /><span class="docs-search-label">Search</span>
       <kbd class="pp-keys docs-search-keys" aria-hidden="true"><kbd class="pp-box pp-keycap" data-size="sm" data-mod>Ctrl</kbd><kbd class="pp-box pp-keycap" data-size="sm">K</kbd></kbd>
     </a>
+    <pp-menu class="pp-menu docs-palette" data-align="end" data-docs-choose={chooseEvent("pp-menu")} hidden>
+      <button class="pp-box pp-button" type="button" data-variant="ghost" data-icon-only aria-label={`Palette: ${chips[0]?.name ?? ""}`}><Icon name="palette" /></button>
+      <div class="pp-box pp-menu-list pp-pop-in docs-palette-list" role="menu" popover aria-label="Palette">
+        <div role="group" aria-labelledby="docs-palette-heading">
+          <div class="pp-menu-heading" id="docs-palette-heading">Palette</div>
+          {chips.map((p, i) => (
+            <button class="pp-box pp-menu-item" type="button" role="menuitemradio" aria-checked={i === 0 ? "true" : "false"} data-value={`palette:${p.id}`} data-name={p.name}>
+              <span class="docs-palette-chip" style={p.chip} aria-hidden="true"></span><span class="pp-menu-label">{p.default ? `${p.name}, Blip's own` : p.name}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </pp-menu>
     <pp-menu class="pp-menu docs-display" data-align="end" data-docs-choose={chooseEvent("pp-menu")} hidden>
       <button class="pp-box pp-button" type="button" data-variant="ghost" data-icon-only aria-label="Display: scheme and pixel size">
         <span class="docs-display-icon" data-for="auto"><Icon name="clock" /></span>

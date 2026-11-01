@@ -18,3 +18,4 @@ First release. The building blocks: the pixel unit, the candy box (outline, band
 - On (pressed, selected, current, open) also drops a candy or soft box's face a pixel inside its outline, an ink shadow along its top and left, so it reads without colour.
 - Disabled boxes are dithered with `--pp-disabled-dither`, light in every scheme; cream takes `--pp-disabled-dither-cream` and slate ink.
 - In Windows high contrast, on is the system highlight (grey when disabled) and busy keeps its three dots. Printed, boxes keep their colours with background graphics off, and scrims are left off.
+- An outline or ghost box that is on (a selected tab, a pressed toggle, an open menu button) keeps its tone's light fill under the pointer, instead of the hover well, where its ink label all but vanished at Night.

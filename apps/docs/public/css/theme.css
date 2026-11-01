@@ -1,14 +1,46 @@
-/* Theme builder: controls beside a live preview, the export below. */
+/* Palette maker: the palettes to start from, the levers beside a live preview, the export below. */
 @layer docs {
   .tb {
     display: grid;
     gap: var(--pp-space-16);
-    grid-template-areas: "controls" "preview" "export";
+    grid-template-areas: "palettes" "controls" "preview" "export";
     max-inline-size: calc(600 * var(--pp-pixel));
   }
   @container pp-shell (width >= 1024px) {
-    .tb { grid-template-columns: calc(170 * var(--pp-pixel)) minmax(0, 1fr); grid-template-areas: "controls preview" "export export"; align-items: start; }
+    .tb { grid-template-columns: calc(170 * var(--pp-pixel)) minmax(0, 1fr); grid-template-areas: "palettes palettes" "controls preview" "export export"; align-items: start; }
   }
+
+  /* The palettes: a card each, its Night in small (page, a surface, the candy) and its Day and Sunset candies. */
+  .tb-palettes { grid-area: palettes; display: grid; gap: var(--pp-space-6); min-inline-size: 0; }
+  .tb-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(calc(64 * var(--pp-pixel)), 1fr)); gap: var(--pp-space-4); }
+  .tb-card {
+    --pp-r: 4;
+    --pp-shape: var(--pp-shape-4);
+    --pp-shape-inner: var(--pp-shape-4-inner);
+    --_p: var(--pp-pixel);
+    display: grid;
+    gap: var(--pp-space-3);
+    padding: var(--pp-space-4);
+    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+    font-size: var(--pp-size-small);
+    font-weight: var(--pp-weight-bold);
+  }
+  .tb-card > input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
+  .tb-card-art { position: relative; display: block; block-size: calc(20 * var(--_p)); background: var(--a-bg); box-shadow: 0 0 0 var(--_p) var(--a-ink); }
+  .tb-card-panel { position: absolute; inset-block: calc(3 * var(--_p)); inset-inline-start: calc(3 * var(--_p)); inline-size: calc(26 * var(--_p)); background: var(--a-surface); }
+  .tb-card-pill {
+    position: absolute;
+    inset-block-start: calc(4 * var(--_p));
+    inset-inline-start: calc(3 * var(--_p));
+    inline-size: calc(18 * var(--_p));
+    block-size: calc(6 * var(--_p));
+    background: linear-gradient(var(--a-light) 0 var(--_p), var(--a-accent) 0);
+    box-shadow: 0 0 0 var(--_p) var(--a-ink);
+  }
+  .tb-card-days { position: absolute; inset-block-start: calc(3 * var(--_p)); inset-inline-end: calc(3 * var(--_p)); display: grid; gap: calc(2 * var(--_p)); }
+  .tb-card-days > span { inline-size: calc(5 * var(--_p)); block-size: calc(5 * var(--_p)); background: var(--a-day); box-shadow: 0 0 0 var(--_p) var(--a-ink); }
+  .tb-card-days > span + span { background: var(--a-sunset); }
+  .tb-about { max-inline-size: var(--docs-measure); }
   .tb-h2 { font-size: var(--pp-size-title); line-height: var(--pp-leading-tight); }
   .tb-controls {
     --pp-r: 5;
@@ -67,6 +99,12 @@
   .tb-derived-values dt { color: var(--pp-text-muted); }
   .tb-derived-values dd { display: flex; align-items: center; gap: var(--pp-space-3); margin: 0; }
   .tb-derived-values code { font-family: var(--pp-font-mono); font-size: var(--pp-size-caption); }
+  /* Night's page, two to a row: each label as wide as the longest in its column. */
+  .tb-night-values { display: grid; grid-template-columns: max-content minmax(0, 1fr) max-content minmax(0, 1fr); align-items: center; gap: var(--pp-space-2) var(--pp-space-4); margin: 0; font-size: var(--pp-size-small); }
+  .tb-night-values > div { display: contents; }
+  .tb-night-values dt { color: var(--pp-text-muted); }
+  .tb-night-values dd { display: flex; align-items: center; gap: var(--pp-space-3); margin: 0; }
+  .tb-night-values code { font-family: var(--pp-font-mono); font-size: var(--pp-size-caption); }
   .tb-dot { display: inline-block; inline-size: calc(7 * var(--pp-pixel)); block-size: calc(7 * var(--pp-pixel)); box-shadow: 0 0 0 var(--pp-pixel) var(--pp-line); }
   .tb-checks { display: grid; gap: var(--pp-space-3); margin: 0; padding: 0; list-style: none; font-size: var(--pp-size-small); }
   .tb-checks > li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: var(--pp-space-4); }
@@ -75,13 +113,12 @@
   .tb-summary { font-weight: var(--pp-weight-bold); }
   .tb-summary[data-pass="false"] { color: var(--pp-danger-text); }
   .tb-reset { justify-self: start; }
-  /* Where a value was nudged from, and why, in words. */
+  /* Which time of day the text colour is for. */
   .tb-from { font-size: var(--pp-size-caption); color: var(--pp-text-muted); }
-  .tb-nudge { max-inline-size: var(--docs-measure); }
   .tb-warnings { display: grid; gap: var(--pp-space-4); }
   .tb-warnings:empty { display: none; }
   /* Rows and alerts the script shows and hides: hidden wins over their own display. */
-  :is(.tb-exact-row, .tb-nudge, .tb-blocked)[hidden] { display: none; }
+  :is(.tb-days-row, .tb-blocked)[hidden] { display: none; }
   .tb-warn p { font-size: var(--pp-size-small); }
 
   .tb-preview-wrap { grid-area: preview; display: grid; gap: var(--pp-space-8); min-inline-size: 0; }
@@ -89,6 +126,30 @@
   .tb-strip-cell { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--pp-space-3); padding: var(--pp-space-6) var(--pp-space-4); box-shadow: 0 0 0 var(--pp-pixel) var(--pp-line-soft); }
   /* A scheme with a failing check: its cell is outlined in the danger colour, two pixels. */
   .tb-strip-cell[data-pass="false"] { box-shadow: 0 0 0 calc(2 * var(--pp-pixel)) var(--pp-danger-text); }
+  /* Night in the palette: its sky, and a card on it with every kind of text and line Night has. */
+  .tb-night {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-block-size: calc(110 * var(--pp-pixel));
+    padding: var(--pp-space-12);
+    background: var(--pp-bg);
+    box-shadow: 0 0 0 var(--pp-pixel) var(--pp-line-soft);
+  }
+  .tb-night[data-pass="false"] { box-shadow: 0 0 0 calc(2 * var(--pp-pixel)) var(--pp-danger-text); }
+  .tb-night-card {
+    --pp-r: 5;
+    --pp-shape: var(--pp-shape-5);
+    --pp-shape-inner: var(--pp-shape-5-inner);
+    display: grid;
+    gap: var(--pp-space-6);
+    inline-size: min(100%, calc(170 * var(--pp-pixel)));
+    padding: var(--pp-space-8);
+    margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
+  }
+  .tb-night-card p { margin: 0; }
+  .tb-night-title { font-weight: var(--pp-weight-bold); }
+  .tb-night-tags { gap: var(--pp-space-3); }
   .tb-preview-scroll { overflow: auto; }
   .tb-preview {
     display: grid;

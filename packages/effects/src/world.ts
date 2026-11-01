@@ -680,15 +680,16 @@ export class PixelWorld extends PixelElement {
     const watch = new ResizeObserver(watched);
     const seen = new IntersectionObserver((entries) => void (visible = !!entries.at(-1)?.isIntersecting));
     // Following the page: its motion setting (data-pp-motion), its scheme switches, Auto's minute ticks (stepped, as
-    // the page's palette is), its pixel.
+    // the page's palette is), its pixel, and its palette (data-pp-palette), whose night sky is its own.
     const page = new MutationObserver((records) => {
       pause();
       check(html.hasAttribute("data-pp-scheme-fade"));
-      if (records.some((r) => r.attributeName === "data-pp-pixel") && measure().join(" ") !== drawn) redraw();
+      if (records.some((r) => r.attributeName === "data-pp-palette")) draw();
+      else if (records.some((r) => r.attributeName === "data-pp-pixel") && measure().join(" ") !== drawn) redraw();
     });
     resize.observe(el);
     seen.observe(el);
-    page.observe(html, { attributes: true, subtree: true, attributeFilter: ["data-pp-scheme", "data-pp-pixel", "data-pp-motion"] });
+    page.observe(html, { attributes: true, subtree: true, attributeFilter: ["data-pp-scheme", "data-pp-pixel", "data-pp-motion", "data-pp-palette"] });
     // The device's reduced motion, as the page's; dark mode, and the window moving to a screen with another device
     // pixel ratio (and back): draw again, in that screen's whole device pixels.
     this.on(matchMedia("(prefers-reduced-motion: reduce)"), "change", pause);

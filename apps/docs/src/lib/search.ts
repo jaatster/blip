@@ -55,7 +55,7 @@ export function searchData(): SearchData {
     { title: "Home", url: "/", hint: "Page", icon: "home", keywords: words("blip overview rules budgets kits sizes") },
     { title: "Get started", url: "/start/", hint: "Page", icon: "rocket", keywords: words("install npm pnpm cdn import map css order layers web components elements react frameworks angular theming scheme pixel auto clock reduced motion diagnostics") },
     { title: "Versions and support", url: "/versions/", hint: "Page", icon: "tag", keywords: words("versions semver semantic versioning release stable beta status deprecation deprecated migration upgrade breaking changes changelog browser support baseline help issues bugs security") },
-    { title: "Theme builder", url: "/theme/", hint: "Page", icon: "brush", keywords: words("theme accent colour color custom hex export dtcg tokens css resolver contrast override") },
+    { title: "Palette maker", url: "/theme/", hint: "Page", icon: "brush", keywords: words("palette maker theme builder accent colour color custom hex levers preset dracula nord catppuccin gruvbox tokyo night rose pine ember grape export dtcg tokens css resolver contrast override") },
     { title: "Diagnostics", url: "/diagnostics/", hint: "Page", icon: "bug", keywords: words("warnings errors codes console", [...diagnostics().keys()].join(" ")) },
     { title: "Templates", url: "/templates/", hint: "Page", icon: "desktop", keywords: words("examples screens dashboard landing game menu") },
     { title: "Components", url: "/components/", hint: "Page", icon: "puzzle", keywords: words("all components index") },

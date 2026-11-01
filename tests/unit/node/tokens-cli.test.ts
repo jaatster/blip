@@ -1,11 +1,12 @@
 /**
  * blip-tokens (packages/tokens/scripts/cli.mjs), run from a copy of the package on themes written the way the
- * docs' theme builder exports them: a resolver whose scheme contexts list Blip's scheme file and the theme's
+ * docs' palette maker exported them before palettes: a resolver whose scheme contexts list Blip's scheme file and the theme's
  * own, pointing into node_modules/@jaatster/blip-tokens. The theme passes Blip's own checks or the build stops.
  */
 import { afterEach, describe, expect, it } from "vitest";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 import { node, tempDir, tokensCopy } from "../support/fixtures.ts";
 
 type Accent = { base: string; light: string; shade: string; text: string; on: string };
@@ -118,5 +119,32 @@ describe("blip-tokens", () => {
     const missing = cli("nope.resolver.json");
     expect(missing.status).toBe(1);
     expect(missing.stderr).toContain("PP-T001  nope.resolver.json");
+  });
+
+  it("builds a palette made in the palette maker: its own palette file, in a palette context of its own", async () => {
+    const { project, cli } = setup(TEAL);
+    const pkg = tokensCopy();
+    cleanup.push(pkg.remove);
+    // The maker's export: the palette's tokens as palettes.mjs writes them, and a resolver whose palette is the default.
+    const { paletteFile, sceneOf } = await import(pathToFileURL(join(pkg.dir, "scripts/palettes.mjs")).href);
+    const { readTokens } = await import(pathToFileURL(join(pkg.dir, "scripts/tokens.mjs")).href);
+    const file = paletteFile({ id: "mine", name: "Mine", description: "Teal on soot.", recipe: { hue: 192, lightness: 0.18, tint: 0.014 } }, sceneOf(readTokens()));
+    writeFileSync(join(project, "my-palette.tokens.json"), JSON.stringify(file, null, 2));
+    const candy = { $ref: "node_modules/@jaatster/blip-tokens/src/palettes/candy.tokens.json" };
+    writeFileSync(join(project, "my-palette.resolver.json"), JSON.stringify({
+      $schema: "https://www.designtokens.org/schemas/2025.10/resolver.json",
+      name: "My Blip palette",
+      version: "2025.10",
+      modifiers: { palette: { contexts: { candy: [candy], mine: [candy, { $ref: "my-palette.tokens.json" }] }, default: "mine" } },
+    }, null, 2));
+    const run = cli("my-palette.resolver.json");
+    expect(run.stderr).toBe("");
+    expect(run.status).toBe(0);
+    expect(run.stdout).toMatch(/Contrast: \d+ pairs pass in 3 schemes and 2 palettes/);
+    const css = readFileSync(join(project, "my-palette.css"), "utf8");
+    const own = file.palette.night;
+    expect(css).toMatch(new RegExp(`:root \\{[^}]*--pp-palette-night-bg: ${own.bg.$value.hex};`));
+    expect(css).toMatch(new RegExp(`:root \\{[^}]*--pp-palette-day-accent: ${file.palette.day.accent.base.$value.hex};`));
+    expect(css).toMatch(/\[data-pp-scheme="night"\] \{[^}]*--pp-bg: var\(--pp-palette-night-bg\);/);
   });
 });

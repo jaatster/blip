@@ -270,14 +270,15 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  /* Hover: lifts a pixel; its drop grows by one so the shadow stays where it was. */
+  /* Hover: lifts a pixel; its drop grows by one so the shadow stays where it was. Calm tiers show their well instead,
+     except when on: an on box keeps its tone, or its ink label would sit on the dark well at Night. */
   @media (hover: hover) {
     .pp-box:is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive]):not(:disabled, [aria-disabled="true"], [aria-busy="true"], [aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):hover,
     .pp-box[data-pp-state~="hover"] {
       translate: 0 calc(-1 * var(--_p));
       --_pp-lift: 1;
     }
-    .pp-box:is([data-variant="outline"], [data-variant="ghost"]):is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive]):not(:disabled, [aria-disabled="true"]):hover,
+    .pp-box:is([data-variant="outline"], [data-variant="ghost"]):is(button, a[href], summary, label, [role="button"], [role="tab"], [role="menuitem"], [role="option"], [data-pp-interactive]):not(:disabled, [aria-disabled="true"], [aria-pressed="true"], [aria-selected="true"], [aria-current]:not([aria-current="false"]), [aria-expanded="true"], [aria-checked="true"], :has(> input:checked)):hover,
     .pp-box:is([data-variant="outline"], [data-variant="ghost"])[data-pp-state~="hover"] {
       translate: none;
       --_pp-lift: 0;

@@ -17,8 +17,8 @@ describe("diagnostic codes in CONTRACT.md", () => {
   const result = compare(REPO) as { codes: Map<string, Occurrence[]>; missing: string[]; stale: string[]; upToDate: boolean };
 
   it("finds the codes the packages raise", () => {
-    // The three the audit found missing from the old, hand-written table, and a build code.
-    for (const code of ["PP-C001", "PP-M001", "PP-W002", "PP-T060"]) expect(result.codes.has(code), code).toBe(true);
+    // The three the audit found missing from the old, hand-written table, and two build codes (a palette's, a pair's).
+    for (const code of ["PP-C001", "PP-M001", "PP-W002", "PP-T005", "PP-T060"]) expect(result.codes.has(code), code).toBe(true);
     for (const [code, occ] of result.codes) for (const o of occ) expect(o.message, `${code} at ${o.file}:${o.line}`).toBeTruthy();
   });
 

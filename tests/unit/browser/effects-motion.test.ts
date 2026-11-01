@@ -69,7 +69,7 @@ describe("the CRT", () => {
     const crt = mount(`<div class="pp-crt" style="width:100px;height:60px"></div>`);
     const lines = after(crt);
     expect(lines.opacity).toBe("1");
-    // Ink, opaque (#1A1530 in every scheme).
+    // Ink, opaque (#1A1530 by Day; at Night, the palette's own).
     expect(lines.backgroundColor).toBe("rgb(26, 21, 48)");
     expect(lines.maskImage).toContain("conic-gradient");
     expect(crtCss).not.toMatch(/color-mix|rgba\(|opacity:\s*0\./);

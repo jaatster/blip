@@ -77,8 +77,8 @@ export const SECTIONS: Section[] = [
   },
   {
     id: "theme",
-    title: "Theme builder",
-    short: "Theme",
+    title: "Palette maker",
+    short: "Palette",
     url: "/theme/",
     icon: "brush",
     groups: () => [],

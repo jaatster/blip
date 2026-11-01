@@ -1,6 +1,6 @@
 {
   "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
-  "$description": "Night: deep indigo under the stars. Purple is the accent.",
+  "$description": "Night: the palette's dark page under the stars; by default sky blue on charcoal.",
   "$extensions": {
     "blip": {
       "scheme": "night",
@@ -8,35 +8,41 @@
     }
   },
   "$type": "color",
+  "ink": {
+    "base": {
+      "$value": "{palette.night.ink}",
+      "$description": "Ink at Night: the palette's own, darker than its page, so every outline and drop still reads. Never pure black."
+    }
+  },
   "bg": {
-    "$value": "{deep.3}",
+    "$value": "{palette.night.bg}",
     "$description": "The page behind everything."
   },
   "surface": {
     "base": {
-      "$value": "{deep.4}",
+      "$value": "{palette.night.surface.base}",
       "$description": "Cards, inputs, panels."
     },
     "raised": {
-      "$value": "{deep.5}",
+      "$value": "{palette.night.surface.raised}",
       "$description": "Things above the page: menus, dialogs, windows."
     },
     "sunken": {
-      "$value": "{deep.2}",
+      "$value": "{palette.night.surface.sunken}",
       "$description": "Wells, tracks, table stripes."
     },
     "panel": {
-      "$value": "{deep.4}",
+      "$value": "{palette.night.surface.base}",
       "$description": "Text-heavy panels (cream on the light schemes)."
     }
   },
   "text": {
     "base": {
-      "$value": "{tone.star}",
+      "$value": "{palette.night.text.base}",
       "$description": "Body text."
     },
     "muted": {
-      "$value": "{world.night.snow.lit}",
+      "$value": "{palette.night.text.muted}",
       "$description": "Secondary text."
     },
     "inverse": {
@@ -46,11 +52,11 @@
   },
   "line": {
     "base": {
-      "$value": "{world.night.cloud.light}",
+      "$value": "{palette.night.line.base}",
       "$description": "Outlines of non-candy controls; 3:1 against the page."
     },
     "soft": {
-      "$value": "{world.night.sky.2}",
+      "$value": "{palette.night.line.soft}",
       "$description": "Dividers and decoration only."
     }
   },
@@ -74,16 +80,16 @@
   },
   "accent": {
     "base": {
-      "$value": "{candy.purple.base}"
+      "$value": "{palette.night.accent.base}"
     },
     "light": {
-      "$value": "{candy.purple.light}"
+      "$value": "{palette.night.accent.light}"
     },
     "shade": {
-      "$value": "{candy.purple.shade}"
+      "$value": "{palette.night.accent.shade}"
     },
     "text": {
-      "$value": "{tone.accent-night}",
+      "$value": "{palette.night.accent.text}",
       "$description": "This intent as text on the scheme's surfaces (AA)."
     },
     "on": {
@@ -131,16 +137,16 @@
   },
   "warning": {
     "base": {
-      "$value": "{candy.orange.base}"
+      "$value": "{palette.night.warning.base}"
     },
     "light": {
-      "$value": "{candy.orange.light}"
+      "$value": "{palette.night.warning.light}"
     },
     "shade": {
-      "$value": "{candy.orange.shade}"
+      "$value": "{palette.night.warning.shade}"
     },
     "text": {
-      "$value": "{candy.orange.light}",
+      "$value": "{palette.night.warning.text}",
       "$description": "This intent as text on the scheme's surfaces (AA)."
     },
     "on": {
@@ -169,7 +175,7 @@
   },
   "selection": {
     "bg": {
-      "$value": "{candy.purple.light}",
+      "$value": "{palette.night.accent.light}",
       "$description": "Selected text background."
     },
     "text": {
@@ -188,11 +194,11 @@
   },
   "disabled": {
     "dither": {
-      "$value": "{tone.star}",
-      "$description": "The checkerboard over a disabled candy: light in every scheme, so its label still reads (the page colour by Day and Sunset, Starlight at Night)."
+      "$value": "{palette.night.text.base}",
+      "$description": "The checkerboard over a disabled candy: light in every scheme, so its label still reads (the page colour by Day and Sunset, the night text at Night)."
     },
     "dither-cream": {
-      "$value": "{world.night.snow.lit}",
+      "$value": "{palette.night.text.muted}",
       "$description": "The checkerboard over disabled cream (the neutral tone, cream tabs, the switch knob), where the page colour would not show."
     }
   },

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // blip-tokens: builds a theme's tokens.css through the same checks as Blip's own palette. A theme is a
-// DTCG 2025.10 resolver whose contexts list Blip's files and the theme's own (the docs' theme builder exports
+// DTCG 2025.10 resolver whose contexts list Blip's files and the theme's own (the docs' palette maker exports
 // one); what it leaves out (the foundation set, the resolution order, a modifier) is Blip's.
 //
 // Usage: blip-tokens <theme.resolver.json> [--out <file.css>] [--check]
@@ -36,7 +36,7 @@ for (let i = 0; i < args.length; i++) {
   else if (resolver) fail(`One theme at a time: "${resolver}" and "${a}".`);
   else resolver = a;
 }
-if (!resolver) fail("Name the theme's resolver, the .resolver.json file the theme builder exports.");
+if (!resolver) fail("Name the theme's resolver, the .resolver.json file the palette maker exports.");
 
 function fail(message) {
   process.stderr.write(`blip-tokens: ${message}\n\n${USAGE}`);

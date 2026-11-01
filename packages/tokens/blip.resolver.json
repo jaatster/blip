@@ -2,7 +2,7 @@
   "$schema": "https://www.designtokens.org/schemas/2025.10/resolver.json",
   "name": "Blip",
   "version": "2025.10",
-  "description": "Blip's tokens. Three independent switches: scheme (time of day), pixel size and, later, palette and contrast. Adding a context is adding a file.",
+  "description": "Blip's tokens. Three independent switches: scheme (time of day), pixel size and palette; later, contrast. Adding a context is adding a file.",
   "sets": {
     "foundation": {
       "description": "Colour, size, motion and type primitives.",
@@ -64,6 +64,105 @@
         ]
       },
       "default": "2"
+    },
+    "palette": {
+      "description": "The accent of each time of day and Night's page, ink and sky. Candy is Blip's own; the rest are presets (palettes.css, data-pp-palette). A preset lists Candy first, so it sets only what it changes.",
+      "contexts": {
+        "candy": [
+          {
+            "$ref": "src/palettes/candy.tokens.json"
+          }
+        ],
+        "grape": [
+          {
+            "$ref": "src/palettes/candy.tokens.json"
+          },
+          {
+            "$ref": "src/palettes/grape.tokens.json"
+          }
+        ],
+        "ember": [
+          {
+            "$ref": "src/palettes/candy.tokens.json"
+          },
+          {
+            "$ref": "src/palettes/ember.tokens.json"
+          }
+        ],
+        "azure": [
+          {
+            "$ref": "src/palettes/candy.tokens.json"
+          },
+          {
+            "$ref": "src/palettes/azure.tokens.json"
+          }
+        ],
+        "mint": [
+          {
+            "$ref": "src/palettes/candy.tokens.json"
+          },
+          {
+            "$ref": "src/palettes/mint.tokens.json"
+          }
+        ],
+        "bubblegum": [
+          {
+            "$ref": "src/palettes/candy.tokens.json"
+          },
+          {
+            "$ref": "src/palettes/bubblegum.tokens.json"
+          }
+        ],
+        "dracula": [
+          {
+            "$ref": "src/palettes/candy.tokens.json"
+          },
+          {
+            "$ref": "src/palettes/dracula.tokens.json"
+          }
+        ],
+        "nord": [
+          {
+            "$ref": "src/palettes/candy.tokens.json"
+          },
+          {
+            "$ref": "src/palettes/nord.tokens.json"
+          }
+        ],
+        "catppuccin": [
+          {
+            "$ref": "src/palettes/candy.tokens.json"
+          },
+          {
+            "$ref": "src/palettes/catppuccin.tokens.json"
+          }
+        ],
+        "gruvbox": [
+          {
+            "$ref": "src/palettes/candy.tokens.json"
+          },
+          {
+            "$ref": "src/palettes/gruvbox.tokens.json"
+          }
+        ],
+        "tokyo-night": [
+          {
+            "$ref": "src/palettes/candy.tokens.json"
+          },
+          {
+            "$ref": "src/palettes/tokyo-night.tokens.json"
+          }
+        ],
+        "rose-pine": [
+          {
+            "$ref": "src/palettes/candy.tokens.json"
+          },
+          {
+            "$ref": "src/palettes/rose-pine.tokens.json"
+          }
+        ]
+      },
+      "default": "candy"
     }
   },
   "resolutionOrder": [
@@ -72,6 +171,9 @@
     },
     {
       "$ref": "#/modifiers/pixel"
+    },
+    {
+      "$ref": "#/modifiers/palette"
     },
     {
       "$ref": "#/modifiers/scheme"

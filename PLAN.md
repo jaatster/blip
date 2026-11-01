@@ -76,7 +76,7 @@ per component, so an app takes only what it uses.
 - **Themes are independent switches,** each a modifier in the token resolver:
   - scheme: Day, Sunset or Night;
   - pixel size: 2, 3 or 4 px;
-  - palette: Candy by default.
+  - palette: Candy by default, and eleven presets (`data-pp-palette`, `palettes.css`).
 
   Contrast and density can be added later. Adding a theme means adding a token file, not changing code.
 - **Packs are data, checked against one schema.** World packs (Meadow first), icon packs and palette packs can be
@@ -209,7 +209,7 @@ behaviour is needed.
   - every component: demo, anatomy, states, API, accessibility, dos and don'ts;
   - patterns: forms, navigation, feedback, empty/error/loading states, game screens;
   - the effects;
-  - a theme builder: make your own candy palette and export the tokens;
+  - a palette maker: make your own palette (the accent, and Night's page, from four levers) and export the tokens;
   - three templates: a dashboard, a landing page and a game menu.
 
 ## Figma

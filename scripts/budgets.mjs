@@ -11,6 +11,8 @@
  * What each line measures:
  *
  * - tokens.css, core.css, components CSS: the files as shipped (core and components minified).
+ * - palettes.css, 5 KB: the presets, opt in (data-pp-palette). Eleven of them, each about 50 colours (the accents,
+ *   the warning where it moves, Night's page, ink and sky), so about 0.4 KB a preset.
  * - core JS: all of @jaatster/blip-core's JavaScript (elements, controllers, timeline, services), bundled and minified.
  * - Each element module: one module of @jaatster/blip-elements, the game kit, the effects kit or the icons, minified with
  *   @jaatster/blip-* left out (the core runtime is the core JS line; the icon data is the icons line). Found by looking
@@ -70,6 +72,7 @@ const rows = [];
 const row = (name, file, size, limitKB, note = "") => rows.push({ name, file, size, limit: limitKB * KB, note });
 
 row("tokens.css", "tokens/dist/css/tokens.css", gzFile(at("tokens/dist/css/tokens.css")), 4);
+row("palettes.css", "tokens/dist/css/palettes.css", gzFile(at("tokens/dist/css/palettes.css")), 5);
 row("core.css", "core/dist/core.min.css", gzFile(at("core/dist/core.min.css")), 6);
 row("core JS", "core/dist/js/index.js (bundled)", await bundle(at("core/dist/js/index.js"), []), 3);
 row("all components CSS", "components/dist/components.min.css", gzFile(at("components/dist/components.min.css")), 30);

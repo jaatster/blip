@@ -329,13 +329,15 @@ each element 3 KB).
 
 - One square pixel (`--pp-pixel`, 2 CSS px by default; 3 or 4 for games and TVs) measures every outline, corner,
   gap, icon, letter and move.
-- Ink (#1A1530), a deep violet, instead of black, for every outline, drop and piece of dark text.
+- Ink (#1A1530), a deep violet, instead of black, for every outline, drop and piece of dark text; at Night the
+  palette's own ink, darker than its page.
 - Ten three-tone candies for what you can act on; soft, dithered pastels for the world behind it.
 - Depth from a one-pixel drop, a one-pixel lift and sitting in when pressed; nothing blurs.
 - Yellow is focus and nothing else.
 - Pixel Bop at whole scales for big words; Pixelify Sans for UI and body text.
 - Motion in two to six even steps, instant with reduced motion.
-- Three schemes, Day, Sunset and Night, and Auto, which follows the clock.
+- Three schemes, Day, Sunset and Night, and Auto, which follows the clock; and palettes, which set the accent of
+  each and Night's page.
 
 ## Colors
 
@@ -364,8 +366,11 @@ text colour, and the ink edge of the focus ring is two pixels.
   progress. It is too light for text, so accent text by Day is **Deep Raspberry** (#1660B8, `--pp-accent-text`).
 - **Bubblegum** (#FF5FA2; light #FF9CC6, shade #E03A82; `--pp-candy-pink`): the Sunset accent. Accent text at
   Sunset is **Deep Bubblegum** (#B0245F).
-- **Grape Soda** (#9166FF; light #B48CFF, shade #6A3AD6; `--pp-candy-purple`): the Night accent, lifted from the
-  TV's #8F5CFF so that ink labels on it pass AA. Accent text at Night is **Lilac Starlight** (#C9B3FF).
+- **Sky Soda** (#00C2FA; light #91DDFF, shade #0096C3): the Night accent, a sky blue made for the charcoal night
+  (`--pp-palette-night-accent`). Accent text at Night is **Sky Glow** (#7ED8FF).
+- **Grape Soda** (#9166FF; light #B48CFF, shade #6A3AD6; `--pp-candy-purple`): the TV's Night accent, lifted from
+  its #8F5CFF so that ink labels on it pass AA; now the Grape palette's, with **Lilac Starlight** (#C9B3FF) as its
+  text at Night.
 
 ### Secondary
 
@@ -392,7 +397,8 @@ The four intents. Each has its candy for fills, and a text tone that passes AA o
 
 - **Ink** (#1A1530; `--pp-ink`): the darkest colour. Every outline (`--pp-outline`) and drop (`--pp-drop`), the
   focus ring's edge, the dialog scrim, labels on every candy but Liquorice, and dark text (`--pp-text` by Day and
-  at Sunset).
+  at Sunset). At Night `--pp-ink` is the palette's ink, **Charcoal Ink** (#0D0D0D) by default, so outlines and
+  drops stay darker than the page.
 - **Soft Ink** (#4A4470; `--pp-ink-soft`): muted text by Day and at Sunset (`--pp-text-muted`).
 - **Glint White** (#FFFFFF; `--pp-white`): glints, POP letters, the Day surfaces (`--pp-surface`,
   `--pp-surface-raised`) and labels on Liquorice.
@@ -418,51 +424,93 @@ the new one over the next minute, as the TV's did.
 **Sunset** keeps Day's ink text and cream panels and warms everything else: the page is **Sunset Cloud** (#FFE7EF),
 surfaces are **Sunset Blush** (#FFF6F8), wells #F2C4D8, soft lines #BCAADF, and the accent turns Bubblegum.
 
-**Night** turns the surfaces deep indigo and the text to starlight: the page is **Night Indigo** (#22244F), surfaces
-and panels #2C2F66, raised surfaces #363A78, wells #1B1C40; text is **Starlight** (#F3EFFF) and muted text #C3BEEA;
-the outlines of calm controls are #8F89C8 and soft lines #45478A; the accent turns Grape Soda. The candies, their
-ink outlines and their ink labels never change: the candy is the constant, the world is what changes. So a soft or
+**Night** turns the page charcoal and the text to starlight: the page is **Charcoal** (#171717), surfaces and
+panels #202020, raised surfaces #2A2A2A, wells #0E0E0E; text is **Starlight** (#F3F3F3) and muted text #BEBEBE;
+the outlines of calm controls are #9E9E9E and soft lines #343434; ink is **Charcoal Ink** (#0D0D0D); the accent
+turns Sky Soda. These are the default palette's: a palette (below) sets Night's page, text, lines, ink and accent,
+and the accent of Day and Sunset. The candies, their ink outlines and their ink labels never change: the candy is
+the constant, the world is what changes. So a soft or
 candy box stays light in every scheme, and what sits on it (text, links, fields, calm buttons, menus) takes the light
 roles: ink text and lines, white surfaces, and the box's own colours for wells and dividers.
 
 | Role (`--pp-…`) | Day | Sunset | Night |
 |---|---|---|---|
-| `bg` | #F4F7FF | #FFE7EF | #22244F |
-| `surface` | #FFFFFF | #FFF6F8 | #2C2F66 |
-| `surface-raised` | #FFFFFF | #FFF6F8 | #363A78 |
-| `surface-sunken` | #E0E8FF | #F2C4D8 | #1B1C40 |
-| `surface-panel` | #FFF8EE | #FFF8EE | #2C2F66 |
-| `text` | #1A1530 | #1A1530 | #F3EFFF |
-| `text-muted` | #4A4470 | #4A4470 | #C3BEEA |
-| `line` | #1A1530 | #1A1530 | #8F89C8 |
-| `line-soft` | #B9B6EA | #BCAADF | #45478A |
-| `accent` (light, shade) | #33A3FF (#7FC8FF, #1478D6) | #FF5FA2 (#FF9CC6, #E03A82) | #9166FF (#B48CFF, #6A3AD6) |
-| `accent-text` | #1660B8 | #B0245F | #C9B3FF |
+| `bg` | #F4F7FF | #FFE7EF | #171717 |
+| `surface` | #FFFFFF | #FFF6F8 | #202020 |
+| `surface-raised` | #FFFFFF | #FFF6F8 | #2A2A2A |
+| `surface-sunken` | #E0E8FF | #F2C4D8 | #0E0E0E |
+| `surface-panel` | #FFF8EE | #FFF8EE | #202020 |
+| `text` | #1A1530 | #1A1530 | #F3F3F3 |
+| `text-muted` | #4A4470 | #4A4470 | #BEBEBE |
+| `line` | #1A1530 | #1A1530 | #9E9E9E |
+| `line-soft` | #B9B6EA | #BCAADF | #343434 |
+| `accent` (light, shade) | #33A3FF (#7FC8FF, #1478D6) | #FF5FA2 (#FF9CC6, #E03A82) | #00C2FA (#91DDFF, #0096C3) |
+| `accent-text` | #1660B8 | #B0245F | #7ED8FF |
 | `info-text` | #1660B8 | #1660B8 | #7FC8FF |
 | `success-text` | #1E7A33 | #1E7A33 | #8CF09A |
 | `warning-text` | #A8460A | #A8460A | #FFAA6B |
 | `danger-text` | #B31529 | #B31529 | #FF9EA6 |
-| `selection-bg` | #7FC8FF | #FF9CC6 | #B48CFF |
+| `selection-bg` | #7FC8FF | #FF9CC6 | #91DDFF |
 | `link-visited` | #6A3AD6 | #6A3AD6 | #FF9CC6 |
-| `disabled-dither` | #F4F7FF | #FFE7EF | #F3EFFF |
-| `disabled-dither-cream` | #B9B6EA | #BCAADF | #C3BEEA |
+| `disabled-dither` | #F4F7FF | #FFE7EF | #F3F3F3 |
+| `disabled-dither-cream` | #B9B6EA | #BCAADF | #BEBEBE |
+| `ink` | #1A1530 | #1A1530 | #0D0D0D |
 
 The same in every scheme: `outline`, `drop`, `focus-edge`, `scrim`, `selection-text` and every intent's `-on`
-(labels on candy) are Ink; `focus` is Lemon Drop; the intents' candies and their light and shade bands do not
-change. `text-inverse` is white by Day and at Sunset, and Ink at Night.
+(labels on candy) are Ink (the palette's at Night); `focus` is Lemon Drop; the intents' candies and their light and
+shade bands do not change (a palette may move the warning, below). `text-inverse` is white by Day and at Sunset,
+and Ink at Night.
 
 ### The world
 
 The backdrop has a palette of its own for each time of day: 28 colours each (six sky stops, clouds, mountains,
 snow, trees, hills, grass, dirt and birds), and shared colours for the sun (#FFF0C2), the moon (#FFF4D6), the stars
 (#F3EFFF, #FFE9B8) and the flowers. The Day sky runs from #9FC2FF at the top to #FFE5D6 at the horizon, Sunset from
-#8E8FD8 to #FFD3A8, Night from #3A3E7C to #9670AC. They are the `--pp-world-*` tokens; a scene drawn in CSS reads the
-current time of day's through `--pp-scene-*`. The world never uses candy and never has outlines.
+#8E8FD8 to #FFD3A8, Night from #1B1F20 to #2B4E5E: a charcoal sky that glows faintly in the accent at the horizon.
+They are the `--pp-world-*` tokens; a scene drawn in CSS reads the current time of day's through `--pp-scene-*`.
+Night's are the palette's, so each palette has a night sky of its own. The world never uses candy and never has
+outlines.
+
+### Palettes
+
+A palette is the accent of each time of day and Night's page: its surfaces, text, lines, ink, accent and sky. One
+attribute switches it, `data-pp-palette`, on `<html>` (or on an element that sets its own `data-pp-scheme`), with
+`@jaatster/blip-tokens/palettes.css` loaded. With none set the palette is **Candy**, Blip's own: Blue Raspberry by
+Day, Bubblegum at Sunset, and Sky Soda on charcoal at Night. The candies, the intents and the world of Day and Sunset
+are the same in every palette.
+
+| Palette | `data-pp-palette` | Accent | Night's page | After |
+|---|---|---|---|---|
+| Candy | (none) | Blue, pink, sky blue | Charcoal #171717 | |
+| Grape | `grape` | #9166FF | Indigo #22244F | The TV's own Night |
+| Ember | `ember` | #F99549 | Charcoal #1E1E1E | |
+| Azure | `azure` | #6EB6FF | Blue dusk #141F2B | |
+| Mint | `mint` | #2CCE99 | Green ash #19201D | |
+| Bubblegum | `bubblegum` | #F387C7 | Pink dusk #281921 | |
+| Dracula | `dracula` | #BD93F9 | #282A36 | Dracula by Zeno Rocha (MIT) |
+| Nord | `nord` | #88C0D0 | #2E3440 | Nord by Arctic Ice Studio (MIT) |
+| Catppuccin | `catppuccin` | #CBA6F7 | #1E1E2E | Catppuccin Mocha (MIT) |
+| Gruvbox | `gruvbox` | #83A598 | #2B2724 | Gruvbox by Pavel Pertsev (MIT) |
+| Tokyo Night | `tokyo-night` | #7AA2F7 | #1A1B26 | Tokyo Night by enkia (MIT) |
+| Rosé Pine | `rose-pine` | #EBBCBA | #191724 | Rosé Pine (MIT) |
+
+Every preset sets one accent for all three times of day; only Candy has one of its own for each. The well-known ones start from their
+theme's accent, page and text colours and keep Blip's rules: ink outlines and drops, candy labels in ink, every
+text pair at AA. An accent within 15 degrees of the warning's orange moves the warning to amber (#F7AE0C in Ember),
+so a main button never reads as a warning; never to yellow, which is focus.
+
+A palette is made from four levers: the accent's hue and strength, and Night's tint (how much of the accent the
+dark page takes, from a neutral charcoal) and lightness. Every text colour is then nudged until it passes AA. The
+[palette maker](https://jaatster.com/blip/theme/) turns the same levers and exports a palette as a token file, which
+`blip-tokens` checks like Blip's own. The token build checks every pair in every palette and scheme, and
+fails on one under AA.
 
 ### Named Rules
 
 **The Ink Rule.** Nothing is black. The darkest colour is Ink (#1A1530), a deep violet, and every outline, drop,
-scrim and piece of dark text uses it, so even the shadows belong to the palette.
+scrim and piece of dark text uses it, so even the shadows belong to the palette. At Night the ink is the palette's
+own, a step darker than its page (Charcoal Ink, #0D0D0D, by default), so outlines and drops still read on a dark
+page; it is never pure black.
 
 **The Candy-on-Pastel Rule.** Saturated, outlined colour means "you can act on this". The world behind it is soft,
 dithered and has no outlines, so what you can press is never in doubt. Candy never sits on candy, and the world
@@ -605,7 +653,7 @@ lift a pixel off it, and pressed and chosen things sit down into it. Nothing blu
 
 **The Dither Rule.** See-through is a dither, never a wash. The scrim behind a dialog is ink on every other pixel, a
 disabled control is covered by a checkerboard of a light colour (`--pp-disabled-dither`: the page colour by Day and
-Sunset, Starlight at Night) so its label still reads, a skeleton fills in with a dither, and the sky's gradient is
+Sunset, the night text at Night) so its label still reads, a skeleton fills in with a dither, and the sky's gradient is
 ordered by a 4 x 4 Bayer matrix. What is behind stays legible as a shape, and colours never mix. A disabled control
 always shows its dither (a segment, bare on its sunken rail, becomes a dithered well in a soft outline), drawn
 unsmoothed, so at 125% to 262.5% its squares stay crisp.
@@ -764,7 +812,7 @@ line of whole pixels: solid, dashed or dithered.
   2, with a pixel nub; it shows after 400 ms on hover and at once on keyboard focus.
 - **Progress:** a row of candy blocks with one-pixel gaps in an ink-outlined well (filling a whole block at a time
   where the browser can read the value in CSS); empty blocks are dark, as in the game's HUD (Liquorice's shade by
-  Day and at Sunset, the deepest indigo at Night), so full and empty differ in lightness by 3:1 or more, not only in
+  Day and at Sunset, the palette's page at Night), so full and empty differ in lightness by 3:1 or more, not only in
   hue. A rating's empty stars likewise lose their ink outline. A loader is a ring of eight pixel dots whose lit arc
   steps one dot a frame; a skeleton fills in with a dither, never a shimmer.
 

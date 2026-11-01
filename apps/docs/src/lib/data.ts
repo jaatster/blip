@@ -168,6 +168,9 @@ export interface Tokens {
   pixel: Record<string, number>;
   shared: Record<string, string | number>;
   schemes: Record<"day" | "sunset" | "night", Record<string, string>>;
+  /** The default palette's name, and each preset: what it sets, and every scheme's roles in it. */
+  palette?: string;
+  palettes?: Record<string, { name: string; description: string; credit?: string; shared: Record<string, string>; schemes: Record<"day" | "sunset" | "night", Record<string, string>> }>;
 }
 export const tokens = (): Tokens => json("packages/tokens/dist/json/tokens.json");
 export interface ManifestEntry {
@@ -176,6 +179,8 @@ export interface ManifestEntry {
   cssVar: string;
   type: string;
   scheme: boolean;
+  /** Set by a palette: switched by data-pp-palette (palette.*, world.night.*). */
+  palette?: boolean;
   description?: string;
   unit?: string;
   alias?: string;

@@ -32,6 +32,7 @@
       "default": "./dist/js/index.js"
     },
     "./tokens.css": "./dist/css/tokens.css",
+    "./palettes.css": "./dist/css/palettes.css",
     "./tokens.json": "./dist/json/tokens.json",
     "./manifest.json": "./dist/json/manifest.json",
     "./figma/variables.json": "./dist/figma/variables.json",
@@ -54,6 +55,7 @@
   },
   "scripts": {
     "build": "node scripts/build.mjs",
-    "check": "node scripts/build.mjs --check"
+    "check": "node scripts/build.mjs --check",
+    "palettes": "node scripts/palettes.mjs"
   }
 }

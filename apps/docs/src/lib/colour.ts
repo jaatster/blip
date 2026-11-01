@@ -1,5 +1,5 @@
-/** Colour arithmetic for the foundations pages: WCAG contrast, and the pairs the token build checks. */
-import { tokens } from "./data";
+/** Colour arithmetic for the foundations pages: WCAG contrast, the pairs the token build checks, and the palettes. */
+import { tokens, tokenSource } from "./data";
 
 export function rgb(hex: string): [number, number, number] {
   const h = hex.replace("#", "");
@@ -57,23 +57,46 @@ export interface CheckedPair extends Pair {
   ratio: number;
   pass: boolean;
 }
-export function checkedPairs(): CheckedPair[] {
+/** Every pair the token build checks, in each scheme of a palette (Candy, the default, when none is named). */
+export function checkedPairs(palette?: string): CheckedPair[] {
   const t = tokens();
+  const schemes = palette && palette !== t.palette ? t.palettes![palette]!.schemes : t.schemes;
   return SCHEMES.flatMap(({ id }) =>
     pairs().map((p) => {
-      // A scheme role, or a shared colour (ink) that is the same in every scheme.
-      const fgHex = String(t.schemes[id][p.fg] ?? t.shared[p.fg]), bgHex = String(t.schemes[id][p.bg] ?? t.shared[p.bg]);
+      // A scheme role, or a shared colour that is the same in every scheme.
+      const fgHex = String(schemes[id][p.fg] ?? t.shared[p.fg]), bgHex = String(schemes[id][p.bg] ?? t.shared[p.bg]);
       const r = contrast(fgHex, bgHex);
       return { ...p, scheme: id, fgHex, bgHex, ratio: r, pass: r >= p.min };
     }),
   );
 }
 
-/** HSV helpers for the theme builder's derivation (light: 0.65 saturation, full value; shade: 0.84 value). */
+/** HSV helpers for the palette maker's derivation (light: 0.65 saturation, full value; shade: 0.84 value). */
 export function hsv(hex: string): [number, number, number] {
   const [r, g, b] = rgb(hex).map((c) => c / 255) as [number, number, number];
   const max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min;
   let h = 0;
   if (d) h = max === r ? ((g - b) / d) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
   return [((h * 60) + 360) % 360, max ? d / max : 0, max];
+}
+
+export interface Palette {
+  /** Its data-pp-palette value; Candy, the default, is set by having none. */
+  id: string;
+  name: string;
+  description: string;
+  credit?: string;
+  default: boolean;
+  /** Every scheme's roles in it. */
+  schemes: Record<SchemeName, Record<string, string>>;
+}
+/** Every palette, the default (Candy) first, read from tokens.json and the default palette's own file. */
+export function palettes(): Palette[] {
+  const t = tokens();
+  if (!t.palette) return [];
+  const own = tokenSource(`palettes/${t.palette}.tokens.json`);
+  return [
+    { id: t.palette, name: own.$extensions?.blip?.name ?? t.palette, description: own.$description ?? "", default: true, schemes: t.schemes },
+    ...Object.entries(t.palettes ?? {}).map(([id, p]) => ({ id, name: p.name, description: p.description, credit: p.credit, default: false, schemes: p.schemes })),
+  ];
 }

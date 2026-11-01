@@ -1,10 +1,10 @@
 ---
-/** Colour, generated from the tokens: the candies, ink, the scheme roles with their contrast, and the world palettes. */
+/** Colour, generated from the tokens: the candies, ink, the palettes, the scheme roles with their contrast, and the world palettes. */
 import Docs from "../../layouts/Docs.astro";
 import Table from "../../components/Table.astro";
 import Pager from "../../components/Pager.astro";
 import { manifest, tokens } from "../../lib/data";
-import { checkedPairs, contrast, ratio, SCHEMES } from "../../lib/colour";
+import { checkedPairs, contrast, palettes, ratio, SCHEMES } from "../../lib/colour";
 import { code, esc } from "../../lib/html";
 
 const t = tokens();
@@ -17,7 +17,7 @@ const CANDIES = [
   ["green", "Green", "Success, grass, go."],
   ["teal", "Teal", "Water, maps, calm."],
   ["blue", "Blue", "Day's accent, and info."],
-  ["purple", "Purple", "Night's accent."],
+  ["purple", "Purple", "The Grape palette's accent."],
   ["pink", "Pink", "Sunset's accent."],
   ["slate", "Slate", "Quiet candy: white labels."],
   ["cream", "Cream", "Neutral candy and panels."],
@@ -26,7 +26,24 @@ const hex = (name: string) => String(t.shared[name] ?? "");
 const swatchCopy = (cssVar: string, label: string, value: string) =>
   `<button class="docs-chip docs-copy" type="button" data-copy="var(${cssVar})" title="Copy var(${cssVar})"><span class="docs-dot" style="background:var(${cssVar})"></span><span>${esc(label)}</span><span class="docs-hex">${esc(value)}</span></button>`;
 
-const neutrals = ["ink", "ink-soft", "white", "deep-1", "deep-2", "deep-3", "deep-4", "deep-5"];
+// Ink is a scheme role: Day's and Sunset's deep violet, the palette's own at Night. Each swatch shows its scheme's.
+const inks = [
+  { scheme: "day", label: "ink", value: t.schemes.day.ink! },
+  { scheme: "night", label: "ink at Night", value: t.schemes.night.ink! },
+];
+const neutrals = ["ink-soft", "white"];
+const deeps = ["deep-1", "deep-2", "deep-3", "deep-4", "deep-5"];
+const inkSwatch = (i: (typeof inks)[number]) =>
+  `<div class="docs-neutral"><span class="docs-neutral-swatch" data-pp-scheme="${i.scheme}" style="background:var(--pp-ink)"></span><button class="docs-chip docs-copy" type="button" data-copy="var(--pp-ink)" title="Copy var(--pp-ink)"><span class="docs-dot" data-pp-scheme="${i.scheme}" style="background:var(--pp-ink)"></span><span>${esc(i.label)}</span><span class="docs-hex">${esc(i.value)}</span></button></div>`;
+
+// The palettes, each with the pairs the build checks in it. Candy, the default, is set by having none: its card
+// carries Candy's own colours, so it shows Candy whatever palette the site is in.
+const candyVars = Object.entries(t.shared).filter(([k]) => k.startsWith("palette-") || k.startsWith("world-night-")).map(([k, v]) => `--pp-${k}:${v}`).join(";");
+const paletteCards = palettes().map((p) => {
+  const list = checkedPairs(p.id);
+  const closest = [...list].sort((a, b) => a.ratio / a.min - b.ratio / b.min)[0]!;
+  return { ...p, pairs: list.length, pass: list.every((x) => x.pass), closest };
+});
 const roleNames = Object.keys(t.schemes.day).filter((k) => !k.startsWith("scene-"));
 const roleRows = roleNames.map((r) => [
   code(`--pp-${r}`),
@@ -61,7 +78,7 @@ const SHOW = [
 ] as const;
 const H = (id: string, text: string) => ({ depth: 2, id, text });
 ---
-<Docs styles={["foundations"]} scripts={["foundations"]} title="Colour" description="Blip's colour, from its tokens: ten candies with light and shade, ink, the scheme roles with contrast ratios, and the world palettes." headings={[H("candy", "Candy"), H("ink", "Ink and the night"), H("schemes", "Three schemes"), H("contrast", "Every pair, checked"), H("roles", "Scheme roles"), H("world", "World palettes")]}>
+<Docs styles={["foundations"]} scripts={["foundations"]} title="Colour" description="Blip's colour, from its tokens: ten candies with light and shade, ink, twelve palettes, the scheme roles with contrast ratios, and the world palettes." headings={[H("candy", "Candy"), H("ink", "Ink"), H("palettes", "Palettes"), H("schemes", "Three schemes"), H("contrast", "Every pair, checked"), H("roles", "Scheme roles"), H("world", "World palettes")]}>
   <header class="docs-page-head">
     <h1 class="docs-page-title pp-display" data-scale="2">Colour</h1>
     <p class="docs-lede">Three layers: primitives (ink, ten candies, the world), roles per scheme (page, surfaces, text, intents), and component tokens on top. Components only ever use roles, so a scheme or a theme changes everything at once. Everything on this page is read from <code class="docs-inline-code">@jaatster/blip-tokens</code>.</p>
@@ -89,14 +106,47 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
   </section>
 
   <section class="docs-section" aria-labelledby="ink">
-    <h2 id="ink">Ink and the night</h2>
-    <p>Ink is the darkest colour there is: every outline, drop and piece of dark text, in every scheme. Black is never used. The deep blues are the night's surfaces.</p>
-    <div class="docs-neutrals" set:html={neutrals.map((n) => `<div class="docs-neutral"><span class="docs-neutral-swatch" style="background:var(--pp-${n})"></span>${swatchCopy(`--pp-${n}`, n, hex(n))}</div>`).join("")} />
+    <h2 id="ink">Ink</h2>
+    <p>Ink is the darkest colour there is: every outline, drop and piece of dark text, in every scheme. Black is never used. By Day and at Sunset it is a deep violet; at Night it is the palette's own, a step darker than its page, so outlines and drops still read on it.</p>
+    <div class="docs-neutrals" set:html={[...inks.map(inkSwatch), ...neutrals.map((n) => `<div class="docs-neutral"><span class="docs-neutral-swatch" style="background:var(--pp-${n})"></span>${swatchCopy(`--pp-${n}`, n, hex(n))}</div>`)].join("")} />
+    <p>The deep indigos were the TV's Night. They are the Grape palette's page now.</p>
+    <div class="docs-neutrals" set:html={deeps.map((n) => `<div class="docs-neutral"><span class="docs-neutral-swatch" style="background:var(--pp-${n})"></span>${swatchCopy(`--pp-${n}`, n, hex(n))}</div>`).join("")} />
+  </section>
+
+  <section class="docs-section" aria-labelledby="palettes">
+    <h2 id="palettes">Palettes</h2>
+    <p>A palette is the accent of each time of day and Night's page: its surfaces, text, lines, ink, accent and night sky. Set <code class="docs-inline-code">data-pp-palette</code> on <code class="docs-inline-code">&lt;html&gt;</code> with <code class="docs-inline-code">@jaatster/blip-tokens/palettes.css</code> loaded; with none set, the palette is Candy. Each of them passes the same {paletteCards[0]?.pairs} checks as Candy. Try one on this whole site, here or from the palette menu at the top, and make your own on the <a href="/theme/">palette maker</a>.</p>
+    <ul class="docs-palettes" role="list">
+      {paletteCards.map((p) => (
+        <li class="pp-box docs-palette-card" data-variant="panel">
+          <div class="docs-palette-stages" style={p.default ? candyVars : undefined} aria-hidden="true">
+            <div class="docs-palette-stage" data-pp-scheme="night" data-pp-palette={p.default ? undefined : p.id}>
+              <span class="pp-box pp-button" data-size="sm">Play</span>
+              <span class="pp-box pp-tag" data-size="sm">Rare</span>
+              <span class="docs-palette-words">Starlight <span class="pp-muted">and muted</span> <span class="docs-palette-link">a link</span></span>
+            </div>
+            {(["day", "sunset"] as const).map((s) => (
+              <div class="docs-palette-stage" data-pp-scheme={s} data-pp-palette={p.default ? undefined : p.id}>
+                <span class="pp-box pp-button" data-size="sm">{s === "day" ? "Day" : "Sunset"}</span>
+              </div>
+            ))}
+          </div>
+          <h3 class="docs-palette-name">{p.name}{p.default && <span class="pp-box pp-tag" data-size="sm" data-tone="neutral">Default</span>}</h3>
+          <p class="pp-small">{p.description}</p>
+          {p.credit && <p class="pp-caption pp-muted">{p.credit}</p>}
+          <p class="pp-caption pp-muted">{p.pass ? `All ${p.pairs} pairs pass` : `${p.pairs} pairs, some under AA`}; the closest, {p.closest.label.toLowerCase()} at {SCHEMES.find((s) => s.id === p.closest.scheme)!.title}, is {ratio(p.closest.ratio)}.</p>
+          <div class="docs-palette-actions">
+            <button class="pp-box pp-button" type="button" data-variant="outline" data-size="sm" data-docs-palette={p.id} aria-pressed={p.default ? "true" : "false"}>Use {p.name}</button>
+            {!p.default && <code class="docs-inline-code">data-pp-palette="{p.id}"</code>}
+          </div>
+        </li>
+      ))}
+    </ul>
   </section>
 
   <section class="docs-section" aria-labelledby="schemes">
     <h2 id="schemes">Three schemes</h2>
-    <p>Each scheme maps the same roles to its own colours. Every panel below is set with <code class="docs-inline-code">data-pp-scheme</code>, and its ratios are worked out from the tokens when the site builds.</p>
+    <p>Each scheme maps the same roles to its own colours. Every panel below is set with <code class="docs-inline-code">data-pp-scheme</code>, in the site's palette, and its ratios are Candy's, worked out from the tokens when the site builds (each palette passes the same checks).</p>
     <div class="docs-schemes">
       {SCHEMES.map((s) => (
         <section class="pp-box docs-scheme" data-variant="panel" data-pp-scheme={s.id} aria-labelledby={`scheme-${s.id}`}>
@@ -126,7 +176,7 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
 
   <section class="docs-section" aria-labelledby="contrast">
     <h2 id="contrast">Every pair, checked</h2>
-    <p>{total} text pairs in three schemes, the same list the token build checks against WCAG 2.2 AA: a failing pair fails the build. {passing === total ? "All of them pass." : `${total - passing} fail.`} Closest to the line: {weakest.map((w, i) => <Fragment>{i > 0 && ", "}{w.label.toLowerCase()} at {w.scheme} ({ratio(w.ratio)})</Fragment>)}.</p>
+    <p>{total} text pairs in three schemes, the same list the token build checks against WCAG 2.2 AA in every palette (these are Candy's): a failing pair fails the build. {passing === total ? "All of them pass." : `${total - passing} fail.`} Closest to the line: {weakest.map((w, i) => <Fragment>{i > 0 && ", "}{w.label.toLowerCase()} at {w.scheme} ({ratio(w.ratio)})</Fragment>)}.</p>
     <Table label="Contrast of every checked pair" head={["Pair", "Day", "Sunset", "Night", "Needs"]} rows={pairRows} class="docs-contrast" />
   </section>
 

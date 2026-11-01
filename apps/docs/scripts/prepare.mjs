@@ -73,6 +73,9 @@ async function copyModules(name, from, to) {
 copy(pkg("font", "font.css"), join(OUT, "font/font.css"));
 for (const f of readdirSync(pkg("font", "dist"))) if (f.endsWith(".woff2")) copy(pkg("font", "dist", f), join(OUT, "font/dist", f));
 copy(pkg("tokens", "dist", "css", "tokens.css"), join(OUT, "tokens/tokens.css"));
+// The presets (data-pp-palette), and the palette maths the palette maker shares with the presets' generator.
+copy(pkg("tokens", "dist", "css", "palettes.css"), join(OUT, "tokens/palettes.css"));
+copy(pkg("tokens", "scripts", "palette.mjs"), join(OUT, "tokens/palette.mjs"));
 copy(pkg("core", "dist", "core.min.css"), join(OUT, "core/core.css"));
 copy(pkg("components", "dist", "components.min.css"), join(OUT, "components/components.css"));
 // The popover's nub, opt-in (anchored container queries): loaded with a <link> after the components, as adopters do.

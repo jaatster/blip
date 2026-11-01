@@ -1,0 +1,592 @@
+{
+  "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
+  "$description": "Gruvbox's blue on its warm charcoal, with cream text.",
+  "$extensions": {
+    "blip": {
+      "name": "Gruvbox",
+      "credit": "After Gruvbox by Pavel Pertsev (MIT)"
+    }
+  },
+  "$type": "color",
+  "palette": {
+    "day": {
+      "accent": {
+        "base": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5137,
+              0.6471,
+              0.5961
+            ],
+            "hex": "#83A598"
+          }
+        },
+        "light": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7529,
+              0.8431,
+              0.8078
+            ],
+            "hex": "#C0D7CE"
+          }
+        },
+        "shade": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3569,
+              0.4941,
+              0.4431
+            ],
+            "hex": "#5B7E71"
+          }
+        },
+        "text": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.1373,
+              0.502,
+              0.4
+            ],
+            "hex": "#238066"
+          }
+        }
+      }
+    },
+    "sunset": {
+      "accent": {
+        "base": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5137,
+              0.6471,
+              0.5961
+            ],
+            "hex": "#83A598"
+          }
+        },
+        "light": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7529,
+              0.8431,
+              0.8078
+            ],
+            "hex": "#C0D7CE"
+          }
+        },
+        "shade": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3569,
+              0.4941,
+              0.4431
+            ],
+            "hex": "#5B7E71"
+          }
+        },
+        "text": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.0941,
+              0.4745,
+              0.3725
+            ],
+            "hex": "#18795F"
+          }
+        }
+      }
+    },
+    "night": {
+      "accent": {
+        "base": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5137,
+              0.6471,
+              0.5961
+            ],
+            "hex": "#83A598"
+          }
+        },
+        "light": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7529,
+              0.8431,
+              0.8078
+            ],
+            "hex": "#C0D7CE"
+          }
+        },
+        "shade": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3569,
+              0.4941,
+              0.4431
+            ],
+            "hex": "#5B7E71"
+          }
+        },
+        "text": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7216,
+              0.8196,
+              0.7804
+            ],
+            "hex": "#B8D1C7"
+          }
+        }
+      },
+      "bg": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.1686,
+            0.1529,
+            0.1412
+          ],
+          "hex": "#2B2724"
+        }
+      },
+      "ink": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.102,
+            0.0902,
+            0.0824
+          ],
+          "hex": "#1A1715"
+        }
+      },
+      "line": {
+        "base": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6471,
+              0.6157,
+              0.5922
+            ],
+            "hex": "#A59D97"
+          }
+        },
+        "soft": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2941,
+              0.2745,
+              0.2549
+            ],
+            "hex": "#4B4641"
+          }
+        }
+      },
+      "surface": {
+        "base": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2078,
+              0.1922,
+              0.1804
+            ],
+            "hex": "#35312E"
+          }
+        },
+        "raised": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.251,
+              0.2314,
+              0.2196
+            ],
+            "hex": "#403B38"
+          }
+        },
+        "sunken": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.1294,
+              0.1176,
+              0.1059
+            ],
+            "hex": "#211E1B"
+          }
+        }
+      },
+      "text": {
+        "base": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9216,
+              0.8588,
+              0.698
+            ],
+            "hex": "#EBDBB2"
+          }
+        },
+        "muted": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.702,
+              0.6431,
+              0.5608
+            ],
+            "hex": "#B3A48F"
+          }
+        }
+      }
+    },
+    "$description": "The accent of each time of day, the warning, and Night's page, text, lines and ink. The scheme roles read these."
+  },
+  "world": {
+    "night": {
+      "bird": {
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.3569,
+            0.3569,
+            0.4667
+          ],
+          "hex": "#5B5B77"
+        }
+      },
+      "cloud": {
+        "body": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4078,
+              0.3804,
+              0.3608
+            ],
+            "hex": "#68615C"
+          }
+        },
+        "light": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4627,
+              0.4353,
+              0.4157
+            ],
+            "hex": "#766F6A"
+          }
+        },
+        "shade": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3529,
+              0.3255,
+              0.3059
+            ],
+            "hex": "#5A534E"
+          }
+        }
+      },
+      "dirt": {
+        "base": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3922,
+              0.3294,
+              0.3725
+            ],
+            "hex": "#64545F"
+          }
+        },
+        "pebble": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4471,
+              0.3882,
+              0.4314
+            ],
+            "hex": "#72636E"
+          }
+        },
+        "shadow": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3412,
+              0.2863,
+              0.3294
+            ],
+            "hex": "#574954"
+          }
+        }
+      },
+      "grass": {
+        "base": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3216,
+              0.4392,
+              0.3843
+            ],
+            "hex": "#527062"
+          }
+        },
+        "lip": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2745,
+              0.3843,
+              0.3333
+            ],
+            "hex": "#466255"
+          }
+        },
+        "top": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3922,
+              0.5098,
+              0.451
+            ],
+            "hex": "#648273"
+          }
+        }
+      },
+      "hill": {
+        "bush": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2745,
+              0.349,
+              0.3765
+            ],
+            "hex": "#465960"
+          }
+        },
+        "mid": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3255,
+              0.3882,
+              0.4588
+            ],
+            "hex": "#536375"
+          }
+        },
+        "mid-edge": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3725,
+              0.4431,
+              0.5098
+            ],
+            "hex": "#5F7182"
+          }
+        },
+        "near": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.302,
+              0.3843,
+              0.4157
+            ],
+            "hex": "#4D626A"
+          }
+        },
+        "near-edge": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3569,
+              0.4431,
+              0.4706
+            ],
+            "hex": "#5B7178"
+          }
+        }
+      },
+      "mountain": {
+        "edge": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3765,
+              0.3451,
+              0.3216
+            ],
+            "hex": "#605852"
+          }
+        },
+        "lit": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3216,
+              0.2941,
+              0.2706
+            ],
+            "hex": "#524B45"
+          }
+        },
+        "shadow": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2784,
+              0.251,
+              0.2275
+            ],
+            "hex": "#47403A"
+          }
+        }
+      },
+      "sky": {
+        "1": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2,
+              0.1843,
+              0.1725
+            ],
+            "hex": "#332F2C"
+          }
+        },
+        "2": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2275,
+              0.2118,
+              0.2
+            ],
+            "hex": "#3A3633"
+          }
+        },
+        "3": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2588,
+              0.2431,
+              0.2314
+            ],
+            "hex": "#423E3B"
+          }
+        },
+        "4": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2392,
+              0.298,
+              0.2745
+            ],
+            "hex": "#3D4C46"
+          }
+        },
+        "5": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2431,
+              0.3451,
+              0.3098
+            ],
+            "hex": "#3E584F"
+          }
+        },
+        "6": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2471,
+              0.4,
+              0.3451
+            ],
+            "hex": "#3F6658"
+          }
+        }
+      },
+      "snow": {
+        "lit": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7608,
+              0.7412,
+              0.7255
+            ],
+            "hex": "#C2BDB9"
+          }
+        },
+        "shadow": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6118,
+              0.5922,
+              0.5765
+            ],
+            "hex": "#9C9793"
+          }
+        }
+      },
+      "tree": {
+        "lit": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2941,
+              0.3608,
+              0.4353
+            ],
+            "hex": "#4B5C6F"
+          }
+        },
+        "shadow": {
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2549,
+              0.3137,
+              0.3804
+            ],
+            "hex": "#415061"
+          }
+        }
+      },
+      "$description": "The night sky and ground in this palette."
+    }
+  }
+}

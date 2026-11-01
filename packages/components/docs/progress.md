@@ -30,8 +30,8 @@ steps of a flow, progress steps.
 1. **Well**: a candy box, radius 2, ink outline, the sunken surface, no drop. As wide as its container, rounded down
    to whole blocks, so the row never ends in a sliver.
 2. **Blocks**: one-pixel gaps cut the bar into blocks. Filled blocks are candy (light top row, base, shade bottom
-   row); empty ones are dark, as in the game's HUD: Liquorice's shade by Day and at Sunset, the deepest indigo at
-   Night (cream under the Liquorice candy, which is dark itself). Filled and empty differ by at least 3:1 in
+   row); empty ones are dark, as in the game's HUD: Liquorice's shade by Day and at Sunset, the palette's page
+   colour at Night, in the ink well (cream under the Liquorice candy, which is dark itself). Filled and empty differ by at least 3:1 in
    lightness for every tone in every scheme, so the bar reads in greyscale and to colour-blind eyes.
 3. **Label row** (`.pp-progress-label`, optional): the name at the start, the value in words at the end.
 

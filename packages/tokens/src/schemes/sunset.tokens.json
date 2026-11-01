@@ -74,16 +74,16 @@
   },
   "accent": {
     "base": {
-      "$value": "{candy.pink.base}"
+      "$value": "{palette.sunset.accent.base}"
     },
     "light": {
-      "$value": "{candy.pink.light}"
+      "$value": "{palette.sunset.accent.light}"
     },
     "shade": {
-      "$value": "{candy.pink.shade}"
+      "$value": "{palette.sunset.accent.shade}"
     },
     "text": {
-      "$value": "{tone.accent-sunset}",
+      "$value": "{palette.sunset.accent.text}",
       "$description": "This intent as text on the scheme's surfaces (AA)."
     },
     "on": {
@@ -131,16 +131,16 @@
   },
   "warning": {
     "base": {
-      "$value": "{candy.orange.base}"
+      "$value": "{palette.sunset.warning.base}"
     },
     "light": {
-      "$value": "{candy.orange.light}"
+      "$value": "{palette.sunset.warning.light}"
     },
     "shade": {
-      "$value": "{candy.orange.shade}"
+      "$value": "{palette.sunset.warning.shade}"
     },
     "text": {
-      "$value": "{tone.warning-light}",
+      "$value": "{palette.sunset.warning.text}",
       "$description": "This intent as text on the scheme's surfaces (AA)."
     },
     "on": {
@@ -169,7 +169,7 @@
   },
   "selection": {
     "bg": {
-      "$value": "{candy.pink.light}",
+      "$value": "{palette.sunset.accent.light}",
       "$description": "Selected text background."
     },
     "text": {

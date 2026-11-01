@@ -30,6 +30,7 @@ describe("tokens in CONTRACT.md", () => {
   type Token = { name: string; scheme: boolean };
   const family = (t: Token): string => {
     if (["ink", "ink-soft", "white"].includes(t.name)) return "Ink and white";
+    if (t.name.startsWith("palette-")) return "Palettes";
     if (t.name.startsWith("candy-")) return "Candies";
     if (t.name.startsWith("deep-")) return "Night surfaces";
     if (t.name.startsWith("tone-")) return "Text tones";

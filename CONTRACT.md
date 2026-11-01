@@ -34,15 +34,20 @@ cascade layers, the JavaScript APIs and the diagnostic codes) is stable.
 The source of truth is generated with every build and ships with `@jaatster/blip-tokens`:
 
 - **`@jaatster/blip-tokens/manifest.json`**: every token, with its name, its DTCG path, its CSS custom property, its
-  type, its description, and whether it changes with the scheme. 294 tokens today.
+  type, its description, whether it changes with the scheme, and whether a palette sets it. 327 tokens today.
 - **`@jaatster/blip-tokens/tokens.json`**: the resolved values, shared and per scheme: sizes in CSS px, and the type
-  sizes in px at the browser's default text size of 16 px.
+  sizes in px at the browser's default text size of 16 px. `palette` names the default palette and `palettes` holds
+  each preset: its `name`, `description` and `credit`, what it sets (`shared`), and every scheme's roles in it
+  (`schemes`).
 - **`@jaatster/blip-tokens/tokens.css`**: the custom properties themselves, in `@layer pp.tokens`. The type sizes are in
   rem, so text follows the browser's default size; everything counted in pixels does not.
+- **`@jaatster/blip-tokens/palettes.css`**: the presets, opt in, in `@layer pp.tokens`: each sets what it changes on
+  `[data-pp-palette="<name>"]` (see Theme switches). The preset names are public.
 - **The `blip-tokens` command**: `npx blip-tokens <theme.resolver.json> [--out <file.css>] [--check]`
   builds a theme's `tokens.css` (a resolver that lists Blip's files and the theme's own, as the docs' theme
-  builder exports) through the same checks as Blip's own, and writes nothing when one fails. Its name, argument
-  and options are public, and so are the codes it reports.
+  builder exports: a `palette` context of its own, or a scheme's roles) through the same checks as Blip's own,
+  in every palette and scheme the resolver has, and writes nothing when one fails. Its name, argument and options
+  are public, and so are the codes it reports.
 - **`@jaatster/blip-tokens/resolver`** and **`@jaatster/blip-tokens/src/*`**: the DTCG 2025.10 sources and resolver.
 - The JS module, the Figma variables (`@jaatster/blip-tokens/figma/variables.json`), and the Kotlin (Compose), Swift
   and Android XML files in `dist/` carry the same names in each platform's case (`--pp-candy-red` is
@@ -50,11 +55,12 @@ The source of truth is generated with every build and ships with `@jaatster/blip
 
 | Family | Count | Custom properties | Changes with |
 |---|---|---|---|
-| Ink and white | 3 | `--pp-ink`, `--pp-ink-soft`, `--pp-white` | |
+| Ink and white | 3 | `--pp-ink`, `--pp-ink-soft`, `--pp-white` | scheme: `--pp-ink` is the palette's ink at Night |
 | Candies | 30 | `--pp-candy-<red, orange, yellow, green, teal, blue, purple, pink, slate, cream>`, each with `-light` and `-shade` | |
 | Night surfaces | 5 | `--pp-deep-1` to `--pp-deep-5` | |
 | Text tones | 9 | `--pp-tone-accent-day`, `--pp-tone-accent-sunset`, `--pp-tone-accent-night`, `--pp-tone-star`, `--pp-tone-danger-light`… | |
-| World | 98 | `--pp-world-<day, sunset, night>-<sky-1…6, cloud-*, mountain-*, snow-*, tree-*, hill-*, grass-*, dirt-*, bird>`, `--pp-world-sky-*`, `--pp-world-flower-1` to `-4` | |
+| World | 98 | `--pp-world-<day, sunset, night>-<sky-1…6, cloud-*, mountain-*, snow-*, tree-*, hill-*, grass-*, dirt-*, bird>`, `--pp-world-sky-*`, `--pp-world-flower-1` to `-4` | palette: `--pp-world-night-*` |
+| Palettes | 33 | `--pp-palette-<day, sunset, night>-accent` and `-warning`, each with `-light`, `-shade`, `-text`; `--pp-palette-night-<bg, surface, surface-raised, surface-sunken, text, text-muted, line, line-soft, ink>`: what a palette sets, which the scheme roles read | palette |
 | Scheme roles | 45 | `--pp-bg`, `--pp-surface`, `--pp-surface-raised`, `--pp-surface-sunken`, `--pp-surface-panel`, `--pp-text`, `--pp-text-muted`, `--pp-text-inverse`, `--pp-line`, `--pp-line-soft`, `--pp-outline`, `--pp-drop`, `--pp-focus`, `--pp-focus-edge`, `--pp-<accent, info, success, warning, danger>` each with `-light`, `-shade`, `-text`, `-on`, `--pp-selection-bg`, `--pp-selection-text`, `--pp-scrim`, `--pp-link-visited`, `--pp-disabled-dither`, `--pp-disabled-dither-cream` | scheme |
 | Scene | 21 | `--pp-scene-sky-1` to `-6`, `--pp-scene-cloud-*`, `--pp-scene-mountain-*`, `--pp-scene-hill-*`, `--pp-scene-grass-*`, `--pp-scene-dirt-*`: the world's colours for the current time of day | scheme |
 | The pixel | 1 | `--pp-pixel` | pixel |
@@ -69,7 +75,14 @@ change that breaks a guarantee this document or DESIGN.md makes (whole pixels, A
 what a role is for) counts as breaking.
 
 **The JS module** (`@jaatster/blip-tokens`): `cssVar(name)`, `px(name, size?)`, `pixel`, `shared`, `schemes`,
-`schemeNames`, and the types `SchemeName`, `PixelSize`, `SharedToken`, `RoleToken`, `TokenName` and `PixelToken`.
+`schemeNames`, `palettes`, `paletteNames`, and the types `SchemeName`, `PaletteName`, `PresetName`, `Palette`,
+`PixelSize`, `SharedToken`, `RoleToken`, `TokenName` and `PixelToken`. The Kotlin and Swift files carry the presets
+as `Palettes.<Name>.<Scheme>`, and the Figma variables as a `Palette` collection with a mode for each.
+
+**Palettes are a value, not a name.** A preset's colours can change in a minor release like any token's value, as
+long as every pair still passes AA; its name (`data-pp-palette="nord"`) is protected. A palette set on an element
+other than `<html>` takes effect where that element also sets `data-pp-scheme`, because the scheme's roles are
+worked out where the scheme is set.
 
 ## Theme switches
 
@@ -78,6 +91,7 @@ what a role is for) counts as breaking.
 | `data-pp-scheme` | `day`, `sunset`, `night` | On `<html>` or any element: the scheme of everything inside. With none set, the page is Day, or Night when the device is in dark mode. |
 | `data-pp-motion` | `reduce` | On `<html>`: the person asked for less motion on this page, beside `prefers-reduced-motion`; `reducedMotion()` is true with either. Set and cleared by `<pp-motion-toggle>`, remembered in localStorage under `blip:motion`. |
 | `data-pp-pixel` | `3`, `4` | On `<html>` or any element: the size of one pixel in CSS px. The default is 2, set on `:root`. |
+| `data-pp-palette` | `grape`, `ember`, `azure`, `mint`, `bubblegum`, `dracula`, `nord`, `catppuccin`, `gruvbox`, `tokyo-night`, `rose-pine` | On `<html>`, or on an element with its own `data-pp-scheme`, with `@jaatster/blip-tokens/palettes.css` loaded: the accent of every scheme and Night's page, ink and sky. With none set, the palette is Candy. `<pp-world>` repaints when it changes. |
 | `data-pp-scheme-fade` | present | Set on its target by `autoScheme()` once the time of day has changed (not with `fade: false`). While it is on `<html>`, the world backdrop steps its sky to a new scheme over a minute; every other colour changes in one step (see `data-pp-scheme-dither`). |
 | `data-pp-scheme-dither` | present | Set on `<html>` by `autoScheme()` while a change of time of day dithers in (a view transition of three frames). Read it; do not set it. |
 | `data-pp-scheme-auto` | present | Set by `autoScheme()` while it follows the clock. Read it; do not set it. |
@@ -261,7 +275,7 @@ The codes are public. Each prefix is a range, numbered in tens by topic:
 <!-- diagnostics: written by scripts/diagnostics.mjs from the source. Run it after adding or retiring a code. -->
 | Range | Raised by | Covers | Codes today |
 |---|---|---|---|
-| `PP-T` | The token build and `blip-tokens` | Reading the token files and the resolver (`PP-T003` also: a resolver with no `scheme` or `pixel` modifier), token names, types, values (colours, dimensions, durations, whole pixels, font families and weights), aliases, and contrast: `PP-T060` a text pair under AA, labels on a disabled control's dither included; `PP-T061` the focus ring under 3:1; `PP-T062` a candy's label, and white on slate's ink dither | `PP-T001` to `PP-T004`, `PP-T010`, `PP-T020` and `PP-T021`, `PP-T030` to `PP-T032`, `PP-T040` to `PP-T045`, `PP-T050` to `PP-T052`, `PP-T060` to `PP-T062` |
+| `PP-T` | The token build and `blip-tokens` | Reading the token files and the resolver (`PP-T003` also: a resolver with no `scheme` or `pixel` modifier; `PP-T005` a palette that sets a token the default palette does not have), token names, types, values (colours, dimensions, durations, whole pixels, font families and weights), aliases, and contrast, in every scheme of every palette: `PP-T060` a text pair under AA, labels on a disabled control's dither included; `PP-T061` the focus ring under 3:1; `PP-T062` a candy's label, and white on slate's ink dither | `PP-T001` to `PP-T005`, `PP-T010`, `PP-T020` and `PP-T021`, `PP-T030` to `PP-T032`, `PP-T040` to `PP-T045`, `PP-T050` to `PP-T052`, `PP-T060` to `PP-T062` |
 | `PP-A` | `checkName()` in `@jaatster/blip-core`, `<pp-rating>`, `<pp-segmented>`, `<pp-dialog>`, `<pp-drawer>` | Accessibility: a control or a dialog without an accessible name | `PP-A001`, `PP-A010` |
 | `PP-E` | `<pp-combobox>`, `<pp-file-drop>`, `<pp-number>`, `<pp-dialog>`, `<pp-drawer>`, `<pp-tooltip>` | An element without the native markup it upgrades: a control, a `<dialog>`, a tooltip's trigger | `PP-E001`, `PP-E010`, `PP-E020` |
 | `PP-N` | `<pp-tabs>` | A navigation element without the parts it wires together | `PP-N001` |

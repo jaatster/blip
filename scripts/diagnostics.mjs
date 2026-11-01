@@ -24,7 +24,7 @@ export const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
  * line here (the script fails until it has one).
  */
 export const RANGES = {
-  T: "Reading the token files and the resolver (`PP-T003` also: a resolver with no `scheme` or `pixel` modifier), token names, types, values (colours, dimensions, durations, whole pixels, font families and weights), aliases, and contrast: `PP-T060` a text pair under AA, labels on a disabled control's dither included; `PP-T061` the focus ring under 3:1; `PP-T062` a candy's label, and white on slate's ink dither",
+  T: "Reading the token files and the resolver (`PP-T003` also: a resolver with no `scheme` or `pixel` modifier; `PP-T005` a palette that sets a token the default palette does not have), token names, types, values (colours, dimensions, durations, whole pixels, font families and weights), aliases, and contrast, in every scheme of every palette: `PP-T060` a text pair under AA, labels on a disabled control's dither included; `PP-T061` the focus ring under 3:1; `PP-T062` a candy's label, and white on slate's ink dither",
   A: "Accessibility: a control or a dialog without an accessible name",
   E: "An element without the native markup it upgrades: a control, a `<dialog>`, a tooltip's trigger",
   N: "A navigation element without the parts it wires together",

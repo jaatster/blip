@@ -46,7 +46,7 @@ its own icons on the same grid, and a world backdrop that follows the time of da
 ## Capabilities and Constraints
 
 - Core packages plus optional kits (game, blocks, effects, sound). Themes are independent switches: scheme (Day,
-  Sunset, Night, Auto), pixel size (2 px default), palette.
+  Sunset, Night, Auto), pixel size (2 px default), palette (Candy, and eleven presets).
 - No runtime dependencies. No image files: components are CSS, art is SVG, worlds are drawn at runtime.
 - Size budgets enforced in CI.
 - Licences: MIT for code and icons; SIL Open Font License for the fonts.

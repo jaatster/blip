@@ -61,7 +61,12 @@ PAIRS.push(["ink.base", "disabled.dither", 4.5], ["ink.base", "disabled.dither-c
 export function readTokens({ resolverFile = join(ROOT, "blip.resolver.json"), base = ROOT, theme = false } = {}) {
   const problems = [];
   const report = [];
-  const problem = (code, file, pointer, message, fix) => problems.push({ code, file: relative(base, file), pointer, message, fix });
+  // A source is read once for each scheme and palette: a problem in it is reported once.
+  const seenProblems = new Set();
+  const problem = (code, file, pointer, message, fix) => {
+    const key = [code, file, pointer, message].join("\0");
+    if (!seenProblems.has(key)) seenProblems.add(key), problems.push({ code, file: relative(base, file), pointer, message, fix });
+  };
   const done = () => ({ problems, report });
 
   const readJson = (file) => {
@@ -135,7 +140,7 @@ export function readTokens({ resolverFile = join(ROOT, "blip.resolver.json"), ba
       if (item.$ref?.startsWith("#/modifiers/")) {
         const name = item.$ref.slice(12);
         const m = MODIFIERS[name];
-        sources = m.contexts[input[name] ?? m.default] ?? [];
+        sources = m.contexts[input[name] ?? m.default ?? Object.keys(m.contexts)[0]] ?? [];
       } else sources = sourcesOf(item);
       for (const s of sources) {
         const { file, tokens } = loadSource(s);
@@ -229,17 +234,22 @@ export function readTokens({ resolverFile = join(ROOT, "blip.resolver.json"), ba
     return tokens;
   };
 
-  // Every input: each scheme at the default pixel, and each pixel size.
+  // Every input: each scheme at the default pixel, in each palette, and each pixel size.
   const schemes = Object.keys(MODIFIERS.scheme.contexts);
   const pixels = Object.keys(MODIFIERS.pixel.contexts);
+  const palettes = Object.keys(MODIFIERS.palette?.contexts ?? {});
   const DEFAULT = { scheme: MODIFIERS.scheme.default, pixel: MODIFIERS.pixel.default };
-  const resolved = {};
-  for (const scheme of schemes) {
-    const { tree, origin } = resolveInput({ ...DEFAULT, scheme });
+  if (palettes.length) DEFAULT.palette = MODIFIERS.palette.default ?? palettes[0];
+  const resolveAll = (palette) => Object.fromEntries(schemes.map((scheme) => {
+    const { tree, origin } = resolveInput({ ...DEFAULT, scheme, palette });
     const tokens = flatten(tree, origin);
     tokens.forEach(validate);
-    resolved[scheme] = resolveAliases(tokens);
-  }
+    return [scheme, resolveAliases(tokens)];
+  }));
+  const resolved = resolveAll(DEFAULT.palette);
+  // The presets: every palette but the default, each in every scheme.
+  const presets = palettes.filter((p) => p !== DEFAULT.palette);
+  const byPalette = Object.fromEntries(presets.map((p) => [p, resolveAll(p)]));
   const pixelValues = Object.fromEntries(pixels.map((p) => {
     const { tree } = resolveInput({ ...DEFAULT, pixel: p });
     return [p, tree.pixel?.$value?.value];
@@ -248,33 +258,68 @@ export function readTokens({ resolverFile = join(ROOT, "blip.resolver.json"), ba
 
   // Which paths come from the scheme files (they change with the scheme); everything else is shared.
   const schemePaths = new Set();
-  for (const scheme of schemes) for (const s of MODIFIERS.scheme.contexts[scheme]) flatten(loadSource(s).tokens, new Map()).forEach((t) => schemePaths.add(t.path));
+  const pathsOf = (sources) => new Set(sources.flatMap((s) => flatten(loadSource(s).tokens, new Map()).map((t) => t.path)));
+  for (const scheme of schemes) pathsOf(MODIFIERS.scheme.contexts[scheme]).forEach((p) => schemePaths.add(p));
+  // Which come from the palette files (shared, and switched by data-pp-palette), and which each preset sets: the
+  // sources of its context that the default palette's does not list.
+  const paletteSources = (p) => MODIFIERS.palette.contexts[p] ?? [];
+  const palettePaths = new Set(palettes.flatMap((p) => [...pathsOf(paletteSources(p))]));
+  const presetPaths = Object.fromEntries(presets.map((p) => {
+    const own = paletteSources(DEFAULT.palette).map((s) => s.$ref ?? s);
+    return [p, pathsOf(paletteSources(p).filter((s) => !own.includes(s.$ref ?? s)))];
+  }));
   const tokens = resolved[DEFAULT.scheme];
   const shared = tokens.filter((t) => !schemePaths.has(t.path) && t.path !== "pixel");
-  const roles = (scheme) => resolved[scheme].filter((t) => schemePaths.has(t.path));
+  const roles = (scheme, palette = DEFAULT.palette) => (palette === DEFAULT.palette ? resolved : byPalette[palette])[scheme].filter((t) => schemePaths.has(t.path));
+  /** What a preset sets, resolved: its own palette paths (aliases kept, for CSS). */
+  const presetTokens = (p) => byPalette[p][DEFAULT.scheme].filter((t) => presetPaths[p].has(t.path) && !schemePaths.has(t.path));
+  const describe = (p) => paletteSources(p).map((s) => loadSource(s).tokens.$description).filter(Boolean).pop() ?? "";
+  const paletteInfo = Object.fromEntries(palettes.map((p) => [p, { description: describe(p), ...(paletteSources(p).map((s) => loadSource(s).tokens.$extensions?.[NS]).filter(Boolean).pop() ?? {}) }]));
   const colorScheme = (scheme) => MODIFIERS.scheme.contexts[scheme].map((s) => loadSource(s).tokens.$extensions?.[NS]?.colorScheme).filter(Boolean).pop() ?? "light";
-  const model = { problems, report, schemes, pixels, DEFAULT, pixelValues, resolved, schemePaths, tokens, shared, roles, colorScheme };
+  const model = { problems, report, schemes, pixels, palettes, presets, DEFAULT, pixelValues, resolved, byPalette, schemePaths, palettePaths, presetPaths, tokens, shared, roles, presetTokens, paletteInfo, colorScheme };
 
-  // Contrast. A problem points at the token to change: the theme's own when it set one of the pair, else the scheme's.
-  const ownFile = (file) => !relative(ROOT, file).startsWith("..");
-  const find = (scheme, path) => resolved[scheme].find((t) => t.path === path);
-  const blame = (scheme, paths) => {
-    const list = paths.map((p) => find(scheme, p)).filter(Boolean);
-    return list.find((t) => !ownFile(t.file)) ?? list.find((t) => schemePaths.has(t.path)) ?? list[0];
-  };
-  for (const scheme of schemes) {
-    const c = Object.fromEntries(resolved[scheme].filter((t) => t.type === "color").map((t) => [t.path, hexOf(t.resolved)]));
-    for (const [fg, bg, min] of PAIRS) {
-      const ratio = contrast(c[fg], c[bg]);
-      report.push({ scheme, fg, bg, ratio, min });
-      const at = blame(scheme, [fg, bg]);
-      if (ratio < min) problem("PP-T060", at.file, `/${at.path.replaceAll(".", "/")}`, `${scheme}: ${fg} ${c[fg]} on ${bg} ${c[bg]} is ${ratio.toFixed(2)}:1; it needs ${min}:1.`, "Darken or lighten one of the two in this scheme (WCAG 2.2 AA).");
+  // A preset may only set tokens Blip has: anything else is a typo, and would have no value without it.
+  const known = new Set(tokens.map((t) => t.path));
+  for (const p of presets) {
+    for (const s of paletteSources(p)) {
+      if (paletteSources(DEFAULT.palette).some((d) => (d.$ref ?? d) === (s.$ref ?? s))) continue;
+      for (const t of flatten(loadSource(s).tokens, new Map())) {
+        if (!known.has(t.path)) problem("PP-T005", s.$ref ?? RESOLVER_FILE, `/${t.path.replaceAll(".", "/")}`, `Palette "${p}" sets "${t.path}", which the default palette does not have.`, "Set only tokens the default palette has (palette.*, world.night.*), or add it there too.");
+      }
     }
-    // The focus ring is yellow with an ink edge: one of them must stand 3:1 against the page.
-    const ring = Math.max(contrast(c["focus.base"], c.bg), contrast(c["focus.edge"], c.bg));
-    report.push({ scheme, fg: "focus ring", bg: "bg", ratio: ring, min: 3 });
-    const at = blame(scheme, ["focus.base", "focus.edge", "bg"]);
-    if (ring < 3) problem("PP-T061", at.file, at.path === "bg" ? "/bg" : "/focus", `${scheme}: the focus ring is ${ring.toFixed(2)}:1 against the page.`, "Change the scheme's page colour or the ring's edge.");
+  }
+  if (problems.length) return model;
+
+  // Contrast, in every scheme of every palette. A problem points at the token to change, following the pair's
+  // aliases: a theme's own file where the colour comes from one; else a preset's own, in that preset; else the scheme's.
+  const ownFile = (file) => !relative(ROOT, file).startsWith("..");
+  const find = (scheme, path, list = resolved[scheme]) => list.find((t) => t.path === path);
+  const blame = (list, paths, preset = new Set()) => {
+    const pair = paths.map((p) => find(null, p, list)).filter(Boolean);
+    const chain = (t) => { const out = [t]; while (t?.alias && out.length < 20) out.push((t = find(null, t.alias, list))); return out.filter(Boolean); };
+    const links = pair.flatMap(chain);
+    return links.find((t) => t.file && !ownFile(t.file)) ?? links.find((t) => preset.has(t.file)) ?? pair.find((t) => schemePaths.has(t.path)) ?? pair[0];
+  };
+  const defaultFiles = new Set(paletteSources(DEFAULT.palette).map((s) => s.$ref));
+  for (const palette of palettes.length ? palettes : [undefined]) {
+    const preset = new Set(palette === undefined ? [] : paletteSources(palette).map((s) => s.$ref).filter((f) => f && !defaultFiles.has(f)));
+    for (const scheme of schemes) {
+      const list = palette === DEFAULT.palette || palette === undefined ? resolved[scheme] : byPalette[palette][scheme];
+      const where = palette === DEFAULT.palette || palette === undefined ? scheme : `${scheme} (${palette})`;
+      const c = Object.fromEntries(list.filter((t) => t.type === "color").map((t) => [t.path, hexOf(t.resolved)]));
+      for (const [fg, bg, min] of PAIRS) {
+        const ratio = contrast(c[fg], c[bg]);
+        report.push({ scheme: where, fg, bg, ratio, min });
+        // A label on a disabled control's dither: the dither is what to change. Any other pair: the text.
+        const at = blame(list, bg.startsWith("disabled.") ? [bg, fg] : [fg, bg], preset);
+        if (ratio < min) problem("PP-T060", at.file, `/${at.path.replaceAll(".", "/")}`, `${where}: ${fg} ${c[fg]} on ${bg} ${c[bg]} is ${ratio.toFixed(2)}:1; it needs ${min}:1.`, "Darken or lighten one of the two in this scheme (WCAG 2.2 AA).");
+      }
+      // The focus ring is yellow with an ink edge: one of them must stand 3:1 against the page.
+      const ring = Math.max(contrast(c["focus.base"], c.bg), contrast(c["focus.edge"], c.bg));
+      report.push({ scheme: where, fg: "focus ring", bg: "bg", ratio: ring, min: 3 });
+      const at = blame(list, ["focus.base", "focus.edge", "bg"], preset);
+      if (ring < 3) problem("PP-T061", at.file, at.path === "bg" ? "/bg" : "/focus", `${where}: the focus ring is ${ring.toFixed(2)}:1 against the page.`, "Change the scheme's page colour or the ring's edge.");
+    }
   }
   if (problems.length) return model;
 
@@ -302,9 +347,11 @@ export function formatProblems(problems) {
 }
 
 /** How many pairs passed, and the five closest to the line. */
-export function formatReport({ report, schemes }) {
+export function formatReport({ report, schemes, palettes = [] }) {
   const weakest = [...report].sort((a, b) => a.ratio / a.min - b.ratio / b.min).slice(0, 5);
-  return [`Contrast: ${report.length} pairs pass in ${schemes.length} schemes. Closest to the line:`, ...weakest.map((r) => `  ${r.scheme.padEnd(7)} ${r.fg} on ${r.bg}: ${r.ratio.toFixed(2)}:1 (needs ${r.min})`)].join("\n");
+  const width = Math.max(7, ...weakest.map((r) => r.scheme.length));
+  const where = palettes.length > 1 ? ` and ${palettes.length} palettes` : "";
+  return [`Contrast: ${report.length} pairs pass in ${schemes.length} schemes${where}. Closest to the line:`, ...weakest.map((r) => `  ${r.scheme.padEnd(width)} ${r.fg} on ${r.bg}: ${r.ratio.toFixed(2)}:1 (needs ${r.min})`)].join("\n");
 }
 
 // ------------------------------------------------------------------ naming
@@ -375,10 +422,30 @@ ${durations.map((t) => `      ${cssVar(t.path)}: 0ms;`).join("\n")}
 `;
 }
 
+/**
+ * palettes.css: each preset on its attribute, setting what it changes (the accents, Night's base, the night world).
+ * The scheme roles read these, so a preset set where the scheme is set (on <html>, or beside a data-pp-scheme)
+ * recolours every scheme. :root[…] outranks tokens.css's :root, whichever loads first.
+ */
+export function palettesCss(model, header) {
+  const { presets, presetTokens, paletteInfo } = model;
+  return `/* ${header} */
+@layer pp.reset, pp.tokens, pp.base, pp.core, pp.components, pp.kits, pp.utilities;
+
+@layer pp.tokens {
+${presets.map((p) => `  /* ${paletteInfo[p].name ?? cap(p)}: ${paletteInfo[p].description}${paletteInfo[p].credit ? ` ${paletteInfo[p].credit}.` : ""} */
+  :root[data-pp-palette="${p}"], [data-pp-palette="${p}"] {
+${decls(presetTokens(p).sort((a, b) => Number(a.path.startsWith("world.")) - Number(b.path.startsWith("world."))))}
+  }`).join("\n\n")}
+}
+`;
+}
+
 /** Every output, by its path in dist: CSS, JSON, JS/TS, Android, iOS and Figma. */
 export function outputs(model, header) {
-  const { schemes, pixels, DEFAULT, pixelValues, schemePaths, tokens, shared, roles } = model;
+  const { schemes, pixels, presets, DEFAULT, pixelValues, schemePaths, palettePaths, tokens, shared, roles, presetTokens, paletteInfo } = model;
   const files = { "css/tokens.css": tokensCss(model, header) };
+  if (presets.length) files["css/palettes.css"] = palettesCss(model, header);
 
   // JSON ---------------------------------------------------------------
   const plain = (t) => {
@@ -392,14 +459,21 @@ export function outputs(model, header) {
     }
   };
   const flat = (list) => Object.fromEntries(list.map((t) => [kebab(t.path), plain(t)]));
+  // Each preset: what it sets (as in palettes.css), and every scheme's roles resolved in it.
+  const palettesJson = Object.fromEntries(presets.map((p) => [p, {
+    ...paletteInfo[p],
+    shared: flat(presetTokens(p)),
+    schemes: Object.fromEntries(schemes.map((s) => [s, flat(roles(s, p))])),
+  }]));
   const json = {
     pixel: pixelValues,
     shared: flat(shared),
     schemes: Object.fromEntries(schemes.map((s) => [s, flat(roles(s))])),
+    ...(DEFAULT.palette ? { palette: DEFAULT.palette, palettes: palettesJson } : {}),
   };
   files["json/tokens.json"] = JSON.stringify(json, null, 2) + "\n";
   files["json/manifest.json"] = JSON.stringify(
-    tokens.map((t) => ({ name: kebab(t.path), path: t.path, cssVar: cssVar(t.path), type: t.type, unit: t.ext?.unit, alias: t.alias, description: t.description, scheme: schemePaths.has(t.path) })), null, 2) + "\n";
+    tokens.map((t) => ({ name: kebab(t.path), path: t.path, cssVar: cssVar(t.path), type: t.type, unit: t.ext?.unit, alias: t.alias, description: t.description, scheme: schemePaths.has(t.path), palette: palettePaths.has(t.path) })), null, 2) + "\n";
 
   // JS / TS ------------------------------------------------------------
   {
@@ -410,6 +484,10 @@ export const pixel = ${JSON.stringify(pixelValues)};
 export const shared = ${JSON.stringify(json.shared, null, 2)};
 export const schemes = ${JSON.stringify(json.schemes, null, 2)};
 export const schemeNames = ${JSON.stringify(schemes)};
+/** The presets (palettes.css, data-pp-palette): what each sets, and every scheme's roles in it. */
+export const palettes = ${JSON.stringify(palettesJson, null, 2)};
+/** Every palette, the default (${DEFAULT.palette ?? "none"}) first. */
+export const paletteNames = ${JSON.stringify(DEFAULT.palette ? [DEFAULT.palette, ...presets] : [])};
 /** The CSS custom property for a token: cssVar("surface") is "var(--pp-surface)". */
 export const cssVar = (name) => \`var(--pp-\${name})\`;
 /** A size counted in pixels, in CSS px at a pixel size: px("space-4", 2) is 8. */
@@ -417,6 +495,8 @@ export const px = (name, size = ${pixelValues[DEFAULT.pixel]}) => shared[name] *
 `;
     files["js/index.d.ts"] = `// ${header}
 export type SchemeName = ${schemes.map((s) => JSON.stringify(s)).join(" | ")};
+export type PaletteName = ${(DEFAULT.palette ? [DEFAULT.palette, ...presets] : ["never"]).map((s) => (s === "never" ? s : JSON.stringify(s))).join(" | ")};
+export type PresetName = ${presets.length ? presets.map((s) => JSON.stringify(s)).join(" | ") : "never"};
 export type PixelSize = ${pixels.join(" | ")};
 export type SharedToken = ${sharedNames.map((n) => JSON.stringify(n)).join(" | ")};
 export type RoleToken = ${roleNames.map((n) => JSON.stringify(n)).join(" | ")};
@@ -426,6 +506,15 @@ export declare const pixel: Record<\`\${PixelSize}\`, number>;
 export declare const shared: Record<SharedToken, string | number | string[]>;
 export declare const schemes: Record<SchemeName, Record<RoleToken, string>>;
 export declare const schemeNames: SchemeName[];
+export interface Palette {
+  name: string;
+  description: string;
+  credit?: string;
+  shared: Partial<Record<SharedToken, string>>;
+  schemes: Record<SchemeName, Record<RoleToken, string>>;
+}
+export declare const palettes: Record<PresetName, Palette>;
+export declare const paletteNames: PaletteName[];
 export declare function cssVar(name: TokenName): string;
 export declare function px(name: PixelToken, size?: PixelSize): number;
 `;
@@ -458,6 +547,11 @@ ${roles(DEFAULT.scheme).map((t) => `        val ${camel(t.path)}: Color,`).join(
     )
 
 ${schemes.map((s) => `    val ${s.charAt(0).toUpperCase() + s.slice(1)} = Scheme(\n${roles(s).map((t) => `        ${camel(t.path)} = Color(${argb(hexOf(t.resolved))}),`).join("\n")}\n    )`).join("\n\n")}
+
+    /** The presets: each one's schemes, as above. */
+    object Palettes {
+${presets.map((p) => `        object ${pascal(p)} {\n${schemes.map((s) => `            val ${cap(s)} = Scheme(\n${roles(s, p).map((t) => `                ${camel(t.path)} = Color(${argb(hexOf(t.resolved))}),`).join("\n")}\n            )`).join("\n")}\n        }`).join("\n")}
+    }
 
     object Size {
 ${shared.filter(isPixelNumber).map((t) => `        const val ${pascal(t.path)} = ${t.resolved} // pixels`).join("\n")}
@@ -497,6 +591,11 @@ ${roles(DEFAULT.scheme).map((t) => `        public let ${camel(t.path)}: Color`)
 
 ${schemes.map((s) => `    public static let ${s} = Scheme(\n${roles(s).map((t, i, a) => `        ${camel(t.path)}: ${swiftColor(hexOf(t.resolved))}${i < a.length - 1 ? "," : ""}`).join("\n")}\n    )`).join("\n\n")}
 
+    /// The presets: each one's schemes, as above.
+    public enum Palettes {
+${presets.map((p) => `        public enum ${pascal(p)} {\n${schemes.map((s) => `            public static let ${s} = Scheme(\n${roles(s, p).map((t, i, a) => `                ${camel(t.path)}: ${swiftColor(hexOf(t.resolved))}${i < a.length - 1 ? "," : ""}`).join("\n")}\n            )`).join("\n")}\n        }`).join("\n")}
+    }
+
     public enum Size {
 ${shared.filter(isPixelNumber).map((t) => `        public static let ${camel(t.path)} = ${t.resolved} // pixels`).join("\n")}
     }
@@ -517,12 +616,21 @@ extension Color {
   // Figma variables ----------------------------------------------------
   {
     const rgba = (hex) => { const [r, g, b] = hexToRgb(hex); return { r: r / 255, g: g / 255, b: b / 255, a: 1 }; };
+    // An alias points into the collection its target lives in: a palette's, a scheme's (ink), or the primitives.
+    const collectionOf = (path) => (schemePaths.has(path) ? "Scheme" : palettePaths.has(path) ? "Palette" : "Primitives");
+    const valueOf = (t) => (t.alias ? { alias: path2figma(t.alias), collection: collectionOf(t.alias) } : rgba(hexOf(t.resolved)));
+    const paletteModes = DEFAULT.palette ? [DEFAULT.palette, ...presets] : [];
+    const inPalette = (p, path) => (p === DEFAULT.palette ? shared : model.byPalette[p][DEFAULT.scheme]).find((t) => t.path === path);
     const figma = {
       collections: [
-        { name: "Primitives", modes: ["Value"], variables: shared.filter((t) => t.type === "color").map((t) => ({ name: path2figma(t.path), type: "COLOR", description: t.description, values: { Value: rgba(hexOf(t.resolved)) } })) },
-        { name: "Scheme", modes: schemes.map(cap), variables: roles(DEFAULT.scheme).map((t) => ({
+        { name: "Primitives", modes: ["Value"], variables: shared.filter((t) => t.type === "color" && !palettePaths.has(t.path)).map((t) => ({ name: path2figma(t.path), type: "COLOR", description: t.description, values: { Value: rgba(hexOf(t.resolved)) } })) },
+        ...(paletteModes.length ? [{ name: "Palette", modes: paletteModes.map(cap), variables: shared.filter((t) => t.type === "color" && palettePaths.has(t.path)).map((t) => ({
           name: path2figma(t.path), type: "COLOR", description: t.description,
-          values: Object.fromEntries(schemes.map((s) => { const r = roles(s).find((x) => x.path === t.path); return [cap(s), r.alias ? { alias: path2figma(r.alias), collection: "Primitives" } : rgba(hexOf(r.resolved))]; })),
+          values: Object.fromEntries(paletteModes.map((p) => [cap(p), valueOf(inPalette(p, t.path))])),
+        })) }] : []),
+        { name: "Scheme", modes: schemes.map(cap), variables: roles(DEFAULT.scheme).filter((t) => t.type === "color").map((t) => ({
+          name: path2figma(t.path), type: "COLOR", description: t.description,
+          values: Object.fromEntries(schemes.map((s) => [cap(s), valueOf(roles(s).find((x) => x.path === t.path))])),
         })) },
         { name: "Size", modes: pixels.map((p) => `${p}px`), variables: shared.filter(isPixelNumber).map((t) => ({ name: path2figma(t.path), type: "FLOAT", description: t.description, values: Object.fromEntries(pixels.map((p) => [`${p}px`, t.resolved * pixelValues[p]])) })) },
       ],

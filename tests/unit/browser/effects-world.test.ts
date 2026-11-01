@@ -67,9 +67,12 @@ describe("<pp-world> at fractional device pixel ratios", () => {
   beforeEach(() => {
     style = document.head.appendChild(Object.assign(document.createElement("style"), { textContent: inject("tokensCss") + worldCss }));
   });
+  // The page's own ratio, put back after each test: deleting the stand-in would delete the property itself.
+  const own = Object.getOwnPropertyDescriptor(window, "devicePixelRatio");
   afterEach(() => {
     style.remove();
-    delete (window as { devicePixelRatio?: number }).devicePixelRatio;
+    if (own) Object.defineProperty(window, "devicePixelRatio", own);
+    else delete (window as { devicePixelRatio?: number }).devicePixelRatio;
   });
   const ratio = (dpr: number) => Object.defineProperty(window, "devicePixelRatio", { value: dpr, configurable: true });
   /** Whether a length is a whole number of device pixels (computed styles keep about six significant digits). */
@@ -142,5 +145,43 @@ describe("world.css: a slide cut short", () => {
     on.currentTime = 60;
     expect(getComputedStyle(layer).getPropertyValue("--_pp-world-x").trim()).toBe("3.75");
     expect(getComputedStyle(layer).translate).toBe("9.6px");
+  });
+});
+
+describe("<pp-world> and the palette", () => {
+  let style: HTMLStyleElement;
+  beforeAll(async () => {
+    await import("../../../packages/effects/src/world.ts");
+  });
+  beforeEach(() => {
+    style = document.head.appendChild(Object.assign(document.createElement("style"), { textContent: inject("tokensCss") + inject("palettesCss") + worldCss }));
+  });
+  afterEach(() => {
+    style.remove();
+    delete document.documentElement.dataset.ppPalette;
+  });
+
+  it("paints the night sky again when the page's palette changes", async () => {
+    const box = mount(`<div style="position:absolute;left:0;top:0;width:320px;height:180px"><pp-world scheme="night" clouds="none"></pp-world></div>`);
+    const layer = box.querySelector<HTMLCanvasElement>(".pp-world-stage > canvas")!;
+    /** The colours along the sky's top row: a sky stop, and maybe a star. */
+    const top = () => {
+      const { data } = layer.getContext("2d")!.getImageData(0, 0, layer.width, 1);
+      const out = new Set<number>();
+      for (let i = 0; i < data.length; i += 4) out.add((data[i]! << 16) | (data[i + 1]! << 8) | data[i + 2]!);
+      return out;
+    };
+    await expect.poll(() => top().size).toBeGreaterThan(0);
+    const world = box.querySelector("pp-world")!;
+    /** The night sky's six stops, as the page has them now. */
+    const sky = () => new Set([1, 2, 3, 4, 5, 6].map((i) => parseInt(getComputedStyle(world).getPropertyValue(`--pp-world-night-sky-${i}`).trim().slice(1), 16)));
+    const candy = sky();
+    expect([...top()].some((c) => candy.has(c))).toBe(true);
+    // Grape is the TV's own night, purple: none of its sky is Candy's charcoal.
+    document.documentElement.dataset.ppPalette = "grape";
+    const grape = sky();
+    expect([...grape].some((c) => candy.has(c))).toBe(false);
+    await expect.poll(() => [...top()].some((c) => grape.has(c))).toBe(true);
+    box.remove();
   });
 });

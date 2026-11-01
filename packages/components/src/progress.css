@@ -20,16 +20,16 @@
  */
 
 @layer pp.components {
-  /* Empty blocks: the HUD's slate shade by Day and at Sunset, the deepest indigo at Night. At least 3:1 against
-     every intent's and accent's fill in its scheme, so filled and empty read in greyscale too. Set where the scheme
-     is set, so the nearest scheme wins. */
+  /* Empty blocks: the HUD's slate shade by Day and at Sunset, the palette's page at Night (lighter than the ink
+     between the blocks). At least 3:1 against every intent's and accent's fill in its scheme, so filled and empty
+     read in greyscale too. Set where the scheme is set, so the nearest scheme wins. */
   :root, [data-pp-scheme] { --_pp-progress-slot: var(--pp-candy-slate-shade); }
   /* On screen only: on paper every scheme prints Day's, as the roles do (tokens.css). */
   @media screen {
-    [data-pp-scheme="night"] { --_pp-progress-slot: var(--pp-deep-1); }
+    [data-pp-scheme="night"] { --_pp-progress-slot: var(--pp-palette-night-bg); }
   }
   @media screen and (prefers-color-scheme: dark) {
-    :root:not([data-pp-scheme]) { --_pp-progress-slot: var(--pp-deep-1); }
+    :root:not([data-pp-scheme]) { --_pp-progress-slot: var(--pp-palette-night-bg); }
   }
 
   :is(.pp-progress, .pp-meter) {

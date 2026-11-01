@@ -6,7 +6,7 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
-import { editJson, tokensCopy, type Run } from "../support/fixtures.ts";
+import { editJson, node, tokensCopy, type Run } from "../support/fixtures.ts";
 
 type Copy = ReturnType<typeof tokensCopy>;
 const read = (copy: Copy, file: string) => readFileSync(join(copy.dir, "dist", file), "utf8");
@@ -46,6 +46,7 @@ describe("tokens build: a clean build", () => {
   it("writes every output", () => {
     const outputs = [
       "css/tokens.css",
+      "css/palettes.css",
       "json/tokens.json",
       "json/manifest.json",
       "js/index.js",
@@ -112,12 +113,23 @@ describe("tokens build: a clean build", () => {
     expect(read(copy, "ios/BlipTokens.swift")).toMatch(/static let day = Scheme\([\s\S]*static let sunset = Scheme\([\s\S]*static let night = Scheme\(/);
 
     const figma = json(copy, "figma/variables.json");
-    expect(figma.collections.map((c: { name: string }) => c.name)).toEqual(["Primitives", "Scheme", "Size"]);
-    const scheme = figma.collections[1];
+    expect(figma.collections.map((c: { name: string }) => c.name)).toEqual(["Primitives", "Palette", "Scheme", "Size"]);
+    const [primitives, palette, scheme, size] = figma.collections;
     expect(scheme.modes).toEqual(["Day", "Sunset", "Night"]);
     expect(scheme.variables).toHaveLength(roles.length);
     for (const v of scheme.variables) expect(Object.keys(v.values), v.name).toEqual(["Day", "Sunset", "Night"]);
-    expect(figma.collections[2].modes).toEqual(["2px", "3px", "4px"]);
+    expect(size.modes).toEqual(["2px", "3px", "4px"]);
+    // The palettes are modes of their own collection, which the schemes alias into; the primitives stay single.
+    expect(palette.modes[0]).toBe("Candy");
+    expect(palette.modes).toHaveLength(12);
+    for (const v of palette.variables) expect(Object.keys(v.values), v.name).toEqual(palette.modes);
+    const names = (c: { variables: { name: string }[] }) => c.variables.map((v) => v.name);
+    expect(names(palette)).toContain("palette/night/bg");
+    expect(names(primitives)).not.toContain("palette/night/bg");
+    const nightBg = scheme.variables.find((v: { name: string }) => v.name === "bg").values.Night;
+    expect(nightBg).toEqual({ alias: "palette/night/bg", collection: "Palette" });
+    const outline = scheme.variables.find((v: { name: string }) => v.name === "outline").values.Night;
+    expect(outline).toEqual({ alias: "ink/base", collection: "Scheme" });
   });
 });
 
@@ -320,13 +332,15 @@ describe("tokens build: the contrast gate", () => {
     const copy = tokensCopy();
     try {
       // The page colour at Night as the dither: the ink label all but vanishes.
-      editJson(join(copy.dir, "src/schemes/night.tokens.json"), (j) => (j.disabled.dither.$value = "{deep.3}"));
+      editJson(join(copy.dir, "src/schemes/night.tokens.json"), (j) => (j.disabled.dither.$value = "{palette.night.bg}"));
       const run = copy.build("--check");
       expect(run.status).toBe(1);
       expect(run.stderr).toContain("PP-T060  src/schemes/night.tokens.json at /disabled/dither");
-      expect(run.stderr).toMatch(/night: ink\.base #1A1530 on disabled\.dither #22244F is 1\.20:1; it needs 4\.5:1\./);
-      expect(run.stderr).toMatch(/night: accent\.on #1A1530 on disabled\.dither #22244F is 1\.20:1/);
-      expect(run.stderr).not.toMatch(/(day|sunset): /);
+      expect(run.stderr).toMatch(/night: ink\.base #0D0D0D on disabled\.dither #171717 is 1\.08:1; it needs 4\.5:1\./);
+      expect(run.stderr).toMatch(/night: accent\.on #0D0D0D on disabled\.dither #171717 is 1\.08:1/);
+      // Every palette's Night fails the same way, each named; Day and Sunset are untouched.
+      expect(run.stderr).toMatch(/night \(grape\): ink\.base #1A1530 on disabled\.dither #22244F is 1\.20:1/);
+      expect(run.stderr).not.toMatch(/(day|sunset)( \([a-z-]+\))?: /);
     } finally {
       copy.remove();
     }
@@ -339,7 +353,7 @@ describe("tokens build: the contrast gate", () => {
       const run = copy.build("--check");
       expect(run.status).toBe(1);
       expect(run.stderr).toContain("PP-T060  src/schemes/night.tokens.json at /disabled/dither-cream");
-      expect(run.stderr).toMatch(/night: ink\.base #1A1530 on disabled\.dither-cream #45478A is 2\.11:1/);
+      expect(run.stderr).toMatch(/night: ink\.base #0D0D0D on disabled\.dither-cream #222628 is 1\.27:1/);
     } finally {
       copy.remove();
     }
@@ -355,6 +369,130 @@ describe("tokens build: the contrast gate", () => {
       expect(run.stderr).toMatch(/day: the focus ring is 1\.00:1 against the page\./);
     } finally {
       copy.remove();
+    }
+  });
+});
+
+describe("tokens build: palettes", () => {
+  let copy: Copy;
+  let tokens: any;
+  let css: string;
+  let palettes: string;
+  beforeAll(() => {
+    copy = tokensCopy();
+    expect(copy.build().status).toBe(0);
+    tokens = json(copy, "json/tokens.json");
+    css = read(copy, "css/tokens.css");
+    palettes = read(copy, "css/palettes.css");
+  });
+  afterAll(() => copy.remove());
+
+  it("defaults to Candy: Day and Sunset keep their candies, Night is sky blue on charcoal with its own ink", () => {
+    expect(tokens.palette).toBe("candy");
+    const { day, sunset, night } = tokens.schemes;
+    expect([day.accent, sunset.accent]).toEqual([tokens.shared["candy-blue"], tokens.shared["candy-pink"]]);
+    expect([night.bg, night.surface, night.accent, night.ink]).toEqual(["#171717", "#202020", "#00C2FA", "#0D0D0D"]);
+    // Ink is a role: the violet by Day and Sunset, the palette's at Night, and every outline follows it.
+    expect([day.ink, sunset.ink]).toEqual(["#1A1530", "#1A1530"]);
+    expect(night.outline).toBe(night.ink);
+    expect(tokens.shared.ink).toBeUndefined();
+    expect(css).toMatch(/\[data-pp-scheme="night"\] \{[^}]*--pp-ink: var\(--pp-palette-night-ink\);/);
+  });
+
+  it("puts each preset in palettes.css on its attribute, setting only custom properties tokens.css has", () => {
+    const presets = Object.keys(tokens.palettes);
+    expect(presets).toEqual(["grape", "ember", "azure", "mint", "bubblegum", "dracula", "nord", "catppuccin", "gruvbox", "tokyo-night", "rose-pine"]);
+    const declared = new Set([...css.matchAll(/(--pp-[\w-]+):/g)].map((m) => m[1]));
+    for (const p of presets) {
+      const block = new RegExp(`:root\\[data-pp-palette="${p}"\\], \\[data-pp-palette="${p}"\\] \\{([^}]*)\\}`).exec(palettes)?.[1] ?? "";
+      const names = [...block.matchAll(/(--pp-[\w-]+):/g)].map((m) => m[1]);
+      expect(names.length, p).toBeGreaterThan(20);
+      expect(names.filter((n) => !declared.has(n) || !/^--pp-(palette|world-night)-/.test(n)), p).toEqual([]);
+    }
+    // The schemes read the palette, so a preset recolours them where they are declared.
+    expect(css).toMatch(/\[data-pp-scheme="night"\] \{[^}]*--pp-bg: var\(--pp-palette-night-bg\);/);
+    expect(css).toMatch(/:root, \[data-pp-scheme="day"\] \{[^}]*--pp-accent: var\(--pp-palette-day-accent\);/);
+  });
+
+  it("resolves every scheme in every preset, in the JSON and the JS module", async () => {
+    const js = await import(pathToFileURL(join(copy.dir, "dist/js/index.js")).href);
+    expect(js.palettes).toEqual(tokens.palettes);
+    expect(js.paletteNames[0]).toBe("candy");
+    expect(js.paletteNames.slice(1)).toEqual(Object.keys(tokens.palettes));
+    const roles = Object.keys(tokens.schemes.day).sort();
+    for (const [p, palette] of Object.entries<any>(tokens.palettes)) {
+      expect(palette.name, p).toMatch(/\S/);
+      for (const scheme of ["day", "sunset", "night"]) expect(Object.keys(palette.schemes[scheme]).sort(), `${p} ${scheme}`).toEqual(roles);
+    }
+    expect(tokens.palettes.dracula.credit).toMatch(/Dracula/);
+    const dts = read(copy, "js/index.d.ts");
+    expect(union(dts, "PaletteName")).toEqual(js.paletteNames);
+  });
+
+  it("keeps the TV's own Night as Grape, exactly", () => {
+    const grape = tokens.palettes.grape.schemes.night;
+    expect([grape.bg, grape.surface, grape.accent, grape.ink, grape.text]).toEqual(["#22244F", "#2C2F66", "#9166FF", "#1A1530", "#F3EFFF"]);
+    expect(tokens.palettes.grape.shared["world-night-sky-1"]).toBe("#3A3E7C");
+  });
+
+  it("moves the warning to amber where the accent is orange (Ember), and only there", () => {
+    const ember = tokens.palettes.ember.schemes;
+    for (const scheme of ["day", "sunset", "night"]) {
+      expect(ember[scheme].warning, scheme).not.toBe(tokens.shared["candy-orange"]);
+      expect(tokens.palettes.azure.schemes[scheme].warning, scheme).toBe(tokens.shared["candy-orange"]);
+    }
+  });
+
+  it("falls back to Candy for what a preset leaves out", () => {
+    const planted = tokensCopy();
+    try {
+      editJson(join(planted.dir, "src/palettes/mint.tokens.json"), (j) => delete j.world);
+      expect(planted.build().status).toBe(0);
+      const built = json(planted, "json/tokens.json");
+      expect(built.palettes.mint.schemes.night["scene-sky-1"]).toBe(built.schemes.night["scene-sky-1"]);
+      expect(read(planted, "css/palettes.css")).not.toMatch(/\[data-pp-palette="mint"\] \{[^}]*--pp-world-night/);
+    } finally {
+      planted.remove();
+    }
+  });
+
+  it("PP-T060: checks a preset's contrast in every scheme, pointing at the preset's own file", () => {
+    const planted = tokensCopy();
+    try {
+      editJson(join(planted.dir, "src/palettes/ember.tokens.json"), (j) => (j.palette.night.text.muted.$value = srgb("#555555")));
+      const run = planted.build("--check");
+      expect(run.status).toBe(1);
+      expect(run.stderr).toContain("PP-T060  src/palettes/ember.tokens.json at /palette/night/text/muted");
+      expect(run.stderr).toMatch(/night \(ember\): text\.muted #555555 on bg #1E1E1E is 2\.24:1; it needs 4\.5:1\./);
+      expect(run.stderr).not.toMatch(/^ {4}(day|sunset|night)( \((?!ember)[a-z-]+\))?: /m);
+    } finally {
+      planted.remove();
+    }
+  });
+
+  it("PP-T005: a preset that sets a token the default palette does not have", () => {
+    const planted = tokensCopy();
+    try {
+      editJson(join(planted.dir, "src/palettes/ember.tokens.json"), (j) => (j.palette.night.glow = { $value: srgb("#FF9900") }));
+      const run = planted.build("--check");
+      expect(run.status).toBe(1);
+      expect(run.stderr).toContain("PP-T005  src/palettes/ember.tokens.json at /palette/night/glow");
+      expect(run.stderr).toContain('Palette "ember" sets "palette.night.glow", which the default palette does not have.');
+      expect(run.stderr).toMatch(/Fix: \S/);
+    } finally {
+      planted.remove();
+    }
+  });
+
+  it("writes the presets from their recipes as they are checked in (the generator is reproducible)", () => {
+    const planted = tokensCopy();
+    try {
+      const before = readFileSync(join(planted.dir, "src/palettes/azure.tokens.json"), "utf8");
+      const run = node(join(planted.dir, "scripts/palettes.mjs"), [], planted.dir);
+      expect(run.status, run.stderr).toBe(0);
+      expect(readFileSync(join(planted.dir, "src/palettes/azure.tokens.json"), "utf8")).toBe(before);
+    } finally {
+      planted.remove();
     }
   });
 });

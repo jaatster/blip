@@ -1,9 +1,9 @@
-// The docs' own behaviour, on top of Blip's elements: the display menu (scheme and pixel), Auto following the
-// clock, search through the command palette, copy buttons, the example switches and "On this page".
+// The docs' own behaviour, on top of Blip's elements: the display menu (scheme and pixel), the palette menu,
+// Auto following the clock, search through the command palette, copy buttons, the example switches and "On this page".
 import { autoScheme, setScheme } from "@jaatster/blip-core";
 
 const root = document.documentElement;
-const KEYS = { scheme: "blip-docs:scheme", pixel: "blip-docs:pixel" };
+const KEYS = { scheme: "blip-docs:scheme", pixel: "blip-docs:pixel", palette: "blip-docs:palette" };
 const store = {
   get: (k) => { try { return localStorage.getItem(k); } catch { return null; } },
   set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch { /* private mode */ } },
@@ -34,6 +34,46 @@ function applyPixel(px) {
   else delete root.dataset.ppPixel;
 }
 root.addEventListener("pp-scheme-change", () => requestAnimationFrame(themeColor));
+
+// ------------------------------------------------------------------ palette
+
+// The palettes the menu offers, the default first (set by having no data-pp-palette).
+const paletteMenu = document.querySelector(".docs-palette");
+const paletteItems = paletteMenu ? [...paletteMenu.querySelectorAll('[role="menuitemradio"]')] : [];
+const paletteIds = paletteItems.map((item) => item.dataset.value.split(":")[1]);
+const defaultPalette = paletteIds[0];
+const currentPalette = () => root.dataset.ppPalette || defaultPalette;
+function applyPalette(id) {
+  if (!id || id === defaultPalette || !paletteIds.includes(id)) delete root.dataset.ppPalette;
+  else root.dataset.ppPalette = id;
+  requestAnimationFrame(themeColor);
+  syncPalette();
+  document.dispatchEvent(new CustomEvent("docs-palette", { detail: { palette: currentPalette() } }));
+}
+function syncPalette() {
+  if (!paletteMenu) return;
+  const id = currentPalette();
+  for (const item of paletteItems) item.setAttribute("aria-checked", String(item.dataset.value === `palette:${id}`));
+  const name = paletteItems.find((item) => item.dataset.value === `palette:${id}`)?.dataset.name ?? id;
+  paletteMenu.querySelector(":scope > button")?.setAttribute("aria-label", `Palette: ${name}`);
+  for (const b of document.querySelectorAll("[data-docs-palette]")) b.setAttribute("aria-pressed", String(b.dataset.docsPalette === id));
+}
+if (paletteMenu) {
+  paletteMenu.hidden = false;
+  syncPalette();
+  paletteMenu.addEventListener(paletteMenu.dataset.docsChoose || "pp-action", (e) => {
+    const [k, v] = String(e.detail.value).split(":");
+    if (k !== "palette") return;
+    store.set(KEYS.palette, v === defaultPalette ? null : v);
+    applyPalette(v);
+  });
+}
+// Buttons that switch the site's palette (the colour page's gallery), saved as the menu saves it.
+document.addEventListener("click", (e) => {
+  const b = e.target.closest?.("[data-docs-palette]");
+  if (b) window.docs.setPalette(b.dataset.docsPalette);
+});
+syncPalette();
 
 const display = document.querySelector(".docs-display");
 function syncMenu() {
@@ -72,6 +112,10 @@ window.docs = {
     store.set(KEYS.pixel, px === "2" ? null : px);
     applyPixel(px);
     syncMenu();
+  },
+  setPalette(id) {
+    store.set(KEYS.palette, !id || id === defaultPalette ? null : id);
+    applyPalette(id);
   },
 };
 

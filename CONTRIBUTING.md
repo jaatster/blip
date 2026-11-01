@@ -139,7 +139,7 @@ token changes the public contract: add a changeset, and run `pnpm lint:css` so t
 Packs as data are planned, not built: there is no pack schema or loader yet, so talk to us in an issue first.
 What works today:
 
-- **A palette** (an accent for each time of day): the docs site's theme builder (`/theme/`) works out the light
+- **A palette** (an accent for each time of day): the docs site's palette maker (`/theme/`) works out the light
   and shade bands, nudges a colour until its ink labels pass AA (or holds the export back when you keep it exact),
   warns when the accent looks like an intent or like the focus yellow, and exports DTCG token files for Day, Sunset
   and Night, a resolver that loads them after Blip's own, and the same as CSS to load after `tokens.css`.

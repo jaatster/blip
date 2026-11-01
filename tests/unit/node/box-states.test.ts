@@ -111,6 +111,30 @@ describe("box: on reads without colour", () => {
   });
 });
 
+describe("box: on, under the pointer", () => {
+  // Calm tiers show their well when hovered; one that is on keeps its tone, or its ink label would sit on the dark
+  // well at Night (a chosen outline tab went blank under the pointer).
+  const body = `<div class="pp-tabs" data-variant="outline"><div class="pp-tabs-list" role="tablist" aria-label="Library">
+      <button class="pp-box pp-tab" data-variant="outline" role="tab" aria-selected="true" id="tab">Saves</button></div></div>
+    <button class="pp-box pp-button" data-variant="ghost" aria-pressed="true" id="ghost">Grid</button>
+    <button class="pp-box pp-button" data-variant="outline" aria-expanded="true" id="menu">Sort</button>
+    <button class="pp-box pp-button" data-variant="outline" id="off">Off</button>`;
+
+  it.each(SCHEMES)("%s: an on outline or ghost box keeps its tone and its label reads; one that is off shows the well", async (scheme) => {
+    const page = await boxPage(browser, assets, { body, components: ["button", "tabs"], scheme });
+    for (const sel of ["#tab", "#ghost", "#menu"]) {
+      await page.hover(sel);
+      const fill = rgb(await prop(page, sel, "--pp-box-fill"));
+      expect(fill, sel).toBe(rgb(await prop(page, sel, "--pp-tone-light")));
+      const label = await page.$eval(sel, (e) => getComputedStyle(e).color);
+      expect(contrast(label, fill), `${scheme} ${sel}: label ${label} on ${fill}`).toBeGreaterThanOrEqual(4.5);
+    }
+    await page.hover("#off");
+    expect(rgb(await prop(page, "#off", "--pp-box-fill"))).toBe(rgb(await prop(page, "#off", "--pp-surface-sunken")));
+    await page.context().close();
+  });
+});
+
 describe("box: more contrast", () => {
   it("draws the focus ring's ink edge two pixels wide, and fills a disabled ghost so only its outline is line", async () => {
     const body = `<button class="pp-box pp-button" data-pp-state="focus" id="f">Save</button>

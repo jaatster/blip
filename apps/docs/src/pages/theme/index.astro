@@ -1,133 +1,218 @@
 ---
 /**
- * Theme builder: an accent per scheme or one for all three (a candy, or any colour with its light and shade worked
- * out and nudged until ink labels read), a pixel size, a live preview, contrast checks that hold the export back
- * when they fail, warnings when the accent looks like an intent or like focus, and the result as DTCG token files
- * and CSS. Then the same by hand: which roles, in which blocks, in which layer, read from the tokens.
+ * Palette maker: start from one of the palettes (Blip's own or a preset), turn four levers (the accent's hue and
+ * strength, Night's tint and lightness) or start the accent from any colour, and see it in Day, Sunset and Night with
+ * the checks the token build runs. Export it as CSS, or as a palette token file and resolver for blip-tokens.
+ * The levers work the palette out with the same maths the presets were made with (palette.mjs), so a preset loaded
+ * here comes out exactly as tokens.json has it: the page checks that when it is built.
  */
 import Docs from "../../layouts/Docs.astro";
 import Icon from "../../components/Icon.astro";
 import Table from "../../components/Table.astro";
-import { manifest, read, schemeBlocks, tokens } from "../../lib/data";
+import { manifest, tokens, type Tokens } from "../../lib/data";
 import { SCHEMES } from "../../lib/colour";
 import { codeBlock } from "../../lib/markdown";
-import { code } from "../../lib/html";
+import { code, esc } from "../../lib/html";
+import { RECIPES } from "../../../../../packages/tokens/scripts/palettes.mjs";
+import { LEVERS, makePalette } from "../../../../../packages/tokens/scripts/palette.mjs";
 
-const t = tokens();
-// The candies that can be an accent: Liquorice (slate) is not one, its labels are white (DESIGN.md, Colors).
-const CANDIES = ["blue", "teal", "green", "purple", "pink", "red", "orange"];
-const candies = Object.fromEntries(CANDIES.map((c) => [c, { base: t.shared[`candy-${c}`], light: t.shared[`candy-${c}-light`], shade: t.shared[`candy-${c}-shade`] }]));
-const DEFAULTS: Record<string, string> = { day: "blue", sunset: "pink", night: "purple" };
-const schemes = Object.fromEntries(SCHEMES.map((s) => [s.id, {
-  title: s.title,
-  dark: s.id === "night",
-  bg: t.schemes[s.id].bg, surface: t.schemes[s.id].surface, raised: t.schemes[s.id]["surface-raised"], dither: t.schemes[s.id]["disabled-dither"],
-  accent: { candy: DEFAULTS[s.id], base: t.schemes[s.id].accent, light: t.schemes[s.id]["accent-light"], shade: t.schemes[s.id]["accent-shade"], text: t.schemes[s.id]["accent-text"], on: t.schemes[s.id]["accent-on"] },
-}]));
+type Scheme = "day" | "sunset" | "night";
+interface PaletteJson { name: string; description: string; credit?: string; shared: Record<string, string>; schemes: Record<Scheme, Record<string, string>> }
+const t = tokens() as Tokens & { palette: string; palettes: Record<string, PaletteJson> };
+const entries = manifest();
+
+// Token paths and their names: palette.day.accent.base is --pp-palette-day-accent.
+const paletteEntries = entries.filter((e) => e.palette && e.type === "color");
+const nameOf = Object.fromEntries(paletteEntries.map((e) => [e.path, e.name]));
+const hexes = Object.fromEntries(Object.entries(t.shared).filter((e): e is [string, string] => typeof e[1] === "string" && /^#[0-9A-F]{6}$/i.test(e[1])));
+const kebab = (path: string) => path.split(".").filter((p, i, a) => !(p === "base" && i === a.length - 1)).join("-");
+/** A palette value as a colour: an alias ({candy.blue.base}) is looked up. */
+const hexOf = (v: string) => (v.startsWith("{") ? hexes[kebab(v.slice(1, -1))]! : v.toUpperCase());
+
+// What a palette must read on, as the presets' generator has it (sceneOf in palettes.mjs), from the built tokens.
+const surfaces = (s: Scheme) => [t.schemes[s].bg!, t.schemes[s].surface!, t.schemes[s]["surface-raised"]!];
+const scene = {
+  ink: t.schemes.day.ink!,
+  warning: t.schemes.day.warning!,
+  day: surfaces("day"),
+  sunset: surfaces("sunset"),
+  night: { text: ["info-text", "success-text", "warning-text", "danger-text", "link-visited"].map((k) => t.schemes.night[k]!) },
+};
+
+// The palettes, their recipes and what each keeps as it is. Each one is worked out again here and must match the
+// tokens exactly, or the levers would start from somewhere else than the preset.
+const ROLE = ["base", "light", "shade", "text"];
+const flatKeep = (keep: Record<string, string[] | Record<string, string>> = {}) => {
+  const out: Record<string, string> = {};
+  for (const [group, value] of Object.entries(keep)) {
+    if (Array.isArray(value)) value.forEach((v, i) => (out[`${group}.${ROLE[i]}`] = v));
+    else for (const [k, v] of Object.entries(value)) out[`${group}.${k}`] = v;
+  }
+  return out;
+};
+const ownDays = (path: string) => /^palette\.(day|sunset)\./.test(path);
+const palettes = RECIPES.map((r: { id: string; name: string; description: string; credit?: string; recipe: Record<string, unknown>; keep?: Record<string, string[] | Record<string, string>> }) => {
+  const keep = flatKeep(r.keep);
+  const full: Record<string, string> = { ...makePalette(r.recipe, scene), ...keep };
+  const expected = (path: string) => (r.id === t.palette ? undefined : t.palettes[r.id]?.shared[nameOf[path]!]) ?? t.shared[nameOf[path]!];
+  for (const [path, v] of Object.entries(full)) {
+    if (hexOf(v) !== expected(path)) throw new Error(`docs: the palette maker works out ${r.id}'s ${path} as ${hexOf(v)}, but the tokens have ${expected(path)}`);
+  }
+  // A palette that keeps its own Day and Sunset (Candy's blue and pink, Grape's purple) can go on keeping them.
+  const days = r.keep?.["palette.day.accent"] ? Object.fromEntries(Object.entries(full).filter(([p]) => ownDays(p))) : null;
+  return {
+    id: r.id, name: r.name, description: r.description, credit: r.credit, recipe: r.recipe, days,
+    keep: Object.fromEntries(Object.entries(keep).filter(([p]) => !ownDays(p))),
+    art: { bg: hexOf(full["palette.night.bg"]!), surface: hexOf(full["palette.night.surface.base"]!), accent: hexOf(full["palette.night.accent.base"]!), light: hexOf(full["palette.night.accent.light"]!), day: hexOf(full["palette.day.accent.base"]!), sunset: hexOf(full["palette.sunset.accent.base"]!), ink: hexOf(full["palette.night.ink"]!) },
+  };
+});
+if (palettes[0]!.id !== t.palette) throw new Error(`docs: the palette maker expects ${t.palette} first in RECIPES`);
+
+// Every palette colour at its default (Candy's), so the preview never shows a palette the site has set instead.
+const defaults = Object.fromEntries(paletteEntries.map((e) => [e.path, t.shared[e.name] as string]));
+const fixed = (s: Scheme) => ({
+  bg: t.schemes[s].bg, surface: t.schemes[s].surface, raised: t.schemes[s]["surface-raised"], sunken: t.schemes[s]["surface-sunken"],
+  dither: t.schemes[s]["disabled-dither"], ink: t.schemes[s].ink,
+  info: t.schemes[s]["info-text"], success: t.schemes[s]["success-text"], danger: t.schemes[s]["danger-text"], visited: t.schemes[s]["link-visited"],
+});
 // What an accent must not look like: the intents (the same candies in every scheme) and the focus ring's yellow.
 const intents = {
   danger: { name: "danger", base: t.schemes.day.danger, candy: "Gumball Red", why: "Red is danger in Blip: destructive actions, errors and invalid fields.", reads: "destructive" },
   warning: { name: "a warning", base: t.schemes.day.warning, candy: "Sherbet Orange", why: "Orange is warning in Blip (yellow is taken by focus).", reads: "a warning" },
   success: { name: "success", base: t.schemes.day.success, candy: "Sour Apple", why: "Green is success in Blip: done, saved, cleared.", reads: "done" },
 };
-const blocks = schemeBlocks();
-const data = { candies, schemes, ink: t.shared.ink, white: t.shared.white, focus: t.schemes.day.focus, intents, blocks };
+const data = { scene, levers: LEVERS, hexes, names: nameOf, defaults, palettes, fixed: { day: fixed("day"), sunset: fixed("sunset"), night: fixed("night") }, titles: Object.fromEntries(SCHEMES.map((s) => [s.id, s.title])), intents, focus: t.schemes.day.focus, white: t.shared.white };
+const LEVER_IDS = ["hue", "strength", "tint", "lightness"] as const;
+const leverHelp: Record<(typeof LEVER_IDS)[number], string> = {
+  hue: "Round the colour wheel, for Day, Sunset and Night.",
+  strength: "1 is as colourful as a candy.",
+  tint: "0 is a neutral charcoal; more takes on the hue.",
+  lightness: "How light Night's page is. Its surfaces, wells and sky follow.",
+};
 
-// ------------------------------------------------------------------ by hand: the roles, the blocks, the layer
+// ------------------------------------------------------------------ by hand: the roles and the presets
 
-const ROLES: [string, string, string][] = [
-  ["accent", "The candy: the main button, the chosen tab, a checked box, the progress fill.", "Its label, 4.5:1"],
-  ["accent-light", "The light band, and the whole fill of soft boxes and of chosen outline and ghost ones.", "Its label, and selected text (ink), 4.5:1"],
-  ["accent-shade", "The shade band, and the top band of a box that is chosen.", "Nothing: no text sits on it"],
-  ["accent-text", "The accent as text: links, the caret, the chosen underline tab.", `4.5:1 on ${["bg", "surface", "surface-raised"].map((r) => `--pp-${r}`).join(", ")}`],
-  ["accent-on", "Labels and icons on the candy and on the soft fill.", "4.5:1 on both, and on a disabled button's dither (--pp-disabled-dither): ink, on any candy that takes ink"],
-  ["selection-bg", "Selected text, behind ink (--pp-selection-text): the light band again.", "Ink on it, 4.5:1"],
+const known = new Map(entries.map((m) => [m.name, m]));
+const role = (name: string) => {
+  if (!known.has(name)) throw new Error(`docs: the palette maker names --pp-${name}, which the tokens no longer have`);
+  return code(known.get(name)!.cssVar);
+};
+// One name a line: the names are long, and a line of them would push the table off the page.
+const each = (suffix: string, schemes: Scheme[] = ["day", "sunset", "night"]) => schemes.map((s) => role(`palette-${s}-${suffix}`)).join("<br>");
+const all = (...names: string[]) => names.map(role).join("<br>");
+const ROLES: [string, string][] = [
+  [each("accent"), "The candy: the main button, the chosen tab, a checked box, the progress fill. Its label is ink, 4.5:1."],
+  [each("accent-light"), "The light band, the fill of soft boxes and of chosen outline and ghost ones, and selected text, under ink."],
+  [each("accent-shade"), "The shade band, and the top band of a chosen box. No text sits on it."],
+  [each("accent-text"), "The accent as text: links, the caret, the chosen underline tab. 4.5:1 on that time of day's page and surfaces."],
+  [each("warning"), "The warning, with -light, -shade and -text like the accent. Orange, unless the accent is orange too; then it turns amber."],
+  [all("palette-night-bg", "palette-night-surface", "palette-night-surface-raised", "palette-night-surface-sunken"), "Night's page, its surfaces (cards, inputs), raised surfaces (menus, dialogs) and wells."],
+  [all("palette-night-text", "palette-night-text-muted"), "Night's body and secondary text, 4.5:1 on all four; also the disabled dithers."],
+  [all("palette-night-line", "palette-night-line-soft"), "Outlines of calm controls (3:1 on the page and surfaces), and dividers."],
+  [role("palette-night-ink"), "Ink at Night: every outline and drop, labels on the candies, the scrim. Darker than the page, never black."],
+  [code("--pp-world-night-*"), "The night sky and ground the world draws: 28 colours, the sky glowing faintly in the accent near the horizon."],
 ];
-const known = new Map(manifest().map((m) => [m.name, m]));
-for (const [role] of ROLES) if (!known.has(role)) throw new Error(`docs: the theme page names --pp-${role}, which the tokens no longer have`);
-const roleRows = ROLES.map(([role, what, must]) => [code(known.get(role)!.cssVar), what, must.replace(/(--pp-[a-z-]+)/g, (m) => code(m))]);
-const valueOf = (scheme: string, role: string) => t.schemes[scheme as "day"][role];
-const recipeLines = ["/* After @jaatster/blip-tokens/tokens.css */", "@layer pp.tokens {"];
-for (const b of blocks) {
-  const pad = "  ".repeat(b.wrap.length + 1);
-  b.wrap.forEach((w, i) => recipeLines.push(`${"  ".repeat(i + 1)}${w} {`));
-  recipeLines.push(`${pad}${b.selector} {`, ...ROLES.map(([role]) => `${pad}  ${known.get(role)!.cssVar}: ${valueOf(b.scheme, role)};`), `${pad}}`);
-  b.wrap.forEach((_, i) => recipeLines.push(`${"  ".repeat(b.wrap.length - i)}}`));
-}
-recipeLines.push("}");
-const recipe = await codeBlock(recipeLines.join("\n"), "css", "my-theme.css");
-// @jaatster/blip-tokens' command (its README): builds the theme's tokens.css through Blip's checks.
-const cli = await codeBlock(`npx blip-tokens my-theme.resolver.json                # writes my-theme.css beside it
-npx blip-tokens my-theme.resolver.json --out src/tokens.css
-npx blip-tokens my-theme.resolver.json --check        # checks only, writes nothing`, "sh", "Shell");
-const screenOnly = blocks.filter((b) => b.wrap.some((w) => /^@media screen\b/.test(w))).map((b) => b.scheme);
-// Which of the roles tokens.css registers with @property (as colours).
-const registered = ROLES.map(([role]) => known.get(role)!.cssVar).filter((v) => new RegExp(`@property ${v} \\{[^}]*<color>`).test(read("packages/tokens/dist/css/tokens.css")));
+for (const s of ["day", "sunset", "night"]) for (const k of ["light", "shade", "text"]) role(`palette-${s}-warning-${k}`);
+const roleRows = ROLES.map(([names, what]) => [names, esc(what)]);
+const presetRows = palettes.filter((p) => p.id !== t.palette).map((p) => [code(p.id), esc(p.name), esc(p.description), esc(p.credit ?? "Blip")]);
+const candyCss = await codeBlock(["/* After @jaatster/blip-tokens/tokens.css: Candy's own palette, as tokens.css sets it */", "@layer pp.tokens {", "  :root {", ...paletteEntries.filter((e) => e.path.startsWith("palette.")).map((e) => `    ${e.cssVar}: ${t.shared[e.name]};`), "    /* …and the 28 --pp-world-night-* colours */", "  }", "}"].join("\n"), "css", "my-palette.css");
+const presetHtml = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-tokens/tokens.css">
+<link rel="stylesheet" href="@jaatster/blip-tokens/palettes.css">
+
+<html data-pp-palette="ember">`, "html", "HTML");
+// @jaatster/blip-tokens' command (its README): builds the palette's tokens.css through Blip's checks.
+const cli = await codeBlock(`npx blip-tokens my-palette.resolver.json                # writes my-palette.css beside it
+npx blip-tokens my-palette.resolver.json --out src/tokens.css
+npx blip-tokens my-palette.resolver.json --check        # checks only, writes nothing`, "sh", "Shell");
 const H = (id: string, text: string) => ({ depth: 2, id, text });
+const style = (vars: Record<string, string>) => Object.entries(vars).map(([k, v]) => `--a-${k}: ${v}`).join("; ");
 ---
-<Docs title="Theme builder" description="Make a Blip theme: an accent for each time of day, nudged until every label passes AA, a pixel size, a live preview with contrast checks, exported as DTCG tokens and CSS, or written by hand." wide styles={["theme"]} scripts={["theme"]} headings={[H("tb-controls-title", "Your theme"), H("tb-preview-title", "Preview"), H("tb-export-title", "Export"), H("by-hand", "By hand")]}>
+<Docs title="Palette maker" description="Make a Blip palette: start from Candy or a preset (Ember, Dracula, Nord and more), turn the levers for the accent's hue and strength and Night's tint and lightness, check every pair in Day, Sunset and Night, and export it as CSS or DTCG tokens." wide kits={["effects"]} styles={["theme"]} scripts={["theme"]} headings={[H("tb-palettes-title", "Start from a palette"), H("tb-controls-title", "Your palette"), H("tb-preview-title", "Preview"), H("tb-export-title", "Export"), H("by-hand", "By hand")]}>
   <header class="docs-page-head tb-head">
-    <h1 class="docs-page-title pp-display" data-scale="2">Theme builder</h1>
-    <p class="docs-lede">Pick an accent for each time of day, from the candies or any colour you like, and a pixel size. The light and shade bands are worked out the way the candies' were, a colour too dark or too pale for ink labels is nudged until they read, and the result comes out as token files for the resolver and as CSS.</p>
+    <h1 class="docs-page-title pp-display" data-scale="2">Palette maker</h1>
+    <p class="docs-lede">A palette is the accent of each time of day and Night's dark page, ink and sky. Start from Blip's own or a preset, then turn the levers: everything else is worked out the way the presets were, every text colour nudged until it passes AA, and the result comes out as CSS or as token files for the resolver.</p>
   </header>
 
-  <noscript><p class="pp-box pp-alert" data-tone="info"><span class="pp-alert-icon" aria-hidden="true"></span><span class="pp-alert-body">The builder needs JavaScript. To set an accent by hand, see <a href="#by-hand">By hand</a> below; the candies and the scheme roles are all on <a href="/foundations/colour/">Colour</a>.</span></p></noscript>
+  <noscript><p class="pp-box pp-alert" data-tone="info"><span class="pp-alert-icon" aria-hidden="true"></span><span class="pp-alert-body">The maker needs JavaScript. For the presets and the palette's custom properties, see <a href="#by-hand">By hand</a> below.</span></p></noscript>
 
   <div class="tb docs-needs-js">
-    <section class="pp-box tb-controls" data-variant="panel" aria-labelledby="tb-controls-title">
-      <h2 class="tb-h2" id="tb-controls-title">Your theme</h2>
-
-      <div class="tb-field">
-        <span class="pp-label" id="tb-scheme-label">Time of day</span>
-        <pp-segmented class="pp-box pp-segmented tb-scheme" aria-labelledby="tb-scheme-label" value="day" data-width="full">
-          {SCHEMES.map((s, i) => <button class="pp-box" type="button" value={s.id} aria-checked={i === 0 ? "true" : "false"}><Icon name={s.id === "day" ? "sun" : s.id === "sunset" ? "sunset" : "moon"} />{s.title}</button>)}
-        </pp-segmented>
-        <label class="pp-check" data-layout="split">One accent for all three<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box tb-all" aria-describedby="tb-all-help" /></span></label>
-        <p class="pp-check-help" id="tb-all-help">On, a pick sets Day, Sunset and Night at once; the accent text still changes with each, to read on its surfaces.</p>
+    <section class="tb-palettes" aria-labelledby="tb-palettes-title">
+      <h2 class="tb-h2" id="tb-palettes-title">Start from a palette</h2>
+      <div class="tb-cards" role="radiogroup" aria-labelledby="tb-palettes-title">
+        {palettes.map((p, i) => (
+          <label class="pp-box tb-card" data-variant="outline">
+            <input type="radio" name="tb-palette" value={p.id} checked={i === 0} aria-describedby={`tb-about-${p.id}`} />
+            <span class="tb-card-art" style={style(p.art)} aria-hidden="true"><span class="tb-card-panel"><span class="tb-card-pill"></span></span><span class="tb-card-days"><span></span><span></span></span></span>
+            <span class="tb-card-name">{p.name}</span>
+            <span class="pp-sr-only" id={`tb-about-${p.id}`}>{p.description}{p.credit && ` ${p.credit}.`}</span>
+          </label>
+        ))}
       </div>
+      <p class="pp-small tb-about" aria-live="polite"></p>
+    </section>
 
-      <fieldset class="tb-field tb-candies">
-        <legend class="pp-label">Accent for <span class="tb-scheme-name">Day</span></legend>
-        <div class="tb-swatches" role="radiogroup" aria-label="Candy">
-          {CANDIES.map((c) => (
-            <label class="pp-box tb-swatch" data-tone={c} title={c}>
-              <input type="radio" name="tb-candy" value={c} />
-              <span class="pp-sr-only">{c}</span>
-              <span class="tb-swatch-mark" aria-hidden="true"></span>
-            </label>
-          ))}
+    <section class="pp-box tb-controls" data-variant="panel" aria-labelledby="tb-controls-title">
+      <h2 class="tb-h2" id="tb-controls-title">Your palette</h2>
+
+      <fieldset class="tb-field">
+        <legend class="pp-label">The accent, all day</legend>
+        {LEVER_IDS.slice(0, 2).map((id) => (
+          <div class="pp-field">
+            <label class="pp-field-label" for={`tb-${id}`}>{LEVERS[id].label}</label>
+            <div class="pp-slider-group">
+              <input class="pp-slider tb-lever" id={`tb-${id}`} data-lever={id} type="range" min={LEVERS[id].min} max={LEVERS[id].max} step={LEVERS[id].step} aria-describedby={`tb-${id}-help`} />
+              <output class="pp-box pp-slider-value" data-variant="panel" for={`tb-${id}`} aria-hidden="true"></output>
+            </div>
+            <p class="pp-field-help" id={`tb-${id}-help`}>{leverHelp[id]}</p>
+          </div>
+        ))}
+        <label class="pp-label" for="tb-hex">Or start from any colour</label>
+        <div class="tb-hex-row">
+          <span class="pp-box pp-input tb-hex"><input id="tb-hex" type="text" inputmode="text" spellcheck="false" autocomplete="off" maxlength="7" value="#00C2FA" aria-describedby="tb-hex-help" /></span>
+          <input class="tb-picker" type="color" value="#00c2fa" aria-label="Pick a colour" />
         </div>
+        <p class="pp-field-help" id="tb-hex-help">Your colour as the candy, made lighter if an ink label would not read on it. The levers then turn it.</p>
+        <label class="pp-check tb-days-row" data-layout="split" hidden><span class="tb-days-label">Keep Candy's Day and Sunset</span><span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box tb-days" aria-describedby="tb-days-help" /></span></label>
+        <p class="pp-check-help tb-days-row" id="tb-days-help" hidden>On, the accent changes Night only. Off, it is the accent of all three.</p>
+        <div class="tb-warnings" aria-live="polite"></div>
+      </fieldset>
+
+      <fieldset class="tb-field">
+        <legend class="pp-label">Night's page</legend>
+        {LEVER_IDS.slice(2).map((id) => (
+          <div class="pp-field">
+            <label class="pp-field-label" for={`tb-${id}`}>{LEVERS[id].label}</label>
+            <div class="pp-slider-group">
+              <input class="pp-slider tb-lever" id={`tb-${id}`} data-lever={id} type="range" min={LEVERS[id].min} max={LEVERS[id].max} step={LEVERS[id].step} aria-describedby={`tb-${id}-help`} />
+              <output class="pp-box pp-slider-value" data-variant="panel" for={`tb-${id}`} aria-hidden="true"></output>
+            </div>
+            <p class="pp-field-help" id={`tb-${id}-help`}>{leverHelp[id]}</p>
+          </div>
+        ))}
       </fieldset>
 
       <div class="tb-field">
-        <label class="pp-label" for="tb-hex">Or any colour</label>
-        <div class="tb-hex-row">
-          <span class="pp-box pp-input tb-hex"><input id="tb-hex" type="text" inputmode="text" spellcheck="false" autocomplete="off" maxlength="7" value="#33A3FF" aria-describedby="tb-hex-help" /></span>
-          <input class="tb-picker" type="color" value="#33a3ff" aria-label="Pick a colour" />
-        </div>
-        <p class="pp-field-help" id="tb-hex-help">A base colour. Light: 0.65 of its saturation at full brightness. Shade: 0.84 of its brightness.</p>
-        <div class="tb-warnings" aria-live="polite"></div>
-      </div>
-
-      <div class="tb-field">
-        <span class="pp-label">The candy, worked out</span>
+        <span class="pp-label">Worked out</span>
         <div class="tb-derived">
           <span class="pp-box tb-derived-box" aria-hidden="true"></span>
           <dl class="tb-derived-values">
-            <div><dt>Light</dt><dd><span class="tb-dot" data-k="light"></span><code data-v="light"></code><span class="tb-from" data-from="light"></span></dd></div>
-            <div><dt>Base</dt><dd><span class="tb-dot" data-k="base"></span><code data-v="base"></code><span class="tb-from" data-from="base"></span></dd></div>
+            <div><dt>Light</dt><dd><span class="tb-dot" data-k="light"></span><code data-v="light"></code></dd></div>
+            <div><dt>Candy</dt><dd><span class="tb-dot" data-k="base"></span><code data-v="base"></code></dd></div>
             <div><dt>Shade</dt><dd><span class="tb-dot" data-k="shade"></span><code data-v="shade"></code></dd></div>
-            <div><dt>Text</dt><dd><span class="tb-dot" data-k="text"></span><code data-v="text"></code></dd></div>
-            <div><dt>Label</dt><dd><span class="tb-dot" data-k="on"></span><code data-v="on"></code></dd></div>
+            <div><dt>Text</dt><dd><span class="tb-dot" data-k="text"></span><code data-v="text"></code><span class="tb-from" data-v="text-scheme"></span></dd></div>
           </dl>
         </div>
-        <p class="pp-small tb-nudge" aria-live="polite" hidden></p>
-        <label class="pp-check tb-exact-row" data-layout="split" hidden>Keep my exact colour<span class="pp-box pp-switch"><input type="checkbox" role="switch" class="pp-box tb-exact" /></span></label>
+        <dl class="tb-night-values" aria-label="Night's page">
+          {[["bg", "Page"], ["surface", "Surface"], ["raised", "Raised"], ["sunken", "Well"], ["text", "Text"], ["muted", "Muted"], ["line", "Lines"], ["ink", "Ink"]].map(([k, label]) => <div><dt>{label}</dt><dd><span class="tb-dot" data-n={k}></span><code data-nv={k}></code></dd></div>)}
+        </dl>
       </div>
 
       <div class="tb-field">
-        <span class="pp-label" id="tb-checks-title">Contrast</span>
-        <ul class="tb-checks" role="list" aria-labelledby="tb-checks-title"></ul>
+        <span class="pp-label" id="tb-scheme-label">Checks and preview for</span>
+        <pp-segmented class="pp-box pp-segmented tb-scheme" aria-labelledby="tb-scheme-label" value="night" data-width="full">
+          {SCHEMES.map((s) => <button class="pp-box" type="button" value={s.id} aria-checked={s.id === "night" ? "true" : "false"}><Icon name={s.id === "day" ? "sun" : s.id === "sunset" ? "sunset" : "moon"} />{s.title}</button>)}
+        </pp-segmented>
+        <ul class="tb-checks" role="list" aria-labelledby="tb-scheme-label"></ul>
         <p class="pp-small tb-summary" role="status"></p>
       </div>
 
@@ -140,7 +225,7 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
         </pp-segmented>
       </div>
 
-      <button class="pp-box pp-button tb-reset" type="button" data-variant="ghost" data-size="sm"><Icon name="undo" />Back to Blip's own</button>
+      <button class="pp-box pp-button tb-reset" type="button" data-variant="ghost" data-size="sm"><Icon name="undo" /><span class="tb-reset-label">Back to Candy</span></button>
     </section>
 
     <section class="tb-preview-wrap" aria-labelledby="tb-preview-title">
@@ -148,8 +233,27 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
       <div class="tb-strip" aria-hidden="true">
         {SCHEMES.map((s) => <div class="tb-strip-cell" data-pp-scheme={s.id} data-strip={s.id}><span class="pp-box pp-button" data-size="sm">{s.title}</span><span class="pp-box pp-button" data-size="sm" data-variant="soft">Soft</span></div>)}
       </div>
+      <div class="tb-night" data-pp-scheme="night" data-strip="night" aria-hidden="true" inert>
+        <pp-world clouds="none" stars></pp-world>
+        <div class="pp-box tb-night-card" data-variant="panel">
+          <p class="tb-night-title">Saved to slot 2</p>
+          <p class="pp-small">Body text, <span class="pp-muted">muted words</span> and <a href="#tb-preview-title">a link</a> on a surface.</p>
+          <span class="pp-box pp-input"><input type="text" value="Player one" aria-label="Sample field" /></span>
+          <div class="docs-row tb-night-tags">
+            <span class="pp-box pp-tag" data-size="sm">Accent</span>
+            <span class="pp-box pp-tag" data-size="sm" data-tone="info">Info</span>
+            <span class="pp-box pp-tag" data-size="sm" data-tone="success">Done</span>
+            <span class="pp-box pp-tag" data-size="sm" data-tone="warning">Warning</span>
+            <span class="pp-box pp-tag" data-size="sm" data-tone="danger">Error</span>
+          </div>
+          <div class="docs-row">
+            <button class="pp-box pp-button" type="button" data-size="sm">Continue</button>
+            <button class="pp-box pp-button" type="button" data-size="sm" data-variant="outline">Back</button>
+          </div>
+        </div>
+      </div>
       <div class="tb-preview-scroll docs-scroll">
-        <div class="tb-preview" data-pp-scheme="day">
+        <div class="tb-preview" data-pp-scheme="night">
           <div class="pp-box tb-sample" data-variant="panel">
             <div class="tb-sample-head">
               <p class="pp-display pp-pop" data-scale="2" data-pop="Level 2">Level 2</p>
@@ -162,7 +266,7 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
                 <button class="pp-box pp-tab" data-variant="soft" role="tab" aria-selected="false" type="button" tabindex="-1">Items</button>
               </div>
             </div>
-            <p class="pp-body">Your theme's accent, in the parts that use it: candy and soft buttons, the chosen tab, a switch, a checkbox, the progress fill, POP letters and <a href="#tb-preview-title">a link like this one</a>.</p>
+            <p class="pp-body">Your palette's accent, in the parts that use it: candy and soft buttons, the chosen tab, a switch, a checkbox, the progress fill, POP letters and <a href="#tb-preview-title">a link like this one</a>.</p>
             <div class="docs-row">
               <button class="pp-box pp-button" type="button">Continue</button>
               <button class="pp-box pp-button" type="button" data-variant="soft">Options</button>
@@ -193,14 +297,14 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
 
     <section class="tb-export" aria-labelledby="tb-export-title">
       <h2 class="tb-h2" id="tb-export-title">Export</h2>
-      <p class="docs-note">Two ways to use it. The CSS goes after Blip's <code class="docs-inline-code">tokens.css</code>, as it is. Or build a checked <code class="docs-inline-code">tokens.css</code> of your own: put the token files and the resolver in your project's folder, beside <code class="docs-inline-code">node_modules</code>, and run <code class="docs-inline-code">blip-tokens</code>, which checks every pair as Blip's own tokens are checked, and writes a file to load instead of Blip's.</p>
+      <p class="docs-note">Two ways to use it. The CSS goes after Blip's <code class="docs-inline-code">tokens.css</code>, as it is: a <code class="docs-inline-code">:root</code> rule in the same layer, loaded later, wins. Or build a checked <code class="docs-inline-code">tokens.css</code> of your own: put the palette's token file and the resolver in your project's folder, beside <code class="docs-inline-code">node_modules</code>, and run <code class="docs-inline-code">blip-tokens</code>, which checks every pair as Blip's own palettes are checked, and writes a file to load instead of Blip's.</p>
       <Fragment set:html={cli} />
       <div class="pp-box pp-alert tb-blocked" data-tone="danger" role="group" aria-labelledby="tb-blocked-title" hidden>
         <span class="pp-alert-icon" aria-hidden="true"></span>
         <div class="pp-alert-body">
-          <p class="pp-alert-title" id="tb-blocked-title">Some labels would not pass AA</p>
+          <p class="pp-alert-title" id="tb-blocked-title">Some pairs would not pass AA</p>
           <ul class="tb-blocked-list"></ul>
-          <p>Pick another colour, or turn off "Keep my exact colour" to have it nudged. Or export it as it is, and check those pairs yourself:</p>
+          <p>Turn a lever, or pick another colour. Or export it as it is, and check those pairs yourself:</p>
           <label class="pp-check"><span class="pp-box pp-checkbox" data-tone="danger"><input type="checkbox" class="tb-override" /></span>Export anyway</label>
         </div>
       </div>
@@ -208,12 +312,10 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
       <pp-tabs class="pp-tabs" data-variant="underline" data-size="sm">
         <div class="pp-tabs-list" role="tablist" aria-label="Export formats">
           <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="true" type="button">CSS</button>
-          <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false" type="button" tabindex="-1">Day tokens</button>
-          <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false" type="button" tabindex="-1">Sunset tokens</button>
-          <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false" type="button" tabindex="-1">Night tokens</button>
+          <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false" type="button" tabindex="-1">Palette tokens</button>
           <button class="pp-box pp-tab" data-variant="ghost" role="tab" aria-selected="false" type="button" tabindex="-1">Resolver</button>
         </div>
-        {[["css", "my-theme.css", "CSS"], ["day", "my-theme.day.tokens.json", "JSON"], ["sunset", "my-theme.sunset.tokens.json", "JSON"], ["night", "my-theme.night.tokens.json", "JSON"], ["resolver", "my-theme.resolver.json", "JSON"]].map(([id, file, lang], i) => (
+        {[["css", "my-palette.css", "CSS"], ["tokens", "my-palette.tokens.json", "JSON"], ["resolver", "my-palette.resolver.json", "JSON"]].map(([id, file, lang], i) => (
           <div class="pp-tabs-panel" role="tabpanel" hidden={i > 0 ? true : undefined}>
             <figure class="pp-box docs-code tb-out">
               <figcaption class="docs-code-bar">
@@ -233,14 +335,15 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
 
   <section class="docs-section tb-by-hand" aria-labelledby="by-hand">
     <h2 id="by-hand">By hand</h2>
-    <p>An accent is six scheme roles. Set them the way <code class="docs-inline-code">tokens.css</code> sets its own: inside <code class="docs-inline-code">@layer pp.tokens</code>, with the same selectors, in a file loaded after it. Same layer, same selectors and later, so yours win exactly where Blip's would. A rule outside the layer would beat every scheme at once: an unlayered <code class="docs-inline-code">:root</code> rule turns Sunset and Night to your Day.</p>
-    <Table label="The accent's roles" head={["Role", "What it paints", "Must pass"]} rows={roleRows} />
-    <p>Here they are with Blip's own values, in every block <code class="docs-inline-code">tokens.css</code> has for them: Day, which is also a page with no scheme set; Sunset; Night; and Night again, for a page with no scheme that follows a device in dark mode.{screenOnly.length > 0 && ` As in tokens.css, ${screenOnly.includes("sunset") ? "Sunset and " : ""}Night ${screenOnly.includes("sunset") ? "are" : "is"} for screens only: a printed page uses Day's.`}</p>
-    <Fragment set:html={recipe} />
+    <p>The scheme roles read the palette: Night's <code class="docs-inline-code">--pp-bg</code> is <code class="docs-inline-code">var(--pp-palette-night-bg)</code>, every scheme's <code class="docs-inline-code">--pp-accent</code> its own <code class="docs-inline-code">--pp-palette-*-accent</code>. So a palette is these custom properties, set inside <code class="docs-inline-code">@layer pp.tokens</code> in a file loaded after <code class="docs-inline-code">tokens.css</code>. Keep them in the layer: outside it, they would beat the presets too.</p>
+    <Table label="The palette's custom properties" head={["Custom properties", "What they paint"]} rows={roleRows} />
+    <Fragment set:html={candyCss} />
+    <p>Or use a preset: load <code class="docs-inline-code">@jaatster/blip-tokens/palettes.css</code> after the tokens and set <code class="docs-inline-code">data-pp-palette</code> on <code class="docs-inline-code">&lt;html&gt;</code>, or on an element that sets its own <code class="docs-inline-code">data-pp-scheme</code>: the roles are worked out where the scheme is set.</p>
+    <Fragment set:html={presetHtml} />
+    <Table label="The presets" head={["data-pp-palette", "Name", "What it is", "Credit"]} rows={presetRows} />
     <ul class="docs-help">
-      {registered.length > 0 && <li><Fragment set:html={registered.map((r) => code(r)).join(", ")} /> {registered.length === 1 ? "is" : "are"} registered as {registered.length === 1 ? "a colour" : "colours"} (<code class="docs-inline-code">@property</code> in <code class="docs-inline-code">tokens.css</code>): give {registered.length === 1 ? "it" : "them"} a colour, or a <code class="docs-inline-code">var()</code> that holds one.</li>}
-      <li>Nothing checks a CSS file. Put each block's colours into the builder, or write them as token files and run <code class="docs-inline-code">blip-tokens</code> on them (see Export, above): it checks every pair in the table and stops on the first that fails.</li>
-      <li>The info intent is the Day accent's blue in every scheme, and stays so. The other intents (success, warning, danger) are separate roles; an accent close to one of them makes every main button look like it.</li>
+      <li>Nothing checks a CSS file. Put your colours into the maker, or write them as a palette token file and run <code class="docs-inline-code">blip-tokens</code> on it (see Export, above): it checks every pair in every scheme and stops on the first that fails.</li>
+      <li>The info intent is the Day accent's blue in every scheme, and stays so. Success and danger are separate roles; an accent close to one of them makes every main button look like it. An accent close to the warning's orange moves the warning to amber.</li>
     </ul>
   </section>
 
