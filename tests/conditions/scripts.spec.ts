@@ -60,15 +60,16 @@ async function fontsOf(page: Page, code: string): Promise<{ checked: number; fai
 
 /**
  * The ink of the section's text: each box's text within the box, and each line of a block clear of the line above.
- * Shots: everything, no glyphs, and each line on its own.
+ * Shots: no glyphs, each box's text on its own, and each line on its own.
  */
 async function inkChecks(page: Page, code: string, width: number): Promise<{ boxes: number; blocks: number; failures: string[] }> {
   const section = `[data-script="${code}"]`;
   const layout = await page.evaluate((section) => {
     const s = document.querySelector(section)!;
     const rect = (e: Element) => { const r = e.getBoundingClientRect(); return { x: r.x, y: r.y, w: r.width, h: r.height }; };
-    const boxes = [...s.querySelectorAll<HTMLElement>("[data-part]")].filter((e) => e.closest(".blip-box")).map((e) => {
+    const boxes = [...s.querySelectorAll<HTMLElement>("[data-part]")].filter((e) => e.closest(".blip-box")).map((e, i) => {
       const box = e.closest(".blip-box")!;
+      e.dataset.lanesInk = String(i);
       const fs = parseFloat(getComputedStyle(e).fontSize);
       return { part: e.dataset.part!, text: rect(e), box: rect(box), pixel: parseFloat(getComputedStyle(box).getPropertyValue("--blip-pixel")) || 2, fs };
     });
@@ -86,22 +87,23 @@ async function inkChecks(page: Page, code: string, width: number): Promise<{ box
     await style?.evaluate((s) => (s as Element).remove());
     return img;
   };
-  const all = await shot();
   const none = await shot(HIDE_GLYPHS);
   const lineShots: Image[] = [];
   for (let k = 1; k <= layout.lines; k++) lineShots.push(await shot(`${HIDE_GLYPHS}\n${section} [data-line="${k}"] { -webkit-text-fill-color: currentColor !important; }`));
   const failures: string[] = [];
   const clampX = (x: number) => Math.max(0, Math.min(width - 1, Math.round(x)));
-  const clampY = (y: number) => Math.max(0, Math.min(all.height - 1, Math.round(y)));
+  const clampY = (y: number) => Math.max(0, Math.min(none.height - 1, Math.round(y)));
   const inkAt = (img: Image, x: number, y: number) => distance(at(img, x, y), at(none, x, y)) >= 60;
 
-  // A box's text within the box: its ink anywhere near its line, outside the box's inside.
-  for (const b of layout.boxes) {
+  // A box's text within the box: its ink anywhere near its line, outside the box's inside. Its own ink, shown alone,
+  // so a neighbour's text close by is not counted as its own.
+  for (const [i, b] of layout.boxes.entries()) {
+    const own = await shot(`${HIDE_GLYPHS}\n[data-lanes-ink="${i}"], [data-lanes-ink="${i}"] * { -webkit-text-fill-color: currentColor !important; }`);
     const x0 = clampX(b.text.x - b.fs / 2), x1 = clampX(b.text.x + b.text.w + b.fs / 2), y0 = clampY(b.text.y - b.fs), y1 = clampY(b.text.y + b.text.h + b.fs);
     const ix0 = b.box.x + b.pixel, ix1 = b.box.x + b.box.w - b.pixel, iy0 = b.box.y + b.pixel, iy1 = b.box.y + b.box.h - b.pixel;
     let worst = 0;
     for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) {
-      if (!inkAt(all, x, y)) continue;
+      if (!inkAt(own, x, y)) continue;
       worst = Math.max(worst, ix0 - x, x + 1 - ix1, iy0 - y, y + 1 - iy1);
     }
     if (worst > 0) failures.push(`${b.part}: its text's ink reaches ${Math.round(worst)} px out of its box`);
