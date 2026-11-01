@@ -78,7 +78,7 @@ if (board || $(".docs-voice")) {
   for (const k of $$(".docs-sound-key")) {
     k.addEventListener("click", () => {
       if (k.getAttribute("aria-disabled") === "true") return $(".docs-sound-toggle")?.focus();
-      if (k.dataset.sound === "blip") "Pixel".split("").forEach((c, i) => setTimeout(() => sound.play("blip", { rate: sound.voiceRate(c) }), i * 90));
+      if (k.dataset.sound === "blip") "Blip".split("").forEach((c, i) => setTimeout(() => sound.play("blip", { rate: sound.voiceRate(c) }), i * 90));
       else sound.play(k.dataset.sound);
     });
   }

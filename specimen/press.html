@@ -1,61 +1,87 @@
 <!doctype html>
-<html lang="en" data-chu-scheme="day" data-chu-pixel="4" data-chu-motion="reduce">
+<html lang="en" data-chu-scheme="night" data-chu-motion="reduce">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=1200">
   <title>Blip press card</title>
   <link rel="icon" href="data:,">
-  <!-- The social card (1200 x 630), drawn by Blip itself: the hero block over <chu-world>, the name in Pixel Bop
-       POP, and four blips (ice lollies) drawn by the game kit's sprite renderer. Time is frozen and randomness seeded, as on
-       the test page, and motion is paused, so the picture is the same every time. scripts/shoot.mjs saves it as
-       apps/docs/public/og.png. ?scheme=sunset|night  ?palette=grape (any preset) -->
+  <!-- The social card (1200 x 630): the docs' home hero, drawn from the same parts and the home page's own styles
+       (apps/docs/public/css/home.css). The name in Pixel Bop POP over <chu-world>, the window of options, and the
+       site's sections as candy tiles on the hill line. Time is frozen and randomness seeded, as on the test page, and
+       motion is paused, so the picture is the same every time. scripts/shoot.mjs saves it as apps/docs/public/og.png.
+       ?scheme=day|sunset (Night by default)  ?palette=grape (any preset) -->
   <script type="importmap">{ "imports": { "@jaatster/blip-core": "/packages/core/dist/js/index.js", "@jaatster/blip-tokens": "/packages/tokens/dist/js/index.js" } }</script>
   <link rel="stylesheet" href="/packages/font/font.css">
   <link rel="stylesheet" href="/packages/tokens/dist/css/tokens.css">
   <link rel="stylesheet" href="/packages/tokens/dist/css/palettes.css">
   <link rel="stylesheet" href="/packages/core/dist/core.css">
-  <link rel="stylesheet" href="/packages/effects/src/world.css">
-  <link rel="stylesheet" href="/packages/blocks/src/hero.css">
-  <link rel="stylesheet" href="/packages/game/src/sprites.css">
+  <link rel="stylesheet" href="/packages/components/dist/components.css">
+  <link rel="stylesheet" href="/packages/effects/dist/effects.css">
+  <link rel="stylesheet" href="/packages/blocks/dist/blocks.css">
+  <link rel="stylesheet" href="/packages/game/dist/game.css">
+  <link rel="stylesheet" href="/apps/docs/public/css/home.css">
   <style>
     @layer press {
       html, body { margin: 0; overflow: hidden; }
-      .press.chu-hero {
-        --chu-hero-ground: 16;
+      .press.home-hero {
         box-sizing: border-box;
         inline-size: 1200px;
         block-size: 630px;
         min-block-size: 0;
-        padding: 0 calc(8 * var(--chu-pixel)) calc(26 * var(--chu-pixel));
+        mask-image: none;
+        padding-block-start: var(--chu-space-12);
       }
-      .press .chu-hero-inner { gap: calc(4 * var(--chu-pixel)); }
-      .press .chu-hero-title { margin: 0; }
-      .press-pitch { margin: 0; }
-      .press .chu-hero-scenery { display: flex; justify-content: space-between; align-items: end; padding-inline: calc(10 * var(--chu-pixel)); }
-      .press-lollies { display: flex; align-items: end; gap: calc(4 * var(--chu-pixel)); }
-      /* The second blip of each pair is stuck deeper in the meadow. */
-      .press-lollies > :nth-child(2) { margin-block-end: calc(-6 * var(--chu-pixel)); }
-      .press-lollies:last-child { flex-direction: row-reverse; }
     }
   </style>
 </head>
 <body>
-  <section class="chu-hero press" aria-labelledby="press-title">
-    <chu-world avoid=".chu-hero-title, .press-pitch, .press-lollies"></chu-world>
-    <div class="chu-hero-inner">
-      <h1 class="chu-hero-title chu-display" id="press-title"><span class="chu-sr-only">Blip</span><span aria-hidden="true"><span class="chu-hero-word"><span class="chu-pop chu-drop-in" data-pop="C" style="--i:0">C</span><span class="chu-pop chu-drop-in" data-pop="h" style="--i:1">h</span><span class="chu-pop chu-drop-in" data-pop="u" style="--i:2">u</span><span class="chu-pop chu-drop-in" data-pop="s" style="--i:3">s</span><span class="chu-pop chu-drop-in" data-pop="k" style="--i:4">k</span><span class="chu-pop chu-drop-in" data-pop="i" style="--i:5">i</span></span></span></h1>
-      <p class="press-pitch chu-display chu-pop" data-scale="1" data-tone="pink" data-pop="A 16-bit pixel-art design system">A 16-bit pixel-art design system</p>
+  <section class="chu-hero home-hero press" data-align="start" aria-labelledby="press-title">
+    <chu-world clouds stars avoid=".chu-hero-title, .home-lead, .home-note, .home-demo, .home-tiles .chu-tile-item"></chu-world>
+    <div class="home-hero-grid">
+      <div class="home-hero-copy">
+        <h1 class="chu-hero-title chu-display" id="press-title"><span class="chu-sr-only">Blip</span><span aria-hidden="true"><span class="chu-hero-word"><span class="chu-pop chu-drop-in" data-pop="C" style="--i:0">C</span><span class="chu-pop chu-drop-in" data-pop="h" style="--i:1">h</span><span class="chu-pop chu-drop-in" data-pop="u" style="--i:2">u</span><span class="chu-pop chu-drop-in" data-pop="s" style="--i:3">s</span><span class="chu-pop chu-drop-in" data-pop="k" style="--i:4">k</span><span class="chu-pop chu-drop-in" data-pop="i" style="--i:5">i</span></span></span></h1>
+        <p class="chu-hero-lead home-lead">A 16-bit design system: candy controls on a soft pixel world, one square pixel everywhere, and motion that snaps.</p>
+        <p class="chu-hero-note home-note">Tokens, CSS and Web Components, with React. No images.</p>
+      </div>
+      <section class="chu-box chu-window home-demo" aria-labelledby="press-demo">
+        <header class="chu-window-bar"><h2 class="chu-window-title chu-display chu-pop" id="press-demo">Options</h2></header>
+        <div class="chu-window-body home-demo-body">
+          <div class="home-demo-row">
+            <span class="chu-label">Time of day</span>
+            <span class="chu-box chu-segmented home-scheme" data-size="sm" role="radiogroup">
+              <button class="chu-box" type="button" role="radio" aria-checked="true" data-scheme="auto">Auto</button>
+              <button class="chu-box" type="button" role="radio" aria-checked="false" data-scheme="day">Day</button>
+              <button class="chu-box" type="button" role="radio" aria-checked="false" data-scheme="sunset">Sunset</button>
+              <button class="chu-box" type="button" role="radio" aria-checked="false" data-scheme="night">Night</button>
+            </span>
+          </div>
+          <div class="home-demo-row home-accents">
+            <span class="chu-label">Accent</span>
+            <div class="home-swatches">
+              <label class="chu-box home-swatch home-swatch-auto"><input type="radio" name="accent" checked><span class="home-swatch-split"></span><span class="home-swatch-mark"></span></label>
+              <label class="chu-box home-swatch" data-tone="teal"><input type="radio" name="accent"><span class="home-swatch-mark"></span></label>
+              <label class="chu-box home-swatch" data-tone="green"><input type="radio" name="accent"><span class="home-swatch-mark"></span></label>
+              <label class="chu-box home-swatch" data-tone="purple"><input type="radio" name="accent"><span class="home-swatch-mark"></span></label>
+              <label class="chu-box home-swatch" data-tone="pink"><input type="radio" name="accent"><span class="home-swatch-mark"></span></label>
+              <label class="chu-box home-swatch" data-tone="orange"><input type="radio" name="accent"><span class="home-swatch-mark"></span></label>
+            </div>
+          </div>
+          <label class="chu-check home-demo-row" data-layout="split">Chip sounds<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box" checked></span></label>
+          <button class="chu-box chu-button home-start" type="button" data-variant="soft" data-width="full">Press start</button>
+        </div>
+        <footer class="chu-window-status"><span>Every control is live</span><span class="press-daytime"></span></footer>
+      </section>
     </div>
-    <div class="chu-hero-scenery" aria-hidden="true">
-      <span class="press-lollies" data-lollies="pink purple"></span>
-      <span class="press-lollies" data-lollies="orange teal"></span>
-    </div>
-    <div class="chu-hero-ground"></div>
+    <nav class="home-launch" aria-label="Sections">
+      <div class="home-tiles-grid" data-chu-pixel="3">
+        <ul class="chu-tile-grid home-tiles" role="list" data-tiles="green:rocket:Get started blue:palette:Foundations purple:puzzle:Components teal:desktop:Templates pink:brush:Palette maker orange:gamepad:Kits"></ul>
+      </div>
+    </nav>
+    <div class="chu-hero-scenery home-scenery" aria-hidden="true" data-scenery="coin:2:2 coin:9:6 star:16:0 sparkle-small:22:10 star:78:0 coin:86:4 sparkle:92:12"></div>
   </section>
 
   <script type="module">
     import { provide } from "@jaatster/blip-core";
-    import { paths, colour } from "/packages/game/dist/_pixels.js";
 
     // The test page's clock and seed (tests/page/example.js), before the world loads.
     provide({ clock: () => new Date("2026-06-21T12:00:00"), seed: 42 });
@@ -64,63 +90,27 @@
     const q = new URLSearchParams(location.search);
     if (/^(day|sunset|night)$/.test(q.get("scheme") ?? "")) root.dataset.chuScheme = q.get("scheme");
     if (q.get("palette")) root.dataset.chuPalette = q.get("palette");
+    const scheme = root.dataset.chuScheme;
+    document.querySelector(".press-daytime").textContent = scheme[0].toUpperCase() + scheme.slice(1);
 
-    // A blip: crushed ice soaked in syrup on a stick. The game kit's sprite format (l c s: the tone's light, base and
-    // shade; w white; k K cream; the ink outline added round the fill), drawn by its renderer.
-    const BLIP = [
-      ".....lllllllll....",
-      "...lllwwllllllcc..",
-      "..llwwwlllllcccs..",
-      ".llwwllccclccccss.",
-      ".lwwlcccccccclccss",
-      "llwlccwccccccccscs",
-      "llllcccccclcccccss",
-      ".lwlcclcccccwcccss",
-      ".llccccccccccccscs",
-      "llcccwcccclcccccss",
-      "lwccccccccccccccs.",
-      "llcclccccwcccscss.",
-      "lllccccccccccccscs",
-      "lwccccwcclccccccss",
-      ".lcccccccccccccsss",
-      ".llclccccccwcccscs",
-      "lwccccclccccccccss",
-      "llccwcccccccsccccs",
-      "llccccccccclccccs.",
-      "lwcclcccwcccccscs.",
-      "llcccccccccccccsss",
-      ".lccccwcclccccccss",
-      ".wclccccccccscccss",
-      "llccccccwcccccsss.",
-      ".scccclcccccccccs.",
-      ".ssccccccccccsssss",
-      "..sssscssssssssss.",
-      "...ss..kkkK..ss...",
-      "...ss..kkkK...s...",
-      ".......kkkK.......",
-      ".......kkkK.......",
-      ".......kkkK.......",
-      ".......kkkK.......",
-      ".......kkkK.......",
-      ".......kkkK.......",
-      ".......kkkK.......",
-      ".......kkkK.......",
-      "........kK........",
-    ];
-    // The one-pixel ink outline round the fill, as the kit's pixels() adds it to its own sprites.
-    function outlined(fill) {
-      const at = (x, y) => (fill[y - 1]?.[x - 1] ?? ".") !== ".";
-      return Array.from({ length: fill.length + 2 }, (_, y) => Array.from({ length: fill[0].length + 2 }, (_, x) =>
-        at(x, y) ? fill[y - 1][x - 1] : at(x - 1, y) || at(x + 1, y) || at(x, y - 1) || at(x, y + 1) ? "o" : ".").join(""));
-    }
-    function blip(tone) {
-      const rows = outlined(BLIP), w = rows[0].length, h = rows.length;
-      let body = "";
-      for (const [key, d] of paths(rows)) body += `<path fill="${colour(key, tone)}" d="${d}"/>`;
-      return `<svg class="chu-sprite" viewBox="0 0 ${w} ${h}" style="--_w:${w};--_h:${h}" shape-rendering="crispEdges" aria-hidden="true">${body}</svg>`;
-    }
-    for (const el of document.querySelectorAll("[data-lollies]")) el.innerHTML = el.dataset.lollies.split(" ").map(blip).join("");
+    // The launcher, as the home page's: each section a candy tile with its icon, its name under it, the first chosen.
+    const { icons } = await (await fetch("/packages/icons/dist/icons.json")).json();
+    const path = (name) => icons.find((i) => i.name === name).path;
+    document.querySelector("[data-tiles]").innerHTML = document.querySelector("[data-tiles]").dataset.tiles.split(" ").reduce((all, t) => {
+      if (t.includes(":")) all.push(t); else all[all.length - 1] += " " + t;
+      return all;
+    }, []).map((t, i) => {
+      const [tone, icon, name] = t.split(":");
+      return `<li class="chu-tile-item"><span class="chu-box chu-tile" data-tone="${tone}"${i === 0 ? " data-selected" : ""}><svg class="chu-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="${path(icon)}"/></svg><span class="chu-tile-glint"></span></span><span class="chu-tile-label chu-outline">${name}</span></li>`;
+    }).join("");
+    // Things fallen on the meadow, as on the home page: where each stands along the ground, and how high it floats.
+    const meadow = document.querySelector("[data-scenery]");
+    meadow.innerHTML = meadow.dataset.scenery.split(" ").map((s) => {
+      const [name, at, up] = s.split(":");
+      return `<chu-sprite name="${name}" style="left:calc(round(down,${at}%,var(--chu-pixel)));bottom:calc(${up}*var(--chu-pixel))"></chu-sprite>`;
+    }).join("");
 
+    await import("/packages/game/dist/sprites.js");
     await import("/packages/effects/dist/world.js");
     await Promise.all([document.fonts.load(`${10 * 4}px "Pixel Bop"`), document.fonts.ready]);
     await settle();

@@ -2,7 +2,7 @@
 // Screenshots with Playwright's Chromium (the tests workspace's).
 //
 //   node scripts/shoot.mjs        (pnpm shoot) the social card: specimen/press.html at 1200 x 630, device scale 1, in
-//                                 Day and Night, saved as apps/docs/public/og.png and og-night.png. The page freezes
+//                                 Night and Day, saved as apps/docs/public/og.png and og-day.png. The page freezes
 //                                 time and seeds randomness as the tests do and motion is reduced, so the same build
 //                                 gives the same bytes. Uses the server on :4173 if it serves this checkout, else
 //                                 starts scripts/serve.mjs for the run.
@@ -21,7 +21,7 @@ const args = process.argv.slice(2);
 const opt = (name, def) => { const i = args.indexOf(`--${name}`); return i >= 0 ? args[i + 1] : def; };
 
 /** The social cards: [press.html's query, the file in apps/docs/public]. */
-const CARDS = [["", "og.png"], ["?scheme=night", "og-night.png"]];
+const CARDS = [["", "og.png"], ["?scheme=day", "og-day.png"]];
 
 if (!args.length) await press();
 else await adhoc();

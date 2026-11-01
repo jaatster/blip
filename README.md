@@ -1,6 +1,6 @@
 # Blip
 
-![Blip in white pixel letters over a pixel-art meadow under a blue sky, with four ice lollies standing in the grass. A 16-bit pixel-art design system.](apps/docs/public/og.png)
+![Blip in white pixel letters on a starry night over pixel-art mountains, beside a window of options, with the site's sections as candy tiles on the hill. A 16-bit design system.](apps/docs/public/og.png)
 
 **A 16-bit pixel-art design system: candy controls on a soft pixel world, one square pixel everywhere, and motion
 that snaps.**

@@ -31,7 +31,7 @@ const pageTitle = title === "Blip" ? title : `${title} · Blip`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 // The social card: specimen/press.html, drawn by Blip and saved by `pnpm shoot`.
 const card = new URL("/og.png", Astro.site);
-const cardAlt = "Blip in white pixel letters over a pixel-art meadow under a blue sky, with four ice lollies standing in the grass. A 16-bit pixel-art design system.";
+const cardAlt = "Blip in white pixel letters on a starry night over pixel-art mountains, beside a window of options, with the site's sections as candy tiles on the hill. A 16-bit design system.";
 // The presets a reader can pick (the default palette is having none).
 const presets = Object.keys(tokens().palettes ?? {}).join(" ");
 ---
