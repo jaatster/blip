@@ -48,4 +48,25 @@ const groups = section.groups();
     keep();
     nav.addEventListener("scroll", keep, { passive: true });
   })();
+  // Open as the drawer (under 1024 px), the list is modal: the page behind it is inert, so Tab stays in the list and
+  // the page can't scroll (docs.css). Escape, Close and a tap on the scrim close it as before. Focus starts on the
+  // page you are on and goes back to the button that opened the list.
+  (() => {
+    const nav = document.getElementById("docs-nav"), toggle = document.querySelector(".docs-nav-toggle");
+    const behind = () => document.querySelectorAll(".docs-shell > :not(#docs-nav), body > .blip-skip-link");
+    nav.addEventListener("beforetoggle", (e) => {
+      // Before it hides, so the browser can hand focus back to the button.
+      if (e.newState === "closed") for (const el of behind()) el.inert = false;
+    });
+    nav.addEventListener("toggle", (e) => {
+      if (e.newState === "open") {
+        for (const el of behind()) el.inert = true;
+        (nav.querySelector('[aria-current="page"]') || nav.querySelector(".docs-sidebar-close"))?.focus();
+      } else if (toggle && (!document.activeElement || document.activeElement === document.body || nav.contains(document.activeElement))) {
+        toggle.focus();
+      }
+    });
+    // Wide enough for the list to be part of the page again: the drawer closes.
+    matchMedia("(min-width: 1024px)").addEventListener("change", (m) => { if (m.matches && nav.matches(":popover-open")) nav.hidePopover(); });
+  })();
 </script>

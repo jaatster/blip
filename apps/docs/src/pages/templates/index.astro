@@ -1,5 +1,9 @@
 ---
-/** The templates: three whole screens, each shown live here and full screen on its own page. */
+/**
+ * The templates: three whole screens, each shown live here and full screen on its own page. The previews are whole
+ * pages, so they load only once this page has, and only when they come near the window (tpl-index.js); without the
+ * script, "Open full screen" shows them.
+ */
 import Docs from "../../layouts/Docs.astro";
 import Icon from "../../components/Icon.astro";
 import Pager from "../../components/Pager.astro";
@@ -10,7 +14,7 @@ const parts: Record<string, string> = {
   game: "The world, POP and drop-in letters, a press-start prompt, choices, a window of options, the HUD, a talking dialogue and the pause menu.",
 };
 ---
-<Docs title="Templates" description="Three whole screens built from Blip: a dashboard, a landing page and a game menu." styles={["templates"]} headings={TEMPLATES.map((t) => ({ depth: 2, id: t.slug, text: t.title }))}>
+<Docs title="Templates" description="Three whole screens built from Blip: a dashboard, a landing page and a game menu." styles={["templates"]} scripts={["tpl-index"]} headings={TEMPLATES.map((t) => ({ depth: 2, id: t.slug, text: t.title }))}>
   <header class="docs-page-head">
     <h1 class="docs-page-title blip-display" data-scale="2">Templates</h1>
     <p class="docs-lede">Three whole screens made of Blip parts, with only their layout as page CSS (and, on the dashboard, a bar chart). Each runs live below at its real size; open one to use it full screen. Their markup is the place to start your own.</p>
@@ -25,7 +29,7 @@ const parts: Record<string, string> = {
           <a class="blip-box blip-button" href={t.url} data-size="sm"><Icon name="maximize" />Open full screen</a>
         </div>
         <div class="blip-box tpl-preview" data-variant="panel">
-          <iframe src={t.url} title={`${t.title}, a live preview`} loading="lazy" tabindex="-1" inert></iframe>
+          <iframe data-src={t.url} title={`${t.title}, a live preview`} loading="lazy" tabindex="-1" inert></iframe>
         </div>
       </section>
     ))}

@@ -69,7 +69,7 @@ const SPECS: Record<string, Spec> = {
     x: 12,
     y: 12,
     html: `<div class="blip-scrim docs-fig-scrim"><dialog class="blip-box blip-dialog" data-tone="danger" open data-blip-static style="inline-size: calc(88 * var(--blip-pixel))">
-  <header class="blip-dialog-header"><span class="blip-dialog-icon" aria-hidden="true"></span><p class="blip-dialog-title">Quit?</p><button class="blip-box blip-button blip-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only tabindex="-1"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button></header>
+  <header class="blip-dialog-header"><span class="blip-dialog-icon" aria-hidden="true"></span><p class="blip-dialog-title">Quit?</p><button class="blip-box blip-button blip-dialog-close" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close" tabindex="-1"><span class="blip-icon" data-glyph="close" aria-hidden="true"></span></button></header>
   <div class="blip-dialog-body"><p>Lose 3 stars?</p></div>
   <footer class="blip-dialog-footer"><button class="blip-box blip-button" type="button" data-size="sm" data-variant="soft" data-tone="neutral" tabindex="-1">Stay</button><button class="blip-box blip-button" type="button" data-size="sm" data-tone="danger" tabindex="-1">Quit</button></footer>
 </dialog></div>`,

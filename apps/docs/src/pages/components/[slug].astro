@@ -15,6 +15,7 @@ import { code, esc, kitsFor, stripTags } from "../../lib/html";
 import { reactSection } from "../../lib/react-section";
 import { anatomyFigure } from "../../lib/anatomy";
 import { SHADCN_NAMESPACE, shadcnItemFor } from "../../lib/shadcn";
+import { PUBLISHED } from "../../lib/install";
 
 export function getStaticPaths() {
   return componentDocs().map((doc) => ({ params: { slug: doc.slug }, props: { doc } }));
@@ -172,7 +173,7 @@ const searchShortcut = ex && /<blip-command[\s>]/.test(ex.html) ? "/" : undefine
       {shadcn && (
         <Fragment>
           <h3 id="react-shadcn">With shadcn/ui</h3>
-          <p>In an app set up with shadcn/ui, the CLI copies these components into <code class="docs-inline-code">{shadcn.files[0]}</code>, yours to edit, with Blip's CSS from npm. Add the <code class="docs-inline-code">{SHADCN_NAMESPACE}</code> registry first: <a href="/start/#shadcn">Use with shadcn/ui</a>.</p>
+          <p>In an app set up with shadcn/ui, the CLI copies these components into <code class="docs-inline-code">{shadcn.files[0]}</code>, yours to edit, with Blip's CSS from npm{!PUBLISHED && <Fragment> (not there yet: until the first release, <a href="/start/">build Blip from its source</a>)</Fragment>}. Add the <code class="docs-inline-code">{SHADCN_NAMESPACE}</code> registry first: <a href="/start/#shadcn">Use with shadcn/ui</a>.</p>
           <Fragment set:html={shadcnCode} />
         </Fragment>
       )}

@@ -2,17 +2,21 @@
 /**
  * An install box: the same packages for npm, pnpm, yarn and bun, and the CDN's files, as tabs. Each has its copy
  * button. The reader's choice is remembered, and every install box on the page follows it (site.js, "install").
- * The CDN tab shows the `cdn` code given, after anything in the "cdn" slot.
+ * The CDN tab shows the `cdn` code given, after anything in the "cdn" slot. Until the packages are published, a line
+ * under the box says the commands and the CDN's files are for later (`unpublished={false}` leaves it out, for a page
+ * that says so itself).
  */
 import { codeBlock } from "../lib/markdown";
-import { MANAGERS, commands, type InstallLine } from "../lib/install";
+import { MANAGERS, PUBLISHED, commands, type InstallLine } from "../lib/install";
 interface Props {
   lines: InstallLine[];
   /** The CDN's markup (HTML): what to put in the page instead of installing. */
   cdn: string;
   label?: string;
+  /** Say, under the box, that nothing is published yet (while that is so). */
+  unpublished?: boolean;
 }
-const { lines, cdn, label = "How to install" } = Astro.props;
+const { lines, cdn, label = "How to install", unpublished = true } = Astro.props;
 const panels = await Promise.all(MANAGERS.map((m) => (m.id === "cdn" ? codeBlock(cdn, "html", "HTML") : codeBlock(commands(m.id, lines), "sh", m.label))));
 const cdnNote = Astro.slots.has("cdn") ? await Astro.slots.render("cdn") : "";
 ---
@@ -27,3 +31,4 @@ const cdnNote = Astro.slots.has("cdn") ? await Astro.slots.render("cdn") : "";
     </div>
   ))}
 </blip-tabs>
+{!PUBLISHED && unpublished && <p class="docs-note">Not on npm yet, so these commands and the CDN's files work from the first release. Until then, <a href="/start/">build Blip from its source</a>.</p>}

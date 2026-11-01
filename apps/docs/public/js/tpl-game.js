@@ -12,7 +12,8 @@ async function show(screen, kind = "dither") {
   await transition(() => {
     game.dataset.screen = screen;
   }, { kind });
-  const focus = { title: ".tpl-press-start", menu: ".tpl-main-choices .blip-choice:not([aria-disabled='true'])", level: ".tpl-frog" }[screen];
+  // In the level the coin button takes focus, so Space collects a coin at once, as the hint says; Tab reaches the frog.
+  const focus = { title: ".tpl-press-start", menu: ".tpl-main-choices .blip-choice:not([aria-disabled='true'])", level: ".tpl-coin-button" }[screen];
   const el = $(focus);
   if (screen === "level") startLevel();
   else stopClock();
@@ -40,6 +41,7 @@ $(".tpl-main-choices").addEventListener("blip-action", (e) => {
   const v = e.detail.value;
   if (v === "new") {
     play("success");
+    newGame();
     show("level", "dissolve");
   } else if (v === "options") {
     play("open");
@@ -65,6 +67,15 @@ time.addEventListener("blip-change", (e) => {
 
 const coins = $(".tpl-coins"), score = $(".tpl-score"), clock = $(".tpl-clock"), frog = $(".tpl-frog"), pause = $(".tpl-pause");
 let tick;
+// A new game starts as the page did: the coins, score and clock in the markup, and the frog from his first words.
+const fresh = { coins: coins.getAttribute("value"), score: score.getAttribute("value"), clock: clock.getAttribute("value") };
+const opening = [...frog.querySelectorAll(".blip-dialogue-text > p")].map((p) => p.textContent.trim());
+function newGame() {
+  coins.value = Number(fresh.coins);
+  score.value = Number(fresh.score);
+  clock.value = Number(fresh.clock);
+  frog.say?.(opening);
+}
 function stopClock() {
   clearInterval(tick);
   tick = undefined;
@@ -91,7 +102,10 @@ document.addEventListener("keydown", (e) => {
     addCoin();
   }
 });
+// The frog answers a choice: the choice goes as his new words type, so the keyboard stays in his box (on the arrow,
+// and on the choices again once he has finished: the dialogue moves it there itself).
 frog.addEventListener("blip-action", (e) => {
+  requestAnimationFrame(() => frog.focus());
   const have = Number(coins.value);
   if (e.detail.value === "pay") {
     if (have >= 30) {
@@ -122,6 +136,17 @@ pause.addEventListener("blip-action", (e) => {
   else if (v === "docs") location.href = "/templates/";
 });
 pause.addEventListener("close", () => play("back"));
+
+// The touch pad shows on a coarse pointer and sits over the bottom of the screen: each screen keeps its height clear
+// (--tpl-pad, templates.css, which guesses it until this measures it).
+const pad = $("blip-touch-pad");
+if (pad && "ResizeObserver" in window) {
+  new ResizeObserver(() => {
+    const h = pad.offsetHeight;
+    if (h) game.style.setProperty("--tpl-pad", `${h}px`);
+    else game.style.removeProperty("--tpl-pad");
+  }).observe(pad);
+}
 
 // The touch pad's A sends Enter to what has focus, and a scripted key can't press a button by itself: press it here.
 document.addEventListener("keydown", (e) => {

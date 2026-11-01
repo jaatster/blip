@@ -183,6 +183,22 @@ export async function renderMarkdown(source: string, options: RenderOptions = {}
   const prefix = options.idPrefix ?? "";
   const shift = options.shift ?? 0;
 
+  // Links between docs ("toast.md", "../../game/docs/choices.md#keys") become their pages' URLs, in the lede too (it
+  // is taken out before the walk). A link to a heading of the same document gets the document's id prefix, as its
+  // heading does. A .md link that no page answers is left as it is, and said, so the build shows it.
+  const links: Element[] = [];
+  const fixLinks = (n: Node) => {
+    if (isEl(n, "a")) {
+      const href = String(n.properties?.href ?? "");
+      const to = options.link?.(href);
+      if (to) n.properties.href = to;
+      else if (/^https?:/.test(href)) n.properties.rel = "noopener";
+      else if (/\.md(#.*)?$/.test(href)) console.warn(`docs: no page for the markdown link "${href}"`);
+      if (/^#./.test(String(n.properties.href))) links.push(n);
+    }
+    if ("children" in n && Array.isArray(n.children)) n.children.forEach(fixLinks);
+  };
+
   // The title and the first paragraph: the page shows them in its own header.
   let title = "";
   let lede = "";
@@ -196,6 +212,7 @@ export async function renderMarkdown(source: string, options: RenderOptions = {}
     const p = kids.findIndex((n) => isEl(n, "p"));
     const firstH2 = kids.findIndex((n) => isEl(n, "h2"));
     if (p >= 0 && (firstH2 < 0 || p < firstH2)) {
+      fixLinks(kids[p]!);
       lede = (kids[p] as Element).children.map(toHtml).join("");
       kids.splice(p, 1);
     }
@@ -241,12 +258,7 @@ export async function renderMarkdown(source: string, options: RenderOptions = {}
           n.properties = { ...n.properties, className: ["docs-anatomy-plain"] };
         }
       }
-      if (tag === "a") {
-        const href = String(n.properties?.href ?? "");
-        const to = options.link?.(href);
-        if (to) n.properties.href = to;
-        else if (/^https?:/.test(href)) n.properties.rel = "noopener";
-      }
+      if (tag === "a") fixLinks(n);
       if (tag === "pre") {
         const code = n.children.find((c) => isEl(c, "code")) as Element | undefined;
         if (code) {
@@ -257,6 +269,7 @@ export async function renderMarkdown(source: string, options: RenderOptions = {}
         continue;
       }
       if (tag === "table") {
+        fixLinks(n);
         parent.children[i] = dressTable(n, lastHeading?.text ?? "Table", lastHeading?.id, regionNames);
         continue;
       }
@@ -265,6 +278,10 @@ export async function renderMarkdown(source: string, options: RenderOptions = {}
     }
   };
   walk(tree);
+  for (const a of links) {
+    const id = String(a.properties.href).slice(1);
+    if (!used.has(id) && used.has(prefix + id)) a.properties.href = `#${prefix}${id}`;
+  }
 
   await Promise.all(
     codes.map(async (c) => {

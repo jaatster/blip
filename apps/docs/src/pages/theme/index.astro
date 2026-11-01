@@ -14,7 +14,8 @@ import { SCHEMES } from "../../lib/colour";
 import { codeBlock } from "../../lib/markdown";
 import { code, esc } from "../../lib/html";
 import { RECIPES } from "../../../../../packages/tokens/scripts/palettes.mjs";
-import { LEVERS, makePalette } from "../../../../../packages/tokens/scripts/palette.mjs";
+import { LEVERS, makePalette, toOklch } from "../../../../../packages/tokens/scripts/palette.mjs";
+import { PUBLISHED } from "../../lib/install";
 
 type Scheme = "day" | "sunset" | "night";
 interface PaletteJson { name: string; description: string; credit?: string; shared: Record<string, string>; schemes: Record<Scheme, Record<string, string>> }
@@ -83,6 +84,26 @@ const intents = {
 };
 const data = { scene, levers: LEVERS, hexes, names: nameOf, defaults, palettes, fixed: { day: fixed("day"), sunset: fixed("sunset"), night: fixed("night") }, titles: Object.fromEntries(SCHEMES.map((s) => [s.id, s.title])), intents, focus: t.schemes.day.focus, white: t.shared.white };
 const LEVER_IDS = ["hue", "strength", "tint", "lightness"] as const;
+// Where the levers stand for the default palette, and what its card says, in the page from the start (theme.js's
+// levers() and about line), so nothing pops in once the script runs. The script then sets the site's palette.
+const first = palettes[0]!;
+const firstLevers = ((r: Record<string, unknown>) => {
+  const lch = typeof r.accent === "string" ? toOklch(r.accent) : null;
+  const page = typeof r.bg === "string" ? toOklch(r.bg) : null;
+  return {
+    hue: lch ? lch[2] : Number(r.hue ?? 0),
+    strength: lch ? lch[1] / 0.15 : Number(r.strength ?? 1),
+    tint: page ? page[1] : Number(r.tint ?? 0),
+    lightness: page ? page[0] : Number(r.lightness ?? 0.235),
+  };
+})(first.recipe);
+const leverShown: Record<(typeof LEVER_IDS)[number], (x: number) => string> = {
+  hue: (x) => `${Math.round(x)}°`, strength: (x) => x.toFixed(2), tint: (x) => x.toFixed(3), lightness: (x) => x.toFixed(3),
+};
+const leverFill = (id: (typeof LEVER_IDS)[number]) => {
+  const { min, max } = LEVERS[id];
+  return `--blip-slider-value:${Math.min(1, Math.max(0, (firstLevers[id] - min) / (max - min)))}`;
+};
 const leverHelp: Record<(typeof LEVER_IDS)[number], string> = {
   hue: "Round the colour wheel, for Day, Sunset and Night.",
   strength: "1 is as colourful as a candy.",
@@ -148,7 +169,7 @@ const style = (vars: Record<string, string>) => Object.entries(vars).map(([k, v]
           </label>
         ))}
       </div>
-      <p class="blip-small tb-about" aria-live="polite"></p>
+      <p class="blip-small tb-about" aria-live="polite"><strong>{first.name}</strong>: {first.description}{first.credit && ` ${first.credit}.`}</p>
     </section>
 
     <section class="blip-box tb-controls" data-variant="panel" aria-labelledby="tb-controls-title">
@@ -160,17 +181,18 @@ const style = (vars: Record<string, string>) => Object.entries(vars).map(([k, v]
           <div class="blip-field">
             <label class="blip-field-label" for={`tb-${id}`}>{LEVERS[id].label}</label>
             <div class="blip-slider-group">
-              <input class="blip-slider tb-lever" id={`tb-${id}`} data-lever={id} type="range" min={LEVERS[id].min} max={LEVERS[id].max} step={LEVERS[id].step} aria-describedby={`tb-${id}-help`} />
-              <output class="blip-box blip-slider-value" data-variant="panel" for={`tb-${id}`} aria-hidden="true"></output>
+              <input class="blip-slider tb-lever" id={`tb-${id}`} data-lever={id} type="range" min={LEVERS[id].min} max={LEVERS[id].max} step={LEVERS[id].step} value={firstLevers[id]} style={leverFill(id)} aria-describedby={`tb-${id}-help`} />
+              <output class="blip-box blip-slider-value" data-variant="panel" for={`tb-${id}`} aria-hidden="true">{leverShown[id](firstLevers[id])}</output>
             </div>
             <p class="blip-field-help" id={`tb-${id}-help`}>{leverHelp[id]}</p>
           </div>
         ))}
         <label class="blip-label" for="tb-hex">Or start from any colour</label>
         <div class="tb-hex-row">
-          <span class="blip-box blip-input tb-hex"><input id="tb-hex" type="text" inputmode="text" spellcheck="false" autocomplete="off" maxlength="7" value="#00C2FA" aria-describedby="tb-hex-help" /></span>
-          <input class="tb-picker" type="color" value="#00c2fa" aria-label="Pick a colour" />
+          <span class="blip-box blip-input tb-hex"><input id="tb-hex" type="text" inputmode="text" spellcheck="false" autocomplete="off" value={first.art.accent} aria-describedby="tb-hex-help tb-hex-error" /></span>
+          <input class="tb-picker" type="color" value={first.art.accent.toLowerCase()} aria-label="Pick a colour" />
         </div>
+        <p class="blip-field-error" id="tb-hex-error" aria-live="polite"></p>
         <p class="blip-field-help" id="tb-hex-help">Your colour as the candy, made lighter if an ink label would not read on it. The levers then turn it.</p>
         <label class="blip-check tb-days-row" data-layout="split" hidden><span class="tb-days-label">Keep Candy's Day and Sunset</span><span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box tb-days" aria-describedby="tb-days-help" /></span></label>
         <p class="blip-check-help tb-days-row" id="tb-days-help" hidden>On, the accent changes Night only. Off, it is the accent of all three.</p>
@@ -183,8 +205,8 @@ const style = (vars: Record<string, string>) => Object.entries(vars).map(([k, v]
           <div class="blip-field">
             <label class="blip-field-label" for={`tb-${id}`}>{LEVERS[id].label}</label>
             <div class="blip-slider-group">
-              <input class="blip-slider tb-lever" id={`tb-${id}`} data-lever={id} type="range" min={LEVERS[id].min} max={LEVERS[id].max} step={LEVERS[id].step} aria-describedby={`tb-${id}-help`} />
-              <output class="blip-box blip-slider-value" data-variant="panel" for={`tb-${id}`} aria-hidden="true"></output>
+              <input class="blip-slider tb-lever" id={`tb-${id}`} data-lever={id} type="range" min={LEVERS[id].min} max={LEVERS[id].max} step={LEVERS[id].step} value={firstLevers[id]} style={leverFill(id)} aria-describedby={`tb-${id}-help`} />
+              <output class="blip-box blip-slider-value" data-variant="panel" for={`tb-${id}`} aria-hidden="true">{leverShown[id](firstLevers[id])}</output>
             </div>
             <p class="blip-field-help" id={`tb-${id}-help`}>{leverHelp[id]}</p>
           </div>
@@ -225,7 +247,11 @@ const style = (vars: Record<string, string>) => Object.entries(vars).map(([k, v]
         </blip-segmented>
       </div>
 
-      <button class="blip-box blip-button tb-reset" type="button" data-variant="ghost" data-size="sm"><Icon name="undo" /><span class="tb-reset-label">Back to Candy</span></button>
+      <div class="docs-row">
+        <button class="blip-box blip-button tb-try" type="button" data-variant="soft" data-size="sm" aria-pressed="false" aria-describedby="tb-try-help" hidden><Icon name="brush" />Try it on this page</button>
+        <button class="blip-box blip-button tb-reset" type="button" data-variant="ghost" data-size="sm"><Icon name="undo" /><span class="tb-reset-label">Back to {first.name}</span></button>
+      </div>
+      <p class="blip-small blip-muted" id="tb-try-help">The palettes above are the site's own: picking one here sets it for every page, as the palette menu does. A palette you made with the levers can be tried on this page until you leave it.</p>
     </section>
 
     <section class="tb-preview-wrap" aria-labelledby="tb-preview-title">
@@ -299,6 +325,7 @@ const style = (vars: Record<string, string>) => Object.entries(vars).map(([k, v]
       <h2 class="tb-h2" id="tb-export-title">Export</h2>
       <p class="docs-note">Two ways to use it. The CSS goes after Blip's <code class="docs-inline-code">tokens.css</code>, as it is: a <code class="docs-inline-code">:root</code> rule in the same layer, loaded later, wins. Or build a checked <code class="docs-inline-code">tokens.css</code> of your own: put the palette's token file and the resolver in your project's folder, beside <code class="docs-inline-code">node_modules</code>, and run <code class="docs-inline-code">blip-tokens</code>, which checks every pair as Blip's own palettes are checked, and writes a file to load instead of Blip's.</p>
       <Fragment set:html={cli} />
+      {!PUBLISHED && <p class="docs-note"><code class="docs-inline-code">blip-tokens</code> comes with <code class="docs-inline-code">@blip/tokens</code>, which is not on npm yet, so <code class="docs-inline-code">npx</code> finds it from the first release. Until then, run it from <a href="/start/">Blip built from its source</a>. The CSS works today.</p>}
       <div class="blip-box blip-alert tb-blocked" data-tone="danger" role="group" aria-labelledby="tb-blocked-title" hidden>
         <span class="blip-alert-icon" aria-hidden="true"></span>
         <div class="blip-alert-body">

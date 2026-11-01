@@ -126,7 +126,12 @@
   /* ------------------------------------------------------------------ game */
 
   .tpl-game-body { overflow: hidden; }
-  .tpl-game { position: relative; isolation: isolate; min-block-size: 100dvh; color: var(--blip-text); }
+  /* --tpl-pad: the touch pad's height while it shows (on a coarse pointer, as <blip-touch-pad> shows itself; the
+     script measures it exactly). Every screen keeps it clear at the bottom, so the pad never covers the game. */
+  .tpl-game { --tpl-pad: 0px; position: relative; isolation: isolate; min-block-size: 100dvh; color: var(--blip-text); }
+  @media (pointer: coarse) {
+    .tpl-game { --tpl-pad: calc(69 * var(--blip-pixel) + env(safe-area-inset-bottom, 0px)); }
+  }
   .tpl-game-world { position: fixed; inset: 0; z-index: -1; }
   .tpl-screen {
     position: relative;
@@ -135,9 +140,11 @@
     align-content: center;
     gap: var(--blip-space-8);
     min-block-size: 100dvh;
-    padding: var(--blip-space-16) var(--blip-space-8) calc(40 * var(--blip-pixel));
+    padding: var(--blip-space-16) var(--blip-space-8) max(calc(40 * var(--blip-pixel)), calc(var(--tpl-pad) + var(--blip-space-8)));
     text-align: center;
   }
+  /* With the script, a screen is the window's height, and scrolls if a small one cannot hold it (the page does not). */
+  html.js .tpl-screen { max-block-size: 100dvh; overflow-y: auto; align-content: safe center; }
   /* With the script, one screen at a time. */
   html.js .tpl-game:not([data-screen="title"]) > .tpl-title,
   html.js .tpl-game:not([data-screen="menu"]) > .tpl-menu,
@@ -180,10 +187,11 @@
   }
   .tpl-options { inline-size: min(calc(170 * var(--blip-pixel)), 100%); text-align: start; }
   /* The window's own display would show it while it is hidden. */
-  .tpl-options[hidden] { display: none; }
+  .tpl-options[hidden], .tpl-menu-panel[hidden] { display: none; }
   .tpl-options-body { display: grid; gap: var(--blip-space-8); padding: var(--blip-space-8); }
   .tpl-options-row { display: grid; gap: var(--blip-space-3); justify-items: start; }
-  .tpl-level { align-content: space-between; text-align: start; padding: var(--blip-space-8) var(--blip-space-8) calc(24 * var(--blip-pixel)); }
+  html.js .tpl-level { align-content: space-between; }
+  .tpl-level { align-content: space-between; text-align: start; padding: var(--blip-space-8) var(--blip-space-8) max(calc(24 * var(--blip-pixel)), calc(var(--tpl-pad) + var(--blip-space-4))); }
   .tpl-hud { justify-self: stretch; }
   .tpl-level-name { margin: 0; justify-self: center; }
   .tpl-field { display: grid; justify-items: center; gap: var(--blip-space-6); }
@@ -191,4 +199,9 @@
   .tpl-frog { inline-size: min(calc(300 * var(--blip-pixel)), 100%); justify-self: center; }
   .tpl-ground { position: fixed; inset-inline: 0; inset-block-end: 0; }
   .tpl-pause-button { align-self: center; }
+  /* Key hints are for a keyboard: on a touch screen with no pointer that hovers, the pad and the screen's own buttons
+     are the controls. */
+  @media (pointer: coarse) and (any-hover: none) {
+    .tpl-game :is(.tpl-hint, .tpl-keys, .blip-pause-hint) { display: none; }
+  }
 }

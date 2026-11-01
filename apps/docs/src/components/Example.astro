@@ -1,7 +1,7 @@
 ---
 /**
  * A live example: the package's own fragment, rendered in the page as it is, on a stage whose scheme and pixel can be
- * switched on their own. An example wider than the stage scrolls across it, and while there is more to one side a
+ * switched on their own ("Page" follows the site's own, the others set the stage's). An example wider than the stage scrolls across it, and while there is more to one side a
  * chevron stands at that edge, so a phone (which hides its scrollbars) shows there is more. Then its source, to copy: behind "Show the HTML" (with a copy button beside it), or shown
  * at once (sourceOpen, for a snippet).
  */
@@ -36,8 +36,9 @@ const Heading = level === 3 ? "h3" : "h2";
           <button class="blip-box" type="button" value="sunset">Sunset</button>
           <button class="blip-box" type="button" value="night">Night</button>
         </blip-segmented>
-        <blip-segmented class="blip-box blip-segmented" data-size="sm" aria-label="Pixel size of the example" data-stage={`${id}-stage`} data-attr="pixel" value="2">
-          <button class="blip-box" type="button" value="2" aria-checked="true">2 px</button>
+        <blip-segmented class="blip-box blip-segmented" data-size="sm" aria-label="Pixel size of the example" data-stage={`${id}-stage`} data-attr="pixel" value="page">
+          <button class="blip-box" type="button" value="page" aria-checked="true">Page</button>
+          <button class="blip-box" type="button" value="2">2 px</button>
           <button class="blip-box" type="button" value="3">3 px</button>
           <button class="blip-box" type="button" value="4">4 px</button>
         </blip-segmented>

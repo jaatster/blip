@@ -26,18 +26,25 @@ scheme?.addEventListener("blip-change", (e) => {
   play("select");
 });
 
-const hero = $(".home-hero");
+// The accents are palettes (index.astro): picking one sets the site's palette as the palette menu does, and the
+// swatches follow the site's palette, whoever sets it. A palette with no swatch here (Dracula, Nord) leaves none
+// picked, and the legend names it.
+const accentName = $(".home-accent-name");
+function syncAccent() {
+  // No data-blip-palette is the default palette, the first swatch.
+  const id = root.dataset.blipPalette || $('input[name="home-accent"]')?.value;
+  for (const input of $$('input[name="home-accent"]')) input.checked = input.value === id;
+  const item = document.querySelector(`.docs-palette [data-value="palette:${CSS.escape(id ?? "")}"]`);
+  if (accentName) accentName.textContent = item?.dataset.name ?? id ?? "";
+}
 for (const input of $$('input[name="home-accent"]')) {
   input.addEventListener("change", () => {
-    const c = input.value;
-    for (const [k, v] of [["--blip-accent", ""], ["--blip-accent-light", "-light"], ["--blip-accent-shade", "-shade"]]) {
-      if (c) hero.style.setProperty(k, `var(--blip-candy-${c}${v})`);
-      else hero.style.removeProperty(k);
-    }
+    window.docs?.setPalette(input.value);
     play("select");
   });
 }
-
+document.addEventListener("docs-palette", syncAccent);
+syncAccent();
 
 $(".home-start")?.addEventListener("click", async (e) => {
   const button = e.currentTarget;
@@ -126,7 +133,7 @@ document.addEventListener("blip-change", (e) => {
   if (!e.target.closest?.('[data-stage="home-stage"]')) return;
   requestAnimationFrame(() => {
     const s = stage.getAttribute("data-blip-scheme") ?? "day", p = stage.getAttribute("data-blip-pixel");
-    code.textContent = `<section data-blip-scheme="${s}"${p ? ` data-blip-pixel="${p}"` : ""}>`;
+    code.textContent = `<section data-blip-scheme="${s}"${p && p !== "2" ? ` data-blip-pixel="${p}"` : ""}>`;
   });
   play("select");
 });

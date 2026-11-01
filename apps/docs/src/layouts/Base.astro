@@ -15,7 +15,7 @@ interface Props {
   styles?: string[];
   /** Page scripts from /js (modules). */
   scripts?: string[];
-  /** Preload Pixel Bop (pages that open with big display text). */
+  /** Preload Pixel Bop even if the markup shows none (it is preloaded wherever the markup uses it). */
   display?: boolean;
   bodyClass?: string;
 }
@@ -42,6 +42,11 @@ const card = new URL("og.png", home);
 const cardAlt = "Blip in white pixel letters on a starry night over pixel-art mountains, beside a window of options, with the site's sections as candy tiles on the hill. A 16-bit design system.";
 // The presets a reader can pick (the default palette is having none).
 const presets = Object.keys(tokens().palettes ?? {}).join(" ");
+// Pixel Bop sets every page title, the wordmark and the footer: preloaded wherever the markup uses it, so a title never
+// paints in the fallback face first and swaps.
+const bop = display || /class="[^"]*\b(blip-display|blip-pop)\b/.test(html);
+// The first paint waits for the footer, where the page has one (a template has not).
+const expectFooter = html.includes('id="docs-footer"');
 ---
 <!doctype html>
 <html lang="en">
@@ -62,6 +67,7 @@ const presets = Object.keys(tokens().palettes ?? {}).join(" ");
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={card} />
     <meta name="twitter:image:alt" content={cardAlt} />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#F4F7FF" />
@@ -80,16 +86,18 @@ const presets = Object.keys(tokens().palettes ?? {}).join(" ");
         d.setAttribute("data-blip-scheme", pref === "auto" ? (h >= 6 && h < 17 ? "day" : h >= 17 && h < 19 ? "sunset" : "night") : pref);
         d.setAttribute("data-scheme-choice", pref);
         if (px === "3" || px === "4") d.setAttribute("data-blip-pixel", px);
+        // Motion paused with a <blip-motion-toggle> (@blip/effects keeps it as "blip:motion"), on every page.
+        try { if (localStorage.getItem("blip:motion") === "reduce") d.setAttribute("data-blip-motion", "reduce"); } catch (e) {}
         if (/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)) d.classList.add("mac");
         d.classList.add("js");
       })();
     </script>
     <script type="importmap" set:html={JSON.stringify(a.importMap)} />
     <link rel="preload" href="/blip/font/dist/pixelify-sans.woff2" as="font" type="font/woff2" crossorigin />
-    {display && <link rel="preload" href="/blip/font/dist/pixel-bop.woff2" as="font" type="font/woff2" crossorigin />}
+    {bop && <link rel="preload" href="/blip/font/dist/pixel-bop.woff2" as="font" type="font/woff2" crossorigin />}
     <!-- The first paint waits for the page to the footer (Chrome), so a page never shows half drawn, or changes
          (view transitions, docs.css) into a page that isn't there yet. -->
-    <link rel="expect" href="#docs-footer" blocking="render" />
+    {expectFooter && <link rel="expect" href="#docs-footer" blocking="render" />}
     <link rel="stylesheet" href="/blip/font/font.css" />
     <link rel="stylesheet" href="/blip/tokens/tokens.css" />
     <link rel="stylesheet" href="/blip/tokens/palettes.css" />

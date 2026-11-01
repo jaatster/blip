@@ -11,6 +11,7 @@ import Pager from "../../components/Pager.astro";
 import { GROUPS, docs, issuesUrl, markdownSection, packagesInfo, read, repoFile, repoUrl } from "../../lib/data";
 import { renderMarkdown } from "../../lib/markdown";
 import { code, esc } from "../../lib/html";
+import { PUBLISHED } from "../../lib/install";
 
 // Links in CONTRACT.md and the README point at files beside them: on the site, at the repository.
 const link = (href: string) => (/^[A-Z][A-Z_-]*\.md(#.*)?$/.test(href) ? repoFile(href) : href.startsWith("packages/") ? repoFile(href) : undefined);
@@ -44,7 +45,6 @@ for (const d of [...pages].sort((a, b) => a.meta.name.localeCompare(b.meta.name)
 const stable = pages.filter((d) => d.meta.status === "stable").length;
 const beta = pages.filter((d) => d.meta.status === "beta").length;
 const statusRows = [...byGroup].filter(([, r]) => r.stable.length + r.beta.length + r.other.length).map(([group, r]) => [esc(group), r.stable.join(", ") || '<span class="blip-muted">None yet</span>', r.beta.join(", ") || '<span class="blip-muted">None</span>']);
-const published = false; // Nothing is on npm yet (README.md, "Status"). Set this when the first release is out.
 
 const H = (id: string, text: string) => ({ depth: 2, id, text });
 const headings = [H("versions", "Versions"), H("status", "Stable and beta"), H("deprecation", "Deprecation"), H("browsers", "Browser support"), H("changelogs", "Changelogs"), H("help", "Getting help")];
@@ -55,12 +55,12 @@ const headings = [H("versions", "Versions"), H("status", "Stable and beta"), H("
     <p class="docs-lede">What a version number promises, which parts may still change, the browsers Blip runs in, and where to ask when something goes wrong. The rules come from <a href={repoFile("CONTRACT.md")}>CONTRACT.md</a>, the public API that semantic versioning protects.</p>
   </header>
 
-  {!published && (
+  {!PUBLISHED && (
     <div class="blip-box blip-alert" data-tone="info" role="note">
       <span class="blip-alert-icon" aria-hidden="true"></span>
       <div class="blip-alert-body">
         <p class="blip-alert-title">Nothing is published yet</p>
-        <p>The packages are 0.x and not on npm, and the repository is not public yet: the links to it on this page are where it will be. Until then, build Blip from its source.</p>
+        <p>The packages are 0.x and not on npm yet. Until they are, build Blip from <a href={repoUrl()}>its source</a>: <code class="docs-inline-code">pnpm install</code>, then <code class="docs-inline-code">pnpm build</code>.</p>
       </div>
     </div>
   )}

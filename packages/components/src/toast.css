@@ -23,6 +23,7 @@
  *   data-variant     soft (default with a tone) | candy                             candy is louder
  *   .blip-toaster      data-side: bottom (default) | top; data-align: end (default) | center | start
  *   data-blip-static   on .blip-toaster: in the page flow, for docs and screenshots
+ *   a .blip-bottom-bar   in the page, on a phone (blip-shell under 600 px): bottom toasts stand above it
  *
  * The timer bar steps down in eight whole-pixel steps over --blip-toast-duration and stops while the toaster has
  * data-paused; --blip-toast-timer (on a toast or the toaster) recolours it. Toasts come up from their edge (six
@@ -53,6 +54,13 @@
     flex-direction: column-reverse;
   }
   .blip-toaster[data-blip-static] { position: relative; inset: auto; z-index: auto; margin: 0; }
+  /* On a phone with a bottom bar (shown while the blip-shell container is under 600 px), toasts at the bottom stand
+     above the bar (34 pixels from the screen's foot) rather than over it. */
+  @container blip-shell (width < 600px) {
+    :root:has(.blip-bottom-bar:not([hidden])) .blip-toaster:not([data-side="top"], [data-blip-static]) {
+      inset-block-end: calc(40 * var(--blip-pixel) + env(safe-area-inset-bottom, 0px));
+    }
+  }
 
   .blip-toast {
     --_blip-glyph: var(--_blip-g-info);

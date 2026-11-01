@@ -38,12 +38,12 @@ const toc = headings.filter((h) => h.depth === 2).length > 2;
 <Base title={title} description={description} kits={kits} styles={styles} scripts={scripts} display={display} bodyClass={bodyClass}>
   <a class="blip-box blip-skip-link" href="#main">Skip to content</a>
   <div class="docs-shell" data-layout={sidebar ? (toc ? "side toc" : "side") : "wide"}>
-    <div class="docs-top"><AppBar /></div>
+    <div class="docs-top" data-blip-pixel="bar"><AppBar /></div>
     {sidebar && section && <Sidebar section={section} />}
     <main id="main" tabindex="-1" class="docs-main">
       {sidebar && section && (
         <button class="blip-box blip-button docs-nav-toggle" type="button" data-variant="soft" data-tone="neutral" data-size="sm" popovertarget="docs-nav">
-          <Icon name="list" />{section.id === "components" ? "All components" : `${section.title}: all pages`}
+          <Icon name="list" />{section.id === "components" ? "All components" : `Pages in ${section.title}`}
         </button>
       )}
       <slot />

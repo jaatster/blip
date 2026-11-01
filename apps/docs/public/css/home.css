@@ -53,7 +53,9 @@
       var(--blip-pixel) 0 0 var(--blip-bg), calc(-1 * var(--blip-pixel)) var(--blip-pixel) 0 var(--blip-bg),
       0 var(--blip-pixel) 0 var(--blip-bg), var(--blip-pixel) var(--blip-pixel) 0 var(--blip-bg);
   }
-  /* On phones the launcher tiles sit below the fold, so the hero keeps its own primary action. */
+  /* On phones the launcher tiles sit below the fold, so the hero keeps its own primary action, and the pause for the
+     sky's motion beside it. Wider, the pause is a row of the Options window: the clouds, stars and birds move on
+     every screen, so every screen has it (WCAG 2.2.2). */
   .home-cta { display: none; margin: 0; gap: var(--blip-space-4); flex-wrap: wrap; }
   @container (width < 600px) { .home-cta { display: flex; } }
 
@@ -128,6 +130,8 @@
   .home-demo-row { display: grid; gap: var(--blip-space-3); margin: 0; padding: 0; border: 0; min-inline-size: 0; }
   .home-demo-row > legend { padding: 0; margin-block-end: var(--blip-space-3); }
   .home-demo-row.blip-check { display: flex; }
+  .home-pause { display: flex; align-items: center; justify-content: space-between; gap: var(--blip-space-4); }
+  @container (width < 600px) { .home-pause { display: none; } }
   .home-scheme { justify-self: start; }
   .home-swatches { display: flex; flex-wrap: wrap; gap: var(--blip-space-3); }
   .home-swatch {
@@ -141,30 +145,13 @@
     margin: 0 var(--blip-pixel) var(--blip-pixel) 0;
   }
   .home-swatch > input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
-  /* Auto: the three times of day's accents side by side, four pixels each, each with its own bands, hard stops. */
-  .home-swatch-split {
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(to bottom, var(--_t1) 0 calc(3 * var(--blip-pixel)), var(--blip-candy-blue) 0 calc(100% - 3 * var(--blip-pixel)), var(--_b1) 0) var(--blip-pixel) 0 / calc(4 * var(--blip-pixel)) 100% no-repeat,
-      linear-gradient(to bottom, var(--_t2) 0 calc(3 * var(--blip-pixel)), var(--blip-candy-pink) 0 calc(100% - 3 * var(--blip-pixel)), var(--_b2) 0) calc(5 * var(--blip-pixel)) 0 / calc(4 * var(--blip-pixel)) 100% no-repeat,
-      linear-gradient(to bottom, var(--_t3) 0 calc(3 * var(--blip-pixel)), var(--blip-candy-purple) 0 calc(100% - 3 * var(--blip-pixel)), var(--_b3) 0) calc(9 * var(--blip-pixel)) 0 / calc(4 * var(--blip-pixel)) 100% no-repeat;
-    mask-image: var(--blip-shape-inner);
-    mask-size: var(--blip-box-mask-size);
-    mask-position: var(--blip-box-mask-position);
-    mask-repeat: no-repeat;
-    --_t1: var(--blip-candy-blue-light); --_b1: var(--blip-candy-blue-shade);
-    --_t2: var(--blip-candy-pink-light); --_b2: var(--blip-candy-pink-shade);
-    --_t3: var(--blip-candy-purple-light); --_b3: var(--blip-candy-purple-shade);
-  }
-  /* Chosen, it sits in like the rest: its bands swap. */
-  .home-swatch:has(> input:checked) > .home-swatch-split {
-    --_t1: var(--blip-candy-blue-shade); --_b1: var(--blip-candy-blue-light);
-    --_t2: var(--blip-candy-pink-shade); --_b2: var(--blip-candy-pink-light);
-    --_t3: var(--blip-candy-purple-shade); --_b3: var(--blip-candy-purple-light);
-  }
-  .home-swatch-auto { --blip-tone-on: var(--blip-ink); }
-  /* The chosen accent sits in, with a mark in its label colour. */
+  /* Each swatch is a palette, in its accent for the time of day on show (index.astro sets the colours from the
+     tokens). */
+  [data-blip-scheme="day"] .home-swatch { --blip-tone: var(--_sw-day-accent); --blip-tone-light: var(--_sw-day-accent-light); --blip-tone-shade: var(--_sw-day-accent-shade); --blip-tone-on: var(--_sw-day-accent-on); }
+  [data-blip-scheme="sunset"] .home-swatch { --blip-tone: var(--_sw-sunset-accent); --blip-tone-light: var(--_sw-sunset-accent-light); --blip-tone-shade: var(--_sw-sunset-accent-shade); --blip-tone-on: var(--_sw-sunset-accent-on); }
+  [data-blip-scheme="night"] .home-swatch { --blip-tone: var(--_sw-night-accent); --blip-tone-light: var(--_sw-night-accent-light); --blip-tone-shade: var(--_sw-night-accent-shade); --blip-tone-on: var(--_sw-night-accent-on); }
+  .home-accent-name { margin-inline-start: var(--blip-space-2); color: var(--blip-text-muted); font-weight: var(--blip-weight-medium); text-transform: none; letter-spacing: 0; }
+  /* The chosen palette sits in, with a mark in its label colour. */
   .home-swatch-mark { position: relative; display: none; inline-size: calc(4 * var(--blip-pixel)); block-size: calc(4 * var(--blip-pixel)); background: var(--blip-tone-on); }
   .home-swatch:has(> input:checked) > .home-swatch-mark { display: block; }
   .home-start { margin-block-start: var(--blip-space-2); }
@@ -308,7 +295,9 @@
   .home-budget-foot { margin-block-start: var(--blip-space-12); }
 
   /* Kits: four panels, each the size its live part needs. */
-  .home-kits { display: grid; gap: var(--blip-space-12); }
+  /* The gap between columns stops at 24 px (whole pixels at 2, 3 and 4 px), so at 3 and 4 px the twelve columns leave
+     the cards room for their content. */
+  .home-kits { display: grid; gap: var(--blip-space-12) min(var(--blip-space-12), 24px); }
   @container blip-shell (width >= 900px) {
     .home-kits { grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: start; }
     .home-kit-game { grid-column: span 7; grid-row: span 2; }
@@ -325,7 +314,9 @@
     padding: var(--blip-space-12);
     margin: 0 var(--blip-pixel) var(--blip-pixel) 0;
   }
-  .home-kit-text { display: grid; gap: var(--blip-space-3); }
+  .home-kit-text { display: grid; gap: var(--blip-space-3); min-inline-size: 0; }
+  /* Big Pixel Bop numbers and words at 3 and 4 px break inside their column rather than past it. */
+  .home-kit-text .blip-display { overflow-wrap: anywhere; }
   .home-kit h3 { font-size: var(--blip-size-title); }
   .home-kit h3 a { color: inherit; text-decoration-color: var(--blip-line-soft); }
   .home-kit h3 a:hover { text-decoration-color: currentColor; }

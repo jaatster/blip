@@ -50,13 +50,28 @@ function fromPreset(id) {
     override: false,
   };
 }
+/** The site's palette (the palette menu's, site.js): no data-blip-palette is the default, the first. */
+const sitePalette = () => document.documentElement.dataset.blipPalette || data.palettes[0].id;
+/** The maker opens on the site's palette. What was made from that same palette last time is kept; a palette made
+    from another one gives way to the site's. */
 function load() {
   let saved;
   try { saved = JSON.parse(localStorage.getItem(KEY)); } catch { /* none yet */ }
-  if (saved?.v === 1 && data.palettes.some((p) => p.id === saved.from)) return saved;
-  return { v: 1, scheme: "night", pixel: "2", ...fromPreset(data.palettes[0].id) };
+  const ok = saved?.v === 1 && data.palettes.some((p) => p.id === saved.from);
+  const site = sitePalette();
+  if (ok && saved.from === site) return saved;
+  return { v: 1, scheme: ok ? saved.scheme : "night", pixel: ok ? saved.pixel : "2", ...fromPreset(site) };
 }
 let state = load();
+/** The made palette, tried on this whole page (not saved: the site's palettes are the presets). */
+let trying = false;
+let tried = [];
+function setTried(vars) {
+  const root = document.documentElement;
+  for (const k of tried) root.style.removeProperty(k);
+  tried = vars ? Object.keys(vars) : [];
+  if (vars) for (const [k, x] of Object.entries(vars)) root.style.setProperty(k, x);
+}
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch { /* private mode */ } };
 const changed = () => state.accentMoved || state.nightMoved;
 
@@ -213,8 +228,10 @@ let worldDrawn = "", worldTimer;
 function render() {
   const s = state.scheme, v = values(), c = colours(v);
   const vars = Object.fromEntries(Object.entries({ ...data.defaults, ...v }).map(([k, x]) => [`--blip-${kebab(k)}`, cssOf(x)]));
-  // The palette goes where each preview sets its scheme: the roles there read it.
+  // The palette goes where each preview sets its scheme: the roles there read it. Tried on the page, on <html> too.
   for (const el of [...$$("[data-strip]"), preview]) for (const [k, x] of Object.entries(vars)) el.style.setProperty(k, x);
+  if (!changed()) trying = false;
+  setTried(trying ? vars : null);
   preview.dataset.blipScheme = s;
   if (state.pixel === "2") delete preview.dataset.blipPixel;
   else preview.dataset.blipPixel = state.pixel;
@@ -231,6 +248,10 @@ function render() {
   for (const r of $$('input[name="tb-palette"]')) r.checked = r.value === p.id;
   $(".tb-about").innerHTML = `<strong>${esc(p.name)}</strong>: ${esc(p.description)}${p.credit ? ` ${esc(p.credit)}.` : ""}${changed() ? " Changed with the levers." : ""}`;
   $(".tb-reset-label").textContent = `Back to ${p.name}`;
+  // A preset is the site's own palette already (the cards set it); a palette made with the levers can be tried on
+  // this page, until the page is left or the palette menu changes.
+  tryButton.hidden = !changed();
+  tryButton.setAttribute("aria-pressed", String(trying));
 
   // The levers, where they stand.
   const at = levers();
@@ -298,13 +319,23 @@ customElements.whenDefined("blip-segmented").then(() => {
 schemeControl.addEventListener("blip-change", (e) => { state.scheme = e.detail.value; render(); });
 pixelControl.addEventListener("blip-change", (e) => { state.pixel = e.detail.value; render(); });
 // Picking a palette starts from it; picking the one already chosen, once the levers have moved, starts from it again.
+// A preset is one of the site's palettes: picking it here sets it for the site too, as the palette menu does.
 for (const r of $$('input[name="tb-palette"]')) {
   r.addEventListener("click", () => {
+    if (r.value !== sitePalette()) window.docs?.setPalette(r.value);
     if (r.value === state.from && !changed()) return;
     state = { ...state, ...fromPreset(r.value) };
     render();
   });
 }
+// The palette menu (or another tab) chose another palette: the maker starts from it.
+document.addEventListener("docs-palette", (e) => {
+  const id = e.detail?.palette || data.palettes[0].id;
+  if (id === state.from && !trying) return;
+  trying = false;
+  state = { ...state, ...fromPreset(data.palettes.some((p) => p.id === id) ? id : data.palettes[0].id) };
+  render();
+});
 for (const input of $$(".tb-lever")) {
   input.addEventListener("input", () => {
     const id = input.dataset.lever, x = Number(input.value);
@@ -335,18 +366,39 @@ function custom(hex) {
   state.override = false;
   render();
 }
+// A colour as six hex digits (or three), with or without its #. While it is being typed a short one waits; anything
+// else that is not a colour says so under the field, and on leaving the field a short one does too.
+const hexError = $("#tb-hex-error");
+const asHex = (raw) => {
+  const v = raw.trim().replace(/^#?/, "#");
+  return /^#[0-9a-f]{3}$/i.test(v) ? `#${[...v.slice(1)].map((c) => c + c).join("")}` : v;
+};
+function hexInvalid(input, message) {
+  const wrap = input.closest(".blip-input");
+  if (message) { wrap.dataset.tone = "danger"; input.setAttribute("aria-invalid", "true"); }
+  else { delete wrap.dataset.tone; input.removeAttribute("aria-invalid"); }
+  hexError.textContent = message;
+}
 $("#tb-hex").addEventListener("input", (e) => {
-  let v = e.target.value.trim();
-  if (!v.startsWith("#")) v = `#${v}`;
-  const wrap = e.target.closest(".blip-input");
-  if (!valid(v)) { wrap.dataset.tone = "danger"; e.target.setAttribute("aria-invalid", "true"); return; }
-  delete wrap.dataset.tone;
-  e.target.removeAttribute("aria-invalid");
-  custom(v);
+  const v = asHex(e.target.value);
+  if (valid(v) && e.target.value.trim().replace(/^#/, "").length === 6) { hexInvalid(e.target, ""); custom(v); return; }
+  const bad = /[^#0-9a-f\s]/i.test(e.target.value) || e.target.value.replace(/^\s*#?/, "").trim().length > 6;
+  hexInvalid(e.target, bad ? "That is not a colour. Write # and six hex digits, 0 to 9 and A to F: #FF7A1A." : "");
+});
+$("#tb-hex").addEventListener("change", (e) => {
+  const v = asHex(e.target.value);
+  if (valid(v)) { hexInvalid(e.target, ""); e.target.value = v.toUpperCase(); custom(v); }
+  else if (e.target.value.trim()) hexInvalid(e.target, "That is not a colour. Write # and six hex digits, 0 to 9 and A to F: #FF7A1A.");
+  else { hexInvalid(e.target, ""); render(); }
 });
 $(".tb-picker").addEventListener("input", (e) => custom(e.target.value));
 $(".tb-days").addEventListener("change", (e) => { state.holdDays = e.target.checked; state.override = false; render(); });
 $(".tb-override").addEventListener("change", (e) => { state.override = e.target.checked; render(); });
+const tryButton = $(".tb-try");
+tryButton.addEventListener("click", () => {
+  trying = !trying;
+  render();
+});
 $(".tb-reset").addEventListener("click", () => {
   state = { ...state, ...fromPreset(state.from) };
   render();

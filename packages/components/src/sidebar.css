@@ -27,6 +27,8 @@
  *                         bottom bar or the app bar's menu)
  *                         A rail sits at the start edge of the screen: an item's name shows beside it, over the
  *                         content, never wider than the sidebar (a longer name wraps)
+ *   popover               a drawer on narrow screens (open it with a popovertarget button): closed, it is not
+ *                         drawn, as the browser's own popover rule would have it; style it open with :popover-open
  *   data-arrow            the TV's pointer arrow beside the current page
  *   --blip-sidebar-width    120 pixels (240 px). Keep it over 120 px: a content box under 100 px reads as the rail.
  */
@@ -49,6 +51,9 @@
     font-family: var(--blip-font-ui);
     font-size: var(--blip-size-small);
   }
+  /* A popover sidebar (a drawer) is drawn only while open: the display above would otherwise beat the browser's
+     own [popover]:not(:popover-open) rule. A page that shows it in place on wide screens says so in its own layer. */
+  .blip-sidebar[popover]:not(:popover-open) { display: none; }
   .blip-sidebar[data-collapsed] {
     inline-size: var(--_rail);
     padding-inline: var(--blip-space-4);
@@ -124,6 +129,9 @@
     flex: none;
     /* Ten pixels, or 5/3 of its text size if that is more (a bigger default text size), so the count fits. */
     --_blip-badge-size: max(calc(10 * var(--blip-pixel)), round(up, calc(5 / 3) * var(--blip-size-caption), var(--blip-pixel)));
+    /* As wide as its count, rounded up to whole pixels: it sits at the item's end, so a width with a fraction ("128"
+       is 27.6 px) would put its left edge, and every edge of its outline, between pixels. */
+    inline-size: calc-size(max-content, round(up, size, var(--blip-pixel)));
     min-inline-size: var(--_blip-badge-size);
     block-size: var(--_blip-badge-size);
     padding: 0 var(--blip-space-2);

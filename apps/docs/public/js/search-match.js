@@ -2,7 +2,9 @@
 // item's title, its synonyms (words people use that the docs don't), its keywords or one of its sections (the
 // page's headings); a section that holds them all is the place to open. A word that is nowhere in the index is
 // tried with a typo fixed: one letter wrong, missing, extra or swapped (two in words of eight letters or more).
-// A word in the title counts most, then a synonym, a section, a keyword; the best matches come first.
+// A word in the title counts most, then a synonym, a section, a keyword; the best matches come first, and a title
+// that is the whole query (or the query with a typo, or in the other spelling: "color" is Colour) first of all.
+// US and UK spellings find each other: "color" finds Colour, "grey" finds gray.
 
 const norm = (s) => String(s ?? "").toLowerCase().normalize("NFKD").replace(/[̀-ͯ]/g, "");
 
@@ -41,6 +43,28 @@ export function distance(a, b, max = 2) {
 }
 const typos = (q) => (q.length >= 8 ? 2 : q.length >= 5 ? 1 : 0);
 
+// The same word in US and UK spelling, as [US, UK] stems: a word holding one is tried with the other too.
+const SPELLINGS = [
+  ["color", "colour"], ["gray", "grey"], ["center", "centre"], ["behavior", "behaviour"], ["favorite", "favourite"],
+  ["honor", "honour"], ["license", "licence"], ["catalog", "catalogue"], ["artifact", "artefact"],
+  ["labeled", "labelled"], ["labeling", "labelling"], ["canceled", "cancelled"], ["canceling", "cancelling"],
+  ["modeling", "modelling"], ["customiz", "customis"], ["organiz", "organis"], ["optimiz", "optimis"],
+  ["initializ", "initialis"], ["normaliz", "normalis"], ["synthesiz", "synthesis"], ["recogniz", "recognis"],
+  ["minimiz", "minimis"], ["maximiz", "maximis"], ["visualiz", "visualis"], ["localiz", "localis"],
+  ["personaliz", "personalis"], ["serializ", "serialis"], ["analyz", "analys"],
+];
+/** Typed words and their other spellings ("color": "color", "colour"; "gray colour": also "grey colour", "gray color"). */
+export function spellings(q) {
+  let uk = q, us = q;
+  for (const [a, b] of SPELLINGS) {
+    // "color" is inside "colour": a stem that starts the other one is only swapped where it doesn't go on to be it.
+    const rest = b.startsWith(a) ? b.slice(a.length) : "";
+    uk = uk.replaceAll(rest ? new RegExp(`${a}(?!${rest})`, "g") : a, b);
+    us = us.replaceAll(b, a);
+  }
+  return [...new Set([q, uk, us])];
+}
+
 // What a typed word is worth where it is found: [the word, the start of one, inside one, a typo away].
 const TITLE = [10, 7, 4, 3], SYNONYM = [9, 6, 0, 2], SECTION = [6, 4, 2, 1.5], KEYWORD = [5, 3, 1.5, 1];
 
@@ -54,8 +78,9 @@ function best(q, list, w, fuzzy) {
   }
   return s;
 }
-/** A typed word in a field: its whole words, or (for six tenths) the parts of hyphenated ones. */
-const score = (q, f, w, fuzzy) => Math.max(best(q, f.whole, w, fuzzy), 0.6 * best(q, f.parts, w, fuzzy));
+/** A typed word (with its other spellings) in a field: its whole words, or (for six tenths) the parts of hyphenated
+ * ones. */
+const score = (qv, f, w, fuzzy) => Math.max(...qv.map((q) => Math.max(best(q, f.whole, w, fuzzy), 0.6 * best(q, f.parts, w, fuzzy))));
 
 /** An index item ({ title, url, hint, keywords, synonyms, sections }) ready to search. */
 export function prepare(item) {
@@ -70,16 +95,36 @@ export function prepare(item) {
 const sectionScore = (q, s, fuzzy) => Math.max(score(q, s.text_, SECTION, fuzzy), score(q, s.extra, SYNONYM, fuzzy));
 
 /**
+ * What a title that is (nearly) the whole query adds: the query itself, in either spelling, 10; with a typo
+ * ("buton": Button, not Action button), 8; the start of the title ("butt": Button, then Button group), 2 to 4, more
+ * the more of the title it is.
+ */
+function titleBonus(p, whole) {
+  const title = p.title.whole.join(" ");
+  if (!title) return 0;
+  let bonus = 0;
+  for (const q of whole) {
+    if (q === title) return 10;
+    const t = typos(q);
+    if (t && distance(q, title, t) <= t) bonus = Math.max(bonus, 8);
+    else if (q.length >= 3 && title.startsWith(q)) bonus = Math.max(bonus, 2 + (2 * q.length) / title.length);
+  }
+  return bonus;
+}
+
+/**
  * Searches prepared items: Map(prepared item -> { score, section }) of those that match, where section is the
  * heading ({ id, text }) that holds every word the title does not, or null.
  */
 export function search(query, prepared) {
-  const qs = queryWords(query);
+  const qs = queryWords(query).map(spellings);
   const out = new Map();
   if (!qs.length) return out;
   // A typo is only guessed at for a word that nothing in the index has.
   const anywhere = (q) => prepared.some((p) => score(q, p.title, TITLE) || score(q, p.synonyms, SYNONYM) || score(q, p.keywords, KEYWORD) || p.sections.some((s) => sectionScore(q, s)));
-  const fuzzy = qs.map((q) => typos(q) > 0 && !anywhere(q));
+  const fuzzy = qs.map((q) => typos(q[0]) > 0 && !anywhere(q));
+  // The query as a whole, in each spelling, to hold against whole titles.
+  const whole = [...new Set(spellings(queryWords(query).join(" ")))];
   for (const p of prepared) {
     const title = qs.map((q, i) => score(q, p.title, TITLE, fuzzy[i]));
     const page = qs.map((q, i) => Math.max(title[i], score(q, p.synonyms, SYNONYM, fuzzy[i]), score(q, p.keywords, KEYWORD, fuzzy[i])));
@@ -93,8 +138,7 @@ export function search(query, prepared) {
       const sum = s.reduce((a, b) => a + b, 0);
       if (sum > top && s.some((v, i) => v > 0 && v >= page[i])) (top = sum), (section = p.sections[k]);
     });
-    const whole = norm(p.item.title).trim() === norm(query).trim() ? 10 : 0;
-    out.set(p, { score: found.reduce((a, b) => a + b, 0) + whole, section: section && { id: section.id, text: section.text } });
+    out.set(p, { score: found.reduce((a, b) => a + b, 0) + titleBonus(p, whole), section: section && { id: section.id, text: section.text } });
   }
   return out;
 }

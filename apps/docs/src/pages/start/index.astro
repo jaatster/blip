@@ -7,7 +7,7 @@ import Icon from "../../components/Icon.astro";
 import Install from "../../components/Install.astro";
 import { assets, componentDocs, diagnostics, fontSection, pkgVersion, read, REPO } from "../../lib/data";
 import { codeBlock } from "../../lib/markdown";
-import { cdnStylesheets, cdnUrl } from "../../lib/install";
+import { PUBLISHED, cdnStylesheets, cdnUrl } from "../../lib/install";
 import { code, esc } from "../../lib/html";
 import { booleanAttributes } from "../../lib/cem";
 import { reactEntryFor } from "../../lib/react";
@@ -201,18 +201,20 @@ const elementRows = Object.entries(a.defines)
     <p class="docs-lede">Blip is plain CSS and dependency-free Web Components, with typed React wrappers on top. Four stylesheets give you every component; an element module adds behaviour only where a component needs it.</p>
   </header>
 
-  <div class="blip-box blip-alert" data-tone="info" role="note">
-    <span class="blip-alert-icon" aria-hidden="true"></span>
-    <div class="blip-alert-body">
-      <p class="blip-alert-title">Version {v} is not on npm yet</p>
-      <p>Until it is published, build the packages from <a href={REPO}>the repository on GitHub</a> (<code class="docs-inline-code">pnpm install</code>, then <code class="docs-inline-code">pnpm build</code>) and link them. The commands below are how installing will work.</p>
+  {!PUBLISHED && (
+    <div class="blip-box blip-alert" data-tone="info" role="note">
+      <span class="blip-alert-icon" aria-hidden="true"></span>
+      <div class="blip-alert-body">
+        <p class="blip-alert-title">Version {v} is not on npm yet</p>
+        <p>Until it is published, build the packages from <a href={REPO}>the repository on GitHub</a> (<code class="docs-inline-code">pnpm install</code>, then <code class="docs-inline-code">pnpm build</code>) and link them. The commands and the CDN's links on this page are how installing will work.</p>
+      </div>
     </div>
-  </div>
+  )}
 
   <section class="docs-section" aria-labelledby="install">
     <h2 id="install">Install</h2>
     <p>Start with the four core packages. Elements, icons and the kits are separate, so you install only what a screen uses.</p>
-    <Install lines={installLines} cdn={cdn}>
+    <Install lines={installLines} cdn={cdn} unpublished={false}>
       <p slot="cdn" class="docs-note">No build step: the files as published, and an import map for the modules. Map a package's folder with a trailing slash and import each module with its <code class="docs-inline-code">.js</code>.</p>
     </Install>
   </section>

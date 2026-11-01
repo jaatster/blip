@@ -31,6 +31,17 @@
   @media (max-width: 599px) {
     :root { --docs-gutter: var(--blip-space-6); }
   }
+  /* On a phone the bottom bar (34 pixels from the screen's foot) covers the end of the page: focus and jumps stop
+     clear of it. */
+  @media (max-width: 599px) {
+    :root:has(.docs-bottom-bar) { scroll-padding-block-end: calc(40 * var(--blip-pixel) + env(safe-area-inset-bottom, 0px)); }
+  }
+  @media (max-width: 1023px) {
+    /* Where the app bar keeps 2 px (see "app bar"), the top it leaves is the 2 px one. */
+    html[data-blip-pixel] { --docs-top: calc(36 * 2px); }
+    /* The section's drawer, open, is modal: the page behind is inert (Sidebar.astro) and holds still. */
+    :root:has(.docs-sidebar:popover-open) { overflow: hidden; }
+  }
 
   body {
     container: blip-shell / inline-size;
@@ -85,6 +96,14 @@
   html:not(.js) .docs-needs-js { display: none !important; }
   /* Ctrl, or Cmd on a Mac: the head script knows which before the first paint. */
   html.mac .docs-mod-ctrl, html:not(.mac) .docs-mod-cmd { display: none; }
+  /* 3 and 4 px are for big screens and TVs: on a phone the page keeps 2 px (a heading in Pixel Bop at 4 px is wider
+     than the screen), and the display menu leaves the choice out. Examples still show 3 and 4 px when asked. */
+  @media (width < 600px) {
+    html[data-blip-pixel="3"], html[data-blip-pixel="4"] { --blip-pixel: 2px; }
+    #docs-display-pixel, [aria-labelledby="docs-display-pixel"] { display: none; }
+  }
+  /* Keyboard shortcuts, where there is no keyboard to press them on (a phone or a tablet). */
+  @media (pointer: coarse) and (any-hover: none) { .docs-keys-hint { display: none; } }
   /* GitHub, last in the app bar: on the narrowest phones it gives its room to the brand (the footer links it too). */
   @container blip-shell (width < 380px) { .docs-github { display: none; } }
 
@@ -149,10 +168,33 @@
   /* ------------------------------------------------------------------ app bar */
 
   .docs-app-bar { margin: 0 var(--blip-pixel) var(--blip-pixel) 0; }
+  /* The wordmark is never cut: the bar folds its links and hides labels instead. */
+  .docs-brand { flex: none; }
   .docs-brand .blip-display { line-height: 1; }
-  /* Under 400 px the app bar sets its wordmark to scale 1; scale 1 draws square pixels, so the rounded set goes too. */
+  /* Under 400 px the app bar sets its wordmark to scale 1; scale 1 draws square pixels, so the rounded set goes too,
+     and two pixels between the letters keep each one's outline, so it reads BLIP rather than one blob. */
   @container blip-app-bar (width < 400px) {
     :is(.docs-brand, .tpl-dash-bar .blip-app-bar-brand, .tpl-landing-top .blip-app-bar-brand) .blip-display { font-feature-settings: normal; }
+    .docs-brand .blip-display { letter-spacing: calc(2 * var(--blip-pixel)); }
+  }
+  /* At 3 and 4 px. The bar works out its sizes from its own pixel (data-blip-pixel="bar" on .docs-top, Docs.astro),
+     so it can keep 2 px where the chosen pixel would not fit it whole: under 1024 px, the wordmark, the menu button
+     and four actions at 3 or 4 px are wider than the screen, so there the bar, gutters and all, is the 2 px one. The
+     page itself still follows the choice. Wider, the bar takes the chosen pixel, and its links fold behind the menu
+     button sooner, as they need more room (at 2 px they fold under 64rem, app-bar.css). */
+  @container blip-shell (width < 1024px) {
+    html[data-blip-pixel] .docs-top { --blip-pixel: 2px; --docs-gutter: var(--blip-space-8); }
+  }
+  @container blip-shell (width < 600px) {
+    html[data-blip-pixel] .docs-top { --docs-gutter: var(--blip-space-6); }
+  }
+  @container blip-app-bar (width < 80rem) {
+    html[data-blip-pixel="3"] .docs-app-bar .blip-app-bar-toggle { display: inline-flex; }
+    html[data-blip-pixel="3"] .docs-app-bar .blip-app-bar-links:not(:popover-open) { display: none; }
+  }
+  @container blip-app-bar (width < 95rem) {
+    html[data-blip-pixel="4"] .docs-app-bar .blip-app-bar-toggle { display: inline-flex; }
+    html[data-blip-pixel="4"] .docs-app-bar .blip-app-bar-links:not(:popover-open) { display: none; }
   }
   /* On the narrowest phones (320 px) the wordmark, the menu button and three actions only fit whole with the gaps
      and the ends closed up a little. */
@@ -385,12 +427,15 @@
     padding: 0 var(--blip-space-1);
     background: var(--blip-surface-sunken);
     color: var(--blip-text);
-    font-size: 0.875em;
+    /* A little smaller than the words round it, never under the caption size (in a caption-size table). */
+    font-size: max(0.875em, var(--blip-size-caption));
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
     overflow-wrap: anywhere;
   }
-  a .docs-inline-code, a > code { color: inherit; }
+  /* In a link, the link's colour: on the sunken chip it falls under 4.5:1 in Day and Sunset with some palettes, so
+     the chip there is the surface, which keeps every scheme and palette over 4.5:1. */
+  a .docs-inline-code, a > code { color: inherit; background: var(--blip-surface); }
 
   /* ------------------------------------------------------------------ code blocks */
 
@@ -575,6 +620,8 @@
 
   .docs-example {
     display: grid;
+    /* The column never grows past the page for its switches (at 4 px on a phone they scroll inside it instead). */
+    grid-template-columns: minmax(0, 1fr);
     gap: 0;
     margin-block: var(--blip-space-8) 0;
   }
@@ -694,6 +741,13 @@
   .docs-example[data-level="3"] .docs-example-title { font-size: var(--blip-size-lead); }
   .docs-snippets > .docs-example + .docs-example { margin-block-start: var(--blip-space-16); }
 
+  /* An install box's tabs: the tab list reaches out a few pixels each side (so the tabs line up with the code), and
+     its rule stops where the code block's outline does, not past it. */
+  .docs-tabs[data-variant="underline"]:not([data-overflow]) > .blip-tabs-list:not([aria-orientation="vertical"]) {
+    background-position: var(--_pad) calc(100% - var(--_pad));
+    background-size: calc(100% - 2 * var(--_pad) - var(--blip-pixel)) var(--blip-pixel);
+  }
+
   /* ------------------------------------------------------------------ indexes: a list of names and what each is for */
 
   .docs-index > h2 { display: flex; align-items: center; gap: var(--blip-space-4); }
@@ -755,6 +809,9 @@
   .docs-footer-inner { display: grid; gap: var(--blip-space-3); max-inline-size: var(--docs-measure); }
   .docs-footer-brand { display: flex; align-items: baseline; gap: var(--blip-space-4); margin-block-end: var(--blip-space-2); }
   .docs-footer-links { display: flex; flex-wrap: wrap; gap: var(--blip-space-2) var(--blip-space-8); margin: var(--blip-space-4) 0 0; padding: 0; list-style: none; font-size: var(--blip-size-small); }
+  /* A link's line is 17 px high: two pixels of padding above and below make the 24 px target, and an inline link's
+     padding moves nothing. */
+  .docs-footer-links a { padding-block: calc(2 * var(--blip-pixel)); }
 
   /* ------------------------------------------------------------------ sound: a button's icon shows its state (site.js) */
 
@@ -765,6 +822,20 @@
 
   .docs-search .blip-command-results:empty { display: none; }
   .docs-search[data-loading] .blip-command-empty { visibility: hidden; }
+
+  /* ------------------------------------------------------------------ touch: bigger targets */
+
+  /* On a touch screen the small controls grow to a 44 px target (rounded up to whole pixels; at 3 and 4 px most
+     already are), where the page has room; a mouse keeps them as they are. The app bar's search takes the size of
+     the bar's other buttons (40 px), so the bar still fits a 320 px phone. */
+  @media (pointer: coarse) {
+    .docs-footer-links { row-gap: 0; }
+    .docs-footer-links a { display: inline-flex; align-items: center; min-block-size: round(up, 44px, var(--blip-pixel)); padding-block: 0; }
+    /* A segment is its switch less four pixels. */
+    .docs-example-switches .blip-segmented { --_h: max(var(--blip-control-sm), round(up, 44px + 4 * var(--blip-pixel), var(--blip-pixel))); }
+    :is(.docs-copy, .docs-nav-toggle).blip-button[data-size="sm"] { --_h: max(var(--blip-control-sm), round(up, 44px, var(--blip-pixel))); }
+    .docs-search-button.blip-button { --_h: var(--blip-control-md); }
+  }
 
   /* ------------------------------------------------------------------ motion */
 

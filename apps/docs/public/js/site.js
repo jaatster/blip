@@ -128,6 +128,8 @@ addEventListener("storage", (e) => {
     else delete root.dataset.blipPalette;
     requestAnimationFrame(themeColor);
     syncPalette();
+    // Page scripts that show the palette (home's swatches, the palette maker) follow it too.
+    document.dispatchEvent(new CustomEvent("docs-palette", { detail: { palette: root.dataset.blipPalette || defaultPalette || "" } }));
   } else if (e.key === KEYS.scheme) {
     applyScheme(e.newValue || "auto");
     syncMenu();
@@ -294,9 +296,19 @@ document.addEventListener("blip-change", (e) => {
     if (value === "page") stage.removeAttribute("data-blip-scheme");
     else stage.setAttribute("data-blip-scheme", value);
   } else if (control.dataset.attr === "pixel") {
-    if (value === "2") stage.removeAttribute("data-blip-pixel");
+    // "Page" follows the site's pixel; a number is set on the stage, 2 too, so it holds whatever the site's is.
+    if (value === "page") stage.removeAttribute("data-blip-pixel");
     else stage.setAttribute("data-blip-pixel", value);
   }
+});
+
+// The examples' placeholder links (href="#overview", "#players", "#") point at nothing on this page: in a stage they
+// stay put instead of changing the address and jumping to the top. A link to something that is here still goes.
+document.addEventListener("click", (e) => {
+  const a = e.target.closest?.('.docs-stage a[href^="#"]');
+  if (!a || e.defaultPrevented) return;
+  const id = decodeURIComponent(a.getAttribute("href").slice(1));
+  if (!id || !document.getElementById(id)) e.preventDefault();
 });
 
 // ------------------------------------------------------------------ on this page

@@ -48,6 +48,8 @@ export const SYNONYMS: [terms: string, to: string[]][] = [
   ["ssr server-rendering next-js nextjs", ["/start/#react"]],
   ["responsive mobile media-query", ["/foundations/pixel/#breakpoints"]],
   ["brand", ["/theme/"]],
+  ["btn", ["/components/button/"]],
+  ["rtl right-to-left bidi direction", ["/start/#languages"]],
 ];
 
 export function searchData(): SearchData {

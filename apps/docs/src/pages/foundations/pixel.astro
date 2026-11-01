@@ -33,8 +33,9 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     <h2 id="pixel">One pixel</h2>
     <p>Switch the pixel and the panel below is drawn again, a size larger. The pixel can be set on the page or on any part of it, with <code class="docs-inline-code">data-blip-pixel</code>.</p>
     <div class="docs-row docs-needs-js">
-      <blip-segmented class="blip-box blip-segmented" aria-label="Pixel size of the sample" data-stage="pixel-stage" data-attr="pixel" value="2">
-        <button class="blip-box" type="button" value="2" aria-checked="true">2 px</button>
+      <blip-segmented class="blip-box blip-segmented" aria-label="Pixel size of the sample" data-stage="pixel-stage" data-attr="pixel" value="page">
+        <button class="blip-box" type="button" value="page" aria-checked="true">Page</button>
+        <button class="blip-box" type="button" value="2">2 px</button>
         <button class="blip-box" type="button" value="3">3 px</button>
         <button class="blip-box" type="button" value="4">4 px</button>
       </blip-segmented>

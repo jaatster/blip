@@ -14,6 +14,11 @@ export const MANAGERS: { id: Manager; label: string }[] = [
   { id: "cdn", label: "CDN" },
 ];
 export const INSTALL_KEY = "blip-docs:install";
+/**
+ * Whether the packages are on npm (and so on the CDN). Until they are, every install box, the CDN tabs and the
+ * palette maker's `npx blip-tokens` say so (README.md, "Status"). Set it with the first release.
+ */
+export const PUBLISHED = false;
 
 const ADD: Record<Exclude<Manager, "cdn">, string> = { npm: "npm install", pnpm: "pnpm add", yarn: "yarn add", bun: "bun add" };
 

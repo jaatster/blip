@@ -10,6 +10,7 @@ import { assets, componentDocs, frog, icons, pkgVersion } from "../lib/data";
 import { kb } from "../lib/html";
 import { codeBlock } from "../lib/markdown";
 import { cdnStylesheets } from "../lib/install";
+import { palettes } from "../lib/colour";
 
 const a = assets();
 const letters = (word: string, start: number) => [...word].map((c, i) => ({ c, i: start + i }));
@@ -32,13 +33,13 @@ const launcher = [
 const scenery: [string, number, number][] = [["coin", 2, 2], ["coin", 9, 6], ["star", 16, 0], ["sparkle-small", 22, 10], ["star", 78, 0], ["coin", 86, 4], ["sparkle", 92, 12]];
 // What the sky keeps its sun, moon and shooting stars clear of: every word on it, the window and the launcher.
 const avoid = ".home-clock, .home-hero-copy > *, .home-demo, .home-pick, .home-tiles .blip-tile-item";
-const accents = [
-  { tone: "teal", name: "Teal" },
-  { tone: "green", name: "Green" },
-  { tone: "purple", name: "Purple" },
-  { tone: "pink", name: "Pink" },
-  { tone: "orange", name: "Orange" },
-];
+// The Options window's accents are palettes: each swatch is a preset known by its accent, and picking one sets the
+// site's palette, as the palette menu does (site.js, saved and applied before the first paint). Each swatch wears its
+// palette's accent in the scheme on show (home.css), from the tokens.
+const swatches = ["candy", "mint", "grape", "bubblegum", "ember"].flatMap((id) => palettes().filter((p) => p.id === id)).map((p) => ({
+  ...p,
+  style: (["day", "sunset", "night"] as const).flatMap((s) => (["accent", "accent-light", "accent-shade", "accent-on"] as const).map((k) => `--_sw-${s}-${k}:${p.schemes[s][k]}`)).join(";"),
+}));
 const order = await codeBlock(`<link rel="stylesheet" href="@blip/font/font.css">
 <link rel="stylesheet" href="@blip/tokens/tokens.css">
 <link rel="stylesheet" href="@blip/core/core.css">
@@ -61,7 +62,7 @@ const order = await codeBlock(`<link rel="stylesheet" href="@blip/font/font.css"
           </h1>
           <p class="blip-hero-lead home-lead">A 16-bit design system: candy controls on a soft pixel world, one square pixel everywhere, and motion that snaps.</p>
           <p class="blip-hero-note home-note">Tokens, CSS and Web Components, with React. {components} components, {iconCount} icons, no images.</p>
-          <p class="home-cta"><a class="blip-box blip-button" href="/start/">Get started</a><a class="blip-box blip-button" data-variant="soft" data-tone="neutral" href="/components/">Components</a><blip-motion-toggle></blip-motion-toggle></p>
+          <p class="home-cta"><a class="blip-box blip-button" href="/start/">Get started</a><a class="blip-box blip-button" data-variant="soft" data-tone="neutral" href="/components/">Components</a><blip-motion-toggle><button class="blip-box blip-button" type="button" data-variant="soft" aria-pressed="false"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v8H2zm5 0h3v8H7z"/></svg>Pause motion</button></blip-motion-toggle></p>
         </div>
 
         <section class="blip-box blip-window home-demo docs-needs-js" aria-labelledby="demo-title">
@@ -79,13 +80,13 @@ const order = await codeBlock(`<link rel="stylesheet" href="@blip/font/font.css"
               </blip-segmented>
             </div>
             <fieldset class="home-demo-row home-accents">
-              <legend class="blip-label">Accent</legend>
+              <legend class="blip-label">Accent <span class="home-accent-name">{swatches[0]!.name}</span></legend>
               <div class="home-swatches">
-                <label class="blip-box home-swatch home-swatch-auto"><input type="radio" name="home-accent" value="" checked /><span class="blip-sr-only">Auto: the time of day's own, blue by day, pink at sunset, purple at night</span><span class="home-swatch-split" aria-hidden="true"></span><span class="home-swatch-mark" aria-hidden="true"></span></label>
-                {accents.map((x) => <label class="blip-box home-swatch" data-tone={x.tone}><input type="radio" name="home-accent" value={x.tone} /><span class="blip-sr-only">{x.name}</span><span class="home-swatch-mark" aria-hidden="true"></span></label>)}
+                {swatches.map((p) => <label class="blip-box home-swatch" style={p.style}><input type="radio" name="home-accent" value={p.id} checked={p.default} /><span class="blip-sr-only">{p.name}{p.default ? ", Blip's own" : ""} palette</span><span class="home-swatch-mark" aria-hidden="true"></span></label>)}
               </div>
             </fieldset>
             <label class="blip-check home-demo-row" data-layout="split">Chip sounds<span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box home-sound" data-docs-sound /></span></label>
+            <div class="home-demo-row home-pause"><span>Clouds, stars and birds</span><blip-motion-toggle><button class="blip-box blip-button" type="button" data-variant="soft" aria-pressed="false"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v8H2zm5 0h3v8H7z"/></svg>Pause motion</button></blip-motion-toggle></div>
             <button class="blip-box blip-button home-start" type="button" data-variant="soft" data-width="full">Press start</button>
           </div>
           <footer class="blip-window-status"><span class="home-status">Every control here is live</span><span class="home-daytime"></span></footer>
@@ -227,7 +228,7 @@ const order = await codeBlock(`<link rel="stylesheet" href="@blip/font/font.css"
       <code class="home-switch-code docs-inline-code" aria-live="polite">&lt;section data-blip-scheme="day"&gt;</code>
     </div>
     <div class="home-stage-scroll docs-scroll">
-      <div class="home-stage" id="home-stage" data-blip-scheme="day">
+      <div class="home-stage" id="home-stage" data-blip-scheme="day" data-blip-pixel="2">
         <section class="blip-box home-slot" data-variant="panel" aria-labelledby="slot-title">
           <header class="home-slot-head">
             <span class="blip-box blip-avatar" data-tone="teal" aria-hidden="true"><blip-sprite name="star"></blip-sprite></span>

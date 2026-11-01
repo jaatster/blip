@@ -332,7 +332,8 @@
     font-size: var(--blip-size-caption);
     line-height: var(--blip-leading-tight);
   }
-  .docs-icon-name { max-inline-size: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  /* The whole name, always: a long one wraps at its hyphen ("bookmark-" / "outline"), or anywhere if it has none. */
+  .docs-icon-name { max-inline-size: 100%; text-align: center; text-wrap: balance; overflow-wrap: anywhere; }
   .docs-icon-detail {
     --blip-r: 5;
     --blip-shape: var(--blip-shape-5);
