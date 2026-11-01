@@ -111,6 +111,10 @@
     background: repeating-linear-gradient(to right, transparent 0 calc(5 * var(--pp-pixel)), var(--pp-ink) 0 calc(6 * var(--pp-pixel)));
   }
 
+  /* A bar's fill is its value: it prints, though paper drops backgrounds. */
+  @media print {
+    .pp-hud-bar-fill, .pp-hud-bar-fill::before { print-color-adjust: exact; }
+  }
   @media (forced-colors: active) {
     .pp-hud-bar-fill { background: Highlight; forced-color-adjust: none; }
     .pp-hud-bar-fill::before { background: repeating-linear-gradient(to right, transparent 0 calc(5 * var(--pp-pixel)), Canvas 0 calc(6 * var(--pp-pixel))); }

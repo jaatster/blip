@@ -9,8 +9,8 @@ status: beta
 
 # Glint
 
-The TV's shine: a band of light sweeps down and right across a candy box in five frames, 80 ms apart, every 4.5
-seconds, always inside the box's outline. CSS only.
+The TV's shine: a band of light sweeps down and right across a candy box in five frames, 80 ms apart, always inside
+the box's outline, once when it appears (as a selected tile's does), then it rests. CSS only.
 
 ## Usage
 
@@ -32,6 +32,7 @@ on the TV), the middle two white. Its point moves from the top-left corner to th
 | | |
 |---|---|
 | `data-frame="0"` to `"4"` | Holds one frame (docs, tests, screenshots). |
+| `--pp-glint-count` | How many sweeps, 4.5 seconds apart (1). Two are over in under five seconds; set `infinite` only where the person can pause it, as for `--pp-blink-count`. |
 | `--pp-glint-delay` | Staggers several glints on one screen. |
 | `--pp-glint-color`, `--pp-glint-edge` | The band's colours (white, light yellow). |
 
@@ -41,11 +42,12 @@ on the TV), the middle two white. Its point moves from the top-left corner to th
 |---|---|
 | Reduced motion | No glint. |
 | Hidden tab | Nothing runs. |
-| Forced colours | No glint. |
+| Forced colours, print | No glint. |
 
 ## Accessibility
 
-Decoration only: keep `aria-hidden="true"` on the span. The sweep is short and well apart.
+Decoration only: keep `aria-hidden="true"` on the span. A sweep is short, and nothing moves for more than five
+seconds unless you ask for it (WCAG 2.2.2).
 
 ## Do and don't
 
@@ -54,4 +56,5 @@ Decoration only: keep `aria-hidden="true"` on the span. The sweep is short and w
 
 ## API
 
-`.pp-glint` (a child of a `.pp-box`), `data-frame`, `--pp-glint-delay`, `--pp-glint-color`, `--pp-glint-edge`.
+`.pp-glint` (a child of a `.pp-box`), `data-frame`, `--pp-glint-count`, `--pp-glint-delay`, `--pp-glint-color`,
+`--pp-glint-edge`.

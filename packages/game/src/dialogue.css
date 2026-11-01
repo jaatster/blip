@@ -39,7 +39,8 @@
     display: flex;
     align-items: flex-start;
     gap: calc(6 * var(--pp-pixel));
-    padding: calc(11 * var(--pp-pixel)) calc(12 * var(--pp-pixel)) calc(12 * var(--pp-pixel)) calc(8 * var(--pp-pixel));
+    padding-block: calc(11 * var(--pp-pixel)) calc(12 * var(--pp-pixel));
+    padding-inline: calc(8 * var(--pp-pixel)) calc(12 * var(--pp-pixel));
     /* Room above for the name tab, and below and right for the drop. */
     margin: calc(9 * var(--pp-pixel)) var(--pp-pixel) var(--pp-pixel) 0;
     font-family: var(--pp-font-ui);

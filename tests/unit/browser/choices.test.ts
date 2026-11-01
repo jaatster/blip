@@ -30,13 +30,14 @@ describe("pp-choices", () => {
     expect(focused()).toBe("Trade the moon key");
   });
 
-  it("sends pp-choice for a choice you can take, and nothing for one you can't", () => {
+  it("sends pp-action for a choice you can take, and nothing for one you can't", () => {
     const list = mount(LIST);
     const chosen = vi.fn();
-    list.addEventListener("pp-choice", (e) => chosen((e as CustomEvent).detail));
+    list.addEventListener("pp-action", (e) => chosen((e as CustomEvent).detail));
     list.querySelector<HTMLButtonElement>('[value="pay"]')!.click();
-    list.querySelector<HTMLButtonElement>('[value="later"]')!.click();
+    const later = list.querySelector<HTMLButtonElement>('[value="later"]')!;
+    later.click();
     expect(chosen).toHaveBeenCalledTimes(1);
-    expect(chosen).toHaveBeenCalledWith({ value: "later", index: 2, label: "Maybe later" });
+    expect(chosen).toHaveBeenCalledWith({ item: later, value: "later", index: 2, label: "Maybe later" });
   });
 });

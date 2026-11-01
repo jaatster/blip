@@ -37,7 +37,8 @@ setTimeout(() => toast.remove(), 5000);
 1. **Toast**: a candy box, slate by default, radius 4.
 2. **Icon** (`.pp-achievement-icon`): a dark well with an ink top band, holding a sprite.
 3. **Sparkles** (`.pp-achievement-sparkles`): two, small, big, small, gone.
-4. **Label**, **title**, **text**, **reward**: Pixel Bop capitals in orange light, then Pixelify.
+4. **Label**, **title**, **text**, **reward**: Pixel Bop capitals in orange light, then Pixelify. The text and the
+   reward each sit two pixels below the line above (4 px at the default pixel), so the lines never crowd.
 
 ## Variants
 
@@ -46,7 +47,7 @@ setTimeout(() => toast.remove(), 5000);
 ## States
 
 Slide in (24 pixels in four steps), bump (up 6, 3, then down), sparkle after it lands. The motion plays once.
-Reduced motion: it appears in place with a still sparkle.
+Reduced motion: it appears in place with a still sparkle. On paper and in Windows high contrast, no sparkles.
 
 ## Accessibility
 

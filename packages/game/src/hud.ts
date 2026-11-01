@@ -57,7 +57,7 @@ abstract class HudValue extends PixelElement {
   attributeChangedCallback(name: string, old: string | null, now: string | null): void {
     if (!this.#ready || old === now) return;
     this.draw(name === "value" ? Number(old) || 0 : undefined);
-    if (this.hasAttribute("quiet")) return;
+    if (this.flag("quiet")) return;
     this.#say?.abort();
     this.#say = new AbortController();
     run([{ at: 1000, do: () => this.#live && (this.#live.textContent = this.text()) }], { signal: AbortSignal.any([this.signal, this.#say.signal]), instant: false });
@@ -75,7 +75,7 @@ abstract class HudValue extends PixelElement {
  * @attr {"time"} format - Shows the value, in seconds, as m:ss.
  * @attr {number} low - At or under this value the digits turn red (data-low).
  * @attr {string} sound - A chip sound to play on a gain: "coin".
- * @attr {boolean} quiet - Never announced: for a ticking timer or a busy score.
+ * @attr {boolean} quiet - Never announced: for a ticking timer or a busy score. "false" is off.
  * @omit-attr max
  */
 export class PixelCounter extends HudValue {
@@ -132,7 +132,7 @@ export class PixelCounter extends HudValue {
  * @attr {number} value - The health, in hearts; halves show as half hearts.
  * @attr {number} [max=3] - How many hearts.
  * @attr {string} label - What the value is, for screen readers: "Health".
- * @attr {boolean} quiet - Never announced.
+ * @attr {boolean} quiet - Never announced. "false" is off.
  * @omit-attr low
  */
 export class PixelHearts extends HudValue {

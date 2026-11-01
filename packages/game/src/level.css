@@ -91,4 +91,8 @@
   @media (forced-colors: active) {
     .pp-level-path { background: repeating-linear-gradient(to right, CanvasText 0 calc(2 * var(--pp-pixel)), transparent 0 calc(4 * var(--pp-pixel))); }
   }
+  /* The dotted way between tiles prints, though paper drops backgrounds. */
+  @media print {
+    .pp-level-path { print-color-adjust: exact; }
+  }
 }

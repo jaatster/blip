@@ -9,8 +9,8 @@ status: beta
 
 # CRT
 
-An old television's look over anything: scanlines on every other pixel row and a dithered ink vignette round the
-edge. No blur, no curvature, CSS only.
+An old television's look over anything: dithered ink scanlines on every other pixel row and a dithered ink vignette
+round the edge. No blur, no curvature, no see-through wash, CSS only.
 
 ## Usage
 
@@ -24,27 +24,30 @@ itself (both use the same pseudo-elements); wrap the box.
 
 ## Anatomy
 
-1. **Scanlines**: every other pixel row darkened with ink at low strength.
+1. **Scanlines**: ink on one pixel in four along every other pixel row, two pixels along from the line above, so an
+   eighth of the pixels are ink and the rest show through untouched (a dither, never a wash).
 2. **Vignette**: ink dithered round the edge, half the pixels in the outer two, a quarter in the four inside them.
 
 ## Variants
 
 | | |
 |---|---|
-| `data-flicker` | The scanlines flicker a little, in steps. |
-| `--pp-crt-strength` | Scanline strength (16%). |
+| `data-flicker` | The scanlines jump to the rows between them for a frame, twice a beat pair, for six beats, then hold still. |
 
 ## States
 
 | State | Look |
 |---|---|
 | Reduced motion | No flicker. |
-| Forced colours | No effect. |
+| Forced colours, print | No effect. |
 
 ## Accessibility
 
-- Scanlines lower contrast a little: keep text on a CRT large (Pixel Bop, POP) and check it still reads.
-- Flicker is opt-in and gentle; never use it behind body text.
+- Scanlines put a dot of ink on some pixels: keep text on a CRT big (POP on a picture, Pixel Bop on a panel), whose
+  letters survive a dot, and check it still reads. Labels, captions and controls are too small: a dot can turn P
+  into R. Keep them outside the CRT.
+- Flicker is opt-in, steps without fading, and stops after six beats (under five seconds); never use it behind body
+  text.
 
 ## Do and don't
 
@@ -53,4 +56,4 @@ itself (both use the same pseudo-elements); wrap the box.
 
 ## API
 
-`.pp-crt`, `data-flicker`, `--pp-crt-strength`.
+`.pp-crt`, `data-flicker`.

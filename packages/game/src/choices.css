@@ -8,7 +8,7 @@
  *     </ul>
  *   </pp-choices>
  *
- *   <pp-choices>          the element (choices.js): Up and Down move, Home and End jump, a pick sends pp-choice
+ *   <pp-choices>          the element (choices.js): Up and Down move, Home and End jump, a pick sends pp-action
  *   data-font="display"   on the list: Pixel Bop capitals (title screens, pause menus)
  *
  * A white glove points at the choice under the cursor or the keyboard. Choices are ghost buttons, so focus also draws
@@ -29,7 +29,8 @@
     inline-size: fit-content;
     max-inline-size: 100%;
     margin: 0;
-    padding: 0 0 0 calc(17 * var(--pp-pixel));
+    padding: 0;
+    padding-inline-start: calc(17 * var(--pp-pixel));
     list-style: none;
   }
   .pp-choices > li { position: relative; display: grid; }

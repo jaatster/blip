@@ -7,22 +7,22 @@
  *       <h2 class="pp-features-title" id="features-title">A small world that keeps time</h2>
  *     </header>
  *     <div class="pp-features-grid">
- *       <article class="pp-box pp-feature" data-size="lead" data-variant="panel">
+ *       <article class="pp-box pp-feature" data-layout="lead" data-variant="panel">
  *         <div class="pp-feature-media">…</div>
  *         <h3 class="pp-feature-title">…</h3><p class="pp-feature-text">…</p>
  *       </article>
  *       <article class="pp-box pp-feature" data-variant="soft" data-tone="pink">
  *         <span class="pp-box pp-feature-icon" data-tone="pink"><svg class="pp-icon">…</svg></span> …
  *       </article>
- *       <article class="pp-box pp-feature" data-size="stat" data-variant="soft" data-tone="teal">
+ *       <article class="pp-box pp-feature" data-layout="stat" data-variant="soft" data-tone="teal">
  *         <p class="pp-feature-stat">60</p><p class="pp-feature-text">hand-made levels</p>
  *       </article>
- *       <article class="pp-box pp-feature" data-size="wide" data-variant="panel">…</article>
+ *       <article class="pp-box pp-feature" data-layout="wide" data-variant="panel">…</article>
  *     </div>
  *   </section>
  *
- *   data-size   lead: four of six columns, two rows, a picture on top | wide: the whole row, side by side |
- *               stat: a big number and its caption | (none) a tile
+ *   data-layout   lead: four of six columns, two rows, a picture on top | wide: the whole row, side by side |
+ *                 stat: a big number and its caption | (none) a tile
  *   The grid has one column below the medium breakpoint (600 px), two below wide (1024 px), then six.
  *
  * Panels are not buttons: put a link inside one if it goes somewhere. Keep stat tiles honest: real numbers only.
@@ -54,13 +54,13 @@
   }
   @container (width >= 600px) {
     .pp-features-grid { grid-template-columns: repeat(2, 1fr); }
-    .pp-feature:is([data-size="lead"], [data-size="wide"]) { grid-column: span 2; }
+    .pp-feature:is([data-layout="lead"], [data-layout="wide"]) { grid-column: span 2; }
   }
   @container (width >= 1024px) {
     .pp-features-grid { grid-template-columns: repeat(6, 1fr); }
     .pp-feature { grid-column: span 2; }
-    .pp-feature[data-size="lead"] { grid-column: span 4; grid-row: span 2; }
-    .pp-feature[data-size="wide"] { grid-column: 1 / -1; grid-template-columns: auto 1fr auto; align-items: center; }
+    .pp-feature[data-layout="lead"] { grid-column: span 4; grid-row: span 2; }
+    .pp-feature[data-layout="wide"] { grid-column: 1 / -1; grid-template-columns: auto 1fr auto; align-items: center; }
   }
 
   .pp-feature {
@@ -94,11 +94,11 @@
     font-weight: var(--pp-weight-bold);
     line-height: var(--pp-leading-tight);
   }
-  .pp-feature[data-size="lead"] .pp-feature-title { font-size: var(--pp-size-title); }
+  .pp-feature[data-layout="lead"] .pp-feature-title { font-size: var(--pp-size-title); }
   .pp-feature-text { font-size: var(--pp-size-body); line-height: var(--pp-leading-normal); }
 
   /* The lead's picture: a framed slot, as wide as the panel. It grows to fill the lead's two rows. */
-  .pp-feature[data-size="lead"]:has(> .pp-feature-media) { grid-template-rows: 1fr auto auto; align-content: stretch; }
+  .pp-feature[data-layout="lead"]:has(> .pp-feature-media) { grid-template-rows: 1fr auto auto; align-content: stretch; }
   .pp-feature-media {
     display: grid;
     min-block-size: calc(56 * var(--pp-pixel));
@@ -107,7 +107,7 @@
   .pp-feature-media > * { grid-area: 1 / 1; }
 
   /* A stat: one number in Pixel Bop, POP, and what it counts. */
-  .pp-feature[data-size="stat"] { align-content: center; justify-items: start; }
+  .pp-feature[data-layout="stat"] { align-content: center; justify-items: start; }
   .pp-feature-stat {
     --pp-scale: 3;
     font-family: var(--pp-font-display);

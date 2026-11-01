@@ -21,9 +21,10 @@ await transition(() => router.show("/level-2"), { kind: "dissolve" });   // diss
 ```
 
 The update runs once, behind the effect, and may be async. With the View Transitions API the old and new screens are
-snapshots, masked or filtered frame by frame; without it, ink covers the screen from an overlay (in the top layer, over
-dialogs too, taking the pointer) while it changes, and a mosaic dissolves instead. The promise resolves when the new
-screen is fully shown and rejects if the update throws.
+snapshots, masked (the dissolve and the dither) or filtered (the mosaic) frame by frame; without it, ink covers the
+screen from an overlay (in the top layer, over dialogs too, taking the pointer) while it changes, and a mosaic
+dissolves instead. Cells are whole numbers of device pixels, so their edges stay crisp on a 125% or 175% screen. The
+promise resolves when the new screen is fully shown and rejects if the update throws.
 
 Between pages (cross-document view transitions), with no script, opt in on both pages:
 
@@ -32,7 +33,8 @@ Between pages (cross-document view transitions), with no script, opt in on both 
 <style>@view-transition { navigation: auto; }</style>
 ```
 
-The old page fills with ink through the Bayer matrix and the new one clears out of it, eight steps each.
+The old page fills with ink through the Bayer matrix and the new one clears out of it, eight steps each. (This one
+is CSS alone, so its cells are two pixels in CSS pixels; `transition()`'s own dither draws whole device pixels.)
 
 ## Variants
 

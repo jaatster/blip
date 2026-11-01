@@ -22,7 +22,7 @@ icon-heading-text cards.
     <p class="pp-features-lead">Sixty short levels, made to be played a few at a time.</p>
   </header>
   <div class="pp-features-grid">
-    <article class="pp-box pp-feature" data-size="lead" data-variant="panel">
+    <article class="pp-box pp-feature" data-layout="lead" data-variant="panel">
       <div class="pp-feature-media">…a picture…</div>
       <h3 class="pp-feature-title">A meadow that keeps time</h3>
       <p class="pp-feature-text">The world follows your clock…</p>
@@ -32,11 +32,11 @@ icon-heading-text cards.
       <h3 class="pp-feature-title">Couch co-op</h3>
       <p class="pp-feature-text">A friend can hop in or out at any moment.</p>
     </article>
-    <article class="pp-box pp-feature" data-size="stat" data-variant="soft" data-tone="blue">
+    <article class="pp-box pp-feature" data-layout="stat" data-variant="soft" data-tone="blue">
       <p class="pp-feature-stat pp-pop" data-pop="60">60</p>
       <p class="pp-feature-text">hand-made levels in four worlds</p>
     </article>
-    <article class="pp-box pp-feature" data-size="wide" data-variant="panel">
+    <article class="pp-box pp-feature" data-layout="wide" data-variant="panel">
       <span class="pp-box pp-feature-icon" data-tone="red">…</span>
       <div>…title and text…</div>
       <ul class="pp-feature-chips" role="list"><li class="pp-box" data-variant="soft" data-tone="neutral">Assist mode</li>…</ul>
@@ -56,7 +56,7 @@ icon-heading-text cards.
 
 ## Variants
 
-| `data-size` | Wide layout | Use |
+| `data-layout` | Wide layout | Use |
 |---|---|---|
 | `lead` | four of six columns, two rows | The one thing to know. One per grid. |
 | (none) | two columns | A feature with an icon. |

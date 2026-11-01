@@ -170,6 +170,10 @@
   @media (prefers-reduced-motion: reduce) {
     .pp-prompt-start { animation: none; }
   }
+  /* The D-pad is a picture drawn with backgrounds: it prints all the same. */
+  @media print {
+    .pp-prompt-dpad::before, .pp-prompt-dpad::after { print-color-adjust: exact; }
+  }
   @media (forced-colors: active) {
     .pp-prompt-dpad::before { background: CanvasText; }
     .pp-prompt-dpad::after { background: linear-gradient(Highlight 0 0) var(--_lit) no-repeat, Canvas; }

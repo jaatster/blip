@@ -83,8 +83,9 @@ function voiceRate(char: string, mood: string): number {
  * its room, so nothing moves while it types.
  *
  * @summary Text that types itself in, a letter at a time.
- * @attr {boolean} blips - Voices every other letter with the chip blip (through services.sound()).
- * @attr {boolean} caret - A two-pixel block after the typed text that blinks on the beat.
+ * @attr {boolean} blips - Voices every other letter with the chip blip (through services.sound()). "false" is off.
+ * @attr {boolean} caret - A two-pixel block after the typed text: still while it types, then it blinks for six beats
+ * once the last letter is in, and stays. "false" is off.
  * @attr {"plain" | "happy" | "sleepy"} [mood="plain"] - Pitches the blips.
  * @attr {1 | 2 | 3 | 4} data-scale - With .pp-display: Pixel Bop at this whole scale.
  * @fires {CustomEvent<void>} pp-typewriter-done - Once per play: when the last letter is in, or on finish().
@@ -134,7 +135,7 @@ export class PixelTypewriter extends PixelElement {
     const typed = shown.appendChild(Object.assign(document.createElement("span"), { className: "pp-typewriter-typed" }));
     const rest = shown.appendChild(Object.assign(document.createElement("span"), { className: "pp-typewriter-rest", textContent: text }));
     const letter = duration("letter", 50, this), stop = duration("stop", 260, this), comma = duration("comma", 130, this);
-    const mood = this.getAttribute("mood") ?? "plain", blips = this.hasAttribute("blips");
+    const mood = this.getAttribute("mood") ?? "plain", blips = this.blips;
     let at = 0, v = 0;
     const steps = [...text].map((c, k, all) => {
       const blip = voiced(c) && v++ % 2 === 0, ends = k + 1 >= all.length || /\s/.test(all[k + 1]!), step = { at, do: () => {

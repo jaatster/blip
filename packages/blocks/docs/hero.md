@@ -53,8 +53,9 @@ const letters = (text) => text.split(" ").map((w) => { const html = word(w); i++
 2. **Headline** (`.pp-hero-title`): Pixel Bop in POP at the whole scale that fits: 2 below 600 px wide (the medium
    breakpoint), 3 below 1024 px (wide), 4 above. Words never break; lines balance.
 3. **Lead** (`.pp-hero-lead`), **actions** (`.pp-hero-actions`), **note** (`.pp-hero-note`). The world's `avoid`
-   names these and the headline, so the sun and moon find the sky beside the words, never behind them; the lead also
-   has a one-pixel halo in the page colour, so it stays readable over a cloud.
+   names these and the headline, so the sun and moon find the sky beside the words and no star or cloud sits behind
+   them; the lead and the note also wear a one-pixel halo in the page colour, so they stay readable where they cross
+   a snowy peak, the moon or a cloud.
 4. **Scenery** (`.pp-hero-scenery`): things standing on the ground, behind the text.
 5. **Ground** (`.pp-hero-ground`): blades of grass, grass, a lip, dirt with pebbles, flowers.
 
@@ -63,7 +64,7 @@ const letters = (text) => text.split(" ").map((w) => { const html = word(w); i++
 | Attribute | Values | Use |
 |---|---|---|
 | `data-align` | centred (default), `start` | Start-aligned text for a hero beside a picture. |
-| `avoid` on its `pp-world` | `.pp-hero-title, .pp-hero-lead, .pp-hero-actions, .pp-hero-note` | Keeps the sun, the moon and shooting stars clear of the words (and of anything else you name). Name the parts, not `.pp-hero-inner`: the inner is as wide as the hero, the parts are as wide as their words. |
+| `avoid` on its `pp-world` | `.pp-hero-title, .pp-hero-lead, .pp-hero-actions, .pp-hero-note` | Keeps the sun, the moon, the stars, clouds and shooting stars clear of the words (and of anything else you name). Name the parts, not `.pp-hero-inner`: the inner is as wide as the hero, the parts are as wide as their words. |
 | `--pp-hero-band` | 16 | The fallback sky bands' height in pixels. |
 | `--pp-hero-ground` | 24 | The ground's height in pixels. |
 | `--pp-hero-tint`, `--pp-hero-drop` | the accent's light and shade | The headline's POP colours. |
@@ -80,7 +81,8 @@ the TV's app names did. A beat between words. With reduced motion the headline i
 - One candy button: the main action. The second is soft. Both are links if they go somewhere.
 - Text is the scheme's text colour on the sky (ink by day and at sunset, light at night); keep the lead in the
   upper part of the hero, above the hills, and name it in the world's `avoid`, so the moon never sits behind it.
-- Windows high contrast shows a plain canvas, no ground.
+- Windows high contrast shows a plain canvas, no ground. On paper only the words and the buttons print: the sky, the
+  ground, the scenery and the world stay off.
 
 ## Content
 

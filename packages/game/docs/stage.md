@@ -43,7 +43,8 @@ dithered where they meet: never a smooth gradient.
 ## Accessibility
 
 The stage is scenery: give the section a name if it is a region of the page, and keep everything readable on top of
-it (POP text reads on any sky). Windows high contrast shows a plain canvas.
+it (POP text reads on any sky). Windows high contrast shows a plain canvas. On paper the sky, the ground and the
+world stay off: only what stands on the stage prints.
 
 ## API
 

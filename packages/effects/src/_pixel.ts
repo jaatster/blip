@@ -46,10 +46,17 @@ export function sprite(canvas: HTMLCanvasElement, rows: readonly string[], keys:
   return canvas;
 }
 
-/** A canvas scaled up by whole CSS pixels with no smoothing. */
+/**
+ * The length nearest to css (in CSS pixels) that is a whole number of device pixels: where a canvas goes and how big
+ * its pixels are, so it stays crisp and even at any devicePixelRatio (1.25, 1.75, 2.625). A pixel (2 CSS pixels or
+ * more) is never less than one device pixel.
+ */
+export const device = (css: number): number => Math.round(css * devicePixelRatio) / devicePixelRatio;
+
+/** A canvas scaled up by whole device pixels with no smoothing. */
 export function pixelCanvas(): HTMLCanvasElement {
   const c = document.createElement("canvas");
-  c.style.cssText = "position:absolute;left:0;top:0;image-rendering:pixelated";
+  c.style.cssText = "position:absolute;left:0;top:0;max-inline-size:none;image-rendering:pixelated";
   return c;
 }
 
@@ -84,12 +91,22 @@ export const SPARKLE = [
   ["..S..", "..S..", "SSWSS", "..S..", "..S.."],
 ] as const;
 
-/** Gives an element properties that mirror its attributes: present-or-absent flags, and strings (null when absent). */
+/** Whether a boolean attribute is on: present, and not "false" (what a framework writes for false before an element is
+    defined), as core's flag() reads it. */
+export const on = (el: Element, name: string): boolean => (el.getAttribute(name) ?? "false") !== "false";
+
+/**
+ * Gives an element properties that mirror its attributes: flags (on when present and not "false"; set writes "" or
+ * removes it), and strings (null when absent).
+ */
 export function mirror(ctor: CustomElementConstructor, flags: readonly string[], strings: readonly string[] = []): void {
   for (const name of flags) {
     Object.defineProperty(ctor.prototype, name, {
-      get(this: Element) { return this.hasAttribute(name); },
-      set(this: Element, on: unknown) { this.toggleAttribute(name, !!on); },
+      get(this: Element) { return on(this, name); },
+      set(this: Element, value: unknown) {
+        if (value) this.setAttribute(name, "");
+        else this.removeAttribute(name);
+      },
     });
   }
   for (const name of strings) {

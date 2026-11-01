@@ -154,8 +154,11 @@
   .pp-footer-legal ul { display: flex; flex-wrap: wrap; gap: calc(8 * var(--_p)); }
   .pp-footer-legal a { color: var(--pp-text-muted); }
 
-  @media (forced-colors: active) {
+  /* The ground's edge is the world's: not in high contrast, not on paper. */
+  @media (forced-colors: active), print {
     .pp-footer::before, .pp-footer::after { display: none; }
+  }
+  @media (forced-colors: active) {
     .pp-footer { border-block-start: 1px solid CanvasText; }
     .pp-footer-field > input:focus-visible { outline: var(--pp-pixel) solid Highlight; }
   }

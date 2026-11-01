@@ -67,6 +67,7 @@ sign-up and the legal line, on the sunken surface so every colour is a checked s
 - The email field has a real label (visually hidden here because the heading says it), `type="email"` and
   `autocomplete="email"`.
 - Legal links keep their underline; column links show it on hover (they sit in a list of links).
+- The ground's edge is the world's: it is left out in Windows high contrast and on paper.
 
 ## Content
 

@@ -56,7 +56,8 @@ press: the plans are panels, and the one to pick stands out by its band, its rib
 
 - Each plan is an `<article>` named by its plan name; the ribbon is plain text inside it ("Best value").
 - The price reads in order: "$ 14.99 one time". Say the currency and period in words if they could be unclear.
-- Left-out features are text too ("The soundtrack"), shown muted with a dash: not colour alone.
+- Left-out features are text too ("The soundtrack"), shown muted with a dash: not colour alone. The checks and
+  dashes print, though browsers leave backgrounds off paper.
 - Buttons name the plan: "Buy Deluxe", not "Buy".
 
 ## Content

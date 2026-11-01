@@ -14,7 +14,7 @@
  * --pp-world-* tokens, so a palette pack can repaint the world.
  */
 import { PixelElement, duration, every, pixel, reducedMotion, run, schemeAt, seeded, services, warn, type Scheme } from "@jaatster/blip-core";
-import { SPARKLE, abgr, later, mirror, pixelCanvas, rgb, sprite } from "./_pixel.js";
+import { SPARKLE, abgr, device, later, mirror, on, pixelCanvas, rgb, sprite } from "./_pixel.js";
 
 export type WorldLayer = "sky" | "peaks" | "hills" | "near" | "ground";
 /** 44 colours as 0xRRGGBB, in the order of worldPalette(). */
@@ -29,7 +29,7 @@ export interface DrawWorldOptions {
   clouds?: boolean;
   /** Draw one layer only, transparent elsewhere. */
   layer?: WorldLayer;
-  /** Boxes the sun and moon keep clear of, in world pixels: [x0, y0, x1, y1], the ends left out. */
+  /** Boxes the sun, the moon, the stars and the clouds keep clear of, in world pixels: [x0, y0, x1, y1], the ends left out. */
   avoid?: readonly WorldBox[];
 }
 /** A box in world pixels, [x0, y0, x1, y1] with the ends left out: something the sky's things keep clear of. */
@@ -96,15 +96,23 @@ const rowsOf = (h: number) => {
   return { dg: h - H0 + dirt, dl, g, top: hz - g, y: (y: number) => hz - g + Math.round((y * g) / 112) };
 };
 
-/** The night's stars {x, y} in world pixels: the TV's sixty in the middle, the same density everywhere else. */
-function starsOf(w: number, h: number): number[][] {
-  const { g, top } = rowsOf(h), cx = Math.floor((w - W0) / 2), rows = Math.round((70 * g) / 112), out: number[][] = [];
+/** Whether the box [x0, y0, x1, y1) crosses any of the boxes. */
+const crosses = (boxes: readonly WorldBox[] | undefined, x0: number, y0: number, x1: number, y1: number): boolean =>
+  !!boxes?.some(([a, b, c, d]) => x0 < c && x1 > a && y0 < d && y1 > b);
+
+/**
+ * The night's stars {x, y} in world pixels: the TV's sixty in the middle, the same density everywhere else. Each star
+ * keeps clear of the boxes to avoid by a flare's arms and the margin, so none sits between words or under letters,
+ * and every star shown can flare.
+ */
+function starsOf(w: number, h: number, avoid?: readonly WorldBox[]): number[][] {
+  const { g, top } = rowsOf(h), cx = Math.floor((w - W0) / 2), rows = Math.round((70 * g) / 112), out: number[][] = [], m = 2 + CLEAR;
   for (let j = 0; j * 70 < rows; j++) {
     for (let k = Math.floor(-cx / W0) - 1; k <= Math.floor((w - cx) / W0); k++) {
       const r = seeded(3 + 7919 * k + 104729 * j);
       for (let i = 0; i < 60; i++) {
-        const x = Math.trunc(r() * W0) + W0 * k, y = Math.trunc(r() * 70) + 70 * j;
-        if (y < rows) out.push([x + cx, top + y, i % 4 ? S.STAR : S.STAR_WARM]);
+        const x = Math.trunc(r() * W0) + W0 * k + cx, y = Math.trunc(r() * 70) + 70 * j;
+        if (y < rows && !crosses(avoid, x - m, top + y - m, x + m + 1, top + y + m + 1)) out.push([x, top + y, i % 4 ? S.STAR : S.STAR_WARM]);
       }
     }
   }
@@ -118,8 +126,7 @@ function starsOf(w: number, h: number): number[][] {
  * Null when there is none.
  */
 function clearOf(boxes: readonly WorldBox[], x: number, y: number, fw: number, fh: number, w: number, y0: number, y1: number): [number, number] | null {
-  const crosses = (px: number, py: number) => boxes.some(([a, b, c, d]) => px < c && px + fw > a && py < d && py + fh > b);
-  if (!crosses(x, y)) return [x, y];
+  if (!crosses(boxes, x, y, x + fw, y + fh)) return [x, y];
   let best: [number, number] | null = null, far = Infinity;
   for (let py = y0; py <= y1; py++) {
     const dy = Math.abs(py - y);
@@ -144,8 +151,7 @@ interface SkyPlaces {
 }
 
 /** Whether a cloud whose sprite's top-left is (x, y) would sit behind a box to avoid (38 x 16, a pixel of margin). */
-const cloudHits = (avoid: readonly WorldBox[] | undefined, x: number, y: number): boolean =>
-  !!avoid?.some(([a, b, c, d]) => x - 1 < c && x + 39 > a && y - 1 < d && y + 17 > b);
+const cloudHits = (avoid: readonly WorldBox[] | undefined, x: number, y: number): boolean => crosses(avoid, x - 1, y - 1, x + 39, y + 17);
 
 /**
  * Where the sun and moon go: the TV's places, unless one would cross a box to avoid. Then the moon takes the nearest
@@ -218,7 +224,7 @@ function paint(buf: Uint32Array, bw: number, bh: number, mx: number, my: number,
       for (let x = 0; x < bw; x++) buf[y * bw + x] = f > BAYER[(Y & 3) * 4 + ((x - mx) & 3)]! ? b : a;
     }
     if (features === "night") {
-      for (const [x, y, col] of starsOf(w, h)) set(x!, y!, c[col!]!);
+      for (const [x, y, col] of starsOf(w, h, at.avoid)) set(x!, y!, c[col!]!);
       const [ox, oy] = at.moon ?? [];
       if (ox !== undefined && oy !== undefined) {
         for (let y = -9; y <= 9; y++) {
@@ -329,28 +335,28 @@ const isScheme = (s: string | null): s is Scheme => s === "day" || s === "sunset
 
 /**
  * <pp-world>: the world as a backdrop filling its positioned container. Each world pixel is the page's pixel
- * (--pp-pixel) times `zoom`, a whole number of CSS pixels; the canvas is drawn at the world's own resolution and
- * scaled up crisply, and only redrawn when its size or its time of day changes.
+ * (--pp-pixel) times `zoom`, made a whole number of device pixels; the canvas is drawn at the world's own resolution
+ * and scaled up crisply, and only redrawn when its size, its screen or its time of day changes.
  *
  * Attributes: scheme (day, sunset, night, auto, or left out to follow the page), parallax, clouds (drift; "none"
  * for none), stars (stars flare at night), events (birds by day, a shooting star at night), zoom, avoid (a selector
- * list of what the sun, moon, flares and shooting stars keep clear of).
+ * list of what the sun, the moon, the stars, the clouds and shooting stars keep clear of).
  *
  * @summary The dithered world backdrop: sky, mountains, hills and meadow, for Day, Sunset and Night.
  * @attr {"day" | "sunset" | "night" | "auto"} scheme - The time of day; "auto" follows the clock. Left out, the
  * page's scheme.
  * @attr {boolean} parallax - The layers slide against the pointer, a whole pixel at a time, and lift a little as the
- * world scrolls past.
+ * world scrolls past. "false" is off.
  * @attr {"drift" | "none"} clouds - Present (or "drift"): the clouds drift, a whole pixel at a time. "none": no
- * clouds. Left out: still clouds.
- * @attr {boolean} stars - Stars flare now and then at night.
- * @attr {boolean} events - Now and then a flock of birds by day, a shooting star at night.
- * @attr {number} [zoom=1] - World pixels per page pixel, a whole number.
+ * clouds. Left out (or "false"): still clouds.
+ * @attr {boolean} stars - Stars flare now and then at night. "false" is off.
+ * @attr {boolean} events - Now and then a flock of birds by day, a shooting star at night. "false" is off.
+ * @attr {number} [zoom=1] - Page pixels per world pixel, a whole number.
  * @attr {string} avoid - A selector list of things the sky keeps clear of (".pp-hero-title, .pp-hero-lead"), matched in
- * the world's container (its parent, or the nearest ancestor that holds a match). The sun, the moon, flaring stars and
- * shooting stars go where they cross none of those boxes: the nearest clear place in their lane of the sky, else the
- * same place across the sky if that is clear, else out of sight. Whole pixels, the same every time, and looked at
- * again when anything resizes.
+ * the world's container (its parent, or the nearest ancestor that holds a match). The sun, the moon and shooting stars
+ * go where they cross none of those boxes: the nearest clear place in their lane of the sky, else the same place across
+ * the sky if that is clear, else out of sight. Stars and clouds that would sit behind them are left out. Whole pixels,
+ * the same every time, and looked at again when anything resizes.
  * @cssprop --pp-pixel - The world pixel (times zoom).
  */
 export class PixelWorld extends PixelElement {
@@ -390,7 +396,7 @@ export class PixelWorld extends PixelElement {
     el.setAttribute("aria-hidden", "true");
 
     // The world as drawn: its size in world pixels, CSS pixels per world pixel, a sliding layer's margins, its colours.
-    let w = 0, h = 0, s = 2, mx = 0, my = 0, visible = true, slide = [0, 0], timer = 0, drawn = "", elapsed = 0;
+    let w = 0, h = 0, s = 2, dpr = 1, mx = 0, my = 0, visible = true, slide = [0, 0], timer = 0, drawn = "", elapsed = 0;
     let scheme: Scheme | undefined, features: Scheme = "day", pal: WorldPalette | undefined, fading: AbortController | undefined;
     // What the sky keeps clear of: boxes in world pixels.
     let avoid: WorldBox[] = [], refit = 0;
@@ -398,7 +404,8 @@ export class PixelWorld extends PixelElement {
     let clouds: { c: HTMLCanvasElement; base: number; y: number; v: number; at: number }[] = [], sparks: HTMLCanvasElement[] = [], stars: number[][] = [];
     const slid: string[] = [], palettes = new Map<Scheme, WorldPalette>();
     const palette = (k: Scheme) => palettes.get(k) ?? palettes.set(k, worldPalette(k, el)).get(k)!;
-    const has = (name: string) => el.hasAttribute(name);
+    /** Whether a flag is on: present, and not "false". */
+    const has = (name: string) => on(el, name);
 
     /** The time of day this world shows now. */
     const resolve = (): Scheme => {
@@ -408,20 +415,19 @@ export class PixelWorld extends PixelElement {
       const v = getComputedStyle(el).getPropertyValue("--_pp-world-scheme").trim();
       return isScheme(v) ? v : "day";
     };
-    /** CSS pixels per world pixel, and the world's size in world pixels. */
+    /** CSS pixels per world pixel (a whole number of device pixels), and the world's size in world pixels. */
     const measure = () => {
-      const r = el.getBoundingClientRect(), px = Math.max(1, Math.round(pixel(el))) * Math.max(1, Math.trunc(Number(el.getAttribute("zoom")) || 1));
+      const r = el.getBoundingClientRect(), px = device(pixel(el) * Math.max(1, Math.trunc(Number(el.getAttribute("zoom")) || 1)));
       return [px, Math.ceil(r.width / px), Math.ceil(r.height / px)] as const;
     };
     /** Puts a sprite's top-left corner at world pixel (x, y). */
     const place = (c: HTMLElement, x: number, y: number) => void (c.style.translate = `${x * s}px ${y * s}px`);
-    const size = (c: HTMLCanvasElement) => Object.assign(c.style, { width: `${c.width * s}px`, height: `${c.height * s}px` });
-    const thing = (cw: number, ch: number) => {
-      const c = things.appendChild(pixelCanvas());
-      Object.assign(c, { width: cw, height: ch });
-      size(c);
-      return c;
-    };
+    /** Sets one of world.css's private properties (--_pp-world-*) on an element. */
+    const prop = (e: HTMLElement, name: string, v: number | string) => e.style.setProperty(`--_pp-world-${name}`, `${v}`);
+    /** Lays a canvas out a device pixel to a canvas pixel; world.css scales it up by the world pixel's whole number of
+        device pixels. */
+    const size = (c: HTMLCanvasElement) => (Object.assign(c.style, { width: `${c.width / dpr}px`, height: `${c.height / dpr}px` }), c);
+    const thing = (cw: number, ch: number) => size(Object.assign(things.appendChild(pixelCanvas()), { width: cw, height: ch }));
     const cloudX = (d: (typeof clouds)[number]) => -38 - mx + mod(d.base + d.v * elapsed + 38 + mx, w + 2 * mx + 38);
 
     /** The elements named by avoid: matched in the world's container (its parent), or the nearest ancestor of it that
@@ -449,19 +455,17 @@ export class PixelWorld extends PixelElement {
         Math.ceil((b.right - r.left) / s), Math.ceil((b.bottom - r.bottom) / s) + h + lift,
       ] as const).filter(([x0, y0, x1, y1]) => x1 > 0 && x0 < w && y1 > 0 && y0 < h);
     };
-    /** Whether a point of the sky is within r pixels of a box to avoid. */
-    const near = (x: number, y: number, r: number) => avoid.some(([a, b, c, d]) => x + r >= a && x - r < c && y + r >= b && y - r < d);
-
-    /** Slides the layers kx steps sideways and ky steps up or down, each by its drift, in whole pixels. */
+    /** Slides the layers kx steps sideways and ky steps up or down, each by its drift, in whole pixels: world.css
+        steps each layer's place there and rounds it, so a slide cut short still lands on a whole pixel. */
     const parallax = (kx: number, ky: number, force = false) => {
       if (!has("parallax") || reducedMotion()) kx = ky = 0;
       else if (!visible && !force) return;
       slide = [kx, ky];
       layers.forEach((c, l) => {
-        const t = `${-Math.round(kx * DRIFT[l]!) * s}px ${Math.round(ky * LIFT[l]!) * s}px`;
+        const x = -Math.round(kx * DRIFT[l]!), y = Math.round(ky * LIFT[l]!), t = `${x} ${y}`;
         if (force || slid[l] !== t) {
-          c.style.translate = slid[l] = t;
-          if (!l) things.style.translate = t;
+          slid[l] = t;
+          for (const e of l ? [c] : [c, things]) prop(e, "x", x), prop(e, "y", y);
         }
       });
     };
@@ -471,8 +475,10 @@ export class PixelWorld extends PixelElement {
       const [px, ww, hh] = measure();
       // Hidden (a closed tab panel, a hidden attribute): draw again whenever it shows, whatever its size.
       if (!ww || !hh) return void (drawn = "");
-      const still = reducedMotion(), slides = has("parallax") && !still, cloudy = el.getAttribute("clouds");
+      // clouds="false" (a framework's false) is as if left out: still clouds.
+      const still = reducedMotion(), slides = has("parallax") && !still, cloudy = has("clouds") ? el.getAttribute("clouds") : null;
       s = px;
+      dpr = devicePixelRatio;
       w = ww;
       h = hh;
       mx = slides ? MX : 0;
@@ -481,7 +487,13 @@ export class PixelWorld extends PixelElement {
       features = f;
       drawn = `${s} ${w} ${h}`;
       el.style.backgroundColor = `#${p[0]!.toString(16).padStart(6, "0")}`;
-      Object.assign(stage.style, { width: `${w * s}px`, height: `${h * s}px` });
+      // The picture keeps to the bottom left. It and everything in it move by whole device pixels only (the browser
+      // puts each moved box on a whole one), and canvases are scaled up by a whole number of device pixels, so every
+      // world pixel lands on whole device pixels.
+      const r = el.getBoundingClientRect();
+      stage.style.translate = `0px ${(Math.round(r.bottom * dpr) - Math.round(r.top * dpr)) / dpr - h * s}px`;
+      prop(stage, "px", `${s}px`);
+      prop(stage, "k", Math.round(s * dpr));
 
       // Keep the sky's things clear of what avoid names, and look again whenever one of those resizes.
       const list = avoided();
@@ -501,7 +513,7 @@ export class PixelWorld extends PixelElement {
         if (first >= last) [first, last] = [0, 1];
         Object.assign(canvas, { width: bw, height: last - first });
         canvas.getContext("2d")!.putImageData(new ImageData(new Uint8ClampedArray(buf.buffer, first * bw * 4, (last - first) * bw * 4), bw, last - first), 0, 0);
-        Object.assign(canvas.style, { left: `${-lx * s}px`, top: `${(first - my) * s}px`, width: `${bw * s}px`, height: `${(last - first) * s}px` });
+        Object.assign(size(canvas).style, { left: `${-lx * s}px`, top: `${(first - my) * s}px` });
       });
 
       // The sky's moving things. Clouds are drawn again in the new colours where they are; sparkles live at night;
@@ -523,7 +535,7 @@ export class PixelWorld extends PixelElement {
       if (f !== "night") sparks.splice(0).forEach((x) => x.remove());
       else if (!sparks.length) sparks = [thing(5, 5), thing(5, 5)].map((x) => Object.assign(x, { hidden: true }));
       things.querySelectorAll("canvas").forEach(size);
-      stars = f === "night" ? starsOf(w, h).filter(([x, y]) => !near(x!, y!, 2 + CLEAR)) : [];
+      stars = f === "night" ? starsOf(w, h, avoid) : [];
       slid.length = 0;
       parallax(slide[0]!, slide[1]!, true);
     };
@@ -642,7 +654,9 @@ export class PixelWorld extends PixelElement {
     resize.observe(el);
     seen.observe(el);
     page.observe(html, { attributes: true, subtree: true, attributeFilter: ["data-pp-scheme", "data-pp-pixel"] });
-    for (const q of ["(prefers-color-scheme: dark)", "(prefers-reduced-motion: reduce)"]) this.on(matchMedia(q), "change", draw);
+    // Dark mode, reduced motion, and the window moving to a screen with another device pixel ratio (and back): draw
+    // again, in that screen's whole device pixels.
+    for (const q of ["(prefers-color-scheme: dark)", "(prefers-reduced-motion: reduce)", `(resolution: ${devicePixelRatio}dppx)`]) this.on(matchMedia(q), "change", draw);
     // Parallax: the layers slide against the pointer, and lift as the world scrolls by.
     this.on(window, "pointermove", (e: PointerEvent) => {
       const r = el.getBoundingClientRect();

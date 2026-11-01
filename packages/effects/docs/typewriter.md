@@ -32,7 +32,8 @@ Blips play through `services.sound()` from `@jaatster/blip-core`, so they are si
 ## Anatomy
 
 The whole text for assistive technology, then the typed part and the untyped rest, which keeps its room (hidden), so
-nothing moves while it types. `caret` adds a blinking block after the typed part.
+nothing moves while it types. `caret` adds a block after the typed part: it moves with the letters, still, then
+blinks for six beats once the last letter is in, and stays, so a caret that says "ready" keeps saying it.
 
 ## Variants
 
@@ -40,7 +41,7 @@ nothing moves while it types. `caret` adds a blinking block after the typed part
 |---|---|---|
 | `blips` | | Every other voiced letter (letters and digits) plays `blip`. |
 | `mood` | `plain` (default), `happy`, `sleepy` | Pitches the blips up or down. |
-| `caret` | | A two-pixel block that blinks on the beat. |
+| `caret` | | A two-pixel block: still while it types, then six blinks on the beat, then still and shown. |
 
 Style the text with any text class: `.pp-body`, `.pp-display`, `.pp-title`.
 
@@ -48,8 +49,10 @@ Style the text with any text class: `.pp-body`, `.pp-display`, `.pp-title`.
 
 | State | Look |
 |---|---|
-| Typing | The typed part, then the hidden rest. |
-| Reduced motion | The whole text at once; no blips. |
+| Typing | The typed part, then the hidden rest; the caret still. |
+| Done | The caret blinks for six beats (under five seconds), then stays. |
+| Reduced motion | The whole text at once, the caret still; no blips. |
+| Print | The whole text, no caret. |
 | Hidden tab | It keeps its place; no blips play. |
 
 ## Accessibility

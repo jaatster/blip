@@ -89,6 +89,7 @@ bar.ariaValueNow = "4";            // keep the meter's value in step with the dr
 - Sprites are pictures with no name of their own here: the live text says what they show. Visible labels like "Score"
   are `aria-hidden` when `label` says the same.
 - Colour never carries meaning alone: a low bar is shorter as well as red.
+- A bar's fill prints, though browsers leave backgrounds off paper.
 
 ## Content
 

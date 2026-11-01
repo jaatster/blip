@@ -49,7 +49,7 @@ motion it does not blink. Prompts have no hover, focus or pressed states; they a
 - Use `<kbd>` for keys and buttons: screen readers read their letters. Name an icon key with hidden text, not
   `aria-label` (it is not a role that takes one, and some screen readers ignore it there):
   `<kbd class="pp-box pp-prompt-key"><svg class="pp-icon" aria-hidden="true">…</svg><span class="pp-sr-only">Up arrow</span></kbd>`.
-- The D-pad is a picture: `role="img"` with `aria-label`.
+- The D-pad is a picture: `role="img"` with `aria-label`. It prints, though browsers leave backgrounds off paper.
 - Write the line so it reads as a sentence: "Press A to jump".
 - Show the prompts for the device in use; let players choose.
 

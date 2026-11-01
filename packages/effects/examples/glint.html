@@ -1,6 +1,7 @@
 <!-- Glint: the TV's shine. A band two pixels white with a light edge each side sweeps down and right across a candy
-     box in five frames, 80 ms apart, every 4.5 seconds, inside the outline. Add a .pp-glint span to any .pp-box.
-     The bottom row holds each of the five frames (data-frame), for docs and tests. -->
+     box in five frames, 80 ms apart, inside the outline, once when it appears (--pp-glint-count asks for more, 4.5 s
+     apart). Add a .pp-glint span to any .pp-box. The bottom row holds each of the five frames (data-frame), for docs
+     and tests. -->
 <div style="display:grid;gap:calc(8*var(--pp-pixel))">
   <div style="display:flex;flex-wrap:wrap;gap:calc(6*var(--pp-pixel));align-items:center">
     <div class="pp-box" data-tone="red" style="inline-size:calc(28*var(--pp-pixel));block-size:calc(28*var(--pp-pixel));--pp-band-top:5;--pp-band-bottom:4"><span class="pp-glint" aria-hidden="true"></span></div>

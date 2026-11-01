@@ -4,7 +4,7 @@
  * panel.
  *
  *   <section class="pp-cta" aria-labelledby="cta-title">                         the world: sky bands, ground
- *     <pp-world avoid=".pp-cta-title, .pp-cta-text, .pp-cta-actions"></pp-world>
+ *     <pp-world avoid=".pp-cta-title, .pp-cta-text, .pp-cta-actions, .pp-cta-note"></pp-world>
  *     <h2 class="pp-cta-title pp-display pp-pop" data-scale="2" data-pop="…" id="cta-title">…</h2>
  *     <p class="pp-cta-text">…</p>
  *     <div class="pp-cta-actions"><a class="pp-box pp-button" data-size="lg" href="#">Wishlist now</a></div>
@@ -16,7 +16,8 @@
  *   </section>
  *
  *   .pp-cta-note         a small line under the actions (what happens next, what it costs)
- *   <pp-world avoid=".pp-cta-title, .pp-cta-text, .pp-cta-actions">   keeps the sun and moon clear of the words
+ *   avoid                on the world, the parts its sun, moon, stars and clouds keep clear of: the words, never
+ *                        behind them. On the world the text and the note wear a one-pixel halo in the page colour.
  *   A boxed band is soft by default (the tone's light fill, its base along the bottom, no glints), or the plain
  *   surface with data-variant="panel": never a slab of candy, because candy stays on what you press. On the world
  *   the primary button is candy (candy on pastel); in a box it is outline.
@@ -92,6 +93,19 @@
     margin-block-start: calc(2 * var(--_p));
   }
   .pp-cta-note { font-size: var(--pp-size-small); font-weight: var(--pp-weight-bold); }
+  /* On the world, a one-pixel halo in the page colour keeps the text and the note readable where they cross a snowy
+     peak, the moon or a cloud (as the hero's lead). */
+  .pp-cta:not(.pp-box) :is(.pp-cta-text, .pp-cta-note) {
+    text-shadow:
+      calc(-1 * var(--_p)) calc(-1 * var(--_p)) var(--pp-bg),
+      0 calc(-1 * var(--_p)) var(--pp-bg),
+      var(--_p) calc(-1 * var(--_p)) var(--pp-bg),
+      calc(-1 * var(--_p)) 0 var(--pp-bg),
+      var(--_p) 0 var(--pp-bg),
+      calc(-1 * var(--_p)) var(--_p) var(--pp-bg),
+      0 var(--_p) var(--pp-bg),
+      var(--_p) var(--_p) var(--pp-bg);
+  }
 
   .pp-cta-ground {
     --_p: var(--pp-pixel);
@@ -124,6 +138,12 @@
 
   @media (forced-colors: active) {
     .pp-cta:not(.pp-box) { background: Canvas; border-block: 1px solid CanvasText; }
+  }
+  @media (forced-colors: active), print {
     .pp-cta-ground { display: none; }
+  }
+  /* On paper the world's sky bands stay off too. */
+  @media print {
+    .pp-cta:not(.pp-box) { background: none; }
   }
 }

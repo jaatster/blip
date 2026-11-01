@@ -1,12 +1,16 @@
 /**
  * <pp-choices>: keyboard and events for a list of choices (see choices.css). Up and Down move between them (they
- * wrap), Home and End jump to the ends; only one choice is in the tab order. Picking one sends pp-choice.
+ * wrap), Home and End jump to the ends; only one choice is in the tab order. Picking one sends pp-action, as a menu
+ * or a command palette does. Choices rendered after the element upgrades join in as they arrive.
  *
- *   list.addEventListener("pp-choice", (e) => console.log(e.detail.value));   // { value, index, label }
+ *   list.addEventListener("pp-action", (e) => console.log(e.detail.value));   // { item, value, index, label }
  */
 import { PixelElement, rovingFocus } from "@jaatster/blip-core";
 
+/** What pp-action reports from a list of choices. */
 export interface ChoiceDetail {
+  /** The choice's button. */
+  item: HTMLButtonElement;
   /** The button's value, or its text when it has none. */
   value: string;
   index: number;
@@ -18,7 +22,7 @@ export interface ChoiceDetail {
  * ends, and only one choice is in the tab order.
  *
  * @summary A list of answers to pick from with the keys.
- * @fires {CustomEvent<ChoiceDetail>} pp-choice - A choice was clicked or pressed.
+ * @fires {CustomEvent<ChoiceDetail>} pp-action - A choice was clicked or pressed.
  */
 export class PixelChoices extends PixelElement {
   #roving?: { focus: (i: number) => void; sync: () => void };
@@ -29,12 +33,17 @@ export class PixelChoices extends PixelElement {
   }
 
   protected override connected(): void {
-    this.#roving = rovingFocus(this, { items: () => this.choices, orientation: "vertical", signal: this.signal });
+    const roving = (this.#roving = rovingFocus(this, { items: () => this.choices, orientation: "vertical", signal: this.signal }));
+    // Choices a framework renders after the element upgrades (or takes away) join the keys: one of them keeps the
+    // tab stop.
+    const watch = new MutationObserver(() => roving.sync());
+    watch.observe(this, { childList: true, subtree: true });
+    this.signal.addEventListener("abort", () => watch.disconnect(), { once: true });
     this.on(this, "click", (e: Event) => {
       const button = (e.target as Element).closest("button");
       if (!button || !this.contains(button) || button.getAttribute("aria-disabled") === "true") return;
       const label = button.textContent?.replace(/\s+/g, " ").trim() ?? "";
-      this.emit<ChoiceDetail>("choice", { value: button.value || label, index: this.choices.indexOf(button), label });
+      this.emit<ChoiceDetail>("action", { item: button, value: button.value || label, index: this.choices.indexOf(button), label });
     });
   }
 

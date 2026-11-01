@@ -8,9 +8,14 @@
  *   </section>
  *
  * Attributes: scheme="day|sunset|night|auto" (left out: the page's scheme), parallax, clouds (drift, or "none"),
- * stars (they flare at night), events (birds by day, a shooting star at night), zoom (world pixel = zoom x pixel).
- * Until the script runs, and around the drawn picture, the world shows its sky's top colour.
+ * stars (they flare at night), events (birds by day, a shooting star at night), zoom (world pixel = zoom x pixel,
+ * made a whole number of device pixels), avoid (what the sky keeps clear of). Until the script runs, and around the
+ * drawn picture, the world shows its sky's top colour. It is decoration: not in forced colours, not in print.
  */
+
+/* Where a sliding layer is, in world pixels: the script sets whole numbers and the slide steps between them. */
+@property --_pp-world-x { syntax: "<number>"; inherits: false; initial-value: 0; }
+@property --_pp-world-y { syntax: "<number>"; inherits: false; initial-value: 0; }
 
 @layer pp.kits {
   pp-world {
@@ -38,26 +43,25 @@
 
   :where(:has(> pp-world)) { isolation: isolate; }
 
-  .pp-world-stage {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-  }
-  .pp-world-things { position: absolute; inset: 0; }
-  .pp-world-stage canvas { position: absolute; image-rendering: pixelated; }
-  .pp-world-things canvas { left: 0; top: 0; }
+  /* The picture: a canvas pixel is a world pixel, laid out a device pixel each and scaled up by the world pixel's
+     whole number of device pixels (--_pp-world-k); --_pp-world-px is the world pixel in CSS pixels. Everything moves
+     by transforms, in whole device pixels, so no edge falls between device pixels at 125% or 175%. */
+  .pp-world-stage, .pp-world-things { position: absolute; left: 0; top: 0; }
+  .pp-world-stage canvas { transform-origin: 0 0; scale: var(--_pp-world-k); }
   .pp-world-things canvas[hidden] { display: none; }
 
-  /* Parallax: a layer slides to its next whole-pixel place in two steps, as on the TV. */
+  /* Parallax: a layer slides to its next whole-pixel place in two steps, as on the TV. The steps move a number and the
+     translate rounds it to a whole world pixel, so a slide cut short never lands between pixels. */
   .pp-world-stage > :is(canvas, .pp-world-things) {
-    transition: translate var(--pp-duration-slide) var(--pp-ease-2);
+    translate: calc(round(var(--_pp-world-x), 1) * var(--_pp-world-px)) calc(round(var(--_pp-world-y), 1) * var(--_pp-world-px));
+    transition: --_pp-world-x var(--pp-duration-slide) var(--pp-ease-2), --_pp-world-y var(--pp-duration-slide) var(--pp-ease-2);
   }
 
   @media (prefers-reduced-motion: reduce) {
     .pp-world-stage > :is(canvas, .pp-world-things) { transition: none; }
   }
 
-  @media (forced-colors: active) {
+  @media (forced-colors: active), print {
     pp-world { display: none; }
   }
 }

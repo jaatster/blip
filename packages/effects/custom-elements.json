@@ -197,7 +197,7 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "Voices every other letter with the chip blip (through services.sound()).",
+              "description": "Voices every other letter with the chip blip (through services.sound()). \"false\" is off.",
               "name": "blips",
               "fieldName": "blips"
             },
@@ -205,7 +205,7 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "A two-pixel block after the typed text that blinks on the beat.",
+              "description": "A two-pixel block after the typed text: still while it types, then it blinks for six beats once the last letter is in, and stays. \"false\" is off.",
               "name": "caret",
               "fieldName": "caret"
             },
@@ -389,7 +389,7 @@
         },
         {
           "kind": "class",
-          "description": "<pp-world>: the world as a backdrop filling its positioned container. Each world pixel is the page's pixel\n(--pp-pixel) times `zoom`, a whole number of CSS pixels; the canvas is drawn at the world's own resolution and\nscaled up crisply, and only redrawn when its size or its time of day changes.\n\nAttributes: scheme (day, sunset, night, auto, or left out to follow the page), parallax, clouds (drift; \"none\"\nfor none), stars (stars flare at night), events (birds by day, a shooting star at night), zoom, avoid (a selector\nlist of what the sun, moon, flares and shooting stars keep clear of).",
+          "description": "<pp-world>: the world as a backdrop filling its positioned container. Each world pixel is the page's pixel\n(--pp-pixel) times `zoom`, made a whole number of device pixels; the canvas is drawn at the world's own resolution\nand scaled up crisply, and only redrawn when its size, its screen or its time of day changes.\n\nAttributes: scheme (day, sunset, night, auto, or left out to follow the page), parallax, clouds (drift; \"none\"\nfor none), stars (stars flare at night), events (birds by day, a shooting star at night), zoom, avoid (a selector\nlist of what the sun, the moon, the stars, the clouds and shooting stars keep clear of).",
           "name": "PixelWorld",
           "cssProperties": [
             {
@@ -472,7 +472,7 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "The layers slide against the pointer, a whole pixel at a time, and lift a little as the world scrolls past.",
+              "description": "The layers slide against the pointer, a whole pixel at a time, and lift a little as the world scrolls past. \"false\" is off.",
               "fieldName": "parallax"
             },
             {
@@ -480,7 +480,7 @@
               "type": {
                 "text": "\"drift\" | \"none\""
               },
-              "description": "Present (or \"drift\"): the clouds drift, a whole pixel at a time. \"none\": no clouds. Left out: still clouds.",
+              "description": "Present (or \"drift\"): the clouds drift, a whole pixel at a time. \"none\": no clouds. Left out (or \"false\"): still clouds.",
               "fieldName": "clouds"
             },
             {
@@ -488,7 +488,7 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "Stars flare now and then at night.",
+              "description": "Stars flare now and then at night. \"false\" is off.",
               "fieldName": "stars"
             },
             {
@@ -496,7 +496,7 @@
               "type": {
                 "text": "boolean"
               },
-              "description": "Now and then a flock of birds by day, a shooting star at night.",
+              "description": "Now and then a flock of birds by day, a shooting star at night. \"false\" is off.",
               "fieldName": "events"
             },
             {
@@ -504,7 +504,7 @@
               "type": {
                 "text": "number"
               },
-              "description": "World pixels per page pixel, a whole number.",
+              "description": "Page pixels per world pixel, a whole number.",
               "default": "1",
               "fieldName": "zoom"
             },
@@ -513,7 +513,7 @@
               "type": {
                 "text": "string"
               },
-              "description": "A selector list of things the sky keeps clear of (\".pp-hero-title, .pp-hero-lead\"), matched in the world's container (its parent, or the nearest ancestor that holds a match). The sun, the moon, flaring stars and shooting stars go where they cross none of those boxes: the nearest clear place in their lane of the sky, else the same place across the sky if that is clear, else out of sight. Whole pixels, the same every time, and looked at again when anything resizes.",
+              "description": "A selector list of things the sky keeps clear of (\".pp-hero-title, .pp-hero-lead\"), matched in the world's container (its parent, or the nearest ancestor that holds a match). The sun, the moon and shooting stars go where they cross none of those boxes: the nearest clear place in their lane of the sky, else the same place across the sky if that is clear, else out of sight. Stars and clouds that would sit behind them are left out. Whole pixels, the same every time, and looked at again when anything resizes.",
               "fieldName": "avoid"
             }
           ],

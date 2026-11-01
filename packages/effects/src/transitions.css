@@ -2,7 +2,7 @@
  * Transitions: the stage for transition() (dissolve, dither, mosaic), and a dither for view transitions in CSS alone.
  *
  * transition() marks <html data-pp-transition-run> while it runs and steps the masks or filters of the old and new
- * snapshots itself; ink shows wherever neither is shown. Its dither is the one below.
+ * snapshots itself (its dither too, in cells of whole device pixels); ink shows wherever neither is shown.
  *
  * Between pages (cross-document view transitions), opt in on both pages:
  *

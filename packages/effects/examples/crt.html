@@ -1,16 +1,17 @@
-<!-- CRT: scanlines on every other pixel row and an ink vignette dithered round the edge, over whatever is inside;
-     no blur. data-flicker makes the scanlines flicker a little, in steps (not with reduced motion). -->
+<!-- CRT: dithered ink scanlines (one pixel in four on every other row) and an ink vignette dithered round the edge,
+     over whatever is inside; no blur and no wash. Text under it is big (POP and Pixel Bop), so every letter survives a
+     dot of ink; a control's label is too small, so controls go outside it. data-flicker swaps the scanlines to the
+     rows between them for a frame now and then, for six beats (not with reduced motion). -->
 <div style="display:flex;flex-wrap:wrap;gap:calc(8*var(--pp-pixel));align-items:start">
   <div class="pp-crt" style="inline-size:calc(160*var(--pp-pixel));aspect-ratio:16/9;display:grid;place-content:center;justify-items:center;gap:calc(3*var(--pp-pixel))">
     <pp-world scheme="night" clouds="none"></pp-world>
     <p class="pp-display pp-pop" data-scale="2" data-tone="pink" data-pop="Press start">Press start</p>
-    <p class="pp-label pp-outline">1 player &middot; 2 players</p>
+    <p class="pp-display pp-outline" data-scale="1">1 or 2 players</p>
   </div>
   <div class="pp-crt" data-flicker style="display:inline-block">
     <div class="pp-box" data-variant="panel" style="padding:calc(8*var(--pp-pixel));display:grid;gap:calc(4*var(--pp-pixel));inline-size:calc(120*var(--pp-pixel))">
-      <p class="pp-title" style="margin:0">High scores</p>
-      <ol class="pp-body" style="margin:0;padding-inline-start:calc(10*var(--pp-pixel))"><li>Ada: 12 400</li><li>Kim: 9 850</li><li>Sol: 7 300</li></ol>
-      <button class="pp-box pp-button" type="button" data-size="sm">Play again</button>
+      <p class="pp-display" data-scale="1" style="margin:0">High scores</p>
+      <ol class="pp-display" data-scale="1" style="margin:0;padding-inline-start:calc(10*var(--pp-pixel))"><li>Ada 12 400</li><li>Kim 9 850</li><li>Sol 7 300</li></ol>
     </div>
   </div>
 </div>

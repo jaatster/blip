@@ -68,6 +68,7 @@ the one you're on. Tiles join into a map with dotted paths.
 - Tiles are buttons (or links) in an ordered list: the order is the path. Tab moves along them.
 - Name each tile with everything it shows: number, name, stars, and why it's locked.
 - Locked tiles stay focusable (`aria-disabled`, not `disabled`) so they can say how to unlock them.
+- The dotted way between tiles prints, though browsers leave backgrounds off paper.
 
 ## Content
 

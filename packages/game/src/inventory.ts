@@ -1,7 +1,8 @@
 /**
  * <pp-inventory>: a grid of item slots as a single-select listbox (see inventory.css). The arrow keys move in two
  * dimensions (Up and Down by a whole row, however many columns the grid has right now), Home and End jump to the
- * ends, typing a letter jumps to the next item whose name starts with it, and Enter, Space or a click selects.
+ * ends, typing a letter jumps to the next item whose name starts with it, and Enter, Space or a click selects. Slots
+ * rendered after the element upgrades become options as they arrive.
  *
  *   inventory.addEventListener("pp-select", (e) => show(e.detail.item));   // { item, index, value }
  */
@@ -43,6 +44,13 @@ export class PixelInventory extends PixelElement {
     this.setAttribute("role", "listbox");
     void this.slots;
     const roving = rovingFocus(this, { items: () => this.slots, loop: false, signal: this.signal });
+    // Slots a framework renders after the element upgrades (or takes away): they become options and join the keys.
+    const watch = new MutationObserver(() => {
+      void this.slots;
+      roving.sync();
+    });
+    watch.observe(this, { childList: true, subtree: true });
+    this.signal.addEventListener("abort", () => watch.disconnect(), { once: true });
     this.on(this, "keydown", (e: KeyboardEvent) => {
       if (e.key !== "ArrowUp" && e.key !== "ArrowDown") return;
       const i = this.slots.indexOf(document.activeElement as HTMLElement);

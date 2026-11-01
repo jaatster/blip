@@ -31,7 +31,7 @@ and a hint line. It is a native `<dialog>`, so the browser handles focus, Escape
 
 ```js
 pause.showModal();                                   // pause: focus goes to Resume
-pause.addEventListener("pp-choice", (e) => { if (e.detail.value === "resume") pause.close(); });
+pause.addEventListener("pp-action", (e) => { if (e.detail.value === "resume") pause.close(); });
 pause.addEventListener("close", resumeGame);         // Escape closes it too
 ```
 

@@ -26,8 +26,10 @@ the choice under the cursor or the keyboard and pokes toward it on the beat.
 
 ```js
 import "@jaatster/blip-game/choices";
-menu.addEventListener("pp-choice", (e) => start(e.detail.value));
+menu.addEventListener("pp-action", (e) => start(e.detail.value));
 ```
+
+Choices a framework renders after the element upgrades join the keys as they arrive.
 
 ## Anatomy
 
@@ -77,4 +79,4 @@ Two to four words, a verb first where it fits: "Pay 30 coins", "Trade the key", 
 
 | Event | `detail` | When |
 |---|---|---|
-| `pp-choice` | `{ value, index, label }` | A choice was clicked or pressed. `value` is the button's value, else its text. |
+| `pp-action` | `{ item, value, index, label }` | A choice was clicked or pressed, as a menu's or a command palette's item is. `item` is the button; `value` is its value, else its text. |

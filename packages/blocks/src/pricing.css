@@ -161,4 +161,8 @@
   @media (forced-colors: active) {
     .pp-plan-features > li::before { background: CanvasText; }
   }
+  /* A check or a dash says what a plan has: it prints, though paper drops backgrounds. */
+  @media print {
+    .pp-plan-features > li::before { print-color-adjust: exact; }
+  }
 }

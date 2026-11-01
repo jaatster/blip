@@ -11,7 +11,8 @@ status: beta
 
 The TV's backdrop: a soft pastel landscape with a dithered sky, snowy mountains, trees on the hills, a meadow, grass
 and dirt, for Day, Sunset and Night. It is drawn in the browser a pixel at a time (no image files), at the page's
-pixel, and only redrawn when its size or its time of day changes. Put it behind a hero, a title screen, a game menu or
+pixel made a whole number of device pixels, so it stays crisp and even on a 125% or 175% screen, and it is only
+redrawn when its size, its screen or its time of day changes. Put it behind a hero, a title screen, a game menu or
 an empty state.
 
 ## Usage
@@ -34,8 +35,9 @@ context, so the world sits behind the container's content and in front of its ba
 
 ### Keeping the sky clear of the words
 
-The moon, the sun and the stars belong to the sky, not behind a headline. `avoid` takes a selector list of what they
-keep clear of, matched in the world's container (its parent, or the nearest ancestor that holds a match):
+The moon, the sun and the stars belong to the sky, not behind a headline or between its words. `avoid` takes a
+selector list of what they keep clear of, matched in the world's container (its parent, or the nearest ancestor that
+holds a match):
 
 ```html
 <section class="pp-hero" aria-labelledby="hero-title">
@@ -52,7 +54,9 @@ Each box gets a margin of five world pixels (more up and down when the world sli
 - the **moon** stays where the TV has it if that is clear; otherwise it takes the nearest clear place in the sky above
   the peaks, its own row first;
 - the **sun** slides along its lane, the horizon, to the nearest clear place;
-- a **flaring star** is one that is clear, and a **shooting star**'s whole streak is clear;
+- a **star** that would sit on or near a box (within a flare's arms and the margin) is left out, so none lands
+  between words or under letters; the stars that flare are the ones still shown, and a **shooting star**'s whole
+  streak is clear;
 - where its part of the sky has no clear place, each goes to the same place across the sky if that is clear, and
   otherwise stays out of sight: nothing in the sky sits behind the words.
 
@@ -72,6 +76,9 @@ Five layers, back to front, each its own canvas so parallax can slide them:
 
 Over the sky: drifting clouds, two flaring stars, a flock of birds or a shooting star.
 
+Each canvas holds a world pixel per canvas pixel and is scaled up by the world pixel's whole number of device pixels,
+placed on whole device pixels; the layers slide by transforms, never by fractions of a layout pixel.
+
 At 320 x 180 world pixels the picture is the TV's, pixel for pixel. A wider world keeps the TV's composition in the
 middle and carries on to the sides in 350-pixel periods of the same landscape (the same seeds in the middle, others
 beside it). A taller one stretches its sky; a shorter one gives up dirt first, then meadow, then sky, so the
@@ -82,12 +89,12 @@ mountains stay in view.
 | Attribute | Values | |
 |---|---|---|
 | `scheme` | `day`, `sunset`, `night`, `auto`, or left out | Left out, the world follows the page's scheme (`data-pp-scheme`, or the device's dark mode), stepping its palette over a minute when the page's Auto changes. `auto` follows the clock itself (Day 6:00 to 17:00, Sunset to 19:00, Night after; `services.now()`), and steps through six mixed palettes, ten seconds apart, when the time of day changes; the sun, moon and stars switch halfway. |
-| `parallax` | | The layers slide against the pointer, 0 to 4 pixels a step (the sky stays put), and lift a little as the world scrolls past. Two steps a move. |
-| `clouds` | absent, present (`drift`), `none` | Absent: still clouds, as on the TV's Home. Present: they drift right at a tenth of their size in pixels a second, a whole pixel at a time, as on the screensaver. `none`: no clouds. |
+| `parallax` | | The layers slide against the pointer, 0 to 4 pixels a step (the sky stays put), and lift a little as the world scrolls past. Two steps a move, each on a whole pixel, even when a move is cut short by the next. |
+| `clouds` | absent, present (`drift`), `none` | Absent (or `"false"`): still clouds, as on the TV's Home. Present: they drift right at a tenth of their size in pixels a second, a whole pixel at a time, as on the screensaver. `none`: no clouds. |
 | `stars` | | At night, a real star flares now and then: small, big, small, gone (at most two). |
 | `events` | | A few seconds in, then every one to two minutes: by day and at sunset a flock of three crosses the sky in a loose V, flapping; at night a shooting star streaks down and left in nine frames. |
-| `zoom` | a whole number, default `1` | World pixel = zoom x `--pp-pixel`. `zoom="2"` at full screen is the TV's own scale. |
-| `avoid` | a selector list, default none | What the sun, the moon, clouds, flaring stars and shooting stars keep clear of: matched in the world's container, each box with a five-pixel margin. See above. |
+| `zoom` | a whole number, default `1` | World pixel = zoom x `--pp-pixel`, made a whole number of device pixels. `zoom="2"` at full screen is the TV's own scale. |
+| `avoid` | a selector list, default none | What the sun, the moon, the stars, clouds and shooting stars keep clear of: matched in the world's container, each box with a five-pixel margin. See above. |
 
 ## States
 
@@ -96,13 +103,15 @@ mountains stay in view.
 | Reduced motion | A still, correct frame: no drift (clouds baked in), no flares, no events, no parallax, no fades. |
 | Hidden tab, or scrolled out of view | Nothing moves (clouds, stars, birds, parallax). A change of time of day or of size is still drawn, so the world is right when it comes back. |
 | Loading (before the script) | The sky's top colour. |
-| Forced colours | Hidden: it is decoration. |
+| A 125%, 150% or 175% screen | Every world pixel is the same whole number of device pixels (3, 3 or 4 at the 2 px pixel), so nothing blurs or wobbles. Moving the window to another screen draws it again. |
+| Forced colours, print | Hidden: it is decoration. |
 
 ## Accessibility
 
 - The world is decoration: it is `aria-hidden` and takes no pointer events. Put any meaning in the content.
 - Text on the world: use POP (`.pp-pop`) for big text and OUTLINE (`.pp-outline`) for small text, which read on every
-  sky. Plain text needs a panel behind it. Name the text in `avoid`, so the moon never sits behind it.
+  sky, or a one-pixel halo in the page colour, as the hero's lead and the call to action's text wear. Plain text
+  needs a panel behind it. Name the text in `avoid`, so no moon, star or cloud sits behind it.
 - Motion is small, slow and stops with reduced motion.
 
 ## Do and don't
@@ -120,6 +129,6 @@ mountains stay in view.
 | | | |
 |---|---|---|
 | `scheme`, `parallax`, `clouds`, `stars`, `events`, `zoom`, `avoid` | properties | Mirror the attributes (`scheme` reads `inherit` when left out). |
-| `drawWorld(ctx, scheme, w = 320, h = 180, options)` | function | Draws the world into a 2D context at (0, 0). Options: `palette`, `from` (an element whose tokens to read), `features` (which time of day's sun, moon and stars), `clouds` (default `true`), `layer` (`sky`, `peaks`, `hills`, `near`, `ground`), `avoid` (boxes in world pixels, `[x0, y0, x1, y1]`, the sun and moon keep clear of). |
+| `drawWorld(ctx, scheme, w = 320, h = 180, options)` | function | Draws the world into a 2D context at (0, 0). Options: `palette`, `from` (an element whose tokens to read), `features` (which time of day's sun, moon and stars), `clouds` (default `true`), `layer` (`sky`, `peaks`, `hills`, `near`, `ground`), `avoid` (boxes in world pixels, `[x0, y0, x1, y1]`, that the sun, the moon, the stars and the clouds keep clear of). |
 | `worldPalette(scheme, from?)` | function | The 44 colours (0xRRGGBB) from the `--pp-world-*` tokens. A palette pack repaints the world by overriding them. |
 | `--pp-pixel` | custom property | The world pixel (times `zoom`). |

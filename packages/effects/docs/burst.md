@@ -33,7 +33,9 @@ await burst(button, { kind: "star", count: 8 });
 | `star` | Yellow stars with an ink outline that burst out and arc down. | 6 |
 | `confetti` | Candy bits, two pixels each, turning as they flutter down. | 18 |
 
-Positions come from `services.random`, so `provide({ seed })` repeats a burst exactly (tests, screenshots).
+Positions come from `services.random`, so `provide({ seed })` repeats a burst exactly (tests, screenshots). A sprite
+pixel is the target's pixel made a whole number of device pixels, and the canvas sits on a whole device pixel, so
+sprites stay crisp and even on a 125% or 175% screen.
 
 ## States
 

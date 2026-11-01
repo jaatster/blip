@@ -5,7 +5,8 @@
  * the page. After the last page come the choices, if there are any, or pp-done.
  *
  * Screen readers get each whole page at once, from a polite live region; the typing is visual only. With reduced
- * motion the text appears whole and nothing is voiced.
+ * motion the text appears whole and nothing is voiced. Pages rendered or replaced after the element upgrades start it
+ * again from the first.
  *
  *   dialogue.say(["Ah, a traveller!", "The bridge is out."]);
  *   dialogue.addEventListener("pp-done", () => dialogue.hidden = true);
@@ -20,6 +21,7 @@ interface Piece {
 }
 
 const LABELS = { typing: "Show all text", next: "Next", done: "Continue" } as const;
+const TEXT = ".pp-dialogue-text";
 type State = keyof typeof LABELS;
 const prepared = new WeakMap<Element, Piece[]>();
 
@@ -36,7 +38,7 @@ export function blipRate(letter: string, mood = "plain", base = 1): number {
  *
  * @summary The RPG dialogue box that types its pages in.
  * @attr {boolean | number} voice - A blip on every other voiced letter. Present, or a base rate such as 1.2 (higher
- * for smaller characters).
+ * for smaller characters). "false" is off.
  * @attr {"plain" | "happy" | "sleepy"} [mood="plain"] - Raises or lowers the voice.
  * @attr {number} [speed=1] - Typing speed multiplier.
  * @attr {string} [typing-label="Show all text"] - The ▼ button's name while a page types.
@@ -57,10 +59,11 @@ export class PixelDialogue extends PixelElement {
   #typing?: AbortController;
   #live?: HTMLElement;
   #next?: HTMLButtonElement;
+  #watch?: MutationObserver;
 
   /** The pages, in order. */
   get pages(): HTMLElement[] {
-    return [...this.querySelectorAll<HTMLElement>(".pp-dialogue-text > *")];
+    return [...this.querySelectorAll<HTMLElement>(`${TEXT} > *`)];
   }
   /** The page showing, from 0. */
   get page(): number {
@@ -72,13 +75,8 @@ export class PixelDialogue extends PixelElement {
   }
 
   protected override connected(): void {
-    const name = this.querySelector(".pp-dialogue-name");
-    if (name) {
-      name.id ||= `pp-dialogue-${Math.floor(services.random() * 1e9)}`;
-      this.setAttribute("aria-labelledby", name.id);
-    }
+    this.#label();
     if (!this.hasAttribute("role")) this.setAttribute("role", "group");
-    this.querySelector(".pp-dialogue-text")?.setAttribute("aria-hidden", "true");
     this.#live ??= this.appendChild(Object.assign(document.createElement("div"), { className: "pp-sr-only" }));
     this.#live.setAttribute("aria-live", "polite");
     this.#next ??= this.appendChild(Object.assign(document.createElement("button"), { type: "button", className: "pp-dialogue-next" }));
@@ -92,12 +90,22 @@ export class PixelDialogue extends PixelElement {
       e.preventDefault();
       this.advance();
     });
+    // Pages a framework renders or replaces after the element upgrades (the text's children, or the text itself): label
+    // the box again and start from the first page. What the box changes inside a page as it types is not a page.
+    const watch = (this.#watch = new MutationObserver((records) => {
+      if (!records.some((r) => (r.target as Element).matches?.(TEXT) || [...r.addedNodes].some((n) => n instanceof Element && (n.matches(TEXT) || !!n.querySelector(TEXT))))) return;
+      this.#label();
+      this.#show(0);
+      watch.takeRecords();
+    }));
+    watch.observe(this, { childList: true, subtree: true });
+    this.signal.addEventListener("abort", () => watch.disconnect(), { once: true });
     this.#show(0);
   }
 
   /** Replaces the pages and starts again from the first. */
   say(pages: string | string[]): void {
-    let box = this.querySelector(".pp-dialogue-text");
+    let box = this.querySelector(TEXT);
     if (!box) {
       box = Object.assign(document.createElement("div"), { className: "pp-dialogue-text" });
       const body = this.querySelector(".pp-dialogue-body");
@@ -106,6 +114,8 @@ export class PixelDialogue extends PixelElement {
     }
     box.setAttribute("aria-hidden", "true");
     box.replaceChildren(...[pages].flat().map((t) => Object.assign(document.createElement("p"), { textContent: t })));
+    // Shown here at once; the watcher need not start it again.
+    this.#watch?.takeRecords();
     this.#show(0);
   }
 
@@ -124,6 +134,16 @@ export class PixelDialogue extends PixelElement {
     const choices = this.querySelector<HTMLElement>(".pp-dialogue-choices");
     if (this.hasAttribute("data-choosing") && choices) (choices.localName === "pp-choices" ? choices : choices.querySelector("button"))?.focus(options);
     else this.#next?.focus(options);
+  }
+
+  /** Names the box by its speaker's tab, and keeps the typing from assistive technology (the live region speaks). */
+  #label(): void {
+    const name = this.querySelector(".pp-dialogue-name");
+    if (name) {
+      name.id ||= `pp-dialogue-${Math.floor(services.random() * 1e9)}`;
+      this.setAttribute("aria-labelledby", name.id);
+    }
+    this.querySelector(TEXT)?.setAttribute("aria-hidden", "true");
   }
 
   #show(index: number): void {
@@ -187,7 +207,8 @@ export class PixelDialogue extends PixelElement {
     const letter = duration("letter", 50, this) / speed;
     if (reducedMotion() || !letter) return this.#finish();
     const stop = duration("stop", 260, this) / speed, comma = duration("comma", 130, this) / speed;
-    const voice = this.getAttribute("voice"), mood = this.getAttribute("mood") ?? "plain";
+    // voice="false" (a framework's false) is no voice, as is no attribute.
+    const voice = this.flag("voice") ? this.getAttribute("voice") : null, mood = this.getAttribute("mood") ?? "plain";
     const steps: Step[] = [];
     let at = 0, voiced = 0, end = 0;
     for (const c of text) {

@@ -121,4 +121,9 @@
     .pp-stage-ground { background: CanvasText; forced-color-adjust: none; }
     .pp-stage-ground::before { display: none; }
   }
+  /* On paper: no sky and no ground (and no world: world.css), only what stands on the stage. */
+  @media print {
+    .pp-stage { background: none; }
+    .pp-stage-ground { display: none; }
+  }
 }

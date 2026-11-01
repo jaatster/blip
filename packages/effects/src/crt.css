@@ -1,14 +1,15 @@
 /*
- * CRT: scanlines and a dithered vignette over whatever is inside, with no blur. Wrap the thing to filter (it can be
- * a candy box, a game screen, a picture); the effect sits over it and lets pointers through.
+ * CRT: scanlines and a vignette over whatever is inside, both a dither of ink, with no blur and no wash. Wrap the
+ * thing to filter (it can be a candy box, a game screen, a picture); the effect sits over it and lets pointers through.
  *
  *   <div class="pp-crt"> ... </div>
- *   <div class="pp-crt" data-flicker> ... </div>      the scanlines flicker a little, in steps
+ *   <div class="pp-crt" data-flicker> ... </div>      the scanlines jump to the rows between them now and then
  *
- *   --pp-crt-strength   how strong the scanline ink is (default 16%)
- *
- * Scanlines darken every other pixel row with ink. The vignette is ink dithered round the edge: half the pixels in
- * the outer two, a quarter in the four inside them. No flicker with reduced motion; none of it in forced colours.
+ * Scanlines are every other pixel row, inked on one pixel in four and two pixels along from the line above, so an
+ * eighth of the pixels are ink and the rest show through untouched. The vignette is ink dithered round the edge: half the
+ * pixels in the outer two, a quarter in the four inside them. data-flicker swaps the scanlines to the other rows for a
+ * frame, twice a beat pair, for six beats, then holds still (WCAG 2.2.2); not with reduced motion. None of it in
+ * forced colours or in print.
  */
 
 @layer pp.kits {
@@ -23,8 +24,12 @@
     z-index: 1;
     pointer-events: none;
   }
+  /* The scanlines: ink through one-pixel squares, two in each four-pixel tile, at (0, 1) and (2, 3). */
   .pp-crt::after {
-    background: repeating-linear-gradient(to bottom, transparent 0 var(--pp-pixel), color-mix(in srgb, var(--pp-ink) var(--pp-crt-strength, 16%), transparent) 0 calc(2 * var(--pp-pixel)));
+    --_s: conic-gradient(at var(--pp-pixel) var(--pp-pixel), transparent 75%, #000 0);
+    --_t: calc(4 * var(--pp-pixel));
+    background: var(--pp-ink);
+    mask: var(--_s) 0 var(--pp-pixel) / var(--_t) var(--_t), var(--_s) calc(2 * var(--pp-pixel)) calc(3 * var(--pp-pixel)) / var(--_t) var(--_t);
   }
   /* The vignette: ink through a mask of two dither patterns and three boxes. From the bottom layer up: the inner box;
      a quarter of the pixels inside the middle box but not the inner one; then everything in the middle box flipped,
@@ -41,20 +46,19 @@
       linear-gradient(#000 0 0) border-box content-box;
   }
   .pp-crt[data-flicker]::after {
-    animation: pp-crt-flicker calc(9 * var(--pp-duration-frame)) steps(1, jump-end) infinite;
+    animation: pp-crt-flicker calc(2 * var(--pp-duration-beat)) steps(1, jump-end) 6;
   }
 
   @media (prefers-reduced-motion: reduce) {
     .pp-crt[data-flicker]::after { animation: none; }
   }
-  @media (forced-colors: active) {
+  @media (forced-colors: active), print {
     .pp-crt::before, .pp-crt::after { display: none; }
   }
 }
 
+/* The other field (a row up) for a frame, 40 ms of the 800, twice. */
 @keyframes pp-crt-flicker {
-  0%, 44% { opacity: 1; }
-  55% { opacity: 0.6; }
-  66% { opacity: 1; }
-  77% { opacity: 0.8; }
+  55%, 75% { mask-position: 0 0, calc(2 * var(--pp-pixel)) calc(2 * var(--pp-pixel)); }
+  0%, 60%, 80% { mask-position: 0 var(--pp-pixel), calc(2 * var(--pp-pixel)) calc(3 * var(--pp-pixel)); }
 }

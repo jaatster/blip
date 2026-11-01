@@ -9,7 +9,7 @@
  * a canvas at pixel resolution in the top layer, removed when done; nothing at all with reduced motion.
  */
 import { duration, frames, pixel, reducedMotion, services } from "@jaatster/blip-core";
-import { SPARKLE, overlay, pixelCanvas, sprite, tokens } from "./_pixel.js";
+import { SPARKLE, device, overlay, pixelCanvas, sprite, tokens } from "./_pixel.js";
 
 export type BurstKind = "sparkle" | "coin" | "star" | "confetti";
 export interface BurstOptions {
@@ -32,7 +32,8 @@ interface Bit { x: number; y: number; vx: number; vy: number; at: number; c: num
 export function burst(target: Element, options: BurstOptions = {}): Promise<void> {
   const { kind = "sparkle", signal } = options;
   if (reducedMotion() || signal?.aborted || !target.isConnected) return Promise.resolve();
-  const p = pixel(target), r = target.getBoundingClientRect(), w = Math.ceil(r.width / p), h = Math.ceil(r.height / p);
+  // A sprite pixel is the target's pixel made a whole number of device pixels, so the sprites stay crisp at any ratio.
+  const p = device(pixel(target)), r = target.getBoundingClientRect(), w = Math.ceil(r.width / p), h = Math.ceil(r.height / p);
   const n = Math.max(1, Math.round(options.count ?? COUNT[kind])), rnd = services.between;
   const [ink, white, yellow, light, shade, ...candy] = tokens(target, ["--pp-ink", "--pp-white", "--pp-candy-yellow", "--pp-candy-yellow-light", "--pp-candy-yellow-shade", ...CANDY.map((c) => `--pp-candy-${c}`)]);
   const art = kind === "coin" ? [sprite(document.createElement("canvas"), COIN, "OYWD", [ink!, yellow!, white!, shade!])]
@@ -54,7 +55,7 @@ export function burst(target: Element, options: BurstOptions = {}): Promise<void
   const layer = overlay(), canvas = layer.appendChild(pixelCanvas());
   canvas.width = w + 2 * M;
   canvas.height = h + 2 * M;
-  Object.assign(canvas.style, { left: `${Math.round(r.left) - M * p}px`, top: `${Math.round(r.top) - M * p}px`, width: `${canvas.width * p}px`, height: `${canvas.height * p}px` });
+  Object.assign(canvas.style, { left: `${device(r.left) - M * p}px`, top: `${device(r.top) - M * p}px`, width: `${canvas.width * p}px`, height: `${canvas.height * p}px` });
   const ctx = canvas.getContext("2d")!, img = ctx.createImageData(canvas.width, canvas.height), px = new Uint32Array(img.data.buffer);
   const dot = (x: number, y: number, c: number) => {
     if (x >= 0 && y >= 0 && x < canvas.width && y < canvas.height) px[y * canvas.width + x] = c;

@@ -27,7 +27,8 @@
  *   data-align="start"  text to the start side (centred by default)
  *   .pp-hero-ground  grass and dirt (--pp-hero-ground: 24 pixels); .pp-hero-scenery stands things on it
  *   --pp-hero-band   the sky bands' height in pixels (16); --pp-hero-tint, --pp-hero-drop the letters' POP colours
- *   avoid            on the world, the parts it keeps its sun and moon clear of: the words, never behind them
+ *   avoid            on the world, the parts its sun, moon, stars and clouds keep clear of: the words, never behind them
+ *   .pp-hero-lead and .pp-hero-note wear a one-pixel halo in the page colour, so they read over peaks and clouds
  *
  * Read the headline from the hidden copy: the letters are aria-hidden so screen readers say the words, not letters.
  */
@@ -101,13 +102,16 @@
       pp-drop-in calc(2 * var(--pp-duration-frame)) steps(1, jump-end) var(--pp-delay) both;
   }
 
-  /* A one-pixel halo in the page colour keeps the lead readable where it crosses the moon or a cloud. */
   .pp-hero-lead {
     max-inline-size: 46ch;
     margin: 0;
     font-size: var(--pp-size-lead);
     line-height: var(--pp-leading-normal);
     text-wrap: pretty;
+  }
+  /* A one-pixel halo in the page colour keeps the lead and the note readable where they cross a snowy peak, the moon
+     or a cloud. */
+  .pp-hero-lead, .pp-hero-note {
     text-shadow:
       calc(-1 * var(--pp-pixel)) calc(-1 * var(--pp-pixel)) var(--pp-bg),
       0 calc(-1 * var(--pp-pixel)) var(--pp-bg),
@@ -178,7 +182,13 @@
   }
   @media (forced-colors: active) {
     .pp-hero { background: Canvas; }
+  }
+  @media (forced-colors: active), print {
     .pp-hero-ground, .pp-hero-scenery { display: none; }
+  }
+  /* On paper the world stays off (world.css), and so do its sky bands and ground: only the words and buttons print. */
+  @media print {
+    .pp-hero { background: none; }
   }
 }
 

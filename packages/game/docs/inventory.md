@@ -38,6 +38,8 @@ import "@jaatster/blip-game/inventory";
 bag.addEventListener("pp-select", (e) => showDetails(e.detail.item));
 ```
 
+Slots a framework renders after the element upgrades become options and join the keys as they arrive.
+
 ## Anatomy
 
 1. **Grid** (`.pp-inventory`): `--pp-inventory-columns` slots across; each slot `--pp-inventory-slot` pixels square (24).

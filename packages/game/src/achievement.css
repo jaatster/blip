@@ -37,7 +37,8 @@
     align-items: center;
     column-gap: calc(7 * var(--pp-pixel));
     inline-size: min(100%, calc(196 * var(--pp-pixel)));
-    padding: calc(6 * var(--pp-pixel)) calc(10 * var(--pp-pixel)) calc(7 * var(--pp-pixel)) calc(6 * var(--pp-pixel));
+    padding-block: calc(6 * var(--pp-pixel)) calc(7 * var(--pp-pixel));
+    padding-inline: calc(6 * var(--pp-pixel)) calc(10 * var(--pp-pixel));
     margin: 0 var(--pp-pixel) var(--pp-pixel) 0;
     text-align: start;
     animation:
@@ -112,7 +113,9 @@
     font-weight: var(--pp-weight-bold);
     line-height: var(--pp-leading-tight);
   }
-  .pp-achievement-text {
+  /* Two pixels under the title, the system's gap inside a tight group, so the two lines never crowd. */
+  .pp-achievement > .pp-achievement-text {
+    margin-block-start: calc(2 * var(--pp-pixel));
     font-size: var(--pp-size-small);
     line-height: var(--pp-leading-tight);
   }
@@ -130,7 +133,7 @@
   @media (prefers-reduced-motion: reduce) {
     .pp-achievement, .pp-achievement-sparkles::before, .pp-achievement-sparkles::after { animation: none; }
   }
-  @media (forced-colors: active) {
+  @media (forced-colors: active), print {
     .pp-achievement-sparkles { display: none; }
   }
 }

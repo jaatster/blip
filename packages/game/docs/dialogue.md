@@ -43,12 +43,13 @@ import "@jaatster/blip-game/dialogue";
 import "@jaatster/blip-game/choices";
 
 const box = document.querySelector("pp-dialogue");
-box.addEventListener("pp-choice", (e) => box.say(e.detail.value === "pay" ? "Splendid!" : "Suit yourself."));
+box.addEventListener("pp-action", (e) => box.say(e.detail.value === "pay" ? "Splendid!" : "Suit yourself."));
 box.addEventListener("pp-done", () => (box.hidden = true));
 box.focus();   // the arrow, or the first choice once they show
 ```
 
 Without JavaScript every page shows, one after another, and the choices are plain buttons: the story still reads.
+Pages a framework renders or replaces after the element upgrades start it again from the first page.
 
 ## Anatomy
 
@@ -125,4 +126,4 @@ Without JavaScript every page shows, one after another, and the choices are plai
 |---|---|---|
 | `pp-next` | `{ page, pages }` | A page turned. |
 | `pp-done` | | The reader pressed on after the last page (no choices). |
-| `pp-choice` | `{ value, index, label }` | From [choices](choices.md): an answer was picked. |
+| `pp-action` | `{ item, value, index, label }` | From [choices](choices.md): an answer was picked. |
