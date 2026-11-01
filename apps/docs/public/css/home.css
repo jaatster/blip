@@ -36,8 +36,6 @@
     gap: var(--chu-space-16) var(--chu-space-24);
     align-items: start;
     inline-size: 100%;
-    max-inline-size: calc(580 * var(--chu-pixel));
-    margin-inline: auto;
   }
   @container (width >= 860px) {
     .home-hero-grid { grid-template-columns: minmax(0, 1fr) calc(196 * var(--chu-pixel)); }
@@ -174,10 +172,8 @@
 
   /* ------------------------------------------------------------------ the tour */
 
-  .home-section {
-    max-inline-size: calc(560 * var(--chu-pixel));
-    margin: calc(56 * var(--chu-pixel)) auto 0;
-  }
+  /* The sections fill the page's column (docs.css): the hero, the tour, the app bar and the footer share edges. */
+  .home-section { margin-block-start: calc(56 * var(--chu-pixel)); }
   .home-head { display: grid; gap: var(--chu-space-6); margin-block-end: var(--chu-space-16); }
   .home-head > * { max-inline-size: var(--docs-measure); }
   .home-h2 {

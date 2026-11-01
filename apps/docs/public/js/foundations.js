@@ -49,36 +49,28 @@ for (const b of $$(".docs-toggle-demo")) b.addEventListener("click", () => b.set
 
 // ------------------------------------------------------------------ sound: the board and the voice
 
-let sound;
+// The toggle is one of the site's sound controls (data-docs-sound, site.js): the board follows the site's sound.
+const sound = window.docs?.sound;
 const board = $(".docs-board");
-async function setSound(on) {
-  sound ??= await import("@jaatster/blip-sound");
-  sound.rememberSound();
-  if (on) await sound.enableSound({ volume: Number($(".docs-volume-input")?.value ?? 7) / 10 });
-  else sound.disableSound();
-  syncBoard();
-}
 function syncBoard() {
-  const on = !!sound?.soundOn();
-  const t = $(".docs-sound-toggle");
-  if (t) {
-    t.setAttribute("aria-pressed", String(on));
-    t.querySelector("span:last-child").textContent = on ? "Sound on" : "Sound off";
-  }
+  const on = !!sound?.on;
   for (const k of $$(".docs-sound-key, .docs-voice-play")) k.setAttribute("aria-disabled", String(!on));
   const hint = $(".docs-board-hint");
   if (hint) hint.textContent = on ? "Sound is on. It stays on as you move around the site, until you turn it off." : "Sound is off. Turn it on with the first button.";
 }
 if (board || $(".docs-voice")) {
-  if (localStorage.getItem("blip:sound") === "on") import("@jaatster/blip-sound").then((s) => { sound = s; document.addEventListener("pointerdown", () => setTimeout(syncBoard, 60), { once: true }); });
-  $(".docs-sound-toggle")?.addEventListener("click", () => setSound(!sound?.soundOn()));
-  $(".docs-volume-input")?.addEventListener("change", (e) => {
-    if (sound?.soundOn()) sound.enableSound({ volume: Number(e.target.value) / 10 }).then(() => sound.play("select"));
+  document.addEventListener("docs-sound", syncBoard);
+  syncBoard();
+  const volume = $(".docs-volume-input");
+  if (volume) sound?.setVolume(Number(volume.value) / 10);
+  volume?.addEventListener("change", (e) => {
+    sound?.setVolume(Number(e.target.value) / 10);
+    sound?.play("select");
   });
   for (const k of $$(".docs-sound-key")) {
     k.addEventListener("click", () => {
       if (k.getAttribute("aria-disabled") === "true") return $(".docs-sound-toggle")?.focus();
-      if (k.dataset.sound === "blip") "Blip".split("").forEach((c, i) => setTimeout(() => sound.play("blip", { rate: sound.voiceRate(c) }), i * 90));
+      if (k.dataset.sound === "blip") import("@jaatster/blip-sound").then(({ voiceRate }) => "Blip".split("").forEach((c, i) => setTimeout(() => sound.play("blip", { rate: voiceRate(c) }), i * 90)));
       else sound.play(k.dataset.sound);
     });
   }

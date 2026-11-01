@@ -27,7 +27,7 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     <p>Turn sound on, then press a key. Once it is on, the elements on this site use it too: menus open with a sound, toasts arrive with one, and typed text blips.</p>
     <div class="chu-box docs-board" data-variant="panel">
       <div class="docs-board-head">
-        <button class="chu-box chu-button docs-sound-toggle" type="button" data-tone="slate" aria-pressed="false"><Icon name="mute" class="docs-sound-off" /><Icon name="volume" class="docs-sound-on" /><span>Sound off</span></button>
+        <button class="chu-box chu-button docs-sound-toggle" type="button" data-tone="slate" aria-pressed="false" data-docs-sound><Icon name="mute" class="docs-sound-off" /><Icon name="volume" class="docs-sound-on" /><span class="docs-sound-label">Sound off</span></button>
         <label class="docs-volume"><span class="chu-label">Volume</span>
           <span class="chu-slider-group"><input class="chu-slider docs-volume-input" type="range" min="0" max="10" value="7" aria-label="Volume" /></span>
         </label>

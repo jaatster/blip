@@ -5,29 +5,15 @@ const root = document.documentElement;
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const toaster = () => $("chu-toaster");
-let sound; // @jaatster/blip-sound, once the reader turns it on
-
-async function setSound(on) {
-  sound ??= await import("@jaatster/blip-sound");
-  sound.rememberSound();
-  if (on) await sound.enableSound({ volume: 0.7 });
-  else sound.disableSound();
-  syncSound();
-}
-const play = (name, options) => sound?.soundOn() && sound.play(name, options);
+// Sound is the site's (site.js, window.docs.sound): the Options window's switch and the kit's button are its
+// controls (data-docs-sound), and the kit's keys wait for it.
+const play = (name, options) => window.docs?.sound?.play(name, options);
 function syncSound() {
-  const on = !!sound?.soundOn();
-  const sw = $(".home-sound");
-  if (sw) sw.checked = on;
-  const t = $(".home-sound-toggle");
-  if (t) {
-    t.setAttribute("aria-pressed", String(on));
-    t.querySelector("span").textContent = on ? "Sound on" : "Sound off";
-  }
+  const on = !!window.docs?.sound?.on;
   for (const b of $$(".home-play-sound")) b.setAttribute("aria-disabled", String(!on));
 }
-// Remembered from an earlier visit: on again at the first press (rememberSound waits for one).
-if (localStorage.getItem("blip:sound") === "on") import("@jaatster/blip-sound").then((s) => { sound = s; root.addEventListener("pointerdown", () => setTimeout(syncSound, 50), { once: true }); });
+document.addEventListener("docs-sound", syncSound);
+syncSound();
 
 // ------------------------------------------------------------------ the options window
 
@@ -52,7 +38,6 @@ for (const input of $$('input[name="home-accent"]')) {
   });
 }
 
-$(".home-sound")?.addEventListener("change", (e) => setSound(e.target.checked).then(() => play("select")));
 
 $(".home-start")?.addEventListener("click", async (e) => {
   const button = e.currentTarget;
@@ -163,7 +148,6 @@ $(".home-coin")?.addEventListener("click", () => {
   const n = Number(counter.value);
   frog?.say?.(n >= 100 ? `${n} coins! You could buy my boat with that.` : `Splendid! That makes ${n}. Bramble pays fair.`);
 });
-$(".home-sound-toggle")?.addEventListener("click", () => setSound(!sound?.soundOn()));
 for (const b of $$(".home-play-sound")) {
   b.addEventListener("click", () => {
     if (b.getAttribute("aria-disabled") === "true") {

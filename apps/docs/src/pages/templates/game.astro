@@ -18,7 +18,7 @@ const letters = [..."Starfall"].map((c, i) => ({ c, i }));
       <h1 class="tpl-game-title chu-display" id="game-title"><span class="chu-sr-only">Starfall</span><span aria-hidden="true">{letters.map(({ c, i }) => <span class="chu-pop chu-drop-in" data-pop={c} style={`--i:${i}`}>{c}</span>)}</span></h1>
       <p class="tpl-subtitle chu-outline chu-label">A Blip template</p>
       <button class="tpl-press-start" type="button" data-go="menu">
-        <span class="chu-prompt-start chu-display chu-pop chu-blink" data-scale="2" data-tone="pink" data-pop="Press start">Press start</span>
+        <span class="chu-prompt-start chu-display chu-pop chu-blink" data-scale="2" data-pop="Press start">Press start</span>
       </button>
       <p class="chu-prompt tpl-hint">or press <kbd class="chu-box chu-prompt-key">Enter</kbd></p>
       <chu-motion-toggle></chu-motion-toggle>
@@ -26,7 +26,7 @@ const letters = [..."Starfall"].map((c, i) => ({ c, i }));
 
     <section class="tpl-screen tpl-menu" data-screen-id="menu" aria-labelledby="menu-title">
       <div class="chu-box tpl-menu-panel" data-variant="panel">
-        <h2 class="chu-display chu-pop" data-scale="2" data-tone="pink" data-pop="Starfall" id="menu-title">Starfall</h2>
+        <h2 class="chu-display chu-pop" data-scale="2" data-pop="Starfall" id="menu-title">Starfall</h2>
         <chu-choices class="tpl-main-choices">
           <ul class="chu-choices" role="list" data-font="display">
             <li><button type="button" class="chu-box chu-choice" data-variant="ghost" value="new">New game</button></li>
@@ -40,7 +40,7 @@ const letters = [..."Starfall"].map((c, i) => ({ c, i }));
       <section class="chu-box chu-window tpl-options" aria-labelledby="options-title" hidden>
         <header class="chu-window-bar"><h2 class="chu-window-title chu-display chu-pop" id="options-title">Options</h2></header>
         <div class="chu-window-body tpl-options-body">
-          <label class="chu-check" data-layout="split">Chip sounds<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box tpl-sound" /></span></label>
+          <label class="chu-check" data-layout="split">Chip sounds<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box tpl-sound" data-docs-sound /></span></label>
           <div class="tpl-options-row">
             <span class="chu-label" id="tpl-time">Time of day</span>
             <chu-segmented class="chu-box chu-segmented tpl-time" data-size="sm" aria-labelledby="tpl-time" value="auto">

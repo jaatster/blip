@@ -303,8 +303,6 @@
   .docs-board-head { display: flex; flex-wrap: wrap; align-items: center; gap: var(--chu-space-8) var(--chu-space-16); }
   .docs-volume { display: flex; align-items: center; gap: var(--chu-space-6); flex: 1 1 calc(120 * var(--chu-pixel)); max-inline-size: calc(180 * var(--chu-pixel)); }
   .docs-volume .chu-slider-group { flex: 1; }
-  .docs-sound-toggle[aria-pressed="true"] .docs-sound-off,
-  .docs-sound-toggle:not([aria-pressed="true"]) .docs-sound-on { display: none; }
   .docs-board-keys { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(110 * var(--chu-pixel))), 1fr)); gap: var(--chu-space-8) var(--chu-space-12); margin: 0; padding: 0; list-style: none; }
   .docs-board-keys li { display: grid; justify-items: start; gap: var(--chu-space-3); }
   .docs-sound-notes { color: var(--chu-text); }

@@ -119,6 +119,21 @@ window.docs = {
   },
 };
 
+// Chosen in another tab, or by the page around this one (the templates' live previews are frames): follow it.
+// A template has no palette menu, so the presets come from the head script (Base.astro).
+const presets = (document.querySelector("script[data-presets]")?.dataset.presets || "").split(" ").filter(Boolean);
+addEventListener("storage", (e) => {
+  if (e.key === KEYS.palette) {
+    if (e.newValue && presets.includes(e.newValue)) root.dataset.chuPalette = e.newValue;
+    else delete root.dataset.chuPalette;
+    requestAnimationFrame(themeColor);
+    syncPalette();
+  } else if (e.key === KEYS.scheme) {
+    applyScheme(e.newValue || "auto");
+    syncMenu();
+  }
+});
+
 // ------------------------------------------------------------------ keys: Cmd on a Mac
 
 if (mac) for (const k of document.querySelectorAll("[data-mod]")) k.textContent = "Cmd";
@@ -301,6 +316,85 @@ if (toc && "IntersectionObserver" in window) {
   }
 }
 
-// ------------------------------------------------------------------ sound, if the reader turned it on before
+// ------------------------------------------------------------------ sound: one state for every control on the site
 
-if (store.get("blip:sound") === "on") import("@jaatster/blip-sound").then((s) => s.rememberSound());
+// Every sound control carries data-docs-sound: a switch (<input>) shows it as checked, a button as aria-pressed with
+// its .docs-sound-label and its two icons (.docs-sound-on, .docs-sound-off, docs.css). This keeps the reader's choice
+// (localStorage "blip:sound", as @jaatster/blip-sound's rememberSound uses it) and every control in step, and tells page
+// scripts with a "docs-sound" event. Remembered as on, the controls say on from the first paint, and the audio starts
+// at the first click or key anywhere else (browsers start audio only then); pressing a control first turns it off.
+const SOUND_KEY = "blip:sound";
+let soundWanted = store.get(SOUND_KEY) === "on";
+let soundVolume = 0.7;
+let soundLib; // @jaatster/blip-sound, once it is needed
+let soundReady; // the last enableSound(): resolves once the audio runs
+const soundModule = async () => (soundLib ??= await import("@jaatster/blip-sound"));
+const isSoundControl = (t) => !!t?.closest?.("[data-docs-sound], label:has([data-docs-sound])");
+function enableAudio() {
+  soundReady = soundLib.enableSound({ volume: soundVolume });
+  return soundReady;
+}
+function syncSound() {
+  for (const el of document.querySelectorAll("[data-docs-sound]")) {
+    if (el instanceof HTMLInputElement) el.checked = soundWanted;
+    else {
+      el.setAttribute("aria-pressed", String(soundWanted));
+      const label = el.querySelector(".docs-sound-label");
+      if (label) label.textContent = soundWanted ? "Sound on" : "Sound off";
+    }
+  }
+  document.dispatchEvent(new CustomEvent("docs-sound", { detail: { on: soundWanted } }));
+}
+async function setSound(on) {
+  soundWanted = on;
+  store.set(SOUND_KEY, on ? "on" : "off");
+  syncSound();
+  const lib = await soundModule();
+  if (soundWanted !== on) return;
+  if (on) await enableAudio();
+  else lib.disableSound();
+}
+function playSound(name, options) {
+  if (!soundWanted || !soundLib) return;
+  // Not running yet (remembered from an earlier visit): this press starts it.
+  if (!soundLib.soundOn() && navigator.userActivation?.isActive !== false) enableAudio();
+  soundReady?.then(() => soundWanted && soundLib.play(name, options));
+}
+window.docs.sound = {
+  get on() { return soundWanted; },
+  set: setSound,
+  toggle: () => setSound(!soundWanted),
+  play: playSound,
+  /** 0 to 1, for this page. */
+  setVolume(v) {
+    soundVolume = v;
+    if (soundWanted && soundLib?.soundOn()) enableAudio();
+  },
+};
+document.addEventListener("click", (e) => {
+  const b = e.target.closest?.("button[data-docs-sound]");
+  if (b) setSound(b.getAttribute("aria-pressed") !== "true").then(() => soundWanted && playSound("select"));
+});
+document.addEventListener("change", (e) => {
+  if (e.target instanceof HTMLInputElement && e.target.matches("[data-docs-sound]")) setSound(e.target.checked).then(() => soundWanted && playSound("select"));
+});
+// Remembered as on: ready the module, and start the audio at the first click, key or touch that is not on a sound
+// control (a control's own press decides for itself).
+if (soundWanted) {
+  soundModule();
+  const wake = new AbortController();
+  const start = (e) => {
+    if (!soundWanted || !soundLib) return wake.abort();
+    if (isSoundControl(e.target)) return;
+    enableAudio().then((running) => running && wake.abort());
+  };
+  for (const type of ["click", "keydown", "touchend"]) addEventListener(type, start, { signal: wake.signal, capture: true });
+}
+// Another tab (or a template in a frame) changed it.
+addEventListener("storage", (e) => {
+  if (e.key !== SOUND_KEY || (e.newValue === "on") === soundWanted) return;
+  soundWanted = e.newValue === "on";
+  if (!soundWanted) soundLib?.disableSound();
+  syncSound();
+});
+syncSound();

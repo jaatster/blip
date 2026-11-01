@@ -4,7 +4,6 @@
     display: grid;
     gap: var(--chu-space-16);
     grid-template-areas: "palettes" "controls" "preview" "export";
-    max-inline-size: calc(600 * var(--chu-pixel));
   }
   @container chu-shell (width >= 1024px) {
     .tb { grid-template-columns: calc(170 * var(--chu-pixel)) minmax(0, 1fr); grid-template-areas: "palettes palettes" "controls preview" "export export"; align-items: start; }
@@ -182,5 +181,4 @@
   .tb-blocked .chu-alert-body { display: grid; gap: var(--chu-space-4); }
   .tb-blocked-list { margin: 0; padding-inline-start: var(--chu-space-8); font-weight: var(--chu-weight-bold); }
   .tb-focus-row { gap: var(--chu-space-6); }
-  .tb-by-hand { max-inline-size: calc(600 * var(--chu-pixel)); }
 }

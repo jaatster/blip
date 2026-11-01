@@ -85,9 +85,20 @@
   html:not(.js) .docs-needs-js { display: none !important; }
   /* Ctrl, or Cmd on a Mac: the head script knows which before the first paint. */
   html.mac .docs-mod-ctrl, html:not(.mac) .docs-mod-cmd { display: none; }
+  /* GitHub, last in the app bar: on the narrowest phones it gives its room to the brand (the footer links it too). */
+  @container chu-shell (width < 380px) { .docs-github { display: none; } }
 
   /* ------------------------------------------------------------------ the shell */
 
+  /* One width system. The shell is at most 720 pixels (1440 px) wide, centred, and every row keeps the same gutter,
+     so the app bar, the main column and the footer share their edges:
+     - wide (home, palette maker): one column; the app bar, the content and the footer have the same edges, and the
+       page's sections fill the column rather than setting widths of their own;
+     - side, from 1024 px: the sidebar, then the main column; the footer sits in the main column, beside the sidebar
+       rather than under it, so its text starts where the content does and the sticky sidebar never covers it;
+     - side, from 1280 px: a third column for "On this page", kept on every sidebar page (empty without one), so the
+       content is the same width on every page of a section;
+     - under 1024 px: one column, the sidebar a drawer. */
   .docs-shell {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -119,19 +130,20 @@
   @container chu-shell (width >= 1024px) {
     .docs-shell[data-layout~="side"] {
       grid-template-columns: calc(124 * var(--chu-pixel)) minmax(0, 1fr);
-      grid-template-areas: "top top" "side main" "foot foot" "bottom bottom";
+      grid-template-areas: "top top" "side main" "side foot" "bottom bottom";
     }
-    .docs-shell[data-layout~="side"] .docs-main { padding-inline-start: var(--chu-space-8); }
+    /* The main column's text and the footer's start one gutter in from the sidebar. */
+    .docs-shell[data-layout~="side"] :is(.docs-main, .docs-footer) { padding-inline-start: var(--chu-space-8); }
   }
   @container chu-shell (width >= 1280px) {
-    .docs-shell[data-layout="side toc"] .docs-aside { display: block; }
-    /* A bigger pixel makes everything bigger: "On this page" steps aside to leave the text its room. */
-    html[data-chu-pixel] .docs-shell[data-layout="side toc"] .docs-aside { display: none; }
-    html[data-chu-pixel] .docs-shell[data-layout="side toc"] { grid-template-columns: calc(124 * var(--chu-pixel)) minmax(0, 1fr); grid-template-areas: "top top" "side main" "foot foot" "bottom bottom"; }
-    .docs-shell[data-layout="side toc"] {
+    .docs-shell[data-layout~="side"] {
       grid-template-columns: calc(124 * var(--chu-pixel)) minmax(0, 1fr) calc(96 * var(--chu-pixel));
-      grid-template-areas: "top top top" "side main toc" "foot foot foot" "bottom bottom bottom";
+      grid-template-areas: "top top top" "side main toc" "side foot foot" "bottom bottom bottom";
     }
+    .docs-shell[data-layout="side toc"] .docs-aside { display: block; }
+    /* A bigger pixel makes everything bigger: "On this page" steps aside, on every page, to leave the text its room. */
+    html[data-chu-pixel] .docs-shell[data-layout="side toc"] .docs-aside { display: none; }
+    html[data-chu-pixel] .docs-shell[data-layout~="side"] { grid-template-columns: calc(124 * var(--chu-pixel)) minmax(0, 1fr); grid-template-areas: "top top" "side main" "side foot" "bottom bottom"; }
   }
 
   /* ------------------------------------------------------------------ app bar */
@@ -743,6 +755,11 @@
   .docs-footer-inner { display: grid; gap: var(--chu-space-3); max-inline-size: var(--docs-measure); }
   .docs-footer-brand { display: flex; align-items: baseline; gap: var(--chu-space-4); margin-block-end: var(--chu-space-2); }
   .docs-footer-links { display: flex; flex-wrap: wrap; gap: var(--chu-space-2) var(--chu-space-8); margin: var(--chu-space-4) 0 0; padding: 0; list-style: none; font-size: var(--chu-size-small); }
+
+  /* ------------------------------------------------------------------ sound: a button's icon shows its state (site.js) */
+
+  [data-docs-sound][aria-pressed="true"] .docs-sound-off,
+  [data-docs-sound]:not([aria-pressed="true"]) .docs-sound-on { display: none; }
 
   /* ------------------------------------------------------------------ search */
 

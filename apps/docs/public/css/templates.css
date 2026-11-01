@@ -84,7 +84,8 @@
     block-size: calc(var(--v) * 5 * var(--chu-pixel));
     background: repeating-linear-gradient(to top, var(--chu-accent) 0 calc(4 * var(--chu-pixel)), transparent 0 calc(5 * var(--chu-pixel)));
   }
-  .tpl-bars > li[data-peak] .tpl-bar { background: repeating-linear-gradient(to top, var(--chu-candy-pink) 0 calc(4 * var(--chu-pixel)), transparent 0 calc(5 * var(--chu-pixel))); }
+  /* The peak hour: the same series, in the accent's shade. */
+  .tpl-bars > li[data-peak] .tpl-bar { background: repeating-linear-gradient(to top, var(--chu-accent-shade) 0 calc(4 * var(--chu-pixel)), transparent 0 calc(5 * var(--chu-pixel))); }
   .tpl-bar-label { font-size: var(--chu-size-caption); color: var(--chu-text-muted); font-variant-numeric: tabular-nums; }
   .tpl-worlds { display: grid; gap: var(--chu-space-6); }
   .tpl-world .chu-progress-label { display: flex; justify-content: space-between; font-size: var(--chu-size-small); font-weight: var(--chu-weight-bold); margin-block-end: var(--chu-space-2); }
@@ -94,7 +95,12 @@
 
   /* ------------------------------------------------------------------ landing */
 
-  .tpl-landing-top { position: sticky; inset-block-start: 0; z-index: var(--chu-layer-sticky); padding: var(--chu-space-3) var(--chu-space-6); background: var(--chu-bg); }
+  /* One width for the page: the app bar, the body and the footer's text share their edges, 560 pixels at most
+     (the hero's own), with a gutter on narrower screens. Their backgrounds still run edge to edge. */
+  :is(.tpl-landing-top, .tpl-landing-body, .tpl-landing-foot) {
+    padding-inline: max(var(--chu-space-6), round(down, (100% - calc(560 * var(--chu-pixel))) / 2, var(--chu-pixel)));
+  }
+  .tpl-landing-top { position: sticky; inset-block-start: 0; z-index: var(--chu-layer-sticky); padding-block: var(--chu-space-3); background: var(--chu-bg); }
   [data-chu-scheme="night"] :is(.tpl-hint, .tpl-keys) {
     --_o: max(0.5px, calc(var(--chu-pixel) / 2));
     text-shadow:
@@ -104,7 +110,7 @@
       0 var(--_o) 0 var(--chu-ink), var(--_o) var(--_o) 0 var(--chu-ink);
   }
   .tpl-hero { min-block-size: min(calc(100svh - 40 * var(--chu-pixel)), calc(320 * var(--chu-pixel))); }
-  .tpl-landing-body { display: grid; gap: calc(30 * var(--chu-pixel)); inline-size: 100%; max-inline-size: calc(560 * var(--chu-pixel)); margin: calc(30 * var(--chu-pixel)) auto calc(30 * var(--chu-pixel)); padding-inline: var(--chu-space-6); }
+  .tpl-landing-body { display: grid; gap: calc(30 * var(--chu-pixel)); margin-block: calc(30 * var(--chu-pixel)); }
   .tpl-times { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--chu-space-4); }
   .tpl-times .chu-stage { padding: var(--chu-space-4); min-block-size: calc(48 * var(--chu-pixel)); }
   .tpl-stack-2 { display: grid; gap: var(--chu-space-2); }
@@ -141,9 +147,8 @@
   .tpl-game-title { --chu-scale: 2; margin: 0; }
   @container chu-shell (width >= 600px) { .tpl-game-title { --chu-scale: 3; } }
   @container chu-shell (width >= 1024px) { .tpl-game-title { --chu-scale: 4; } }
+  /* The title's letters pop in the accent (the .chu-pop default), so a palette carries through. */
   .tpl-game-title .chu-pop {
-    --chu-pop-tint: var(--chu-candy-pink-light);
-    --chu-pop-drop: var(--chu-candy-pink-shade);
     display: inline-block;
     padding: 0;
   }
@@ -174,6 +179,8 @@
     margin: 0 calc(2 * var(--chu-pixel)) calc(2 * var(--chu-pixel)) 0;
   }
   .tpl-options { inline-size: min(calc(170 * var(--chu-pixel)), 100%); text-align: start; }
+  /* The window's own display would show it while it is hidden. */
+  .tpl-options[hidden] { display: none; }
   .tpl-options-body { display: grid; gap: var(--chu-space-8); padding: var(--chu-space-8); }
   .tpl-options-row { display: grid; gap: var(--chu-space-3); justify-items: start; }
   .tpl-level { align-content: space-between; text-align: start; padding: var(--chu-space-8) var(--chu-space-8) calc(24 * var(--chu-pixel)); }

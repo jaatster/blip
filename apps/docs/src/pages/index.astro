@@ -85,7 +85,7 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
                 {accents.map((x) => <label class="chu-box home-swatch" data-tone={x.tone}><input type="radio" name="home-accent" value={x.tone} /><span class="chu-sr-only">{x.name}</span><span class="home-swatch-mark" aria-hidden="true"></span></label>)}
               </div>
             </fieldset>
-            <label class="chu-check home-demo-row" data-layout="split">Chip sounds<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box home-sound" /></span></label>
+            <label class="chu-check home-demo-row" data-layout="split">Chip sounds<span class="chu-box chu-switch"><input type="checkbox" role="switch" class="chu-box home-sound" data-docs-sound /></span></label>
             <button class="chu-box chu-button home-start" type="button" data-variant="soft" data-width="full">Press start</button>
           </div>
           <footer class="chu-window-status"><span class="home-status">Every control here is live</span><span class="home-daytime"></span></footer>
@@ -334,7 +334,7 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
           <p>The chip sounds, synthesised in the browser. Off until you turn them on; then the elements use them too.</p>
         </div>
         <div class="home-sounds">
-          <button class="chu-box chu-button home-sound-toggle" type="button" data-tone="slate" aria-pressed="false"><Icon name="mute" /><span>Sound off</span></button>
+          <button class="chu-box chu-button home-sound-toggle" type="button" data-tone="slate" aria-pressed="false" data-docs-sound><Icon name="mute" class="docs-sound-off" /><Icon name="volume" class="docs-sound-on" /><span class="docs-sound-label">Sound off</span></button>
           {[["coin", "orange"], ["jump", "green"], ["open", "blue"], ["success", "teal"], ["bump", "pink"]].map(([name, tone]) => (
             <button class="chu-box chu-button home-play-sound" type="button" data-size="sm" data-tone={tone} data-sound={name} aria-disabled="true">{name}</button>
           ))}

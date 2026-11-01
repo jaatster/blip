@@ -3,10 +3,9 @@ import { transition } from "@jaatster/blip-effects/transitions.js";
 
 const $ = (s, r = document) => r.querySelector(s);
 const game = $(".tpl-game");
-let sound;
-const play = (name) => sound?.soundOn() && sound.play(name);
+// Sound is the site's (site.js): the Options window's switch is one of its controls (data-docs-sound).
+const play = (name) => window.docs?.sound?.play(name);
 const fmt = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
-if (localStorage.getItem("blip:sound") === "on") import("@jaatster/blip-sound").then((s) => (sound = s, s.rememberSound(), syncSound()));
 
 async function show(screen, kind = "dither") {
   if (game.dataset.screen === screen) return;
@@ -54,18 +53,6 @@ $(".tpl-options-done").addEventListener("click", () => {
   options.hidden = true;
   menuPanel.hidden = false;
   $(".tpl-main-choices .chu-choice[value='options']").focus();
-});
-function syncSound() {
-  const sw = $(".tpl-sound");
-  if (sw) sw.checked = !!sound?.soundOn();
-}
-$(".tpl-sound").addEventListener("change", async (e) => {
-  sound ??= await import("@jaatster/blip-sound");
-  sound.rememberSound();
-  if (e.target.checked) {
-    await sound.enableSound({ volume: 0.7 });
-    play("select");
-  } else sound.disableSound();
 });
 const time = $(".tpl-time");
 customElements.whenDefined("chu-segmented").then(() => (time.value = document.documentElement.dataset.schemeChoice || "auto"));
