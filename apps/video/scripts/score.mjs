@@ -33,11 +33,11 @@ const steps = (line) => line.trim().split(/\s+/);
 
 export function song() {
   const T = (o) => new Track(SECONDS, o);
-  const lead = T({ gain: 0.36, lowpass: 1600, poles: 2 });
-  const harmony = T({ gain: 0.17, pan: -0.2, lowpass: 1200, poles: 2 });
+  const lead = T({ gain: 0.36, lowpass: 2600, poles: 2 });
+  const harmony = T({ gain: 0.17, pan: -0.2, lowpass: 2000, poles: 2 });
   const bass = T({ gain: 0.5, lowpass: 1000 });
   const kick = T({ gain: 0.4, lowpass: 1500 });
-  const tick = T({ gain: 0.045, pan: 0.2, highpass: 2500, lowpass: 5000 });
+  const tick = T({ gain: 0.055, pan: 0.2, highpass: 2500, lowpass: 7000 });
   const at = (bar, step = 0) => bar * BAR + step * STEP;
 
   /** The lead: a soft square blended with a triangle, each note held for its dashes and cut a little short, as a Game Boy's would be. */
@@ -48,9 +48,9 @@ export function song() {
       let len = 1;
       while (s[i + len] === "-") len++;
       const length = len * STEP - 0.03, shape = { attack: 0.012, decay: 0.25, sustain: 0.55, release: 0.07 };
-      // Half square, half triangle: the square's voice with the triangle's roundness.
-      lead.note(at(bar, i), length, s[i], { wave: "pulse", duty: 0.5, vel: 0.6, ...shape });
-      lead.note(at(bar, i), length, s[i], { wave: "tri", vel: 0.7, ...shape });
+      // Mostly square, with a triangle under it: the square's voice, a little rounder.
+      lead.note(at(bar, i), length, s[i], { wave: "pulse", duty: 0.5, vel: 0.8, ...shape });
+      lead.note(at(bar, i), length, s[i], { wave: "tri", vel: 0.4, ...shape });
     }
   }
   /** Broken chords in eighths on the second square, a soft 50% one: root, fifth, third, fifth. */
