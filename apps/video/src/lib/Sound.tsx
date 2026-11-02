@@ -36,7 +36,7 @@ export const Music = ({ bar, bars, fadeOut = 0 }: MusicProps) => {
       trimBefore={bar * BAR}
       durationInFrames={length}
       premountFor={fps}
-      volume={0.38 * (fadeOut ? interpolate(frame, [length - fadeOut, length], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) : 1)}
+      volume={0.46 * (fadeOut ? interpolate(frame, [length - fadeOut, length], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" }) : 1)}
     />
   );
 };

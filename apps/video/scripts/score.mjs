@@ -1,161 +1,165 @@
-// "Press Start", the video's theme: 150 BPM in C major, 41 bars (65.6 s), one bar per 1.6 s. Each line below is a bar of
+// "Press Start", the video's theme: 150 BPM in C major, cozy and bouncy, 41 bars (65.6 s), one bar per 1.6 s. Each line below is a bar of
 // sixteenth notes: a note starts a sound, "-" holds it, "." rests. The scenes in src/ use the same bar numbers.
 import { BAR, STEP, Track, midi } from "./chip.mjs";
 
 export const BARS = 41;
 export const SECONDS = BARS * BAR + 2;
 
+// Cozy and upbeat: warm seventh chords, soft off-beat stabs over a walking triangle bass, a music box on the
+// eighths, a round lead you could hum, brushed drums and a light shuffle.
 const CHORD = {
-  C: { root: "C2", arp: ["C4", "E4", "G4", "C5"] },
-  Cmaj7: { root: "C2", arp: ["C4", "E4", "G4", "B4"] },
-  G: { root: "G2", arp: ["B3", "D4", "G4", "B4"] },
-  Am: { root: "A2", arp: ["A3", "C4", "E4", "A4"] },
-  F: { root: "F2", arp: ["A3", "C4", "F4", "A4"] },
+  Cmaj7: { root: "C2", stab: ["E4", "G4", "B4"], box: ["C5", "E5", "G5", "B5"] },
+  Am7: { root: "A2", stab: ["C4", "E4", "G4"], box: ["A4", "C5", "E5", "G5"] },
+  Fmaj7: { root: "F2", stab: ["A3", "C4", "E4"], box: ["F4", "A4", "C5", "E5"] },
+  Em7: { root: "E2", stab: ["B3", "D4", "G4"], box: ["E4", "G4", "B4", "D5"] },
+  G: { root: "G2", stab: ["B3", "D4", "G4"], box: ["G4", "B4", "D5", "G5"] },
 };
 
 const HOOK = [
-  "G5 - - E5 - - G5 - C6 - - - B5 - G5 -",
-  "D6 - - B5 - - G5 - D6 - - - C6 - B5 -",
-  "C6 - - A5 - - E5 - A5 - - - B5 - C6 -",
-  "D6 - - C6 - - A5 - F5 - - - G5 - A5 -",
-  "G5 - - E5 - - G5 - C6 - - - D6 - E6 -",
-  "D6 - - B5 - - D6 - G6 - - - F6 - D6 -",
-  "C6 - - A5 - - C6 - F6 - - - E6 - C6 -",
-  "D6 - B5 - G5 - B5 - D6 - - - . . . .",
+  "E5 - - D5 - - C5 - D5 - E5 - G5 - - -",
+  "A5 - - G5 - - E5 - C5 - D5 - E5 - - -",
+  "F5 - - E5 - - C5 - A4 - C5 - F5 - E5 -",
+  "D5 - - - - - B4 - D5 - - - . . . .",
+  "E5 - - D5 - - C5 - D5 - E5 - G5 - A5 -",
+  "B5 - - A5 - - G5 - E5 - G5 - - - . .",
+  "A5 - - G5 - - F5 - E5 - F5 - A5 - G5 -",
+  "D5 - - E5 - - D5 - B4 - - - G4 - - -",
 ];
-const HOOK_CHORDS = ["C", "G", "Am", "F", "C", "G", "F", "G"];
-const GROOVE_CHORDS = ["C", "Am", "F", "G"];
+const HOOK_CHORDS = ["Cmaj7", "Am7", "Fmaj7", "G", "Cmaj7", "Em7", "Fmaj7", "G"];
+const GROOVE_CHORDS = ["Cmaj7", "Am7", "Fmaj7", "G"];
 
 const DRUMS = {
-  kick: "x . . . . . x . x . . . . . . .",
-  snare: ". . . . x . . . . . . . x . . .",
-  hat: "x . x . x . x . x . x . x . x .",
-  fill: ". . . . x . . . . . x . x x x x",
-  short: ". . . . x . . . . . . . x . x x",
+  kick: "x . . . . . . . x . . x . . . .",
+  rim: ". . . . x . . . . . . . x . . .",
+  shaker: ". . x . . . x . . . x . . . x .",
+  fill: ". . . . x . . . . . x . x . x x",
 };
+
+/** The shuffle: every second sixteenth comes a little late. */
+const SWING = 0.022;
 
 const steps = (line) => line.trim().split(/\s+/);
 
 export function song() {
   const T = (o) => new Track(SECONDS, o);
-  const lead = T({ gain: 0.42, lowpass: 6000, echo: { time: 3 * STEP, feedback: 0.3, mix: 0.25 } });
-  const arp = T({ gain: 0.2, pan: -0.35, lowpass: 4500, echo: { time: 3 * STEP, feedback: 0.2, mix: 0.18 } });
-  const intro = T({ gain: 0.24, pan: 0.2, lowpass: 1800, echo: { time: 3 * STEP, feedback: 0.35, mix: 0.3 } });
-  const bass = T({ gain: 0.55, lowpass: 2500 });
-  const kick = T({ gain: 0.85 });
-  const snare = T({ gain: 0.38, highpass: 150 });
-  const hat = T({ gain: 0.2, pan: 0.25, highpass: 7000 });
-  const crash = T({ gain: 0.26, pan: -0.15, highpass: 5000 });
-  const riser = T({ gain: 0.18, highpass: 2000 });
-  const at = (bar, step = 0) => bar * BAR + step * STEP;
+  const lead = T({ gain: 0.36, lowpass: 3200, echo: { time: 3 * STEP, feedback: 0.32, mix: 0.3 } });
+  const low = T({ gain: 0.22, lowpass: 1800 });
+  const keys = T({ gain: 0.2, pan: -0.3, lowpass: 2200 });
+  const box = T({ gain: 0.13, pan: 0.35, lowpass: 5000, echo: { time: 3 * STEP, feedback: 0.3, mix: 0.3 } });
+  const bass = T({ gain: 0.5, lowpass: 1200 });
+  const kick = T({ gain: 0.6, lowpass: 2500 });
+  const rim = T({ gain: 0.22, highpass: 600, lowpass: 7000 });
+  const shaker = T({ gain: 0.11, pan: 0.25, highpass: 5000 });
+  const splash = T({ gain: 0.1, pan: -0.15, highpass: 4000 });
+  const at = (bar, step = 0) => bar * BAR + step * STEP + (step % 2 ? SWING : 0);
 
-  /** A melody line: each note held for its dashes, cut 15 ms short so repeated notes still speak. */
-  function melody(track, bar, line, { shift = -12, ...opts } = {}) {
+  /** The lead: a round square wave, each note held for its dashes, with a soft triangle an octave under it. */
+  function melody(bar, line) {
     const s = steps(line);
     for (let i = 0; i < 16; i++) {
       if (s[i] === "-" || s[i] === ".") continue;
       let len = 1;
       while (s[i + len] === "-") len++;
-      const seconds = len * STEP - 0.015;
-      track.note(at(bar, i), seconds, midi(s[i]) + shift, {
-        wave: "pulse", duty: 0.25, attack: 0.005, decay: 0.12, sustain: 0.6, release: 0.05,
-        vibrato: seconds > 0.25 ? { delay: 0.15, depth: 15, rate: 6 } : null, ...opts,
+      const seconds = len * STEP - 0.02;
+      lead.note(at(bar, i), seconds, s[i], {
+        wave: "pulse", duty: 0.5, attack: 0.012, decay: 0.18, sustain: 0.55, release: 0.08,
+        vibrato: seconds > 0.25 ? { delay: 0.18, depth: 12, rate: 5 } : null,
       });
+      low.note(at(bar, i), seconds, midi(s[i]) - 12, { wave: "tri", attack: 0.01, decay: 0.2, sustain: 0.6, release: 0.08 });
     }
   }
-  function arpeggio(track, bar, chord, from = 0, to = 16, vel = 0.55) {
-    const notes = CHORD[chord].arp;
-    for (let i = from; i < to; i++) {
-      track.note(at(bar, i), 0.08, notes[i % 4], { wave: "pulse", duty: 0.125, vel, attack: 0.002, decay: 0.05, sustain: 0.25, release: 0.02 });
+  /** Off-beat chord stabs, short and soft: the bounce. */
+  function stabs(bar, chord, from = 0, to = 16, vel = 0.7) {
+    for (const i of [2, 6, 10, 14]) {
+      if (i < from || i >= to) continue;
+      for (const n of CHORD[chord].stab) keys.note(at(bar, i), 0.09, n, { wave: "pulse", duty: 0.25, vel: vel / 2, attack: 0.004, decay: 0.06, sustain: 0.3, release: 0.04 });
     }
   }
+  /** A music box on the eighths: up the chord and back. */
+  function musicBox(bar, chord, from = 0, to = 16, vel = 0.6) {
+    const order = [0, 1, 2, 3, 2, 1, 2, 3];
+    for (let i = from; i < to; i += 2) {
+      box.note(at(bar, i), 0.12, CHORD[chord].box[order[i / 2]], { wave: "pulse", duty: 0.125, vel, attack: 0.002, decay: 0.09, sustain: 0.15, release: 0.12 });
+    }
+  }
+  /** A walking bass: root, fifth, a pickup into the octave, fifth. */
   function bassline(bar, chord, from = 0, to = 16) {
     const r = midi(CHORD[chord].root);
-    const pattern = [r, r + 12, r, r + 12, r, r + 12, r + 7, r + 12];
-    for (let i = from; i < to; i += 2) {
-      bass.note(at(bar, i), 0.16, pattern[i / 2], { wave: "tri4", attack: 0.003, decay: 0.2, sustain: 0.8, release: 0.02 });
+    for (const [i, n, len] of [[0, r, 0.3], [4, r + 7, 0.3], [7, r + 12, 0.08], [8, r + 12, 0.3], [12, r + 7, 0.3]]) {
+      if (i < from || i >= to) continue;
+      bass.note(at(bar, i), len, n, { wave: "tri4", attack: 0.004, decay: 0.25, sustain: 0.6, release: 0.04 });
     }
   }
-  function drums(bar, { fill = null, kicks = DRUMS.kick, hats = true } = {}) {
-    steps(kicks).forEach((s, i) => s === "x" && kick.kick(at(bar, i)));
-    steps(fill ? DRUMS[fill] : DRUMS.snare).forEach((s, i, all) => {
-      if (s !== "x") return;
-      const rising = fill && i >= 10 ? 0.55 + (i - 10) * 0.09 : 1;
-      snareHit(at(bar, i), rising);
-    });
-    if (hats) steps(DRUMS.hat).forEach((s, i) => s === "x" && hat.noise(at(bar, i), 0.06, { rate: 22000, vel: i % 4 === 0 ? 1 : 0.55, decay: 0.022 }));
+  function drums(bar, { fill = false } = {}) {
+    steps(DRUMS.kick).forEach((s, i) => s === "x" && kick.kick(at(bar, i), i ? 0.75 : 1));
+    steps(fill ? DRUMS.fill : DRUMS.rim).forEach((s, i) => s === "x" && rimHit(at(bar, i), fill && i >= 12 ? 0.6 + (i - 12) * 0.12 : 1));
+    for (let i = 0; i < 16; i++) {
+      const loud = steps(DRUMS.shaker)[i] === "x";
+      shaker.noise(at(bar, i), 0.05, { rate: 16000, vel: loud ? 1 : 0.35, decay: loud ? 0.03 : 0.012 });
+    }
   }
-  function snareHit(t, vel = 1) {
-    snare.noise(t, 0.2, { rate: 9000, vel: vel * 0.9, decay: 0.08 });
-    snare.note(t, 0.05, "D3", { wave: "tri", vel: vel * 0.6, slide: "A2", attack: 0.001, decay: 0.03, sustain: 0, release: 0.02 });
+  function rimHit(t, vel = 1) {
+    rim.noise(t, 0.12, { rate: 7000, vel: vel * 0.8, decay: 0.035 });
+    rim.note(t, 0.03, "G4", { wave: "tri", vel: vel * 0.5, attack: 0.001, decay: 0.015, sustain: 0, release: 0.01 });
   }
-  const crashAt = (bar) => crash.noise(at(bar), 1.6, { rate: 25000, decay: 0.6 });
+  const splashAt = (bar) => splash.noise(at(bar), 1.2, { rate: 22000, decay: 0.35, vel: 0.8 });
+  /** A full bar of the band: stabs, music box, bass and drums under `chord`. */
+  function band(bar, chord, { fill = false, sparkle = true } = {}) {
+    stabs(bar, chord);
+    if (sparkle) musicBox(bar, chord);
+    bassline(bar, chord);
+    drums(bar, { fill });
+  }
 
   // ---------------------------------------------------------------- 0-4: Press start
 
-  // Bars 0-1: the screen comes on and PRESS START waits, still, then blinking; a soft arpeggio, far away, and a
-  // heartbeat of a kick under the second bar.
-  arpeggio(intro, 0, "Cmaj7", 0, 16, 0.55);
-  arpeggio(intro, 1, "Am", 0, 16, 0.65);
-  kick.kick(at(0), 0.5);
+  // Bars 0-1: the screen comes on and PRESS START waits; a music box alone, then a soft bass and a heartbeat kick.
+  musicBox(0, "Cmaj7", 0, 16, 0.5);
+  musicBox(1, "Am7", 0, 16, 0.6);
   bass.note(at(1), 1.5, "A2", { wave: "tri", vel: 0.5, attack: 0.05, decay: 0.6, sustain: 0.6, release: 0.1 });
-  for (const step of [0, 8]) kick.kick(at(1, step), 0.35);
-  // Bar 2: start is pressed and the letters drop; the arpeggio climbs, a snare roll and a riser lift into the drop.
-  arpeggio(intro, 2, "F", 0, 8, 0.7);
-  arpeggio(arp, 2, "G", 8, 16, 0.45);
+  for (const step of [0, 8]) kick.kick(at(1, step), 0.4);
+  // Bar 2: start is pressed and the letters drop; stabs come in and a bell run climbs into the drop.
+  stabs(2, "Fmaj7", 0, 8);
+  stabs(2, "G", 8, 16);
   bass.note(at(2), 0.75, "F2", { wave: "tri4", attack: 0.003, decay: 0.3, sustain: 0.7, release: 0.05 });
   bassline(2, "G", 8, 16);
-  for (let i = 8; i < 16; i++) snareHit(at(2, i), 0.2 + (i - 8) * 0.11);
-  riser.noise(at(2, 8), 0.8, { rate: 24000, rise: true });
+  ["G4", "A4", "B4", "D5", "E5", "G5", "A5", "B5"].forEach((n, i) =>
+    box.note(at(2, 8 + i), 0.1, n, { wave: "pulse", duty: 0.125, vel: 0.5 + i * 0.05, attack: 0.002, decay: 0.08, sustain: 0.2, release: 0.1 }),
+  );
+  for (const i of [12, 14, 15]) rimHit(at(2, i), 0.6);
   // Bars 3-4: the drop. The title is up and the tagline types; the hook's first two bars.
-  for (const [b, chord, line] of [[3, "C", 0], [4, "G", 1]]) {
-    arpeggio(arp, b, chord);
-    bassline(b, chord);
-    melody(lead, b, HOOK[line]);
-  }
-  crashAt(3);
-  drums(3);
-  drums(4, { fill: "short" });
+  splashAt(3);
+  band(3, HOOK_CHORDS[0]);
+  melody(3, HOOK[0]);
+  band(4, HOOK_CHORDS[1]);
+  melody(4, HOOK[1]);
 
   // ---------------------------------------------------------------- 5-8: One pixel (no lead: the scene's own sounds)
 
-  GROOVE_CHORDS.forEach((chord, i) => {
-    arpeggio(arp, 5 + i, chord);
-    bassline(5 + i, chord);
-    drums(5 + i, { fill: i === 3 ? "fill" : null });
-  });
-  crashAt(5);
+  splashAt(5);
+  GROOVE_CHORDS.forEach((chord, i) => band(5 + i, chord, { fill: i === 3 }));
 
   // ---------------------------------------------------------------- 9-16: 88 components (the hook)
 
+  splashAt(9);
+  splashAt(13);
   HOOK.forEach((line, i) => {
-    arpeggio(arp, 9 + i, HOOK_CHORDS[i]);
-    bassline(9 + i, HOOK_CHORDS[i]);
-    melody(lead, 9 + i, line);
-    drums(9 + i, { fill: i === 3 ? "short" : i === 7 ? "fill" : null });
+    band(9 + i, HOOK_CHORDS[i], { fill: i === 7 });
+    melody(9 + i, line);
   });
-  crashAt(9);
-  crashAt(13);
 
   // ---------------------------------------------------------------- 17-40: the other scenes (to come; the groove and hook for now)
 
   for (let b = 17; b < BARS; b += 12) {
-    GROOVE_CHORDS.forEach((chord, i) => {
-      if (b + i >= BARS) return;
-      arpeggio(arp, b + i, chord);
-      bassline(b + i, chord);
-      drums(b + i, { fill: i === 3 ? "fill" : null });
-    });
-    crashAt(b);
+    splashAt(b);
+    GROOVE_CHORDS.forEach((chord, i) => b + i < BARS && band(b + i, chord, { fill: i === 3 }));
+    if (b + 4 < BARS) splashAt(b + 4);
     HOOK.forEach((line, i) => {
       if (b + 4 + i >= BARS) return;
-      arpeggio(arp, b + 4 + i, HOOK_CHORDS[i]);
-      bassline(b + 4 + i, HOOK_CHORDS[i]);
-      melody(lead, b + 4 + i, line);
-      drums(b + 4 + i, { fill: i === 7 ? "fill" : null });
+      band(b + 4 + i, HOOK_CHORDS[i], { fill: i === 7 });
+      melody(b + 4 + i, line);
     });
-    if (b + 4 < BARS) crashAt(b + 4);
   }
 
-  return [lead, arp, intro, bass, kick, snare, hat, crash, riser];
+  return [lead, low, keys, box, bass, kick, rim, shaker, splash];
 }
