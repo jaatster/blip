@@ -7,7 +7,6 @@
  */
 import Template from "../../layouts/Template.astro";
 import Icon from "../../components/Icon.astro";
-import { frog } from "../../lib/data";
 
 const letters = [..."Starfall"].map((c, i) => ({ c, i }));
 ---
@@ -59,18 +58,21 @@ const letters = [..."Starfall"].map((c, i) => ({ c, i }));
               <button class="blip-box" type="button" value="night">Night</button>
             </blip-segmented>
           </div>
+          <div class="blip-table-scroll" role="region" aria-labelledby="controls-cap" tabindex="0">
           <table class="blip-table tpl-controls" data-size="sm">
-            <caption class="blip-label">Controls</caption>
-            <thead><tr><th scope="col">Move</th><th scope="col">Keyboard</th><th scope="col">Gamepad</th></tr></thead>
+            <caption class="blip-label" id="controls-cap">Controls</caption>
+            <thead><tr><th scope="col">Move</th><th scope="col">Keyboard and mouse</th><th scope="col">Gamepad</th></tr></thead>
             <tbody>
-              <tr><th scope="row">Run</th><td><kbd class="blip-box blip-prompt-key">←</kbd> <kbd class="blip-box blip-prompt-key">→</kbd></td><td><span class="blip-prompt-dpad" data-dir="left" role="img" aria-label="D-pad left"></span> <span class="blip-prompt-dpad" data-dir="right" role="img" aria-label="D-pad right"></span></td></tr>
-              <tr><th scope="row">Jump</th><td><kbd class="blip-box blip-prompt-key">Space</kbd></td><td><kbd class="blip-box blip-prompt-button" data-button="a">A</kbd></td></tr>
-              <tr><th scope="row">Swipe</th><td><kbd class="blip-box blip-prompt-key">X</kbd></td><td><kbd class="blip-box blip-prompt-button" data-button="b">B</kbd></td></tr>
-              <tr><th scope="row">Talk</th><td><kbd class="blip-box blip-prompt-key">↑</kbd></td><td><span class="blip-prompt-dpad" data-dir="up" role="img" aria-label="D-pad up"></span></td></tr>
-              <tr><th scope="row">Drop through</th><td><kbd class="blip-box blip-prompt-key">↓</kbd> <kbd class="blip-box blip-prompt-key">Space</kbd></td><td><span class="blip-prompt-dpad" data-dir="down" role="img" aria-label="D-pad down"></span> <kbd class="blip-box blip-prompt-button" data-button="a">A</kbd></td></tr>
+              <tr><th scope="row">Run</th><td><kbd class="blip-box blip-prompt-key">A</kbd> <kbd class="blip-box blip-prompt-key">D</kbd> or <kbd class="blip-box blip-prompt-key">←</kbd> <kbd class="blip-box blip-prompt-key">→</kbd></td><td><span class="blip-prompt-dpad" data-dir="left" role="img" aria-label="D-pad left"></span> <span class="blip-prompt-dpad" data-dir="right" role="img" aria-label="D-pad right"></span></td></tr>
+              <tr><th scope="row">Jump (hold to go higher)</th><td><kbd class="blip-box blip-prompt-key">Space</kbd> <kbd class="blip-box blip-prompt-key">W</kbd> or <kbd class="blip-box blip-prompt-key">↑</kbd></td><td><kbd class="blip-box blip-prompt-button" data-button="a">A</kbd></td></tr>
+              <tr><th scope="row">Swipe</th><td><kbd class="blip-box blip-prompt-key" aria-label="Click"><Icon name="mouse" /></kbd> click or <kbd class="blip-box blip-prompt-key">X</kbd></td><td><kbd class="blip-box blip-prompt-button" data-button="b">B</kbd></td></tr>
+              <tr><th scope="row">Talk</th><td><kbd class="blip-box blip-prompt-key">E</kbd> or <kbd class="blip-box blip-prompt-key" aria-label="Right click"><Icon name="mouse" /></kbd> right click</td><td><kbd class="blip-box blip-prompt-button" data-button="y">Y</kbd></td></tr>
+              <tr><th scope="row">Drop through a plank</th><td><kbd class="blip-box blip-prompt-key">S</kbd> and <kbd class="blip-box blip-prompt-key">Space</kbd></td><td><span class="blip-prompt-dpad" data-dir="down" role="img" aria-label="D-pad down"></span> <kbd class="blip-box blip-prompt-button" data-button="a">A</kbd></td></tr>
               <tr><th scope="row">Pause</th><td><kbd class="blip-box blip-prompt-key">Esc</kbd></td><td><kbd class="blip-box blip-prompt-key">Start</kbd></td></tr>
             </tbody>
           </table>
+          </div>
+          <p class="blip-small blip-muted">On the keyboard alone, the arrows, <kbd class="blip-box blip-prompt-key">Z</kbd> to jump and <kbd class="blip-box blip-prompt-key">X</kbd> to swipe work too.</p>
           <button class="blip-box blip-button tpl-options-done" type="button" data-variant="soft" data-width="full">Done</button>
         </div>
       </section>
@@ -130,7 +132,8 @@ const letters = [..."Starfall"].map((c, i) => ({ c, i }));
       <div class="blip-achievements tpl-achievements" role="status"></div>
       <blip-dialogue class="blip-box blip-dialogue tpl-frog" voice hidden>
         <span class="blip-box blip-dialogue-name" data-tone="green">Bramble</span>
-        <div class="blip-box blip-dialogue-portrait" data-variant="soft" data-tone="teal" aria-hidden="true"><Fragment set:html={frog()} /></div>
+        <!-- Bramble's face: drawn by tpl-game.js from the game's own art, as he looks in the level. -->
+        <div class="blip-box blip-dialogue-portrait tpl-frog-face" data-variant="soft" data-tone="teal" aria-hidden="true"></div>
         <div class="blip-dialogue-body">
           <div class="blip-dialogue-text">
             <p>Pip! The rope bridge washed out in last night's storm.</p>

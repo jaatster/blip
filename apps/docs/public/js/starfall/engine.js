@@ -182,11 +182,11 @@ function move(game, b, { oneWays = true, assist = false } = {}) {
 /** Moves a value towards a target by at most a step. */
 const approach = (v, to, by) => (v < to ? Math.min(to, v + by) : Math.max(to, v - by));
 
-/** One step, with the buttons held: { left, right, up, down, jump, swipe }. */
+/** One step, with the buttons held: { left, right, down, jump, swipe, talk }. */
 export function step(game, input) {
   game.events = [];
   const press = (k) => input[k] && !game.prev[k];
-  const pressed = { jump: press("jump"), swipe: press("swipe"), up: press("up") };
+  const pressed = { jump: press("jump"), swipe: press("swipe"), talk: press("talk") };
   game.prev = { ...input };
   game.t++;
   // Where everything was, for drawing between steps on screens faster than 60 Hz.
@@ -279,8 +279,10 @@ function pipStep(game, input, pressed) {
     p.buffer = p.coyote = 0;
     p.ground = false;
   } else if (p.buffer && (p.ground || p.coyote)) jump(game, p);
-  if (!input.jump && p.vy < CUT) p.vy = CUT;
-  let g = input.jump && p.vy < 0 ? RISE : DROP;
+  // Off a Plip the spring carries him up whether jump is held or not.
+  if (p.vy >= 0) p.spring = false;
+  if (!input.jump && !p.spring && p.vy < CUT) p.vy = CUT;
+  let g = (input.jump || p.spring) && p.vy < 0 ? RISE : DROP;
   if (input.jump && Math.abs(p.vy) < HANG) g /= 2;
   p.vy = Math.min(FALL, p.vy + g);
   if (pressed.swipe && !p.cool) {
@@ -432,8 +434,13 @@ function enemiesStep(game) {
       if (hit.down && !e.ground) e.vx = 0;
       e.ground = hit.down;
       e.face = p.x < e.x ? -1 : 1;
-      // On the ground a Plip waits, crouches, and hops at Pip when he is near.
-      if (e.ground) {
+      // On the ground a Plip waits, crouches, and hops at Pip when he is near; squashed by a landing, it holds still
+      // until it has sprung back.
+      if (e.squash) {
+        e.squash--;
+        e.crouch = true;
+        e.t = 0;
+      } else if (e.ground) {
         e.crouch = e.t % 80 > 64 && Math.abs(p.x - e.x) < 6 * TILE;
         if (e.t % 80 === 79 && Math.abs(p.x - e.x) < 6 * TILE) {
           e.vy = -3.4;
@@ -454,9 +461,17 @@ function enemiesStep(game) {
     }
     if (!overlap(p, e)) continue;
     if (p.vy > 0 && p.y + p.h - p.vy <= e.y + 3) {
-      defeat(game, e, "stomp");
       p.y = e.y - p.h;
-      p.vy = e.kind === "plip" ? PLIP_BOUNCE : game.prev.jump ? BOUNCE_HELD : BOUNCE;
+      // A Plip is a spring: it squashes, throws Pip high, and is there for the next go. Only the sword beats it.
+      if (e.kind === "plip") {
+        Object.assign(p, { vy: PLIP_BOUNCE, spring: true });
+        p.chain++;
+        e.squash = 10;
+        say(game, "spring", { x: e.x + e.w / 2, y: e.y, chain: p.chain });
+      } else {
+        defeat(game, e, "stomp");
+        p.vy = game.prev.jump ? BOUNCE_HELD : BOUNCE;
+      }
       game.freeze = 3;
     } else hurt(game, e);
   }
@@ -500,7 +515,7 @@ function touchStep(game, pressed) {
   if (m.bramble) {
     const near = Math.abs(p.x + p.w / 2 - m.bramble.x) < TALK && Math.abs(p.y + p.h - m.bramble.y) < 4;
     game.near.bramble = near;
-    if (near && pressed.up && p.ground && !game.building) {
+    if (near && pressed.talk && p.ground && !game.building) {
       game.mode = "talk";
       p.vx = 0;
       say(game, "talk");

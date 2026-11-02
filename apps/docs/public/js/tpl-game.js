@@ -6,6 +6,9 @@ import { pixel, reducedMotion, services } from "@jaatster/blip-core";
 import { LEVEL } from "./starfall/level.js";
 import { TILE, buildBridge, createGame, resume, save, step } from "./starfall/engine.js";
 import { createRenderer } from "./starfall/render.js";
+import { ART } from "./starfall/art.js";
+import { spriteCanvas } from "@jaatster/blip-game/canvas.js";
+import "@jaatster/blip-icons/element.js";
 
 const $ = (s, r = document) => r.querySelector(s);
 const main = $(".tpl-game");
@@ -207,10 +210,13 @@ function tick(now) {
 
 // Held keys, and keys pressed since the last step: a tap shorter than a frame still counts for one step.
 const held = new Set(), tapped = new Set();
+// Two hands on a keyboard and a mouse (A and D or the arrows, Space, W or ↑ to jump, a click to swipe, E or a right
+// click to talk), or the console layout on the keyboard alone (the arrows, Z to jump, X to swipe). Both work at once.
 const KEYS = {
-  ArrowLeft: "left", a: "left", A: "left", ArrowRight: "right", d: "right", D: "right",
-  ArrowUp: "up", w: "up", W: "up", Enter: "up", ArrowDown: "down", s: "down", S: "down",
-  " ": "jump", z: "jump", Z: "jump", k: "jump", K: "jump", x: "swipe", X: "swipe", j: "swipe", J: "swipe",
+  ArrowLeft: "left", a: "left", A: "left", ArrowRight: "right", d: "right", D: "right", ArrowDown: "down", s: "down", S: "down",
+  " ": "jump", ArrowUp: "jump", w: "jump", W: "jump", z: "jump", Z: "jump", k: "jump", K: "jump",
+  x: "swipe", X: "swipe", j: "swipe", J: "swipe",
+  e: "talk", E: "talk", Enter: "talk",
 };
 document.addEventListener("keydown", (e) => {
   if (main.dataset.screen !== "level" || pause.open || !frog.hidden) return;
@@ -224,30 +230,45 @@ document.addEventListener("keydown", (e) => {
   e.preventDefault();
   held.add(b);
   if (!e.repeat) tapped.add(b);
-  look(e.isTrusted ? "keyboard" : "pad");
+  look(e.isTrusted ? "keyboard" : "touch");
 });
 document.addEventListener("keyup", (e) => KEYS[e.key] && held.delete(KEYS[e.key]));
 addEventListener("blur", () => held.clear());
 
-// A gamepad in the standard layout: the D-pad or the left stick, A jumps, B or X swipes, Start pauses.
+// The mouse, over the level: the left button swipes, the right one talks (and never opens the menu there).
+stage.addEventListener("pointerdown", (e) => {
+  if (e.pointerType === "touch" || !game || game.mode !== "play" || !frog.hidden || e.target.closest("button")) return;
+  if (e.button === 0) tapped.add("swipe");
+  else if (e.button === 2) tapped.add("talk");
+  else return;
+  e.preventDefault();
+  stage.focus();
+  look("keyboard");
+});
+stage.addEventListener("contextmenu", (e) => e.preventDefault());
+
+// A gamepad in the standard layout: the D-pad or the left stick, A jumps, B or X swipes, Y or up talks, Start pauses.
 let gp = {};
 function pollGamepad() {
   const g = [...(navigator.getGamepads?.() ?? [])].find(Boolean);
   if (!g) return;
   const on = (i) => !!g.buttons[i]?.pressed, ax = g.axes[0] ?? 0, ay = g.axes[1] ?? 0;
-  const now = { left: on(14) || ax < -0.4, right: on(15) || ax > 0.4, up: on(12) || ay < -0.6, down: on(13) || ay > 0.6, jump: on(0), swipe: on(1) || on(2), start: on(9) };
+  const now = { left: on(14) || ax < -0.4, right: on(15) || ax > 0.4, down: on(13) || ay > 0.6, jump: on(0), swipe: on(1) || on(2), talk: on(3) || on(12) || ay < -0.6, start: on(9) };
   if (Object.values(now).some(Boolean)) look("pad");
   if (now.start && !gp.start) pause.open ? pause.close() : openPause();
   gp = now;
 }
 const buttons = () => {
   const b = (n) => held.has(n) || tapped.has(n) || !!gp[n];
-  const now = { left: b("left"), right: b("right"), up: b("up"), down: b("down"), jump: b("jump"), swipe: b("swipe") };
+  const now = { left: b("left"), right: b("right"), down: b("down"), jump: b("jump"), swipe: b("swipe"), talk: b("talk") };
   tapped.clear();
   return now;
 };
 
-/** The hints name the keys of what was used last: the keyboard, or a gamepad (and the touch pad, which has A and B). */
+/**
+ * The hints name the keys of what was used last: the keyboard and mouse, a gamepad, or the touch pad (A and B, and
+ * a tap on the hint itself to talk).
+ */
 function look(next) {
   if (next === device) return;
   device = next;
@@ -331,20 +352,28 @@ function sync() {
 
 // ------------------------------------------------------------------ over the canvas: hints, points
 
-const keycap = (k) => `<kbd class="blip-box blip-prompt-key">${k}</kbd>`;
+// A keycap, or the mouse (a click) as a keycap with the mouse icon in it.
+const keycap = (k) => (k === "mouse" ? '<kbd class="blip-box blip-prompt-key" aria-label="Click"><blip-icon name="mouse"></blip-icon></kbd>' : `<kbd class="blip-box blip-prompt-key">${k}</kbd>`);
 const PAD = {
   a: '<kbd class="blip-box blip-prompt-button" data-button="a">A</kbd>',
   b: '<kbd class="blip-box blip-prompt-button" data-button="b">B</kbd>',
+  y: '<kbd class="blip-box blip-prompt-button" data-button="y">Y</kbd>',
   "dpad-left": '<span class="blip-prompt-dpad" data-dir="left" role="img" aria-label="D-pad left"></span>',
   "dpad-right": '<span class="blip-prompt-dpad" data-dir="right" role="img" aria-label="D-pad right"></span>',
   "dpad-up": '<span class="blip-prompt-dpad" data-dir="up" role="img" aria-label="D-pad up"></span>',
 };
-const prompt = (keys, text) => () => `${(keys?.[device === "pad" ? "pad" : "keyboard"] ?? []).map((k) => (device === "pad" ? PAD[k] : keycap(k))).join("")} ${text}`;
+/** A hint's keys for what was used last; the touch pad has the gamepad's A and B, and a tap on the hint for the rest. */
+const prompt = (keys, text) => () => {
+  const set = keys?.[device] ?? keys?.[device === "touch" ? "pad" : "keyboard"] ?? [];
+  return `${set.map((k) => (device === "keyboard" ? keycap(k) : (PAD[k] ?? keycap(k)))).join("")} ${text}`;
+};
 
 /** A hint over a point in the level: the kit's tooltip, drawn in place, with the keys to press. */
-function bubble(id, text, x, y, ms, keys) {
+function bubble(id, text, x, y, ms, keys, press) {
   hints.querySelector(`[data-id="${id}"]`)?.remove();
-  const el = Object.assign(document.createElement("span"), { className: "blip-box blip-tooltip tpl-bubble" });
+  // A hint that is an action too (Talk) is a button: a tap or a click does it.
+  const el = Object.assign(document.createElement(press ? "button" : "span"), { className: "blip-box blip-tooltip tpl-bubble" });
+  if (press) Object.assign(el, { type: "button", onclick: press });
   Object.assign(el.dataset, { id, side: "top", x, y, blipStatic: "" });
   el.html = prompt(keys, text);
   el.innerHTML = `<span class="blip-prompt">${el.html()}</span><span class="blip-tooltip-nub" aria-hidden="true"></span>`;
@@ -373,7 +402,7 @@ function points(x, y, n) {
 function place() {
   if (!game) return;
   const b = game.map.bramble;
-  if (b && game.near.bramble && game.mode === "play" && !game.building && !hints.querySelector('[data-id="talk"]')) bubble("talk", "Talk", b.x, b.y - 16, 0, { keyboard: ["↑"], pad: ["dpad-up"] });
+  if (b && game.near.bramble && game.mode === "play" && !game.building && !hints.querySelector('[data-id="talk"]')) bubble("talk", "Talk", b.x, b.y - 16, 0, { keyboard: ["E"], pad: ["y"], touch: [] }, () => tapped.add("talk"));
   else if (!game.near.bramble || game.mode !== "play") hints.querySelector('[data-id="talk"]')?.remove();
   if (!game.near.chest) hints.querySelector('[data-id="chest"]')?.remove();
   for (const el of [...hints.children, ...overlay.children]) {
@@ -407,6 +436,12 @@ function achieve(id) {
 // ------------------------------------------------------------------ Bramble
 
 const frog = $(".tpl-frog"), choices = $(".tpl-frog-choices");
+// His portrait is his own face, from the game's art (the kit's dialogue example draws a different frog).
+const face = spriteCanvas(ART["bramble-face"]);
+if (face) {
+  face.style.setProperty("--_tpl-w", String(face.width));
+  $(".tpl-frog-face").replaceChildren(face);
+}
 let building = false;
 function talk() {
   paused = true;

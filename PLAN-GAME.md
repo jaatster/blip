@@ -45,8 +45,10 @@ The same screens, with a real level in the middle:
   and edit.
 - **The HUD, dialogue and menus stay real HTML** on top of the canvas: the kit's hearts, counters, dialogue, choices
   and pause dialog, so they work with a keyboard and screen readers as they do now.
-- **Controls:** arrow keys or WASD, Space or Z to jump, X to swipe, Esc to pause. A gamepad works too (the standard
-  layout). On a phone, the kit's touch pad: A jumps, B swipes, Start pauses.
+- **Controls:** keyboard and mouse (A and D or the arrows to run; Space, W or ↑ to jump; a click or X to swipe; E or a
+  right click to talk; S and Space to drop through a plank), or the console layout (the arrows, Z, X). A gamepad in
+  the standard layout: A jumps, B or X swipes, Y talks, Start pauses. On a phone, the kit's touch pad, and a tap on
+  the Talk hint.
 - **Sound:** the sound kit's chip sounds (jump, coin, bump, success, error) when sound is on in Options.
 - **Reduced motion:** no screen shake or particle bursts, and the camera moves more gently. The game also pauses when
   the tab is hidden.
@@ -99,7 +101,7 @@ Each comes with its docs page, example, React wrapper, tests and baselines, like
 7. Bramble at the washed-out bridge. Pay him 30 coins and he patches it, plank by plank. Or climb the trees: the
    treetop way is harder, and has the key.
 8. After the bridge: blocks, a gem, Grubs, and the locked chest. The key opens it: the second star.
-9. A tall pillar near the end: bounce off a Plip to reach the third star.
+9. A stone ledge too high to jump to, the path running on under it: bounce off a Plip onto it for the third star.
 10. Stairs up to the goal flag. The higher you grab it, the more it scores.
 
 ## Game feel (after the first playtest)
@@ -127,3 +129,13 @@ practices, from their sources; this is what Starfall does with them.
 
 Not done: stereo panning (the sound kit plays in mono), water slowing a fall (here water is a hazard), and a shake
 slider (a switch instead).
+
+## After the second playtest
+
+- **No soft-lock at the third star.** The tall pillar blocked the way, and stomping its Plip defeated it: one miss and
+  Pip was stuck. A Plip is now a spring (landing on one throws Pip high and it stays for another go; only the sword
+  beats it), and the star sits on a ledge the path runs under. A test checks the way on is never blocked.
+- **Bramble's own face** in his dialogue, drawn from the game's art (the kit's dialogue example draws a green frog
+  much like Pip).
+- **Controls** as above: the mouse swipes and talks, ↑ and W jump, E talks, and the hints show the keys of what was
+  used last (the keyboard and mouse, a gamepad, or the touch pad).

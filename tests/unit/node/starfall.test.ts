@@ -9,7 +9,7 @@ import { TILE, buildBridge, createGame, parse, resume, save, step } from "../../
 // @ts-expect-error: plain JavaScript, served as is by the docs site
 import { LEVEL } from "../../../apps/docs/public/js/starfall/level.js";
 
-type Input = Partial<Record<"left" | "right" | "up" | "down" | "jump" | "swipe", boolean>>;
+type Input = Partial<Record<"left" | "right" | "down" | "jump" | "swipe" | "talk", boolean>>;
 type Game = ReturnType<typeof createGame>;
 
 /** A level from rows, with the ground under them; play starts at once. */
@@ -200,6 +200,22 @@ describe("what hurts", () => {
     expect(walk.stats.enemies).toBe(0);
   });
 
+  it("a Plip is a spring: it throws Pip high, stays for another go, and only the sword beats it", () => {
+    const g = level("@.......", "........", "........", "........", "........", "...p....");
+    run(g, 5);
+    over(g, 0);
+    expect(until(g, "spring", {}, 60)).toBeDefined();
+    expect(g.map.enemies[0].alive).toBe(true);
+    // Not holding jump, the spring still carries him well over four tiles.
+    expect(rise(g, 60, {})).toBeGreaterThan(5 * TILE);
+    run(g, 120);
+    over(g, 0);
+    expect(until(g, "spring", {}, 60)).toBeDefined();
+    run(g, 100);
+    Object.assign(g.pip, { x: g.map.enemies[0].x - g.pip.w - 2, y: g.map.enemies[0].y + g.map.enemies[0].h - g.pip.h, vx: 0, vy: 0, face: 1, hurt: 0 });
+    expect(until(g, "defeat", { swipe: true }, 20)).toMatchObject({ kind: "plip", how: "swipe" });
+  });
+
   it("a swipe defeats a Grub in front, and stomps in a row score double each", () => {
     const g = level("@..g....");
     run(g, 2);
@@ -267,7 +283,7 @@ describe("Bramble, the checkpoint and the goal", () => {
     run(g, 5);
     while (!g.near.bramble) step(g, { right: true });
     run(g, 20);
-    expect(types(run(g, 1, { up: true }))).toContain("talk");
+    expect(types(run(g, 1, { talk: true }))).toContain("talk");
     expect(g.mode).toBe("talk");
     expect(buildBridge(g)).toBe(true);
     resume(g);
@@ -386,6 +402,16 @@ describe("level 1-1", () => {
     // Down onto the Plip with jump held, then towards the pillar on the way up.
     for (let i = 0; i < 120; i++) step(g, { jump: true, right: i > 8 });
     expect(g.stats.stars).toHaveLength(1);
+  });
+
+  it("never blocks the way with the third star's ledge: Pip walks on under it", () => {
+    const g = fresh();
+    for (const e of g.map.enemies) e.alive = false;
+    const ledge = stars[1].c;
+    stand(g, ledge - 8, 12);
+    run(g, 3);
+    run(g, 120, { right: true });
+    expect(g.pip.x).toBeGreaterThan((ledge + 6) * TILE);
   });
 
   it("puts the flag a running jump from the top of the stairs", () => {

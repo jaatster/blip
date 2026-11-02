@@ -152,20 +152,20 @@ const SECTIONS = [
     "############################",
     "############################",
   ],
-  // 9. A pillar too tall to jump: bounce off a Plip for the third star.
+  // 9. A stone ledge too high to jump to, the way on under it: bounce off a Plip onto it for the third star.
   [
     "....................",
     "....................",
     "....................",
+    "....................",
     "..........*.........",
-    "..........==........",
-    "..........==........",
-    "..........==........",
-    "..........==........",
-    "..........==........",
-    "..........==........",
-    "..........==........",
-    "...S....p.==........",
+    ".........====.......",
+    ".........====.......",
+    "....................",
+    "....................",
+    "....................",
+    "....................",
+    "...S..p.............",
     "####################",
     "####################",
     "####################",
@@ -190,12 +190,13 @@ const SECTIONS = [
   ],
 ];
 
-/** The hints on the signs, in order. Keys are named for a keyboard and for a gamepad (and the touch pad). */
+/** The hints on the signs, in order. Keys are named for the keyboard and mouse ("mouse" is a click), and for a gamepad
+    and the touch pad. */
 const HINTS = [
-  { text: "Run", keys: { keyboard: ["←", "→"], pad: ["dpad-left", "dpad-right"] } },
+  { text: "Run", keys: { keyboard: ["A", "D"], pad: ["dpad-left", "dpad-right"] } },
   { text: "Jump: hold it to go higher", keys: { keyboard: ["Space"], pad: ["a"] } },
-  { text: "Jump on a Grub, or swipe", keys: { keyboard: ["X"], pad: ["b"] } },
-  { text: "Plips are bouncy", keys: null },
+  { text: "Jump on a Grub, or swipe", keys: { keyboard: ["mouse"], pad: ["b"] } },
+  { text: "Plips are bouncy: land on one", keys: null },
 ];
 
 export const LEVEL = {

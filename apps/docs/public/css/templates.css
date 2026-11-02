@@ -190,7 +190,8 @@
     padding: var(--blip-space-12) var(--blip-space-16) var(--blip-space-12);
     margin: 0 calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel)) 0;
   }
-  .tpl-options { inline-size: min(calc(170 * var(--blip-pixel)), 100%); text-align: start; }
+  /* Wide enough for the controls table; on a narrow phone the table scrolls sideways in its own region. */
+  .tpl-options { inline-size: min(calc(250 * var(--blip-pixel)), 100%); text-align: start; }
   /* The window's own display would show it while it is hidden. */
   .tpl-options[hidden], .tpl-menu-panel[hidden] { display: none; }
   .tpl-options-body { display: grid; gap: var(--blip-space-8); padding: var(--blip-space-8); }
@@ -216,6 +217,9 @@
   /* A hint stands over its sign: the kit's tooltip, drawn in place, with the prompt's keys in it. */
   .tpl-bubble { position: absolute; translate: -50% calc(-100% - 2 * var(--blip-pixel)); white-space: nowrap; }
   .tpl-bubble .blip-prompt { gap: calc(2 * var(--blip-pixel)); }
+  button.tpl-bubble { pointer-events: auto; cursor: pointer; font: inherit; }
+  /* Bramble's face, the game's own art, one art pixel to one page pixel, as the kit's sprites are. */
+  .tpl-frog-face canvas { inline-size: calc(var(--_tpl-w) * var(--blip-pixel)); image-rendering: pixelated; }
   /* Points rise six pixels, a pixel a frame, from where they were scored. */
   .tpl-points { position: absolute; margin: 0; translate: -50% -100%; animation: tpl-rise calc(6 * var(--blip-duration-frame)) steps(6, jump-end) both; }
   /* Sideways on a phone the touch pad sits over the level, as a handheld's buttons do; upright it has room of its own. */

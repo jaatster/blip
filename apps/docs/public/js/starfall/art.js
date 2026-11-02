@@ -179,6 +179,27 @@ export const ART = {
     "..cssssscs....",
     ".lcs...lcs....",
   ) },
+  // Bramble's face, for his dialogue's portrait: the teal frog in his straw hat, a straw in his mouth.
+  "bramble-face": { tone: "teal", map: rows(
+    "......nnnnnnnn........",
+    ".....nNNNNNNNNm.......",
+    ".....nNNNNNNNNm.......",
+    "....xRRRRRRRRRRx......",
+    "..nnNNNNNNNNNNNNmm....",
+    "...mmmmmmmmmmmmmm.....",
+    "...wwwl....lwww.......",
+    "..lwwwwl..lwwwwl......",
+    "..lwwoowllwwwoowl.....",
+    "..lwwoowllwwwoowl.....",
+    ".lcwwwwccccwwwwcc.....",
+    ".lcccccccccccccccs....",
+    "lcccccccccccccccccs..k",
+    "lcoooooooooooooocccskK",
+    "lcccocccccccccccocss.k",
+    ".lcckkkkkkkkkkkkcss...",
+    "..scckkkkkkkkkkccs....",
+    "...ssssssssssssss.....",
+  ) },
   // A candy block: hit it from below. Accent by default; spent, it is slate.
   "block": { tone: "accent", map: rows(
     "wwllllllll",
