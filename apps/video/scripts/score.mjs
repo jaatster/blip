@@ -3,7 +3,7 @@
 // "-" holds it, "." rests. Every style keeps the same bars, which the scenes in src/ are timed to:
 //   0-1 the intro (PRESS START waits), 2 the build (start is pressed, the letters drop), 3-4 the drop and the hook's
 //   first two bars, 5-8 the groove with no lead (One pixel), 9-16 the hook (88 components), 17-40 the rest.
-// `BLIP_THEME=<name>` picks one (town, bouncy, mellow, sunny); town by default.
+// `BLIP_THEME=<name>` picks one (town, bouncy, mellow, sunny); sunny, the one chosen, by default.
 import { BAR, STEP, Track, midi } from "./chip.mjs";
 
 export const BARS = 41;
@@ -227,7 +227,7 @@ const THEMES = {
 
 export const THEME_NAMES = Object.keys(THEMES);
 
-export function song(name = process.env.BLIP_THEME ?? "town") {
+export function song(name = process.env.BLIP_THEME ?? "sunny") {
   const theme = THEMES[name];
   if (!theme) throw new Error(`no theme "${name}": ${THEME_NAMES.join(", ")}`);
   const band = theme.band((o) => new Track(SECONDS, o));

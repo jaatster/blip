@@ -1,6 +1,6 @@
 import { spriteCanvas } from "@jaatster/blip-game/canvas.js";
 import { drawWorld } from "@jaatster/blip-effects/world.js";
-import { useLayoutEffect, useRef } from "react";
+import { useLayoutEffect, useRef, type CSSProperties } from "react";
 import { useCurrentFrame } from "remotion";
 import { TICK, seeded, ticks } from "./grid";
 
@@ -121,8 +121,9 @@ const inside = (boxes: readonly Box[], x: number, y: number, pad: number) =>
   boxes.some(([x0, y0, x1, y1]) => x >= x0 - pad && x < x1 + pad && y >= y0 - pad && y < y1 + pad);
 
 /** The world's sky alone: its dithered gradient, and at Night the moon and stars, kept clear of `avoid`. */
-export const Sky = ({ scheme, avoid = [] }: { readonly scheme: "day" | "sunset" | "night"; readonly avoid?: readonly Box[] }) => {
-  const ref = useCanvas((ctx, el) => drawWorld(ctx, scheme, W, H, { from: el, layer: "sky", avoid }), scheme);
+export const Sky = ({ scheme, avoid = [], palette }: { readonly scheme: "day" | "sunset" | "night"; readonly avoid?: readonly Box[]; readonly palette?: string }) => {
+  // Its colours are the tokens round it, so a palette set above it (data-blip-palette) gives it that night's sky.
+  const ref = useCanvas((ctx, el) => drawWorld(ctx, scheme, W, H, { from: el, layer: "sky", avoid }), `${scheme} ${palette}`);
   return <canvas ref={ref} className="v-pixels" width={W} height={H} />;
 };
 
@@ -163,4 +164,29 @@ export const Life = ({ avoid = [], shooting = [], count = 12, seed = 5 }: { read
     }
   }, t);
   return <canvas ref={ref} className="v-pixels" width={W} height={H} />;
+};
+
+/** One of the game kit's sprites, drawn a Blip pixel per sprite pixel (or `scale`), at its own size. */
+export const Sprite = ({ name, scale = 1, style }: { readonly name: string; readonly scale?: number; readonly style?: CSSProperties }) => {
+  const ref = useRef<HTMLCanvasElement>(null);
+  useLayoutEffect(() => {
+    const el = ref.current;
+    const s = el && spriteCanvas(name, { from: el });
+    if (!el || !s) return;
+    el.width = s.width;
+    el.height = s.height;
+    el.style.inlineSize = `calc(${s.width * scale} * var(--blip-pixel))`;
+    el.style.blockSize = `calc(${s.height * scale} * var(--blip-pixel))`;
+    el.getContext("2d")!.drawImage(s, 0, 0);
+  }, [name, scale]);
+  return <canvas ref={ref} style={{ imageRendering: "pixelated", display: "block", ...style }} />;
+};
+
+/**
+ * A CSS mask of the pixels of each 4 x 4 Bayer cell under `level` (of 16), a Blip pixel per cell pixel: what is under
+ * it shows through `level` sixteenths of the pixels, for a change that dithers from one look to the next.
+ */
+export const bayerMask = (level: number) => {
+  const rects = BAYER.flatMap((b, i) => (b < level ? [`<rect x='${i % 4}' y='${i >> 2}' width='1' height='1'/>`] : [])).join("");
+  return `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4' shape-rendering='crispEdges'>${rects}</svg>`)}") 0 0 / calc(4 * var(--blip-pixel)) calc(4 * var(--blip-pixel)) repeat`;
 };

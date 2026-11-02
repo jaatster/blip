@@ -3,7 +3,7 @@
 // browser makes them (sfx/<name>.wav, and pitched copies sfx/<name>@<semitones>.wav), and the theme (music/theme.wav).
 //
 //   pnpm --filter @jaatster/blip-video assets
-import { copyFileSync, mkdirSync, writeFileSync } from "node:fs";
+import { copyFileSync, cpSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { SR, master, wav } from "./chip.mjs";
 import { SECONDS, song } from "./score.mjs";
@@ -58,6 +58,19 @@ for (const [name, notes] of Object.entries(SOUNDS)) {
     count++;
   }
 }
+
+// The docs site's own build (site/), for the scenes that show real pages: its root-relative links made relative, so
+// the pages load from the video's own server.
+const docs = new URL("../../docs/dist/", import.meta.url), site = new URL("site/", out);
+if (existsSync(docs)) {
+  rmSync(site, { recursive: true, force: true });
+  for (const dir of ["blip", "css", "js", "templates", "play"]) cpSync(new URL(dir, docs), new URL(dir, site), { recursive: true });
+  const walk = (dir) => readdirSync(dir).flatMap((f) => (statSync(new URL(f, dir)).isDirectory() ? walk(new URL(`${f}/`, dir)) : [new URL(f, dir)]));
+  for (const file of walk(site).filter((f) => f.pathname.endsWith(".html"))) {
+    const up = "../".repeat(file.pathname.slice(site.pathname.length).split("/").length - 1);
+    writeFileSync(file, readFileSync(file, "utf8").replace(/(["(])\/(blip|css|js|templates|play)\//g, `$1${up}$2/`));
+  }
+} else console.warn("No docs build (apps/docs/dist): the Real screens scene needs it. Build the docs first.");
 
 const t0 = performance.now();
 writeFileSync(new URL("music/theme.wav", out), wav(master(song(), SECONDS), SR));

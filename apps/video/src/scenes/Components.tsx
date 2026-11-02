@@ -3,7 +3,7 @@ import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { Beat } from "../lib/Beat";
 import { STEP, TICK, at, p, ticks } from "../lib/grid";
 import { Icon } from "../lib/Icon";
-import { Dither, Life, Sky } from "../lib/Pixels";
+import { Dither, Life, Sky, bayerMask } from "../lib/Pixels";
 import { Music, Sfx } from "../lib/Sound";
 import { Stage } from "../lib/Stage";
 import { DropTitle, Typed } from "../lib/Text";
@@ -124,13 +124,6 @@ const Screen = ({ frame, scheme }: { readonly frame: number; readonly scheme: Sc
       </Beat>
     </AbsoluteFill>
   );
-};
-
-const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
-/** The pixels of a 4 x 4 Bayer cell under `level` (of 16), as a mask a Blip pixel per cell pixel. */
-const bayerMask = (level: number) => {
-  const rects = BAYER.flatMap((b, i) => (b < level ? [`<rect x='${i % 4}' y='${i >> 2}' width='1' height='1'/>`] : [])).join("");
-  return `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4' shape-rendering='crispEdges'>${rects}</svg>`)}") 0 0 / ${p(4)} ${p(4)} repeat`;
 };
 
 export const Components = ({ music = true }: { readonly music?: boolean }) => {

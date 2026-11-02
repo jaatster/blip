@@ -65,13 +65,20 @@ export const DropTitle = ({ text, lands, scale, outline = 1, tone }: DropProps) 
           <span
             key={i}
             className="blip-drop-text-letter"
-            data-pop={ch}
+            data-pop={ch === " " ? "\u00A0" : ch}
             style={{ animation: "none", visibility: k < 0 ? "hidden" : "visible", translate: `0 ${p(FALL[Math.min(k, FALL.length - 1)] ?? 0)}` }}
           >
-            {ch}
+            {ch === " " ? "\u00A0" : ch}
           </span>
         );
       })}
     </span>
   );
+};
+
+/** Landing frames for each character of `text`, a letter every `every` frames from `from`; a space lands with the
+ * letter before it, so only letters count. */
+export const letterLands = (text: string, from: number, every: number) => {
+  let n = 0;
+  return [...text].map((ch) => (ch === " " ? from + Math.max(0, n - 1) * every : from + n++ * every));
 };
