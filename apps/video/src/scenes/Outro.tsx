@@ -1,12 +1,14 @@
 import type { CSSProperties } from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { Beat } from "../lib/Beat";
+import { Big } from "../lib/Big";
 import { TICK, at, p, ticks } from "../lib/grid";
 import { Icon } from "../lib/Icon";
 import { Burst, World } from "../lib/Pixels";
 import { Music, Sfx } from "../lib/Sound";
 import { Stage } from "../lib/Stage";
-import { DropTitle, Typed } from "../lib/Text";
+import { Tagline } from "../lib/Tagline";
+import { DropTitle } from "../lib/Text";
 import { Dissolve } from "../lib/Transitions";
 
 /** Bars 49-52 of the theme: the hook's last bars, ending on C. */
@@ -19,7 +21,6 @@ const LINE = at(0, 3, 2);
 const INSTALL = at(1, 2);
 const DOCS = at(2, 1);
 const OFF = at(3, 2);
-const COMMAND = "npm install @jaatster/blip-components";
 
 /** The TV switching off, a Blip frame a step: the picture shuts to a bright line, the line shrinks to a dot, gone. */
 function screenOff(frame: number): { line: number; style: CSSProperties } {
@@ -40,29 +41,21 @@ export const Outro = ({ music = true }: { readonly music?: boolean }) => {
         <World scheme="night" />
         <div className="v-center" style={{ gap: p(10), paddingBlockStart: p(4) }}>
           <DropTitle text="Blip" lands={LANDS} scale={8} outline={2} />
-          <div style={{ blockSize: p(20) }}>
-            <Typed text="16-bit pixel modular design system" at={LINE} className="blip-outline" style={{ fontSize: p(13), fontWeight: 700 }} />
-          </div>
-          <div style={{ blockSize: p(32) }}>
-            <Beat at={INSTALL}>
-              <div className="blip-box blip-card blip-pop-in" data-size="sm">
-                <div className="blip-cluster" data-gap="4" style={{ flexWrap: "nowrap" }}>
-                  <span className="blip-box blip-input" data-size="lg" style={{ inlineSize: p(214) }}>
-                    <span className="blip-input-affix" aria-hidden="true">$</span>
-                    <input value={COMMAND} aria-label="Install" readOnly />
-                  </span>
-                  <span className="blip-box blip-button" data-size="lg"><Icon name="copy" />Copy</span>
-                </div>
-              </div>
-            </Beat>
-          </div>
-          <div style={{ blockSize: p(20) }}>
+          <Tagline card={LINE} line={LINE} install={INSTALL} />
+          {/* Where the docs are: a big candy link, the accent, so it is the thing to remember. */}
+          <div style={{ visibility: frame >= DOCS ? "visible" : "hidden" }}>
             <Beat at={DOCS}>
-              <span className="blip-display blip-pop blip-pop-in" data-scale="2" data-pop="jaatster.com/blip" style={{ display: "inline-block" }}>jaatster.com/blip</span>
+              <Big x={2}>
+                <span className="blip-box blip-button blip-pop-in" style={{ position: "relative" }}>
+                  <Icon name="globe" />jaatster.com/blip
+                  <span className="blip-glint" aria-hidden="true" />
+                </span>
+              </Big>
             </Beat>
           </div>
         </div>
         <Burst at={LANDS[3]! + TICK} kind="sparkle" box={[180, 50, 120, 60]} count={10} seed={17} scale={2} />
+        <Burst at={DOCS + TICK} kind="sparkle" box={[170, 222, 140, 24]} count={10} seed={23} scale={2} />
       </AbsoluteFill>
       {off.line > 0 && (
         <div style={{ position: "absolute", insetInline: `${(1 - off.line) * 50}%`, insetBlockStart: "50%", blockSize: p(1), background: "var(--blip-white)" }} />

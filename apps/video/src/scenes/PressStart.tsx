@@ -2,11 +2,11 @@ import type { CSSProperties } from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { Beat } from "../lib/Beat";
 import { STEP, TICK, at, p, ticks } from "../lib/grid";
-import { Icon } from "../lib/Icon";
 import { Burst, World } from "../lib/Pixels";
 import { Music, Sfx } from "../lib/Sound";
 import { Stage } from "../lib/Stage";
-import { DropTitle, Typed } from "../lib/Text";
+import { Tagline } from "../lib/Tagline";
+import { DropTitle } from "../lib/Text";
 import { MOSAIC_FRAMES } from "../lib/Transitions";
 
 /** Bars 0-4 of the theme. */
@@ -18,9 +18,8 @@ const BLINK = at(1, 1);
 const PRESS = at(2);
 const LANDS = [at(2, 1), at(2, 1, 2), at(2, 2), at(2, 2, 2)];
 const DROP = at(3);
-// The install line: a card pops in on bar 4, the command types itself in two letters a frame, and Copy is pressed on the third beat.
+// The install line: its row pops in on bar 4, the command types itself in two letters a frame, and Copy is pressed on the third beat.
 const TAG = at(4);
-const INSTALL = "npm install @jaatster/blip-components";
 const COPY = at(4, 2);
 
 /** The TV comes on: a line across the middle, then the picture opens from it, overbright for a moment. */
@@ -63,26 +62,14 @@ export const PressStart = ({ music = true }: { readonly music?: boolean }) => {
           <Beat at={DROP} from={PRESS}>
             <div className={frame >= DROP ? "v-center blip-shake" : "v-center"} style={{ gap: p(10), paddingBlockStart: p(6) }}>
               <DropTitle text="Blip" lands={LANDS} scale={8} outline={2} />
-              {/* The line's room is kept from the start, so BLIP never moves when it types in. */}
-              <div style={{ blockSize: p(20) }}>
-                <Typed text="16-bit pixel modular design system" at={DROP + 2 * TICK} className="blip-outline" style={{ fontSize: p(13), fontWeight: 700 }} />
-              </div>
-              <div style={{ blockSize: p(32), marginBlockStart: p(2) }}>
-                <Beat at={TAG}>
-                  <div className="blip-box blip-card blip-pop-in" data-size="sm">
-                    <div className="blip-cluster" data-gap="4" style={{ flexWrap: "nowrap" }}>
-                      <span className="blip-box blip-input" data-size="lg" style={{ inlineSize: p(214) }}>
-                        <span className="blip-input-affix" aria-hidden="true">$</span>
-                        <input value={INSTALL.slice(0, Math.max(0, 2 * (frame - TAG - 2 * TICK)))} aria-label="Install" readOnly />
-                      </span>
-                      <button className="blip-box blip-button" type="button" data-size="lg" data-blip-state={frame >= COPY && frame < COPY + 3 * TICK ? "active" : undefined}>
-                        <Icon name={frame >= COPY ? "check" : "copy"} />
-                        {frame >= COPY ? "Copied" : "Copy"}
-                      </button>
-                    </div>
-                  </div>
-                </Beat>
-              </div>
+              {/* The line and the install row on one ink card, its room kept from the start, so BLIP never moves. */}
+              <Tagline
+                card={DROP}
+                line={DROP + 2 * TICK}
+                install={TAG}
+                typed={2 * (frame - TAG - 2 * TICK)}
+                copy={frame < COPY ? "rest" : frame < COPY + 3 * TICK ? "press" : "done"}
+              />
             </div>
           </Beat>
 

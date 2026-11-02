@@ -12,7 +12,7 @@ import { Icon } from "../lib/Icon";
 import { Burst, Dither, H as SH, Life, Sprite, W as SW, bayerMask, useCanvas } from "../lib/Pixels";
 import { type Move, PRESS, over, pressing } from "../lib/Pointer";
 import { Music, Sfx } from "../lib/Sound";
-import { DemoFrame, HERO, type Part, SHOW_CLEAR, SplitText } from "../lib/Split";
+import { DemoFrame, type Part, SHOW_CLEAR, SplitText } from "../lib/Split";
 import { Stage } from "../lib/Stage";
 import { Dissolve, MOSAIC_FRAMES, Mosaic } from "../lib/Transitions";
 
@@ -25,22 +25,22 @@ const ART = STARFALL as Record<string, Art>;
 
 // The part's name at the top, the part itself big in the middle standing on the sky, its line under it (the shared
 // showcase, src/lib/Split.tsx). What each part does happens to the whole screen:
-//   Segmented  the pointer picks Day, Sunset, Night, and the whole stage changes its time of day through the ordered
+//   Themes     the segmented control picks Day, Sunset, Night, and the whole stage changes its time of day through the ordered
 //              dither, each held 1.2 s
 //   Switch     the sky goes dark; "Stars" is pointed at (its tooltip pops in) and turned on, and the whole sky fills:
 //              stars flare in one after another, two shoot, and the night's own stars and moon come out
 //   Button     Pip stands on a big candy "Jump" button; pressed, it sits in, Pip jumps and bumps the candy block over
 //              him (up 6, then 3, then down), a coin springs out, +100
-//   And more   the count rolls from the 3 shown to 88 while six more pop out round it, and confetti falls
+//   88 components  a dozen more of them pop in one after another, in three rows, and confetti falls
 const FRAME = at(0, 1);
 const SWITCH_AT = at(2, 2);
 const BUTTON_AT = at(4, 1);
 const END = at(5, 3);
 const PARTS: readonly Part[] = [
-  { at: FRAME, title: "Segmented", line: "Pick one of a few. Here, the time of day." },
+  { at: FRAME, title: "Themes", line: "Pick one of a few. Here, the time of day." },
   { at: SWITCH_AT, title: "Switch", line: "On or off: a cream knob hops along its candy track." },
   { at: BUTTON_AT, title: "Button", line: "Press it, and something happens." },
-  { at: END, title: "And 85 more", line: "Native HTML first. Most are CSS alone." },
+  { at: END, title: "88 components", line: "Native HTML first. Most are CSS alone." },
 ];
 const MOVES: readonly Move[] = [
   { at: at(0, 2), to: '[data-v="seg-1"]', press: at(0, 3) },
@@ -240,48 +240,55 @@ const ButtonDemo = ({ frame, v }: { readonly frame: number; readonly v: boolean 
   );
 };
 
-// ------------------------------------------------------------------ 4. And more: the count, and six round it
+// ------------------------------------------------------------------ 4. 88 components: a dozen more of them
 
-const RING: readonly (readonly [dx: number, dy: number, part: ReactNode])[] = [
-  [-130, -42, <span className="blip-box blip-button" data-size="sm"><Icon name="play" />Play</span>],
-  [130, -42, <span className="blip-box blip-tag" data-tone="success">New</span>],
-  [-158, 8, <span className="blip-box blip-checkbox"><input type="checkbox" checked readOnly aria-label="Done" /></span>],
-  [158, 8, <span className="blip-box blip-switch"><input type="checkbox" role="switch" className="blip-box" checked readOnly aria-label="On" /></span>],
-  [-104, 50, <span className="blip-box blip-avatar" data-tone="green">P<span className="blip-box blip-avatar-status" data-tone="success" /></span>],
-  [104, 50, <span className="blip-box blip-button" data-size="sm" data-variant="soft" data-icon-only aria-label="Alerts"><Icon name="bell" /><span className="blip-box blip-badge" data-tone="danger" data-position="top-end">3</span></span>],
+// Three rows of real parts, each popping in at its own time; the rows keep their room, so nothing moves as they come.
+const ROWS: readonly (readonly ReactNode[])[] = [
+  [
+    <span className="blip-box blip-button" data-size="sm"><Icon name="play" />Play</span>,
+    <span className="blip-box blip-tag" data-tone="success">New</span>,
+    <span className="blip-box blip-checkbox"><input type="checkbox" checked readOnly aria-label="Done" /></span>,
+    <span className="blip-box blip-switch"><input type="checkbox" role="switch" className="blip-box" checked readOnly aria-label="On" /></span>,
+  ],
+  [
+    <span className="blip-rating" role="img" aria-label="Rated 4 out of 5" style={{ "--blip-rating-value": 4 } as CSSProperties} />,
+    <span className="blip-box blip-radio"><input type="radio" checked readOnly aria-label="Hard" /></span>,
+    <kbd className="blip-box blip-keycap">A</kbd>,
+    <span className="blip-loader" role="status"><span className="blip-sr-only">Loading</span></span>,
+  ],
+  [
+    <span className="blip-box blip-avatar" data-tone="green">P<span className="blip-box blip-avatar-status" data-tone="success" /></span>,
+    <span className="blip-box blip-button" data-size="sm" data-variant="soft" data-icon-only aria-label="Alerts"><Icon name="bell" /><span className="blip-box blip-badge" data-tone="danger" data-position="top-end">3</span></span>,
+    <div className="blip-box blip-progress" style={{ inlineSize: p(48) }}><progress max={100} value={60}>60%</progress></div>,
+    <span className="blip-box blip-tag" data-variant="candy" data-tone="warning">Lv 5</span>,
+  ],
 ];
-/** When ring part `i` pops out: an eighth apart, round the ring. */
-const ringAt = (i: number) => RING_AT + i * 2 * STEP;
-// Out from the middle in six even steps, a pixel past its place, then home.
-const OUT = [0.17, 0.33, 0.5, 0.67, 0.83, 1.04, 1];
-const COUNT_AT = RING_AT;
+const RING = ROWS.flat();
+/** When part `i` pops in: four Blip frames apart, row by row. */
+const ringAt = (i: number) => RING_AT + i * 4 * TICK;
 
-const MoreDemo = ({ frame }: { readonly frame: number }) => {
-  const n = Math.round(3 + (85 * Math.min(1, Math.max(0, ticks(frame, COUNT_AT) + 1) / 24)));
-  const cx = HERO.w / 2, cy = HERO.h / 2;
-  return (
-    <>
-      <Centre>
-        {/* Pixel Bop's digits carry their spacing on the right, so the ink sits five pixels left of the box's middle. */}
-        <div style={{ translate: `${p(5)} 0` }}>
-          <Big x={2}><span className="blip-display blip-pop" data-scale="3" data-pop={String(n)} style={{ fontVariantNumeric: "tabular-nums" }}>{n}</span></Big>
-        </div>
-      </Centre>
-      {RING.map(([dx, dy, part], i) => {
-        const k = ticks(frame, ringAt(i));
-        if (k < 0) return null;
-        const t = OUT[Math.min(k, OUT.length - 1)]!;
-        return (
-          <Beat key={i} at={ringAt(i)}>
-            <div style={{ position: "absolute", left: p(Math.round(cx + dx * t)), top: p(Math.round(cy + dy * t)), translate: "-50% -50%" }}>
-              <Big x={2}>{part}</Big>
-            </div>
-          </Beat>
-        );
-      })}
-    </>
-  );
-};
+const MoreDemo = ({ frame }: { readonly frame: number }) => (
+  <Centre>
+    <Big x={2}>
+      <div style={{ display: "grid", gap: p(10), justifyItems: "center" }}>
+        {ROWS.map((row, r) => (
+          <div key={r} style={{ display: "flex", alignItems: "center", gap: p(12), blockSize: p(18) }}>
+            {row.map((part, c) => {
+              const i = ROWS.slice(0, r).flat().length + c;
+              return (
+                <div key={c} style={{ visibility: frame >= ringAt(i) ? "visible" : "hidden" }}>
+                  <Beat at={ringAt(i)}>
+                    <div className="blip-pop-in">{part}</div>
+                  </Beat>
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+    </Big>
+  </Centre>
+);
 
 // ------------------------------------------------------------------ the scene
 
@@ -341,8 +348,7 @@ export const Components = ({ music = true }: { readonly music?: boolean }) => {
       <Sfx name="jump" at={JUMP_AT} volume={0.5} />
       <Sfx name="bump" at={JUMP_AT + HIT * TICK} volume={0.6} />
       <Sfx name="coin" at={JUMP_AT + HIT * TICK + TICK} volume={0.55} />
-      {Array.from({ length: 8 }, (_, n) => <Sfx key={`c${n}`} name={n ? `coin@${[0, 2, 4, 5, 7, 9, 11, 12][n]}` : "coin"} at={COUNT_AT + n * 3 * TICK} volume={0.3} />)}
-      {RING.map((_, n) => <Sfx key={`r${n}`} name={`jump@${[0, 3, 5, 7, 5, 3][n]}`.replace("@0", "")} at={ringAt(n)} volume={0.3} />)}
+      {RING.map((_, n) => <Sfx key={`r${n}`} name={n ? `step@${[0, 2, 3, 5, 7, 8, 10, 12, 10, 8, 7, 12][n]}` : "step"} at={ringAt(n)} volume={0.3} />)}
       <Sfx name="success@5" at={ringAt(RING.length - 1)} volume={0.55} />
 
       <Dissolve at={0} mode="in" seed={4} />
