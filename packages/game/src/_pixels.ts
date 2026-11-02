@@ -49,14 +49,21 @@ const TONE: Record<string, [string, string]> = { l: ["light", "-light"], c: ["ba
 /** The sprites there are. */
 export const spriteNames: readonly string[] = Object.keys(MAPS);
 
+/** A sprite's default tone: its own candy ("red" for the potion), or undefined for an unknown name. */
+export const toneOf = (name: string): string | undefined => MAPS[name]?.[0];
+
 /** A sprite's pixels with its outline: rows of characters, "." for clear. */
 export function pixels(name: string): string[] | undefined {
   const entry = MAPS[name];
-  if (!entry) return undefined;
-  const bare = entry[1].startsWith("!");
-  const fill = (bare ? entry[1].slice(1) : entry[1]).split("/");
+  return entry && outline(entry[1]);
+}
+
+/** A map of your own (rows split by "/") with the ink outline added round its fill, as the sprites have. */
+export function outline(map: string): string[] {
+  const bare = map.startsWith("!");
+  const fill = (bare ? map.slice(1) : map).split("/");
   if (bare) return fill;
-  const w = fill[0]!.length + 2;
+  const w = Math.max(...fill.map((r) => r.length)) + 2;
   const at = (x: number, y: number) => (fill[y - 1]?.[x - 1] ?? ".") !== ".";
   return Array.from({ length: fill.length + 2 }, (_, y) =>
     Array.from({ length: w }, (_, x) =>

@@ -1,0 +1,57 @@
+/*
+ * Shout. Big POP words across a game for a moment: "Ready?", "Go!", "Checkpoint!", "Hurry up!", "Level clear!".
+ * Each drops in six pixels, a pixel a frame, stays, then dithers away; the next waits its turn. <blip-shout>
+ * (shout.js) queues them and says each one politely to screen readers.
+ *
+ *   <section style="position: relative">
+ *     <canvas>…</canvas>
+ *     <blip-shout></blip-shout>
+ *   </section>
+ *   shout.shout("Checkpoint!");  shout.shout("Hurry up!", { tone: "warning" });
+ *
+ * The markup it makes, also usable on its own (a line shown for good, say a "Paused" over a frozen game):
+ *
+ *   <div class="blip-shout">
+ *     <p class="blip-shout-line blip-display blip-pop" data-pop="Level clear!">Level clear!</p>
+ *   </div>
+ *
+ *   .blip-shout        fills its positioned container, centring its line; it never takes a click
+ *   .blip-shout-line   Pixel Bop in POP at scale 2, 3 where the shout is 600 px wide; data-scale picks one
+ *   data-tone          the POP's tint and drop, as on any POP: the accent by default
+ *   data-leaving       the last two frames: dithered, every other pixel, then gone
+ *
+ * With less motion asked for, the words show and go without dropping in, and stay just as long.
+ */
+
+@layer blip.kits {
+  .blip-shout {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    padding: var(--blip-space-8);
+    container-type: inline-size;
+    pointer-events: none;
+  }
+
+  .blip-shout-line {
+    grid-area: 1 / 1;
+    margin: 0;
+    text-align: center;
+    animation: blip-shout-in calc(6 * var(--blip-duration-frame)) steps(6, jump-end) both;
+  }
+  .blip-shout-line:not([data-scale]) { --blip-scale: 2; }
+  @container (width >= 600px) { .blip-shout-line:not([data-scale]) { --blip-scale: 3; } }
+
+  .blip-shout-line[data-leaving] {
+    mask: repeating-conic-gradient(currentColor 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blip-shout-line { animation: none; }
+  }
+  :root[data-blip-motion="reduce"] .blip-shout-line { animation: none; }
+}
+
+@keyframes blip-shout-in { from { translate: 0 calc(-6 * var(--blip-pixel)); } }

@@ -5,7 +5,9 @@ import type { BlipChoices, ChoiceDetail } from "@jaatster/blip-game/choices";
 import type { BlipDialogue } from "@jaatster/blip-game/dialogue";
 import type { BlipCounter, BlipHearts } from "@jaatster/blip-game/hud";
 import type { BlipInventory, SelectDetail } from "@jaatster/blip-game/inventory";
+import type { BlipShout } from "@jaatster/blip-game/shout";
 import type { BlipSprite } from "@jaatster/blip-game/sprites";
+import type { BlipTally } from "@jaatster/blip-game/tally";
 import type { BlipTouchPad } from "@jaatster/blip-game/touch-pad";
 import { createComponent, type ElementProps, type NoChildren } from "../internal/element.js";
 
@@ -258,6 +260,27 @@ export const Inventory = /*#__PURE__*/ createComponent<BlipInventory, InventoryP
   events: { onSelect: "blip-select" },
 });
 
+/** Props for {@link Shout}: `<blip-shout>`. */
+export type ShoutProps = ElementProps<BlipShout> & {
+};
+
+/**
+ * Big POP words across a game for a moment: Ready?, Checkpoint!, Level clear!
+ *
+ * Big POP words across a game for a moment. shout() queues them: each drops in, stays, dithers away, and is said
+ * politely to screen readers. With less motion asked for, the words show and go without moving.
+ *
+ * Renders `<blip-shout class="blip-shout">` (@jaatster/blip-game/shout, loaded on the client when it first
+ * mounts). The ref is the element.
+ * @see https://github.com/jaatster/blip/blob/main/packages/game/docs/shout.md
+ */
+export const Shout = /*#__PURE__*/ createComponent<BlipShout, ShoutProps>({
+  tag: "blip-shout",
+  name: "Shout",
+  load: () => import("@jaatster/blip-game/shout"),
+  className: "blip-shout",
+});
+
 /** Props for {@link Sprite}: `<blip-sprite>`. */
 export type SpriteProps = ElementProps<BlipSprite, "name" | "tone" | "children"> & NoChildren & {
   /**
@@ -291,6 +314,61 @@ export const Sprite = /*#__PURE__*/ createComponent<BlipSprite, SpriteProps>({
     tone: ["data-tone"],
   },
   empty: true,
+});
+
+/** Props for {@link Tally}: `<blip-tally>`. */
+export type TallyProps = ElementProps<BlipTally, "stars" | "max" | "best" | "autoplay" | "onDone"> & {
+  /**
+   * Stars earned.
+   * Attribute `stars`.
+   */
+  stars?: number;
+  /**
+   * Stars there were.
+   * Attribute `max`.
+   * @default 3
+   */
+  max?: number;
+  /**
+   * The total is a new best: "New best!" shows at the end.
+   * Attribute `best`.
+   */
+  best?: boolean;
+  /**
+   * Plays when it connects.
+   * Attribute `autoplay`.
+   */
+  autoplay?: boolean;
+  /**
+   * When the tally has finished, played out or skipped.
+   * Event `blip-done`.
+   */
+  onDone?: (event: CustomEvent) => void;
+};
+
+/**
+ * A level's results, counted up: rows, stars, a total, a new best.
+ *
+ * The end of a level's tally: rows that count up, stars that land, a total and a new best. play() runs it once (or
+ * the `autoplay` attribute, when it connects); a key, a click or a tap finishes it at once. The summary is said
+ * politely to screen readers when it ends.
+ *
+ * Renders `<blip-tally class="blip-tally">` (@jaatster/blip-game/tally, loaded on the client when it first
+ * mounts). The ref is the element.
+ * @see https://github.com/jaatster/blip/blob/main/packages/game/docs/tally.md
+ */
+export const Tally = /*#__PURE__*/ createComponent<BlipTally, TallyProps>({
+  tag: "blip-tally",
+  name: "Tally",
+  load: () => import("@jaatster/blip-game/tally"),
+  className: "blip-tally",
+  attributes: {
+    stars: ["stars", "stars", true],
+    max: ["max", "max", true],
+    best: ["best"],
+    autoplay: ["autoplay"],
+  },
+  events: { onDone: "blip-done" },
 });
 
 /** Props for {@link TouchPad}: `<blip-touch-pad>`. */

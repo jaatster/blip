@@ -57,6 +57,8 @@
     "--blip-hero-drop",
     "--blip-hero-ground",
     "--blip-hero-tint",
+    "--blip-hud-at",
+    "--blip-hud-length",
     "--blip-hud-max",
     "--blip-hud-segments",
     "--blip-hud-value",

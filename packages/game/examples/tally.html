@@ -1,0 +1,25 @@
+<!-- Tally: a level's results, as they stand once counted. With tally.play() (or autoplay) the rows count up, the stars
+     land one by one, then the total and the new best. -->
+<div style="display:flex;flex-wrap:wrap;gap:calc(12*var(--blip-pixel));align-items:start">
+  <div class="blip-box" data-variant="panel" style="inline-size:calc(170*var(--blip-pixel));max-inline-size:100%;padding:calc(10*var(--blip-pixel))">
+    <blip-tally class="blip-tally" stars="2" max="3" best>
+      <dl class="blip-tally-rows">
+        <div class="blip-tally-row"><dt>Coins</dt><dd class="blip-tally-detail">42 × 10</dd><dd class="blip-tally-value blip-display blip-pop" data-pop="420">420</dd></div>
+        <div class="blip-tally-row"><dt>Enemies</dt><dd class="blip-tally-detail">6</dd><dd class="blip-tally-value blip-display blip-pop" data-pop="900">900</dd></div>
+        <div class="blip-tally-row"><dt>Stars</dt><dd class="blip-tally-detail">2 × 1000</dd><dd class="blip-tally-value blip-display blip-pop" data-value="2000" data-pop="2,000">2,000</dd></div>
+        <div class="blip-tally-row"><dt>Time</dt><dd class="blip-tally-detail">128 × 10</dd><dd class="blip-tally-value blip-display blip-pop" data-value="1280" data-pop="1,280">1,280</dd></div>
+        <div class="blip-tally-row" data-total><dt>Score</dt><dd class="blip-tally-value blip-display blip-pop" data-scale="2" data-value="4600" data-pop="4,600">4,600</dd></div>
+      </dl>
+      <p class="blip-tally-best"><span class="blip-box blip-tag" data-variant="candy" data-tone="success">New best!</span></p>
+    </blip-tally>
+  </div>
+  <div class="blip-box" data-variant="panel" data-blip-scheme="night" style="inline-size:calc(150*var(--blip-pixel));max-inline-size:100%;padding:calc(10*var(--blip-pixel))">
+    <blip-tally class="blip-tally" stars="3" max="3">
+      <dl class="blip-tally-rows">
+        <div class="blip-tally-row"><dt>Gems</dt><dd class="blip-tally-detail">3 × 500</dd><dd class="blip-tally-value blip-display blip-pop" data-value="1500" data-pop="1,500">1,500</dd></div>
+        <div class="blip-tally-row"><dt>Flag</dt><dd class="blip-tally-value blip-display blip-pop" data-value="5000" data-pop="5,000">5,000</dd></div>
+        <div class="blip-tally-row" data-total><dt>Score</dt><dd class="blip-tally-value blip-display blip-pop" data-scale="2" data-value="6500" data-pop="6,500">6,500</dd></div>
+      </dl>
+    </blip-tally>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<!-- Shouts: big POP words across a game for a moment, each drawn here as it lands. In a game <blip-shout> queues
+     them, drops each in, holds it and dithers it away. -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(calc(150*var(--blip-pixel)),1fr));gap:calc(8*var(--blip-pixel))">
+  <section class="blip-stage" data-frame aria-label="Ready?" style="block-size:calc(80*var(--blip-pixel))">
+    <div class="blip-shout"><p class="blip-shout-line blip-display blip-pop" data-pop="Ready?">Ready?</p></div>
+    <div class="blip-stage-ground"></div>
+  </section>
+  <section class="blip-stage" data-frame aria-label="Checkpoint!" style="block-size:calc(80*var(--blip-pixel))">
+    <div class="blip-shout"><p class="blip-shout-line blip-display blip-pop" data-tone="success" data-pop="Checkpoint!">Checkpoint!</p></div>
+    <div class="blip-stage-ground"></div>
+  </section>
+  <section class="blip-stage" data-frame data-blip-scheme="sunset" aria-label="Hurry up!" style="block-size:calc(80*var(--blip-pixel))">
+    <div class="blip-shout"><p class="blip-shout-line blip-display blip-pop" data-tone="warning" data-pop="Hurry up!">Hurry up!</p></div>
+    <div class="blip-stage-ground"></div>
+  </section>
+  <section class="blip-stage" data-frame data-blip-scheme="night" aria-label="Level clear!" style="block-size:calc(80*var(--blip-pixel))">
+    <div class="blip-shout"><p class="blip-shout-line blip-display blip-pop" data-scale="1" data-pop="Level clear!">Level clear!</p></div>
+    <div class="blip-stage-ground"></div>
+  </section>
+  <section class="blip-stage" data-frame aria-label="Leaving" style="block-size:calc(80*var(--blip-pixel))">
+    <div class="blip-shout"><p class="blip-shout-line blip-display blip-pop" data-tone="danger" data-leaving data-pop="Ouch!">Ouch!</p></div>
+    <div class="blip-stage-ground"></div>
+  </section>
+</div>

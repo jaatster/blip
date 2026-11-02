@@ -204,7 +204,9 @@ Conventions, for every element:
 | `<blip-dialogue>` | `@jaatster/blip-game/dialogue` | `voice`, `mood`, `speed`, `typing-label`, `next-label`, `done-label`, `data-font`, `data-blip-typed` | `pages`, `page`, `typing` (read-only), `say()`, `advance()`, `focus()` | `blip-next`, `blip-done` |
 | `<blip-hearts>` | `@jaatster/blip-game/hud` | `value`, `max`, `label`, `quiet` | | |
 | `<blip-inventory>` | `@jaatster/blip-game/inventory` | | `slots`, `selected` (read-only), `select()` | `blip-select` |
+| `<blip-shout>` | `@jaatster/blip-game/shout` | | `shout()`, `clear()` | |
 | `<blip-sprite>` | `@jaatster/blip-game/sprites` | `name`, `aria-label`, `data-tone` | | |
+| `<blip-tally>` | `@jaatster/blip-game/tally` | `stars`, `max`, `best`, `autoplay` | `play()` | `blip-done` |
 | `<blip-touch-pad>` | `@jaatster/blip-game/touch-pad` | `for`, `data-a`, `data-b`, `data-start`, `data-show`, `data-position`, `haptics` | | |
 | `<blip-attract>` | `@jaatster/blip-effects/attract` | `script`, `label`, `pointer` | `steps` | |
 | `<blip-drop-text>` | `@jaatster/blip-effects/text` | `data-pop`, `data-scale`, `data-tone` | `text`, `play()` | |

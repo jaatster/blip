@@ -1,0 +1,13 @@
+<!-- Counting it up: play() runs the tally once; a key, click or tap skips to the end, and blip-done says it has
+     finished, to move the focus on. -->
+<div class="blip-box" data-variant="panel" style="inline-size:calc(150*var(--blip-pixel));max-inline-size:100%;padding:calc(10*var(--blip-pixel));display:grid;gap:calc(8*var(--blip-pixel));justify-items:center">
+  <blip-tally class="blip-tally" id="tally-snip-a" stars="3" max="3" best>
+    <dl class="blip-tally-rows">
+      <div class="blip-tally-row"><dt>Coins</dt><dd class="blip-tally-detail">57 × 10</dd><dd class="blip-tally-value blip-display blip-pop" data-pop="570">570</dd></div>
+      <div class="blip-tally-row"><dt>Time</dt><dd class="blip-tally-detail">201 × 10</dd><dd class="blip-tally-value blip-display blip-pop" data-value="2010" data-pop="2,010">2,010</dd></div>
+      <div class="blip-tally-row" data-total><dt>Score</dt><dd class="blip-tally-value blip-display blip-pop" data-scale="2" data-value="5580" data-pop="5,580">5,580</dd></div>
+    </dl>
+    <p class="blip-tally-best" hidden><span class="blip-box blip-tag" data-variant="candy" data-tone="success">New best!</span></p>
+  </blip-tally>
+  <button class="blip-box blip-button" type="button" data-size="sm" onclick="document.getElementById('tally-snip-a').play()">Count it up</button>
+</div>

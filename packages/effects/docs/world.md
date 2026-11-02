@@ -77,6 +77,26 @@ Each box gets a margin of five world pixels (more up and down when the world sli
 Places are whole world pixels and the same every time for the same layout. They are worked out again whenever the
 world or one of the avoided elements resizes (text wrapping, a font arriving), and on `avoid` changing.
 
+### Behind a canvas game that scrolls
+
+A side-scrolling game draws the world itself, so its far layers slide slower than its ground as the camera moves.
+The landscape carries on sideways in 350-pixel periods, so `drawWorld` can paint any one layer as wide as you like:
+paint each far layer once into a strip as wide as it will ever slide, then draw the strips at a fraction of the camera
+each frame. The game kit's template, Starfall, does this.
+
+```js
+const layers = [["sky", 0], ["peaks", 0.12], ["hills", 0.25], ["near", 0.5]];
+const strips = layers.map(([layer, f]) => {
+  const strip = Object.assign(document.createElement("canvas"), { width: view + (levelWidth - view) * f, height: 180 });
+  drawWorld(strip.getContext("2d"), scheme, strip.width, 180, { layer });
+  return [strip, f];
+});
+// Each frame, before the level:
+for (const [strip, f] of strips) ctx.drawImage(strip, -Math.round(camera * f), 0);
+```
+
+Paint the strips again when the scheme or the palette changes. Leave the ground layer out: the level is the ground.
+
 ## Anatomy
 
 Five layers, back to front, each its own canvas so parallax can slide them:

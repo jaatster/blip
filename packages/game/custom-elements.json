@@ -4,6 +4,55 @@
   "modules": [
     {
       "kind": "javascript-module",
+      "path": "src/canvas.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "spriteCanvas",
+          "return": {
+            "type": {
+              "text": "HTMLCanvasElement | undefined"
+            }
+          },
+          "parameters": [
+            {
+              "name": "art",
+              "type": {
+                "text": "string | PixelArt"
+              }
+            },
+            {
+              "name": "options",
+              "default": "{}",
+              "type": {
+                "text": "SpriteCanvasOptions"
+              }
+            }
+          ],
+          "description": "A sprite (\"coin\", \"heart\", \"sword\"…) or your own pixel map, painted at one canvas pixel per art pixel in the token\ncolours at `from`. Undefined for an unknown sprite name."
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "outline",
+          "declaration": {
+            "name": "outline",
+            "module": "./_pixels.js"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "spriteCanvas",
+          "declaration": {
+            "name": "spriteCanvas",
+            "module": "src/canvas.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/choices.ts",
       "declarations": [
         {
@@ -634,6 +683,79 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/shout.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Big POP words across a game for a moment. shout() queues them: each drops in, stays, dithers away, and is said\npolitely to screen readers. With less motion asked for, the words show and go without moving.",
+          "name": "BlipShout",
+          "members": [
+            {
+              "kind": "method",
+              "name": "shout",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "text",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "options",
+                  "default": "{}",
+                  "type": {
+                    "text": "ShoutOptions"
+                  }
+                }
+              ],
+              "description": "Shows the words once the shouts before them have gone; resolves when these have gone too."
+            },
+            {
+              "kind": "method",
+              "name": "clear",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Takes every shout away at once, and forgets the ones waiting."
+            }
+          ],
+          "superclass": {
+            "name": "BlipElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "Big POP words across a game for a moment: Ready?, Checkpoint!, Level clear!",
+          "tagName": "blip-shout",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "BlipShout",
+          "declaration": {
+            "name": "BlipShout",
+            "module": "src/shout.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "blip-shout",
+          "declaration": {
+            "name": "BlipShout",
+            "module": "src/shout.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/sprites.ts",
       "declarations": [
         {
@@ -737,6 +859,109 @@
           "declaration": {
             "name": "BlipSprite",
             "module": "src/sprites.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/tally.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "The end of a level's tally: rows that count up, stars that land, a total and a new best. play() runs it once (or\nthe `autoplay` attribute, when it connects); a key, a click or a tap finishes it at once. The summary is said\npolitely to screen readers when it ends.",
+          "name": "BlipTally",
+          "members": [
+            {
+              "kind": "field",
+              "name": "stars",
+              "type": {
+                "text": "number"
+              },
+              "attribute": "stars"
+            },
+            {
+              "kind": "field",
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "attribute": "max"
+            },
+            {
+              "kind": "method",
+              "name": "play",
+              "return": {
+                "type": {
+                  "text": "Promise<void>"
+                }
+              },
+              "description": "Counts it all up; resolves when it has finished, played out or skipped."
+            }
+          ],
+          "events": [
+            {
+              "description": "When the tally has finished, played out or skipped.",
+              "name": "blip-done"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "stars",
+              "type": {
+                "text": "number"
+              },
+              "description": "Stars earned.",
+              "fieldName": "stars"
+            },
+            {
+              "name": "max",
+              "type": {
+                "text": "number"
+              },
+              "description": "Stars there were.",
+              "default": "3",
+              "fieldName": "max"
+            },
+            {
+              "name": "best",
+              "type": {
+                "text": "boolean"
+              },
+              "description": "The total is a new best: \"New best!\" shows at the end."
+            },
+            {
+              "type": {
+                "text": "boolean"
+              },
+              "description": "Plays when it connects.",
+              "name": "autoplay"
+            }
+          ],
+          "superclass": {
+            "name": "BlipElement",
+            "package": "@jaatster/blip-core"
+          },
+          "summary": "A level's results, counted up: rows, stars, a total, a new best.",
+          "tagName": "blip-tally",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "BlipTally",
+          "declaration": {
+            "name": "BlipTally",
+            "module": "src/tally.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "blip-tally",
+          "declaration": {
+            "name": "BlipTally",
+            "module": "src/tally.ts"
           }
         }
       ]

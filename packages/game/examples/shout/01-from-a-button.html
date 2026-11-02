@@ -1,0 +1,10 @@
+<!-- Shouting from script: each press queues one, and they show one at a time, each said to screen readers. -->
+<section class="blip-stage" data-frame aria-label="A game" style="block-size:calc(90*var(--blip-pixel))">
+  <blip-shout id="shout-snip-a"></blip-shout>
+  <div class="blip-stage-ground"></div>
+</section>
+<div style="display:flex;flex-wrap:wrap;gap:calc(4*var(--blip-pixel));margin-block-start:calc(6*var(--blip-pixel))">
+  <button class="blip-box blip-button" type="button" data-size="sm" onclick="document.getElementById('shout-snip-a').shout('Ready?').then(() => document.getElementById('shout-snip-a').shout('Go!', { hold: 300 }))">Ready, go</button>
+  <button class="blip-box blip-button" type="button" data-size="sm" data-tone="success" onclick="document.getElementById('shout-snip-a').shout('Checkpoint!', { tone: 'success' })">Checkpoint</button>
+  <button class="blip-box blip-button" type="button" data-size="sm" data-tone="warning" onclick="document.getElementById('shout-snip-a').shout('Hurry up!', { tone: 'warning', hold: 1500 })">Hurry up</button>
+</div>

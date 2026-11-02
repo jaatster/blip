@@ -60,6 +60,27 @@ Potions, gems, keys, hearts, swords and shields are made for it.
   Inside a named control (a slot, a tile) leave it unnamed and name the control.
 - Sprites keep their colours in Windows high contrast, as images do.
 
+## Canvas games
+
+A game drawn in a `<canvas>` gets the same art from `@jaatster/blip-game/canvas.js`: `spriteCanvas()` paints a sprite
+into a small canvas at one canvas pixel to one sprite pixel, in the token colours at an element, so it follows the
+time of day and the palette. Your own art can be drawn in the sprites' language and gets the same ink outline:
+
+```js
+import { spriteCanvas } from "@jaatster/blip-game/canvas.js";
+
+const coin = spriteCanvas("coin");
+const frog = spriteCanvas({ map: "..ll./.lwol/lcccc/.lcs.", tone: "green" });   // l c s: the tone's light, base, shade
+const back = spriteCanvas({ map: "..ll./.lwol/lcccc/.lcs.", tone: "green" }, { flip: true });
+ctx.drawImage(coin, x, y);   // whole pixels, on a canvas scaled up with image-rendering: pixelated
+```
+
+A map is the fill, one character a pixel, rows split by `/`; the outline is added round it, and `o` inside it draws
+ink. The other keys are the colours the sprites use: `w` white; `y Y d` yellow; `g G h` slate; `n N m` orange; `k K`
+cream; `b B v` blue; `r R x` red, each light, base, shade. A leading `!` leaves the outline off. The canvases read the
+tokens when they are made: keep them, and make them again when the scheme or the palette changes. Starfall, the game
+kit's template, draws its hero, its enemies and its blocks this way.
+
 ## Do and don't
 
 - **Do** use sprites at one sprite pixel to one Blip pixel. For bigger art, raise the pixel for the section
@@ -74,6 +95,8 @@ Potions, gems, keys, hearts, swords and shields are made for it.
 | `spriteNames` | Every name. |
 | `pixels(name)` | The outlined pixel rows, for canvas games and tools. |
 | `BlipSprite` | The `blip-sprite` element: `name` mirrors the attribute. |
+| `spriteCanvas(art, { tone, flip, from })` | From `canvas.js`: a sprite's name, or `{ map, tone }`, painted into a canvas in the token colours at `from` (the page by default). Undefined for an unknown name. |
+| `outline(map)` | From `canvas.js`: your own map's pixel rows with the ink outline added. |
 
 | Custom property | |
 |---|---|

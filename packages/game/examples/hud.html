@@ -43,4 +43,10 @@
     <blip-counter value="7" pad="2" label="Gems"><blip-sprite name="gem"></blip-sprite></blip-counter>
     <blip-counter value="9" format="time" low="30" label="Time" quiet><blip-sprite name="clock"></blip-sprite></blip-counter>
   </div>
+  <div style="display:grid;gap:calc(6*var(--blip-pixel));justify-items:start">
+    <span class="blip-label blip-muted">Course</span>
+    <div class="blip-box blip-hud-track" role="meter" aria-label="Course" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="At the start" style="--blip-hud-value:0"><span class="blip-hud-track-fill"></span><span class="blip-hud-track-mark" style="--blip-hud-at:45"></span></div>
+    <div class="blip-box blip-hud-track" role="meter" aria-label="Course" aria-valuemin="0" aria-valuemax="100" aria-valuenow="62" aria-valuetext="62%, past the checkpoint" style="--blip-hud-value:62"><span class="blip-hud-track-fill"></span><span class="blip-hud-track-mark" style="--blip-hud-at:45"></span></div>
+    <div class="blip-box blip-hud-track" data-tone="danger" role="meter" aria-label="Boss" aria-valuemin="0" aria-valuemax="30" aria-valuenow="24" style="--blip-hud-value:24;--blip-hud-max:30;--blip-hud-length:40"><span class="blip-hud-track-fill"></span></div>
+  </div>
 </div>

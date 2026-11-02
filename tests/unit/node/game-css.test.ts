@@ -25,7 +25,7 @@ describe("game CSS", () => {
   });
 
   it("prints the pictures that carry meaning", () => {
-    expect(media(read("hud.css"), "print")).toMatch(/\.blip-hud-bar-fill,\s*\.blip-hud-bar-fill::before\s*\{\s*print-color-adjust:\s*exact/);
+    expect(media(read("hud.css"), "print")).toMatch(/\.blip-hud-bar-fill,\s*\.blip-hud-bar-fill::before,\s*\.blip-hud-track-fill\s*\{\s*print-color-adjust:\s*exact/);
     expect(media(read("prompt.css"), "print")).toMatch(/\.blip-prompt-dpad::before,\s*\.blip-prompt-dpad::after\s*\{\s*print-color-adjust:\s*exact/);
     expect(media(read("level.css"), "print")).toMatch(/\.blip-level-path\s*\{\s*print-color-adjust:\s*exact/);
   });

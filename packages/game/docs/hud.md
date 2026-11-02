@@ -56,6 +56,9 @@ bar.ariaValueNow = "4";            // keep the meter's value in step with the dr
 4. **Bar** (`.blip-hud-bar`): a slate track in a candy box (radius 1), segments five pixels wide with ink between, each
    with a light top row, a glint and a shade row.
 5. **Counter** (`blip-counter`): an icon or label, then the digits.
+6. **Course track** (`.blip-hud-track`): a slate track the length of the level in a candy box (radius 1), its fill
+   (`.blip-hud-track-fill`) up to where you are, a pixel arrow over the fill's end, and a white tick
+   (`.blip-hud-track-mark`) at each mark: a checkpoint, a boss.
 
 ## Variants
 
@@ -69,6 +72,9 @@ bar.ariaValueNow = "4";            // keep the meter's value in step with the dr
 | Counter | `sound` | A chip sound to play on a gain: `coin`. |
 | Counter | `quiet` | Never announced: for a ticking timer or a busy score. |
 | Hearts | `value`, `max` | Halves count: 3.5 of 5 is three full, a half, one empty. |
+| Track | `data-tone` | The accent (default), any tone: `danger` for a boss's way. |
+| Track | `--blip-hud-value`, `--blip-hud-max`, `--blip-hud-length` | How far of how far (default 100), over a track this many pixels long (default 80), a whole pixel at a time. |
+| Track mark | `--blip-hud-at` | Where the mark is, of `--blip-hud-max`. |
 
 ## States
 
@@ -85,7 +91,8 @@ bar.ariaValueNow = "4";            // keep the meter's value in step with the dr
 - Each counter and the hearts keep a polite live region that speaks only once the value has settled for a second:
   "Coins 52", "Health 2.5/5". A run of twenty coins is one announcement. Use `quiet` for values that change every
   second; announce what matters (time running out) in your own words.
-- Bars are `role="meter"` with a name and `aria-valuenow`; keep it equal to `--blip-hud-value`.
+- Bars and tracks are `role="meter"` with a name and `aria-valuenow`; keep it equal to `--blip-hud-value`. Give a
+  track an `aria-valuetext` that says what the number means: "62%, past the checkpoint".
 - Sprites are pictures with no name of their own here: the live text says what they show. Visible labels like "Score"
   are `aria-hidden` when `label` says the same.
 - Colour never carries meaning alone: a low bar is shorter as well as red.
@@ -112,3 +119,5 @@ Labels are one short word in capitals (HP, MP, Score). Pad scores to a fixed wid
 |---|---|---|
 | `--blip-hud-value`, `--blip-hud-max` | 0, 10 | A bar's value and maximum. |
 | `--blip-hud-segments` | 10 | How many segments a bar has. |
+| `--blip-hud-length` | 80 | How many pixels long a track is. |
+| `--blip-hud-at` | 0 | Where a track's mark is, of `--blip-hud-max`. |

@@ -1,5 +1,5 @@
 /**
- * HUD: Hud, HudGroup, HudStat, HudLabel, HudBar and CounterIcon. CSS from @jaatster/blip-game (hud.css). Hearts and counters
+ * HUD: Hud, HudGroup, HudStat, HudLabel, HudBar, HudTrack and CounterIcon. CSS from @jaatster/blip-game (hud.css). Hearts and counters
  * are elements: use the generated <Hearts> and <Counter> from this same entry point.
  */
 import { forwardRef } from "react";
@@ -143,6 +143,59 @@ export const HudBar = /*#__PURE__*/ forwardRef<HTMLDivElement, HudBarProps>(func
       {...rest}
     >
       <span className="blip-hud-bar-fill" />
+    </div>
+  );
+});
+
+/** Own props of {@link HudTrack}. */
+export interface HudTrackOwnProps {
+  /** How far, filled a whole pixel at a time and announced. `--blip-hud-value` and `aria-valuenow`. */
+  value: number;
+  /** How far there is to go; 100 by default. `--blip-hud-max` and `aria-valuemax`. */
+  max?: number;
+  /** How many pixels long the track is; 80 by default. `--blip-hud-length`. */
+  length?: number;
+  /** Where the marks are (a checkpoint, a boss), of `max`: a white tick each. */
+  marks?: readonly number[];
+  /** What the value means, for screen readers: "62%, past the checkpoint". `aria-valuetext`. */
+  valueText?: string;
+  /** The fill's and the arrow's colour: the accent (default), or any tone. `data-tone`. */
+  tone?: Tone;
+  children?: never;
+}
+
+/** Props for {@link HudTrack}: a meter needs a name, `aria-label` or `aria-labelledby` ("Course"). */
+export type HudTrackProps = HudTrackOwnProps & Named & NativeProps<"div", HudTrackOwnProps>;
+
+/**
+ * How far through a level: a slate track the length of the level, filled to where you are with a pixel arrow over the
+ * end, and a white tick at each mark. A meter from 0 to `max`; say what the number means with `valueText`.
+ *
+ *   <HudTrack value={62} marks={[45]} aria-label="Course" valueText="62%, past the checkpoint" />
+ *   <HudTrack value={24} max={30} length={40} tone="danger" aria-label="Boss" />
+ *
+ * Renders `<div class="blip-box blip-hud-track" role="meter" …>` with its `<span class="blip-hud-track-fill">` and a
+ * `<span class="blip-hud-track-mark">` for each mark inside.
+ */
+export const HudTrack = /*#__PURE__*/ forwardRef<HTMLDivElement, HudTrackProps>(function HudTrack(
+  { value, max, length, marks, valueText, tone, className, style, ...rest },
+  ref,
+) {
+  return (
+    <div
+      ref={ref}
+      className={cx("blip-box blip-hud-track", className)}
+      data-tone={tone}
+      role="meter"
+      aria-valuemin={0}
+      aria-valuemax={max ?? 100}
+      aria-valuenow={value}
+      aria-valuetext={valueText}
+      style={withVars(style, { "--blip-hud-value": value, "--blip-hud-max": max, "--blip-hud-length": length })}
+      {...rest}
+    >
+      <span className="blip-hud-track-fill" />
+      {marks?.map((at) => <span key={at} className="blip-hud-track-mark" style={{ "--blip-hud-at": at } as CSSProperties} />)}
     </div>
   );
 });
