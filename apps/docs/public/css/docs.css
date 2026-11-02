@@ -181,18 +181,23 @@
      so it can keep 2 px where the chosen pixel would not fit it whole: under 1024 px, the wordmark, the menu button
      and four actions at 3 or 4 px are wider than the screen, so there the bar, gutters and all, is the 2 px one. The
      page itself still follows the choice. Wider, the bar takes the chosen pixel, and its links fold behind the menu
-     button sooner, as they need more room (at 2 px they fold under 64rem, app-bar.css). */
+     button sooner, as they need more room. At 2 px the docs' six sections fold under 68rem (app-bar.css's 64rem is
+     for five). */
   @container blip-shell (width < 1024px) {
     html[data-blip-pixel] .docs-top { --blip-pixel: 2px; --docs-gutter: var(--blip-space-8); }
   }
   @container blip-shell (width < 600px) {
     html[data-blip-pixel] .docs-top { --docs-gutter: var(--blip-space-6); }
   }
-  @container blip-app-bar (width < 80rem) {
+  @container blip-app-bar (width < 68rem) {
+    .docs-app-bar .blip-app-bar-toggle { display: inline-flex; }
+    .docs-app-bar .blip-app-bar-links:not(:popover-open) { display: none; }
+  }
+  @container blip-app-bar (width < 82rem) {
     html[data-blip-pixel="3"] .docs-app-bar .blip-app-bar-toggle { display: inline-flex; }
     html[data-blip-pixel="3"] .docs-app-bar .blip-app-bar-links:not(:popover-open) { display: none; }
   }
-  @container blip-app-bar (width < 95rem) {
+  @container blip-app-bar (width < 97rem) {
     html[data-blip-pixel="4"] .docs-app-bar .blip-app-bar-toggle { display: inline-flex; }
     html[data-blip-pixel="4"] .docs-app-bar .blip-app-bar-links:not(:popover-open) { display: none; }
   }

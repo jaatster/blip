@@ -83,6 +83,14 @@ export const SECTIONS: Section[] = [
     icon: "brush",
     groups: () => [],
   },
+  {
+    id: "play",
+    title: "Play",
+    short: "Play",
+    url: "/play/",
+    icon: "gamepad",
+    groups: () => [],
+  },
 ];
 
 export function sectionOf(path: string): Section | undefined {
