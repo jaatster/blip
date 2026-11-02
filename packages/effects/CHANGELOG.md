@@ -1,5 +1,11 @@
 # @jaatster/blip-effects
 
+## 0.1.2
+
+### Patch Changes
+
+- The world's docs show how to scroll it behind a canvas game: paint each far layer once into a strip with `drawWorld`, then slide the strips at a fraction of the camera. The examples use the palette's accent instead of pink.
+
 ## 0.1.1
 
 ### Patch Changes

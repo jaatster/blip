@@ -173,7 +173,7 @@ runtime dependencies outside `@jaatster/blip-*` (React is a peer of the React pa
 Budgets are enforced by `pnpm budgets` (`scripts/budgets.mjs`), which fails the build when one is exceeded. "Today"
 is its measurement on 31 October 2026: gzip -9 in KB of 1024 bytes, except Pixel Bop, whose budget is its WOFF2 file
 size. The kits' CSS has no budget yet; measured the same way, the game kit's is 5.78 KB and the blocks' 3.67 KB.
-All packages are 0.1.0 except `@jaatster/blip-font`, which is 0.2.0.
+Each package has its own version: [Versions and support](https://jaatster.com/blip/versions/) lists them, read from the packages themselves.
 
 ## The rules
 

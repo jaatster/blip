@@ -1,5 +1,11 @@
 # @jaatster/blip-stylelint-config
 
+## 0.1.2
+
+### Patch Changes
+
+- `--blip-hud-at` and `--blip-hud-length`, the HUD course track's properties, are public: setting them is no longer flagged.
+
 ## 0.1.1
 
 ### Patch Changes

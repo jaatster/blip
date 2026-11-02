@@ -1,6 +1,6 @@
 {
   "name": "@jaatster/blip-react",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Typed React components for Blip: every core component and kit, rendering the system's own markup and Web Components.",
   "keywords": [
     "blip",

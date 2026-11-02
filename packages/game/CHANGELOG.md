@@ -1,8 +1,19 @@
 # @jaatster/blip-game
 
-## Unreleased
+## 0.2.0
 
-- Touch pad (`touch-pad.css`, `<blip-touch-pad>`, beta): a pixel D-pad and A and B (and Start) fixed to the bottom of a phone's screen, inside its safe areas, sending real `keydown` and `keyup` events (arrows, and the keys you choose) to a target; several fingers at once, it never takes focus, and it shows only on touch screens unless `data-show="always"`.
+### Minor Changes
+
+- New parts, from building Starfall with the kit:
+  
+  - `<blip-shout>`: a word that bursts over the play, like "Checkpoint!" or "3 stars!", then goes.
+  - `<blip-tally>`: the end-of-level count, row by row, to a total and stars, with a sound per tick.
+  - `.blip-hud-track`: the HUD's course track, a line from start to goal with the player's place on it.
+  - `spriteCanvas(art, { tone, flip, from, fill })` and `outline`: draw the kit's sprites into a canvas for a game loop; `fill` paints a one-colour silhouette for hit flashes.
+  - `.blip-prompt-mouse` (`data-button` left, right or middle) and `.blip-prompt-pill` (Start, Select, Menu): mouse and controller prompts beside the keys.
+  - `<blip-counter chain>`: quick gains climb a major scale, so a run of coins sounds like a run.
+  
+  The dialogue example's Bramble is the teal frog in a straw hat.
 
 ## 0.1.1
 
@@ -17,5 +28,6 @@
 
 First release. The game UI kit: dialogue box, choices, hearts and counters, HUD bars, inventory, button prompts, level tiles, pause menu, achievements, stage and sprites.
 
+- Touch pad (`touch-pad.css`, `<blip-touch-pad>`, beta): a pixel D-pad and A and B (and Start) fixed to the bottom of a phone's screen, inside its safe areas, sending real `keydown` and `keyup` events (arrows, and the keys you choose) to a target; several fingers at once, it never takes focus, and it shows only on touch screens unless `data-show="always"`.
 - Renamed from Blip: the package is `@jaatster/blip-game` (was `@jaatster/blip-game`); the elements are `<chu-*>` with `Blip*` classes (was `<pp-*>` and `Pixel*`), and events, attributes, classes and custom properties start `chu-`.
 - Renamed from Blip: the package is `@jaatster/blip-game` (was `@jaatster/blip-game`); the elements are `<blip-*>` with `Blip*` classes (was `<chu-*>` and `Blip*`), and events, attributes, classes and custom properties start `blip-`.
