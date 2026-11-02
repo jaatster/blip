@@ -27,7 +27,14 @@ export const MODULAR = { bar: 5, bars: 4 };
 type Art = { readonly tone: string; readonly map: string };
 const ART = STARFALL as Record<string, Art>;
 
-const PARTS: readonly Part[] = [{ at: at(0, 0, 2), title: "Modular", line: "" }];
+// Each layer names itself as it arrives, so the build explains itself without a line of text: the tokens, the core's
+// candy box, the component it becomes, and the kits on top.
+const PARTS: readonly Part[] = [
+  { at: at(0, 0, 2), title: "Tokens", line: "" },
+  { at: at(1), title: "Core", line: "" },
+  { at: at(2), title: "Components", line: "" },
+  { at: at(3), title: "Kits", line: "" },
+];
 const CHIPS = ["var(--blip-accent-light)", "var(--blip-accent)", "var(--blip-accent-shade)", "var(--blip-ink)", "var(--blip-white)", "var(--blip-candy-cream)"];
 const CHIP_LANDS = CHIPS.map((_, i) => at(0, 1) + i * 10);
 const GATHER = at(1);
@@ -45,13 +52,15 @@ const COIN = at(3, 1);
 // The chips, in stage pixels: 24 square with 16 between, in a row across the middle of the hero.
 const CHIP = 24, GAP = 16;
 const ROW_W = CHIPS.length * CHIP + (CHIPS.length - 1) * GAP;
-const CX = HERO.x + HERO.w / 2, CY = HERO.y + HERO.h / 2;
+const LOWER = 16;
+const CX = HERO.x + HERO.w / 2, CY = HERO.y + HERO.h / 2 + LOWER;
 // A drop with a little overshoot: falls, lands a pixel low, settles.
 const DROP = [-36, -22, -10, -3, 1, 0];
 // Gathering: each chip slides to the middle in four even steps.
 const GATHER_STEPS = 4;
 // Pip's fall onto the button, in its 3x pixels, and his hop when the coin pops.
-const PIP_FALL = [-40, -26, -14, -5, 0];
+// A short drop from just over the button, clear of the title above.
+const PIP_FALL = [-14, -9, -5, -2, 0];
 const HOP = [0, 3, 5, 3, 0];
 const RISE = [4, 7, 9, 10, 11, 11];
 
@@ -152,7 +161,8 @@ export const Modular = ({ music = true }: { readonly music?: boolean }) => {
       <SplitText eyebrow="Modular" parts={PARTS} />
       <Chips frame={frame} />
       <DemoFrame at={TIERS[0]![0]}>
-        <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center" }}>
+        {/* The box sits a little under the hero's middle, so Pip, his coin and the confetti have room under the title. */}
+        <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", paddingBlockStart: p(2 * LOWER) }}>
           <Big x={3}>
             <Box frame={frame} />
           </Big>
@@ -162,7 +172,7 @@ export const Modular = ({ music = true }: { readonly music?: boolean }) => {
       {/* In stage pixels: the gathering's flash in the middle, and the coin's sparkle and the confetti over the button. */}
       <Burst at={TIERS[0]![0]} kind="sparkle" box={[CX - 40, CY - 30, 80, 60]} count={8} seed={4} scale={2} />
       <Burst at={COIN + 6 * TICK} kind="sparkle" box={[CX + 36, CY - 36 - 3 * 19, 30, 24]} count={6} seed={9} scale={2} />
-      <Burst at={COIN} kind="confetti" box={[HERO.x + 30, HERO.y - 6, HERO.w - 60, 6]} count={36} seed={12} scale={2} />
+      <Burst at={COIN} kind="confetti" box={[HERO.x + 30, HERO.y - 6 + LOWER, HERO.w - 60, 6]} count={36} seed={12} scale={2} />
 
       {CHIP_LANDS.map((f, i) => <Sfx key={f} name={i ? `step@${[0, 2, 3, 5, 7, 8][i]}` : "step"} at={f} volume={0.5} />)}
       <Sfx name="look" at={GATHER} volume={0.45} />

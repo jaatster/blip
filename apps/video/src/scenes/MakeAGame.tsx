@@ -1,7 +1,7 @@
 import { spriteCanvas } from "@jaatster/blip-game/canvas.js";
 import { drawWorld } from "@jaatster/blip-effects/world.js";
 import { useLayoutEffect, useRef, type CSSProperties } from "react";
-import { AbsoluteFill, useCurrentFrame } from "remotion";
+import { useCurrentFrame } from "remotion";
 // Starfall's own art (the docs' game, apps/docs/public/js/starfall): Pip, the candy blocks.
 // @ts-expect-error: plain JavaScript, without types
 import { ART as STARFALL } from "../../../docs/public/js/starfall/art.js";
@@ -11,7 +11,7 @@ import { Burst, Sprite, World, useCanvas } from "../lib/Pixels";
 import { DropTitle, letterLands } from "../lib/Text";
 import { Music, Sfx } from "../lib/Sound";
 import { Stage } from "../lib/Stage";
-import { IRIS_FRAMES, Iris } from "../lib/Transitions";
+import { DISSOLVE_FRAMES, Dissolve, MOSAIC_FRAMES, Mosaic } from "../lib/Transitions";
 
 /** Bars 36-40 of the theme. */
 export const MAKE_A_GAME = { bar: 36, bars: 5 };
@@ -21,16 +21,15 @@ const ART = STARFALL as Record<string, Art>;
 
 // Starfall, a game made of the game kit, on Blip's world at night, one thing at a time:
 //   bars 0-1  its own title screen, full screen, for a bar and a half: STARFALL drops in, "Press start" blinks from
-//             beat 2, Enter is pressed on bar 1 beat 1, and the picture irises shut on the prompt
-//   bar 1     from beat 3 the iris opens on the level: the HUD, "1-1 Puddle Path" shouted in, Pip pops in
+//             beat 2, Enter is pressed on bar 1 beat 1, and the picture breaks into the mosaic
+//   bar 1     from beat 3 the level comes into focus out of the mosaic: the HUD, "1-1 Puddle Path" shouted in, Pip
 //   bars 2-3  Pip runs right and jumps on the beat into three candy blocks: each bumps (up 6 pixels, then 3, then
 //             down), a coin springs out spinning and bursts, "+100" pops over it, the counters go up, the block is
 //             spent. The touch pad is up in the bottom corners, its D-pad and A pressed as he runs and jumps.
-//   bar 4     "Level clear!" on beat 1 with a hop and stars; then the iris closes on Pip.
+//   bar 4     "Level clear!" on beat 1 with a hop and stars; then the TV's dissolve takes the screen.
 const TITLE = 2 * TICK;
 const PROMPT = at(0, 2);
 const PRESS = at(1, 1);
-const SHUT = at(1, 2);
 const LEVEL = at(1, 3);
 const NAME = LEVEL + 2 * TICK;
 const JUMPS = [at(2, 2), at(3), at(3, 2)];
@@ -42,7 +41,7 @@ const RUNS: readonly (readonly [from: number, to: number, x0: number, x1: number
 ];
 const PAD = [at(2), at(4)] as const;
 const CLEAR = at(4, 1);
-const OUT = at(5) - IRIS_FRAMES;
+const OUT = at(5) - DISSOLVE_FRAMES;
 
 // The level is a 240 x 135 world seen twice as big, whole, as Starfall's camera shows its 320 x 180: big enough to
 // read Pip. In it the grass top is row 124; Pip is 14 x 13 outlined, a block 12.
@@ -60,10 +59,7 @@ const BUMP = [6, 6, 3, 3, 0];
 const RISE = [7, 13, 19, 23, 25, 26, 25, 24];
 const SPIN = [1, 1, 0.7, 0.3, 0.7, 1];
 
-/** Where the title's prompt sits, for its iris to shut on. */
-const PROMPT_Y = 166;
-
-/** Where Pip ends, the middle of him, in stage Blip pixels: for an iris to close on. */
+/** Where Pip ends, the middle of him, in stage Blip pixels. */
 export const PIP_END = { x: (RUNS.at(-1)![3] + PIP_W / 2) * ZOOM, y: (GROUND - PIP_H / 2) * ZOOM };
 
 /** One of Starfall's sprites, drawn a Blip pixel per sprite pixel, flipped to face left if asked (Game kit uses it too). */
@@ -162,8 +158,8 @@ export const MakeAGame = ({ music = true }: { readonly music?: boolean }) => {
   return (
     <Stage scheme="night" mosaicIn>
       {frame < LEVEL ? (
-        // Starfall's title screen, as the game template has it.
-        <AbsoluteFill>
+        // Starfall's title screen, as the game template has it, breaking into the mosaic once start is pressed.
+        <Mosaic at={LEVEL - MOSAIC_FRAMES} mode="out">
           <World scheme="night" />
           <div className="v-center" style={{ gap: p(16), paddingBlockEnd: p(20) }}>
             <DropTitle text="Starfall" lands={letterLands("Starfall", TITLE, TICK)} scale={6} outline={2} />
@@ -179,9 +175,9 @@ export const MakeAGame = ({ music = true }: { readonly music?: boolean }) => {
               </p>
             </div>
           </div>
-        </AbsoluteFill>
+        </Mosaic>
       ) : (
-        <>
+        <Mosaic at={LEVEL} mode="in">
           <div style={{ position: "absolute", left: 0, top: 0, inlineSize: p(LW), blockSize: p(LH), zoom: ZOOM }}>
             <LevelWorld />
             {JUMPS.map((j, i) => (
@@ -227,9 +223,9 @@ export const MakeAGame = ({ music = true }: { readonly music?: boolean }) => {
             </div>
           </Beat>
 
-          <Shout text="Level clear!" at={CLEAR} until={OUT + IRIS_FRAMES} />
+          <Shout text="Level clear!" at={CLEAR} until={at(5)} />
           <Burst at={CLEAR + 2 * TICK} kind="star" box={[150, 90, 180, 40]} count={12} seed={4} scale={1} />
-        </>
+        </Mosaic>
       )}
 
       {letterLands("Starfall", TITLE, TICK).map((f, i) => <Sfx key={`t${f}`} name={i ? `step@${[0, 2, 3, 5, 7, 8, 10, 12][i]}` : "step"} at={f} volume={0.45} />)}
@@ -242,10 +238,7 @@ export const MakeAGame = ({ music = true }: { readonly music?: boolean }) => {
       <Sfx name="success@5" at={CLEAR} volume={0.6} />
 
       {music && <Music bar={MAKE_A_GAME.bar} bars={MAKE_A_GAME.bars} />}
-      {/* The title shuts on its prompt; the level opens on Pip; the scene ends shut on him again. */}
-      {frame < LEVEL && <Iris at={SHUT} mode="out" x={240} y={PROMPT_Y} />}
-      {frame >= LEVEL && <Iris at={LEVEL} mode="in" x={(40 + PIP_W / 2) * ZOOM} y={(GROUND - PIP_H / 2) * ZOOM} />}
-      <Iris at={OUT} mode="out" x={PIP_END.x} y={PIP_END.y} />
+      <Dissolve at={OUT} mode="out" />
     </Stage>
   );
 };
