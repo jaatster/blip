@@ -68,8 +68,8 @@ export function createRenderer(canvas) {
     }
     for (const name of KIT) r.art.set(name, spriteCanvas(name));
     r.art.set("star-empty", spriteCanvas("star-empty"));
-    // White cut-outs, for a flash.
-    for (const name of FLASH) for (const side of ["", "<"]) if (r.art.has(name + side)) r.art.set(`${name}${side}*`, cutout(r.art.get(name + side), r.colours.white));
+    // White silhouettes, for a flash: the kit's canvas sprites in one colour.
+    for (const name of FLASH) for (const flip of [false, true]) r.art.set(`${name}${flip ? "<" : ""}*`, spriteCanvas(ART[name] ?? name, { flip, fill: "var(--blip-white)" }));
     // The world, a strip a layer, as wide as the camera will slide it.
     const span = Math.max(0, game.map.w * TILE - r.view);
     r.strips = LAYERS.map(([layer, f]) => {
@@ -148,16 +148,6 @@ export function createRenderer(canvas) {
 /** Smooth noise from -1 to 1, a different curve for each seed. */
 const noise = (t, seed) => 0.6 * Math.sin(t * 0.9 + seed * 1.7) + 0.4 * Math.sin(t * 2.3 + seed * 3.1);
 
-/** A copy of art in one colour, for a flash. */
-function cutout(art, colour) {
-  const out = Object.assign(document.createElement("canvas"), { width: art.width, height: art.height });
-  const x = out.getContext("2d");
-  x.drawImage(art, 0, 0);
-  x.globalCompositeOperation = "source-in";
-  x.fillStyle = colour;
-  x.fillRect(0, 0, out.width, out.height);
-  return out;
-}
 
 const hash = (x, y) => ((x * 73856093) ^ (y * 19349663)) >>> 0;
 

@@ -27,8 +27,9 @@ wrappers on top. It began as the shipped look of an Android TV launcher, where e
 ## See it
 
 The docs site, [jaatster.com/blip](https://jaatster.com/blip/), is built in Blip itself: every component in Day,
-Sunset and Night, the foundations, three templates (a dashboard, a landing page and a game menu) and a theme
-builder. Run it locally with `pnpm --filter @jaatster/blip-docs dev`.
+Sunset and Night, the foundations, three templates (a dashboard, a landing page and a game's screens) and a theme
+builder. [Starfall](https://jaatster.com/blip/play/) is a small platformer made of the game kit, to play. Run the site
+locally with `pnpm --filter @jaatster/blip-docs dev`.
 
 There are no screenshots in this repository on purpose: Blip draws itself. The card at the top is the one
 picture, and Blip drew that too: `specimen/press.html` builds it from the system's own parts, and `pnpm shoot`

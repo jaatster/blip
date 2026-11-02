@@ -3,7 +3,8 @@
 Plan for turning the game menu template (`/templates/game/`) into a small action platformer with one level, agreed
 with the owner on 2026-11-02 and built the same day. The game is in `apps/docs/public/js/starfall/` (the rules in
 `engine.js`, tested in `tests/unit/node/starfall.test.ts`, the level in `level.js`, the drawing in `render.js`) and
-`tpl-game.js`.
+`play.js`. It lives at `/play/`; the game screens template at `/templates/game/` is the same screens with no game
+in them (moved on 2026-11-02: a template is a place to start, and Starfall is a game).
 
 ## What it is now
 

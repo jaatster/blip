@@ -27,7 +27,7 @@ const launcher = [
   { name: "Components", href: "/components/", icon: "puzzle", tone: "purple" },
   { name: "Templates", href: "/templates/", icon: "desktop", tone: "teal" },
   { name: "Palette maker", href: "/theme/", icon: "brush", tone: "pink" },
-  { name: "Kits", href: "#kits-title", icon: "gamepad", tone: "orange" },
+  { name: "Play", href: "/play/", icon: "gamepad", tone: "orange" },
 ];
 // Things fallen on the meadow, from the game kit: where each stands along the ground, and how high it floats.
 const scenery: [string, number, number][] = [["coin", 2, 2], ["coin", 9, 6], ["star", 16, 0], ["sparkle-small", 22, 10], ["star", 78, 0], ["coin", 86, 4], ["sparkle", 92, 12]];
@@ -62,7 +62,7 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
           </h1>
           <p class="blip-hero-lead home-lead">A 16-bit design system: candy controls on a soft pixel world, one square pixel everywhere, and motion that snaps.</p>
           <p class="blip-hero-note home-note">Tokens, CSS and Web Components, with React. {components} components, {iconCount} icons, no images.</p>
-          <p class="home-cta"><a class="blip-box blip-button" href="/start/">Get started</a><a class="blip-box blip-button" data-variant="soft" data-tone="neutral" href="/components/">Components</a><blip-motion-toggle><button class="blip-box blip-button" type="button" data-variant="soft" aria-pressed="false"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v8H2zm5 0h3v8H7z"/></svg>Pause motion</button></blip-motion-toggle></p>
+          <p class="home-cta"><a class="blip-box blip-button" href="/start/">Get started</a><a class="blip-box blip-button" data-variant="soft" data-tone="neutral" href="/components/">Components</a><a class="blip-box blip-button" data-variant="soft" data-tone="neutral" href="/play/">Play Starfall</a><blip-motion-toggle><button class="blip-box blip-button" type="button" data-variant="soft" aria-pressed="false"><svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 2h3v8H2zm5 0h3v8H7z"/></svg>Pause motion</button></blip-motion-toggle></p>
         </div>
 
         <section class="blip-box blip-window home-demo docs-needs-js" aria-labelledby="demo-title">
@@ -297,7 +297,7 @@ const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/
           <div class="blip-box blip-dialogue-portrait" data-variant="soft" data-tone="teal" aria-hidden="true"><Fragment set:html={frog()} /></div>
           <div class="blip-dialogue-body"><div class="blip-dialogue-text"><p>Ah, a traveller! Press the coin button and I'll pay you for your time.</p></div></div>
         </blip-dialogue>
-        <div class="docs-row"><button class="blip-box blip-button home-coin" type="button" data-size="sm" data-tone="orange"><Icon name="coin" />Add 10 coins</button><a class="blip-small" href="/templates/game/">Play Starfall, the game template</a></div>
+        <div class="docs-row"><button class="blip-box blip-button home-coin" type="button" data-size="sm" data-tone="orange"><Icon name="coin" />Add 10 coins</button><a class="blip-small" href="/play/">Play Starfall, a game made with Blip</a></div>
       </section>
 
       <section class="blip-box home-kit home-kit-effects" data-variant="panel" aria-labelledby="kit-effects">

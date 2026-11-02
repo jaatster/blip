@@ -152,8 +152,8 @@
   html.js .tpl-game:not([data-screen="level"]) > .tpl-level,
   html.js .tpl-game:not([data-screen="results"]) > .tpl-results,
   html.js .tpl-game:not([data-screen="over"]) > .tpl-over { display: none; }
-  /* In the level the canvas draws the world itself, sliding with the camera: the backdrop rests. */
-  html.js .tpl-game[data-screen="level"] > .tpl-game-world { display: none; }
+  /* In Starfall's level the canvas draws the world itself, sliding with the camera: the backdrop rests. */
+  html.js .play-game[data-screen="level"] > .tpl-game-world { display: none; }
   html.js .tpl-game-body { overflow: hidden; }
   html:not(.js) .tpl-game-body { overflow: auto; }
   .tpl-game-title { --blip-scale: 2; margin: 0; }
@@ -208,7 +208,7 @@
 
   /* The level: the canvas fills the window above the touch pad, whole pixels, its frame centred along the bottom
      (tpl-game.js sizes it). The HUD, the hints, the shouts and Bramble sit over it. */
-  html.js .tpl-level { position: fixed; inset: 0; display: block; max-block-size: none; padding: 0; overflow: hidden; }
+  html.js .play-game > .tpl-level { position: fixed; inset: 0; display: block; max-block-size: none; padding: 0; overflow: hidden; }
   .tpl-stage { position: absolute; inset: 0 0 var(--tpl-pad); overflow: hidden; background: var(--blip-world-day-sky-6); }
   /* The frame is the view; the canvas is a game pixel wider, and slides by the camera's fraction inside it. */
   .tpl-frame { position: absolute; inset-block-end: 0; inset-inline-start: 50%; translate: -50% 0; overflow: clip; }
@@ -217,9 +217,8 @@
   /* A hint stands over its sign: the kit's tooltip, drawn in place, with the prompt's keys in it. */
   .tpl-bubble { position: absolute; translate: -50% calc(-100% - 2 * var(--blip-pixel)); white-space: nowrap; }
   .tpl-bubble .blip-prompt { gap: calc(2 * var(--blip-pixel)); }
-  button.tpl-bubble { pointer-events: auto; cursor: pointer; font: inherit; }
-  /* Bramble's face, the game's own art, one art pixel to one page pixel, as the kit's sprites are. */
-  .tpl-frog-face canvas { inline-size: calc(var(--_tpl-w) * var(--blip-pixel)); image-rendering: pixelated; }
+  /* An action over the level (Talk) is a small candy button, and takes a tap or a click. */
+  .tpl-act { pointer-events: auto; white-space: nowrap; }
   /* Points rise six pixels, a pixel a frame, from where they were scored. */
   .tpl-points { position: absolute; margin: 0; translate: -50% -100%; animation: tpl-rise calc(6 * var(--blip-duration-frame)) steps(6, jump-end) both; }
   /* Sideways on a phone the touch pad sits over the level, as a handheld's buttons do; upright it has room of its own. */
@@ -228,7 +227,7 @@
   @media (orientation: portrait) and (pointer: coarse) {
     .tpl-turn { position: absolute; z-index: 2; inset-block-start: calc(26 * var(--blip-pixel)); inset-inline: 0; display: block; margin: 0; text-align: center; animation: tpl-gone 0s steps(1, jump-end) 5s both; }
   }
-  .tpl-hud { position: absolute; inset-block-start: 0; inset-inline: 0; z-index: 2; container-type: inline-size; }
+  .play-game .tpl-hud { position: absolute; inset-block-start: 0; inset-inline: 0; z-index: 2; container-type: inline-size; }
   /* On a narrow screen the HUD keeps to one row: a shorter track, the score without its label. */
   @container (width < 900px) {
     .tpl-track { --blip-hud-length: 40; }
@@ -237,8 +236,20 @@
   .tpl-hud [hidden] { display: none; }
   .tpl-pause-button { align-self: center; }
   .tpl-achievements { position: absolute; inset-block-start: calc(30 * var(--blip-pixel)); inset-inline-end: var(--blip-space-8); z-index: 3; }
-  .tpl-frog { position: absolute; z-index: 3; inset-inline: 0; inset-block-end: calc(var(--tpl-pad) + var(--blip-space-8)); inline-size: min(calc(300 * var(--blip-pixel)), 100% - 2 * var(--blip-space-8)); margin-inline: auto; }
+  .play-game .tpl-frog { position: absolute; z-index: 3; inset-inline: 0; inset-block-end: calc(var(--tpl-pad) + var(--blip-space-8)); inline-size: min(calc(300 * var(--blip-pixel)), 100% - 2 * var(--blip-space-8)); margin-inline: auto; }
   .tpl-frog[hidden] { display: none; }
+
+  /* The template's level: the HUD over a still stage, the buttons that stand in for play, the frog, the ground. */
+  html.js .tpl-still { align-content: space-between; }
+  .tpl-still { align-content: space-between; text-align: start; padding: var(--blip-space-8) var(--blip-space-8) max(calc(24 * var(--blip-pixel)), calc(var(--tpl-pad) + var(--blip-space-4))); }
+  .tpl-still .tpl-hud { justify-self: stretch; }
+  .tpl-field { display: grid; justify-items: center; gap: var(--blip-space-6); }
+  .tpl-stand-in { margin: 0; }
+  .tpl-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--blip-space-4); }
+  .tpl-still .tpl-frog { inline-size: min(calc(300 * var(--blip-pixel)), 100%); justify-self: center; }
+  .tpl-ground { position: fixed; inset-inline: 0; inset-block-end: 0; }
+  .tpl-play-link { margin: 0; }
+  .tpl-controls-line { justify-content: center; gap: var(--blip-space-3); }
 
   /* The tally, and game over. */
   .tpl-results-panel { --blip-r: 6; --blip-shape: var(--blip-shape-6); --blip-shape-inner: var(--blip-shape-6-inner); --blip-drop-size: 2; display: grid; justify-items: center; gap: var(--blip-space-8); inline-size: min(calc(170 * var(--blip-pixel)), 100%); padding: var(--blip-space-12) var(--blip-space-12); margin: 0 calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel)) 0; }

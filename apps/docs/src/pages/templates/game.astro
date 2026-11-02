@@ -1,26 +1,29 @@
 ---
 /**
- * Template: Starfall, a small platformer made of the game kit. A title screen, the main menu with options, a level
- * map, level 1-1 (drawn in a canvas through the kit's canvas sprites and the world's layers, with the HUD, shouts,
- * Bramble's dialogue and achievements as real Blip UI over it), pause, the tally and game over. The game itself is in
- * public/js/starfall/; without JavaScript the screens simply follow one another down the page.
+ * Template: a game's screens, from the game kit and the world, with no game in them: a title screen (press start),
+ * the main menu with options, a level map, a level's HUD over a still stage with a shout and a talking frog, pause,
+ * the tally and game over. The level's buttons stand in for play, so every part shows what it does. Starfall
+ * (/play/) is these screens with a game in them. Without JavaScript the screens simply follow one another down the
+ * page.
  */
 import Template from "../../layouts/Template.astro";
 import Icon from "../../components/Icon.astro";
+import { frog } from "../../lib/data";
 
 const letters = [..."Starfall"].map((c, i) => ({ c, i }));
 ---
-<Template title="Starfall, a game template" description="A small Blip platformer: a title screen, a menu, a level map, a level to play with a HUD, dialogue and achievements, pause, the tally and game over." kits={["game", "effects"]} scripts={["tpl-game"]} bodyClass="tpl-game-body" display>
+<Template title="Game screens template" description="A Blip game's screens: a title screen on the world, a menu with options, a level map, a HUD with shouts and dialogue, pause, the tally and game over." kits={["game", "effects"]} scripts={["tpl-game"]} bodyClass="tpl-game-body" display>
   <main class="tpl-game" data-screen="title">
     <blip-world class="tpl-game-world" parallax clouds stars events></blip-world>
 
     <section class="tpl-screen tpl-title" data-screen-id="title" aria-labelledby="game-title">
       <h1 class="tpl-game-title blip-display" id="game-title"><span class="blip-sr-only">Starfall</span><span aria-hidden="true">{letters.map(({ c, i }) => <span class="blip-pop blip-drop-in" data-pop={c} style={`--i:${i}`}>{c}</span>)}</span></h1>
-      <p class="tpl-subtitle blip-outline blip-label">A Blip game</p>
-      <button class="tpl-press-start" type="button" data-go="menu">
+      <p class="tpl-subtitle blip-outline blip-label">A Blip template</p>
+      <button class="tpl-press-start" type="button">
         <span class="blip-prompt-start blip-display blip-pop blip-blink" data-scale="2" data-pop="Press start">Press start</span>
       </button>
       <p class="blip-prompt tpl-hint">or press <kbd class="blip-box blip-prompt-key">Enter</kbd></p>
+      <p class="blip-outline blip-label tpl-play-link">These are Starfall's screens. <a href="/play/">Play the game</a></p>
       <blip-motion-toggle></blip-motion-toggle>
     </section>
 
@@ -35,20 +38,12 @@ const letters = [..."Starfall"].map((c, i) => ({ c, i }));
             <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="docs">Back to the docs</button></li>
           </ul>
         </blip-choices>
-        <p class="blip-small blip-muted tpl-save-note" id="no-save">No checkpoint saved yet.</p>
+        <p class="blip-small blip-muted" id="no-save">No saved game yet.</p>
       </div>
       <section class="blip-box blip-window tpl-options" aria-labelledby="options-title" hidden>
         <header class="blip-window-bar"><h2 class="blip-window-title blip-display blip-pop" id="options-title">Options</h2></header>
         <div class="blip-window-body tpl-options-body">
           <label class="blip-check" data-layout="split">Chip sounds<span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box tpl-sound" data-docs-sound /></span></label>
-          <div>
-            <label class="blip-check" data-layout="split">Assist mode<span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box tpl-assist" aria-describedby="assist-help" /></span></label>
-            <p class="blip-check-help" id="assist-help">Five hearts, and no clock.</p>
-          </div>
-          <div>
-            <label class="blip-check" data-layout="split">Screen shake<span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box tpl-shake" checked aria-describedby="shake-help" /></span></label>
-            <p class="blip-check-help" id="shake-help">Off when your device asks for less motion.</p>
-          </div>
           <div class="tpl-options-row">
             <span class="blip-label" id="tpl-time">Time of day</span>
             <blip-segmented class="blip-box blip-segmented tpl-time" data-size="sm" aria-labelledby="tpl-time" value="auto">
@@ -58,21 +53,7 @@ const letters = [..."Starfall"].map((c, i) => ({ c, i }));
               <button class="blip-box" type="button" value="night">Night</button>
             </blip-segmented>
           </div>
-          <div class="blip-table-scroll" role="region" aria-labelledby="controls-cap" tabindex="0">
-          <table class="blip-table tpl-controls" data-size="sm">
-            <caption class="blip-label" id="controls-cap">Controls</caption>
-            <thead><tr><th scope="col">Move</th><th scope="col">Keyboard and mouse</th><th scope="col">Gamepad</th></tr></thead>
-            <tbody>
-              <tr><th scope="row">Run</th><td><kbd class="blip-box blip-prompt-key">A</kbd> <kbd class="blip-box blip-prompt-key">D</kbd> or <kbd class="blip-box blip-prompt-key">←</kbd> <kbd class="blip-box blip-prompt-key">→</kbd></td><td><span class="blip-prompt-dpad" data-dir="left" role="img" aria-label="D-pad left"></span> <span class="blip-prompt-dpad" data-dir="right" role="img" aria-label="D-pad right"></span></td></tr>
-              <tr><th scope="row">Jump (hold to go higher)</th><td><kbd class="blip-box blip-prompt-key">Space</kbd> <kbd class="blip-box blip-prompt-key">W</kbd> or <kbd class="blip-box blip-prompt-key">↑</kbd></td><td><kbd class="blip-box blip-prompt-button" data-button="a">A</kbd></td></tr>
-              <tr><th scope="row">Swipe</th><td><kbd class="blip-box blip-prompt-key" aria-label="Click"><Icon name="mouse" /></kbd> click or <kbd class="blip-box blip-prompt-key">X</kbd></td><td><kbd class="blip-box blip-prompt-button" data-button="b">B</kbd></td></tr>
-              <tr><th scope="row">Talk</th><td><kbd class="blip-box blip-prompt-key">E</kbd> or <kbd class="blip-box blip-prompt-key" aria-label="Right click"><Icon name="mouse" /></kbd> right click</td><td><kbd class="blip-box blip-prompt-button" data-button="y">Y</kbd></td></tr>
-              <tr><th scope="row">Drop through a plank</th><td><kbd class="blip-box blip-prompt-key">S</kbd> and <kbd class="blip-box blip-prompt-key">Space</kbd></td><td><span class="blip-prompt-dpad" data-dir="down" role="img" aria-label="D-pad down"></span> <kbd class="blip-box blip-prompt-button" data-button="a">A</kbd></td></tr>
-              <tr><th scope="row">Pause</th><td><kbd class="blip-box blip-prompt-key">Esc</kbd></td><td><kbd class="blip-box blip-prompt-key">Start</kbd></td></tr>
-            </tbody>
-          </table>
-          </div>
-          <p class="blip-small blip-muted">On the keyboard alone, the arrows, <kbd class="blip-box blip-prompt-key">Z</kbd> to jump and <kbd class="blip-box blip-prompt-key">X</kbd> to swipe work too.</p>
+          <p class="blip-prompt tpl-controls-line"><kbd class="blip-box blip-prompt-key">Space</kbd> Jump <span class="blip-prompt-mouse" data-button="left" role="img" aria-label="Left click"></span> Swipe <span class="blip-box blip-prompt-pill">Start</span> Pause</p>
           <button class="blip-box blip-button tpl-options-done" type="button" data-variant="soft" data-width="full">Done</button>
         </div>
       </section>
@@ -83,63 +64,61 @@ const letters = [..."Starfall"].map((c, i) => ({ c, i }));
         <h2 class="blip-display blip-pop" data-scale="2" data-pop="Meadow" id="map-title">Meadow</h2>
         <ol class="blip-level-map tpl-levels" role="list">
           <li>
-            <button type="button" class="blip-box blip-level tpl-level-1" aria-current="step" aria-label="Level 1-1, Puddle Path: no stars yet">
+            <button type="button" class="blip-box blip-level tpl-level-1" aria-current="step" aria-label="Level 1-1, Puddle Path: 2 of 3 stars">
               <blip-sprite class="blip-level-here" name="arrow"></blip-sprite>
               <span class="blip-level-number">1</span>
-              <span class="blip-level-stars"><blip-sprite name="star-empty"></blip-sprite><blip-sprite name="star-empty"></blip-sprite><blip-sprite name="star-empty"></blip-sprite></span>
+              <span class="blip-level-stars"><blip-sprite name="star"></blip-sprite><blip-sprite name="star"></blip-sprite><blip-sprite name="star-empty"></blip-sprite></span>
             </button>
             <span class="blip-level-path" aria-hidden="true"></span>
           </li>
           <li>
-            <button type="button" class="blip-box blip-level" aria-disabled="true" aria-label="Level 1-2: coming soon"><blip-sprite name="padlock"></blip-sprite></button>
+            <button type="button" class="blip-box blip-level" aria-disabled="true" aria-label="Level 1-2: locked, clear 1-1 first"><blip-sprite name="padlock"></blip-sprite></button>
             <span class="blip-level-path" data-locked aria-hidden="true"></span>
           </li>
-          <li><button type="button" class="blip-box blip-level" data-tone="danger" aria-disabled="true" aria-label="Level 1-3, the boss: coming soon"><blip-sprite name="padlock"></blip-sprite></button></li>
+          <li><button type="button" class="blip-box blip-level" data-tone="danger" aria-disabled="true" aria-label="Level 1-3, the boss: locked"><blip-sprite name="padlock"></blip-sprite></button></li>
         </ol>
-        <p class="tpl-map-name"><span class="blip-label">1-1</span> Puddle Path <span class="blip-small blip-muted tpl-best">Best: none yet</span></p>
+        <p class="tpl-map-name"><span class="blip-label">1-1</span> Puddle Path <span class="blip-small blip-muted">Best: 4,600</span></p>
         <button class="blip-box blip-button tpl-map-back" type="button" data-variant="soft" data-tone="neutral" data-size="sm"><Icon name="arrow-left" />Menu</button>
       </div>
     </section>
 
-    <section class="tpl-screen tpl-level" data-screen-id="level" aria-labelledby="level-title">
-      <h2 class="blip-sr-only" id="level-title">1-1 Puddle Path</h2>
-      <div class="tpl-stage">
-        <div class="tpl-frame">
-          <canvas class="tpl-canvas" role="img" aria-label="Level 1-1, Puddle Path: Pip the frog runs and jumps across a meadow of puddles, towards a flag.">Starfall needs a browser that draws in a canvas.</canvas>
-          <div class="tpl-overlay" aria-hidden="true"></div>
-          <div class="tpl-hints" role="status"></div>
-        </div>
-        <blip-shout class="tpl-shout"></blip-shout>
-      </div>
-      <p class="tpl-turn blip-outline blip-label" aria-hidden="true">Turn sideways for a wider view</p>
+    <section class="tpl-screen tpl-level tpl-still" data-screen-id="level" aria-labelledby="level-title">
       <div class="blip-hud tpl-hud">
         <div class="blip-hud-group">
           <blip-hearts class="tpl-hearts" value="3" max="3" label="Health"></blip-hearts>
           <blip-counter class="tpl-stars" value="0" label="Stars"><blip-sprite name="star"></blip-sprite></blip-counter>
-          <span class="tpl-key" hidden><blip-sprite name="key" aria-label="The key"></blip-sprite></span>
           <div class="blip-box blip-hud-track tpl-track" role="meter" aria-label="Course" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="At the start" style="--blip-hud-value: 0">
             <span class="blip-hud-track-fill"></span>
-            <span class="blip-hud-track-mark tpl-track-checkpoint"></span>
+            <span class="blip-hud-track-mark" style="--blip-hud-at: 45"></span>
           </div>
         </div>
         <div class="blip-hud-group">
-          <blip-counter class="tpl-coins" value="0" pad="3" label="Coins"><blip-sprite name="coin"></blip-sprite></blip-counter>
+          <blip-counter class="tpl-coins" value="0" pad="3" label="Coins" sound="coin" chain><blip-sprite name="coin"></blip-sprite></blip-counter>
           <blip-counter class="tpl-score" value="0" pad="6" label="Score" quiet><span class="blip-hud-label blip-display blip-pop" data-scale="1" aria-hidden="true">Score</span></blip-counter>
           <blip-counter class="tpl-clock" value="300" format="time" low="60" label="Time" quiet><blip-sprite name="clock"></blip-sprite></blip-counter>
           <button class="blip-box blip-button tpl-pause-button" type="button" data-variant="soft" data-tone="neutral" data-size="sm" data-icon-only aria-label="Pause" aria-keyshortcuts="Escape"><Icon name="pause" /></button>
         </div>
       </div>
-      <div class="blip-achievements tpl-achievements" role="status"></div>
-      <blip-dialogue class="blip-box blip-dialogue tpl-frog" voice hidden>
+      <h2 class="blip-sr-only" id="level-title">1-1 Puddle Path</h2>
+      <blip-shout class="tpl-shout"></blip-shout>
+      <div class="tpl-field">
+        <p class="blip-small blip-outline tpl-stand-in">The level goes here. These buttons stand in for play:</p>
+        <div class="tpl-actions">
+          <button class="blip-box blip-button tpl-coin" type="button" data-tone="orange" data-size="sm"><blip-sprite name="coin"></blip-sprite>Collect a coin</button>
+          <button class="blip-box blip-button tpl-hit" type="button" data-tone="danger" data-size="sm"><blip-sprite name="heart"></blip-sprite>Take a hit</button>
+          <button class="blip-box blip-button tpl-checkpoint" type="button" data-tone="success" data-size="sm">Reach the checkpoint</button>
+          <button class="blip-box blip-button tpl-finish" type="button" data-size="sm"><blip-sprite name="star"></blip-sprite>Finish the level</button>
+        </div>
+      </div>
+      <blip-dialogue class="blip-box blip-dialogue tpl-frog" voice>
         <span class="blip-box blip-dialogue-name" data-tone="green">Bramble</span>
-        <!-- Bramble's face: drawn by tpl-game.js from the game's own art, as he looks in the level. -->
-        <div class="blip-box blip-dialogue-portrait tpl-frog-face" data-variant="soft" data-tone="teal" aria-hidden="true"></div>
+        <div class="blip-box blip-dialogue-portrait" data-variant="soft" data-tone="teal" aria-hidden="true"><Fragment set:html={frog()} /></div>
         <div class="blip-dialogue-body">
           <div class="blip-dialogue-text">
             <p>Pip! The rope bridge washed out in last night's storm.</p>
             <p>I could patch it up for thirty coins. Fair?</p>
           </div>
-          <blip-choices class="blip-dialogue-choices tpl-frog-choices">
+          <blip-choices class="blip-dialogue-choices">
             <ul class="blip-choices" role="list">
               <li><button class="blip-box blip-choice" type="button" data-variant="ghost" value="pay">Pay 30 coins</button></li>
               <li><button class="blip-box blip-choice" type="button" data-variant="ghost" value="later">Maybe later</button></li>
@@ -147,6 +126,7 @@ const letters = [..."Starfall"].map((c, i) => ({ c, i }));
           </blip-choices>
         </div>
       </blip-dialogue>
+      <div class="blip-stage-ground tpl-ground"></div>
     </section>
 
     <section class="tpl-screen tpl-results" data-screen-id="results" aria-labelledby="results-title">
@@ -167,7 +147,7 @@ const letters = [..."Starfall"].map((c, i) => ({ c, i }));
 
     <section class="tpl-screen tpl-over" data-screen-id="over" aria-labelledby="over-title">
       <h2 class="blip-display blip-pop" data-scale="3" data-tone="danger" data-pop="Game over" id="over-title">Game over</h2>
-      <p class="blip-outline blip-label tpl-over-why">Out of hearts.</p>
+      <p class="blip-outline blip-label">Out of hearts.</p>
       <blip-choices class="tpl-over-choices">
         <ul class="blip-choices" role="list" data-font="display">
           <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="retry">Try again</button></li>
@@ -186,14 +166,14 @@ const letters = [..."Starfall"].map((c, i) => ({ c, i }));
       <blip-choices class="tpl-pause-choices">
         <ul class="blip-choices" role="list" data-font="display">
           <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="resume" autofocus>Resume</button></li>
-          <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="restart">Restart the level</button></li>
           <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="title">Quit to title</button></li>
+          <li><button type="button" class="blip-box blip-choice" data-variant="ghost" value="docs">Back to the docs</button></li>
         </ul>
       </blip-choices>
       <p class="blip-pause-hint blip-prompt"><kbd class="blip-box blip-prompt-key">Esc</kbd> Resume</p>
     </dialog>
-    <!-- On a touch screen: the D-pad and A, B and Start. In the menus A presses and B goes back; in the level A jumps,
-         B swipes and Start pauses (tpl-game.js changes what they send). Hidden where there is a mouse. -->
+    <!-- On a touch screen: the D-pad and A, B and Start, sending the keys the screens already listen for. Hidden where
+         there is a mouse. Behind the pause menu (a modal) it rests; tap the menu's choices there. -->
     <blip-touch-pad data-a="Enter" data-b="Escape" data-start="Enter"></blip-touch-pad>
   </main>
 </Template>
