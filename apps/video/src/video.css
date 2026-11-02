@@ -1,0 +1,45 @@
+/*
+ * The video's own rules, after Blip's. A frame is a picture of one moment: every CSS animation is stepped to the frame
+ * by <Beat>, so nothing may run on the clock, and transitions are off (a change shows on its frame). Text sizes are rem
+ * in Blip; here they follow the pixel, as they do on the docs at 2 px with 16 px text: body text is eight pixels tall.
+ */
+/* @jaatster/blip-font's one rule besides its faces (the faces load in Stage, from public/fonts). */
+@layer blip.reset {
+  :where(*) { font-size-adjust: cap-height from-font; }
+}
+
+.v-stage {
+  --blip-size-caption: calc(6 * var(--blip-pixel));
+  --blip-size-small: calc(7 * var(--blip-pixel));
+  --blip-size-body: calc(8 * var(--blip-pixel));
+  --blip-size-lead: calc(9 * var(--blip-pixel));
+  --blip-size-title: calc(11 * var(--blip-pixel));
+  overflow: hidden;
+  font-family: var(--blip-font-body);
+  font-size: var(--blip-size-body);
+  color: var(--blip-text);
+  background: var(--blip-bg);
+  -webkit-font-smoothing: none;
+}
+.v-stage, .v-stage *, .v-stage *::before, .v-stage *::after { transition: none !important; }
+
+/* A canvas drawn at the pixel's own resolution, scaled up whole. */
+.v-pixels {
+  position: absolute;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+/* A dropping title tints letter by letter, so the word's own tint (POP's ::after) stays off. */
+.v-drop.blip-pop[data-pop]::after { content: none; }
+
+.v-center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+}

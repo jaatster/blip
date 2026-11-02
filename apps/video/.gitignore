@@ -1,0 +1,10 @@
+node_modules
+dist
+.DS_Store
+.env
+
+# Rendered video, and the audio scripts/sounds.mjs makes from the score and Blip's synth.
+out
+public/sfx
+public/music
+public/fonts

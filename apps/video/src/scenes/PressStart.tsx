@@ -1,0 +1,95 @@
+import type { CSSProperties } from "react";
+import { AbsoluteFill, useCurrentFrame } from "remotion";
+import { Beat } from "../lib/Beat";
+import { TICK, at, p, ticks } from "../lib/grid";
+import { Burst, Dither, World } from "../lib/Pixels";
+import { Music, Sfx } from "../lib/Sound";
+import { Stage } from "../lib/Stage";
+import { DropTitle, Typed } from "../lib/Text";
+
+/** Bars 0-3 of the theme. */
+export const PRESS_START = { bar: 0, bars: 4 };
+
+// The beats: start is pressed on bar 1, the letters land on the eighths after it, the drop is bar 2.
+const PRESS = at(1);
+const LANDS = [at(1, 0, 2), at(1, 1), at(1, 1, 2), at(1, 2)];
+const DROP = at(2);
+const TAG = at(3);
+const OUT = at(4) - 8 * TICK;
+
+/** The TV comes on: a line across the middle, then the picture opens from it, overbright for a moment. */
+function screenOn(frame: number): { line: number; style: CSSProperties } {
+  const k = ticks(frame, 0);
+  if (k < 2) return { line: 0, style: { clipPath: "inset(50% 0 50% 0)" } };
+  if (k < 5) return { line: [0.3, 0.7, 1][k - 2]!, style: { clipPath: "inset(50% 0 50% 0)" } };
+  if (k < 10) {
+    const i = k - 5;
+    return { line: 0, style: { clipPath: `inset(${[40, 28, 16, 6, 0][i]}% 0)`, filter: `brightness(${[2.2, 1.8, 1.4, 1.15, 1][i]})` } };
+  }
+  return { line: 0, style: {} };
+}
+
+export const PressStart = ({ music = true }: { readonly music?: boolean }) => {
+  const frame = useCurrentFrame();
+  const on = screenOn(frame);
+  const pressed = frame >= PRESS && frame < PRESS + 3 * TICK;
+
+  return (
+    <Stage scheme="night" style={{ background: "var(--blip-ink)" }}>
+      <AbsoluteFill style={on.style}>
+        <div className={frame < DROP ? "blip-crt" : undefined} data-flicker="" style={{ position: "absolute", inset: 0 }}>
+          <World scheme="night" />
+
+          <Beat at={0} until={PRESS + TICK}>
+            <div className="v-center" style={{ gap: p(12), paddingBlockStart: p(24) }}>
+              <p className="blip-prompt-start blip-display blip-pop" data-scale="3" data-pop="Press start">
+                Press start
+              </p>
+              <p className="blip-prompt blip-outline" style={{ fontSize: "var(--blip-size-lead)" }}>
+                or press{" "}
+                <kbd className="blip-box blip-prompt-key" data-blip-state={pressed ? "active" : undefined}>
+                  Enter
+                </kbd>
+              </p>
+            </div>
+          </Beat>
+
+          <Beat at={DROP} from={PRESS}>
+            <div className={frame >= DROP ? "v-center blip-shake" : "v-center"} style={{ gap: p(10), paddingBlockStart: p(6) }}>
+              <DropTitle text="Blip" lands={LANDS} scale={8} outline={2} />
+              <Typed
+                text="The pixel-art design system"
+                at={DROP + 2 * TICK}
+                className="blip-outline"
+                style={{ fontSize: p(13), fontWeight: 700 }}
+              />
+              <div data-blip-pixel="" style={{ "--blip-pixel": "6px", blockSize: p(16), marginBlockStart: p(2) } as CSSProperties}>
+                <Beat at={TAG}>
+                  <span className="blip-box blip-tag blip-pop-in" data-variant="candy" data-size="lg" style={{ position: "relative" }}>
+                    Now on npm
+                    <span className="blip-glint" aria-hidden="true" />
+                  </span>
+                </Beat>
+              </div>
+            </div>
+          </Beat>
+
+          <Burst at={LANDS[3]! + TICK} kind="sparkle" box={[134, 74, 206, 64]} count={12} seed={7} scale={2} />
+        </div>
+        {on.line > 0 && (
+          <div style={{ position: "absolute", insetInline: `${(1 - on.line) * 50}%`, insetBlockStart: "50%", blockSize: p(1), background: "var(--blip-white)" }} />
+        )}
+      </AbsoluteFill>
+      <Dither at={OUT} mode="out" />
+
+      <Sfx name="bump" at={3} volume={0.7} />
+      <Sfx name="select" at={PRESS} />
+      <Sfx name="step" at={LANDS[0]!} />
+      <Sfx name="step@3" at={LANDS[1]!} />
+      <Sfx name="step@5" at={LANDS[2]!} />
+      <Sfx name="step@7" at={LANDS[3]!} />
+      <Sfx name="coin" at={TAG} volume={0.8} />
+      {music && <Music bar={PRESS_START.bar} bars={PRESS_START.bars} />}
+    </Stage>
+  );
+};

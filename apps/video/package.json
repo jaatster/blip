@@ -1,0 +1,37 @@
+{
+  "name": "@jaatster/blip-video",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Blip's announcement video, made with Remotion from the real packages.",
+  "license": "MIT",
+  "scripts": {
+    "studio": "node scripts/assets.mjs && remotion studio",
+    "assets": "node scripts/assets.mjs",
+    "render": "node scripts/assets.mjs && remotion render",
+    "typecheck": "tsc"
+  },
+  "dependencies": {
+    "@jaatster/blip-components": "workspace:*",
+    "@jaatster/blip-core": "workspace:*",
+    "@jaatster/blip-effects": "workspace:*",
+    "@jaatster/blip-elements": "workspace:*",
+    "@jaatster/blip-font": "workspace:*",
+    "@jaatster/blip-game": "workspace:*",
+    "@jaatster/blip-icons": "workspace:*",
+    "@jaatster/blip-sound": "workspace:*",
+    "@jaatster/blip-tokens": "workspace:*",
+    "@remotion/cli": "4.0.540",
+    "@remotion/fonts": "4.0.540",
+    "@remotion/media": "4.0.540",
+    "@remotion/transitions": "4.0.540",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "remotion": "4.0.540"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "@types/web": "0.0.166",
+    "typescript": "5.9.3"
+  }
+}
