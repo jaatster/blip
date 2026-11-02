@@ -33,9 +33,9 @@ function envelope(t, length, { attack = 0.004, decay = 0.08, sustain = 0.7, rele
 }
 
 export class Track {
-  constructor(seconds, { gain = 1, pan = 0, lowpass = 0, highpass = 0, echo = null } = {}) {
+  constructor(seconds, { gain = 1, pan = 0, lowpass = 0, poles = 1, highpass = 0, echo = null } = {}) {
     this.buf = new Float32Array(Math.ceil(seconds * SR));
-    Object.assign(this, { gain, pan, lowpass, highpass, echo });
+    Object.assign(this, { gain, pan, lowpass, poles, highpass, echo });
   }
 
   /**
@@ -99,7 +99,8 @@ export class Track {
   /** Filters, echo and pan: adds this track into the stereo mix. */
   mixInto(L, R) {
     const x = this.buf;
-    if (this.lowpass) onePole(x, this.lowpass, false);
+    // Each pole is 6 dB an octave: two make a steeper, softer top.
+    for (let i = 0; this.lowpass && i < this.poles; i++) onePole(x, this.lowpass, false);
     if (this.highpass) onePole(x, this.highpass, true);
     const angle = ((this.pan + 1) / 2) * (Math.PI / 2), gl = Math.cos(angle) * this.gain, gr = Math.sin(angle) * this.gain;
     for (let i = 0; i < x.length && i < L.length; i++) { L[i] += x[i] * gl; R[i] += x[i] * gr; }

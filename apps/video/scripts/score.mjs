@@ -33,27 +33,30 @@ const steps = (line) => line.trim().split(/\s+/);
 
 export function song() {
   const T = (o) => new Track(SECONDS, o);
-  const lead = T({ gain: 0.34, lowpass: 2600 });
-  const harmony = T({ gain: 0.16, pan: -0.2, lowpass: 1900 });
+  const lead = T({ gain: 0.36, lowpass: 1600, poles: 2 });
+  const harmony = T({ gain: 0.17, pan: -0.2, lowpass: 1200, poles: 2 });
   const bass = T({ gain: 0.5, lowpass: 1000 });
   const kick = T({ gain: 0.4, lowpass: 1500 });
-  const tick = T({ gain: 0.07, pan: 0.2, highpass: 3000, lowpass: 8000 });
+  const tick = T({ gain: 0.045, pan: 0.2, highpass: 2500, lowpass: 5000 });
   const at = (bar, step = 0) => bar * BAR + step * STEP;
 
-  /** The lead: a soft square, each note held for its dashes and cut a little short, as a Game Boy's would be. */
+  /** The lead: a soft square blended with a triangle, each note held for its dashes and cut a little short, as a Game Boy's would be. */
   function melody(bar, line) {
     const s = steps(line);
     for (let i = 0; i < 16; i++) {
       if (s[i] === "-" || s[i] === ".") continue;
       let len = 1;
       while (s[i + len] === "-") len++;
-      lead.note(at(bar, i), len * STEP - 0.03, s[i], { wave: "pulse", duty: 0.5, attack: 0.008, decay: 0.25, sustain: 0.55, release: 0.06 });
+      const length = len * STEP - 0.03, shape = { attack: 0.012, decay: 0.25, sustain: 0.55, release: 0.07 };
+      // Half square, half triangle: the square's voice with the triangle's roundness.
+      lead.note(at(bar, i), length, s[i], { wave: "pulse", duty: 0.5, vel: 0.6, ...shape });
+      lead.note(at(bar, i), length, s[i], { wave: "tri", vel: 0.7, ...shape });
     }
   }
-  /** Broken chords in eighths on the second square: root, fifth, third, fifth. */
+  /** Broken chords in eighths on the second square, a soft 50% one: root, fifth, third, fifth. */
   function broken(bar, chord, from = 0, to = 16, vel = 1) {
     for (let i = from; i < to; i += 2) {
-      harmony.note(at(bar, i), 0.14, CHORD[chord].broken[(i / 2) % 4], { wave: "pulse", duty: 0.25, vel, attack: 0.004, decay: 0.1, sustain: 0.35, release: 0.05 });
+      harmony.note(at(bar, i), 0.14, CHORD[chord].broken[(i / 2) % 4], { wave: "pulse", duty: 0.5, vel, attack: 0.004, decay: 0.1, sustain: 0.35, release: 0.05 });
     }
   }
   /** The wave channel's bass: root and fifth, oom-pah, a quarter each. */
@@ -87,7 +90,7 @@ export function song() {
   bassline(2, "Am", 0, 8);
   bass.note(at(2, 8), 0.7, "G2", { wave: "tri", attack: 0.005, decay: 0.4, sustain: 0.6, release: 0.05 });
   ["G4", "A4", "B4", "C5", "D5", "E5", "F5", "G5"].forEach((n, i) =>
-    lead.note(at(2, 8 + i), STEP - 0.02, n, { wave: "pulse", duty: 0.5, vel: 0.6 + i * 0.04, attack: 0.005, decay: 0.1, sustain: 0.5, release: 0.04 }),
+    lead.note(at(2, 8 + i), STEP - 0.02, n, { wave: "tri", vel: 0.7 + i * 0.04, attack: 0.008, decay: 0.1, sustain: 0.5, release: 0.04 }),
   );
   for (const i of [12]) tick.noise(at(2, i), 0.04, { rate: 10000, decay: 0.015 });
   // Bars 3-4: the drop. The title is up and the tagline types; the hook's first two bars.
