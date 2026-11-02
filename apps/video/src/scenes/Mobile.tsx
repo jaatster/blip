@@ -4,16 +4,16 @@ import { Beat } from "../lib/Beat";
 import { TICK, at, p, ticks } from "../lib/grid";
 import { Icon } from "../lib/Icon";
 import { Burst, Dither, Life, Sky } from "../lib/Pixels";
-import { Pointer, pressing, type Move } from "../lib/Pointer";
+import { pressing } from "../lib/Pointer";
 import { Music, Sfx } from "../lib/Sound";
 import { SHOW_CLEAR, SplitText, type Part } from "../lib/Split";
 import { Stage } from "../lib/Stage";
 
 /** Bars 31-34 of the theme. */
-export const MOBILE = { bar: 31, bars: 4 };
+export const MOBILE = { bar: 29, bars: 4 };
 
-// Ready for mobile. Left, the piece in use, by name; right, a phone made of Blip's phone pieces, worked by attract
-// mode's pointer. The phone drops in on its skeletons and loads; the pointer pulls the list down past the line, the
+// Ready for mobile. Above, the piece in use, by name; under it, a phone made of Blip's phone pieces, working on the beat by
+// itself. The phone drops in on its skeletons and loads; the list is pulled down past the line, the
 // arrow flips, the loader runs and the new leader is in, with a sparkle. A row is dragged aside to its Delete and
 // springs back. The action button raises a bottom sheet over the dithered scrim; Create, pressed with the field empty,
 // shakes the field and says why; then the sheet goes back down.
@@ -25,7 +25,7 @@ const PARTS: readonly Part[] = [
 ];
 const PHONE = at(0, 0, 2);
 const LOADED = at(0, 2);
-// The pull: down 32 pixels in eight steps as the pointer drags, past the line at 24; let go, the loader at 24, then
+// The pull: down 32 pixels in eight steps, past the line at 24; let go, the loader at 24, then
 // "Updated" and everything steps back up.
 const DRAG = at(0, 3);
 const LET_GO = at(1);
@@ -39,12 +39,6 @@ const SEND = at(3);
 const CLOSE = at(3, 2, 2);
 const OUT = at(4) - 8 * TICK;
 
-const MOVES: readonly Move[] = [
-  { at: at(0, 2, 2), to: ".m-row-0 .blip-list-title" },
-  { at: at(1, 1, 2), to: ".m-swipe .blip-list-end" },
-  { at: at(2, 0, 2), to: ".m-fab", press: FAB },
-  { at: at(2, 3, 2), to: ".m-create", press: SEND },
-];
 
 // Two rows, so the action button has the space under them to itself.
 const BEFORE = [["Pip", "98,120"], ["Juno", "87,400"]];
@@ -53,9 +47,9 @@ const AFTER = [["Juno", "99,050"], ...BEFORE.filter(([n]) => n !== "Juno")];
 /** Six even steps, a Blip frame each, from 0 to 1 starting at `from`. */
 const six = (frame: number, from: number) => Math.min(6, Math.max(0, ticks(frame, from) + 1)) / 6;
 
-// The phone is the part, standing on the sky: upright, centred on the stage's middle, in the hero's rows 60-218.
+// The phone is the part, standing on the sky: upright, centred in the hero (its middle at row 156), rows 77-235.
 const PHONE_W = 96, PHONE_H = 158;
-const PHONE_X = 240 - PHONE_W / 2, PHONE_Y = 60;
+const PHONE_X = 240 - PHONE_W / 2, PHONE_Y = 77;
 const DROP = [-40, -22, -8, 0, -3, 0];
 
 /** How far the list is pulled down at `frame`, in pixels. */
@@ -244,7 +238,6 @@ export const Mobile = ({ music = true }: { readonly music?: boolean }) => {
       </Beat>
 
       <Burst at={DONE} kind="sparkle" box={[PHONE_X + 10, PHONE_Y + 20, PHONE_W - 20, 24]} count={8} seed={12} />
-      {frame < CLOSE && <Pointer moves={MOVES} />}
 
       <Sfx name="bump" at={PHONE} volume={0.5} />
       <Sfx name="look" at={LOADED} volume={0.55} />

@@ -1,50 +1,48 @@
 import { spriteCanvas } from "@jaatster/blip-game/canvas.js";
 import { drawWorld } from "@jaatster/blip-effects/world.js";
 import { useLayoutEffect, useRef, type CSSProperties } from "react";
-import { useCurrentFrame } from "remotion";
+import { AbsoluteFill, useCurrentFrame } from "remotion";
 // Starfall's own art (the docs' game, apps/docs/public/js/starfall): Pip, the candy blocks.
 // @ts-expect-error: plain JavaScript, without types
 import { ART as STARFALL } from "../../../docs/public/js/starfall/art.js";
 import { Beat } from "../lib/Beat";
 import { TICK, at, p, ticks } from "../lib/grid";
-import { Burst, Sprite, useCanvas } from "../lib/Pixels";
+import { Burst, Sprite, World, useCanvas } from "../lib/Pixels";
+import { DropTitle, letterLands } from "../lib/Text";
 import { Music, Sfx } from "../lib/Sound";
 import { Stage } from "../lib/Stage";
 import { IRIS_FRAMES, Iris } from "../lib/Transitions";
 
-/** Bars 35-40 of the theme. */
-export const MAKE_A_GAME = { bar: 35, bars: 6 };
+/** Bars 36-40 of the theme. */
+export const MAKE_A_GAME = { bar: 36, bars: 5 };
 
 type Art = { readonly tone: string; readonly map: string };
 const ART = STARFALL as Record<string, Art>;
 
-// A level of Starfall made of the game kit, on Blip's world at night, one thing at a time:
-//   bar 0     the HUD is up, the level's name is shouted in, Pip pops in
-//   bars 1-2  Pip runs right and jumps on the beat into three candy blocks: each bumps (up 6 pixels, then 3, then
+// Starfall, a game made of the game kit, on Blip's world at night, one thing at a time:
+//   bars 0-1  its own title screen, full screen, for a bar and a half: STARFALL drops in, "Press start" blinks from
+//             beat 2, Enter is pressed on bar 1 beat 1, and the picture irises shut on the prompt
+//   bar 1     from beat 3 the iris opens on the level: the HUD, "1-1 Puddle Path" shouted in, Pip pops in
+//   bars 2-3  Pip runs right and jumps on the beat into three candy blocks: each bumps (up 6 pixels, then 3, then
 //             down), a coin springs out spinning and bursts, "+100" pops over it, the counters go up, the block is
 //             spent. The touch pad is up in the bottom corners, its D-pad and A pressed as he runs and jumps.
-//   bars 2-4  Pip stops and talks in the dialogue box; his line ends in a question and the choices come up, the glove
-//             poking at "Yes!", which is pressed.
-//   bars 4-5  "Level clear!" with a hop and stars; the tally counts the coins and blocks up to the score and lands
-//             three stars; an achievement slides in.
-const NAME = at(0, 1);
-const JUMPS = [at(1), at(1, 2), at(2)];
+//   bar 4     "Level clear!" on beat 1 with a hop and stars; then the iris closes on Pip.
+const TITLE = 2 * TICK;
+const PROMPT = at(0, 2);
+const PRESS = at(1, 1);
+const SHUT = at(1, 2);
+const LEVEL = at(1, 3);
+const NAME = LEVEL + 2 * TICK;
+const JUMPS = [at(2, 2), at(3), at(3, 2)];
 const RUNS: readonly (readonly [from: number, to: number, x0: number, x1: number])[] = [
-  [at(0, 3), JUMPS[0]!, 24, 62],
+  [at(2), JUMPS[0]!, 40, 62],
   [JUMPS[0]! + 22, JUMPS[1]!, 62, 102],
   [JUMPS[1]! + 22, JUMPS[2]!, 102, 142],
-  [JUMPS[2]! + 22, at(2, 2), 142, 176],
+  [JUMPS[2]! + 22, at(4), 142, 176],
 ];
-const PAD = [at(0, 3), at(2, 2)] as const;
-const TALK = at(2, 2);
-const LINE = "I'm Pip! Every block and coin here is Blip's game kit. Make your own?";
-const EVERY = 1;
-const CHOICES = at(3, 2);
-const PICK = at(4);
+const PAD = [at(2), at(4)] as const;
 const CLEAR = at(4, 1);
-const TALLY = at(4, 3);
-const TROPHY = at(5, 1);
-const OUT = at(6) - 8 * TICK;
+const OUT = at(5) - IRIS_FRAMES;
 
 // The level is a 240 x 135 world seen twice as big, whole, as Starfall's camera shows its 320 x 180: big enough to
 // read Pip. In it the grass top is row 124; Pip is 14 x 13 outlined, a block 12.
@@ -62,11 +60,14 @@ const BUMP = [6, 6, 3, 3, 0];
 const RISE = [7, 13, 19, 23, 25, 26, 25, 24];
 const SPIN = [1, 1, 0.7, 0.3, 0.7, 1];
 
+/** Where the title's prompt sits, for its iris to shut on. */
+const PROMPT_Y = 166;
+
 /** Where Pip ends, the middle of him, in stage Blip pixels: for an iris to close on. */
 export const PIP_END = { x: (RUNS.at(-1)![3] + PIP_W / 2) * ZOOM, y: (GROUND - PIP_H / 2) * ZOOM };
 
-/** One of Starfall's sprites, drawn a Blip pixel per sprite pixel, flipped to face left if asked. */
-const ArtSprite = ({ name, scale = 1, flip = false, style }: { readonly name: string; readonly scale?: number; readonly flip?: boolean; readonly style?: CSSProperties }) => {
+/** One of Starfall's sprites, drawn a Blip pixel per sprite pixel, flipped to face left if asked (Game kit uses it too). */
+export const ArtSprite = ({ name, scale = 1, flip = false, style }: { readonly name: string; readonly scale?: number; readonly flip?: boolean; readonly style?: CSSProperties }) => {
   const ref = useRef<HTMLCanvasElement>(null);
   useLayoutEffect(() => {
     const el = ref.current, art = ART[name];
@@ -80,14 +81,6 @@ const ArtSprite = ({ name, scale = 1, flip = false, style }: { readonly name: st
   }, [name, scale]);
   return <canvas ref={ref} style={{ imageRendering: "pixelated", display: "block", transform: flip ? "scaleX(-1)" : undefined, ...style }} />;
 };
-
-/** The tally's rows: what was counted, how, and what it was worth. */
-const TALLY_ROWS = [
-  ["Coins", "3 × 100", 300],
-  ["Blocks", "3 × 50", 150],
-] as const;
-/** A tally value counting up from 0 at `from`, in eight whole steps a Blip frame apart. */
-const count = (frame: number, from: number, value: number) => Math.round((value * Math.min(8, Math.max(0, ticks(frame, from) + 1))) / 8);
 
 /** Where Pip is and which frame of him shows, a Blip frame at a time. */
 function pip(frame: number): { x: number; y: number; art: string } {
@@ -163,148 +156,96 @@ export const MakeAGame = ({ music = true }: { readonly music?: boolean }) => {
   const me = pip(frame);
   const hits = JUMPS.map((j) => j + HIT * TICK);
   const got = hits.filter((h) => frame >= h).length;
-  const typed = Math.max(0, Math.min(LINE.length, Math.floor((frame - TALK - 4 * TICK) / EVERY) + 1));
   const course = Math.round(((me.x - RUNS[0]![2]) / (RUNS.at(-1)![3] - RUNS[0]![2])) * 100);
+  const pressed = frame >= PRESS && frame < PRESS + 3 * TICK;
 
   return (
-    <Stage scheme="night">
-      <div style={{ position: "absolute", left: 0, top: 0, inlineSize: p(LW), blockSize: p(LH), zoom: ZOOM }}>
-        <LevelWorld />
-        {JUMPS.map((j, i) => (
-          <Block key={j} x={RUNS[i]![3] + (PIP_W - BLOCK) / 2} hit={hits[i]!} />
-        ))}
-        <Beat at={at(0, 2)} from={at(0, 2)}>
-          <div className="blip-pop-in" style={{ position: "absolute", left: p(me.x), top: p(GROUND - PIP_H - me.y) }}>
-            <ArtSprite name={me.art} />
-          </div>
-        </Beat>
-      </div>
-
-      <div className="blip-hud" style={{ position: "absolute", insetInline: p(8), top: p(4) }}>
-        <div className="blip-hud-group">
-          <span className="blip-hearts" role="img" aria-label="Health, 3 of 3">
-            {[0, 1, 2].map((i) => <Sprite key={i} name="heart" />)}
-          </span>
-          <div className="blip-box blip-hud-track" role="meter" aria-label="Course" style={{ "--blip-hud-value": course } as CSSProperties}>
-            <span className="blip-hud-track-fill" />
-          </div>
-        </div>
-        <div className="blip-hud-group">
-          <span className="blip-counter"><Sprite name="coin" /><span className="blip-counter-value blip-display blip-pop" data-scale="2" data-pop={String(got).padStart(3, "0")}>{String(got).padStart(3, "0")}</span></span>
-          <span className="blip-counter"><span className="blip-counter-value blip-display blip-pop" data-scale="2" data-pop={String(got * 100).padStart(6, "0")}>{String(got * 100).padStart(6, "0")}</span></span>
-        </div>
-      </div>
-
-      <Shout text="1-1 Puddle Path" at={NAME} until={at(0, 3, 2)} />
-
-      {/* The game kit's touch pad, shown as on a phone while Pip runs: right held, A on each jump. */}
-      <Beat at={PAD[0]} until={PAD[1]}>
-        <div className="blip-touch-pad blip-pop-in" data-show="always" data-position="inline" aria-label="Game controls" style={{ position: "absolute", insetInline: p(12), bottom: p(10) }}>
-          <span className="blip-touch-pad-dpad">
-            {(["up", "right", "down", "left"] as const).map((dir) => (
-              <span key={dir} className="blip-box blip-touch-pad-arm" data-dir={dir} role="button" data-blip-state={dir === "right" && RUNS.some(([f, t]) => frame >= f && frame < t) ? "active" : undefined}><span /></span>
-            ))}
-            <span className="blip-box blip-touch-pad-hub" aria-hidden="true" />
-          </span>
-          <span className="blip-touch-pad-buttons">
-            <span className="blip-box blip-touch-pad-button" data-button="b" role="button">B</span>
-            <span className="blip-box blip-touch-pad-button" data-button="a" role="button" data-blip-state={JUMPS.some((j) => frame >= j && frame < j + 4 * TICK) ? "active" : undefined}>A</span>
-          </span>
-        </div>
-      </Beat>
-
-
-      <Beat at={frame >= CHOICES ? CHOICES : TALK} from={TALK} until={CLEAR}>
-        <div className="blip-box blip-dialogue blip-pop-in" style={{ position: "absolute", left: p(70), right: p(70), top: p(72) }}>
-          <span className="blip-box blip-dialogue-name" data-tone="green">Pip</span>
-          <div className="blip-box blip-dialogue-portrait" data-variant="soft" data-tone="green" aria-hidden="true">
-            <ArtSprite name={typed < LINE.length && Math.floor(frame / (2 * TICK)) % 2 ? "pip-blink" : "pip-idle"} scale={2} />
-          </div>
-          <div className="blip-dialogue-body">
-            <div className="blip-dialogue-text">
-              <p>
-                {LINE.slice(0, typed)}
-                <span className="blip-dialogue-rest">{LINE.slice(typed)}</span>
+    <Stage scheme="night" mosaicIn>
+      {frame < LEVEL ? (
+        // Starfall's title screen, as the game template has it.
+        <AbsoluteFill>
+          <World scheme="night" />
+          <div className="v-center" style={{ gap: p(16), paddingBlockEnd: p(20) }}>
+            <DropTitle text="Starfall" lands={letterLands("Starfall", TITLE, TICK)} scale={6} outline={2} />
+            <div style={{ display: "grid", justifyItems: "center", gap: p(10), visibility: frame >= PROMPT ? "visible" : "hidden" }}>
+              <Beat at={PROMPT} from={0}>
+                <p className="blip-prompt-start blip-display blip-pop" data-scale="3" data-pop="Press start" style={{ margin: 0, animation: frame >= PRESS ? "none" : undefined }}>
+                  Press start
+                </p>
+              </Beat>
+              <p className="blip-prompt blip-outline" style={{ margin: 0, fontSize: "var(--blip-size-lead)" }}>
+                or press{" "}
+                <kbd className="blip-box blip-prompt-key" data-blip-state={pressed ? "active" : undefined}>Enter</kbd>
               </p>
             </div>
-            <div className="blip-dialogue-choices" style={{ visibility: frame >= CHOICES ? "visible" : "hidden" }}>
-              <ul className="blip-choices" role="list">
-                {["Yes!", "Later"].map((label, n) => (
-                  <li key={label}>
-                    <button className="blip-box blip-choice" type="button" data-variant="ghost" data-blip-state={n === 0 && frame >= CHOICES ? (frame >= PICK && frame < PICK + 3 * TICK ? "focus active" : "focus") : undefined}>
-                      {label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
           </div>
-        </div>
-      </Beat>
-
-      <Shout text="Level clear!" at={CLEAR} until={TALLY} />
-      <Burst at={CLEAR + 2 * TICK} kind="star" box={[150, 60, 180, 50]} count={12} seed={4} scale={1} />
-
-      {/* The game kit's tally: each row counts up a whole step a frame, then the stars land, then the total. */}
-      <Beat at={TALLY} until={OUT + 8 * TICK}>
-        <div className="blip-box blip-pop-in" data-variant="panel" style={{ position: "absolute", left: p(60), top: p(52), inlineSize: p(180), padding: p(10) }}>
-          <div className="blip-tally">
-            <div className="blip-tally-stars" role="img" aria-label="3 stars of 3" style={{ display: "flex", justifyContent: "center", gap: p(4) }}>
-              {[0, 1, 2].map((n) => <Sprite key={n} name={frame >= TALLY + (10 + 2 * n) * TICK ? "star" : "star-empty"} scale={2} />)}
-            </div>
-            <dl className="blip-tally-rows">
-              {TALLY_ROWS.map(([label, detail, value], n) => {
-                const shown = count(frame, TALLY + n * 4 * TICK, value);
-                return (
-                  <div key={label} className="blip-tally-row">
-                    <dt>{label}</dt>
-                    <dd className="blip-tally-detail">{detail}</dd>
-                    <dd className="blip-tally-value blip-display blip-pop" data-pop={String(shown)}>{shown}</dd>
-                  </div>
-                );
-              })}
-              <div className="blip-tally-row" data-total>
-                <dt>Score</dt>
-                <dd className="blip-tally-value blip-display blip-pop" data-scale="2" data-pop={String(count(frame, TALLY + 16 * TICK, 450))}>{count(frame, TALLY + 16 * TICK, 450)}</dd>
+        </AbsoluteFill>
+      ) : (
+        <>
+          <div style={{ position: "absolute", left: 0, top: 0, inlineSize: p(LW), blockSize: p(LH), zoom: ZOOM }}>
+            <LevelWorld />
+            {JUMPS.map((j, i) => (
+              <Block key={j} x={RUNS[i]![3] + (PIP_W - BLOCK) / 2} hit={hits[i]!} />
+            ))}
+            <Beat at={NAME}>
+              <div className="blip-pop-in" style={{ position: "absolute", left: p(me.x), top: p(GROUND - PIP_H - me.y) }}>
+                <ArtSprite name={me.art} />
               </div>
-            </dl>
+            </Beat>
           </div>
-        </div>
-      </Beat>
 
-      {/* An achievement for it, sliding in with its sparkles. */}
-      <Beat at={TROPHY} until={OUT + 8 * TICK}>
-        <div className="blip-achievements" role="status" style={{ position: "absolute", right: p(10), top: p(34), inlineSize: p(196) }}>
-          <div className="blip-box blip-achievement">
-            <span className="blip-box blip-achievement-icon"><Sprite name="trophy" /><span className="blip-achievement-sparkles" /></span>
-            <p className="blip-achievement-label">Achievement unlocked</p>
-            <p className="blip-achievement-title">Block buster</p>
-            <p className="blip-achievement-text">Hit every block from below.</p>
+          <div className="blip-hud" style={{ position: "absolute", insetInline: p(8), top: p(4) }}>
+            <div className="blip-hud-group">
+              <span className="blip-hearts" role="img" aria-label="Health, 3 of 3">
+                {[0, 1, 2].map((i) => <Sprite key={i} name="heart" />)}
+              </span>
+              <div className="blip-box blip-hud-track" role="meter" aria-label="Course" style={{ "--blip-hud-value": course } as CSSProperties}>
+                <span className="blip-hud-track-fill" />
+              </div>
+            </div>
+            <div className="blip-hud-group">
+              <span className="blip-counter"><Sprite name="coin" /><span className="blip-counter-value blip-display blip-pop" data-scale="2" data-pop={String(got).padStart(3, "0")}>{String(got).padStart(3, "0")}</span></span>
+              <span className="blip-counter"><span className="blip-counter-value blip-display blip-pop" data-scale="2" data-pop={String(got * 100).padStart(6, "0")}>{String(got * 100).padStart(6, "0")}</span></span>
+            </div>
           </div>
-        </div>
-      </Beat>
 
+          <Shout text="1-1 Puddle Path" at={NAME} until={at(2, 1)} />
+
+          {/* The game kit's touch pad, shown as on a phone while Pip runs: right held, A on each jump. */}
+          <Beat at={PAD[0]} until={PAD[1]}>
+            <div className="blip-touch-pad blip-pop-in" data-show="always" data-position="inline" aria-label="Game controls" style={{ position: "absolute", insetInline: p(12), bottom: p(10) }}>
+              <span className="blip-touch-pad-dpad">
+                {(["up", "right", "down", "left"] as const).map((dir) => (
+                  <span key={dir} className="blip-box blip-touch-pad-arm" data-dir={dir} role="button" data-blip-state={dir === "right" && RUNS.some(([f, t]) => frame >= f && frame < t) ? "active" : undefined}><span /></span>
+                ))}
+                <span className="blip-box blip-touch-pad-hub" aria-hidden="true" />
+              </span>
+              <span className="blip-touch-pad-buttons">
+                <span className="blip-box blip-touch-pad-button" data-button="b" role="button">B</span>
+                <span className="blip-box blip-touch-pad-button" data-button="a" role="button" data-blip-state={JUMPS.some((j) => frame >= j && frame < j + 4 * TICK) ? "active" : undefined}>A</span>
+              </span>
+            </div>
+          </Beat>
+
+          <Shout text="Level clear!" at={CLEAR} until={OUT + IRIS_FRAMES} />
+          <Burst at={CLEAR + 2 * TICK} kind="star" box={[150, 90, 180, 40]} count={12} seed={4} scale={1} />
+        </>
+      )}
+
+      {letterLands("Starfall", TITLE, TICK).map((f, i) => <Sfx key={`t${f}`} name={i ? `step@${[0, 2, 3, 5, 7, 8, 10, 12][i]}` : "step"} at={f} volume={0.45} />)}
+      <Sfx name="select" at={PRESS} volume={0.7} />
       <Sfx name="open" at={NAME} volume={0.5} />
       {JUMPS.map((j, i) => <Sfx key={j} name={i ? `jump@${[0, 3, 5][i]}` : "jump"} at={j} volume={0.4} />)}
       {hits.map((h) => <Sfx key={`b${h}`} name="bump" at={h} volume={0.45} />)}
       {hits.map((h, i) => <Sfx key={`c${h}`} name={["coin", "coin@4", "coin@7"][i]!} at={h + TICK} volume={0.5} />)}
-      <Sfx name="open" at={TALK} volume={0.5} />
-      {Array.from({ length: Math.ceil(LINE.length / 4) }, (_, n) => (
-        // Pip's voice: a soft blip every fourth letter.
-        <Sfx key={`v${n}`} name={["blip@5", "blip@7", "blip@5", "blip@3"][n % 4]!} at={TALK + 4 * TICK + Math.round(n * 4 * EVERY)} volume={0.16} />
-      ))}
-      <Sfx name="look" at={CHOICES} volume={0.45} />
-      <Sfx name="select" at={PICK} volume={0.6} />
-      {TALLY_ROWS.map(([label], n) => <Sfx key={label} name={["coin@5", "coin@7"][n]!} at={TALLY + n * 4 * TICK + 2 * TICK} volume={0.4} />)}
-      {[0, 1, 2].map((n) => <Sfx key={`s${n}`} name={["step@7", "step@10", "step@12"][n]!} at={TALLY + (10 + 2 * n) * TICK} volume={0.45} />)}
-      <Sfx name="coin@12" at={TALLY + 18 * TICK} volume={0.45} />
-      <Sfx name="success@7" at={TROPHY} volume={0.5} />
       <Sfx name="jump@7" at={CLEAR} volume={0.35} />
       <Sfx name="success@5" at={CLEAR} volume={0.6} />
 
       {music && <Music bar={MAKE_A_GAME.bar} bars={MAKE_A_GAME.bars} />}
-      <Iris at={0} mode="in" x={(24 + PIP_W / 2) * ZOOM} y={(GROUND - PIP_H / 2) * ZOOM} />
-      <Iris at={at(6) - IRIS_FRAMES} mode="out" x={PIP_END.x} y={PIP_END.y} />
+      {/* The title shuts on its prompt; the level opens on Pip; the scene ends shut on him again. */}
+      {frame < LEVEL && <Iris at={SHUT} mode="out" x={240} y={PROMPT_Y} />}
+      {frame >= LEVEL && <Iris at={LEVEL} mode="in" x={(40 + PIP_W / 2) * ZOOM} y={(GROUND - PIP_H / 2) * ZOOM} />}
+      <Iris at={OUT} mode="out" x={PIP_END.x} y={PIP_END.y} />
     </Stage>
   );
 };

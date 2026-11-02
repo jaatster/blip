@@ -5,6 +5,7 @@ import { COLOURS, Colours } from "./scenes/Colours";
 import { COMPONENTS, Components } from "./scenes/Components";
 import { MAKE_A_GAME, MakeAGame } from "./scenes/MakeAGame";
 import { EVERYWHERE, Everywhere } from "./scenes/Everywhere";
+import { GAME_KIT, GameKit } from "./scenes/GameKit";
 import { MOBILE, Mobile } from "./scenes/Mobile";
 import { MODULAR, Modular } from "./scenes/Modular";
 import { OUTRO, Outro } from "./scenes/Outro";
@@ -21,7 +22,8 @@ export const SCENES = [
   { name: "Make anything", bars: REAL_SCREENS.bars, Scene: RealScreens },
   { name: "Responsive", bars: RESPONSIVE.bars, Scene: Responsive },
   { name: "Ready for mobile", bars: MOBILE.bars, Scene: Mobile },
-  { name: "Make a game", bars: MAKE_A_GAME.bars, Scene: MakeAGame },
+  { name: "Game kit", bars: GAME_KIT.bars, Scene: GameKit },
+  { name: "Puddle Path", bars: MAKE_A_GAME.bars, Scene: MakeAGame },
   { name: "Use it everywhere", bars: EVERYWHERE.bars, Scene: Everywhere },
   { name: "Built right", bars: BUILT_RIGHT.bars, Scene: BuiltRight },
   { name: "Outro", bars: OUTRO.bars, Scene: Outro },

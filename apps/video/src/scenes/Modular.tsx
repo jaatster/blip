@@ -7,6 +7,7 @@ import { ART as STARFALL } from "../../../docs/public/js/starfall/art.js";
 import { Beat } from "../lib/Beat";
 import { Big } from "../lib/Big";
 import { TICK, at, p, ticks } from "../lib/grid";
+import { Icon } from "../lib/Icon";
 import { Burst, Life, Sky, Sprite } from "../lib/Pixels";
 import { Music, Sfx } from "../lib/Sound";
 import { DemoFrame, HERO, SHOW_CLEAR, SplitText, type Part } from "../lib/Split";
@@ -16,36 +17,45 @@ import { DISSOLVE_FRAMES, Dissolve } from "../lib/Transitions";
 /** Bars 5-8 of the theme: the groove. */
 export const MODULAR = { bar: 5, bars: 4 };
 
-// Modular: a tower of real candy blocks on the night sky, one package each, dropping onto the one it is built on:
-// tokens at the bottom, then core, components, and the kits on top. Each lands on its beat with a bump and a pitched
-// step while its name and its line take the column. Then Pip drops onto the top, a coin pops up and confetti falls.
-// Sizes are the build's gzipped measurements (apps/docs assets.json).
+// Modular: Blip building itself from its layers, a layer a bar, no words but the title.
+//   bar 0  the tokens: its colours drop in as pixel chips, an eighth apart (the accent's light, base and shade, ink,
+//          white, cream)
+//   bar 1  core: the chips gather into one and the candy box builds itself tier by tier on the eighths, with the
+//          box's own tiers: an outline, then the soft fill and its band, then the candy with its bands and glints
+//   bar 2  components: the box takes its icon and label and is a real Play button; it is pressed on the beat
+//   bar 3  kits: Pip drops onto it, it presses under him, a coin springs out, sparkles and confetti
 type Art = { readonly tone: string; readonly map: string };
 const ART = STARFALL as Record<string, Art>;
 
-const PARTS: readonly Part[] = [
-  { at: at(0, 1), title: "Modular", line: "Tokens: colours, sizes and the world's palettes." },
-  { at: at(1), title: "Modular", line: "Core: the candy box every part is drawn with." },
-  { at: at(2), title: "Modular", line: "Components: 88 of them, on native HTML." },
-  { at: at(2, 3), title: "Modular", line: "Kits: game, effects, sound and blocks, when you want them." },
+const PARTS: readonly Part[] = [{ at: at(0, 0, 2), title: "Modular", line: "" }];
+const CHIPS = ["var(--blip-accent-light)", "var(--blip-accent)", "var(--blip-accent-shade)", "var(--blip-ink)", "var(--blip-white)", "var(--blip-candy-cream)"];
+const CHIP_LANDS = CHIPS.map((_, i) => at(0, 1) + i * 10);
+const GATHER = at(1);
+const TIERS: readonly (readonly [frame: number, variant: string])[] = [
+  [at(1, 1), "outline"],
+  [at(1, 2), "soft"],
+  [at(1, 3), "candy"],
 ];
-// The tower, in the 2x pixels it is drawn in: blocks 16 high, narrower as they go up, each landing on its beat, with
-// room above it for Pip (the tower's top is 16 pixels down its box).
-const BLOCKS = [
-  { name: "Tokens", size: "3.8 KB", w: 148, land: at(0, 2) },
-  { name: "Core", size: "6 KB", w: 134, land: at(1, 1) },
-  { name: "Components", size: "32 KB", w: 122, land: at(2, 1) },
-  { name: "Kits", size: "", w: 78, land: at(3) },
-];
-const H = 16;
-const TW = 148, TH = 80;
-const FALL = [-30, -16, -6, -1, 0];
-const PIP_LAND = at(3, 1);
-const COIN = at(3, 2);
-const PIP_FALL = [-34, -22, -12, -4, 0];
-const HOP = [0, 3, 5, 3, 0];
+const LABEL = at(2);
+const PRESS = at(2, 2);
+const PIP = at(3);
+const PIP_LAND = PIP + 5 * TICK;
+const COIN = at(3, 1);
 
-/** One of Starfall's sprites, a pixel per sprite pixel (inside Big, a 2x pixel). */
+// The chips, in stage pixels: 24 square with 16 between, in a row across the middle of the hero.
+const CHIP = 24, GAP = 16;
+const ROW_W = CHIPS.length * CHIP + (CHIPS.length - 1) * GAP;
+const CX = HERO.x + HERO.w / 2, CY = HERO.y + HERO.h / 2;
+// A drop with a little overshoot: falls, lands a pixel low, settles.
+const DROP = [-36, -22, -10, -3, 1, 0];
+// Gathering: each chip slides to the middle in four even steps.
+const GATHER_STEPS = 4;
+// Pip's fall onto the button, in its 3x pixels, and his hop when the coin pops.
+const PIP_FALL = [-40, -26, -14, -5, 0];
+const HOP = [0, 3, 5, 3, 0];
+const RISE = [4, 7, 9, 10, 11, 11];
+
+/** One of Starfall's sprites, a pixel per sprite pixel (inside Big, a 3x pixel). */
 const ArtSprite = ({ name, style }: { readonly name: string; readonly style?: CSSProperties }) => {
   const ref = useRef<HTMLCanvasElement>(null);
   useLayoutEffect(() => {
@@ -61,47 +71,71 @@ const ArtSprite = ({ name, style }: { readonly name: string; readonly style?: CS
   return <canvas ref={ref} style={{ imageRendering: "pixelated", display: "block", ...style }} />;
 };
 
-const Tower = ({ frame }: { readonly frame: number }) => {
-  const top = TH - BLOCKS.length * H;
-  // Pip: falls onto the top of the tower, lands, hops when the coin pops, then stands blinking.
-  const pk = ticks(frame, PIP_LAND - (PIP_FALL.length - 1) * TICK);
-  const hk = ticks(frame, COIN);
-  const pipY = pk < PIP_FALL.length ? PIP_FALL[Math.max(0, pk)]! : hk >= 0 && hk < HOP.length ? -HOP[hk]! : 0;
-  const pipArt = pk < PIP_FALL.length - 1 ? "pip-fall" : hk >= 0 && hk < 2 ? "pip-jump" : hk >= 2 && hk < HOP.length ? "pip-fall" : ticks(frame, PIP_LAND) % 14 === 12 ? "pip-blink" : "pip-idle";
-  const coin = ticks(frame, COIN), RISE = [6, 11, 15, 18, 20, 21];
+/** The colour chips: dropping in, then gathering into the middle, where the box appears. */
+const Chips = ({ frame }: { readonly frame: number }) => {
+  if (frame >= TIERS[0]![0]) return null;
+  const g = Math.min(GATHER_STEPS, Math.max(0, ticks(frame, GATHER) + 1));
   return (
-    <div style={{ position: "relative", inlineSize: p(TW), blockSize: p(TH) }}>
-      {BLOCKS.map((b, i) => {
-        const k = ticks(frame, b.land - (FALL.length - 1) * TICK);
+    <>
+      {CHIPS.map((colour, i) => {
+        const k = ticks(frame, CHIP_LANDS[i]! - (DROP.length - 2) * TICK);
         if (k < 0) return null;
+        const x0 = CX - ROW_W / 2 + i * (CHIP + GAP), x = Math.round(x0 + ((CX - CHIP / 2 - x0) * g) / GATHER_STEPS);
         return (
-          <Beat key={b.name} at={b.land}>
-            <div
-              className={k >= FALL.length - 1 ? "blip-bump" : undefined}
-              style={{ position: "absolute", left: p((TW - b.w) / 2), top: p(TH - (i + 1) * H), translate: `0 ${p(FALL[Math.min(k, FALL.length - 1)]!)}` }}
-            >
-              <div
-                className="blip-box blip-display"
-                data-scale="1"
-                data-variant="candy"
-                data-tone="accent"
-                style={{ inlineSize: p(b.w), blockSize: p(H - 2), display: "flex", alignItems: "center", justifyContent: "center", gap: p(6), color: "var(--blip-ink)", "--blip-r": 3, "--blip-shape": "var(--blip-shape-3)", "--blip-shape-inner": "var(--blip-shape-3-inner)", "--blip-band-top": 2, "--blip-band-bottom": 3 } as CSSProperties}
-              >
-                <span>{b.name}</span>
-                {b.size && <span style={{ fontFamily: "var(--blip-font-body)", fontSize: "var(--blip-size-caption)", fontWeight: 700, letterSpacing: 0 }}>{b.size}</span>}
-              </div>
-            </div>
-          </Beat>
+          <div
+            key={colour}
+            style={{
+              position: "absolute", left: p(x), top: p(CY - CHIP / 2 + DROP[Math.min(k, DROP.length - 1)]!),
+              inlineSize: p(CHIP), blockSize: p(CHIP), background: colour,
+              boxShadow: `0 0 0 ${p(1)} var(--blip-ink), ${p(1)} ${p(2)} 0 0 var(--blip-ink)`,
+            }}
+          />
         );
       })}
+    </>
+  );
+};
+
+/** The candy box at three times the pixel: its tiers, then the Play button it becomes, and Pip on top. */
+const Box = ({ frame }: { readonly frame: number }) => {
+  const tier = TIERS.filter((t) => t[0] <= frame).at(-1);
+  if (!tier) return null;
+  const labelled = frame >= LABEL;
+  const pk = ticks(frame, PIP);
+  const hk = ticks(frame, COIN);
+  const pressed = (frame >= PRESS && frame < PRESS + 3 * TICK) || (frame >= PIP_LAND && frame < PIP_LAND + 3 * TICK);
+  const pipY = pk < PIP_FALL.length ? PIP_FALL[Math.max(0, pk)]! : hk >= 0 && hk < HOP.length ? -HOP[hk]! : 0;
+  const pipArt = pk < PIP_FALL.length - 1 ? "pip-fall" : hk >= 0 && hk < 2 ? "pip-jump" : hk >= 2 && hk < HOP.length ? "pip-fall" : ticks(frame, PIP_LAND) % 14 === 12 ? "pip-blink" : "pip-idle";
+  const c = ticks(frame, COIN);
+  return (
+    <div style={{ position: "relative" }}>
+      <Beat at={labelled ? (frame >= PRESS ? PRESS : LABEL) : tier[0]}>
+        <span
+          className="blip-box blip-button blip-pop-in"
+          data-size="lg"
+          data-variant={labelled ? undefined : tier[1]}
+          data-blip-state={pressed ? "active" : undefined}
+          style={{ position: "relative", inlineSize: p(64), paddingInline: 0, marginInlineStart: p(1) }}
+        >
+          {/* (The left margin matches the box's own on its right, kept for its drop, so the box itself is centred.) */}
+          {/* The icon and label are there from the start, unseen, so the box keeps one size as it builds. */}
+          <span style={{ display: "contents", visibility: labelled ? "visible" : "hidden" }}>
+            <span className={labelled && frame < PRESS ? "blip-drop-in" : undefined} style={{ display: "inline-flex", alignItems: "center", gap: p(4), visibility: labelled ? "visible" : "hidden" }}>
+              <Icon name="play" />
+              Play
+            </span>
+          </span>
+          {labelled && <span className="blip-glint" aria-hidden="true" />}
+        </span>
+      </Beat>
 
       {pk >= 0 && (
-        <div style={{ position: "absolute", left: p(TW / 2 - 7), top: p(top - 13 + pipY) }}>
+        <div style={{ position: "absolute", left: "50%", marginInlineStart: p(-7), top: p(-13 + pipY + (pressed && pk >= PIP_FALL.length ? 1 : 0)) }}>
           <ArtSprite name={pipArt} />
         </div>
       )}
-      {/* The coin springs up off to Pip's right, clear of the title above. */}
-      {coin >= 0 && coin < RISE.length && <Sprite name="coin" style={{ position: "absolute", left: p(TW / 2 + 22), top: p(top - 4 - Math.round(RISE[coin]! / 2)) }} />}
+      {/* The coin springs up beside Pip, clear of the title. */}
+      {c >= 0 && c < RISE.length && <Sprite name="coin" style={{ position: "absolute", left: "50%", marginInlineStart: p(14), top: p(-8 - RISE[c]!) }} />}
     </div>
   );
 };
@@ -116,24 +150,28 @@ export const Modular = ({ music = true }: { readonly music?: boolean }) => {
       </AbsoluteFill>
 
       <SplitText eyebrow="Modular" parts={PARTS} />
-      <DemoFrame at={BLOCKS[0]!.land - (FALL.length - 1) * TICK}>
-        {/* The tower stands on the bottom of the hero, centred, with room under it before the line. */}
-        <div style={{ position: "absolute", inset: 0, display: "grid", justifyItems: "center", alignItems: "end", paddingBlockEnd: p(10) }}>
-          <Big x={2}>
-            <Tower frame={frame} />
+      <Chips frame={frame} />
+      <DemoFrame at={TIERS[0]![0]}>
+        <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center" }}>
+          <Big x={3}>
+            <Box frame={frame} />
           </Big>
         </div>
       </DemoFrame>
 
-      {/* The coin's sparkle and the confetti, in stage pixels: the tower's box is 2 x 80 high on the hero's bottom. */}
-      <Burst at={COIN + 6 * TICK} kind="sparkle" box={[HERO.x + HERO.w / 2 + 44, HERO.y + HERO.h - 170 + 2 * (16 - 4 - 11) - 4, 24, 22]} count={6} seed={9} scale={2} />
-      <Burst at={COIN} kind="confetti" box={[HERO.x + 30, HERO.y, HERO.w - 60, 6]} count={34} seed={12} scale={2} />
+      {/* In stage pixels: the gathering's flash in the middle, and the coin's sparkle and the confetti over the button. */}
+      <Burst at={TIERS[0]![0]} kind="sparkle" box={[CX - 40, CY - 30, 80, 60]} count={8} seed={4} scale={2} />
+      <Burst at={COIN + 6 * TICK} kind="sparkle" box={[CX + 36, CY - 36 - 3 * 19, 30, 24]} count={6} seed={9} scale={2} />
+      <Burst at={COIN} kind="confetti" box={[HERO.x + 30, HERO.y - 6, HERO.w - 60, 6]} count={36} seed={12} scale={2} />
 
-      {BLOCKS.map((b, i) => <Sfx key={b.name} name={i ? `step@${[0, 3, 5, 7][i]}` : "step"} at={b.land} volume={0.55} />)}
-      {BLOCKS.map((b) => <Sfx key={`b${b.name}`} name="bump" at={b.land} volume={0.35} />)}
-      <Sfx name="jump" at={PIP_LAND - 4 * TICK} volume={0.4} />
-      <Sfx name="bump" at={PIP_LAND} volume={0.4} />
-      <Sfx name="jump@5" at={COIN} volume={0.45} />
+      {CHIP_LANDS.map((f, i) => <Sfx key={f} name={i ? `step@${[0, 2, 3, 5, 7, 8][i]}` : "step"} at={f} volume={0.5} />)}
+      <Sfx name="look" at={GATHER} volume={0.45} />
+      {TIERS.map(([f], i) => <Sfx key={f} name={`blip@${[3, 5, 7][i]}`} at={f} volume={0.5} />)}
+      <Sfx name="open" at={LABEL} volume={0.55} />
+      <Sfx name="select" at={PRESS} volume={0.65} />
+      <Sfx name="jump" at={PIP} volume={0.45} />
+      <Sfx name="bump" at={PIP_LAND} volume={0.5} />
+      <Sfx name="select@5" at={PIP_LAND} volume={0.5} />
       <Sfx name="coin" at={COIN} volume={0.6} />
       <Sfx name="success@5" at={COIN + 2 * TICK} volume={0.45} />
 

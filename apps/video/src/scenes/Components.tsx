@@ -10,7 +10,7 @@ import { Big } from "../lib/Big";
 import { STEP, TICK, at, p, ticks } from "../lib/grid";
 import { Icon } from "../lib/Icon";
 import { Burst, Dither, H as SH, Life, Sprite, W as SW, bayerMask, useCanvas } from "../lib/Pixels";
-import { type Move, PRESS, Pointer, over, pressing } from "../lib/Pointer";
+import { type Move, PRESS, over, pressing } from "../lib/Pointer";
 import { Music, Sfx } from "../lib/Sound";
 import { DemoFrame, HERO, type Part, SHOW_CLEAR, SplitText } from "../lib/Split";
 import { Stage } from "../lib/Stage";
@@ -58,7 +58,7 @@ const RING_AT = END + MOSAIC_FRAMES + STEP;
 // The stars the switch brings out, on the stage, clear of the words and of the switch: one a Blip frame, at twice.
 const STARS: readonly (readonly [number, number])[] = [
   [36, 30], [430, 24], [84, 70], [396, 84], [24, 118], [452, 140], [70, 176], [410, 190], [120, 204], [360, 206],
-  [150, 76], [330, 72], [48, 214], [440, 226], [96, 120], [380, 132], [200, 88], [280, 92], [26, 66], [458, 60],
+  [124, 104], [356, 104], [48, 214], [440, 226], [96, 128], [380, 140], [60, 156], [420, 162], [26, 66], [458, 60],
 ];
 const FLARES = STARS.length + 7;
 const STARS_FULL = STARS_ON + FLARES * TICK;
@@ -76,7 +76,7 @@ const SKIES: readonly (readonly [frame: number, sky: Sky, value: number])[] = [
   [BUTTON_AT, { scheme: "night", stars: "usual" }, 2],
 ];
 // A full sky keeps clear of the words and the parts only; the usual one of the whole showcase.
-const FULL_CLEAR = [[100, 6, 380, 104], [52, 216, 428, 244], [140, 104, 340, 176]] as const;
+const FULL_CLEAR = [[100, 20, 380, 112], [130, 112, 350, 236]] as const;
 
 const SceneSky = ({ sky }: { readonly sky: Sky }) => {
   const ref = useCanvas(
@@ -197,8 +197,9 @@ const StarField = ({ frame }: { readonly frame: number }) => {
 // ------------------------------------------------------------------ 3. Button: Pip jumps off it
 
 // In the hero's own pixels (400 x 152): the button stands at the bottom, Pip (three times, 42 x 39) on top of it, the
-// block (twice, 24) floating over him, where his head meets it at the top of the jump.
-const BUTTON_TOP = 112;
+// block (twice, 24) floating over him, where his head meets it at the top of the jump. The coin's highest point keeps
+// a few pixels clear of the title above the hero.
+const BUTTON_TOP = 118;
 const PIP = { x: 179, w: 42, h: 39 };
 const ARC = [0, 8, 14, 19, 22, 24, 22, 19, 14, 8, 0];
 const HIT = 5;
@@ -328,7 +329,6 @@ export const Components = ({ music = true }: { readonly music?: boolean }) => {
           <Screen frame={frame} sky={before[1]} v={false} />
         </div>
       )}
-      {frame < END && <Pointer moves={MOVES} />}
 
       <Sfx name="open" at={FRAME} volume={0.55} />
       {MOVES.map((m) => <Sfx key={m.at} name="look" at={m.at} volume={0.3} />)}

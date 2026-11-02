@@ -41,9 +41,9 @@ const FRAME = at(0, 1);
 // The hero, standing on the night sky: the swatches three times the size along the top, and under them Pip beside a
 // Play button twice the size. Pip (14 x 13) is drawn three times as big and hops a few pixels on each pick.
 const HOP = [0, 8, 14, 16, 14, 8, 0];
-const ROW = 92;
+const GAP = 24;
 /** Where the Play button lands on the stage, roughly, for the sparkles. */
-const BUTTON = { x: 219, y: 142, w: 112, h: 48 };
+const BUTTON = { x: 219, y: 166, w: 112, h: 48 };
 
 /** One of Starfall's sprites, drawn a Blip pixel per sprite pixel (or `scale`). */
 const ArtSprite = ({ name, scale = 1, style }: { readonly name: string; readonly scale?: number; readonly style?: CSSProperties }) => {
@@ -100,28 +100,27 @@ const Screen = ({ i, frame, v }: { readonly i: number; readonly frame: number; r
       <SplitText eyebrow="Your colours" parts={PARTS} />
 
       <DemoFrame at={FRAME}>
-        {/* The docs home's swatches, big, standing on the sky. */}
-        <div style={{ position: "absolute", insetInline: 0, top: p(14), display: "grid", justifyItems: "center" }}>
-          <Big x={3}>
-            <div style={{ display: "flex", gap: p(4) }}>
-              {PALETTES.map((sw, n) => <Swatch key={sw.name} n={n} i={i} frame={frame} v={v} />)}
-            </div>
-          </Big>
-        </div>
-
-        <div style={{ position: "absolute", insetInline: 0, top: p(ROW), display: "grid", justifyItems: "center" }}>
-          <Snap>
-            <div style={{ display: "flex", alignItems: "end", gap: p(28) }}>
-              <div style={{ translate: `0 ${p(-hop)}` }}>
-                <ArtSprite name={hop > 0 ? "pip-jump" : blink ? "pip-blink" : "pip-idle"} scale={3} />
+        {/* One centred block: the docs home's swatches, big, standing on the sky, and under them Pip by Play. */}
+        <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center" }}>
+          <div style={{ display: "grid", justifyItems: "center", gap: p(GAP) }}>
+            <Big x={3}>
+              <div style={{ display: "flex", gap: p(4) }}>
+                {PALETTES.map((sw, n) => <Swatch key={sw.name} n={n} i={i} frame={frame} v={v} />)}
               </div>
-              <Beat at={i > 0 ? PICKS[i]! : FRAME}>
-                <div className="v-x2" data-blip-pixel="">
-                  <span className="blip-box blip-button" data-size="lg"><Icon name="play" />Play</span>
+            </Big>
+            <Snap>
+              <div style={{ display: "flex", alignItems: "end", gap: p(28) }}>
+                <div style={{ translate: `0 ${p(-hop)}` }}>
+                  <ArtSprite name={hop > 0 ? "pip-jump" : blink ? "pip-blink" : "pip-idle"} scale={3} />
                 </div>
-              </Beat>
-            </div>
-          </Snap>
+                <Beat at={i > 0 ? PICKS[i]! : FRAME}>
+                  <div className="v-x2" data-blip-pixel="">
+                    <span className="blip-box blip-button" data-size="lg" data-v={v ? "play" : undefined}><Icon name="play" />Play</span>
+                  </div>
+                </Beat>
+              </div>
+            </Snap>
+          </div>
         </div>
       </DemoFrame>
     </AbsoluteFill>

@@ -1,79 +1,82 @@
-import type { CSSProperties } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
-import { Beat } from "../lib/Beat";
 import { TICK, at, p, ticks } from "../lib/grid";
 import { Life, Sky } from "../lib/Pixels";
 import { Music, Sfx } from "../lib/Sound";
 import { Site } from "../lib/Site";
-import { SHOW_CLEAR, SplitText, type Part } from "../lib/Split";
+import { HERO, SHOW_CLEAR, SplitText, type Part } from "../lib/Split";
 import { Stage } from "../lib/Stage";
 import { Dissolve, MOSAIC_FRAMES } from "../lib/Transitions";
 
-/** Bars 27-30 of the theme. */
-export const RESPONSIVE = { bar: 27, bars: 4 };
+/** Bars 25-28 of the theme. */
+export const RESPONSIVE = { bar: 25, bars: 4 };
 
-// Responsive: the left names the layout (desktop, tablet, phone); the right is Questboard, the dashboard template,
-// live in a pixel window, drawn twice the size so it reads. Attract mode's pointer takes the window's corner and drags
-// it narrower, two Blip frames a step, and at each stop the page is the layout for that width (its shell answers to its
-// container): the full sidebar from 1024 px, a rail of icons under it, the bottom bar under 600 px. Desktop and tablet
-// pages are wider than the window, so it shows their top left, down to the page's title: the app bar and the sidebar
-// or rail, where the change is. The phone needs its height for the bottom bar, so the last drag pulls the corner down
-// as well as in. The window stands on the night sky, centred; each drag keeps its top left, then it glides back to the
-// middle.
-// Each width is its own settled page, mounted from the start, so every held frame is the same however it is reached.
-// Each stop: the window's size in Blip pixels and the page's width in CSS pixels, its height the window's body at 2x.
-// Each window's edges fall in the page's own gaps, measured from the page, so nothing shows half cut: the desktop's
-// right edge between the app bar's links and the period (740), its bottom between the second and third sidebar rows
-// (186); the tablet's right edge between the period and the app bar's actions (642), its bottom under the title and
-// above the rail's third icon (184); the phone whole and 288 high, so its bottom bar sits clear under the period, and
-// the window shows it down to the bar's drop (284), not the strip of page under the bar.
-const STOPS = [
-  { win: 372, h: 111, page: 1112, pageH: 186 },
-  { win: 323, h: 110, page: 760, pageH: 184 },
-  { win: 198, h: 160, page: 392, pageH: 288 },
+// Responsive: Questboard, the dashboard template, whole and live at three widths, each in a device of its own: a
+// desktop monitor (1280 x 800), a tablet (768 x 1024) and a phone (400 x 840). Each page is drawn at half size, so its
+// own 2-pixel pixel is one screen pixel at 1080p: the whole layout shows, and its shell answers to its container for
+// real, the full sidebar and the app bar's links, then a rail and a menu button, then the bottom bar. They arrive a
+// bar apart, each dropping onto the sky as the ones before step aside, and end standing side by side, centred.
+type Device = { readonly name: string; readonly page: readonly [number, number]; readonly frame: readonly [number, number]; readonly arrive: number };
+const DEVICES: readonly Device[] = [
+  // The page's size in CSS pixels; the device's outer size in Blip pixels (the screen is the page at a quarter).
+  { name: "Desktop", page: [1280, 800], frame: [168, 122], arrive: at(0, 1) },
+  { name: "Tablet", page: [768, 1024], frame: [108, 140], arrive: at(1) },
+  { name: "Phone", page: [400, 840], frame: [58, 121], arrive: at(2) },
 ];
-const WINDOW = at(0, 1);
-const ENTER = at(1);
-const DRAGS = [at(1, 1), at(2, 1)];
-const DRAG_STEPS = 3;
-const STEP_FRAMES = 2 * TICK;
-const dragEnd = (d: number) => d + DRAG_STEPS * STEP_FRAMES;
+const GAP = 16;
+// The desktop monitor: a 4-pixel bezel round its 160 x 100 screen, then its neck and base under it.
+const MONITOR = 108, NECK = 6, BASE = 8;
+const BASELINE = HERO.y + HERO.h - 6;
 const PARTS: readonly Part[] = [
-  { at: WINDOW, title: "Desktop", line: "A sidebar and the full app bar." },
-  { at: dragEnd(DRAGS[0]!), title: "Tablet", line: "The sidebar folds to a rail of icons." },
-  { at: dragEnd(DRAGS[1]!), title: "Phone", line: "A bottom bar takes over." },
+  ...DEVICES.map((d) => ({ at: d.arrive === at(0, 1) ? 0 : d.arrive, title: d.name, line: "" })),
+  { at: at(3), title: "Responsive", line: "" },
 ];
-// The window stands on the sky in the hero's room, y 58 to 218, centred both ways: a 16-pixel title bar over the
-// page, which fills the rest at twice the size.
-const CENTRE = [240, 138] as const;
-const BOTTOM = 218;
-const left = (s: (typeof STOPS)[number]) => Math.round(CENTRE[0] - s.win / 2);
-const top = (s: (typeof STOPS)[number]) => Math.round(CENTRE[1] - s.h / 2);
+const FALL = [-20, -10, -3, 0, -3, 0];
+const STEPS = 4;
 
-/**
- * Where the window is: which stop its page is at, its size (three even steps while it is dragged, the page changing at
- * the end) and its top left (held through a drag, then four even steps back to the middle).
- */
-function stateAt(frame: number) {
-  let stop = 0, win = STOPS[0]!.win, h = STOPS[0]!.h, x = left(STOPS[0]!), y = top(STOPS[0]!);
-  DRAGS.forEach((d, i) => {
-    if (frame < d) return;
-    const a = STOPS[i]!, b = STOPS[i + 1]!;
-    const k = Math.min(DRAG_STEPS, Math.floor((frame - d) / STEP_FRAMES) + 1);
-    win = Math.round(a.win + ((b.win - a.win) * k) / DRAG_STEPS);
-    h = Math.round(a.h + ((b.h - a.h) * k) / DRAG_STEPS);
-    stop = k === DRAG_STEPS ? i + 1 : i;
-    const g = Math.max(0, Math.min(4, ticks(frame, dragEnd(d) + TICK) + 1));
-    x = Math.round(left(a) + ((left(b) - left(a)) * g) / 4);
-    y = Math.round(top(a) + ((top(b) - top(a)) * g) / 4);
+const box = (r: number): CSSProperties => ({ "--blip-r": r, "--blip-shape": `var(--blip-shape-${r})`, "--blip-shape-inner": `var(--blip-shape-${r}-inner)` }) as CSSProperties;
+
+/** Where each of the first `n` devices stands when they are centred as a row. */
+function row(n: number) {
+  const width = DEVICES.slice(0, n).reduce((w, d, i) => w + d.frame[0] + (i ? GAP : 0), 0);
+  let x = Math.round(HERO.x + (HERO.w - width) / 2);
+  return DEVICES.slice(0, n).map((d) => {
+    const at = x;
+    x += d.frame[0] + GAP;
+    return at;
   });
-  // A window growing taller never reaches below the hero, into the line's room.
-  return { stop, win, h, x, y: Math.min(y, BOTTOM - h) };
 }
+
+/** The page whole, at half size, in a screen with an ink edge. */
+const Screen = ({ d }: { readonly d: Device }) => (
+  <div style={{ outline: "var(--blip-pixel) solid var(--blip-ink)", overflow: "hidden", inlineSize: p(d.page[0] / 8), blockSize: p(d.page[1] / 8) }}>
+    <Site page="templates/dashboard/index.html" width={d.page[0]} height={d.page[1]} zoom={0.5} />
+  </div>
+);
+
+const Frame = ({ d, children }: { readonly d: Device; readonly children: ReactNode }) =>
+  d.name === "Desktop" ? (
+    // A monitor in the same family: a Liquorice candy box round the screen, on a short neck and a flat base.
+    <div style={{ inlineSize: "100%", blockSize: "100%", display: "grid", gridTemplateRows: `${p(MONITOR)} ${p(NECK)} ${p(BASE)}`, justifyItems: "center" }}>
+      <div className="blip-box" data-tone="slate" style={{ ...box(4), inlineSize: "100%", blockSize: "100%", display: "grid", placeItems: "center" }}>
+        {children}
+      </div>
+      <span style={{ inlineSize: p(14), blockSize: "100%", background: "var(--blip-candy-slate-shade)", boxShadow: `inset ${p(1)} 0 var(--blip-ink), inset ${p(-1)} 0 var(--blip-ink)` }} />
+      <span className="blip-box" data-tone="slate" style={{ ...box(2), inlineSize: p(56), blockSize: "100%" }} />
+    </div>
+  ) : (
+    // A tablet or a phone: a Liquorice candy box round the screen, deeper at the top and bottom on the phone.
+    <div className="blip-box" data-tone="slate" style={{ ...box(d.name === "Phone" ? 4 : 5), inlineSize: "100%", blockSize: "100%", display: "grid", placeItems: "center" }}>
+      {children}
+    </div>
+  );
 
 export const Responsive = ({ music = true }: { readonly music?: boolean }) => {
   const frame = useCurrentFrame();
-  const { stop, win, h, x, y } = stateAt(frame);
+  const n = DEVICES.filter((d) => frame >= d.arrive).length;
+  // As a device arrives the row it joins steps aside to make room, in four even steps.
+  const now = row(Math.max(1, n)), before = row(Math.max(1, n - 1));
+  const k = n > 1 ? Math.min(STEPS, ticks(frame, DEVICES[n - 1]!.arrive) + 1) : STEPS;
 
   return (
     <Stage scheme="night" mosaicOut={at(4) - MOSAIC_FRAMES}>
@@ -84,34 +87,34 @@ export const Responsive = ({ music = true }: { readonly music?: boolean }) => {
 
       <SplitText eyebrow="Responsive" parts={PARTS} />
 
-      <Beat at={WINDOW}>
-        <section className="blip-box blip-window blip-pop-in" style={{ position: "absolute", left: p(x), top: p(y), inlineSize: p(win), blockSize: p(h), display: "grid", gridTemplateRows: "auto 1fr" }}>
-          <header className="blip-window-bar">
-            <h2 className="blip-window-title blip-display blip-pop" data-pop="Questboard">Questboard</h2>
-          </header>
-          <div className="blip-window-body" style={{ padding: 0, position: "relative", overflow: "hidden" }}>
-            {STOPS.map((s, i) => (
-              <div key={s.page} style={{ position: "absolute", left: 0, top: 0, visibility: i === stop ? "visible" : "hidden" }}>
-                <Site page="templates/dashboard/index.html" width={s.page} height={s.pageH} zoom={2} />
-              </div>
-            ))}
-            {/* The grip: three stepped pairs of ink pixels in the corner, the handle the pointer takes. */}
-            <span aria-hidden="true" style={{ position: "absolute", right: p(2), bottom: p(2), inlineSize: p(6), blockSize: p(6) }}>
-              {[[4, 0], [2, 2], [4, 2], [0, 4], [2, 4], [4, 4]].map(([gx, gy]) => (
-                <span key={`${gx}${gy}`} style={{ position: "absolute", left: p(gx!), top: p(gy!), inlineSize: p(1), blockSize: p(1), background: "var(--blip-text)" } as CSSProperties} />
-              ))}
-            </span>
+      {DEVICES.map((d, i) => {
+        const shown = i < n;
+        const x = i === n - 1 || before[i] === undefined ? now[i] : Math.round(before[i]! + ((now[i]! - before[i]!) * k) / STEPS);
+        const fall = ticks(frame, d.arrive);
+        return (
+          <div
+            key={d.name}
+            style={{
+              position: "absolute",
+              left: p(x ?? 0),
+              top: p(BASELINE - d.frame[1]),
+              inlineSize: p(d.frame[0]),
+              blockSize: p(d.frame[1]),
+              visibility: shown ? "visible" : "hidden",
+              translate: `0 ${p(FALL[Math.max(0, Math.min(fall, FALL.length - 1))]!)}`,
+            }}
+          >
+            <Frame d={d}>
+              <Screen d={d} />
+            </Frame>
           </div>
-        </section>
-      </Beat>
+        );
+      })}
 
-      <Sfx name="open" at={WINDOW} volume={0.6} />
-      <Sfx name="look" at={ENTER} volume={0.4} />
-      {DRAGS.map((d) => <Sfx key={`g${d}`} name="select" at={d - TICK} volume={0.5} />)}
-      {DRAGS.flatMap((d, i) =>
-        Array.from({ length: DRAG_STEPS }, (_, k) => <Sfx key={`s${d}${k}`} name={`step@${[12, 10, 8, 7, 5, 3][i * DRAG_STEPS + k]}`} at={d + k * STEP_FRAMES} volume={0.45} />),
-      )}
-      {PARTS.slice(1).map((pt) => <Sfx key={`c${pt.at}`} name="coin@7" at={pt.at} volume={0.4} />)}
+      {DEVICES.map((d) => <Sfx key={`o${d.name}`} name="open" at={d.arrive} volume={0.5} />)}
+      {DEVICES.map((d, i) => <Sfx key={`b${d.name}`} name={["step", "step@3", "step@7"][i]!} at={d.arrive + 3 * TICK} volume={0.45} />)}
+      {DEVICES.slice(1).map((d) => <Sfx key={`s${d.name}`} name="look" at={d.arrive} volume={0.3} />)}
+      <Sfx name="success@5" at={at(3)} volume={0.45} />
 
       {music && <Music bar={RESPONSIVE.bar} bars={RESPONSIVE.bars} />}
       <Dissolve at={0} mode="in" seed={6} />
