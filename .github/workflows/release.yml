@@ -6,6 +6,8 @@ name: Release
 on:
   push:
     branches: [main]
+    # Only a push with something to version or publish: a changeset, or a package's new version.
+    paths: [".changeset/**", "packages/*/package.json"]
   workflow_dispatch:
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}

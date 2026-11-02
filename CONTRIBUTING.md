@@ -14,9 +14,9 @@ contract) open an issue first, so the design can be agreed before the work.
 
 You need:
 
-- **Node 22.11 or later** (CI uses Node 26).
+- **Node 22.11 or later** (the release workflow uses Node 26).
 - **pnpm 10.11.0**, the version in `package.json`'s `packageManager`. `corepack enable` gives you the right one.
-- **Python 3** for the font build (CI uses 3.14), with fontTools and Brotli in a virtual environment at
+- **Python 3** for the font build (the release workflow uses 3.14), with fontTools and Brotli in a virtual environment at
   `.tools/venv`, where the font package looks for them.
 - **Playwright's Chromium** for the tests and screenshots.
 
@@ -70,6 +70,7 @@ pnpm build
 | `pnpm --filter @jaatster/blip-stylelint-config test` | Tests the lint rules themselves. |
 | `pnpm budgets` | Checks the size budgets after a build; fails if anything is over. |
 | `pnpm check` | `cem:check`, `lint:css`, `budgets` and the React type check together. |
+| `pnpm verify [--real-stack]` | Everything a commit passes before it goes to `main`, on your machine (`scripts/verify.mjs`): the build, `check`, the lint rules, the React wrappers, unit, visual and condition tests, Storybook and the docs site, then a check that the build changed no committed file. It stops at the first failure; each step's output is in `.tools/verify/`. `--real-stack` adds the real-stack check. |
 | `pnpm qa <name> [--fast] [--update-snapshots]` | Every check of one component or kit part, and only its checks (`scripts/qa.mjs`): what is missing (docs page, example, header comment, baselines, a unit test of its element, its CONTRACT.md row), stylelint on its CSS, its docs page against the code, its manifest, its budget lines, the unit tests that mention it, and the visual tests and accessibility scans of its example. `--fast` skips the Playwright runs. |
 | `node scripts/heavy.mjs <command> [args…]` | Runs a heavy job once no other is running in this checkout, printing "waiting for <job> (pid N)…" while it queues. `test:visual`, `test:a11y`, `test:conditions`, `test:real-stack`, the docs build and `pnpm qa`'s Playwright runs go through it, so agents sharing a checkout take turns. |
 | `pnpm changeset` | Records a change for the changelog and the next version. |
@@ -78,9 +79,9 @@ The test server uses port 4180 (`BLIP_TEST_PORT` to change it) and Vitest's brow
 beside the dev server and Storybook.
 
 Visual baselines are per platform, because fonts rasterise differently: they live in
-`tests/visual/__screenshots__/<platform>`. CI runs on Linux, and its baselines come from the "Visual baselines"
-workflow: run it by hand, download the `linux-baselines` artifact, look at every picture, and commit them under
-`tests/visual/__screenshots__/linux`.
+`tests/visual/__screenshots__/<platform>`. The checks run on macOS, so the committed baselines are `darwin`'s. On
+Linux or Windows, write your own with `test:visual:update` before you change anything, and compare against those;
+don't commit them.
 
 ## Adding things
 
@@ -167,23 +168,18 @@ the table matches; a new prefix needs a line in the script's `RANGES`).
 
 ## Before you open a pull request
 
-Run what CI runs (`.github/workflows/ci.yml`), and the accessibility scan, which CI does not run yet:
+There is no CI in GitHub Actions: the checks run on your machine. Commit, then run them, and the accessibility scan,
+which they do not include yet:
 
 ```sh
-pnpm build
-pnpm check                                  # manifests, CSS lint, budgets, React types
-pnpm --filter @jaatster/blip-stylelint-config test
-pnpm test:react
-pnpm test
-pnpm test:visual
+pnpm verify
 pnpm --filter @jaatster/blip-tests test:a11y
-pnpm --filter @jaatster/blip-storybook build
-pnpm --filter @jaatster/blip-docs build
-git status                                  # commit everything the build regenerated
 ```
 
-CI fails if the build changes any committed file, so commit what it regenerates: manifests, `public-properties.json`,
-`specimen/gallery.json`, the React wrappers, generated indexes and font pages.
+`pnpm verify` fails if the build changes any committed file, so commit what it regenerates: manifests,
+`public-properties.json`, `specimen/gallery.json`, the React wrappers, generated indexes and font pages. When every
+step passes on a clean working tree it records the commit, and the pre-push hook (`.githooks/pre-push`, which
+`pnpm install` turns on) lets `main` take only a commit it recorded.
 
 ### Review checklist
 
@@ -236,7 +232,7 @@ dev server, and opens every app in Chromium. In each, the fonts load and a butto
 and closes from the app's state; tabs, combobox options and a field's error that arrive after load are wired; with
 Vue and Svelte, a dialog defined after mounting stays closed; with Tailwind, its utilities win and a button keeps
 every pixel; with React, a page with only `Button` or only `Tabs` stays small. A console error, a failed request or
-a build warning fails it too. CI runs it on every pull request.
+a build warning fails it too. `pnpm verify --real-stack` runs it after the other checks: do that before a release.
 
 ```sh
 pnpm build                        # it packs packages/*/dist as they are

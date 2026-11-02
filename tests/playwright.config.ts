@@ -10,8 +10,7 @@
  *                                                       right to left, long words, other scripts, print and motion
  *                                                       (conditions/README.md; one lane: add its file name)
  *
- * Baselines are per platform (font rasterising differs): Linux CI keeps its own, made in CI or in the Playwright
- * Docker image.
+ * Baselines are per platform (font rasterising differs). The committed ones are macOS's, where pnpm verify runs.
  */
 import { defineConfig } from "@playwright/test";
 

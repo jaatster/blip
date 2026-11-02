@@ -22,6 +22,8 @@
     "test:real-stack": "node scripts/heavy.mjs node scripts/real-stack.mjs",
     "test:react": "pnpm --filter @jaatster/blip-react test",
     "check": "pnpm cem:check && pnpm lint:css && pnpm budgets && pnpm --filter @jaatster/blip-react typecheck",
+    "verify": "node scripts/verify.mjs",
+    "prepare": "git config core.hooksPath .githooks",
     "changeset": "changeset",
     "version-packages": "changeset version && pnpm install --lockfile-only",
     "release": "pnpm build && pnpm budgets && changeset publish",

@@ -1,0 +1,16 @@
+#!/bin/sh
+# main takes a commit only when pnpm verify (scripts/verify.mjs) passed on it: its tree is in .git/blip-verified.
+# Other branches and tags go through. git push --no-verify skips this.
+stamp="$(git rev-parse --git-path blip-verified)"
+zero=0000000000000000000000000000000000000000
+while read -r local_ref local_sha remote_ref remote_sha; do
+  [ "$remote_ref" = "refs/heads/main" ] || continue
+  [ "$local_sha" = "$zero" ] && continue
+  tree="$(git rev-parse "$local_sha^{tree}")"
+  if ! grep -qx "$tree" "$stamp" 2>/dev/null; then
+    echo "pre-push: $(git log -1 --format='%h %s' "$local_sha") has not passed pnpm verify." >&2
+    echo "  Run pnpm verify (it records the commit when everything passes), then push again." >&2
+    exit 1
+  fi
+done
+exit 0
