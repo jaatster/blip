@@ -1,7 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
-import { useCurrentFrame } from "remotion";
+import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { Beat } from "../lib/Beat";
-import { BEAT, STEP, TICK, at, p, ticks } from "../lib/grid";
+import { STEP, TICK, at, p, ticks } from "../lib/grid";
 import { Icon } from "../lib/Icon";
 import { Burst, Dither, Scrim, World } from "../lib/Pixels";
 import { Music, Sfx } from "../lib/Sound";
@@ -11,301 +11,224 @@ import { DropTitle, Typed } from "../lib/Text";
 /** Bars 9-16 of the theme: the hook. */
 export const COMPONENTS = { bar: 9, bars: 8 };
 
-// Page one lands a tile a beat from beat 2; each acts on the eighth after it lands. Page two lands a tile an eighth
-// from bar 4 (the hook's second half) and acts a sixteenth after. Then the counter rolls to 88 and stamps.
-const SLIDE = at(3, 3);
-const PAGE2 = at(4);
-const ROLL = at(5, 2);
+type Scheme = "day" | "sunset" | "night";
+
+// The docs home's Options window, worked from the keyboard: the focus ring steps down a row a beat and each control
+// does its one thing on the eighth after. Time of day really changes it, Day, Sunset, Night and back to Auto, a beat
+// each through bar 1. Press start drops in the home's launcher; the focus walks it on the eighths of bar 4, Enter opens
+// Components on bar 5, the counter rolls to 88 and the achievement slides in. The stamp is bar 6.
+const WINDOW = at(0, 1);
+const ROWS = [at(0, 3), at(2, 0), at(2, 2), at(2, 3), at(3, 0)];
+const TIMES: readonly (readonly [frame: number, value: number, scheme: Scheme])[] = [
+  [0, 0, "day"],
+  [at(1, 0), 1, "day"],
+  [at(1, 1), 2, "sunset"],
+  [at(1, 2), 3, "night"],
+  [at(1, 3), 0, "day"],
+];
+const VOLUME = [at(2, 0, 2), at(2, 1), at(2, 1, 2)];
+const SOUNDS_ON = at(2, 2, 2);
+const PAUSED = at(2, 3, 2);
+const START = at(3, 0, 2);
+const LANDS = [0, 1, 2, 3, 4, 5].map((i) => at(3, 1, 2 * i));
+const PICKS: readonly (readonly [frame: number, tile: number])[] = [
+  [at(4, 0), 0],
+  ...[1, 2, 3, 4, 5].map((t, i) => [at(4, 0, 2 * i + 2), t] as const),
+  [at(4, 3), 2],
+];
+const OPEN = at(5);
+const ROLL = at(5);
+const TROPHY = at(5, 2);
 const STAMP = at(6);
 const STRAP = at(6, 1);
 const OUT = at(8) - 8 * TICK;
 
-type Demo = (t: number) => ReactNode;
-type Tile = {
-  readonly name: string;
-  readonly tone: string;
-  readonly col: number;
-  readonly row: number;
-  readonly span?: number;
-  readonly demo: Demo;
-  /** Blip sounds, at frames after the action. */
-  readonly sounds: readonly (readonly [name: string, after: number])[];
-};
+// Each component counts the first time it is on screen.
+const FIRSTS = [WINDOW, ROWS[0]!, ROWS[0]!, ROWS[1]!, ROWS[2]!, ROWS[3]!, ROWS[4]!, LANDS[0]!, LANDS[5]!];
 
-const on = (t: number) => t >= 0;
-const pressedFor = (t: number, frames = 3 * TICK) => t >= 0 && t < frames;
-
-const PAGE_ONE: readonly Tile[] = [
-  {
-    name: "Button", tone: "pink", col: 0, row: 0, sounds: [["select", 0]],
-    demo: (t) => <button className="blip-box blip-button" type="button" data-blip-state={pressedFor(t) ? "active" : undefined}><Icon name="play" />Play</button>,
-  },
-  {
-    name: "Switch", tone: "teal", col: 1, row: 0, sounds: [["blip", 0]],
-    demo: (t) => (
-      <label className="blip-check" data-layout="split" style={{ inlineSize: "100%" }}>
-        Music
-        <span className="blip-box blip-switch"><input type="checkbox" role="switch" className="blip-box" checked={on(t)} readOnly /></span>
-      </label>
-    ),
-  },
-  {
-    name: "Checkbox", tone: "yellow", col: 2, row: 0, sounds: [["select@5", 0]],
-    demo: (t) => (
-      <label className="blip-check">
-        <span className="blip-box blip-checkbox"><input type="checkbox" checked={on(t)} readOnly /></span>
-        Screen shake
-      </label>
-    ),
-  },
-  {
-    name: "Slider", tone: "purple", col: 3, row: 0, sounds: [["step", 0], ["step@5", 4 * TICK]],
-    demo: (t) => {
-      const v = Math.min(8, 3 + Math.max(0, ticks(t, 0) + 1));
-      return (
-        <div className="blip-slider-group" style={{ inlineSize: "100%" }}>
-          <input className="blip-slider" type="range" min={0} max={10} value={v} onChange={() => {}} style={{ "--blip-slider-value": v / 10 } as CSSProperties} />
-          <output className="blip-box blip-slider-value" data-variant="panel">{v}</output>
-        </div>
-      );
-    },
-  },
-  {
-    name: "Tabs", tone: "green", col: 0, row: 1, sounds: [["look", 0]],
-    demo: (t) => (
-      <div className="blip-tabs" data-size="sm">
-        <div className="blip-tabs-list" role="tablist">
-          {["Bag", "Map", "Log"].map((label, i) => (
-            <button key={label} className="blip-box blip-tab" role="tab" type="button" aria-selected={(on(t) ? 1 : 0) === i}>{label}</button>
-          ))}
-        </div>
-      </div>
-    ),
-  },
-  {
-    name: "Progress", tone: "orange", col: 1, row: 1, sounds: [["success@7", BEAT]],
-    demo: (t) => {
-      const v = Math.min(100, Math.max(0, Math.round((ticks(t, 0) + 1) * 10)));
-      return (
-        <div style={{ inlineSize: "100%" }}>
-          <div className="blip-progress-label"><label>Saving</label><span>{v}%</span></div>
-          <div className="blip-box blip-progress" data-tone="success"><progress max={100} value={v}>{v}%</progress></div>
-        </div>
-      );
-    },
-  },
-  {
-    name: "Toast", tone: "blue", col: 2, row: 1, span: 2, sounds: [["open", 0]],
-    demo: (t) =>
-      on(t) && (
-        <div className="blip-box blip-toast" data-tone="success" style={{ inlineSize: "100%" }}>
-          <span className="blip-toast-icon" aria-hidden="true" />
-          <div className="blip-toast-body">
-            <p className="blip-toast-title">Game saved</p>
-            <p>Slot 2, World 1-3</p>
-          </div>
-          <span className="blip-toast-timer" aria-hidden="true" />
-        </div>
-      ),
-  },
-  {
-    name: "Badge", tone: "red", col: 0, row: 2, sounds: [["coin", 0]],
-    demo: (t) => (
-      <button className="blip-box blip-button" type="button" data-variant="soft" data-icon-only aria-label="Alerts">
-        <Icon name="bell" />
-        <span className="blip-box blip-badge" data-tone="danger" data-position="top-end">{on(t) ? 4 : 3}</span>
-      </button>
-    ),
-  },
-  {
-    name: "Avatar", tone: "teal", col: 1, row: 2, sounds: [["blip@3", 0]],
-    demo: (t) => (
-      <span style={{ display: "flex", alignItems: "center", gap: p(6) }}>
-        <span className="blip-box blip-avatar" data-tone="green" data-size="lg">
-          P
-          <span className="blip-box blip-avatar-status" data-tone={on(t) ? "success" : "neutral"} data-variant={on(t) ? undefined : "outline"} />
-        </span>
-        <span>{on(t) ? "Online" : "Away"}</span>
-      </span>
-    ),
-  },
-  {
-    name: "Rating", tone: "yellow", col: 2, row: 2, sounds: [["step", 0], ["step@3", STEP], ["step@5", 2 * STEP], ["step@7", 3 * STEP]],
-    demo: (t) => <span className="blip-rating" role="img" aria-label="Rating" style={{ "--blip-rating-value": Math.max(0, Math.min(4, Math.floor(t / STEP) + 1)) } as CSSProperties} />,
-  },
-  {
-    name: "Segmented", tone: "purple", col: 3, row: 2, sounds: [["blip", 0]],
-    demo: (t) => (
-      <div className="blip-box blip-segmented" data-size="sm">
-        {["1P", "2P", "Co-op"].map((label, i) => (
-          <button key={label} className="blip-box" type="button" aria-checked={(on(t) ? 2 : 0) === i}>{label}</button>
-        ))}
-      </div>
-    ),
-  },
+const LAUNCHER = [
+  { name: "Get started", icon: "rocket", tone: "green" },
+  { name: "Foundations", icon: "palette", tone: "blue" },
+  { name: "Components", icon: "puzzle", tone: "purple" },
+  { name: "Templates", icon: "desktop", tone: "teal" },
+  { name: "Palette maker", icon: "brush", tone: "pink" },
+  { name: "Play", icon: "gamepad", tone: "orange" },
 ];
-
-const PAGE_TWO: readonly Tile[] = [
-  {
-    name: "Input", tone: "blue", col: 0, row: 0, sounds: [],
-    demo: (t) => (
-      <span className="blip-box blip-input" data-blip-state="focus" style={{ inlineSize: "100%" }}>
-        <input value={"Pip Bloom".slice(0, Math.max(0, Math.floor(t / TICK) + 1))} placeholder="Your name" readOnly />
-      </span>
-    ),
-  },
-  {
-    name: "Radio", tone: "green", col: 1, row: 0, sounds: [["select", 0]],
-    demo: (t) => (
-      <div style={{ display: "grid", gap: p(3) }}>
-        {["Easy", "Hard"].map((label, i) => (
-          <label key={label} className="blip-check">
-            <span className="blip-box blip-radio"><input type="radio" checked={(on(t) ? 1 : 0) === i} readOnly /></span>
-            {label}
-          </label>
-        ))}
-      </div>
-    ),
-  },
-  {
-    name: "Tag", tone: "orange", col: 2, row: 0, sounds: [["blip@5", 0]],
-    demo: (t) => (
-      <span style={{ display: "flex", gap: p(4) }}>
-        <button className="blip-box blip-tag" type="button" data-variant="outline" aria-pressed="true">Swords</button>
-        <button className="blip-box blip-tag" type="button" data-variant="outline" aria-pressed={on(t)}>Bows</button>
-      </span>
-    ),
-  },
-  {
-    name: "Toggle", tone: "pink", col: 3, row: 0, sounds: [["select@7", 0]],
-    demo: (t) => <button className="blip-box blip-button" type="button" data-variant="soft" aria-pressed={on(t)}><Icon name="heart" />Favourite</button>,
-  },
-  {
-    name: "Alert", tone: "yellow", col: 0, row: 1, span: 2, sounds: [["error", 0]],
-    demo: (t) =>
-      on(t) && (
-        <div className="blip-box blip-alert" data-tone="warning" style={{ inlineSize: "100%" }}>
-          <span className="blip-alert-icon" aria-hidden="true" />
-          <div className="blip-alert-body">
-            <p className="blip-alert-title">Low battery</p>
-            <p>Plug in to keep playing.</p>
-          </div>
-        </div>
-      ),
-  },
-  {
-    name: "Stat", tone: "purple", col: 2, row: 1, sounds: [["coin@4", 0]],
-    demo: (t) => {
-      const v = (98_000 + Math.min(120, Math.max(0, (ticks(t, 0) + 1) * 30))).toLocaleString("en");
-      return (
-        <dl style={{ margin: 0 }}>
-          <div className="blip-stat">
-            <dt className="blip-stat-label">High score</dt>
-            <dd className="blip-stat-value blip-display blip-pop" data-scale="2" data-pop={v}>{v}</dd>
-          </div>
-        </dl>
-      );
-    },
-  },
-  {
-    name: "Keycap", tone: "teal", col: 3, row: 1, sounds: [["select", 0]],
-    demo: (t) => (
-      <kbd className="blip-keys">
-        <kbd className="blip-box blip-keycap" data-size="lg" data-blip-pressed={pressedFor(t) ? "" : undefined}>Ctrl</kbd>+
-        <kbd className="blip-box blip-keycap" data-size="lg" data-blip-pressed={pressedFor(t) ? "" : undefined}>S</kbd>
-      </kbd>
-    ),
-  },
-  {
-    name: "Loader", tone: "blue", col: 0, row: 2, sounds: [],
-    demo: () => <span className="blip-loader" data-size="lg" role="status">Loading</span>,
-  },
-  {
-    name: "Hearts", tone: "red", col: 1, row: 2, sounds: [["bump", 0]],
-    demo: (t) => <span className="blip-rating" data-shape="heart" role="img" aria-label="Health" style={{ "--blip-rating-value": on(t) ? 2 : 3, "--blip-rating-max": 3 } as CSSProperties} />,
-  },
-  {
-    name: "Pagination", tone: "green", col: 2, row: 2, span: 2, sounds: [["look", 0]],
-    demo: (t) => (
-      <nav className="blip-pagination" aria-label="Worlds">
-        <ul className="blip-pagination-list" role="list">
-          {[1, 2, 3, 4].map((n) => (
-            <li key={n}>
-              <a className="blip-box blip-pagination-page" data-variant="candy" href={`#${n}`} aria-current={n === (on(t) ? 3 : 2) ? "page" : undefined}>{n}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    ),
-  },
-];
-
-// The grid: four columns of 106 pixels and three rows of 64, eight apart, under the header.
-const COL = 106, ROW = 64, GAP = 8, LEFT = 16, TOP = 50;
 const FALL = [-30, -14, -4, 0, -2, 0];
 
-const TileView = ({ tile, land, act }: { readonly tile: Tile; readonly land: number; readonly act: number }) => {
-  const frame = useCurrentFrame();
-  const k = ticks(frame, land - 3 * TICK);
-  const span = tile.span ?? 1;
+/** The last of `events` at or before `frame`, by its first field. */
+const last = <T extends readonly [number, ...unknown[]]>(events: readonly T[], frame: number) =>
+  events.filter((e) => e[0] <= frame).at(-1) ?? events[0]!;
+const held = (frame: number, from: number, frames = 3 * TICK) => frame >= from && frame < from + frames;
+
+const Key = ({ pressed, children }: { readonly pressed: boolean; readonly children: ReactNode }) => (
+  <kbd className="blip-box blip-keycap" data-size="sm" data-blip-pressed={pressed ? "" : undefined}>
+    {children}
+  </kbd>
+);
+
+/** Everything on screen, in one scheme: drawn twice while the time of day dithers from one to the next. */
+const Screen = ({ frame, scheme }: { readonly frame: number; readonly scheme: Scheme }) => {
+  const row = ROWS.filter((r) => r <= frame).length - 1;
+  const inLauncher = frame >= START + 2 * STEP;
+  const focus = (i: number) => (!inLauncher && row === i ? "focus" : undefined);
+  const time = last(TIMES, frame);
+  const volume = 4 + 2 * VOLUME.filter((v) => v <= frame).length;
+  const pick = last(PICKS, frame);
+  const picked = frame >= PICKS[0]![0];
+  const count = Math.min(9, FIRSTS.filter((f) => f <= frame).length);
+  const rolled = frame < ROLL ? count : Math.min(88, count + Math.round(((88 - count) * Math.max(0, ticks(frame, ROLL) + 1)) / 20));
+  const moved = [...ROWS.slice(1), ...PICKS.slice(1).map((e) => e[0])];
+  const changed = [...TIMES.slice(1).map((e) => e[0]), ...VOLUME];
+
   return (
-    <Beat at={act} from={land - 3 * TICK}>
-      <article
-        className="blip-box blip-card"
-        data-size="sm"
-        data-tone={tile.tone}
-        style={{
-          position: "absolute",
-          left: p(LEFT + tile.col * (COL + GAP)),
-          top: p(TOP + tile.row * (ROW + GAP)),
-          inlineSize: p(COL * span + GAP * (span - 1)),
-          blockSize: p(ROW),
-          translate: `0 ${p(FALL[Math.min(k, FALL.length - 1)]!)}`,
-        }}
-      >
-        <p className="blip-label" style={{ margin: 0, color: "var(--blip-text-muted)" }}>{tile.name}</p>
-        <div style={{ flex: 1, display: "grid", placeItems: "center", minBlockSize: 0 }}>{tile.demo(frame - act)}</div>
-      </article>
-      {tile.sounds.map(([name, after]) => (
-        <Sfx key={name + after} name={name} at={act + after} volume={0.65} />
-      ))}
-    </Beat>
+    <AbsoluteFill data-blip-scheme={scheme} style={{ background: "var(--blip-bg)" }}>
+      <World scheme={scheme} />
+
+      <div style={{ position: "absolute", left: p(16), top: p(10), display: "flex", alignItems: "baseline", gap: p(8) }}>
+        <span className="blip-display blip-pop" data-scale="2" data-pop="Components">Components</span>
+        <span className="blip-display blip-pop" data-scale="3" data-pop={`${rolled}/88`}>{`${rolled}/88`}</span>
+      </div>
+
+      <Beat at={WINDOW}>
+        <section className="blip-box blip-window blip-pop-in" style={{ position: "absolute", left: p(24), top: p(48), inlineSize: p(214) }}>
+          <header className="blip-window-bar">
+            <h2 className="blip-window-title blip-display blip-pop" data-pop="Options">Options</h2>
+          </header>
+          <div className="blip-window-body" style={{ display: "grid", gap: "var(--blip-space-6)", padding: "var(--blip-space-6) var(--blip-space-8)" }}>
+            <div style={{ display: "grid", gap: "var(--blip-space-3)" }}>
+              <span className="blip-label">Time of day</span>
+              <div className="blip-box blip-segmented" data-size="sm" style={{ justifySelf: "start" }}>
+                {["Auto", "Day", "Sunset", "Night"].map((label, i) => (
+                  <button key={label} className="blip-box" type="button" aria-checked={time[1] === i} data-blip-state={time[1] === i ? focus(0) : undefined}>
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div style={{ display: "grid", gap: "var(--blip-space-3)" }}>
+              <span className="blip-label">Music</span>
+              <div className="blip-slider-group">
+                <input className="blip-slider" type="range" min={0} max={10} value={volume} onChange={() => {}} data-blip-state={focus(1)} style={{ "--blip-slider-value": volume / 10 } as CSSProperties} />
+                <output className="blip-box blip-slider-value" data-variant="panel">{volume}</output>
+              </div>
+            </div>
+            <label className="blip-check" data-layout="split">
+              Chip sounds
+              <span className="blip-box blip-switch">
+                <input type="checkbox" role="switch" className="blip-box" checked={frame >= SOUNDS_ON} data-blip-state={focus(2)} readOnly />
+              </span>
+            </label>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "var(--blip-space-4)" }}>
+              <span>Clouds and stars</span>
+              <button className="blip-box blip-button" type="button" data-variant="soft" data-size="sm" aria-pressed={frame >= PAUSED} data-blip-state={[focus(3), held(frame, PAUSED) && "active"].filter(Boolean).join(" ") || undefined}>
+                <Icon name={frame >= PAUSED ? "play" : "pause"} />
+                {frame >= PAUSED ? "Play motion" : "Pause motion"}
+              </button>
+            </div>
+            <button className="blip-box blip-button" type="button" data-variant="soft" data-width="full" data-blip-state={[focus(4), held(frame, START) && "active"].filter(Boolean).join(" ") || undefined}>
+              Press start
+            </button>
+          </div>
+          <footer className="blip-window-status">
+            <span style={{ display: "flex", alignItems: "center", gap: p(2) }}>
+              <kbd className="blip-keys">
+                <Key pressed={moved.some((m) => held(frame, m))}><Icon name="arrow-down" /></Key>
+                <Key pressed={changed.some((c) => held(frame, c))}><Icon name="arrow-right" /></Key>
+              </kbd>
+              Move
+              <Key pressed={[SOUNDS_ON, PAUSED, START, OPEN].some((e) => held(frame, e))}>Enter</Key>
+              Select
+            </span>
+            <span>{["Auto", "Day", "Sunset", "Night"][time[1]]}</span>
+          </footer>
+        </section>
+      </Beat>
+
+      <nav style={{ position: "absolute", left: p(250), top: p(66), inlineSize: p(214), display: "grid", justifyItems: "center", gap: "var(--blip-space-2)" }}>
+        <p className="blip-display blip-pop" data-scale="2" data-tone={LAUNCHER[pick[1]]!.tone} data-pop={LAUNCHER[pick[1]]!.name} style={{ margin: 0, whiteSpace: "nowrap", visibility: picked ? "visible" : "hidden" }}>
+          {LAUNCHER[pick[1]]!.name}
+        </p>
+        <Beat at={pick[0]} from={LANDS[0]! - 3 * TICK}>
+          <ul className="blip-tile-grid" role="list" style={{ "--blip-tile-cell": p(40), gridTemplateColumns: "repeat(3, var(--blip-tile-cell))", justifyContent: "center", gap: `${p(4)} 0` } as CSSProperties}>
+            {LAUNCHER.map((t, i) => {
+              const k = ticks(frame, LANDS[i]! - 3 * TICK);
+              const chosen = picked && pick[1] === i;
+              return (
+                <li key={t.name} className="blip-tile-item" data-label="tooltip" style={{ visibility: k < 0 ? "hidden" : "visible", translate: `0 ${p(FALL[Math.max(0, Math.min(k, FALL.length - 1))]!)}` }}>
+                  <span className="blip-box blip-tile" data-tone={t.tone} data-selected={chosen ? "" : undefined} data-blip-state={chosen ? (held(frame, OPEN) ? "focus active" : "focus") : undefined}>
+                    <Icon name={t.icon} />
+                    <span className="blip-tile-glint" />
+                  </span>
+                  <span className="blip-tile-label blip-outline" style={{ color: "var(--blip-white)" }}>{t.name}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </Beat>
+      </nav>
+
+      <Beat at={TROPHY} until={STAMP}>
+        <div className="blip-achievements" role="status" style={{ position: "absolute", left: p(268), top: p(212), inlineSize: p(196) }}>
+          <div className="blip-box blip-achievement">
+            <span className="blip-box blip-achievement-icon"><Icon name="trophy" /><span className="blip-achievement-sparkles" /></span>
+            <p className="blip-achievement-label">Achievement unlocked</p>
+            <p className="blip-achievement-title">88 components</p>
+            <p className="blip-achievement-text">Every one the same candy box.</p>
+          </div>
+        </div>
+      </Beat>
+    </AbsoluteFill>
   );
 };
 
-const landsOne = PAGE_ONE.map((_, i) => at(0, 2 + i));
-const landsTwo = PAGE_TWO.map((_, i) => PAGE2 + i * 2 * STEP);
-const SLIDE_X = [0, -16, -64, -160, -320, -480];
+const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
+/** The pixels of a 4 x 4 Bayer cell under `level` (of 16), as a mask a Blip pixel per cell pixel. */
+const bayerMask = (level: number) => {
+  const rects = BAYER.flatMap((b, i) => (b < level ? [`<rect x='${i % 4}' y='${i >> 2}' width='1' height='1'/>`] : [])).join("");
+  return `url("data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4' shape-rendering='crispEdges'>${rects}</svg>`)}") 0 0 / ${p(4)} ${p(4)} repeat`;
+};
 
 export const Components = ({ music = true }: { readonly music?: boolean }) => {
   const frame = useCurrentFrame();
-  const landed = [...landsOne, ...landsTwo].filter((l) => frame >= l).length;
-  const rolled = frame < ROLL ? landed : Math.min(88, landed + Math.round(((88 - landed) * Math.max(0, ticks(frame, ROLL) + 1)) / 20));
-  const count = `${rolled}/88`;
+  // A change of time of day: the new palette comes in through the ordered dither, a quarter, a half, three quarters,
+  // a Blip frame each, so no pixel ever shows colours half way between two.
+  const i = TIMES.filter((e) => e[0] <= frame).length - 1;
+  const now = TIMES[Math.max(0, i)]!;
+  const before = TIMES[Math.max(0, i - 1)]!;
+  const k = ticks(frame, now[0]);
+  const fading = before[2] !== now[2] && k < 3;
 
   return (
     <Stage scheme="day">
-      <World scheme="day" />
+      <Screen frame={frame} scheme={now[2]} />
+      {fading && (
+        <div style={{ position: "absolute", inset: 0, mask: bayerMask(16 - 4 * (k + 1)) }}>
+          <Screen frame={frame} scheme={before[2]} />
+        </div>
+      )}
 
-      <div style={{ position: "absolute", left: p(LEFT), top: p(10), display: "flex", alignItems: "baseline", gap: p(8) }}>
-        <span className="blip-display blip-pop" data-scale="2" data-pop="Components">Components</span>
-        <span className="blip-display blip-pop" data-scale="3" data-tone="yellow" data-pop={count}>{count}</span>
-      </div>
+      <Sfx name="open" at={WINDOW} volume={0.6} />
+      {ROWS.slice(1).map((r) => <Sfx key={r} name="step" at={r} volume={0.5} />)}
+      {TIMES.slice(1).map(([f], n) => <Sfx key={f} name={n ? `blip@${[0, 3, 5, 7][n]}` : "blip"} at={f} volume={0.65} />)}
+      {VOLUME.map((f, n) => <Sfx key={f} name={`step@${[3, 5, 7][n]}`} at={f} volume={0.6} />)}
+      <Sfx name="blip@7" at={SOUNDS_ON} volume={0.65} />
+      <Sfx name="select@5" at={PAUSED} volume={0.65} />
+      <Sfx name="select" at={START} volume={0.7} />
+      {LANDS.map((f, n) => <Sfx key={f} name={n ? `step@${[0, 2, 3, 5, 7, 8][n]}` : "step"} at={f} volume={0.55} />)}
+      {PICKS.map(([f]) => <Sfx key={f} name="look" at={f} volume={0.55} />)}
+      <Sfx name="select@7" at={OPEN} volume={0.7} />
 
-      <div style={{ position: "absolute", inset: 0, translate: `${p(SLIDE_X[Math.min(Math.max(0, ticks(frame, SLIDE)), SLIDE_X.length - 1)]!)} 0` }}>
-        {frame < PAGE2 && PAGE_ONE.map((tile, i) => <TileView key={tile.name} tile={tile} land={landsOne[i]!} act={landsOne[i]! + 2 * STEP} />)}
-      </div>
-      {PAGE_TWO.map((tile, i) => <TileView key={tile.name} tile={tile} land={landsTwo[i]!} act={landsTwo[i]! + STEP} />)}
-
-      {Array.from({ length: 8 }, (_, i) => (
-        <Sfx key={i} name={i ? `coin@${[0, 2, 4, 5, 7, 9, 11, 12][i]}` : "coin"} at={ROLL + i * STEP} volume={0.35} />
+      {Array.from({ length: 8 }, (_, n) => (
+        <Sfx key={n} name={n ? `coin@${[0, 2, 4, 5, 7, 9, 11, 12][n]}` : "coin"} at={ROLL + n * STEP} volume={0.35} />
       ))}
       <Burst at={ROLL} kind="coin" box={[150, 10, 60, 24]} count={8} seed={3} />
+      <Sfx name="success" at={TROPHY} volume={0.55} />
 
       <Beat at={STAMP} from={STAMP}>
         <Scrim level={12} />
         <div className="v-center" style={{ gap: p(6) }}>
-          <DropTitle text="88" lands={[STAMP, STAMP + STEP]} scale={10} outline={2} tone="yellow" />
+          <DropTitle text="88" lands={[STAMP, STAMP + STEP]} scale={10} outline={2} />
           <span className="blip-display blip-pop" data-scale="3" data-pop="Components">Components</span>
           <Typed text="Native HTML first. Most are CSS alone." at={STRAP} every={2} className="blip-outline" style={{ fontSize: p(11), fontWeight: 700, marginBlockStart: p(6) }} />
         </div>
@@ -320,3 +243,4 @@ export const Components = ({ music = true }: { readonly music?: boolean }) => {
     </Stage>
   );
 };
+
