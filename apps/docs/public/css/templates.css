@@ -148,7 +148,12 @@
   /* With the script, one screen at a time. */
   html.js .tpl-game:not([data-screen="title"]) > .tpl-title,
   html.js .tpl-game:not([data-screen="menu"]) > .tpl-menu,
-  html.js .tpl-game:not([data-screen="level"]) > .tpl-level { display: none; }
+  html.js .tpl-game:not([data-screen="map"]) > .tpl-map,
+  html.js .tpl-game:not([data-screen="level"]) > .tpl-level,
+  html.js .tpl-game:not([data-screen="results"]) > .tpl-results,
+  html.js .tpl-game:not([data-screen="over"]) > .tpl-over { display: none; }
+  /* In the level the canvas draws the world itself, sliding with the camera: the backdrop rests. */
+  html.js .tpl-game[data-screen="level"] > .tpl-game-world { display: none; }
   html.js .tpl-game-body { overflow: hidden; }
   html:not(.js) .tpl-game-body { overflow: auto; }
   .tpl-game-title { --blip-scale: 2; margin: 0; }
@@ -190,18 +195,59 @@
   .tpl-options[hidden], .tpl-menu-panel[hidden] { display: none; }
   .tpl-options-body { display: grid; gap: var(--blip-space-8); padding: var(--blip-space-8); }
   .tpl-options-row { display: grid; gap: var(--blip-space-3); justify-items: start; }
-  html.js .tpl-level { align-content: space-between; }
-  .tpl-level { align-content: space-between; text-align: start; padding: var(--blip-space-8) var(--blip-space-8) max(calc(24 * var(--blip-pixel)), calc(var(--tpl-pad) + var(--blip-space-4))); }
-  .tpl-hud { justify-self: stretch; }
-  .tpl-level-name { margin: 0; justify-self: center; }
-  .tpl-field { display: grid; justify-items: center; gap: var(--blip-space-6); }
-  .tpl-keys { justify-content: center; gap: var(--blip-space-3); }
-  .tpl-frog { inline-size: min(calc(300 * var(--blip-pixel)), 100%); justify-self: center; }
-  .tpl-ground { position: fixed; inset-inline: 0; inset-block-end: 0; }
+  .tpl-controls { inline-size: 100%; }
+  .tpl-controls caption { text-align: start; padding-block-end: var(--blip-space-3); }
+  .tpl-controls td { white-space: nowrap; }
+  .tpl-controls :is(kbd, .blip-prompt-dpad) { vertical-align: middle; }
+
+  /* The level map: the kit's level tiles, 1-1 with the best stars. */
+  .tpl-map-panel { --blip-r: 6; --blip-shape: var(--blip-shape-6); --blip-shape-inner: var(--blip-shape-6-inner); --blip-drop-size: 2; display: grid; justify-items: center; gap: var(--blip-space-8); padding: var(--blip-space-12) var(--blip-space-16); margin: 0 calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel)) 0; }
+  .tpl-levels { justify-content: center; }
+  .tpl-map-name { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: var(--blip-space-3); margin: 0; }
+
+  /* The level: the canvas fills the window above the touch pad, whole pixels, its frame centred along the bottom
+     (tpl-game.js sizes it). The HUD, the hints, the shouts and Bramble sit over it. */
+  html.js .tpl-level { position: fixed; inset: 0; display: block; max-block-size: none; padding: 0; overflow: hidden; }
+  .tpl-stage { position: absolute; inset: 0 0 var(--tpl-pad); overflow: hidden; background: var(--blip-world-day-sky-6); }
+  .tpl-frame { position: absolute; inset-block-end: 0; inset-inline-start: 50%; translate: -50% 0; }
+  .tpl-canvas { display: block; inline-size: 100%; block-size: 100%; image-rendering: pixelated; }
+  .tpl-overlay, .tpl-hints { position: absolute; inset: 0; pointer-events: none; }
+  /* A hint stands over its sign: the kit's tooltip, drawn in place, with the prompt's keys in it. */
+  .tpl-bubble { position: absolute; translate: -50% calc(-100% - 2 * var(--blip-pixel)); white-space: nowrap; }
+  .tpl-bubble .blip-prompt { gap: calc(2 * var(--blip-pixel)); }
+  /* Points rise six pixels, a pixel a frame, from where they were scored. */
+  .tpl-points { position: absolute; margin: 0; translate: -50% -100%; animation: tpl-rise calc(6 * var(--blip-duration-frame)) steps(6, jump-end) both; }
+  /* Sideways on a phone the touch pad sits over the level, as a handheld's buttons do; upright it has room of its own. */
+  @media (orientation: landscape) { .tpl-stage { inset-block-end: 0; } }
+  .tpl-turn { display: none; }
+  @media (orientation: portrait) and (pointer: coarse) {
+    .tpl-turn { position: absolute; z-index: 2; inset-block-start: calc(26 * var(--blip-pixel)); inset-inline: 0; display: block; margin: 0; text-align: center; animation: tpl-gone 0s steps(1, jump-end) 5s both; }
+  }
+  .tpl-hud { position: absolute; inset-block-start: 0; inset-inline: 0; z-index: 2; container-type: inline-size; }
+  /* On a narrow screen the HUD keeps to one row: a shorter track, the score without its label. */
+  @container (width < 900px) {
+    .tpl-track { --blip-hud-length: 40; }
+    .tpl-score .blip-hud-label { display: none; }
+  }
+  .tpl-hud [hidden] { display: none; }
   .tpl-pause-button { align-self: center; }
+  .tpl-achievements { position: absolute; inset-block-start: calc(30 * var(--blip-pixel)); inset-inline-end: var(--blip-space-8); z-index: 3; }
+  .tpl-frog { position: absolute; z-index: 3; inset-inline: 0; inset-block-end: calc(var(--tpl-pad) + var(--blip-space-8)); inline-size: min(calc(300 * var(--blip-pixel)), 100% - 2 * var(--blip-space-8)); margin-inline: auto; }
+  .tpl-frog[hidden] { display: none; }
+
+  /* The tally, and game over. */
+  .tpl-results-panel { --blip-r: 6; --blip-shape: var(--blip-shape-6); --blip-shape-inner: var(--blip-shape-6-inner); --blip-drop-size: 2; display: grid; justify-items: center; gap: var(--blip-space-8); inline-size: min(calc(170 * var(--blip-pixel)), 100%); padding: var(--blip-space-12) var(--blip-space-12); margin: 0 calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel)) 0; }
+  .tpl-tally { inline-size: 100%; }
+  .tpl-over-why { margin: 0; }
   /* Key hints are for a keyboard: on a touch screen with no pointer that hovers, the pad and the screen's own buttons
      are the controls. */
   @media (pointer: coarse) and (any-hover: none) {
     .tpl-game :is(.tpl-hint, .tpl-keys, .blip-pause-hint) { display: none; }
   }
+  @media (prefers-reduced-motion: reduce) {
+    .tpl-points { animation: none; }
+  }
 }
+
+@keyframes tpl-rise { to { translate: -50% calc(-100% - 6 * var(--blip-pixel)); } }
+@keyframes tpl-gone { to { visibility: hidden; } }

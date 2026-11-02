@@ -59,7 +59,7 @@ export function searchData(): SearchData {
     { title: "Versions and support", url: "/versions/", hint: "Page", icon: "tag", keywords: words("versions semver semantic versioning release stable beta status deprecation deprecated migration upgrade breaking changes changelog browser support baseline help issues bugs security") },
     { title: "Palette maker", url: "/theme/", hint: "Page", icon: "brush", keywords: words("palette maker theme builder accent colour color custom hex levers preset dracula nord catppuccin gruvbox tokyo night rose pine ember grape export dtcg tokens css resolver contrast override") },
     { title: "Diagnostics", url: "/diagnostics/", hint: "Page", icon: "bug", keywords: words("warnings errors codes console", [...diagnostics().keys()].join(" ")) },
-    { title: "Templates", url: "/templates/", hint: "Page", icon: "desktop", keywords: words("examples screens dashboard landing game menu") },
+    { title: "Templates", url: "/templates/", hint: "Page", icon: "desktop", keywords: words("examples screens dashboard landing game menu starfall platformer") },
     { title: "Components", url: "/components/", hint: "Page", icon: "puzzle", keywords: words("all components index") },
     { title: "Foundations", url: "/foundations/", hint: "Page", icon: "palette", keywords: words("basics foundations overview") },
   ];

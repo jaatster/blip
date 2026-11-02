@@ -1,154 +1,539 @@
-// Game menu template: press start, the main menu, options, a level with a HUD, a frog who wants coins, and pause.
+// Starfall, the game template. The screens (title, menu, map, level, tally, game over, pause) are Blip UI. The level
+// is starfall/engine.js stepped 60 times a second and drawn by starfall/render.js; this keeps the HUD, the shouts, the
+// hints, Bramble and the achievements in step with it, and reads the keyboard, a gamepad and the touch pad.
 import { transition } from "@jaatster/blip-effects/transitions.js";
+import { pixel, reducedMotion, services } from "@jaatster/blip-core";
+import { LEVEL } from "./starfall/level.js";
+import { TILE, buildBridge, createGame, resume, save, step } from "./starfall/engine.js";
+import { createRenderer } from "./starfall/render.js";
 
 const $ = (s, r = document) => r.querySelector(s);
-const game = $(".tpl-game");
-// Sound is the site's (site.js): the Options window's switch is one of its controls (data-docs-sound).
-const play = (name) => window.docs?.sound?.play(name);
-const fmt = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+const main = $(".tpl-game");
+const sound = (name, options) => services.sound().play(name, options);
+const STEP = 1000 / 60;
+const DOCS = new URL("../", location.href).href;
+
+// What the game remembers between visits: the best tally, the checkpoint, assist mode, the achievements.
+const STORE = "blip:starfall";
+const load = () => {
+  try {
+    return JSON.parse(localStorage.getItem(STORE) ?? "{}") ?? {};
+  } catch {
+    return {};
+  }
+};
+const store = (patch) => {
+  try {
+    localStorage.setItem(STORE, JSON.stringify({ ...load(), ...patch }));
+  } catch {}
+};
+
+// ------------------------------------------------------------------ screens
+
+const pad = $("blip-touch-pad");
+/** The touch pad's buttons: in the level A jumps, B swipes and Start pauses; elsewhere A presses and B goes back. */
+function padFor(playing) {
+  if (!pad) return;
+  Object.assign(pad.dataset, playing ? { a: "z", b: "x", start: "Escape" } : { a: "Enter", b: "Escape", start: "Enter" });
+}
+const FOCUS = {
+  title: ".tpl-press-start",
+  menu: ".tpl-main-choices .blip-choice:not([aria-disabled='true'])",
+  map: ".tpl-level-1",
+  over: ".tpl-over-choices .blip-choice",
+};
 
 async function show(screen, kind = "dither") {
-  if (game.dataset.screen === screen) return;
+  if (main.dataset.screen === screen) return;
+  if (screen !== "level") stopLoop();
   await transition(() => {
-    game.dataset.screen = screen;
+    main.dataset.screen = screen;
   }, { kind });
-  // In the level the coin button takes focus, so Space collects a coin at once, as the hint says; Tab reaches the frog.
-  const focus = { title: ".tpl-press-start", menu: ".tpl-main-choices .blip-choice:not([aria-disabled='true'])", level: ".tpl-coin-button" }[screen];
-  const el = $(focus);
-  if (screen === "level") startLevel();
-  else stopClock();
-  el?.focus?.();
+  padFor(screen === "level");
+  if (FOCUS[screen]) $(FOCUS[screen])?.focus?.();
 }
 
-// ------------------------------------------------------------------ title
+// ------------------------------------------------------------------ title, menu, options, map
 
 $(".tpl-press-start").addEventListener("click", () => {
-  play("open");
-  show("menu");
+  sound("open");
+  openMenu();
 });
 document.addEventListener("keydown", (e) => {
-  if (game.dataset.screen === "title" && (e.key === "Enter" || e.key === " ") && !e.repeat) {
+  if (main.dataset.screen === "title" && (e.key === "Enter" || e.key === " ") && !e.repeat) {
     e.preventDefault();
-    play("open");
-    show("menu");
+    sound("open");
+    openMenu();
   }
 });
 
-// ------------------------------------------------------------------ menu and options
-
-const options = $(".tpl-options"), menuPanel = $(".tpl-menu-panel");
+const options = $(".tpl-options"), menuPanel = $(".tpl-menu-panel"), cont = $(".tpl-main-choices .blip-choice[value='continue']");
+function openMenu() {
+  const saved = !!load().checkpoint;
+  cont.setAttribute("aria-disabled", String(!saved));
+  $(".tpl-save-note").textContent = saved ? "Continue goes back to the checkpoint." : "No checkpoint saved yet.";
+  show("menu");
+}
 $(".tpl-main-choices").addEventListener("blip-action", (e) => {
   const v = e.detail.value;
-  if (v === "new") {
-    play("success");
-    newGame();
-    show("level", "dissolve");
+  if (v === "play") {
+    sound("open");
+    openMap();
+  } else if (v === "continue" && load().checkpoint) {
+    sound("success");
+    startLevel(load().checkpoint);
   } else if (v === "options") {
-    play("open");
+    sound("open");
     menuPanel.hidden = true;
     options.hidden = false;
     $(".tpl-sound").focus();
-  } else if (v === "docs") location.href = "/templates/";
+  } else if (v === "docs") location.href = DOCS;
 });
 $(".tpl-options-done").addEventListener("click", () => {
-  play("back");
+  sound("back");
   options.hidden = true;
   menuPanel.hidden = false;
   $(".tpl-main-choices .blip-choice[value='options']").focus();
 });
+const assist = $(".tpl-assist");
+assist.checked = !!load().assist;
+assist.addEventListener("change", () => store({ assist: assist.checked }));
 const time = $(".tpl-time");
 customElements.whenDefined("blip-segmented").then(() => (time.value = document.documentElement.dataset.schemeChoice || "auto"));
 time.addEventListener("blip-change", (e) => {
   window.docs?.setScheme?.(e.detail.value);
-  play("select");
+  sound("select");
+});
+
+function openMap() {
+  const best = load().best;
+  const tile = $(".tpl-level-1"), stars = best?.stars ?? 0;
+  tile.querySelectorAll(".blip-level-stars blip-sprite").forEach((s, i) => s.setAttribute("name", i < stars ? "star" : "star-empty"));
+  tile.setAttribute("aria-label", `Level 1-1, Puddle Path: ${best ? `${stars} of 3 stars, best ${best.score.toLocaleString()}` : "no stars yet"}`);
+  $(".tpl-best").textContent = best ? `Best: ${best.score.toLocaleString()}` : "Best: none yet";
+  show("map");
+}
+$(".tpl-level-1").addEventListener("click", () => {
+  sound("success");
+  startLevel(null);
+});
+$(".tpl-map-back").addEventListener("click", () => {
+  sound("back");
+  openMenu();
 });
 
 // ------------------------------------------------------------------ the level
 
-const coins = $(".tpl-coins"), score = $(".tpl-score"), clock = $(".tpl-clock"), frog = $(".tpl-frog"), pause = $(".tpl-pause");
-let tick;
-// A new game starts as the page did: the coins, score and clock in the markup, and the frog from his first words.
-const fresh = { coins: coins.getAttribute("value"), score: score.getAttribute("value"), clock: clock.getAttribute("value") };
-const opening = [...frog.querySelectorAll(".blip-dialogue-text > p")].map((p) => p.textContent.trim());
-function newGame() {
-  coins.value = Number(fresh.coins);
-  score.value = Number(fresh.score);
-  clock.value = Number(fresh.clock);
-  frog.say?.(opening);
+const stage = $(".tpl-stage"), frame = $(".tpl-frame"), canvas = $(".tpl-canvas");
+const overlay = $(".tpl-overlay"), hints = $(".tpl-hints"), shout = $(".tpl-shout");
+const hud = {
+  hearts: $(".tpl-hearts"), stars: $(".tpl-stars"), key: $(".tpl-key"), track: $(".tpl-track"),
+  coins: $(".tpl-coins"), score: $(".tpl-score"), clock: $(".tpl-clock"),
+};
+const renderer = createRenderer(canvas);
+stage.tabIndex = -1;
+let game = null, raf = 0, last = 0, acc = 0, paused = false, device = "keyboard";
+// For tests: the game being played.
+window.starfall = { get game() { return game; } };
+
+function fit() {
+  if (main.dataset.screen !== "level") return;
+  renderer.resize(stage, pixel(stage));
+  frame.style.width = canvas.style.width;
+  frame.style.height = canvas.style.height;
+  if (!game) return;
+  game.view = renderer.view;
+  renderer.draw(game);
+  place();
 }
-function stopClock() {
-  clearInterval(tick);
-  tick = undefined;
+new ResizeObserver(fit).observe(stage);
+
+function startLevel(from) {
+  game = createGame(LEVEL, { assist: !!load().assist, from, view: renderer.view });
+  game.calm = reducedMotion();
+  held.clear();
+  hud.clock.hidden = game.assist;
+  hud.hearts.max = game.stats.max;
+  const flag = game.map.flag;
+  if (flag) $(".tpl-track-checkpoint").style.setProperty("--blip-hud-at", String(Math.round((flag.x / (game.map.w * TILE)) * 100)));
+  for (const el of [overlay, hints]) el.replaceChildren();
+  shout.clear();
+  frog.hidden = true;
+  sync();
+  show("level", "dissolve").then(() => {
+    fit();
+    stage.focus();
+    shout.shout("Ready?", { hold: 600 });
+    startLoop();
+  });
 }
-function startLevel() {
-  stopClock();
-  tick = setInterval(() => {
-    if (document.hidden || pause.open) return;
-    clock.value = Math.max(0, Number(clock.value) - 1);
-  }, 1000);
+
+function startLoop() {
+  cancelAnimationFrame(raf);
+  paused = false;
+  last = performance.now();
+  acc = 0;
+  raf = requestAnimationFrame(tick);
 }
-function addCoin() {
-  coins.value = Number(coins.value) + 1;
-  score.value = Number(score.value) + 100;
+function stopLoop() {
+  cancelAnimationFrame(raf);
+  raf = 0;
 }
-$(".tpl-coin-button").addEventListener("click", addCoin);
+
+function tick(now) {
+  raf = requestAnimationFrame(tick);
+  pollGamepad();
+  if (paused || !game) {
+    last = now;
+    return;
+  }
+  acc += Math.min(100, now - last);
+  last = now;
+  while (acc >= STEP) {
+    acc -= STEP;
+    step(game, buttons());
+    renderer.happen(game);
+    react(game);
+    if (paused) break;
+  }
+  renderer.draw(game);
+  place();
+}
+
+// ------------------------------------------------------------------ the buttons
+
+// Held keys, and keys pressed since the last step: a tap shorter than a frame still counts for one step.
+const held = new Set(), tapped = new Set();
+const KEYS = {
+  ArrowLeft: "left", a: "left", A: "left", ArrowRight: "right", d: "right", D: "right",
+  ArrowUp: "up", w: "up", W: "up", Enter: "up", ArrowDown: "down", s: "down", S: "down",
+  " ": "jump", z: "jump", Z: "jump", k: "jump", K: "jump", x: "swipe", X: "swipe", j: "swipe", J: "swipe",
+};
 document.addEventListener("keydown", (e) => {
-  if (game.dataset.screen !== "level") return;
-  if (e.key === "Escape" && !pause.open) {
+  if (main.dataset.screen !== "level" || pause.open || !frog.hidden) return;
+  if (e.key === "Escape" || e.key === "p" || e.key === "P") {
     e.preventDefault();
     openPause();
-  } else if (e.key === " " && !pause.open && !e.target.closest?.("button, input, blip-dialogue")) {
-    e.preventDefault();
-    addCoin();
+    return;
   }
+  const b = KEYS[e.key];
+  if (!b) return;
+  e.preventDefault();
+  held.add(b);
+  if (!e.repeat) tapped.add(b);
+  look(e.isTrusted ? "keyboard" : "pad");
 });
-// The frog answers a choice: the choice goes as his new words type, so the keyboard stays in his box (on the arrow,
-// and on the choices again once he has finished: the dialogue moves it there itself).
+document.addEventListener("keyup", (e) => KEYS[e.key] && held.delete(KEYS[e.key]));
+addEventListener("blur", () => held.clear());
+
+// A gamepad in the standard layout: the D-pad or the left stick, A jumps, B or X swipes, Start pauses.
+let gp = {};
+function pollGamepad() {
+  const g = [...(navigator.getGamepads?.() ?? [])].find(Boolean);
+  if (!g) return;
+  const on = (i) => !!g.buttons[i]?.pressed, ax = g.axes[0] ?? 0, ay = g.axes[1] ?? 0;
+  const now = { left: on(14) || ax < -0.4, right: on(15) || ax > 0.4, up: on(12) || ay < -0.6, down: on(13) || ay > 0.6, jump: on(0), swipe: on(1) || on(2), start: on(9) };
+  if (Object.values(now).some(Boolean)) look("pad");
+  if (now.start && !gp.start) pause.open ? pause.close() : openPause();
+  gp = now;
+}
+const buttons = () => {
+  const b = (n) => held.has(n) || tapped.has(n) || !!gp[n];
+  const now = { left: b("left"), right: b("right"), up: b("up"), down: b("down"), jump: b("jump"), swipe: b("swipe") };
+  tapped.clear();
+  return now;
+};
+
+/** The hints name the keys of what was used last: the keyboard, or a gamepad (and the touch pad, which has A and B). */
+function look(next) {
+  if (next === device) return;
+  device = next;
+  for (const el of hints.querySelectorAll(".tpl-bubble")) el.querySelector(".blip-prompt").innerHTML = el.html();
+}
+
+// ------------------------------------------------------------------ what happened
+
+function react(g) {
+  for (const e of g.events) {
+    switch (e.type) {
+      case "go": shout.shout("Go!", { hold: 300 }); break;
+      case "jump": sound("jump"); break;
+      case "swipe": sound("select", { rate: 1.6 }); break;
+      case "star": points(e.x, e.y, 1000); sound("success"); break;
+      case "gem": points(e.x, e.y, 500); sound("coin", { rate: 1.5 }); break;
+      case "potion": sound("coin", { rate: 0.8 }); break;
+      case "key": sound("open"); achieve("treetops"); break;
+      case "bump": sound("bump"); break;
+      case "thud": sound("bump", { rate: 0.7 }); break;
+      case "defeat":
+        points(e.x, e.y, e.points);
+        sound("bump", { rate: e.how === "stomp" ? 1.4 : 1 });
+        if (e.how === "stomp") achieve("stomp");
+        break;
+      case "hurt": sound("error"); break;
+      case "splash": case "fall": sound("back"); break;
+      case "checkpoint":
+        sound("success");
+        shout.shout("Checkpoint!", { tone: "success" });
+        store({ checkpoint: save(g) });
+        break;
+      case "locked": bubble("chest", "Locked: the key is up in the trees", g.map.chest.x + g.map.chest.w / 2, g.map.chest.y, 3000); break;
+      case "chest": sound("open"); break;
+      case "talk": talk(); break;
+      case "sign": hint(e.hint); break;
+      case "plank": sound("step", { rate: 1.3 }); break;
+      case "built": sound("success"); achieve("bridge"); break;
+      case "hurry": shout.shout("Hurry up!", { tone: "warning" }); break;
+      case "over": gameOver(); break;
+      case "goal": sound("success"); points(e.x, e.y, e.points); break;
+      case "clear": levelClear(); break;
+    }
+  }
+  sync();
+}
+
+const set = (el, v) => el.value !== v && (el.value = v);
+let lastTrack = -1;
+/** The HUD follows the game: each counter only when its number changes, so each counts and sounds once. */
+function sync() {
+  const s = game.stats;
+  set(hud.coins, s.coins);
+  set(hud.score, s.score);
+  set(hud.clock, s.time);
+  set(hud.hearts, s.hearts);
+  set(hud.stars, s.stars.length);
+  hud.key.hidden = !s.key;
+  const p = game.pip, at = Math.round(Math.min(100, Math.max(0, (p.x / (game.map.w * TILE - p.w)) * 100)));
+  if (at !== lastTrack) {
+    lastTrack = at;
+    hud.track.style.setProperty("--blip-hud-value", String(at));
+    hud.track.setAttribute("aria-valuenow", String(at));
+    hud.track.setAttribute("aria-valuetext", `${at}%${game.checkpoint ? ", past the checkpoint" : ""}`);
+  }
+}
+
+// ------------------------------------------------------------------ over the canvas: hints, points
+
+const keycap = (k) => `<kbd class="blip-box blip-prompt-key">${k}</kbd>`;
+const PAD = {
+  a: '<kbd class="blip-box blip-prompt-button" data-button="a">A</kbd>',
+  b: '<kbd class="blip-box blip-prompt-button" data-button="b">B</kbd>',
+  "dpad-left": '<span class="blip-prompt-dpad" data-dir="left" role="img" aria-label="D-pad left"></span>',
+  "dpad-right": '<span class="blip-prompt-dpad" data-dir="right" role="img" aria-label="D-pad right"></span>',
+  "dpad-up": '<span class="blip-prompt-dpad" data-dir="up" role="img" aria-label="D-pad up"></span>',
+};
+const prompt = (keys, text) => () => `${(keys?.[device === "pad" ? "pad" : "keyboard"] ?? []).map((k) => (device === "pad" ? PAD[k] : keycap(k))).join("")} ${text}`;
+
+/** A hint over a point in the level: the kit's tooltip, drawn in place, with the keys to press. */
+function bubble(id, text, x, y, ms, keys) {
+  hints.querySelector(`[data-id="${id}"]`)?.remove();
+  const el = Object.assign(document.createElement("span"), { className: "blip-box blip-tooltip tpl-bubble" });
+  Object.assign(el.dataset, { id, side: "top", x, y, blipStatic: "" });
+  el.html = prompt(keys, text);
+  el.innerHTML = `<span class="blip-prompt">${el.html()}</span><span class="blip-tooltip-nub" aria-hidden="true"></span>`;
+  hints.append(el);
+  if (ms) setTimeout(() => el.remove(), ms);
+  place();
+  return el;
+}
+function hint(i) {
+  hints.querySelector('[data-id="sign"]')?.remove();
+  const h = LEVEL.hints[i], s = game.map.signs[i];
+  if (h && s) bubble("sign", h.text, s.x, s.y, 0, h.keys);
+}
+
+/** Points scored rise a few pixels from where they were won, in POP. */
+function points(x, y, n) {
+  if (!n) return;
+  const el = Object.assign(document.createElement("p"), { className: "tpl-points blip-display blip-pop", textContent: `+${n}` });
+  Object.assign(el.dataset, { pop: `+${n}`, scale: "1", x, y });
+  overlay.append(el);
+  setTimeout(() => el.remove(), 700);
+  place();
+}
+
+/** Keeps what is laid over the canvas over its place in the level as the camera moves. */
+function place() {
+  if (!game) return;
+  const b = game.map.bramble;
+  if (b && game.near.bramble && game.mode === "play" && !game.building && !hints.querySelector('[data-id="talk"]')) bubble("talk", "Talk", b.x, b.y - 16, 0, { keyboard: ["↑"], pad: ["dpad-up"] });
+  else if (!game.near.bramble || game.mode !== "play") hints.querySelector('[data-id="talk"]')?.remove();
+  if (!game.near.chest) hints.querySelector('[data-id="chest"]')?.remove();
+  for (const el of [...hints.children, ...overlay.children]) {
+    const at = renderer.toPage(game, Number(el.dataset.x), Number(el.dataset.y));
+    el.style.left = `${at.x}px`;
+    el.style.top = `${at.y}px`;
+  }
+}
+
+// ------------------------------------------------------------------ achievements
+
+const ACHIEVEMENTS = {
+  stomp: ["First stomp", "Jump on a Grub."],
+  treetops: ["Treetop runner", "Find the key up in the trees."],
+  bridge: ["Bridge builder", "Pay Bramble to patch his bridge."],
+  untouched: ["Untouchable", "Clear 1-1 without a scratch."],
+  stars: ["Star collector", "Find all three stars in 1-1."],
+};
+function achieve(id) {
+  const got = load().achievements ?? [];
+  if (got.includes(id)) return;
+  store({ achievements: [...got, id] });
+  const [title, text] = ACHIEVEMENTS[id];
+  const toast = Object.assign(document.createElement("div"), { className: "blip-box blip-achievement" });
+  toast.innerHTML = `<span class="blip-box blip-achievement-icon"><blip-sprite name="trophy"></blip-sprite><span class="blip-achievement-sparkles"></span></span><p class="blip-achievement-label">Achievement unlocked</p><p class="blip-achievement-title">${title}</p><p class="blip-achievement-text">${text}</p>`;
+  $(".tpl-achievements").append(toast);
+  sound("success");
+  setTimeout(() => toast.remove(), 4000);
+}
+
+// ------------------------------------------------------------------ Bramble
+
+const frog = $(".tpl-frog"), choices = $(".tpl-frog-choices");
+let building = false;
+function talk() {
+  paused = true;
+  held.clear();
+  const built = game.bridgeBuilt > 0 || game.building;
+  choices.hidden = built;
+  frog.hidden = false;
+  padFor(false);
+  frog.say?.(built ? "Off you go, Pip! Mind the planks: they're still wet." : ["Pip! The rope bridge washed out in last night's storm.", "I could patch it up for thirty coins. Fair?"]);
+  requestAnimationFrame(() => frog.focus());
+}
 frog.addEventListener("blip-action", (e) => {
   requestAnimationFrame(() => frog.focus());
-  const have = Number(coins.value);
-  if (e.detail.value === "pay") {
-    if (have >= 30) {
-      coins.value = have - 30;
-      play("success");
-      frog.say(["Splendid! The bridge will be ready by sunset.", "Mind the puddles on your way."]);
-    } else {
-      play("bump");
-      frog.say([`Thirty coins, traveller. You have ${have}.`, "Collect a few more and come back."]);
-    }
-  } else frog.say("Suit yourself. I'll be here, by the water.");
+  const have = game.stats.coins;
+  choices.hidden = true;
+  if (e.detail.value === "pay" && have >= 30) {
+    game.stats.coins -= 30;
+    building = true;
+    sync();
+    frog.say(["Splendid! Stand back, nephew.", "One plank at a time…"]);
+  } else if (e.detail.value === "pay") {
+    sound("bump");
+    frog.say([`Thirty coins, nephew. You have ${have}.`, "Or climb the trees, if you're brave. The key's up there."]);
+  } else frog.say("Suit yourself. The trees are always there.");
 });
-frog.addEventListener("blip-done", () => frog.say(["Still here? The coins won't collect themselves.", "I could patch the bridge for thirty. Fair?"]));
+frog.addEventListener("blip-done", () => {
+  frog.hidden = true;
+  if (building) buildBridge(game);
+  building = false;
+  resume(game);
+  padFor(true);
+  stage.focus();
+  paused = false;
+});
 
 // ------------------------------------------------------------------ pause
 
+const pause = $(".tpl-pause");
+const fmt = (s) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 function openPause() {
-  $(".tpl-pause-coins").textContent = coins.value;
-  $(".tpl-pause-time").textContent = fmt(Number(clock.value));
-  play("open");
+  if (!game || pause.open || !["play", "ready"].includes(game.mode) || !frog.hidden) return;
+  paused = true;
+  held.clear();
+  $(".tpl-pause-coins").textContent = game.stats.coins;
+  $(".tpl-pause-stars").textContent = game.stats.stars.length;
+  $(".tpl-pause-time").textContent = game.assist ? "No clock" : fmt(game.stats.time);
+  padFor(false);
+  sound("open");
   pause.showModal();
 }
 $(".tpl-pause-button").addEventListener("click", openPause);
+let leaving = false;
 pause.addEventListener("blip-action", (e) => {
   const v = e.detail.value;
+  leaving = v !== "resume";
   pause.close();
-  if (v === "title") show("title");
-  else if (v === "docs") location.href = "/templates/";
+  if (v === "restart") startLevel(null);
+  else if (v === "title") show("title");
+  leaving = false;
 });
-pause.addEventListener("close", () => play("back"));
+pause.addEventListener("close", () => {
+  sound("back");
+  if (leaving || main.dataset.screen !== "level") return;
+  padFor(true);
+  stage.focus();
+  paused = false;
+});
+document.addEventListener("visibilitychange", () => document.hidden && main.dataset.screen === "level" && openPause());
+
+// ------------------------------------------------------------------ the end of the level
+
+const tally = $(".tpl-tally");
+function levelClear() {
+  const s = game.stats, left = game.assist ? 0 : s.time, total = s.score + left * 10;
+  const rows = [
+    // Every coin found counts, the ones paid to Bramble too: they are in the score.
+    ["Coins", `${s.found} × 10`, s.found * 10],
+    ["Gems", `${s.gems} × 500`, s.gems * 500],
+    ["Enemies", `${s.enemies}`, s.foes],
+    ["Stars", `${s.stars.length} × 1000`, s.stars.length * 1000],
+    ["Flag", "", s.flag],
+    ["Time", `${left} × 10`, left * 10],
+    ["Score", "", total],
+  ];
+  $(".blip-tally-rows", tally).innerHTML = rows
+    .map(([label, detail, value], i) => {
+      const last = i === rows.length - 1;
+      return `<div class="blip-tally-row"${last ? " data-total" : ""}><dt>${label}</dt>${detail ? `<dd class="blip-tally-detail">${detail}</dd>` : ""}<dd class="blip-tally-value blip-display blip-pop" data-scale="${last ? 2 : 1}" data-value="${value}" data-pop="${value}">${value}</dd></div>`;
+    })
+    .join("");
+  const best = load().best, isBest = !best || total > best.score;
+  store({ checkpoint: null, best: { score: Math.max(total, best?.score ?? 0), stars: Math.max(s.stars.length, best?.stars ?? 0) } });
+  tally.stars = s.stars.length;
+  tally.toggleAttribute("best", isBest);
+  if (!s.hits) achieve("untouched");
+  if (s.stars.length === 3) achieve("stars");
+  shout.shout("Level clear!", { tone: "success", hold: 1200 }).then(async () => {
+    await show("results", "mosaic");
+    await tally.play?.();
+    $(".tpl-results-choices .blip-choice")?.focus();
+  });
+}
+$(".tpl-results-choices").addEventListener("blip-action", (e) => {
+  sound("open");
+  if (e.detail.value === "again") startLevel(null);
+  else openMap();
+});
+
+function gameOver() {
+  const timeUp = game.stats.time === 0 && !game.assist;
+  $(".tpl-over-why").textContent = timeUp ? "The clock ran out." : "Out of hearts.";
+  shout.shout(timeUp ? "Time up!" : "Ouch!", { tone: "danger", hold: 700 }).then(() => show("over"));
+}
+$(".tpl-over-choices").addEventListener("blip-action", (e) => {
+  if (e.detail.value === "retry") {
+    sound("open");
+    startLevel(load().checkpoint ?? null);
+  } else {
+    sound("back");
+    show("title");
+  }
+});
+
+// ------------------------------------------------------------------ less motion, the touch pad
+
+// Less motion, asked for on the device or on the page: no dust, no shake, a steady camera, a steady dither.
+const calm = () => game && (game.calm = reducedMotion());
+matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change", calm);
+new MutationObserver(calm).observe(document.documentElement, { attributes: true, attributeFilter: ["data-blip-motion"] });
 
 // The touch pad shows on a coarse pointer and sits over the bottom of the screen: each screen keeps its height clear
 // (--tpl-pad, templates.css, which guesses it until this measures it).
-const pad = $("blip-touch-pad");
 if (pad && "ResizeObserver" in window) {
   new ResizeObserver(() => {
     const h = pad.offsetHeight;
-    if (h) game.style.setProperty("--tpl-pad", `${h}px`);
-    else game.style.removeProperty("--tpl-pad");
+    if (h) main.style.setProperty("--tpl-pad", `${h}px`);
+    else main.style.removeProperty("--tpl-pad");
   }).observe(pad);
 }
 
 // The touch pad's A sends Enter to what has focus, and a scripted key can't press a button by itself: press it here.
+// Its B sends Escape, which a dialog only closes on for a real key: close it here.
 document.addEventListener("keydown", (e) => {
-  if (!e.isTrusted && e.key === "Enter" && e.target instanceof HTMLButtonElement) e.target.click();
+  if (e.isTrusted) return;
+  if (e.key === "Enter" && e.target instanceof HTMLButtonElement) e.target.click();
+  else if (e.key === "Escape" && pause.open) pause.close();
 });

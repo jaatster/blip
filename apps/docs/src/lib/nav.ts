@@ -36,7 +36,7 @@ export const FOUNDATIONS: (NavItem & { slug: string; blurb: string })[] = [
 export const TEMPLATES: (NavItem & { slug: string; blurb: string })[] = [
   { slug: "dashboard", title: "Dashboard", url: "/templates/dashboard/", icon: "table", blurb: "An app shell for a game's live ops: stats, a sortable table, segmented charts and toasts." },
   { slug: "landing", title: "Landing page", url: "/templates/landing/", icon: "desktop", blurb: "A launch page put together from the blocks, with a world that follows the clock." },
-  { slug: "game", title: "Game menu", url: "/templates/game/", icon: "gamepad", blurb: "A title screen, a main menu, a level with its HUD and a talking frog, and a pause menu." },
+  { slug: "game", title: "Starfall", url: "/templates/game/", icon: "gamepad", blurb: "A small platformer to play: a title screen, menus, a level map, level 1-1 with its HUD and a frog who wants coins, pause, the tally and game over." },
 ];
 
 export const SECTIONS: Section[] = [
