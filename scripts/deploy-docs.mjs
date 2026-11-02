@@ -23,7 +23,7 @@ rmSync(OUT, { recursive: true, force: true });
 mkdirSync(OUT, { recursive: true });
 // Built straight into the folder it is served from, leaving apps/docs/dist (the local preview) as it is.
 const site = join(OUT, BASE.slice(1));
-run(process.execPath, [join(ROOT, "scripts/heavy.mjs"), "pnpm --filter docs build"], { BLIP_DOCS_BASE: BASE, BLIP_DOCS_OUT: site });
+run(process.execPath, [join(ROOT, "scripts/heavy.mjs"), "pnpm --filter @jaatster/blip-docs build"], { BLIP_DOCS_BASE: BASE, BLIP_DOCS_OUT: site });
 // What changes only with a deploy (the packages' CSS, JS and fonts, the docs' own styles and scripts) moves into a
 // folder named after its contents, v/<hash>/, and the pages point there: browsers keep it a year without asking
 // again (_headers), and the next deploy's changes arrive under a new name. Pages themselves are always asked for.
