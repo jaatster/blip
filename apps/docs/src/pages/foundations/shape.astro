@@ -42,7 +42,7 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     <p>Here one at a pixel of 10, so each of its parts is easy to see. The same box draws a 16-pixel button.</p>
     <div class="docs-anatomy">
       <div class="docs-anatomy-figure" role="img" aria-label="A large candy box with numbered parts: outline, light band, base, shade band, glints and drop.">
-        <div class="blip-box docs-anatomy-box" data-tone="pink"></div>
+        <div class="blip-box docs-anatomy-box"></div>
         {["outline", "light", "base", "shade", "glints", "drop"].map((p, i) => <span class={`docs-pin docs-pin-${p}`} aria-hidden="true">{i + 1}</span>)}
       </div>
       <ol class="docs-anatomy-list" role="list">

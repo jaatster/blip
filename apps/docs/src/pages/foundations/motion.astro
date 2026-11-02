@@ -59,7 +59,7 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     <div class="docs-moves">
       {moves.map(([cls, name, text, length]) => (
         <figure class="docs-move">
-          <div class="docs-move-stage"><span class={`docs-move-target ${cls}`} data-move={cls}>{cls === "blip-blink" ? <span class="blip-display blip-pop" data-scale="1" data-tone="pink" data-pop="Press start">Press start</span> : <blip-sprite name={cls === "blip-bump" ? "coin" : cls === "blip-bob" ? "pointer" : cls === "blip-shake" ? "heart" : "star"}></blip-sprite>}</span></div>
+          <div class="docs-move-stage"><span class={`docs-move-target ${cls}`} data-move={cls}>{cls === "blip-blink" ? <span class="blip-display blip-pop" data-scale="1" data-pop="Press start">Press start</span> : <blip-sprite name={cls === "blip-bump" ? "coin" : cls === "blip-bob" ? "pointer" : cls === "blip-shake" ? "heart" : "star"}></blip-sprite>}</span></div>
           <figcaption>
             <button class="blip-box blip-button docs-move-play" type="button" data-size="sm" data-variant="soft" data-play={cls}><Icon name="play" />{name}</button>
             <code class="docs-inline-code">.{cls}</code>

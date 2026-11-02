@@ -27,10 +27,10 @@ export type PricingProps = NativeProps<"div">;
  *       </PlanFeatures>
  *       <ButtonLink variant="soft" fullWidth href="#standard">Buy Standard</ButtonLink>
  *     </Plan>
- *     <Plan featured tone="pink" aria-labelledby="plan-deluxe">
+ *     <Plan featured aria-labelledby="plan-deluxe">
  *       <PlanRibbon>Best value</PlanRibbon>
  *       …
- *       <ButtonLink tone="pink" fullWidth href="#deluxe">Buy Deluxe</ButtonLink>
+ *       <ButtonLink fullWidth href="#deluxe">Buy Deluxe</ButtonLink>
  *     </Plan>
  *   </Pricing>
  *
@@ -64,7 +64,7 @@ export type PlanProps = PlanOwnProps & NativeProps<"article", { featured?: boole
  * raised, banded in its tone, with a {@link PlanRibbon}. Candy stays on what you press: the featured plan's button is
  * the candy one, in its tone; the others' are soft. Buttons name the plan: "Buy Deluxe".
  *
- *   <Plan featured tone="pink" aria-labelledby="plan-deluxe">
+ *   <Plan featured aria-labelledby="plan-deluxe">
  *     <PlanRibbon>Best value</PlanRibbon>
  *     <PlanName id="plan-deluxe">Deluxe</PlanName>
  *     <PlanPrice>
@@ -72,7 +72,7 @@ export type PlanProps = PlanOwnProps & NativeProps<"article", { featured?: boole
  *     </PlanPrice>
  *     <PlanText>The game, its music, and how it was made.</PlanText>
  *     <PlanFeatures><PlanFeature>Everything in Standard</PlanFeature></PlanFeatures>
- *     <ButtonLink tone="pink" fullWidth href="#deluxe">Buy Deluxe</ButtonLink>
+ *     <ButtonLink fullWidth href="#deluxe">Buy Deluxe</ButtonLink>
  *   </Plan>
  *
  * Renders `<article class="blip-box blip-plan" data-variant="panel">`, or `<article class="blip-box blip-plan"

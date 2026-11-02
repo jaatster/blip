@@ -73,7 +73,7 @@ export type FooterBrandProps = NativeProps<"div">;
  * Who made the site: the name (in POP, say) and one line about them.
  *
  *   <FooterBrand>
- *     <p className="blip-display blip-pop" data-scale="2" data-tone="pink" data-pop="Sherbit">Sherbit</p>
+ *     <p className="blip-display blip-pop" data-scale="2" data-pop="Sherbit">Sherbit</p>
  *     <p className="blip-small">Tiny games about big skies.</p>
  *   </FooterBrand>
  *

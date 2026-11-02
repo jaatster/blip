@@ -269,7 +269,7 @@ export function Game() {
           <Sprite name="potion" tone="blue" />
         </Slot>
       </Inventory>
-      <DropText className="blip-display blip-pop" scale={3} tone="pink" pop>
+      <DropText className="blip-display blip-pop" scale={3} pop>
         Blip
       </DropText>
       <Typewriter mood="sleepy" blips onTypewriterDone={() => console.log("typed")}>

@@ -10,9 +10,9 @@
  *       <ul class="blip-plan-features" role="list"><li>The full game</li><li>Couch co-op</li></ul>
  *       <a class="blip-box blip-button" data-variant="soft" data-width="full" href="#">Buy Standard</a>
  *     </article>
- *     <article class="blip-box blip-plan" data-featured data-tone="pink" aria-labelledby="plan-deluxe">
+ *     <article class="blip-box blip-plan" data-featured aria-labelledby="plan-deluxe">
  *       <p class="blip-box blip-plan-ribbon">Best value</p> …
- *       <a class="blip-box blip-button" data-tone="pink" data-width="full" href="#">Buy Deluxe</a>
+ *       <a class="blip-box blip-button" data-width="full" href="#">Buy Deluxe</a>
  *     </article>
  *   </div>
  *
