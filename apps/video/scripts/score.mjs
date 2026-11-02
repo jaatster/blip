@@ -1,12 +1,13 @@
 // The video's theme, in four candidate styles: 150 BPM (Blip's 400 ms beat) in C major (the key Blip's sounds are
-// tuned to), 41 bars (65.6 s), one bar per 1.6 s. Each line below is a bar of sixteenth notes: a note starts a sound,
+// tuned to), 53 bars (84.8 s), one bar per 1.6 s. Each line below is a bar of sixteenth notes: a note starts a sound,
 // "-" holds it, "." rests. Every style keeps the same bars, which the scenes in src/ are timed to:
 //   0-1 the intro (PRESS START waits), 2 the build (start is pressed, the letters drop), 3-4 the drop and the hook's
-//   first two bars, 5-8 the groove with no lead (One pixel), 9-16 the hook (88 components), 17-40 the rest.
+//   first two bars, 5-8 the groove with no lead (Modular), 9-16 the hook (88 components), then the groove and the
+//   hook again twice and a third time (17-52), the last hook bar ending on C.
 // `BLIP_THEME=<name>` picks one (town, bouncy, mellow, sunny); sunny, the one chosen, by default.
 import { BAR, STEP, Track, midi } from "./chip.mjs";
 
-export const BARS = 41;
+export const BARS = 53;
 export const SECONDS = BARS * BAR + 2;
 
 const steps = (line) => line.trim().split(/\s+/);
@@ -260,7 +261,7 @@ export function song(name = process.env.BLIP_THEME ?? "sunny") {
     full(9 + i, theme.hookChords[i]);
     band.lead(9 + i, line);
   });
-  // Bars 17-40: the other scenes (to come): the groove and the hook again.
+  // Bars 17-52: the groove and the hook three more times, for the rest of the scenes; the last bar is the home chord.
   for (let b = 17; b < BARS; b += 12) {
     theme.groove.forEach((name, i) => b + i < BARS && full(b + i, name));
     theme.hook.forEach((line, i) => {

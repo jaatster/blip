@@ -9,7 +9,7 @@ export const W = 480;
 export const H = 270;
 
 /** A canvas a Blip pixel per pixel, over the whole stage, redrawn by `draw` when `key` changes. */
-function useCanvas(draw: (ctx: CanvasRenderingContext2D, el: HTMLCanvasElement) => void, key: unknown) {
+export function useCanvas(draw: (ctx: CanvasRenderingContext2D, el: HTMLCanvasElement) => void, key: unknown) {
   const ref = useRef<HTMLCanvasElement>(null);
   useLayoutEffect(() => {
     const el = ref.current;

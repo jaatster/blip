@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 import { IFrame, continueRender, delayRender, staticFile } from "remotion";
 
 type Props = {
@@ -14,16 +14,23 @@ type Props = {
   /** Runs on the page once it has loaded, and again whenever `state` changes: to set a template's screen. */
   readonly apply?: (doc: Document) => void;
   readonly state?: unknown;
+  /** Elements to find on the page once it has settled (the first match of each selector), for `overlay`. */
+  readonly measure?: readonly string[];
+  /** Drawn over the page, given where each `measure` selector's element is, in CSS pixels of the drawn page. */
+  readonly overlay?: (rects: Readonly<Record<string, Rect>>) => ReactNode;
 };
+
+export type Rect = { readonly x: number; readonly y: number; readonly width: number; readonly height: number };
 
 /**
  * A real page of the docs site, live: the templates as they ship. Its motion is turned off (reduced motion, and
  * Blip's own motion switch), so a frame is the same however it is reached; frames wait for the page and its fonts.
  */
-export const Site = ({ page, width, height, zoom = 2, scroll = 0, scheme = "night", apply, state }: Props) => {
+export const Site = ({ page, width, height, zoom = 2, scroll = 0, scheme = "night", apply, state, measure = [], overlay }: Props) => {
   const ref = useRef<HTMLIFrameElement>(null);
   const [handle] = useState(() => delayRender(`page ${page}`));
   const [ready, setReady] = useState(false);
+  const [rects, setRects] = useState<Record<string, Rect>>({});
   const onLoad = useCallback(async () => {
     const doc = ref.current?.contentDocument;
     if (!doc) return;
@@ -44,9 +51,20 @@ export const Site = ({ page, width, height, zoom = 2, scroll = 0, scheme = "nigh
     }
     win.scrollTo(0, 0);
     await wait(1500);
+    // Where the parts are, now that nothing moves: scaled to the page as drawn.
+    const found: Record<string, Rect> = {};
+    for (const sel of measure) {
+      const r = doc.querySelector(sel)?.getBoundingClientRect();
+      if (r && r.width > 0) found[sel] = { x: r.x * zoom, y: r.y * zoom, width: r.width * zoom, height: r.height * zoom };
+    }
+    setRects(found);
     setReady(true);
-    continueRender(handle);
-    }, [handle, scheme, height]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handle, scheme, height, zoom]);
+  // Frames wait until the page has settled and the overlay knows where everything is.
+  useEffect(() => {
+    if (ready) continueRender(handle);
+  }, [ready, handle]);
   useEffect(() => {
     const doc = ref.current?.contentDocument;
     if (ready && doc && apply) apply(doc);
@@ -57,13 +75,14 @@ export const Site = ({ page, width, height, zoom = 2, scroll = 0, scheme = "nigh
     if (ready && win) win.scrollTo(0, Math.round(scroll / 2) * 2);
   }, [ready, scroll]);
   return (
-    <div style={{ inlineSize: width * zoom, blockSize: height * zoom, overflow: "hidden" }}>
+    <div style={{ position: "relative", inlineSize: width * zoom, blockSize: height * zoom, overflow: "hidden" }}>
       <IFrame
         ref={ref}
         src={staticFile(`site/${page}`)}
         onLoad={onLoad}
         style={{ inlineSize: width, blockSize: height, border: 0, transform: `scale(${zoom})`, transformOrigin: "0 0", imageRendering: "pixelated" }}
       />
+      {ready && overlay?.(rects)}
     </div>
   );
 };

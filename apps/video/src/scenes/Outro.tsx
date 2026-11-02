@@ -3,13 +3,14 @@ import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { Beat } from "../lib/Beat";
 import { TICK, at, p, ticks } from "../lib/grid";
 import { Icon } from "../lib/Icon";
-import { Burst, Dither, World } from "../lib/Pixels";
+import { Burst, World } from "../lib/Pixels";
 import { Music, Sfx } from "../lib/Sound";
 import { Stage } from "../lib/Stage";
 import { DropTitle, Typed } from "../lib/Text";
+import { Dissolve } from "../lib/Transitions";
 
-/** Bars 37-40 of the theme: the hook's last bars, ending on C. */
-export const OUTRO = { bar: 37, bars: 4 };
+/** Bars 49-52 of the theme: the hook's last bars, ending on C. */
+export const OUTRO = { bar: 49, bars: 4 };
 
 // The opening again, as an ending: the night world, BLIP landing a letter an eighth, its line, the install line and
 // where the docs are, one after another. Then the TV switches off: the picture folds to a line, the line to a dot.
@@ -72,8 +73,8 @@ export const Outro = ({ music = true }: { readonly music?: boolean }) => {
       <Sfx name="coin" at={DOCS} volume={0.6} />
       <Sfx name="bump" at={OFF + 5 * TICK} volume={0.6} />
 
-      <Dither at={0} mode="in" />
       {music && <Music bar={OUTRO.bar} bars={OUTRO.bars} />}
+      <Dissolve at={0} mode="in" seed={9} />
     </Stage>
   );
 };

@@ -3,10 +3,11 @@ import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { Beat } from "../lib/Beat";
 import { STEP, TICK, at, p, ticks } from "../lib/grid";
 import { Icon } from "../lib/Icon";
-import { Burst, Dither, World } from "../lib/Pixels";
+import { Burst, World } from "../lib/Pixels";
 import { Music, Sfx } from "../lib/Sound";
 import { Stage } from "../lib/Stage";
 import { DropTitle, Typed } from "../lib/Text";
+import { MOSAIC_FRAMES } from "../lib/Transitions";
 
 /** Bars 0-4 of the theme. */
 export const PRESS_START = { bar: 0, bars: 5 };
@@ -21,7 +22,6 @@ const DROP = at(3);
 const TAG = at(4);
 const INSTALL = "npm install @jaatster/blip-components";
 const COPY = at(4, 2);
-const OUT = at(5) - 8 * TICK;
 
 /** The TV comes on: a line across the middle, then the picture opens from it, overbright for a moment. */
 function screenOn(frame: number): { line: number; style: CSSProperties } {
@@ -41,7 +41,7 @@ export const PressStart = ({ music = true }: { readonly music?: boolean }) => {
   const pressed = frame >= PRESS && frame < PRESS + 3 * TICK;
 
   return (
-    <Stage scheme="night" style={{ background: "var(--blip-ink)" }}>
+    <Stage scheme="night" style={{ background: "var(--blip-ink)" }} mosaicOut={at(5) - MOSAIC_FRAMES}>
       <AbsoluteFill style={on.style}>
         <div className={frame < DROP ? "blip-crt" : undefined} data-flicker="" style={{ position: "absolute", inset: 0 }}>
           <World scheme="night" />
@@ -92,7 +92,6 @@ export const PressStart = ({ music = true }: { readonly music?: boolean }) => {
           <div style={{ position: "absolute", insetInline: `${(1 - on.line) * 50}%`, insetBlockStart: "50%", blockSize: p(1), background: "var(--blip-white)" }} />
         )}
       </AbsoluteFill>
-      <Dither at={OUT} mode="out" />
 
       <Sfx name="bump" at={3} volume={0.7} />
       <Sfx name="select" at={PRESS} />
