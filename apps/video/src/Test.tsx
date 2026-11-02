@@ -8,7 +8,7 @@ export const Test = () => {
   const { fps } = useVideoConfig();
   return (
     <Series>
-      <Series.Sequence name="Press start" durationInFrames={4 * BAR} premountFor={fps}>
+      <Series.Sequence name="Press start" durationInFrames={5 * BAR} premountFor={fps}>
         <PressStart />
       </Series.Sequence>
       <Series.Sequence name="88 components" durationInFrames={8 * BAR} premountFor={fps}>

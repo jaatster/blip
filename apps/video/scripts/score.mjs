@@ -1,8 +1,8 @@
-// "Press Start", the video's theme: 150 BPM in C major, 40 bars (64 s), one bar per 1.6 s. Each line below is a bar of
+// "Press Start", the video's theme: 150 BPM in C major, 41 bars (65.6 s), one bar per 1.6 s. Each line below is a bar of
 // sixteenth notes: a note starts a sound, "-" holds it, "." rests. The scenes in src/ use the same bar numbers.
 import { BAR, STEP, Track, midi } from "./chip.mjs";
 
-export const BARS = 40;
+export const BARS = 41;
 export const SECONDS = BARS * BAR + 2;
 
 const CHORD = {
@@ -91,52 +91,57 @@ export function song() {
   }
   const crashAt = (bar) => crash.noise(at(bar), 1.6, { rate: 25000, decay: 0.6 });
 
-  // ---------------------------------------------------------------- 0-3: Press start
+  // ---------------------------------------------------------------- 0-4: Press start
 
-  // Bar 0: the screen comes on and PRESS START blinks; a soft arpeggio, far away.
-  arpeggio(intro, 0, "Cmaj7", 0, 16, 0.6);
+  // Bars 0-1: the screen comes on and PRESS START waits, still, then blinking; a soft arpeggio, far away, and a
+  // heartbeat of a kick under the second bar.
+  arpeggio(intro, 0, "Cmaj7", 0, 16, 0.55);
+  arpeggio(intro, 1, "Am", 0, 16, 0.65);
   kick.kick(at(0), 0.5);
-  // Bar 1: start is pressed and the letters drop; the arpeggio climbs, a snare roll and a riser lift into the drop.
-  arpeggio(intro, 1, "F", 0, 8, 0.7);
-  arpeggio(arp, 1, "G", 8, 16, 0.45);
-  bass.note(at(1), 0.75, "F2", { wave: "tri4", attack: 0.003, decay: 0.3, sustain: 0.7, release: 0.05 });
-  bassline(1, "G", 8, 16);
-  for (let i = 8; i < 16; i++) snareHit(at(1, i), 0.2 + (i - 8) * 0.11);
-  riser.noise(at(1, 8), 0.8, { rate: 24000, rise: true });
-  // Bars 2-3: the drop. The title is up and the tagline types; the hook's first two bars.
-  for (const [b, chord] of [[2, "C"], [3, "G"]]) {
+  bass.note(at(1), 1.5, "A2", { wave: "tri", vel: 0.5, attack: 0.05, decay: 0.6, sustain: 0.6, release: 0.1 });
+  for (const step of [0, 8]) kick.kick(at(1, step), 0.35);
+  // Bar 2: start is pressed and the letters drop; the arpeggio climbs, a snare roll and a riser lift into the drop.
+  arpeggio(intro, 2, "F", 0, 8, 0.7);
+  arpeggio(arp, 2, "G", 8, 16, 0.45);
+  bass.note(at(2), 0.75, "F2", { wave: "tri4", attack: 0.003, decay: 0.3, sustain: 0.7, release: 0.05 });
+  bassline(2, "G", 8, 16);
+  for (let i = 8; i < 16; i++) snareHit(at(2, i), 0.2 + (i - 8) * 0.11);
+  riser.noise(at(2, 8), 0.8, { rate: 24000, rise: true });
+  // Bars 3-4: the drop. The title is up and the tagline types; the hook's first two bars.
+  for (const [b, chord, line] of [[3, "C", 0], [4, "G", 1]]) {
     arpeggio(arp, b, chord);
     bassline(b, chord);
-    melody(lead, b, HOOK[b - 2]);
+    melody(lead, b, HOOK[line]);
   }
-  crashAt(2);
-  drums(2);
-  drums(3, { fill: "short" });
+  crashAt(3);
+  drums(3);
+  drums(4, { fill: "short" });
 
-  // ---------------------------------------------------------------- 4-7: One pixel (no lead: the scene's own sounds)
+  // ---------------------------------------------------------------- 5-8: One pixel (no lead: the scene's own sounds)
 
   GROOVE_CHORDS.forEach((chord, i) => {
-    arpeggio(arp, 4 + i, chord);
-    bassline(4 + i, chord);
-    drums(4 + i, { fill: i === 3 ? "fill" : null });
+    arpeggio(arp, 5 + i, chord);
+    bassline(5 + i, chord);
+    drums(5 + i, { fill: i === 3 ? "fill" : null });
   });
-  crashAt(4);
+  crashAt(5);
 
-  // ---------------------------------------------------------------- 8-15: 88 components (the hook)
+  // ---------------------------------------------------------------- 9-16: 88 components (the hook)
 
   HOOK.forEach((line, i) => {
-    arpeggio(arp, 8 + i, HOOK_CHORDS[i]);
-    bassline(8 + i, HOOK_CHORDS[i]);
-    melody(lead, 8 + i, line);
-    drums(8 + i, { fill: i === 3 ? "short" : i === 7 ? "fill" : null });
+    arpeggio(arp, 9 + i, HOOK_CHORDS[i]);
+    bassline(9 + i, HOOK_CHORDS[i]);
+    melody(lead, 9 + i, line);
+    drums(9 + i, { fill: i === 3 ? "short" : i === 7 ? "fill" : null });
   });
-  crashAt(8);
-  crashAt(12);
+  crashAt(9);
+  crashAt(13);
 
-  // ---------------------------------------------------------------- 16-39: the other scenes (to come; the groove and hook for now)
+  // ---------------------------------------------------------------- 17-40: the other scenes (to come; the groove and hook for now)
 
-  for (let b = 16; b < BARS; b += 12) {
+  for (let b = 17; b < BARS; b += 12) {
     GROOVE_CHORDS.forEach((chord, i) => {
+      if (b + i >= BARS) return;
       arpeggio(arp, b + i, chord);
       bassline(b + i, chord);
       drums(b + i, { fill: i === 3 ? "fill" : null });

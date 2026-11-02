@@ -7,15 +7,17 @@ import { Music, Sfx } from "../lib/Sound";
 import { Stage } from "../lib/Stage";
 import { DropTitle, Typed } from "../lib/Text";
 
-/** Bars 0-3 of the theme. */
-export const PRESS_START = { bar: 0, bars: 4 };
+/** Bars 0-4 of the theme. */
+export const PRESS_START = { bar: 0, bars: 5 };
 
-// The beats: start is pressed on bar 1, the letters land on the eighths after it, the drop is bar 2.
-const PRESS = at(1);
-const LANDS = [at(1, 0, 2), at(1, 1), at(1, 1, 2), at(1, 2)];
-const DROP = at(2);
-const TAG = at(3);
-const OUT = at(4) - 8 * TICK;
+// The beats: PRESS START stays up from the moment the screen is on, blinks off once before the press on bar 2, and
+// stays while the key goes down; the letters land on the eighths from the beat after, the drop is bar 3.
+const BLINK = at(1, 1);
+const PRESS = at(2);
+const LANDS = [at(2, 1), at(2, 1, 2), at(2, 2), at(2, 2, 2)];
+const DROP = at(3);
+const TAG = at(4);
+const OUT = at(5) - 8 * TICK;
 
 /** The TV comes on: a line across the middle, then the picture opens from it, overbright for a moment. */
 function screenOn(frame: number): { line: number; style: CSSProperties } {
@@ -40,9 +42,9 @@ export const PressStart = ({ music = true }: { readonly music?: boolean }) => {
         <div className={frame < DROP ? "blip-crt" : undefined} data-flicker="" style={{ position: "absolute", inset: 0 }}>
           <World scheme="night" />
 
-          <Beat at={0} until={PRESS + TICK}>
+          <Beat at={BLINK} from={0} until={at(2, 0, 2)}>
             <div className="v-center" style={{ gap: p(12), paddingBlockStart: p(24) }}>
-              <p className="blip-prompt-start blip-display blip-pop" data-scale="3" data-pop="Press start">
+              <p className="blip-prompt-start blip-display blip-pop" data-scale="3" data-pop="Press start" style={frame < BLINK || frame >= PRESS ? { animation: "none" } : undefined}>
                 Press start
               </p>
               <p className="blip-prompt blip-outline" style={{ fontSize: "var(--blip-size-lead)" }}>

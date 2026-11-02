@@ -8,8 +8,8 @@ import { Music, Sfx } from "../lib/Sound";
 import { Stage } from "../lib/Stage";
 import { DropTitle, Typed } from "../lib/Text";
 
-/** Bars 8-15 of the theme: the hook. */
-export const COMPONENTS = { bar: 8, bars: 8 };
+/** Bars 9-16 of the theme: the hook. */
+export const COMPONENTS = { bar: 9, bars: 8 };
 
 // Page one lands a tile a beat from beat 2; each acts on the eighth after it lands. Page two lands a tile an eighth
 // from bar 4 (the hook's second half) and acts a sixteenth after. Then the counter rolls to 88 and stamps.
