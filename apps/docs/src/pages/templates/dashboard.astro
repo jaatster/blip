@@ -7,12 +7,13 @@
 import Template from "../../layouts/Template.astro";
 import Icon from "../../components/Icon.astro";
 
+// The views, one a section: each nav item opens one (tpl-dashboard.js shows it from the URL's #, so Back works).
 const nav = [
-  { href: "#dash-main", label: "Overview", icon: "home", current: true },
-  { href: "#board-cap", label: "Players", icon: "users", badge: "128" },
-  { href: "#levels-title", label: "Worlds", icon: "map" },
-  { href: "#hours-title", label: "Activity", icon: "clock" },
-  { href: "#board-cap", label: "Reports", icon: "flag", badge: "5", tone: "danger" },
+  { href: "#overview", label: "Overview", icon: "home", current: true },
+  { href: "#players", label: "Players", icon: "users", badge: "128" },
+  { href: "#worlds", label: "Worlds", icon: "map" },
+  { href: "#activity", label: "Activity", icon: "clock" },
+  { href: "#reports", label: "Reports", icon: "flag", badge: "5", tone: "danger" },
 ];
 const hours = [
   ["0", 3], ["2", 2], ["4", 1], ["6", 2], ["8", 4], ["10", 6], ["12", 8], ["14", 9], ["16", 11], ["18", 14], ["20", 16], ["22", 10],
@@ -30,18 +31,68 @@ const players = [
   ["Bo Wren", "BW", "blue", "Crystal Caves", "41,075", 41075, "8:40", 520, "Reported", "danger"],
   ["Cy Hale", "CH", "slate", "Lava Zone", "39,800", 39800, "9:05", 545, "Cleared", "success"],
 ] as const;
+// Players: everyone, for the Players view (the leaderboard above is this week's top seven).
+const roster = [
+  ["Pip Bloom", "pink", "Meadow", "1-3", "Now", "Playing", "info"],
+  ["Juno Reed", "teal", "Night Woods", "3-2", "2 min ago", "Playing", "info"],
+  ["Kit Moss", "green", "Meadow", "1-4", "5 min ago", "Playing", "info"],
+  ["Rory Fen", "orange", "Lava Zone", "4-1", "1 h ago", "Away", "neutral"],
+  ["Ada Lune", "purple", "Night Woods", "3-4", "Now", "Playing", "info"],
+  ["Bo Wren", "blue", "Crystal Caves", "2-2", "12 min ago", "Reported", "danger"],
+  ["Cy Hale", "slate", "Lava Zone", "4-3", "3 h ago", "Away", "neutral"],
+  ["Dot Pike", "red", "Meadow", "1-1", "Now", "Playing", "info"],
+  ["Eli Rook", "teal", "Crystal Caves", "2-4", "Yesterday", "Away", "neutral"],
+  ["Fen Ash", "green", "The Sky", "5-1", "20 min ago", "Reported", "danger"],
+  ["Gus Lark", "purple", "Night Woods", "3-1", "Now", "Playing", "info"],
+  ["Hal Moon", "blue", "Meadow", "1-2", "2 days ago", "Away", "neutral"],
+] as const;
+// Worlds: [name, tone, levels, players, best time, live].
+const worldCards = [
+  ["Meadow", "success", 8, "4,210", "2:58", true], ["Crystal Caves", "teal", 10, "2,904", "4:12", true],
+  ["Night Woods", "purple", 10, "1,880", "5:40", true], ["Lava Zone", "warning", 12, "760", "7:02", true],
+  ["The Sky", "danger", 9, "212", "9:30", false],
+] as const;
+// Activity: [player, tone, what, detail, when].
+const feed = [
+  ["Pip Bloom", "pink", "cleared Meadow 1-3", "3 stars in 3:41: a new best", "2 min ago"],
+  ["Ada Lune", "purple", "found the moon key", "Night Woods 3-4, the treetop way", "6 min ago"],
+  ["Bo Wren", "blue", "was reported", "In Crystal Caves, for their name", "12 min ago"],
+  ["Juno Reed", "teal", "cleared Night Woods 3-2", "2 stars in 4:14", "18 min ago"],
+  ["Kit Moss", "green", "paid Bramble for the bridge", "30 coins, Meadow 1-4", "25 min ago"],
+  ["Fen Ash", "green", "reached The Sky", "The first player there this week", "40 min ago"],
+] as const;
+// Reports: [player, tone, why, where, when].
+const reports = [
+  ["Bo Wren", "blue", "Their name", "Crystal Caves", "12 min ago"],
+  ["Fen Ash", "green", "Too fast: a skip?", "The Sky 5-1", "20 min ago"],
+  ["Rory Fen", "orange", "Rude in chat", "Lava Zone", "1 h ago"],
+  ["Cy Hale", "slate", "Idle in co-op", "Lava Zone 4-3", "3 h ago"],
+  ["Eli Rook", "teal", "Their picture", "Crystal Caves", "Yesterday"],
+] as const;
+// Studio: levels in the making, [name, world, stage, tone].
+const drafts = [
+  ["Puddle Path 1-4", "Meadow", "In review", "info"],
+  ["Glow Grotto 2-5", "Crystal Caves", "Testing", "warning"],
+  ["Owl Hollow 3-5", "Night Woods", "Draft", "neutral"],
+] as const;
+// Community: [player, tone, when, text, likes, tag].
+const posts = [
+  ["Mika", "accent", "Live ops · 1 h ago", "Season 3 opens in two days: Night Woods for everyone at 18:00, and double coins all weekend.", 42, "News"],
+  ["Juno Reed", "teal", "3 h ago", "Found a way over the treetops in 1-4 without paying Bramble a coin. Hold jump on the Plips!", 17, "Tips"],
+  ["Ada Lune", "purple", "Yesterday", "Anyone else think the moon in Night Woods follows you? It does. I checked.", 9, "Fun"],
+] as const;
 ---
 <Template title="Dashboard template" description="A Blip dashboard: app bar, sidebar, stats, segmented charts, a sortable table and toasts." scripts={["tpl-dashboard"]}>
-  <a class="blip-box blip-skip-link" href="#dash-main">Skip to the overview</a>
+  <a class="blip-box blip-skip-link" href="#dash-main">Skip to the content</a>
   <div class="tpl-dash">
     <header class="blip-box blip-app-bar tpl-dash-bar" data-sticky>
-      <a class="blip-app-bar-brand" href="#dash-main"><Icon name="trophy" /><span class="blip-display blip-pop" data-scale="2" data-pop="Questboard">Questboard</span></a>
+      <a class="blip-app-bar-brand" href="#overview"><Icon name="trophy" /><span class="blip-display blip-pop" data-scale="2" data-pop="Questboard">Questboard</span></a>
       <nav class="blip-app-bar-nav" aria-label="Main">
         <button class="blip-box blip-button blip-app-bar-toggle" type="button" data-variant="ghost" data-icon-only popovertarget="dash-links" aria-label="Menu"><Icon name="menu" /></button>
         <ul class="blip-box blip-app-bar-links" id="dash-links" popover role="list">
-          <li><a class="blip-box blip-app-bar-link" data-variant="ghost" href="#dash-main" aria-current="page">Live ops</a></li>
-          <li><a class="blip-box blip-app-bar-link" data-variant="ghost" href="#levels-title">Studio</a></li>
-          <li><a class="blip-box blip-app-bar-link" data-variant="ghost" href="#board-cap">Community</a></li>
+          <li><a class="blip-box blip-app-bar-link" data-variant="ghost" href="#overview" data-group="live" aria-current="page">Live ops</a></li>
+          <li><a class="blip-box blip-app-bar-link" data-variant="ghost" href="#studio" data-group="studio">Studio</a></li>
+          <li><a class="blip-box blip-app-bar-link" data-variant="ghost" href="#community" data-group="community">Community</a></li>
           <li><a class="blip-box blip-app-bar-link" data-variant="ghost" href="/templates/">Blip docs</a></li>
         </ul>
       </nav>
@@ -75,12 +126,13 @@ const players = [
     <main class="tpl-dash-main" id="dash-main" tabindex="-1">
       <nav class="blip-breadcrumbs" data-size="sm" aria-label="Breadcrumb">
         <ol class="blip-breadcrumbs-list">
-          <li><a class="blip-box blip-breadcrumbs-link" data-variant="ghost" href="#dash-main">Live ops</a></li>
-          <li><a class="blip-box blip-breadcrumbs-link" data-variant="ghost" href="#dash-main" aria-current="page">Overview</a></li>
+          <li class="tpl-crumb-group"><a class="blip-box blip-breadcrumbs-link" data-variant="ghost" href="#overview">Live ops</a></li>
+          <li><a class="blip-box blip-breadcrumbs-link tpl-crumb-here" data-variant="ghost" href="#overview" aria-current="page">Overview</a></li>
         </ol>
       </nav>
+      <section class="tpl-view" id="overview" aria-labelledby="overview-title" data-current>
       <div class="tpl-dash-head">
-        <h1 class="blip-display" data-scale="2">Overview</h1>
+        <h1 class="blip-display" data-scale="2" id="overview-title" tabindex="-1">Overview</h1>
         <div class="tpl-dash-tools">
           <blip-segmented class="blip-box blip-segmented tpl-range" data-size="sm" aria-label="Period" value="week">
             <button class="blip-box" type="button" value="day">Today</button>
@@ -154,6 +206,180 @@ const players = [
         </div>
       </blip-table>
       <p class="blip-small blip-muted tpl-dash-note">Questboard and its players are made up for this Blip template. The bar chart is this page's own CSS: Blip has no chart component yet.</p>
+      </section>
+
+      <section class="tpl-view" id="players" aria-labelledby="players-title">
+        <div class="tpl-dash-head">
+          <h1 class="blip-display" data-scale="2" id="players-title" tabindex="-1">Players</h1>
+          <div class="tpl-dash-tools">
+            <span class="blip-box blip-input tpl-player-search" data-size="sm"><input type="search" placeholder="Find a player" aria-label="Find a player" /></span>
+            <blip-segmented class="blip-box blip-segmented tpl-player-filter" data-size="sm" aria-label="Show" value="all">
+              <button class="blip-box" type="button" value="all" aria-checked="true">All</button>
+              <button class="blip-box" type="button" value="Playing">Playing</button>
+              <button class="blip-box" type="button" value="Reported">Reported</button>
+            </blip-segmented>
+          </div>
+        </div>
+        <div class="blip-box blip-table-frame">
+          <div class="blip-table-scroll" role="region" aria-labelledby="roster-cap" tabindex="0">
+            <table class="blip-table" data-zebra data-stack>
+              <caption id="roster-cap">128 players, {roster.length} shown</caption>
+              <thead><tr><th scope="col">Player</th><th scope="col">World</th><th scope="col">Level</th><th scope="col">Last seen</th><th scope="col">Status</th></tr></thead>
+              <tbody>
+                {roster.map(([name, tone, world, level, seen, status, statusTone]) => (
+                  <tr data-name={name.toLowerCase()} data-status={status}>
+                    <th scope="row"><span class="tpl-player"><span class="blip-box blip-avatar" data-size="sm" data-tone={tone} aria-hidden="true">{name[0]}</span>{name}</span></th>
+                    <td data-label="World">{world}</td>
+                    <td data-label="Level">{level}</td>
+                    <td data-label="Last seen">{seen}</td>
+                    <td data-label="Status"><span class="blip-box blip-tag" data-size="sm" data-tone={statusTone}>{status}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="blip-small blip-muted tpl-none" role="status"></p>
+      </section>
+
+      <section class="tpl-view" id="worlds" aria-labelledby="worlds-title">
+        <div class="tpl-dash-head">
+          <h1 class="blip-display" data-scale="2" id="worlds-title" tabindex="-1">Worlds</h1>
+          <button class="blip-box blip-button" type="button" data-size="sm" data-toast="New worlds start in the Studio."><Icon name="plus" />New world</button>
+        </div>
+        <ul class="blip-grid tpl-world-cards" role="list" data-min="160" data-gap="8">
+          {worldCards.map(([name, tone, levels, players, best, live], i) => (
+            <li>
+              <article class="blip-box blip-card" data-tone={tone}>
+                <header class="blip-card-header">
+                  <div><h2 class="blip-card-title">{name}</h2><p class="blip-card-subtitle">World {i + 1} · {levels} levels</p></div>
+                  <span class="blip-box blip-tag" data-size="sm" data-tone={live ? "success" : "neutral"}>{live ? "Live" : "Soon"}</span>
+                </header>
+                <div class="blip-card-body tpl-world-body">
+                  <div class="tpl-world">
+                    <div class="blip-progress-label"><label for={`wc-${i}`}>Cleared</label><span class="docs-num">{worlds[i]![1]}%</span></div>
+                    <div class="blip-box blip-progress" data-tone={tone}><progress id={`wc-${i}`} max="100" value={worlds[i]![1]}>{worlds[i]![1]}%</progress></div>
+                  </div>
+                  <dl class="tpl-facts"><div><dt>Players</dt><dd>{players}</dd></div><div><dt>Best time</dt><dd>{best}</dd></div></dl>
+                </div>
+                <footer class="blip-card-footer"><a class="blip-box blip-button" data-size="sm" data-variant="soft" href="#studio">Edit in Studio</a></footer>
+              </article>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="tpl-view" id="activity" aria-labelledby="activity-title">
+        <div class="tpl-dash-head">
+          <h1 class="blip-display" data-scale="2" id="activity-title" tabindex="-1">Activity</h1>
+          <span class="blip-small blip-muted">Everything players did, the newest first</span>
+        </div>
+        <ul class="blip-box blip-list tpl-feed" role="list" data-dividers>
+          {feed.map(([who, tone, what, detail, when]) => (
+            <li class="blip-list-item">
+              <span class="blip-box blip-avatar" data-size="sm" data-tone={tone} aria-hidden="true">{who[0]}</span>
+              <div class="blip-list-content"><span class="blip-list-title">{who} {what}</span><span class="blip-list-description">{detail}</span></div>
+              <div class="blip-list-end"><span class="blip-small blip-muted">{when}</span></div>
+            </li>
+          ))}
+        </ul>
+        <button class="blip-box blip-button tpl-older" type="button" data-variant="soft" data-size="sm">Show older</button>
+      </section>
+
+      <section class="tpl-view" id="reports" aria-labelledby="reports-title">
+        <div class="tpl-dash-head">
+          <h1 class="blip-display" data-scale="2" id="reports-title" tabindex="-1">Reports</h1>
+        </div>
+        <div class="blip-box blip-alert tpl-reports-alert" data-tone="warning">
+          <span class="blip-alert-icon" aria-hidden="true"></span>
+          <div class="blip-alert-body">
+            <p class="blip-alert-title"><span class="tpl-report-count">{reports.length}</span> reports waiting</p>
+            <p>Each is a player someone thinks broke the rules. Dismiss it, or warn the player.</p>
+          </div>
+        </div>
+        <ul class="blip-box blip-list tpl-reports" role="list" data-dividers>
+          {reports.map(([who, tone, why, where, when]) => (
+            <li class="blip-list-item" data-who={who}>
+              <span class="blip-box blip-avatar" data-size="sm" data-tone={tone} aria-hidden="true">{who[0]}</span>
+              <div class="blip-list-content"><span class="blip-list-title">{who}: {why}</span><span class="blip-list-description">{where}, {when}</span></div>
+              <div class="blip-list-end tpl-report-actions">
+                <button class="blip-box blip-button" type="button" data-size="sm" data-variant="soft" data-tone="neutral" value="dismiss">Dismiss</button>
+                <button class="blip-box blip-button" type="button" data-size="sm" data-tone="warning" value="warn">Warn</button>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <div class="blip-empty-state tpl-reports-empty" hidden>
+          <svg class="blip-empty-state-art" viewBox="0 0 32 24" shape-rendering="crispEdges" aria-hidden="true"><path style="fill: var(--blip-ink)" d="M10 2h12v2h2v2h2v10h-2v2h-2v2h-2v2h-8v-2h-2v-2h-2v-2h-2V6h2V4h2z"/><path style="fill: var(--blip-success)" d="M12 4h8v2h2v2h2v8h-2v2h-2v2h-8v-2h-2v-2h-2V8h2V6h2z"/><path style="fill: var(--blip-white)" d="M19 9h2v2h-1v1h-1v1h-1v1h-1v1h-2v-1h-1v-1h-1v-1h-1v-1h2v1h1v1h1v-1h1v-1h1v-1h1z"/></svg>
+          <h2 class="blip-empty-state-title">All clear</h2>
+          <p class="blip-empty-state-text">No reports waiting. The meadow is a friendly place today.</p>
+        </div>
+      </section>
+
+      <section class="tpl-view" id="studio" aria-labelledby="studio-title">
+        <div class="tpl-dash-head">
+          <h1 class="blip-display" data-scale="2" id="studio-title" tabindex="-1">Studio</h1>
+        </div>
+        <section class="blip-box tpl-card" data-variant="panel" aria-labelledby="pipeline-title">
+          <div class="tpl-card-head"><h2 class="blip-title" id="pipeline-title">Puddle Path 1-4</h2><span class="blip-small blip-muted">On its way to players</span></div>
+          <div class="blip-progress-steps" data-arrow>
+            <ol class="blip-progress-steps-list" aria-label="Puddle Path 1-4">
+              <li class="blip-progress-steps-item" data-state="done"><span class="blip-box blip-progress-steps-marker">1</span><span class="blip-progress-steps-label">Draft<span class="blip-sr-only">, done</span></span></li>
+              <li class="blip-progress-steps-item" data-state="done"><span class="blip-box blip-progress-steps-marker">2</span><span class="blip-progress-steps-label">Testing<span class="blip-sr-only">, done</span></span></li>
+              <li class="blip-progress-steps-item" aria-current="step"><span class="blip-box blip-progress-steps-marker">3</span><span class="blip-progress-steps-label">Review</span><span class="blip-progress-steps-hint">With Mika</span></li>
+              <li class="blip-progress-steps-item"><span class="blip-box blip-progress-steps-marker">4</span><span class="blip-progress-steps-label">Live</span></li>
+            </ol>
+          </div>
+        </section>
+        <div class="tpl-dash-charts">
+          <section class="blip-box tpl-card" data-variant="panel" aria-labelledby="drafts-title">
+            <h2 class="blip-title" id="drafts-title">Levels in the making</h2>
+            <ul class="blip-box blip-list tpl-drafts" role="list" data-dividers data-variant="outline">
+              {drafts.map(([name, world, stage, tone]) => (
+                <li class="blip-list-item"><div class="blip-list-content"><span class="blip-list-title">{name}</span><span class="blip-list-description">{world}</span></div><div class="blip-list-end"><span class="blip-box blip-tag" data-size="sm" data-tone={tone}>{stage}</span></div></li>
+              ))}
+            </ul>
+          </section>
+          <form class="blip-box tpl-card tpl-new-level" data-variant="panel" aria-labelledby="new-level-title" novalidate>
+            <h2 class="blip-title" id="new-level-title">A new level</h2>
+            <div class="blip-field">
+              <label class="blip-field-label" for="level-name">Name</label>
+              <span class="blip-box blip-input"><input id="level-name" name="name" required minlength="3" aria-describedby="level-name-error" /></span>
+              <p class="blip-field-error" id="level-name-error"></p>
+            </div>
+            <div class="blip-field">
+              <label class="blip-field-label" for="level-world">World</label>
+              <span class="blip-box blip-select"><select id="level-world" name="world">{worldCards.map(([w]) => <option class="blip-box">{w}</option>)}</select></span>
+            </div>
+            <button class="blip-box blip-button" type="submit"><Icon name="plus" />Start a draft</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="tpl-view" id="community" aria-labelledby="community-title">
+        <div class="tpl-dash-head">
+          <h1 class="blip-display" data-scale="2" id="community-title" tabindex="-1">Community</h1>
+        </div>
+        <form class="blip-box tpl-card tpl-compose" data-variant="panel" aria-labelledby="compose-title">
+          <h2 class="blip-title" id="compose-title">Tell the players something</h2>
+          <span class="blip-box blip-textarea"><textarea name="text" rows="3" maxlength="280" aria-labelledby="compose-title" placeholder="Night Woods opens on Friday…"></textarea></span>
+          <button class="blip-box blip-button" type="submit"><Icon name="send" />Post</button>
+        </form>
+        <ul class="tpl-posts" role="list">
+          {posts.map(([who, tone, when, text, likes, tag]) => (
+            <li>
+              <article class="blip-box blip-card" data-size="sm">
+                <header class="blip-card-header">
+                  <div class="tpl-player"><span class="blip-box blip-avatar" data-size="sm" data-tone={tone} aria-hidden="true">{who[0]}</span><div><h2 class="blip-card-title">{who}</h2><p class="blip-card-subtitle">{when}</p></div></div>
+                  <span class="blip-box blip-tag" data-size="sm">{tag}</span>
+                </header>
+                <div class="blip-card-body"><p>{text}</p></div>
+                <footer class="blip-card-footer"><button class="blip-box blip-button tpl-like" type="button" data-size="sm" data-variant="soft" aria-pressed="false"><Icon name="heart-outline" class="tpl-like-off" /><Icon name="heart" class="tpl-like-on" /><span class="tpl-likes">{likes}</span><span class="blip-sr-only"> likes</span></button></footer>
+              </article>
+            </li>
+          ))}
+        </ul>
+      </section>
     </main>
 
     <nav class="blip-box blip-bottom-bar tpl-dash-bottom" aria-label="Live ops" data-collapse="auto">

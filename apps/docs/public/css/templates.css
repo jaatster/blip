@@ -32,15 +32,23 @@
   .tpl-dash {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto 1fr auto;
     grid-template-areas: "bar bar" "side main" "bottom bottom";
     align-items: start;
     gap: var(--blip-space-6) var(--blip-space-8);
     min-block-size: 100dvh;
+    max-inline-size: calc(720 * var(--blip-pixel));
+    margin-inline: auto;
     padding: var(--blip-space-4) var(--blip-space-6) 0;
   }
   .tpl-dash-bar { grid-area: bar; }
   .tpl-dash-side { grid-area: side; position: sticky; inset-block-start: calc(36 * var(--blip-pixel)); }
   .tpl-dash-main { grid-area: main; display: grid; gap: var(--blip-space-12); min-inline-size: 0; padding-block-end: var(--blip-space-24); outline: none; }
+  /* One view at a time once the script runs (it follows the URL's #); without it they stack and the links jump. */
+  .tpl-view { display: grid; align-content: start; gap: var(--blip-space-12); min-inline-size: 0; scroll-margin-block-start: calc(40 * var(--blip-pixel)); }
+  html.js .tpl-view:not([data-current]) { display: none; }
+  .tpl-dash [hidden] { display: none; }
+  .tpl-view h1 { outline: none; }
   .tpl-dash-bottom { grid-area: bottom; }
   @container blip-shell (width < 600px) {
     .tpl-dash { grid-template-columns: minmax(0, 1fr); grid-template-areas: "bar" "main" "bottom"; padding-inline: var(--blip-space-4); }
@@ -91,7 +99,21 @@
   .tpl-world .blip-progress-label { display: flex; justify-content: space-between; font-size: var(--blip-size-small); font-weight: var(--blip-weight-bold); margin-block-end: var(--blip-space-2); }
   .tpl-player { display: inline-flex; align-items: center; gap: var(--blip-space-4); white-space: nowrap; }
   /* The leaderboard and its note keep together: the note says the data is made up. */
-  .tpl-dash-main > .tpl-dash-note { margin-block-start: calc(-1 * var(--blip-space-6)); }
+  .tpl-view > .tpl-dash-note { margin-block-start: calc(-1 * var(--blip-space-6)); }
+  .tpl-player-search { inline-size: calc(96 * var(--blip-pixel)); }
+  .tpl-none:empty { display: none; }
+  .tpl-world-cards { margin: 0; padding: 0; }
+  .tpl-world-cards > li, .tpl-world-cards .blip-card { block-size: 100%; }
+  .tpl-world-body { display: grid; gap: var(--blip-space-6); }
+  .tpl-facts { display: flex; flex-wrap: wrap; gap: var(--blip-space-4) var(--blip-space-12); margin: 0; font-size: var(--blip-size-small); }
+  .tpl-facts dt { color: var(--blip-text-muted); }
+  .tpl-facts dd { margin: 0; font-weight: var(--blip-weight-bold); font-variant-numeric: tabular-nums; }
+  .tpl-older { justify-self: start; }
+  .tpl-report-actions { display: flex; flex-wrap: wrap; gap: var(--blip-space-3); }
+  .tpl-new-level > .blip-button, .tpl-compose > .blip-button { justify-self: start; }
+  .tpl-posts { display: grid; gap: var(--blip-space-8); margin: 0; padding: 0; list-style: none; }
+  .tpl-like[aria-pressed="true"] .tpl-like-off, .tpl-like:not([aria-pressed="true"]) .tpl-like-on { display: none; }
+  .tpl-likes { font-variant-numeric: tabular-nums; }
 
   /* ------------------------------------------------------------------ landing */
 

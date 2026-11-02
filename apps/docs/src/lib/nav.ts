@@ -34,7 +34,7 @@ export const FOUNDATIONS: (NavItem & { slug: string; blurb: string })[] = [
 ];
 
 export const TEMPLATES: (NavItem & { slug: string; blurb: string })[] = [
-  { slug: "dashboard", title: "Dashboard", url: "/templates/dashboard/", icon: "table", blurb: "An app shell for a game's live ops: stats, a sortable table, segmented charts and toasts." },
+  { slug: "dashboard", title: "Dashboard", url: "/templates/dashboard/", icon: "table", blurb: "An app shell for a game's live ops, seven working views: stats, players, worlds, activity, reports, a studio and a community." },
   { slug: "landing", title: "Landing page", url: "/templates/landing/", icon: "desktop", blurb: "A launch page put together from the blocks, with a world that follows the clock." },
   { slug: "game", title: "Game screens", url: "/templates/game/", icon: "gamepad", blurb: "A game's screens, with no game in them: a title screen, menus, a level map, the HUD with shouts and a frog who wants coins, pause, the tally and game over." },
 ];
