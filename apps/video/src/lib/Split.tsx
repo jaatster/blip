@@ -9,10 +9,9 @@ import { DropTitle, Typed, letterLands } from "./Text";
  * every scene lines up with the next. Nothing is framed: the parts stand on the night sky itself, as Blip's candy
  * stands on its world, and what they do happens to the whole screen. The stage is 480 x 270 Blip pixels:
  *
- *   y 14      the scene's name, small (POP, scale 1)
- *   y 26-50   the part's name, big (POP, scale 3), dropping in a letter at a time
+ *   y 12-48   the part's name, big (POP, scale 3), rising in a letter at a time (no eyebrow over it)
  *   y 62-214  the hero: the part itself, large and centred, working (HERO, 400 x 152, unframed)
- *   y 224     one line saying what it is, centred (OUTLINE, 12 px)
+ *   y 230     one line saying what it is, centred (OUTLINE, 12 px)
  *
  * The sky round them stays clear of the moon and the clouds (pass SHOW_CLEAR to Sky and Life as `avoid`).
  */
@@ -29,25 +28,31 @@ export type Part = {
   readonly line: string;
 };
 
+/** When the run of parts sharing part i's title began: its title rises in once, then holds. */
+const firstAt = (parts: readonly Part[], i: number) => {
+  let j = i;
+  while (j > 0 && parts[j - 1]!.title === parts[i]!.title) j--;
+  return parts[j]!.at;
+};
+
 /** When a part's title has landed and its line starts typing. */
 export const lineAt = (part: Part) => part.at + [...part.title.replace(/ /g, "")].length * TICK + STEP;
+const lineStart = (parts: readonly Part[], i: number) => (firstAt(parts, i) === parts[i]!.at ? lineAt(parts[i]!) : parts[i]!.at + STEP);
 
-/** The scene's name and the part's name above the hero, and its line under it. */
+/** The part's name above the hero and its line under it. (`eyebrow` is the scene's name, kept for reference only.) */
 export const SplitText = ({ eyebrow, parts }: { readonly eyebrow: string; readonly parts: readonly Part[] }) => {
   const frame = useCurrentFrame();
   const i = parts.filter((pt) => pt.at <= frame).length - 1;
   const part = parts[Math.max(0, i)]!;
   return (
     <>
-      <div style={{ position: "absolute", insetInline: 0, top: p(12), display: "grid", justifyItems: "center", gap: p(4) }}>
-        <span className="blip-display blip-pop" data-scale="1" data-pop={eyebrow}>{eyebrow}</span>
-        {/* The title falls into its own room, clipped at its top, so its letters never cross the scene's name. */}
-        <div style={{ blockSize: p(30), display: "grid", alignContent: "end", overflow: "hidden", paddingInline: p(2) }}>
-          {i >= 0 && <DropTitle key={i} text={part.title} lands={letterLands(part.title, part.at + TICK, TICK)} scale={3} outline={1} />}
-        </div>
+      {/* The title, alone at the top: big, centred, its letters rising into place a Blip frame apart. Not clipped. */}
+      <div style={{ position: "absolute", insetInline: 0, top: p(12), display: "grid", justifyItems: "center" }}>
+        {/* Keyed by its text: a title the next part shares stays put, and only its line changes. */}
+        {i >= 0 && <DropTitle key={part.title} text={part.title} lands={letterLands(part.title, firstAt(parts, i) + TICK, TICK)} scale={3} outline={1} motion="rise" />}
       </div>
-      <div style={{ position: "absolute", insetInline: p(40), top: p(222), blockSize: p(36), textAlign: "center" }}>
-        {i >= 0 && <Typed key={i} text={part.line} at={lineAt(part)} every={1} className="blip-outline" style={{ fontSize: p(12), fontWeight: 700, lineHeight: 1.5 }} />}
+      <div style={{ position: "absolute", insetInline: p(40), top: p(230), blockSize: p(36), textAlign: "center" }}>
+        {i >= 0 && <Typed key={i} text={part.line} at={lineStart(parts, i)} every={1} className="blip-outline v-caption" style={{ fontSize: p(12), fontWeight: 700, lineHeight: 1.5 }} />}
       </div>
     </>
   );

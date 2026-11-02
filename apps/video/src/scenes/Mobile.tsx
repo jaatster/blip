@@ -46,7 +46,8 @@ const MOVES: readonly Move[] = [
   { at: at(2, 3, 2), to: ".m-create", press: SEND },
 ];
 
-const BEFORE = [["Pip", "98,120"], ["Juno", "87,400"], ["Moss", "80,015"]];
+// Two rows, so the action button has the space under them to itself.
+const BEFORE = [["Pip", "98,120"], ["Juno", "87,400"]];
 const AFTER = [["Juno", "99,050"], ...BEFORE.filter(([n]) => n !== "Juno")];
 
 /** Six even steps, a Blip frame each, from 0 to 1 starting at `from`. */

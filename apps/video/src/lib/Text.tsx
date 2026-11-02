@@ -37,6 +37,8 @@ export const Typed = ({ text, at, every = 2.5, caret = true, className, style }:
 
 /** Where a falling letter is, a Blip frame at a time: down from above, landed on the fifth, a little bounce. */
 const FALL = [-44, -24, -10, -3, 0, -3, 0];
+// A title rising into place: 6, 3, 1 pixels low, then set, so its letters never cross what is above it.
+const RISE = [6, 3, 1, 0];
 export const LAND = 4;
 
 type DropProps = {
@@ -47,10 +49,14 @@ type DropProps = {
   /** Ink outline and drop, in Blip pixels (POP's is one). */
   readonly outline?: number;
   readonly tone?: string;
+  /** "rise": each letter comes up 6 pixels in three steps instead of falling in from high (for titles over things). */
+  readonly motion?: "drop" | "rise";
 };
 
 /** A POP title whose letters fall in one by one, each landing on its frame (a beat of the music). */
-export const DropTitle = ({ text, lands, scale, outline = 1, tone }: DropProps) => {
+export const DropTitle = ({ text, lands, scale, outline = 1, tone, motion = "drop" }: DropProps) => {
+  const path = motion === "rise" ? RISE : FALL;
+  const lead = motion === "rise" ? RISE.length - 1 : LAND;
   const frame = useCurrentFrame();
   return (
     <span
@@ -67,13 +73,13 @@ export const DropTitle = ({ text, lands, scale, outline = 1, tone }: DropProps) 
             {w > 0 && " "}
             <span style={{ display: "inline-block", whiteSpace: "nowrap" }}>
               {[...word].map((ch, c) => {
-                const k = ticks(frame, (lands[start + c] ?? Infinity) - LAND * TICK);
+                const k = ticks(frame, (lands[start + c] ?? Infinity) - lead * TICK);
                 return (
                   <span
                     key={c}
                     className="blip-drop-text-letter"
                     data-pop={ch}
-                    style={{ animation: "none", visibility: k < 0 ? "hidden" : "visible", translate: `0 ${p(FALL[Math.min(k, FALL.length - 1)] ?? 0)}` }}
+                    style={{ animation: "none", visibility: k < 0 ? "hidden" : "visible", translate: `0 ${p(path[Math.min(k, path.length - 1)] ?? 0)}` }}
                   >
                     {ch}
                   </span>

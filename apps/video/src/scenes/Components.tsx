@@ -218,7 +218,7 @@ const ButtonDemo = ({ frame, v }: { readonly frame: number; readonly v: boolean 
   return (
     <>
       <ArtSprite name={b >= 0 ? "block-spent" : "block"} scale={2} style={{ position: "absolute", left: p(BLOCK.x), top: p(BLOCK.y - bump) }} />
-      {b >= 0 && b < RISE.length && <Sprite name="coin" scale={2} style={{ position: "absolute", left: p(BLOCK.x + 2), top: p(BLOCK.y - 20 - Math.round(RISE[b]! * 0.6)) }} />}
+      {b >= 0 && b < RISE.length && <Sprite name="coin" scale={2} style={{ position: "absolute", left: p(BLOCK.x + 2), top: p(BLOCK.y - 18 - Math.round(RISE[b]! * 0.3)) }} />}
       {b >= RISE.length && b < RISE.length + 6 && (
         <Sprite name={b - RISE.length >= 2 && b - RISE.length < 4 ? "sparkle" : "sparkle-small"} scale={2} style={{ position: "absolute", left: p(BLOCK.x), top: p(BLOCK.y - 38) }} />
       )}

@@ -90,12 +90,12 @@ export const RealScreens = ({ music = true }: { readonly music?: boolean }) => {
       <Mosaic at={leaving} mode="out">
         {/* A website: the landing page in a plain Blip window, twice the size, its hero filling the window. */}
         <div>
-          <Device from={DROP(0)} shown={i === 0} w={360} h={152}>
+          <Device from={DROP(0)} shown={i === 0} w={344} h={144}>
             <section className="blip-box blip-window" style={{ inlineSize: "100%", blockSize: "100%", display: "grid", gridTemplateRows: "auto 1fr" }}>
               <header className="blip-window-bar">
                 <h2 className="blip-window-title blip-display blip-pop" data-pop="Daybreak">Daybreak</h2>
               </header>
-              <Crop x={150} y={170}>
+              <Crop x={150} y={178}>
                 <Site
                   page="templates/landing/index.html"
                   width={1016}
@@ -159,7 +159,7 @@ export const RealScreens = ({ music = true }: { readonly music?: boolean }) => {
 
         {/* A game: the game template on a pixel TV, twice the size, under the CRT's scanlines; Press start opens the menu. */}
         <div>
-          <Device from={DROP(2)} shown={i === 2} w={240} h={152}>
+          <Device from={DROP(2)} shown={i === 2} w={224} h={136}>
             {/* The antenna: two rods stepping out a whole pixel at a time. */}
             {[-1, 1].map((d) => (
               <div key={d} style={{ position: "absolute", left: p(120), top: 0 }}>

@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { Beat } from "../lib/Beat";
 import { TICK, at, p, ticks } from "../lib/grid";
-import { Life, Sky, Sprite } from "../lib/Pixels";
+import { Life, Sky } from "../lib/Pixels";
 import { Music, Sfx } from "../lib/Sound";
 import { Site } from "../lib/Site";
 import { SHOW_CLEAR, SplitText, type Part } from "../lib/Split";
@@ -74,11 +74,6 @@ function stateAt(frame: number) {
 export const Responsive = ({ music = true }: { readonly music?: boolean }) => {
   const frame = useCurrentFrame();
   const { stop, win, h, x, y } = stateAt(frame);
-  const corner = [x + win - 4, y + h - 4] as const;
-  const holding = DRAGS.some((d) => frame >= d - TICK && frame < dragEnd(d) + 6 * TICK);
-  const enter = Math.min(6, ticks(frame, ENTER) + 1) / 6;
-  const from = [470, 200] as const;
-  const pointer = frame < ENTER ? null : [Math.round(from[0] + (corner[0] - from[0]) * enter), Math.round(from[1] + (corner[1] - from[1]) * enter)] as const;
 
   return (
     <Stage scheme="night" mosaicOut={at(4) - MOSAIC_FRAMES}>
@@ -109,13 +104,6 @@ export const Responsive = ({ music = true }: { readonly music?: boolean }) => {
           </div>
         </section>
       </Beat>
-
-      {pointer && (
-        // The kit's hand, a quarter turn upright as attract mode's pointer stands, its fingertip on the grip.
-        <div style={{ position: "absolute", left: p(pointer[0] - 4), top: p(pointer[1] + 2 + (holding ? 1 : 0)), zIndex: 50 }}>
-          <Sprite name="pointer" style={{ rotate: "-90deg" }} />
-        </div>
-      )}
 
       <Sfx name="open" at={WINDOW} volume={0.6} />
       <Sfx name="look" at={ENTER} volume={0.4} />

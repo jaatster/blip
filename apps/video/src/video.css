@@ -66,3 +66,7 @@
   --blip-size-title: calc(11 * var(--blip-pixel));
   font-size: var(--blip-size-body);
 }
+
+/* A showcase's line: white with an ink edge on the night sky; on the light skies of Day and Sunset, plain ink text,
+   which reads better there than white on pastel. */
+:is([data-blip-scheme="day"], [data-blip-scheme="sunset"]) .v-caption { color: var(--blip-text); text-shadow: none; }

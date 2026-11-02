@@ -20,7 +20,7 @@ export const BUILT_RIGHT = { bar: 45, bars: 4 };
 type Scheme = "day" | "sunset" | "night";
 const PARTS: readonly Part[] = [
   { at: at(0, 1), title: "All the CSS", line: "Every component, gzipped. The build fails over its budget." },
-  { at: at(1, 3), title: "AA contrast", line: "For every text pair, in every scheme and palette." },
+  { at: at(1, 3, 1), title: "AA contrast", line: "For every text pair, in every scheme and palette." },
 ];
 const METER = at(0, 2);
 const FILL = METER + 2 * TICK;

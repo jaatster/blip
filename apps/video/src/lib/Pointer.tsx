@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { useCurrentFrame } from "remotion";
-import { TICK, p, ticks } from "./grid";
-import { W, Sprite } from "./Pixels";
+import { TICK, ticks } from "./grid";
+import { W } from "./Pixels";
 
 export type Move = {
   /** The frame it sets off. */
@@ -56,11 +56,8 @@ export const Pointer = ({ moves, from = [W + 10, 200] }: { readonly moves: reado
     y = Math.round(a[1] + (b[1] - a[1]) * k);
   }
   const dip = i >= 0 && pressing(frame, moves[i]!.press) ? 1 : 0;
-  return (
-    // The kit's hand points right; a quarter turn stands it upright, finger up, every pixel still whole (the sprite is
-    // 12 x 8, turned about its middle). Its fingertip is then 4 pixels in and 2 above its box: placed on the spot.
-    <div ref={ref} style={{ position: "absolute", left: p(x - 4), top: p(y + 2 + dip), zIndex: 50, pointerEvents: "none" }}>
-      <Sprite name="pointer" style={{ rotate: "-90deg" }} />
-    </div>
-  );
+  // Nothing is drawn: the controls change on the beat by themselves (the user's call). The moves still time each press,
+  // and `over`/`pressing` still give the hover and pressed looks, so every state shows on the part itself.
+  void x; void y; void dip;
+  return <div ref={ref} style={{ display: "none" }} />;
 };

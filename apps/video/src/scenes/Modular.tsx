@@ -24,10 +24,10 @@ type Art = { readonly tone: string; readonly map: string };
 const ART = STARFALL as Record<string, Art>;
 
 const PARTS: readonly Part[] = [
-  { at: at(0, 1), title: "Tokens", line: "Colours, sizes and the world's palettes. 3.8 KB." },
-  { at: at(1), title: "Core", line: "The candy box every part is drawn with. 6 KB." },
-  { at: at(2), title: "Components", line: "88 of them, on native HTML. 32 KB." },
-  { at: at(2, 3), title: "Kits", line: "Game, effects, sound and blocks: add them when you want them." },
+  { at: at(0, 1), title: "Modular", line: "Tokens: colours, sizes and the world's palettes." },
+  { at: at(1), title: "Modular", line: "Core: the candy box every part is drawn with." },
+  { at: at(2), title: "Modular", line: "Components: 88 of them, on native HTML." },
+  { at: at(2, 3), title: "Modular", line: "Kits: game, effects, sound and blocks, when you want them." },
 ];
 // The tower, in the 2x pixels it is drawn in: blocks 16 high, narrower as they go up, each landing on its beat, with
 // room above it for Pip (the tower's top is 16 pixels down its box).
@@ -117,8 +117,8 @@ export const Modular = ({ music = true }: { readonly music?: boolean }) => {
 
       <SplitText eyebrow="Modular" parts={PARTS} />
       <DemoFrame at={BLOCKS[0]!.land - (FALL.length - 1) * TICK}>
-        {/* The tower stands on the bottom of the hero, centred. */}
-        <div style={{ position: "absolute", inset: 0, display: "grid", justifyItems: "center", alignItems: "end" }}>
+        {/* The tower stands on the bottom of the hero, centred, with room under it before the line. */}
+        <div style={{ position: "absolute", inset: 0, display: "grid", justifyItems: "center", alignItems: "end", paddingBlockEnd: p(10) }}>
           <Big x={2}>
             <Tower frame={frame} />
           </Big>
@@ -126,7 +126,7 @@ export const Modular = ({ music = true }: { readonly music?: boolean }) => {
       </DemoFrame>
 
       {/* The coin's sparkle and the confetti, in stage pixels: the tower's box is 2 x 80 high on the hero's bottom. */}
-      <Burst at={COIN + 6 * TICK} kind="sparkle" box={[HERO.x + HERO.w / 2 + 44, HERO.y + HERO.h - 160 + 2 * (16 - 4 - 11) - 4, 24, 22]} count={6} seed={9} scale={2} />
+      <Burst at={COIN + 6 * TICK} kind="sparkle" box={[HERO.x + HERO.w / 2 + 44, HERO.y + HERO.h - 170 + 2 * (16 - 4 - 11) - 4, 24, 22]} count={6} seed={9} scale={2} />
       <Burst at={COIN} kind="confetti" box={[HERO.x + 30, HERO.y, HERO.w - 60, 6]} count={34} seed={12} scale={2} />
 
       {BLOCKS.map((b, i) => <Sfx key={b.name} name={i ? `step@${[0, 3, 5, 7][i]}` : "step"} at={b.land} volume={0.55} />)}

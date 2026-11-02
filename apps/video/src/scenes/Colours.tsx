@@ -41,7 +41,7 @@ const FRAME = at(0, 1);
 // The hero, standing on the night sky: the swatches three times the size along the top, and under them Pip beside a
 // Play button twice the size. Pip (14 x 13) is drawn three times as big and hops a few pixels on each pick.
 const HOP = [0, 8, 14, 16, 14, 8, 0];
-const ROW = 80;
+const ROW = 92;
 /** Where the Play button lands on the stage, roughly, for the sparkles. */
 const BUTTON = { x: 219, y: 142, w: 112, h: 48 };
 
@@ -101,7 +101,7 @@ const Screen = ({ i, frame, v }: { readonly i: number; readonly frame: number; r
 
       <DemoFrame at={FRAME}>
         {/* The docs home's swatches, big, standing on the sky. */}
-        <div style={{ position: "absolute", insetInline: 0, top: 0, display: "grid", justifyItems: "center" }}>
+        <div style={{ position: "absolute", insetInline: 0, top: p(14), display: "grid", justifyItems: "center" }}>
           <Big x={3}>
             <div style={{ display: "flex", gap: p(4) }}>
               {PALETTES.map((sw, n) => <Swatch key={sw.name} n={n} i={i} frame={frame} v={v} />)}
