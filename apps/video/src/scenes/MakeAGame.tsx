@@ -279,7 +279,7 @@ export const MakeAGame = ({ music = true }: { readonly music?: boolean }) => {
             <span className="blip-box blip-achievement-icon"><Sprite name="trophy" /><span className="blip-achievement-sparkles" /></span>
             <p className="blip-achievement-label">Achievement unlocked</p>
             <p className="blip-achievement-title">Block buster</p>
-            <p className="blip-achievement-text">Bump every block.</p>
+            <p className="blip-achievement-text">Hit every block from below.</p>
           </div>
         </div>
       </Beat>

@@ -6,7 +6,7 @@ import { Icon } from "../lib/Icon";
 import { Burst, Dither, Life, Sky } from "../lib/Pixels";
 import { Pointer, pressing, type Move } from "../lib/Pointer";
 import { Music, Sfx } from "../lib/Sound";
-import { RIGHT, SPLIT_CLEAR, SplitText, type Part } from "../lib/Split";
+import { SHOW_CLEAR, SplitText, type Part } from "../lib/Split";
 import { Stage } from "../lib/Stage";
 
 /** Bars 31-34 of the theme. */
@@ -52,9 +52,9 @@ const AFTER = [["Juno", "99,050"], ...BEFORE.filter(([n]) => n !== "Juno")];
 /** Six even steps, a Blip frame each, from 0 to 1 starting at `from`. */
 const six = (frame: number, from: number) => Math.min(6, Math.max(0, ticks(frame, from) + 1)) / 6;
 
-// The phone, upright and as tall as the demo area allows, in its middle: three rows, big enough to read.
-const PHONE_W = 104, PHONE_H = 172;
-const PHONE_X = RIGHT.x + (RIGHT.w - PHONE_W) / 2, PHONE_Y = RIGHT.y + (RIGHT.h - PHONE_H) / 2;
+// The phone is the part, standing on the sky: upright, centred on the stage's middle, in the hero's rows 60-218.
+const PHONE_W = 96, PHONE_H = 158;
+const PHONE_X = 240 - PHONE_W / 2, PHONE_Y = 60;
 const DROP = [-40, -22, -8, 0, -3, 0];
 
 /** How far the list is pulled down at `frame`, in pixels. */
@@ -102,7 +102,7 @@ export const Mobile = ({ music = true }: { readonly music?: boolean }) => {
   const rows = frame >= DONE ? AFTER : BEFORE;
   const swipe = swiped(frame);
   // The sheet: up a sixth of its height a Blip frame, held, down the same way; the scrim a quarter dither, then half.
-  const SHEET_H = 124;
+  const SHEET_H = 116;
   const up = frame < CLOSE ? six(frame, SHEET) : 1 - six(frame, CLOSE);
   const sheetOn = frame >= SHEET && up > 0;
   const kin = ticks(frame, SHEET), kout = ticks(frame, CLOSE);
@@ -113,8 +113,8 @@ export const Mobile = ({ music = true }: { readonly music?: boolean }) => {
   return (
     <Stage scheme="night" mosaicIn>
       <AbsoluteFill>
-        <Sky scheme="night" avoid={SPLIT_CLEAR} />
-        <Life avoid={SPLIT_CLEAR} seed={57} shooting={[at(2, 1)]} />
+        <Sky scheme="night" avoid={SHOW_CLEAR} />
+        <Life avoid={SHOW_CLEAR} seed={57} shooting={[at(2, 1)]} />
       </AbsoluteFill>
 
       <SplitText eyebrow="Ready for mobile" parts={PARTS} />
@@ -129,10 +129,6 @@ export const Mobile = ({ music = true }: { readonly music?: boolean }) => {
           <div
             style={{
               position: "relative", inlineSize: "100%", blockSize: "100%", overflow: "hidden", display: "flex", flexDirection: "column", background: "var(--blip-bg)",
-              // The phone's own type, a size up from the stage's, so its rows and labels read at a glance.
-              "--blip-size-caption": "calc(8 * var(--blip-pixel))", "--blip-size-small": "calc(9 * var(--blip-pixel))",
-              "--blip-size-body": "calc(10 * var(--blip-pixel))", "--blip-size-lead": "calc(11 * var(--blip-pixel))", "--blip-size-title": "calc(12 * var(--blip-pixel))",
-              fontSize: "var(--blip-size-body)",
             } as CSSProperties}
           >
             <header className="blip-box blip-top-bar" style={{ position: "relative" }}>
@@ -140,9 +136,6 @@ export const Mobile = ({ music = true }: { readonly music?: boolean }) => {
                 <span className="blip-icon blip-top-bar-chevron" aria-hidden="true" />
               </span>
               <h1 className="blip-top-bar-title">Scores</h1>
-              <div className="blip-top-bar-actions">
-                <span className="blip-box blip-button" data-variant="ghost" data-icon-only><Icon name="search" /></span>
-              </div>
             </header>
 
             <div className="blip-refresh" data-blip-state={state} style={{ flex: 1, minBlockSize: 0, "--_blip-pull": p(pull) } as CSSProperties}>
@@ -155,7 +148,7 @@ export const Mobile = ({ music = true }: { readonly music?: boolean }) => {
               </div>
               <div className="blip-refresh-scroller">
                 <Beat at={PHONE}>
-                  <ul className="blip-list" role="list" data-dividers style={{ margin: 0, fontSize: "var(--blip-size-lead)" }}>
+                  <ul className="blip-list" role="list" data-dividers style={{ margin: 0, "--blip-size-small": "var(--blip-size-lead)", fontSize: "var(--blip-size-lead)" } as CSSProperties}>
                     {rows.map(([name, score], i) => (
                       <li key={name} className={`m-row-${i}`}>
                         {!loaded ? (
@@ -201,7 +194,7 @@ export const Mobile = ({ music = true }: { readonly music?: boolean }) => {
               data-icon-only
               aria-expanded={sheetOn ? "true" : undefined}
               data-blip-state={pressing(frame, FAB) ? "active" : undefined}
-              style={{ insetBlockEnd: p(40), insetInlineEnd: p(6) }}
+              style={{ insetBlockEnd: p(32), insetInlineEnd: p(5) }}
             >
               <Icon name="plus" />
             </span>
@@ -224,7 +217,7 @@ export const Mobile = ({ music = true }: { readonly music?: boolean }) => {
                   <dialog open className="blip-box blip-drawer blip-sheet" data-side="bottom" data-blip-static style={{ inlineSize: "100%", maxInlineSize: "none", blockSize: p(SHEET_H) }}>
                     <header className="blip-dialog-header">
                       <span className="blip-box blip-sheet-handle" data-variant="ghost"><span /></span>
-                      <h2 className="blip-dialog-title">New level</h2>
+                      <h2 className="blip-dialog-title">New map</h2>
                       <span className="blip-box blip-button blip-dialog-close" data-variant="ghost" data-size="sm" data-icon-only>
                         <span className="blip-icon" data-glyph="close" aria-hidden="true" />
                       </span>
@@ -232,9 +225,9 @@ export const Mobile = ({ music = true }: { readonly music?: boolean }) => {
                     <div className="blip-dialog-body" style={{ display: "grid", gap: p(4) }}>
                       <Beat at={SEND} from={SHEET}>
                         <div className={`blip-field${sent ? " blip-shake" : ""}`}>
-                          <label className="blip-field-label">Level name</label>
+                          <label className="blip-field-label">Map name</label>
                           <span className="blip-box blip-input" data-size="sm">
-                            <input placeholder="World 1-4" aria-invalid={sent ? "true" : undefined} readOnly />
+                            <input placeholder="Puddle" aria-invalid={sent ? "true" : undefined} readOnly />
                           </span>
                           <p className="blip-field-error">{sent ? "Give it a name." : ""}</p>
                         </div>

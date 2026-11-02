@@ -6,10 +6,12 @@ import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { ART as STARFALL } from "../../../docs/public/js/starfall/art.js";
 import { Beat } from "../lib/Beat";
 import { BEAT, TICK, at, p, ticks } from "../lib/grid";
-import { Burst, Dither, Life, Sky, World, bayerMask } from "../lib/Pixels";
+import { Big } from "../lib/Big";
+import { Icon } from "../lib/Icon";
+import { Burst, Dither, Life, Sky, bayerMask } from "../lib/Pixels";
 import { type Move, Pointer, over, pressing } from "../lib/Pointer";
 import { Music, Sfx } from "../lib/Sound";
-import { DemoFrame, RIGHT, SPLIT_CLEAR, SplitText } from "../lib/Split";
+import { DemoFrame, SPLIT_CLEAR, SplitText } from "../lib/Split";
 import { Snap } from "../lib/Snap";
 import { Stage } from "../lib/Stage";
 import { MOSAIC_FRAMES } from "../lib/Transitions";
@@ -20,12 +22,12 @@ export const COLOURS = { bar: 17, bars: 4 };
 type Art = { readonly tone: string; readonly map: string };
 const ART = STARFALL as Record<string, Art>;
 
-// Left: the palette's name and what it is. Right: a little night on a hill, Pip by a candy Play button, and the docs
-// home's accent swatches on a panel. Attract mode's pointer picks the next swatch every three beats
+// The palette's name and what it is, over the docs home's accent swatches standing big on the sky, and Pip by a
+// candy Play button. Attract mode's pointer picks the next swatch every three beats
 // (1.2 s); the whole screen takes the palette through the ordered dither (its night sky, page, ink and accent), and
 // Pip hops for joy and the button sparkles.
 const PALETTES = [
-  { id: "", name: "Candy", line: "12 palettes, or make your own. Candy is Blip's own." },
+  { id: "", name: "Candy", line: "12 palettes, or your own. Candy is Blip's." },
   { id: "mint", name: "Mint", line: "Mint on a green ash night." },
   { id: "grape", name: "Grape", line: "The TV's own night: grape on indigo." },
   { id: "bubblegum", name: "Bubblegum", line: "Bubblegum on a pink dusk." },
@@ -36,12 +38,12 @@ const PARTS = PALETTES.map((pl, i) => ({ at: PICKS[i]! + 4, title: pl.name, line
 const MOVES: readonly Move[] = PICKS.slice(1).map((f, n) => ({ at: f - BEAT, to: `[data-v="sw-${n + 1}"]`, press: f }));
 const FRAME = at(0, 1);
 
-// The demo, in its own 300 x 176 world: the grass top is row 159; Pip (14 x 13) is shown twice as big.
-const FW = RIGHT.w, FH = RIGHT.h;
-const GROUND = 159;
-const PIP = { x: 84, w: 28, h: 26 };
-const HOP = [0, 6, 10, 12, 10, 6, 0];
-const BUTTON = { x: 168, y: 112 };
+// The hero, standing on the night sky: the swatches three times the size along the top, and under them Pip beside a
+// Play button twice the size. Pip (14 x 13) is drawn three times as big and hops a few pixels on each pick.
+const HOP = [0, 8, 14, 16, 14, 8, 0];
+const ROW = 80;
+/** Where the Play button lands on the stage, roughly, for the sparkles. */
+const BUTTON = { x: 219, y: 142, w: 112, h: 48 };
 
 /** One of Starfall's sprites, drawn a Blip pixel per sprite pixel (or `scale`). */
 const ArtSprite = ({ name, scale = 1, style }: { readonly name: string; readonly scale?: number; readonly style?: CSSProperties }) => {
@@ -77,10 +79,10 @@ const Swatch = ({ n, i, frame, v }: { readonly n: number; readonly i: number; re
           ? { "--blip-tone": "var(--blip-accent)", "--blip-tone-light": "var(--blip-accent-light)", "--blip-tone-shade": "var(--blip-accent-shade)" }
           : { "--blip-tone": "#00C2FA", "--blip-tone-light": "#91DDFF", "--blip-tone-shade": "#0096C3" }),
         "--blip-tone-on": "var(--blip-ink)",
-        display: "inline-grid", placeItems: "center", inlineSize: p(20), blockSize: p(20), margin: `0 ${p(1)} ${p(1)} 0`,
+        display: "inline-grid", placeItems: "center", inlineSize: p(14), blockSize: p(14), margin: `0 ${p(1)} ${p(1)} 0`,
       } as CSSProperties}
     >
-      <span style={{ display: n === i ? "block" : "none", inlineSize: p(6), blockSize: p(6), background: "var(--blip-tone-on)" }} />
+      <span style={{ display: n === i ? "block" : "none", inlineSize: p(4), blockSize: p(4), background: "var(--blip-tone-on)" }} />
     </label>
   );
 };
@@ -98,27 +100,28 @@ const Screen = ({ i, frame, v }: { readonly i: number; readonly frame: number; r
       <SplitText eyebrow="Your colours" parts={PARTS} />
 
       <DemoFrame at={FRAME}>
-        <World key={`w${palette.id}`} scheme="night" w={FW} h={FH} />
-
-        {/* The docs home's swatches on a panel, over the hill. */}
-        <div style={{ position: "absolute", insetInline: 0, top: p(14), display: "grid", justifyItems: "center" }}>
-          <Snap>
-            <div className="blip-box blip-card" style={{ display: "grid", gap: p(6) }}>
-              <span className="blip-label">Accent</span>
-              <div style={{ display: "flex", gap: p(5) }}>
-                {PALETTES.map((sw, n) => <Swatch key={sw.name} n={n} i={i} frame={frame} v={v} />)}
-              </div>
+        {/* The docs home's swatches, big, standing on the sky. */}
+        <div style={{ position: "absolute", insetInline: 0, top: 0, display: "grid", justifyItems: "center" }}>
+          <Big x={3}>
+            <div style={{ display: "flex", gap: p(4) }}>
+              {PALETTES.map((sw, n) => <Swatch key={sw.name} n={n} i={i} frame={frame} v={v} />)}
             </div>
-          </Snap>
+          </Big>
         </div>
 
-        <Beat at={i > 0 ? PICKS[i]! : FRAME}>
-          <span className="blip-box blip-button" data-size="lg" style={{ position: "absolute", left: p(BUTTON.x), top: p(BUTTON.y) }}>
-            Play
-          </span>
-        </Beat>
-        <div style={{ position: "absolute", left: p(PIP.x), top: p(GROUND - PIP.h - hop) }}>
-          <ArtSprite name={hop > 0 ? "pip-jump" : blink ? "pip-blink" : "pip-idle"} scale={2} />
+        <div style={{ position: "absolute", insetInline: 0, top: p(ROW), display: "grid", justifyItems: "center" }}>
+          <Snap>
+            <div style={{ display: "flex", alignItems: "end", gap: p(28) }}>
+              <div style={{ translate: `0 ${p(-hop)}` }}>
+                <ArtSprite name={hop > 0 ? "pip-jump" : blink ? "pip-blink" : "pip-idle"} scale={3} />
+              </div>
+              <Beat at={i > 0 ? PICKS[i]! : FRAME}>
+                <div className="v-x2" data-blip-pixel="">
+                  <span className="blip-box blip-button" data-size="lg"><Icon name="play" />Play</span>
+                </div>
+              </Beat>
+            </div>
+          </Snap>
         </div>
       </DemoFrame>
     </AbsoluteFill>
@@ -140,7 +143,7 @@ export const Colours = ({ music = true }: { readonly music?: boolean }) => {
         </div>
       )}
       {PICKS.slice(1).map((f, n) => (
-        <Burst key={f} at={f + 3 * TICK} kind="sparkle" box={[RIGHT.x + BUTTON.x, RIGHT.y + BUTTON.y, 44, 24]} count={8} seed={n + 3} />
+        <Burst key={f} at={f + 3 * TICK} kind="sparkle" box={[BUTTON.x, BUTTON.y, BUTTON.w, BUTTON.h]} count={8} seed={n + 3} />
       ))}
       <Pointer moves={MOVES} />
 

@@ -1,87 +1,63 @@
-import type { CSSProperties } from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { Beat } from "../lib/Beat";
+import { Big } from "../lib/Big";
 import { TICK, at, p, ticks } from "../lib/grid";
 import { Burst, Life, Sky, bayerMask } from "../lib/Pixels";
 import { Music, Sfx } from "../lib/Sound";
-import { DemoFrame, RIGHT, SPLIT_CLEAR, SplitText, type Part } from "../lib/Split";
-import { Snap } from "../lib/Snap";
+import { DemoFrame, HERO, SHOW_CLEAR, SplitText, type Part } from "../lib/Split";
 import { Stage } from "../lib/Stage";
-import { DISSOLVE_FRAMES, Dissolve, MOSAIC_FRAMES, Mosaic } from "../lib/Transitions";
+import { DISSOLVE_FRAMES, Dissolve } from "../lib/Transitions";
 
 /** Bars 45-48 of the theme: the hook again. */
 export const BUILT_RIGHT = { bar: 45, bars: 4 };
 
-// Two things the build checks. Left, what; right, it working:
-//   32 KB  a budget well with its 34 KB line: the components' CSS drops in four big pieces, stacking like a
-//          puzzle game, and the last piece clicks in under the line. One more tries, does not fit, shakes and is
-//          refused: the build fails over budget (apps/docs assets.json: 32.5 KB of a 34 KB limit).
-//   AA     one card with one line on the sky, while the scene steps Day, Sunset, Night (a second each), and a badge
-//          pops under the card with that text's contrast (worked out from DESIGN.md's colours).
+// Two things the build checks, each standing on the sky:
+//   32 KB  a real progress meter, twice the size, filling a kilobyte a Blip frame up to 32 against its 34 KB budget
+//          (apps/docs assets.json: all component CSS, gzipped), a live count over it. Then "+4 KB" drops onto its
+//          end, bounces off, shakes and dithers away: over budget, the build fails.
+//   AA     one card with one line, its contrast badge under it, while the whole screen steps Day, Sunset, Night
+//          through the ordered dither, a second each (ratios worked out from DESIGN.md's colours).
 type Scheme = "day" | "sunset" | "night";
 const PARTS: readonly Part[] = [
-  { at: at(0, 1), title: "32 KB", line: "All the CSS, every component, gzipped. The build fails over budget." },
-  { at: at(1, 3), title: "AA", line: "Contrast for every text pair, every scheme and palette." },
+  { at: at(0, 1), title: "All the CSS", line: "Every component, gzipped. The build fails over its budget." },
+  { at: at(1, 3), title: "AA contrast", line: "For every text pair, in every scheme and palette." },
 ];
-const FRAME = at(0, 1, 2);
-const PIECES = ["Buttons", "Dialogs", "Tables", "Tiles"].map((name, i) => ({ name, land: at(0, 2, 1) + i * 16 }));
-const EXTRA = PIECES.at(-1)!.land + at(0, 0, 2);
-const REFUSED = EXTRA + 4 * TICK;
+const METER = at(0, 2);
+const FILL = METER + 2 * TICK;
+const FULL = FILL + 32 * TICK;
+const EXTRA = FULL + 4 * TICK;
+const HIT = EXTRA + 4 * TICK;
+const GONE = HIT + 7 * TICK;
 const AA = at(1, 3, 1);
 const SCHEMES: readonly (readonly [frame: number, scheme: Scheme, ratio: string])[] = [
+  [0, "night", ""],
   [AA, "day", "16.7:1"],
-  [AA + 52, "sunset", "16.6:1"],
+  [AA + 52, "sunset", "16.7:1"],
   [AA + 104, "night", "14.7:1"],
 ];
-
-// The well: 140 wide, a row of 32 a piece (8 KB), the line at 34 KB; the bottom is row 166 of the 300 x 176 frame.
-const WELL = { x: 80, w: 140, bottom: 166, kb: 4 };
-const LIMIT = WELL.bottom - 34 * WELL.kb;
-const ROW = 8 * WELL.kb;
-const FALL_SPEED = 26;
-
-/** A piece's top at `frame`: falling 26 pixels a Blip frame from above the well until it lands on `top`. */
-const fallen = (frame: number, land: number, top: number) => {
-  const k = ticks(frame, land);
-  return k >= 0 ? top : Math.max(-30, top + k * FALL_SPEED);
-};
-
-// Pieces are labelled in Pixel Bop at scale 1: short names, and its capitals stay clear at this size.
-const piece = (extra: CSSProperties): CSSProperties => ({
-  position: "absolute", blockSize: p(ROW - 2), display: "grid", placeItems: "center", color: "var(--blip-ink)",
-  ...extra,
-});
+// The meter in its 2x pixels: 170 wide, a kilobyte a block (34 of them); the "+4 KB" lands on its right end.
+const MW = 170;
+const DROP = [-28, -16, -6, 0];
+const BOUNCE = [-6, -3, 0];
 
 const Budget = ({ frame }: { readonly frame: number }) => {
-  const settled = frame >= PIECES.at(-1)!.land && frame < EXTRA;
-  const gone = frame >= REFUSED + 6 * TICK ? Math.min(4, ticks(frame, REFUSED + 6 * TICK) + 1) : 0;
+  const kb = Math.max(0, Math.min(32, ticks(frame, FILL) + 1));
+  const d = ticks(frame, EXTRA);
+  const y = d < DROP.length ? DROP[Math.max(0, d)]! : frame < HIT + 3 * TICK ? BOUNCE[Math.min(BOUNCE.length - 1, ticks(frame, HIT))]! : 0;
+  const away = Math.min(4, Math.max(0, ticks(frame, GONE) + 1));
   return (
-    <div style={{ position: "absolute", inset: 0, background: "var(--blip-surface-panel)" }}>
-      {/* The well: a sunken box with an outline, and the budget's line across its top. */}
-      <div className="blip-box" data-variant="outline" style={{ position: "absolute", left: p(WELL.x - 4), top: p(LIMIT - 12), inlineSize: p(WELL.w + 8), blockSize: p(WELL.bottom - LIMIT + 16), "--blip-r": 2, "--blip-shape": "var(--blip-shape-2)", "--blip-shape-inner": "var(--blip-shape-2-inner)", background: "var(--blip-surface-sunken)" } as CSSProperties} />
-      <div style={{ position: "absolute", left: p(WELL.x - 10), top: p(LIMIT - 1), inlineSize: p(WELL.w + 20), blockSize: p(1), backgroundImage: `repeating-linear-gradient(90deg, var(--blip-danger) 0 ${p(4)}, transparent ${p(4)} ${p(6)})` }} />
-      <span className="blip-label" style={{ position: "absolute", left: p(WELL.x + WELL.w + 14), top: p(LIMIT - 4), color: "var(--blip-danger-text)" }}>34 KB</span>
+    <div style={{ position: "relative", inlineSize: p(MW), display: "grid", gap: p(5), justifyItems: "center" }}>
+      <span className="blip-display blip-pop" data-scale="2" data-pop={`${kb} KB`}>{`${kb} KB`}</span>
+      <div className="blip-box blip-progress" data-tone={kb >= 32 && frame < HIT ? "success" : undefined} style={{ inlineSize: p(MW) }}>
+        <progress max={34} value={kb} aria-label="Component CSS, of its budget">{kb} KB</progress>
+      </div>
+      <span className="blip-display blip-pop" data-scale="1" data-pop="Budget 34 KB" style={{ justifySelf: "end" }}>Budget 34 KB</span>
 
-      {PIECES.map((pc, i) => {
-        if (frame < pc.land - 8 * TICK) return null;
-        const top = WELL.bottom - (i + 1) * ROW;
-        const last = i === PIECES.length - 1 && settled;
-        return (
-          <div key={pc.name} className="blip-box blip-display" data-scale="1" data-variant={last ? "candy" : "soft"} data-tone={last ? "success" : "accent"}
-            style={piece({ left: p(WELL.x + (i % 2 ? 8 : 0)), top: p(fallen(frame, pc.land, top)), inlineSize: p(WELL.w - 8) })}>
-            {pc.name}
-          </div>
-        );
-      })}
-
-      {/* One more piece: it lands on top, over the line, shakes in the danger tone and dithers away, refused. */}
-      {frame >= EXTRA - 6 * TICK && gone < 4 && (
-        <Beat at={REFUSED}>
-          <div className={frame >= REFUSED ? "blip-shake" : undefined} style={{ position: "absolute", inset: 0, mask: gone ? bayerMask(16 - 4 * gone) : undefined }}>
-            <div className="blip-box blip-display" data-scale="1" data-variant="candy" data-tone="danger"
-              style={piece({ left: p(WELL.x + 24), top: p(fallen(frame, EXTRA, WELL.bottom - PIECES.length * ROW - ROW / 2)), inlineSize: p(WELL.w - 48), blockSize: p(ROW / 2 - 2) })}>
-              + 4 KB
-            </div>
+      {/* Over budget: it falls onto the end of the meter, bounces, shakes and dithers away. */}
+      {d >= 0 && away < 4 && (
+        <Beat at={HIT + 3 * TICK} from={EXTRA}>
+          <div className={frame >= HIT + 3 * TICK ? "blip-shake" : undefined} style={{ position: "absolute", right: p(-4), top: p(16 + y), mask: away ? bayerMask(16 - 4 * away) : undefined }}>
+            <span className="blip-box blip-tag" data-variant="candy" data-tone="danger"><span className="blip-display" data-scale="1">+4 KB</span></span>
           </div>
         </Beat>
       )}
@@ -89,73 +65,65 @@ const Budget = ({ frame }: { readonly frame: number }) => {
   );
 };
 
-/** The demo is a 150 x 88 scene seen twice as big (.v-x2), like Modular's: one card, one line, one badge. */
-const LW = 150, LH = 88;
-
-/** The card and its badge, in one scheme: drawn twice while the scene dithers to the next. */
-const Contrast = ({ frame, i }: { readonly frame: number; readonly i: number }) => {
-  const [from, scheme, ratio] = SCHEMES[i]!;
-  const badge = from + 8 + 4 * TICK;
-  return (
-    <div data-blip-scheme={scheme} style={{ position: "absolute", inset: 0, background: "var(--blip-bg)" }}>
-      <div data-blip-pixel="" className="v-x2" style={{ position: "absolute", left: 0, top: 0, inlineSize: p(LW), blockSize: p(LH) }}>
-        <Sky scheme={scheme} w={LW} h={LH} />
-        <article className="blip-box blip-card" data-size="sm" style={{ position: "absolute", left: p(17), top: p(16), inlineSize: p(116), display: "grid", placeItems: "center" }}>
-          <Snap><p style={{ margin: 0, fontSize: "var(--blip-size-title)", fontWeight: 700, whiteSpace: "nowrap" }}>Catch the stars</p></Snap>
-        </article>
-        {frame >= badge && (
-          <Beat at={badge}>
-            <div style={{ position: "absolute", left: 0, right: 0, top: p(52), display: "grid", justifyItems: "center" }}>
-              <Snap><span className="blip-box blip-tag blip-pop-in" data-tone="success" data-size="lg">{ratio} AA</span></Snap>
-            </div>
+const Contrast = ({ frame, ratio }: { readonly frame: number; readonly ratio: string }) => (
+  <div style={{ display: "grid", gap: p(8), justifyItems: "center" }}>
+    <article className="blip-box blip-card" data-size="sm">
+      <p style={{ margin: 0, fontSize: "var(--blip-size-title)", fontWeight: 700, whiteSpace: "nowrap" }}>Catch the stars</p>
+    </article>
+    {/* The badge pops in afresh each time the scheme changes, a little after it lands. */}
+    <div style={{ blockSize: p(16) }}>
+      {(() => {
+        const from = SCHEMES.filter((s) => s[0] <= frame).at(-1)![0] + 8;
+        return frame >= from ? (
+          <Beat key={from} at={from}>
+            <span className="blip-box blip-tag blip-pop-in" data-tone="success" data-size="lg">{ratio} AA</span>
           </Beat>
-        )}
-      </div>
+        ) : null;
+      })()}
     </div>
-  );
-};
+  </div>
+);
 
-const ContrastDemo = ({ frame }: { readonly frame: number }) => {
-  const i = Math.max(0, SCHEMES.filter((s) => s[0] <= frame).length - 1);
-  const k = ticks(frame, SCHEMES[i]![0]);
+/** The whole screen in one scheme: drawn twice while the time of day dithers to the next. */
+const Screen = ({ frame, i }: { readonly frame: number; readonly i: number }) => {
+  const [, scheme, ratio] = SCHEMES[i]!;
   return (
-    <div style={{ position: "absolute", inset: 0 }}>
-      <Contrast frame={frame} i={i} />
-      {i > 0 && k < 3 && (
-        <div style={{ position: "absolute", inset: 0, mask: bayerMask(16 - 4 * (k + 1)) }}>
-          <Contrast frame={frame} i={i - 1} />
+    <AbsoluteFill data-blip-scheme={scheme} style={{ background: "var(--blip-bg)" }}>
+      <Sky scheme={scheme} avoid={SHOW_CLEAR} />
+      {scheme === "night" && <Life avoid={SHOW_CLEAR} shooting={[at(1, 1)]} seed={41} />}
+      <SplitText eyebrow="Built right" parts={PARTS} />
+      <DemoFrame at={frame < AA ? METER : AA}>
+        <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center" }}>
+          <Big x={2}>{frame < AA ? <Budget frame={frame} /> : <Contrast frame={frame} ratio={ratio} />}</Big>
         </div>
-      )}
-    </div>
+      </DemoFrame>
+    </AbsoluteFill>
   );
 };
 
 export const BuiltRight = ({ music = true }: { readonly music?: boolean }) => {
   const frame = useCurrentFrame();
+  const i = SCHEMES.filter((s) => s[0] <= frame).length - 1;
+  const k = ticks(frame, SCHEMES[i]![0]);
   return (
     <Stage scheme="night" mosaicIn>
-      <AbsoluteFill>
-        <Sky scheme="night" avoid={SPLIT_CLEAR} />
-        <Life avoid={SPLIT_CLEAR} shooting={[at(1, 1)]} seed={41} />
-      </AbsoluteFill>
-
-      <SplitText eyebrow="Built right" parts={PARTS} />
-      <DemoFrame at={FRAME}>
-        <Mosaic at={frame < AA ? AA - MOSAIC_FRAMES : AA} mode={frame < AA ? "out" : "in"}>
-          {frame < AA ? <Budget frame={frame} /> : <ContrastDemo frame={frame} />}
-        </Mosaic>
-      </DemoFrame>
-      {/* The last piece clicking in: sparkles round it, in stage pixels (the frame's top left is (RIGHT.x, RIGHT.y)). */}
-      <Burst at={PIECES.at(-1)!.land + TICK} kind="sparkle" box={[RIGHT.x + WELL.x, RIGHT.y + WELL.bottom - PIECES.length * ROW, WELL.w, ROW]} count={8} seed={6} />
+      <Screen frame={frame} i={i} />
+      {i > 0 && k < 3 && (
+        <div style={{ position: "absolute", inset: 0, mask: bayerMask(16 - 4 * (k + 1)) }}>
+          <Screen frame={frame} i={i - 1} />
+        </div>
+      )}
+      {/* The meter full: sparkles round the count over it, in stage pixels (all of it centred in the hero). */}
+      <Burst at={FULL + TICK} kind="sparkle" box={[HERO.x + HERO.w / 2 - 66, HERO.y + HERO.h / 2 - 60, 132, 34]} count={8} seed={6} scale={2} />
 
       {PARTS.map((pt, n) => <Sfx key={pt.title} name={n ? "step@5" : "step"} at={pt.at} volume={0.4} />)}
-      <Sfx name="open" at={FRAME} volume={0.5} />
-      {PIECES.map((pc, n) => <Sfx key={pc.name} name={n ? `step@${[0, 3, 5, 7][n]}` : "step"} at={pc.land} volume={0.5} />)}
-      <Sfx name="success" at={PIECES.at(-1)!.land + TICK} volume={0.5} />
-      <Sfx name="bump" at={REFUSED} volume={0.5} />
-      <Sfx name="error" at={REFUSED + TICK} volume={0.55} />
-      {SCHEMES.map(([f], n) => <Sfx key={f} name={n ? `blip@${[0, 3, 5][n]}` : "blip"} at={f} volume={0.45} />)}
-      {SCHEMES.map(([f], n) => <Sfx key={`b${f}`} name={`coin@${[4, 7, 12][n]}`} at={f + 8 + 8 * TICK} volume={0.45} />)}
+      <Sfx name="open" at={METER} volume={0.5} />
+      {Array.from({ length: 8 }, (_, n) => <Sfx key={`f${n}`} name={n ? `step@${[0, 2, 3, 5, 7, 8, 10, 12][n]}` : "step"} at={FILL + n * 4 * TICK} volume={0.3} />)}
+      <Sfx name="success" at={FULL + TICK} volume={0.5} />
+      <Sfx name="bump" at={HIT} volume={0.5} />
+      <Sfx name="error" at={HIT + 3 * TICK} volume={0.55} />
+      {SCHEMES.slice(1).map(([f], n) => <Sfx key={f} name={n ? `blip@${[0, 3, 5][n]}` : "blip"} at={f} volume={0.45} />)}
+      {SCHEMES.slice(1).map(([f], n) => <Sfx key={`b${f}`} name={`coin@${[4, 7, 12][n]}`} at={f + 8} volume={0.45} />)}
 
       {music && <Music bar={BUILT_RIGHT.bar} bars={BUILT_RIGHT.bars} />}
       <Dissolve at={at(4) - DISSOLVE_FRAMES} mode="out" seed={8} />

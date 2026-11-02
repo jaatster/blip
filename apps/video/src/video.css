@@ -55,3 +55,14 @@
   --blip-size-title: calc(11 * var(--blip-pixel));
   font-size: var(--blip-size-body);
 }
+
+/* The same at three times the stage's pixel, for one small control shown on its own. */
+.v-stage .v-x3 {
+  --blip-pixel: 12px;
+  --blip-size-caption: calc(6 * var(--blip-pixel));
+  --blip-size-small: calc(7 * var(--blip-pixel));
+  --blip-size-body: calc(8 * var(--blip-pixel));
+  --blip-size-lead: calc(9 * var(--blip-pixel));
+  --blip-size-title: calc(11 * var(--blip-pixel));
+  font-size: var(--blip-size-body);
+}
