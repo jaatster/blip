@@ -53,6 +53,7 @@
   /* A label stays whole while it fits, and breaks only when one word is wider than the panel; a detail wraps only
      between its words, never inside a number. */
   .blip-tally-row > dt {
+    text-align: start;
     font-family: var(--blip-font-ui);
     font-size: var(--blip-size-small);
     text-transform: uppercase;

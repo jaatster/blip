@@ -461,6 +461,13 @@
               "type": {
                 "text": "boolean"
               },
+              "description": "Gains close together climb a major scale, a note each, and start again after a pause: a run of coins plays a tune. \"false\" is off.",
+              "name": "chain"
+            },
+            {
+              "type": {
+                "text": "boolean"
+              },
               "description": "Never announced: for a ticking timer or a busy score. \"false\" is off.",
               "name": "quiet"
             }

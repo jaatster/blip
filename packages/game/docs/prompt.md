@@ -9,8 +9,8 @@ status: beta
 
 # Prompts
 
-Which button does what: keyboard keys, gamepad face buttons, the D-pad, bumpers and triggers, the "Press A to jump"
-line, and the title screen's blinking PRESS START. Labels, not controls.
+Which button does what: keyboard keys, the mouse's buttons, gamepad face buttons, the D-pad, bumpers and triggers,
+Start and Select, the "Press A to jump" line, and the title screen's blinking PRESS START. Labels, not controls.
 
 ## Usage
 
@@ -19,6 +19,8 @@ line, and the title screen's blinking PRESS START. Labels, not controls.
 <p class="blip-prompt">Hold <kbd class="blip-box blip-prompt-shoulder" data-button="rb">RB</kbd> to dash</p>
 <p class="blip-prompt"><kbd class="blip-box blip-prompt-key">Esc</kbd> Pause</p>
 <span class="blip-prompt-dpad" data-dir="left" role="img" aria-label="D-pad left"></span>
+<p class="blip-prompt"><span class="blip-prompt-mouse" data-button="left" role="img" aria-label="Left click"></span> Swipe</p>
+<p class="blip-prompt"><kbd class="blip-box blip-prompt-pill">Start</kbd> Pause</p>
 <p class="blip-prompt-start blip-display blip-pop" data-scale="2" data-pop="Press start">Press start</p>
 ```
 
@@ -29,6 +31,9 @@ line, and the title screen's blinking PRESS START. Labels, not controls.
 3. **Face button** (`.blip-prompt-button`): a sixteen-pixel circle (the candy box at radius 7), the letter's six columns centred exactly.
 4. **Shoulder** (`.blip-prompt-shoulder`): a slate bumper; triggers stand taller with rounder corners.
 5. **D-pad** (`.blip-prompt-dpad`): an ink plus with a drop, slate fill, a dimple, and one arm lit in the accent.
+6. **Mouse** (`.blip-prompt-mouse`): an ink outline with a drop, a cream body, two buttons and a slate wheel, the button
+   pressed lit in the accent; 11 x 15 pixels.
+7. **Pill** (`.blip-prompt-pill`): a gamepad's menu button, a small slate pill with white Pixel Bop capitals.
 
 ## Variants
 
@@ -37,6 +42,8 @@ line, and the title screen's blinking PRESS START. Labels, not controls.
 | Face button | `data-button` | `a` green, `b` red, `x` blue, `y` orange. Yellow is kept for focus, so Y is orange. `data-tone` picks any other. |
 | Shoulder | `data-button` | `lb`, `rb`, `l`, `r` (bumpers); `lt`, `rt`, `zl`, `zr` (triggers, taller). |
 | D-pad | `data-dir` | `up`, `down`, `left`, `right`, or none for the pad at rest. |
+| Mouse | `data-button` | `left`, `right`, `middle` (the wheel), or none for the mouse at rest. |
+| Pill | content | `Start`, `Select`, `Menu`, `View`, `Options`: what the pad's own button says. `data-tone` picks another colour. |
 | Key | content | A word (`Esc`, `Enter`), a letter, or an `aria-hidden` icon (`.blip-icon`) with its name in a `.blip-sr-only` span. Wide keys take a `min-inline-size`. |
 
 ## States
@@ -49,7 +56,8 @@ motion it does not blink. Prompts have no hover, focus or pressed states; they a
 - Use `<kbd>` for keys and buttons: screen readers read their letters. Name an icon key with hidden text, not
   `aria-label` (it is not a role that takes one, and some screen readers ignore it there):
   `<kbd class="blip-box blip-prompt-key"><svg class="blip-icon" aria-hidden="true">…</svg><span class="blip-sr-only">Up arrow</span></kbd>`.
-- The D-pad is a picture: `role="img"` with `aria-label`. It prints, though browsers leave backgrounds off paper.
+- The D-pad and the mouse are pictures: `role="img"` with `aria-label` ("D-pad left", "Left click"). They print,
+  though browsers leave backgrounds off paper.
 - Write the line so it reads as a sentence: "Press A to jump".
 - Show the prompts for the device in use; let players choose.
 
@@ -64,4 +72,4 @@ Verbs after the glyph: "to jump", "Pause", "Back". Keep a prompt to one action.
 
 ## API
 
-No custom properties: the glyphs are fixed pixel sizes (16 pixels high; triggers 17).
+No custom properties: the glyphs are fixed pixel sizes (16 pixels high; triggers 17; the mouse 15; a pill 12).

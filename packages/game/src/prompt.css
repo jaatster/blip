@@ -6,6 +6,8 @@
  *   <kbd class="blip-box blip-prompt-key">Esc</kbd>
  *   <kbd class="blip-box blip-prompt-shoulder" data-button="rb">RB</kbd>
  *   <span class="blip-prompt-dpad" data-dir="left" role="img" aria-label="D-pad left"></span>
+ *   <span class="blip-prompt-mouse" data-button="left" role="img" aria-label="Left click"></span>
+ *   <kbd class="blip-box blip-prompt-pill">Start</kbd>
  *   <p class="blip-prompt-start blip-display blip-pop" data-scale="2">Press start</p>
  *
  *   .blip-prompt-key       a keycap: cream, a deep front face, Pixel Bop capitals (or an icon)
@@ -13,9 +15,11 @@
  *                        data-tone picks any other. Yellow is kept for focus, so Y is orange.
  *   .blip-prompt-shoulder  data-button lb | rb | l | r (bumpers), lt | rt | zl | zr (triggers, taller)
  *   .blip-prompt-dpad      the D-pad; data-dir up | down | left | right lights that arm, none shows it at rest
+ *   .blip-prompt-mouse     the mouse; data-button left | right | middle lights that button, none shows it at rest
+ *   .blip-prompt-pill      a gamepad's menu button, a small slate pill: Start, Select, Menu, View, Options
  *   .blip-prompt-start     blinks on the beat for five seconds, then stays: blinking never runs on (WCAG 2.2.2)
  *
- * Prompts are labels, not controls: <kbd> for keys and buttons, role="img" with a name for the D-pad.
+ * Prompts are labels, not controls: <kbd> for keys and buttons, role="img" with a name for the D-pad and the mouse.
  *
  * A prompt line on the world wears OUTLINE (.blip-outline) or sits in a POP line; its keys and buttons never take
  * that ink outline: they are candy, with their own label colour (ink, or white on slate) and no text shadow.
@@ -38,7 +42,7 @@
 
   /* Glyphs share Pixel Bop at scale 1: caps seven pixels tall, on the grid. A key is candy: its label is the box's
      own colour and never inherits a POP or OUTLINE text shadow from the line around it. */
-  :is(.blip-prompt-key, .blip-prompt-button, .blip-prompt-shoulder) {
+  :is(.blip-prompt-key, .blip-prompt-button, .blip-prompt-shoulder, .blip-prompt-pill) {
     display: inline-flex;
     flex: none;
     align-items: flex-start;
@@ -121,6 +125,62 @@
     padding-block-start: calc(4 * var(--blip-pixel));
   }
 
+  /* A gamepad's menu buttons (Start, Select, Menu, View, Options): a small slate pill, white letters, as on the pad. */
+  .blip-prompt-pill {
+    --blip-r: 4;
+    --blip-shape: var(--blip-shape-4);
+    --blip-shape-inner: var(--blip-shape-4-inner);
+    --blip-band-top: 1;
+    --blip-band-bottom: 2;
+    min-inline-size: calc(22 * var(--blip-pixel));
+    block-size: calc(12 * var(--blip-pixel));
+    padding: 0 calc(4 * var(--blip-pixel));
+  }
+  .blip-prompt-pill:not([data-tone]) {
+    --blip-tone: var(--blip-candy-slate);
+    --blip-tone-light: var(--blip-candy-slate-light);
+    --blip-tone-shade: var(--blip-candy-slate-shade);
+    --blip-tone-on: var(--blip-white);
+  }
+
+  /* The mouse: an ink outline, a cream body with its two buttons and wheel, and the button pressed lit in the accent. */
+  .blip-prompt-mouse {
+    --_mouse-ink: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 15' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h5v1h-5zM1 1h9v1h-9zM0 2h11v11h-11zM1 13h9v1h-9zM3 14h5v1h-5z'/%3E%3C/svg%3E");
+    --_mouse-fill: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 15' shape-rendering='crispEdges'%3E%3Cpath d='M3 1h2v1h-2zM2 2h3v1h-3zM1 3h4v3h-4zM6 1h2v1h-2zM6 2h3v1h-3zM6 3h4v3h-4zM5 2h1v3h-1zM1 7h9v5h-9zM2 12h7v1h-7zM3 13h5v1h-5z'/%3E%3C/svg%3E");
+    --_p: var(--blip-pixel);
+    --_lit: 0 0 / 0 0;
+    position: relative;
+    display: inline-block;
+    flex: none;
+    inline-size: calc(11 * var(--_p));
+    block-size: calc(15 * var(--_p));
+    margin: 0 var(--_p) var(--_p) 0;
+    vertical-align: middle;
+  }
+  .blip-prompt-mouse::before,
+  .blip-prompt-mouse::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+  .blip-prompt-mouse::before {
+    inset: 0 calc(-1 * var(--_p)) calc(-1 * var(--_p)) 0;
+    background: var(--blip-ink);
+    mask:
+      var(--_mouse-ink) 0 0 / calc(11 * var(--_p)) calc(15 * var(--_p)) no-repeat,
+      var(--_mouse-ink) var(--_p) var(--_p) / calc(11 * var(--_p)) calc(15 * var(--_p)) no-repeat;
+  }
+  .blip-prompt-mouse::after {
+    mask: var(--_mouse-fill) 0 0 / 100% 100% no-repeat;
+    background:
+      linear-gradient(var(--blip-accent) 0 0) var(--_lit) no-repeat,
+      linear-gradient(var(--blip-candy-slate-shade) 0 0) calc(5 * var(--_p)) calc(2 * var(--_p)) / var(--_p) calc(3 * var(--_p)) no-repeat,
+      linear-gradient(to bottom, var(--blip-candy-cream-light) 0 calc(2 * var(--_p)), var(--blip-candy-cream) 0 calc(100% - 2 * var(--_p)), var(--blip-candy-cream-shade) 0);
+  }
+  .blip-prompt-mouse[data-button="left"] { --_lit: var(--_p) var(--_p) / calc(4 * var(--_p)) calc(5 * var(--_p)); }
+  .blip-prompt-mouse[data-button="right"] { --_lit: calc(6 * var(--_p)) var(--_p) / calc(4 * var(--_p)) calc(5 * var(--_p)); }
+  .blip-prompt-mouse[data-button="middle"] { --_lit: calc(5 * var(--_p)) calc(2 * var(--_p)) / var(--_p) calc(3 * var(--_p)); }
+
   /* The D-pad: an ink plus, a slate fill with a dimple, and the pressed arm lit in the accent. */
   .blip-prompt-dpad {
     --_dpad-ink: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 15' shape-rendering='crispEdges'%3E%3Cpath d='M5 0h5v1h-5zM4 1h7v3h-7zM1 4h13v1h-13zM0 5h15v5h-15zM1 10h13v1h-13zM4 11h7v3h-7zM5 14h5v1h-5z'/%3E%3C/svg%3E");
@@ -172,10 +232,10 @@
   }
   /* The D-pad is a picture drawn with backgrounds: it prints all the same. */
   @media print {
-    .blip-prompt-dpad::before, .blip-prompt-dpad::after { print-color-adjust: exact; }
+    :is(.blip-prompt-dpad, .blip-prompt-mouse)::before, :is(.blip-prompt-dpad, .blip-prompt-mouse)::after { print-color-adjust: exact; }
   }
   @media (forced-colors: active) {
-    .blip-prompt-dpad::before { background: CanvasText; }
-    .blip-prompt-dpad::after { background: linear-gradient(Highlight 0 0) var(--_lit) no-repeat, Canvas; }
+    :is(.blip-prompt-dpad, .blip-prompt-mouse)::before { background: CanvasText; }
+    :is(.blip-prompt-dpad, .blip-prompt-mouse)::after { background: linear-gradient(Highlight 0 0) var(--_lit) no-repeat, Canvas; }
   }
 }

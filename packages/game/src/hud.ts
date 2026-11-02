@@ -7,9 +7,13 @@
  *   <blip-hearts value="3.5" max="5" label="Health"></blip-hearts>
  *
  *   coins.value += 10;   // counts up a whole step a frame, the coin bumps, the coin sound plays
+ *   <blip-counter … sound="coin" chain>: coins picked up close together climb a scale
  *   hearts.value -= 1;   // the row shakes
  */
 import { BlipElement, duration, frames, run, services } from "@jaatster/blip-core";
+
+/** A major scale, in semitones up from the first note, for a chain of gains. */
+const MAJOR = [0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19];
 
 const retrigger = (el: Element | null, name: string) => {
   if (!el) return;
@@ -75,6 +79,8 @@ abstract class HudValue extends BlipElement {
  * @attr {"time"} format - Shows the value, in seconds, as m:ss.
  * @attr {number} low - At or under this value the digits turn red (data-low).
  * @attr {string} sound - A chip sound to play on a gain: "coin".
+ * @attr {boolean} chain - Gains close together climb a major scale, a note each, and start again after a pause: a run
+ * of coins plays a tune. "false" is off.
  * @attr {boolean} quiet - Never announced: for a ticking timer or a busy score. "false" is off.
  * @omit-attr max
  */
@@ -83,6 +89,8 @@ export class BlipCounter extends HudValue {
   #shown?: number;
   #count?: AbortController;
   #out?: HTMLElement;
+  #run = 0;
+  #last = -Infinity;
 
   /** The value as shown: zero-padded to `pad` digits, or m:ss with format="time". */
   format(n: number): string {
@@ -108,12 +116,20 @@ export class BlipCounter extends HudValue {
     if (to > start) {
       retrigger(this.querySelector(".blip-counter-icon, blip-sprite, svg"), "blip-bump");
       const sound = this.getAttribute("sound");
-      if (sound) services.sound().play(sound);
+      if (sound) services.sound().play(sound, this.flag("chain") ? { rate: this.#climb() } : undefined);
     }
     // A whole step a frame, at most fifteen frames, so a big score still lands quickly.
     const n = Math.min(Math.abs(to - start), 15);
     this.#count = new AbortController();
     frames(n, duration("frame", 40, this), (i) => this.#render(i === n - 1 ? to : Math.round(start + ((to - start) * (i + 1)) / n)), { signal: AbortSignal.any([this.signal, this.#count.signal]) });
+  }
+
+  /** The next note of a chain: a step up the scale within 750 ms of the last gain, the first note after a pause. */
+  #climb(): number {
+    const now = services.now().getTime();
+    this.#run = now - this.#last < 750 ? Math.min(this.#run + 1, MAJOR.length - 1) : 0;
+    this.#last = now;
+    return 2 ** (MAJOR[this.#run]! / 12);
   }
 
   #render(n: number): void {

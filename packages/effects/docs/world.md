@@ -82,7 +82,8 @@ world or one of the avoided elements resizes (text wrapping, a font arriving), a
 A side-scrolling game draws the world itself, so its far layers slide slower than its ground as the camera moves.
 The landscape carries on sideways in 350-pixel periods, so `drawWorld` can paint any one layer as wide as you like:
 paint each far layer once into a strip as wide as it will ever slide, then draw the strips at a fraction of the camera
-each frame. The game kit's template, Starfall, does this.
+each frame. [Starfall](https://jaatster.com/blip/play/), the game on Blip's
+site, does this.
 
 ```js
 const layers = [["sky", 0], ["peaks", 0.12], ["hills", 0.25], ["near", 0.5]];

@@ -1,5 +1,5 @@
 /**
- * Prompts: Prompt, PromptKey, PromptButton, PromptShoulder, PromptDpad and PromptStart. CSS from @jaatster/blip-game
+ * Prompts: Prompt, PromptKey, PromptButton, PromptShoulder, PromptDpad, PromptMouse, PromptPill and PromptStart. CSS from @jaatster/blip-game
  * (prompt.css).
  */
 import { forwardRef } from "react";
@@ -151,6 +151,54 @@ export const PromptDpad = /*#__PURE__*/ forwardRef<HTMLSpanElement, PromptDpadPr
   ref,
 ) {
   return <span ref={ref} className={cx("blip-prompt-dpad", className)} data-dir={direction} role="img" {...rest} />;
+});
+
+/** Own props of {@link PromptMouse}. */
+export interface PromptMouseOwnProps {
+  /** The button lit in the accent; left out, the mouse at rest. `data-button`. */
+  button?: "left" | "right" | "middle";
+  children?: never;
+}
+
+/** Props for {@link PromptMouse}: it is a picture, so it needs a name ("Left click"). */
+export type PromptMouseProps = PromptMouseOwnProps & Named & NativeProps<"span", PromptMouseOwnProps>;
+
+/**
+ * The mouse: an ink outline with a drop, a cream body with two buttons and a wheel, and the button pressed lit. A
+ * picture (`role="img"`), named for what it shows.
+ *
+ *   <Prompt><PromptMouse button="left" aria-label="Left click" /> Swipe</Prompt>
+ *
+ * Renders `<span class="blip-prompt-mouse" role="img">`.
+ */
+export const PromptMouse = /*#__PURE__*/ forwardRef<HTMLSpanElement, PromptMouseProps>(function PromptMouse(
+  { button, className, ...rest },
+  ref,
+) {
+  return <span ref={ref} className={cx("blip-prompt-mouse", className)} data-button={button} role="img" {...rest} />;
+});
+
+/** Own props of {@link PromptPill}. */
+export interface PromptPillOwnProps {
+  /** Another colour than slate. `data-tone`. */
+  tone?: Tone;
+}
+
+/** Props for {@link PromptPill}. */
+export type PromptPillProps = PromptPillOwnProps & NativeProps<"kbd", PromptPillOwnProps>;
+
+/**
+ * A gamepad's menu button (Start, Select, Menu, View, Options): a small slate pill with white Pixel Bop capitals.
+ *
+ *   <Prompt><PromptPill>Start</PromptPill> Pause</Prompt>
+ *
+ * Renders `<kbd class="blip-box blip-prompt-pill">`.
+ */
+export const PromptPill = /*#__PURE__*/ forwardRef<HTMLElement, PromptPillProps>(function PromptPill(
+  { tone, className, ...rest },
+  ref,
+) {
+  return <kbd ref={ref} className={cx("blip-box blip-prompt-pill", className)} data-tone={tone} {...rest} />;
 });
 
 /** Props for {@link PromptStart}. */

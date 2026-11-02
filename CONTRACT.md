@@ -200,7 +200,7 @@ Conventions, for every element:
 | `<blip-tooltip>` | `@jaatster/blip-elements/tooltip` | `open`, `for`, `data-side` | `show()`, `close()` | `blip-open`, `blip-close` |
 | `<blip-wheel>` | `@jaatster/blip-elements/wheel` | `value`, `disabled`, `name`, `data-type`, `data-size`, `data-width`, `data-tone`, `hours`, `minute-step`, `min`, `max` | `form` (read-only) | `blip-change` |
 | `<blip-choices>` | `@jaatster/blip-game/choices` | | `choices` (read-only), `focus()` | `blip-action` |
-| `<blip-counter>` | `@jaatster/blip-game/hud` | `value`, `label`, `pad`, `format`, `low`, `sound`, `quiet` | `format()` | |
+| `<blip-counter>` | `@jaatster/blip-game/hud` | `value`, `label`, `pad`, `format`, `low`, `sound`, `chain`, `quiet` | `format()` | |
 | `<blip-dialogue>` | `@jaatster/blip-game/dialogue` | `voice`, `mood`, `speed`, `typing-label`, `next-label`, `done-label`, `data-font`, `data-blip-typed` | `pages`, `page`, `typing` (read-only), `say()`, `advance()`, `focus()` | `blip-next`, `blip-done` |
 | `<blip-hearts>` | `@jaatster/blip-game/hud` | `value`, `max`, `label`, `quiet` | | |
 | `<blip-inventory>` | `@jaatster/blip-game/inventory` | | `slots`, `selected` (read-only), `select()` | `blip-select` |

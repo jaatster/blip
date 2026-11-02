@@ -27,6 +27,8 @@ export interface SpriteCanvasOptions {
   flip?: boolean;
   /** Where to read the tokens: an element inside a scheme or palette of its own (the document by default). */
   from?: Element;
+  /** Paints every pixel in this one colour ("white", "var(--blip-white)"): a hit's flash, a silhouette. */
+  fill?: string;
 }
 
 /**
@@ -45,7 +47,7 @@ export function spriteCanvas(art: string | PixelArt, options: SpriteCanvasOption
   const ink = (key: string) => {
     let c = seen.get(key);
     if (c === undefined) {
-      probe.style.color = colour(key, tone);
+      probe.style.color = options.fill ?? colour(key, tone);
       seen.set(key, (c = style.color));
     }
     return c;

@@ -120,7 +120,7 @@ export const Dialogue = /*#__PURE__*/ createComponent<BlipDialogue, DialogueProp
 });
 
 /** Props for {@link Counter}: `<blip-counter>`. */
-export type CounterProps = ElementProps<BlipCounter, "value" | "label" | "pad" | "format" | "low" | "sound" | "quiet"> & {
+export type CounterProps = ElementProps<BlipCounter, "value" | "label" | "pad" | "format" | "low" | "sound" | "chain" | "quiet"> & {
   /**
    * The count (seconds with format="time").
    * Attribute `value`.
@@ -152,6 +152,11 @@ export type CounterProps = ElementProps<BlipCounter, "value" | "label" | "pad" |
    */
   sound?: string;
   /**
+   * Gains close together climb a major scale, a note each, and start again after a pause: a run of coins plays a tune. "false" is off.
+   * Attribute `chain`.
+   */
+  chain?: boolean;
+  /**
    * Never announced: for a ticking timer or a busy score. "false" is off.
    * Attribute `quiet`.
    */
@@ -180,6 +185,7 @@ export const Counter = /*#__PURE__*/ createComponent<BlipCounter, CounterProps>(
     format: ["format", undefined, true],
     low: ["low"],
     sound: ["sound"],
+    chain: ["chain"],
     quiet: ["quiet"],
   },
 });

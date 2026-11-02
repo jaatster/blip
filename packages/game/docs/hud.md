@@ -70,6 +70,7 @@ bar.ariaValueNow = "4";            // keep the meter's value in step with the dr
 | Counter | `format="time"` | The value in seconds, shown as `m:ss`. |
 | Counter | `low` | At or under this value the digits turn red (`data-low`). |
 | Counter | `sound` | A chip sound to play on a gain: `coin`. |
+| Counter | `chain` | With `sound`: gains close together climb a major scale, a note each, and start again after a pause, so a run of coins plays a tune. |
 | Counter | `quiet` | Never announced: for a ticking timer or a busy score. |
 | Hearts | `value`, `max` | Halves count: 3.5 of 5 is three full, a half, one empty. |
 | Track | `data-tone` | The accent (default), any tone: `danger` for a boss's way. |

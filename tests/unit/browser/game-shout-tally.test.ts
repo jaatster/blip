@@ -8,6 +8,8 @@ import { commands } from "vitest/browser";
 import "../../../packages/game/src/sprites.ts";
 import "../../../packages/game/src/shout.ts";
 import "../../../packages/game/src/tally.ts";
+import "../../../packages/game/src/hud.ts";
+import { provide } from "@jaatster/blip-core";
 import { spriteCanvas } from "../../../packages/game/src/canvas.ts";
 import { pixels } from "../../../packages/game/src/sprites.ts";
 import shoutCss from "../../../packages/game/src/shout.css?raw";
@@ -118,6 +120,27 @@ describe("blip-tally", () => {
   });
 });
 
+describe("blip-counter chain", () => {
+  it("climbs a major scale on gains close together, and starts again after a pause", async () => {
+    const rates: number[] = [];
+    let now = 1_000_000;
+    const restore = provide({ clock: () => new Date(now), sound: { play: (_name: string, o?: { rate?: number }) => rates.push(o?.rate ?? 1) } });
+    try {
+      const counter = mount<HTMLElement & { value: number }>(`<blip-counter value="0" label="Coins" sound="coin" chain></blip-counter>`);
+      for (const step of [1, 2, 3]) {
+        counter.value = step;
+        now += 200;
+      }
+      now += 2000;
+      counter.value = 4;
+      const semitones = rates.map((r) => Math.round(12 * Math.log2(r)));
+      expect(semitones).toEqual([0, 2, 4, 0]);
+    } finally {
+      restore();
+    }
+  });
+});
+
 describe("canvas sprites", () => {
   const rgb = (c: HTMLCanvasElement, x: number, y: number) => {
     const [r, g, b, a] = c.getContext("2d")!.getImageData(x, y, 1, 1).data;
@@ -150,5 +173,13 @@ describe("canvas sprites", () => {
     expect(rgb(right, 0, 1)).toBe(token("ink"));
     expect(rgb(left, 3, 1)).toBe(token("candy-green-light"));
     expect(rgb(spriteCanvas(art, { tone: "accent" })!, 2, 1)).toBe(token("accent"));
+  });
+
+  it("paints every pixel in one colour with fill, for a flash", () => {
+    const flash = spriteCanvas("coin", { fill: "var(--blip-white)" })!;
+    const data = flash.getContext("2d")!.getImageData(0, 0, flash.width, flash.height).data;
+    const colours = new Set<string>();
+    for (let i = 0; i < data.length; i += 4) if (data[i + 3]) colours.add(`rgb(${data[i]}, ${data[i + 1]}, ${data[i + 2]})`);
+    expect([...colours]).toEqual([token("white")]);
   });
 });

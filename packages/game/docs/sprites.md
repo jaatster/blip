@@ -72,14 +72,15 @@ import { spriteCanvas } from "@jaatster/blip-game/canvas.js";
 const coin = spriteCanvas("coin");
 const frog = spriteCanvas({ map: "..ll./.lwol/lcccc/.lcs.", tone: "green" });   // l c s: the tone's light, base, shade
 const back = spriteCanvas({ map: "..ll./.lwol/lcccc/.lcs.", tone: "green" }, { flip: true });
+const flash = spriteCanvas("coin", { fill: "var(--blip-white)" });                // one colour: a hit's flash
 ctx.drawImage(coin, x, y);   // whole pixels, on a canvas scaled up with image-rendering: pixelated
 ```
 
 A map is the fill, one character a pixel, rows split by `/`; the outline is added round it, and `o` inside it draws
 ink. The other keys are the colours the sprites use: `w` white; `y Y d` yellow; `g G h` slate; `n N m` orange; `k K`
 cream; `b B v` blue; `r R x` red, each light, base, shade. A leading `!` leaves the outline off. The canvases read the
-tokens when they are made: keep them, and make them again when the scheme or the palette changes. Starfall, the game
-kit's template, draws its hero, its enemies and its blocks this way.
+tokens when they are made: keep them, and make them again when the scheme or the palette changes. [Starfall](https://jaatster.com/blip/play/), the
+game on Blip's site, draws its hero, its enemies and its blocks this way.
 
 ## Do and don't
 
@@ -95,7 +96,7 @@ kit's template, draws its hero, its enemies and its blocks this way.
 | `spriteNames` | Every name. |
 | `pixels(name)` | The outlined pixel rows, for canvas games and tools. |
 | `BlipSprite` | The `blip-sprite` element: `name` mirrors the attribute. |
-| `spriteCanvas(art, { tone, flip, from })` | From `canvas.js`: a sprite's name, or `{ map, tone }`, painted into a canvas in the token colours at `from` (the page by default). Undefined for an unknown name. |
+| `spriteCanvas(art, { tone, flip, from, fill })` | From `canvas.js`: a sprite's name, or `{ map, tone }`, painted into a canvas in the token colours at `from` (the page by default), or all in one colour with `fill`. Undefined for an unknown name. |
 | `outline(map)` | From `canvas.js`: your own map's pixel rows with the ink outline added. |
 
 | Custom property | |
