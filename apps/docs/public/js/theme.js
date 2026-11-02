@@ -416,7 +416,7 @@ for (const b of $$(".tb-download")) {
     // The next step, once the files are on disk.
     $(".tb-downloaded").innerHTML = b.dataset.file.endsWith(".css")
       ? `Downloaded ${esc(b.dataset.file)}. Load it after <code class="docs-inline-code">@jaatster/blip-tokens/tokens.css</code>.`
-      : `Downloaded ${esc(b.dataset.file)}. With both JSON files beside <code class="docs-inline-code">node_modules</code>, check and build them: <code class="docs-inline-code">npx blip-tokens my-palette.resolver.json</code>.`;
+      : `Downloaded ${esc(b.dataset.file)}. With both JSON files beside <code class="docs-inline-code">node_modules</code>, check and build them: <code class="docs-inline-code">npx @jaatster/blip-tokens my-palette.resolver.json</code>.`;
   });
 }
 // Copy is the site's own button; while the export is held back it copies nothing.

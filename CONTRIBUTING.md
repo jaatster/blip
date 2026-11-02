@@ -150,7 +150,7 @@ What works today:
   and shade bands, nudges a colour until its ink labels pass AA (or holds the export back when you keep it exact),
   warns when the accent looks like an intent or like the focus yellow, and exports DTCG token files for Day, Sunset
   and Night, a resolver that loads them after Blip's own, and the same as CSS to load after `tokens.css`.
-  `npx blip-tokens my-theme.resolver.json` builds those token files into a `tokens.css` through the same checks
+  `npx @jaatster/blip-tokens my-theme.resolver.json` builds those token files into a `tokens.css` through the same checks
   as Blip's own. The builder's page also says how to set the six roles by hand. A `palette` modifier in `blip.resolver.json` is the plan;
   the token build handles only `scheme` and `pixel` today.
 - **A world palette**: `<blip-world>` paints with the `--blip-world-*` tokens (28 colours for each time of day, and the

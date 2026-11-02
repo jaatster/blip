@@ -43,7 +43,7 @@ The source of truth is generated with every build and ships with `@jaatster/blip
   rem, so text follows the browser's default size; everything counted in pixels does not.
 - **`@jaatster/blip-tokens/palettes.css`**: the presets, opt in, in `@layer blip.tokens`: each sets what it changes on
   `[data-blip-palette="<name>"]` (see Theme switches). The preset names are public.
-- **The `blip-tokens` command**: `npx blip-tokens <theme.resolver.json> [--out <file.css>] [--check]`
+- **The `blip-tokens` command**: `npx @jaatster/blip-tokens <theme.resolver.json> [--out <file.css>] [--check]`
   builds a theme's `tokens.css` (a resolver that lists Blip's files and the theme's own, as the docs' theme
   builder exports: a `palette` context of its own, or a scheme's roles) through the same checks as Blip's own,
   in every palette and scheme the resolver has, and writes nothing when one fails. Its name, argument and options

@@ -142,9 +142,9 @@ const presetHtml = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-
 
 <html data-blip-palette="ember">`, "html", "HTML");
 // @jaatster/blip-tokens' command (its README): builds the palette's tokens.css through Blip's checks.
-const cli = await codeBlock(`npx blip-tokens my-palette.resolver.json                # writes my-palette.css beside it
-npx blip-tokens my-palette.resolver.json --out src/tokens.css
-npx blip-tokens my-palette.resolver.json --check        # checks only, writes nothing`, "sh", "Shell");
+const cli = await codeBlock(`npx @jaatster/blip-tokens my-palette.resolver.json                # writes my-palette.css beside it
+npx @jaatster/blip-tokens my-palette.resolver.json --out src/tokens.css
+npx @jaatster/blip-tokens my-palette.resolver.json --check        # checks only, writes nothing`, "sh", "Shell");
 const H = (id: string, text: string) => ({ depth: 2, id, text });
 const style = (vars: Record<string, string>) => Object.entries(vars).map(([k, v]) => `--a-${k}: ${v}`).join("; ");
 ---

@@ -7,10 +7,9 @@ that snaps.**
 
 Blip is the tiny pop of a 16-bit sound and a dot of light on a screen.
 
-> **Status: 0.x, not published yet.** Nothing is on npm, the CDN links below will work once it is, and the
-> public API can still change between minor versions (see [CONTRACT.md](CONTRACT.md), and
-> [Versions and support](https://jaatster.com/blip/versions/) for what stable and beta mean). Until the first release,
-> build it from this repository: `pnpm install`, then `pnpm build`.
+> **Status: 0.x, on npm.** The packages are `@jaatster/blip-*` (`npm install @jaatster/blip-components`), published
+> from CI with provenance, and the public API can still change between minor versions (see [CONTRACT.md](CONTRACT.md),
+> and [Versions and support](https://jaatster.com/blip/versions/) for what stable and beta mean).
 
 Blip is one coherent pixel-art world, not a retro costume over a generic kit. Everything you can press is the
 same building block, the candy box: a saturated three-tone fill, a one-pixel ink outline with stepped corners,

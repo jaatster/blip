@@ -78,9 +78,9 @@ exports it as a DTCG token file and a resolver.
 2.2 AA in every scheme, the focus ring against the page, and labels on the candies and on a disabled control's dither.
 
 ```sh
-npx blip-tokens my-theme.resolver.json                # writes my-theme.css beside it
-npx blip-tokens my-theme.resolver.json --out src/tokens.css
-npx blip-tokens my-theme.resolver.json --check        # checks only
+npx @jaatster/blip-tokens my-theme.resolver.json                # writes my-theme.css beside it
+npx @jaatster/blip-tokens my-theme.resolver.json --out src/tokens.css
+npx @jaatster/blip-tokens my-theme.resolver.json --check        # checks only
 ```
 
 Load the result instead of `@jaatster/blip-tokens/tokens.css`. A palette's resolver gives the `palette` modifier a

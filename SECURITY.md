@@ -25,7 +25,7 @@ publicly.
 
 ## Supported versions
 
-Blip is 0.x and not yet published. Until 1.0, security fixes go into the latest release of each package only;
+Blip is 0.x. Until 1.0, security fixes go into the latest release of each package only;
 upgrade to it to get them. A security fix may change behaviour in a patch release when keeping the old behaviour
 would leave people exposed (see [CONTRACT.md](CONTRACT.md)).
 
