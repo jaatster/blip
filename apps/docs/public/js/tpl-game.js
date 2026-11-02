@@ -95,9 +95,11 @@ $(".tpl-options-done").addEventListener("click", () => {
   menuPanel.hidden = false;
   $(".tpl-main-choices .blip-choice[value='options']").focus();
 });
-const assist = $(".tpl-assist");
+const assist = $(".tpl-assist"), shakes = $(".tpl-shake");
 assist.checked = !!load().assist;
 assist.addEventListener("change", () => store({ assist: assist.checked }));
+shakes.checked = load().shake !== false;
+shakes.addEventListener("change", () => store({ shake: shakes.checked }));
 const time = $(".tpl-time");
 customElements.whenDefined("blip-segmented").then(() => (time.value = document.documentElement.dataset.schemeChoice || "auto"));
 time.addEventListener("blip-change", (e) => {
@@ -138,9 +140,9 @@ window.starfall = { get game() { return game; } };
 
 function fit() {
   if (main.dataset.screen !== "level") return;
-  renderer.resize(stage, pixel(stage));
-  frame.style.width = canvas.style.width;
-  frame.style.height = canvas.style.height;
+  const size = renderer.resize(stage, pixel(stage));
+  frame.style.width = `${size.width}px`;
+  frame.style.height = `${size.height}px`;
   if (!game) return;
   game.view = renderer.view;
   renderer.draw(game);
@@ -151,6 +153,7 @@ new ResizeObserver(fit).observe(stage);
 function startLevel(from) {
   game = createGame(LEVEL, { assist: !!load().assist, from, view: renderer.view });
   game.calm = reducedMotion();
+  game.still = load().shake === false;
   held.clear();
   hud.clock.hidden = game.assist;
   hud.hearts.max = game.stats.max;
@@ -196,7 +199,7 @@ function tick(now) {
     react(game);
     if (paused) break;
   }
-  renderer.draw(game);
+  renderer.draw(game, acc / STEP);
   place();
 }
 
@@ -253,21 +256,35 @@ function look(next) {
 
 // ------------------------------------------------------------------ what happened
 
+// Sounds that repeat vary a semitone either way, so the hundredth jump never grates; coins picked up close together
+// climb a major scale, and start again after a pause, so a line of coins plays a tune (RESEARCH-GAME-FEEL.md).
+const vary = () => 2 ** ((Math.random() * 2 - 1) / 12);
+const MAJOR = [0, 2, 4, 5, 7, 9, 11, 12, 14, 16, 17, 19];
+let chain = 0, chainAt = -99;
+function coin(t) {
+  chain = t - chainAt > 45 ? 0 : Math.min(chain + 1, MAJOR.length - 1);
+  chainAt = t;
+  sound("coin", { rate: 2 ** (MAJOR[chain] / 12) });
+}
+
 function react(g) {
   for (const e of g.events) {
     switch (e.type) {
       case "go": shout.shout("Go!", { hold: 300 }); break;
-      case "jump": sound("jump"); break;
-      case "swipe": sound("select", { rate: 1.6 }); break;
+      case "jump": sound("jump", { rate: vary() }); break;
+      case "land": sound(e.speed > 3 ? "bump" : "step", { rate: (e.speed > 3 ? 0.55 : 0.8) * vary(), volume: Math.min(1, 0.3 + e.speed / 6) }); break;
+      case "swipe": sound("select", { rate: 1.6 * vary() }); break;
+      case "coin": coin(g.t); break;
       case "star": points(e.x, e.y, 1000); sound("success"); break;
       case "gem": points(e.x, e.y, 500); sound("coin", { rate: 1.5 }); break;
       case "potion": sound("coin", { rate: 0.8 }); break;
       case "key": sound("open"); achieve("treetops"); break;
-      case "bump": sound("bump"); break;
-      case "thud": sound("bump", { rate: 0.7 }); break;
+      case "bump": sound("bump", { rate: vary() }); break;
+      case "thud": sound("bump", { rate: 0.7 * vary() }); break;
       case "defeat":
         points(e.x, e.y, e.points);
-        sound("bump", { rate: e.how === "stomp" ? 1.4 : 1 });
+        // Stomps in a row climb too: each a whole tone higher.
+        sound("bump", { rate: e.how === "stomp" ? 1.3 * 2 ** ((2 * Math.log2(e.points / 100)) / 12) : vary() });
         if (e.how === "stomp") achieve("stomp");
         break;
       case "hurt": sound("error"); break;

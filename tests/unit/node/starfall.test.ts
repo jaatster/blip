@@ -84,10 +84,13 @@ describe("moving", () => {
     const b = level("@.....", "......", "......", "......", "......", "......");
     run(b, 2);
     expect(b.pip.ground).toBe(false);
-    // Pressed in the air, a few steps before landing: the jump waits for the ground.
-    let n = 0;
-    while (!b.pip.ground && n++ < 100) step(b, { jump: b.pip.y + b.pip.h > 6 * TILE - 12 });
-    expect(types(run(b, 1, { jump: true }))).toContain("jump");
+    // Pressed in the air, a few steps before landing: the jump goes on the very step Pip lands.
+    let landed: string[] = [];
+    for (let n = 0; n < 100 && !landed.length; n++) {
+      step(b, { jump: b.pip.y + b.pip.h > 6 * TILE - 12 });
+      if (types(b.events).includes("land")) landed = types(b.events);
+    }
+    expect(landed).toContain("jump");
   });
 
   it("drops through a plank with down and jump, never through the ground", () => {
@@ -98,6 +101,75 @@ describe("moving", () => {
     run(g, 1, { down: true, jump: true });
     run(g, 20);
     expect(g.pip.y).toBeGreaterThan(on + TILE);
+  });
+});
+
+describe("forgiveness and the camera", () => {
+  it("reaches full speed in about six steps, and turns in about eleven", () => {
+    const g = level("@...........................", "............................");
+    run(g, 20);
+    let n = 0;
+    while (g.pip.vx < 1.5 && n < 30) (step(g, { right: true }), n++);
+    expect(n).toBeLessThanOrEqual(7);
+    n = 0;
+    while (g.pip.vx > -1.5 && n < 30) (step(g, { left: true }), n++);
+    expect(n).toBeLessThanOrEqual(12);
+  });
+
+  it("falls faster than it rises", () => {
+    const g = level(".......", ".......", ".......", ".......", ".......", ".......", "@......");
+    run(g, 3);
+    let up = 0, down = 0;
+    step(g, { jump: true });
+    while (g.pip.vy < 0) (step(g, { jump: true }), up++);
+    while (!g.pip.ground) (step(g, { jump: true }), down++);
+    expect(down).toBeLessThan(up);
+  });
+
+  it("slides past a ceiling's corner clipped by a few pixels", () => {
+    const g = level("......", "......", "..#...", "......", "......", "......", "@.....");
+    run(g, 3);
+    Object.assign(g.pip, { x: 2 * TILE - 6 });
+    let top = g.pip.y;
+    for (let i = 0; i < 30; i++) (step(g, { jump: true }), (top = Math.min(top, g.pip.y)));
+    // His head went on past the ceiling's bottom, a pixel or two to its side.
+    expect(top).toBeLessThan(3 * TILE - 6);
+    expect(g.pip.x).toBe(2 * TILE - g.pip.w);
+  });
+
+  it("steps up the last pixels of a ledge it falls just short of", () => {
+    const g = level("......", "......", "...###", "......", "@.....");
+    run(g, 3);
+    Object.assign(g.pip, { x: 2 * TILE + 3, y: 2 * TILE - g.pip.h + 3, vx: 1.5, vy: 0.5 });
+    run(g, 3, { right: true });
+    expect(g.pip.y + g.pip.h).toBe(2 * TILE);
+    expect(g.pip.x).toBeGreaterThan(3 * TILE - g.pip.w);
+  });
+
+  it("keeps more of the level ahead of Pip than behind, and holds still while he turns", () => {
+    const g = level("....................................................................", "@...................................................................");
+    run(g, 3);
+    run(g, 120, { right: true });
+    const ahead = g.camera + g.view / 2 - (g.pip.x + g.pip.w / 2);
+    expect(ahead).toBeGreaterThan(30);
+    // A step back, as to line up a jump, leaves the look-ahead where it was.
+    const before = g.look.dir;
+    run(g, 8, { left: true });
+    expect(g.look.dir).toBe(before);
+    run(g, 40, { left: true });
+    expect(g.look.dir).toBe(-before);
+  });
+
+  it("never moves the camera by more than Pip and his look-ahead together", () => {
+    const g = level("....................................................................", "@...................................................................");
+    run(g, 3);
+    let last = g.camera, most = 0;
+    for (let i = 0; i < 300; i++) {
+      step(g, { right: i < 150, left: i >= 150 && i < 200 });
+      most = Math.max(most, Math.abs(g.camera - last));
+      last = g.camera;
+    }
+    expect(most).toBeLessThanOrEqual(1.5 * 3 + 0.01);
   });
 });
 

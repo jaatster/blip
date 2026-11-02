@@ -46,6 +46,10 @@ const letters = [..."Starfall"].map((c, i) => ({ c, i }));
             <label class="blip-check" data-layout="split">Assist mode<span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box tpl-assist" aria-describedby="assist-help" /></span></label>
             <p class="blip-check-help" id="assist-help">Five hearts, and no clock.</p>
           </div>
+          <div>
+            <label class="blip-check" data-layout="split">Screen shake<span class="blip-box blip-switch"><input type="checkbox" role="switch" class="blip-box tpl-shake" checked aria-describedby="shake-help" /></span></label>
+            <p class="blip-check-help" id="shake-help">Off when your device asks for less motion.</p>
+          </div>
           <div class="tpl-options-row">
             <span class="blip-label" id="tpl-time">Time of day</span>
             <blip-segmented class="blip-box blip-segmented tpl-time" data-size="sm" aria-labelledby="tpl-time" value="auto">
@@ -117,7 +121,7 @@ const letters = [..."Starfall"].map((c, i) => ({ c, i }));
           </div>
         </div>
         <div class="blip-hud-group">
-          <blip-counter class="tpl-coins" value="0" pad="3" label="Coins" sound="coin"><blip-sprite name="coin"></blip-sprite></blip-counter>
+          <blip-counter class="tpl-coins" value="0" pad="3" label="Coins"><blip-sprite name="coin"></blip-sprite></blip-counter>
           <blip-counter class="tpl-score" value="0" pad="6" label="Score" quiet><span class="blip-hud-label blip-display blip-pop" data-scale="1" aria-hidden="true">Score</span></blip-counter>
           <blip-counter class="tpl-clock" value="300" format="time" low="60" label="Time" quiet><blip-sprite name="clock"></blip-sprite></blip-counter>
           <button class="blip-box blip-button tpl-pause-button" type="button" data-variant="soft" data-tone="neutral" data-size="sm" data-icon-only aria-label="Pause" aria-keyshortcuts="Escape"><Icon name="pause" /></button>

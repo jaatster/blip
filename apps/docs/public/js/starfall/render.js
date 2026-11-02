@@ -2,6 +2,11 @@
 // its far layers once into a strip as wide as it will ever slide, and the strips move slower the further back they
 // are. The ground is painted in the world's own grass and dirt colours, the art through the game kit's canvas
 // sprites, so the level follows the time of day and the palette. Nothing here changes the game.
+//
+// The art stays on whole pixels and the scrolling does not: the level is drawn at the camera's whole pixel into a
+// canvas one pixel wider than the view, and the canvas is slid by the camera's fraction in device pixels, so the
+// camera glides while every sprite stays crisp (RESEARCH-GAME-FEEL.md, "Pixel jitter"). Between steps, on screens
+// faster than 60 Hz, everything that moves is drawn where it would be between its last two places.
 import { spriteCanvas } from "@jaatster/blip-game/canvas.js";
 import { drawWorld } from "@jaatster/blip-effects/world.js";
 import { ART } from "./art.js";
@@ -10,31 +15,38 @@ import { TILE, swipeBox } from "./engine.js";
 /** How far each world layer slides for a pixel of camera: the sky stays, the near hills go half as fast. */
 const LAYERS = [["sky", 0], ["peaks", 0.12], ["hills", 0.25], ["near", 0.5]];
 const KIT = ["coin", "star", "potion", "key", "gem", "chest", "padlock", "sparkle", "sparkle-small", "heart"];
+/** What flashes white when it is hit or picked up. */
+const FLASH = ["coin", "star", "gem", "key", "potion", "grub-1", "grub-2", "grub-flat", "plip-1", "plip-2"];
+/** A coin's spin: its width, most of the time face on, then turning edge on and back. */
+const SPIN = [1, 1, 0.7, 0.3, 0.7, 1];
+const lerp = (a, b, t) => a + (b - a) * t;
 
 export function createRenderer(canvas) {
   const ctx = canvas.getContext("2d");
-  const r = { scale: 1, view: 320, height: 180, top: 0, dpr: 1, look: "", art: new Map(), strips: [], terrain: null, colours: {}, bits: [] };
+  const r = { scale: 1, view: 320, height: 180, top: 0, dpr: 1, cam: 0, shift: "", look: "", art: new Map(), strips: [], terrain: null, colours: {}, bits: [], pops: [], flash: new Map(), squash: { x: 1, y: 1 }, dust: 0 };
 
   /**
    * Fits the canvas to a box: the biggest whole number of device pixels a game pixel that still shows 320 x 180, and
-   * never less than the page's pixel. Wider or taller boxes see more of the level, or more sky.
+   * never less than the page's pixel. Wider or taller boxes see more of the level, or more sky. Returns the size the
+   * view takes on the page, in CSS pixels; the canvas is a game pixel wider, for the camera's slide.
    */
   r.resize = (box, blip = 2) => {
     const dpr = devicePixelRatio || 1;
     const w = box.clientWidth * dpr, h = box.clientHeight * dpr;
     const s = Math.max(Math.round(blip * dpr), Math.floor(Math.min(h / 180, w / 320)) || 1);
     const view = Math.ceil(w / s), height = Math.ceil(h / s);
-    if (s === r.scale && view === r.view && height === r.height && dpr === r.dpr) return false;
-    Object.assign(r, { scale: s, view, height, dpr, look: "" });
-    canvas.width = view;
-    canvas.height = height;
-    canvas.style.width = `${(view * s) / dpr}px`;
-    canvas.style.height = `${(height * s) / dpr}px`;
-    return true;
+    if (s !== r.scale || view !== r.view || height !== r.height || dpr !== r.dpr) {
+      Object.assign(r, { scale: s, view, height, dpr, look: "" });
+      canvas.width = view + 1;
+      canvas.height = height;
+      canvas.style.width = `${((view + 1) * s) / dpr}px`;
+      canvas.style.height = `${(height * s) / dpr}px`;
+    }
+    return { width: (view * s) / dpr, height: (height * s) / dpr };
   };
 
   /** CSS pixels on the page for a point in the level, for what is laid over the canvas (hints, points). */
-  r.toPage = (game, x, y) => ({ x: ((x - Math.round(game.camera)) * r.scale) / r.dpr, y: ((y + r.top) * r.scale) / r.dpr });
+  r.toPage = (game, x, y) => ({ x: ((x - r.cam) * r.scale) / r.dpr, y: ((y + r.top) * r.scale) / r.dpr });
 
   /** Reads the colours and paints the art again when the scheme or the palette has changed. */
   r.refresh = (game, force = false) => {
@@ -47,7 +59,7 @@ export function createRenderer(canvas) {
     r.colours = {
       grass: world("grass"), top: world("grass-top"), lip: world("grass-lip"), dirt: world("dirt"), shadow: world("dirt-shadow"), pebble: world("dirt-pebble"),
       leaf: world("tree-lit"), leafShade: world("tree-shadow"), water: token("candy-teal"), waterLight: token("candy-teal-light"), waterShade: token("candy-teal-shade"),
-      white: token("white"), ink: token("ink"), pole: token("candy-slate-light"), poleShade: token("candy-slate"), dust: token("candy-cream"),
+      white: token("white"), ink: token("ink"), pole: token("candy-slate-light"), poleShade: token("candy-slate"), dust: token("candy-cream"), sparkle: token("candy-yellow-light"),
     };
     r.art.clear();
     for (const [name, art] of Object.entries(ART)) {
@@ -56,6 +68,8 @@ export function createRenderer(canvas) {
     }
     for (const name of KIT) r.art.set(name, spriteCanvas(name));
     r.art.set("star-empty", spriteCanvas("star-empty"));
+    // White cut-outs, for a flash.
+    for (const name of FLASH) for (const side of ["", "<"]) if (r.art.has(name + side)) r.art.set(`${name}${side}*`, cutout(r.art.get(name + side), r.colours.white));
     // The world, a strip a layer, as wide as the camera will slide it.
     const span = Math.max(0, game.map.w * TILE - r.view);
     r.strips = LAYERS.map(([layer, f]) => {
@@ -66,34 +80,83 @@ export function createRenderer(canvas) {
     r.terrain = paintTerrain(game, r);
   };
 
-  /** Reacts to what happened this step: dust, splashes, sparkles. With less motion asked for, none of it. */
+  /**
+   * Reacts to what happened this step, once a step: Pip stretches as he jumps and squashes as he lands (more the
+   * harder he lands), dust kicks up at his feet, picked-up things pop and burst, hit enemies flash. With less motion
+   * asked for, nothing moves: a pickup just goes, with one still sparkle.
+   */
   r.happen = (game) => {
-    if (game.calm) return;
+    const calm = game.calm, c = r.colours, p = game.pip;
+    age(r);
+    // Squash and stretch come back to his own shape over about fourteen steps.
+    r.squash.x += Math.sign(1 - r.squash.x) * Math.min(Math.abs(1 - r.squash.x), 0.03);
+    r.squash.y += Math.sign(1 - r.squash.y) * Math.min(Math.abs(1 - r.squash.y), 0.03);
+    for (const [id, n] of r.flash) n > 1 ? r.flash.set(id, n - 1) : r.flash.delete(id);
     for (const e of game.events) {
-      if (e.type === "land" || e.type === "skid" || e.type === "plank") burst(r, e.x, e.y, 4, r.colours.dust, 1, 12);
-      else if (e.type === "splash") burst(r, e.x, e.y, 10, r.colours.waterLight, 2.4, 26);
-      else if (e.type === "defeat") burst(r, e.x, e.y + 4, 8, r.colours.white, 1.6, 16);
-      else if (e.type === "coin" || e.type === "star" || e.type === "gem" || e.type === "key" || e.type === "potion") r.bits.push({ x: e.x - 2, y: e.y + 2, life: 10, sparkle: true });
-      else if (e.type === "hop") burst(r, e.x, e.y, 3, r.colours.dust, 0.8, 10);
+      if (e.type === "jump") {
+        if (!calm) r.squash = { x: 0.8, y: 1.25 };
+        if (!calm) kick(r, e.x, e.y, 4, c.dust, [-1, 1]);
+      } else if (e.type === "land") {
+        const t = Math.min(e.speed / 4, 1);
+        // Gentler than the research's 1.4 x 0.6: at 13 pixels tall, whole-pixel scaling exaggerates it.
+        if (!calm) r.squash = { x: 1 + 0.3 * t, y: 1 - 0.25 * t };
+        if (!calm) kick(r, e.x, e.y, t > 0.7 ? 8 : 4, c.dust, [-1, 1]);
+      } else if (e.type === "skid" && !calm) kick(r, e.x + e.dir * 4, e.y, 3, c.dust, [e.dir]);
+      else if (e.type === "plank" && !calm) kick(r, e.x, e.y, 3, c.dust, [-1, 1]);
+      else if (e.type === "hop" && !calm) kick(r, e.x, e.y, 3, c.dust, [-1, 1]);
+      else if (e.type === "splash" && !calm) burst(r, e.x, e.y, 12, [c.waterLight, c.white], 2.4, 26);
+      else if (e.type === "defeat") {
+        r.flash.set(e.id, 5);
+        if (!calm) burst(r, e.x, e.y + 4, 8, [c.white, c.dust], 1.6, 16);
+      } else if (e.type === "coin") r.pops.push({ name: "coin", x: e.x, y: e.y, t: 0, out: e.from === "block", calm });
+      else if (["star", "gem", "key", "potion"].includes(e.type)) r.pops.push({ name: e.type, x: e.x, y: e.y + 6, t: 0, calm, big: true });
     }
+    // Running kicks up a puff behind him every so often.
+    if (!calm && p.ground && Math.abs(p.vx) > 1.2 && p.run - r.dust > 14) {
+      r.dust = p.run;
+      kick(r, p.x + p.w / 2 - Math.sign(p.vx) * 4, p.y + p.h, 1, c.dust, [-Math.sign(p.vx)]);
+    } else if (!p.ground || !p.run) r.dust = 0;
   };
 
-  r.draw = (game) => {
+  /** Draws the game, `alpha` of the way from its last step to this one. */
+  r.draw = (game, alpha = 1) => {
     r.refresh(game);
-    const cam = Math.round(game.camera), shake = game.shake && !game.calm ? (game.shake % 2 ? 1 : -1) : 0;
+    const cam = lerp(game.was, game.camera, alpha), whole = Math.floor(cam), frac = cam - whole;
+    r.cam = cam;
+    // The camera's fraction, in whole device pixels: the canvas slides by it.
+    const shift = `translateX(${-Math.round(frac * r.scale) / r.dpr}px)`;
+    if (shift !== r.shift) canvas.style.transform = r.shift = shift;
+    // Shake: trauma squared, along smooth noise, never more than two pixels each way. Off with less motion, or in the
+    // options.
+    const amount = game.calm || game.still ? 0 : game.trauma ** 2;
+    const sx = Math.round(2 * amount * noise(game.t, 1)), sy = Math.round(2 * amount * noise(game.t, 2));
     r.top = r.height - game.map.h * TILE;
     ctx.imageSmoothingEnabled = false;
-    ctx.clearRect(0, 0, r.view, r.height);
-    for (const [strip, f] of r.strips) ctx.drawImage(strip, -Math.round(cam * f), 0);
+    ctx.clearRect(0, 0, canvas.width, r.height);
+    for (const [strip, f] of r.strips) ctx.drawImage(strip, Math.round(-cam * f + frac), 0);
     ctx.save();
-    ctx.translate(-cam + shake, r.top);
-    drawWater(ctx, game, r, cam);
+    ctx.translate(-whole + sx, r.top + sy);
+    drawWater(ctx, game, r, whole);
     ctx.drawImage(r.terrain, 0, 0);
-    drawThings(ctx, game, r, cam);
+    drawThings(ctx, game, r, whole, alpha);
     ctx.restore();
   };
 
   return r;
+}
+
+/** Smooth noise from -1 to 1, a different curve for each seed. */
+const noise = (t, seed) => 0.6 * Math.sin(t * 0.9 + seed * 1.7) + 0.4 * Math.sin(t * 2.3 + seed * 3.1);
+
+/** A copy of art in one colour, for a flash. */
+function cutout(art, colour) {
+  const out = Object.assign(document.createElement("canvas"), { width: art.width, height: art.height });
+  const x = out.getContext("2d");
+  x.drawImage(art, 0, 0);
+  x.globalCompositeOperation = "source-in";
+  x.fillStyle = colour;
+  x.fillRect(0, 0, out.width, out.height);
+  return out;
 }
 
 const hash = (x, y) => ((x * 73856093) ^ (y * 19349663)) >>> 0;
@@ -191,25 +254,53 @@ function sprite(ctx, r, name, x, y, flip = false) {
 }
 
 /** The checker of the box's disabled look: every other pixel, its phase swapping every few frames. */
-function dithered(ctx, r, art, x, y, phase) {
+function dithered(ctx, r, art, x, y, phase, w = art.width, h = art.height) {
   const tmp = (r.tmp ??= document.createElement("canvas"));
-  tmp.width = art.width;
-  tmp.height = art.height;
+  tmp.width = w;
+  tmp.height = h;
   const t = tmp.getContext("2d");
-  t.drawImage(art, 0, 0);
+  t.imageSmoothingEnabled = false;
+  t.drawImage(art, 0, 0, w, h);
   t.globalCompositeOperation = "destination-out";
-  for (let j = 0; j < art.height; j++) for (let i = (j + phase) % 2; i < art.width; i += 2) t.fillRect(i, j, 1, 1);
+  for (let j = 0; j < h; j++) for (let i = (j + phase) % 2; i < w; i += 2) t.fillRect(i, j, 1, 1);
   ctx.drawImage(tmp, Math.round(x), Math.round(y));
 }
 
-function burst(r, x, y, n, colour, speed, life) {
+/** Bits flying out from a point in every direction: a pickup's sparkle, a hit's puff, a splash. */
+function burst(r, x, y, n, colours, speed, life) {
   for (let i = 0; i < n; i++) {
-    const a = Math.PI + (Math.PI * (i + 0.5)) / n;
-    r.bits.push({ x, y, vx: Math.cos(a) * speed * (0.6 + (i % 3) * 0.2), vy: Math.sin(a) * speed, colour, life });
+    const a = (Math.PI * 2 * (i + 0.5)) / n - Math.PI / 2;
+    r.bits.push({ x, y, vx: Math.cos(a) * speed * (0.7 + (i % 3) * 0.15), vy: Math.sin(a) * speed - 0.6, colour: colours[i % colours.length], life, fall: 0.12 });
   }
 }
 
-function drawThings(ctx, game, r, cam) {
+/** Dust kicked along the ground from a point, to one side or both. */
+function kick(r, x, y, n, colour, sides) {
+  for (let i = 0; i < n; i++) {
+    const side = sides[i % sides.length], k = Math.floor(i / sides.length);
+    r.bits.push({ x: x + side * (2 + k), y: y - 1, vx: side * (0.5 + k * 0.35), vy: -0.35 - (k % 2) * 0.25, colour, life: 10 + k * 3, fall: 0.04, size: k ? 1 : 2 });
+  }
+}
+
+/** Moves the bits and pops on by a step; render.js's happen() calls it, so they keep time on any screen. */
+export function age(r) {
+  r.bits = r.bits.filter((b) => {
+    b.x += b.vx;
+    b.y += b.vy;
+    b.vy += b.fall;
+    b.vx *= 0.92;
+    return --b.life > 0;
+  });
+  r.pops = r.pops.filter((p) => {
+    p.t++;
+    // A pickup ends in a burst of sparkles once it has risen.
+    const done = p.calm ? 8 : p.out ? 16 : 7;
+    if (p.t === done && !p.calm) burst(r, p.x, p.y - (p.out ? 22 : 7), p.big ? 10 : 6, [r.colours.sparkle, r.colours.white], p.big ? 1.6 : 1.2, p.big ? 16 : 12);
+    return p.t < done + (p.calm ? 0 : 1);
+  });
+}
+
+function drawThings(ctx, game, r, cam, alpha) {
   const { map, pip: p } = game;
   const near = (x) => x > cam - 32 && x < cam + r.view + 32;
   const bob = (k) => (game.calm ? 0 : Math.floor((game.t + k * 7) / 20) % 2);
@@ -262,47 +353,55 @@ function drawThings(ctx, game, r, cam) {
       sprite(ctx, r, "padlock", map.chest.x + 1, map.chest.y + 4);
     }
   }
+  // Coins spin together, a turn every 36 steps; the rest bob. Still with less motion asked for.
+  const turn = game.calm ? 1 : SPIN[Math.floor(game.t / 6) % SPIN.length];
   for (const it of map.items) {
     if (game.taken.has(it.id) || (it.hidden && !game.chestOpen) || !near(it.x)) continue;
     const art = r.art.get(it.kind);
     if (!art) continue;
-    const x = it.x + it.w / 2 - art.width / 2, y = it.y + it.h - art.height + (it.kind === "coin" ? 0 : bob(it.id));
-    ctx.drawImage(art, Math.round(x), Math.round(y));
+    const w = it.kind === "coin" ? Math.max(2, Math.round(art.width * turn)) : art.width;
+    const x = Math.round(it.x + it.w / 2 - w / 2), y = it.y + it.h - art.height + (it.kind === "coin" ? 0 : bob(it.id));
+    ctx.drawImage(art, x, Math.round(y), w, art.height);
     if (it.kind === "star" && !game.calm && (game.t + it.id * 13) % 90 < 8) sprite(ctx, r, "sparkle", x + art.width - 4, y - 2);
   }
   for (const e of map.enemies) {
     if (!near(e.x) || (!e.alive && !e.dead)) continue;
-    const flip = e.face < 0;
-    if (e.kind === "grub") {
-      const name = !e.alive && e.how === "stomp" ? "grub-flat" : Math.floor(e.t / 10) % 2 ? "grub-2" : "grub-1";
-      const art = r.art.get(name);
-      sprite(ctx, r, name, e.x + e.w / 2 - art.width / 2, e.y + e.h - art.height + 1, flip);
-    } else {
-      const name = e.crouch || !e.alive ? "plip-2" : "plip-1";
-      const art = r.art.get(name);
-      sprite(ctx, r, name, e.x + e.w / 2 - art.width / 2, e.y + e.h - art.height + 1, flip);
-    }
+    const ex = lerp(e.px ?? e.x, e.x, alpha), ey = lerp(e.py ?? e.y, e.y, alpha), flip = e.face < 0;
+    const name = e.kind === "grub" ? (!e.alive && e.how === "stomp" ? "grub-flat" : Math.floor(e.t / 10) % 2 ? "grub-2" : "grub-1") : e.crouch || !e.alive ? "plip-2" : "plip-1";
+    const art = r.art.get(name);
+    // A hit flashes white for its first frames.
+    sprite(ctx, r, r.flash.has(e.id) ? `${name}${flip ? "<" : ""}*` : name, ex + e.w / 2 - art.width / 2, ey + e.h - art.height + 1, r.flash.has(e.id) ? false : flip);
   }
-  // Pip.
+  // Pip, squashed and stretched in whole pixels about his feet.
   const pose = p.hurt > 70 ? "pip-hurt" : !p.ground ? (p.vy < 0 ? "pip-jump" : "pip-fall") : Math.abs(p.vx) > 0.2 ? (Math.floor(p.run / 7) % 2 ? "pip-run-2" : "pip-run-1") : game.t % 200 < 8 ? "pip-blink" : "pip-idle";
   const art = r.art.get(p.face < 0 ? `${pose}<` : pose);
-  const x = p.x + p.w / 2 - art.width / 2, y = p.y + p.h - art.height + 1;
-  if (p.hurt && game.mode === "play") dithered(ctx, r, art, x, y, game.calm ? 0 : Math.floor(game.t / 4) % 2);
-  else ctx.drawImage(art, Math.round(x), Math.round(y));
+  const pxl = lerp(p.px ?? p.x, p.x, alpha), pyl = lerp(p.py ?? p.y, p.y, alpha);
+  const w = Math.round(art.width * r.squash.x), h = Math.round(art.height * r.squash.y);
+  const x = Math.round(pxl + p.w / 2 - w / 2), y = Math.round(pyl + p.h + 1 - h);
+  if (p.hurt && game.mode === "play") dithered(ctx, r, art, x, y, game.calm ? 0 : Math.floor(game.t / 4) % 2, w, h);
+  else ctx.drawImage(art, x, y, w, h);
   if (p.swipe) {
     const box = swipeBox(p), name = p.swipe > 7 ? "swipe-1" : "swipe-2";
-    sprite(ctx, r, name, p.face > 0 ? box.x + 1 : box.x + 3, box.y + 2, p.face < 0);
+    sprite(ctx, r, name, (p.face > 0 ? box.x + 1 : box.x + 3) + (pxl - p.x), box.y + 2 + (pyl - p.y), p.face < 0);
+  }
+  // Pickups: the thing pops up, flashing white every other frame, then bursts. A coin from a block springs out of
+  // it, spinning, and drops back a little before it bursts.
+  for (const q of r.pops) {
+    const art = r.art.get(q.name);
+    if (!art) continue;
+    if (q.calm) {
+      sprite(ctx, r, "sparkle-small", q.x - 1, q.y - 6);
+      continue;
+    }
+    const rise = q.out ? Math.round(26 * Math.sin((Math.min(q.t, 16) / 16) * Math.PI * 0.85)) : Math.min(q.t, 7);
+    const spin = q.out ? SPIN[Math.floor(q.t / 2) % SPIN.length] : 1;
+    const w = Math.max(2, Math.round(art.width * spin)), name = !q.out && q.t % 2 ? `${q.name}*` : q.name;
+    ctx.drawImage(r.art.get(name) ?? art, Math.round(q.x - w / 2), Math.round(q.y - art.height - rise + (q.out ? 0 : 4)), w, art.height);
   }
   // The bits: dust, drops, sparkles.
-  r.bits = r.bits.filter((b) => {
-    if (b.sparkle) sprite(ctx, r, "sparkle-small", b.x, b.y - (10 - b.life) / 2);
-    else {
-      b.x += b.vx;
-      b.y += b.vy;
-      b.vy += 0.15;
-      ctx.fillStyle = b.colour;
-      ctx.fillRect(Math.round(b.x), Math.round(b.y), 1, 1);
-    }
-    return --b.life > 0;
-  });
+  for (const b of r.bits) {
+    ctx.fillStyle = b.colour;
+    const size = b.size ?? 1;
+    ctx.fillRect(Math.round(b.x), Math.round(b.y), size, size);
+  }
 }

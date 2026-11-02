@@ -4,10 +4,22 @@
 
 export const TILE = 12, STEPS = 60;
 
-// How Pip moves, in pixels a step. A held jump rises on lighter gravity; let go and the rise is cut short.
-const RUN = 1.5, ACCEL = 0.11, AIR = 0.08, DECEL = 0.16, GRAVITY = 0.24, GRAVITY_HELD = 0.16, FALL = 4.2;
-const JUMP = -4.1, CUT = -1.3, COYOTE = 6, BUFFER = 7, BOUNCE = -3.2, BOUNCE_HELD = -4.6, PLIP_BOUNCE = -5.8;
+// How Pip moves, in pixels a step (RESEARCH-GAME-FEEL.md has the sources). Running is Celeste's: full speed in about
+// six steps, a turn in about eleven, two thirds of the grip in the air. A jump is set by its height and its time to
+// the top (Pittman): four tiles in 22 steps. It falls 2.3 times as fast as it rises, hangs at half gravity near the
+// top while jump is held, and a tap is cut short to a hop.
+const RUN = 1.5, ACCEL = 0.28, AIR = 0.65, FALL = 4;
+const JUMP_H = 48, JUMP_T = 22, JUMP = (-2 * JUMP_H) / JUMP_T, RISE = (2 * JUMP_H) / JUMP_T ** 2, DROP = 2.3 * RISE, HANG = 0.67, CUT = -2;
+const COYOTE = 6, BUFFER = 7, BOUNCE = -3.2, BOUNCE_HELD = -4.6, PLIP_BOUNCE = -6.2;
+/** Forgiveness: slide past a ceiling's corner by up to 5 pixels, step up a ledge's last 4, catch a plank 4 short. */
+const CORNER = 5, LEDGE = 4, CATCH = 4;
 const SWIPE = 14, SWIPE_HITS = [2, 10], SWIPE_COOL = 22, SAFE = 90, TALK = 22;
+/** Shake: trauma from 0 to 1, added by what happens, gone in three quarters of a second; drawn as trauma squared. */
+const TRAUMA = { hurt: 0.5, splash: 0.35, stomp: 0.2, swipe: 0.15, bump: 0.15, land: 0.2 };
+/** The camera: Pip's look-ahead, how far he must go the other way before it turns, and its window. */
+const LOOK = 40, TURN = 24, WINDOW = 6;
+/** Grubs and Plips fall as they always have. */
+const FOE_GRAVITY = 0.24;
 /** What the flag pays for the height it was grabbed at, top first. */
 const FLAG = [5000, 2000, 1000, 800, 400, 200, 100];
 
@@ -60,8 +72,9 @@ export function createGame(level, { assist = false, from = null, view = 320 } = 
   const map = parse(level);
   const max = assist ? 5 : 3;
   const game = {
-    map, assist, view, t: 0, mode: "ready", ready: 90, events: [], camera: 0, shake: 0, freeze: 0,
-    pip: { x: 0, y: 0, w: 8, h: 11, vx: 0, vy: 0, face: 1, ground: false, coyote: 0, buffer: 0, swipe: 0, cool: 0, hurt: 0, chain: 0, safe: null, run: 0 },
+    map, assist, view, t: 0, mode: "ready", ready: 90, events: [], camera: 0, was: 0, trauma: 0, freeze: 0, ease: 0,
+    look: { dir: 1, offset: LOOK, travel: 0 },
+    pip: { x: 0, y: 0, px: 0, py: 0, w: 8, h: 11, vx: 0, vy: 0, face: 1, ground: false, coyote: 0, buffer: 0, swipe: 0, cool: 0, hurt: 0, drop: 0, chain: 0, safe: null, run: 0 },
     stats: { coins: 0, found: 0, score: 0, stars: [], enemies: 0, foes: 0, gems: 0, hearts: max, max, time: level.time ?? 300, key: false, hits: 0, flag: 0 },
     taken: new Set(), checkpoint: null, bridgeBuilt: map.bridge ? 0 : -1, building: false, chestOpen: false, near: { sign: -1, bramble: false, chest: false },
     prev: {},
@@ -75,8 +88,8 @@ export function createGame(level, { assist = false, from = null, view = 320 } = 
     game.bridgeBuilt = from.bridgeBuilt ?? game.bridgeBuilt;
     for (const id of from.blocks ?? []) map.blocks.get(id) && (map.rows[map.blocks.get(id).r][map.blocks.get(id).c] = "K");
   }
-  Object.assign(game.pip, { x: start.x, y: start.y, safe: { x: start.x, y: start.y } });
-  game.camera = clampCamera(game, game.pip.x - view / 2);
+  Object.assign(game.pip, { x: start.x, y: start.y, px: start.x, py: start.y, safe: { x: start.x, y: start.y } });
+  game.camera = game.was = clampCamera(game, game.pip.x + game.pip.w / 2 + LOOK - view / 2);
   return game;
 }
 
@@ -97,7 +110,20 @@ const clampCamera = (game, x) => Math.max(0, Math.min(game.map.w * TILE - game.v
 const end = (at, size) => Math.ceil(at + size) - 1;
 
 /** Moves a body by its speed, a pixel axis at a time against the tiles. Returns what it hit. */
-function move(game, b, { oneWays = true } = {}) {
+/** Whether a body at (x, y) would overlap a solid tile. */
+const blocked = (game, b, x, y) => {
+  for (let r = Math.floor(y / TILE); r <= Math.floor(end(y, b.h) / TILE); r++) {
+    for (let c = Math.floor(x / TILE); c <= Math.floor(end(x, b.w) / TILE); c++) if (solid(tile(game, c, r))) return true;
+  }
+  return false;
+};
+
+/**
+ * Moves a body by its speed, a pixel axis at a time against the tiles. Returns what it hit. A body with `assist` (Pip)
+ * is forgiven a near miss: a wall whose top is within LEDGE pixels of his feet is stepped up, a ceiling clipped by
+ * CORNER pixels or less is slid past, and a plank his feet sink CATCH pixels below at the top of a jump still holds.
+ */
+function move(game, b, { oneWays = true, assist = false } = {}) {
   const hit = { left: false, right: false, up: null, down: false };
   b.x += b.vx;
   const r0 = Math.floor(b.y / TILE), r1 = Math.floor(end(b.y, b.h) / TILE);
@@ -105,6 +131,11 @@ function move(game, b, { oneWays = true } = {}) {
     const c = Math.floor((b.vx > 0 ? end(b.x, b.w) : b.x) / TILE);
     for (let r = r0; r <= r1; r++) {
       if (!solid(tile(game, c, r))) continue;
+      const lift = b.y + b.h - r * TILE;
+      if (assist && r === r1 && b.vy >= 0 && lift <= LEDGE && !blocked(game, b, b.x, r * TILE - b.h)) {
+        b.y = r * TILE - b.h;
+        break;
+      }
       if (b.vx > 0) (b.x = c * TILE - b.w), (hit.right = true);
       else (b.x = (c + 1) * TILE), (hit.left = true);
       b.vx = 0;
@@ -115,10 +146,10 @@ function move(game, b, { oneWays = true } = {}) {
   b.y += b.vy;
   const c0 = Math.floor(b.x / TILE), c1 = Math.floor(end(b.x, b.w) / TILE);
   if (b.vy > 0) {
-    const r = Math.floor(end(b.y, b.h) / TILE);
+    const r = Math.floor(end(b.y, b.h) / TILE), give = assist && b.vy < 1.5 ? CATCH : 0.01;
     for (let c = c0; c <= c1; c++) {
       const top = r * TILE;
-      if (solid(tile(game, c, r)) || (oneWays && oneWay(game, c, r) && bottom <= top + 0.01)) {
+      if (solid(tile(game, c, r)) || (oneWays && oneWay(game, c, r) && bottom <= top + give)) {
         b.y = top - b.h;
         b.vy = 0;
         hit.down = true;
@@ -127,6 +158,14 @@ function move(game, b, { oneWays = true } = {}) {
     }
   } else if (b.vy < 0) {
     const r = Math.floor(b.y / TILE);
+    // Clipping a ceiling's corner by a few pixels slides the head past it rather than stopping the jump.
+    if (assist && c0 !== c1 && solid(tile(game, c0, r)) !== solid(tile(game, c1, r))) {
+      const by = solid(tile(game, c0, r)) ? (c0 + 1) * TILE - b.x : c1 * TILE - (b.x + b.w);
+      if (Math.abs(by) <= CORNER && !blocked(game, b, b.x + by, b.y)) {
+        b.x += by;
+        return hit;
+      }
+    }
     // Under two tiles, the one more of the head is under is the one hit.
     const cs = c0 === c1 ? [c0] : b.x + b.w / 2 < c1 * TILE ? [c0, c1] : [c1, c0];
     for (const c of cs) {
@@ -140,6 +179,9 @@ function move(game, b, { oneWays = true } = {}) {
   return hit;
 }
 
+/** Moves a value towards a target by at most a step. */
+const approach = (v, to, by) => (v < to ? Math.min(to, v + by) : Math.max(to, v - by));
+
 /** One step, with the buttons held: { left, right, up, down, jump, swipe }. */
 export function step(game, input) {
   game.events = [];
@@ -147,7 +189,13 @@ export function step(game, input) {
   const pressed = { jump: press("jump"), swipe: press("swipe"), up: press("up") };
   game.prev = { ...input };
   game.t++;
-  if (game.shake) game.shake--;
+  // Where everything was, for drawing between steps on screens faster than 60 Hz.
+  const p = game.pip;
+  game.was = game.camera;
+  p.px = p.x;
+  p.py = p.y;
+  for (const e of game.map.enemies) (e.px = e.x), (e.py = e.y);
+  game.trauma = Math.max(0, game.trauma - 1 / 45);
   if (game.freeze) {
     game.freeze--;
     return game;
@@ -169,11 +217,36 @@ export function step(game, input) {
   touchStep(game, pressed);
   buildStep(game);
   for (const b of game.map.blocks.values()) if (b.bump) b.bump--;
-  // The camera looks ahead of Pip; calm (reduced motion) it keeps him in the middle and never swings.
-  const target = game.pip.x + game.pip.w / 2 - game.view / 2 + (game.calm ? 0 : game.pip.face * 28);
-  game.camera = clampCamera(game, game.calm ? target : game.camera + (target - game.camera) * 0.08);
+  cameraStep(game);
   return game;
 }
+
+/**
+ * The camera (Keren's "Scroll Back"): dual forward focus. It keeps LOOK pixels more of the level ahead of Pip than
+ * behind him, and turns to the other side only once he has gone TURN pixels the other way, so a turn to swipe or to
+ * line up a jump never swings the view. The look-ahead slides over at his speed, so the camera turns at twice it
+ * (Bonanza Bros.), never at once. Inside a
+ * WINDOW pixels wide the camera holds still, so small steps never nudge it; past it, it is locked to him. After a
+ * respawn it glides to him. With less motion asked for, the look-ahead is half as far.
+ */
+function cameraStep(game) {
+  const p = game.pip, look = game.look;
+  if (Math.abs(p.vx) > 0.4 && Math.sign(p.vx) !== look.dir) look.travel += Math.abs(p.vx);
+  else if (Math.sign(p.vx) === look.dir) look.travel = 0;
+  if (look.travel > TURN) (look.dir *= -1), (look.travel = 0);
+  const want = look.dir * LOOK * (game.calm ? 0.5 : 1), rate = Math.max(0.5, Math.abs(p.vx));
+  look.offset = approach(look.offset, want, rate);
+  const focus = clampCamera(game, p.x + p.w / 2 + look.offset - game.view / 2);
+  if (game.ease) {
+    game.ease--;
+    game.camera += (focus - game.camera) * 0.15;
+  } else if (focus > game.camera + WINDOW / 2) game.camera = focus - WINDOW / 2;
+  else if (focus < game.camera - WINDOW / 2) game.camera = focus + WINDOW / 2;
+  game.camera = clampCamera(game, game.camera);
+}
+
+/** Adds to the shake, up to all of it. */
+const shake = (game, kind) => (game.trauma = Math.min(1, game.trauma + TRAUMA[kind]));
 
 function clock(game) {
   if (game.assist || game.t % STEPS) return;
@@ -185,30 +258,31 @@ function clock(game) {
   }
 }
 
+function jump(game, p) {
+  p.vy = JUMP;
+  p.buffer = p.coyote = 0;
+  p.ground = false;
+  say(game, "jump", { x: p.x + p.w / 2, y: p.y + p.h });
+}
+
 function pipStep(game, input, pressed) {
   const p = game.pip;
   const dir = (input.right ? 1 : 0) - (input.left ? 1 : 0);
-  if (dir) {
-    if (p.ground && Math.sign(p.vx) === -dir && Math.abs(p.vx) > 0.8) say(game, "skid", { x: p.x + p.w / 2, y: p.y + p.h });
-    p.vx += dir * (p.ground ? ACCEL : AIR);
-    if (!p.swipe) p.face = dir;
-  } else if (p.ground) p.vx -= Math.sign(p.vx) * Math.min(Math.abs(p.vx), DECEL);
-  p.vx = Math.max(-RUN, Math.min(RUN, p.vx));
+  if (dir && p.ground && Math.sign(p.vx) === -dir && Math.abs(p.vx) > 0.8) say(game, "skid", { x: p.x + p.w / 2, y: p.y + p.h, dir });
+  p.vx = approach(p.vx, dir * RUN, ACCEL * (p.ground ? 1 : AIR));
+  if (dir && !p.swipe) p.face = dir;
   p.buffer = pressed.jump ? BUFFER : Math.max(0, p.buffer - 1);
-  p.coyote = p.ground ? COYOTE : Math.max(0, p.coyote - 1);
   // Down and jump on a plank drops through it.
   if (p.buffer && p.ground && input.down && standingOnOneWay(game)) {
     p.y += 2;
+    p.drop = 10;
     p.buffer = p.coyote = 0;
     p.ground = false;
-  } else if (p.buffer && p.coyote) {
-    p.vy = JUMP;
-    p.buffer = p.coyote = 0;
-    p.ground = false;
-    say(game, "jump");
-  }
+  } else if (p.buffer && (p.ground || p.coyote)) jump(game, p);
   if (!input.jump && p.vy < CUT) p.vy = CUT;
-  p.vy = Math.min(FALL, p.vy + (input.jump && p.vy < 0 ? GRAVITY_HELD : GRAVITY));
+  let g = input.jump && p.vy < 0 ? RISE : DROP;
+  if (input.jump && Math.abs(p.vy) < HANG) g /= 2;
+  p.vy = Math.min(FALL, p.vy + g);
   if (pressed.swipe && !p.cool) {
     p.swipe = SWIPE;
     p.cool = SWIPE_COOL;
@@ -217,14 +291,21 @@ function pipStep(game, input, pressed) {
   if (p.swipe) p.swipe--;
   if (p.cool) p.cool--;
   if (p.hurt) p.hurt--;
+  if (p.drop) p.drop--;
   const was = p.ground, fall = p.vy;
-  const hit = move(game, p);
+  const hit = move(game, p, { oneWays: !p.drop, assist: true });
   p.ground = hit.down;
+  p.coyote = p.ground ? COYOTE : Math.max(0, p.coyote - 1);
   if (hit.up) bumpBlock(game, hit.up.c, hit.up.r);
   if (p.ground) {
     p.chain = 0;
-    if (!was && fall > 2) say(game, "land", { x: p.x + p.w / 2, y: p.y + p.h });
+    if (!was && fall > 1) {
+      say(game, "land", { x: p.x + p.w / 2, y: p.y + p.h, speed: fall });
+      if (fall >= FALL - 0.2) shake(game, "land");
+    }
     if (solidUnder(game, p)) p.safe = { x: p.x, y: p.y };
+    // A jump pressed just before landing goes on the landing step.
+    if (!was && p.buffer) jump(game, p);
   }
   p.run = p.ground && Math.abs(p.vx) > 0.2 ? p.run + Math.abs(p.vx) : 0;
   if (p.x < 0) (p.x = 0), (p.vx = 0);
@@ -269,6 +350,7 @@ function bumpBlock(game, c, r) {
     game.stats.score += 10;
     say(game, "coin", { x, y, from: "block" });
   }
+  shake(game, "bump");
   say(game, "bump", { x, y });
   // A Grub standing on the block is knocked off it.
   for (const e of game.map.enemies) if (e.alive && Math.abs(e.y + e.h - r * TILE) < 2 && e.x + e.w > c * TILE && e.x < (c + 1) * TILE) defeat(game, e, "bumped");
@@ -277,9 +359,10 @@ function bumpBlock(game, c, r) {
 function fallIn(game, how) {
   const p = game.pip;
   say(game, how, { x: p.x + p.w / 2, y: p.y + p.h });
+  shake(game, "splash");
   if (!lose(game, 1)) return;
-  Object.assign(p, { x: p.safe.x, y: p.safe.y, vx: 0, vy: 0, hurt: SAFE, swipe: 0 });
-  game.camera = clampCamera(game, p.x - game.view / 2);
+  Object.assign(p, { x: p.safe.x, y: p.safe.y, px: p.safe.x, py: p.safe.y, vx: 0, vy: 0, hurt: SAFE, swipe: 0 });
+  game.ease = 30;
   say(game, "respawn");
 }
 
@@ -297,12 +380,13 @@ function hurt(game, from) {
   const p = game.pip;
   if (p.hurt) return;
   say(game, "hurt", { x: p.x + p.w / 2, y: p.y });
+  shake(game, "hurt");
+  game.freeze = 4;
   if (!lose(game, 1)) return;
   p.hurt = SAFE;
   p.vx = (p.x + p.w / 2 < from.x + from.w / 2 ? -1 : 1) * 1.6;
   p.vy = -2.4;
   p.ground = false;
-  game.shake = 8;
 }
 
 function defeat(game, e, how) {
@@ -315,7 +399,8 @@ function defeat(game, e, how) {
   game.stats.enemies++;
   game.stats.foes += points;
   game.stats.score += points;
-  say(game, "defeat", { kind: e.kind, how, x: e.x + e.w / 2, y: e.y, points });
+  shake(game, how === "stomp" ? "stomp" : "swipe");
+  say(game, "defeat", { kind: e.kind, how, x: e.x + e.w / 2, y: e.y, points, id: e.id });
 }
 
 function enemiesStep(game) {
@@ -324,7 +409,7 @@ function enemiesStep(game) {
     if (!e.alive) {
       if (e.dead) {
         e.dead--;
-        if (e.how !== "stomp") (e.vy += GRAVITY), (e.x += e.vx), (e.y += e.vy);
+        if (e.how !== "stomp") (e.vy += FOE_GRAVITY), (e.x += e.vx), (e.y += e.vy);
       }
       continue;
     }
@@ -333,7 +418,7 @@ function enemiesStep(game) {
     e.t++;
     if (e.kind === "grub") {
       e.vx = 0.4 * e.face;
-      e.vy = Math.min(FALL, e.vy + GRAVITY);
+      e.vy = Math.min(FALL, e.vy + FOE_GRAVITY);
       const hit = move(game, e);
       e.ground = hit.down;
       if (hit.left || hit.right) e.face *= -1;
@@ -342,7 +427,7 @@ function enemiesStep(game) {
         if (!solid(tile(game, ahead, below)) && !oneWay(game, ahead, below)) e.face *= -1;
       }
     } else {
-      e.vy = Math.min(FALL, e.vy + GRAVITY);
+      e.vy = Math.min(FALL, e.vy + FOE_GRAVITY);
       const hit = move(game, e);
       if (hit.down && !e.ground) e.vx = 0;
       e.ground = hit.down;
@@ -383,7 +468,8 @@ export const swipeBox = (p) => ({ x: p.face > 0 ? p.x + p.w - 2 : p.x - 14, y: p
 function touchStep(game, pressed) {
   const p = game.pip, m = game.map, s = game.stats;
   for (const it of m.items) {
-    if (game.taken.has(it.id) || (it.hidden && !game.chestOpen) || !overlap(p, it)) continue;
+    // A pickup is taken three pixels before Pip quite touches it.
+    if (game.taken.has(it.id) || (it.hidden && !game.chestOpen) || !overlap(p, { x: it.x - 3, y: it.y - 3, w: it.w + 6, h: it.h + 6 })) continue;
     game.taken.add(it.id);
     const at = { x: it.x + it.w / 2, y: it.y };
     if (it.kind === "coin") (s.coins++, s.found++, (s.score += 10));

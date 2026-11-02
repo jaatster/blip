@@ -101,3 +101,29 @@ Each comes with its docs page, example, React wrapper, tests and baselines, like
 8. After the bridge: blocks, a gem, Grubs, and the locked chest. The key opens it: the second star.
 9. A tall pillar near the end: bounce off a Plip to reach the third star.
 10. Stairs up to the goal flag. The higher you grab it, the more it scores.
+
+## Game feel (after the first playtest)
+
+The owner found the camera odd and the jumps and coins flat. [RESEARCH-GAME-FEEL.md](RESEARCH-GAME-FEEL.md) has the
+practices, from their sources; this is what Starfall does with them.
+
+- **Camera** (Keren): dual forward focus, 40 pixels ahead, turning only after Pip has gone 24 pixels the other way,
+  sliding at his speed (so the camera turns at twice it); a 6-pixel window where it holds still; locked to him past
+  it; a glide after a respawn; clamped to the level. It scrolls in sub-pixel steps: the level is drawn at the whole
+  pixel and the canvas slides by the fraction, in device pixels, so the art stays crisp. Everything that moves is
+  drawn between its last two places on screens faster than 60 Hz.
+- **Shake** (Eiserloh, Nijman): trauma, added by hits, splashes, stomps and hard landings, gone in three quarters of a
+  second, drawn as trauma squared along smooth noise, at most 2 pixels. A switch in the options; off with less motion.
+- **Running and jumping** (Celeste, Pittman): full speed in about 6 steps, a turn in about 11, two thirds of the grip in
+  the air; a jump of 4 tiles in 22 steps, falling 2.3 times as fast; half gravity at the top while jump is held; a tap
+  cut to a hop; coyote time and a buffer that jumps on the landing step.
+- **Forgiveness:** a ceiling's corner clipped by 5 pixels or less is slid past; a ledge's last 4 pixels are stepped
+  up; a plank 4 pixels short at the top of a jump still holds; pickups are taken 3 pixels early.
+- **Juice:** Pip stretches as he jumps and squashes as he lands, more the harder he lands, in whole pixels; dust at
+  takeoff, on landing (more on a hard one), and behind him as he runs; landing sounds; repeated sounds vary a
+  semitone; coins spin, pop up flashing white and burst into sparkles, climb a major scale as a run of them is picked
+  up, and a coin from a block springs out of it; stomps in a row climb too; hit enemies flash white; 3 or 4 steps of
+  hit-stop.
+
+Not done: stereo panning (the sound kit plays in mono), water slowing a fall (here water is a hazard), and a shake
+slider (a switch instead).

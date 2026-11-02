@@ -209,8 +209,9 @@
      (tpl-game.js sizes it). The HUD, the hints, the shouts and Bramble sit over it. */
   html.js .tpl-level { position: fixed; inset: 0; display: block; max-block-size: none; padding: 0; overflow: hidden; }
   .tpl-stage { position: absolute; inset: 0 0 var(--tpl-pad); overflow: hidden; background: var(--blip-world-day-sky-6); }
-  .tpl-frame { position: absolute; inset-block-end: 0; inset-inline-start: 50%; translate: -50% 0; }
-  .tpl-canvas { display: block; inline-size: 100%; block-size: 100%; image-rendering: pixelated; }
+  /* The frame is the view; the canvas is a game pixel wider, and slides by the camera's fraction inside it. */
+  .tpl-frame { position: absolute; inset-block-end: 0; inset-inline-start: 50%; translate: -50% 0; overflow: clip; }
+  .tpl-canvas { display: block; image-rendering: pixelated; }
   .tpl-overlay, .tpl-hints { position: absolute; inset: 0; pointer-events: none; }
   /* A hint stands over its sign: the kit's tooltip, drawn in place, with the prompt's keys in it. */
   .tpl-bubble { position: absolute; translate: -50% calc(-100% - 2 * var(--blip-pixel)); white-space: nowrap; }
