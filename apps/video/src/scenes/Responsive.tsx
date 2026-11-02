@@ -19,8 +19,8 @@ export const RESPONSIVE = { bar: 27, bars: 4 };
 // pages are wider than the window, so it shows their left side, where the change is; the phone page fits whole.
 // Each width is its own settled page, mounted from the start, so every held frame is the same however it is reached.
 const STOPS = [
-  { win: 256, page: 1112 },
-  { win: 226, page: 760 },
+  { win: 300, page: 1112 },
+  { win: 248, page: 760 },
   { win: 196, page: 392 },
 ];
 const WINDOW = at(0, 1);

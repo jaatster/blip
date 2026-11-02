@@ -10,6 +10,7 @@ import { Burst, Dither, Life, Sky, World, bayerMask } from "../lib/Pixels";
 import { type Move, Pointer, over, pressing } from "../lib/Pointer";
 import { Music, Sfx } from "../lib/Sound";
 import { DemoFrame, RIGHT, SPLIT_CLEAR, SplitText } from "../lib/Split";
+import { Snap } from "../lib/Snap";
 import { Stage } from "../lib/Stage";
 import { MOSAIC_FRAMES } from "../lib/Transitions";
 
@@ -24,7 +25,7 @@ const ART = STARFALL as Record<string, Art>;
 // (1.2 s); the whole screen takes the palette through the ordered dither (its night sky, page, ink and accent), and
 // Pip hops for joy and the button sparkles.
 const PALETTES = [
-  { id: "", name: "Candy", line: "12 palettes, or make your own. Candy is Blip's own: sky soda by night." },
+  { id: "", name: "Candy", line: "12 palettes, or make your own. Candy is Blip's own." },
   { id: "mint", name: "Mint", line: "Mint on a green ash night." },
   { id: "grape", name: "Grape", line: "The TV's own night: grape on indigo." },
   { id: "bubblegum", name: "Bubblegum", line: "Bubblegum on a pink dusk." },
@@ -35,12 +36,12 @@ const PARTS = PALETTES.map((pl, i) => ({ at: PICKS[i]! + 4, title: pl.name, line
 const MOVES: readonly Move[] = PICKS.slice(1).map((f, n) => ({ at: f - BEAT, to: `[data-v="sw-${n + 1}"]`, press: f }));
 const FRAME = at(0, 1);
 
-// The demo, in its own 256 x 222 world: the grass top is row 201; Pip (14 x 13) is shown twice as big.
+// The demo, in its own 300 x 176 world: the grass top is row 159; Pip (14 x 13) is shown twice as big.
 const FW = RIGHT.w, FH = RIGHT.h;
-const GROUND = 201;
-const PIP = { x: 58, w: 28, h: 26 };
+const GROUND = 159;
+const PIP = { x: 84, w: 28, h: 26 };
 const HOP = [0, 6, 10, 12, 10, 6, 0];
-const BUTTON = { x: 120, y: 150 };
+const BUTTON = { x: 168, y: 112 };
 
 /** One of Starfall's sprites, drawn a Blip pixel per sprite pixel (or `scale`). */
 const ArtSprite = ({ name, scale = 1, style }: { readonly name: string; readonly scale?: number; readonly style?: CSSProperties }) => {
@@ -100,11 +101,15 @@ const Screen = ({ i, frame, v }: { readonly i: number; readonly frame: number; r
         <World key={`w${palette.id}`} scheme="night" w={FW} h={FH} />
 
         {/* The docs home's swatches on a panel, over the hill. */}
-        <div className="blip-box blip-card" style={{ position: "absolute", left: "50%", translate: "-50% 0", top: p(28), display: "grid", gap: p(6) }}>
-          <span className="blip-label">Accent</span>
-          <div style={{ display: "flex", gap: p(5) }}>
-            {PALETTES.map((sw, n) => <Swatch key={sw.name} n={n} i={i} frame={frame} v={v} />)}
-          </div>
+        <div style={{ position: "absolute", insetInline: 0, top: p(14), display: "grid", justifyItems: "center" }}>
+          <Snap>
+            <div className="blip-box blip-card" style={{ display: "grid", gap: p(6) }}>
+              <span className="blip-label">Accent</span>
+              <div style={{ display: "flex", gap: p(5) }}>
+                {PALETTES.map((sw, n) => <Swatch key={sw.name} n={n} i={i} frame={frame} v={v} />)}
+              </div>
+            </div>
+          </Snap>
         </div>
 
         <Beat at={i > 0 ? PICKS[i]! : FRAME}>

@@ -9,7 +9,7 @@ import { TICK, at, p, ticks } from "../lib/grid";
 import { Icon } from "../lib/Icon";
 import { Burst, Life, Sky, Sprite, World, bayerMask } from "../lib/Pixels";
 import { Music, Sfx } from "../lib/Sound";
-import { DemoFrame, SPLIT_CLEAR, SplitText, type Part } from "../lib/Split";
+import { DemoFrame, RIGHT, SPLIT_CLEAR, SplitText, type Part } from "../lib/Split";
 import { Stage } from "../lib/Stage";
 import { DISSOLVE_FRAMES, Dissolve } from "../lib/Transitions";
 
@@ -40,13 +40,14 @@ const PIP = at(2, 3);
 const HOP = at(3);
 const JUMP = at(3, 1);
 
-// The demo is a 128 x 111 world seen twice as big, whole, like Starfall's camera; its grass top is row 101.
-const LW = 128, LH = 111, GROUND = 101;
-const BOX = { x: 62, w: 46, h: 24 };
+// The demo is a 150 x 88 world seen twice as big (Blip's pixel switch at 8 px, .v-x2), filling the 300 x 176
+// frame; its grass top is row 78.
+const LW = 150, LH = 88, GROUND = 78;
+const BOX = { x: 84, w: 46, h: 24 };
 const FALL = [-60, -34, -14, -4, 0];
 const HOP_ARC = [0, 4, 6, 4, 0];
 const JUMP_ARC = [0, 8, 15, 20, 23, 25, 25, 24];
-const PIP_X = [12, 34];
+const PIP_X = [24, 50];
 const PIP_H = 13;
 
 /** One of Starfall's sprites, a world pixel per sprite pixel. */
@@ -92,8 +93,8 @@ const Demo = ({ frame }: { readonly frame: number }) => {
   const me = pip(frame);
   return (
     <div style={{ position: "absolute", inset: 0, background: "var(--blip-ink)" }}>
-      {/* The 128 x 111 layer, seen twice as big. */}
-      <div style={{ position: "absolute", left: 0, top: 0, inlineSize: p(LW), blockSize: p(LH), zoom: 2 }}>
+      {/* The 150 x 88 layer, its pixel twice the stage's. */}
+      <div data-blip-pixel="" className="v-x2" style={{ position: "absolute", left: 0, top: 0, inlineSize: p(LW), blockSize: p(LH) }}>
         {level > 0 && (
           <div style={{ position: "absolute", inset: 0, mask: level < 16 ? bayerMask(level) : undefined }}>
             <World scheme="night" w={LW} h={LH} />
@@ -166,10 +167,10 @@ export const Modular = ({ music = true }: { readonly music?: boolean }) => {
       <DemoFrame at={FRAME}>
         <Demo frame={frame} />
       </DemoFrame>
-      {/* Bursts over the demo, in stage pixels: the frame's top left is (200, 24) and its world is twice as big. */}
-      <Burst at={COLOURS + 8 * TICK} kind="sparkle" box={[236, 50, 184, 110]} count={10} seed={5} scale={2} />
-      <Burst at={LANDED + 7 * TICK} kind="sparkle" box={[200 + 2 * (BOX.x + BOX.w - 14), 24 + 2 * (GROUND - BOX.h - 33), 24, 20]} count={6} seed={9} scale={2} />
-      <Burst at={LANDED} kind="confetti" box={[214, 28, 228, 8]} count={30} seed={12} scale={2} />
+      {/* Bursts over the demo, in stage pixels: the frame's top left is (RIGHT.x, RIGHT.y), its world twice as big. */}
+      <Burst at={COLOURS + 8 * TICK} kind="sparkle" box={[RIGHT.x + 30, RIGHT.y + 14, RIGHT.w - 60, 90]} count={10} seed={5} scale={2} />
+      <Burst at={LANDED + 7 * TICK} kind="sparkle" box={[RIGHT.x + 2 * (BOX.x + BOX.w - 14), RIGHT.y + 2 * (GROUND - BOX.h - 33), 24, 20]} count={6} seed={9} scale={2} />
+      <Burst at={LANDED} kind="confetti" box={[RIGHT.x + 12, RIGHT.y + 4, RIGHT.w - 24, 8]} count={30} seed={12} scale={2} />
 
       {PARTS.map((pt, i) => <Sfx key={pt.title} name={i ? `step@${[0, 3, 5, 7][i]}` : "step"} at={pt.at} volume={0.4} />)}
       <Sfx name="open" at={FRAME} volume={0.5} />

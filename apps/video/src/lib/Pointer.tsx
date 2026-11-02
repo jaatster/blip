@@ -57,8 +57,10 @@ export const Pointer = ({ moves, from = [W + 10, 200] }: { readonly moves: reado
   }
   const dip = i >= 0 && pressing(frame, moves[i]!.press) ? 1 : 0;
   return (
-    <div ref={ref} style={{ position: "absolute", left: p(x), top: p(y + dip), zIndex: 50, pointerEvents: "none" }}>
-      <Sprite name="pointer" />
+    // The kit's hand points right; a quarter turn stands it upright, finger up, every pixel still whole (the sprite is
+    // 12 x 8, turned about its middle). Its fingertip is then 4 pixels in and 2 above its box: placed on the spot.
+    <div ref={ref} style={{ position: "absolute", left: p(x - 4), top: p(y + 2 + dip), zIndex: 50, pointerEvents: "none" }}>
+      <Sprite name="pointer" style={{ rotate: "-90deg" }} />
     </div>
   );
 };

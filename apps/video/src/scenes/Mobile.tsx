@@ -18,9 +18,9 @@ export const MOBILE = { bar: 31, bars: 4 };
 // springs back. The action button raises a bottom sheet over the dithered scrim; Create, pressed with the field empty,
 // shakes the field and says why; then the sheet goes back down.
 const PARTS: readonly Part[] = [
-  { at: at(0, 1), title: "Pull to refresh", line: "Pull past the line: the arrow flips and steps into the loader." },
+  { at: at(0, 1), title: "Pull to refresh", line: "Pull past the line, let go, and the list refreshes." },
   { at: at(1, 1), title: "Swipe rows", line: "Drag a row aside to reveal its actions." },
-  { at: at(2, 0), title: "Bottom sheet", line: "The action button raises a sheet from the bottom." },
+  { at: at(2, 0), title: "Bottom sheet", line: "The action button raises a sheet." },
   { at: at(2, 3), title: "Fields", line: "A wrong answer shakes, and says why." },
 ];
 const PHONE = at(0, 0, 2);
@@ -46,14 +46,14 @@ const MOVES: readonly Move[] = [
   { at: at(2, 3, 2), to: ".m-create", press: SEND },
 ];
 
-const BEFORE = [["Pip", "98,120"], ["Juno", "87,400"], ["Moss", "80,015"], ["Kit", "72,960"]];
+const BEFORE = [["Pip", "98,120"], ["Juno", "87,400"], ["Moss", "80,015"]];
 const AFTER = [["Juno", "99,050"], ...BEFORE.filter(([n]) => n !== "Juno")];
 
 /** Six even steps, a Blip frame each, from 0 to 1 starting at `from`. */
 const six = (frame: number, from: number) => Math.min(6, Math.max(0, ticks(frame, from) + 1)) / 6;
 
-// The phone, as big as the right half allows, in its middle: few things, big enough to read.
-const PHONE_W = 150, PHONE_H = 212;
+// The phone, upright and as tall as the demo area allows, in its middle: three rows, big enough to read.
+const PHONE_W = 104, PHONE_H = 172;
 const PHONE_X = RIGHT.x + (RIGHT.w - PHONE_W) / 2, PHONE_Y = RIGHT.y + (RIGHT.h - PHONE_H) / 2;
 const DROP = [-40, -22, -8, 0, -3, 0];
 
@@ -102,7 +102,7 @@ export const Mobile = ({ music = true }: { readonly music?: boolean }) => {
   const rows = frame >= DONE ? AFTER : BEFORE;
   const swipe = swiped(frame);
   // The sheet: up a sixth of its height a Blip frame, held, down the same way; the scrim a quarter dither, then half.
-  const SHEET_H = 112;
+  const SHEET_H = 124;
   const up = frame < CLOSE ? six(frame, SHEET) : 1 - six(frame, CLOSE);
   const sheetOn = frame >= SHEET && up > 0;
   const kin = ticks(frame, SHEET), kout = ticks(frame, CLOSE);
@@ -184,12 +184,12 @@ export const Mobile = ({ music = true }: { readonly music?: boolean }) => {
 
             <nav className="blip-box blip-bottom-bar" aria-label="Main" style={{ position: "relative" }}>
               <ul className="blip-bottom-bar-list" role="list">
-                {[["Home", "home"], ["Scores", "trophy"], ["Friends", "users"]].map(([label, icon]) => (
+                {[["Home", "home"], ["Top", "trophy"], ["Pals", "users"]].map(([label, icon]) => (
                   <li key={label}>
-                    <span className="blip-box blip-bottom-bar-item" data-variant="ghost" aria-current={label === "Scores" ? "page" : undefined}>
+                    <span className="blip-box blip-bottom-bar-item" data-variant="ghost" aria-current={label === "Top" ? "page" : undefined}>
                       <Icon name={icon!} />
                       <span className="blip-bottom-bar-label">{label}</span>
-                      {label === "Friends" && <span className="blip-box blip-bottom-bar-badge" data-tone="danger">2</span>}
+                      {label === "Pals" && <span className="blip-box blip-bottom-bar-badge" data-tone="danger">2</span>}
                     </span>
                   </li>
                 ))}
@@ -229,7 +229,7 @@ export const Mobile = ({ music = true }: { readonly music?: boolean }) => {
                         <span className="blip-icon" data-glyph="close" aria-hidden="true" />
                       </span>
                     </header>
-                    <div className="blip-dialog-body" style={{ display: "grid", gap: p(6) }}>
+                    <div className="blip-dialog-body" style={{ display: "grid", gap: p(4) }}>
                       <Beat at={SEND} from={SHEET}>
                         <div className={`blip-field${sent ? " blip-shake" : ""}`}>
                           <label className="blip-field-label">Level name</label>
@@ -249,7 +249,7 @@ export const Mobile = ({ music = true }: { readonly music?: boolean }) => {
         </div>
       </Beat>
 
-      <Burst at={DONE} kind="sparkle" box={[PHONE_X + 14, PHONE_Y + 22, PHONE_W - 28, 26]} count={8} seed={12} />
+      <Burst at={DONE} kind="sparkle" box={[PHONE_X + 10, PHONE_Y + 20, PHONE_W - 20, 24]} count={8} seed={12} />
       {frame < CLOSE && <Pointer moves={MOVES} />}
 
       <Sfx name="bump" at={PHONE} volume={0.5} />

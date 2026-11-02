@@ -23,9 +23,9 @@ const start = (i: number) => (i ? i * SPAN : MOSAIC_FRAMES);
 const DROP = (i: number) => start(i) + TICK;
 const MOVES: readonly Move[] = [0, 1, 2].map((i) => ({ at: i * SPAN + at(0, 3), to: `[data-v="target-${i}"]`, press: i * SPAN + at(1, 1) }));
 const PARTS: readonly Part[] = [
-  { at: start(0), title: "A website", line: "Daybreak, the landing page template: a hero on the world." },
-  { at: start(1), title: "An app", line: "Questboard, the dashboard template: an app shell and live stats." },
-  { at: start(2), title: "A game", line: "Starfall, the game template: a title screen, menus and a HUD." },
+  { at: start(0), title: "A website", line: "Daybreak, the landing page template." },
+  { at: start(1), title: "An app", line: "Questboard, the dashboard template, live." },
+  { at: start(2), title: "A game", line: "Starfall, the game template's screens." },
 ];
 const FALL = [-40, -20, -8, 0, -3, 0];
 // Press start: the TV's picture breaks into the mosaic and comes back as the menu.
@@ -88,12 +88,12 @@ export const RealScreens = ({ music = true }: { readonly music?: boolean }) => {
       <Mosaic at={leaving} mode="out">
         {/* A website: the landing page in a plain Blip window, twice the size, its hero filling the window. */}
         <div>
-          <Device from={DROP(0)} shown={i === 0} w={248} h={206}>
+          <Device from={DROP(0)} shown={i === 0} w={300} h={176}>
             <section className="blip-box blip-window" style={{ inlineSize: "100%", blockSize: "100%", display: "grid", gridTemplateRows: "auto 1fr" }}>
               <header className="blip-window-bar">
                 <h2 className="blip-window-title blip-display blip-pop" data-pop="Daybreak">Daybreak</h2>
               </header>
-              <Crop x={262} y={125}>
+              <Crop x={210} y={150}>
                 <Site
                   page="templates/landing/index.html"
                   width={1016}
@@ -115,10 +115,10 @@ export const RealScreens = ({ music = true }: { readonly music?: boolean }) => {
 
         {/* An app: the dashboard on a tablet, a Liquorice candy box, twice the size: the period and the stats. */}
         <div>
-          <Device from={DROP(1)} shown={i === 1} w={252} h={182}>
+          <Device from={DROP(1)} shown={i === 1} w={280} h={176}>
             <div className="blip-box" data-tone="slate" style={{ ...box(5), inlineSize: "100%", blockSize: "100%", padding: p(8) }}>
               <div style={{ outline: "var(--blip-pixel) solid var(--blip-ink)", inlineSize: "100%", blockSize: "100%", display: "grid" }}>
-                <Crop x={80} y={124}>
+                <Crop x={76} y={180}>
                   <Site
                     page="templates/dashboard/index.html"
                     width={600}
@@ -156,19 +156,19 @@ export const RealScreens = ({ music = true }: { readonly music?: boolean }) => {
 
         {/* A game: the game template on a pixel TV, twice the size, under the CRT's scanlines; Press start opens the menu. */}
         <div>
-          <Device from={DROP(2)} shown={i === 2} w={220} h={204}>
+          <Device from={DROP(2)} shown={i === 2} w={236} h={176}>
             {/* The antenna: two rods stepping out a whole pixel at a time. */}
             {[-1, 1].map((d) => (
-              <div key={d} style={{ position: "absolute", left: p(110), top: 0 }}>
-                {Array.from({ length: 8 }, (_, k) => (
-                  <span key={k} style={{ position: "absolute", left: p(d * (4 + k * 3) - (d < 0 ? 2 : 0)), top: p(14 - k * 2), inlineSize: p(3), blockSize: p(2), background: "var(--blip-line)" }} />
+              <div key={d} style={{ position: "absolute", left: p(118), top: 0 }}>
+                {Array.from({ length: 7 }, (_, k) => (
+                  <span key={k} style={{ position: "absolute", left: p(d * (4 + k * 3) - (d < 0 ? 2 : 0)), top: p(12 - k * 2), inlineSize: p(3), blockSize: p(2), background: "var(--blip-line)" }} />
                 ))}
               </div>
             ))}
-            <div className="blip-box" data-tone="orange" style={{ ...box(5), position: "absolute", left: 0, top: p(16), inlineSize: p(220), blockSize: p(178), padding: p(10) }}>
+            <div className="blip-box" data-tone="orange" style={{ ...box(5), position: "absolute", left: 0, top: p(14), inlineSize: p(236), blockSize: p(154), padding: p(8) }}>
               <div className="blip-crt" data-flicker="" style={{ position: "relative", outline: "var(--blip-pixel) solid var(--blip-ink)", overflow: "hidden", inlineSize: "100%", blockSize: "100%", display: "grid", background: "var(--blip-ink)" }}>
                 <Mosaic at={game === "menu" ? MENU - MOSAIC_FRAMES / 2 : MOVES[2]!.press! + PRESS} mode={game === "menu" ? "in" : "out"}>
-                  <Crop x={302} y={110}>
+                  <Crop x={260} y={134}>
                     <Site
                       page="templates/game/index.html"
                       width={960}
@@ -190,13 +190,13 @@ export const RealScreens = ({ music = true }: { readonly music?: boolean }) => {
               </div>
             </div>
             {/* Its feet. */}
-            {[36, 176].map((x) => <span key={x} style={{ position: "absolute", left: p(x), top: p(195), inlineSize: p(8), blockSize: p(6), background: "var(--blip-line)" }} />)}
+            {[36, 192].map((x) => <span key={x} style={{ position: "absolute", left: p(x), top: p(168), inlineSize: p(8), blockSize: p(6), background: "var(--blip-line)" }} />)}
           </Device>
         </div>
       </Mosaic>
 
       <Pointer moves={MOVES} />
-      <Burst at={MOVES[0]!.press! + TICK} kind="sparkle" box={[236, 172, 96, 30]} count={10} seed={12} />
+      <Burst at={MOVES[0]!.press! + TICK} kind="sparkle" box={[146, 172, 92, 28]} count={10} seed={12} />
 
       {[0, 1, 2].map((n) => <Sfx key={`d${n}`} name="open" at={DROP(n)} volume={0.55} />)}
       {[0, 1, 2].map((n) => <Sfx key={`l${n}`} name="step" at={DROP(n) + 3 * TICK} volume={0.45} />)}

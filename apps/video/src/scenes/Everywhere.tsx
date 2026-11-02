@@ -57,7 +57,7 @@ const Html = ({ frame }: { readonly frame: number }) => {
   return (
     <Centre>
       <Beat at={STARTS[0]! + 8}>
-        <div className="blip-pop-in" style={{ zoom: 2 }}>
+        <div className="v-x2 blip-pop-in">
           <span className="blip-box blip-button" data-size="lg" data-blip-state={down ? "active" : undefined} data-v="html">
             <Icon name="play" />Press start
           </span>
@@ -80,7 +80,7 @@ const Tabs = ({ frame }: { readonly frame: number }) => {
     <Centre>
       <div className="v-x2" style={{ inlineSize: p(98), display: "grid", gap: p(4) }}>
         <div className="blip-tabs" style={{ inlineSize: p(98) }}>
-          <div className="blip-tabs-list" role="tablist">
+          <div className="blip-tabs-list" role="tablist" style={{ justifyContent: "center" }}>
             {BAG.map(([name], n) => (
               <button key={name} className="blip-box blip-tab" role="tab" type="button" aria-selected={n === sel} data-blip-state={MOVES.some((m) => m.to === `[data-v="tab-${n}"]` && pressing(frame, m.press)) ? "active" : undefined} data-v={`tab-${n}`}>
                 {name}
@@ -88,7 +88,7 @@ const Tabs = ({ frame }: { readonly frame: number }) => {
             ))}
           </div>
           <div className="blip-tabs-panel" role="tabpanel">
-            <div style={{ display: "flex", justifyContent: "space-around", paddingBlock: p(6) }}>
+            <div style={{ display: "flex", justifyContent: "center", gap: p(14), paddingBlock: p(6) }}>
               {BAG[sel]![1].map((s, n) => (
                 <Beat key={`${sel}${s}`} at={changed + n * TICK}>
                   <div style={{ translate: `0 ${p(DROP[Math.max(0, Math.min(ticks(frame, changed + n * 2 * TICK), DROP.length - 1))]!)}`, visibility: frame >= changed + n * 2 * TICK ? "visible" : "hidden" }}>
@@ -135,23 +135,26 @@ const Phone = ({ n, name, frame }: { readonly n: number; readonly name: string; 
   const down = pressing(frame, press(`phone-${n}`));
   const accent = { "--blip-tone": "#00C2FA", "--blip-tone-light": "#91DDFF", "--blip-tone-shade": "#0096C3", "--blip-tone-on": "var(--blip-ink)" } as CSSProperties;
   return (
-    <div style={{ display: "grid", justifyItems: "center", gap: p(6), translate: `0 ${fall(frame, land)}`, visibility: frame >= land - 3 * TICK ? "visible" : "hidden" }}>
-      <div className="blip-box" data-tone="slate" style={{ "--blip-r": 5, "--blip-shape": "var(--blip-shape-5)", "--blip-shape-inner": "var(--blip-shape-5-inner)", inlineSize: p(76), blockSize: p(138), padding: p(5), display: "grid" } as CSSProperties}>
-        <div style={{ background: "var(--blip-bg)", display: "grid", gridTemplateRows: `${p(16)} 1fr`, overflow: "hidden" }}>
-          <div style={{ background: "#00C2FA", color: "var(--blip-ink)", display: "grid", placeItems: "center", fontWeight: 700, fontSize: p(7) }}>Blip</div>
+    <div style={{ translate: `0 ${fall(frame, land)}`, visibility: frame >= land - 3 * TICK ? "visible" : "hidden" }}>
+    {/* At the stage's own pixel, in Blip's own type sizes: a pixel font only draws cleanly at the sizes of its scale. */}
+    <div style={{ display: "grid", justifyItems: "center", gap: p(6) }}>
+      <div className="blip-box" data-tone="slate" style={{ "--blip-r": 3, "--blip-shape": "var(--blip-shape-3)", "--blip-shape-inner": "var(--blip-shape-3-inner)", inlineSize: p(68), blockSize: p(112), padding: p(4), display: "grid" } as CSSProperties}>
+        <div style={{ background: "var(--blip-bg)", display: "grid", gridTemplateRows: `${p(14)} 1fr`, overflow: "hidden" }}>
+          <div style={{ background: "#00C2FA", color: "var(--blip-ink)", display: "grid", placeItems: "center" }} />
           <div style={{ display: "grid", placeItems: "center", alignContent: "center", gap: p(8) }}>
-            <span className="blip-box blip-button" style={accent} data-blip-state={down ? "active" : undefined} data-v={`phone-${n}`}>Play</span>
+            <span className="blip-box blip-button" data-icon-only aria-label="Play" style={accent} data-blip-state={down ? "active" : undefined} data-v={`phone-${n}`}><Icon name="play" /></span>
           </div>
         </div>
       </div>
-      <span className="blip-outline" style={{ fontWeight: 700, fontSize: p(9) }}>{name}</span>
+      <span className="blip-display blip-pop" data-scale="1" data-pop={name}>{name}</span>
+    </div>
     </div>
   );
 };
 
 const Phones = ({ frame }: { readonly frame: number }) => (
   <Centre>
-    <div style={{ display: "flex", gap: p(28) }}>
+    <div style={{ display: "flex", gap: p(40) }}>
       <Phone n={0} name="Android" frame={frame} />
       <Phone n={1} name="iOS" frame={frame} />
     </div>
@@ -162,30 +165,34 @@ const Phones = ({ frame }: { readonly frame: number }) => (
 const Canvas = ({ frame }: { readonly frame: number }) => {
   const hit = press("figma");
   const k = ticks(frame, hit);
-  // The selection snaps in from 6 pixels out to 1, in whole steps.
-  const out = k < 0 ? -1 : [6, 4, 2, 1][Math.min(k, 3)]!;
+  // The selection snaps in from 6 stage pixels out to 2, in whole steps (counted in the button's doubled pixels).
+  const out = k < 0 ? -1 : [3, 2, 1, 1][Math.min(k, 3)]!;
   const grid = "repeating-linear-gradient(90deg, var(--blip-line-soft) 0 var(--blip-pixel), transparent var(--blip-pixel) calc(8 * var(--blip-pixel))), repeating-linear-gradient(0deg, var(--blip-line-soft) 0 var(--blip-pixel), transparent var(--blip-pixel) calc(8 * var(--blip-pixel)))";
-  const handle = { position: "absolute", inlineSize: p(4), blockSize: p(4), background: "var(--blip-focus)", outline: "var(--blip-pixel) solid var(--blip-focus-edge)" } as CSSProperties;
+  const handle = { position: "absolute", inlineSize: p(2), blockSize: p(2), background: "var(--blip-focus)", outline: "var(--blip-pixel) solid var(--blip-focus-edge)" } as CSSProperties;
   return (
     <div style={{ position: "absolute", inset: 0, background: "var(--blip-surface-sunken)" }}>
       <div style={{ position: "absolute", inset: 0, backgroundImage: grid, opacity: 1 }} />
-      <div style={{ position: "absolute", left: p(48), top: p(58), inlineSize: p(160), blockSize: p(92), background: "var(--blip-bg)", outline: "var(--blip-pixel) solid var(--blip-line)", display: "grid", placeItems: "center" }}>
-        <div style={{ position: "relative", zoom: 2 }}>
+      <div style={{ position: "absolute", left: p(60), top: p(18), inlineSize: p(180), blockSize: p(92), background: "var(--blip-bg)", outline: "var(--blip-pixel) solid var(--blip-line)", display: "grid", placeItems: "center" }}>
+        <div className="v-x2" style={{ position: "relative" }}>
           <span className="blip-box blip-button" data-blip-state={pressing(frame, hit) ? "active" : undefined} data-v="figma">Press start</span>
           {out >= 0 && (
             <div style={{ position: "absolute", inset: p(-out), outline: "var(--blip-pixel) solid var(--blip-focus)", pointerEvents: "none" }}>
-              <span style={{ ...handle, left: p(-2), top: p(-2) }} />
-              <span style={{ ...handle, right: p(-2), top: p(-2) }} />
-              <span style={{ ...handle, left: p(-2), bottom: p(-2) }} />
-              <span style={{ ...handle, right: p(-2), bottom: p(-2) }} />
+              <span style={{ ...handle, left: p(-1), top: p(-1) }} />
+              <span style={{ ...handle, right: p(-1), top: p(-1) }} />
+              <span style={{ ...handle, left: p(-1), bottom: p(-1) }} />
+              <span style={{ ...handle, right: p(-1), bottom: p(-1) }} />
             </div>
           )}
         </div>
       </div>
       <Beat at={hit + 4 * TICK}>
-        <div className="blip-box blip-card blip-pop-in" style={{ position: "absolute", left: p(48), top: p(162), display: "flex", alignItems: "center", gap: p(6), visibility: frame >= hit + 4 * TICK ? "visible" : "hidden" }}>
-          <span style={{ inlineSize: p(12), blockSize: p(12), background: "#00C2FA", outline: "var(--blip-pixel) solid var(--blip-ink)" }} />
-          <span style={{ fontSize: p(7), fontWeight: 700 }}>palette/night/accent/base</span>
+        <div style={{ position: "absolute", insetInline: 0, top: p(124), display: "grid", justifyItems: "center", visibility: frame >= hit + 4 * TICK ? "visible" : "hidden" }}>
+          <Snap>
+            <div className="blip-box blip-pop-in" data-variant="panel" style={{ display: "flex", alignItems: "center", gap: p(6), padding: `${p(5)} ${p(8)}` }}>
+              <span style={{ inlineSize: p(12), blockSize: p(12), background: "#00C2FA", outline: "var(--blip-pixel) solid var(--blip-ink)" }} />
+              <span style={{ fontSize: p(9), fontWeight: 700 }}>palette/night/accent/base</span>
+            </div>
+          </Snap>
         </div>
       </Beat>
     </div>
@@ -216,8 +223,8 @@ export const Everywhere = ({ music = true }: { readonly music?: boolean }) => {
         </Mosaic>
       </DemoFrame>
       <Pointer moves={MOVES} />
-      <Burst at={press("html") + 3 * TICK} kind="sparkle" box={[RIGHT.x + 70, RIGHT.y + 92, 116, 40]} count={10} seed={5} />
-      <Burst at={press("delete") + 11 * TICK} kind="sparkle" box={[RIGHT.x + 38, RIGHT.y + 96, 180, 24]} count={6} seed={6} />
+      <Burst at={press("html") + 3 * TICK} kind="sparkle" box={[RIGHT.x + 40, RIGHT.y + 64, 220, 48]} count={10} seed={5} />
+      <Burst at={press("delete") + 11 * TICK} kind="sparkle" box={[RIGHT.x + 50, RIGHT.y + 40, 200, 40]} count={6} seed={6} />
 
       {PARTS.map((pt, n) => <Sfx key={pt.at} name={n ? `blip@${[0, 3, 5, 7, 5][n]}` : "blip"} at={pt.at} volume={0.5} />)}
       {MOVES.map((m) => <Sfx key={m.at} name="look" at={m.at} volume={0.25} />)}

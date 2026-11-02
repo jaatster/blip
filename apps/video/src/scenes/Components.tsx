@@ -12,6 +12,7 @@ import { Burst, Dither, Life, Sky, Sprite, bayerMask, useCanvas } from "../lib/P
 import { type Move, PRESS, Pointer, over, pressing } from "../lib/Pointer";
 import { Music, Sfx } from "../lib/Sound";
 import { DemoFrame, type Part, RIGHT, SPLIT_CLEAR, SplitText } from "../lib/Split";
+import { Snap } from "../lib/Snap";
 import { Stage } from "../lib/Stage";
 import { Dissolve, MOSAIC_FRAMES, Mosaic } from "../lib/Transitions";
 
@@ -58,13 +59,13 @@ const STARS_ON = SWITCH.press! + PRESS;
 const JUMP_AT = JUMP.press! + PRESS;
 const WALL_AT = END + MOSAIC_FRAMES + STEP;
 
-// The jumping level, in frame pixels: Pip and the block drawn three times as big, whole, side by side with the Jump
-// button, so the press and what it does read as one picture.
-const GROUND = 201;
+// The jumping level, in frame pixels (the frame's world is 176 rows, its grass top row 159): Pip and the block drawn
+// three times as big, whole, side by side with the Jump button, so the press and what it does read as one picture.
+const GROUND = 159;
 const PIP = { x: 64, w: 42, h: 39 };
-const ARC = [0, 18, 32, 42, 50, 54, 50, 42, 32, 18, 0];
+const ARC = [0, 12, 22, 28, 33, 36, 33, 28, 22, 12, 0];
 const HIT = 5;
-const BLOCK = { x: 67, y: GROUND - PIP.h - 54 - 36 };
+const BLOCK = { x: 67, y: GROUND - PIP.h - 36 - 36 };
 const BUMP = [6, 6, 3, 3, 0];
 const RISE = [7, 13, 19, 23, 25, 26, 25, 24];
 
@@ -101,7 +102,9 @@ const TimeOfDay = ({ frame, scheme, v }: { readonly frame: number; readonly sche
   return (
     <AbsoluteFill data-blip-scheme={scheme}>
       <FrameWorld scheme={scheme} />
-      <div className="blip-box blip-card" data-size="sm" style={{ position: "absolute", left: "50%", translate: "-50% 0", top: p(20), display: "grid", gap: p(4), justifyItems: "start" }}>
+      <div style={{ position: "absolute", insetInline: 0, top: p(14), display: "grid", justifyItems: "center" }}>
+      <Snap>
+      <div className="blip-box blip-card v-x2" data-blip-pixel="" data-size="sm" style={{ display: "grid", gap: p(4), justifyItems: "start" }}>
         <span className="blip-label">Time of day</span>
         <div className="blip-box blip-segmented" data-size="sm">
           {["Day", "Sunset", "Night"].map((label, i) => {
@@ -113,6 +116,8 @@ const TimeOfDay = ({ frame, scheme, v }: { readonly frame: number; readonly sche
             );
           })}
         </div>
+      </div>
+      </Snap>
       </div>
     </AbsoluteFill>
   );
@@ -137,7 +142,7 @@ const SegmentedDemo = ({ frame }: { readonly frame: number }) => {
 // ------------------------------------------------------------------ 2. Switch: the stars come out
 
 // Where the stars come out, in frame pixels, one a Blip frame and a half after another.
-const STARS: readonly (readonly [number, number])[] = [[34, 30], [210, 22], [120, 48], [70, 74], [176, 64], [228, 92], [24, 104], [146, 18], [96, 26], [196, 118]];
+const STARS: readonly (readonly [number, number])[] = [[30, 20], [250, 16], [140, 34], [80, 58], [200, 46], [272, 70], [22, 80], [170, 12], [110, 18], [232, 32]];
 
 const SwitchDemo = ({ frame }: { readonly frame: number }) => {
   const on = frame >= STARS_ON;
@@ -156,8 +161,9 @@ const SwitchDemo = ({ frame }: { readonly frame: number }) => {
         return h < 0 || (k >= 26 && j < (k - 26) * 2) ? null : <div key={j} style={{ position: "absolute", left: p(Math.round(40 + 3 * h * 2)), top: p(Math.round(14 + h * 2)), inlineSize: p(1), blockSize: p(1), background: "var(--blip-white)" }} />;
       })}
       {/* The card at a whole two times, centred: the switch is the thing to see. */}
-      <div style={{ position: "absolute", insetInline: 0, top: p(138), display: "grid", justifyItems: "center" }}>
-      <div className="blip-box blip-card" data-size="sm" style={{ inlineSize: p(92), zoom: 2 }}>
+      <div style={{ position: "absolute", insetInline: 0, top: p(92), display: "grid", justifyItems: "center" }}>
+      <Snap>
+      <div className="blip-box blip-card v-x2" data-blip-pixel="" data-size="sm" style={{ inlineSize: p(92) }}>
         <label className="blip-check" data-layout="split" style={{ position: "relative" }}>
           Stars
           <span className="blip-box blip-switch" data-blip-state={forced(frame, SWITCH)} data-v="switch">
@@ -173,6 +179,7 @@ const SwitchDemo = ({ frame }: { readonly frame: number }) => {
           )}
         </label>
       </div>
+      </Snap>
       </div>
     </AbsoluteFill>
   );
@@ -192,10 +199,10 @@ const ButtonDemo = ({ frame }: { readonly frame: number }) => {
       <FrameWorld scheme="night" />
       <ArtSprite name={b >= 0 ? "block-spent" : "block"} scale={3} style={{ position: "absolute", left: p(BLOCK.x), top: p(BLOCK.y - bump) }} />
       {b >= 0 && b < RISE.length && (
-        <Sprite name="coin" scale={2} style={{ position: "absolute", left: p(BLOCK.x + 8), top: p(BLOCK.y - 22 - Math.round(RISE[b]! * 1.5)) }} />
+        <Sprite name="coin" scale={2} style={{ position: "absolute", left: p(BLOCK.x + 8), top: p(BLOCK.y - 22 - Math.round(RISE[b]! * 0.8)) }} />
       )}
       {b >= RISE.length && b < RISE.length + 6 && (
-        <Sprite name={b - RISE.length >= 2 && b - RISE.length < 4 ? "sparkle" : "sparkle-small"} scale={2} style={{ position: "absolute", left: p(BLOCK.x + 6), top: p(BLOCK.y - 62) }} />
+        <Sprite name={b - RISE.length >= 2 && b - RISE.length < 4 ? "sparkle" : "sparkle-small"} scale={2} style={{ position: "absolute", left: p(BLOCK.x + 6), top: p(BLOCK.y - 46) }} />
       )}
       {b >= 1 && b < 18 && (
         <span className="blip-display blip-pop" data-scale="2" data-pop="+100" style={{ position: "absolute", left: p(BLOCK.x + 46), top: p(BLOCK.y - 4 - Math.min(b - 1, 3) * 2), visibility: b < 15 || b % 2 ? "visible" : "hidden" }}>
@@ -204,8 +211,8 @@ const ButtonDemo = ({ frame }: { readonly frame: number }) => {
       )}
       <ArtSprite name={pipArt} scale={3} style={{ position: "absolute", left: p(PIP.x), top: p(GROUND - PIP.h - y) }} />
       {/* The button beside Pip, at a whole two times, on a card standing on the grass. */}
-      <div style={{ position: "absolute", left: p(118), top: p(GROUND - 60) }}>
-        <div className="blip-box blip-card" data-size="sm" style={{ zoom: 2 }}>
+      <div style={{ position: "absolute", left: p(134), top: p(GROUND - 62) }}>
+        <div className="blip-box blip-card v-x2" data-blip-pixel="" data-size="sm">
           <span className="blip-box blip-button" data-blip-state={forced(frame, JUMP)} data-v="jump"><Icon name="arrow-up" />Jump</span>
         </div>
       </div>
@@ -215,7 +222,8 @@ const ButtonDemo = ({ frame }: { readonly frame: number }) => {
 
 // ------------------------------------------------------------------ 4. 88: a shower of real components
 
-// Six, each at a whole two times so it reads: a few, big, rather than many, small.
+// Six, each at a whole two times so it reads: a few, big, rather than many, small. (v-x2 doubles the pixel; the empty
+// data-blip-pixel makes the tokens counted in pixels, control heights and spaces, count it too.)
 const WALL: readonly ReactNode[] = [
   <span className="blip-box blip-button" data-size="sm"><Icon name="play" />Play</span>,
   <span className="blip-box blip-tag" data-tone="success">New</span>,
@@ -225,26 +233,27 @@ const WALL: readonly ReactNode[] = [
   <span className="blip-box blip-button" data-size="sm" data-variant="soft" data-icon-only aria-label="Alerts"><Icon name="bell" /><span className="blip-box blip-badge" data-tone="danger" data-position="top-end">3</span></span>,
 ];
 /** When wall piece `i` lands: the bottom row first, so they pile up, an eighth apart. */
-const wallLand = (i: number) => WALL_AT + ((2 - Math.floor(i / 2)) * 2 + (i % 2)) * 2 * STEP;
+const wallLand = (i: number) => WALL_AT + ((1 - Math.floor(i / 3)) * 3 + (i % 3)) * 2 * STEP;
+const LAST = 2;
 // Each falls from above the frame in whole-pixel steps, landing with a little bounce.
 const RAIN = [-120, -86, -56, -32, -14, -4, 0, -3, 0];
 
 const WallDemo = ({ frame }: { readonly frame: number }) => (
   <AbsoluteFill style={{ background: "var(--blip-surface-panel)" }}>
-    <div style={{ position: "absolute", inset: p(12), display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gridAutoRows: "1fr", placeItems: "center" }}>
+    <div style={{ position: "absolute", inset: p(12), display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gridAutoRows: "1fr", placeItems: "center" }}>
       {WALL.map((w, i) => {
         const land = wallLand(i);
         const k = ticks(frame, land - (RAIN.length - 3) * TICK);
         return (
           <Beat key={i} at={land} from={land - (RAIN.length - 3) * TICK}>
             <div style={{ translate: `0 ${p(RAIN[Math.min(Math.max(k, 0), RAIN.length - 1)]!)}` }}>
-              <div style={{ zoom: 2 }}>{w}</div>
+              <Snap><div className="v-x2" data-blip-pixel="">{w}</div></Snap>
             </div>
           </Beat>
         );
       })}
     </div>
-    <Burst at={wallLand(1) + TICK} kind="confetti" box={[20, 0, W - 40, 10]} count={30} seed={8} />
+    <Burst at={wallLand(LAST) + TICK} kind="confetti" box={[20, 0, W - 40, 10]} count={30} seed={8} />
   </AbsoluteFill>
 );
 
@@ -291,7 +300,7 @@ export const Components = ({ music = true }: { readonly music?: boolean }) => {
       <Sfx name="bump" at={JUMP_AT + HIT * TICK} volume={0.6} />
       <Sfx name="coin" at={JUMP_AT + HIT * TICK + TICK} volume={0.55} />
       {WALL.map((_, n) => <Sfx key={`w${n}`} name={`step@${[3, 5, 7, 8, 10, 12][n]}`} at={WALL_AT + n * 2 * STEP} volume={0.3} />)}
-      <Sfx name="success@5" at={wallLand(1)} volume={0.55} />
+      <Sfx name="success@5" at={wallLand(LAST)} volume={0.55} />
 
       <Dissolve at={0} mode="in" seed={4} />
       <Dither at={at(8) - 8 * TICK} mode="out" />
