@@ -3,7 +3,7 @@ import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { Beat } from "../lib/Beat";
 import { STEP, TICK, at, p, ticks } from "../lib/grid";
 import { Icon } from "../lib/Icon";
-import { Dither, World } from "../lib/Pixels";
+import { Dither } from "../lib/Pixels";
 import { Music, Sfx } from "../lib/Sound";
 import { Stage } from "../lib/Stage";
 import { DropTitle, Typed } from "../lib/Text";
@@ -13,31 +13,31 @@ export const COMPONENTS = { bar: 9, bars: 8 };
 
 type Scheme = "day" | "sunset" | "night";
 
-// One thing at a time. The docs home's Options window, alone in the middle, worked from the keyboard: the focus ring
-// steps down a row and that row does its one thing. Time of day really changes the world, a beat each through bar 1.
-// Press start swaps the window for the home's launcher, whose tiles drop in on bar 3; the focus walks them on bar 4
-// and Enter opens Components. The screen dissolves to the end card: the world, 88, and its line, nothing else.
+// One thing at a time, on the plain page, at Night. The docs home's Options window, alone in the middle, worked from
+// the keyboard: the focus ring steps down a row and that row does its one thing, with a beat to settle. Time of day
+// flashes Day and Sunset for an eighth each and comes back to Night. Press start swaps the window for the home's
+// launcher; the focus walks to Components a beat a tile and Enter opens it. The screen dissolves to the end card: 88
+// and its line, nothing else.
 const WINDOW = at(0, 1);
-const ROWS = [at(0, 3), at(2, 0), at(2, 2), at(2, 3)];
+const ROWS = [at(0, 3), at(1, 3), at(2, 2), at(3, 0)];
 const TIMES: readonly (readonly [frame: number, value: number, scheme: Scheme])[] = [
-  [0, 0, "day"],
+  [0, 3, "night"],
   [at(1, 0), 1, "day"],
-  [at(1, 1), 2, "sunset"],
-  [at(1, 2), 3, "night"],
-  [at(1, 3), 0, "day"],
+  [at(1, 0, 2), 2, "sunset"],
+  [at(1, 1), 3, "night"],
 ];
-const VOLUME = [at(2, 0, 2), at(2, 1), at(2, 1, 2)];
-const SOUNDS_ON = at(2, 2, 2);
-const START = at(3, 0);
-const SWAP = at(3, 0, 2);
-const LANDS = [0, 1, 2, 3, 4, 5].map((i) => at(3, 1, 2 * i));
+const VOLUME = [at(2, 0), at(2, 1)];
+const SOUNDS_ON = at(2, 3);
+const START = at(3, 1);
+const SWAP = at(3, 2);
+const LANDS = [0, 1, 2, 3, 4, 5].map((i) => at(3, 2, 2 * i));
 const PICKS: readonly (readonly [frame: number, tile: number])[] = [
-  [at(4, 0), 0],
-  [at(4, 1), 1],
-  [at(4, 2), 2],
+  [at(4, 2), 0],
+  [at(4, 3), 1],
+  [at(5, 0), 2],
 ];
-const OPEN = at(4, 3);
-const END = at(5, 2);
+const OPEN = at(5, 2);
+const END = at(6);
 const STRAP = END + 2 * STEP + 2 * STEP;
 const OUT = at(8) - 8 * TICK;
 
@@ -67,7 +67,6 @@ const Screen = ({ frame, scheme }: { readonly frame: number; readonly scheme: Sc
 
   return (
     <AbsoluteFill data-blip-scheme={scheme} style={{ background: "var(--blip-bg)" }}>
-      <World scheme={scheme} />
 
       <Beat at={WINDOW} until={SWAP}>
         <section className="blip-box blip-window blip-pop-in" style={{ position: "absolute", left: p(133), top: p(50), inlineSize: p(214) }}>
@@ -120,7 +119,7 @@ const Screen = ({ frame, scheme }: { readonly frame: number; readonly scheme: Sc
                     <Icon name={t.icon} />
                     <span className="blip-tile-glint" />
                   </span>
-                  <span className="blip-tile-label blip-outline" style={{ color: "var(--blip-white)", visibility: "hidden" }}>{t.name}</span>
+                  <span className="blip-tile-label" style={{ visibility: "hidden" }}>{t.name}</span>
                 </li>
               );
             })}
@@ -149,7 +148,7 @@ export const Components = ({ music = true }: { readonly music?: boolean }) => {
   const fading = before[2] !== now[2] && k < 3;
 
   return (
-    <Stage scheme="day">
+    <Stage scheme="night">
       {frame < END ? (
         <>
           <Screen frame={frame} scheme={now[2]} />
@@ -161,11 +160,10 @@ export const Components = ({ music = true }: { readonly music?: boolean }) => {
         </>
       ) : (
         <>
-          <World scheme="day" />
-          <div className="v-center" style={{ gap: p(8), paddingBlockEnd: p(36) }}>
+          <div className="v-center" style={{ gap: p(8), background: "var(--blip-bg)" }}>
             <DropTitle text="88" lands={[END + 2 * TICK, END + STEP + 2 * TICK]} scale={8} outline={2} />
             <span className="blip-display blip-pop" data-scale="3" data-pop="Components">Components</span>
-            <Typed text="Native HTML first. Most are CSS alone." at={STRAP} every={1} className="blip-outline" style={{ fontSize: p(16), fontWeight: 700, marginBlockStart: p(4) }} />
+            <Typed text="Native HTML first. Most are CSS alone." at={STRAP} every={1} style={{ fontSize: p(16), fontWeight: 700, marginBlockStart: p(4) }} />
           </div>
         </>
       )}
@@ -173,7 +171,7 @@ export const Components = ({ music = true }: { readonly music?: boolean }) => {
       <Sfx name="open" at={WINDOW} volume={0.6} />
       {ROWS.slice(1).map((r) => <Sfx key={r} name="step" at={r} volume={0.5} />)}
       {TIMES.slice(1).map(([f], n) => <Sfx key={f} name={n ? `blip@${[0, 3, 5, 7][n]}` : "blip"} at={f} volume={0.65} />)}
-      {VOLUME.map((f, n) => <Sfx key={f} name={`step@${[3, 5, 7][n]}`} at={f} volume={0.6} />)}
+      {VOLUME.map((f, n) => <Sfx key={f} name={`step@${[3, 5][n]}`} at={f} volume={0.6} />)}
       <Sfx name="blip@7" at={SOUNDS_ON} volume={0.65} />
       <Sfx name="select" at={START} volume={0.7} />
       {LANDS.map((f, n) => <Sfx key={f} name={n ? `step@${[0, 2, 3, 5, 7, 8][n]}` : "step"} at={f} volume={0.55} />)}

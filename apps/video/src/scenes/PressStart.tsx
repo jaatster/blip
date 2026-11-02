@@ -3,7 +3,7 @@ import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { Beat } from "../lib/Beat";
 import { STEP, TICK, at, p, ticks } from "../lib/grid";
 import { Icon } from "../lib/Icon";
-import { Burst, Dither, World } from "../lib/Pixels";
+import { Burst, Dither } from "../lib/Pixels";
 import { Music, Sfx } from "../lib/Sound";
 import { Stage } from "../lib/Stage";
 import { DropTitle, Typed } from "../lib/Text";
@@ -43,15 +43,14 @@ export const PressStart = ({ music = true }: { readonly music?: boolean }) => {
   return (
     <Stage scheme="night" style={{ background: "var(--blip-ink)" }}>
       <AbsoluteFill style={on.style}>
-        <div className={frame < DROP ? "blip-crt" : undefined} data-flicker="" style={{ position: "absolute", inset: 0 }}>
-          <World scheme="night" />
+        <div className={frame < DROP ? "blip-crt" : undefined} data-flicker="" style={{ position: "absolute", inset: 0, background: "var(--blip-bg)" }}>
 
           <Beat at={BLINK} from={0} until={at(2, 0, 2)}>
             <div className="v-center" style={{ gap: p(12), paddingBlockStart: p(24) }}>
               <p className="blip-prompt-start blip-display blip-pop" data-scale="3" data-pop="Press start" style={frame < BLINK || frame >= PRESS ? { animation: "none" } : undefined}>
                 Press start
               </p>
-              <p className="blip-prompt blip-outline" style={{ fontSize: "var(--blip-size-lead)" }}>
+              <p className="blip-prompt" style={{ fontSize: "var(--blip-size-lead)" }}>
                 or press{" "}
                 <kbd className="blip-box blip-prompt-key" data-blip-state={pressed ? "active" : undefined}>
                   Enter
@@ -63,12 +62,10 @@ export const PressStart = ({ music = true }: { readonly music?: boolean }) => {
           <Beat at={DROP} from={PRESS}>
             <div className={frame >= DROP ? "v-center blip-shake" : "v-center"} style={{ gap: p(10), paddingBlockStart: p(6) }}>
               <DropTitle text="Blip" lands={LANDS} scale={8} outline={2} />
-              <Typed
-                text="16-bit pixel modular design system"
-                at={DROP + 2 * TICK}
-                className="blip-outline"
-                style={{ fontSize: p(13), fontWeight: 700 }}
-              />
+              {/* The line's room is kept from the start, so BLIP never moves when it types in. */}
+              <div style={{ blockSize: p(20) }}>
+                <Typed text="16-bit pixel modular design system" at={DROP + 2 * TICK} style={{ fontSize: p(13), fontWeight: 700 }} />
+              </div>
               <div style={{ blockSize: p(32), marginBlockStart: p(2) }}>
                 <Beat at={TAG}>
                   <div className="blip-box blip-card blip-pop-in" data-size="sm">
