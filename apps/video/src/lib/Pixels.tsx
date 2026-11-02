@@ -115,3 +115,52 @@ export const Burst = ({ at, kind, box, count = kind === "confetti" ? 24 : 6, see
 /** How many letters are typed `frame` frames in, at one a Blip frame (or `every` frames). */
 export const typedCount = (frame: number, at: number, length: number, every = TICK) =>
   Math.max(0, Math.min(length, Math.floor((frame - at) / every) + 1));
+
+type Box = readonly [x0: number, y0: number, x1: number, y1: number];
+const inside = (boxes: readonly Box[], x: number, y: number, pad: number) =>
+  boxes.some(([x0, y0, x1, y1]) => x >= x0 - pad && x < x1 + pad && y >= y0 - pad && y < y1 + pad);
+
+/** The world's sky alone: its dithered gradient, and at Night the moon and stars, kept clear of `avoid`. */
+export const Sky = ({ scheme, avoid = [] }: { readonly scheme: "day" | "sunset" | "night"; readonly avoid?: readonly Box[] }) => {
+  const ref = useCanvas((ctx, el) => drawWorld(ctx, scheme, W, H, { from: el, layer: "sky", avoid }), scheme);
+  return <canvas ref={ref} className="v-pixels" width={W} height={H} />;
+};
+
+/**
+ * The night sky's own life, worked out from the frame: stars that flare one at a time (small, full, small, gone, the
+ * game kit's sparkles) each on its own few beats, and a shooting star at each of `shooting`, all clear of `avoid`.
+ */
+export const Life = ({ avoid = [], shooting = [], count = 12, seed = 5 }: { readonly avoid?: readonly Box[]; readonly shooting?: readonly number[]; readonly count?: number; readonly seed?: number }) => {
+  const frame = useCurrentFrame();
+  const t = ticks(frame, 0);
+  const ref = useCanvas((ctx, el) => {
+    const rnd = seeded(seed);
+    for (let i = 0; i < count; i++) {
+      let x = 0, y = 0;
+      for (let tries = 0; tries < 40; tries++) {
+        x = 12 + Math.floor(rnd() * (W - 24));
+        y = 10 + Math.floor(rnd() * (H - 40));
+        if (!inside(avoid, x, y, 8)) break;
+      }
+      // A flare every 5 to 9 beats (10 Blip frames a beat), each star on its own phase.
+      const period = 10 * (5 + Math.floor(rnd() * 5)), k = (t + Math.floor(rnd() * period)) % period;
+      if (k >= 7) continue;
+      const s = spriteCanvas(k >= 2 && k < 5 ? "sparkle" : "sparkle-small", { from: el });
+      if (s) ctx.drawImage(s, x - (s.width >> 1), y - (s.height >> 1));
+    }
+    const star = getComputedStyle(el).getPropertyValue("--blip-world-star").trim() || "#F3EFFF";
+    for (const [n, at] of shooting.entries()) {
+      const k = ticks(frame, at);
+      if (k < 0 || k > 18) continue;
+      const r = seeded(seed + 31 * (n + 1)), x0 = 40 + Math.floor(r() * (W - 200)), y0 = 8 + Math.floor(r() * 30);
+      // Three pixels right and one down a frame for 12 frames, a trail of 8 behind it that then shortens to nothing.
+      const head = Math.min(k, 12), length = k < 12 ? 8 : 8 - (k - 12) * 1.5;
+      ctx.fillStyle = star;
+      for (let j = 0; j < length; j++) {
+        const x = Math.round(x0 + 3 * (head - j * 0.5)), y = Math.round(y0 + head - j * 0.5);
+        if ((j < 2 || j % 2 === 0) && !inside(avoid, x, y, 2)) ctx.fillRect(x, y, 1, 1);
+      }
+    }
+  }, t);
+  return <canvas ref={ref} className="v-pixels" width={W} height={H} />;
+};
