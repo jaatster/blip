@@ -54,14 +54,14 @@ tabs.
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jaatster/blip-font@0.2.0/font.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jaatster/blip-tokens@0.1.0/dist/css/tokens.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jaatster/blip-core@0.1.0/dist/core.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jaatster/blip-components@0.1.0/dist/components.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jaatster/blip-tokens@0.1.1/dist/css/tokens.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jaatster/blip-core@0.1.1/dist/core.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jaatster/blip-components@0.1.1/dist/components.min.css">
   <script type="importmap">
     {
       "imports": {
-        "@jaatster/blip-core": "https://cdn.jsdelivr.net/npm/@jaatster/blip-core@0.1.0/dist/js/index.js",
-        "@jaatster/blip-elements/": "https://cdn.jsdelivr.net/npm/@jaatster/blip-elements@0.1.0/dist/"
+        "@jaatster/blip-core": "https://cdn.jsdelivr.net/npm/@jaatster/blip-core@0.1.1/dist/js/index.js",
+        "@jaatster/blip-elements/": "https://cdn.jsdelivr.net/npm/@jaatster/blip-elements@0.1.1/dist/"
       }
     }
   </script>

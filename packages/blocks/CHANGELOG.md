@@ -4,6 +4,15 @@
 
 - Hero: its one column keeps to the hero's width, so content wider than a phone wraps in it instead of running under the clip.
 
+## 0.1.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @jaatster/blip-tokens@0.1.1
+  - @jaatster/blip-components@0.1.1
+  - @jaatster/blip-core@0.1.1
+
 ## 0.1.0
 
 First release. Website blocks: hero, features, pricing, CTA band and footer, on the world or on a soft panel. Text on

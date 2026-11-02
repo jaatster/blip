@@ -1,6 +1,6 @@
 {
   "name": "@jaatster/blip-effects",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Blip effects: dithered world backdrops, transitions, text effects, bursts, CRT filter, time of day. All opt-in, all honour reduced motion.",
   "keywords": [
     "blip",

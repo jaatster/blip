@@ -8,6 +8,14 @@
 - `<blip-fab>` (beta): the action button's speed dial as a menu button (`aria-expanded`, focus into the stack and back, the arrow keys along it, Escape, Tab and a press outside close it; cancelable `blip-action`, `blip-open`, `blip-close`). `<blip-pager>` (beta): a carousel that never moves by itself; slides named "2 of 4" and inert out of view, a polite live track, previous and next buttons, the arrow keys, Home and End, the current dot kept in step as you swipe, stepped moves, and `blip-page`.
 - `<blip-tooltip>`: one that stands beside its trigger, with room on neither side (a phone), shows above it, or below when there is more room there.
 
+## 0.1.1
+
+### Patch Changes
+
+- Updated dependencies
+  - @jaatster/blip-tokens@0.1.1
+  - @jaatster/blip-core@0.1.1
+
 ## 0.1.0
 
 First release. Light-DOM Web Components for the components that need behaviour: combobox, command palette, dialog, drawer, field, file drop, menu, number stepper, rating, segmented control, table, tabs, tile grid, toaster and tooltip, with a Custom Elements Manifest.
