@@ -1,4 +1,4 @@
-import { createElement, type CSSProperties } from "react";
+import { Fragment, createElement, type CSSProperties } from "react";
 import { useCurrentFrame } from "remotion";
 import { Beat } from "./Beat";
 import { TICK, p, ticks } from "./grid";
@@ -59,17 +59,28 @@ export const DropTitle = ({ text, lands, scale, outline = 1, tone }: DropProps) 
       data-tone={tone}
       style={{ "--blip-scale": scale, "--_p": p(outline) } as CSSProperties}
     >
-      {[...text].map((ch, i) => {
-        const k = ticks(frame, (lands[i] ?? Infinity) - LAND * TICK);
+      {/* Each word keeps together, so a long title wraps between words, never inside one. */}
+      {text.split(" ").map((word, w, words) => {
+        const start = words.slice(0, w).reduce((n, x) => n + x.length + 1, 0);
         return (
-          <span
-            key={i}
-            className="blip-drop-text-letter"
-            data-pop={ch === " " ? "\u00A0" : ch}
-            style={{ animation: "none", visibility: k < 0 ? "hidden" : "visible", translate: `0 ${p(FALL[Math.min(k, FALL.length - 1)] ?? 0)}` }}
-          >
-            {ch === " " ? "\u00A0" : ch}
-          </span>
+          <Fragment key={w}>
+            {w > 0 && " "}
+            <span style={{ display: "inline-block", whiteSpace: "nowrap" }}>
+              {[...word].map((ch, c) => {
+                const k = ticks(frame, (lands[start + c] ?? Infinity) - LAND * TICK);
+                return (
+                  <span
+                    key={c}
+                    className="blip-drop-text-letter"
+                    data-pop={ch}
+                    style={{ animation: "none", visibility: k < 0 ? "hidden" : "visible", translate: `0 ${p(FALL[Math.min(k, FALL.length - 1)] ?? 0)}` }}
+                  >
+                    {ch}
+                  </span>
+                );
+              })}
+            </span>
+          </Fragment>
         );
       })}
     </span>

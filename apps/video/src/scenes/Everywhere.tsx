@@ -1,113 +1,239 @@
+import type { CSSProperties, ReactNode } from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { Beat } from "../lib/Beat";
-import { STEP, TICK, at, p } from "../lib/grid";
-import { Life, Sky } from "../lib/Pixels";
+import { TICK, at, p, ticks } from "../lib/grid";
+import { Icon } from "../lib/Icon";
+import { Burst, Life, Sky, Sprite } from "../lib/Pixels";
+import { type Move, Pointer, pressing } from "../lib/Pointer";
 import { Music, Sfx } from "../lib/Sound";
+import { DemoFrame, RIGHT, SPLIT_CLEAR, SplitText } from "../lib/Split";
 import { Stage } from "../lib/Stage";
-import { DropTitle, Typed, letterLands } from "../lib/Text";
-import { Dissolve, MOSAIC_FRAMES } from "../lib/Transitions";
+import { Snap } from "../lib/Snap";
+import { Dissolve, MOSAIC_FRAMES, Mosaic } from "../lib/Transitions";
 
 /** Bars 41-44 of the theme. */
 export const EVERYWHERE = { bar: 41, bars: 4 };
 
-// Use it everywhere: on the left the heading, its line and the targets as tags on a card, each lighting in turn; on
-// the right an accordion in a window, whose rows open one at a time (the chevron stepping round) on the target's
-// real line from its real file: the HTML (with the button it makes, live), a Web Component, React, the tokens for
-// Android and iOS, and Figma's variables. A row every 48 frames (two beats and a half), the last held to the end.
-const TITLE = [...letterLands("Use it", at(0), STEP), ...letterLands("everywhere", at(0, 1, 2), STEP)];
-const LINE = at(0, 3, 2);
-const FIRST = at(1);
-const EACH = 48;
-const CLEAR = [[10, 8, 470, 262]] as const;
-
-type Target = { readonly name: string; readonly file: string; readonly code: readonly string[]; readonly live?: boolean };
-const TARGETS: readonly Target[] = [
-  { name: "HTML and CSS", file: "index.html", code: ['<button class="blip-box blip-button">', "  Press start", "</button>"], live: true },
-  { name: "Web Components", file: "@jaatster/blip-elements", code: ['<blip-tabs class="blip-tabs">', "  …", "</blip-tabs>"] },
-  { name: "React", file: "@jaatster/blip-react", code: ['<Button variant="soft"', '  tone="danger" size="sm">', "  Delete save</Button>"] },
-  { name: "Android and iOS", file: "BlipTokens.kt · BlipTokens.swift", code: ["accent = Color(0xFF00C2FA),", "accent: Color(blipHex: 0x00C2FA),"] },
-  { name: "Figma", file: "figma/variables.json", code: ['"name": "palette/night/accent/base",', '"Candy": { "g": 0.76078, "b": 0.98039 },'] },
+// Left: where Blip goes, and the one real line that takes it there (from the README, the elements' and React's
+// READMEs, BlipTokens.kt and .swift, and the Figma variables). Right: what that line makes, working, in one framed
+// demo that changes through the mosaic, one clear result each, twice the size: the candy button pressed; tabs
+// switching Bag, Map, Log; a React button that deletes a save (the row shakes and goes); two phones painted in the
+// token's sky soda; and a design canvas where the selection snaps round a Blip button, its colour named by the variable.
+const PARTS = [
+  { at: 4, title: "HTML and CSS", line: 'class="blip-box blip-button"' },
+  { at: 64, title: "Web Components", line: "<blip-tabs>" },
+  { at: 124, title: "React", line: '<Button variant="soft"' },
+  { at: 184, title: "Android, iOS", line: "Color(0xFF00C2FA)" },
+  { at: 244, title: "Figma", line: "palette/night/accent/base" },
 ];
-const opens = TARGETS.map((_, i) => FIRST + i * EACH);
+const STARTS = PARTS.map((pt) => pt.at - 4);
+const FRAME = 0;
+const OUT = at(4) - MOSAIC_FRAMES;
 
-export const Everywhere = ({ music = true }: { readonly music?: boolean }) => {
-  const frame = useCurrentFrame();
-  const cur = opens.filter((f) => f <= frame).length - 1;
+// What the pointer does in each: press the button; pick Map, then Log; press Delete save; press each phone's Play;
+// click the button on the canvas.
+const MOVES: readonly Move[] = [
+  { at: 14, to: '[data-v="html"]', press: 30 },
+  { at: 68, to: '[data-v="tab-1"]', press: 80 },
+  { at: 84, to: '[data-v="tab-2"]', press: 96 },
+  { at: 132, to: '[data-v="delete"]', press: 144 },
+  { at: 194, to: '[data-v="phone-0"]', press: 206 },
+  { at: 208, to: '[data-v="phone-1"]', press: 220 },
+  { at: 250, to: '[data-v="figma"]', press: 262 },
+];
+const press = (to: string) => MOVES.find((m) => m.to === `[data-v="${to}"]`)!.press!;
+const FALL = [-30, -14, -4, 0, -2, 0];
+// The tabs' items drop only a little, so at twice the size they stay inside their panel.
+const DROP = [-8, -4, -1, 0];
+const fall = (frame: number, land: number) => p(FALL[Math.max(0, Math.min(ticks(frame, land - 3 * TICK), FALL.length - 1))]!);
 
+/** Centres its children in the frame. */
+const Centre = ({ children, style }: { readonly children: ReactNode; readonly style?: CSSProperties }) => (
+  <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", ...style }}><Snap>{children}</Snap></div>
+);
+
+const Html = ({ frame }: { readonly frame: number }) => {
+  const down = pressing(frame, press("html"));
   return (
-    <Stage scheme="night" mosaicOut={at(4) - MOSAIC_FRAMES}>
-      <AbsoluteFill>
-        <Sky scheme="night" avoid={CLEAR} />
-        <Life avoid={CLEAR} seed={51} shooting={[at(2, 2)]} />
-      </AbsoluteFill>
-
-      <div style={{ position: "absolute", left: p(16), top: p(16), display: "grid", gap: p(4), justifyItems: "start" }}>
-        <DropTitle text="Use it" lands={TITLE.slice(0, 6)} scale={2} outline={1} />
-        <DropTitle text="everywhere" lands={TITLE.slice(6)} scale={2} outline={1} />
-        <div style={{ blockSize: p(34), inlineSize: p(170), marginBlockStart: p(4) }}>
-          <Typed text="HTML, Web Components and React. Tokens for Android, iOS and Figma." at={LINE} every={1} className="blip-outline" style={{ fontSize: p(9), fontWeight: 700 }} />
+    <Centre>
+      <Beat at={STARTS[0]! + 8}>
+        <div className="blip-pop-in" style={{ zoom: 2 }}>
+          <span className="blip-box blip-button" data-size="lg" data-blip-state={down ? "active" : undefined} data-v="html">
+            <Icon name="play" />Press start
+          </span>
         </div>
-      </div>
+      </Beat>
+    </Centre>
+  );
+};
 
-      <Beat at={FIRST - STEP} from={FIRST - STEP}>
-        <article className="blip-box blip-card blip-pop-in" data-size="sm" style={{ position: "absolute", left: p(16), top: p(114), inlineSize: p(170) }}>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: p(4) }}>
-            {TARGETS.map((t, i) => (
-              <Beat key={t.name} at={i === cur ? opens[i]! : FIRST - STEP}>
-                <span className={`blip-box blip-tag${i === cur ? " blip-pop-in" : ""}`} data-variant={i === cur ? "candy" : i < cur ? "soft" : "outline"} data-tone={i === cur ? "accent" : "neutral"}>
-                  {t.name}
-                </span>
-              </Beat>
+const BAG = [
+  ["Bag", ["sword", "shield", "potion"]],
+  ["Map", ["key", "chest", "star"]],
+  ["Log", ["coin", "gem", "heart"]],
+] as const;
+
+const Tabs = ({ frame }: { readonly frame: number }) => {
+  const sel = frame >= press("tab-2") ? 2 : frame >= press("tab-1") ? 1 : 0;
+  const changed = sel === 2 ? press("tab-2") : sel === 1 ? press("tab-1") : STARTS[1]!;
+  return (
+    <Centre>
+      <div className="v-x2" style={{ inlineSize: p(98), display: "grid", gap: p(4) }}>
+        <div className="blip-tabs" style={{ inlineSize: p(98) }}>
+          <div className="blip-tabs-list" role="tablist">
+            {BAG.map(([name], n) => (
+              <button key={name} className="blip-box blip-tab" role="tab" type="button" aria-selected={n === sel} data-blip-state={MOVES.some((m) => m.to === `[data-v="tab-${n}"]` && pressing(frame, m.press)) ? "active" : undefined} data-v={`tab-${n}`}>
+                {name}
+              </button>
             ))}
           </div>
-        </article>
-      </Beat>
-
-      <Beat at={FIRST - 2 * STEP} from={FIRST - 2 * STEP}>
-        <section className="blip-box blip-window blip-pop-in" style={{ position: "absolute", left: p(200), top: p(16), inlineSize: p(264) }}>
-          <header className="blip-window-bar">
-            <h2 className="blip-window-title blip-display blip-pop" data-pop="One system">One system</h2>
-          </header>
-          <div className="blip-window-body" style={{ padding: p(6) }}>
-            <div className="blip-accordion">
-              {TARGETS.map((t, i) => (
-                <Beat key={t.name} at={i === cur ? opens[i]! : 0}>
-                  <details className="blip-accordion-item" open={i === cur}>
-                    <summary className="blip-box blip-accordion-summary" data-blip-state={i === cur && frame < opens[i]! + 3 * TICK ? "active" : undefined}>
-                      {t.name}
-                      <span className="blip-accordion-chevron" />
-                    </summary>
-                    <div className="blip-accordion-panel">
-                      <div style={{ display: "grid", gap: p(3) }}>
-                        <span style={{ color: "var(--blip-text-muted)", fontSize: p(7) }}>{t.file}</span>
-                        <div style={{ display: "grid", justifyItems: "start", gap: p(4) }}>
-                          <pre style={{ margin: 0, fontSize: p(8), lineHeight: 1.4, color: "var(--blip-text)", whiteSpace: "pre" }}>
-                            <code>{t.code.join("\n")}</code>
-                          </pre>
-                          {t.live && (
-                            <span className="blip-box blip-button blip-pop-in" data-size="sm" style={{ visibility: frame >= opens[i]! + 4 * STEP ? "visible" : "hidden" }}>
-                              Press start
-                            </span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </details>
+          <div className="blip-tabs-panel" role="tabpanel">
+            <div style={{ display: "flex", justifyContent: "space-around", paddingBlock: p(6) }}>
+              {BAG[sel]![1].map((s, n) => (
+                <Beat key={`${sel}${s}`} at={changed + n * TICK}>
+                  <div style={{ translate: `0 ${p(DROP[Math.max(0, Math.min(ticks(frame, changed + n * 2 * TICK), DROP.length - 1))]!)}`, visibility: frame >= changed + n * 2 * TICK ? "visible" : "hidden" }}>
+                    <Sprite name={s} />
+                  </div>
                 </Beat>
               ))}
             </div>
           </div>
-        </section>
-      </Beat>
+        </div>
+      </div>
+    </Centre>
+  );
+};
 
-      {[...new Set(TITLE)].map((f, i) => <Sfx key={f} name={i % 8 ? `step@${[0, 2, 3, 5, 7, 8, 10, 12][i % 8]}` : "step"} at={f} volume={0.4} />)}
-      <Sfx name="open" at={FIRST - 2 * STEP} volume={0.5} />
-      {opens.map((f, i) => <Sfx key={f} name={i ? `blip@${[0, 3, 5, 7, 5][i]}` : "blip"} at={f} volume={0.6} />)}
-      <Sfx name="select" at={opens[0]! + 4 * STEP} volume={0.5} />
-      <Sfx name="success" at={opens.at(-1)! + 2 * STEP} volume={0.5} />
+const ReactDemo = ({ frame }: { readonly frame: number }) => {
+  const hit = press("delete");
+  const k = ticks(frame, hit + 3 * TICK);
+  const gone = k >= 8;
+  return (
+    <Centre>
+      <div className="v-x2" style={{ inlineSize: p(100), display: "grid", gap: p(5) }}>
+        <ul className="blip-box blip-list" role="list" data-dividers="" style={{ margin: 0 }}>
+          <Beat at={hit + 3 * TICK} from={STARTS[2]!}>
+            <li className={`blip-list-item${k >= 0 && k < 5 ? " blip-shake" : ""}`} style={{ visibility: gone ? "hidden" : "visible", opacity: 1 }}>
+              <Sprite name="heart" />
+              <div className="blip-list-content"><span className="blip-list-title">Slot 2</span></div>
+            </li>
+          </Beat>
+        </ul>
+        <div style={{ display: "flex", justifyContent: "end" }}>
+          <span className="blip-box blip-button" data-variant="soft" data-tone="danger" data-blip-state={pressing(frame, hit) ? "active" : undefined} data-v="delete">
+            <Icon name="trash" />Delete save
+          </span>
+        </div>
+      </div>
+    </Centre>
+  );
+};
+
+/** A pixel phone: a Liquorice candy box with a screen, a top bar and a Play button in the token's accent. */
+const Phone = ({ n, name, frame }: { readonly n: number; readonly name: string; readonly frame: number }) => {
+  const land = STARTS[3]! + 10 + n * 4 * TICK;
+  const down = pressing(frame, press(`phone-${n}`));
+  const accent = { "--blip-tone": "#00C2FA", "--blip-tone-light": "#91DDFF", "--blip-tone-shade": "#0096C3", "--blip-tone-on": "var(--blip-ink)" } as CSSProperties;
+  return (
+    <div style={{ display: "grid", justifyItems: "center", gap: p(6), translate: `0 ${fall(frame, land)}`, visibility: frame >= land - 3 * TICK ? "visible" : "hidden" }}>
+      <div className="blip-box" data-tone="slate" style={{ "--blip-r": 5, "--blip-shape": "var(--blip-shape-5)", "--blip-shape-inner": "var(--blip-shape-5-inner)", inlineSize: p(76), blockSize: p(138), padding: p(5), display: "grid" } as CSSProperties}>
+        <div style={{ background: "var(--blip-bg)", display: "grid", gridTemplateRows: `${p(16)} 1fr`, overflow: "hidden" }}>
+          <div style={{ background: "#00C2FA", color: "var(--blip-ink)", display: "grid", placeItems: "center", fontWeight: 700, fontSize: p(7) }}>Blip</div>
+          <div style={{ display: "grid", placeItems: "center", alignContent: "center", gap: p(8) }}>
+            <span className="blip-box blip-button" style={accent} data-blip-state={down ? "active" : undefined} data-v={`phone-${n}`}>Play</span>
+          </div>
+        </div>
+      </div>
+      <span className="blip-outline" style={{ fontWeight: 700, fontSize: p(9) }}>{name}</span>
+    </div>
+  );
+};
+
+const Phones = ({ frame }: { readonly frame: number }) => (
+  <Centre>
+    <div style={{ display: "flex", gap: p(28) }}>
+      <Phone n={0} name="Android" frame={frame} />
+      <Phone n={1} name="iOS" frame={frame} />
+    </div>
+  </Centre>
+);
+
+/** The design canvas: a dotted ink grid, a frame holding a Blip button, the selection snapping round it. */
+const Canvas = ({ frame }: { readonly frame: number }) => {
+  const hit = press("figma");
+  const k = ticks(frame, hit);
+  // The selection snaps in from 6 pixels out to 1, in whole steps.
+  const out = k < 0 ? -1 : [6, 4, 2, 1][Math.min(k, 3)]!;
+  const grid = "repeating-linear-gradient(90deg, var(--blip-line-soft) 0 var(--blip-pixel), transparent var(--blip-pixel) calc(8 * var(--blip-pixel))), repeating-linear-gradient(0deg, var(--blip-line-soft) 0 var(--blip-pixel), transparent var(--blip-pixel) calc(8 * var(--blip-pixel)))";
+  const handle = { position: "absolute", inlineSize: p(4), blockSize: p(4), background: "var(--blip-focus)", outline: "var(--blip-pixel) solid var(--blip-focus-edge)" } as CSSProperties;
+  return (
+    <div style={{ position: "absolute", inset: 0, background: "var(--blip-surface-sunken)" }}>
+      <div style={{ position: "absolute", inset: 0, backgroundImage: grid, opacity: 1 }} />
+      <div style={{ position: "absolute", left: p(48), top: p(58), inlineSize: p(160), blockSize: p(92), background: "var(--blip-bg)", outline: "var(--blip-pixel) solid var(--blip-line)", display: "grid", placeItems: "center" }}>
+        <div style={{ position: "relative", zoom: 2 }}>
+          <span className="blip-box blip-button" data-blip-state={pressing(frame, hit) ? "active" : undefined} data-v="figma">Press start</span>
+          {out >= 0 && (
+            <div style={{ position: "absolute", inset: p(-out), outline: "var(--blip-pixel) solid var(--blip-focus)", pointerEvents: "none" }}>
+              <span style={{ ...handle, left: p(-2), top: p(-2) }} />
+              <span style={{ ...handle, right: p(-2), top: p(-2) }} />
+              <span style={{ ...handle, left: p(-2), bottom: p(-2) }} />
+              <span style={{ ...handle, right: p(-2), bottom: p(-2) }} />
+            </div>
+          )}
+        </div>
+      </div>
+      <Beat at={hit + 4 * TICK}>
+        <div className="blip-box blip-card blip-pop-in" style={{ position: "absolute", left: p(48), top: p(162), display: "flex", alignItems: "center", gap: p(6), visibility: frame >= hit + 4 * TICK ? "visible" : "hidden" }}>
+          <span style={{ inlineSize: p(12), blockSize: p(12), background: "#00C2FA", outline: "var(--blip-pixel) solid var(--blip-ink)" }} />
+          <span style={{ fontSize: p(7), fontWeight: 700 }}>palette/night/accent/base</span>
+        </div>
+      </Beat>
+    </div>
+  );
+};
+
+const DEMOS = [Html, Tabs, ReactDemo, Phones, Canvas];
+
+export const Everywhere = ({ music = true }: { readonly music?: boolean }) => {
+  const frame = useCurrentFrame();
+  const i = Math.max(0, STARTS.filter((f) => f <= frame).length - 1);
+  const Demo = DEMOS[i]!;
+  const next = STARTS[i + 1] ?? Infinity;
+
+  return (
+    <Stage scheme="night" mosaicOut={OUT}>
+      <AbsoluteFill>
+        <Sky scheme="night" avoid={SPLIT_CLEAR} />
+        <Life avoid={SPLIT_CLEAR} seed={51} shooting={[at(2, 2)]} />
+      </AbsoluteFill>
+      <SplitText eyebrow="Use it everywhere" parts={PARTS} />
+
+      <DemoFrame at={FRAME} kind="panel">
+        <Mosaic at={i ? STARTS[i]! : -MOSAIC_FRAMES} mode="in">
+          <Mosaic at={next - MOSAIC_FRAMES} mode="out">
+            <Demo frame={frame} />
+          </Mosaic>
+        </Mosaic>
+      </DemoFrame>
+      <Pointer moves={MOVES} />
+      <Burst at={press("html") + 3 * TICK} kind="sparkle" box={[RIGHT.x + 70, RIGHT.y + 92, 116, 40]} count={10} seed={5} />
+      <Burst at={press("delete") + 11 * TICK} kind="sparkle" box={[RIGHT.x + 38, RIGHT.y + 96, 180, 24]} count={6} seed={6} />
+
+      {PARTS.map((pt, n) => <Sfx key={pt.at} name={n ? `blip@${[0, 3, 5, 7, 5][n]}` : "blip"} at={pt.at} volume={0.5} />)}
+      {MOVES.map((m) => <Sfx key={m.at} name="look" at={m.at} volume={0.25} />)}
+      <Sfx name="select" at={press("html")} volume={0.6} />
+      <Sfx name="step@5" at={press("tab-1")} volume={0.5} />
+      <Sfx name="step@7" at={press("tab-2")} volume={0.5} />
+      <Sfx name="select@5" at={press("delete")} volume={0.55} />
+      <Sfx name="error" at={press("delete") + 3 * TICK} volume={0.45} />
+      <Sfx name="back" at={press("delete") + 11 * TICK} volume={0.45} />
+      <Sfx name="coin" at={press("phone-0") + 3 * TICK} volume={0.5} />
+      <Sfx name="coin@7" at={press("phone-1") + 3 * TICK} volume={0.5} />
+      <Sfx name="success" at={press("figma") + 4 * TICK} volume={0.5} />
 
       {music && <Music bar={EVERYWHERE.bar} bars={EVERYWHERE.bars} />}
       <Dissolve at={0} mode="in" seed={7} />
     </Stage>
   );
 };
+

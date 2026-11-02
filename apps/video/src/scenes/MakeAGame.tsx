@@ -168,7 +168,7 @@ export const MakeAGame = ({ music = true }: { readonly music?: boolean }) => {
 
   return (
     <Stage scheme="night">
-      <div style={{ position: "absolute", left: 0, top: 0, inlineSize: p(LW), blockSize: p(LH), transform: `scale(${ZOOM})`, transformOrigin: "0 0" }}>
+      <div style={{ position: "absolute", left: 0, top: 0, inlineSize: p(LW), blockSize: p(LH), zoom: ZOOM }}>
         <LevelWorld />
         {JUMPS.map((j, i) => (
           <Block key={j} x={RUNS[i]![3] + (PIP_W - BLOCK) / 2} hit={hits[i]!} />

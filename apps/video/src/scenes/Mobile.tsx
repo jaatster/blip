@@ -1,59 +1,77 @@
 import { createElement, type CSSProperties, type ReactNode } from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { Beat } from "../lib/Beat";
-import { STEP, TICK, at, p, ticks } from "../lib/grid";
+import { TICK, at, p, ticks } from "../lib/grid";
 import { Icon } from "../lib/Icon";
-import { Dither, Life, Sky } from "../lib/Pixels";
+import { Burst, Dither, Life, Sky } from "../lib/Pixels";
 import { Pointer, pressing, type Move } from "../lib/Pointer";
 import { Music, Sfx } from "../lib/Sound";
+import { RIGHT, SPLIT_CLEAR, SplitText, type Part } from "../lib/Split";
 import { Stage } from "../lib/Stage";
-import { DropTitle, Typed, letterLands } from "../lib/Text";
 
 /** Bars 31-34 of the theme. */
 export const MOBILE = { bar: 31, bars: 4 };
 
-// Ready for mobile: a phone screen made of Blip's own phone pieces, worked by attract mode's pointer, one piece a beat
-// or two. The list loads from skeletons, is pulled to refresh, a row swipes aside to its Delete, then the action
-// button opens a bottom sheet whose field, sent empty, shakes and says why, held to the end to be read. On the left,
-// the pieces' names light as each is used.
-const TITLE = letterLands("Ready for", at(0, 0, 2), STEP);
-const TITLE2 = letterLands("mobile", TITLE.at(-1)! + STEP, STEP);
-const PHONE = at(0, 1);
-const LINE = at(0, 2);
-const TAGS = at(0, 3);
-const LOADED = at(1);
-const PULL = [at(1, 0, 2), at(1, 1), at(1, 1, 2), at(1, 2)] as const; // pulling, ready, refreshing, done
-const SETTLED = at(1, 3) - 2 * TICK;
-const SWIPE = at(2);
-const UNSWIPE = at(2, 1, 2);
-const FAB = at(2, 3);
-const SHEET = at(2, 3, 2);
-const SEND = at(3, 1);
+// Ready for mobile. Left, the piece in use, by name; right, a phone made of Blip's phone pieces, worked by attract
+// mode's pointer. The phone drops in on its skeletons and loads; the pointer pulls the list down past the line, the
+// arrow flips, the loader runs and the new leader is in, with a sparkle. A row is dragged aside to its Delete and
+// springs back. The action button raises a bottom sheet over the dithered scrim; Create, pressed with the field empty,
+// shakes the field and says why; then the sheet goes back down.
+const PARTS: readonly Part[] = [
+  { at: at(0, 1), title: "Pull to refresh", line: "Pull past the line: the arrow flips and steps into the loader." },
+  { at: at(1, 1), title: "Swipe rows", line: "Drag a row aside to reveal its actions." },
+  { at: at(2, 0), title: "Bottom sheet", line: "The action button raises a sheet from the bottom." },
+  { at: at(2, 3), title: "Fields", line: "A wrong answer shakes, and says why." },
+];
+const PHONE = at(0, 0, 2);
+const LOADED = at(0, 2);
+// The pull: down 32 pixels in eight steps as the pointer drags, past the line at 24; let go, the loader at 24, then
+// "Updated" and everything steps back up.
+const DRAG = at(0, 3);
+const LET_GO = at(1);
+const DONE = at(1, 0, 2);
+const SETTLED = at(1, 1);
+const SWIPE = at(1, 2);
+const UNSWIPE = at(1, 3, 2);
+const FAB = at(2, 1);
+const SHEET = at(2, 1, 2);
+const SEND = at(3);
+const CLOSE = at(3, 2, 2);
 const OUT = at(4) - 8 * TICK;
 
-const PIECES = [
-  { name: "Skeleton", at: TAGS },
-  { name: "Pull to refresh", at: PULL[0] },
-  { name: "Swipe rows", at: SWIPE },
-  { name: "Action button", at: FAB },
-  { name: "Bottom sheet", at: SHEET },
-  { name: "Field", at: SEND },
-];
-
 const MOVES: readonly Move[] = [
-  { at: at(1, 0), to: ".m-row-0 .blip-list-title" },
-  { at: PULL[0], to: ".m-row-3 .blip-list-title" },
-  { at: at(1, 3), to: ".m-row-1 .blip-list-end" },
-  { at: SWIPE, to: ".m-row-1 .blip-list-title" },
-  { at: at(2, 2), to: ".m-fab", press: FAB },
-  { at: at(3), to: ".m-create", press: SEND },
+  { at: at(0, 2, 2), to: ".m-row-0 .blip-list-title" },
+  { at: at(1, 1, 2), to: ".m-swipe .blip-list-end" },
+  { at: at(2, 0, 2), to: ".m-fab", press: FAB },
+  { at: at(2, 3, 2), to: ".m-create", press: SEND },
 ];
 
-const BEFORE = [["Pip Bloom", "98,120"], ["Juno Reed", "87,400"], ["Moss Tanaka", "80,015"], ["Kit Lark", "72,960"], ["Ivy Ono", "66,300"], ["Bo Finch", "51,280"], ["Wren Hale", "47,005"], ["Sol Park", "39,410"]];
-const AFTER = [["Juno Reed", "99,050"], ...BEFORE.filter(([n]) => n !== "Juno Reed")];
+const BEFORE = [["Pip", "98,120"], ["Juno", "87,400"], ["Moss", "80,015"], ["Kit", "72,960"]];
+const AFTER = [["Juno", "99,050"], ...BEFORE.filter(([n]) => n !== "Juno")];
 
 /** Six even steps, a Blip frame each, from 0 to 1 starting at `from`. */
 const six = (frame: number, from: number) => Math.min(6, Math.max(0, ticks(frame, from) + 1)) / 6;
+
+// The phone, as big as the right half allows, in its middle: few things, big enough to read.
+const PHONE_W = 150, PHONE_H = 212;
+const PHONE_X = RIGHT.x + (RIGHT.w - PHONE_W) / 2, PHONE_Y = RIGHT.y + (RIGHT.h - PHONE_H) / 2;
+const DROP = [-40, -22, -8, 0, -3, 0];
+
+/** How far the list is pulled down at `frame`, in pixels. */
+function pulled(frame: number) {
+  if (frame < DRAG) return 0;
+  if (frame < LET_GO) return Math.min(32, 4 * (ticks(frame, DRAG) + 1));
+  if (frame < DONE) return 24;
+  if (frame < SETTLED - 6 * TICK) return 24;
+  return Math.max(0, 24 - 4 * (ticks(frame, SETTLED - 6 * TICK) + 1));
+}
+/** The swiped row's face: 40 pixels aside in six steps, held, back in six, and a little spring past home. */
+function swiped(frame: number) {
+  if (frame < UNSWIPE) return Math.round(40 * six(frame, SWIPE));
+  const k = ticks(frame, UNSWIPE);
+  if (k < 6) return Math.round(40 * (1 - (k + 1) / 6));
+  return [-3, -1, 0][Math.min(k - 6, 2)]!;
+}
 
 // <blip-swipe-row> and its CSS look for :defined; the video draws its slide itself, so a bare element is enough.
 if (typeof customElements !== "undefined" && !customElements.get("blip-swipe-row")) customElements.define("blip-swipe-row", class extends HTMLElement {});
@@ -79,62 +97,43 @@ const Row = ({ name, score }: { readonly name: string; readonly score: string })
 export const Mobile = ({ music = true }: { readonly music?: boolean }) => {
   const frame = useCurrentFrame();
   const loaded = frame >= LOADED;
-  const pull = frame < PULL[0] || frame >= SETTLED ? undefined : (["pulling", "ready", "refreshing", "done"] as const)[PULL.filter((f) => f <= frame).length - 1];
-  const rows = frame >= PULL[3] ? AFTER : BEFORE;
-  // The row's face slides 40 pixels aside in six steps, holds, and comes back the same way.
-  const swipe = Math.round(40 * (frame < UNSWIPE ? six(frame, SWIPE) : 1 - six(frame, UNSWIPE)));
+  const pull = pulled(frame);
+  const state = frame < DRAG || frame >= SETTLED ? undefined : frame < LET_GO ? (pull >= 24 ? "ready" : "pulling") : frame < DONE ? "refreshing" : "done";
+  const rows = frame >= DONE ? AFTER : BEFORE;
+  const swipe = swiped(frame);
   // The sheet: up a sixth of its height a Blip frame, held, down the same way; the scrim a quarter dither, then half.
-  const SHEET_H = 132;
-  const up = six(frame, SHEET);
-  const sheetOn = frame >= SHEET;
-  const scrim = ticks(frame, SHEET) < 1 ? "quarter" : "half";
+  const SHEET_H = 112;
+  const up = frame < CLOSE ? six(frame, SHEET) : 1 - six(frame, CLOSE);
+  const sheetOn = frame >= SHEET && up > 0;
+  const kin = ticks(frame, SHEET), kout = ticks(frame, CLOSE);
+  const scrim = kout >= 0 ? (kout < 3 ? "half" : "quarter") : kin < 1 ? "quarter" : "half";
   const sent = frame >= SEND;
-  const lit = PIECES.filter((piece) => piece.at <= frame).length - 1;
+  const drop = DROP[Math.max(0, Math.min(ticks(frame, PHONE - 3 * TICK), DROP.length - 1))]!;
 
   return (
     <Stage scheme="night" mosaicIn>
       <AbsoluteFill>
-        <Sky scheme="night" avoid={[[12, 8, 312, 262], [318, 4, 466, 266]]} />
-        <Life avoid={[[12, 8, 312, 262], [318, 4, 466, 266]]} seed={57} shooting={[at(2, 1)]} />
+        <Sky scheme="night" avoid={SPLIT_CLEAR} />
+        <Life avoid={SPLIT_CLEAR} seed={57} shooting={[at(2, 1)]} />
       </AbsoluteFill>
 
-      {/* Left: the heading, its line, and the pieces as they are used. */}
-      <div style={{ position: "absolute", left: p(20), top: p(16), display: "grid", gap: p(10) }}>
-        <DropTitle text="Ready for" lands={TITLE} scale={3} outline={1} />
-        <DropTitle text="mobile" lands={TITLE2} scale={3} outline={1} />
-      </div>
-      <div style={{ position: "absolute", left: p(20), top: p(104), inlineSize: p(290), blockSize: p(16) }}>
-        <Typed text="Bottom bars, sheets, swipes and pulls, built in." at={LINE} every={1.5} className="blip-outline" style={{ fontSize: p(11), fontWeight: 700 }} />
-      </div>
-      <Beat at={TAGS}>
-        <div className="blip-box blip-card blip-pop-in" data-size="sm" style={{ position: "absolute", left: p(20), top: p(130), inlineSize: p(262) }}>
-          <p className="blip-label" style={{ margin: 0, color: "var(--blip-text-muted)" }}>The phone pieces</p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: p(4) }}>
-            {PIECES.map((piece, n) => (
-              <Beat key={piece.name} at={n === lit ? piece.at : TAGS}>
-                <span
-                  className={`blip-box blip-tag${n === lit ? " blip-pop-in" : ""}`}
-                  data-size="lg"
-                  data-variant={n === lit ? "candy" : n < lit ? "soft" : "outline"}
-                  data-tone={n <= lit ? "accent" : "neutral"}
-                >
-                  {piece.name}
-                </span>
-              </Beat>
-            ))}
-          </div>
-        </div>
-      </Beat>
+      <SplitText eyebrow="Ready for mobile" parts={PARTS} />
 
-      {/* Right: the phone, a Liquorice candy box (a thing whose own colour is black) round a screen. */}
-      <Beat at={PHONE}>
+      {/* Right: the phone, a Liquorice candy box (a thing whose own colour is black) round a screen. It drops in. */}
+      <Beat at={PHONE} from={PHONE - 3 * TICK}>
         <div
-          className="blip-box blip-pop-in"
+          className="blip-box"
           data-tone="slate"
-          style={{ "--blip-r": 6, "--blip-shape": "var(--blip-shape-6)", "--blip-shape-inner": "var(--blip-shape-6-inner)", position: "absolute", left: p(326), top: p(8), inlineSize: p(132), blockSize: p(254), padding: p(5) } as CSSProperties}
+          style={{ "--blip-r": 6, "--blip-shape": "var(--blip-shape-6)", "--blip-shape-inner": "var(--blip-shape-6-inner)", position: "absolute", left: p(PHONE_X), top: p(PHONE_Y + drop), inlineSize: p(PHONE_W), blockSize: p(PHONE_H), padding: p(5) } as CSSProperties}
         >
           <div
-            style={{ position: "relative", inlineSize: "100%", blockSize: "100%", overflow: "hidden", display: "flex", flexDirection: "column", background: "var(--blip-bg)", "--blip-pixel": "4px" } as CSSProperties}
+            style={{
+              position: "relative", inlineSize: "100%", blockSize: "100%", overflow: "hidden", display: "flex", flexDirection: "column", background: "var(--blip-bg)",
+              // The phone's own type, a size up from the stage's, so its rows and labels read at a glance.
+              "--blip-size-caption": "calc(8 * var(--blip-pixel))", "--blip-size-small": "calc(9 * var(--blip-pixel))",
+              "--blip-size-body": "calc(10 * var(--blip-pixel))", "--blip-size-lead": "calc(11 * var(--blip-pixel))", "--blip-size-title": "calc(12 * var(--blip-pixel))",
+              fontSize: "var(--blip-size-body)",
+            } as CSSProperties}
           >
             <header className="blip-box blip-top-bar" style={{ position: "relative" }}>
               <span className="blip-box blip-button blip-top-bar-back" data-variant="ghost" data-icon-only>
@@ -146,23 +145,23 @@ export const Mobile = ({ music = true }: { readonly music?: boolean }) => {
               </div>
             </header>
 
-            <div className="blip-refresh" data-blip-state={pull} style={{ flex: 1, minBlockSize: 0 }}>
+            <div className="blip-refresh" data-blip-state={state} style={{ flex: 1, minBlockSize: 0, "--_blip-pull": p(pull) } as CSSProperties}>
               <div className="blip-refresh-indicator" aria-hidden="true">
                 <span className="blip-refresh-arrow" />
-                <Beat at={PULL[2]}>
+                <Beat at={LET_GO}>
                   <span className="blip-loader" data-size="sm"><span className="blip-sr-only">Refreshing</span></span>
                 </Beat>
-                <span className="blip-refresh-label">{pull === "ready" ? "Let go" : pull === "refreshing" ? "Updating" : pull === "done" ? "Updated" : "Pull"}</span>
+                <span className="blip-refresh-label">{state === "ready" ? "Let go" : state === "refreshing" ? "Updating" : state === "done" ? "Updated" : "Pull"}</span>
               </div>
               <div className="blip-refresh-scroller">
                 <Beat at={PHONE}>
-                  <ul className="blip-list" role="list" data-density="compact" data-dividers style={{ margin: 0 }}>
+                  <ul className="blip-list" role="list" data-dividers style={{ margin: 0, fontSize: "var(--blip-size-lead)" }}>
                     {rows.map(([name, score], i) => (
                       <li key={name} className={`m-row-${i}`}>
                         {!loaded ? (
                           <div className="blip-list-item" aria-hidden="true">
                             <div className="blip-list-content" style={{ display: "grid", gap: p(2) }}>
-                              <span className="blip-skeleton" data-shape="text" style={{ inlineSize: `${[70, 55, 80, 60, 50, 65, 58, 72][i]}%` }} />
+                              <span className="blip-skeleton" data-shape="text" style={{ inlineSize: `${[50, 60, 45, 40, 55][i]}%` }} />
                             </div>
                             <span className="blip-skeleton" data-shape="text" style={{ inlineSize: p(22) }} />
                           </div>
@@ -185,7 +184,7 @@ export const Mobile = ({ music = true }: { readonly music?: boolean }) => {
 
             <nav className="blip-box blip-bottom-bar" aria-label="Main" style={{ position: "relative" }}>
               <ul className="blip-bottom-bar-list" role="list">
-                {[["Home", "home"], ["Scores", "trophy"], ["Friends", "users"], ["Me", "user"]].map(([label, icon]) => (
+                {[["Home", "home"], ["Scores", "trophy"], ["Friends", "users"]].map(([label, icon]) => (
                   <li key={label}>
                     <span className="blip-box blip-bottom-bar-item" data-variant="ghost" aria-current={label === "Scores" ? "page" : undefined}>
                       <Icon name={icon!} />
@@ -210,19 +209,17 @@ export const Mobile = ({ music = true }: { readonly music?: boolean }) => {
             {/* The sheet over its dithered ink scrim, risen a sixth of its height a Blip frame. */}
             {sheetOn && (
               <>
-                {(
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      zIndex: 1000,
-                      background:
-                        scrim === "quarter"
-                          ? "repeating-conic-gradient(var(--blip-scrim) 0 25%, transparent 0) 0 0 / calc(4 * var(--blip-pixel)) calc(4 * var(--blip-pixel))"
-                          : "repeating-conic-gradient(var(--blip-scrim) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel))",
-                    }}
-                  />
-                )}
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    zIndex: 1000,
+                    background:
+                      scrim === "quarter"
+                        ? "conic-gradient(var(--blip-scrim) 0 25%, transparent 25% 100%) 0 0 / calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel))"
+                        : "repeating-conic-gradient(var(--blip-scrim) 0 25%, transparent 0 50%) 0 0 / calc(2 * var(--blip-pixel)) calc(2 * var(--blip-pixel))",
+                  }}
+                />
                 <div style={{ position: "absolute", zIndex: 1001, insetInline: 0, insetBlockEnd: 0, translate: `0 ${p(Math.round(SHEET_H * (1 - up)))}` }}>
                   <dialog open className="blip-box blip-drawer blip-sheet" data-side="bottom" data-blip-static style={{ inlineSize: "100%", maxInlineSize: "none", blockSize: p(SHEET_H) }}>
                     <header className="blip-dialog-header">
@@ -252,21 +249,22 @@ export const Mobile = ({ music = true }: { readonly music?: boolean }) => {
         </div>
       </Beat>
 
-      <Pointer moves={MOVES} />
+      <Burst at={DONE} kind="sparkle" box={[PHONE_X + 14, PHONE_Y + 22, PHONE_W - 28, 26]} count={8} seed={12} />
+      {frame < CLOSE && <Pointer moves={MOVES} />}
 
-      {[...new Set([...TITLE, ...TITLE2])].map((f, i) => <Sfx key={f} name={i % 8 ? `step@${[0, 2, 3, 5, 7, 8, 10, 12][i % 8]}` : "step"} at={f} volume={0.35} />)}
-      <Sfx name="open" at={PHONE} volume={0.6} />
+      <Sfx name="bump" at={PHONE} volume={0.5} />
       <Sfx name="look" at={LOADED} volume={0.55} />
-      <Sfx name="step" at={PULL[0]} volume={0.5} />
-      <Sfx name="step@5" at={PULL[1]} volume={0.5} />
-      <Sfx name="blip" at={PULL[2]} volume={0.5} />
-      <Sfx name="coin" at={PULL[3]} volume={0.5} />
+      <Sfx name="step" at={DRAG} volume={0.5} />
+      <Sfx name="step@5" at={DRAG + 6 * TICK} volume={0.5} />
+      <Sfx name="blip" at={LET_GO} volume={0.5} />
+      <Sfx name="coin" at={DONE} volume={0.5} />
       <Sfx name="step@3" at={SWIPE} volume={0.5} />
-      <Sfx name="step" at={UNSWIPE} volume={0.4} />
+      <Sfx name="jump@3" at={UNSWIPE} volume={0.35} />
       <Sfx name="select" at={FAB} volume={0.6} />
       <Sfx name="open" at={SHEET} volume={0.55} />
       <Sfx name="select@5" at={SEND} volume={0.5} />
       <Sfx name="error" at={SEND + TICK} volume={0.55} />
+      <Sfx name="back" at={CLOSE} volume={0.5} />
 
       <Dither at={OUT} mode="out" />
       {music && <Music bar={MOBILE.bar} bars={MOBILE.bars} />}

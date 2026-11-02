@@ -18,6 +18,9 @@ type Props = {
   readonly measure?: readonly string[];
   /** Drawn over the page, given where each `measure` selector's element is, in CSS pixels of the drawn page. */
   readonly overlay?: (rects: Readonly<Record<string, Rect>>) => ReactNode;
+  /** Told where each `measure` selector's element is (CSS pixels of the drawn page) once the page has settled, before
+   * the first frame: to crop the page to a part of it. */
+  readonly onMeasure?: (rects: Readonly<Record<string, Rect>>) => void;
 };
 
 export type Rect = { readonly x: number; readonly y: number; readonly width: number; readonly height: number };
@@ -26,7 +29,7 @@ export type Rect = { readonly x: number; readonly y: number; readonly width: num
  * A real page of the docs site, live: the templates as they ship. Its motion is turned off (reduced motion, and
  * Blip's own motion switch), so a frame is the same however it is reached; frames wait for the page and its fonts.
  */
-export const Site = ({ page, width, height, zoom = 2, scroll = 0, scheme = "night", apply, state, measure = [], overlay }: Props) => {
+export const Site = ({ page, width, height, zoom = 2, scroll = 0, scheme = "night", apply, state, measure = [], overlay, onMeasure }: Props) => {
   const ref = useRef<HTMLIFrameElement>(null);
   const [handle] = useState(() => delayRender(`page ${page}`));
   const [ready, setReady] = useState(false);
@@ -58,6 +61,7 @@ export const Site = ({ page, width, height, zoom = 2, scroll = 0, scheme = "nigh
       if (r && r.width > 0) found[sel] = { x: r.x * zoom, y: r.y * zoom, width: r.width * zoom, height: r.height * zoom };
     }
     setRects(found);
+    onMeasure?.(found);
     setReady(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [handle, scheme, height, zoom]);

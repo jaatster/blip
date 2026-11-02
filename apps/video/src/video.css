@@ -43,3 +43,15 @@
   place-content: center;
   justify-items: center;
 }
+
+/* Blip's pixel switch at twice the stage's pixel: everything inside is drawn natively twice as big, text included
+   (the sizes are worked out again from the new pixel), so nothing is scaled after it is drawn. */
+.v-stage .v-x2 {
+  --blip-pixel: 8px;
+  --blip-size-caption: calc(6 * var(--blip-pixel));
+  --blip-size-small: calc(7 * var(--blip-pixel));
+  --blip-size-body: calc(8 * var(--blip-pixel));
+  --blip-size-lead: calc(9 * var(--blip-pixel));
+  --blip-size-title: calc(11 * var(--blip-pixel));
+  font-size: var(--blip-size-body);
+}

@@ -24,9 +24,10 @@ export function useCanvas(draw: (ctx: CanvasRenderingContext2D, el: HTMLCanvasEl
 }
 
 /** Blip's world: the TV's landscape at the stage's own size, in the scheme around it. */
-export const World = ({ scheme }: { readonly scheme: "day" | "sunset" | "night" }) => {
-  const ref = useCanvas((ctx, el) => drawWorld(ctx, scheme, W, H, { from: el }), scheme);
-  return <canvas ref={ref} className="v-pixels" width={W} height={H} />;
+export const World = ({ scheme, w = W, h = H }: { readonly scheme: "day" | "sunset" | "night"; readonly w?: number; readonly h?: number }) => {
+  // w x h world pixels (the stage's by default): give a framed demo its own size, so nothing stretches.
+  const ref = useCanvas((ctx, el) => drawWorld(ctx, scheme, w, h, { from: el }), `${scheme} ${w} ${h}`);
+  return <canvas ref={ref} className="v-pixels" width={w} height={h} />;
 };
 
 const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
@@ -121,10 +122,10 @@ const inside = (boxes: readonly Box[], x: number, y: number, pad: number) =>
   boxes.some(([x0, y0, x1, y1]) => x >= x0 - pad && x < x1 + pad && y >= y0 - pad && y < y1 + pad);
 
 /** The world's sky alone: its dithered gradient, and at Night the moon and stars, kept clear of `avoid`. */
-export const Sky = ({ scheme, avoid = [], palette }: { readonly scheme: "day" | "sunset" | "night"; readonly avoid?: readonly Box[]; readonly palette?: string }) => {
+export const Sky = ({ scheme, avoid = [], palette, w = W, h = H }: { readonly scheme: "day" | "sunset" | "night"; readonly avoid?: readonly Box[]; readonly palette?: string; readonly w?: number; readonly h?: number }) => {
   // Its colours are the tokens round it, so a palette set above it (data-blip-palette) gives it that night's sky.
-  const ref = useCanvas((ctx, el) => drawWorld(ctx, scheme, W, H, { from: el, layer: "sky", avoid }), `${scheme} ${palette}`);
-  return <canvas ref={ref} className="v-pixels" width={W} height={H} />;
+  const ref = useCanvas((ctx, el) => drawWorld(ctx, scheme, w, h, { from: el, layer: "sky", avoid }), `${scheme} ${palette} ${w} ${h}`);
+  return <canvas ref={ref} className="v-pixels" width={w} height={h} />;
 };
 
 /**
