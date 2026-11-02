@@ -1,6 +1,6 @@
 ---
 name: Toast
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: toast.css
 element: blip-toaster
 react: Toaster
@@ -21,7 +21,7 @@ what is on screen belongs in an [alert](alert.md) next to it.
 ```html
 <blip-toaster data-side="bottom" data-align="end"></blip-toaster>
 <script type="module">
-  import { toast } from "@blip/elements/toast";
+  import { toast } from "@jaatster/blip-elements/toast";
   toast({ title: "Achievement unlocked", body: "First Flight: clear World 1 without taking a hit.", tone: "success",
           action: { label: "View", onClick: () => openTrophies() } });
   const saving = toast("Saved to slot 2");   // a string is just a title
@@ -111,7 +111,7 @@ With reduced motion they appear and go at once; the timer still steps (it is a c
 
 `toast(options | title): ToastHandle` with `options` `{ title, body?, tone?, variant?, action?: { label, onClick? },
 duration?, live? }`. The handle is `{ close(), closed: Promise<void> }`, returned at once, the same from
-`@blip/react`: `close()` works straight away (a toast still waiting its turn never shows), and `closed` settles
+`@jaatster/blip-react`: `close()` works straight away (a toast still waiting its turn never shows), and `closed` settles
 once it has gone.
 
 | Class or property | |

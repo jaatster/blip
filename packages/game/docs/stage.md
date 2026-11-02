@@ -1,6 +1,6 @@
 ---
 name: Stage
-package: "@blip/game"
+package: "@jaatster/blip-game"
 css: stage.css
 element: null
 react: Stage
@@ -10,7 +10,7 @@ status: beta
 # Stage
 
 A game screen for a HUD, a menu or a map to sit on: a positioned frame with a pastel sky and a ground strip. Put
-`<blip-world>` from `@blip/effects` inside for the full dithered world, with mountains, hills and clouds. Without it,
+`<blip-world>` from `@jaatster/blip-effects` inside for the full dithered world, with mountains, hills and clouds. Without it,
 and before it draws, the sky is the scheme's world palette in six hard bands, stepping up from the horizon and
 dithered where they meet: never a smooth gradient.
 

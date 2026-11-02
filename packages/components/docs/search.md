@@ -1,6 +1,6 @@
 ---
 name: Search
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: search.css
 element: null
 react: Search
@@ -32,7 +32,7 @@ control, a select and a button it makes a filter bar.
 ## Anatomy
 
 1. **Well**: the input's well.
-2. **Magnifier**: a 12 x 12 icon from `@blip/icons`, muted, before the text.
+2. **Magnifier**: a 12 x 12 icon from `@jaatster/blip-icons`, muted, before the text.
 3. **Clear**: the browser's own clear button, redrawn as an 8-pixel cross in a 12-pixel target. It shows while
    there is text and the field is focused or hovered.
 

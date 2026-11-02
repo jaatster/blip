@@ -1,4 +1,4 @@
-# @blip/game
+# @jaatster/blip-game
 
 ## Unreleased
 
@@ -9,4 +9,4 @@
 First release. The game UI kit: dialogue box, choices, hearts and counters, HUD bars, inventory, button prompts, level tiles, pause menu, achievements, stage and sprites.
 
 - Renamed from Blip: the package is `@jaatster/blip-game` (was `@jaatster/blip-game`); the elements are `<chu-*>` with `Blip*` classes (was `<pp-*>` and `Pixel*`), and events, attributes, classes and custom properties start `chu-`.
-- Renamed from Blip: the package is `@blip/game` (was `@jaatster/blip-game`); the elements are `<blip-*>` with `Blip*` classes (was `<chu-*>` and `Blip*`), and events, attributes, classes and custom properties start `blip-`.
+- Renamed from Blip: the package is `@jaatster/blip-game` (was `@jaatster/blip-game`); the elements are `<blip-*>` with `Blip*` classes (was `<chu-*>` and `Blip*`), and events, attributes, classes and custom properties start `blip-`.

@@ -1,6 +1,6 @@
 /**
  * Sidebar: Sidebar, SidebarHeading, SidebarList, SidebarItem, SidebarLabel, SidebarBadge and SidebarGroup. CSS from
- * @blip/components (sidebar.css). A link to the page you are on takes `current` (`aria-current="page"`); list items
+ * @jaatster/blip-components (sidebar.css). A link to the page you are on takes `current` (`aria-current="page"`); list items
  * with no class of their own stay plain `<li>`s.
  */
 import { forwardRef } from "react";

@@ -11,8 +11,8 @@ import CONTRAST from "../contrast.json" with { type: "json" };
 /** This package: Blip's own resolver and sources. */
 export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const NS = "blip";
-/** A theme's $ref into Blip's sources ("node_modules/@blip/tokens/src/…") is found wherever it is installed. */
-const PACKAGE_REF = /^(?:\.\/)?(?:node_modules\/)?@blip\/tokens\//;
+/** A theme's $ref into Blip's sources ("node_modules/@jaatster/blip-tokens/src/…") is found wherever it is installed. */
+const PACKAGE_REF = /^(?:\.\/)?(?:node_modules\/)?@jaatster\/blip-tokens\//;
 
 // ------------------------------------------------------------------ colour maths
 

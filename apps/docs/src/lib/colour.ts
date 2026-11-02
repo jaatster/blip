@@ -39,7 +39,7 @@ interface ContrastData {
 }
 /** A token path as the custom property's name: accent.base is accent, surface.raised is surface-raised. */
 const kebab = (path: string) => path.split(".").filter((p, i, a) => !(p === "base" && i === a.length - 1)).join("-");
-/** The pairs the token build fails on, in the same order: both read @blip/tokens' contrast.json. */
+/** The pairs the token build fails on, in the same order: both read @jaatster/blip-tokens' contrast.json. */
 export function pairs(): Pair[] {
   const data = json<ContrastData>("packages/tokens/contrast.json");
   return data.pairs.flatMap(({ fg, bg, min, why }) =>

@@ -1,6 +1,6 @@
 ---
 name: Glint
-package: "@blip/effects"
+package: "@jaatster/blip-effects"
 css: text.css
 element: null
 react: null

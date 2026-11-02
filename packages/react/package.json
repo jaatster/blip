@@ -1,5 +1,5 @@
 {
-  "name": "@blip/react",
+  "name": "@jaatster/blip-react",
   "version": "0.1.0",
   "description": "Typed React components for Blip: every core component and kit, rendering the system's own markup and Web Components.",
   "keywords": [
@@ -14,7 +14,7 @@
   "bugs": "https://github.com/jaatster/blip/issues",
   "repository": {
     "type": "git",
-    "url": "github:jaatster/blip",
+    "url": "git+https://github.com/jaatster/blip.git",
     "directory": "packages/react"
   },
   "license": "MIT",
@@ -64,10 +64,10 @@
     "react": ">=18.3.0"
   },
   "dependencies": {
-    "@blip/effects": "workspace:^",
-    "@blip/elements": "workspace:^",
-    "@blip/game": "workspace:^",
-    "@blip/icons": "workspace:^"
+    "@jaatster/blip-effects": "workspace:^",
+    "@jaatster/blip-elements": "workspace:^",
+    "@jaatster/blip-game": "workspace:^",
+    "@jaatster/blip-icons": "workspace:^"
   },
   "devDependencies": {
     "@types/react": "^19.3.0",

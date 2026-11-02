@@ -1,7 +1,7 @@
 /**
  * Table: TableFrame, TableScroll, DataTable, TableCaret, TableSort, TableCheck, TableEmpty and TableLoading, the parts
  * that go inside <Table>, and <Table> itself (generated from its element, re-exported here). CSS from
- * @blip/components (table.css). <Table> (the element's wrapper) adds sorting and selection round the markup these
+ * @jaatster/blip-components (table.css). <Table> (the element's wrapper) adds sorting and selection round the markup these
  * render.
  */
 import { forwardRef } from "react";

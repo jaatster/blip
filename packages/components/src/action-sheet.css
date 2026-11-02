@@ -4,7 +4,7 @@
  * drawer.css, which components.css has: the scrim, the raised panel and the stepped slide), so it is a modal
  * <dialog>: focus stays inside while it is open. From 600 px of screen width it is a compact dialog in the middle
  * instead (radius 4, 160 pixels wide), which pops in as the dialog does; data-layout="sheet" keeps it at the bottom.
- * Wrap it in <blip-action-sheet> from @blip/elements: the choice is the value of the button that closed it.
+ * Wrap it in <blip-action-sheet> from @jaatster/blip-elements: the choice is the value of the button that closed it.
  *
  *   <blip-action-sheet light-dismiss>
  *     <dialog class="blip-box blip-drawer blip-action-sheet" id="replay" aria-labelledby="replay-title" aria-describedby="replay-text">

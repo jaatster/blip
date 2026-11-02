@@ -1,6 +1,6 @@
 ---
 name: CRT
-package: "@blip/effects"
+package: "@jaatster/blip-effects"
 css: crt.css
 element: null
 react: null

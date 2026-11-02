@@ -1,6 +1,6 @@
 /**
  * Pull to refresh: RefreshScroller, the part that goes inside <Refresh>, and <Refresh> itself (generated from its
- * element, re-exported here). CSS from @blip/components (refresh.css).
+ * element, re-exported here). CSS from @jaatster/blip-components (refresh.css).
  */
 import { forwardRef } from "react";
 import { cx, type NativeProps } from "../internal/props.js";

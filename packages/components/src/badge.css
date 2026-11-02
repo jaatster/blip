@@ -69,7 +69,7 @@
     inline-size: calc(6 * var(--blip-pixel));
     min-inline-size: 0;
     padding: 0;
-    /* No text: font-size-adjust (from @blip/font) makes Chrome draw 0-size text at full size, so it goes too. */
+    /* No text: font-size-adjust (from @jaatster/blip-font) makes Chrome draw 0-size text at full size, so it goes too. */
     font-size: 0;
     font-size-adjust: none;
   }

@@ -1,6 +1,6 @@
 ---
 name: Accordion
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: accordion.css
 element: null
 react: Accordion

@@ -17,7 +17,7 @@
  *   .blip-field-count         a character count, at the end of the row; data-state="full" at the limit
  *   data-layout="inline"    label beside the control (--blip-field-label-width, 64 pixels by default)
  *
- * <blip-field> (from @blip/elements) links help, error and count to the control with aria-describedby, marks it
+ * <blip-field> (from @jaatster/blip-elements) links help, error and count to the control with aria-describedby, marks it
  * aria-invalid, fills the error from the browser's message when you didn't write one, counts characters against
  * maxlength, and keeps an <output for> in step with its control.
  */

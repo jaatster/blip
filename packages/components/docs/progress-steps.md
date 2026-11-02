@@ -1,6 +1,6 @@
 ---
 name: Progress steps
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: progress-steps.css
 element: null
 react: ProgressSteps

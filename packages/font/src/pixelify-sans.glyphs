@@ -23,7 +23,7 @@
 # COMPOSING. '@ <char> = <letter> <mark>' puts a mark on a letter; 'part(x,y)' places a part x columns right and y
 # rows up instead. One part on its own makes the character another name for that glyph ('@ U+041E = O').
 #
-# Build after editing (pnpm --filter @blip/font build): it fails, naming the glyph, if any glyph of the three
+# Build after editing (pnpm --filter @jaatster/blip-font build): it fails, naming the glyph, if any glyph of the three
 # files still has a stroke thinner than one pixel, at regular or bold, or if a default feature joins letters.
 
 # ---------------------------------------------------------------------------------------------------------------

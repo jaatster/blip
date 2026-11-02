@@ -1,6 +1,6 @@
 ---
 name: Grid
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: grid.css
 element: null
 react: Grid

@@ -1,6 +1,6 @@
 ---
 name: Choices
-package: "@blip/game"
+package: "@jaatster/blip-game"
 css: choices.css
 element: blip-choices
 react: Choices
@@ -25,7 +25,7 @@ the choice under the cursor or the keyboard and pokes toward it on the beat.
 ```
 
 ```js
-import "@blip/game/choices";
+import "@jaatster/blip-game/choices";
 menu.addEventListener("blip-action", (e) => start(e.detail.value));
 ```
 

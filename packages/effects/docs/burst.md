@@ -1,6 +1,6 @@
 ---
 name: Burst
-package: "@blip/effects"
+package: "@jaatster/blip-effects"
 css: null
 element: null
 react: null
@@ -20,7 +20,7 @@ level cleared, a coin collected.
 ```
 
 ```js
-import { burst } from "@blip/effects/burst";
+import { burst } from "@jaatster/blip-effects/burst";
 await burst(button, { kind: "star", count: 8 });
 ```
 

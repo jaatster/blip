@@ -1,6 +1,6 @@
 ---
 name: Font
-package: "@blip/font"
+package: "@jaatster/blip-font"
 css: font.css
 element: null
 react: null
@@ -22,7 +22,7 @@ Open Font License.
 ## Usage
 
 ```js
-import "@blip/font/font.css"; // with @blip/tokens/tokens.css and @blip/core
+import "@jaatster/blip-font/font.css"; // with @jaatster/blip-tokens/tokens.css and @jaatster/blip-core
 ```
 
 ```html
@@ -35,7 +35,7 @@ import "@blip/font/font.css"; // with @blip/tokens/tokens.css and @blip/core
 characters each file draws: a page downloads only the scripts its text uses, so a Latin page loads only Latin. It also
 declares Blip Fallback, the system's emoji sized to stand as tall as the capitals. The tokens name them:
 `--blip-font-display` (Pixel Bop, then Pixelify Sans) and `--blip-font-ui` (Pixelify Sans), each followed by Blip
-Fallback and the system font. `.blip-display` and the other type classes live in `@blip/core`.
+Fallback and the system font. `.blip-display` and the other type classes live in `@jaatster/blip-core`.
 
 ## Sizing
 
@@ -184,7 +184,7 @@ Glyphs are pixel maps in `src/pixel-bop.glyphs`; the top of the file documents t
 2. **Compose accented letters, don't draw them.** `@ Ǎ = A caron` puts the shared caron on A: centred, one empty
    row above the capital. A mark that belongs elsewhere is a new mark glyph, or a part placed exactly with
    `part(x,y)`. Lower case needs nothing: it maps to the capitals.
-3. **Build** with `pnpm --filter @blip/font build`. The build checks every block and names the file, the line
+3. **Build** with `pnpm --filter @jaatster/blip-font build`. The build checks every block and names the file, the line
    and the fix when something is off (a ragged row, a 1-pixel stroke, ink outside the line). It writes the TTF and
    WOFF2 files, the glyph table in `examples/font.html`, the character list above and the `@font-face` rules of
    `font.css`, and fails if a WOFF2 goes over 15 KB.
@@ -199,10 +199,10 @@ one of its pixels at regular or bold, or if a feature browsers apply by default 
 
 | File or export | |
 |---|---|
-| `@blip/font/font.css` | The `@font-face` rules: each face in three files, and Blip Fallback (emoji). |
-| `@blip/font/pixel-bop.woff2`, `pixel-bop-cyrillic.woff2`, `pixel-bop-greek.woff2` | Pixel Bop, one file per script. |
-| `@blip/font/pixel-bop.ttf` | Pixel Bop, every script in one file, with glyph names, for design tools. |
-| `@blip/font/pixelify-sans.woff2`, `pixelify-sans-cyrillic.woff2`, `pixelify-sans-greek.woff2` | Pixelify Sans, one file per script, variable weight 400 to 700. |
+| `@jaatster/blip-font/font.css` | The `@font-face` rules: each face in three files, and Blip Fallback (emoji). |
+| `@jaatster/blip-font/pixel-bop.woff2`, `pixel-bop-cyrillic.woff2`, `pixel-bop-greek.woff2` | Pixel Bop, one file per script. |
+| `@jaatster/blip-font/pixel-bop.ttf` | Pixel Bop, every script in one file, with glyph names, for design tools. |
+| `@jaatster/blip-font/pixelify-sans.woff2`, `pixelify-sans-cyrillic.woff2`, `pixelify-sans-greek.woff2` | Pixelify Sans, one file per script, variable weight 400 to 700. |
 | `src/pixel-bop.glyphs` | The source of every Pixel Bop glyph. |
 | `src/pixelify-sans.glyphs` | The glyphs Blip draws, composes or corrects in Pixelify Sans. |
 

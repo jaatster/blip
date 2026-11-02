@@ -1,5 +1,5 @@
 /**
- * Slider: Slider, SliderGroup, SliderValue and SliderTicks. CSS from @blip/components (slider.css). The ref and
+ * Slider: Slider, SliderGroup, SliderValue and SliderTicks. CSS from @jaatster/blip-components (slider.css). The ref and
  * every native prop go to the control itself, so forms, labels and refs work as on the bare element; className and
  * style go to the outermost element it renders.
  */

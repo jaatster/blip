@@ -5,7 +5,7 @@
  *
  *   list.addEventListener("blip-action", (e) => console.log(e.detail.value));   // { item, value, index, label }
  */
-import { BlipElement, rovingFocus } from "@blip/core";
+import { BlipElement, rovingFocus } from "@jaatster/blip-core";
 
 /** What blip-action reports from a list of choices. */
 export interface ChoiceDetail {

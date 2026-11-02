@@ -181,7 +181,7 @@ describe.each(docs.map((d) => [`${d.pkg}/docs/${d.name}.md`, d] as const))("%s",
     for (const t of doc.tags) if (!elements.has(t)) problems.push(`element: ${t} is in no custom-elements.json (run pnpm cem)`);
     const react = doc.meta.react;
     if (react && react !== "null" && !new RegExp(`export\\s+(?:const|function|class)\\s+${esc(react)}\\b|export\\s*\\{[^}]*\\b${esc(react)}\\b`).test(reactSource)) {
-      problems.push(`react: ${react} is not exported by @blip/react`);
+      problems.push(`react: ${react} is not exported by @jaatster/blip-react`);
     }
     expect(problems, where).toEqual([]);
   });

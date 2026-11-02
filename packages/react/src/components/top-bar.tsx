@@ -1,5 +1,5 @@
 /**
- * Top bar: TopBar, TopBarBack, TopBarTitle, TopBarActions and TopBarLarge. CSS from @blip/components
+ * Top bar: TopBar, TopBarBack, TopBarTitle, TopBarActions and TopBarLarge. CSS from @jaatster/blip-components
  * (top-bar.css). A phone screen's own bar; the site's bar is AppBar.
  */
 import { forwardRef } from "react";

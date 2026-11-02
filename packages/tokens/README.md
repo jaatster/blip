@@ -1,4 +1,4 @@
-# @blip/tokens
+# @jaatster/blip-tokens
 
 Blip's design tokens: ink, the candy palette, the world palettes, the pixel spacing scale, motion frames and
 type, in the W3C DTCG 2025.10 format. A resolver switches the scheme (Day, Sunset, Night), the pixel size (2, 3 or
@@ -6,13 +6,13 @@ type, in the W3C DTCG 2025.10 format. A resolver switches the scheme (Day, Sunse
 text pair is checked against WCAG 2.2 AA when the tokens build, in every scheme of every palette.
 
 ```sh
-npm install @blip/tokens
+npm install @jaatster/blip-tokens
 ```
 
 ## Use
 
 ```css
-@import "@blip/tokens/tokens.css";
+@import "@jaatster/blip-tokens/tokens.css";
 
 .thing { color: var(--blip-text); padding: var(--blip-space-4); }
 ```
@@ -23,7 +23,7 @@ npm install @blip/tokens
 ```
 
 ```js
-import { cssVar, px, schemes } from "@blip/tokens";
+import { cssVar, px, schemes } from "@jaatster/blip-tokens";
 cssVar("candy-pink");          // "var(--blip-candy-pink)"
 px("space-4", 3);              // 12
 ```
@@ -53,8 +53,8 @@ Candy is Blip's own (blue by Day, pink at Sunset, sky blue on charcoal at Night)
 | `rose-pine` | After Rosé Pine (MIT) |
 
 ```css
-@import "@blip/tokens/tokens.css";
-@import "@blip/tokens/palettes.css";
+@import "@jaatster/blip-tokens/tokens.css";
+@import "@jaatster/blip-tokens/palettes.css";
 ```
 
 ```html
@@ -68,7 +68,7 @@ preset's roles in every scheme, and `paletteNames` lists them all, Candy first.
 
 The presets are made from recipes in `scripts/palettes.mjs` by the same maths as the palette maker
 (`scripts/palette.mjs`): an accent's hue and strength, Night's tint and lightness, or the colours a well-known theme
-starts from, with every text colour nudged to AA. `pnpm --filter @blip/tokens palettes` writes them again.
+starts from, with every text colour nudged to AA. `pnpm --filter @jaatster/blip-tokens palettes` writes them again.
 
 ## Your own palette or theme
 
@@ -83,7 +83,7 @@ npx blip-tokens my-theme.resolver.json --out src/tokens.css
 npx blip-tokens my-theme.resolver.json --check        # checks only
 ```
 
-Load the result instead of `@blip/tokens/tokens.css`. A palette's resolver gives the `palette` modifier a
+Load the result instead of `@jaatster/blip-tokens/tokens.css`. A palette's resolver gives the `palette` modifier a
 context of its own, listing Candy's file and then the palette's, and makes it the default:
 
 ```json
@@ -94,8 +94,8 @@ context of its own, listing Candy's file and then the palette's, and makes it th
   "modifiers": {
     "palette": {
       "contexts": {
-        "candy": [{ "$ref": "node_modules/@blip/tokens/src/palettes/candy.tokens.json" }],
-        "mine": [{ "$ref": "node_modules/@blip/tokens/src/palettes/candy.tokens.json" }, { "$ref": "my-palette.tokens.json" }]
+        "candy": [{ "$ref": "node_modules/@jaatster/blip-tokens/src/palettes/candy.tokens.json" }],
+        "mine": [{ "$ref": "node_modules/@jaatster/blip-tokens/src/palettes/candy.tokens.json" }, { "$ref": "my-palette.tokens.json" }]
       },
       "default": "mine"
     }
@@ -105,7 +105,7 @@ context of its own, listing Candy's file and then the palette's, and makes it th
 
 A palette file sets only `palette.*` and `world.night.*` tokens, as `src/palettes/*.tokens.json` do; any other name
 is a typo (`BLIP-T005`). A theme can still set a scheme's roles directly: its resolver lists, for each scheme, Pixel
-Pop's file and then the theme's (`node_modules/@blip/tokens/src/schemes/day.tokens.json`,
+Pop's file and then the theme's (`node_modules/@jaatster/blip-tokens/src/schemes/day.tokens.json`,
 `my-theme.day.tokens.json`). Whatever a resolver leaves out (the primitives, the resolution order, the pixel sizes) is
 Blip's. When a check fails, it
 prints the code, the theme's file and token, the two colours and their ratio, and how to fix it, and writes nothing:

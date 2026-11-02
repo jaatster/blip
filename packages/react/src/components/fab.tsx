@@ -1,6 +1,6 @@
 /**
  * Action button: FabButton, and FabMenu and FabAction, the parts of a speed dial that go inside <Fab> (generated from
- * its element, re-exported here). CSS from @blip/components (fab.css).
+ * its element, re-exported here). CSS from @jaatster/blip-components (fab.css).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";

@@ -1,5 +1,5 @@
 /**
- * @blip/sound's blip voice: each letter has its own pitch step, so a word always sounds the same; vowels sit a
+ * @jaatster/blip-sound's blip voice: each letter has its own pitch step, so a word always sounds the same; vowels sit a
  * step up; happy is higher, sleepy lower.
  */
 import { describe, expect, it } from "vitest";

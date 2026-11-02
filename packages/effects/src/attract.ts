@@ -22,7 +22,7 @@
  * screen in a shown tab, from the top each time it comes back; while less motion is asked for (the device, or
  * data-blip-motion="reduce" on <html>, which <blip-motion-toggle> sets) it shows its still frame, at once.
  */
-import { BlipElement, duration, frames, pixel, reducedMotion, run, warn } from "@blip/core";
+import { BlipElement, duration, frames, pixel, reducedMotion, run, warn } from "@jaatster/blip-core";
 import { mirror } from "./_pixel.js";
 
 /**

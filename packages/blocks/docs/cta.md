@@ -1,6 +1,6 @@
 ---
 name: CTA band
-package: "@blip/blocks"
+package: "@jaatster/blip-blocks"
 css: cta.css
 element: null
 react: CtaBand

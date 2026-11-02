@@ -1,19 +1,19 @@
-# @blip/components
+# @jaatster/blip-components
 
 Blip's core components as layered CSS (`@layer blip.components`): actions, forms, navigation, feedback and
 overlays, data and layout. Native HTML first; the components that need behaviour get it from
-[@blip/elements](../elements).
+[@jaatster/blip-elements](../elements).
 
 ```sh
-npm install @blip/components @blip/core @blip/tokens
+npm install @jaatster/blip-components @jaatster/blip-core @jaatster/blip-tokens
 ```
 
 ## Use
 
 ```css
-@import "@blip/tokens/tokens.css";
-@import "@blip/core/core.css";
-@import "@blip/components/components.css";   /* or one file each: @blip/components/button.css */
+@import "@jaatster/blip-tokens/tokens.css";
+@import "@jaatster/blip-core/core.css";
+@import "@jaatster/blip-components/components.css";   /* or one file each: @jaatster/blip-components/button.css */
 ```
 
 ```html

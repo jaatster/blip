@@ -1,5 +1,5 @@
 /**
- * <Textarea>. CSS from @blip/components (textarea.css). The ref and every native prop go to the control
+ * <Textarea>. CSS from @jaatster/blip-components (textarea.css). The ref and every native prop go to the control
  * itself, so forms, labels and refs work as on the bare element; className and style go to the outermost element it
  * renders.
  */

@@ -1,7 +1,7 @@
 /**
  * Bottom sheet: SheetPanel and SheetHandle, the parts that go inside <Sheet>, and <Sheet> itself (generated from its
  * element, re-exported here). The title bar, title, close, body and footer are the dialog's parts. CSS from
- * @blip/components (sheet.css).
+ * @jaatster/blip-components (sheet.css).
  */
 import { forwardRef } from "react";
 import { cx, flag } from "../internal/props.js";

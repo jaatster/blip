@@ -1,5 +1,5 @@
 /**
- * Prompts: Prompt, PromptKey, PromptButton, PromptShoulder, PromptDpad and PromptStart. CSS from @blip/game
+ * Prompts: Prompt, PromptKey, PromptButton, PromptShoulder, PromptDpad and PromptStart. CSS from @jaatster/blip-game
  * (prompt.css).
  */
 import { forwardRef } from "react";

@@ -1,6 +1,6 @@
 ---
 name: Top bar
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: top-bar.css
 element: null
 react: TopBar

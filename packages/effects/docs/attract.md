@@ -1,6 +1,6 @@
 ---
 name: Attract
-package: "@blip/effects"
+package: "@jaatster/blip-effects"
 css: attract.css
 element: blip-attract
 react: Attract
@@ -24,8 +24,8 @@ show one interaction.
 ```
 
 ```js
-import "@blip/effects/motion";    // <blip-motion-toggle>: every page with a demo shows it
-import "@blip/effects/attract";   // defines <blip-attract>
+import "@jaatster/blip-effects/motion";    // <blip-motion-toggle>: every page with a demo shows it
+import "@jaatster/blip-effects/attract";   // defines <blip-attract>
 const demo = document.querySelector("blip-attract");
 demo.steps = [{ type: "#title", text: "Ship it" }, { press: "#save" }, { poster: true }, { wait: "2s" }];
 ```
@@ -128,4 +128,4 @@ with its text ([`BLIP-D010`, `BLIP-D011`](https://jaatster.com/blip/diagnostics/
 | `label` | attribute and property | The sentence assistive technology reads (its `aria-label`). |
 | `pointer` | attribute and property | `glove`, or left out for the arrow. |
 | `steps` | property | The steps it plays, as objects: those set here, else the script's. Setting them plays them from the top; `null` goes back to the script. |
-| `AttractStep` | type | One step as an object (`@blip/effects/attract`). |
+| `AttractStep` | type | One step as an object (`@jaatster/blip-effects/attract`). |

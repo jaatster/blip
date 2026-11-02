@@ -1,6 +1,6 @@
 ---
 name: Card
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: card.css
 element: null
 react: Card

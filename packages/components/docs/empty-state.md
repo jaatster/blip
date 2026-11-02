@@ -1,6 +1,6 @@
 ---
 name: Empty state
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: empty-state.css
 element: null
 react: EmptyState

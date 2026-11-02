@@ -3,7 +3,7 @@
  * nothing leaks), set-up deferred while the page is still parsing, events, classes and safe definition.
  */
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { BlipElement } from "@blip/core";
+import { BlipElement } from "@jaatster/blip-core";
 import { mount } from "../support/dom.ts";
 
 let n = 0;

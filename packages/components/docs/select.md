@@ -1,6 +1,6 @@
 ---
 name: Select
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: select.css
 element: null
 react: Select

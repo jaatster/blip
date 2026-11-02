@@ -1,5 +1,5 @@
 /**
- * <Loader>. CSS from @blip/components (loader.css).
+ * <Loader>. CSS from @jaatster/blip-components (loader.css).
  */
 import { forwardRef } from "react";
 import type { ReactNode } from "react";

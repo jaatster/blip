@@ -1,6 +1,6 @@
 ---
 name: Typewriter
-package: "@blip/effects"
+package: "@jaatster/blip-effects"
 css: text.css
 element: blip-typewriter
 react: Typewriter
@@ -26,8 +26,8 @@ line.finish();                          // shows it all at once (a Skip button)
 line.addEventListener("blip-typewriter-done", () => next());
 ```
 
-Blips play through `services.sound()` from `@blip/core`, so they are silent until the app turns sound on
-(`enableSound()` from `@blip/sound`).
+Blips play through `services.sound()` from `@jaatster/blip-core`, so they are silent until the app turns sound on
+(`enableSound()` from `@jaatster/blip-sound`).
 
 ## Anatomy
 

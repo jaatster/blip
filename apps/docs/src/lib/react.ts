@@ -1,5 +1,5 @@
 /**
- * @blip/react, read from its source when the site builds: what each entry exports, every component with its
+ * @jaatster/blip-react, read from its source when the site builds: what each entry exports, every component with its
  * JSDoc (summary, examples, what it renders) and its props resolved from its TypeScript types, and which component
  * page each one belongs to. The React section of a component page is made from this, so it shows the API that
  * exists, under the names it has today.
@@ -7,7 +7,7 @@
 import { componentDocs, exists, read, type Doc } from "./data";
 
 const BASE = "packages/react/src";
-const ENTRIES: Record<string, string> = { "@blip/react": "index.ts", "@blip/react/game": "game.ts", "@blip/react/blocks": "blocks.ts", "@blip/react/effects": "effects.ts", "@blip/react/icons": "icons.tsx" };
+const ENTRIES: Record<string, string> = { "@jaatster/blip-react": "index.ts", "@jaatster/blip-react/game": "game.ts", "@jaatster/blip-react/blocks": "blocks.ts", "@jaatster/blip-react/effects": "effects.ts", "@jaatster/blip-react/icons": "icons.tsx" };
 
 // ------------------------------------------------------------------ scanning TypeScript text
 
@@ -521,7 +521,7 @@ function defaults(statement: string): Record<string, string> {
 }
 
 let componentsCache: ReactComponent[] | undefined;
-/** Every component @blip/react exports, in source order, with its props. */
+/** Every component @jaatster/blip-react exports, in source order, with its props. */
 export function reactComponents(): ReactComponent[] {
   if (componentsCache) return componentsCache;
   const out: ReactComponent[] = [];

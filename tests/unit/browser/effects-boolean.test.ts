@@ -4,7 +4,7 @@
  * "" for true and take the attribute away for false.
  */
 import { afterEach, beforeAll, beforeEach, describe, expect, inject, it } from "vitest";
-import { provide } from "@blip/core";
+import { provide } from "@jaatster/blip-core";
 import motionCss from "../../../packages/core/src/css/motion.css?raw";
 import textCss from "../../../packages/effects/src/text.css?raw";
 import worldCss from "../../../packages/effects/src/world.css?raw";

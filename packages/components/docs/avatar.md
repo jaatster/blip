@@ -1,6 +1,6 @@
 ---
 name: Avatar
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: avatar.css
 element: null
 react: Avatar

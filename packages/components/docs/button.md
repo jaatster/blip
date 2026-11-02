@@ -1,6 +1,6 @@
 ---
 name: Button
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: button.css
 element: null
 react: Button

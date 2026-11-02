@@ -1,6 +1,6 @@
 /**
  * Drawer: DrawerSheet, the parts that go inside <Drawer>, and <Drawer> itself (generated from its element, re-exported
- * here). CSS from @blip/components (drawer.css).
+ * here). CSS from @jaatster/blip-components (drawer.css).
  */
 import { forwardRef } from "react";
 import { cx, flag } from "../internal/props.js";

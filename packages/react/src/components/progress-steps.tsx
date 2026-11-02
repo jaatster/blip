@@ -1,6 +1,6 @@
 /**
  * Progress steps: ProgressSteps, ProgressStepsList, ProgressStepsItem, ProgressStepsMarker, ProgressStepsLabel and
- * ProgressStepsHint. CSS from @blip/components (progress-steps.css). A link to the page you are on takes `current`
+ * ProgressStepsHint. CSS from @jaatster/blip-components (progress-steps.css). A link to the page you are on takes `current`
  * (`aria-current="page"`); list items with no class of their own stay plain `<li>`s.
  */
 import { forwardRef } from "react";

@@ -1,6 +1,6 @@
 ---
 name: Sidebar
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: sidebar.css
 element: null
 react: Sidebar

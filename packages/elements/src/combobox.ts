@@ -18,7 +18,7 @@
  * value, open, empty-text ("No matches"), toggle-label ("Show suggestions"). Properties: value, open. Events:
  * blip-change { value }, blip-open, blip-close.
  */
-import { BlipElement, dismiss, warn } from "@blip/core";
+import { BlipElement, dismiss, warn } from "@jaatster/blip-core";
 import { both, isOn, observe, unFalse } from "./_dom.js";
 
 let uid = 0;

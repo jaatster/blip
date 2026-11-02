@@ -1,6 +1,6 @@
 ---
 name: Footer
-package: "@blip/blocks"
+package: "@jaatster/blip-blocks"
 css: footer.css
 element: null
 react: Footer

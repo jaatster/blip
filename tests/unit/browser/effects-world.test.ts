@@ -1,10 +1,10 @@
 /**
- * The world (@blip/effects) keeps off text and on whole device pixels: no star sits between words or under
+ * The world (@jaatster/blip-effects) keeps off text and on whole device pixels: no star sits between words or under
  * letters, every canvas and every slide lands on whole device pixels at 125%, 175% and 262.5%, and a parallax slide
  * cut short still lands on a whole world pixel.
  */
 import { afterEach, beforeAll, beforeEach, describe, expect, inject, it } from "vitest";
-import { provide } from "@blip/core";
+import { provide } from "@jaatster/blip-core";
 import { drawWorld, type DrawWorldOptions, type WorldBox } from "../../../packages/effects/src/world.ts";
 import motionCss from "../../../packages/core/src/css/motion.css?raw";
 import worldCss from "../../../packages/effects/src/world.css?raw";

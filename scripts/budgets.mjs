@@ -15,9 +15,9 @@
  *   custom property and layer (about 35 bytes after gzip), which left it 2 bytes under. Other growth still fails.
  * - palettes.css, 5 KB: the presets, opt in (data-blip-palette). Eleven of them, each about 50 colours (the accents,
  *   the warning where it moves, Night's page, ink and sky), so about 0.4 KB a preset.
- * - core JS: all of @blip/core's JavaScript (elements, controllers, timeline, services), bundled and minified.
- * - Each element module: one module of @blip/elements, the game kit, the effects kit or the icons, minified with
- *   @blip/* left out (the core runtime is the core JS line; the icon data is the icons line). Found by looking
+ * - core JS: all of @jaatster/blip-core's JavaScript (elements, controllers, timeline, services), bundled and minified.
+ * - Each element module: one module of @jaatster/blip-elements, the game kit, the effects kit or the icons, minified with
+ *   @jaatster/blip-* left out (the core runtime is the core JS line; the icon data is the icons line). Found by looking
  *   for modules that define a blip-* element. The effects world renderer is exempt here: it is an effect (a landscape
  *   drawn in the browser instead of an image), budgeted with the effects.
  * - Effects JS + CSS, 18 KB: PLAN.md's first estimate was 12 KB, made before the world renderer was finished (five
@@ -60,7 +60,7 @@ const gzFile = (file) => {
   const b = read(file);
   return b === null ? null : gzip(b);
 };
-const bundle = async (entry, external = ["@blip/*"]) => {
+const bundle = async (entry, external = ["@jaatster/blip-*"]) => {
   if (!existsSync(entry)) {
     missing.push(relative(ROOT, entry));
     return null;
@@ -95,7 +95,7 @@ for (const pkg of ["elements", "game", "effects", "icons"]) {
       rows.push({ name: `element ${pkg}/${f.replace(/\.ts$/, "")}`, file: key, size: await bundle(file), limit: Infinity, note: `exempt: ${EXEMPT[key]}` });
       continue;
     }
-    row(`element ${pkg}/${f.replace(/\.ts$/, "")}`, key, await bundle(file, ["@blip/*", "./index.js"]), 3);
+    row(`element ${pkg}/${f.replace(/\.ts$/, "")}`, key, await bundle(file, ["@jaatster/blip-*", "./index.js"]), 3);
   }
 }
 

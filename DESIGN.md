@@ -475,7 +475,7 @@ outlines.
 
 A palette is the accent of each time of day and Night's page: its surfaces, text, lines, ink, accent and sky. One
 attribute switches it, `data-blip-palette`, on `<html>` (or on an element that sets its own `data-blip-scheme`), with
-`@blip/tokens/palettes.css` loaded. With none set the palette is **Candy**, Blip's own: Blue Raspberry by
+`@jaatster/blip-tokens/palettes.css` loaded. With none set the palette is **Candy**, Blip's own: Blue Raspberry by
 Day, Bubblegum at Sunset, and Sky Soda on charcoal at Night. The candies, the intents and the world of Day and Sunset
 are the same in every palette.
 

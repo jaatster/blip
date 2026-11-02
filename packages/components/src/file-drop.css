@@ -1,7 +1,7 @@
 /*
  * File drop. A tray to drop files on or click to browse, and the list of what was picked, each with a remove
  * button. The real control is a native <input type="file"> inside the tray: it opens the picker, takes the focus
- * and sends the files with the form. <blip-file-drop> (from @blip/elements) adds dropping, the list and
+ * and sends the files with the form. <blip-file-drop> (from @jaatster/blip-elements) adds dropping, the list and
  * removing; without JavaScript the browser's own file button shows in the tray.
  *
  *   <blip-file-drop class="blip-file-drop">

@@ -2,7 +2,7 @@
  * Dialog. A native <dialog> drawn as a raised panel: a title bar in the tone's light colour with an ink rule under
  * it, a body, and a footer of actions. Opened with showModal(), it stands over a dithered ink scrim (never a
  * see-through wash) and pops in: one pixel low for a frame while the scrim dithers in, then in place. Wrap it in
- * <blip-dialog> (from @blip/elements) for the stepped exit, a cancelable blip-before-close and light dismiss.
+ * <blip-dialog> (from @jaatster/blip-elements) for the stepped exit, a cancelable blip-before-close and light dismiss.
  *
  *   <dialog class="blip-box blip-dialog" id="save" aria-labelledby="save-title">
  *     <form method="dialog">

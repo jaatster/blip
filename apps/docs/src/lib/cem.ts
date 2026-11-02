@@ -72,7 +72,7 @@ export function elementReference(tag: string): ElementReference | undefined {
         return {
           tag,
           className: d.name,
-          module: `@blip/${pkg}/${mod.path.replace(/^src\//, "").replace(/\.(ts|js)$/, "")}`,
+          module: `@jaatster/blip-${pkg}/${mod.path.replace(/^src\//, "").replace(/\.(ts|js)$/, "")}`,
           summary: clean(d.summary || d.description),
           attributes: (d.attributes ?? []).map((a) => ({ name: a.name, type: clean(a.type?.text), default: clean(a.default), description: clean(a.description || a.summary) })),
           properties: members.filter((m) => m.kind === "field").map((m) => ({ name: m.name, type: clean(m.type?.text), description: clean(m.description || m.summary), readonly: !!m.readonly })),

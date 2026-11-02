@@ -1,6 +1,6 @@
 ---
 name: Popover
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: popover.css
 element: null
 react: Popover
@@ -42,7 +42,7 @@ shows its nub and turns it when it flips; without it, an open popover has no nub
 way. (Static popovers, `data-blip-static`, always have theirs.)
 
 ```html
-<link rel="stylesheet" href="…/@blip/components/dist/popover-nub.min.css">
+<link rel="stylesheet" href="…/@jaatster/blip-components/dist/popover-nub.min.css">
 ```
 
 Load it with a `<link>` after `components.css` (or `popover.css`): from a CDN, or a copy in your public folder. Do
@@ -112,7 +112,7 @@ all, the popover opens in the middle of the screen.
 | `.blip-popover-title`, `.blip-popover-close` | Optional title line; optional close button (`popovertargetaction="hide"`). |
 | `data-side`, `data-align` | Placement (see Variants). |
 | `data-blip-static` | Drawn in the page flow. |
-| `@blip/components/popover-nub.css` | Opt-in: the nub on open popovers, turned when they flip. Not in `components.css`; load it with a `<link>`. |
+| `@jaatster/blip-components/popover-nub.css` | Opt-in: the nub on open popovers, turned when they flip. Not in `components.css`; load it with a `<link>`. |
 
 | Custom property | Default | |
 |---|---|---|

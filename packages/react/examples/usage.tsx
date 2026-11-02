@@ -1,4 +1,4 @@
-// Type-checked as a consumer would write it (pnpm --filter @blip/react typecheck, against React 19 and React 18
+// Type-checked as a consumer would write it (pnpm --filter @jaatster/blip-react typecheck, against React 19 and React 18
 // types): imports go through the package's own exports, so this checks the published types. The expected errors at
 // the end must stay errors: those are the mistakes the types refuse.
 import { forwardRef, useRef, useState, type ComponentPropsWithoutRef } from "react";
@@ -71,11 +71,11 @@ import {
   WindowTitle,
   toast,
   type Tone,
-} from "@blip/react";
-import { Choice, ChoiceList, Choices, Counter, Dialogue, DialogueName, DialogueText, Hearts, HudBar, Inventory, Slot, Sprite } from "@blip/react/game";
-import { CtaActions, CtaBand, CtaText, CtaTitle, Feature, FeaturesGrid, FeatureTitle, Hero, HeroActions, HeroInner, HeroLead, HeroTitle } from "@blip/react/blocks";
-import { DropText, Typewriter, World } from "@blip/react/effects";
-import { Icon, type IconName } from "@blip/react/icons";
+} from "@jaatster/blip-react";
+import { Choice, ChoiceList, Choices, Counter, Dialogue, DialogueName, DialogueText, Hearts, HudBar, Inventory, Slot, Sprite } from "@jaatster/blip-react/game";
+import { CtaActions, CtaBand, CtaText, CtaTitle, Feature, FeaturesGrid, FeatureTitle, Hero, HeroActions, HeroInner, HeroLead, HeroTitle } from "@jaatster/blip-react/blocks";
+import { DropText, Typewriter, World } from "@jaatster/blip-react/effects";
+import { Icon, type IconName } from "@jaatster/blip-react/icons";
 
 /** A router's own link (as React Router's): it takes `to` and renders an anchor. Link parts take it with `as`. */
 const RouterLink = forwardRef<HTMLAnchorElement, { to: string } & Omit<ComponentPropsWithoutRef<"a">, "href">>(function RouterLink({ to, ...rest }, ref) {

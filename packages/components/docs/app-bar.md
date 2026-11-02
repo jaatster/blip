@@ -1,6 +1,6 @@
 ---
 name: App bar
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: app-bar.css
 element: null
 react: AppBar

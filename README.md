@@ -29,7 +29,7 @@ wrappers on top. It began as the shipped look of an Android TV launcher, where e
 
 The docs site, [jaatster.com/blip](https://jaatster.com/blip/), is built in Blip itself: every component in Day,
 Sunset and Night, the foundations, three templates (a dashboard, a landing page and a game menu) and a theme
-builder. Run it locally with `pnpm --filter @blip/docs dev`.
+builder. Run it locally with `pnpm --filter @jaatster/blip-docs dev`.
 
 There are no screenshots in this repository on purpose: Blip draws itself. The card at the top is the one
 picture, and Blip drew that too: `specimen/press.html` builds it from the system's own parts, and `pnpm shoot`
@@ -38,7 +38,7 @@ wide (and the responsive ones at 390 px) and compare them pixel for pixel:
 
 ```sh
 pnpm build
-pnpm --filter @blip/tests test:visual
+pnpm --filter @jaatster/blip-tests test:visual
 ```
 
 ## Quick start
@@ -54,19 +54,19 @@ tabs.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@blip/font@0.2.0/font.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@blip/tokens@0.1.0/dist/css/tokens.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@blip/core@0.1.0/dist/core.min.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@blip/components@0.1.0/dist/components.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jaatster/blip-font@0.2.0/font.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jaatster/blip-tokens@0.1.0/dist/css/tokens.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jaatster/blip-core@0.1.0/dist/core.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@jaatster/blip-components@0.1.0/dist/components.min.css">
   <script type="importmap">
     {
       "imports": {
-        "@blip/core": "https://cdn.jsdelivr.net/npm/@blip/core@0.1.0/dist/js/index.js",
-        "@blip/elements/": "https://cdn.jsdelivr.net/npm/@blip/elements@0.1.0/dist/"
+        "@jaatster/blip-core": "https://cdn.jsdelivr.net/npm/@jaatster/blip-core@0.1.0/dist/js/index.js",
+        "@jaatster/blip-elements/": "https://cdn.jsdelivr.net/npm/@jaatster/blip-elements@0.1.0/dist/"
       }
     }
   </script>
-  <script type="module">import "@blip/elements/tabs.js";</script>
+  <script type="module">import "@jaatster/blip-elements/tabs.js";</script>
 </head>
 <body>
   <h1 class="blip-display blip-pop" data-scale="3" data-pop="Level 2">Level 2</h1>
@@ -92,40 +92,40 @@ published, point the same paths at your own build (`packages/*/dist`, served by 
 ### npm
 
 ```sh
-npm install @blip/font @blip/tokens @blip/core @blip/components
-npm install @blip/elements @blip/icons     # behaviour and icons, when a screen needs them
+npm install @jaatster/blip-font @jaatster/blip-tokens @jaatster/blip-core @jaatster/blip-components
+npm install @jaatster/blip-elements @jaatster/blip-icons     # behaviour and icons, when a screen needs them
 ```
 
 ```css
 /* In this order: the faces, the tokens, the building blocks, the components. Kits after them. */
-@import "@blip/font/font.css";
-@import "@blip/tokens/tokens.css";
-@import "@blip/core/core.css";
-@import "@blip/components/components.css";   /* or one file each: @blip/components/button.css */
+@import "@jaatster/blip-font/font.css";
+@import "@jaatster/blip-tokens/tokens.css";
+@import "@jaatster/blip-core/core.css";
+@import "@jaatster/blip-components/components.css";   /* or one file each: @jaatster/blip-components/button.css */
 ```
 
 ```js
-import "@blip/elements/tabs";   // one element at a time, or "@blip/elements" for all of them
+import "@jaatster/blip-elements/tabs";   // one element at a time, or "@jaatster/blip-elements" for all of them
 ```
 
 Every file puts its rules in a cascade layer (`blip.reset`, `blip.tokens`, `blip.base`, `blip.core`, `blip.components`,
 `blip.kits`, `blip.utilities`), so your own CSS, outside the layers, wins without `!important`. With Tailwind CSS v4 or
-other layered CSS, import `@blip/core/layers.css` first: it puts Tailwind's reset under Blip and its
+other layered CSS, import `@jaatster/blip-core/layers.css` first: it puts Tailwind's reset under Blip and its
 utilities over it ([Get started](https://jaatster.com/blip/start/#tailwind) has the whole recipe, and notes for Vue and
 Svelte).
 
 ### React
 
 ```sh
-npm install @blip/react @blip/font @blip/tokens @blip/core @blip/components
+npm install @jaatster/blip-react @jaatster/blip-font @jaatster/blip-tokens @jaatster/blip-core @jaatster/blip-components
 ```
 
 ```tsx
-import "@blip/font/font.css";
-import "@blip/tokens/tokens.css";
-import "@blip/core/core.css";
-import "@blip/components/components.css";
-import { Button, Tab, TabList, TabPanel, Tabs, toast } from "@blip/react";
+import "@jaatster/blip-font/font.css";
+import "@jaatster/blip-tokens/tokens.css";
+import "@jaatster/blip-core/core.css";
+import "@jaatster/blip-components/components.css";
+import { Button, Tab, TabList, TabPanel, Tabs, toast } from "@jaatster/blip-react";
 
 export function Settings() {
   return (
@@ -145,35 +145,35 @@ export function Settings() {
 
 React 18.3 and 19, on the client and the server. A component like `Settings`, with event handlers, is a Client
 Component: in Next.js, put `"use client";` at the top of its file. Kits have their own entry points:
-`@blip/react/game`, `/blocks`, `/effects` and `/icons`.
+`@jaatster/blip-react/game`, `/blocks`, `/effects` and `/icons`.
 
 ## Packages
 
 Each package has its own version and one entry point per component, so an app takes only what it uses. There are no
-runtime dependencies outside `@blip/*` (React is a peer of the React package).
+runtime dependencies outside `@jaatster/blip-*` (React is a peer of the React package).
 
 | Package | What it is | Budget, gzipped | Today |
 |---|---|---|---|
 | **Core** | | | |
-| `@blip/tokens` | Every colour, size, duration and type value in the W3C DTCG 2025.10 format, with a resolver for the scheme and the pixel; exported as CSS, JS and TypeScript, Kotlin (Compose), Swift, Android XML and Figma variables | `tokens.css` 4 KB | 3.76 KB |
-| `@blip/core` | The building blocks: the pixel, the candy box, type, stepped motion and base styles; `BlipElement`, roving focus, typeahead, dismiss, timelines, the scheme clock and swappable services | CSS 6.5 KB, JS 3 KB | 6.04 KB, 2.88 KB |
-| `@blip/components` | The 61 core components as layered CSS, phone ones included: one file, or one per component | 34 KB, all of it | 31.18 KB |
-| `@blip/elements` | 22 light-DOM Web Components for the components that need behaviour, with a Custom Elements Manifest | 3 KB each | 1.05 to 3.00 KB |
-| `@blip/icons` | 189 icons on a 12 x 12 grid: SVG files, a sprite, JS path data and `<blip-icon>` | 6 KB, all the path data | 5.59 KB |
-| `@blip/font` | Pixel Bop, the display face (WOFF2 and TTF), and a Latin subset of Pixelify Sans | Pixel Bop 15 KB (file size) | 8.52 KB |
-| `@blip/react` | Typed React components for every component and kit | none: no side effects, one export each | |
+| `@jaatster/blip-tokens` | Every colour, size, duration and type value in the W3C DTCG 2025.10 format, with a resolver for the scheme and the pixel; exported as CSS, JS and TypeScript, Kotlin (Compose), Swift, Android XML and Figma variables | `tokens.css` 4 KB | 3.76 KB |
+| `@jaatster/blip-core` | The building blocks: the pixel, the candy box, type, stepped motion and base styles; `BlipElement`, roving focus, typeahead, dismiss, timelines, the scheme clock and swappable services | CSS 6.5 KB, JS 3 KB | 6.04 KB, 2.88 KB |
+| `@jaatster/blip-components` | The 61 core components as layered CSS, phone ones included: one file, or one per component | 34 KB, all of it | 31.18 KB |
+| `@jaatster/blip-elements` | 22 light-DOM Web Components for the components that need behaviour, with a Custom Elements Manifest | 3 KB each | 1.05 to 3.00 KB |
+| `@jaatster/blip-icons` | 189 icons on a 12 x 12 grid: SVG files, a sprite, JS path data and `<blip-icon>` | 6 KB, all the path data | 5.59 KB |
+| `@jaatster/blip-font` | Pixel Bop, the display face (WOFF2 and TTF), and a Latin subset of Pixelify Sans | Pixel Bop 15 KB (file size) | 8.52 KB |
+| `@jaatster/blip-react` | Typed React components for every component and kit | none: no side effects, one export each | |
 | **Kits** | | | |
-| `@blip/game` | Game UI: dialogue box, choices, hearts and counters, HUD bars, inventory, button prompts, level tiles, pause menu, achievements, stage and sprites | 3 KB per element | 0.42 to 1.94 KB |
-| `@blip/blocks` | Website blocks: hero, features, pricing, call-to-action band, footer | not budgeted yet | 3.67 KB of CSS |
-| `@blip/effects` | The world backdrop, page transitions, drop-in and typewriter text, the glint, bursts and a CRT filter; all opt-in | 14 KB, JS and CSS | 13.71 KB |
-| `@blip/sound` | Chip sounds synthesised with Web Audio, off until the person turns them on | 3 KB | 1.60 KB |
+| `@jaatster/blip-game` | Game UI: dialogue box, choices, hearts and counters, HUD bars, inventory, button prompts, level tiles, pause menu, achievements, stage and sprites | 3 KB per element | 0.42 to 1.94 KB |
+| `@jaatster/blip-blocks` | Website blocks: hero, features, pricing, call-to-action band, footer | not budgeted yet | 3.67 KB of CSS |
+| `@jaatster/blip-effects` | The world backdrop, page transitions, drop-in and typewriter text, the glint, bursts and a CRT filter; all opt-in | 14 KB, JS and CSS | 13.71 KB |
+| `@jaatster/blip-sound` | Chip sounds synthesised with Web Audio, off until the person turns them on | 3 KB | 1.60 KB |
 | **Tooling** | | | |
-| `@blip/stylelint-config` | Lint rules that keep CSS inside the system: no raw colours, whole pixels, stepped motion, known tokens | | |
+| `@jaatster/blip-stylelint-config` | Lint rules that keep CSS inside the system: no raw colours, whole pixels, stepped motion, known tokens | | |
 
 Budgets are enforced by `pnpm budgets` (`scripts/budgets.mjs`), which fails the build when one is exceeded. "Today"
 is its measurement on 31 October 2026: gzip -9 in KB of 1024 bytes, except Pixel Bop, whose budget is its WOFF2 file
 size. The kits' CSS has no budget yet; measured the same way, the game kit's is 5.78 KB and the blocks' 3.67 KB.
-All packages are 0.1.0 except `@blip/font`, which is 0.2.0.
+All packages are 0.1.0 except `@jaatster/blip-font`, which is 0.2.0.
 
 ## The rules
 
@@ -237,7 +237,7 @@ WCAG 2.2 AA is the floor, and most of it is built in:
 - Text follows the browser's default size: the type sizes are in rem, while the pixel grid stays put.
 - With `prefers-reduced-motion` every duration is zero and every effect arrives at once. Anything that blinks or
   bobs stops after six beats; toasts pause while pointed at or focused; sound is off until someone turns it on.
-- axe scans every example in Day and Night (`pnpm --filter @blip/tests test:a11y`) and every Storybook
+- axe scans every example in Day and Night (`pnpm --filter @jaatster/blip-tests test:a11y`) and every Storybook
   story. In development, elements warn in the console when something lacks a name.
 
 Automated checks are not a guarantee, and Blip has not had an independent accessibility audit yet. If
@@ -262,6 +262,6 @@ The code in the font package (`font.css` and the build script) is MIT, like the 
 - [Versions and support](https://jaatster.com/blip/versions/): versions, deprecation, browser support, changelogs and
   where to get help.
 - [CONTRIBUTING.md](CONTRIBUTING.md) and [AUTHORING.md](AUTHORING.md): how to build, test and add to Blip.
-- [Storybook](apps/storybook): every example, its states and its tests (`pnpm --filter @blip/storybook dev`,
+- [Storybook](apps/storybook): every example, its states and its tests (`pnpm --filter @jaatster/blip-storybook dev`,
   then http://localhost:6006).
 - [Code of Conduct](CODE_OF_CONDUCT.md) and [security policy](SECURITY.md).

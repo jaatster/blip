@@ -10,7 +10,7 @@
  *   pager.addEventListener("blip-page", (e) => track(e.detail.index));
  *   pager.index = 2;                                  // or pager.next(), pager.prev()
  */
-import { BlipElement, duration, frames, pixel, warn } from "@blip/core";
+import { BlipElement, duration, frames, pixel, warn } from "@jaatster/blip-core";
 import { watch } from "./_dom.js";
 
 /** What blip-page reports: the slide now showing. */

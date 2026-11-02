@@ -1,6 +1,6 @@
 ---
 name: World
-package: "@blip/effects"
+package: "@jaatster/blip-effects"
 css: world.css
 element: blip-world
 react: World
@@ -25,8 +25,8 @@ an empty state.
 ```
 
 ```js
-import "@blip/effects/world";                         // defines <blip-world>
-import { drawWorld } from "@blip/effects/world";
+import "@jaatster/blip-effects/world";                         // defines <blip-world>
+import { drawWorld } from "@jaatster/blip-effects/world";
 drawWorld(canvas.getContext("2d"), "night");               // the TV's 320 x 180 picture, for a game or a poster
 ```
 

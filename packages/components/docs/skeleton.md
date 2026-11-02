@@ -1,6 +1,6 @@
 ---
 name: Skeleton
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: skeleton.css
 element: null
 react: Skeleton

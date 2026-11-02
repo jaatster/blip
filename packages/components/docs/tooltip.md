@@ -1,6 +1,6 @@
 ---
 name: Tooltip
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: tooltip.css
 element: blip-tooltip
 react: Tooltip

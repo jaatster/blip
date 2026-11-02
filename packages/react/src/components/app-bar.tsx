@@ -1,6 +1,6 @@
 /**
  * App bar: AppBar, AppBarBrand, AppBarNav, AppBarToggle, AppBarLinks, AppBarLink and AppBarActions. CSS from
- * @blip/components (app-bar.css). A link to the page you are on takes `current` (`aria-current="page"`); list items
+ * @jaatster/blip-components (app-bar.css). A link to the page you are on takes `current` (`aria-current="page"`); list items
  * with no class of their own stay plain `<li>`s.
  */
 import { forwardRef } from "react";

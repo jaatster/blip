@@ -1,6 +1,6 @@
 ---
 name: Pricing
-package: "@blip/blocks"
+package: "@jaatster/blip-blocks"
 css: pricing.css
 element: null
 react: Pricing

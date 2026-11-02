@@ -1,6 +1,6 @@
 ---
 name: Action sheet
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: action-sheet.css
 element: blip-action-sheet
 react: ActionSheet

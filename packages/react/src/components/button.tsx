@@ -1,5 +1,5 @@
 /**
- * Button: Button and ButtonLink. CSS from @blip/components (button.css).
+ * Button: Button and ButtonLink. CSS from @jaatster/blip-components (button.css).
  */
 import { forwardRef } from "react";
 import type { ElementType, ReactNode } from "react";

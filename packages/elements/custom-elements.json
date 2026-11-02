@@ -152,7 +152,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           }
         }
       ],
@@ -507,7 +507,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "A text field with a list of suggestions.",
           "tagName": "blip-combobox",
@@ -639,7 +639,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "A command palette: search and run commands from the keyboard.",
           "tagName": "blip-command",
@@ -1238,7 +1238,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "An action button that opens a short stack of actions.",
           "tagName": "blip-fab",
@@ -1298,7 +1298,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "A form field that wires its words to its control.",
           "tagName": "blip-field",
@@ -1379,7 +1379,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "Drop files, or click to browse.",
           "tagName": "blip-file-drop",
@@ -1520,7 +1520,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "A menu button and its list of actions.",
           "tagName": "blip-menu",
@@ -1593,7 +1593,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "A number field with step buttons.",
           "tagName": "blip-number",
@@ -1712,7 +1712,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "Slides you swipe between, with dots.",
           "tagName": "blip-pager",
@@ -1897,7 +1897,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "Set a score with stars or hearts.",
           "tagName": "blip-rating",
@@ -2006,7 +2006,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "Pull down from the top of a scroller to refresh it.",
           "tagName": "blip-refresh",
@@ -2182,7 +2182,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "One choice from a row of buttons.",
           "tagName": "blip-segmented",
@@ -2533,7 +2533,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "A list row that swipes aside to show its actions.",
           "tagName": "blip-swipe-row",
@@ -2621,7 +2621,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "Sorting and row selection for a table.",
           "tagName": "blip-table",
@@ -2736,7 +2736,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "Tabs: one panel at a time.",
           "tagName": "blip-tabs",
@@ -2829,7 +2829,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "A grid of tiles moved through with the arrow keys.",
           "tagName": "blip-tile-grid",
@@ -2943,7 +2943,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "The region that shows toasts.",
           "tagName": "blip-toaster",
@@ -3087,7 +3087,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "A short description that shows on hover and focus.",
           "tagName": "blip-tooltip",
@@ -3232,7 +3232,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "Wheels of options: a time, a date or your own.",
           "tagName": "blip-wheel",

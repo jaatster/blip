@@ -1,6 +1,6 @@
 ---
 name: Radio group
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: radio.css
 element: null
 react: RadioGroup

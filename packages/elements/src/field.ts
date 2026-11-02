@@ -22,7 +22,7 @@
  *   (count-text: "{left} characters left").
  * - An <output for> follows its control, and a range control's --blip-slider-value fills the slider's groove.
  */
-import { BlipElement } from "@blip/core";
+import { BlipElement } from "@jaatster/blip-core";
 import { elementsChanged } from "./_dom.js";
 
 let uid = 0;

@@ -1,6 +1,6 @@
 /**
  * Window: Window, WindowBar, WindowTitle, WindowControls, WindowControl, WindowBody and WindowStatus. CSS from
- * @blip/components (window.css).
+ * @jaatster/blip-components (window.css).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";

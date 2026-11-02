@@ -1,6 +1,6 @@
 ---
 name: Segmented control
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: segmented.css
 element: blip-segmented
 react: Segmented

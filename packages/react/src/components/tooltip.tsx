@@ -1,6 +1,6 @@
 /**
  * Tooltip: TooltipChip and TooltipNub, the parts that go inside <Tooltip>, and <Tooltip> itself (generated from its
- * element, re-exported here). CSS from @blip/components (tooltip.css).
+ * element, re-exported here). CSS from @jaatster/blip-components (tooltip.css).
  */
 import { forwardRef } from "react";
 import { cx, flag } from "../internal/props.js";

@@ -1,5 +1,5 @@
 /**
- * HUD: Hud, HudGroup, HudStat, HudLabel, HudBar and CounterIcon. CSS from @blip/game (hud.css). Hearts and counters
+ * HUD: Hud, HudGroup, HudStat, HudLabel, HudBar and CounterIcon. CSS from @jaatster/blip-game (hud.css). Hearts and counters
  * are elements: use the generated <Hearts> and <Counter> from this same entry point.
  */
 import { forwardRef } from "react";

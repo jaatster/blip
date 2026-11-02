@@ -1,5 +1,5 @@
 /**
- * @blip/core's base styles in Chromium: text follows a larger default text size set in the browser (as Chrome's
+ * @jaatster/blip-core's base styles in Chromium: text follows a larger default text size set in the browser (as Chrome's
  * font settings do) and stays on whole pixels at the default; prefers-contrast: more strengthens what is soft;
  * ligatures are off whatever the font; long words hyphenate or break in titles and reading text; and layers.css puts
  * Blip between Tailwind's base and its utilities, in either import order.

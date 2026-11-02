@@ -1,6 +1,6 @@
 /**
  * Accordion: Accordion, AccordionItem, AccordionChevron, AccordionSummary and AccordionPanel. CSS from
- * @blip/components (accordion.css).
+ * @jaatster/blip-components (accordion.css).
  */
 import { forwardRef } from "react";
 import { box, cx, type NativeProps, type Radius, type Tone } from "../internal/props.js";

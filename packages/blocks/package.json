@@ -1,5 +1,5 @@
 {
-  "name": "@blip/blocks",
+  "name": "@jaatster/blip-blocks",
   "version": "0.1.0",
   "description": "Blip website blocks: hero, feature grid, pricing, CTA band, footer.",
   "keywords": [
@@ -15,7 +15,7 @@
   "bugs": "https://github.com/jaatster/blip/issues",
   "repository": {
     "type": "git",
-    "url": "github:jaatster/blip",
+    "url": "git+https://github.com/jaatster/blip.git",
     "directory": "packages/blocks"
   },
   "license": "MIT",
@@ -58,8 +58,8 @@
     "build": "node ../../scripts/build-css-package.mjs blocks && node ../../scripts/build-ts-package.mjs blocks"
   },
   "dependencies": {
-    "@blip/core": "workspace:*",
-    "@blip/tokens": "workspace:*",
-    "@blip/components": "workspace:*"
+    "@jaatster/blip-core": "workspace:*",
+    "@jaatster/blip-tokens": "workspace:*",
+    "@jaatster/blip-components": "workspace:*"
   }
 }

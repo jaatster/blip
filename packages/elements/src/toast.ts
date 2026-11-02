@@ -1,7 +1,7 @@
 /**
  * <blip-toaster> and toast(): short messages that come up in a corner and leave on their own.
  *
- *   import { toast } from "@blip/elements/toast";
+ *   import { toast } from "@jaatster/blip-elements/toast";
  *   const t = toast({ title: "Achievement unlocked", body: "First Flight", tone: "success", action: { label: "View", onClick: openTrophies } });
  *   t.close();                     // or wait: await t.closed
  *
@@ -16,7 +16,7 @@
  * Attributes: data-side (bottom, the default, or top) and data-align (end, the default, center or start) say where
  * toasts come up; max (default 3), dismiss-label (default "Dismiss"), aria-label (default "Notifications").
  */
-import { BlipElement, services } from "@blip/core";
+import { BlipElement, services } from "@jaatster/blip-core";
 
 export type ToastTone = "info" | "success" | "warning" | "danger";
 export interface ToastOptions {
@@ -35,7 +35,7 @@ export interface ToastOptions {
   /** How it is announced. Default: "assertive" for danger, "polite" otherwise. */
   live?: "polite" | "assertive";
 }
-/** What toast() and add() return, the same from @blip/elements and @blip/react. */
+/** What toast() and add() return, the same from @jaatster/blip-elements and @jaatster/blip-react. */
 export interface ToastHandle {
   /** Closes it now (one still waiting its turn never shows). */
   close(): void;

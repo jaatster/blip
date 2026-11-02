@@ -1,5 +1,5 @@
 /**
- * <Search>. CSS from @blip/components (search.css). The ref and every native prop go to the control itself, so
+ * <Search>. CSS from @jaatster/blip-components (search.css). The ref and every native prop go to the control itself, so
  * forms, labels and refs work as on the bare element; className and style go to the outermost element it renders.
  */
 import { forwardRef } from "react";
@@ -13,7 +13,7 @@ export interface SearchOwnProps {
 
 export type SearchProps = SearchOwnProps & Omit<NativeProps<"input", SearchOwnProps>, "type" | "children">;
 
-/** The magnifier in front of a search field: the `search` icon of @blip/icons (12 x 12). */
+/** The magnifier in front of a search field: the `search` icon of @jaatster/blip-icons (12 x 12). */
 const magnifier = "M3 1h4v1h1v1h1v5h1v1h1v2H8v-1H7V9H3V8H2V7H1V3h1V2h1zm1 2v1H3v2h1v1h2V6h1V4H6V3z";
 
 /**

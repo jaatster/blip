@@ -1,6 +1,6 @@
 ---
 name: Window
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: window.css
 element: null
 react: Window

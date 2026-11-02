@@ -40,10 +40,10 @@ const swatches = ["candy", "mint", "grape", "bubblegum", "ember"].flatMap((id) =
   ...p,
   style: (["day", "sunset", "night"] as const).flatMap((s) => (["accent", "accent-light", "accent-shade", "accent-on"] as const).map((k) => `--_sw-${s}-${k}:${p.schemes[s][k]}`)).join(";"),
 }));
-const order = await codeBlock(`<link rel="stylesheet" href="@blip/font/font.css">
-<link rel="stylesheet" href="@blip/tokens/tokens.css">
-<link rel="stylesheet" href="@blip/core/core.css">
-<link rel="stylesheet" href="@blip/components/components.css">
+const order = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-font/font.css">
+<link rel="stylesheet" href="@jaatster/blip-tokens/tokens.css">
+<link rel="stylesheet" href="@jaatster/blip-core/core.css">
+<link rel="stylesheet" href="@jaatster/blip-components/components.css">
 
 <button class="blip-box blip-button">Press start</button>`, "html", "HTML");
 ---

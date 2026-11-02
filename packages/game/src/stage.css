@@ -1,6 +1,6 @@
 /*
  * Stage. A game screen for a HUD, a menu or a map to sit on: a positioned frame with a pastel sky and a ground strip.
- * Put <blip-world> from @blip/effects inside for the full dithered world. Without it, and before it draws, the
+ * Put <blip-world> from @jaatster/blip-effects inside for the full dithered world. Without it, and before it draws, the
  * sky is the scheme's world palette in hard bands, dithered where they meet: never a smooth gradient.
  *
  *   <section class="blip-stage" data-frame aria-label="Puddle Path">

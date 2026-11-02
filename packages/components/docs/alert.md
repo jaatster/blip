@@ -1,6 +1,6 @@
 ---
 name: Alert
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: alert.css
 element: null
 react: Alert

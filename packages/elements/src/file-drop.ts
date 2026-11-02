@@ -14,7 +14,7 @@
  * Events: blip-change { files } when the list changes; blip-reject { files } for dropped files that don't match. An
  * input rendered later, or swapped by a framework, is taken up as it comes.
  */
-import { BlipElement, warn } from "@blip/core";
+import { BlipElement, warn } from "@jaatster/blip-core";
 import { both, elementsChanged, observe } from "./_dom.js";
 
 /** Does a file match an accept list (".png, image/*, application/pdf")? */

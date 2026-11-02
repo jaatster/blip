@@ -1,7 +1,7 @@
 /**
- * Lets the "Reduced motion" toolbar switch reach Blip's script: @blip/core asks
+ * Lets the "Reduced motion" toolbar switch reach Blip's script: @jaatster/blip-core asks
  * matchMedia("(prefers-reduced-motion: reduce)") once and reads `.matches` whenever it needs to know, so this wraps
- * that one query to answer true while the switch is on. It must load before @blip/core (preview.ts imports it
+ * that one query to answer true while the switch is on. It must load before @jaatster/blip-core (preview.ts imports it
  * first) and imports nothing from Blip itself.
  */
 const QUERY = /prefers-reduced-motion\s*:\s*reduce/;

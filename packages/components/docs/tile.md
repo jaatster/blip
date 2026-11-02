@@ -1,6 +1,6 @@
 ---
 name: Tile
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: tile.css
 element: blip-tile-grid
 react: Tile
@@ -87,7 +87,7 @@ inventories, level and world pickers: a few big things to choose between, each b
 
 ## Content
 
-- One glyph per tile, from `@blip/icons` or drawn on the same 12 x 12 grid. Pictures, not letters.
+- One glyph per tile, from `@jaatster/blip-icons` or drawn on the same 12 x 12 grid. Pictures, not letters.
 - Labels: one to three words, sentence case (CSS sets upper case). Counts go in the label: "Potion ×3".
 
 ## Do and don't

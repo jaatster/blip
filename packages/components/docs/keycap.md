@@ -1,6 +1,6 @@
 ---
 name: Keycap
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: keycap.css
 element: null
 react: Keycap

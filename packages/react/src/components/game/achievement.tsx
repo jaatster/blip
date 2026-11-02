@@ -1,6 +1,6 @@
 /**
  * Achievement: Achievements, Achievement, AchievementIcon, AchievementLabel, AchievementTitle, AchievementText and
- * AchievementReward. CSS from @blip/game (achievement.css).
+ * AchievementReward. CSS from @jaatster/blip-game (achievement.css).
  */
 import { forwardRef } from "react";
 import { cx, type NativeProps, type Tone } from "../../internal/props.js";

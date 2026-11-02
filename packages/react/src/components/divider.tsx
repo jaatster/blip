@@ -1,5 +1,5 @@
 /**
- * <Divider>. CSS from @blip/components (divider.css).
+ * <Divider>. CSS from @jaatster/blip-components (divider.css).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";

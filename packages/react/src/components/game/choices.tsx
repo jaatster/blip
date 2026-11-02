@@ -1,6 +1,6 @@
 /**
  * Choices: ChoiceList, Choice and ChoiceAside, the parts that go inside <Choices>, and <Choices> itself (generated
- * from its element, re-exported here). CSS from @blip/game (choices.css).
+ * from its element, re-exported here). CSS from @jaatster/blip-game (choices.css).
  */
 import { forwardRef } from "react";
 import { cx, type NativeProps, type Variant } from "../../internal/props.js";

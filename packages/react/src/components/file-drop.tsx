@@ -1,7 +1,7 @@
 /**
  * File drop: FileDropZone, FileDropList, FileDropItem, FileDropName, FileDropSize and FileDropRemove, the parts that
  * go inside <FileDrop>, and <FileDrop> itself (generated from its element, re-exported here). CSS from
- * @blip/components (file-drop.css).
+ * @jaatster/blip-components (file-drop.css).
  */
 import { forwardRef } from "react";
 import { cx, type NativeProps } from "../internal/props.js";

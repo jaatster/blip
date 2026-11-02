@@ -98,11 +98,11 @@ describe("shipped CSS parses in lightningcss and esbuild", () => {
   });
 
   for (const [pkg, files] of shipped) {
-    it(`@blip/${pkg} parses in lightningcss`, () => {
+    it(`@jaatster/blip-${pkg} parses in lightningcss`, () => {
       const failed = files.filter((f) => !(f in OPT_IN)).map((f) => lightningcss(f, readFileSync(join(REPO, f), "utf8")));
       expect(failed.filter(Boolean)).toEqual([]);
     });
-    it(`@blip/${pkg} parses in esbuild`, () => {
+    it(`@jaatster/blip-${pkg} parses in esbuild`, () => {
       const failed = files.map((f) => esbuild(f, readFileSync(join(REPO, f), "utf8")));
       expect(failed.filter(Boolean)).toEqual([]);
     });

@@ -1,9 +1,9 @@
 /**
  * Foundations: the tokens drawn with Blip itself, so every swatch, size and motion follows the toolbar's scheme,
- * pixel and motion switches. Names and values come from @blip/tokens.
+ * pixel and motion switches. Names and values come from @jaatster/blip-tokens.
  */
 import type { Meta, StoryObj } from "@storybook/html-vite";
-import { schemes, shared, type SchemeName } from "@blip/tokens";
+import { schemes, shared, type SchemeName } from "@jaatster/blip-tokens";
 import { example } from "../lib/render";
 
 const meta = {

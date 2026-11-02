@@ -1,5 +1,5 @@
 /**
- * Button group: ButtonGroup. CSS from @blip/components (button-group.css).
+ * Button group: ButtonGroup. CSS from @jaatster/blip-components (button-group.css).
  */
 import { forwardRef } from "react";
 import { cx, flag, type NativeProps } from "../internal/props.js";

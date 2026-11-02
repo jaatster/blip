@@ -6,7 +6,7 @@
  */
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, inject, it, vi } from "vitest";
 import { commands } from "vitest/browser";
-import { autoScheme, provide, setScheme } from "@blip/core";
+import { autoScheme, provide, setScheme } from "@jaatster/blip-core";
 import base from "../../../packages/core/src/css/base.css?raw";
 import { mount } from "../support/dom.ts";
 

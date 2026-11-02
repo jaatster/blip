@@ -1,5 +1,5 @@
 /**
- * Stat: Stat, StatLabel, StatValue and StatDelta. CSS from @blip/components (stat.css).
+ * Stat: Stat, StatLabel, StatValue and StatDelta. CSS from @jaatster/blip-components (stat.css).
  */
 import { forwardRef } from "react";
 import { box, cx, type NativeProps, type Scale, type Tone } from "../internal/props.js";

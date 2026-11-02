@@ -1,6 +1,6 @@
 /**
  * Swipe rows: SwipeRowFace, SwipeRowMore and SwipeRowActions, the parts that go inside <SwipeRow>, and <SwipeRow>
- * itself (generated from its element, re-exported here). CSS from @blip/components (swipe-row.css).
+ * itself (generated from its element, re-exported here). CSS from @jaatster/blip-components (swipe-row.css).
  */
 import { forwardRef } from "react";
 import { cx, type NativeProps } from "../internal/props.js";

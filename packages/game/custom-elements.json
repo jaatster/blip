@@ -51,7 +51,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "A list of answers to pick from with the keys.",
           "tagName": "blip-choices",
@@ -268,7 +268,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "The RPG dialogue box that types its pages in.",
           "tagName": "blip-dialogue",
@@ -606,7 +606,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "An inventory grid of item slots.",
           "tagName": "blip-inventory",
@@ -691,7 +691,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "A game sprite: coin, heart, potion, key…",
           "tagName": "blip-sprite",
@@ -804,7 +804,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "An on-screen D-pad and buttons that send key events.",
           "tagName": "blip-touch-pad",

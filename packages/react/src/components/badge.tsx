@@ -1,5 +1,5 @@
 /**
- * Badge: Badge and BadgeAnchor. CSS from @blip/components (badge.css).
+ * Badge: Badge and BadgeAnchor. CSS from @jaatster/blip-components (badge.css).
  */
 import { forwardRef } from "react";
 import { box, cx, flag, type NativeProps, type Size, type Tone } from "../internal/props.js";

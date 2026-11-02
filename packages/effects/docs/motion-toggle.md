@@ -1,6 +1,6 @@
 ---
 name: Motion toggle
-package: "@blip/effects"
+package: "@jaatster/blip-effects"
 css: null
 element: blip-motion-toggle
 react: MotionToggle
@@ -26,8 +26,8 @@ seconds, and DESIGN.md lets motion run on only beside this toggle.
 ```
 
 ```js
-import "@blip/effects/motion";   // defines <blip-motion-toggle>, and applies a remembered choice
-import "@blip/effects/world";
+import "@jaatster/blip-effects/motion";   // defines <blip-motion-toggle>, and applies a remembered choice
+import "@jaatster/blip-effects/world";
 ```
 
 The module applies a remembered pause as it loads, so load it before the world's. To have it before the first paint,
@@ -44,7 +44,7 @@ put this in the page's `<head>`:
 ### The page's motion setting
 
 `data-blip-motion="reduce"` on `<html>` says the person asked for less motion on this page. It sits beside the device's
-`prefers-reduced-motion`, which still works: `reducedMotion()` from `@blip/core` is true when either says so, so
+`prefers-reduced-motion`, which still works: `reducedMotion()` from `@jaatster/blip-core` is true when either says so, so
 the toggle only ever adds to the device's setting. What follows it:
 
 - `<blip-world>` pauses at once: a flaring star goes out, a flock or a shooting star goes, the layers come back to rest
@@ -58,7 +58,7 @@ Motion of your own that runs on: check `reducedMotion()` before it starts, and s
 `data-blip-motion` changes:
 
 ```js
-import { reducedMotion } from "@blip/core";
+import { reducedMotion } from "@jaatster/blip-core";
 const follow = () => (reducedMotion() ? loop.pause() : loop.play());
 new MutationObserver(follow).observe(document.documentElement, { attributeFilter: ["data-blip-motion"] });
 matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change", follow);
@@ -68,7 +68,7 @@ matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change", follow
 
 - **The element**: `<blip-motion-toggle>` holds a button and draws nothing of its own.
 - **The button**: the one inside it, or the one it makes when it has none: a soft candy button
-  (`.blip-box.blip-button[data-variant="soft"]`) with the pause icon (`pause` from `@blip/icons`) and its label.
+  (`.blip-box.blip-button[data-variant="soft"]`) with the pause icon (`pause` from `@jaatster/blip-icons`) and its label.
 - **`aria-pressed`** on the button: `true` while `data-blip-motion="reduce"` is on `<html>`, whoever set it.
 
 ## Variants
@@ -115,4 +115,4 @@ matchMedia("(prefers-reduced-motion: reduce)").addEventListener("change", follow
 | `label` | attribute and property | The label of the button it makes. |
 | `data-blip-motion="reduce"` | on `<html>` | Set while paused. Set it yourself to start paused. |
 | `"blip:motion"` | `localStorage` key | `"reduce"` while paused, gone otherwise; applied as the module loads. |
-| `reducedMotion()` | `@blip/core` | True when the device or the page asks for less motion. |
+| `reducedMotion()` | `@jaatster/blip-core` | True when the device or the page asks for less motion. |

@@ -1,5 +1,5 @@
 {
-  "name": "@blip/effects",
+  "name": "@jaatster/blip-effects",
   "version": "0.1.0",
   "description": "Blip effects: dithered world backdrops, transitions, text effects, bursts, CRT filter, time of day. All opt-in, all honour reduced motion.",
   "keywords": [
@@ -16,7 +16,7 @@
   "bugs": "https://github.com/jaatster/blip/issues",
   "repository": {
     "type": "git",
-    "url": "github:jaatster/blip",
+    "url": "git+https://github.com/jaatster/blip.git",
     "directory": "packages/effects"
   },
   "license": "MIT",
@@ -62,7 +62,7 @@
     "build": "node ../../scripts/build-css-package.mjs effects && node ../../scripts/build-ts-package.mjs effects"
   },
   "dependencies": {
-    "@blip/core": "workspace:*",
-    "@blip/tokens": "workspace:*"
+    "@jaatster/blip-core": "workspace:*",
+    "@jaatster/blip-tokens": "workspace:*"
   }
 }

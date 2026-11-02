@@ -3,7 +3,7 @@
  * Writes public-properties.json: the --blip-* custom properties Blip's packages make public, for the
  * blip/known-tokens rule. A property is public when a package's CSS declares it (--blip-r: 4) or registers it
  * (@property), or when a package documents it: in a CSS comment, or in its docs. Tokens are left
- * out (the rule reads them from @blip/tokens/manifest.json).
+ * out (the rule reads them from @jaatster/blip-tokens/manifest.json).
  *
  *   node scripts/public-properties.mjs          (run by this package's build)
  */
@@ -14,7 +14,7 @@ import { createRequire } from "node:module";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PACKAGES = join(HERE, "..", "..");
-const tokens = new Set(createRequire(import.meta.url)("@blip/tokens/manifest.json").map((t) => t.cssVar));
+const tokens = new Set(createRequire(import.meta.url)("@jaatster/blip-tokens/manifest.json").map((t) => t.cssVar));
 
 const files = (dir, ext) => {
   if (!existsSync(dir)) return [];

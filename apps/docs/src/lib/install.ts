@@ -28,7 +28,7 @@ export interface InstallLine {
   comment?: string;
 }
 
-const full = (p: string) => (p.startsWith("@") ? p : `@blip/${p}`);
+const full = (p: string) => (p.startsWith("@") ? p : `@jaatster/blip-${p}`);
 
 /** The lines for one package manager, their comments lined up after the longest command. */
 export function commands(manager: Exclude<Manager, "cdn">, lines: InstallLine[]): string {
@@ -37,9 +37,9 @@ export function commands(manager: Exclude<Manager, "cdn">, lines: InstallLine[])
   return cmds.map((c, i) => (lines[i]!.comment ? `${c.padEnd(width)}   # ${lines[i]!.comment}` : c)).join("\n");
 }
 
-export const CDN_BASE = "https://cdn.jsdelivr.net/npm/@blip";
+export const CDN_BASE = "https://cdn.jsdelivr.net/npm/@jaatster";
 /** A package's file on the CDN, at the version in the repository: cdnUrl("core", "dist/core.min.css"). */
-export const cdnUrl = (pkg: string, path: string) => `${CDN_BASE}/${pkg}@${pkgVersion(pkg)}/${path}`;
+export const cdnUrl = (pkg: string, path: string) => `${CDN_BASE}/blip-${pkg}@${pkgVersion(pkg)}/${path}`;
 
 /** The stylesheets the four core packages need, as <link>s from the CDN. */
 export const cdnStylesheets = (): string =>

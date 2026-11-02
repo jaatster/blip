@@ -1,5 +1,5 @@
 {
-  "name": "@blip/docs",
+  "name": "@jaatster/blip-docs",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -12,16 +12,16 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "@blip/blocks": "workspace:*",
-    "@blip/components": "workspace:*",
-    "@blip/core": "workspace:*",
-    "@blip/effects": "workspace:*",
-    "@blip/elements": "workspace:*",
-    "@blip/font": "workspace:*",
-    "@blip/game": "workspace:*",
-    "@blip/icons": "workspace:*",
-    "@blip/sound": "workspace:*",
-    "@blip/tokens": "workspace:*",
+    "@jaatster/blip-blocks": "workspace:*",
+    "@jaatster/blip-components": "workspace:*",
+    "@jaatster/blip-core": "workspace:*",
+    "@jaatster/blip-effects": "workspace:*",
+    "@jaatster/blip-elements": "workspace:*",
+    "@jaatster/blip-font": "workspace:*",
+    "@jaatster/blip-game": "workspace:*",
+    "@jaatster/blip-icons": "workspace:*",
+    "@jaatster/blip-sound": "workspace:*",
+    "@jaatster/blip-tokens": "workspace:*",
     "astro": "^7.4.4",
     "satteri": "0.10.5",
     "shiki": "4.5.0"

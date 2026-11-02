@@ -11,7 +11,7 @@
  *   menu.addEventListener("blip-action", (e) => run(e.detail.value)); // e.preventDefault() keeps the menu open
  *   menu.open = true;                                               // or <blip-menu open>
  */
-import { BlipElement, rovingFocus, typeahead, pixel, warn } from "@blip/core";
+import { BlipElement, rovingFocus, typeahead, pixel, warn } from "@jaatster/blip-core";
 import { both, isOn, unFalse, valueOf, watch } from "./_dom.js";
 
 /** What blip-action reports: the item chosen in a menu or a command palette. */

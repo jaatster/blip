@@ -3,22 +3,22 @@
  * every element), the toolbar switches (scheme, pixel, reduced motion), and the swappable services seeded so every
  * story draws the same each time.
  */
-import "./motion"; // first: it wraps matchMedia before @blip/core asks it about reduced motion
-import "@blip/font/font.css";
-import "@blip/tokens/tokens.css";
-import "@blip/core/core.css";
-import "@blip/components/components.css";
-import "@blip/game/game.css";
-import "@blip/blocks/blocks.css";
-import "@blip/effects/effects.css";
+import "./motion"; // first: it wraps matchMedia before @jaatster/blip-core asks it about reduced motion
+import "@jaatster/blip-font/font.css";
+import "@jaatster/blip-tokens/tokens.css";
+import "@jaatster/blip-core/core.css";
+import "@jaatster/blip-components/components.css";
+import "@jaatster/blip-game/game.css";
+import "@jaatster/blip-blocks/blocks.css";
+import "@jaatster/blip-effects/effects.css";
 import "./preview.css";
 
-import * as core from "@blip/core";
-import "@blip/elements";
-import "@blip/game";
-import * as effects from "@blip/effects";
-import "@blip/icons/element";
-import * as sound from "@blip/sound";
+import * as core from "@jaatster/blip-core";
+import "@jaatster/blip-elements";
+import "@jaatster/blip-game";
+import * as effects from "@jaatster/blip-effects";
+import "@jaatster/blip-icons/element";
+import * as sound from "@jaatster/blip-sound";
 
 import type { Decorator, Preview } from "@storybook/html-vite";
 import { setReducedMotion } from "./motion";
@@ -30,13 +30,13 @@ export const FROZEN = "2026-06-21T12:00:00";
 const testing = import.meta.env.MODE === "test";
 
 /**
- * Some examples' buttons load a package in their onclick (`import('@blip/effects')`), as a page with an import
+ * Some examples' buttons load a package in their onclick (`import('@jaatster/blip-effects')`), as a page with an import
  * map would. Give this page the same bare names, pointing at the copies loaded here, so there is one of each.
  */
-(globalThis as { __blip?: Record<string, object> }).__blip = { "@blip/core": core, "@blip/effects": effects, "@blip/sound": sound };
+(globalThis as { __blip?: Record<string, object> }).__blip = { "@jaatster/blip-core": core, "@jaatster/blip-effects": effects, "@jaatster/blip-sound": sound };
 {
   const imports: Record<string, string> = {};
-  for (const [name, mod] of Object.entries({ "@blip/core": core, "@blip/effects": effects, "@blip/sound": sound })) {
+  for (const [name, mod] of Object.entries({ "@jaatster/blip-core": core, "@jaatster/blip-effects": effects, "@jaatster/blip-sound": sound })) {
     const body = Object.keys(mod).map((k) => (k === "default" ? "export default m.default;" : `export const ${k} = m[${JSON.stringify(k)}];`));
     imports[name] = URL.createObjectURL(new Blob([`const m = globalThis.__blip[${JSON.stringify(name)}];\n${body.join("\n")}\n`], { type: "text/javascript" }));
   }

@@ -8,7 +8,7 @@
  * Keys go to the element named by `for`, else to the focused element (so a focused menu's own keys work), bubbling
  * up to the document. Empty, it draws its own parts; write them yourself to name them in your language.
  */
-import { BlipElement } from "@blip/core";
+import { BlipElement } from "@jaatster/blip-core";
 
 /** The legacy keyCode older games read, for the keys that are not one character. */
 const CODES: Record<string, number> = { Enter: 13, Escape: 27, " ": 32, Tab: 9, Shift: 16, Control: 17, Backspace: 8, ArrowLeft: 37, ArrowUp: 38, ArrowRight: 39, ArrowDown: 40 };

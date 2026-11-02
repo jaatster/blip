@@ -9,7 +9,7 @@
  *   <blip-dialog light-dismiss><dialog class="blip-box blip-dialog" id="save" aria-labelledby="save-title">…</dialog></blip-dialog>
  *   <button class="blip-box blip-button" commandfor="save" command="show-modal">Save game</button>
  */
-import { BlipElement, services, warn } from "@blip/core";
+import { BlipElement, services, warn } from "@jaatster/blip-core";
 import { isOn, unFalse } from "./_dom.js";
 
 /** Why it closed. "drag" is a bottom sheet (<blip-sheet>) dragged or flicked down past its lowest height. */

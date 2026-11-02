@@ -55,4 +55,4 @@ if (check) process.exit(0);
 const target = resolve(out ?? join(dirname(file), `${basename(file).replace(/(\.resolver)?\.json$/, "")}.css`));
 mkdirSync(dirname(target), { recursive: true });
 writeFileSync(target, tokensCss(model, `Blip tokens with the theme in ${basename(file)}. Built by blip-tokens: do not edit.`));
-console.log(`Wrote ${relative(process.cwd(), target)}: load it instead of @blip/tokens/tokens.css.`);
+console.log(`Wrote ${relative(process.cwd(), target)}: load it instead of @jaatster/blip-tokens/tokens.css.`);

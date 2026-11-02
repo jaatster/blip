@@ -1,6 +1,6 @@
 /**
  * Field: FieldLabel, FieldHelp, FieldError, FieldCount, FieldSet and PlainField, the parts that go inside <Field>, and
- * <Field> itself (generated from its element, re-exported here). CSS from @blip/components (field.css).
+ * <Field> itself (generated from its element, re-exported here). CSS from @jaatster/blip-components (field.css).
  */
 import { forwardRef } from "react";
 import type { ElementType, ReactNode } from "react";

@@ -1,5 +1,5 @@
 /**
- * <Grid>. CSS from @blip/components (grid.css). No colour, no box: it places its children, counted in pixels,
+ * <Grid>. CSS from @jaatster/blip-components (grid.css). No colour, no box: it places its children, counted in pixels,
  * and follows its container (no viewport breakpoints). It renders a <div> by default; `as` picks another element (a
  * list: `as="ul" role="list"`).
  */

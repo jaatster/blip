@@ -1,4 +1,4 @@
-# @blip/elements
+# @jaatster/blip-elements
 
 Light-DOM Web Components that add behaviour to Blip's markup: `blip-combobox`, `blip-command`, `blip-dialog`,
 `blip-drawer`, `blip-field`, `blip-file-drop`, `blip-menu`, `blip-number`, `blip-rating`, `blip-segmented`,
@@ -6,14 +6,14 @@ Light-DOM Web Components that add behaviour to Blip's markup: `blip-combobox`, `
 component CSS styles them, and the markup already works before they upgrade. Each is 3 KB gzipped or less.
 
 ```sh
-npm install @blip/elements @blip/components
+npm install @jaatster/blip-elements @jaatster/blip-components
 ```
 
 ## Use
 
 ```js
-import "@blip/elements/tabs.js";        // one element (or "@blip/elements" for all)
-import { toast } from "@blip/elements/toast";
+import "@jaatster/blip-elements/tabs.js";        // one element (or "@jaatster/blip-elements" for all)
+import { toast } from "@jaatster/blip-elements/toast";
 toast({ title: "Saved", tone: "success" });
 ```
 
@@ -29,8 +29,8 @@ toast({ title: "Saved", tone: "success" });
 **Define the elements before you mount.** Import the element modules first, then mount your app:
 
 ```js
-import "@blip/elements/dialog.js";
-import "@blip/elements/tabs.js";
+import "@jaatster/blip-elements/dialog.js";
+import "@jaatster/blip-elements/tabs.js";
 createApp(App).mount("#app"); // Vue: it now sets properties (dialog.open = false), not attributes
 ```
 
@@ -55,7 +55,7 @@ links them and reads them out, and never takes them away.
 | An item's value | its `data-value`, else its `value`, else its label |
 | Sizes | `data-size`: `sm`, `md` (default), `lg` |
 
-`toast()` returns `{ close(), closed }` at once; `close()` works straight away. `@blip/react` returns the same.
+`toast()` returns `{ close(), closed }` at once; `close()` works straight away. `@jaatster/blip-react` returns the same.
 
 Events are `blip-*` (bubbling, composed). The API of every element is in `custom-elements.json` (the Custom
-Elements Manifest) and on each component's page in [@blip/components/docs](../components/docs). MIT
+Elements Manifest) and on each component's page in [@jaatster/blip-components/docs](../components/docs). MIT

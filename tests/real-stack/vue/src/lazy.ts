@@ -5,4 +5,4 @@ import Lazy from "./Lazy.vue";
 import "./style.css";
 
 createApp(Lazy, { bind: new URLSearchParams(location.search).get("bind") ?? "docs" }).mount("#app");
-setTimeout(() => import("@blip/elements/dialog").then(() => document.documentElement.setAttribute("data-defined", "")), 200);
+setTimeout(() => import("@jaatster/blip-elements/dialog").then(() => document.documentElement.setAttribute("data-defined", "")), 200);

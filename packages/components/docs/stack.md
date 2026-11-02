@@ -1,6 +1,6 @@
 ---
 name: Stack
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: stack.css
 element: null
 react: Stack

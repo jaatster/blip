@@ -1,6 +1,6 @@
 /**
  * Card: Card, CardMedia, CardHeader, CardTitle, CardSubtitle, CardBody, CardFooter, CardContent and CardLink. CSS from
- * @blip/components (card.css).
+ * @jaatster/blip-components (card.css).
  */
 import { forwardRef } from "react";
 import type { CSSProperties, ElementType } from "react";

@@ -23,7 +23,7 @@
 # 'part(x,y)' puts a part exactly x pixels right and y pixels up. One part on its own makes the character another
 # name for that glyph ('@ U+00A0 = U+0020').
 #
-# Run the build after editing (pnpm --filter @blip/font build): it checks every block and names the line and
+# Run the build after editing (pnpm --filter @jaatster/blip-font build): it checks every block and names the line and
 # the fix when something is off.
 
 # ---------------------------------------------------------------------------------------------------------------

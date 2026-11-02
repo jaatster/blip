@@ -19,7 +19,7 @@ const moves = [
   ["blip-bob", "Bob", "Up a pixel and back on the beat, six times at most: a pointer, an arrow.", "6 beats"],
   ["blip-blink", "Blink", "On and off on the beat, six times at most: a caret, press start.", "6 beats"],
 ];
-const timeline = await codeBlock(`import { run, frames } from "@blip/core";
+const timeline = await codeBlock(`import { run, frames } from "@jaatster/blip-core";
 
 // A choreography is data: steps at times. One definition can drive CSS, JS and native code.
 const press = [

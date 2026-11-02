@@ -1,7 +1,7 @@
 /*
  * Number stepper. A number input in the calm well with a pixel minus and plus at its ends. The input stays the
  * real control (it is the spin button: arrow keys, typing, the form value); the buttons are for pointers and
- * touch, and repeat in steps while held. <blip-number> (from @blip/elements) adds the buttons, so without
+ * touch, and repeat in steps while held. <blip-number> (from @jaatster/blip-elements) adds the buttons, so without
  * JavaScript this is a plain number field.
  *
  *   <blip-number class="blip-number">

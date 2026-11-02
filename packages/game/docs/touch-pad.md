@@ -1,6 +1,6 @@
 ---
 name: Touch pad
-package: "@blip/game"
+package: "@jaatster/blip-game"
 css: touch-pad.css
 element: blip-touch-pad
 react: TouchPad
@@ -17,7 +17,7 @@ of the screen inside the notch's and the home bar's safe areas, and it shows onl
 ## Usage
 
 ```html
-<!-- import "@blip/game/touch-pad.js" and @blip/game/touch-pad.css (or game.css) -->
+<!-- import "@jaatster/blip-game/touch-pad.js" and @jaatster/blip-game/touch-pad.css (or game.css) -->
 <canvas id="game" tabindex="0"></canvas>
 <blip-touch-pad for="game" data-a="z" data-b="x" data-start="Enter"></blip-touch-pad>
 ```

@@ -1,7 +1,7 @@
 /*
  * The Blip docs: the site's own layout, written by the system's rules. Every length is whole pixels of
  * --blip-pixel (or a space token), every colour a token, every move a few even steps. Components come from
- * @blip/components; this file only places them and dresses the prose.
+ * @jaatster/blip-components; this file only places them and dresses the prose.
  */
 @layer docs {
   /* ------------------------------------------------------------------ the page and its browser surfaces */

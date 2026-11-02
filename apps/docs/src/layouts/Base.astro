@@ -86,7 +86,7 @@ const expectFooter = html.includes('id="docs-footer"');
         d.setAttribute("data-blip-scheme", pref === "auto" ? (h >= 6 && h < 17 ? "day" : h >= 17 && h < 19 ? "sunset" : "night") : pref);
         d.setAttribute("data-scheme-choice", pref);
         if (px === "3" || px === "4") d.setAttribute("data-blip-pixel", px);
-        // Motion paused with a <blip-motion-toggle> (@blip/effects keeps it as "blip:motion"), on every page.
+        // Motion paused with a <blip-motion-toggle> (@jaatster/blip-effects keeps it as "blip:motion"), on every page.
         try { if (localStorage.getItem("blip:motion") === "reduce") d.setAttribute("data-blip-motion", "reduce"); } catch (e) {}
         if (/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent)) d.classList.add("mac");
         d.classList.add("js");

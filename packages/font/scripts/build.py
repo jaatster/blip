@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Builds the two faces of @blip/font.
+"""Builds the two faces of @jaatster/blip-font.
 
 1. Pixel Bop, Blip's pixel display font: src/pixel-bop.glyphs -> dist/pixel-bop.ttf (every script) and one WOFF2
    per script: dist/pixel-bop.woff2 (Latin), pixel-bop-cyrillic.woff2 and pixel-bop-greek.woff2.
@@ -25,7 +25,7 @@ between pixels at any size. Accented letters are composed from a base and a mark
 When the parts do not touch, at that enlargement too, the glyph is a TrueType composite that points at them, which
 keeps the font small; when they touch (a cedilla, an ogonek) they are merged into one outline.
 
-Usage:  pnpm --filter @blip/font build
+Usage:  pnpm --filter @jaatster/blip-font build
    or:  .tools/venv/bin/python -I packages/font/scripts/build.py
         .tools/venv/bin/python -I packages/font/scripts/build.py --check FONT...   (checks Pixelify Sans files only)
 Environment:

@@ -1,5 +1,5 @@
 /**
- * Input: Input, InputAffix and InputButton. CSS from @blip/components (input.css). The ref and every native prop go
+ * Input: Input, InputAffix and InputButton. CSS from @jaatster/blip-components (input.css). The ref and every native prop go
  * to the control itself, so forms, labels and refs work as on the bare element; className and style go to the
  * outermost element it renders. Combobox and NumberStepper (generated) take an {@link Input} as their field.
  */

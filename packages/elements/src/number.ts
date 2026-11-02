@@ -11,7 +11,7 @@
  * Attributes: decrease-label, increase-label (the buttons' names). Event: blip-change { value } when the value is
  * committed (the input's change). An input rendered later, or swapped by a framework, gets the buttons as it comes.
  */
-import { BlipElement, warn } from "@blip/core";
+import { BlipElement, warn } from "@jaatster/blip-core";
 import { both, elementsChanged, observe } from "./_dom.js";
 
 const button = (step: string, label: string): HTMLButtonElement => {

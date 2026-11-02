@@ -15,7 +15,7 @@
  * It adds the arrow, the loader and a live region itself. Attributes: pull-label, release-label, refreshing-label,
  * done-label. Properties: refreshing, scroller. Method: refresh(). Event: blip-refresh (cancelable).
  */
-import { BlipElement, frames, pixel } from "@blip/core";
+import { BlipElement, frames, pixel } from "@jaatster/blip-core";
 import { both } from "./_dom.js";
 
 /** How far, in pixels, the content goes: the line to pass, the most it follows, where it holds while refreshing. */

@@ -1,6 +1,6 @@
 ---
 name: Field
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: field.css
 element: blip-field
 react: Field

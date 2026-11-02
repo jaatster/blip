@@ -1,6 +1,6 @@
 ---
 name: File drop
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: file-drop.css
 element: blip-file-drop
 react: FileDrop

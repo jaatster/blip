@@ -13,7 +13,7 @@
  *   palette.addEventListener("blip-action", (e) => go(e.detail.value)); // e.preventDefault() keeps it open
  *   palette.open = true;                                              // or <blip-command open>
  */
-import { BlipElement, warn } from "@blip/core";
+import { BlipElement, warn } from "@jaatster/blip-core";
 import { both, isOn, unFalse, valueOf, watch } from "./_dom.js";
 import type { ActionDetail } from "./menu.js";
 

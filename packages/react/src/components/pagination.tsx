@@ -1,6 +1,6 @@
 /**
  * Pagination: Pagination, PaginationList, PaginationPrev, PaginationNext, PaginationPage, PaginationGap and
- * PaginationStatus. CSS from @blip/components (pagination.css). A link to the page you are on takes `current`
+ * PaginationStatus. CSS from @jaatster/blip-components (pagination.css). A link to the page you are on takes `current`
  * (`aria-current="page"`); list items with no class of their own stay plain `<li>`s.
  */
 import { forwardRef } from "react";

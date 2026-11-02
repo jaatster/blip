@@ -21,7 +21,7 @@
  * The More button (shown where there is a fine pointer) opens and closes the row for a mouse or a keyboard.
  * Attribute: open (start or end). Methods: show(side), close(). Events: blip-open { side }, blip-close, blip-swipe.
  */
-import { BlipElement, frames, pixel } from "@blip/core";
+import { BlipElement, frames, pixel } from "@jaatster/blip-core";
 import { both } from "./_dom.js";
 
 export type SwipeSide = "start" | "end";

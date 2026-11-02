@@ -1,6 +1,6 @@
 ---
 name: Link
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: link.css
 element: null
 react: Link

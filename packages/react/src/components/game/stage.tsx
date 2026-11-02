@@ -1,5 +1,5 @@
 /**
- * Stage: Stage, StageGround and StageScrim. CSS from @blip/game (stage.css).
+ * Stage: Stage, StageGround and StageScrim. CSS from @jaatster/blip-game (stage.css).
  */
 import { forwardRef } from "react";
 import type { CSSProperties, ElementType } from "react";
@@ -28,7 +28,7 @@ export type StageProps<T extends ElementType = "section"> = PolymorphicProps<T, 
 /**
  * A game screen for a HUD, a menu or a map to sit on: a positioned frame with a pastel sky, six hard bands of the
  * scheme's world palette stepping up from a {@link StageGround}, dithered where they meet. For the full world, with
- * mountains, hills and clouds, pass a `<World>` (from @blip/react/effects) as its first child; until it draws,
+ * mountains, hills and clouds, pass a `<World>` (from @jaatster/blip-react/effects) as its first child; until it draws,
  * the banded sky shows. Name it if it is a region of the page.
  *
  *   <Stage frame aria-label="Puddle Path">

@@ -72,7 +72,7 @@ export class BlipIcon extends HTMLElement {
     // A missing name is normal while a script sets one up; a wrong one is a typo worth one warning.
     if (!d && name && !warned.has(name)) {
       warned.add(name);
-      console.warn(`Blip BLIP-I001: <blip-icon name="${name}"> is not an icon. See @blip/icons/icons.json for the names.`);
+      console.warn(`Blip BLIP-I001: <blip-icon name="${name}"> is not an icon. See @jaatster/blip-icons/icons.json for the names.`);
     }
     this.#path!.setAttribute("d", d);
 

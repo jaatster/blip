@@ -12,7 +12,7 @@
  * Cells are whole device pixels, so they stay crisp at any ratio. With reduced motion, or in a hidden tab, the change
  * is instant. A signal stops the effect early; the update always runs once.
  */
-import { duration, frames, pixel, reducedMotion, services } from "@blip/core";
+import { duration, frames, pixel, reducedMotion, services } from "@jaatster/blip-core";
 import { abgr, device, overlay, rgb } from "./_pixel.js";
 
 export type TransitionKind = "dissolve" | "dither" | "mosaic";

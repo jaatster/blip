@@ -139,8 +139,8 @@ function raiser(root, file) {
     if (tags.length) return tags.map((t) => `\`<${t}>\``).join(", ");
   }
   const pkg = file.split("/")[1];
-  if (/checkName\(/.test(text)) return `\`checkName()\` in \`@blip/${pkg}\``;
-  return `\`@blip/${pkg}\``;
+  if (/checkName\(/.test(text)) return `\`checkName()\` in \`@jaatster/blip-${pkg}\``;
+  return `\`@jaatster/blip-${pkg}\``;
 }
 
 // ------------------------------------------------------------------ the table

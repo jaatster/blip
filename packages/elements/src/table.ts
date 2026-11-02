@@ -21,7 +21,7 @@
  * Rows a framework adds, removes or changes later are taken in: "select all" follows them, and a table this element
  * sorted stays sorted (a sort you did yourself, by cancelling blip-sort, is left alone).
  */
-import { BlipElement } from "@blip/core";
+import { BlipElement } from "@jaatster/blip-core";
 import { observe } from "./_dom.js";
 
 export type SortDirection = "ascending" | "descending";

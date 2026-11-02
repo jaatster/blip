@@ -1,6 +1,6 @@
 ---
 name: Achievement
-package: "@blip/game"
+package: "@jaatster/blip-game"
 css: achievement.css
 element: null
 react: Achievement
@@ -28,7 +28,7 @@ It slides in four pixel steps, bumps, and a sparkle flares on the trophy three t
 
 ```js
 region.prepend(toast);                       // it animates in by itself
-services.sound().play("success");            // from @blip/core, if sound is on
+services.sound().play("success");            // from @jaatster/blip-core, if sound is on
 setTimeout(() => toast.remove(), 5000);
 ```
 

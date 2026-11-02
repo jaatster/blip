@@ -1,17 +1,17 @@
-# @blip/font
+# @jaatster/blip-font
 
 **Pixel Bop**, Blip's pixel display font (all capitals: every European capital in Latin, Cyrillic and Greek,
 with three stroke sets for its whole scales), and **Pixelify Sans** for UI and body text, in Latin, Cyrillic and
 Greek.
 
 ```sh
-npm install @blip/font
+npm install @jaatster/blip-font
 ```
 
 ## Use
 
 ```js
-import "@blip/font/font.css";     // @font-face for both, with @blip/tokens and @blip/core
+import "@jaatster/blip-font/font.css";     // @font-face for both, with @jaatster/blip-tokens and @jaatster/blip-core
 ```
 
 ```html

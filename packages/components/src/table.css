@@ -38,7 +38,7 @@
  *                              or the first cell), then label and value pairs, each label from the cell's data-label:
  *                              <td data-label="Score" class="blip-numeric">98,120</td>
  *
- * <blip-table> (@blip/elements) wires the sort buttons and the select-all checkbox. Without it the markup reads
+ * <blip-table> (@jaatster/blip-elements) wires the sort buttons and the select-all checkbox. Without it the markup reads
  * and looks the same; sort on the server instead.
  */
 

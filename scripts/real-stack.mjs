@@ -321,11 +321,11 @@ async function prepare(name, app, packs, log) {
   const keep = opts.clean ? [] : ["node_modules", "package-lock.json"];
   for (const f of readdirSync(dir)) if (!keep.includes(f)) rmSync(join(dir, f), { recursive: true, force: true });
   // Blip is installed afresh every time, and the bundlers' caches of it go too.
-  for (const f of ["@blip", ".vite", ".cache", ".astro", ".package-lock.json"]) rmSync(join(dir, "node_modules", f), { recursive: true, force: true });
+  for (const f of ["@jaatster", ".vite", ".cache", ".astro", ".package-lock.json"]) rmSync(join(dir, "node_modules", f), { recursive: true, force: true });
   const lock = join(dir, "package-lock.json");
   if (existsSync(lock)) {
     const locked = readJson(lock);
-    for (const k of Object.keys(locked.packages ?? {})) if (/(^|\/)node_modules\/@blip\//.test(k)) delete locked.packages[k];
+    for (const k of Object.keys(locked.packages ?? {})) if (/(^|\/)node_modules\/@jaatster\/blip-/.test(k)) delete locked.packages[k];
     writeFileSync(lock, JSON.stringify(locked, null, 2));
   }
   writeFileSync(log, `real-stack: ${name}, ${new Date().toISOString()}\n`);
@@ -335,7 +335,7 @@ async function prepare(name, app, packs, log) {
   const pkg = readJson(file);
   for (const field of ["dependencies", "devDependencies"]) {
     for (const dep of Object.keys(pkg[field] ?? {})) {
-      if (!dep.startsWith("@blip/")) continue;
+      if (!dep.startsWith("@jaatster/blip-")) continue;
       if (!packs[dep]) throw new Error(`${name} depends on ${dep}, which is not a package here`);
       pkg[field][dep] = `file:${packs[dep].file}`;
     }

@@ -1,5 +1,5 @@
 /**
- * Toggle button: ToggleButton. CSS from @blip/components (button.css).
+ * Toggle button: ToggleButton. CSS from @jaatster/blip-components (button.css).
  */
 import { forwardRef } from "react";
 import { Button, type ButtonProps } from "./button.js";

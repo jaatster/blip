@@ -12,7 +12,7 @@
  * Write aria-checked="true" on the chosen button too, so it looks chosen before the script runs. Buttons added or
  * removed later (by a framework) are wired as they come.
  */
-import { BlipElement, rovingFocus, warn } from "@blip/core";
+import { BlipElement, rovingFocus, warn } from "@jaatster/blip-core";
 import { isOn, unFalse, watch } from "./_dom.js";
 
 /**

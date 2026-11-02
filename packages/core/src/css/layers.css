@@ -1,5 +1,5 @@
 /*
- * @blip/core/layers.css: the cascade-layer order for a page that also uses Tailwind CSS v4, or layered CSS of
+ * @jaatster/blip-core/layers.css: the cascade-layer order for a page that also uses Tailwind CSS v4, or layered CSS of
  * its own. Import it first, before Tailwind (tailwindcss) and before Blip; after that the order of the imports
  * no longer matters.
  *

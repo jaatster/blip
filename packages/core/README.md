@@ -1,4 +1,4 @@
-# @blip/core
+# @jaatster/blip-core
 
 Blip's building blocks. CSS: the pixel unit, the candy box (one-pixel ink outline, stepped corners, light and
 shade bands, glints, the drop), the yellow focus ring, the dither, stepped motion, Pixel Bop display type and base
@@ -6,14 +6,14 @@ styles. JavaScript: `BlipElement` (the base of every Web Component), the roving 
 controllers, the timeline runner, the scheme clock, and the swappable clock, random-number and sound services.
 
 ```sh
-npm install @blip/core @blip/tokens
+npm install @jaatster/blip-core @jaatster/blip-tokens
 ```
 
 ## Use
 
 ```css
-@import "@blip/tokens/tokens.css";
-@import "@blip/core/core.css";
+@import "@jaatster/blip-tokens/tokens.css";
+@import "@jaatster/blip-core/core.css";
 ```
 
 ```html
@@ -22,7 +22,7 @@ npm install @blip/core @blip/tokens
 ```
 
 ```js
-import { BlipElement, provide, seeded, autoScheme } from "@blip/core";
+import { BlipElement, provide, seeded, autoScheme } from "@jaatster/blip-core";
 provide({ random: seeded(42) });        // repeatable effects in tests and screenshots
 ```
 
@@ -32,16 +32,16 @@ letters stay whole). A word too long for its room anywhere in the UI breaks insi
 
 ## With Tailwind CSS or layered CSS of your own
 
-Import `@blip/core/layers.css` first. It puts all of Blip (the `blip` layers) after Tailwind v4's
+Import `@jaatster/blip-core/layers.css` first. It puts all of Blip (the `blip` layers) after Tailwind v4's
 `properties`, `theme` and `base` (preflight) and before its `components` and `utilities`, so a utility class beats
 a component's own rules, preflight cannot undo them, and the order of the other imports no longer matters.
 
 ```css
-@import "@blip/core/layers.css";
+@import "@jaatster/blip-core/layers.css";
 @import "tailwindcss";
-@import "@blip/tokens/tokens.css";
-@import "@blip/core/core.css";
-@import "@blip/components/components.css";
+@import "@jaatster/blip-tokens/tokens.css";
+@import "@jaatster/blip-core/core.css";
+@import "@jaatster/blip-components/components.css";
 ```
 
 From a script, import it before any other stylesheet. With layers of your own, write your own `@layer` line with

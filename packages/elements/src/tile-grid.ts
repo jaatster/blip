@@ -15,7 +15,7 @@
  * Tab lands on the selected (or current) tile, or the first one. Tiles added or removed later (by a framework) keep
  * one Tab stop between them.
  */
-import { BlipElement, rovingFocus } from "@blip/core";
+import { BlipElement, rovingFocus } from "@jaatster/blip-core";
 import { watch } from "./_dom.js";
 
 const SELECTED = '[aria-pressed="true"], [aria-current]:not([aria-current="false"]), [aria-selected="true"]';

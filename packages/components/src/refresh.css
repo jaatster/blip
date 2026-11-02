@@ -1,7 +1,7 @@
 /*
  * Pull to refresh. Round a scroll container: pull down from its top on a touch screen and the content follows a
  * whole pixel at a time, with a pixel arrow stepping down above it. Past the line the arrow flips; let go and the
- * loader spins while the page refreshes, then everything steps back up. <blip-refresh> (@blip/elements/refresh)
+ * loader spins while the page refreshes, then everything steps back up. <blip-refresh> (@jaatster/blip-elements/refresh)
  * does the pulling and adds the indicator and a live region itself. Touch only: pair it with a Refresh button.
  *
  *   <blip-refresh class="blip-refresh">

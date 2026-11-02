@@ -1,6 +1,6 @@
 /**
  * Menu: MenuList, MenuItem, MenuLabel, MenuShortcut, MenuSeparator, MenuGroup and MenuHeading, the parts that go
- * inside <Menu>, and <Menu> itself (generated from its element, re-exported here). CSS from @blip/components
+ * inside <Menu>, and <Menu> itself (generated from its element, re-exported here). CSS from @jaatster/blip-components
  * (menu.css).
  */
 import { forwardRef } from "react";

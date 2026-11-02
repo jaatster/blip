@@ -81,7 +81,7 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
 <Docs styles={["foundations"]} scripts={["foundations"]} title="Colour" description="Blip's colour, from its tokens: ten candies with light and shade, ink, twelve palettes, the scheme roles with contrast ratios, and the world palettes." headings={[H("candy", "Candy"), H("ink", "Ink"), H("palettes", "Palettes"), H("schemes", "Three schemes"), H("contrast", "Every pair, checked"), H("roles", "Scheme roles"), H("world", "World palettes")]}>
   <header class="docs-page-head">
     <h1 class="docs-page-title blip-display" data-scale="2">Colour</h1>
-    <p class="docs-lede">Three layers: primitives (ink, ten candies, the world), roles per scheme (page, surfaces, text, intents), and component tokens on top. Components only ever use roles, so a scheme or a theme changes everything at once. Everything on this page is read from <code class="docs-inline-code">@blip/tokens</code>.</p>
+    <p class="docs-lede">Three layers: primitives (ink, ten candies, the world), roles per scheme (page, surfaces, text, intents), and component tokens on top. Components only ever use roles, so a scheme or a theme changes everything at once. Everything on this page is read from <code class="docs-inline-code">@jaatster/blip-tokens</code>.</p>
   </header>
 
   <section class="docs-section" aria-labelledby="candy">
@@ -115,7 +115,7 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
 
   <section class="docs-section" aria-labelledby="palettes">
     <h2 id="palettes">Palettes</h2>
-    <p>A palette is the accent of each time of day and Night's page: its surfaces, text, lines, ink, accent and night sky. Set <code class="docs-inline-code">data-blip-palette</code> on <code class="docs-inline-code">&lt;html&gt;</code> with <code class="docs-inline-code">@blip/tokens/palettes.css</code> loaded; with none set, the palette is Candy. Each of them passes the same {paletteCards[0]?.pairs} checks as Candy. Try one on this whole site, here or from the palette menu at the top, and make your own on the <a href="/theme/">palette maker</a>.</p>
+    <p>A palette is the accent of each time of day and Night's page: its surfaces, text, lines, ink, accent and night sky. Set <code class="docs-inline-code">data-blip-palette</code> on <code class="docs-inline-code">&lt;html&gt;</code> with <code class="docs-inline-code">@jaatster/blip-tokens/palettes.css</code> loaded; with none set, the palette is Candy. Each of them passes the same {paletteCards[0]?.pairs} checks as Candy. Try one on this whole site, here or from the palette menu at the top, and make your own on the <a href="/theme/">palette maker</a>.</p>
     <ul class="docs-palettes" role="list">
       {paletteCards.map((p) => (
         <li class="blip-box docs-palette-card" data-variant="panel">
@@ -176,7 +176,7 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
 
   <section class="docs-section" aria-labelledby="contrast">
     <h2 id="contrast">Every pair, checked</h2>
-    <p>{total} text pairs in three schemes, the same list the token build checks against WCAG 2.2 AA in every palette (these are Candy's), each with why it is checked: a failing pair fails the build. The list is data, <code class="docs-inline-code">@blip/tokens/contrast.json</code>, which the build and this page both read. {passing === total ? "All of them pass." : `${total - passing} fail.`} Closest to the line: {weakest.map((w, i) => <Fragment>{i > 0 && ", "}{w.label.toLowerCase()} at {w.scheme} ({ratio(w.ratio)})</Fragment>)}.</p>
+    <p>{total} text pairs in three schemes, the same list the token build checks against WCAG 2.2 AA in every palette (these are Candy's), each with why it is checked: a failing pair fails the build. The list is data, <code class="docs-inline-code">@jaatster/blip-tokens/contrast.json</code>, which the build and this page both read. {passing === total ? "All of them pass." : `${total - passing} fail.`} Closest to the line: {weakest.map((w, i) => <Fragment>{i > 0 && ", "}{w.label.toLowerCase()} at {w.scheme} ({ratio(w.ratio)})</Fragment>)}.</p>
     <Table label="Contrast of every checked pair" head={["Pair", "Day", "Sunset", "Night", "Needs"]} rows={pairRows} class="docs-contrast" />
   </section>
 

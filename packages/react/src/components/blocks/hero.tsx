@@ -1,8 +1,8 @@
 /**
  * Hero: Hero, HeroInner, HeroTitle, HeroLead, HeroActions, HeroNote, HeroScenery and HeroGround. CSS from
- * @blip/blocks (hero.css). It stands on the world: pass a `<World>` (from @blip/react/effects) as its first child;
+ * @jaatster/blip-blocks (hero.css). It stands on the world: pass a `<World>` (from @jaatster/blip-react/effects) as its first child;
  * without it, and until it draws, its own sky shows, the scheme's palette in hard bands. Its calls to action are a
- * `<ButtonLink>` (or `<Button>`) from @blip/react.
+ * `<ButtonLink>` (or `<Button>`) from @jaatster/blip-react.
  */
 import { Fragment, forwardRef } from "react";
 import type { CSSProperties, ElementType } from "react";

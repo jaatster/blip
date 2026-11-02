@@ -23,7 +23,7 @@ You need:
 ```sh
 pnpm install
 python3 -m venv .tools/venv && .tools/venv/bin/pip install fonttools==4.68.0 brotli==1.2.1
-pnpm --filter @blip/tests exec playwright install chromium
+pnpm --filter @jaatster/blip-tests exec playwright install chromium
 pnpm build
 ```
 
@@ -51,23 +51,23 @@ pnpm build
 | Command | What it does |
 |---|---|
 | `pnpm build` | Builds every package and reports sizes. |
-| `pnpm --filter @blip/<package> build` | Builds one package. |
-| `pnpm build:tokens` | Builds the tokens only. `pnpm --filter @blip/tokens check` validates them and checks contrast without writing. |
+| `pnpm --filter @jaatster/blip-<package> build` | Builds one package. |
+| `pnpm build:tokens` | Builds the tokens only. `pnpm --filter @jaatster/blip-tokens check` validates them and checks contrast without writing. |
 | `node scripts/serve.mjs [path] [--port 4173]` | Serves the repository root at http://localhost:4173, so pages can load `packages/*/dist`. `pnpm specimen` opens the specimen. |
 | `node scripts/gallery.mjs` | Rewrites `specimen/gallery.json` after you add a stylesheet, module or example. The gallery is `/specimen/gallery.html?only=button,tabs&scheme=night`. |
 | `pnpm shoot` | Draws the social card, `specimen/press.html` (the home page's hero; `?scheme=day`, `?palette=grape`), at 1200 x 630 in Playwright's Chromium, with the tests' frozen clock and seed and reduced motion, and saves it as `apps/docs/public/og.png` (Night) and `og-day.png`. The same build gives the same bytes. It uses the server on port 4173 if that serves this checkout, and starts its own otherwise (`BLIP_SHOOT_PORT`, 4181). |
 | `node scripts/shoot.mjs <dir> "<path>=<name>" … [--width 1280] [--height 900] [--full] [--scale 1]` | Screenshots pages of the running server, with reduced motion. It uses Chrome if it is installed (`BLIP_BROWSER` picks another channel), Playwright's Chromium otherwise. |
 | `pnpm test` | Unit tests: build tools and pure functions in Node, everything that needs a DOM in Chromium. |
 | `pnpm test:visual` | Every example in Day, Sunset and Night at 1280 px (and the responsive ones at 390 px), compared pixel for pixel with the baselines. |
-| `pnpm --filter @blip/tests test:visual:update` | Writes new baselines. Look at every changed picture before you commit it. |
-| `pnpm --filter @blip/tests test:a11y` | axe, WCAG 2.2 AA, on every example in Day and Night. |
+| `pnpm --filter @jaatster/blip-tests test:visual:update` | Writes new baselines. Look at every changed picture before you commit it. |
+| `pnpm --filter @jaatster/blip-tests test:a11y` | axe, WCAG 2.2 AA, on every example in Day and Night. |
 | `pnpm test:react` | The React wrappers in jsdom, under React 19 and React 18. |
-| `pnpm --filter @blip/storybook dev` | Storybook at http://localhost:6006. `build` writes `storybook-static`; `test` runs every story as a test, with axe, in Day and in Night. |
-| `pnpm --filter @blip/docs dev` | The docs site, locally. `build` writes the static site; `preview` serves the build. |
+| `pnpm --filter @jaatster/blip-storybook dev` | Storybook at http://localhost:6006. `build` writes `storybook-static`; `test` runs every story as a test, with axe, in Day and in Night. |
+| `pnpm --filter @jaatster/blip-docs dev` | The docs site, locally. `build` writes the static site; `preview` serves the build. |
 | `pnpm cem` | Writes the Custom Elements Manifests from the elements' JSDoc. `pnpm cem:check` fails if one is out of date. Then run `node scripts/contract-elements.mjs`, which writes CONTRACT.md's table of elements from them. |
 | `node scripts/diagnostics.mjs` | Writes CONTRACT.md's table of diagnostic codes from the source; `--check` fails if it is out of date. |
 | `pnpm lint:css` | Regenerates the list of public custom properties, then lints every package's CSS with Blip's rules. |
-| `pnpm --filter @blip/stylelint-config test` | Tests the lint rules themselves. |
+| `pnpm --filter @jaatster/blip-stylelint-config test` | Tests the lint rules themselves. |
 | `pnpm budgets` | Checks the size budgets after a build; fails if anything is over. |
 | `pnpm check` | `cem:check`, `lint:css`, `budgets` and the React type check together. |
 | `pnpm qa <name> [--fast] [--update-snapshots]` | Every check of one component or kit part, and only its checks (`scripts/qa.mjs`): what is missing (docs page, example, header comment, baselines, a unit test of its element, its CONTRACT.md row), stylelint on its CSS, its docs page against the code, its manifest, its budget lines, the unit tests that mention it, and the visual tests and accessibility scans of its example. `--fast` skips the Playwright runs. |
@@ -100,7 +100,7 @@ AUTHORING.md has the rules for all of these. The steps:
 5. If it needs behaviour, add `packages/elements/src/<name>.ts` (a kit keeps its own): light DOM, extends
    `BlipElement`, tag and events `blip-<name>`, every listener and timer on `this.signal`, JSDoc for the manifest.
    Run `pnpm cem`.
-6. React: element wrappers are generated from the manifests by `pnpm --filter @blip/react build`. For a CSS
+6. React: element wrappers are generated from the manifests by `pnpm --filter @jaatster/blip-react build`. For a CSS
    component, add its component and its parts by hand in a file of its own, named like its docs page:
    `packages/react/src/components/<name>.tsx` (kits: `components/game/`, `components/blocks/`), exported from the
    package's entry. One file per page is what the shadcn registry installs (`scripts/registry.mjs`).
@@ -119,7 +119,7 @@ The docs site, Storybook and the tests find the new files on their own: there is
 Draw it in `packages/icons/src/<category>.icons`: a header (`@ name tags: word, word`) and exactly 12 rows of 12
 characters, `X` for a pixel and `.` for empty. Follow the twelve drawing rules in
 [packages/icons/docs/icons.md](packages/icons/docs/icons.md): one-pixel outlines, two-pixel lone marks, even
-diagonals, the set's circles, no brands and no words. Then run `pnpm --filter @blip/icons build`, which checks
+diagonals, the set's circles, no brands and no words. Then run `pnpm --filter @jaatster/blip-icons build`, which checks
 the map, traces it and proves the path covers exactly the pixels you drew, and look at it in the gallery
 (`?only=icons`).
 
@@ -127,7 +127,7 @@ the map, traces it and proves the path covers exactly the pixels you drew, and l
 
 Draw it in `packages/font/src/pixel-bop.glyphs` on the 7-row grid: 2-pixel vertical strokes, 1-pixel horizontal
 ones, most letters 6 wide. Compose accented letters from their marks rather than drawing them. Then run
-`pnpm --filter @blip/font build` (it needs the Python environment above), which checks every block, writes the
+`pnpm --filter @jaatster/blip-font build` (it needs the Python environment above), which checks every block, writes the
 TTF and WOFF2, and fails if the WOFF2 goes over 15 KB. Look at it at scales 1 to 4 (`?only=font`), because the
 rounded sets at 2, 3 and 4 are generated. The details are in
 [packages/font/docs/font.md](packages/font/docs/font.md), "Drawing a new glyph".
@@ -159,7 +159,7 @@ What works today:
 
 ### A diagnostic
 
-Development warnings go through `warn(code, message, element)` from `@blip/core`. Pick a code in the right
+Development warnings go through `warn(code, message, element)` from `@jaatster/blip-core`. Pick a code in the right
 range (CONTRACT.md lists them), never reuse one for a different problem, and add a note for it in
 `apps/docs/src/lib/diagnostics-notes.ts`; the diagnostics page lists every code it finds in the source. Then run
 `node scripts/diagnostics.mjs`, which writes CONTRACT.md's table of codes from the source (`pnpm test` fails until
@@ -172,13 +172,13 @@ Run what CI runs (`.github/workflows/ci.yml`), and the accessibility scan, which
 ```sh
 pnpm build
 pnpm check                                  # manifests, CSS lint, budgets, React types
-pnpm --filter @blip/stylelint-config test
+pnpm --filter @jaatster/blip-stylelint-config test
 pnpm test:react
 pnpm test
 pnpm test:visual
-pnpm --filter @blip/tests test:a11y
-pnpm --filter @blip/storybook build
-pnpm --filter @blip/docs build
+pnpm --filter @jaatster/blip-tests test:a11y
+pnpm --filter @jaatster/blip-storybook build
+pnpm --filter @jaatster/blip-docs build
 git status                                  # commit everything the build regenerated
 ```
 
@@ -224,7 +224,7 @@ request (`pnpm version-packages`: new versions, changelogs and an updated lockfi
 version that is not on npm yet (`pnpm release`: build, budgets, `changeset publish`) with npm provenance, and only
 when the repository has an `NPM_TOKEN` secret; without one, the version pull requests still work and nothing is
 published. The first release publishes every package at its current version (0.1.0, and 0.2.0 for
-`@blip/font`), as `.changeset/first-release.md` records. Nothing is published without the owner's go-ahead.
+`@jaatster/blip-font`), as `.changeset/first-release.md` records. Nothing is published without the owner's go-ahead.
 
 ## The real-stack check
 

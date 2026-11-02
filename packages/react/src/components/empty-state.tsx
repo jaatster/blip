@@ -1,6 +1,6 @@
 /**
  * Empty state: EmptyState, EmptyStateArt, EmptyStateTitle, EmptyStateText and EmptyStateActions. CSS from
- * @blip/components (empty-state.css).
+ * @jaatster/blip-components (empty-state.css).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";

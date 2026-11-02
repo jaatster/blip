@@ -1,7 +1,7 @@
-// The test page's loader. Freezes the clock and seeds randomness before any element module loads (one @blip/core
+// The test page's loader. Freezes the clock and seeds randomness before any element module loads (one @jaatster/blip-core
 // instance, through the import map), then loads every stylesheet, the example, and every element module, and marks
 // <body data-ready> once fonts are in and the page has stopped changing.
-import { provide } from "@blip/core";
+import { provide } from "@jaatster/blip-core";
 
 provide({ clock: () => new Date("2026-06-21T12:00:00"), seed: 42 });
 

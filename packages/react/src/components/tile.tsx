@@ -1,5 +1,5 @@
 /**
- * Tile: Tile, TileGlint, TileItem, TileLabel and TileList. CSS from @blip/components (tile.css). <TileGrid> (the
+ * Tile: Tile, TileGlint, TileItem, TileLabel and TileList. CSS from @jaatster/blip-components (tile.css). <TileGrid> (the
  * element's wrapper) adds arrow keys and selection round the markup these render.
  */
 import { forwardRef } from "react";

@@ -1,5 +1,5 @@
 /**
- * Alert: Alert, AlertIcon, AlertBody, AlertTitle, AlertActions and AlertClose. CSS from @blip/components
+ * Alert: Alert, AlertIcon, AlertBody, AlertTitle, AlertActions and AlertClose. CSS from @jaatster/blip-components
  * (alert.css).
  */
 import { forwardRef } from "react";

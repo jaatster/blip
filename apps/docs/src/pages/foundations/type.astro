@@ -90,13 +90,13 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
 
   <section class="docs-section" aria-labelledby="styles">
     <h2 id="styles">Type styles</h2>
-    <p>Classes from <code class="docs-inline-code">@blip/core</code>; nothing to add but the class.</p>
+    <p>Classes from <code class="docs-inline-code">@jaatster/blip-core</code>; nothing to add but the class.</p>
     <Table label="Every type style" head={["Class", "Looks like", ""]} rows={styles.map(([c, d, html]) => [code(`.${c}`), html!, esc(d)])} class="docs-styles-table" />
   </section>
 
   <section class="docs-section docs-prose docs-reference" aria-labelledby="font-files">
     <h2 id="font-files">The font files</h2>
-    <p>From <code class="docs-inline-code">@blip/font</code>'s own documentation.</p>
+    <p>From <code class="docs-inline-code">@jaatster/blip-font</code>'s own documentation.</p>
     <Fragment set:html={ref.html} />
   </section>
 

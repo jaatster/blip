@@ -1,6 +1,6 @@
 ---
 name: Sound
-package: "@blip/sound"
+package: "@jaatster/blip-sound"
 css: null
 element: null
 react: null
@@ -16,7 +16,7 @@ audio buffers. No audio files; about 1.5 KB.
 ## Usage
 
 ```js
-import { enableSound, disableSound, play, rememberSound } from "@blip/sound";
+import { enableSound, disableSound, play, rememberSound } from "@jaatster/blip-sound";
 
 soundButton.onclick = async () => {
   await enableSound({ volume: 0.8 });   // from a press: browsers start audio only then
@@ -26,7 +26,7 @@ play("coin");                           // anywhere, once on; silent when off
 ```
 
 `enableSound()` registers the sounds as Blip's sound sink, so everything that plays through
-`services.sound()` from `@blip/core` (the typewriter's blips, elements' sounds) is heard. `disableSound()` turns
+`services.sound()` from `@jaatster/blip-core` (the typewriter's blips, elements' sounds) is heard. `disableSound()` turns
 it off and puts back whatever sink was there before.
 
 Sound is off until the app turns it on, and never depends on `prefers-reduced-motion`. Remembering the person's
@@ -54,7 +54,7 @@ The first eight are the TV's, sample for sample; the last three are made the sam
 ## The voice
 
 ```js
-import { voiceRate } from "@blip/sound";
+import { voiceRate } from "@jaatster/blip-sound";
 play("blip", { rate: voiceRate("A", "happy") });
 ```
 

@@ -1,5 +1,5 @@
 /**
- * <Skeleton>. CSS from @blip/components (skeleton.css).
+ * <Skeleton>. CSS from @jaatster/blip-components (skeleton.css).
  */
 import { forwardRef } from "react";
 import type { CSSProperties, ElementType } from "react";

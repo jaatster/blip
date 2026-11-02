@@ -1,5 +1,5 @@
 /**
- * Breadcrumbs: Breadcrumbs, BreadcrumbsList and BreadcrumbsLink. CSS from @blip/components (breadcrumbs.css). A link
+ * Breadcrumbs: Breadcrumbs, BreadcrumbsList and BreadcrumbsLink. CSS from @jaatster/blip-components (breadcrumbs.css). A link
  * to the page you are on takes `current` (`aria-current="page"`); list items with no class of their own stay plain
  * `<li>`s.
  */

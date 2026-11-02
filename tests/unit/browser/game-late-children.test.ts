@@ -4,7 +4,7 @@
  * and late or replaced dialogue pages start the box from the first page.
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { provide } from "@blip/core";
+import { provide } from "@jaatster/blip-core";
 import "../../../packages/game/src/choices.ts";
 import "../../../packages/game/src/inventory.ts";
 import "../../../packages/game/src/dialogue.ts";

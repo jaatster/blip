@@ -1,6 +1,6 @@
 ---
 name: Pagination
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: pagination.css
 element: null
 react: Pagination

@@ -9,7 +9,7 @@
  *   coins.value += 10;   // counts up a whole step a frame, the coin bumps, the coin sound plays
  *   hearts.value -= 1;   // the row shakes
  */
-import { BlipElement, duration, frames, run, services } from "@blip/core";
+import { BlipElement, duration, frames, run, services } from "@jaatster/blip-core";
 
 const retrigger = (el: Element | null, name: string) => {
   if (!el) return;

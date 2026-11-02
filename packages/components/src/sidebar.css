@@ -251,7 +251,7 @@
       inline-size: calc(6 * var(--blip-pixel));
       block-size: calc(6 * var(--blip-pixel));
       padding: 0;
-      /* A dot: no count. font-size-adjust off too: with it (from @blip/font), Chrome draws 0-size text at full size. */
+      /* A dot: no count. font-size-adjust off too: with it (from @jaatster/blip-font), Chrome draws 0-size text at full size. */
       font-size: 0;
       font-size-adjust: none;
     }

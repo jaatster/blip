@@ -60,7 +60,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     if (check) {
       if (!existsSync(file) || readFileSync(file, "utf8") !== json) stale.push(`packages/${pkg}/custom-elements.json`);
     } else writeFileSync(file, json);
-    console.log(`${`@blip/${pkg}`.padEnd(22)} ${String(elements.length).padStart(2)} elements  ${elements.join(" ")}`);
+    console.log(`${`@jaatster/blip-${pkg}`.padEnd(22)} ${String(elements.length).padStart(2)} elements  ${elements.join(" ")}`);
   }
   if (issues.length) console.error(`\ncem: ${issues.length} problem${issues.length > 1 ? "s" : ""}:\n  ${issues.join("\n  ")}`);
   if (stale.length) console.error(`\ncem: out of date (run pnpm cem and commit):\n  ${stale.join("\n  ")}`);

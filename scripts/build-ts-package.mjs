@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Builds a TypeScript package of Web Components or effects: generates src/index.ts from src/*.ts (each module
 // registers what it defines), compiles with tsc, bundles a minified browser build, and reports each module's
-// gzipped size with @blip/* left external.
+// gzipped size with @jaatster/blip-* left external.
 // Usage (from a package): node ../../scripts/build-ts-package.mjs <bundle-name>
 import { readdirSync, writeFileSync, existsSync, readFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
@@ -15,9 +15,9 @@ execFileSync("npx", ["tsc", "-p", "tsconfig.json"], { stdio: "inherit" });
 await build({ entryPoints: ["src/index.ts"], bundle: true, minify: true, format: "esm", target: "es2022", outfile: `dist/${name}.bundle.js`, logLevel: "warning" });
 const rows = [];
 for (const m of mods) {
-  const r = await build({ entryPoints: [`src/${m}`], bundle: true, minify: true, format: "esm", target: "es2022", write: false, external: ["@blip/*"], logLevel: "silent" });
+  const r = await build({ entryPoints: [`src/${m}`], bundle: true, minify: true, format: "esm", target: "es2022", write: false, external: ["@jaatster/blip-*"], logLevel: "silent" });
   rows.push([m, gzipSync(r.outputFiles[0].contents, { level: 9 }).length]);
 }
 const all = gzipSync(readFileSync(`dist/${name}.bundle.js`), { level: 9 }).length;
-console.log(`${name}: bundle ${all} B gzip (with @blip/core)`);
+console.log(`${name}: bundle ${all} B gzip (with @jaatster/blip-core)`);
 for (const [m, n] of rows) console.log(`  ${m.padEnd(28)} ${String(n).padStart(6)} B gzip${n > 3072 ? "  OVER 3 KB BUDGET" : ""}`);

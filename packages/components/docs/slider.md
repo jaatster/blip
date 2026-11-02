@@ -1,6 +1,6 @@
 ---
 name: Slider
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: slider.css
 element: null
 react: Slider

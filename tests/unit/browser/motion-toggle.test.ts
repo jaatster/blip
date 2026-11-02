@@ -6,7 +6,7 @@
  */
 import { afterEach, beforeAll, describe, expect, it } from "vitest";
 import { commands, userEvent } from "vitest/browser";
-import { reducedMotion } from "@blip/core";
+import { reducedMotion } from "@jaatster/blip-core";
 import type { BlipMotionToggle } from "../../../packages/effects/src/motion.ts";
 import { mount } from "../support/dom.ts";
 
@@ -60,7 +60,7 @@ describe("<blip-motion-toggle>", () => {
     expect(b.type).toBe("button");
     expect(b.className).toBe("blip-box blip-button");
     expect(b.dataset.variant).toBe("soft");
-    // The pause icon of @blip/icons, hidden from assistive technology: the label names the button.
+    // The pause icon of @jaatster/blip-icons, hidden from assistive technology: the label names the button.
     expect(b.querySelector("svg.blip-icon[aria-hidden='true'] > path")!.getAttribute("d")).toBe("M2 2h3v8H2zm5 0h3v8H7z");
     expect(b.textContent).toBe("Pause motion");
     expect(pressed(b)).toBe("false");

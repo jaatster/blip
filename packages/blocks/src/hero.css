@@ -1,7 +1,7 @@
 @import "./_world.css";
 /*
  * Hero. The top of a landing page: a POP headline whose letters drop in one after another, a subhead, a candy call
- * to action and a soft second one, over the world (<blip-world> from @blip/effects) with a strip of ground along
+ * to action and a soft second one, over the world (<blip-world> from @jaatster/blip-effects) with a strip of ground along
  * the bottom. Before the world draws, or without it, the sky is the scheme's palette in hard bands, dithered where
  * they meet: never a smooth gradient.
  *

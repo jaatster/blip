@@ -1,6 +1,6 @@
 ---
 name: Hero
-package: "@blip/blocks"
+package: "@jaatster/blip-blocks"
 css: hero.css
 element: null
 react: Hero
@@ -11,7 +11,7 @@ status: beta
 
 The top of a landing page: a POP headline whose letters drop in one after another, a subhead, a candy call to
 action with a soft second one, all over the world with a strip of ground along the bottom. The world is
-`<blip-world>` from `@blip/effects`; before it draws, or without it, the hero's own sky is the scheme's palette in
+`<blip-world>` from `@jaatster/blip-effects`; before it draws, or without it, the hero's own sky is the scheme's palette in
 hard bands, dithered where they meet.
 
 ## Usage

@@ -1,10 +1,10 @@
 /**
- * The world backdrop (@blip/effects, drawWorld): the TV's landscape, drawn a pixel at a time. It must come out the
+ * The world backdrop (@jaatster/blip-effects, drawWorld): the TV's landscape, drawn a pixel at a time. It must come out the
  * same every time, whatever the random service or the clock say, so screenshots and the TV agree. The pinned hashes
  * use a made-up palette, so they change only when the drawing changes, not when a world colour is retuned.
  */
 import { afterEach, beforeEach, describe, expect, inject, it } from "vitest";
-import { provide, type Scheme } from "@blip/core";
+import { provide, type Scheme } from "@jaatster/blip-core";
 import { drawWorld, worldPalette, type DrawWorldOptions, type WorldLayer } from "../../../packages/effects/src/world.ts";
 
 /** 44 distinct colours, one per palette slot. */

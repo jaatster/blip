@@ -6,7 +6,7 @@
  */
 import { afterEach, beforeAll, beforeEach, describe, expect, inject, it, vi } from "vitest";
 import { commands } from "vitest/browser";
-import { provide } from "@blip/core";
+import { provide } from "@jaatster/blip-core";
 import motionCss from "../../../packages/core/src/css/motion.css?raw";
 import worldCss from "../../../packages/effects/src/world.css?raw";
 import { mount } from "../support/dom.ts";

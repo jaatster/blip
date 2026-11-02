@@ -9,7 +9,7 @@
 //   public/r/                     the shadcn registry: registry.json and one <item>.json each, written from the
 //                                docs and the React source by scripts/registry.mjs (served as /r/<item>.json)
 //
-// Run by `pnpm --filter @blip/docs build` (and dev). Build the packages first:
+// Run by `pnpm --filter @jaatster/blip-docs build` (and dev). Build the packages first:
 //   pnpm -r --filter "./packages/**" run build
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync, copyFileSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
@@ -104,17 +104,17 @@ for (const f of ["index.js", "element.js"]) {
 
 const importMap = {
   imports: {
-    "@blip/core": "/blip/core/js/index.js",
-    "@blip/tokens": "/blip/tokens/index.js",
-    "@blip/elements": "/blip/elements/index.js",
-    "@blip/elements/": "/blip/elements/",
-    "@blip/effects": "/blip/effects/index.js",
-    "@blip/effects/": "/blip/effects/",
-    "@blip/game": "/blip/game/index.js",
-    "@blip/game/": "/blip/game/",
-    "@blip/sound": "/blip/sound/index.js",
-    "@blip/icons": "/blip/icons/index.js",
-    "@blip/icons/": "/blip/icons/",
+    "@jaatster/blip-core": "/blip/core/js/index.js",
+    "@jaatster/blip-tokens": "/blip/tokens/index.js",
+    "@jaatster/blip-elements": "/blip/elements/index.js",
+    "@jaatster/blip-elements/": "/blip/elements/",
+    "@jaatster/blip-effects": "/blip/effects/index.js",
+    "@jaatster/blip-effects/": "/blip/effects/",
+    "@jaatster/blip-game": "/blip/game/index.js",
+    "@jaatster/blip-game/": "/blip/game/",
+    "@jaatster/blip-sound": "/blip/sound/index.js",
+    "@jaatster/blip-icons": "/blip/icons/index.js",
+    "@jaatster/blip-icons/": "/blip/icons/",
   },
 };
 // The core modules every element needs: preloaded with the first element on a page, so they arrive together.
@@ -124,7 +124,7 @@ const coreModules = modules(pkg("core", "dist", "js")).map((rel) => `/blip/core/
 
 /** One module bundled and minified with the other packages left out, as scripts/build-ts-package.mjs measures it. */
 async function moduleSize(entry) {
-  const r = await build({ entryPoints: [entry], bundle: true, minify: true, format: "esm", target: "es2022", write: false, external: ["@blip/*"], logLevel: "silent" });
+  const r = await build({ entryPoints: [entry], bundle: true, minify: true, format: "esm", target: "es2022", write: false, external: ["@jaatster/blip-*"], logLevel: "silent" });
   return gz(r.outputFiles[0].contents);
 }
 const fileGz = (f) => gz(readFileSync(f));

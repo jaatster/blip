@@ -1,6 +1,6 @@
 ---
 name: Command palette
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: command.css
 element: blip-command
 react: CommandPalette
@@ -45,7 +45,7 @@ fast path, never as the only path: everything in it should also be reachable fro
 document.querySelector("blip-command").addEventListener("blip-action", (e) => go(e.detail.value));
 ```
 
-`<blip-command>` (from `@blip/elements/command.js`) makes the field a combobox over the listbox, filters as you
+`<blip-command>` (from `@jaatster/blip-elements/command.js`) makes the field a combobox over the listbox, filters as you
 type, moves the active result and opens and closes the palette on Ctrl+K (Cmd+K on a Mac). The dialog itself is native:
 it traps focus, closes on Escape and gives focus back to whatever had it.
 

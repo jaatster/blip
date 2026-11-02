@@ -1,10 +1,10 @@
 /**
- * @blip/core's motion helpers against a real browser: reduced motion follows the person's setting (emulated
+ * @jaatster/blip-core's motion helpers against a real browser: reduced motion follows the person's setting (emulated
  * here as Playwright does), durations come from the tokens, and the pixel is read from CSS.
  */
 import { afterEach, beforeAll, describe, expect, inject, it } from "vitest";
 import { commands } from "vitest/browser";
-import { duration, pixel, reducedMotion, steps } from "@blip/core";
+import { duration, pixel, reducedMotion, steps } from "@jaatster/blip-core";
 
 let tokens: HTMLStyleElement;
 beforeAll(() => {

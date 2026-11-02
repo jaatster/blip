@@ -6,7 +6,7 @@ a component that is still in beta (see "Stable and beta"). Everything else is pr
 
 Every package has its own version. **While a package is 0.x, an incompatible change to its part of the contract is
 a minor release**, and the changelog says what changed and what to do; from 1.0 it is a major release. All packages
-are 0.x today (0.1.0, and 0.2.0 for `@blip/font`).
+are 0.x today (0.1.0, and 0.2.0 for `@jaatster/blip-font`).
 
 The rule of thumb: **if it is documented, it is public.** A component's public API is what its `docs/<name>.md`
 and the header comment of its stylesheet describe. An element's is its Custom Elements Manifest. A token's is its
@@ -31,25 +31,25 @@ cascade layers, the JavaScript APIs and the diagnostic codes) is stable.
 
 ## Tokens and their custom properties
 
-The source of truth is generated with every build and ships with `@blip/tokens`:
+The source of truth is generated with every build and ships with `@jaatster/blip-tokens`:
 
-- **`@blip/tokens/manifest.json`**: every token, with its name, its DTCG path, its CSS custom property, its
+- **`@jaatster/blip-tokens/manifest.json`**: every token, with its name, its DTCG path, its CSS custom property, its
   type, its description, whether it changes with the scheme, and whether a palette sets it. 327 tokens today.
-- **`@blip/tokens/tokens.json`**: the resolved values, shared and per scheme: sizes in CSS px, and the type
+- **`@jaatster/blip-tokens/tokens.json`**: the resolved values, shared and per scheme: sizes in CSS px, and the type
   sizes in px at the browser's default text size of 16 px. `palette` names the default palette and `palettes` holds
   each preset: its `name`, `description` and `credit`, what it sets (`shared`), and every scheme's roles in it
   (`schemes`).
-- **`@blip/tokens/tokens.css`**: the custom properties themselves, in `@layer blip.tokens`. The type sizes are in
+- **`@jaatster/blip-tokens/tokens.css`**: the custom properties themselves, in `@layer blip.tokens`. The type sizes are in
   rem, so text follows the browser's default size; everything counted in pixels does not.
-- **`@blip/tokens/palettes.css`**: the presets, opt in, in `@layer blip.tokens`: each sets what it changes on
+- **`@jaatster/blip-tokens/palettes.css`**: the presets, opt in, in `@layer blip.tokens`: each sets what it changes on
   `[data-blip-palette="<name>"]` (see Theme switches). The preset names are public.
 - **The `blip-tokens` command**: `npx blip-tokens <theme.resolver.json> [--out <file.css>] [--check]`
   builds a theme's `tokens.css` (a resolver that lists Blip's files and the theme's own, as the docs' theme
   builder exports: a `palette` context of its own, or a scheme's roles) through the same checks as Blip's own,
   in every palette and scheme the resolver has, and writes nothing when one fails. Its name, argument and options
   are public, and so are the codes it reports.
-- **`@blip/tokens/resolver`** and **`@blip/tokens/src/*`**: the DTCG 2025.10 sources and resolver.
-- The JS module, the Figma variables (`@blip/tokens/figma/variables.json`), and the Kotlin (Compose), Swift
+- **`@jaatster/blip-tokens/resolver`** and **`@jaatster/blip-tokens/src/*`**: the DTCG 2025.10 sources and resolver.
+- The JS module, the Figma variables (`@jaatster/blip-tokens/figma/variables.json`), and the Kotlin (Compose), Swift
   and Android XML files in `dist/` carry the same names in each platform's case (`--blip-candy-red` is
   `candyRed` in Swift).
 
@@ -74,7 +74,7 @@ are protected. Its value can change in a minor release when the design improves,
 change that breaks a guarantee this document or DESIGN.md makes (whole pixels, AA contrast for every checked pair,
 what a role is for) counts as breaking.
 
-**The JS module** (`@blip/tokens`): `cssVar(name)`, `px(name, size?)`, `pixel`, `shared`, `schemes`,
+**The JS module** (`@jaatster/blip-tokens`): `cssVar(name)`, `px(name, size?)`, `pixel`, `shared`, `schemes`,
 `schemeNames`, `palettes`, `paletteNames`, and the types `SchemeName`, `PaletteName`, `PresetName`, `Palette`,
 `PixelSize`, `SharedToken`, `RoleToken`, `TokenName` and `PixelToken`. The Kotlin and Swift files carry the presets
 as `Palettes.<Name>.<Scheme>`, and the Figma variables as a `Palette` collection with a mode for each.
@@ -91,7 +91,7 @@ worked out where the scheme is set.
 | `data-blip-scheme` | `day`, `sunset`, `night` | On `<html>` or any element: the scheme of everything inside. With none set, the page is Day, or Night when the device is in dark mode. |
 | `data-blip-motion` | `reduce` | On `<html>`: the person asked for less motion on this page, beside `prefers-reduced-motion`; `reducedMotion()` is true with either. Set and cleared by `<blip-motion-toggle>`, remembered in localStorage under `blip:motion`. |
 | `data-blip-pixel` | `3`, `4` | On `<html>` or any element: the size of one pixel in CSS px. The default is 2, set on `:root`. |
-| `data-blip-palette` | `grape`, `ember`, `azure`, `mint`, `bubblegum`, `dracula`, `nord`, `catppuccin`, `gruvbox`, `tokyo-night`, `rose-pine` | On `<html>`, or on an element with its own `data-blip-scheme`, with `@blip/tokens/palettes.css` loaded: the accent of every scheme and Night's page, ink and sky. With none set, the palette is Candy. `<blip-world>` repaints when it changes. |
+| `data-blip-palette` | `grape`, `ember`, `azure`, `mint`, `bubblegum`, `dracula`, `nord`, `catppuccin`, `gruvbox`, `tokyo-night`, `rose-pine` | On `<html>`, or on an element with its own `data-blip-scheme`, with `@jaatster/blip-tokens/palettes.css` loaded: the accent of every scheme and Night's page, ink and sky. With none set, the palette is Candy. `<blip-world>` repaints when it changes. |
 | `data-blip-scheme-fade` | present | Set on its target by `autoScheme()` once the time of day has changed (not with `fade: false`). While it is on `<html>`, the world backdrop steps its sky to a new scheme over a minute; every other colour changes in one step (see `data-blip-scheme-dither`). |
 | `data-blip-scheme-dither` | present | Set on `<html>` by `autoScheme()` while a change of time of day dithers in (a view transition of three frames). Read it; do not set it. |
 | `data-blip-scheme-auto` | present | Set by `autoScheme()` while it follows the clock. Read it; do not set it. |
@@ -99,7 +99,7 @@ worked out where the scheme is set.
 
 ## Building blocks
 
-`@blip/core/core.css` (and `core.min.css`), and `@blip/core/layers.css` (the cascade-layer order, for a
+`@jaatster/blip-core/core.css` (and `core.min.css`), and `@jaatster/blip-core/layers.css` (the cascade-layer order, for a
 page that also uses Tailwind or layered CSS of its own). These are what every component is built from, and you can
 build from them too. Every size in them is counted in pixels except the type sizes, which follow the browser's
 default text size.
@@ -114,13 +114,13 @@ default text size.
 | **Icons** | `.blip-icon` (12 pixels square), `data-size="lg"` (24). |
 | **Motion** | `.blip-pop-in`, `.blip-drop-in` (with `--blip-delay`), `.blip-bump`, `.blip-shake`, `.blip-blink` (with `--blip-blink-count`), `.blip-bob` (with `--blip-bob-count`); `--blip-ease-2`, `--blip-ease-4`, `--blip-ease-6`. |
 | **Utilities** | `.blip-sr-only`, `.blip-scrim`, `.blip-dither`, `.blip-pixelated` and `[data-pixelated]` on `img`, `canvas` or `svg`. |
-| **Cascade layers** | `blip.reset`, `blip.tokens`, `blip.base`, `blip.core`, `blip.components`, `blip.kits`, `blip.utilities`, in that order (declared by `tokens.css`). Which layer a package's rules are in is public; their order and specificity inside a layer are not. `@blip/core/layers.css`, imported first, declares `properties, theme, base, blip, components, utilities` and then the `blip.*` order, so all of Blip comes after Tailwind CSS v4's `properties`, `theme` and reset (`base`) and before its `components` and `utilities`; the order it declares is public. |
-| **Fonts** | The family names `"Pixel Bop"`, `"Pixelify Sans"` and `"Blip Fallback"`; Pixel Bop's features `ss02` (Rounded 2x), `ss03` (Rounded 3x) and `locl` (Romanian); the files `@blip/font/font.css`, `pixel-bop.woff2`, `pixel-bop-cyrillic.woff2`, `pixel-bop-greek.woff2`, `pixel-bop.ttf`, `pixelify-sans.woff2`, `pixelify-sans-cyrillic.woff2` and `pixelify-sans-greek.woff2`. |
+| **Cascade layers** | `blip.reset`, `blip.tokens`, `blip.base`, `blip.core`, `blip.components`, `blip.kits`, `blip.utilities`, in that order (declared by `tokens.css`). Which layer a package's rules are in is public; their order and specificity inside a layer are not. `@jaatster/blip-core/layers.css`, imported first, declares `properties, theme, base, blip, components, utilities` and then the `blip.*` order, so all of Blip comes after Tailwind CSS v4's `properties`, `theme` and reset (`base`) and before its `components` and `utilities`; the order it declares is public. |
+| **Fonts** | The family names `"Pixel Bop"`, `"Pixelify Sans"` and `"Blip Fallback"`; Pixel Bop's features `ss02` (Rounded 2x), `ss03` (Rounded 3x) and `locl` (Romanian); the files `@jaatster/blip-font/font.css`, `pixel-bop.woff2`, `pixel-bop-cyrillic.woff2`, `pixel-bop-greek.woff2`, `pixel-bop.ttf`, `pixelify-sans.woff2`, `pixelify-sans-cyrillic.woff2` and `pixelify-sans-greek.woff2`. |
 
 ## Components: classes, parts and attributes
 
-The components of `@blip/components` and the kits (`@blip/game`, `@blip/blocks`,
-`@blip/effects`) follow one naming scheme:
+The components of `@jaatster/blip-components` and the kits (`@jaatster/blip-game`, `@jaatster/blip-blocks`,
+`@jaatster/blip-effects`) follow one naming scheme:
 
 - **The component** is a class, `blip-<component>`, on the element that is the component, next to `blip-box` when it
   is a candy box: `<button class="blip-box blip-button">`.
@@ -134,10 +134,10 @@ The components of `@blip/components` and the kits (`@blip/game`, `@blip/blocks`,
 - **Custom properties** of a component are `--blip-<component>-<thing>`: `--blip-sidebar-width`, `--blip-grid-min`,
   `--blip-card-media-ratio`, `--blip-card-art-width` and `--blip-card-art-height` (a card picture with
   `data-fit="pixels"`), `--blip-toast-duration`, `--blip-fab-offset`. Every public custom property that is not a token is listed in
-  `@blip/stylelint-config/public-properties.json`, the box's and the type's included.
-- **One file per component**: `@blip/components/<name>.css` (and `components.css` for all of them),
-  `@blip/game/<name>.css`, `@blip/blocks/<name>.css`, `@blip/effects/<name>.css`. One file is
-  opt-in and not in `components.css`: `@blip/components/popover-nub.css` (and `popover-nub.min.css`), the nub
+  `@jaatster/blip-stylelint-config/public-properties.json`, the box's and the type's included.
+- **One file per component**: `@jaatster/blip-components/<name>.css` (and `components.css` for all of them),
+  `@jaatster/blip-game/<name>.css`, `@jaatster/blip-blocks/<name>.css`, `@jaatster/blip-effects/<name>.css`. One file is
+  opt-in and not in `components.css`: `@jaatster/blip-components/popover-nub.css` (and `popover-nub.min.css`), the nub
   of an open popover, loaded with a `<link>` after the components because its anchored container queries are more
   than Vite 8's and Next.js 16's CSS tools parse. The file names are public.
 
@@ -161,8 +161,8 @@ click), `data-blip-transition` on `<html>` (cross-document view transitions dith
 Web Components are light DOM: they add behaviour to markup that already renders, and the markup's classes are the
 components' own. Each module defines its tag once (loading it twice is harmless). The Custom Elements Manifests are
 the contract for them, and the source of the React wrappers' types:
-`@blip/elements/custom-elements.json`, `@blip/game/custom-elements.json`,
-`@blip/effects/custom-elements.json` and `@blip/icons/custom-elements.json` (each package's
+`@jaatster/blip-elements/custom-elements.json`, `@jaatster/blip-game/custom-elements.json`,
+`@jaatster/blip-effects/custom-elements.json` and `@jaatster/blip-icons/custom-elements.json` (each package's
 `customElements` field points at it).
 
 Conventions, for every element:
@@ -177,41 +177,41 @@ Conventions, for every element:
 <!-- elements: written by scripts/contract-elements.mjs from the Custom Elements Manifests. Run it after pnpm cem. -->
 | Element | Module | Attributes | Other properties and methods | Events |
 |---|---|---|---|---|
-| `<blip-action-sheet>` | `@blip/elements/action-sheet` | `open`, `light-dismiss` | `dialog`, `returnValue` (read-only), `show()`, `requestClose()`, `close()` | `blip-open`, `blip-before-close` (cancelable), `blip-close` |
-| `<blip-combobox>` | `@blip/elements/combobox` | `open`, `name`, `value`, `empty-text`, `toggle-label` | `form` (read-only), `checkValidity()`, `reportValidity()` | `blip-change`, `blip-open`, `blip-close` |
-| `<blip-command>` | `@blip/elements/command` | `open`, `shortcut` | `dialog`, `input`, `options` (read-only), `show()`, `close()` | `blip-action` (cancelable), `blip-open`, `blip-close` |
-| `<blip-dialog>` | `@blip/elements/dialog` | `open`, `light-dismiss` | `dialog`, `returnValue` (read-only), `show()`, `requestClose()`, `close()` | `blip-open`, `blip-before-close` (cancelable), `blip-close` |
-| `<blip-drawer>` | `@blip/elements/drawer` | `open`, `light-dismiss` | `dialog`, `returnValue` (read-only), `show()`, `requestClose()`, `close()` | `blip-open`, `blip-before-close` (cancelable), `blip-close` |
-| `<blip-fab>` | `@blip/elements/fab` | `open`, `data-position` | `trigger`, `menu`, `items` (read-only), `show()`, `close()` | `blip-action` (cancelable), `blip-open`, `blip-close` |
-| `<blip-field>` | `@blip/elements/field` | `count-text`, `role`, `data-layout` | | |
-| `<blip-file-drop>` | `@blip/elements/file-drop` | `remove-label` | `input`, `files` (read-only) | `blip-change`, `blip-reject` |
-| `<blip-menu>` | `@blip/elements/menu` | `open`, `data-align` | `trigger`, `menu`, `items` (read-only), `show()`, `close()` | `blip-action` (cancelable), `blip-open`, `blip-close` |
-| `<blip-number>` | `@blip/elements/number` | `decrease-label`, `increase-label` | `input` (read-only) | `blip-change` |
-| `<blip-pager>` | `@blip/elements/pager` | `prev-label`, `next-label`, `slide-label` | `index`, `track`, `slides` (read-only), `next()`, `prev()` | `blip-page` |
-| `<blip-rating>` | `@blip/elements/rating` | `value`, `max`, `readonly`, `disabled`, `required`, `name`, `required-message`, `star-label`, `data-shape` | `form`, `validity`, `validationMessage` (read-only), `checkValidity()`, `reportValidity()` | `blip-change` |
-| `<blip-refresh>` | `@blip/elements/refresh` | `pull-label`, `release-label`, `refreshing-label`, `done-label` | `refreshing`, `scroller` (read-only), `refresh()` | `blip-refresh` (cancelable) |
-| `<blip-segmented>` | `@blip/elements/segmented` | `value`, `disabled`, `required`, `name`, `required-message`, `data-size`, `data-width`, `data-tone` | `form`, `validity`, `validationMessage`, `items` (read-only), `checkValidity()`, `reportValidity()` | `blip-change` |
-| `<blip-sheet>` | `@blip/elements/sheet` | `open`, `light-dismiss` | `snap`, `snaps`, `dialog`, `returnValue` (read-only), `show()`, `requestClose()`, `close()` | `blip-change`, `blip-open`, `blip-before-close` (cancelable), `blip-close` |
-| `<blip-swipe-row>` | `@blip/elements/swipe-row` | `open` | `show()`, `close()` | `blip-open`, `blip-close`, `blip-swipe` (cancelable) |
-| `<blip-table>` | `@blip/elements/table` | | `selectedRows` (read-only), `sort()` | `blip-sort` (cancelable), `blip-select` |
-| `<blip-tabs>` | `@blip/elements/tabs` | `value`, `activation`, `data-variant`, `data-size` | `selectedIndex`, `list`, `tabs` (read-only) | `blip-change` |
-| `<blip-tile-grid>` | `@blip/elements/tile-grid` | `selection` | `tiles` (read-only), `select()` | `blip-select` (cancelable) |
-| `<blip-toaster>` | `@blip/elements/toast` | `data-side`, `data-align`, `max`, `dismiss-label`, `aria-label` | `add()` | |
-| `<blip-tooltip>` | `@blip/elements/tooltip` | `open`, `for`, `data-side` | `show()`, `close()` | `blip-open`, `blip-close` |
-| `<blip-wheel>` | `@blip/elements/wheel` | `value`, `disabled`, `name`, `data-type`, `data-size`, `data-width`, `data-tone`, `hours`, `minute-step`, `min`, `max` | `form` (read-only) | `blip-change` |
-| `<blip-choices>` | `@blip/game/choices` | | `choices` (read-only), `focus()` | `blip-action` |
-| `<blip-counter>` | `@blip/game/hud` | `value`, `label`, `pad`, `format`, `low`, `sound`, `quiet` | `format()` | |
-| `<blip-dialogue>` | `@blip/game/dialogue` | `voice`, `mood`, `speed`, `typing-label`, `next-label`, `done-label`, `data-font`, `data-blip-typed` | `pages`, `page`, `typing` (read-only), `say()`, `advance()`, `focus()` | `blip-next`, `blip-done` |
-| `<blip-hearts>` | `@blip/game/hud` | `value`, `max`, `label`, `quiet` | | |
-| `<blip-inventory>` | `@blip/game/inventory` | | `slots`, `selected` (read-only), `select()` | `blip-select` |
-| `<blip-sprite>` | `@blip/game/sprites` | `name`, `aria-label`, `data-tone` | | |
-| `<blip-touch-pad>` | `@blip/game/touch-pad` | `for`, `data-a`, `data-b`, `data-start`, `data-show`, `data-position`, `haptics` | | |
-| `<blip-attract>` | `@blip/effects/attract` | `script`, `label`, `pointer` | `steps` | |
-| `<blip-drop-text>` | `@blip/effects/text` | `data-pop`, `data-scale`, `data-tone` | `text`, `play()` | |
-| `<blip-motion-toggle>` | `@blip/effects/motion` | `label` | | |
-| `<blip-typewriter>` | `@blip/effects/text` | `blips`, `caret`, `mood`, `data-scale` | `text`, `play()`, `finish()` | `blip-typewriter-done` |
-| `<blip-world>` | `@blip/effects/world` | `scheme`, `parallax`, `clouds`, `stars`, `events`, `zoom`, `avoid` | | |
-| `<blip-icon>` | `@blip/icons/element` | `name`, `label`, `data-size` | | |
+| `<blip-action-sheet>` | `@jaatster/blip-elements/action-sheet` | `open`, `light-dismiss` | `dialog`, `returnValue` (read-only), `show()`, `requestClose()`, `close()` | `blip-open`, `blip-before-close` (cancelable), `blip-close` |
+| `<blip-combobox>` | `@jaatster/blip-elements/combobox` | `open`, `name`, `value`, `empty-text`, `toggle-label` | `form` (read-only), `checkValidity()`, `reportValidity()` | `blip-change`, `blip-open`, `blip-close` |
+| `<blip-command>` | `@jaatster/blip-elements/command` | `open`, `shortcut` | `dialog`, `input`, `options` (read-only), `show()`, `close()` | `blip-action` (cancelable), `blip-open`, `blip-close` |
+| `<blip-dialog>` | `@jaatster/blip-elements/dialog` | `open`, `light-dismiss` | `dialog`, `returnValue` (read-only), `show()`, `requestClose()`, `close()` | `blip-open`, `blip-before-close` (cancelable), `blip-close` |
+| `<blip-drawer>` | `@jaatster/blip-elements/drawer` | `open`, `light-dismiss` | `dialog`, `returnValue` (read-only), `show()`, `requestClose()`, `close()` | `blip-open`, `blip-before-close` (cancelable), `blip-close` |
+| `<blip-fab>` | `@jaatster/blip-elements/fab` | `open`, `data-position` | `trigger`, `menu`, `items` (read-only), `show()`, `close()` | `blip-action` (cancelable), `blip-open`, `blip-close` |
+| `<blip-field>` | `@jaatster/blip-elements/field` | `count-text`, `role`, `data-layout` | | |
+| `<blip-file-drop>` | `@jaatster/blip-elements/file-drop` | `remove-label` | `input`, `files` (read-only) | `blip-change`, `blip-reject` |
+| `<blip-menu>` | `@jaatster/blip-elements/menu` | `open`, `data-align` | `trigger`, `menu`, `items` (read-only), `show()`, `close()` | `blip-action` (cancelable), `blip-open`, `blip-close` |
+| `<blip-number>` | `@jaatster/blip-elements/number` | `decrease-label`, `increase-label` | `input` (read-only) | `blip-change` |
+| `<blip-pager>` | `@jaatster/blip-elements/pager` | `prev-label`, `next-label`, `slide-label` | `index`, `track`, `slides` (read-only), `next()`, `prev()` | `blip-page` |
+| `<blip-rating>` | `@jaatster/blip-elements/rating` | `value`, `max`, `readonly`, `disabled`, `required`, `name`, `required-message`, `star-label`, `data-shape` | `form`, `validity`, `validationMessage` (read-only), `checkValidity()`, `reportValidity()` | `blip-change` |
+| `<blip-refresh>` | `@jaatster/blip-elements/refresh` | `pull-label`, `release-label`, `refreshing-label`, `done-label` | `refreshing`, `scroller` (read-only), `refresh()` | `blip-refresh` (cancelable) |
+| `<blip-segmented>` | `@jaatster/blip-elements/segmented` | `value`, `disabled`, `required`, `name`, `required-message`, `data-size`, `data-width`, `data-tone` | `form`, `validity`, `validationMessage`, `items` (read-only), `checkValidity()`, `reportValidity()` | `blip-change` |
+| `<blip-sheet>` | `@jaatster/blip-elements/sheet` | `open`, `light-dismiss` | `snap`, `snaps`, `dialog`, `returnValue` (read-only), `show()`, `requestClose()`, `close()` | `blip-change`, `blip-open`, `blip-before-close` (cancelable), `blip-close` |
+| `<blip-swipe-row>` | `@jaatster/blip-elements/swipe-row` | `open` | `show()`, `close()` | `blip-open`, `blip-close`, `blip-swipe` (cancelable) |
+| `<blip-table>` | `@jaatster/blip-elements/table` | | `selectedRows` (read-only), `sort()` | `blip-sort` (cancelable), `blip-select` |
+| `<blip-tabs>` | `@jaatster/blip-elements/tabs` | `value`, `activation`, `data-variant`, `data-size` | `selectedIndex`, `list`, `tabs` (read-only) | `blip-change` |
+| `<blip-tile-grid>` | `@jaatster/blip-elements/tile-grid` | `selection` | `tiles` (read-only), `select()` | `blip-select` (cancelable) |
+| `<blip-toaster>` | `@jaatster/blip-elements/toast` | `data-side`, `data-align`, `max`, `dismiss-label`, `aria-label` | `add()` | |
+| `<blip-tooltip>` | `@jaatster/blip-elements/tooltip` | `open`, `for`, `data-side` | `show()`, `close()` | `blip-open`, `blip-close` |
+| `<blip-wheel>` | `@jaatster/blip-elements/wheel` | `value`, `disabled`, `name`, `data-type`, `data-size`, `data-width`, `data-tone`, `hours`, `minute-step`, `min`, `max` | `form` (read-only) | `blip-change` |
+| `<blip-choices>` | `@jaatster/blip-game/choices` | | `choices` (read-only), `focus()` | `blip-action` |
+| `<blip-counter>` | `@jaatster/blip-game/hud` | `value`, `label`, `pad`, `format`, `low`, `sound`, `quiet` | `format()` | |
+| `<blip-dialogue>` | `@jaatster/blip-game/dialogue` | `voice`, `mood`, `speed`, `typing-label`, `next-label`, `done-label`, `data-font`, `data-blip-typed` | `pages`, `page`, `typing` (read-only), `say()`, `advance()`, `focus()` | `blip-next`, `blip-done` |
+| `<blip-hearts>` | `@jaatster/blip-game/hud` | `value`, `max`, `label`, `quiet` | | |
+| `<blip-inventory>` | `@jaatster/blip-game/inventory` | | `slots`, `selected` (read-only), `select()` | `blip-select` |
+| `<blip-sprite>` | `@jaatster/blip-game/sprites` | `name`, `aria-label`, `data-tone` | | |
+| `<blip-touch-pad>` | `@jaatster/blip-game/touch-pad` | `for`, `data-a`, `data-b`, `data-start`, `data-show`, `data-position`, `haptics` | | |
+| `<blip-attract>` | `@jaatster/blip-effects/attract` | `script`, `label`, `pointer` | `steps` | |
+| `<blip-drop-text>` | `@jaatster/blip-effects/text` | `data-pop`, `data-scale`, `data-tone` | `text`, `play()` | |
+| `<blip-motion-toggle>` | `@jaatster/blip-effects/motion` | `label` | | |
+| `<blip-typewriter>` | `@jaatster/blip-effects/text` | `blips`, `caret`, `mood`, `data-scale` | `text`, `play()`, `finish()` | `blip-typewriter-done` |
+| `<blip-world>` | `@jaatster/blip-effects/world` | `scheme`, `parallax`, `clouds`, `stars`, `events`, `zoom`, `avoid` | | |
+| `<blip-icon>` | `@jaatster/blip-icons/element` | `name`, `label`, `data-size` | | |
 <!-- /elements -->
 
 The element classes are exported too (`BlipTabs`, `BlipDialog`, `BlipWorld`…), with the types of their event
@@ -223,19 +223,19 @@ is private.
 
 | Package | Public exports |
 |---|---|
-| `@blip/core` | `BlipElement` (the base of every element: `static box`, `static classes`, `signal`, `static define()`, and for subclasses `connected()`, `disconnected()`, `emit()`, `on()`, `flag()`); the services `provide()`, `services` (`now()`, `random()`, `between()`, `sound()`), `seeded()` and the types `Services` and `SoundSink`; motion `reducedMotion()`, `steps()`, `duration()`, `pixel()`; timelines `run()`, `frames()`, `every()` and `Step`; schemes `autoScheme()`, `setScheme()`, `schemeAt()` and `Scheme`; diagnostics `warn()`, `checkName()`; the controllers `rovingFocus()` with `RovingOptions`, `typeahead()` and `dismiss()`. |
-| `@blip/elements` | One module per element (`@blip/elements/<name>`), each defining its tag; the index defines them all. The element classes, `toast()`, and the types `ActionDetail`, `CloseDetail`, `CloseReason`, `PageDetail`, `RefreshDetail`, `SheetChangeDetail`, `SortDirection`, `SwipeDetail`, `SwipeSide`, `TabsChangeDetail`, `ToastHandle`, `ToastOptions`, `ToastTone`. |
-| `@blip/game` | The element classes; `sprite()`, `spriteNames`, `pixels()` (the sprites as SVG strings and pixel maps); `blipRate()`; the types `ChoiceDetail` and `SelectDetail`. |
-| `@blip/effects` | `burst()` with `BurstKind` and `BurstOptions`; `transition()` with `TransitionKind` (`dissolve`, `dither`, `mosaic`) and `TransitionOptions`; `drawWorld()` and `worldPalette()` with `WorldLayer`, `WorldPalette`, `WorldBox` and `DrawWorldOptions`; `AttractStep`; the element classes. |
-| `@blip/sound` | `enableSound()`, `disableSound()`, `soundOn()`, `rememberSound()`, `play()`, `synth()`, `SOUNDS`, `voiceRate()`, `voiced()`, and the types `SoundName`, `Note` and `Mood`. The sound names (`step`, `look`, `jump`, `coin`, `open`, `back`, `bump`, `blip`, `success`, `error`, `select`) are public. |
-| `@blip/icons` | `icons` (path data by name), `iconSvg()` with `IconSvgOptions`, the `IconName` type (every icon's name is public), `@blip/icons/element` (`<blip-icon>`, `BlipIcon`), `sprite.svg` (symbols `blip-icon-<name>`), `svg/<name>.svg` and `icons.json`. |
-| `@blip/tokens` | See Tokens above. |
-| `@blip/react` | Every exported component, from `@blip/react`, `/game`, `/blocks`, `/effects` and `/icons` (the list is in [packages/react/README.md](packages/react/README.md)), and its props: the documented attributes as typed props (`variant`, `tone`, `size`, and `radius` for `data-blip-r`), states as their ARIA (`busy` is `aria-busy`, `pressed` is `aria-pressed`), `on<Event>` for each `blip-<event>` with its typed `detail`, and refs to the element or to the native control. `toast()`. React 18.3 and 19. |
-| `@blip/stylelint-config` | The config, `@blip/stylelint-config/plugin`, the rules `blip/no-raw-color` (options `ignoreProperties`, `maskProperties`), `blip/whole-pixels` (`allow`, `ignoreProperties`), `blip/stepped-motion` and `blip/known-tokens` (`allow`), and `public-properties.json`. A rule that starts reporting something it used to allow is an incompatible change. |
+| `@jaatster/blip-core` | `BlipElement` (the base of every element: `static box`, `static classes`, `signal`, `static define()`, and for subclasses `connected()`, `disconnected()`, `emit()`, `on()`, `flag()`); the services `provide()`, `services` (`now()`, `random()`, `between()`, `sound()`), `seeded()` and the types `Services` and `SoundSink`; motion `reducedMotion()`, `steps()`, `duration()`, `pixel()`; timelines `run()`, `frames()`, `every()` and `Step`; schemes `autoScheme()`, `setScheme()`, `schemeAt()` and `Scheme`; diagnostics `warn()`, `checkName()`; the controllers `rovingFocus()` with `RovingOptions`, `typeahead()` and `dismiss()`. |
+| `@jaatster/blip-elements` | One module per element (`@jaatster/blip-elements/<name>`), each defining its tag; the index defines them all. The element classes, `toast()`, and the types `ActionDetail`, `CloseDetail`, `CloseReason`, `PageDetail`, `RefreshDetail`, `SheetChangeDetail`, `SortDirection`, `SwipeDetail`, `SwipeSide`, `TabsChangeDetail`, `ToastHandle`, `ToastOptions`, `ToastTone`. |
+| `@jaatster/blip-game` | The element classes; `sprite()`, `spriteNames`, `pixels()` (the sprites as SVG strings and pixel maps); `blipRate()`; the types `ChoiceDetail` and `SelectDetail`. |
+| `@jaatster/blip-effects` | `burst()` with `BurstKind` and `BurstOptions`; `transition()` with `TransitionKind` (`dissolve`, `dither`, `mosaic`) and `TransitionOptions`; `drawWorld()` and `worldPalette()` with `WorldLayer`, `WorldPalette`, `WorldBox` and `DrawWorldOptions`; `AttractStep`; the element classes. |
+| `@jaatster/blip-sound` | `enableSound()`, `disableSound()`, `soundOn()`, `rememberSound()`, `play()`, `synth()`, `SOUNDS`, `voiceRate()`, `voiced()`, and the types `SoundName`, `Note` and `Mood`. The sound names (`step`, `look`, `jump`, `coin`, `open`, `back`, `bump`, `blip`, `success`, `error`, `select`) are public. |
+| `@jaatster/blip-icons` | `icons` (path data by name), `iconSvg()` with `IconSvgOptions`, the `IconName` type (every icon's name is public), `@jaatster/blip-icons/element` (`<blip-icon>`, `BlipIcon`), `sprite.svg` (symbols `blip-icon-<name>`), `svg/<name>.svg` and `icons.json`. |
+| `@jaatster/blip-tokens` | See Tokens above. |
+| `@jaatster/blip-react` | Every exported component, from `@jaatster/blip-react`, `/game`, `/blocks`, `/effects` and `/icons` (the list is in [packages/react/README.md](packages/react/README.md)), and its props: the documented attributes as typed props (`variant`, `tone`, `size`, and `radius` for `data-blip-r`), states as their ARIA (`busy` is `aria-busy`, `pressed` is `aria-pressed`), `on<Event>` for each `blip-<event>` with its typed `detail`, and refs to the element or to the native control. `toast()`. React 18.3 and 19. |
+| `@jaatster/blip-stylelint-config` | The config, `@jaatster/blip-stylelint-config/plugin`, the rules `blip/no-raw-color` (options `ignoreProperties`, `maskProperties`), `blip/whole-pixels` (`allow`, `ignoreProperties`), `blip/stepped-motion` and `blip/known-tokens` (`allow`), and `public-properties.json`. A rule that starts reporting something it used to allow is an incompatible change. |
 
 The documented entry points are public: each package's `exports` map, the modules and files this document and the
 docs name, and the paths those point at in the package (a CDN loads files by path, as `dist/css/tokens.css`). So are
-the native token files in `@blip/tokens/dist/android` and `dist/ios`. Other files in `dist/`, such as the
+the native token files in `@jaatster/blip-tokens/dist/android` and `dist/ios`. Other files in `dist/`, such as the
 `*.bundle.js` builds, are not, even where a wildcard export reaches them.
 
 ## Private
@@ -272,7 +272,7 @@ exposed (see [SECURITY.md](SECURITY.md)).
 
 ## Diagnostics
 
-Blip explains problems with a code and a link. In the browser, `warn()` from `@blip/core` logs
+Blip explains problems with a code and a link. In the browser, `warn()` from `@jaatster/blip-core` logs
 `Blip BLIP-A001: <message>` and `https://jaatster.com/blip/diagnostics/#blip-a001`, once per code and message. Warnings
 are on when `globalThis.BLIP_DIAGNOSTICS` is `true`, or on localhost when it is not set; `false` turns them off.
 `<blip-icon>` reports an unknown name itself, once per name. The token build prints each problem with its code, the
@@ -284,7 +284,7 @@ The codes are public. Each prefix is a range, numbered in tens by topic:
 | Range | Raised by | Covers | Codes today |
 |---|---|---|---|
 | `BLIP-T` | The token build and `blip-tokens` | Reading the token files and the resolver (`BLIP-T003` also: a resolver with no `scheme` or `pixel` modifier; `BLIP-T005` a palette that sets a token the default palette does not have), token names, types, values (colours, dimensions, durations, whole pixels, font families and weights), aliases, and contrast, in every scheme of every palette: `BLIP-T060` a text pair under AA, labels on a disabled control's dither included; `BLIP-T061` the focus ring under 3:1; `BLIP-T062` a candy's label, and white on slate's ink dither | `BLIP-T001` to `BLIP-T005`, `BLIP-T010`, `BLIP-T020` and `BLIP-T021`, `BLIP-T030` to `BLIP-T032`, `BLIP-T040` to `BLIP-T045`, `BLIP-T050` to `BLIP-T052`, `BLIP-T060` to `BLIP-T062` |
-| `BLIP-A` | `checkName()` in `@blip/core`, `<blip-pager>`, `<blip-rating>`, `<blip-segmented>`, `<blip-action-sheet>`, `<blip-dialog>`, `<blip-drawer>`, `<blip-sheet>` | Accessibility: a control or a dialog without an accessible name | `BLIP-A001`, `BLIP-A010` |
+| `BLIP-A` | `checkName()` in `@jaatster/blip-core`, `<blip-pager>`, `<blip-rating>`, `<blip-segmented>`, `<blip-action-sheet>`, `<blip-dialog>`, `<blip-drawer>`, `<blip-sheet>` | Accessibility: a control or a dialog without an accessible name | `BLIP-A001`, `BLIP-A010` |
 | `BLIP-E` | `<blip-combobox>`, `<blip-file-drop>`, `<blip-number>`, `<blip-action-sheet>`, `<blip-dialog>`, `<blip-drawer>`, `<blip-sheet>`, `<blip-tooltip>` | An element without the native markup it upgrades: a control, a `<dialog>`, a tooltip's trigger | `BLIP-E001`, `BLIP-E010`, `BLIP-E020` |
 | `BLIP-N` | `<blip-tabs>`, `<blip-pager>` | A navigation element without the parts it wires together | `BLIP-N001` and `BLIP-N002` |
 | `BLIP-M` | `<blip-fab>`, `<blip-menu>` | A menu without its button or its list | `BLIP-M001` |

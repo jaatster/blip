@@ -1,6 +1,6 @@
 ---
 name: Sprites
-package: "@blip/game"
+package: "@jaatster/blip-game"
 css: sprites.css
 element: blip-sprite
 react: Sprite
@@ -21,7 +21,7 @@ one sprite pixel to one Blip pixel, so sprites line up with every box and letter
 ```
 
 ```js
-import { sprite, spriteNames } from "@blip/game/sprites";
+import { sprite, spriteNames } from "@jaatster/blip-game/sprites";
 el.innerHTML = sprite("heart-half");                     // the same SVG as a string: servers, templates
 sprite("gem", { tone: "teal", label: "Teal gem" });
 ```

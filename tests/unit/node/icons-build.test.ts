@@ -1,5 +1,5 @@
 /**
- * @blip/icons' build (packages/icons/scripts/build.mjs), run on temporary copies: every pixel map is checked and
+ * @jaatster/blip-icons' build (packages/icons/scripts/build.mjs), run on temporary copies: every pixel map is checked and
  * each mistake is reported at its file and line with a fix, all at once; a clean set traces into whole-pixel paths.
  */
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
@@ -129,7 +129,7 @@ describe("icons build: pixel map errors", () => {
     });
     expect(run.status).toBe(1);
     expect(run.wrote).toBe(false);
-    expect(run.stderr).toMatch(/^@blip\/icons: 3 problems in the pixel maps:/);
+    expect(run.stderr).toMatch(/^@jaatster\/blip-icons: 3 problems in the pixel maps:/);
     const lines = run.stderr.split("\n").filter((l) => l.startsWith("  src/"));
     expect(lines.map((l) => l.trim().split(":").slice(0, 2).join(":"))).toEqual(["src/aa.icons:3", "src/bb.icons:3", "src/bb.icons:15"]);
   });

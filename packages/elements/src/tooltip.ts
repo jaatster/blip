@@ -16,7 +16,7 @@
  * Attributes: for (the trigger's id; default the element just before it), data-side (top, bottom, left, right: the
  * side it prefers), open. Methods: show(), close(). Events: blip-open, blip-close.
  */
-import { BlipElement, duration, pixel, reducedMotion, warn } from "@blip/core";
+import { BlipElement, duration, pixel, reducedMotion, warn } from "@jaatster/blip-core";
 import { both, isOn, unFalse } from "./_dom.js";
 
 type Side = "top" | "bottom" | "left" | "right";

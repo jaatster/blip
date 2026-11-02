@@ -136,12 +136,12 @@ const ROLES: [string, string][] = [
 for (const s of ["day", "sunset", "night"]) for (const k of ["light", "shade", "text"]) role(`palette-${s}-warning-${k}`);
 const roleRows = ROLES.map(([names, what]) => [names, esc(what)]);
 const presetRows = palettes.filter((p) => p.id !== t.palette).map((p) => [code(p.id), esc(p.name), esc(p.description), esc(p.credit ?? "Blip")]);
-const candyCss = await codeBlock(["/* After @blip/tokens/tokens.css: Candy's own palette, as tokens.css sets it */", "@layer blip.tokens {", "  :root {", ...paletteEntries.filter((e) => e.path.startsWith("palette.")).map((e) => `    ${e.cssVar}: ${t.shared[e.name]};`), "    /* …and the 28 --blip-world-night-* colours */", "  }", "}"].join("\n"), "css", "my-palette.css");
-const presetHtml = await codeBlock(`<link rel="stylesheet" href="@blip/tokens/tokens.css">
-<link rel="stylesheet" href="@blip/tokens/palettes.css">
+const candyCss = await codeBlock(["/* After @jaatster/blip-tokens/tokens.css: Candy's own palette, as tokens.css sets it */", "@layer blip.tokens {", "  :root {", ...paletteEntries.filter((e) => e.path.startsWith("palette.")).map((e) => `    ${e.cssVar}: ${t.shared[e.name]};`), "    /* …and the 28 --blip-world-night-* colours */", "  }", "}"].join("\n"), "css", "my-palette.css");
+const presetHtml = await codeBlock(`<link rel="stylesheet" href="@jaatster/blip-tokens/tokens.css">
+<link rel="stylesheet" href="@jaatster/blip-tokens/palettes.css">
 
 <html data-blip-palette="ember">`, "html", "HTML");
-// @blip/tokens' command (its README): builds the palette's tokens.css through Blip's checks.
+// @jaatster/blip-tokens' command (its README): builds the palette's tokens.css through Blip's checks.
 const cli = await codeBlock(`npx blip-tokens my-palette.resolver.json                # writes my-palette.css beside it
 npx blip-tokens my-palette.resolver.json --out src/tokens.css
 npx blip-tokens my-palette.resolver.json --check        # checks only, writes nothing`, "sh", "Shell");
@@ -325,7 +325,7 @@ const style = (vars: Record<string, string>) => Object.entries(vars).map(([k, v]
       <h2 class="tb-h2" id="tb-export-title">Export</h2>
       <p class="docs-note">Two ways to use it. The CSS goes after Blip's <code class="docs-inline-code">tokens.css</code>, as it is: a <code class="docs-inline-code">:root</code> rule in the same layer, loaded later, wins. Or build a checked <code class="docs-inline-code">tokens.css</code> of your own: put the palette's token file and the resolver in your project's folder, beside <code class="docs-inline-code">node_modules</code>, and run <code class="docs-inline-code">blip-tokens</code>, which checks every pair as Blip's own palettes are checked, and writes a file to load instead of Blip's.</p>
       <Fragment set:html={cli} />
-      {!PUBLISHED && <p class="docs-note"><code class="docs-inline-code">blip-tokens</code> comes with <code class="docs-inline-code">@blip/tokens</code>, which is not on npm yet, so <code class="docs-inline-code">npx</code> finds it from the first release. Until then, run it from <a href="/start/">Blip built from its source</a>. The CSS works today.</p>}
+      {!PUBLISHED && <p class="docs-note"><code class="docs-inline-code">blip-tokens</code> comes with <code class="docs-inline-code">@jaatster/blip-tokens</code>, which is not on npm yet, so <code class="docs-inline-code">npx</code> finds it from the first release. Until then, run it from <a href="/start/">Blip built from its source</a>. The CSS works today.</p>}
       <div class="blip-box blip-alert tb-blocked" data-tone="danger" role="group" aria-labelledby="tb-blocked-title" hidden>
         <span class="blip-alert-icon" aria-hidden="true"></span>
         <div class="blip-alert-body">
@@ -365,7 +365,7 @@ const style = (vars: Record<string, string>) => Object.entries(vars).map(([k, v]
     <p>The scheme roles read the palette: Night's <code class="docs-inline-code">--blip-bg</code> is <code class="docs-inline-code">var(--blip-palette-night-bg)</code>, every scheme's <code class="docs-inline-code">--blip-accent</code> its own <code class="docs-inline-code">--blip-palette-*-accent</code>. So a palette is these custom properties, set inside <code class="docs-inline-code">@layer blip.tokens</code> in a file loaded after <code class="docs-inline-code">tokens.css</code>. Keep them in the layer: outside it, they would beat the presets too.</p>
     <Table label="The palette's custom properties" head={["Custom properties", "What they paint"]} rows={roleRows} />
     <Fragment set:html={candyCss} />
-    <p>Or use a preset: load <code class="docs-inline-code">@blip/tokens/palettes.css</code> after the tokens and set <code class="docs-inline-code">data-blip-palette</code> on <code class="docs-inline-code">&lt;html&gt;</code>, or on an element that sets its own <code class="docs-inline-code">data-blip-scheme</code>: the roles are worked out where the scheme is set.</p>
+    <p>Or use a preset: load <code class="docs-inline-code">@jaatster/blip-tokens/palettes.css</code> after the tokens and set <code class="docs-inline-code">data-blip-palette</code> on <code class="docs-inline-code">&lt;html&gt;</code>, or on an element that sets its own <code class="docs-inline-code">data-blip-scheme</code>: the roles are worked out where the scheme is set.</p>
     <Fragment set:html={presetHtml} />
     <Table label="The presets" head={["data-blip-palette", "Name", "What it is", "Credit"]} rows={presetRows} />
     <ul class="docs-help">

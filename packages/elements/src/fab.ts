@@ -16,7 +16,7 @@
  *
  *   fab.addEventListener("blip-action", (e) => create(e.detail.value)); // e.preventDefault() keeps it open
  */
-import { BlipElement, dismiss, warn } from "@blip/core";
+import { BlipElement, dismiss, warn } from "@jaatster/blip-core";
 import { isOn, unFalse, valueOf, watch } from "./_dom.js";
 import type { ActionDetail } from "./menu.js";
 

@@ -1,6 +1,6 @@
 ---
 name: Rating
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: rating.css
 element: blip-rating
 react: Rating

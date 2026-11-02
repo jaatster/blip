@@ -1,6 +1,6 @@
 ---
 name: Dialog
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: dialog.css
 element: blip-dialog
 react: Dialog

@@ -1,7 +1,7 @@
 /**
  * Toast: Toast, ToastIcon, ToastBody, ToastTitle, ToastActions, ToastAction, ToastClose, ToastTimer and StaticToaster,
  * the parts that go inside <Toaster>, and <Toaster> itself (generated from its element, re-exported here). CSS from
- * @blip/components (toast.css). Toasts drawn by hand, for docs and screenshots: live toasts come from toast() and
+ * @jaatster/blip-components (toast.css). Toasts drawn by hand, for docs and screenshots: live toasts come from toast() and
  * <Toaster>.
  */
 import { forwardRef } from "react";

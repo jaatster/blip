@@ -1,5 +1,5 @@
 {
-  "name": "@blip/sound",
+  "name": "@jaatster/blip-sound",
   "version": "0.1.0",
   "description": "Blip chip sounds, synthesised in the browser with Web Audio: no audio files. Off until enabled.",
   "keywords": [
@@ -14,7 +14,7 @@
   "bugs": "https://github.com/jaatster/blip/issues",
   "repository": {
     "type": "git",
-    "url": "github:jaatster/blip",
+    "url": "git+https://github.com/jaatster/blip.git",
     "directory": "packages/sound"
   },
   "license": "MIT",
@@ -43,6 +43,6 @@
     "build": "node ../../scripts/build-ts-package.mjs sound"
   },
   "dependencies": {
-    "@blip/core": "workspace:*"
+    "@jaatster/blip-core": "workspace:*"
   }
 }

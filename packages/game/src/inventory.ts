@@ -6,7 +6,7 @@
  *
  *   inventory.addEventListener("blip-select", (e) => show(e.detail.item));   // { item, index, value }
  */
-import { BlipElement, rovingFocus, typeahead } from "@blip/core";
+import { BlipElement, rovingFocus, typeahead } from "@jaatster/blip-core";
 
 export interface SelectDetail {
   item: HTMLElement;

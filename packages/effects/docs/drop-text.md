@@ -1,6 +1,6 @@
 ---
 name: Drop text
-package: "@blip/effects"
+package: "@jaatster/blip-effects"
 css: text.css
 element: blip-drop-text
 react: DropText

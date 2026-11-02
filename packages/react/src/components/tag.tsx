@@ -1,5 +1,5 @@
 /**
- * Tag: Tag and TagRemove. CSS from @blip/components (tag.css).
+ * Tag: Tag and TagRemove. CSS from @jaatster/blip-components (tag.css).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";

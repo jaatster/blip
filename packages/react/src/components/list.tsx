@@ -1,5 +1,5 @@
 /**
- * List: List, ListItem, ListContent, ListTitle, ListDescription and ListEnd. CSS from @blip/components (list.css).
+ * List: List, ListItem, ListContent, ListTitle, ListDescription and ListEnd. CSS from @jaatster/blip-components (list.css).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";

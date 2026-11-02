@@ -1,6 +1,6 @@
 /*
  * Combobox. A text field with a list of suggestions that filters as you type and completes the first match.
- * <blip-combobox> (from @blip/elements) builds the list from a <datalist>, so without JavaScript the browser's
+ * <blip-combobox> (from @jaatster/blip-elements) builds the list from a <datalist>, so without JavaScript the browser's
  * own suggestions still work.
  *
  *   <blip-combobox class="blip-combobox" name="world">

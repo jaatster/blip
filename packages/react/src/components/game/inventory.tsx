@@ -1,6 +1,6 @@
 /**
  * Inventory: Slot, SlotCount and SlotTag, the parts that go inside <Inventory>, and <Inventory> itself (generated from
- * its element, re-exported here). CSS from @blip/game (inventory.css).
+ * its element, re-exported here). CSS from @jaatster/blip-game (inventory.css).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";

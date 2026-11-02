@@ -1,6 +1,6 @@
 ---
 name: Input
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: input.css
 element: null
 react: Input

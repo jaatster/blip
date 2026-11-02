@@ -1,5 +1,5 @@
 /**
- * Select: Select and SelectOption. CSS from @blip/components (select.css). The ref and every native prop go to the
+ * Select: Select and SelectOption. CSS from @jaatster/blip-components (select.css). The ref and every native prop go to the
  * control itself, so forms, labels and refs work as on the bare element; className and style go to the outermost
  * element it renders.
  */

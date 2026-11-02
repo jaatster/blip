@@ -1,7 +1,7 @@
 ---
 name: Icons
-package: "@blip/icons"
-css: "@blip/core (.blip-icon)"
+package: "@jaatster/blip-icons"
+css: "@jaatster/blip-core (.blip-icon)"
 element: blip-icon
 react: Icon
 status: beta
@@ -18,14 +18,14 @@ CSS px.
 
 Every form below draws the same paths. Pick the one that suits the page.
 
-**Sprite.** One cached file for every icon. Copy `@blip/icons/sprite.svg` into your static files (an external
+**Sprite.** One cached file for every icon. Copy `@jaatster/blip-icons/sprite.svg` into your static files (an external
 `<use>` must come from the same origin as the page). Each symbol carries its own viewBox, colour and crisp edges.
 
 ```html
 <svg class="blip-icon" aria-hidden="true"><use href="/assets/sprite.svg#blip-icon-heart"/></svg>
 ```
 
-**Inline SVG.** No request at all. Copy a file from `@blip/icons/svg/` or paste its path:
+**Inline SVG.** No request at all. Copy a file from `@jaatster/blip-icons/svg/` or paste its path:
 
 ```html
 <svg class="blip-icon" viewBox="0 0 12 12" aria-hidden="true"><path d="M5 2h2v3h3v2H7v3H5V7H2V5h3z"/></svg>
@@ -34,7 +34,7 @@ Every form below draws the same paths. Pick the one that suits the page.
 **JavaScript.** `iconSvg` returns the same markup as a string; `icons` holds the path data, typed by `IconName`.
 
 ```js
-import { iconSvg, icons } from "@blip/icons";
+import { iconSvg, icons } from "@jaatster/blip-icons";
 
 button.innerHTML = `${iconSvg("trash")}Delete save`;
 status.innerHTML = iconSvg("success", { label: "Saved" });
@@ -48,14 +48,14 @@ ctx.fill(new Path2D(icons.heart));
 already holds the `<svg>` (rendered on the server), the element adopts it, so the icon shows before the script runs.
 
 ```html
-<script type="module">import "@blip/icons/element";</script>
+<script type="module">import "@jaatster/blip-icons/element";</script>
 
 <blip-icon name="bell"></blip-icon>
 <blip-icon name="heart" label="Liked"></blip-icon>
 <blip-icon name="gamepad" data-size="lg"></blip-icon>
 ```
 
-**React.** `@blip/react` will export `<Icon name="heart" label="Liked" />`, generated from the same data.
+**React.** `@jaatster/blip-react` will export `<Icon name="heart" label="Liked" />`, generated from the same data.
 
 **Native apps and design tools.** `dist/svg/` holds one 24 x 24 file per icon: import them as Android vector
 drawables or into an iOS asset catalogue as template images, so the tint colours them. `dist/icons.json` lists every
@@ -196,7 +196,7 @@ reads as dots.
 ### Check it
 
 ```sh
-pnpm --filter @blip/icons build      # validates the maps, traces them, writes dist/ and the gallery example
+pnpm --filter @jaatster/blip-icons build      # validates the maps, traces them, writes dist/ and the gallery example
 node scripts/gallery.mjs
 node scripts/shoot.mjs .tools/shots/icons "/specimen/gallery.html?only=icons=day" \
   "/specimen/gallery.html?only=icons&scheme=night=night" --full
@@ -224,11 +224,11 @@ and read without its name?
 
 | Export | What |
 |---|---|
-| `@blip/icons` | `icons` (name to path data, frozen), `type IconName`, `iconSvg(name, options)` |
-| `@blip/icons/element` | Defines `<blip-icon>` (class `BlipIcon`) |
-| `@blip/icons/sprite.svg` | Every icon as `<symbol id="blip-icon-<name>">` |
-| `@blip/icons/svg/<name>.svg` | One file per icon, 24 x 24 |
-| `@blip/icons/icons.json` | `categories` and `icons` (`name`, `category`, `tags`, `path`) |
+| `@jaatster/blip-icons` | `icons` (name to path data, frozen), `type IconName`, `iconSvg(name, options)` |
+| `@jaatster/blip-icons/element` | Defines `<blip-icon>` (class `BlipIcon`) |
+| `@jaatster/blip-icons/sprite.svg` | Every icon as `<symbol id="blip-icon-<name>">` |
+| `@jaatster/blip-icons/svg/<name>.svg` | One file per icon, 24 x 24 |
+| `@jaatster/blip-icons/icons.json` | `categories` and `icons` (`name`, `category`, `tags`, `path`) |
 
 `iconSvg(name, { label?, size?, class? })` returns `<svg class="blip-icon …">` with a `viewBox="0 0 12 12"`, a
 24 x 24 (or 48 x 48) size for pages without the core CSS, and `aria-hidden="true"` unless it has a label. It throws
@@ -241,5 +241,5 @@ a `RangeError` for a name that is not an icon.
 | `data-size="lg"` | Twice the size. |
 
 The element has no events and no listeners: it only draws. The `.blip-icon` class (size, colour, crisp edges) lives
-in `@blip/core`. All the icons together are about 5.6 KB gzipped as JavaScript; the element adds under 1 KB.
+in `@jaatster/blip-core`. All the icons together are about 5.6 KB gzipped as JavaScript; the element adds under 1 KB.
 Icons are MIT licensed.

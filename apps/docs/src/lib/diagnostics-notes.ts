@@ -60,7 +60,7 @@ export const NOTES: Record<string, Note> = {
   "BLIP-I001": {
     title: "An icon name does not exist",
     why: "<blip-icon> draws nothing for a name it does not know, so a typo leaves an empty space.",
-    fix: 'Use a name from <a href="/foundations/icons/">the icon browser</a> or <code class="docs-inline-code">@blip/icons/icons.json</code>.',
+    fix: 'Use a name from <a href="/foundations/icons/">the icon browser</a> or <code class="docs-inline-code">@jaatster/blip-icons/icons.json</code>.',
   },
   "BLIP-M001": {
     title: "A menu is missing its button or list",
@@ -80,7 +80,7 @@ export const NOTES: Record<string, Note> = {
   "BLIP-T005": {
     title: "A palette sets a token Blip does not have",
     why: "A preset or a theme's palette may only change what the default palette sets: the accents, the warning, Night's page, text, lines and ink (palette.*), and the night sky (world.night.*). Any other name is most likely a typo, and would be written to palettes.css with nothing to read it.",
-    fix: 'Check the name against the default palette, <code class="docs-inline-code">@blip/tokens/src/palettes/candy.tokens.json</code>, or make your palette on the <a href="/theme/">palette maker</a>.',
+    fix: 'Check the name against the default palette, <code class="docs-inline-code">@jaatster/blip-tokens/src/palettes/candy.tokens.json</code>, or make your palette on the <a href="/theme/">palette maker</a>.',
   },
   "BLIP-T060": {
     title: "A text pair fails WCAG AA",
@@ -92,7 +92,7 @@ export const NOTES: Record<string, Note> = {
   },
   "BLIP-W001": {
     title: "The page has no world colours",
-    why: "<blip-world> paints its sky and hills from the world colours in @blip/tokens/tokens.css. Without them there is nothing to draw with.",
+    why: "<blip-world> paints its sky and hills from the world colours in @jaatster/blip-tokens/tokens.css. Without them there is nothing to draw with.",
     fix: 'Load <code class="docs-inline-code">tokens.css</code> before anything that draws.',
   },
   "BLIP-W002": {

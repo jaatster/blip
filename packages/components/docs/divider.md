@@ -1,6 +1,6 @@
 ---
 name: Divider
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: divider.css
 element: null
 react: Divider

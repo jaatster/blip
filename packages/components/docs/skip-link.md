@@ -1,6 +1,6 @@
 ---
 name: Skip link
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: skip-link.css
 element: null
 react: SkipLink

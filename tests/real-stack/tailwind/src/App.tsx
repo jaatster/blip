@@ -1,4 +1,4 @@
-import { Button, Tab, TabList, TabPanel, Tabs, toast } from "@blip/react";
+import { Button, Tab, TabList, TabPanel, Tabs, toast } from "@jaatster/blip-react";
 import { Smoke } from "../shared/Smoke";
 
 /** The README's Settings (its CSS is app.css, the start page's recipe for Tailwind). */

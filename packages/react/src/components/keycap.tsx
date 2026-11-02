@@ -1,5 +1,5 @@
 /**
- * Keycap: Keycap and Keys. CSS from @blip/components (keycap.css).
+ * Keycap: Keycap and Keys. CSS from @jaatster/blip-components (keycap.css).
  */
 import { forwardRef } from "react";
 import { box, cx, flag, type NativeProps, type Size, type Tone } from "../internal/props.js";

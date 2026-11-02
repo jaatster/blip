@@ -1,7 +1,7 @@
 /**
  * Action sheet: ActionSheetPanel, ActionSheetTitle, ActionSheetMessage, ActionSheetActions and ActionSheetCancel, the
  * parts that go inside <ActionSheet>, and <ActionSheet> itself (generated from its element, re-exported here). CSS
- * from @blip/components (action-sheet.css, with drawer.css).
+ * from @jaatster/blip-components (action-sheet.css, with drawer.css).
  */
 import { forwardRef } from "react";
 import { cx, flag } from "../internal/props.js";

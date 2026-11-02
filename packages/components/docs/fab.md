@@ -1,6 +1,6 @@
 ---
 name: Action button
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: fab.css
 element: blip-fab
 react: Fab
@@ -48,7 +48,7 @@ down. Anything else it must clear, set `--blip-fab-offset`:
 </blip-fab>
 ```
 
-`<blip-fab>` (from `@blip/elements/fab.js`) makes the button a menu button: it opens and closes the stack, moves
+`<blip-fab>` (from `@jaatster/blip-elements/fab.js`) makes the button a menu button: it opens and closes the stack, moves
 focus into it and back, and closes it on Escape, Tab, a press outside or a choice. The first item sits nearest the
 button and the stack runs upward. Opening, each mini button steps up three pixels into place, a frame after the one
 below it (at once with reduced motion). Without the script the button shows and the stack stays hidden, so give the

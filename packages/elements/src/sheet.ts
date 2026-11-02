@@ -18,7 +18,7 @@
  * its top, moves the sheet with the finger in whole pixels; let go, it settles at the nearest height in steps, or
  * closes (reason "drag") from below half its lowest height or after a flick down from there.
  */
-import { duration, frames, pixel } from "@blip/core";
+import { duration, frames, pixel } from "@jaatster/blip-core";
 import { Overlay } from "./_overlay.js";
 
 export interface SheetChangeDetail {

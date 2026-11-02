@@ -229,7 +229,7 @@ const checks = {
       const src = Math.max(newest(`packages/${pkg}/src`, ".ts"), newest(`packages/${pkg}/src`, ".css"));
       const dist = Math.max(newest(`packages/${pkg}/dist`, ".js"), newest(`packages/${pkg}/dist`, ".css"));
       if (exists(`packages/${pkg}/dist`) ? src > dist : src > 0) {
-        notes.push(`packages/${pkg}/dist is older than its sources: the Playwright runs load its elements and the budgets measure it. Build it: pnpm --filter @blip/${pkg} build`);
+        notes.push(`packages/${pkg}/dist is older than its sources: the Playwright runs load its elements and the budgets measure it. Build it: pnpm --filter @jaatster/blip-${pkg} build`);
       }
     }
     const found = [
@@ -261,7 +261,7 @@ const checks = {
     const pkgs = [...new Set(item.tags.filter((t) => ELEMENTS.has(t)).map((t) => ELEMENTS.get(t).pkg))];
     if (!pkgs.length) return { status: "skip", summary: "no element" };
     const r = await run("scripts/cem.mjs", ["--check", ...pkgs]);
-    return { status: r.code ? "FAIL" : "ok", summary: pkgs.map((p) => `@blip/${p}`).join(", "), details: r.code ? tail(r.out) : [], ms: r.ms };
+    return { status: r.code ? "FAIL" : "ok", summary: pkgs.map((p) => `@jaatster/blip-${p}`).join(", "), details: r.code ? tail(r.out) : [], ms: r.ms };
   },
 
   async budgets() {
@@ -277,7 +277,7 @@ const checks = {
     });
     const bad = got.filter((g) => !g.ok);
     const details = bad.map((g) => `${g.w}: ${g.status}`);
-    if (bad.some((g) => g.status === "MISSING")) details.push("Not built yet: pnpm build (or pnpm --filter @blip/<package> build).");
+    if (bad.some((g) => g.status === "MISSING")) details.push("Not built yet: pnpm build (or pnpm --filter @jaatster/blip-<package> build).");
     if (bad.some((g) => g.status.startsWith("OVER"))) details.push("Make it smaller, or change the budget in scripts/budgets.mjs with a reason.");
     return { status: bad.length ? "FAIL" : "ok", summary: got.map((g) => `${g.w} ${g.status}`).join(", "), details, ms: r.ms };
   },

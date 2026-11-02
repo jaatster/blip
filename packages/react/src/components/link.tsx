@@ -1,5 +1,5 @@
 /**
- * <Link>. CSS from @blip/components (link.css).
+ * <Link>. CSS from @jaatster/blip-components (link.css).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";

@@ -1,6 +1,6 @@
 ---
 name: Bottom sheet
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: sheet.css
 element: blip-sheet
 react: Sheet

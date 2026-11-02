@@ -1,6 +1,6 @@
 ---
 name: Menu
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: menu.css
 element: blip-menu
 react: Menu
@@ -35,7 +35,7 @@ use the app bar's links or a sidebar; for choosing a value in a form, use a sele
 ```
 
 The list is a native popover, so it opens above everything and closes on Escape or a click outside. `<blip-menu>`
-(from `@blip/elements/menu.js`) wires the button, adds the keyboard and returns focus. A submenu is a `blip-menu`
+(from `@jaatster/blip-elements/menu.js`) wires the button, adds the keyboard and returns focus. A submenu is a `blip-menu`
 nested in the list, its button a menu item:
 
 ```html

@@ -1,6 +1,6 @@
 ---
 name: Swipe rows
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: swipe-row.css
 element: blip-swipe-row
 react: SwipeRow
@@ -43,7 +43,7 @@ of a [list](list.md).
 ```
 
 ```js
-import "@blip/elements/swipe-row";
+import "@jaatster/blip-elements/swipe-row";
 document.querySelector("#delete-12").addEventListener("click", () => removeMessage(12));
 ```
 

@@ -1,6 +1,6 @@
 ---
 name: Pull to refresh
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: refresh.css
 element: blip-refresh
 react: Refresh
@@ -27,7 +27,7 @@ keyboard and a screen reader; the button calls `refresh()`, which does exactly w
 ```
 
 ```js
-import "@blip/elements/refresh";
+import "@jaatster/blip-elements/refresh";
 const scores = document.querySelector("#scores");
 scores.addEventListener("blip-refresh", (e) => e.detail.waitUntil(loadScores()));
 document.querySelector("#refresh-scores").addEventListener("click", () => scores.refresh());

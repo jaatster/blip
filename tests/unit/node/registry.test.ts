@@ -73,7 +73,7 @@ describe("the registry scripts/registry.mjs writes", () => {
           if (spec === "react" || spec.startsWith("react/")) continue;
           if (spec.startsWith("@/lib/blip/")) items.add(`${NAMESPACE}/utils`);
           else if (spec.startsWith("@/components/blip/")) items.add(`${NAMESPACE}/${spec.split("/").pop()}`);
-          else if (spec.startsWith("@blip/")) deps.add(spec.split("/").slice(0, 2).join("/"));
+          else if (spec.startsWith("@jaatster/blip-")) deps.add(spec.split("/").slice(0, 2).join("/"));
           else if (i.type === "registry:lib" && /^\.\/[\w-]+$/.test(spec)) expect(i.files.some((g) => g.path.match(/([\w-]+)\.tsx?$/)![1] === spec.slice(2)), `${name}: ${spec}`).toBe(true);
           else throw new Error(`${name}: ${f.path} imports "${spec}", which an installed file cannot resolve`);
         }
@@ -81,24 +81,24 @@ describe("the registry scripts/registry.mjs writes", () => {
       if (name === "utils") items.delete(`${NAMESPACE}/utils`);
       expect(new Set((i.dependencies ?? []).map(bare)), `${name}: dependencies`).toEqual(deps);
       expect(new Set(i.registryDependencies ?? []), `${name}: registryDependencies`).toEqual(items);
-      for (const d of i.dependencies ?? []) expect(d, name).toBe(`${bare(d)}@^${version(bare(d).replace("@blip/", ""))}`);
+      for (const d of i.dependencies ?? []) expect(d, name).toBe(`${bare(d)}@^${version(bare(d).replace("@jaatster/blip-", ""))}`);
       for (const r of i.registryDependencies ?? []) expect(built.items.has(r.replace(`${NAMESPACE}/`, "")), `${name} needs ${r}`).toBe(true);
     }
   });
 
-  it("the element-backed components take their behaviour from @blip/react; the CSS-only ones need nothing but the setup", () => {
-    for (const name of ["dialog", "tabs", "field"]) expect(built.items.get(name)!.dependencies, name).toEqual([`@blip/react@^${version("react")}`]);
+  it("the element-backed components take their behaviour from @jaatster/blip-react; the CSS-only ones need nothing but the setup", () => {
+    for (const name of ["dialog", "tabs", "field"]) expect(built.items.get(name)!.dependencies, name).toEqual([`@jaatster/blip-react@^${version("react")}`]);
     for (const name of ["button", "card", "badge", "tag", "alert"]) expect(built.items.get(name)!.dependencies, name).toBeUndefined();
-    expect(built.items.get("dialog")!.files![0]!.content).toContain('export { Dialog, type DialogProps } from "@blip/react";');
+    expect(built.items.get("dialog")!.files![0]!.content).toContain('export { Dialog, type DialogProps } from "@jaatster/blip-react";');
   });
 
   it("the setup brings the CSS packages at their versions, imported under Tailwind's utilities", () => {
     const setup = built.items.get("setup")!;
-    expect(setup.dependencies).toEqual(["font", "tokens", "core", "components"].map((p) => `@blip/${p}@^${version(p)}`));
+    expect(setup.dependencies).toEqual(["font", "tokens", "core", "components"].map((p) => `@jaatster/blip-${p}@^${version(p)}`));
     const imports = Object.keys(setup.css!);
     expect(imports.length).toBeGreaterThan(3);
-    for (const line of imports) expect(line).toMatch(/^@import "@blip\/[\w-]+\/[\w-]+\.css" layer\(components\)$/);
-    expect(imports[0]).toContain("@blip/font/");
+    for (const line of imports) expect(line).toMatch(/^@import "@jaatster\/blip-[\w-]+\/[\w-]+\.css" layer\(components\)$/);
+    expect(imports[0]).toContain("@jaatster/blip-font/");
   });
 
   it("the theme maps every shadcn variable onto a Blip role by reference, the same in light, dark and a scheme set on part of a page", () => {

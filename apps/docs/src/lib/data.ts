@@ -109,9 +109,9 @@ export const GROUPS: Group[] = [
   { id: "data", title: "Data", icon: "table", blurb: "Things to read and compare.", names: ["card", "tile", "list", "table", "avatar", "tag", "keycap", "stat", "divider", "accordion"] },
   { id: "phone", title: "Phone", icon: "smartphone", blurb: "Made for touch: sheets, swipes, wheels and a thumb's reach.", names: ["top-bar", "fab", "sheet", "action-sheet", "swipe-row", "refresh", "pager", "wheel"] },
   { id: "layout", title: "Layout", icon: "maximize", blurb: "Spacing and frames, in whole pixels.", names: ["stack", "cluster", "grid", "window"] },
-  { id: "game", title: "Game", icon: "gamepad", blurb: "@blip/game: HUDs, dialogue, menus.", pkg: "game" },
-  { id: "blocks", title: "Blocks", icon: "desktop", blurb: "@blip/blocks: website sections.", pkg: "blocks" },
-  { id: "effects", title: "Effects", icon: "sparkle", blurb: "@blip/effects: worlds, transitions, text.", pkg: "effects" },
+  { id: "game", title: "Game", icon: "gamepad", blurb: "@jaatster/blip-game: HUDs, dialogue, menus.", pkg: "game" },
+  { id: "blocks", title: "Blocks", icon: "desktop", blurb: "@jaatster/blip-blocks: website sections.", pkg: "blocks" },
+  { id: "effects", title: "Effects", icon: "sparkle", blurb: "@jaatster/blip-effects: worlds, transitions, text.", pkg: "effects" },
 ];
 
 // Docs that are foundations, not components: shown on their foundation page.

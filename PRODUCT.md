@@ -40,7 +40,7 @@ its own icons on the same grid, and a world backdrop that follows the time of da
 ## Operating Context
 
 - Used in browsers (Baseline 2024 and later, with progressive enhancement), in React apps, in games, and on TVs.
-- Consumed as npm packages under `@blip/*`, by people and by AI agents.
+- Consumed as npm packages under `@jaatster/blip-*`, by people and by AI agents.
 - Designers use it in Figma through exported variables, icons and components.
 
 ## Capabilities and Constraints

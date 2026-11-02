@@ -1,6 +1,6 @@
 ---
 name: List
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: list.css
 element: null
 react: List

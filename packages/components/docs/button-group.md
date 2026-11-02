@@ -1,6 +1,6 @@
 ---
 name: Button group
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: button-group.css
 element: null
 react: ButtonGroup
@@ -59,10 +59,10 @@ over its neighbours, so its outline, lift and ring stay whole.
 - Toggles in a group are separate `aria-pressed` buttons. When only one may be on, use a
   [segmented control](segmented.md) instead: it is a radio group.
 - **Toolbars.** `role="toolbar"` promises arrow-key movement: one button is in the tab order and the arrows move
-  between them. Wire it with the shared controller from `@blip/core`:
+  between them. Wire it with the shared controller from `@jaatster/blip-core`:
 
   ```js
-  import { rovingFocus } from "@blip/core";
+  import { rovingFocus } from "@jaatster/blip-core";
   const bar = document.querySelector('[role="toolbar"]');
   rovingFocus(bar, { items: () => [...bar.querySelectorAll("button")] });
   ```

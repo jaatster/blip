@@ -1,4 +1,4 @@
-# @blip/components
+# @jaatster/blip-components
 
 ## Unreleased
 
@@ -13,4 +13,4 @@
 First release. The core components as layered CSS: actions, forms, navigation, feedback and overlays, data and layout, in one file or one per component. Every file builds in lightningcss (Vite 8, Next.js 16) and esbuild, except `popover-nub.css`, an opt-in file for the nub of an open popover, kept out of `components.css` and loaded with a `<link>`.
 
 - Renamed from Blip: the package is `@jaatster/blip-components` (was `@jaatster/blip-components`), and its classes, `data-chu-*` attributes, custom properties and keyframes start `chu-` (was `pp-`).
-- Renamed from Blip: the package is `@blip/components` (was `@jaatster/blip-components`), and its classes, `data-blip-*` attributes, custom properties and keyframes start `blip-` (was `chu-`).
+- Renamed from Blip: the package is `@jaatster/blip-components` (was `@jaatster/blip-components`), and its classes, `data-blip-*` attributes, custom properties and keyframes start `blip-` (was `chu-`).

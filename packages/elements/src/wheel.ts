@@ -13,7 +13,7 @@
  * option. The element hides and disables the selects it reads, and any <input> left inside as a fallback, so only the
  * wheel's own value is sent. Events: input as the middle row changes, change when it settles, then blip-change.
  */
-import { BlipElement, frames, reducedMotion } from "@blip/core";
+import { BlipElement, frames, reducedMotion } from "@jaatster/blip-core";
 import { unFalse, watch } from "./_dom.js";
 
 type Options = { v: string; t: string }[];

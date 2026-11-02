@@ -1,5 +1,5 @@
 // A Server Component: Blip's components render on the server here, and the client parts hydrate.
-import { Tab, TabList, TabPanel, Tabs } from "@blip/react";
+import { Tab, TabList, TabPanel, Tabs } from "@jaatster/blip-react";
 import { Kits } from "../shared/Kits";
 import { Settings } from "./settings";
 import { Smoke } from "./smoke";

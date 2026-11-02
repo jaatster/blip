@@ -1,6 +1,6 @@
 ---
 name: Progress
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: progress.css
 element: null
 react: Progress

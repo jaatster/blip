@@ -1,7 +1,7 @@
 /*
  * Swipe rows. A list row whose face slides aside, a whole pixel at a time, to show candy actions in a sunken tray
  * behind it: swipe it on a touch screen, or press its More button with a mouse or a keyboard. <blip-swipe-row>
- * (@blip/elements/swipe-row) does the swiping; before it runs, the actions sit at the row's end like any buttons.
+ * (@jaatster/blip-elements/swipe-row) does the swiping; before it runs, the actions sit at the row's end like any buttons.
  *
  *   <li>
  *     <blip-swipe-row class="blip-swipe-row">

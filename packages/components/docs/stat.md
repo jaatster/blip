@@ -1,6 +1,6 @@
 ---
 name: Stat
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: stat.css
 element: null
 react: Stat

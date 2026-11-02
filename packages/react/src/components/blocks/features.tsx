@@ -1,6 +1,6 @@
 /**
  * Features: Features, FeaturesHead, FeaturesTitle, FeaturesLead, FeaturesGrid, Feature, FeatureMedia, FeatureIcon,
- * FeatureTitle, FeatureText, FeatureStat, FeatureChips and FeatureChip. CSS from @blip/blocks (features.css).
+ * FeatureTitle, FeatureText, FeatureStat, FeatureChips and FeatureChip. CSS from @jaatster/blip-blocks (features.css).
  */
 import { forwardRef } from "react";
 import type { ElementType, ReactNode } from "react";

@@ -1,6 +1,6 @@
 ---
 name: Pause menu
-package: "@blip/game"
+package: "@jaatster/blip-game"
 css: pause.css
 element: null
 react: PauseMenu

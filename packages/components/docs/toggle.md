@@ -1,6 +1,6 @@
 ---
 name: Toggle button
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: button.css
 element: null
 react: ToggleButton

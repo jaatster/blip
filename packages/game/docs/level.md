@@ -1,6 +1,6 @@
 ---
 name: Level tile
-package: "@blip/game"
+package: "@jaatster/blip-game"
 css: level.css
 element: null
 react: LevelTile

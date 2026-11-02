@@ -1,6 +1,6 @@
 ---
 name: Pager
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: pager.css
 element: blip-pager
 react: Pager
@@ -40,7 +40,7 @@ people compare, use a list or a grid; for views of one thing, tabs; for more tha
 **Without the script** the track scrolls sideways and snaps to each slide, never past one, and each dot is an in-page
 link that brings its slide into view. The first dot stays the current one.
 
-**With `<blip-pager>`** (from `@blip/elements/pager.js`):
+**With `<blip-pager>`** (from `@jaatster/blip-elements/pager.js`):
 
 - the current dot follows the slide as you swipe, and a dot moves to its slide without following the link;
 - previous and next buttons go at either end of the dots, dithered at the first and last slide;

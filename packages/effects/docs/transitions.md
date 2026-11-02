@@ -1,6 +1,6 @@
 ---
 name: Transitions
-package: "@blip/effects"
+package: "@jaatster/blip-effects"
 css: transitions.css
 element: null
 react: null
@@ -15,7 +15,7 @@ Full-screen changes in whole pixels: the TV's ink **dissolve**, a **dither** thr
 ## Usage
 
 ```js
-import { transition } from "@blip/effects/transitions";
+import { transition } from "@jaatster/blip-effects/transitions";
 
 await transition(() => router.show("/level-2"), { kind: "dissolve" });   // dissolve (default), dither, mosaic
 ```

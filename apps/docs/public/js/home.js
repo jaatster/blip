@@ -1,5 +1,5 @@
 // Home: the sky's clock and the launcher, the live options window, the rules' specimens, the sample screen and the kits.
-import { services } from "@blip/core";
+import { services } from "@jaatster/blip-core";
 
 const root = document.documentElement;
 const $ = (s, r = document) => r.querySelector(s);
@@ -49,7 +49,7 @@ syncAccent();
 $(".home-start")?.addEventListener("click", async (e) => {
   const button = e.currentTarget;
   play("coin");
-  import("@blip/effects/burst.js").then(({ burst }) => burst(button, { kind: "coin", count: 5 }));
+  import("@jaatster/blip-effects/burst.js").then(({ burst }) => burst(button, { kind: "coin", count: 5 }));
   await customElements.whenDefined("blip-toaster");
   toaster()?.add({ title: "Achievement unlocked", body: "First press: you pressed a real Blip button.", tone: "success" });
 });

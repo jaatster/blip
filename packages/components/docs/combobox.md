@@ -1,6 +1,6 @@
 ---
 name: Combobox
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: combobox.css
 element: blip-combobox
 react: Combobox

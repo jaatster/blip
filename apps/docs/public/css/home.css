@@ -44,7 +44,7 @@
   .home-hero .blip-hero-title { margin: 0; }
   .home-lead { max-inline-size: 34ch; font-size: var(--blip-size-title); line-height: var(--blip-leading-normal); text-wrap: balance; }
   .home-note { font-weight: var(--blip-weight-medium); }
-  /* The lead and the note wear the hero's own halo (@blip/blocks). By day and at sunset, the date gets the same:
+  /* The lead and the note wear the hero's own halo (@jaatster/blip-blocks). By day and at sunset, the date gets the same:
      a one-pixel halo in the page colour keeps it clear of a passing cloud. */
   .home-date {
     text-shadow:

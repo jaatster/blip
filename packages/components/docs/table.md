@@ -1,6 +1,6 @@
 ---
 name: Table
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: table.css
 element: blip-table
 react: Table

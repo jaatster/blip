@@ -10,7 +10,7 @@
  * then blip-change { value }.
  * For a score that never changes (a review list), the plain CSS rating with role="img" needs no script.
  */
-import { BlipElement, rovingFocus, warn } from "@blip/core";
+import { BlipElement, rovingFocus, warn } from "@jaatster/blip-core";
 import { isOn, unFalse } from "./_dom.js";
 
 /**

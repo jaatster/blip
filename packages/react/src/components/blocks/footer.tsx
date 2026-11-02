@@ -1,6 +1,6 @@
 /**
  * Footer: Footer, FooterInner, FooterBrand, FooterNav, FooterCol, FooterHeading, FooterSignup, FooterRow, FooterField
- * and FooterLegal. CSS from @blip/blocks (footer.css).
+ * and FooterLegal. CSS from @jaatster/blip-blocks (footer.css).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";

@@ -1,6 +1,6 @@
 /**
  * Segmented control: Segment, SegmentedRadios and SegmentRadio, the parts that go inside <Segmented>, and <Segmented>
- * itself (generated from its element, re-exported here). CSS from @blip/components (segmented.css).
+ * itself (generated from its element, re-exported here). CSS from @jaatster/blip-components (segmented.css).
  */
 import { forwardRef } from "react";
 import type { ReactNode } from "react";

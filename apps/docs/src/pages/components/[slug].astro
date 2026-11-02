@@ -42,9 +42,9 @@ const kits = kitsFor([ex?.html ?? "", ...snippets.map((s) => s.html)].join("\n")
 const elements = (meta.element ?? "").split(",").map((s) => s.trim()).filter(Boolean);
 const refs = elements.map((t) => elementReference(t)).filter((x) => !!x);
 
-// React: the components @blip/react has for this page today, their examples and props, read from its source.
+// React: the components @jaatster/blip-react has for this page today, their examples and props, read from its source.
 const react = await reactSection(doc, ex?.html ?? null);
-const preferred = doc.pkg === "components" || doc.pkg === "elements" ? "@blip/react" : `@blip/react/${doc.pkg}`;
+const preferred = doc.pkg === "components" || doc.pkg === "elements" ? "@jaatster/blip-react" : `@jaatster/blip-react/${doc.pkg}`;
 // shadcn/ui: the registry item that copies this page's React file into an app (scripts/registry.mjs), if it has one.
 const shadcn = shadcnItemFor(doc);
 const shadcnCode = shadcn ? await codeBlock(shadcn.command, "sh", "Terminal") : "";

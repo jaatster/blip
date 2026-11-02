@@ -1,5 +1,5 @@
 /**
- * @blip/core's swappable services (the clock, seeded random numbers, the sound sink), the time-of-day schemes and
+ * @jaatster/blip-core's swappable services (the clock, seeded random numbers, the sound sink), the time-of-day schemes and
  * the diagnostics: the pure parts, which need no DOM.
  */
 import { afterEach, describe, expect, it, vi } from "vitest";

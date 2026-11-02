@@ -1,6 +1,6 @@
 ---
 name: Switch
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: switch.css
 element: null
 react: Switch

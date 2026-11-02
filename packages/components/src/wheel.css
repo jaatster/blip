@@ -1,7 +1,7 @@
 /*
  * Wheel picker. One or more wheels of options in a calm well, with a candy band across the middle: the row on the band
  * is the value. Rows above and below fade out through the dither (three pixels of four, then half), never a wash.
- * <blip-wheel> (from @blip/elements) builds the wheels and turns them: a drag or a finger moves the rows a whole
+ * <blip-wheel> (from @jaatster/blip-elements) builds the wheels and turns them: a drag or a finger moves the rows a whole
  * pixel at a time, and they settle onto a row in steps.
  *
  *   <blip-wheel class="blip-box blip-wheel" name="alarm" data-type="time" value="07:30" aria-label="Alarm"></blip-wheel>

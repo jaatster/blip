@@ -1,5 +1,5 @@
 /**
- * Avatar: Avatar, AvatarStatus and AvatarGroup. CSS from @blip/components (avatar.css).
+ * Avatar: Avatar, AvatarStatus and AvatarGroup. CSS from @jaatster/blip-components (avatar.css).
  */
 import { forwardRef } from "react";
 import { box, cx, type NativeProps, type Radius, type Tone } from "../internal/props.js";

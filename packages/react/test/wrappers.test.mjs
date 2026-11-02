@@ -6,11 +6,11 @@ import { Dialog, Rating, Tooltip, Toaster, Tabs, Segmented, Menu } from "../dist
 import { Counter, Hearts, Sprite } from "../dist/generated/game.js";
 import { World, Typewriter } from "../dist/generated/effects.js";
 import { Icon } from "../dist/icons.js";
-import { iconSvg } from "@blip/icons";
+import { iconSvg } from "@jaatster/blip-icons";
 
 // Stand-ins under the real tags: the wrappers still import the real modules, which then leave these alone, so no
 // real element connects here (jsdom lacks popover, showModal and ResizeObserver, and their timers would keep the
-// test running). The elements themselves are tested in a browser by @blip/tests.
+// test running). The elements themselves are tested in a browser by @jaatster/blip-tests.
 for (const tag of ["blip-dialog", "blip-rating", "blip-tooltip", "blip-toaster", "blip-tabs", "blip-segmented", "blip-menu", "blip-counter", "blip-hearts", "blip-sprite", "blip-world", "blip-typewriter"]) {
   customElements.define(tag, class extends HTMLElement {});
 }

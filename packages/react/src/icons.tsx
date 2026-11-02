@@ -1,22 +1,22 @@
 /**
- * @blip/react/icons: <Icon name>, typed by IconName.
+ * @jaatster/blip-react/icons: <Icon name>, typed by IconName.
  *
- *   import { Icon } from "@blip/react/icons";
+ *   import { Icon } from "@jaatster/blip-react/icons";
  *   <Icon name="heart" />                      decorative: aria-hidden
  *   <Icon name="heart" label="Liked" />        an image named "Liked"
  *   <Icon name="gamepad" size="lg" />          24 pixels square instead of 12
  *
  * It renders the same <svg class="blip-icon"> as iconSvg() and <blip-icon>, straight from the path data in
- * @blip/icons: no element, nothing to load, and it renders on the server. The .blip-icon class (size, crisp
- * edges) is in @blip/core; the width and height attributes keep it 12 pixels without it.
+ * @jaatster/blip-icons: no element, nothing to load, and it renders on the server. The .blip-icon class (size, crisp
+ * edges) is in @jaatster/blip-core; the width and height attributes keep it 12 pixels without it.
  */
 import { forwardRef } from "react";
 import type { SVGProps } from "react";
-import { icons, type IconName } from "@blip/icons";
+import { icons, type IconName } from "@jaatster/blip-icons";
 import { cx } from "./internal/props.js";
 
-export type { IconName } from "@blip/icons";
-export { icons } from "@blip/icons";
+export type { IconName } from "@jaatster/blip-icons";
+export { icons } from "@jaatster/blip-icons";
 
 /** Every icon name, in the order of the set. */
 export const iconNames = /*#__PURE__*/ Object.keys(icons) as IconName[];

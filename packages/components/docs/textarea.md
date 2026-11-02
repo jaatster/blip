@@ -1,6 +1,6 @@
 ---
 name: Textarea
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: textarea.css
 element: null
 react: Textarea

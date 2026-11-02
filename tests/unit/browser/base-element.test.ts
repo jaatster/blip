@@ -3,7 +3,7 @@
  * open="false" on an element defined after they render; that must read as off, as the property false does.
  */
 import { describe, expect, it } from "vitest";
-import { BlipElement } from "@blip/core";
+import { BlipElement } from "@jaatster/blip-core";
 import { mount } from "../support/dom.ts";
 
 let n = 0;

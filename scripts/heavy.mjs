@@ -137,7 +137,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     console.error("usage: node scripts/heavy.mjs <command> [args…]");
     process.exit(2);
   }
-  // pnpm names the script it runs: "@blip/tests test:visual" says more than "playwright test --project=visual".
+  // pnpm names the script it runs: "@jaatster/blip-tests test:visual" says more than "playwright test --project=visual".
   const event = process.env.npm_lifecycle_event;
   const command = args.join(" ");
   const job = event ? `${process.env.npm_package_name ?? "pnpm"} ${event}` : command.length > 80 ? `${command.slice(0, 79)}…` : command;

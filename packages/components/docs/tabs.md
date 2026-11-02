@@ -1,6 +1,6 @@
 ---
 name: Tabs
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: tabs.css
 element: blip-tabs
 react: Tabs
@@ -29,7 +29,7 @@ Views of one thing, one at a time: a row of tabs over a panel. Use tabs to switc
 </blip-tabs>
 ```
 
-`<blip-tabs>` (from `@blip/elements/tabs.js`) wires the ids, `aria-controls` and `aria-labelledby`, moves with the
+`<blip-tabs>` (from `@jaatster/blip-elements/tabs.js`) wires the ids, `aria-controls` and `aria-labelledby`, moves with the
 arrow keys and shows the selected panel. Without it the markup still shows the selected panel, and a row too long for
 its box still scrolls.
 

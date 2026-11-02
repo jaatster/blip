@@ -1,7 +1,7 @@
 /*
  * Bottom sheet. A drawer at the bottom edge that you can drag: a grab handle at the top, heights to snap to, and a
  * drag or flick down to close. It is the drawer (drawer.css: load it too, as components.css does) with data-side="bottom" built in, so
- * it has the dialog's parts, scrim and stepped slide. Wrap it in <blip-sheet> from @blip/elements for the heights,
+ * it has the dialog's parts, scrim and stepped slide. Wrap it in <blip-sheet> from @jaatster/blip-elements for the heights,
  * the handle and dragging; without it, it is a bottom drawer as tall as its content.
  *
  *   <blip-sheet light-dismiss>

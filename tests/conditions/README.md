@@ -23,9 +23,9 @@ Build the packages first (`pnpm build` at the root): the test page loads their `
 stylesheets from `src`.
 
 ```sh
-pnpm --filter @blip/tests test:conditions                                  # every lane
-pnpm --filter @blip/tests test:conditions contrast                         # one lane: its file name
-pnpm --filter @blip/tests test:conditions print -g "components/table"      # one example in one lane
+pnpm --filter @jaatster/blip-tests test:conditions                                  # every lane
+pnpm --filter @jaatster/blip-tests test:conditions contrast                         # one lane: its file name
+pnpm --filter @jaatster/blip-tests test:conditions print -g "components/table"      # one example in one lane
 ```
 
 Each test is one example (fixtures are `conditions/<name>`). A failure lists every problem on its own line, with the

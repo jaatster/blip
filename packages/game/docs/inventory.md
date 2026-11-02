@@ -1,6 +1,6 @@
 ---
 name: Inventory
-package: "@blip/game"
+package: "@jaatster/blip-game"
 css: inventory.css
 element: blip-inventory
 react: Inventory
@@ -34,7 +34,7 @@ Pair it with a panel that describes the selected item.
 ```
 
 ```js
-import "@blip/game/inventory";
+import "@jaatster/blip-game/inventory";
 bag.addEventListener("blip-select", (e) => showDetails(e.detail.item));
 ```
 

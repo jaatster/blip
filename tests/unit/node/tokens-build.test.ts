@@ -1,5 +1,5 @@
 /**
- * @blip/tokens' build (packages/tokens/scripts/build.mjs), run on temporary copies of its sources: the resolver,
+ * @jaatster/blip-tokens' build (packages/tokens/scripts/build.mjs), run on temporary copies of its sources: the resolver,
  * the outputs and their names, and the errors it stops on (each with a code, the file, the spot and a fix).
  */
 import { afterAll, beforeAll, describe, expect, it } from "vitest";

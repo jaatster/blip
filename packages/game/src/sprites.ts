@@ -5,7 +5,7 @@
  *   <blip-sprite name="coin"></blip-sprite>
  *   <blip-sprite name="potion" data-tone="blue" aria-label="Mana potion"></blip-sprite>
  */
-import { BlipElement } from "@blip/core";
+import { BlipElement } from "@jaatster/blip-core";
 import { sprite } from "./_pixels.js";
 
 export { sprite, spriteNames, pixels } from "./_pixels.js";

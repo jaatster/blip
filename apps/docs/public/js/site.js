@@ -1,7 +1,7 @@
 // The docs' own behaviour, on top of Blip's elements: the display menu (scheme and pixel), the palette menu,
 // Auto following the clock, search through the command palette, copy buttons, the install boxes, the example
 // switches and "On this page".
-import { autoScheme, setScheme } from "@blip/core";
+import { autoScheme, setScheme } from "@jaatster/blip-core";
 
 const root = document.documentElement;
 // install: the package manager the install boxes show (INSTALL_KEY in src/lib/install.ts).
@@ -332,15 +332,15 @@ if (toc && "IntersectionObserver" in window) {
 
 // Every sound control carries data-docs-sound: a switch (<input>) shows it as checked, a button as aria-pressed with
 // its .docs-sound-label and its two icons (.docs-sound-on, .docs-sound-off, docs.css). This keeps the reader's choice
-// (localStorage "blip:sound", as @blip/sound's rememberSound uses it) and every control in step, and tells page
+// (localStorage "blip:sound", as @jaatster/blip-sound's rememberSound uses it) and every control in step, and tells page
 // scripts with a "docs-sound" event. Remembered as on, the controls say on from the first paint, and the audio starts
 // at the first click or key anywhere else (browsers start audio only then); pressing a control first turns it off.
 const SOUND_KEY = "blip:sound";
 let soundWanted = store.get(SOUND_KEY) === "on";
 let soundVolume = 0.7;
-let soundLib; // @blip/sound, once it is needed
+let soundLib; // @jaatster/blip-sound, once it is needed
 let soundReady; // the last enableSound(): resolves once the audio runs
-const soundModule = async () => (soundLib ??= await import("@blip/sound"));
+const soundModule = async () => (soundLib ??= await import("@jaatster/blip-sound"));
 const isSoundControl = (t) => !!t?.closest?.("[data-docs-sound], label:has([data-docs-sound])");
 function enableAudio() {
   soundReady = soundLib.enableSound({ volume: soundVolume });

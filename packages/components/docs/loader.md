@@ -1,6 +1,6 @@
 ---
 name: Loader
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: loader.css
 element: null
 react: Loader

@@ -2,7 +2,7 @@
  * Command palette: CommandPanel, CommandSearch, CommandInput, CommandResults, CommandGroup, CommandHeading,
  * CommandItem, CommandLabel, CommandHint, CommandShortcut, CommandEmpty, CommandStatus and CommandFooter, the parts
  * that go inside <CommandPalette>, and <CommandPalette> itself (generated from its element, re-exported here). CSS
- * from @blip/components (command.css).
+ * from @jaatster/blip-components (command.css).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";

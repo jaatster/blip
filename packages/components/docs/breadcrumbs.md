@@ -1,6 +1,6 @@
 ---
 name: Breadcrumbs
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: breadcrumbs.css
 element: null
 react: Breadcrumbs

@@ -11,7 +11,7 @@
  *   dialogue.say(["Ah, a traveller!", "The bridge is out."]);
  *   dialogue.addEventListener("blip-done", () => dialogue.hidden = true);
  */
-import { BlipElement, duration, reducedMotion, run, services, type Step } from "@blip/core";
+import { BlipElement, duration, reducedMotion, run, services, type Step } from "@jaatster/blip-core";
 
 interface Piece {
   node: Text;

@@ -3,7 +3,7 @@
  * a counter with quiet="false" is still announced, and a dialogue with voice="false" stays silent.
  */
 import { afterEach, describe, expect, it } from "vitest";
-import { provide } from "@blip/core";
+import { provide } from "@jaatster/blip-core";
 import "../../../packages/game/src/hud.ts";
 import "../../../packages/game/src/dialogue.ts";
 import { mount } from "../support/dom.ts";

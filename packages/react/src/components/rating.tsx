@@ -1,6 +1,6 @@
 /**
  * Rating: RatingDisplay, the parts that go inside <Rating>, and <Rating> itself (generated from its element,
- * re-exported here). CSS from @blip/components (rating.css).
+ * re-exported here). CSS from @jaatster/blip-components (rating.css).
  */
 import { forwardRef } from "react";
 import type { CSSProperties } from "react";

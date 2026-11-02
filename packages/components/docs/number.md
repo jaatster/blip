@@ -1,6 +1,6 @@
 ---
 name: Number stepper
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: number.css
 element: blip-number
 react: NumberStepper

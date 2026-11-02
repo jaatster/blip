@@ -3,7 +3,7 @@
  * took (anchored container queries), and the nub turns when the popover flips for lack of room. Without it, open
  * popovers have no nub, rather than a wrong one; a static one (data-blip-static) always has its nub.
  *
- *   <link rel="stylesheet" href="…/@blip/components/dist/popover-nub.min.css">
+ *   <link rel="stylesheet" href="…/@jaatster/blip-components/dist/popover-nub.min.css">
  *
  * Not part of components.css, and not for a bundler's CSS imports: lightningcss, which Vite 8 and Next.js 16 run on
  * CSS, cannot parse @container anchored() yet and fails the build. Load it with a <link> after components.css (or

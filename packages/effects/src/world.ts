@@ -13,7 +13,7 @@
  * carry on to the sides in 350-pixel periods of the same landscape; taller ones stretch the sky. Colours are the
  * --blip-world-* tokens, so a palette pack can repaint the world.
  */
-import { BlipElement, duration, every, pixel, reducedMotion, run, schemeAt, seeded, services, warn, type Scheme } from "@blip/core";
+import { BlipElement, duration, every, pixel, reducedMotion, run, schemeAt, seeded, services, warn, type Scheme } from "@jaatster/blip-core";
 import { SPARKLE, abgr, device, later, mirror, on, pixelCanvas, rgb, sprite } from "./_pixel.js";
 
 export type WorldLayer = "sky" | "peaks" | "hills" | "near" | "ground";
@@ -70,7 +70,7 @@ const enum S {
 export function worldPalette(scheme: Scheme, from: Element = document.documentElement): number[] {
   const style = getComputedStyle(from);
   const names = [...SLOTS.map((s) => `--blip-world-${scheme}-${s}`), ...SHARED.map((s) => `--blip-world-${s}`), "--blip-white", "--blip-candy-yellow-light"];
-  if (!style.getPropertyValue(names[0]!).trim()) warn("BLIP-W001", "No world colours: load @blip/tokens/tokens.css.", from);
+  if (!style.getPropertyValue(names[0]!).trim()) warn("BLIP-W001", "No world colours: load @jaatster/blip-tokens/tokens.css.", from);
   return names.map((n) => rgb(style.getPropertyValue(n)));
 }
 

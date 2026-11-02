@@ -1,6 +1,6 @@
 ---
 name: HUD
-package: "@blip/game"
+package: "@jaatster/blip-game"
 css: hud.css
 element: blip-counter, blip-hearts
 react: Hud
@@ -39,8 +39,8 @@ part of the world, day or night, and never shift as they change.
 ```
 
 ```js
-import "@blip/game/hud";
-import "@blip/game/sprites";
+import "@jaatster/blip-game/hud";
+import "@jaatster/blip-game/sprites";
 
 coins.value += 10;                 // counts up a whole step a frame; the coin bumps; the coin sound plays
 hearts.value -= 0.5;               // the hearts shake

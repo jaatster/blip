@@ -1,9 +1,9 @@
 // The README's React example, as it is there.
-import "@blip/font/font.css";
-import "@blip/tokens/tokens.css";
-import "@blip/core/core.css";
-import "@blip/components/components.css";
-import { Button, Tab, TabList, TabPanel, Tabs, toast } from "@blip/react";
+import "@jaatster/blip-font/font.css";
+import "@jaatster/blip-tokens/tokens.css";
+import "@jaatster/blip-core/core.css";
+import "@jaatster/blip-components/components.css";
+import { Button, Tab, TabList, TabPanel, Tabs, toast } from "@jaatster/blip-react";
 
 export function Settings() {
   return (

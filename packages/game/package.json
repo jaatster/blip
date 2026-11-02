@@ -1,5 +1,5 @@
 {
-  "name": "@blip/game",
+  "name": "@jaatster/blip-game",
   "version": "0.1.0",
   "description": "The Blip game UI kit: dialogue boxes, HUD bars, inventories, button prompts, pause menus.",
   "keywords": [
@@ -15,7 +15,7 @@
   "bugs": "https://github.com/jaatster/blip/issues",
   "repository": {
     "type": "git",
-    "url": "github:jaatster/blip",
+    "url": "git+https://github.com/jaatster/blip.git",
     "directory": "packages/game"
   },
   "license": "MIT",
@@ -61,8 +61,8 @@
     "build": "node ../../scripts/build-css-package.mjs game && node ../../scripts/build-ts-package.mjs game"
   },
   "dependencies": {
-    "@blip/core": "workspace:*",
-    "@blip/tokens": "workspace:*",
-    "@blip/components": "workspace:*"
+    "@jaatster/blip-core": "workspace:*",
+    "@jaatster/blip-tokens": "workspace:*",
+    "@jaatster/blip-components": "workspace:*"
   }
 }

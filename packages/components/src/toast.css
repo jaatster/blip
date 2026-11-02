@@ -1,7 +1,7 @@
 /*
  * Toast. A short message that floats in a corner and leaves on its own: a sign, a title, a few words, an
  * action, a dismiss button, and a stepped pixel bar that counts down until it goes. <blip-toaster> (from
- * @blip/elements) makes them, stacks them, announces them and pauses them while you point at or focus one.
+ * @jaatster/blip-elements) makes them, stacks them, announces them and pauses them while you point at or focus one.
  *
  *   <blip-toaster data-side="bottom" data-align="end"></blip-toaster>
  *   toast({ title: "Achievement unlocked", body: "First Flight", tone: "success", action: { label: "View" } })

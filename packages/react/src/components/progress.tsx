@@ -1,5 +1,5 @@
 /**
- * Progress: Progress, ProgressLabel and Meter. CSS from @blip/components (progress.css).
+ * Progress: Progress, ProgressLabel and Meter. CSS from @jaatster/blip-components (progress.css).
  */
 import { forwardRef } from "react";
 import { box, cx, type NativeProps, type Size, type Tone } from "../internal/props.js";

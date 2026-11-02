@@ -8,7 +8,7 @@
  * falls), confetti (candy bits that flutter down). Positions use services.random, so a seed repeats a burst. Drawn on
  * a canvas at pixel resolution in the top layer, removed when done; nothing at all with reduced motion.
  */
-import { duration, frames, pixel, reducedMotion, services } from "@blip/core";
+import { duration, frames, pixel, reducedMotion, services } from "@jaatster/blip-core";
 import { SPARKLE, device, overlay, pixelCanvas, sprite, tokens } from "./_pixel.js";
 
 export type BurstKind = "sparkle" | "coin" | "star" | "confetti";

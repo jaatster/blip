@@ -1,6 +1,6 @@
 ---
 name: Prompts
-package: "@blip/game"
+package: "@jaatster/blip-game"
 css: prompt.css
 element: null
 react: Prompt

@@ -1,15 +1,15 @@
-# @blip/stylelint-config
+# @jaatster/blip-stylelint-config
 
 Stylelint rules that keep CSS inside Blip: colours from tokens, sizes in whole pixels, motion in steps, and
 only tokens that exist.
 
 ```sh
-npm install -D stylelint @blip/stylelint-config
+npm install -D stylelint @jaatster/blip-stylelint-config
 ```
 
 ```js
 // stylelint.config.mjs
-export default { extends: ["@blip/stylelint-config"] };
+export default { extends: ["@jaatster/blip-stylelint-config"] };
 ```
 
 ## Rules
@@ -39,7 +39,7 @@ too (the default is `ease`), unless nothing moves (duration 0) or a later longha
 
 ### blip/known-tokens
 
-Every `var(--blip-…)` is a token from @blip/tokens, a public property of a Blip package (the list ships
+Every `var(--blip-…)` is a token from @jaatster/blip-tokens, a public property of a Blip package (the list ships
 as `public-properties.json`), or declared in the same stylesheet; typos get "did you mean". Option: `allow`.
 
 A documented exception takes a disable comment with its reason:

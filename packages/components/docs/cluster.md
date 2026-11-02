@@ -1,6 +1,6 @@
 ---
 name: Cluster
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: cluster.css
 element: null
 react: Cluster

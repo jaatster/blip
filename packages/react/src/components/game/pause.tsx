@@ -1,5 +1,5 @@
 /**
- * Pause menu: PauseMenu, PauseTitle, PauseStats and PauseHint. CSS from @blip/game (pause.css).
+ * Pause menu: PauseMenu, PauseTitle, PauseStats and PauseHint. CSS from @jaatster/blip-game (pause.css).
  */
 import { forwardRef } from "react";
 import type { ElementType, ReactNode } from "react";

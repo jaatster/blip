@@ -1,6 +1,6 @@
 ---
 name: Drawer
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: drawer.css
 element: blip-drawer
 react: Drawer

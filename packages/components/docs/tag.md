@@ -1,6 +1,6 @@
 ---
 name: Tag
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: tag.css
 element: null
 react: Tag

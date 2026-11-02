@@ -1,6 +1,6 @@
 /**
  * Pager: PagerTrack, PagerSlide, PagerDots and PagerDot, the parts that go inside <Pager> (generated from its
- * element, re-exported here). CSS from @blip/components (pager.css).
+ * element, re-exported here). CSS from @jaatster/blip-components (pager.css).
  */
 import { forwardRef } from "react";
 import { cx, type NativeProps } from "../internal/props.js";

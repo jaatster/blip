@@ -1,6 +1,6 @@
 /*
  * Rating. A row of pixel stars (or hearts): yellow candy with an ink outline for the score, sunken wells in a soft
- * line for the rest. Shown with CSS alone; <blip-rating> (from @blip/elements) makes it a form control you can set.
+ * line for the rest. Shown with CSS alone; <blip-rating> (from @jaatster/blip-elements) makes it a form control you can set.
  *
  *   A score, no JavaScript (halves and other fractions fill whole pixels):
  *   <span class="blip-rating" role="img" aria-label="Rated 3.5 out of 5" style="--blip-rating-value: 3.5"></span>

@@ -24,16 +24,16 @@ How to add to Blip: components, kits, effects, icons, tokens. The button
 6. **Layers.** Core components in `@layer blip.components`; kits (game, blocks, effects) in `@layer blip.kits`.
 7. **Native HTML first.** `<button>`, `<input>`, `<select>`, `<dialog>`, `<details>`, the `popover` attribute,
    `<progress>`, `<meter>`, `<table>`. Follow the WAI-ARIA Authoring Practices for roles, states and keyboard.
-8. **Web Components only for behaviour.** Light DOM, no shadow DOM, extend `BlipElement` from `@blip/core`
+8. **Web Components only for behaviour.** Light DOM, no shadow DOM, extend `BlipElement` from `@jaatster/blip-core`
    (it gives `this.signal`, which aborts on disconnect: pass it to every listener, timer and timeline). Tag
    `blip-<name>`; events `blip-<name>` (bubbling, composed). Elements upgrade markup that already renders correctly
    without JavaScript where possible. Replacing a form control? Make it form-associated (`static formAssociated =
-   true`, `ElementInternals`). No dependencies except `@blip/core`. Use the shared controllers
+   true`, `ElementInternals`). No dependencies except `@jaatster/blip-core`. Use the shared controllers
    (`rovingFocus`, `typeahead`, `dismiss`) and `run`/`frames` timelines rather than writing your own.
 9. **Glyphs inside components** (check marks, chevrons, close crosses, radio dots, arrows) are CSS masks with an
    SVG data URI drawn on whole pixels (12 x 12 grid, or smaller), coloured with `background-color: currentColor`.
    `shape-rendering='crispEdges'` in the SVG. Content icons in markup use `<svg class="blip-icon" viewBox="0 0 12
-   12">` from `@blip/icons`.
+   12">` from `@jaatster/blip-icons`.
 10. **Budgets.** Each element 3 KB gzipped or less (the build reports it). All component CSS together 34 KB.
 11. **Accessible by default.** WCAG 2.2 AA: names, roles, states, focus order, 24 px targets
     (`--blip-target-min`), contrast from the scheme roles (they are checked when the tokens build), forced-colors.
@@ -93,7 +93,7 @@ node scripts/shoot.mjs .tools/shots/me \
   "/specimen/gallery.html?only=button,tabs=day" \
   "/specimen/gallery.html?only=button,tabs&scheme=night=night" --full
 node scripts/shoot.mjs .tools/shots/me "/specimen/gallery.html?only=tabs=zoom" --scale 2 --width 800
-pnpm --filter @blip/<pkg> build         # builds and reports sizes
+pnpm --filter @jaatster/blip-<pkg> build         # builds and reports sizes
 pnpm qa tabs                                 # every check of one item, and only its checks
 ```
 

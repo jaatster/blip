@@ -1,5 +1,5 @@
 ---
-/** Sound: a sound board for @blip/sound (off until pressed), the voice, and the package's own docs. */
+/** Sound: a sound board for @jaatster/blip-sound (off until pressed), the voice, and the package's own docs. */
 import Docs from "../../layouts/Docs.astro";
 import Pager from "../../components/Pager.astro";
 import Icon from "../../components/Icon.astro";
@@ -16,7 +16,7 @@ const TONES: Record<string, string> = { step: "red", look: "orange", jump: "gree
 const tone = (n: string) => (TONES[n] === "yellow" ? "orange" : TONES[n] ?? "neutral");
 const H = (id: string, text: string) => ({ depth: 2, id, text });
 ---
-<Docs kits={["effects"]} styles={["foundations"]} scripts={["foundations"]} title="Sound" description="Blip's chip sounds: a sound board for @blip/sound, off until you turn it on, and the voice that types." headings={[H("board", "The board"), H("voice", "The voice"), H("sound-files", "The sound package"), ...ref.headings.filter((h) => h.depth === 2)]}>
+<Docs kits={["effects"]} styles={["foundations"]} scripts={["foundations"]} title="Sound" description="Blip's chip sounds: a sound board for @jaatster/blip-sound, off until you turn it on, and the voice that types." headings={[H("board", "The board"), H("voice", "The voice"), H("sound-files", "The sound package"), ...ref.headings.filter((h) => h.depth === 2)]}>
   <header class="docs-page-head">
     <h1 class="docs-page-title blip-display" data-scale="2">Sound</h1>
     <p class="docs-lede">Eleven chip sounds, the TV's, synthesised in the browser from a few notes each: no audio files, about 1.6 KB. Sound is off until someone turns it on, and it never carries meaning on its own.</p>
@@ -61,7 +61,7 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
 
   <section class="docs-section docs-prose docs-reference" aria-labelledby="sound-files">
     <h2 id="sound-files">The sound package</h2>
-    <p>From <code class="docs-inline-code">@blip/sound</code>'s own documentation.</p>
+    <p>From <code class="docs-inline-code">@jaatster/blip-sound</code>'s own documentation.</p>
     <Fragment set:html={ref.html} />
   </section>
 

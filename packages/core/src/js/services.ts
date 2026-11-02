@@ -12,7 +12,7 @@ export interface Services {
   clock: () => Date;
   /** A number in [0, 1). */
   random: () => number;
-  /** Where chip sounds go; silent unless @blip/sound is installed and enabled. */
+  /** Where chip sounds go; silent unless @jaatster/blip-sound is installed and enabled. */
   sound: SoundSink;
 }
 

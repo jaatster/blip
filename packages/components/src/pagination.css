@@ -124,7 +124,7 @@
   .blip-pagination-next:dir(rtl) > span::after { scale: -1 1; }
   .blip-pagination-prev:dir(rtl) > span::before { scale: none; }
   :is(.blip-pagination-prev, .blip-pagination-next)[data-icon-only] { padding: 0; }
-  /* The arrow alone. font-size-adjust off too: with it (from @blip/font), Chrome draws 0-size text at full size. */
+  /* The arrow alone. font-size-adjust off too: with it (from @jaatster/blip-font), Chrome draws 0-size text at full size. */
   :is(.blip-pagination-prev, .blip-pagination-next)[data-icon-only] > span { font-size: 0; font-size-adjust: none; gap: 0; }
 
   /* A gap in the numbers: three pixel dots. */

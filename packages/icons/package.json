@@ -1,5 +1,5 @@
 {
-  "name": "@blip/icons",
+  "name": "@jaatster/blip-icons",
   "version": "0.1.0",
   "description": "Blip icons: original one-colour icons drawn on a 12 x 12 pixel grid, as SVG files, a sprite, JS path data and a <blip-icon> element.",
   "keywords": [
@@ -14,7 +14,7 @@
   "bugs": "https://github.com/jaatster/blip/issues",
   "repository": {
     "type": "git",
-    "url": "github:jaatster/blip",
+    "url": "git+https://github.com/jaatster/blip.git",
     "directory": "packages/icons"
   },
   "license": "MIT",

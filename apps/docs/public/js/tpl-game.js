@@ -1,5 +1,5 @@
 // Game menu template: press start, the main menu, options, a level with a HUD, a frog who wants coins, and pause.
-import { transition } from "@blip/effects/transitions.js";
+import { transition } from "@jaatster/blip-effects/transitions.js";
 
 const $ = (s, r = document) => r.querySelector(s);
 const game = $(".tpl-game");

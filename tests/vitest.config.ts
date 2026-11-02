@@ -1,5 +1,5 @@
 /**
- * Unit tests for Blip: `pnpm --filter @blip/tests test`.
+ * Unit tests for Blip: `pnpm --filter @jaatster/blip-tests test`.
  *
  * Two projects:
  *   unit-node     Node. The build tools (tokens, icons), run on temporary copies of their sources, and the pure
@@ -7,7 +7,7 @@
  *   unit-browser  Chromium through Playwright (Vitest browser mode). Everything that needs a real DOM: timelines,
  *                 reduced motion, the shared controllers, BlipElement, the world's drawing.
  *
- * Tests import the TypeScript sources, so no package has to be built first. `@blip/core` is pointed at its
+ * Tests import the TypeScript sources, so no package has to be built first. `@jaatster/blip-core` is pointed at its
  * source too, so a kit's source (effects, game, sound) and the test share one core, and `provide()` reaches both.
  */
 import { fileURLToPath } from "node:url";
@@ -29,7 +29,7 @@ export default defineConfig({
       },
       {
         resolve: {
-          alias: [{ find: /^@blip\/core$/, replacement: at("../packages/core/src/js/index.ts") }],
+          alias: [{ find: /^@jaatster\/blip-core$/, replacement: at("../packages/core/src/js/index.ts") }],
         },
         test: {
           name: "unit-browser",

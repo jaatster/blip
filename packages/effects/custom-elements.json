@@ -76,7 +76,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "Attract mode: a short demo of the markup inside it, a pixel pointer pressing its real controls, looping.",
           "tagName": "blip-attract",
@@ -175,7 +175,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "A page-wide pause for motion: a button that sets data-blip-motion=\"reduce\" on <html>, and remembers it.",
           "tagName": "blip-motion-toggle",
@@ -260,7 +260,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "A Pixel Bop heading whose letters drop in one after another.",
           "tagName": "blip-drop-text",
@@ -386,7 +386,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "Text that types itself in, a letter at a time.",
           "tagName": "blip-typewriter",
@@ -677,7 +677,7 @@
           ],
           "superclass": {
             "name": "BlipElement",
-            "package": "@blip/core"
+            "package": "@jaatster/blip-core"
           },
           "summary": "The dithered world backdrop: sky, mountains, hills and meadow, for Day, Sunset and Night.",
           "tagName": "blip-world",

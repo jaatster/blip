@@ -1,5 +1,5 @@
 /**
- * Level tile: LevelMap, LevelTile, LevelNumber, LevelStars and LevelPath. CSS from @blip/game (level.css). The
+ * Level tile: LevelMap, LevelTile, LevelNumber, LevelStars and LevelPath. CSS from @jaatster/blip-game (level.css). The
  * current tile's arrow is `<Sprite className="blip-level-here" name="arrow" />` (Sprite from this same entry point).
  */
 import { forwardRef } from "react";

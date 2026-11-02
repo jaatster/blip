@@ -1,6 +1,6 @@
 ---
 name: Dialogue
-package: "@blip/game"
+package: "@jaatster/blip-game"
 css: dialogue.css
 element: blip-dialogue
 react: Dialogue
@@ -39,8 +39,8 @@ Use it for characters talking, signs, tutorials and story beats. For a question 
 ```
 
 ```js
-import "@blip/game/dialogue";
-import "@blip/game/choices";
+import "@jaatster/blip-game/dialogue";
+import "@jaatster/blip-game/choices";
 
 const box = document.querySelector("blip-dialogue");
 box.addEventListener("blip-action", (e) => box.say(e.detail.value === "pay" ? "Splendid!" : "Suit yourself."));

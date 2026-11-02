@@ -2,7 +2,7 @@
  * typeahead: typing letters jumps to the next item whose label starts with them (menus, listboxes, inventories).
  */
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { typeahead } from "@blip/core";
+import { typeahead } from "@jaatster/blip-core";
 import { focused, mount, press } from "../support/dom.ts";
 
 /** A list of fruit buttons with typeahead, focusing whatever matches (as menus do). */

@@ -1,6 +1,6 @@
 ---
 name: Features
-package: "@blip/blocks"
+package: "@jaatster/blip-blocks"
 css: features.css
 element: null
 react: Features

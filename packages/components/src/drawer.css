@@ -2,7 +2,7 @@
  * Drawer. A side sheet: a native <dialog> that comes in from the end, the start or the bottom edge, a whole
  * pixel-snapped sixth of its size per step (six steps over a glide), over the same dithered scrim as the dialog.
  * It is a dialog, so it uses the dialog's parts (header, title, close, body, footer) and the same element
- * behaviour: wrap it in <blip-drawer> from @blip/elements for the stepped exit, blip-before-close and light dismiss.
+ * behaviour: wrap it in <blip-drawer> from @jaatster/blip-elements for the stepped exit, blip-before-close and light dismiss.
  *
  *   <dialog class="blip-box blip-drawer" id="settings" data-side="end" aria-labelledby="settings-title">
  *     <header class="blip-dialog-header">

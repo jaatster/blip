@@ -1,6 +1,6 @@
 ---
 name: Bottom bar
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: bottom-bar.css
 element: null
 react: BottomBar

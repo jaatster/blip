@@ -1,5 +1,5 @@
 {
-  "name": "@blip/elements",
+  "name": "@jaatster/blip-elements",
   "version": "0.1.0",
   "description": "Blip Web Components: light-DOM custom elements that add behaviour to the components' markup.",
   "keywords": [
@@ -14,7 +14,7 @@
   "bugs": "https://github.com/jaatster/blip/issues",
   "repository": {
     "type": "git",
-    "url": "github:jaatster/blip",
+    "url": "git+https://github.com/jaatster/blip.git",
     "directory": "packages/elements"
   },
   "license": "MIT",
@@ -56,7 +56,7 @@
     "build": "node ../../scripts/build-ts-package.mjs elements"
   },
   "dependencies": {
-    "@blip/core": "workspace:*",
-    "@blip/tokens": "workspace:*"
+    "@jaatster/blip-core": "workspace:*",
+    "@jaatster/blip-tokens": "workspace:*"
   }
 }

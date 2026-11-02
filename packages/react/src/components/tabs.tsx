@@ -1,6 +1,6 @@
 /**
  * Tabs: TabList, Tab and TabPanel, the parts that go inside <Tabs>, and <Tabs> itself (generated from its element,
- * re-exported here). CSS from @blip/components (tabs.css).
+ * re-exported here). CSS from @jaatster/blip-components (tabs.css).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";

@@ -1,5 +1,5 @@
 /**
- * Popover: Popover, PopoverNub, PopoverTitle and PopoverClose. CSS from @blip/components (popover.css).
+ * Popover: Popover, PopoverNub, PopoverTitle and PopoverClose. CSS from @jaatster/blip-components (popover.css).
  */
 import { forwardRef } from "react";
 import { cx, flag } from "../internal/props.js";

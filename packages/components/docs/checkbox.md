@@ -1,6 +1,6 @@
 ---
 name: Checkbox
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: checkbox.css
 element: null
 react: Checkbox

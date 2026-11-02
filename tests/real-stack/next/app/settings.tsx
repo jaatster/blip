@@ -1,7 +1,7 @@
 "use client";
 // The README's React example, as it is there (its CSS is in the layout). It handles a click, so it is a Client
 // Component.
-import { Button, Tab, TabList, TabPanel, Tabs, toast } from "@blip/react";
+import { Button, Tab, TabList, TabPanel, Tabs, toast } from "@jaatster/blip-react";
 
 export function Settings() {
   return (

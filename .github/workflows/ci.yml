@@ -54,32 +54,32 @@ jobs:
         run: pnpm budgets
 
       - name: Stylelint rules
-        run: pnpm --filter @blip/stylelint-config test
+        run: pnpm --filter @jaatster/blip-stylelint-config test
 
       - name: React (example typecheck, React 18 and 19)
         run: |
-          pnpm --filter @blip/react typecheck
-          pnpm --filter @blip/react test
+          pnpm --filter @jaatster/blip-react typecheck
+          pnpm --filter @jaatster/blip-react test
 
       - name: Playwright Chromium
-        run: pnpm --filter @blip/tests exec playwright install --with-deps chromium
+        run: pnpm --filter @jaatster/blip-tests exec playwright install --with-deps chromium
 
       - name: Unit tests
-        run: pnpm --filter @blip/tests test
+        run: pnpm --filter @jaatster/blip-tests test
 
       # Baselines are per platform: Linux ones live in tests/visual/__screenshots__/linux (see visual-baselines.yml).
       - name: Visual tests
-        run: pnpm --filter @blip/tests test:visual
+        run: pnpm --filter @jaatster/blip-tests test:visual
 
       # Every example under other conditions (tests/conditions); what is left on purpose is in its known-issues.ts.
       - name: Condition tests
-        run: pnpm --filter @blip/tests test:conditions
+        run: pnpm --filter @jaatster/blip-tests test:conditions
 
       - name: Storybook
-        run: pnpm --filter @blip/storybook build
+        run: pnpm --filter @jaatster/blip-storybook build
 
       - name: Docs site
-        run: pnpm --filter @blip/docs build
+        run: pnpm --filter @jaatster/blip-docs build
 
       - name: Generated files are committed
         run: git diff --exit-code
@@ -126,7 +126,7 @@ jobs:
         run: pnpm build
 
       - name: Playwright Chromium
-        run: pnpm --filter @blip/tests exec playwright install --with-deps chromium
+        run: pnpm --filter @jaatster/blip-tests exec playwright install --with-deps chromium
 
       # npm's download cache, for the apps' installs; it keeps tarballs, not versions.
       - uses: actions/cache@v6

@@ -1,6 +1,6 @@
 /**
  * Pricing: Pricing, Plan, PlanRibbon, PlanName, PlanPrice, PlanCurrency, PlanAmount, PlanPeriod, PlanText,
- * PlanFeatures and PlanFeature. CSS from @blip/blocks (pricing.css).
+ * PlanFeatures and PlanFeature. CSS from @jaatster/blip-blocks (pricing.css).
  */
 import { forwardRef } from "react";
 import type { ElementType } from "react";

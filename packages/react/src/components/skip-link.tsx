@@ -1,5 +1,5 @@
 /**
- * Skip link: SkipLink. CSS from @blip/components (skip-link.css).
+ * Skip link: SkipLink. CSS from @jaatster/blip-components (skip-link.css).
  */
 import { forwardRef } from "react";
 import type { ElementType, ReactNode } from "react";

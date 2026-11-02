@@ -159,11 +159,11 @@ const srgb = (h) => ({ colorSpace: "srgb", components: [1, 3, 5].map((i) => Math
 const failing = (c) => SCHEMES.flatMap((s) => checks(s, c).filter((x) => !x.ok).map((x) => ({ ...x, scheme: s })));
 const failText = (f) => `${data.titles[f.scheme]}: ${f.label.toLowerCase()} ${f.ratio.toFixed(2)}:1`;
 const origin = () => `from ${preset(state.from).name}${changed() ? ", changed" : ""}`;
-const CANDY = "node_modules/@blip/tokens/src/palettes/candy.tokens.json";
+const CANDY = "node_modules/@jaatster/blip-tokens/src/palettes/candy.tokens.json";
 
 function css(v, fails) {
   return [
-    `/* My Blip palette, ${origin()}. Load it after @blip/tokens/tokens.css: a :root rule in the same layer, loaded later, wins. */`,
+    `/* My Blip palette, ${origin()}. Load it after @jaatster/blip-tokens/tokens.css: a :root rule in the same layer, loaded later, wins. */`,
     ...(fails.length ? [`/* Under WCAG 2.2 AA, exported anyway: ${fails.map(failText).join("; ")}. */`] : []),
     "@layer blip.tokens {",
     "  :root {",
@@ -198,7 +198,7 @@ function resolver() {
     version: "2025.10",
     modifiers: {
       palette: { contexts: { candy: [{ $ref: CANDY }], mine: [{ $ref: CANDY }, { $ref: "my-palette.tokens.json" }] }, default: "mine" },
-      pixel: { contexts: Object.fromEntries(["2", "3", "4"].map((p) => [p, [{ $ref: `node_modules/@blip/tokens/src/pixel/${p}.tokens.json` }]])), default: state.pixel },
+      pixel: { contexts: Object.fromEntries(["2", "3", "4"].map((p) => [p, [{ $ref: `node_modules/@jaatster/blip-tokens/src/pixel/${p}.tokens.json` }]])), default: state.pixel },
     },
   }, null, 2) + "\n";
 }
@@ -415,7 +415,7 @@ for (const b of $$(".tb-download")) {
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     // The next step, once the files are on disk.
     $(".tb-downloaded").innerHTML = b.dataset.file.endsWith(".css")
-      ? `Downloaded ${esc(b.dataset.file)}. Load it after <code class="docs-inline-code">@blip/tokens/tokens.css</code>.`
+      ? `Downloaded ${esc(b.dataset.file)}. Load it after <code class="docs-inline-code">@jaatster/blip-tokens/tokens.css</code>.`
       : `Downloaded ${esc(b.dataset.file)}. With both JSON files beside <code class="docs-inline-code">node_modules</code>, check and build them: <code class="docs-inline-code">npx blip-tokens my-palette.resolver.json</code>.`;
   });
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@blip/font",
+  "name": "@jaatster/blip-font",
   "version": "0.2.0",
   "description": "Pixel Bop, Blip's pixel display font, and Pixelify Sans for UI text, each in Latin, Cyrillic and Greek. SIL OFL 1.1.",
   "keywords": [
@@ -15,7 +15,7 @@
   "bugs": "https://github.com/jaatster/blip/issues",
   "repository": {
     "type": "git",
-    "url": "github:jaatster/blip",
+    "url": "git+https://github.com/jaatster/blip.git",
     "directory": "packages/font"
   },
   "license": "OFL-1.1",

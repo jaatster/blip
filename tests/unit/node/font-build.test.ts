@@ -1,5 +1,5 @@
 /**
- * @blip/font's build (packages/font/scripts/build.py), run on temporary copies with the repository's font tools
+ * @jaatster/blip-font's build (packages/font/scripts/build.py), run on temporary copies with the repository's font tools
  * (.tools/venv, which CI sets up): the guard that fails the build when Pixelify Sans keeps a ligature a browser applies
  * by default (its fi and fl read as "A") or a stroke thinner than one of its pixels (its @ read as a dot, © as °), at
  * regular or bold; and font.css, which must name exactly the characters each file draws.

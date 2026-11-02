@@ -1,10 +1,10 @@
 /**
- * @blip/react: typed React components for Blip's core components.
+ * @jaatster/blip-react: typed React components for Blip's core components.
  *
- *   import { Button, Dialog, DialogPanel } from "@blip/react";
+ *   import { Button, Dialog, DialogPanel } from "@jaatster/blip-react";
  *
- * Kits have their own subpaths: @blip/react/game, /blocks, /effects and /icons. Import the CSS yourself
- * (@blip/tokens, @blip/core, @blip/components): these components render Blip's markup and
+ * Kits have their own subpaths: @jaatster/blip-react/game, /blocks, /effects and /icons. Import the CSS yourself
+ * (@jaatster/blip-tokens, @jaatster/blip-core, @jaatster/blip-components): these components render Blip's markup and
  * Web Components, nothing else.
  */
 export * from "./generated/elements.js";

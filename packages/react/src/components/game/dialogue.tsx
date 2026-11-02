@@ -1,6 +1,6 @@
 /**
  * Dialogue: DialogueName, DialoguePortrait, DialogueBody and DialogueText, the parts that go inside <Dialogue>, and
- * <Dialogue> itself (generated from its element, re-exported here). CSS from @blip/game (dialogue.css). A dialogue's
+ * <Dialogue> itself (generated from its element, re-exported here). CSS from @jaatster/blip-game (dialogue.css). A dialogue's
  * answers are `<Choices className="blip-dialogue-choices">`.
  */
 import { forwardRef } from "react";

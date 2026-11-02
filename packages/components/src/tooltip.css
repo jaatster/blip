@@ -1,7 +1,7 @@
 /*
  * Tooltip. A small chip that names or explains the thing you point at or focus: the inverse of the page (ink with
  * white text by day, starlight with ink text at night), with a pixel nub pointing at its trigger. <blip-tooltip>
- * (from @blip/elements) shows it on hover after a beat and on keyboard focus at once, hides it on Escape,
+ * (from @jaatster/blip-elements) shows it on hover after a beat and on keyboard focus at once, hides it on Escape,
  * links it with aria-describedby, and places it with CSS anchor positioning (its trigger is the popover's source),
  * or by script where the browser does not anchor it.
  *

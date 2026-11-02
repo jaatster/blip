@@ -10,7 +10,7 @@
        site's sections as candy tiles on the hill line. Time is frozen and randomness seeded, as on the test page, and
        motion is paused, so the picture is the same every time. scripts/shoot.mjs saves it as apps/docs/public/og.png.
        ?scheme=day|sunset (Night by default)  ?palette=grape (any preset) -->
-  <script type="importmap">{ "imports": { "@blip/core": "/packages/core/dist/js/index.js", "@blip/tokens": "/packages/tokens/dist/js/index.js" } }</script>
+  <script type="importmap">{ "imports": { "@jaatster/blip-core": "/packages/core/dist/js/index.js", "@jaatster/blip-tokens": "/packages/tokens/dist/js/index.js" } }</script>
   <link rel="stylesheet" href="/packages/font/font.css">
   <link rel="stylesheet" href="/packages/tokens/dist/css/tokens.css">
   <link rel="stylesheet" href="/packages/tokens/dist/css/palettes.css">
@@ -81,7 +81,7 @@
   </section>
 
   <script type="module">
-    import { provide } from "@blip/core";
+    import { provide } from "@jaatster/blip-core";
 
     // The test page's clock and seed (tests/page/example.js), before the world loads.
     provide({ clock: () => new Date("2026-06-21T12:00:00"), seed: 42 });

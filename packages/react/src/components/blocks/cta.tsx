@@ -1,8 +1,8 @@
 /**
- * CTA band: CtaBand, CtaTitle, CtaText, CtaActions, CtaNote and CtaGround. CSS from @blip/blocks (cta.css). It
- * stands on the world: pass a `<World>` (from @blip/react/effects) as its first child; without it, and until it
+ * CTA band: CtaBand, CtaTitle, CtaText, CtaActions, CtaNote and CtaGround. CSS from @jaatster/blip-blocks (cta.css). It
+ * stands on the world: pass a `<World>` (from @jaatster/blip-react/effects) as its first child; without it, and until it
  * draws, its own sky shows, the scheme's palette in hard bands. Its calls to action are a `<ButtonLink>` (or
- * `<Button>`) from @blip/react.
+ * `<Button>`) from @jaatster/blip-react.
  */
 import { forwardRef } from "react";
 import type { ElementType, ReactNode } from "react";

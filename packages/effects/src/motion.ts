@@ -1,6 +1,6 @@
 /**
  * The page's own motion setting, beside the device's: data-blip-motion="reduce" on <html> asks for less motion, and
- * reducedMotion() from @blip/core reads it with prefers-reduced-motion. <blip-motion-toggle> is a page-wide pause
+ * reducedMotion() from @jaatster/blip-core reads it with prefers-reduced-motion. <blip-motion-toggle> is a page-wide pause
  * for it, ready-made: a real <button> with aria-pressed that sets and clears the attribute, so everything that moves
  * on its own stops at once and carries on when it is pressed again, and that remembers the choice on this device
  * (localStorage, "blip:motion"). This module applies a remembered choice as it loads.
@@ -9,7 +9,7 @@
  *   <blip-motion-toggle label="Bewegung anhalten"></blip-motion-toggle>    its words
  *   <blip-motion-toggle><button class="blip-box blip-button" type="button">…</button></blip-motion-toggle>    your own
  */
-import { BlipElement } from "@blip/core";
+import { BlipElement } from "@jaatster/blip-core";
 import { mirror } from "./_pixel.js";
 
 const KEY = "blip:motion", root = document.documentElement;

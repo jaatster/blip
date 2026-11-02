@@ -1,7 +1,7 @@
 /**
  * blip-tokens (packages/tokens/scripts/cli.mjs), run from a copy of the package on themes written the way the
  * docs' palette maker exported them before palettes: a resolver whose scheme contexts list Blip's scheme file and the theme's
- * own, pointing into node_modules/@blip/tokens. The theme passes Blip's own checks or the build stops.
+ * own, pointing into node_modules/@jaatster/blip-tokens. The theme passes Blip's own checks or the build stops.
  */
 import { afterEach, describe, expect, it } from "vitest";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -27,14 +27,14 @@ function theme(dir: string, accents: Record<(typeof SCHEMES)[number], Accent>): 
   }
   mkdirSync(join(dir, "theme"), { recursive: true });
   const resolver = join(dir, "theme/my-theme.resolver.json");
-  const ctx = (s: string) => [{ $ref: `node_modules/@blip/tokens/src/schemes/${s}.tokens.json` }, { $ref: `../my-theme.${s}.tokens.json` }];
+  const ctx = (s: string) => [{ $ref: `node_modules/@jaatster/blip-tokens/src/schemes/${s}.tokens.json` }, { $ref: `../my-theme.${s}.tokens.json` }];
   writeFileSync(resolver, JSON.stringify({
     $schema: "https://www.designtokens.org/schemas/2025.10/resolver.json",
     name: "My Blip theme",
     version: "2025.10",
     modifiers: {
       scheme: { contexts: Object.fromEntries(SCHEMES.map((s) => [s, ctx(s)])), default: "day" },
-      pixel: { contexts: Object.fromEntries(["2", "3", "4"].map((p) => [p, [{ $ref: `node_modules/@blip/tokens/src/pixel/${p}.tokens.json` }]])), default: "2" },
+      pixel: { contexts: Object.fromEntries(["2", "3", "4"].map((p) => [p, [{ $ref: `node_modules/@jaatster/blip-tokens/src/pixel/${p}.tokens.json` }]])), default: "2" },
     },
   }, null, 2));
   return resolver;
@@ -130,7 +130,7 @@ describe("blip-tokens", () => {
     const { readTokens } = await import(pathToFileURL(join(pkg.dir, "scripts/tokens.mjs")).href);
     const file = paletteFile({ id: "mine", name: "Mine", description: "Teal on soot.", recipe: { hue: 192, lightness: 0.18, tint: 0.014 } }, sceneOf(readTokens()));
     writeFileSync(join(project, "my-palette.tokens.json"), JSON.stringify(file, null, 2));
-    const candy = { $ref: "node_modules/@blip/tokens/src/palettes/candy.tokens.json" };
+    const candy = { $ref: "node_modules/@jaatster/blip-tokens/src/palettes/candy.tokens.json" };
     writeFileSync(join(project, "my-palette.resolver.json"), JSON.stringify({
       $schema: "https://www.designtokens.org/schemas/2025.10/resolver.json",
       name: "My Blip palette",

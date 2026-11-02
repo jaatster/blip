@@ -1,7 +1,7 @@
 /**
  * blip/known-tokens: every var(--blip-…) names something that exists.
  *
- * A --blip-* custom property read with var() must be a token from @blip/tokens (its manifest.json), a public
+ * A --blip-* custom property read with var() must be a token from @jaatster/blip-tokens (its manifest.json), a public
  * property of a Blip package (public-properties.json: the properties the packages declare, register with
  * @property, or document in their CSS headers and docs), or declared in the same stylesheet. Anything else is a typo
  * or an undocumented hook, and the message suggests the nearest names. Private names (--_*) are not checked.
@@ -15,7 +15,7 @@ import { docs, isStringOrRegExp, matches, nearest, valueIndex, valueParser } fro
 const ruleName = "blip/known-tokens";
 const messages = stylelint.utils.ruleMessages(ruleName, {
   unknown: (name, near) =>
-    `Unknown token "${name}".${near.length ? ` Did you mean ${near.map((n) => `"${n}"`).join(" or ")}?` : ""} Use a token from @blip/tokens, a documented public property, or declare it in this stylesheet.`,
+    `Unknown token "${name}".${near.length ? ` Did you mean ${near.map((n) => `"${n}"`).join(" or ")}?` : ""} Use a token from @jaatster/blip-tokens, a documented public property, or declare it in this stylesheet.`,
 });
 
 const require = createRequire(import.meta.url);
@@ -26,7 +26,7 @@ const load = (id) => {
     return null;
   }
 };
-const tokens = (load("@blip/tokens/manifest.json") ?? []).map((t) => t.cssVar);
+const tokens = (load("@jaatster/blip-tokens/manifest.json") ?? []).map((t) => t.cssVar);
 const publicProps = load("../../public-properties.json")?.properties ?? [];
 /** Every name known before looking at a stylesheet. */
 export const KNOWN = new Set([...tokens, ...publicProps]);
@@ -40,7 +40,7 @@ const rule = (primary, secondary = {}) => (root, result) => {
   );
   if (!valid) return;
   if (!tokens.length) {
-    stylelint.utils.report({ result, ruleName, node: root, message: `${ruleName}: cannot read @blip/tokens/manifest.json. Install @blip/tokens.`, index: 0, endIndex: 0 });
+    stylelint.utils.report({ result, ruleName, node: root, message: `${ruleName}: cannot read @jaatster/blip-tokens/manifest.json. Install @jaatster/blip-tokens.`, index: 0, endIndex: 0 });
     return;
   }
 

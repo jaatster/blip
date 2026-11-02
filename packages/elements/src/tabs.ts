@@ -10,7 +10,7 @@
  *   tabs.value = "display";
  *   tabs.addEventListener("blip-change", (e) => console.log(e.detail.value, e.detail.index));
  */
-import { BlipElement, rovingFocus, frames, duration, pixel, warn } from "@blip/core";
+import { BlipElement, rovingFocus, frames, duration, pixel, warn } from "@jaatster/blip-core";
 import { both, valueOf, watch } from "./_dom.js";
 
 export interface TabsChangeDetail {

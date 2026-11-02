@@ -1,6 +1,6 @@
 ---
 name: Wheel picker
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: wheel.css
 element: blip-wheel
 react: Wheel

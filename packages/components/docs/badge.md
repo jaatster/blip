@@ -1,6 +1,6 @@
 ---
 name: Badge
-package: "@blip/components"
+package: "@jaatster/blip-components"
 css: badge.css
 element: null
 react: Badge

@@ -8,7 +8,7 @@
  *
  * Both keep their whole text for assistive technology from the start, and show it all at once with reduced motion.
  */
-import { BlipElement, run, services, reducedMotion, duration } from "@blip/core";
+import { BlipElement, run, services, reducedMotion, duration } from "@jaatster/blip-core";
 import { mirror } from "./_pixel.js";
 
 /** Splits text into an accessible copy and a hidden visual copy whose letters can move. */

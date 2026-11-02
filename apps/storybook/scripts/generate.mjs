@@ -304,7 +304,7 @@ for (const ex of examples) {
   const base = slug(title);
   const storiesFile = join(OUT, `${base}.stories.ts`);
   const exampleRel = rel(storiesFile, ex.file);
-  const meta = { example: posix(relative(ROOT, ex.file)), docs: doc ? posix(relative(ROOT, doc.file)) : null, package: `@blip/${doc?.pkg ?? ex.pkg}`, element: doc?.front.element ?? null, status: doc?.front.status ?? null };
+  const meta = { example: posix(relative(ROOT, ex.file)), docs: doc ? posix(relative(ROOT, doc.file)) : null, package: `@jaatster/blip-${doc?.pkg ?? ex.pkg}`, element: doc?.front.element ?? null, status: doc?.front.status ?? null };
 
   const exclude = known.filter((k) => k.example === key).map((k) => k.target);
   const sections = WHOLE.has(key) ? [] : sectionsOf(html);

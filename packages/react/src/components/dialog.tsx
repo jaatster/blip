@@ -1,6 +1,6 @@
 /**
  * Dialog: DialogPanel, DialogHeader, DialogTitle, DialogIcon, DialogClose, DialogBody and DialogFooter, the parts that
- * go inside <Dialog>, and <Dialog> itself (generated from its element, re-exported here). CSS from @blip/components
+ * go inside <Dialog>, and <Dialog> itself (generated from its element, re-exported here). CSS from @jaatster/blip-components
  * (dialog.css).
  */
 import { forwardRef } from "react";

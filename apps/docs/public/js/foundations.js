@@ -37,7 +37,7 @@ for (const b of $$("[data-play]")) {
 }
 for (const b of $$(".docs-transition")) {
   b.addEventListener("click", async () => {
-    const { transition } = await import("@blip/effects/transitions.js");
+    const { transition } = await import("@jaatster/blip-effects/transitions.js");
     await transition(() => {}, { kind: b.dataset.kind });
     b.focus();
   });
@@ -70,7 +70,7 @@ if (board || $(".docs-voice")) {
   for (const k of $$(".docs-sound-key")) {
     k.addEventListener("click", () => {
       if (k.getAttribute("aria-disabled") === "true") return $(".docs-sound-toggle")?.focus();
-      if (k.dataset.sound === "blip") import("@blip/sound").then(({ voiceRate }) => "Blip".split("").forEach((c, i) => setTimeout(() => sound.play("blip", { rate: voiceRate(c) }), i * 90)));
+      if (k.dataset.sound === "blip") import("@jaatster/blip-sound").then(({ voiceRate }) => "Blip".split("").forEach((c, i) => setTimeout(() => sound.play("blip", { rate: voiceRate(c) }), i * 90)));
       else sound.play(k.dataset.sound);
     });
   }
