@@ -14,19 +14,21 @@ export const TAGLINE = "16-bit pixel modular design system";
  * install field on its own, popping in at `install` with the command typed `typed` letters in. Both are laid out
  * from the first frame (unseen until their turn), so BLIP never moves. Leave `line` out to show the line whole.
  */
-export const Tagline = ({ line, install = -Infinity, typed = COMMAND.length, field = true }: {
+export const Tagline = ({ line, install = -Infinity, typed = COMMAND.length, field = true, oneLine = false }: {
   readonly line?: number;
   readonly install?: number;
   readonly typed?: number;
   /** Whether the install field shows under the line. */
   readonly field?: boolean;
+  /** On one line, for the banner, where the parts need the room under it. */
+  readonly oneLine?: boolean;
 }) => {
   const frame = useCurrentFrame();
   const lands = line === undefined ? [...TAGLINE].map(() => -999) : letterLands(TAGLINE, line, TICK);
   return (
     <div style={{ display: "grid", gap: p(10), justifyItems: "center" }}>
       {/* Twice the size, on two lines (it wraps between words): a lockup under BLIP, read at a glance. */}
-      <div style={{ maxInlineSize: p(280), textAlign: "center", lineHeight: 1.15 }}>
+      <div style={{ maxInlineSize: oneLine ? "none" : p(280), whiteSpace: oneLine ? "nowrap" : undefined, textAlign: "center", lineHeight: 1.15 }}>
         <DropTitle text={TAGLINE} lands={lands} scale={2} outline={1} motion="rise" />
       </div>
       {field && (

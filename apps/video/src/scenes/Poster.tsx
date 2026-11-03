@@ -1,12 +1,13 @@
 import { spriteCanvas } from "@jaatster/blip-game/canvas.js";
+import { sprite } from "@jaatster/blip-game/sprites.js";
 import { useLayoutEffect, useRef, type CSSProperties } from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 // Starfall's own art (the docs' game, apps/docs/public/js/starfall): Pip.
 // @ts-expect-error: plain JavaScript, without types
 import { ART as STARFALL } from "../../../docs/public/js/starfall/art.js";
 import { Big } from "../lib/Big";
-import { Cell } from "../lib/Parade";
-import { SNIPPETS } from "../lib/snippets";
+import { BANNER_PARTS } from "../lib/banner-parts";
+import "../lib/parade.css";
 import { TICK, p, ticks } from "../lib/grid";
 import { Sprite } from "../lib/Pixels";
 import { Tagline, TitleWorld } from "../lib/Tagline";
@@ -17,11 +18,19 @@ import { DropTitle } from "../lib/Text";
 const ART = STARFALL as Record<string, { readonly tone: string; readonly map: string }>;
 
 // The banner: what the video is, at a glance, for the frame people see before they press play. The night world, BLIP
-// and its line in POP standing on it, then real parts as their docs draw them (lib/Parade.tsx): the components' tabs,
-// a switch, a checkbox and a rating, then a segmented picker and a slider. Pip stands on the grass at their left, a coin over his
-// head. As a still it is the thumbnail; as the opening of the video it holds, then the TV switches off and the video
-// starts as usual.
-const SHOW = [["tabs", "switch", "checkbox", "rating"], ["segmented", "slider"]] as const;
+// and its line in POP standing on it, then two rows of the parts picked for it (lib/banner-parts.ts, from their
+// docs' live examples): the game kit's heart and coin, a toast, its sword and star (twice the size); a tile, the bag,
+// a keycap and a button. Pip stands on the grass at their left. As a still it is the thumbnail; as the opening of the
+// video it holds, then the TV switches off and the video starts as usual.
+
+/** A part as its docs draw it, its sprites drawn by the game kit. */
+const Part = ({ slug }: { readonly slug: keyof typeof BANNER_PARTS }) => (
+  <div
+    className="v-parade-item"
+    style={{ contain: "layout", position: "relative" }}
+    dangerouslySetInnerHTML={{ __html: BANNER_PARTS[slug].replace(/<blip-sprite name="([a-z-]+)"([^>]*)><\/blip-sprite>/g, (_, n: string, rest: string) => `<blip-sprite name="${n}"${rest}>${sprite(n)}</blip-sprite>`) }}
+  />
+);
 
 /** The TV switching off over the last nine Blip frames from `off`: the picture folds to a line, the line to a dot. */
 function screenOff(frame: number, off: number): { line: number; style: CSSProperties } {
@@ -34,7 +43,7 @@ function screenOff(frame: number, off: number): { line: number; style: CSSProper
 export const POSTER_OFF = 9 * TICK;
 
 // The night world, its moon, stars and clouds kept clear of BLIP and its line (stage pixels, x0 y0 x1 y1).
-const CLEAR = [[120, 14, 360, 136]] as const;
+const CLEAR = [[90, 10, 390, 150]] as const;
 
 /** Pip, a pixel per sprite pixel (inside Big, a 2x pixel). */
 const Pip = () => {
@@ -60,24 +69,31 @@ export const Poster = ({ hold }: { readonly hold?: number }) => {
     <Stage scheme="night" style={{ background: "var(--blip-ink)" }}>
       <AbsoluteFill style={off.style}>
         <TitleWorld avoid={CLEAR} />
-        <div className="v-center" style={{ gap: p(10), paddingBlockEnd: p(24) }}>
+        <div className="v-center" style={{ gap: p(10), paddingBlockEnd: p(20) }}>
           <DropTitle text="Blip" lands={[-99, -99, -99, -99]} scale={8} outline={2} />
           {/* BLIP's face carries room under its letters; the line tucks up into it. */}
           <div style={{ marginBlockStart: p(-20) }}><Tagline field={false} /></div>
           <div style={{ display: "grid", justifyItems: "center", gap: p(8), marginBlockStart: p(4) }}>
-            {SHOW.map((row, r) => (
-              <div key={r} style={{ display: "flex", alignItems: "center", gap: p(16) }}>
-                {row.map((slug) => <Cell key={slug} s={SNIPPETS.find((x) => x.slug === slug)!} h={r ? 26 : 30} />)}
-              </div>
-            ))}
+            <div style={{ display: "flex", alignItems: "center", gap: p(10) }}>
+              <Sprite name="heart" scale={2} />
+              <Sprite name="coin" scale={2} />
+              <Part slug="toast" />
+              <Sprite name="sword" scale={2} />
+              <Sprite name="star" scale={2} />
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: p(10) }}>
+              <Part slug="tile" />
+              <Part slug="inventory" />
+              <Part slug="keycap" />
+              <Part slug="button" />
+            </div>
           </div>
         </div>
-        {/* Pip on the grass, a coin over him. */}
+        {/* Pip on the grass. */}
         <div style={{ position: "absolute", left: p(14), top: p(225) }}>
           <Big x={2}>
             <div style={{ position: "relative" }}>
               <Pip />
-              <Sprite name="coin" style={{ position: "absolute", left: p(5), top: p(-13) }} />
             </div>
           </Big>
         </div>
