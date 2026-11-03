@@ -62,7 +62,7 @@ its own icons on the same grid, and a world backdrop that follows the time of da
 
 ## Evidence on Hand
 
-- The TV implementation and its spec: `~/Work/Projects/TV Reverse Engineer/cleanyourtv/work/the TV spec` and
+- The TV implementation and its spec, in the TV project outside this repo:
   `launcher/app/src/main/java/com/gathin/tvhome/Pixel*.java`.
 - No users, testimonials or adoption numbers yet; none may be invented.
 

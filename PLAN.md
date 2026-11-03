@@ -10,7 +10,7 @@ Status: **draft, waiting for approval.**
 
 | Topic | Decision |
 |---|---|
-| Home | `~/Work/Projects/blip`, a pnpm monorepo in its own git repo |
+| Home | this repo, a pnpm monorepo in its own git repo |
 | Licence | MIT for code and icons; SIL Open Font License for the font |
 | Packages | `@jaatster/blip-*` on npm (free today). Nothing is pushed or published without your go |
 | Built with | W3C design tokens, plain CSS and dependency-free Web Components, plus typed React wrappers |

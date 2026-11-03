@@ -9,5 +9,3 @@ modified so it reads at text sizes: no ligatures (fi and fl read as "A"); C, G, 
 comma and symbol drawn finer than one of its pixels (@ read as a dot, © as °), redrawn on its pixel grid at every
 weight; Cyrillic and Greek corrected and completed. Emoji fall back to the system's, sized to the capitals.
 
-- Renamed from Blip: the package is `@jaatster/blip-font` (was `@jaatster/blip-font`). The fonts keep their names, Pixel Bop and Pixelify Sans.
-- Renamed from Blip: the package is `@jaatster/blip-font` (was `@jaatster/blip-font`). The fonts keep their names, Pixel Bop and Pixelify Sans.

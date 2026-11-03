@@ -11,8 +11,6 @@
 
 First release. The building blocks: the pixel unit, the candy box (outline, bands, glints, drop, stepped corners), the focus ring, dither, stepped motion, type styles and base styles; BlipElement, the roving focus, typeahead and dismiss controllers, the timeline runner, and the swappable clock, random and sound services.
 
-- Renamed from Blip: the package is `@jaatster/blip-core` (was `@jaatster/blip-core`); classes, `data-chu-*` attributes, custom properties, events and keyframes start `chu-` (was `pp-`), the cascade layers are `chu` and `chu.reset` to `chu.utilities` (was `pp`), `PixelElement` is `BlipElement`, diagnostic codes start `CHU-` (was `PP-`) and their switch is `globalThis.BLIP_DIAGNOSTICS`.
-- Renamed from Blip: the package is `@jaatster/blip-core` (was `@jaatster/blip-core`); classes, `data-blip-*` attributes, custom properties, events and keyframes start `blip-` (was `chu-`), the cascade layers are `blip` and `blip.reset` to `blip.utilities` (was `chu`), `BlipElement` is `BlipElement`, diagnostic codes start `BLIP-` (was `CHU-`) and their switch is `globalThis.BLIP_DIAGNOSTICS` (was `BLIP_DIAGNOSTICS`).
 - `@jaatster/blip-core/layers.css` declares the cascade-layer order for a page that also uses Tailwind CSS v4 or layered CSS of its own (`properties, theme, base, blip, components, utilities`): import it first.
 - Text follows a larger default text size set in the browser (the `--blip-size-*` tokens are in rem), never below Blip's own sizes.
 - `autoScheme()` changes the time of day in one step, shown as an ordered dither (a quarter, half, then three quarters of the pixels, a frame each), so every pixel is one whole palette and text keeps its contrast; `data-blip-scheme-dither` marks `<html>` while it runs.
