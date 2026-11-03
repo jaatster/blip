@@ -13,8 +13,8 @@ import { Music, Sfx } from "../lib/Sound";
 import { Stage } from "../lib/Stage";
 import { DISSOLVE_FRAMES, Dissolve, MOSAIC_FRAMES, Mosaic } from "../lib/Transitions";
 
-/** Bars 36-40 of the theme. */
-export const MAKE_A_GAME = { bar: 36, bars: 5 };
+/** Bars 42-46 of the theme. */
+export const MAKE_A_GAME = { bar: 42, bars: 5 };
 
 type Art = { readonly tone: string; readonly map: string };
 const ART = STARFALL as Record<string, Art>;

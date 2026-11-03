@@ -9,8 +9,8 @@ import { Music, Sfx } from "../lib/Sound";
 import { SHOW_CLEAR, SplitText, type Part } from "../lib/Split";
 import { Stage } from "../lib/Stage";
 
-/** Bars 31-34 of the theme. */
-export const MOBILE = { bar: 29, bars: 4 };
+/** Bars 35-38 of the theme. */
+export const MOBILE = { bar: 35, bars: 4 };
 
 // Ready for mobile. Above, the piece in use, by name; under it, a phone made of Blip's phone pieces, working on the beat by
 // itself. The phone drops in on its skeletons and loads; the list is pulled down past the line, the

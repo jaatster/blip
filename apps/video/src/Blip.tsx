@@ -18,6 +18,7 @@ import { RESPONSIVE, Responsive } from "./scenes/Responsive";
 export const SCENES = [
   { name: "Press start", bars: PRESS_START.bars, Scene: PressStart },
   { name: "Modular", bars: MODULAR.bars, Scene: Modular },
+  { name: "Use it everywhere", bars: EVERYWHERE.bars, Scene: Everywhere },
   { name: "88 components", bars: COMPONENTS.bars, Scene: Components },
   { name: "Your colours", bars: COLOURS.bars, Scene: Colours },
   { name: "Make anything", bars: REAL_SCREENS.bars, Scene: RealScreens },
@@ -25,7 +26,6 @@ export const SCENES = [
   { name: "Ready for mobile", bars: MOBILE.bars, Scene: Mobile },
   { name: "Game kit", bars: GAME_KIT.bars, Scene: GameKit },
   { name: "Puddle Path", bars: MAKE_A_GAME.bars, Scene: MakeAGame },
-  { name: "Use it everywhere", bars: EVERYWHERE.bars, Scene: Everywhere },
   { name: "Built right", bars: BUILT_RIGHT.bars, Scene: BuiltRight },
   { name: "Outro", bars: OUTRO.bars, Scene: Outro },
 ];

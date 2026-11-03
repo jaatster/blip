@@ -4,15 +4,15 @@ import { Beat } from "../lib/Beat";
 import { Big } from "../lib/Big";
 import { TICK, at, p, ticks } from "../lib/grid";
 import { Icon } from "../lib/Icon";
-import { Burst, World } from "../lib/Pixels";
+import { Burst } from "../lib/Pixels";
 import { Music, Sfx } from "../lib/Sound";
 import { Stage } from "../lib/Stage";
-import { Tagline } from "../lib/Tagline";
+import { Tagline, TitleWorld } from "../lib/Tagline";
 import { DropTitle } from "../lib/Text";
 import { Dissolve } from "../lib/Transitions";
 
-/** Bars 49-52 of the theme: the hook's last bars, ending on C. */
-export const OUTRO = { bar: 49, bars: 4 };
+/** Bars 51-54 of the theme: the hook's last bars, ending on C. */
+export const OUTRO = { bar: 51, bars: 4 };
 
 // The opening again, as an ending: the night world, BLIP landing a letter an eighth, its line, the install line and
 // where the docs are, one after another. Then the TV switches off: the picture folds to a line, the line to a dot.
@@ -38,10 +38,10 @@ export const Outro = ({ music = true }: { readonly music?: boolean }) => {
   return (
     <Stage scheme="night" style={{ background: "var(--blip-ink)" }}>
       <AbsoluteFill style={off.style}>
-        <World scheme="night" />
-        <div className="v-center" style={{ gap: p(10), paddingBlockStart: p(4) }}>
+        <TitleWorld />
+        <div className="v-center" style={{ gap: p(8), paddingBlockEnd: p(10) }}>
           <DropTitle text="Blip" lands={LANDS} scale={8} outline={2} />
-          <Tagline card={LINE} line={LINE} install={INSTALL} />
+          <Tagline line={LINE} install={INSTALL} />
           {/* Where the docs are: a big candy link, the accent, so it is the thing to remember. */}
           {/* Drawn unseen from the start, so its room is held and BLIP never moves. */}
           <div style={{ visibility: frame >= DOCS ? "visible" : "hidden" }}>

@@ -8,8 +8,8 @@ import { DemoFrame, HERO, SHOW_CLEAR, SplitText, type Part } from "../lib/Split"
 import { Stage } from "../lib/Stage";
 import { DISSOLVE_FRAMES, Dissolve } from "../lib/Transitions";
 
-/** Bars 45-48 of the theme: the hook again. */
-export const BUILT_RIGHT = { bar: 45, bars: 4 };
+/** Bars 47-50 of the theme: the hook again. */
+export const BUILT_RIGHT = { bar: 47, bars: 4 };
 
 // Two things the build checks, each standing on the sky:
 //   32 KB  a real progress meter, twice the size, filling a kilobyte a Blip frame up to 32 against its 34 KB budget

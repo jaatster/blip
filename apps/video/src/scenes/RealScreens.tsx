@@ -8,8 +8,8 @@ import { HERO, SHOW_CLEAR, SplitText, type Part } from "../lib/Split";
 import { Stage } from "../lib/Stage";
 import { DISSOLVE_FRAMES, Dissolve, MOSAIC_FRAMES, Mosaic } from "../lib/Transitions";
 
-/** Bars 21-24 of the theme: the hook. */
-export const REAL_SCREENS = { bar: 21, bars: 4 };
+/** Bars 27-30 of the theme: the hook. */
+export const REAL_SCREENS = { bar: 27, bars: 4 };
 
 // Make anything: the title says what it is (Make a website, Make an app: "Make" stays, the rest erases and changes); the hero shows the docs site's own template for it,
 // live and never scrolled, in a device of its own standing on the night sky, twice the size and cropped to its key

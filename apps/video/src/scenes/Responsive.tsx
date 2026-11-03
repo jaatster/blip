@@ -8,8 +8,8 @@ import { HERO, SHOW_CLEAR, SplitText, type Part } from "../lib/Split";
 import { Stage } from "../lib/Stage";
 import { Dissolve, MOSAIC_FRAMES } from "../lib/Transitions";
 
-/** Bars 25-28 of the theme. */
-export const RESPONSIVE = { bar: 25, bars: 4 };
+/** Bars 31-34 of the theme. */
+export const RESPONSIVE = { bar: 31, bars: 4 };
 
 // Responsive: Questboard, the dashboard template, whole and live at three widths, each in a device of its own: a
 // desktop monitor (1280 x 800), a tablet (768 x 1024) and a phone (400 x 840). Each page is drawn at half size, so its

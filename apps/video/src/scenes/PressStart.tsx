@@ -2,10 +2,10 @@ import type { CSSProperties } from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { Beat } from "../lib/Beat";
 import { TICK, at, p, ticks } from "../lib/grid";
-import { Burst, World } from "../lib/Pixels";
+import { Burst } from "../lib/Pixels";
 import { Music, Sfx } from "../lib/Sound";
 import { Stage } from "../lib/Stage";
-import { Tagline } from "../lib/Tagline";
+import { Tagline, TitleWorld } from "../lib/Tagline";
 import { DropTitle } from "../lib/Text";
 import { MOSAIC_FRAMES } from "../lib/Transitions";
 
@@ -43,7 +43,7 @@ export const PressStart = ({ music = true }: { readonly music?: boolean }) => {
     <Stage scheme="night" style={{ background: "var(--blip-ink)" }} mosaicOut={at(5) - MOSAIC_FRAMES}>
       <AbsoluteFill style={on.style}>
         <div className={frame < DROP ? "blip-crt" : undefined} data-flicker="" style={{ position: "absolute", inset: 0 }}>
-          <World scheme="night" />
+          <TitleWorld />
 
           <Beat at={BLINK} from={0} until={at(2, 0, 2)}>
             <div className="v-center" style={{ gap: p(12), paddingBlockStart: p(24) }}>
@@ -62,9 +62,8 @@ export const PressStart = ({ music = true }: { readonly music?: boolean }) => {
           <Beat at={DROP} from={PRESS}>
             <div className={frame >= DROP ? "v-center blip-shake" : "v-center"} style={{ gap: p(10), paddingBlockStart: p(6) }}>
               <DropTitle text="Blip" lands={LANDS} scale={8} outline={2} />
-              {/* The line and the install row on one ink card, its room kept from the start, so BLIP never moves. */}
+              {/* The line and the install field, nothing behind them; their room kept from the start, so BLIP never moves. */}
               <Tagline
-                card={DROP}
                 line={DROP + 2 * TICK}
                 install={TAG}
                 typed={2 * (frame - TAG - 2 * TICK)}

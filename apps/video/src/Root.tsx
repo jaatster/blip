@@ -27,7 +27,7 @@ export const RemotionRoot = () => {
         <Composition id="GameKit" component={GameKit} durationInFrames={240} fps={50} width={1920} height={1080} defaultProps={{ music: true }} />
         <Composition id="Responsive" component={Responsive} durationInFrames={320} fps={50} width={1920} height={1080} defaultProps={{ music: true }} />
         <Composition id="Mobile" component={Mobile} durationInFrames={320} fps={50} width={1920} height={1080} defaultProps={{ music: true }} />
-        <Composition id="Everywhere" component={Everywhere} durationInFrames={320} fps={50} width={1920} height={1080} defaultProps={{ music: true }} />
+        <Composition id="Everywhere" component={Everywhere} durationInFrames={480} fps={50} width={1920} height={1080} defaultProps={{ music: true }} />
         <Composition id="BuiltRight" component={BuiltRight} durationInFrames={320} fps={50} width={1920} height={1080} defaultProps={{ music: true }} />
         <Composition id="Outro" component={Outro} durationInFrames={320} fps={50} width={1920} height={1080} defaultProps={{ music: true }} />
         <Composition id="MakeAGame" component={MakeAGame} durationInFrames={400} fps={50} width={1920} height={1080} defaultProps={{ music: true }} />

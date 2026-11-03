@@ -1,13 +1,14 @@
 // The video's theme, in four candidate styles: 150 BPM (Blip's 400 ms beat) in C major (the key Blip's sounds are
-// tuned to), 53 bars (84.8 s), one bar per 1.6 s. Each line below is a bar of sixteenth notes: a note starts a sound,
+// tuned to), 55 bars (88 s), one bar per 1.6 s. Each line below is a bar of sixteenth notes: a note starts a sound,
 // "-" holds it, "." rests. Every style keeps the same bars, which the scenes in src/ are timed to:
 //   0-1 the intro (PRESS START waits), 2 the build (start is pressed, the letters drop), 3-4 the drop and the hook's
-//   first two bars, 5-8 the groove with no lead (Modular), 9-16 the hook (88 components), then the groove and the
-//   hook again twice and a third time (17-52), the last hook bar ending on C.
+//   first two bars, 5-8 the groove with no lead (Modular), 9-14 the groove again, held two bars longer (Use it
+//   everywhere), 15-22 the hook (88 components), then the groove and the hook twice more (23-46), and the groove and
+//   the hook's second half to end (47-54), its last bar ending on C.
 // `BLIP_THEME=<name>` picks one (town, bouncy, mellow, sunny); sunny, the one chosen, by default.
 import { BAR, STEP, Track, midi } from "./chip.mjs";
 
-export const BARS = 53;
+export const BARS = 55;
 export const SECONDS = BARS * BAR + 2;
 
 const steps = (line) => line.trim().split(/\s+/);
@@ -256,19 +257,26 @@ export function song(name = process.env.BLIP_THEME ?? "sunny") {
   }
   // Bars 5-8: the groove, without the lead.
   theme.groove.forEach((name, i) => full(5 + i, name));
-  // Bars 9-16: the hook.
+  // Bars 9-14: the groove again, its last two chords twice, leaning into the hook.
+  [...theme.groove, g2, g3].forEach((name, i) => full(9 + i, name));
+  // Bars 15-22: the hook.
   theme.hook.forEach((line, i) => {
-    full(9 + i, theme.hookChords[i]);
-    band.lead(9 + i, line);
+    full(15 + i, theme.hookChords[i]);
+    band.lead(15 + i, line);
   });
-  // Bars 17-52: the groove and the hook three more times, for the rest of the scenes; the last bar is the home chord.
-  for (let b = 17; b < BARS; b += 12) {
-    theme.groove.forEach((name, i) => b + i < BARS && full(b + i, name));
+  // Bars 23-46: the groove and the hook twice more, for the scenes in between.
+  for (const b of [23, 35]) {
+    theme.groove.forEach((name, i) => full(b + i, name));
     theme.hook.forEach((line, i) => {
-      if (b + 4 + i >= BARS) return;
       full(b + 4 + i, theme.hookChords[i]);
       band.lead(b + 4 + i, line);
     });
   }
+  // Bars 47-54: the groove, then the hook's second half, its last bar the home chord.
+  theme.groove.forEach((name, i) => full(47 + i, name));
+  theme.hook.slice(4).forEach((line, i) => {
+    full(51 + i, theme.hookChords[4 + i]);
+    band.lead(51 + i, line);
+  });
   return band.tracks;
 }

@@ -7,17 +7,20 @@ import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { ART as STARFALL } from "../../../docs/public/js/starfall/art.js";
 import { Beat } from "../lib/Beat";
 import { Big } from "../lib/Big";
-import { STEP, TICK, at, p, ticks } from "../lib/grid";
+import { BEAT, STEP, TICK, at, p, ticks } from "../lib/grid";
 import { Icon } from "../lib/Icon";
 import { Burst, Dither, H as SH, Life, Sprite, W as SW, bayerMask, useCanvas } from "../lib/Pixels";
 import { type Move, PRESS, over, pressing } from "../lib/Pointer";
+import { Parade } from "../lib/Parade";
 import { Music, Sfx } from "../lib/Sound";
+// The website blocks' CSS (hero, features, pricing, CTA, footer), for the five blocks in the parade.
+import "../../../../packages/blocks/dist/blocks.css";
 import { DemoFrame, type Part, SHOW_CLEAR, SplitText } from "../lib/Split";
 import { Stage } from "../lib/Stage";
 import { Dissolve, MOSAIC_FRAMES, Mosaic } from "../lib/Transitions";
 
-/** Bars 9-16 of the theme: the hook. */
-export const COMPONENTS = { bar: 9, bars: 8 };
+/** Bars 15-22 of the theme: the hook. */
+export const COMPONENTS = { bar: 15, bars: 8 };
 
 type Scheme = "day" | "sunset" | "night";
 type Art = { readonly tone: string; readonly map: string };
@@ -31,7 +34,7 @@ const ART = STARFALL as Record<string, Art>;
 //              stars flare in one after another, two shoot, and the night's own stars and moon come out
 //   Button     Pip stands on a big candy "Jump" button; pressed, it sits in, Pip jumps and bumps the candy block over
 //              him (up 6, then 3, then down), a coin springs out, +100
-//   88 components  a dozen more of them pop in one after another, in three rows, and confetti falls
+//   88 components  dozens of them, real and whole, in three rows gliding across the stage, and confetti falls
 const FRAME = at(0, 1);
 const SWITCH_AT = at(2, 2);
 const BUTTON_AT = at(4, 1);
@@ -53,7 +56,6 @@ const [SEG_1, SEG_2, SEG_3, SWITCH, JUMP] = MOVES as [Move, Move, Move, Move, Mo
 const TOOLTIP = SWITCH.at + 6 * TICK + STEP;
 const STARS_ON = SWITCH.press! + PRESS;
 const JUMP_AT = JUMP.press! + PRESS;
-const RING_AT = END + MOSAIC_FRAMES + STEP;
 
 // The stars the switch brings out, on the stage, clear of the words and of the switch: one a Blip frame, at twice.
 const STARS: readonly (readonly [number, number])[] = [
@@ -240,55 +242,22 @@ const ButtonDemo = ({ frame, v }: { readonly frame: number; readonly v: boolean 
   );
 };
 
-// ------------------------------------------------------------------ 4. 88 components: a dozen more of them
+// ------------------------------------------------------------------ 4. 88 components: a parade of them
 
-// Three rows of real parts, each popping in at its own time; the rows keep their room, so nothing moves as they come.
-const ROWS: readonly (readonly ReactNode[])[] = [
-  [
-    <span className="blip-box blip-button" data-size="sm"><Icon name="play" />Play</span>,
-    <span className="blip-box blip-tag" data-tone="success">New</span>,
-    <span className="blip-box blip-checkbox"><input type="checkbox" checked readOnly aria-label="Done" /></span>,
-    <span className="blip-box blip-switch"><input type="checkbox" role="switch" className="blip-box" checked readOnly aria-label="On" /></span>,
-  ],
-  [
-    <span className="blip-rating" role="img" aria-label="Rated 4 out of 5" style={{ "--blip-rating-value": 4 } as CSSProperties} />,
-    <span className="blip-box blip-radio"><input type="radio" checked readOnly aria-label="Hard" /></span>,
-    <kbd className="blip-box blip-keycap">A</kbd>,
-    <span className="blip-loader" role="status"><span className="blip-sr-only">Loading</span></span>,
-  ],
-  [
-    <span className="blip-box blip-avatar" data-tone="green">P<span className="blip-box blip-avatar-status" data-tone="success" /></span>,
-    <span className="blip-box blip-button" data-size="sm" data-variant="soft" data-icon-only aria-label="Alerts"><Icon name="bell" /><span className="blip-box blip-badge" data-tone="danger" data-position="top-end">3</span></span>,
-    <div className="blip-box blip-progress" style={{ inlineSize: p(48) }}><progress max={100} value={60}>60%</progress></div>,
-    <span className="blip-box blip-tag" data-variant="candy" data-tone="warning">Lv 5</span>,
-  ],
-];
-const RING = ROWS.flat();
-/** When part `i` pops in: four Blip frames apart, row by row. */
-const ringAt = (i: number) => RING_AT + i * 4 * TICK;
-
-const MoreDemo = ({ frame }: { readonly frame: number }) => (
-  <Centre>
-    <Big x={2}>
-      <div style={{ display: "grid", gap: p(10), justifyItems: "center" }}>
-        {ROWS.map((row, r) => (
-          <div key={r} style={{ display: "flex", alignItems: "center", gap: p(12), blockSize: p(18) }}>
-            {row.map((part, c) => {
-              const i = ROWS.slice(0, r).flat().length + c;
-              return (
-                <div key={c} style={{ visibility: frame >= ringAt(i) ? "visible" : "hidden" }}>
-                  <Beat at={ringAt(i)}>
-                    <div className="blip-pop-in">{part}</div>
-                  </Beat>
-                </div>
-              );
-            })}
-          </div>
-        ))}
-      </div>
-    </Big>
-  </Centre>
-);
+// The parts that read well whole and small (lib/Parade.tsx, their docs' own live examples), in three rows gliding
+// across the whole stage in turn directions, out of the mosaic: easing off the mark, steady through the middle,
+// settling as the confetti falls.
+const PARADE_AT = END;
+const PARADE_END = at(8) - 18 * TICK;
+const PARADE_TOP = 80;
+// Steady through the middle, easing only off the mark and into the stop (the first and last 15% of the way).
+const paradeK = (frame: number) => {
+  const t = Math.min(1, Math.max(0, (frame - PARADE_AT) / (PARADE_END - PARADE_AT)));
+  const e = 0.15, v = 1 / (1 - e);
+  return t < e ? (v * t * t) / (2 * e) : t > 1 - e ? 1 - (v * (1 - t) * (1 - t)) / (2 * e) : v * (t - e / 2);
+};
+// A tick on every eighth note while they go by, climbing the scale and round again.
+const TICKS = Array.from({ length: Math.floor((PARADE_END - PARADE_AT) / (BEAT / 2)) }, (_, n) => PARADE_AT + (n * BEAT) / 2);
 
 // ------------------------------------------------------------------ the scene
 
@@ -297,7 +266,7 @@ const Demo = ({ frame, v }: { readonly frame: number; readonly v: boolean }) => 
   const parts = [FRAME, SWITCH_AT, BUTTON_AT, END];
   const i = parts.filter((f) => f <= frame).length - 1;
   const next = parts[i + 1] ?? Infinity;
-  const body = [<SegmentedDemo frame={frame} v={v} />, <SwitchDemo frame={frame} v={v} />, <ButtonDemo frame={frame} v={v} />, <MoreDemo frame={frame} />][i];
+  const body = [<SegmentedDemo frame={frame} v={v} />, <SwitchDemo frame={frame} v={v} />, <ButtonDemo frame={frame} v={v} />, null][i];
   return (
     <Mosaic at={i ? parts[i]! : -MOSAIC_FRAMES} mode="in">
       <Mosaic at={next - MOSAIC_FRAMES} mode="out">
@@ -317,7 +286,12 @@ const Screen = ({ frame, sky, v }: { readonly frame: number; readonly sky: Sky; 
     <DemoFrame at={FRAME}>
       <Demo frame={frame} v={v} />
     </DemoFrame>
-    <Burst at={ringAt(RING.length - 1) + TICK} kind="confetti" box={[60, -10, 360, 10]} count={36} seed={8} />
+    {frame >= END && (
+      <Mosaic at={END} mode="in">
+        <Parade top={PARADE_TOP} k={paradeK(frame)} />
+      </Mosaic>
+    )}
+    <Burst at={PARADE_END} kind="confetti" box={[60, -10, 360, 10]} count={36} seed={8} />
   </AbsoluteFill>
 );
 
@@ -348,8 +322,8 @@ export const Components = ({ music = true }: { readonly music?: boolean }) => {
       <Sfx name="jump" at={JUMP_AT} volume={0.5} />
       <Sfx name="bump" at={JUMP_AT + HIT * TICK} volume={0.6} />
       <Sfx name="coin" at={JUMP_AT + HIT * TICK + TICK} volume={0.55} />
-      {RING.map((_, n) => <Sfx key={`r${n}`} name={n ? `step@${[0, 2, 3, 5, 7, 8, 10, 12, 10, 8, 7, 12][n]}` : "step"} at={ringAt(n)} volume={0.3} />)}
-      <Sfx name="success@5" at={ringAt(RING.length - 1)} volume={0.55} />
+      {TICKS.map((f, n) => <Sfx key={`r${f}`} name={n % 8 ? `step@${[0, 2, 3, 5, 7, 8, 10, 12][n % 8]}` : "step"} at={f} volume={0.2} />)}
+      <Sfx name="success@5" at={PARADE_END} volume={0.55} />
 
       <Dissolve at={0} mode="in" seed={4} />
       <Dither at={at(8) - 8 * TICK} mode="out" />

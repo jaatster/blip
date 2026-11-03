@@ -8,8 +8,8 @@ import { Stage } from "../lib/Stage";
 import { MOSAIC_FRAMES } from "../lib/Transitions";
 import { ArtSprite } from "./MakeAGame";
 
-/** Bars 33-35 of the theme. */
-export const GAME_KIT = { bar: 33, bars: 3 };
+/** Bars 39-41 of the theme. */
+export const GAME_KIT = { bar: 39, bars: 3 };
 
 // The game kit's parts at their own size, together on one screen, as a game's UI would be: the tally on the left,
 // the achievement on the right, Pip's dialogue box across the foot, each standing on the night sky. They come in and

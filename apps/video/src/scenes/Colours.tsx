@@ -11,8 +11,8 @@ import { DemoFrame, SPLIT_CLEAR, SplitText } from "../lib/Split";
 import { Stage } from "../lib/Stage";
 import { MOSAIC_FRAMES } from "../lib/Transitions";
 
-/** Bars 17-20 of the theme: the groove again. */
-export const COLOURS = { bar: 17, bars: 4 };
+/** Bars 23-26 of the theme: the groove again. */
+export const COLOURS = { bar: 23, bars: 4 };
 
 // The palette's name over the docs home's accent swatches standing big on the sky, and under them a row of real
 // controls that take the accent: the candy Play button, a switch, a tag naming the palette and a progress bar. The

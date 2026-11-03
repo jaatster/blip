@@ -1,32 +1,37 @@
+import { drawWorld } from "@jaatster/blip-effects/world.js";
 import { useCurrentFrame } from "remotion";
 import { Beat } from "./Beat";
-import { p } from "./grid";
-import { Typed } from "./Text";
+import { TICK, p } from "./grid";
+import { H, W, useCanvas } from "./Pixels";
+import { DropTitle, letterLands } from "./Text";
 
 export const COMMAND = "npm install @jaatster/blip-components";
+export const TAGLINE = "16-bit pixel modular design system";
 
 /**
- * Under BLIP: one ink card, so nothing has to be read against the mountains. The line types in on it from `line`; the
- * install row pops in under it from `install` (its room kept from the start, so the card never grows), with the
- * command typed `typed` letters in. (No Copy button: nobody can press one in a video.)
+ * Under BLIP, with nothing behind them: the line in Blip's own display face, twice the size on two lines, with its POP tint and ink outline (as
+ * every title stands on the world), its letters rising in a Blip frame apart from `line`; and under it the real
+ * install field on its own, popping in at `install` with the command typed `typed` letters in. Both are laid out
+ * from the first frame (unseen until their turn), so BLIP never moves. Leave `line` out to show the line whole.
  */
-export const Tagline = ({ card, line, install, typed = COMMAND.length }: {
-  readonly card: number;
-  readonly line: number;
-  readonly install: number;
+export const Tagline = ({ line, install = -Infinity, typed = COMMAND.length, field = true }: {
+  readonly line?: number;
+  readonly install?: number;
   readonly typed?: number;
+  /** Whether the install field shows under the line. */
+  readonly field?: boolean;
 }) => {
   const frame = useCurrentFrame();
+  const lands = line === undefined ? [...TAGLINE].map(() => -999) : letterLands(TAGLINE, line, TICK);
   return (
-    // The card and its row are drawn (unseen) from the first frame, so their room is held and BLIP never moves.
-    <div style={{ visibility: frame >= card ? "visible" : "hidden" }}>
-      <Beat at={card} from={0}>
-      <div className="blip-box blip-card blip-pop-in" data-size="sm" style={{ display: "grid", gap: p(8), justifyItems: "center" }}>
-        <div style={{ blockSize: p(16), display: "grid", placeItems: "center" }}>
-          <Typed text="16-bit pixel modular design system" at={line} style={{ fontSize: p(13), fontWeight: 700, color: "var(--blip-white)" }} />
-        </div>
+    <div style={{ display: "grid", gap: p(10), justifyItems: "center" }}>
+      {/* Twice the size, on two lines (it wraps between words): a lockup under BLIP, read at a glance. */}
+      <div style={{ maxInlineSize: p(280), textAlign: "center", lineHeight: 1.15 }}>
+        <DropTitle text={TAGLINE} lands={lands} scale={2} outline={1} motion="rise" />
+      </div>
+      {field && (
         <div style={{ visibility: frame >= install ? "visible" : "hidden" }}>
-          <Beat at={install} from={0}>
+          <Beat at={install} from={-Infinity}>
             <div className="blip-pop-in">
               <span className="blip-box blip-input" data-size="lg" style={{ inlineSize: p(240) }}>
                 <span className="blip-input-affix" aria-hidden="true">$</span>
@@ -35,8 +40,16 @@ export const Tagline = ({ card, line, install, typed = COMMAND.length }: {
             </div>
           </Beat>
         </div>
-      </div>
-      </Beat>
+      )}
     </div>
   );
+};
+
+/** The title screens' night world, its moon, stars and clouds kept clear of BLIP (stage pixels, x0 y0 x1 y1). */
+export const TITLE_CLEAR = [[120, 20, 360, 125]] as const;
+
+/** The full night world, its sky keeping clear of `avoid` (BLIP by default), so the moon never sits behind a letter. */
+export const TitleWorld = ({ avoid = TITLE_CLEAR }: { readonly avoid?: readonly (readonly [number, number, number, number])[] }) => {
+  const ref = useCanvas((ctx, el) => drawWorld(ctx, "night", W, H, { from: el, avoid }), JSON.stringify(avoid));
+  return <canvas ref={ref} className="v-pixels" width={W} height={H} />;
 };

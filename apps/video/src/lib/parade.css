@@ -1,0 +1,6 @@
+/* The parts' parade (Parade.tsx): each part's live docs example, drawn for one still frame, as it rests (Cell settles
+   their animations at their ends). */
+.v-parade-item { inline-size: max-content; }
+/* Letters that drop in stand landed, as with reduced motion. */
+.v-parade-item .blip-drop-text-letter { animation: none !important; }
+.v-parade-item [hidden]:not([popover]) { display: none; }
