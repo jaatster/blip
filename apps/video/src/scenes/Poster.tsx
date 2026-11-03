@@ -1,13 +1,11 @@
 import { spriteCanvas } from "@jaatster/blip-game/canvas.js";
-import { sprite } from "@jaatster/blip-game/sprites.js";
 import { useLayoutEffect, useRef, type CSSProperties } from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 // Starfall's own art (the docs' game, apps/docs/public/js/starfall): Pip.
 // @ts-expect-error: plain JavaScript, without types
 import { ART as STARFALL } from "../../../docs/public/js/starfall/art.js";
 import { Big } from "../lib/Big";
-import { BANNER_PARTS } from "../lib/banner-parts";
-import "../lib/parade.css";
+import { Icon } from "../lib/Icon";
 import { TICK, p, ticks } from "../lib/grid";
 import { Sprite } from "../lib/Pixels";
 import { Tagline, TitleWorld } from "../lib/Tagline";
@@ -18,19 +16,9 @@ import { DropTitle } from "../lib/Text";
 const ART = STARFALL as Record<string, { readonly tone: string; readonly map: string }>;
 
 // The banner: what the video is, at a glance, for the frame people see before they press play. The night world, BLIP
-// and its line in POP standing on it, then two rows of the parts picked for it (lib/banner-parts.ts, from their
-// docs' live examples): the game kit's heart, coin, sword and star (twice the size); a gamepad button, a keycap and a
-// button. Pip stands on the grass at their left. As a still it is the thumbnail; as the opening of the
+// and its line in POP standing on it, the game kit's heart, coin, sword and star (twice the size), and the outro's big
+// candy link to the docs. Pip stands on the grass at the left. As a still it is the thumbnail; as the opening of the
 // video it holds, then the TV switches off and the video starts as usual.
-
-/** A part as its docs draw it, its sprites drawn by the game kit. */
-const Part = ({ slug }: { readonly slug: keyof typeof BANNER_PARTS }) => (
-  <div
-    className="v-parade-item"
-    style={{ contain: "layout", position: "relative" }}
-    dangerouslySetInnerHTML={{ __html: BANNER_PARTS[slug].replace(/<blip-sprite name="([a-z-]+)"([^>]*)><\/blip-sprite>/g, (_, n: string, rest: string) => `<blip-sprite name="${n}"${rest}>${sprite(n)}</blip-sprite>`) }}
-  />
-);
 
 /** The TV switching off over the last nine Blip frames from `off`: the picture folds to a line, the line to a dot. */
 function screenOff(frame: number, off: number): { line: number; style: CSSProperties } {
@@ -80,11 +68,10 @@ export const Poster = ({ hold }: { readonly hold?: number }) => {
               <Sprite name="sword" scale={2} />
               <Sprite name="star" scale={2} />
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: p(10) }}>
-              <Part slug="gamepad" />
-              <Part slug="keycap" />
-              <Part slug="button" />
-            </div>
+            {/* Where the docs are: the outro's big candy link. */}
+            <Big x={2}>
+              <span className="blip-box blip-button"><Icon name="globe" />jaatster.com/blip</span>
+            </Big>
           </div>
         </div>
         {/* Pip on the grass. */}
