@@ -1,5 +1,13 @@
 # @jaatster/blip-elements
 
+## 0.1.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @jaatster/blip-tokens@0.2.0
+  - @jaatster/blip-core@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes

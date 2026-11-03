@@ -1,6 +1,6 @@
 {
   "name": "@jaatster/blip-game",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "The Blip game UI kit: dialogue boxes, HUD bars, inventories, button prompts, pause menus.",
   "keywords": [
     "blip",

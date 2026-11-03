@@ -1,5 +1,11 @@
 # @jaatster/blip-sound
 
+## 0.1.2
+
+### Patch Changes
+
+- @jaatster/blip-core@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes

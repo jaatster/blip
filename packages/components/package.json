@@ -1,6 +1,6 @@
 {
   "name": "@jaatster/blip-components",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Blip's core components as layered CSS: one file, or one per component.",
   "keywords": [
     "blip",

@@ -1,6 +1,6 @@
 {
   "name": "@jaatster/blip-elements",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Blip Web Components: light-DOM custom elements that add behaviour to the components' markup.",
   "keywords": [
     "blip",

@@ -1,6 +1,6 @@
 {
   "name": "@jaatster/blip-core",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Blip's building blocks: the pixel unit, the candy box, the focus ring, dither, stepped motion, type styles, and shared behaviours.",
   "keywords": [
     "blip",

@@ -1,5 +1,11 @@
 # @jaatster/blip-tokens
 
+## 0.2.0
+
+### Minor Changes
+
+- `--blip-font-ui` is now "Pixel Operator", "Pixelify Sans", "Blip Fallback", system-ui, sans-serif: UI and body text is set in Pixel Operator (@jaatster/blip-font 0.3.0), with Pixelify Sans for the letters it does not draw. To keep Pixelify Sans for all UI text, set `--blip-font-ui: "Pixelify Sans", "Blip Fallback", system-ui, sans-serif`.
+
 ## 0.1.1
 
 ### Patch Changes

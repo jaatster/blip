@@ -1,5 +1,14 @@
 # @jaatster/blip-components
 
+## 0.1.2
+
+### Patch Changes
+
+- Segmented control: each segment is rounded up to a whole pixel wide where the browser has `calc-size()`, so labels a fraction of a pixel wide no longer put its edges between the grid's pixels.
+- Updated dependencies
+  - @jaatster/blip-tokens@0.2.0
+  - @jaatster/blip-core@0.1.2
+
 ## 0.1.1
 
 ### Patch Changes

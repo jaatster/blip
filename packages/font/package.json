@@ -1,6 +1,6 @@
 {
   "name": "@jaatster/blip-font",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Pixel Bop, Blip's pixel display font, Pixel Operator for UI and body text, and Pixelify Sans for the Cyrillic, Greek and other letters Pixel Operator does not draw. SIL OFL 1.1 and CC0 1.0.",
   "keywords": [
     "blip",

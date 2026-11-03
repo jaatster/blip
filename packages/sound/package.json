@@ -1,6 +1,6 @@
 {
   "name": "@jaatster/blip-sound",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Blip chip sounds, synthesised in the browser with Web Audio: no audio files. Off until enabled.",
   "keywords": [
     "blip",
