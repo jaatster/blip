@@ -33,9 +33,11 @@ export const Tagline = ({ line, install = -Infinity, typed = COMMAND.length, fie
         <div style={{ visibility: frame >= install ? "visible" : "hidden" }}>
           <Beat at={install} from={-Infinity}>
             <div className="blip-pop-in">
-              <span className="blip-box blip-input" data-size="lg" style={{ inlineSize: p(240) }}>
-                <span className="blip-input-affix" aria-hidden="true">$</span>
-                <input value={COMMAND.slice(0, Math.max(0, typed))} aria-label="Install" readOnly />
+              {/* The whole command, unseen, in the input's cell: the well is as wide as the command, no wider, from the start. */}
+              <span className="blip-box blip-input" data-size="lg" style={{ display: "inline-grid", gridTemplateColumns: "auto auto" }}>
+                <span className="blip-input-affix" aria-hidden="true" style={{ gridArea: "1 / 1" }}>$</span>
+                <span aria-hidden="true" style={{ gridArea: "1 / 2", visibility: "hidden", whiteSpace: "pre", paddingInlineEnd: p(1) }}>{COMMAND}</span>
+                <input value={COMMAND.slice(0, Math.max(0, typed))} aria-label="Install" readOnly style={{ gridArea: "1 / 2" }} />
               </span>
             </div>
           </Beat>
