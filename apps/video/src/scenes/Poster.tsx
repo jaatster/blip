@@ -17,11 +17,11 @@ import { DropTitle } from "../lib/Text";
 const ART = STARFALL as Record<string, { readonly tone: string; readonly map: string }>;
 
 // The banner: what the video is, at a glance, for the frame people see before they press play. The night world, BLIP
-// and its line in POP standing on it, then real parts as their docs draw them (lib/Parade.tsx): the game kit's HUD,
-// a rating and a level tag, then a button and an achievement. Pip stands on the grass at their left, a coin over his
+// and its line in POP standing on it, then real parts as their docs draw them (lib/Parade.tsx): the components' tabs,
+// a switch, a checkbox and a rating, then a segmented picker and a slider. Pip stands on the grass at their left, a coin over his
 // head. As a still it is the thumbnail; as the opening of the video it holds, then the TV switches off and the video
 // starts as usual.
-const SHOW = [["hud", "rating", "tag"], ["button", "achievement"]] as const;
+const SHOW = [["tabs", "switch", "checkbox", "rating"], ["segmented", "slider"]] as const;
 
 /** The TV switching off over the last nine Blip frames from `off`: the picture folds to a line, the line to a dot. */
 function screenOff(frame: number, off: number): { line: number; style: CSSProperties } {
@@ -67,7 +67,7 @@ export const Poster = ({ hold }: { readonly hold?: number }) => {
           <div style={{ display: "grid", justifyItems: "center", gap: p(8), marginBlockStart: p(4) }}>
             {SHOW.map((row, r) => (
               <div key={r} style={{ display: "flex", alignItems: "center", gap: p(16) }}>
-                {row.map((slug) => <Cell key={slug} s={SNIPPETS.find((x) => x.slug === slug)!} h={r ? 40 : 18} />)}
+                {row.map((slug) => <Cell key={slug} s={SNIPPETS.find((x) => x.slug === slug)!} h={r ? 26 : 30} />)}
               </div>
             ))}
           </div>
