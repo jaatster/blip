@@ -1,12 +1,13 @@
 import { spriteCanvas } from "@jaatster/blip-game/canvas.js";
-import { useLayoutEffect, useRef, type CSSProperties, type ReactNode } from "react";
+import { useLayoutEffect, useRef, type CSSProperties } from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 // Starfall's own art (the docs' game, apps/docs/public/js/starfall): Pip.
 // @ts-expect-error: plain JavaScript, without types
 import { ART as STARFALL } from "../../../docs/public/js/starfall/art.js";
 import { Big } from "../lib/Big";
+import { Cell } from "../lib/Parade";
+import { SNIPPETS } from "../lib/snippets";
 import { TICK, p, ticks } from "../lib/grid";
-import { Icon } from "../lib/Icon";
 import { Sprite } from "../lib/Pixels";
 import { Tagline, TitleWorld } from "../lib/Tagline";
 import { Sfx } from "../lib/Sound";
@@ -16,38 +17,11 @@ import { DropTitle } from "../lib/Text";
 const ART = STARFALL as Record<string, { readonly tone: string; readonly map: string }>;
 
 // The banner: what the video is, at a glance, for the frame people see before they press play. The night world, BLIP
-// and its line in POP standing on it, then Blip's palettes: their swatches (Candy picked), and a row of real parts
-// twice the size, each wearing one (a Candy Play button, a Mint switch, a Grape checkbox, an Ember heart
-// button). Pip stands on the grass at their left, a coin over his head. As a still it is the
-// thumbnail; as the opening of the social cut it holds, then the TV switches off and the video starts as usual.
-const PALETTES = ["", "mint", "grape", "bubblegum", "ember"] as const;
-const box = (r: number) => ({ "--blip-r": r, "--blip-shape": `var(--blip-shape-${r})`, "--blip-shape-inner": `var(--blip-shape-${r}-inner)` }) as CSSProperties;
-
-/** A palette's accent swatch, as the docs home draws them; Candy's names its own Night accent, Sky Soda. */
-const Swatch = ({ id, on }: { readonly id: string; readonly on?: boolean }) => (
-  <span
-    className="blip-box"
-    data-blip-scheme="night"
-    data-blip-palette={id || undefined}
-    data-blip-state={on ? "focus" : undefined}
-    style={{
-      ...box(3),
-      ...(id
-        ? { "--blip-tone": "var(--blip-accent)", "--blip-tone-light": "var(--blip-accent-light)", "--blip-tone-shade": "var(--blip-accent-shade)" }
-        : { "--blip-tone": "#00C2FA", "--blip-tone-light": "#91DDFF", "--blip-tone-shade": "#0096C3" }),
-      "--blip-tone-on": "var(--blip-ink)",
-      display: "inline-grid", placeItems: "center", inlineSize: p(14), blockSize: p(14), margin: `0 ${p(1)} ${p(1)} 0`,
-    } as CSSProperties}
-  >
-    {on && <span style={{ inlineSize: p(4), blockSize: p(4), background: "var(--blip-tone-on)" }} />}
-  </span>
-);
-
-/** A part in a palette's own colours. */
-const In = ({ palette, children }: { readonly palette: string; readonly children: ReactNode }) => (
-  // The scheme is set again so the palette takes; its page colour is not wanted behind the part.
-  <span data-blip-scheme="night" data-blip-palette={palette || undefined} style={{ display: "inline-flex", alignItems: "center", background: "none" }}>{children}</span>
-);
+// and its line in POP standing on it, then real parts as their docs draw them (lib/Parade.tsx): the game kit's HUD,
+// a rating and a level tag, then a button and an achievement. Pip stands on the grass at their left, a coin over his
+// head. As a still it is the thumbnail; as the opening of the video it holds, then the TV switches off and the video
+// starts as usual.
+const SHOW = [["hud", "rating", "tag"], ["button", "achievement"]] as const;
 
 /** The TV switching off over the last nine Blip frames from `off`: the picture folds to a line, the line to a dot. */
 function screenOff(frame: number, off: number): { line: number; style: CSSProperties } {
@@ -90,19 +64,13 @@ export const Poster = ({ hold }: { readonly hold?: number }) => {
           <DropTitle text="Blip" lands={[-99, -99, -99, -99]} scale={8} outline={2} />
           {/* BLIP's face carries room under its letters; the line tucks up into it. */}
           <div style={{ marginBlockStart: p(-20) }}><Tagline field={false} /></div>
-          <Big x={2}>
-            <div style={{ display: "grid", justifyItems: "center", gap: p(6) }}>
-              <div style={{ display: "flex", gap: p(4) }}>
-                {PALETTES.map((id, n) => <Swatch key={id} id={id} on={n === 0} />)}
+          <div style={{ display: "grid", justifyItems: "center", gap: p(8), marginBlockStart: p(4) }}>
+            {SHOW.map((row, r) => (
+              <div key={r} style={{ display: "flex", alignItems: "center", gap: p(16) }}>
+                {row.map((slug) => <Cell key={slug} s={SNIPPETS.find((x) => x.slug === slug)!} h={r ? 40 : 18} />)}
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: p(10) }}>
-                <In palette=""><span className="blip-box blip-button" data-size="sm"><Icon name="play" />Play</span></In>
-                <In palette="mint"><span className="blip-box blip-switch"><input type="checkbox" role="switch" className="blip-box" checked readOnly aria-label="On" /></span></In>
-                <In palette="grape"><span className="blip-box blip-checkbox"><input type="checkbox" checked readOnly aria-label="Done" /></span></In>
-                <In palette="ember"><span className="blip-box blip-button" data-size="sm" data-icon-only aria-label="Love"><Icon name="heart" /></span></In>
-              </div>
-            </div>
-          </Big>
+            ))}
+          </div>
         </div>
         {/* Pip on the grass, a coin over him. */}
         <div style={{ position: "absolute", left: p(14), top: p(225) }}>

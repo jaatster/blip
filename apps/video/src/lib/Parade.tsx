@@ -9,7 +9,7 @@ import { SNIPPETS, type Snippet } from "./snippets";
  * looping ones hold their first frame. Scroll-driven ones follow their scroller as usual. Marked as a Beat of its own,
  * so a Beat round it leaves these alone; contained, so nothing positioned in it gets out.
  */
-const Cell = ({ s, h }: { readonly s: Snippet; readonly h: number }) => {
+export const Cell = ({ s, h }: { readonly s: Snippet; readonly h: number }) => {
   const ref = useRef<HTMLDivElement>(null);
   useLayoutEffect(() => {
     for (const a of ref.current?.getAnimations({ subtree: true }) ?? []) {
