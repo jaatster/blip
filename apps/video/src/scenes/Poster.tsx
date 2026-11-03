@@ -17,7 +17,7 @@ const ART = STARFALL as Record<string, { readonly tone: string; readonly map: st
 
 // The banner: what the video is, at a glance, for the frame people see before they press play. The night world, BLIP
 // and its line in POP standing on it, then Blip's palettes: their swatches (Candy picked), and a row of real parts
-// twice the size, each wearing one (a Candy Play button, a Mint switch, a Grape tag with the count, an Ember heart
+// twice the size, each wearing one (a Candy Play button, a Mint switch, a Grape checkbox, an Ember heart
 // button). Pip stands on the grass at their left, a coin over his head. As a still it is the
 // thumbnail; as the opening of the social cut it holds, then the TV switches off and the video starts as usual.
 const PALETTES = ["", "mint", "grape", "bubblegum", "ember"] as const;
@@ -98,7 +98,7 @@ export const Poster = ({ hold }: { readonly hold?: number }) => {
               <div style={{ display: "flex", alignItems: "center", gap: p(10) }}>
                 <In palette=""><span className="blip-box blip-button" data-size="sm"><Icon name="play" />Play</span></In>
                 <In palette="mint"><span className="blip-box blip-switch"><input type="checkbox" role="switch" className="blip-box" checked readOnly aria-label="On" /></span></In>
-                <In palette="grape"><span className="blip-box blip-tag" data-variant="candy">88 components</span></In>
+                <In palette="grape"><span className="blip-box blip-checkbox"><input type="checkbox" checked readOnly aria-label="Done" /></span></In>
                 <In palette="ember"><span className="blip-box blip-button" data-size="sm" data-icon-only aria-label="Love"><Icon name="heart" /></span></In>
               </div>
             </div>
