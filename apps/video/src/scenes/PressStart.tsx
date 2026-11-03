@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import { AbsoluteFill, useCurrentFrame } from "remotion";
 import { Beat } from "../lib/Beat";
-import { STEP, TICK, at, p, ticks } from "../lib/grid";
+import { TICK, at, p, ticks } from "../lib/grid";
 import { Burst, World } from "../lib/Pixels";
 import { Music, Sfx } from "../lib/Sound";
 import { Stage } from "../lib/Stage";
@@ -18,7 +18,7 @@ const BLINK = at(1, 1);
 const PRESS = at(2);
 const LANDS = [at(2, 1), at(2, 1, 2), at(2, 2), at(2, 2, 2)];
 const DROP = at(3);
-// The install line: its row pops in on bar 4, the command types itself in two letters a frame, and Copy is pressed on the third beat.
+// The install line: its row pops in on bar 4, the command types itself in two letters a frame, done (a coin) by the third beat.
 const TAG = at(4);
 const COPY = at(4, 2);
 
@@ -68,7 +68,6 @@ export const PressStart = ({ music = true }: { readonly music?: boolean }) => {
                 line={DROP + 2 * TICK}
                 install={TAG}
                 typed={2 * (frame - TAG - 2 * TICK)}
-                copy={frame < COPY ? "rest" : frame < COPY + 3 * TICK ? "press" : "done"}
               />
             </div>
           </Beat>
@@ -87,8 +86,7 @@ export const PressStart = ({ music = true }: { readonly music?: boolean }) => {
       <Sfx name="step@5" at={LANDS[2]!} />
       <Sfx name="step@7" at={LANDS[3]!} />
       <Sfx name="open" at={TAG} volume={0.7} />
-      <Sfx name="select" at={COPY} />
-      <Sfx name="coin" at={COPY + STEP} volume={0.8} />
+      <Sfx name="coin" at={COPY} volume={0.6} />
       {music && <Music bar={PRESS_START.bar} bars={PRESS_START.bars} />}
     </Stage>
   );
