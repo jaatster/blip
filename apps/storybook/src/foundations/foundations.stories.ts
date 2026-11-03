@@ -50,7 +50,7 @@ export const Type: Story = {
     example(
       section("Pixel Bop", "Display text, all capitals, at whole scales only: data-scale 1 to 4.", [1, 2, 3, 4].map((s) => `<p class="blip-display" data-scale="${s}">Scale ${s}</p>`).join("") +
         `<p class="blip-display blip-pop" data-scale="3" data-pop="Pop!">Pop!</p>`) +
-        section("Pixelify Sans", "UI and body text on a size ramp.", ["title", "lead", "body", "small", "caption", "label"].map((c) => `<p class="blip-${c}">${c[0]!.toUpperCase() + c.slice(1)}: the quick pixel jumps over the lazy grid.</p>`).join("")),
+        section("Pixel Operator", "UI and body text on a size ramp, with Pixelify Sans for the letters it lacks.", ["title", "lead", "body", "small", "caption", "label"].map((c) => `<p class="blip-${c}">${c[0]!.toUpperCase() + c.slice(1)}: the quick pixel jumps over the lazy grid.</p>`).join("")),
     ),
 };
 

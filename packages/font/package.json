@@ -1,7 +1,7 @@
 {
   "name": "@jaatster/blip-font",
   "version": "0.2.0",
-  "description": "Pixel Bop, Blip's pixel display font, and Pixelify Sans for UI text, each in Latin, Cyrillic and Greek. SIL OFL 1.1.",
+  "description": "Pixel Bop, Blip's pixel display font, Pixel Operator for UI and body text, and Pixelify Sans for the Cyrillic, Greek and other letters Pixel Operator does not draw. SIL OFL 1.1 and CC0 1.0.",
   "keywords": [
     "blip",
     "pixel-art",
@@ -9,7 +9,8 @@
     "font",
     "pixel-font",
     "woff2",
-    "ofl"
+    "ofl",
+    "cc0"
   ],
   "homepage": "https://github.com/jaatster/blip/tree/main/packages/font#readme",
   "bugs": "https://github.com/jaatster/blip/issues",
@@ -18,7 +19,7 @@
     "url": "git+https://github.com/jaatster/blip.git",
     "directory": "packages/font"
   },
-  "license": "OFL-1.1",
+  "license": "OFL-1.1 AND CC0-1.0",
   "type": "module",
   "sideEffects": [
     "*.css"
@@ -29,6 +30,8 @@
     "./pixel-bop-cyrillic.woff2": "./dist/pixel-bop-cyrillic.woff2",
     "./pixel-bop-greek.woff2": "./dist/pixel-bop-greek.woff2",
     "./pixel-bop.ttf": "./dist/pixel-bop.ttf",
+    "./pixel-operator.woff2": "./dist/pixel-operator.woff2",
+    "./pixel-operator-bold.woff2": "./dist/pixel-operator-bold.woff2",
     "./pixelify-sans.woff2": "./dist/pixelify-sans.woff2",
     "./pixelify-sans-cyrillic.woff2": "./dist/pixelify-sans-cyrillic.woff2",
     "./pixelify-sans-greek.woff2": "./dist/pixelify-sans-greek.woff2",
@@ -40,6 +43,7 @@
     "font.css",
     "OFL.txt",
     "OFL-PixelifySans.txt",
+    "CC0-PixelOperator.txt",
     "CHANGELOG.md"
   ],
   "engines": {

@@ -25,7 +25,7 @@ removable tag has a pixel cross; a filter chip is a toggle button that sits in w
 ## Anatomy
 
 1. **Box**: the candy box, 14 pixels high with a radius of 5: the TV's pill.
-2. **Label**: Pixelify Sans, bold, upper case, a little tracking.
+2. **Label**: Pixel Operator, bold, upper case, a little tracking.
 3. **Icon** (optional, `lg`): a 12 x 12 icon before the label.
 4. **Cross** (optional): `.blip-tag-remove`, its own 12-pixel button (24 CSS px) with a pixel ×.
 

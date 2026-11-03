@@ -11,14 +11,14 @@ Status: **draft, waiting for approval.**
 | Topic | Decision |
 |---|---|
 | Home | this repo, a pnpm monorepo in its own git repo |
-| Licence | MIT for code and icons; SIL Open Font License for the font |
+| Licence | MIT for code and icons; SIL Open Font License for Pixel Bop |
 | Packages | `@jaatster/blip-*` on npm (free today). Nothing is pushed or published without your go |
 | Built with | W3C design tokens, plain CSS and dependency-free Web Components, plus typed React wrappers |
 | Used for | Web apps, websites, games, and native mobile (through tokens and icons) |
 | Pixel | 2 CSS px by default; one setting changes it |
 | Schemes | Day, Sunset and Night, plus Auto, which follows the clock with a stepped fade |
 | Loudness | Tiered: candy for primary actions, calmer tiers for dense UI |
-| Type | **Pixel Bop**, our own pixel display font, extended to every European capital (all-caps by rule), plus Pixelify Sans for UI and body |
+| Type | **Pixel Bop**, our own pixel display font, extended to every European capital (all-caps by rule), plus Pixel Operator for UI and body, with Pixelify Sans for the letters it lacks |
 | Modular | Core packages plus optional kits; public building blocks; themes as independent switches; add-on packs; a versioned public contract |
 | Icons | About 150 original icons, 12 x 12 pixels |
 | Effects | World backdrops, transitions, text and sparkle effects, chip sounds; all opt-in |
@@ -55,7 +55,7 @@ per component, so an app takes only what it uses.
 | `@jaatster/blip-elements` | Web Components for the core components that need behaviour (tabs, combobox, menu, toasts, command palette and more), with a Custom Elements Manifest |
 | `@jaatster/blip-react` | Typed React components for the core and every kit (`@jaatster/blip-react/game` and so on), generated from the manifest where possible |
 | `@jaatster/blip-icons` | SVG files, a sprite, JS path data, and icon components |
-| `@jaatster/blip-font` | Pixel Bop (WOFF2 and TTF) and a Pixelify Sans subset, with licences |
+| `@jaatster/blip-font` | Pixel Bop (WOFF2 and TTF), Pixel Operator and a Pixelify Sans subset, with licences |
 
 **Kits**
 
@@ -98,8 +98,8 @@ per component, so an app takes only what it uses.
 
   Every text pair is checked against WCAG 2.2 AA when the tokens build, and a failing pair fails the build.
 - **Type.** Display text uses our font at whole-number scales: cap heights of 14, 28, 42 and 56 px at 1x to 4x.
-  UI and body text use Pixelify Sans on a size ramp checked for sharpness during the build. Also: casing rules
-  and tabular digits.
+  UI and body text use Pixel Operator on a size ramp; the build checks it is still drawn on a 16-pixel em, so it is
+  sharp at 16 px. Also: casing rules and tabular digits.
 - **Shape.** The candy box, drawn in CSS at any size: stepped rounded corners (radius 0 to 6 pixels), a
   one-pixel ink outline, a light band, the base colour, a shade band and glints. It comes in four tiers: Candy,
   Soft (pastel fill with an ink outline), Outline and Ghost.

@@ -23,7 +23,7 @@ export interface Section {
 export const FOUNDATIONS: (NavItem & { slug: string; blurb: string })[] = [
   { slug: "colour", title: "Colour", url: "/foundations/colour/", icon: "palette", blurb: "Ten candies, three schemes, every pair checked." },
   { slug: "pixel", title: "The pixel and space", url: "/foundations/pixel/", icon: "maximize", blurb: "One square pixel, and spacing counted in it." },
-  { slug: "type", title: "Type", url: "/foundations/type/", icon: "bold", blurb: "Pixel Bop for big text, Pixelify Sans for the rest." },
+  { slug: "type", title: "Type", url: "/foundations/type/", icon: "bold", blurb: "Pixel Bop for big text, Pixel Operator for the rest." },
   { slug: "shape", title: "Shape", url: "/foundations/shape/", icon: "puzzle", blurb: "The candy box, its corners and its tiers." },
   { slug: "depth", title: "Depth", url: "/foundations/depth/", icon: "archive", blurb: "A one-pixel drop. Things lift and sit in." },
   { slug: "motion", title: "Motion", url: "/foundations/motion/", icon: "fast-forward", blurb: "Frames and steps, never curves." },

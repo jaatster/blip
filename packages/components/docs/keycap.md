@@ -26,7 +26,7 @@ Press <kbd class="blip-box blip-keycap">Esc</kbd> to pause.
 ## Anatomy
 
 1. **Key**: a candy box with a one-pixel light band and a thick shade band (three pixels), radius 2.
-2. **Label**: Pixelify Sans, bold, upper case, on the key's face above the shade.
+2. **Label**: Pixel Operator, bold, upper case, on the key's face above the shade.
 3. **Combination** (optional): `.blip-keys`, an outer `<kbd>` holding keys with a quiet "+" between them.
 
 ## Variants

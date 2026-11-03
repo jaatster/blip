@@ -9,7 +9,7 @@
   :root {
     --docs-top: calc(36 * var(--blip-pixel));
     --docs-gutter: var(--blip-space-8);
-    /* The reading measure: 55ch of Pixelify Sans is 60 to 64 characters a line. */
+    /* The reading measure: 55ch of Pixel Operator is about 62 characters of English a line. */
     --docs-measure: 55ch;
     scroll-padding-block-start: calc(var(--docs-top) + var(--blip-space-6));
     /* Code colours: the scheme's text roles, each checked for AA on the surface. */

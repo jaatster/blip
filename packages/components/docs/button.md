@@ -34,7 +34,7 @@ The candy box, from the outside in, then what it holds:
 4. **Shade band**: the bottom four pixels of the fill, in the tone's shade.
 5. **Glints**: three white pixels at the top left, one at the top right.
 6. **Drop**: the outline's shape again, one pixel down and to the right.
-7. **Label**: Pixelify Sans, bold, upper case, a little tracking.
+7. **Label**: Pixel Operator, bold, upper case, a little tracking.
 8. **Icon** (optional): a 12 x 12 pixel icon before or after the label.
 
 ## Variants

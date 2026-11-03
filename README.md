@@ -160,7 +160,7 @@ runtime dependencies outside `@jaatster/blip-*` (React is a peer of the React pa
 | `@jaatster/blip-components` | The 61 core components as layered CSS, phone ones included: one file, or one per component | 34 KB, all of it | 31.18 KB |
 | `@jaatster/blip-elements` | 22 light-DOM Web Components for the components that need behaviour, with a Custom Elements Manifest | 3 KB each | 1.05 to 3.00 KB |
 | `@jaatster/blip-icons` | 189 icons on a 12 x 12 grid: SVG files, a sprite, JS path data and `<blip-icon>` | 6 KB, all the path data | 5.59 KB |
-| `@jaatster/blip-font` | Pixel Bop, the display face (WOFF2 and TTF), and a Latin subset of Pixelify Sans | Pixel Bop 15 KB (file size) | 8.52 KB |
+| `@jaatster/blip-font` | Pixel Bop, the display face (WOFF2 and TTF); Pixel Operator for UI and body text; Pixelify Sans for the letters Pixel Operator lacks | Pixel Bop 15 KB (file size) | 8.52 KB |
 | `@jaatster/blip-react` | Typed React components for every component and kit | none: no side effects, one export each | |
 | **Kits** | | | |
 | `@jaatster/blip-game` | Game UI: dialogue box, choices, hearts and counters, HUD bars, inventory, button prompts, level tiles, pause menu, achievements, stage and sprites | 3 KB per element | 0.42 to 1.94 KB |
@@ -249,6 +249,9 @@ something does not work with your keyboard, screen reader or settings, please op
 - **Pixel Bop:** SIL Open Font License 1.1, Copyright 2026 The Blip authors, with Reserved Font Name
   "Pixel Bop" ([packages/font/OFL.txt](packages/font/OFL.txt)). Use it, embed it, change it; a changed version may
   not be called Pixel Bop.
+- **Pixel Operator:** CC0 1.0 Universal (public domain), by Jayvee Enaguas (HarvettFox96)
+  ([notabug.org/HarvettFox96/ttf-pixeloperator](https://notabug.org/HarvettFox96/ttf-pixeloperator)). No attribution
+  is required; we credit it anyway ([packages/font/CC0-PixelOperator.txt](packages/font/CC0-PixelOperator.txt)).
 - **Pixelify Sans:** SIL Open Font License 1.1, Copyright 2021 The Pixelify Sans Project Authors
   ([github.com/eifetx/Pixelify-Sans](https://github.com/eifetx/Pixelify-Sans)). The font package ships a subset
   ([packages/font/OFL-PixelifySans.txt](packages/font/OFL-PixelifySans.txt)).

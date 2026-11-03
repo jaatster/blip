@@ -1,6 +1,6 @@
 {
   "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
-  "$description": "Two faces. Pixel Bop, Blip's own pixel font, for big text: always on the grid, always capitals. Pixelify Sans for UI and body text: the one thing allowed off the grid, because a 7-pixel font is too small to read at body sizes.",
+  "$description": "Three faces. Pixel Bop, Blip's own pixel font, for big text: always on the grid, always capitals. Pixel Operator for UI and body text, with Pixelify Sans for the letters it does not draw, because a 7-pixel font is too small to read at body sizes: drawn on a 16-pixel em, so at the 16 px body size each of its pixels is a CSS pixel, finer than the grid.",
   "font": {
     "$type": "fontFamily",
     "display": {
@@ -15,12 +15,13 @@
     },
     "ui": {
       "$value": [
+        "Pixel Operator",
         "Pixelify Sans",
         "Blip Fallback",
         "system-ui",
         "sans-serif"
       ],
-      "$description": "Pixelify Sans, a variable font from 400 to 700, in Latin, Cyrillic and Greek. Its grid is 11 pixels to the em, so at 22 px its pixels are Blip pixels. Then emoji sized to its capitals (Blip Fallback, in @jaatster/blip-font) and the system font for other scripts."
+      "$description": "Pixel Operator, regular and bold, in Latin. Its grid is 16 pixels to the em, so it is sharpest at 16 and 32 px. Then Pixelify Sans for what it does not draw (Cyrillic, Greek, most of Latin Extended), emoji sized to the capitals (Blip Fallback, in @jaatster/blip-font) and the system font for other scripts."
     },
     "mono": {
       "$value": [
@@ -63,7 +64,7 @@
   },
   "size": {
     "$type": "dimension",
-    "$description": "Pixelify Sans sizes, in rem: 12, 14, 16, 18 and 22 px at the browser's default text size (16 px), and larger when the person sets a larger default. Not tied to the pixel size, so text stays readable when the pixel grows.",
+    "$description": "UI and body text sizes, in rem: 12, 14, 16, 18 and 22 px at the browser's default text size (16 px), and larger when the person sets a larger default. Not tied to the pixel size, so text stays readable when the pixel grows.",
     "caption": {
       "$value": {
         "value": 0.75,
@@ -93,7 +94,7 @@
         "value": 1.375,
         "unit": "rem"
       },
-      "$description": "22 px at the default, where Pixelify's pixels land on the 2 px grid."
+      "$description": "22 px at the default."
     }
   },
   "leading": {

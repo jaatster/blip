@@ -2,7 +2,7 @@
  * The smoke checks scripts/real-stack.mjs runs on every app, in Playwright's Chromium. Each app renders the same
  * parts with the same ids, in its own framework's way, so one set of checks reads them all:
  *
- *   look         Pixel Bop and Pixelify Sans load and are used; the tokens are there; a button is a candy box (its
+ *   look         Pixel Bop and Pixel Operator load and are used; the tokens are there; a button is a candy box (its
  *                ink outline and fill are drawn, the browser's own button look is gone).
  *   tabs         Tabs as the docs write them ([data-smoke=tabs]): the second tab shows its panel.
  *   toast        The README's Save game button shows a toast.
@@ -109,7 +109,7 @@ function assert(ok, message) {
 
 const CHECKS = {
   async look(page) {
-    await until(page, "Pixel Bop and Pixelify Sans to load", () => window.smoke.loaded("Pixel Bop", "Pixelify Sans"));
+    await until(page, "Pixel Bop and Pixel Operator to load", () => window.smoke.loaded("Pixel Bop", "Pixel Operator"));
     const r = await page.evaluate(() => {
       const button = document.querySelector("#open-dialog");
       const heading = document.querySelector(".blip-display");
@@ -128,7 +128,7 @@ const CHECKS = {
       };
     });
     assert(r.token.toLowerCase() === "#1a1530", `--blip-ink is "${r.token}": tokens.css did not load`);
-    assert(/Pixelify Sans/.test(r.buttonFont), `the button's font is ${r.buttonFont}`);
+    assert(/^"?Pixel Operator/.test(r.buttonFont), `the button's font is ${r.buttonFont}`);
     assert(/Pixel Bop/.test(r.headingFont), `the .blip-display heading's font is ${r.headingFont}`);
     assert(r.outlineMask.includes("url(") && r.outline === r.ink, `the button has no ink outline (::before is ${r.outline}, masked by ${r.outlineMask.slice(0, 40)})`);
     assert(r.fillMask.includes("url("), "the button's fill is not drawn (::after has no mask)");
@@ -273,8 +273,8 @@ async function sameLook(page, { url, context }, what) {
   const reference = await context.newPage();
   try {
     await reference.goto(`${url}/reference.html`);
-    await until(reference, "the reference page, its button's font loaded", () => document.documentElement.hasAttribute("data-mounted") && window.smoke.loaded("Pixelify Sans"));
-    await until(page, "the button's font to load", () => window.smoke.loaded("Pixelify Sans"));
+    await until(reference, "the reference page, its button's font loaded", () => document.documentElement.hasAttribute("data-mounted") && window.smoke.loaded("Pixel Operator"));
+    await until(page, "the button's font to load", () => window.smoke.loaded("Pixel Operator"));
     // Neither button under the pointer: hovered, a box lifts in its ring, which is not what is compared here.
     await Promise.all([page, reference].map((p) => p.mouse.move(p.viewportSize().width - 1, p.viewportSize().height - 1)));
     const [here, there] = await Promise.all([page, reference].map((p) => p.evaluate(() => window.smoke.styles("#tw-plain"))));

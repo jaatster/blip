@@ -116,6 +116,12 @@
   .blip-segmented[data-size="sm"] > .blip-box { --blip-r: 2; --blip-shape: var(--blip-shape-2); --blip-shape-inner: var(--blip-shape-2-inner); --blip-band-top: 1; --blip-band-bottom: 1; padding-inline: calc(4 * var(--blip-pixel)); font-size: var(--blip-size-caption); }
   .blip-segmented[data-size="lg"] > .blip-box { --blip-r: 4; --blip-shape: var(--blip-shape-4); --blip-shape-inner: var(--blip-shape-4-inner); padding-inline: calc(8 * var(--blip-pixel)); font-size: var(--blip-size-body); }
   .blip-segmented > .blip-box[data-icon-only] { padding: 0; }
+  /* Each segment as wide as its label, rounded up to a whole pixel where the browser can (calc-size): a label alone is
+     a fraction of a pixel wide (Pixel Operator at 12 px draws its pixels 0.75 px wide), which would put the segments
+     after it, and the rail's end, between the grid's pixels. */
+  @supports (inline-size: calc-size(max-content, size)) and (animation-timeline: scroll()) {
+    .blip-segmented:not([data-width="full"]) > .blip-box { inline-size: calc-size(max-content, round(up, size, var(--blip-pixel))); }
+  }
   /* A native radio stays real (focus, keys, form value) but invisible: the label is the segment. */
   .blip-segmented > label > input { position: absolute; inset: 0; margin: 0; opacity: 0; pointer-events: none; }
 

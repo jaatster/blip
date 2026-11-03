@@ -1,5 +1,5 @@
 ---
-/** Type: Pixel Bop at its four whole scales, Pixelify Sans on its ramp, the type styles, and the font's own docs. */
+/** Type: Pixel Bop at its four whole scales, Pixel Operator on its ramp, the type styles, and the font's own docs. */
 import Docs from "../../layouts/Docs.astro";
 import Table from "../../components/Table.astro";
 import Pager from "../../components/Pager.astro";
@@ -16,7 +16,7 @@ const ramp = ["size-title", "size-lead", "size-body", "size-small", "size-captio
 const SAMPLE: Record<string, string> = {
   "size-title": "Choose a world to explore",
   "size-lead": "Sixty short levels, made to be played a few at a time.",
-  "size-body": "Pixelify Sans carries labels, buttons and body text: a seven-pixel capital is too small to read at body sizes.",
+  "size-body": "Pixel Operator carries labels, buttons and body text: a seven-pixel capital is too small to read at body sizes.",
   "size-small": "Saved to slot 2 a minute ago. Your coins are still in your pocket.",
   "size-caption": "Version 0.1, last played at 18:40.",
 };
@@ -33,10 +33,10 @@ const styles = [
 ];
 const H = (id: string, text: string) => ({ depth: 2, id, text });
 ---
-<Docs styles={["foundations"]} scripts={["foundations"]} title="Type" description="Pixel Bop, Blip's pixel display font, at its four whole scales; Pixelify Sans for UI and body text; and the type styles." headings={[H("pixel-bop", "Pixel Bop"), H("try", "Try it"), H("pixelify", "Pixelify Sans"), H("styles", "Type styles"), H("font-files", "The font files"), ...ref.headings.filter((h) => h.depth === 2)]} display>
+<Docs styles={["foundations"]} scripts={["foundations"]} title="Type" description="Pixel Bop, Blip's pixel display font, at its four whole scales; Pixel Operator for UI and body text; and the type styles." headings={[H("pixel-bop", "Pixel Bop"), H("try", "Try it"), H("pixel-operator", "Pixel Operator"), H("styles", "Type styles"), H("font-files", "The font files"), ...ref.headings.filter((h) => h.depth === 2)]} display>
   <header class="docs-page-head">
     <h1 class="docs-page-title blip-display" data-scale="2">Type</h1>
-    <p class="docs-lede">Two faces. <strong>Pixel Bop</strong>, Blip's own, draws big text in bold pixel capitals on the same grid as everything else. <strong>Pixelify Sans</strong> carries labels and reading text. Both are under the SIL Open Font License.</p>
+    <p class="docs-lede">Three faces. <strong>Pixel Bop</strong>, Blip's own, draws big text in bold pixel capitals on the same grid as everything else. <strong>Pixel Operator</strong> carries labels and reading text, and <strong>Pixelify Sans</strong> draws the letters it lacks. Pixel Bop and Pixelify Sans are under the SIL Open Font License; Pixel Operator is in the public domain (CC0).</p>
   </header>
 
   <section class="docs-section" aria-labelledby="pixel-bop">
@@ -74,9 +74,9 @@ const H = (id: string, text: string) => ({ depth: 2, id, text });
     </div>
   </section>
 
-  <section class="docs-section" aria-labelledby="pixelify">
-    <h2 id="pixelify">Pixelify Sans</h2>
-    <p>The UI face, a variable font from 400 to 700, at five sizes. They are set in rem, so they follow the browser's default text size: the sizes here are at its usual 16 px, and someone who reads larger gets larger text. They are the only lengths allowed off the pixel grid.</p>
+  <section class="docs-section" aria-labelledby="pixel-operator">
+    <h2 id="pixel-operator">Pixel Operator</h2>
+    <p>The UI face, by Jayvee Enaguas, in regular and bold (the medium weight draws as regular). It is drawn on a 16-pixel em, so at 16 px each of its pixels is one CSS pixel; at 12, 14, 18 and 22 px they fall between screen pixels and look slightly soft. It covers English, Spanish, French, German, Portuguese, Italian, Dutch, the Nordic languages, Czech and Esperanto; Pixelify Sans draws the letters it lacks (Cyrillic, Greek, most of Latin Extended, the minus sign, arrows), one character at a time, so a Polish line mixes the two. Five sizes, set in rem, so they follow the browser's default text size: the sizes here are at its usual 16 px, and someone who reads larger gets larger text. They are the only lengths allowed off the pixel grid.</p>
     <div class="docs-ramp">
       {ramp.map((r) => (
         <div class="docs-ramp-row">

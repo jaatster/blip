@@ -91,46 +91,46 @@ typography:
     lineHeight: 1.2
     letterSpacing: "0px"
     fontFeature: "normal"
-  # Pixelify Sans, at five sizes (in rem; px here at the browser's default 16 px): the one thing allowed off the grid.
+  # Pixel Operator, at five sizes (in rem; px here at the browser's default 16 px): the one thing allowed off the grid.
   title:
-    fontFamily: "Pixelify Sans, system-ui, sans-serif"
+    fontFamily: "Pixel Operator, Pixelify Sans, system-ui, sans-serif"
     fontSize: "22px"
     fontWeight: 700
     lineHeight: 1.15
   lead:
-    fontFamily: "Pixelify Sans, system-ui, sans-serif"
+    fontFamily: "Pixel Operator, Pixelify Sans, system-ui, sans-serif"
     fontSize: "18px"
     fontWeight: 400
     lineHeight: 1.5
   body:
-    fontFamily: "Pixelify Sans, system-ui, sans-serif"
+    fontFamily: "Pixel Operator, Pixelify Sans, system-ui, sans-serif"
     fontSize: "16px"
     fontWeight: 400
     lineHeight: 1.5
   body-sm:
-    fontFamily: "Pixelify Sans, system-ui, sans-serif"
+    fontFamily: "Pixel Operator, Pixelify Sans, system-ui, sans-serif"
     fontSize: "14px"
     fontWeight: 400
     lineHeight: 1.5
   caption:
-    fontFamily: "Pixelify Sans, system-ui, sans-serif"
+    fontFamily: "Pixel Operator, Pixelify Sans, system-ui, sans-serif"
     fontSize: "12px"
     fontWeight: 400
     lineHeight: 1.5
   label-lg:
-    fontFamily: "Pixelify Sans, system-ui, sans-serif"
+    fontFamily: "Pixel Operator, Pixelify Sans, system-ui, sans-serif"
     fontSize: "16px"
     fontWeight: 700
     lineHeight: 1
     letterSpacing: "0.5px"
   label:
-    fontFamily: "Pixelify Sans, system-ui, sans-serif"
+    fontFamily: "Pixel Operator, Pixelify Sans, system-ui, sans-serif"
     fontSize: "14px"
     fontWeight: 700
     lineHeight: 1
     letterSpacing: "0.5px"
   label-sm:
-    fontFamily: "Pixelify Sans, system-ui, sans-serif"
+    fontFamily: "Pixel Operator, Pixelify Sans, system-ui, sans-serif"
     fontSize: "12px"
     fontWeight: 700
     lineHeight: 1
@@ -334,7 +334,7 @@ each element 3 KB).
 - Ten three-tone candies for what you can act on; soft, dithered pastels for the world behind it.
 - Depth from a one-pixel drop, a one-pixel lift and sitting in when pressed; nothing blurs.
 - Yellow is focus and nothing else.
-- Pixel Bop at whole scales for big words; Pixelify Sans for UI and body text.
+- Pixel Bop at whole scales for big words; Pixel Operator for UI and body text.
 - Motion in two to six even steps, instant with reduced motion.
 - Three schemes, Day, Sunset and Night, and Auto, which follows the clock; and palettes, which set the accent of
   each and Night's page.
@@ -522,15 +522,21 @@ game are the exception), so it can never be mistaken for decoration. Warnings ar
 ## Typography
 
 **Display Font:** Pixel Bop (with Pixelify Sans, Blip Fallback, system-ui, sans-serif)
-**Body Font:** Pixelify Sans (with Blip Fallback, system-ui, sans-serif)
-**Label/Mono Font:** labels are Pixelify Sans bold in capitals; code alone uses ui-monospace, SFMono-Regular, Menlo,
+**Body Font:** Pixel Operator (with Pixelify Sans, Blip Fallback, system-ui, sans-serif)
+**Label/Mono Font:** labels are Pixel Operator bold in capitals; code alone uses ui-monospace, SFMono-Regular, Menlo,
 Consolas, monospace (`--blip-font-mono`)
 
 **Character:** Pixel Bop is Blip's own face: bold pixel capitals on a 7-pixel grid with 2-pixel vertical
-strokes, so a word reads across a room, and tabular figures, so a clock never shifts. Pixelify Sans is the
-readable pixel sans beside it, for everything below a heading, with every glyph on its own pixel grid and no
-ligatures. Both draw Latin, Cyrillic and Greek; other scripts take the system font, and emoji the system's, sized to
-the capitals. Both are under the SIL Open Font License.
+strokes, so a word reads across a room, and tabular figures, so a clock never shifts. Pixel Operator, by Jayvee
+Enaguas, is the readable pixel sans beside it, for everything below a heading, with no ligatures. It is drawn on a
+16-pixel em: capitals 9 pixels tall, x-height 7, descender 2. It has two weights, regular (400) and bold (700); the
+medium weight (500) draws as regular. It draws Latin only, enough for English, Spanish, French, German, Portuguese,
+Italian, Dutch, the Nordic languages, Czech and Esperanto, but not Polish, Turkish, Romanian or Hungarian.
+Pixelify Sans draws what it lacks (Cyrillic, Greek, most of Latin Extended, the minus sign, arrows, superscripts),
+one character at a time, so a Polish line mixes the two faces; it is Pixel Bop's fallback too. Pixel Bop and
+Pixelify Sans draw Latin, Cyrillic and Greek; other scripts take the system font, and emoji the system's, sized to
+the capitals. Pixel Bop and Pixelify Sans are under the SIL Open Font License; Pixel Operator is in the public
+domain (CC0 1.0).
 
 ### Hierarchy
 
@@ -542,16 +548,16 @@ the capitals. Both are under the SIL Open Font License.
   Scale 2 is the default of the display style.
 - **Headline small** (Pixel Bop 400, 20px at scale 1, line-height 1.2, square pixels): dialog and window titles,
   the dialogue box's name tab, a brand on a narrow bar.
-- **Title** (Pixelify Sans 700, 22px, line-height 1.15): section titles in UI and the titles of large cards. At
-  22 px Pixelify's own pixels land on the 2 px grid.
-- **Lead** (Pixelify Sans 400, 18px, line-height 1.5): an introduction under a title; in bold, a card's title; at
+- **Title** (Pixel Operator 700, 22px, line-height 1.15): section titles in UI and the titles of large cards.
+- **Lead** (Pixel Operator 400, 18px, line-height 1.5): an introduction under a title; in bold, a card's title; at
   500, the dialogue box's text; large inputs.
-- **Body** (Pixelify Sans 400, 16px, line-height 1.5): body text, inputs, cards, dialogs. Blocks keep copy to
-  between 44 and 60 characters a line (the hero's lead 46ch, the call-to-action band 52ch, the features lead 60ch).
-- **Body small** (Pixelify Sans 400, 14px, line-height 1.5): secondary text, sidebars, table cells; in bold and
+- **Body** (Pixel Operator 400, 16px, line-height 1.5): body text, inputs, cards, dialogs. Blocks keep copy to
+  between 44ch and 60ch, about 50 to 68 characters a line (the hero's lead 46ch, the call-to-action band 52ch, the
+  features lead 60ch).
+- **Body small** (Pixel Operator 400, 14px, line-height 1.5): secondary text, sidebars, table cells; in bold and
   sentence case, a field's label.
-- **Caption** (Pixelify Sans 400, 12px, line-height 1.5, muted): captions and metadata.
-- **Label** (Pixelify Sans 700, 14px, line-height 1, 0.5px tracking, capitals): buttons, tabs, the app bar's
+- **Caption** (Pixel Operator 400, 12px, line-height 1.5, muted): captions and metadata.
+- **Label** (Pixel Operator 700, 14px, line-height 1, 0.5px tracking, capitals): buttons, tabs, the app bar's
   links, small headings. Small buttons and tags use 12px; large buttons 16px.
 
 Big text has two outlined styles, drawn with text shadows in whole pixels. **POP** is white letters with a
@@ -567,13 +573,14 @@ letter pixel is a Blip pixel and capitals are 7 x pixel x scale tall (14, 28, 42
 Between whole scales its pixels fall between screen pixels and blur or wobble. Scales 2 and 4 round their corners
 with `ss02` (EPX), scale 3 with `ss03` (AdvMAME3x), so each rounding step is a whole pixel (two at scale 4).
 
-**The Small-Text Exception.** Pixelify Sans is the one thing allowed off the grid, at five sizes (12, 14, 16, 18
-and 22 px at the browser's default text size), because a 7-pixel capital is too small to read at body sizes. Its
-sizes do not grow with the pixel, so text stays readable when the pixel is 3 or 4. They are in rem, so they grow
-with a larger default text size the person sets (20 px makes body text 20 px), and never fall below these; what is
-counted in pixels keeps its size. Ligatures are off, because in a pixel font fi and fl merge into a glyph that
-reads as another letter, and in titles and reading text a long word hyphenates in the page's language (set `lang`)
-rather than run out of its box.
+**The Small-Text Exception.** Pixel Operator is the one thing allowed off the grid, at five sizes (12, 14, 16, 18
+and 22 px at the browser's default text size), because a 7-pixel capital is too small to read at body sizes. At
+16 px each of its pixels is one CSS pixel, finer than the 2 px Blip pixel; it is sharpest at 16 and 32 px, and at
+12, 14, 18 and 22 px its pixels fall between screen pixels and look slightly soft. Its sizes do not grow with the
+pixel, so text stays readable when the pixel is 3 or 4. They are in rem, so they grow with a larger default text
+size the person sets (20 px makes body text 20 px), and never fall below these; what is counted in pixels keeps its
+size. Ligatures are off, because in a pixel font fi and fl merge into a glyph that reads as another letter, and in
+titles and reading text a long word hyphenates in the page's language (set `lang`) rather than run out of its box.
 
 **The Natural-Case Rule.** Write labels and headings in sentence case and let the CSS set the capitals. Pixel Bop
 has no lower case, and screen readers, search and copying need the real one.
@@ -583,7 +590,7 @@ has no lower case, and screen readers, search and copying need the real one.
 The pixel is the unit of layout. `--blip-pixel` is 2 CSS px by default, and every length in Blip is a whole
 number of it: a spacing step, a radius, a control height, or `calc(N * var(--blip-pixel))`. **The pixel switch**,
 `data-blip-pixel="3"` or `"4"` on the page or on one section, makes everything inside it chunkier and still crisp (3 px
-for a game screen, 4 px for a TV): spacing, radii, controls, icons, Pixel Bop and the world all grow; Pixelify Sans
+for a game screen, 4 px for a TV): spacing, radii, controls, icons, Pixel Bop and the world all grow; Pixel Operator
 keeps its size. Sizes in the front matter are given at the default 2 px pixel.
 
 **Spacing** is eleven steps counted in pixels: 0, 1, 2, 3, 4, 6, 8, 12, 16, 24 and 32 (0 to 64 CSS px at the
@@ -614,8 +621,8 @@ to CSS pixels. At 100%, 200% and 300% every pixel lands on whole screen pixels: 
 125%, 150%, 175% or 262.5% a pixel is a fraction of screen pixels wide, so where two colours meet (a box's outer
 edge, the edge of a band) the browser blends the screen pixel between them, a limit no CSS can lift; where a box is
 one colour nothing blends, because its layers overlap instead of meeting at seams. At 150% a box that starts on an
-even CSS pixel is exact. The only lengths off the grid are Pixelify Sans text and the 1px system borders of Windows
-high-contrast mode.
+even CSS pixel is exact. The only lengths off the grid are UI and body text (Pixel Operator, and Pixelify Sans where it
+stands in) and the 1px system borders of Windows high-contrast mode.
 
 **The Container Rule.** Components answer to their container, not to the window, so the same card, grid or app bar
 lays itself out in a sidebar, a dialog or a whole page.
@@ -719,7 +726,7 @@ off.
 - **Shape:** stepped corners of radius 4 (8px) at the default 40 px height; radius 3 at 32 px (small) and 5 at
   48 px (large). Icon-only buttons are square and need a name.
 - **Primary (candy):** the accent's base with a 4-pixel light band and a 4-pixel shade band, glints, an ink
-  outline and a one-pixel drop; an ink label in Pixelify Sans bold 14px, capitals, 0.5px tracking; padding 0 16px
+  outline and a one-pixel drop; an ink label in Pixel Operator bold 14px, capitals, 0.5px tracking; padding 0 16px
   (12px small with a 12px label, 20px large with a 16px label); a 24 px icon before or after the label.
 - **Hover / Focus:** hover lifts one pixel (the drop grows to keep the shadow in place) inside the TV's white ring
   with its ink edge; keyboard focus draws the yellow ring instead; pressed sits in its drop; on (`aria-pressed="true"`) sits in with the bands
@@ -733,7 +740,7 @@ off.
 ### Chips
 
 - **Style:** the TV's pill. A tag is soft by default (the tone's light fill, its base as a bottom band, an ink
-  outline, a one-pixel drop), radius 5, 28 px high (24 small, 32 large), Pixelify Sans bold 12px in capitals.
+  outline, a one-pixel drop), radius 5, 28 px high (24 small, 32 large), Pixel Operator bold 12px in capitals.
 - **State:** a tag labels (a rarity, a status). A removable tag carries its own 24 px cross button, named for what
   it removes. A filter chip is a toggle in the outline tier: on (`aria-pressed="true"`) it sits in, filled with the
   accent's light and outlined in ink. A tag you act on can be candy.
@@ -785,7 +792,7 @@ line of whole pixels: solid, dashed or dithered.
 ### Navigation
 
 - **Style:** the app bar is a panel along the top: the brand in Pixel Bop POP (scale 2, scale 1 under 400 px), then
-  ghost links 32 px high in Pixelify Sans bold 14px capitals, then actions at the end. The sidebar is 240 px of
+  ghost links 32 px high in Pixel Operator bold 14px capitals, then actions at the end. The sidebar is 240 px of
   ghost items in 14px (medium weight, bold when current) under small muted headings in capitals.
 - **States:** hover fills a link with the sunken surface and shows its outline; the current page
   (`aria-current="page"`) sits in as an accent-light chip with an ink outline; focus is the yellow ring.
@@ -836,7 +843,7 @@ bars are the box's own bands, so they follow its stepped corners. It does not dr
 
 The game kit's RPG text box, the TV's speech bubble grown into a component: a Marshmallow candy panel (radius 4,
 3-pixel bands) that stays a light island in every scheme, with the speaker's name on a small candy tab riding the
-top edge in Pixel Bop at scale 1 (a tone per speaker), a framed 72 px portrait, and Pixelify Sans 18px text at
+top edge in Pixel Bop at scale 1 (a tone per speaker), a framed 72 px portrait, and Pixel Operator 18px text at
 weight 500. Each page types itself in a letter every 50 ms, holding 260 ms after `.` `!` or `?` and 130 ms after a
 comma, with an optional chip voice. A blinking ▼ button shows the rest, turns the page, or continues; the box is as
 tall as its fullest page, so it never jumps.

@@ -2,7 +2,8 @@
  * @jaatster/blip-font's build (packages/font/scripts/build.py), run on temporary copies with the repository's font tools
  * (.tools/venv, which CI sets up): the guard that fails the build when Pixelify Sans keeps a ligature a browser applies
  * by default (its fi and fl read as "A") or a stroke thinner than one of its pixels (its @ read as a dot, © as °), at
- * regular or bold; and font.css, which must name exactly the characters each file draws.
+ * regular or bold; the same checks on Pixel Operator, and its 16-pixel em; and font.css, which must name exactly the
+ * characters each file draws.
  */
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { spawnSync } from "node:child_process";
@@ -14,6 +15,7 @@ const PYTHON = join(REPO, ".tools/venv/bin/python");
 const FONT = join(REPO, "packages/font");
 const UPSTREAM = join(FONT, "vendor/PixelifySans[wght].ttf");
 const PIXELIFY = ["pixelify-sans.woff2", "pixelify-sans-cyrillic.woff2", "pixelify-sans-greek.woff2"];
+const OPERATOR = ["pixel-operator.woff2", "pixel-operator-bold.woff2"];
 
 function python(args: string[], cwd: string): Run {
   if (!existsSync(PYTHON)) {
@@ -83,16 +85,17 @@ describe("font build: the Pixelify Sans guard", () => {
       expect(run.stderr).toBe("");
       expect(run.status).toBe(0);
       expect(run.stdout).toContain("Pixelify Sans: wght 400 to 700, no default ligatures, no stroke under 90 units");
+      expect(run.stdout).toContain("Pixel Operator: a 16-pixel em, no default ligatures, no stroke under 100 units");
       const check = copy.check(PIXELIFY.map((f) => join(copy.dir, "dist", f)));
       expect(check.status).toBe(0);
       expect(check.stdout.trim()).toBe("3 file(s): no default ligatures, no thin strokes.");
     });
 
-    it("font.css names exactly the characters each of the six files draws", () => {
+    it("font.css names exactly the characters each of the eight files draws", () => {
       const css = readFileSync(join(copy.dir, "font.css"), "utf8");
       const faces = [...css.matchAll(/url\("\.\/dist\/([\w-]+\.woff2)"\)[^}]*?unicode-range:([^;]+);/g)];
       expect(faces.map((m) => m[1]).sort()).toEqual(
-        ["pixel-bop.woff2", "pixel-bop-cyrillic.woff2", "pixel-bop-greek.woff2", ...PIXELIFY].sort(),
+        ["pixel-bop.woff2", "pixel-bop-cyrillic.woff2", "pixel-bop-greek.woff2", ...OPERATOR, ...PIXELIFY].sort(),
       );
       for (const [, file, range] of faces) {
         const drawn = charactersOf(join(copy.dir, "dist", file)).filter((cp) => cp >= 0x20);
@@ -104,6 +107,8 @@ describe("font build: the Pixelify Sans guard", () => {
       for (const [file, inside] of [
         ["pixel-bop.woff2", (cp: number) => cp < 0x370 || cp > 0x52f],
         ["pixelify-sans.woff2", (cp: number) => cp < 0x370 || cp > 0x52f],
+        ["pixel-operator.woff2", (cp: number) => cp < 0x370 || cp > 0x52f],
+        ["pixel-operator-bold.woff2", (cp: number) => cp < 0x370 || cp > 0x52f],
         ["pixel-bop-cyrillic.woff2", (cp: number) => cp >= 0x400 && cp <= 0x52f],
         ["pixelify-sans-cyrillic.woff2", (cp: number) => (cp >= 0x400 && cp <= 0x52f) || cp === 0x2116],
         ["pixel-bop-greek.woff2", (cp: number) => cp >= 0x370 && cp <= 0x3ff],
@@ -111,6 +116,13 @@ describe("font build: the Pixelify Sans guard", () => {
       ] as const) {
         const outside = charactersOf(join(copy.dir, "dist", file)).filter((cp) => cp >= 0x20 && !inside(cp));
         expect(outside, file).toEqual([]);
+      }
+    });
+
+    it("Pixel Operator draws the hyphens it lacks, the one a browser adds to break a word (U+2010) first", () => {
+      for (const file of OPERATOR) {
+        const drawn = charactersOf(join(copy.dir, "dist", file));
+        for (const cp of [0xad, 0x2010, 0x2011]) expect(drawn, `${file} U+${cp.toString(16)}`).toContain(cp);
       }
     });
 
@@ -128,6 +140,17 @@ describe("font build: the Pixelify Sans guard", () => {
       const run = copy.build();
       expect(run.status).toBe(1);
       expect(run.stderr).toContain("Pixelify Sans Latin (pixelify-sans.woff2): '@' (at) has a stroke 47 units wide at regular, thinner than one of the font's pixels (90). Fix: draw it on the grid in src/pixelify-sans.glyphs.");
+    } finally {
+      copy.remove();
+    }
+  });
+
+  it("fails the build when Pixel Operator's source is not on the grid the docs count on", () => {
+    const copy = fontCopy({ script: (s) => s.replace("OPERATOR_PX = 100", "OPERATOR_PX = 90") });
+    try {
+      const run = copy.build();
+      expect(run.status).toBe(1);
+      expect(run.stderr).toContain("Pixel Operator: PixelOperator.ttf has 1600 units per em and capitals 900 units tall, not a 16-pixel em with 9-pixel capitals (1440, 810).");
     } finally {
       copy.remove();
     }

@@ -9,7 +9,8 @@ How to add to Blip: components, kits, effects, icons, tokens. The button
    inside `@media (forced-colors: active)`. Sizes are whole pixels: `calc(N * var(--blip-pixel))` or a pixel token
    (`--blip-space-N`, `--blip-radius-N`, `--blip-control-sm|md|lg`, `--blip-icon-md`). Text sizes use `--blip-size-*`; big
    text is Pixel Bop at a whole scale (`.blip-display` with `--blip-scale` or `data-scale`). The only off-grid lengths
-   allowed: `1px` borders in forced-colors mode, and Pixelify Sans text.
+   allowed: `1px` borders in forced-colors mode, and UI and body text (Pixel Operator, and Pixelify Sans where it
+   stands in).
 2. **Every candy thing is a `.blip-box`.** Markup is `class="blip-box blip-<component>"`. Do not redraw outlines, bands,
    drops, focus rings or dither: set the box's variables (`--blip-r` with `--blip-shape` and `--blip-shape-inner`,
    `--blip-band-top`, `--blip-band-bottom`, `--blip-drop-size`, `--blip-box-*`) or use `data-variant` (`candy`, `soft`,

@@ -3,7 +3,8 @@
  * Vietnamese, Chinese, Japanese, Arabic and Hebrew: Pixel Bop at scales 1 to 4, a title, a lead, body text, a label,
  * a button, a tag, a tab, a card title, a table heading and cell, an input's value and a toast's title. By Day:
  *   - Russian and Greek render in the pixel fonts alone (CDP CSS.getPlatformFontsForNode): Pixel Bop for display text,
- *     Pixelify Sans for the rest, and no glyph from a system font (packages/font/docs/font.md, "Supported scripts");
+ *     Pixelify Sans for the rest (its letters; the spaces, digits and punctuation Pixel Operator draws may come from
+ *     Pixel Operator), and no glyph from a system font (packages/font/docs/font.md, "Supported scripts");
  *   - in every script, a box's text stays inside the box (its ink within the box, inset by the outline), and no line
  *     of a block reaches into the line above (each line's ink, found by showing that line alone, shares no pixel with
  *     the next line's). Scripts the faces do not draw take the system font, and must still fit.
@@ -38,7 +39,7 @@ for (const [code, name] of Object.entries(SCRIPTS)) {
   });
 }
 
-/** Every part's fonts, as the browser picked them: display parts in Pixel Bop, the rest in Pixelify Sans. */
+/** Every part's fonts, as the browser picked them: display parts in Pixel Bop, the rest in Pixelify Sans and Pixel Operator. */
 async function fontsOf(page: Page, code: string): Promise<{ checked: number; failures: string[] }> {
   const cdp = await page.context().newCDPSession(page);
   await cdp.send("DOM.enable");
@@ -49,10 +50,10 @@ async function fontsOf(page: Page, code: string): Promise<{ checked: number; fai
   for (const nodeId of nodeIds) {
     const { attributes = [] } = await cdp.send("DOM.getAttributes", { nodeId });
     const part = attributes[attributes.indexOf("data-part") + 1] ?? "?";
-    const want = part.startsWith("display") ? "Pixel Bop" : "Pixelify Sans";
+    const want = part.startsWith("display") ? ["Pixel Bop"] : ["Pixelify Sans", "Pixel Operator"];
     const { fonts } = await cdp.send("CSS.getPlatformFontsForNode", { nodeId });
-    const wrong = fonts.filter((f) => f.glyphCount > 0 && (!f.isCustomFont || f.familyName !== want));
-    if (wrong.length) failures.push(`${part}: ${wrong.map((f) => `${f.glyphCount} glyph${f.glyphCount === 1 ? "" : "s"} from ${f.isCustomFont ? "" : "the system font "}${f.familyName}`).join(", ")} (should be ${want} only)`);
+    const wrong = fonts.filter((f) => f.glyphCount > 0 && (!f.isCustomFont || !want.includes(f.familyName)));
+    if (wrong.length) failures.push(`${part}: ${wrong.map((f) => `${f.glyphCount} glyph${f.glyphCount === 1 ? "" : "s"} from ${f.isCustomFont ? "" : "the system font "}${f.familyName}`).join(", ")} (should be ${want.join(" and ")} only)`);
   }
   await cdp.detach();
   return { checked: nodeIds.length, failures };

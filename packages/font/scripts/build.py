@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
-"""Builds the two faces of @jaatster/blip-font.
+"""Builds the three faces of @jaatster/blip-font.
 
 1. Pixel Bop, Blip's pixel display font: src/pixel-bop.glyphs -> dist/pixel-bop.ttf (every script) and one WOFF2
    per script: dist/pixel-bop.woff2 (Latin), pixel-bop-cyrillic.woff2 and pixel-bop-greek.woff2.
-2. Pixelify Sans, for UI and body text: the variable font (weights 400 to 700) with its ligatures left out and its
-   glyphs finer than a pixel redrawn on its grid (patch_pixelify and src/pixelify-sans.glyphs), checked so neither
-   can come back (check_pixelify), -> dist/pixelify-sans.woff2 (Latin), pixelify-sans-cyrillic.woff2 and -greek.woff2.
+2. Pixelify Sans, for the UI and body text Pixel Operator does not draw (Cyrillic, Greek, most of Latin Extended):
+   the variable font (weights 400 to 700) with its ligatures left out and its glyphs finer than a pixel redrawn on its
+   grid (patch_pixelify and src/pixelify-sans.glyphs), checked so neither can come back (check_pixelify),
+   -> dist/pixelify-sans.woff2 (Latin), pixelify-sans-cyrillic.woff2 and -greek.woff2.
+3. Pixel Operator, for UI and body text: vendor/PixelOperator.ttf and PixelOperator-Bold.ttf, its hyphens completed and checked
+   (build_pixel_operator), -> dist/pixel-operator.woff2 and pixel-operator-bold.woff2.
 It also writes the glyph table in examples/font.html, the character list in docs/font.md and the @font-face rules in
 font.css, so they always match the fonts.
 
@@ -105,6 +108,17 @@ PIXELIFY_FEATURES = ["ccmp", "locl", "kern"]
 # What the version string says changed (the OFL asks a modified font to say so).
 PIXELIFY_CHANGES = ("no ligatures; C, G, 5, c and every accent, quote, comma and symbol finer than a pixel redrawn on "
                     "the pixel grid; Cyrillic and Greek corrected and completed")
+
+# Pixel Operator, Blip's UI and body face: Latin, regular and bold, used as its author made it (CC0 1.0), made WOFF2,
+# with one change its version string names (OPERATOR_CHANGES). One pixel is 100 of its 1600 units, so 1 em is 16 pixels and capitals are 9 tall: at 16 px every font pixel
+# is a CSS pixel. The characters it does not draw (Latin Extended beyond Czech and Esperanto, Cyrillic, Greek,
+# the minus sign, arrows, superscripts) go to Pixelify Sans, the next font in the stack.
+OPERATOR_PX = 100
+OPERATOR_VERSION = "2018.10.04-1"
+OPERATOR_HYPHENS = (0xAD, 0x2010, 0x2011)   # soft hyphen, hyphen, non-breaking hyphen
+OPERATOR_CHANGES = "the soft hyphen, hyphen and non-breaking hyphen drawn as its hyphen-minus"
+OPERATOR_FACES = (("PixelOperator.ttf", "pixel-operator.woff2", "400", "Regular"),
+                  ("PixelOperator-Bold.ttf", "pixel-operator-bold.woff2", "700", "Bold"))
 
 
 class GlyphError(Exception):
@@ -776,7 +790,9 @@ def write_css():
     in the stack instead of being pieced together from parts (a Vietnamese capital with two accents would otherwise
     be drawn as one accent stacked on another, rising into the line above)."""
     blocks = []
-    for family, weight, file in [("Pixel Bop", "400", f) for f, _, _ in BOP_FACES] + [("Pixelify Sans", "400 700", f) for f, _, _ in PIXELIFY_FACES]:
+    faces = ([("Pixel Bop", "400", f) for f, _, _ in BOP_FACES] + [("Pixel Operator", w, f) for _, f, w, _ in OPERATOR_FACES]
+             + [("Pixelify Sans", "400 700", f) for f, _, _ in PIXELIFY_FACES])
+    for family, weight, file in faces:
         path = os.path.join(DIST, file)
         if not os.path.exists(path):
             sys.exit(f"font.css: {os.path.relpath(path, REPO)} is missing. Fix: build the fonts first.")
@@ -1379,6 +1395,13 @@ def check_pixelify(font, label):
     """What is wrong with a Pixelify Sans file, as messages: a ligature a browser applies by default (Pixelify's fi
     and fl read as "A"), or a stroke thinner than one of the font's pixels, at regular or bold (a line that fine draws
     as a grey smudge at text sizes: its @ read as a dot and © as °)."""
+    return _check_face(font, label, PIXELIFY_MIN_STROKE,
+                       "leave the feature out (PIXELIFY_FEATURES in scripts/build.py)",
+                       "draw it on the grid in src/pixelify-sans.glyphs")
+
+
+def _check_face(font, label, min_stroke, ligature_fix, stroke_fix):
+    """A text face's problems: a ligature a browser applies by default, or a stroke thinner than min_stroke units."""
     problems = []
     cmap = font.getBestCmap() or {}
     chars = {}
@@ -1392,7 +1415,7 @@ def check_pixelify(font, label):
             if getattr(st, "LookupType", lk.LookupType) == 4:
                 runs = ["".join(chars.get(g, f"[{g}]") for g in [first, *lig.Component]) for first, ligs in sorted(st.ligatures.items()) for lig in ligs]
                 problems.append(f"{label}: '{tag}' draws {', '.join(runs[:4])}{' …' if len(runs) > 4 else ''} as one glyph each, "
-                                "and browsers apply it by default. Fix: leave the feature out (PIXELIFY_FEATURES in scripts/build.py).")
+                                f"and browsers apply it by default. Fix: {ligature_fix}.")
     locations = [("regular", None)] + ([("bold", {"wght": 700})] if "fvar" in font else [])
     for weight, location in locations:
         gs = font.getGlyphSet(location=location)
@@ -1402,10 +1425,10 @@ def check_pixelify(font, label):
             polys = _ink(gs, name)
             if polys:
                 w = thinnest_stroke(polys)
-                if w < PIXELIFY_MIN_STROKE:
+                if w < min_stroke:
                     shown = f"'{chars[name]}' ({name})" if name in chars else f"'{name}'"
                     problems.append(f"{label}: {shown} has a stroke {w:.0f} units wide at {weight}, thinner than one of the "
-                                    f"font's pixels ({PIXELIFY_MIN_STROKE}). Fix: draw it on the grid in src/pixelify-sans.glyphs.")
+                                    f"font's pixels ({min_stroke}). Fix: {stroke_fix}.")
     return problems
 
 
@@ -1456,6 +1479,62 @@ def build_pixelify():
         sys.exit("\n".join(problems))
 
 
+# ---------------------------------------------------------------------------------------------------------------
+# Pixel Operator
+
+
+def build_pixel_operator():
+    """Pixel Operator as its author made it, as WOFF2: every character it draws, its own names and version (which
+    names Blip's one change: the hyphens it lacks draw as its hyphen-minus). The build
+    fails if the source is no longer drawn on a 16-pixel em (Blip's sizes and docs count on it being sharp at 16 and
+    32 px), if a feature a browser applies by default joins letters, or if a stroke is thinner than one of its pixels."""
+    opts = subset.Options()
+    opts.flavor = "woff2"
+    opts.layout_features = []
+    opts.name_IDs = ["*"]
+    opts.notdef_outline = True
+    opts.recalc_timestamp = False
+    problems, report = [], []
+    for src, file, _, label in OPERATOR_FACES:
+        path, out = os.path.join(ROOT, "vendor", src), os.path.join(DIST, file)
+        if not os.path.exists(path):
+            msg = (f"Pixel Operator: the source font is missing ({os.path.relpath(path, REPO)}). Fix: put {src} of version "
+                   f"{OPERATOR_VERSION} from https://notabug.org/HarvettFox96/ttf-pixeloperator in vendor/.")
+            if not os.path.exists(out):
+                sys.exit(msg)
+            print(msg + " Kept the existing file.")
+            continue
+        font = TTFont(path, recalcTimestamp=False)
+        upm, cap = font["head"].unitsPerEm, font["OS/2"].sCapHeight
+        if (upm, cap) != (16 * OPERATOR_PX, 9 * OPERATOR_PX):
+            sys.exit(f"Pixel Operator: {src} has {upm} units per em and capitals {cap} units tall, not a 16-pixel em with "
+                     f"9-pixel capitals ({16 * OPERATOR_PX}, {9 * OPERATOR_PX}). Fix: use version {OPERATOR_VERSION}, or "
+                     "check the new grid and update OPERATOR_PX and the sizes in the docs.")
+        if "FFTM" in font:  # FontForge's timestamps, which the subsetter would drop with a warning
+            del font["FFTM"]
+        # The hyphens it has no character for draw as its own hyphen-minus: the hyphen a browser adds where it breaks a
+        # word (hyphens: auto) is U+2010, which would otherwise come from the next font in the stack.
+        for table in font["cmap"].tables:
+            if table.isUnicode() and 0x2D in table.cmap:
+                for cp in OPERATOR_HYPHENS:
+                    table.cmap.setdefault(cp, table.cmap[0x2D])
+        for record in font["name"].names:
+            if record.nameID == 5:
+                record.string = f"{record.toUnicode()}; Blip: {OPERATOR_CHANGES}"
+        sub = subset.Subsetter(opts)
+        sub.populate(unicodes=[cp for cp in font.getBestCmap() if cp >= 0x20])
+        sub.subset(font)
+        font["head"].created = font["head"].modified = _epoch()
+        subset.save_font(font, out, opts)
+        problems += _check_face(TTFont(out), f"Pixel Operator {label} ({file})", OPERATOR_PX,
+                                "leave the feature out (build_pixel_operator in scripts/build.py)",
+                                f"use version {OPERATOR_VERSION} of the source, or draw the glyph on its grid")
+        report.append(f"  {os.path.relpath(out, REPO):38} {os.path.getsize(out):>6} B  {label}, {len(font.getBestCmap())} characters")
+    print(f"Pixel Operator: a 16-pixel em, no default ligatures, no stroke under {OPERATOR_PX} units\n" + "\n".join(report))
+    if problems:
+        sys.exit("\n".join(problems))
+
+
 def main():
     if sys.argv[1:2] == ["--check"]:
         problems = [p for path in sys.argv[2:] for p in check_pixelify(TTFont(path), os.path.basename(path))]
@@ -1468,6 +1547,7 @@ def main():
     build_pixel_bop(glyphs)
     write_tables(glyphs)
     build_pixelify()
+    build_pixel_operator()
     write_css()
 
 

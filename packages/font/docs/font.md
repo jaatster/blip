@@ -9,15 +9,17 @@ status: beta
 
 # Font
 
-Blip has two faces. **Pixel Bop** is the display face: bold pixel capitals for titles, scores, clocks and
-anything big, drawn on the same grid as everything else. **Pixelify Sans** carries UI and body text, because a
-7-pixel capital is too small to read at body sizes. Both draw Latin, Cyrillic and Greek, and both are under the SIL
-Open Font License.
+Blip has three faces. **Pixel Bop** is the display face: bold pixel capitals for titles, scores, clocks and
+anything big, drawn on the same grid as everything else. **Pixel Operator** carries UI and body text, because a
+7-pixel capital is too small to read at body sizes. **Pixelify Sans** draws the letters Pixel Operator does not:
+Cyrillic, Greek and most of Latin Extended. Pixel Bop and Pixelify Sans draw Latin, Cyrillic and Greek and are under
+the SIL Open Font License; Pixel Operator draws Latin and is in the public domain (CC0 1.0).
 
 | Face | For | Sizes | Files |
 |---|---|---|---|
 | Pixel Bop | Titles, app names, clocks, scores, game text | Whole scales only: `.blip-display` with `data-scale` 1 to 4 | `dist/pixel-bop.woff2` (Latin, about 8 KB), `pixel-bop-cyrillic.woff2` (3 KB), `pixel-bop-greek.woff2` (2 KB); `dist/pixel-bop.ttf` (every script) |
-| Pixelify Sans | Labels, buttons, body text, captions | The `--blip-size-*` steps, weights 400 to 700 | `dist/pixelify-sans.woff2` (Latin, about 12 KB, variable), `pixelify-sans-cyrillic.woff2` (5 KB), `pixelify-sans-greek.woff2` (4 KB) |
+| Pixel Operator | Labels, buttons, body text, captions | The `--blip-size-*` steps, regular (400) and bold (700) | `dist/pixel-operator.woff2` (Latin, about 4 KB), `pixel-operator-bold.woff2` (4 KB) |
+| Pixelify Sans | The letters Pixel Operator does not draw, at its sizes and weights | The same, weights 400 to 700 | `dist/pixelify-sans.woff2` (Latin, about 12 KB, variable), `pixelify-sans-cyrillic.woff2` (5 KB), `pixelify-sans-greek.woff2` (4 KB) |
 
 ## Usage
 
@@ -28,14 +30,14 @@ import "@jaatster/blip-font/font.css"; // with @jaatster/blip-tokens/tokens.css 
 ```html
 <h1 class="blip-display blip-pop" data-scale="3" data-pop="Level 2">Level 2</h1>
 <p class="blip-display" data-scale="2">12:34</p>
-<p class="blip-body">Pixelify Sans is the page's own face; nothing to add.</p>
+<p class="blip-body">Pixel Operator is the page's own face; nothing to add.</p>
 ```
 
-`font.css` declares both faces, one rule per file, with `font-display: swap` and the `unicode-range` of exactly the
+`font.css` declares the three faces, one rule per file, with `font-display: swap` and the `unicode-range` of exactly the
 characters each file draws: a page downloads only the scripts its text uses, so a Latin page loads only Latin. It also
 declares Blip Fallback, the system's emoji sized to stand as tall as the capitals. The tokens name them:
-`--blip-font-display` (Pixel Bop, then Pixelify Sans) and `--blip-font-ui` (Pixelify Sans), each followed by Blip
-Fallback and the system font. `.blip-display` and the other type classes live in `@jaatster/blip-core`.
+`--blip-font-display` (Pixel Bop, then Pixelify Sans) and `--blip-font-ui` (Pixel Operator, then Pixelify Sans),
+each followed by Blip Fallback and the system font. `.blip-display` and the other type classes live in `@jaatster/blip-core`.
 
 ## Sizing
 
@@ -62,6 +64,11 @@ line-height 1.4.
 Never set Pixel Bop at another size: between whole scales its pixels fall between screen pixels and blur or
 wobble.
 
+Pixel Operator is 16 pixels to the em (one pixel is 100 of its 1600 units): capitals are 9 pixels tall, the
+x-height 7 and descenders 2. At 16 px, Blip's body size, each of its pixels is one CSS pixel, and at 32 px two. At
+Blip's other text sizes (12, 14, 18 and 22 px) its pixels fall between screen pixels and look slightly soft, so keep
+long text at the body size. It has no medium weight: `--blip-weight-medium` (500) draws as regular.
+
 ## Stylistic sets
 
 On the TV, big letters were enlarged with their corners rounded: EPX at 2x and AdvMAME3x at 3x, each letter on its
@@ -81,22 +88,25 @@ To see the square pixels at any scale, set `font-feature-settings: normal`. Outs
 
 ## Supported scripts
 
-| Script | Pixel Bop (display) | Pixelify Sans (UI and body) |
+| Script | Pixel Bop (display) | Pixel Operator, then Pixelify Sans (UI and body) |
 |---|---|---|
-| Latin: English and the European languages written in it (French to Turkish, Icelandic to Maltese) | Every capital; lower case draws as capitals | Latin-1 and Latin Extended-A, in both cases |
-| Cyrillic: Russian, Ukrainian, Belarusian, Bulgarian, Serbian, Macedonian | Every capital, in its own file | Every letter, in its own file |
-| Greek, modern | Every capital, in its own file; the tonos is left off, as Greek is set in capitals | Every letter but ΐ and ΰ, in its own file |
+| Latin: English and the European languages written in it (French to Turkish, Icelandic to Maltese) | Every capital; lower case draws as capitals | Pixel Operator: Basic Latin, Latin-1 and the Czech and Esperanto letters (English, French, German, Spanish, Portuguese, Italian, Dutch, the Nordic languages, Czech). Pixelify Sans: the rest of Latin Extended-A (Polish, Turkish, Romanian, Hungarian and the like), in both cases |
+| Cyrillic: Russian, Ukrainian, Belarusian, Bulgarian, Serbian, Macedonian | Every capital, in its own file | Pixelify Sans: every letter, in its own file |
+| Greek, modern | Every capital, in its own file; the tonos is left off, as Greek is set in capitals | Pixelify Sans: every letter but ΐ and ΰ, in its own file |
 | Vietnamese | **Not supported.** Letters with two accents, ơ and ư come from the system font | **Not supported.** The same |
 | Chinese, Japanese, Korean | The system font for the page's language, sized to the capitals | The same |
 | Arabic, Hebrew | The system font, right to left | The same |
 | Emoji | Blip Fallback: the system's colour emoji, as tall as the capitals | The same |
 | Every other script | The system font | The same |
 
-- **Fallback is whole.** A character a face does not draw goes to the next font in the stack (Pixel Bop, Pixelify
-  Sans, Blip Fallback, the system font) as a whole letter: neither face pieces a letter together from a base
-  and accents, so no accent stacks into the line above. A letter typed with a combining accent (decomposed text, e
-  followed by U+0301) still draws as the composed letter where the face has it.
+- **Fallback is whole.** A character a face does not draw goes to the next font in the stack (Pixel Bop or Pixel
+  Operator, Pixelify Sans, Blip Fallback, the system font) as a whole letter: no face pieces a letter together from a
+  base and accents, so no accent stacks into the line above. A line of Polish or Turkish mixes Pixel Operator and
+  Pixelify Sans letter by letter, with `font-size-adjust` (below) keeping their capitals the same height. A letter
+  typed with a combining accent (decomposed text, e followed by U+0301) still draws as the composed letter where a
+  face has it.
 - **Downloads.** Cyrillic and Greek are separate files, fetched only when the text on the page has those letters.
+  Pixelify Sans's Latin file is fetched only when the text has a letter Pixel Operator does not draw.
 - **Sizes.** `font.css` sets `font-size-adjust: cap-height from-font`, so a system font standing in for a script the
   faces do not draw lines up with their capitals. Safari and Firefox size every such font; Chrome sizes the ones it
   picks for the page's language, so set `lang` on Chinese, Japanese and Korean text. Arabic and Hebrew already
@@ -124,9 +134,10 @@ To see the square pixels at any scale, set `font-feature-settings: normal`. Outs
   case for screen readers, copying and search. Greek lower case and the capitals with a tonos draw as the plain
   capitals (ά and Ά as Α), and ΐ and ΰ as Ϊ and Ϋ.
 - **Romanian** (`lang="ro"`, also Moldovan): Ş and Ţ draw with the comma below, as Ș and Ț.
-- **Not covered:** see [Supported scripts](#supported-scripts). Pixelify Sans covers Latin, Latin-1, Latin
-  Extended-A, Cyrillic (Russian to Macedonian), Greek, General Punctuation, the euro, the trademark and the minus
-  sign.
+- **Not covered:** see [Supported scripts](#supported-scripts). Pixel Operator covers Basic Latin, Latin-1 but for
+  ¤ § ª ¯ ² ³ ¹ º ¼ ½ ¾, the Czech and Esperanto letters, Œ, Ÿ, dotless ı, the hyphens, dashes, quotes
+  and ellipsis, the euro and the trademark sign. Pixelify Sans covers Latin, Latin-1, Latin Extended-A, Cyrillic (Russian
+  to Macedonian), Greek, General Punctuation, the euro, the trademark and the minus sign.
 
 ## Casing
 
@@ -138,12 +149,12 @@ To see the square pixels at any scale, set `font-feature-settings: normal`. Outs
 - Turkish and Azerbaijani: set `lang="tr"` (or `az`), and the browser capitalises i to İ.
 - Greek: set `lang="el"`, and the browser leaves the accents off the capitals, as Greek is set. Pixel Bop leaves the
   tonos off either way.
-- Pixelify Sans keeps sentence case, except `.blip-label`, which is upper case.
+- Pixel Operator keeps sentence case, except `.blip-label`, which is upper case.
 
 ## Accessibility
 
 - Pixel Bop is real text: it can be selected, translated, read aloud and zoomed. Never put display text in an image.
-- Keep it for short, big text. Long passages and anything below scale 1 belong in Pixelify Sans.
+- Keep it for short, big text. Long passages and anything below scale 1 belong in Pixel Operator.
 - Contrast comes from the scheme roles, as for all text. POP letters are white with an ink outline, so they read on
   every scheme; plain display text uses `--blip-text`.
 - Pixel Bop has no lower case, so give screen readers the natural case (see Casing).
@@ -171,6 +182,13 @@ To see the square pixels at any scale, set `font-feature-settings: normal`. Outs
   - Cyrillic: К and Ќ un-swapped; Ж and the tails of Ц and Щ redrawn; І, О, П and the letters with a grave added;
   - Greek: ι without its dot, υ without a tonos, μ, ί, ϊ and ϋ in lower case; Θ, θ, γ and Φ redrawn; the tonos of
     the capitals moved to their left, as Greek sets it; Δ, Ω and ς added.
+- **Pixel Operator**: CC0 1.0 Universal, dedicated to the public domain by its author, Jayvee Enaguas
+  (HarvettFox96), version 2018.10.04-1 (`CC0-PixelOperator.txt`; source
+  [notabug.org/HarvettFox96/ttf-pixeloperator](https://notabug.org/HarvettFox96/ttf-pixeloperator)). No attribution
+  is required; we credit it anyway. The files here are the original, made WOFF2, with one change that its version
+  string names: the soft hyphen, the hyphen (U+2010, which browsers draw where `hyphens: auto` breaks a word) and the
+  non-breaking hyphen draw as its hyphen-minus, so a broken word keeps one face. The build also drops FontForge's
+  timestamp table and the glyphs no character uses.
 - The code in this package (`font.css`, the build script) is MIT, like the rest of Blip.
 
 ## Drawing a new glyph
@@ -195,13 +213,18 @@ Pixelify Sans's changes are pixel maps too, in `src/pixelify-sans.glyphs`, drawn
 documents the format). The build fails, naming the glyph, if any glyph of its three files has a stroke thinner than
 one of its pixels at regular or bold, or if a feature browsers apply by default joins letters into a ligature.
 
+Pixel Operator is not drawn here: the build uses `vendor/PixelOperator.ttf` and `PixelOperator-Bold.ttf` as they
+are, but for the hyphens above. It fails if they are no longer on a 16-pixel em with 9-pixel capitals, if a feature browsers apply by default
+joins letters, or if a stroke is thinner than one of their pixels.
+
 ## API
 
 | File or export | |
 |---|---|
-| `@jaatster/blip-font/font.css` | The `@font-face` rules: each face in three files, and Blip Fallback (emoji). |
+| `@jaatster/blip-font/font.css` | The `@font-face` rules: Pixel Bop and Pixelify Sans in three files each, Pixel Operator in one per weight, and Blip Fallback (emoji). |
 | `@jaatster/blip-font/pixel-bop.woff2`, `pixel-bop-cyrillic.woff2`, `pixel-bop-greek.woff2` | Pixel Bop, one file per script. |
 | `@jaatster/blip-font/pixel-bop.ttf` | Pixel Bop, every script in one file, with glyph names, for design tools. |
+| `@jaatster/blip-font/pixel-operator.woff2`, `pixel-operator-bold.woff2` | Pixel Operator, regular and bold, Latin. |
 | `@jaatster/blip-font/pixelify-sans.woff2`, `pixelify-sans-cyrillic.woff2`, `pixelify-sans-greek.woff2` | Pixelify Sans, one file per script, variable weight 400 to 700. |
 | `src/pixel-bop.glyphs` | The source of every Pixel Bop glyph. |
 | `src/pixelify-sans.glyphs` | The glyphs Blip draws, composes or corrects in Pixelify Sans. |
@@ -211,5 +234,5 @@ one of its pixels at regular or bold, or if a feature browsers apply by default 
 | Units per em | 1200 (one pixel is 120 units) |
 | Ascent, descent, line gap | 1080, -360, 0 (9 and 3 pixels) |
 | Cap height | 840 (7 pixels) |
-| Features | `ss02` Rounded 2x, `ss03` Rounded 3x, `locl` for Romanian and Moldovan (Pixelify Sans: `ccmp`, `locl`, `kern`; no ligatures) |
+| Features | `ss02` Rounded 2x, `ss03` Rounded 3x, `locl` for Romanian and Moldovan (Pixelify Sans: `ccmp`, `locl`, `kern`; no ligatures. Pixel Operator: none) |
 | Rendering | `gasp` asks Windows for no smoothing: pixel edges stay sharp |

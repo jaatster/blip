@@ -81,7 +81,7 @@ export function searchData(): SearchData {
   const tokens: Item[] = manifest()
     .filter((t) => !t.name.startsWith("world-") && !t.name.startsWith("scene-") && !t.name.startsWith("deep-") && !t.name.startsWith("tone-"))
     .map((t) => {
-      const url = t.type === "color" ? (t.scheme ? "/foundations/colour/#roles" : "/foundations/colour/#candy") : t.type === "duration" || t.name.startsWith("steps") || t.name.startsWith("delay") ? "/foundations/motion/#durations" : t.type === "fontFamily" || t.type === "fontWeight" || /^(size|leading|tracking|display)-/.test(t.name) ? "/foundations/type/#pixelify" : "/foundations/pixel/#space";
+      const url = t.type === "color" ? (t.scheme ? "/foundations/colour/#roles" : "/foundations/colour/#candy") : t.type === "duration" || t.name.startsWith("steps") || t.name.startsWith("delay") ? "/foundations/motion/#durations" : t.type === "fontFamily" || t.type === "fontWeight" || /^(size|leading|tracking|display)-/.test(t.name) ? "/foundations/type/#pixel-operator" : "/foundations/pixel/#space";
       return { title: t.cssVar, url, hint: "Token", keywords: words(t.name, t.description, t.type) };
     });
   const groups: Group[] = [

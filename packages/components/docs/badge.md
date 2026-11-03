@@ -39,7 +39,7 @@ button, an avatar or an icon. For labels people act on or remove, use a tag.
 
 1. **Box**: a candy box, radius 2, one-pixel bands and drop, 10 pixels high (8 when small, 12 when large), more with
    a bigger default text size, so the count always fits. At least as wide as it is high, so a single digit is square.
-2. **Text**: Pixelify Sans, caption size, bold, upper case, tabular digits.
+2. **Text**: Pixel Operator, caption size, bold, upper case, tabular digits.
 3. **Dot** (`data-dot`): a 6-pixel candy box with no text.
 
 ## Variants

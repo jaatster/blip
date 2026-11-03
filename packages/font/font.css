@@ -1,22 +1,28 @@
 /*
- * @jaatster/blip-font: the two faces of Blip. Both SIL Open Font License 1.1 (OFL.txt, OFL-PixelifySans.txt).
+ * @jaatster/blip-font: the three faces of Blip. Pixel Bop and Pixelify Sans: SIL Open Font License 1.1 (OFL.txt,
+ * OFL-PixelifySans.txt). Pixel Operator: CC0 1.0, public domain (CC0-PixelOperator.txt).
  *
  * Pixel Bop: the display face. Bold capitals on a 7-pixel grid, Latin, Cyrillic and Greek; lower case draws as
  * capitals. Set it at font-size = 10 x pixel x scale (the .blip-display class of @jaatster/blip-core does this), and turn
  * on its rounded enlargements at big sizes: "ss02" (Rounded 2x, EPX) at scales 2 and 4, "ss03" (Rounded 3x,
  * AdvMAME3x) at scale 3.
  *
- * Pixelify Sans: UI and body text, Latin, Cyrillic and Greek. A variable font, weights 400 to 700, modified (see the
- * README): no ligatures (fi and fl read as "A"), and every accent, quote, comma and symbol drawn on whole pixels.
+ * Pixel Operator: UI and body text. Latin, regular and bold, drawn on a 16-pixel em, so at 16 px (Blip's body size)
+ * every one of its pixels is a CSS pixel. One file per weight.
  *
- * Each face is three files, Latin, Cyrillic and Greek, and each rule names exactly the characters its file draws
- * (scripts/build.py writes them). A page downloads only the files its text uses: a Latin page downloads nothing
- * extra. A character a face does not draw goes whole to the next font in the stack, instead of being pieced
- * together from a letter and accents (two accents stacked over a Vietnamese capital rise into the line above).
+ * Pixelify Sans: what Pixel Operator does not draw (Cyrillic, Greek, most of Latin Extended, the minus sign and
+ * arrows), next in the UI font stack. A variable font, weights 400 to 700, modified (see the README): no ligatures
+ * (fi and fl read as "A"), and every accent, quote, comma and symbol drawn on whole pixels.
  *
- * Blip Fallback: the system's colour emoji, sized to stand as tall as Pixelify Sans's capitals. The font
- * stacks of @jaatster/blip-tokens list it after the two faces. Every browser Blip supports reads variable WOFF2
- * and unicode-range, so each file needs one plain source.
+ * Pixel Bop and Pixelify Sans are three files each, Latin, Cyrillic and Greek, and each rule names exactly the
+ * characters its file draws (scripts/build.py writes them). A page downloads only the files its text uses: a Latin
+ * page downloads nothing extra. A character a face does not draw goes whole to the next font in the stack, instead
+ * of being pieced together from a letter and accents (two accents stacked over a Vietnamese capital rise into the
+ * line above).
+ *
+ * Blip Fallback: the system's colour emoji, sized to about the height of the capitals. The font stacks of
+ * @jaatster/blip-tokens list it after the faces. Every browser Blip supports reads variable WOFF2 and unicode-range,
+ * so each file needs one plain source.
  *
  * Scripts the faces do not draw (Chinese, Japanese, Korean and the rest) keep the system's font for their language,
  * sized by font-size-adjust so its capitals stand as tall as the face's own: Safari and Firefox size every such
@@ -57,6 +63,32 @@
   font-style: normal;
   font-display: swap;
   unicode-range: U+0386, U+0388-038A, U+038C, U+038E-03A1, U+03A3-03CE, U+03D0-03D1, U+03D5-03D6, U+03F0-03F1, U+03F5;
+}
+
+@font-face {
+  font-family: "Pixel Operator";
+  src: url("./dist/pixel-operator.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0020-007E, U+00A0-00A3, U+00A5-00A6, U+00A8-00A9, U+00AB-00AE, U+00B0-00B1, U+00B4-00B8, U+00BB,
+    U+00BF-00FF, U+0108-0109, U+010C-010F, U+011A-011D, U+0124-0125, U+0131, U+0134-0135, U+0147-0148, U+0152-0153,
+    U+0158-0159, U+015C-015D, U+0160-0161, U+0164-0165, U+016C-016F, U+0178, U+017D-017E, U+02C6-02C7, U+02D8, U+02DA,
+    U+02DC, U+2010-2011, U+2013-2014, U+2018-201A, U+201C-201E, U+2020-2022, U+2026, U+2030, U+2039-203A, U+20AC,
+    U+20B1, U+20B7, U+2117, U+2122;
+}
+
+@font-face {
+  font-family: "Pixel Operator";
+  src: url("./dist/pixel-operator-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0020-007E, U+00A0-00A3, U+00A5-00A6, U+00A8-00A9, U+00AB-00AE, U+00B0-00B1, U+00B4-00B8, U+00BB,
+    U+00BF-00FF, U+0108-0109, U+010C-010F, U+011A-011D, U+0124-0125, U+0131, U+0134-0135, U+0147-0148, U+0152-0153,
+    U+0158-0159, U+015C-015D, U+0160-0161, U+0164-0165, U+016C-016F, U+0178, U+017D-017E, U+02C6-02C7, U+02D8, U+02DA,
+    U+02DC, U+2010-2011, U+2013-2014, U+2018-201A, U+201C-201E, U+2020-2022, U+2026, U+2030, U+2039-203A, U+20AC,
+    U+20B1, U+20B7, U+2117, U+2122;
 }
 
 @font-face {

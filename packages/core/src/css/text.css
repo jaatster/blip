@@ -1,6 +1,6 @@
 /*
  * Type. Big text is Pixel Bop, always on the grid and always capitals: font-size is 10 x pixel x scale, so every
- * letter pixel is a Blip pixel. Small text is Pixelify Sans on its five sizes (--blip-size-*, in rem, so they follow
+ * letter pixel is a Blip pixel. Small text is Pixel Operator on its five sizes (--blip-size-*, in rem, so they follow
  * a larger default text size): the one thing allowed off the grid.
  *
  *   .blip-display   Pixel Bop at a whole scale (--blip-scale: 1 to 4, or data-scale)
@@ -93,7 +93,7 @@
 
   /* OUTLINE: one colour, an ink outline, no drop. For small text that can land on any part of a picture. */
   .blip-outline {
-    /* stylelint-disable-next-line blip/whole-pixels -- small Pixelify Sans text takes a half-pixel outline (text may sit off the grid, AUTHORING rule 1) */
+    /* stylelint-disable-next-line blip/whole-pixels -- small Pixel Operator text takes a half-pixel outline (text may sit off the grid, AUTHORING rule 1) */
     --_p: max(0.5px, calc(var(--blip-pixel) / 2));
     color: var(--blip-white);
     text-shadow:

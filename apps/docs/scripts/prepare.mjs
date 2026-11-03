@@ -197,7 +197,7 @@ const kits = {
   effects: { css: effectsCss, js: effectsJs, world: await moduleSize(pkg("effects", "dist", "world.js")) },
   sound: { js: await moduleSize(pkg("sound", "dist", "index.js")) },
   icons: { sprite: fileGz(pkg("icons", "dist", "sprite.svg")), js: await moduleSize(pkg("icons", "dist", "index.js")) },
-  font: { display: statSync(pkg("font", "dist", "pixel-bop.woff2")).size, ui: statSync(pkg("font", "dist", "pixelify-sans.woff2")).size },
+  font: { display: statSync(pkg("font", "dist", "pixel-bop.woff2")).size, ui: statSync(pkg("font", "dist", "pixel-operator.woff2")).size },
 };
 
 writeFileSync(join(GEN, "assets.json"), JSON.stringify({ importMap, defines, deps, coreModules, budgets, budgetsFrom: ci ? "scripts/budgets.mjs" : "docs", elements, kits }, null, 2) + "\n");

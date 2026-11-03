@@ -30,7 +30,7 @@ export const blip = create({
   appBorderColor: lineSoft,
   appBorderRadius: 4,
 
-  fontBase: "'Pixelify Sans', system-ui, sans-serif",
+  fontBase: "'Pixel Operator', 'Pixelify Sans', system-ui, sans-serif",
   fontCode: "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace",
 
   textColor: ink,

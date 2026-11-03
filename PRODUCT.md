@@ -49,13 +49,14 @@ its own icons on the same grid, and a world backdrop that follows the time of da
   Sunset, Night, Auto), pixel size (2 px default), palette (Candy, and eleven presets).
 - No runtime dependencies. No image files: components are CSS, art is SVG, worlds are drawn at runtime.
 - Size budgets enforced in CI.
-- Licences: MIT for code and icons; SIL Open Font License for the fonts.
+- Licences: MIT for code and icons; SIL Open Font License for Pixel Bop and Pixelify Sans; Pixel Operator is CC0 1.0.
 - Nothing is pushed to GitHub or published to npm without the owner's go-ahead.
 
 ## Brand Commitments
 
 - The name is **Blip**: the tiny pop of a 16-bit sound and a dot of light on a screen. Its pixel
-  display font is **Pixel Bop**. UI and body text use **Pixelify Sans** (OFL).
+  display font is **Pixel Bop**. UI and body text use **Pixel Operator** (CC0), with **Pixelify Sans** (OFL) for the
+  letters it lacks.
 - No mascot in the universal system.
 - The incumbent rules from the TV are binding: every pixel the same size, ink never black, candy on pastel, motion
   snaps, yellow means focus.

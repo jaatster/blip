@@ -59,7 +59,7 @@ Pages a framework renders or replaces after the element upgrades start it again 
    each speaker a tone.
 3. **Portrait** (`.blip-dialogue-portrait`): a framed slot, 36 x 36 pixels; art stands at the bottom of it, one sprite
    pixel to one Blip pixel.
-4. **Text** (`.blip-dialogue-text`): one child per page, Pixelify Sans at the lead size, or Pixel Bop capitals.
+4. **Text** (`.blip-dialogue-text`): one child per page, Pixel Operator at the lead size, or Pixel Bop capitals.
 5. **Choices** (`.blip-dialogue-choices`): shown once the last page has typed; they pop in.
 6. **Next** (`.blip-dialogue-next`): the ▼ in the accent, drawn from the arrow sprite. Added by the element; a real
    button. It blinks on the beat for five seconds, then rests.

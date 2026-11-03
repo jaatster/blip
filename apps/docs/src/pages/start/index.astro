@@ -40,7 +40,7 @@ const cdn = `${cdnStylesheets()}
   import "@jaatster/blip-elements/tabs.js";
   import "@jaatster/blip-elements/menu.js";
 </script>`;
-const cssOrder = await codeBlock(`/* 1. The faces: Pixel Bop and Pixelify Sans */
+const cssOrder = await codeBlock(`/* 1. The faces: Pixel Bop, Pixel Operator and Pixelify Sans */
 @import "@jaatster/blip-font/font.css";
 /* 2. The tokens: every colour, size and duration, three schemes, three pixel sizes */
 @import "@jaatster/blip-tokens/tokens.css";
@@ -250,7 +250,7 @@ const elementRows = Object.entries(a.defines)
     <Fragment set:html={shadcnUse} />
 
     <h3 id="shadcn-theme">What the theme does, and what it doesn't</h3>
-    <p><code class="docs-inline-code">{SHADCN_NAMESPACE}/theme</code> sets shadcn's variables to Blip's scheme roles by reference, so the colours follow <code class="docs-inline-code">data-blip-scheme</code> and <code class="docs-inline-code">data-blip-palette</code>, on the page or on any part of it. Borders and inputs take the ink line, the ring is the focus yellow, the radius is 0, every shadow is a one-pixel ink drop, the text is Pixelify Sans, and transitions step.</p>
+    <p><code class="docs-inline-code">{SHADCN_NAMESPACE}/theme</code> sets shadcn's variables to Blip's scheme roles by reference, so the colours follow <code class="docs-inline-code">data-blip-scheme</code> and <code class="docs-inline-code">data-blip-palette</code>, on the page or on any part of it. Borders and inputs take the ink line, the ring is the focus yellow, the radius is 0, every shadow is a one-pixel ink drop, the text is Pixel Operator, and transitions step.</p>
     <p>That is as far as variables go. shadcn's own components stay shadcn's: square, flat and in Blip's colours, but without the stepped corners, the light and shade bands, the dithered disabled state or the snapping pop-in, and with their own translucent focus halo and fading, zooming animations. A style can also bypass the variables (Nova's card outline is the text colour at 10%). The full pixel look comes with Blip's components, whose props are Blip's:</p>
     <Table label="shadcn's Button props and Blip's" head={["shadcn's Button", "Blip's Button"]} rows={buttonProps} />
     <details class="docs-react-more">
@@ -318,7 +318,7 @@ const elementRows = Object.entries(a.defines)
   <section class="docs-section" aria-labelledby="languages">
     <h2 id="languages">Right to left and other languages</h2>
     <p>Components mirror for text that runs right to left. Put <code class="docs-inline-code">dir="rtl"</code> on <code class="docs-inline-code">&lt;html&gt;</code> or on the part of the page that needs it, and set <code class="docs-inline-code">lang</code> there too (<code class="docs-inline-code">ar</code>, <code class="docs-inline-code">he</code>, <code class="docs-inline-code">fa</code>, <code class="docs-inline-code">ur</code>…). Blip's mirrored rules use <code class="docs-inline-code">:dir(rtl)</code>, and Vite 8's CSS minifier (lightningcss) rewrites that into a list of right-to-left languages (<code class="docs-inline-code">:lang(ar, he, …)</code>), so in its builds they follow <code class="docs-inline-code">lang</code>.</p>
-    <p>The two faces draw Latin, Cyrillic and Greek, the last two in files of their own that load only when a page has those letters. Other scripts come from the system's fonts, sized to match: <a href={scripts.url}>{scripts.text}</a>, on the type page, says which languages each face covers.</p>
+    <p>Pixel Bop and Pixelify Sans draw Latin, Cyrillic and Greek, the last two in files of their own that load only when a page has those letters. Pixel Operator, the UI face, draws Latin only, and not all of it: Pixelify Sans draws the letters it lacks. Other scripts come from the system's fonts, sized to match: <a href={scripts.url}>{scripts.text}</a>, on the type page, says which languages each face covers.</p>
   </section>
 
   <section class="docs-section" aria-labelledby="diagnostics">

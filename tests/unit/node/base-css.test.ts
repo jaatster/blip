@@ -115,7 +115,7 @@ describe("ligatures", () => {
     });
     const r = await page.evaluate(() => {
       const all = ["html", "p", "button", "input", ".blip-display", "code"].map((s) => getComputedStyle(document.querySelector(s)!).fontVariantLigatures);
-      // The width of "fi" as the page sets it, and with ligatures forced off: the same, in Pixelify Sans and a serif.
+      // The width of "fi" as the page sets it, and with ligatures forced off: the same, in both text faces and a serif.
       const width = (family: string, ligatures?: string) => {
         const s = document.body.appendChild(Object.assign(document.createElement("span"), { textContent: "fi fl ffi ff" }));
         s.style.fontFamily = family;
@@ -125,7 +125,7 @@ describe("ligatures", () => {
         s.remove();
         return w;
       };
-      return { all, widths: ["Pixelify Sans", "serif"].map((f) => [width(f), width(f, "none")]) };
+      return { all, widths: ["Pixel Operator", "Pixelify Sans", "serif"].map((f) => [width(f), width(f, "none")]) };
     });
     expect(r.all.every((v) => v === "no-common-ligatures")).toBe(true);
     for (const [page_, off] of r.widths) expect(page_).toBe(off);

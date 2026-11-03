@@ -37,7 +37,7 @@ setTimeout(() => toast.remove(), 5000);
 1. **Toast**: a candy box, slate by default, radius 4.
 2. **Icon** (`.blip-achievement-icon`): a dark well with an ink top band, holding a sprite.
 3. **Sparkles** (`.blip-achievement-sparkles`): two, small, big, small, gone.
-4. **Label**, **title**, **text**, **reward**: Pixel Bop capitals in orange light, then Pixelify. The text and the
+4. **Label**, **title**, **text**, **reward**: Pixel Bop capitals in orange light, then Pixel Operator. The text and the
    reward each sit two pixels below the line above (4 px at the default pixel), so the lines never crowd.
 
 ## Variants

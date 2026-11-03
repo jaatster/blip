@@ -1,5 +1,5 @@
-<!-- Font: Pixel Bop for display text, at whole scales only (data-scale 1 to 4), and Pixelify Sans for UI and body
-     text, on the --blip-size-* steps. POP samples stay on one line (its tint band is drawn for one line); accented lines
+<!-- Font: Pixel Bop for display text, at whole scales only (data-scale 1 to 4), and Pixel Operator for UI and body
+     text, on the --blip-size-* steps, with Pixelify Sans for the letters it does not draw. POP samples stay on one line (its tint band is drawn for one line); accented lines
      that may wrap get 14 pixels per line, so marks stay clear of the line above. The glyph table is written by
      packages/font/scripts/build.py from the font itself. -->
 <div style="display:grid;gap:calc(16*var(--blip-pixel))">
@@ -94,33 +94,27 @@
 </div>
 
 <div>
-  <h3 class="blip-label blip-muted" style="margin-block-end:calc(6*var(--blip-pixel))">Pixelify Sans, for UI and body text</h3>
-  <div style="display:grid;grid-template-columns:max-content repeat(3,minmax(0,1fr));gap:calc(4*var(--blip-pixel)) calc(8*var(--blip-pixel));align-items:baseline">
-    <span></span><span class="blip-label blip-muted">400 regular</span><span class="blip-label blip-muted">500 medium</span><span class="blip-label blip-muted">700 bold</span>
+  <h3 class="blip-label blip-muted" style="margin-block-end:calc(6*var(--blip-pixel))">Pixel Operator, for UI and body text</h3>
+  <div style="display:grid;grid-template-columns:max-content repeat(2,minmax(0,1fr));gap:calc(4*var(--blip-pixel)) calc(8*var(--blip-pixel));align-items:baseline">
+    <span></span><span class="blip-label blip-muted">400 regular (and 500)</span><span class="blip-label blip-muted">700 bold</span>
     <span class="blip-label blip-muted">Title 22</span>
     <span style="font-size:var(--blip-size-title);font-weight:var(--blip-weight-regular)">Level complete</span>
-    <span style="font-size:var(--blip-size-title);font-weight:var(--blip-weight-medium)">Level complete</span>
     <span style="font-size:var(--blip-size-title);font-weight:var(--blip-weight-bold)">Level complete</span>
     <span class="blip-label blip-muted">Lead 18</span>
     <span style="font-size:var(--blip-size-lead);font-weight:var(--blip-weight-regular)">Save your game before you go.</span>
-    <span style="font-size:var(--blip-size-lead);font-weight:var(--blip-weight-medium)">Save your game before you go.</span>
     <span style="font-size:var(--blip-size-lead);font-weight:var(--blip-weight-bold)">Save your game before you go.</span>
     <span class="blip-label blip-muted">Body 16</span>
-    <span style="font-size:var(--blip-size-body);font-weight:var(--blip-weight-regular)">Pixelify Sans carries UI and body text: Ça, Ğ, Ł, Ő, Ș.</span>
-    <span style="font-size:var(--blip-size-body);font-weight:var(--blip-weight-medium)">Pixelify Sans carries UI and body text: Ça, Ğ, Ł, Ő, Ș.</span>
-    <span style="font-size:var(--blip-size-body);font-weight:var(--blip-weight-bold)">Pixelify Sans carries UI and body text: Ça, Ğ, Ł, Ő, Ș.</span>
+    <span style="font-size:var(--blip-size-body);font-weight:var(--blip-weight-regular)">Pixel Operator carries UI and body text: Ça, Č, Ř, Œ, Ÿ.</span>
+    <span style="font-size:var(--blip-size-body);font-weight:var(--blip-weight-bold)">Pixel Operator carries UI and body text: Ça, Č, Ř, Œ, Ÿ.</span>
     <span class="blip-label blip-muted">Small 14</span>
     <span style="font-size:var(--blip-size-small);font-weight:var(--blip-weight-regular)">Last saved 2 minutes ago · 3 of 12</span>
-    <span style="font-size:var(--blip-size-small);font-weight:var(--blip-weight-medium)">Last saved 2 minutes ago · 3 of 12</span>
     <span style="font-size:var(--blip-size-small);font-weight:var(--blip-weight-bold)">Last saved 2 minutes ago · 3 of 12</span>
     <span class="blip-label blip-muted">Caption 12</span>
-    <span style="font-size:var(--blip-size-caption);font-weight:var(--blip-weight-regular)">Version 0.2.0 · SIL Open Font License</span>
-    <span style="font-size:var(--blip-size-caption);font-weight:var(--blip-weight-medium)">Version 0.2.0 · SIL Open Font License</span>
-    <span style="font-size:var(--blip-size-caption);font-weight:var(--blip-weight-bold)">Version 0.2.0 · SIL Open Font License</span>
+    <span style="font-size:var(--blip-size-caption);font-weight:var(--blip-weight-regular)">Pixel Operator 2018.10.04 · CC0 1.0</span>
+    <span style="font-size:var(--blip-size-caption);font-weight:var(--blip-weight-bold)">Pixel Operator 2018.10.04 · CC0 1.0</span>
     <span class="blip-label blip-muted">Scripts 16</span>
-    <span style="font-size:var(--blip-size-body);font-weight:var(--blip-weight-regular)">first file · mika@example.com · © 2026 · <span lang="ru">Привет</span> · <span lang="el">Γειά σου</span></span>
-    <span style="font-size:var(--blip-size-body);font-weight:var(--blip-weight-medium)">first file · mika@example.com · © 2026 · <span lang="ru">Привет</span> · <span lang="el">Γειά σου</span></span>
-    <span style="font-size:var(--blip-size-body);font-weight:var(--blip-weight-bold)">first file · mika@example.com · © 2026 · <span lang="ru">Привет</span> · <span lang="el">Γειά σου</span></span>
+    <span style="font-size:var(--blip-size-body);font-weight:var(--blip-weight-regular)">first file · mika@example.com · © 2026 · <span lang="pl">Zażółć</span> · <span lang="ru">Привет</span> · <span lang="el">Γειά σου</span></span>
+    <span style="font-size:var(--blip-size-body);font-weight:var(--blip-weight-bold)">first file · mika@example.com · © 2026 · <span lang="pl">Zażółć</span> · <span lang="ru">Привет</span> · <span lang="el">Γειά σου</span></span>
   </div>
 </div>
 
