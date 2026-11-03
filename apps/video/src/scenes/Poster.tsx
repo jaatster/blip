@@ -19,8 +19,8 @@ const ART = STARFALL as Record<string, { readonly tone: string; readonly map: st
 
 // The banner: what the video is, at a glance, for the frame people see before they press play. The night world, BLIP
 // and its line in POP standing on it, then two rows of the parts picked for it (lib/banner-parts.ts, from their
-// docs' live examples): the game kit's heart and coin, a toast, its sword and star (twice the size); a tile, the bag,
-// a keycap and a button. Pip stands on the grass at their left. As a still it is the thumbnail; as the opening of the
+// docs' live examples): the game kit's heart, coin, sword and star (twice the size); a gamepad button, a keycap and a
+// button. Pip stands on the grass at their left. As a still it is the thumbnail; as the opening of the
 // video it holds, then the TV switches off and the video starts as usual.
 
 /** A part as its docs draw it, its sprites drawn by the game kit. */
@@ -74,16 +74,14 @@ export const Poster = ({ hold }: { readonly hold?: number }) => {
           {/* BLIP's face carries room under its letters; the line tucks up into it. */}
           <div style={{ marginBlockStart: p(-20) }}><Tagline field={false} /></div>
           <div style={{ display: "grid", justifyItems: "center", gap: p(8), marginBlockStart: p(4) }}>
-            <div style={{ display: "flex", alignItems: "center", gap: p(10) }}>
+            <div style={{ display: "flex", alignItems: "center", gap: p(14) }}>
               <Sprite name="heart" scale={2} />
               <Sprite name="coin" scale={2} />
-              <Part slug="toast" />
               <Sprite name="sword" scale={2} />
               <Sprite name="star" scale={2} />
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: p(10) }}>
-              <Part slug="tile" />
-              <Part slug="inventory" />
+              <Part slug="gamepad" />
               <Part slug="keycap" />
               <Part slug="button" />
             </div>
