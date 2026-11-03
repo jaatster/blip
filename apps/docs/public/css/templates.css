@@ -237,7 +237,8 @@
   .tpl-canvas { display: block; image-rendering: pixelated; }
   .tpl-overlay, .tpl-hints { position: absolute; inset: 0; pointer-events: none; }
   /* A hint stands over its sign: the kit's tooltip, drawn in place, with the prompt's keys in it. */
-  .tpl-bubble { position: absolute; translate: -50% calc(-100% - 2 * var(--blip-pixel)); white-space: nowrap; }
+  /* On one line, as wide as its words: the tooltip's own cap (110 pixels) would leave a long hint running out of it. */
+  .tpl-bubble { position: absolute; translate: -50% calc(-100% - 2 * var(--blip-pixel)); white-space: nowrap; max-inline-size: none; }
   .tpl-bubble .blip-prompt { gap: calc(2 * var(--blip-pixel)); }
   /* An action over the level (Talk) is a small candy button, and takes a tap or a click. */
   .tpl-act { pointer-events: auto; white-space: nowrap; }
