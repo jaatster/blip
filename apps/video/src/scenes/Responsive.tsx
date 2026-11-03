@@ -19,9 +19,9 @@ export const RESPONSIVE = { bar: 25, bars: 4 };
 type Device = { readonly name: string; readonly page: readonly [number, number]; readonly frame: readonly [number, number]; readonly arrive: number };
 const DEVICES: readonly Device[] = [
   // The page's size in CSS pixels; the device's outer size in Blip pixels (the screen is the page at a quarter).
-  { name: "Desktop", page: [1280, 800], frame: [168, 122], arrive: at(0, 1) },
-  { name: "Tablet", page: [768, 1024], frame: [108, 140], arrive: at(1) },
-  { name: "Phone", page: [400, 840], frame: [58, 121], arrive: at(2) },
+  { name: "desktop", page: [1280, 800], frame: [168, 122], arrive: at(0, 1) },
+  { name: "tablet", page: [768, 1024], frame: [108, 140], arrive: at(1) },
+  { name: "mobile", page: [400, 840], frame: [58, 121], arrive: at(2) },
 ];
 const GAP = 16;
 // The desktop monitor: a 4-pixel bezel round its 160 x 100 screen, then its neck and base under it.
@@ -29,7 +29,7 @@ const MONITOR = 108, NECK = 6, BASE = 8;
 const BASELINE = HERO.y + HERO.h - 6;
 const PARTS: readonly Part[] = [
   ...DEVICES.map((d) => ({ at: d.arrive === at(0, 1) ? 0 : d.arrive, title: d.name, line: "" })),
-  { at: at(3), title: "Responsive", line: "" },
+  { at: at(3), title: "any size", line: "" },
 ];
 const FALL = [-20, -10, -3, 0, -3, 0];
 const STEPS = 4;
@@ -55,7 +55,7 @@ const Screen = ({ d }: { readonly d: Device }) => (
 );
 
 const Frame = ({ d, children }: { readonly d: Device; readonly children: ReactNode }) =>
-  d.name === "Desktop" ? (
+  d.name === "desktop" ? (
     // A monitor in the same family: a Liquorice candy box round the screen, on a short neck and a flat base.
     <div style={{ inlineSize: "100%", blockSize: "100%", display: "grid", gridTemplateRows: `${p(MONITOR)} ${p(NECK)} ${p(BASE)}`, justifyItems: "center" }}>
       <div className="blip-box" data-tone="slate" style={{ ...box(4), inlineSize: "100%", blockSize: "100%", display: "grid", placeItems: "center" }}>
@@ -66,7 +66,7 @@ const Frame = ({ d, children }: { readonly d: Device; readonly children: ReactNo
     </div>
   ) : (
     // A tablet or a phone: a Liquorice candy box round the screen, deeper at the top and bottom on the phone.
-    <div className="blip-box" data-tone="slate" style={{ ...box(d.name === "Phone" ? 4 : 5), inlineSize: "100%", blockSize: "100%", display: "grid", placeItems: "center" }}>
+    <div className="blip-box" data-tone="slate" style={{ ...box(d.name === "mobile" ? 4 : 5), inlineSize: "100%", blockSize: "100%", display: "grid", placeItems: "center" }}>
       {children}
     </div>
   );
@@ -85,7 +85,7 @@ export const Responsive = ({ music = true }: { readonly music?: boolean }) => {
         <Life avoid={SHOW_CLEAR} seed={47} shooting={[at(3, 1)]} />
       </AbsoluteFill>
 
-      <SplitText eyebrow="Responsive" parts={PARTS} />
+      <SplitText eyebrow="Responsive" lead="Works on" parts={PARTS} />
 
       {DEVICES.map((d, i) => {
         const shown = i < n;

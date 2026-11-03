@@ -51,10 +51,12 @@ type DropProps = {
   readonly tone?: string;
   /** "rise": each letter comes up 6 pixels in three steps instead of falling in from high (for titles over things). */
   readonly motion?: "drop" | "rise";
+  /** The frame each letter is erased on (gone from then), if it is. */
+  readonly erases?: readonly number[];
 };
 
 /** A POP title whose letters fall in one by one, each landing on its frame (a beat of the music). */
-export const DropTitle = ({ text, lands, scale, outline = 1, tone, motion = "drop" }: DropProps) => {
+export const DropTitle = ({ text, lands, scale, outline = 1, tone, motion = "drop", erases = [] }: DropProps) => {
   const path = motion === "rise" ? RISE : FALL;
   const lead = motion === "rise" ? RISE.length - 1 : LAND;
   const frame = useCurrentFrame();
@@ -74,12 +76,13 @@ export const DropTitle = ({ text, lands, scale, outline = 1, tone, motion = "dro
             <span style={{ display: "inline-block", whiteSpace: "nowrap" }}>
               {[...word].map((ch, c) => {
                 const k = ticks(frame, (lands[start + c] ?? Infinity) - lead * TICK);
+                const erased = frame >= (erases[start + c] ?? Infinity);
                 return (
                   <span
                     key={c}
                     className="blip-drop-text-letter"
                     data-pop={ch}
-                    style={{ animation: "none", visibility: k < 0 ? "hidden" : "visible", translate: `0 ${p(path[Math.min(k, path.length - 1)] ?? 0)}` }}
+                    style={{ animation: "none", visibility: k < 0 || erased ? "hidden" : "visible", translate: `0 ${p(path[Math.min(k, path.length - 1)] ?? 0)}` }}
                   >
                     {ch}
                   </span>

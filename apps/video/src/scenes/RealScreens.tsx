@@ -11,7 +11,7 @@ import { DISSOLVE_FRAMES, Dissolve, MOSAIC_FRAMES, Mosaic } from "../lib/Transit
 /** Bars 21-24 of the theme: the hook. */
 export const REAL_SCREENS = { bar: 21, bars: 4 };
 
-// Make anything: the title says what it is (a website, an app); the hero shows the docs site's own template for it,
+// Make anything: the title says what it is (Make a website, Make an app: "Make" stays, the rest erases and changes); the hero shows the docs site's own template for it,
 // live and never scrolled, in a device of its own standing on the night sky, twice the size and cropped to its key
 // part so it reads: the landing page's hero in a window, the dashboard's period and stats on a tablet. Each device
 // drops in and bumps; on the beat the page answers by itself (the call to action sits in and sparkles; the period
@@ -22,8 +22,8 @@ const DROP = (i: number) => start(i) + TICK;
 const PRESSES = [at(1, 1), SPAN + at(1, 1)];
 const PRESS = 3 * TICK;
 const PARTS: readonly Part[] = [
-  { at: start(0), title: "A website", line: "Daybreak, the landing page template." },
-  { at: start(1), title: "An app", line: "Questboard, the dashboard template, live." },
+  { at: start(0), title: "a website", line: "Daybreak, the landing page template." },
+  { at: start(1), title: "an app", line: "Questboard, the dashboard template, live." },
 ];
 // A drop, then a bump: down onto the sky, up three pixels, and settled.
 const FALL = [-20, -10, -3, 0, -3, 0];
@@ -74,7 +74,7 @@ export const RealScreens = ({ music = true }: { readonly music?: boolean }) => {
         <Life avoid={SHOW_CLEAR} seed={33} shooting={[at(2, 2)]} />
       </AbsoluteFill>
 
-      <SplitText eyebrow="Make anything" parts={PARTS} />
+      <SplitText eyebrow="Make anything" lead="Make" parts={PARTS} />
 
       <Mosaic at={i === 0 ? SPAN - MOSAIC_FRAMES : Infinity} mode="out">
         {/* A website: the landing page in a plain Blip window, twice the size, its hero filling the window. */}

@@ -43,8 +43,9 @@ export const Outro = ({ music = true }: { readonly music?: boolean }) => {
           <DropTitle text="Blip" lands={LANDS} scale={8} outline={2} />
           <Tagline card={LINE} line={LINE} install={INSTALL} />
           {/* Where the docs are: a big candy link, the accent, so it is the thing to remember. */}
+          {/* Drawn unseen from the start, so its room is held and BLIP never moves. */}
           <div style={{ visibility: frame >= DOCS ? "visible" : "hidden" }}>
-            <Beat at={DOCS}>
+            <Beat at={DOCS} from={0}>
               <Big x={2}>
                 <span className="blip-box blip-button blip-pop-in" style={{ position: "relative" }}>
                   <Icon name="globe" />jaatster.com/blip

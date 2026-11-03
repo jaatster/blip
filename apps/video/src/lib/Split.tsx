@@ -40,11 +40,50 @@ const firstAt = (parts: readonly Part[], i: number) => {
 /** When a part's title has landed and its line starts typing. */
 export const lineAt = (part: Part) => part.at + [...part.title.replace(/ /g, "")].length * TICK + STEP;
 
-/** The part's name above the hero. (`eyebrow` is the scene's name and each part's `line` what it is: kept for reference, not shown.) */
-export const SplitText = ({ eyebrow, parts }: { readonly eyebrow: string; readonly parts: readonly Part[] }) => {
+/** When part i's title starts erasing, last letter first, a Blip frame a letter, so the last one goes as the next part arrives. */
+const eraseFrom = (parts: readonly Part[], i: number) => {
+  const next = parts[i + 1];
+  return next ? next.at - [...parts[i]!.title.replace(/ /g, "")].length * TICK : Infinity;
+};
+
+/** Each letter's erase frame for part i's title: from its end, one a Blip frame. */
+const erasesOf = (parts: readonly Part[], i: number) => {
+  const from = eraseFrom(parts, i), text = parts[i]!.title;
+  const letters = [...text].filter((ch) => ch !== " ").length;
+  let n = 0;
+  return [...text].map((ch) => (ch === " " ? from + (letters - n) * TICK : from + (letters - 1 - n++) * TICK));
+};
+
+/**
+ * The part's name above the hero. With a `lead` ("Make", "Works on") the lead stays up the whole scene and only the
+ * rest of the title changes: it erases a letter a Blip frame from its end, and the next one rises in after it. The
+ * line is laid out round the longest title, so the lead never moves. (`eyebrow` is the scene's name and each part's
+ * `line` what it is: kept for reference, not shown.)
+ */
+export const SplitText = ({ eyebrow, parts, lead }: { readonly eyebrow: string; readonly parts: readonly Part[]; readonly lead?: string }) => {
   const frame = useCurrentFrame();
   const i = parts.filter((pt) => pt.at <= frame).length - 1;
   const part = parts[Math.max(0, i)]!;
+  if (lead) {
+    const longest = parts.reduce((a, b) => (b.title.length > a.title.length ? b : a)).title;
+    const from = parts[0]!.at + TICK;
+    const leadLands = letterLands(lead, from, TICK);
+    const restFrom = (j: number) => (j ? parts[j]!.at + TICK : leadLands.at(-1)! + TICK);
+    return (
+      <div style={{ position: "absolute", insetInline: 0, top: p(32), display: "grid", justifyItems: "center" }}>
+        <div style={{ display: "grid" }}>
+          {/* The longest title, unseen: it sets where the line starts. */}
+          <div style={{ gridArea: "1 / 1" }}>
+            <DropTitle text={`${lead} ${longest}`} lands={[]} scale={3} outline={1} motion="rise" />
+          </div>
+          <div style={{ gridArea: "1 / 1", justifySelf: "start", display: "flex", columnGap: p(12) }}>
+            <DropTitle text={lead} lands={leadLands} scale={3} outline={1} motion="rise" />
+            {i >= 0 && <DropTitle key={part.title} text={part.title} lands={letterLands(part.title, restFrom(i), TICK)} erases={erasesOf(parts, i)} scale={3} outline={1} motion="rise" />}
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <>
       {/* The title, alone at the top: big, centred, its letters rising into place a Blip frame apart. Not clipped. */}
