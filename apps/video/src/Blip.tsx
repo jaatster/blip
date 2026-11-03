@@ -9,6 +9,7 @@ import { GAME_KIT, GameKit } from "./scenes/GameKit";
 import { MOBILE, Mobile } from "./scenes/Mobile";
 import { MODULAR, Modular } from "./scenes/Modular";
 import { OUTRO, Outro } from "./scenes/Outro";
+import { Poster } from "./scenes/Poster";
 import { PRESS_START, PressStart } from "./scenes/PressStart";
 import { REAL_SCREENS, RealScreens } from "./scenes/RealScreens";
 import { RESPONSIVE, Responsive } from "./scenes/Responsive";
@@ -43,3 +44,18 @@ export const Blip = () => {
     </Series>
   );
 };
+
+/** The social cut opens on the banner for 1.6 s (the frame a feed shows before play), then the TV switches off and on. */
+export const SOCIAL_HOLD = 80;
+
+/** Blip's announcement video for feeds: the banner first, then the whole video. */
+export const BlipSocial = () => (
+  <Series>
+    <Series.Sequence name="Banner" durationInFrames={SOCIAL_HOLD}>
+      <Poster hold={SOCIAL_HOLD} />
+    </Series.Sequence>
+    <Series.Sequence name="Video" durationInFrames={BLIP_BARS * BAR}>
+      <Blip />
+    </Series.Sequence>
+  </Series>
+);

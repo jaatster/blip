@@ -12,13 +12,16 @@ import { RealScreens } from "./scenes/RealScreens";
 import { MakeAGame } from "./scenes/MakeAGame";
 import { BuiltRight } from "./scenes/BuiltRight";
 import { Outro } from "./scenes/Outro";
-import { BLIP_BARS, Blip } from "./Blip";
+import { BLIP_BARS, Blip, BlipSocial, SOCIAL_HOLD } from "./Blip";
+import { Poster } from "./scenes/Poster";
 import { BAR } from "./lib/grid";
 
 export const RemotionRoot = () => {
   return (
     <>
       <Composition id="Blip" component={Blip} durationInFrames={BLIP_BARS * BAR} fps={50} width={1920} height={1080} />
+      <Composition id="BlipSocial" component={BlipSocial} durationInFrames={SOCIAL_HOLD + BLIP_BARS * BAR} fps={50} width={1920} height={1080} />
+      <Composition id="Poster" component={Poster} durationInFrames={1} fps={50} width={1920} height={1080} defaultProps={{}} />
       <Composition id="Test" component={Test} durationInFrames={1040} fps={50} width={1920} height={1080} />
       <Folder name="Scenes">
         <Composition id="GameKit" component={GameKit} durationInFrames={240} fps={50} width={1920} height={1080} defaultProps={{ music: true }} />
